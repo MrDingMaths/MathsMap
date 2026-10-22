@@ -1,0 +1,646 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4a6d7215-610a-41d6-b7ac-b7fda889aeef",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interior-angle-sum-polygon",
+    "secondarySkillIds": [
+      "parallel-line-angle-properties",
+      "exterior-angle-regular-polygon"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use parallel sides to infer the combined unlabelled tip angles, incorporate a reflex notch angle into the polygon sum, then convert the remaining interior angle to the requested reflex angle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:14:50.715Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "106ace1f5d47903bd93ecf2530fd6a804eddc9a02971819a3e100e1f19680910",
+      "evidence": ".booklet-work/reasoning-ratings/calls/angle-sums-of-polygons-v1/fae78c583f51d49ff3a54b1ccde9af74f616dd36fa423ca63526f51b7f3ff5c4-1792556047139/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p10-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Find the value of the pronumeral in these diagrams.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p10-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Assume the pentagon is regular.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,1);\\coordinate (B) at (.7,2);\\coordinate (C) at (1.9,1.65);\\coordinate (D) at (1.9,.4);\\coordinate (E) at (.7,0);\\coordinate (F) at (3,.77);\n\\draw (A)--(B)--(C)--(D)--(E)--cycle;\\draw (D)--(F);\n\\foreach \\P/\\Q in {A/B,B/C,C/D,D/E,E/A}{\\coordinate (M) at ($(\\P)!.5!(\\Q)$);\\draw[line width=.4pt] ($(M)!.09cm!90:(\\Q)$)--($(M)!.09cm!-90:(\\Q)$);}\n\\path (D) node[above right,xshift=2pt,yshift=2pt] {$x^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 43,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3a",
+              "description": "Pentagon with a single equality tick on each side; the bottom side extends through the lower-right vertex.",
+              "mathematics": "Five equal sides are marked. No equal-angle or regularity condition is supplied.",
+              "answerVisibility": "Only the unknown exterior angle x is visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=72^\\circ$",
+          "worked": "The pentagon is regular, so its five interior angles are equal.\n$$\\begin{align*}S&=180(5-2)=540^\\circ\\\\I&=\\frac{540^\\circ}{5}=108^\\circ\\\\x&=180^\\circ-108^\\circ\\\\x&=72^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p10-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(0,1.9);\\coordinate(B)at(1.55,3.15);\\coordinate(C)at(2.35,1.35);\\coordinate(D)at(2.22,0);\\coordinate(E)at(0,.2);\\coordinate(F)at(0,3);\n\\draw(A)--(B)--(C)--(D)--(E)--cycle;\\draw(A)--(F);\n\\pic[draw,line width=.4pt,angle radius=4mm]{angle=B--A--F};\\pic[draw,line width=.4pt,angle radius=4mm]{angle=E--A--B};\\pic[draw,line width=.4pt,angle radius=3mm]{angle=A--B--C};\\pic[draw,line width=.4pt,angle radius=4mm]{angle=B--C--D};\\pic[draw,line width=.4pt,angle radius=3mm]{angle=D--E--A};\n\\draw[line width=.4pt]($(D)!.22cm!(E)$)--($($(D)!.22cm!(E)$)+($(D)!.22cm!(C)$)-(D)$)--($(D)!.22cm!(C)$);\n\\node[anchor=west,inner sep=1pt]at($(A)+(0.12,0.66)$){$50^\\circ$};\\node[below right,yshift=-2pt]at(A){$f$};\\node[below,yshift=-4pt]at(B){$g$};\\node[left,xshift=-4pt]at(C){$150^\\circ$};\\node[above right,xshift=2pt,yshift=2pt]at(E){$95^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 41,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3b",
+              "description": "Pentagon with a vertical left-side extension, exterior 50°, interior f, g, 150°, 95° and a right-angle square.",
+              "mathematics": "f and 50° are supplementary; the five interior angles total 540°.",
+              "answerVisibility": "All numerical givens and unknowns are visible; supplied answers are omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$f=130^\\circ,\\ g=75^\\circ$",
+          "worked": "$$\\begin{align*}f&=180^\\circ-50^\\circ\\\\f&=130^\\circ\\\\S&=180(5-2)=540^\\circ\\\\130+g+150+90+95&=540\\\\g+465&=540\\\\g&=75^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p10-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-c-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(1.1,2.25);\\coordinate(B)at(2.8,1.95);\\coordinate(C)at(2.85,.6);\\coordinate(D)at(1.45,.05);\\coordinate(E)at(0,.3);\\coordinate(F)at(.25,1.55);\\coordinate(U)at($(F)!1.65!(A)$);\\coordinate(V)at($(A)!1.85!(F)$);\\coordinate(W)at($(C)!1.65!(D)$);\\coordinate(Z)at($(D)!1.2!(C)$);\n\\draw(A)--(B)--(C)--(D)--(E)--(F)--cycle;\\draw(V)--(U);\\draw(W)--(Z);\n\\draw[line width=.4pt]($(E)!.2cm!(D)$)--($($(E)!.2cm!(D)$)+($(E)!.2cm!(F)$)-(E)$)--($(E)!.2cm!(F)$);\n\\node[inner sep=1pt]at($(A)+(0.58,0.15)$){$x^\\circ$};\\node[below left]at(B){$100^\\circ$};\\node[above left]at(C){$110^\\circ$};\\node[anchor=north,inner sep=1pt]at($(D)+(-0.25,-0.43)$){$30^\\circ$};\\node[anchor=east,inner sep=1pt]at($(F)+(-0.42,-0.70)$){$30^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 46,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3c",
+              "description": "Hexagon with two extended sloping sides, exterior x°, two exterior 30° angles, interior 100° and 110°, and an interior right angle.",
+              "mathematics": "The two 30° exterior angles give interior angles of 150°; the interior angle at x is 180°−x.",
+              "answerVisibility": "The supplied 60 is omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=60^\\circ$",
+          "worked": "Each interior angle adjacent to $30^\\circ$ is $150^\\circ$.\n$$\\begin{align*}S&=180(6-2)=720^\\circ\\\\(180-x)+100+110+150+90+150&=720\\\\780-x&=720\\\\x&=60^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p10-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-d-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(.35,1.75);\\coordinate(B)at(2.2,2.4);\\coordinate(C)at(3.15,2.05);\\coordinate(D)at(3.15,0);\\coordinate(E)at(.95,0);\\coordinate(P)at($(E)!1.25!(A)$);\\coordinate(Q)at($(A)!1.3!(B)$);\\coordinate(R)at($(B)!1.5!(C)$);\\coordinate(T)at(3.15,-.55);\\coordinate(L)at(.45,0);\n\\draw(A)--(B)--(C)--(D)--(E)--cycle;\\draw(A)--(P);\\draw(B)--(Q);\\draw(C)--(R);\\draw(D)--(T);\\draw(E)--(L);\n\\draw[line width=.4pt]($(A)!.2cm!(P)$)--($($(A)!.2cm!(P)$)+($(A)!.2cm!(B)$)-(A)$)--($(A)!.2cm!(B)$);\n\\draw[line width=.4pt]($(D)!.2cm!(E)$)--($($(D)!.2cm!(E)$)+($(D)!.2cm!(C)$)-(D)$)--($(D)!.2cm!(C)$);\n\\pic[draw,line width=.4pt,angle radius=3mm]{angle=C--B--Q};\\pic[draw,line width=.4pt,angle radius=4mm]{angle=B--C--D};\\pic[draw,line width=.4pt,angle radius=3mm]{angle=D--C--R};\\pic[draw,line width=.4pt,angle radius=3mm]{angle=A--E--L};\n\\node[above right]at(B){$40^\\circ$};\\node[inner sep=1pt]at($(C)+(-0.45,-0.50)$){$d$};\\node[inner sep=1pt]at($(C)+(0.38,-0.40)$){$c$};\\node[above left]at(E){$70^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 45,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3d",
+              "description": "Pentagon with exterior 70°, an exterior right angle, exterior 40°, interior d adjacent to exterior c, and a bottom-right right angle. All source extensions are retained.",
+              "mathematics": "Interior angles are 110°, 90°, 140°, d and 90°; c+d=180°.",
+              "answerVisibility": "Only givens and c, d are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$c=70^\\circ,\\ d=110^\\circ$",
+          "worked": "$$\\begin{align*}S&=180(5-2)=540^\\circ\\\\110+90+140+d+90&=540\\\\d+430&=540\\\\d&=110^\\circ\\\\c&=180^\\circ-110^\\circ\\\\c&=70^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p10-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-e-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(0,2.55);\\coordinate(B)at(.95,1.05);\\coordinate(C)at(1.4,3.15);\\coordinate(D)at(2.95,.75);\\coordinate(E)at(1,0);\n\\draw(A)--(B)--(C)--(D)--(E)--cycle;\n\\draw[-{Stealth[length=2mm]},line width=.4pt]($(E)!.48!(A)$)--($(E)!.63!(A)$);\\draw[-{Stealth[length=2mm]},line width=.4pt]($(D)!.48!(C)$)--($(D)!.63!(C)$);\n\\node[anchor=east,inner sep=1pt]at($(A)+(-0.12,-0.23)$){$16^\\circ$};\\node[above,yshift=5pt]at(B){$40^\\circ$};\\node[above right]at(E){$85^\\circ$};\\node[left,xshift=-2pt,yshift=3pt]at(D){$x^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 42,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3e",
+              "description": "Concave pentagon with 16° at the left tip, 40° in the small exterior notch angle, 85° at the bottom, x° at the right and single-arrow parallel marks on the long left and upper-right sides.",
+              "mathematics": "The notch interior angle is 320°. Parallel sides give a top angle of 40°−16°=24°, hence x=95°.",
+              "answerVisibility": "The supplied answer 79 is omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=95^\\circ$",
+          "worked": "The parallel sides give the top angle as $40^\\circ-16^\\circ=24^\\circ$. The reflex interior angle at the notch is $360^\\circ-40^\\circ=320^\\circ$.\n$$\\begin{align*}S&=180(5-2)=540^\\circ\\\\16+320+24+x+85&=540\\\\x+445&=540\\\\x&=95^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p10-q3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-f-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-f-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(0,1.55);\\coordinate(B)at(2.3,2.8);\\coordinate(C)at(3.2,2.15);\\coordinate(D)at(2.4,.95);\\coordinate(E)at(.4,-.2);\\coordinate(F)at(1.2,1.3);\\coordinate(U)at($(A)!1.45!(B)$);\n\\draw(A)--(B)--(C)--(D)--(E)--(F)--cycle;\\draw(B)--(U);\n\\foreach \\P/\\Q in {A/B,E/D}{\\draw[-{Stealth[length=2mm]},line width=.4pt]($(\\P)!.46!(\\Q)$)--($(\\P)!.56!(\\Q)$);\\draw[-{Stealth[length=2mm]},line width=.4pt]($(\\P)!.56!(\\Q)$)--($(\\P)!.66!(\\Q)$);}\n\\draw[line width=.4pt]($(C)!.2cm!(B)$)--($($(C)!.2cm!(B)$)+($(C)!.2cm!(D)$)-(C)$)--($(C)!.2cm!(D)$);\n\\node[right,xshift=4pt]at(A){$50^\\circ$};\\node[right,xshift=4pt]at(B){$60^\\circ$};\\node[above left]at(D){$x^\\circ$};\\node[above right,yshift=7pt]at(E){$40^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 45,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3f",
+              "description": "Concave hexagon with left notch, interior 50° and 40°, exterior 60°, right-angle square and x°. Matching double arrows identify parallel upper-left and lower-right sides.",
+              "mathematics": "The top interior angle is 120°; parallel sides give a 90° small notch angle and a 270° reflex interior angle.",
+              "answerVisibility": "Supplied 150 is omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=150^\\circ$",
+          "worked": "The top interior angle is $180^\\circ-60^\\circ=120^\\circ$. The parallel sides give the small notch angle as $50^\\circ+40^\\circ=90^\\circ$, so its reflex interior angle is $270^\\circ$.\n$$\\begin{align*}S&=180(6-2)=720^\\circ\\\\50+120+90+x+40+270&=720\\\\x+570&=720\\\\x&=150^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p10-q3-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-g-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-g-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(0,2.65);\\coordinate(B)at(3,2.82);\\coordinate(C)at(2.05,1.93);\\coordinate(D)at(2.85,1.08);\\coordinate(E)at(2.22,.3);\\coordinate(F)at(.48,.2);\n\\draw(A)--(B)--(C)--(D)--(E)--(F)--cycle;\n\\foreach \\P/\\Q in {A/B,F/E}{\\draw[-{Stealth[length=2mm]},line width=.4pt]($(\\P)!.38!(\\Q)$)--($(\\P)!.49!(\\Q)$);\\draw[-{Stealth[length=2mm]},line width=.4pt]($(\\P)!.49!(\\Q)$)--($(\\P)!.60!(\\Q)$);}\n\\draw[line width=.4pt]($(C)!.2cm!(B)$)--($($(C)!.2cm!(B)$)+($(C)!.2cm!(D)$)-(C)$)--($(C)!.2cm!(D)$);\n\\node[below right]at(A){$75^\\circ$};\\node[below left,xshift=-5pt]at(B){$40^\\circ$};\\node[left,xshift=-3pt]at(D){$100^\\circ$};\\node[above left]at(E){$x^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 41,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3g",
+              "description": "Concave hexagon with a right-hand notch, 75°, 40°, 100° and x°. A square marks the small exterior notch angle; double arrows mark parallel top and bottom sides.",
+              "mathematics": "The lower-left interior angle is 105°; the notch interior angle is 270°.",
+              "answerVisibility": "Supplied 130 is omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=130^\\circ$",
+          "worked": "Co-interior angles give the lower-left angle as $180^\\circ-75^\\circ=105^\\circ$. The reflex notch angle is $360^\\circ-90^\\circ=270^\\circ$.\n$$\\begin{align*}S&=180(6-2)=720^\\circ\\\\75+40+270+100+x+105&=720\\\\x+590&=720\\\\x&=130^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p10-q3-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q3-h-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 10 p10-q3-h-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(0,1.95);\\coordinate(B)at(3.15,2.8);\\coordinate(C)at(4.05,2.12);\\coordinate(D)at(3.25,.65);\\coordinate(E)at(1.3,0);\\coordinate(F)at(1.48,1.62);\n\\draw(A)--(B)--(C)--(D)--(E)--(F)--cycle;\n\\foreach \\P/\\Q in {A/B,E/D}{\\draw[-{Stealth[length=2mm]},line width=.4pt]($(\\P)!.46!(\\Q)$)--($(\\P)!.56!(\\Q)$);\\draw[-{Stealth[length=2mm]},line width=.4pt]($(\\P)!.56!(\\Q)$)--($(\\P)!.66!(\\Q)$);}\n\\pic[draw,line width=.4pt,angle radius=3mm]{angle=A--F--E};\n\\pic[draw,line width=.4pt,angle radius=3.5mm]{angle=D--C--B};\n\\node[below,yshift=-3pt]at(B){$120^\\circ$};\\node[above left]at(D){$150^\\circ$};\\node[below left,xshift=-3pt]at(F){$95^\\circ$};\\node[above right,xshift=4pt,yshift=4pt]at(C){$x^\\circ$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 47,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 3h",
+              "description": "Concave hexagon with parallel upper-left and lower-right sides, interior 120° and 150°, a 95° small exterior notch angle and a large reflex exterior x° arc at the upper-right vertex.",
+              "mathematics": "The two unlabelled tip angles total 95°. The notch interior angle is 265°. The upper-right interior angle is 90°, so the marked reflex exterior angle is 270°.",
+              "answerVisibility": "Supplied 270 is omitted; the reflex sector for x remains visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=270^\\circ$",
+          "worked": "The parallel sides give a total of $95^\\circ$ for the two unlabelled tip angles. The reflex notch angle is $360^\\circ-95^\\circ=265^\\circ$. Let the upper-right interior angle be $a$.\n$$\\begin{align*}S&=180(6-2)=720^\\circ\\\\95+120+a+150+265&=720\\\\a+630&=720\\\\a&=90^\\circ\\\\x&=360^\\circ-90^\\circ\\\\x&=270^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p10-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p10-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p10-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p10-q3-root/label",
+                  "type": "item",
+                  "ref": "p10-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p10-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p10-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p10-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p10-q3-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p10-q3-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-a/label",
+                              "type": "item",
+                              "ref": "p10-q3-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p10-q3-a/prompt",
+                              "type": "item",
+                              "ref": "p10-q3-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p10-q3-a-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-a-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-a/space",
+                              "type": "item",
+                              "ref": "p10-q3-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q3-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-b/label",
+                              "type": "item",
+                              "ref": "p10-q3-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p10-q3-b-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-b-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-b/space",
+                              "type": "item",
+                              "ref": "p10-q3-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q3-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-c/label",
+                              "type": "item",
+                              "ref": "p10-q3-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p10-q3-c-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-c-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-c/space",
+                              "type": "item",
+                              "ref": "p10-q3-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p10-q3-root:row:3",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p10-q3-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-d/label",
+                              "type": "item",
+                              "ref": "p10-q3-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p10-q3-d-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-d-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-d/space",
+                              "type": "item",
+                              "ref": "p10-q3-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q3-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-e/label",
+                              "type": "item",
+                              "ref": "p10-q3-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p10-q3-e-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-e-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-e/space",
+                              "type": "item",
+                              "ref": "p10-q3-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q3-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-f/label",
+                              "type": "item",
+                              "ref": "p10-q3-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p10-q3-f-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-f-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-f/space",
+                              "type": "item",
+                              "ref": "p10-q3-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p10-q3-root:row:6",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p10-q3-g:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-g/label",
+                              "type": "item",
+                              "ref": "p10-q3-g/label",
+                              "title": "Label g"
+                            },
+                            {
+                              "id": "layout:p10-q3-g-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-g-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-g/space",
+                              "type": "item",
+                              "ref": "p10-q3-g/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part g",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q3-h:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p10-q3-h/label",
+                              "type": "item",
+                              "ref": "p10-q3-h/label",
+                              "title": "Label h"
+                            },
+                            {
+                              "id": "layout:p10-q3-h-diagram",
+                              "type": "item",
+                              "ref": "p10-q3-h-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p10-q3-h/space",
+                              "type": "item",
+                              "ref": "p10-q3-h/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part h",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p10-q3-root:row:6:fill:2",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [],
+                          "title": "Empty column",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 3",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:08:01.349Z",
+  "updatedAt": "2026-10-21T07:08:01.350Z"
+}

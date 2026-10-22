@@ -1,0 +1,117 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-86969b2c-ee5b-44b2-b81e-08576f207a3b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pythagoras-multistep",
+    "secondarySkillIds": [
+      "pythagoras-find-shorter-side"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Introduce the equilateral triangle's altitude and express its half-base in terms of its unknown side, solve the resulting equation, then transfer that side to the square and derive the legs needed for NK.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:43:30.955Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6a31fddc26fc56257c2d6754312d07cc56adff8918a5c3ae263c624425466ed1",
+      "evidence": ".booklet-work/reasoning-ratings/calls/pythagoras-theorem-v1/56506d01641f2c711e6ecb5470a75db176bcde4d925640fd8aa0387e6ba31ded-1792561384256/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q12",
+    "type": "question",
+    "label": "12",
+    "prompt": "JKML is a square. Determine the length of $NK$ if the height of the triangle $\\Delta NML$ is 24 cm. Answer to two decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q12-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (0,0);\n\\coordinate (M) at (4,0);\n\\coordinate (J) at (0,4);\n\\coordinate (K) at (4,4);\n\\coordinate (N) at (2,{2*sqrt(3)});\n\\coordinate (S) at (4,{2*sqrt(3)});\n\\draw (J)--(K)--(M)--(L)--cycle;\n\\draw (J)--(N)--(K);\n\\draw (L)--(N)--(M);\n\\draw (N)--(S);\n\\draw[line width=0.4pt] ($(L)!0.5!(N)+({-.09*sqrt(3)/2},.045)$)--($(L)!0.5!(N)+({.09*sqrt(3)/2},-.045)$);\n\\draw[line width=0.4pt] ($(N)!0.5!(M)+({-.09*sqrt(3)/2},-.045)$)--($(N)!0.5!(M)+({.09*sqrt(3)/2},.045)$);\n\\draw[line width=0.4pt] ($(L)!0.5!(M)+(0,-.09)$)--($(L)!0.5!(M)+(0,.09)$);\n\\pic[draw,line width=0.4pt,angle radius=5mm,angle eccentricity=1.5,\"$60^\\circ$\"] {angle=M--L--N};\n\\pic[draw,line width=0.4pt,angle radius=5mm,angle eccentricity=1.5,\"$60^\\circ$\"] {angle=N--M--L};\n\\pic[draw,line width=0.4pt,angle radius=5mm,angle eccentricity=1.5,\"$60^\\circ$\"] {angle=L--N--M};\n\\draw[line width=0.4pt] ($(S)!.15cm!(N)$)--($(S)!.15cm!(N)+(0,.15)$)--($(S)!.15cm!(K)$);\n\\foreach \\P in {J,K,L,M,N,S} {\\fill (\\P) circle[radius=1.4pt];}\n\\node[above] at (J) {$J$};\n\\node[above] at (K) {$K$};\n\\node[below left] at (L) {$L$};\n\\node[below right] at (M) {$M$};\n\\node[above] at (N) {$N$};\n\\node[right] at (S) {$S$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 12, square diagram below the stem on the left",
+          "description": "Square JKML containing equilateral triangle NML. JN and KN join the upper vertices to N. S is on KM level with N, with NS perpendicular to SK. Retains all six filled point markers, three equal-side ticks and three 60-degree angle labels.",
+          "mathematics": "For square side s, L=(0,0), M=(s,0), J=(0,s), K=(s,s), N=(s/2,sqrt(3)s/2) and S=(s,sqrt(3)s/2). Triangle NML is equilateral. Diagram coordinates express these relationships without printing additional measurements.",
+          "answerVisibility": "All source givens remain visible; no calculated lengths or solution-only construction is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$NK\\approx14.35\\text{ cm}$.",
+      "worked": "Split equilateral triangle $NML$ vertically down the middle. Each resulting right-angled triangle has height 24 cm and base half the side length. Let $NM=x$ cm.\n$$\\begin{align*}\n\\left(\\frac{x}{2}\\right)^2+24^2&=x^2\\\\\n\\frac{x^2}{4}+24^2&=x^2\\\\\n24^2&=\\frac{3x^2}{4}\\\\\nx^2&=768\\\\\nx&=\\sqrt{768}\n\\end{align*}$$\nThe square has side length $\\sqrt{768}$ cm. Also, $SM=24$ cm and $NS$ is half the square's side.\n$$\\begin{align*}\nKS&=KM-SM\\\\\nKS&=\\sqrt{768}-24\\\\\nNS&=\\frac{\\sqrt{768}}{2}\\\\\nNK&=\\sqrt{\\left(\\sqrt{768}-24\\right)^2+\\left(\\frac{\\sqrt{768}}{2}\\right)^2}\\\\\nNK&\\approx14.35\\text{ cm}\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p38-q12-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q12-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q12:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q12/label",
+                  "type": "item",
+                  "ref": "p38-q12/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p38-q12/prompt",
+                  "type": "item",
+                  "ref": "p38-q12/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q12-diagram",
+                  "type": "item",
+                  "ref": "p38-q12-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p38-q12/space",
+                  "type": "item",
+                  "ref": "p38-q12/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:34:11.972Z",
+  "updatedAt": "2026-10-21T09:34:11.972Z"
+}

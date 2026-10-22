@@ -1,0 +1,290 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a86ef58c-8590-4190-8a74-23d4a611a35e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-log-functions",
+    "secondarySkillIds": [
+      "natural-domain-from-equation",
+      "graph-function-transformations",
+      "solve-exponential-log-equations"
+    ],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Read domain, asymptote and translations from the shifted logarithm, then follow the supplied intercept cue to solve a logarithmic equation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:31:31.300Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "80e2e34f5f76bfcd8982f6fa2f6ab0a95d7284b7129ee4031445cffdb427fdd8",
+      "evidence": ".booklet-work/reasoning-ratings/calls/logarithms-v1/2ede82b1b16b93e8bde8a998aeb8cfbd282f3530b2bbd6c5a149d9f78d98e862-1792560650912/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p41-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "For the graph of $y=\\log_2(x-4)+3$:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p41-q6-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"logarithmic function series\"}],\"reference\":\"source page 41 p41-q6-graph\"}\n\\begin{tikzpicture}[x=0.54cm,y=0.54cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[<->,black,line width=0.5pt] (-1.8,0)--(13,0);\n\\draw[<->,black,line width=0.5pt] (0,-2.9)--(0,6.9);\n\\foreach \\x in {-1,1,2,3,4,5,6,7,8,9,10,11,12}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.16);\\node[below,inner sep=1.5pt,font=\\fontsize{8.5}{10}\\selectfont,text=black] at (\\x,-0.18) {$\\x$};}\n\\foreach \\y in {-2,-1,1,2,3,4,5,6}{\\draw[black,line width=0.4pt] (0,\\y)--(-0.16,\\y);\\node[left,inner sep=1.5pt,font=\\fontsize{8.5}{10}\\selectfont,text=black] at (-0.18,\\y) {$\\y$};}\n\\node[right,font=\\fontsize{10}{12}\\selectfont,text=black] at (13,0) {$x$};\n\\node[above,font=\\fontsize{10}{12}\\selectfont,text=black] at (0,6.9) {$y$};\n\\draw[<->,curveBlue,line width=0.8pt,domain=-2.7:6.10433666,samples=180,variable=\\t] plot ({4+pow(2,\\t-3)},{\\t});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 88,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 41,
+          "sourceRegion": "Question 6, graph right of parts a–c and above part d",
+          "description": "Unshaded axes with arrows at both ends, unit ticks, x and y labels, no grid, no point markers and no dashed asymptote. One increasing blue logarithmic curve with continuation arrows. Origin O omitted under the graph contract.",
+          "mathematics": "Approved analytic reconstruction of y=log2(x-4)+3, parameterised as x=4+2^(y-3). Domain x>4; vertical asymptote x=4; exact x-intercept 33/8; passes through (5,3). These checks are not printed as annotations.",
+          "answerVisibility": "Supplied question graph remains visible. No supplied textual answers are embedded."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p41-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x>4$",
+          "worked": "$$\\begin{align*}x-4&>0\\\\x&>4\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 9
+      },
+      {
+        "id": "p41-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "State the equation of the asymptote.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=4$",
+          "worked": "The curve approaches the vertical line $x=4$ as $x$ approaches $4$ from the right. The asymptote is $x=4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 9
+      },
+      {
+        "id": "p41-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Determine the $x$-intercept by letting $y=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(4.125,0)$",
+          "worked": "$$\\begin{align*}0&=\\log_2(x-4)+3\\\\\\log_2(x-4)&=-3\\\\x-4&=2^{-3}\\\\x-4&=\\frac18\\\\x&=4+\\frac18\\\\x&=4.125\\end{align*}$$The $x$-intercept is $(4.125,0)$, exactly.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p41-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "State the horizontal and vertical translations applied to the graph of $\\log_2 x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Right by 4, up by 3.",
+          "worked": "Replacing $x$ with $x-4$ translates $y=\\log_2 x$ right $4$ units. Adding $3$ translates it up $3$ units.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p41-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p41-q6-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "restored:p41-q6-root/label",
+                  "type": "item",
+                  "ref": "p41-q6-root/label"
+                },
+                {
+                  "id": "p41-q6-stem-item",
+                  "type": "item",
+                  "ref": "p41-q6-root/prompt"
+                },
+                {
+                  "id": "p41-q6-main-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p41-q6-left-column",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "labelled:p41-q6-a-item",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "restored:p41-q6-a/label",
+                              "type": "item",
+                              "ref": "p41-q6-a/label"
+                            },
+                            {
+                              "id": "p41-q6-a-item",
+                              "type": "item",
+                              "ref": "p41-q6-a/prompt"
+                            }
+                          ],
+                          "gap": 4
+                        },
+                        {
+                          "id": "labelled:p41-q6-b-item",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "restored:p41-q6-b/label",
+                              "type": "item",
+                              "ref": "p41-q6-b/label"
+                            },
+                            {
+                              "id": "p41-q6-b-item",
+                              "type": "item",
+                              "ref": "p41-q6-b/prompt"
+                            }
+                          ],
+                          "gap": 4
+                        },
+                        {
+                          "id": "labelled:p41-q6-c-item",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "restored:p41-q6-c/label",
+                              "type": "item",
+                              "ref": "p41-q6-c/label"
+                            },
+                            {
+                              "id": "p41-q6-c-item",
+                              "type": "item",
+                              "ref": "p41-q6-c/prompt"
+                            }
+                          ],
+                          "gap": 4
+                        },
+                        {
+                          "id": "restored:p41-q6-a/space",
+                          "type": "item",
+                          "ref": "p41-q6-a/space",
+                          "height": 9
+                        },
+                        {
+                          "id": "restored:p41-q6-b/space",
+                          "type": "item",
+                          "ref": "p41-q6-b/space",
+                          "height": 9
+                        },
+                        {
+                          "id": "restored:p41-q6-c/space",
+                          "type": "item",
+                          "ref": "p41-q6-c/space",
+                          "height": 9
+                        }
+                      ],
+                      "gap": 4,
+                      "weight": 1
+                    },
+                    {
+                      "id": "p41-q6-graph-item",
+                      "type": "item",
+                      "ref": "p41-q6-graph",
+                      "width": 88,
+                      "align": "right"
+                    }
+                  ],
+                  "gap": 5,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "labelled:p41-q6-d-item",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "restored:p41-q6-d/label",
+                      "type": "item",
+                      "ref": "p41-q6-d/label"
+                    },
+                    {
+                      "id": "p41-q6-d-item",
+                      "type": "item",
+                      "ref": "p41-q6-d/prompt"
+                    }
+                  ],
+                  "gap": 4
+                },
+                {
+                  "id": "restored:p41-q6-d/space",
+                  "type": "item",
+                  "ref": "p41-q6-d/space",
+                  "height": 9
+                }
+              ],
+              "gap": 4
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p41-q6-a": 9,
+        "p41-q6-b": 9,
+        "p41-q6-c": 9,
+        "p41-q6-d": 9
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p41-q6"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:49:20.756Z",
+  "updatedAt": "2026-10-21T10:49:20.756Z"
+}

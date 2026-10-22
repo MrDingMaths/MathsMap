@@ -1,0 +1,615 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-786bf7a4-59d8-4f55-a459-3c4a301002ce",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "linear-real-life",
+    "secondarySkillIds": [
+      "equation-from-gradient-intercept"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate slope from two supplied points, combine it with the given intercept, and use the resulting equation in both directions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:29.964Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7423fb8b8ff166ec2e59fd1fc2c6ef8cac3a16eded8ae82c1c4d35c83afeb537",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/1e68715aa360e91166c1becf467b4564d7149b462ca85a2739add9bbeb0f359a-1792556207511/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "This scatter plot shows a linear relationship between Mathematics marks and Physics marks in a small class of students. A trend line passes through $(20,30)$ and $(70,60)$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-q10-graph-group",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p32-q10-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"trendBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied trend line distinguished from black data crosses\"}],\"reference\":\"source page 32 p32-q10-graph\"}\n\\begin{tikzpicture}[x=0.045cm,y=0.045cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{trendBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (0,0)--(110,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,0)--(0,110) node[above] {$y$};\n\\foreach \\v in {10,20,...,100}{\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-2);\\draw[black,line width=0.4pt] (0,\\v)--(-2,\\v);}\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\foreach \\v in {20,40,60,80,100}{\\node[below] at (\\v,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\\node[left] at (-2,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below] at (55,-12) {\\textit{Mathematics (\\%)}};\n\\node[rotate=90] at (-16,55) {\\textit{Physics (\\%)}};\n\\foreach \\u/\\v in {11/34,14/24,20/30,30/40,40/37,47/51,51/38,56/62,61/50,66/61,71/49,71/60}{\\draw[black,line width=0.4pt] (\\u-1,\\v-1)--(\\u+1,\\v+1);\\draw[black,line width=0.4pt] (\\u-1,\\v+1)--(\\u+1,\\v-1);}\n\\draw[trendBlue,line width=0.8pt] plot[domain=10:75,samples=2] (\\x,{0.6*\\x+18});\n\\node[below right] at (20,30) {$(20,30)$};\n\\node[below right] at (70,60) {$(70,60)$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 32,
+              "sourceRegion": "Question 10, left-hand graph",
+              "description": "Ungriddded scatterplot with black crosses, 10-unit ticks, 20-unit numeric labels, italic subject-axis titles and a blue trend line. Unlabelled crosses are approximate visual reconstructions.",
+              "mathematics": "Horizontal variable x is Mathematics percentage; vertical variable y is Physics percentage. Supplied line passes through (20,30) and (70,60), with equation y=0.6x+18. Line extent is approximately x=10 to x=75.",
+              "answerVisibility": "The source trend line and its two coordinate labels remain visible in questions. Its equation and predictions are answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p32-q10-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Find the equation of the line if the $y$-intercept is $18$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=0.6x+18$",
+              "worked": "$$\\begin{aligned}m&=\\frac{60-30}{70-20}\\\\&=0.6\\\\y&=0.6x+18\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p32-q10-b",
+            "type": "group",
+            "label": "b",
+            "prompt": "Use your equation to find the Physics score if the Mathematics score is:",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [
+              {
+                "id": "p32-q10-b-i",
+                "type": "part",
+                "label": "i",
+                "prompt": "$40$",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$42\\%$",
+                  "worked": "Let $x=40$.\n$$\\begin{aligned}y&=0.6(40)+18\\\\&=42\\end{aligned}$$\nThe Physics score is $42\\%$.",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 18
+              },
+              {
+                "id": "p32-q10-b-ii",
+                "type": "part",
+                "label": "ii",
+                "prompt": "$90$",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$72\\%$",
+                  "worked": "Let $x=90$.\n$$\\begin{aligned}y&=0.6(90)+18\\\\&=72\\end{aligned}$$\nThe Physics score is $72\\%$.",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 18
+              }
+            ]
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      },
+      {
+        "id": "p32-q10-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Use your equation to find the Mathematics score if the Physics score is:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p32-q10-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$36$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$30\\%$",
+              "worked": {
+                "format": "maths-editor-document-v1",
+                "version": 1,
+                "blocks": [
+                  {
+                    "id": "da68d104-2c73-404d-b466-f29e3b2460fd-compact-0",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 0,
+                    "lineHeight": 1.25,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Let ",
+                        "marks": []
+                      },
+                      {
+                        "type": "math",
+                        "latex": "y=36",
+                        "display": false
+                      },
+                      {
+                        "type": "text",
+                        "text": ".",
+                        "marks": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "da68d104-2c73-404d-b466-f29e3b2460fd-compact-1",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 0,
+                    "lineHeight": 1.25,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "math",
+                        "latex": "\\begin{aligned}36&=0.6x+18\\\\36-18&=0.6x\\\\x&=\\frac{18}{0.6}\\\\&=30\\end{aligned}",
+                        "display": true
+                      }
+                    ]
+                  },
+                  {
+                    "id": "da68d104-2c73-404d-b466-f29e3b2460fd-compact-2",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 0,
+                    "lineHeight": 1.25,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "The Mathematics score is ",
+                        "marks": []
+                      },
+                      {
+                        "type": "math",
+                        "latex": "30\\%",
+                        "display": false
+                      },
+                      {
+                        "type": "text",
+                        "text": ".",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p32-q10-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$78$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$100\\%$",
+              "worked": {
+                "format": "maths-editor-document-v1",
+                "version": 1,
+                "blocks": [
+                  {
+                    "id": "607ff788-432e-4583-8337-587f5594b5cd-compact-0",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 0,
+                    "lineHeight": 1.25,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Let ",
+                        "marks": []
+                      },
+                      {
+                        "type": "math",
+                        "latex": "y=78",
+                        "display": false
+                      },
+                      {
+                        "type": "text",
+                        "text": ".",
+                        "marks": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "607ff788-432e-4583-8337-587f5594b5cd-compact-1",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 0,
+                    "lineHeight": 1.25,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "math",
+                        "latex": "\\begin{aligned}78&=0.6x+18\\\\78-18&=0.6x\\\\x&=\\frac{60}{0.6}\\\\&=100\\end{aligned}",
+                        "display": true
+                      }
+                    ]
+                  },
+                  {
+                    "id": "607ff788-432e-4583-8337-587f5594b5cd-compact-2",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 0,
+                    "lineHeight": 1.25,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "The Mathematics score is ",
+                        "marks": []
+                      },
+                      {
+                        "type": "math",
+                        "latex": "100\\%",
+                        "display": false
+                      },
+                      {
+                        "type": "text",
+                        "text": ".",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p32-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p32-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p32-q10-root/label",
+                  "type": "item",
+                  "ref": "p32-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p32-q10-root/prompt",
+                  "type": "item",
+                  "ref": "p32-q10-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p32-q10-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p32-q10-graph-group:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p32-q10-graph-group:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p32-q10-graph-group:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q10-graph",
+                                  "type": "item",
+                                  "ref": "p32-q10-graph",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p32-q10-graph-group:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p32-q10-graph-group:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p32-q10-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p32-q10-a/label",
+                                          "type": "item",
+                                          "ref": "p32-q10-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p32-q10-a/prompt",
+                                          "type": "item",
+                                          "ref": "p32-q10-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p32-q10-a/space",
+                                          "type": "item",
+                                          "ref": "p32-q10-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p32-q10-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p32-q10-b/label",
+                                          "type": "item",
+                                          "ref": "p32-q10-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p32-q10-b/prompt",
+                                          "type": "item",
+                                          "ref": "p32-q10-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "p32-q10-b:parts",
+                                          "type": "group",
+                                          "direction": "stack",
+                                          "children": [
+                                            {
+                                              "id": "p32-q10-b-i:question",
+                                              "type": "group",
+                                              "direction": "stack",
+                                              "children": [
+                                                {
+                                                  "id": "layout:p32-q10-b-i/label",
+                                                  "type": "item",
+                                                  "ref": "p32-q10-b-i/label",
+                                                  "title": "Label i"
+                                                },
+                                                {
+                                                  "id": "layout:p32-q10-b-i/prompt",
+                                                  "type": "item",
+                                                  "ref": "p32-q10-b-i/prompt",
+                                                  "title": "Text"
+                                                },
+                                                {
+                                                  "id": "layout:p32-q10-b-i/space",
+                                                  "type": "item",
+                                                  "ref": "p32-q10-b-i/space",
+                                                  "title": "Answer space"
+                                                }
+                                              ],
+                                              "title": "Part i",
+                                              "gap": 1
+                                            },
+                                            {
+                                              "id": "p32-q10-b-ii:question",
+                                              "type": "group",
+                                              "direction": "stack",
+                                              "children": [
+                                                {
+                                                  "id": "layout:p32-q10-b-ii/label",
+                                                  "type": "item",
+                                                  "ref": "p32-q10-b-ii/label",
+                                                  "title": "Label ii"
+                                                },
+                                                {
+                                                  "id": "layout:p32-q10-b-ii/prompt",
+                                                  "type": "item",
+                                                  "ref": "p32-q10-b-ii/prompt",
+                                                  "title": "Text"
+                                                },
+                                                {
+                                                  "id": "layout:p32-q10-b-ii/space",
+                                                  "type": "item",
+                                                  "ref": "p32-q10-b-ii/space",
+                                                  "title": "Answer space"
+                                                }
+                                              ],
+                                              "title": "Part ii",
+                                              "gap": 1
+                                            }
+                                          ],
+                                          "gap": 1
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p32-q10-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q10-c/label",
+                          "type": "item",
+                          "ref": "p32-q10-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p32-q10-c/prompt",
+                          "type": "item",
+                          "ref": "p32-q10-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p32-q10-c:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p32-q10-c-i:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q10-c-i/label",
+                                  "type": "item",
+                                  "ref": "p32-q10-c-i/label",
+                                  "title": "Label i"
+                                },
+                                {
+                                  "id": "layout:p32-q10-c-i/prompt",
+                                  "type": "item",
+                                  "ref": "p32-q10-c-i/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p32-q10-c-i/space",
+                                  "type": "item",
+                                  "ref": "p32-q10-c-i/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part i",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p32-q10-c-ii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q10-c-ii/label",
+                                  "type": "item",
+                                  "ref": "p32-q10-c-ii/label",
+                                  "title": "Label ii"
+                                },
+                                {
+                                  "id": "layout:p32-q10-c-ii/prompt",
+                                  "type": "item",
+                                  "ref": "p32-q10-c-ii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p32-q10-c-ii/space",
+                                  "type": "item",
+                                  "ref": "p32-q10-c-ii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part ii",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:42:12.769Z",
+  "updatedAt": "2026-10-21T07:42:12.770Z"
+}

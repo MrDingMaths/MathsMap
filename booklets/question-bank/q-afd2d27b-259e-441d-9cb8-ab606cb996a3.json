@@ -1,0 +1,209 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-afd2d27b-259e-441d-9cb8-ab606cb996a3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "composite-area-problems",
+    "secondarySkillIds": [
+      "area-composite-circles",
+      "area-of-sector"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret the wiped region as an outer sector minus an inner sector, infer the outer radius as 10+30, then compare its area with the rectangular windscreen as a percentage.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:27.942Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "544b4b524c27c69a2fc0144dd0cf8ee39c4277a746432bc589b1193ca8b87b97",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/57edba1e62e7a142a69e612abf82519a6c7bc2196690170309fc5fee3aa8a94e-1792556108162/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q2-content",
+    "type": "question",
+    "label": "2",
+    "prompt": "Determine the percentage of the windscreen covered by the wiper to 2 d.p.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"Distinguishes radial construction extensions from swept-region boundaries.\"}],\"reference\":\"source page 31, p31-q2-diagram\"}\n\\usetikzlibrary{angles,calc}\n\\begin{tikzpicture}[x=0.1cm,y=0.1cm,font=\\fontsize{10}{12}\\selectfont,text=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\n\\coordinate (IL) at (140:10);\n\\coordinate (IR) at (40:10);\n\\coordinate (OL) at (140:40);\n\\coordinate (OR) at (40:40);\n\\draw[black,line width=0.8pt] (-35,0) rectangle (35,40);\n\\draw[black,line width=0.8pt] (OL) arc[start angle=140,end angle=40,radius=40] -- (IR) arc[start angle=40,end angle=140,radius=10] -- cycle;\n\\draw[constructionRed,dashed,line width=0.4pt] (IL) -- (O) -- (IR);\n\\pic[draw=black,line width=0.4pt,angle radius=4mm] {angle=IR--O--IL};\n\\node at (90:7.5) {$100^\\circ$};\n\\path (O) -- (IR) node[midway,anchor=west,xshift=3mm] {$10\\ \\text{cm}$};\n\\path (IR) -- (OR) node[midway,anchor=west,xshift=2pt] {$30\\ \\text{cm}$};\n\\node at (0,29) {Wiped area};\n\\node[anchor=north,yshift=-3pt] at (0,0) {$70\\ \\text{cm}$};\n\\node[anchor=west,xshift=3pt] at (35,20) {$40\\ \\text{cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 2 windscreen diagram below the prompt.",
+          "description": "Left-aligned rectangular windscreen containing an unshaded upward-opening annular sector, with red dashed radial extensions and the pivot angle cue.",
+          "mathematics": {
+            "windscreenWidthCm": 70,
+            "windscreenHeightCm": 40,
+            "innerRadiusCm": 10,
+            "sweptRadialLengthCm": 30,
+            "centralAngleDegrees": 100,
+            "outerRadiusCm": 40,
+            "outerRadiusLabelVisible": false,
+            "labels": [
+              "Wiped area",
+              "100°",
+              "30 cm",
+              "10 cm",
+              "40 cm",
+              "70 cm"
+            ]
+          },
+          "answerVisibility": "All source givens are visible; the inferred outer radius and calculated areas are answer-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$46.75\\%$. Subtract the inner sector from the outer sector, then divide by the windscreen area and multiply by 100.",
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p31-q2-answer-radius",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{align*}R&=10+30\\\\R&=40\\ \\text{cm}\\end{align*}",
+                "display": true,
+                "colour": "#268cff"
+              }
+            ]
+          },
+          {
+            "id": "p31-q2-answer-areas",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{align*}A_{\\text{wiped}}&=\\frac{\\theta}{360}\\pi R^2-\\frac{\\theta}{360}\\pi r^2\\\\A_{\\text{wiped}}&=\\frac{100}{360}\\pi(40)^2-\\frac{100}{360}\\pi(10)^2\\\\A_{\\text{windscreen}}&=40\\times70\\\\A_{\\text{windscreen}}&=2800\\ \\text{cm}^{2}\\end{align*}",
+                "display": true,
+                "colour": "#268cff"
+              }
+            ]
+          },
+          {
+            "id": "p31-q2-answer",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{align*}\\text{Percentage wiped}&=\\frac{\\frac{100}{360}\\pi(40)^2-\\frac{100}{360}\\pi(10)^2}{40\\times70}\\times100\\%\\\\\\text{Percentage wiped}&\\approx46.75\\%\\quad\\text{(2 d.p.)}\\end{align*}",
+                "display": true,
+                "colour": "#268cff"
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 70
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q2-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p31-q2-label-item",
+                  "type": "item",
+                  "ref": "p31-q2-content/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p31-q2-body-stack",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p31-q2-prompt-item",
+                      "type": "item",
+                      "ref": "p31-q2-content/prompt",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p31-q2-diagram-item",
+                      "type": "item",
+                      "ref": "p31-q2-diagram",
+                      "width": 75,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p31-q2-space-item",
+                      "type": "item",
+                      "ref": "p31-q2-content/space",
+                      "height": 20,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 3,
+              "verticalAlign": "top"
+            }
+          }
+        },
+        "p31-q2-diagram": {
+          "diagramWidthMm": 75
+        }
+      },
+      "answerSpaces": {
+        "p31-q2-content": 20
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p31-q2"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:43:21.515Z",
+  "updatedAt": "2026-10-21T10:43:21.515Z"
+}

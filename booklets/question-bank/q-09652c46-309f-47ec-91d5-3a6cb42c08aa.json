@@ -1,0 +1,242 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-09652c46-309f-47ec-91d5-3a6cb42c08aa",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "chord-properties",
+    "secondarySkillIds": [],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "A linked proof establishes the common-chord theorem using SSS, SAS and equal adjacent angles.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T12:11:50.964Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "115399082a6b82b6f2997c36a15cabd15a9601f47738fab5faf4a55b399e4762",
+      "evidence": ".booklet-work/full-imports/circle-geometry-20261008/semantic-packets/assignments/assignment-5c8858b796fc71446667/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q6",
+    "type": "question",
+    "label": "6",
+    "prompt": "In this question we will prove the following theorem. When two circles intersect, the line joining their centres bisects that common chord at right angles.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove $\\triangle ACD\\cong\\triangle BCD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q6-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 17 p17-q6-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\chordx}{(1.9*1.9-1.65*1.65+2.4*2.4)/(2*2.4)}\n\\pgfmathsetmacro{\\chordy}{sqrt(1.9*1.9-\\chordx*\\chordx)}\n\\coordinate (C) at (0,0);\n\\coordinate (D) at (2.4,0);\n\\coordinate (E) at (\\chordx,0);\n\\coordinate (B) at (\\chordx,\\chordy);\n\\coordinate (A) at (\\chordx,-\\chordy);\n\\draw (C) circle[radius=1.9];\n\\draw (D) circle[radius=1.65];\n\\draw (C)--(B)--(D)--(A)--cycle;\n\\draw (C)--(D) (A)--(B);\n\\fill (C) circle[radius=1.5pt];\n\\fill (D) circle[radius=1.5pt];\n\\node[left=2mm] at (C) {$C$};\n\\node[right=2mm] at (D) {$D$};\n\\node[above] at (B) {$B$};\n\\node[below] at (A) {$A$};\n\\node[below left=1mm] at (E) {$E$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 6 part a shared figure",
+              "description": "Two intersecting circles, with the left circle larger. Centres C and D lie on CD. Intersections B above and A below are joined by the common chord AB, meeting CD at E. All four radii CA, CB, DA and DB are drawn. The figure is shared by parts a–c.",
+              "mathematics": "CA=CB and DA=DB are radii of their respective circles. E is the intersection of AB and CD. Construction coordinates determine the circle intersections; no numerical measurements are printed.",
+              "answerVisibility": "No perpendicularity mark, bisection ticks or congruence annotations are supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ACD\\cong\\triangle BCD$ (SSS).",
+          "worked": "$AD=BD$ (radii of the circle with centre $D$).\n\n$AC=BC$ (radii of the circle with centre $C$).\n\n$CD$ is common.\n\nTherefore, $\\triangle ACD\\cong\\triangle BCD$ (SSS).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p17-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove $\\triangle ACE\\cong\\triangle BCE$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ACE\\cong\\triangle BCE$ (SAS).",
+          "worked": "$AC=BC$ (radii).\n\n$\\angle ACE=\\angle BCE$ (corresponding angles in the congruent triangles from part a, since $C,E,D$ are collinear).\n\n$CE$ is common.\n\nTherefore, $\\triangle ACE\\cong\\triangle BCE$ (SAS).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p17-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, prove $CD\\perp AB$ and $BE=EA$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$CD\\perp AB$ and $BE=EA$.",
+          "worked": "$\\angle BEC=\\angle CEA$ (corresponding angles in the congruent triangles from part b).\n\nThese angles lie on the straight line $AB$, so each is $90^\\circ$. Therefore, $CD\\perp AB$.\n\nAlso, $BE=EA$ (corresponding sides in $\\triangle ACE\\cong\\triangle BCE$).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p17-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q6-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q6:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p17-q6/label",
+                  "type": "item",
+                  "ref": "p17-q6/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p17-q6/prompt",
+                  "type": "item",
+                  "ref": "p17-q6/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p17-q6:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q6-a/label",
+                          "type": "item",
+                          "ref": "p17-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p17-q6-a/prompt",
+                          "type": "item",
+                          "ref": "p17-q6-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q6-diagram",
+                          "type": "item",
+                          "ref": "p17-q6-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p17-q6-a/space",
+                          "type": "item",
+                          "ref": "p17-q6-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q6-b/label",
+                          "type": "item",
+                          "ref": "p17-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p17-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p17-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q6-b/space",
+                          "type": "item",
+                          "ref": "p17-q6-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q6-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q6-c/label",
+                          "type": "item",
+                          "ref": "p17-q6-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p17-q6-c/prompt",
+                          "type": "item",
+                          "ref": "p17-q6-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q6-c/space",
+                          "type": "item",
+                          "ref": "p17-q6-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:30:57.426Z",
+  "updatedAt": "2026-10-21T08:30:57.427Z"
+}

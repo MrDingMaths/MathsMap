@@ -1,0 +1,633 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ea28fbd8-5a18-49d9-bd9d-2e8121cdde8a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [
+      "describe-association"
+    ],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Distinguish individual observations from line-based predictions, count coincident horizontal coordinates, judge strength and read estimates in both directions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:59.518Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5fd9189f8cda53f97786a8030c09ae5497e1caa9c0e5a7866391b8b7d3232c15",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/70cdd0af5a1a37e1a228363b45885f5101b1bca2b36f6245b7328091bfc6bbbc-1792556190496/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "The scatterplot shows the rainfall (in mm) and the percentage of clear days for each month in a year. Each dot represents a month.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q4-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 p21-q4-graph\"}\n\\begin{tikzpicture}[x=0.14cm,y=0.0467cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\draw[step=1,draw=none] (0,0) rectangle (40,120);\n\\foreach \\x in {0,5,...,40} {\\draw[graphGrid,line width=0.25pt] (\\x,0)--(\\x,120);}\n\\foreach \\y in {0,10,...,120} {\\draw[graphGrid,line width=0.25pt] (0,\\y)--(40,\\y);}\n\\draw[->,black,line width=0.5pt] (0,0)--(44,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,130);\n\\foreach \\x in {0,2,...,40} {\\draw[black,line width=0.4pt] (\\x,0)--++(0,-1.7);}\n\\foreach \\y in {0,5,...,120} {\\draw[black,line width=0.4pt] (0,\\y)--++(-0.6,0);}\n\\foreach \\x in {10,20,30,40} {\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {20,40,60,80,100,120} {\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.8,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (20,-12) {Clear days (\\%)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-9,60) {Rainfall (mm)};\n\\foreach \\x/\\y in {5/110,7/99,10/110,10/105,10/100,13/92,14/80,14/76,20/78,20/70,25/60,26/55} {\\fill[black] (\\x,\\y) circle[radius=2.25pt];}\n\\draw[black,line width=0.8pt] (4,110)--(26,60);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 4, left scatterplot",
+          "description": "Twelve source points, descending supplied line, axis arrows, labelled major ticks and finer unlabelled ticks. Unlabelled positions are traced approximations, not an exact dataset.",
+          "mathematics": "Clear days on the horizontal axis, 0–40%; rainfall on the vertical axis, 0–120 mm. Grid steps are 5 percentage points and 10 mm. Three points lie at 10%; a point lies at (20%, 70 mm).",
+          "answerVisibility": "Points and supplied line remain visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many months had exactly 10% of clear days?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "3 months",
+          "worked": "There are three dots directly above 10% on the clear-days axis, so there were 3 months.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What was the percentage of clear days for the month where rainfall was 70 mm?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "20%",
+          "worked": "Read the clear-days coordinate of the dot at 70 mm rainfall: 20%.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Describe the strength of the relationship as strong, moderate, or weak.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Strong",
+          "worked": "Strong: the points lie close to the descending line of best fit.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q4-d",
+        "type": "group",
+        "label": "d",
+        "prompt": "Use the line of best fit to predict the rainfall in the month given the following percentage of clear days:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p21-q4-d-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p21-q4-d-i-response",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "15%   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "85 mm",
+                      "width": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "About 85 mm",
+              "worked": "From 15% on the horizontal axis, read up to the supplied line, then across to the rainfall axis: about 85 mm.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p21-q4-d-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p21-q4-d-ii-response",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "22%   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "70 mm",
+                      "width": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "About 70 mm",
+              "worked": "From 22% on the horizontal axis, read up to the supplied line, then across to the rainfall axis: about 70 mm.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      },
+      {
+        "id": "p21-q4-e",
+        "type": "group",
+        "label": "e",
+        "prompt": "Predict the percentage of clear days in the month given the following rainfall:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p21-q4-e-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p21-q4-e-i-response",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "80 mm   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "17%",
+                      "width": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "About 17%",
+              "worked": "From 80 mm on the vertical axis, read across to the supplied line, then down to the clear-days axis: about 17%.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p21-q4-e-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p21-q4-e-ii-response",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "90 mm   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "12.5%",
+                      "width": 17
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "About 12.5%",
+              "worked": "From 90 mm on the vertical axis, read across to the supplied line, then down to the clear-days axis: about 12.5%.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p21-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q4-root/label",
+                  "type": "item",
+                  "ref": "p21-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p21-q4-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p21-q4-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q4-graph",
+                          "type": "item",
+                          "ref": "p21-q4-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q4-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q4-root/prompt",
+                          "type": "item",
+                          "ref": "p21-q4-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p21-q4-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p21-q4-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q4-a/label",
+                                  "type": "item",
+                                  "ref": "p21-q4-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p21-q4-a/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q4-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p21-q4-a/space",
+                                  "type": "item",
+                                  "ref": "p21-q4-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p21-q4-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q4-b/label",
+                                  "type": "item",
+                                  "ref": "p21-q4-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p21-q4-b/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q4-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p21-q4-b/space",
+                                  "type": "item",
+                                  "ref": "p21-q4-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p21-q4-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q4-c/label",
+                                  "type": "item",
+                                  "ref": "p21-q4-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p21-q4-c/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q4-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p21-q4-c/space",
+                                  "type": "item",
+                                  "ref": "p21-q4-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p21-q4-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q4-d/label",
+                                  "type": "item",
+                                  "ref": "p21-q4-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p21-q4-d/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q4-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p21-q4-d:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p21-q4-d-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p21-q4-d-i/label",
+                                          "type": "item",
+                                          "ref": "p21-q4-d-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-d-i/prompt#p21-q4-d-i-response",
+                                          "type": "item",
+                                          "ref": "p21-q4-d-i/prompt#p21-q4-d-i-response",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-d-i/space",
+                                          "type": "item",
+                                          "ref": "p21-q4-d-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p21-q4-d-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p21-q4-d-ii/label",
+                                          "type": "item",
+                                          "ref": "p21-q4-d-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-d-ii/prompt#p21-q4-d-ii-response",
+                                          "type": "item",
+                                          "ref": "p21-q4-d-ii/prompt#p21-q4-d-ii-response",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-d-ii/space",
+                                          "type": "item",
+                                          "ref": "p21-q4-d-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p21-q4-e:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q4-e/label",
+                                  "type": "item",
+                                  "ref": "p21-q4-e/label",
+                                  "title": "Label e"
+                                },
+                                {
+                                  "id": "layout:p21-q4-e/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q4-e/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p21-q4-e:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p21-q4-e-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p21-q4-e-i/label",
+                                          "type": "item",
+                                          "ref": "p21-q4-e-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-e-i/prompt#p21-q4-e-i-response",
+                                          "type": "item",
+                                          "ref": "p21-q4-e-i/prompt#p21-q4-e-i-response",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-e-i/space",
+                                          "type": "item",
+                                          "ref": "p21-q4-e-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p21-q4-e-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p21-q4-e-ii/label",
+                                          "type": "item",
+                                          "ref": "p21-q4-e-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-e-ii/prompt#p21-q4-e-ii-response",
+                                          "type": "item",
+                                          "ref": "p21-q4-e-ii/prompt#p21-q4-e-ii-response",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p21-q4-e-ii/space",
+                                          "type": "item",
+                                          "ref": "p21-q4-e-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part e",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 4",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:53.988Z",
+  "updatedAt": "2026-10-21T07:41:53.988Z"
+}

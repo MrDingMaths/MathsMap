@@ -1,0 +1,275 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2049fa57-d6c9-4f16-8a34-8f838da02364",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-equation-polynomial-graph",
+    "secondarySkillIds": [
+      "polynomial-roots-multiplicity",
+      "polynomial-notation-evaluate"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish the touching root from the endpoint root to assign a and b, calibrate the supplied model using a given point, and evaluate it at another distance.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:38:04.152Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "de30ac8140aa7bd4a4bb62d2c01df2e70e6d61f9fa483ae7bfe8f98b21a110a6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/polynomials-v1/a819c338cdbbb8e783d50c4412bd7d24f67622e9e592c308a4e9b4ac97168028-1792561067219/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "The graph shows the height in metres of a rollercoaster above the ground against the horizontal distance travelled, also in metres. The equation of this graph is in the form\n$$h(x)=\\frac{-x(x-a)(x-b)^2}{k}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q12-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"gridBlue\",\"hex\":\"268CFF\",\"reason\":\"source coordinate grid\"}],\"reference\":\"source page 31 p31-q12-graph\"}\n\\begin{tikzpicture}[x=0.022cm,y=0.088cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{gridBlue}{HTML}{268CFF}\n\\draw[gridBlue,line width=0.25pt,xstep=20,ystep=5] (-40,-10) grid (260,55);\n\\draw[<->,black,line width=0.5pt] (-40,0)--(260,0);\n\\draw[<->,black,line width=0.5pt] (0,-10)--(0,55);\n\\node[anchor=south east] at (260,1) {$x\\ (\\mathrm{m})$};\n\\node[anchor=north west] at (3,55) {$h\\ (\\mathrm{m})$};\n\\foreach \\x in {100,200}{\\draw[black,line width=0.4pt] (\\x,-0.65)--(\\x,0.65);\\node[below] at (\\x,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {20,40}{\\draw[black,line width=0.4pt] (-3,\\y)--(3,\\y);\\node[left] at (-3,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt] plot[domain=0:1,samples=201] ({200*\\x},{1600*\\x*(1-\\x)*(\\x-0.6)^2});\n\\draw[black,line width=0.8pt,fill=white] (0,0) circle[radius=2pt];\n\\fill[black] (200,0) circle[radius=1.5pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 12, lower-left graph",
+          "description": "Rectangular blue grid with 20 m horizontal steps and 5 m vertical steps. Both axes have arrows at both ends. An open origin marker and filled endpoint at x=200 are retained. The curve crosses at the origin, touches at x=120 and ends at x=200.",
+          "mathematics": "h(x)=-x(x-200)(x-120)^2/1000000 for 0<=x<=200. Horizontal grid range -40 to 260; vertical grid range -10 to 55. Printed numeric labels are x=100,200 and h=20,40.",
+          "answerVisibility": "The graph is a permanent student-visible given; parameter values and the equation used to reconstruct it are not printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p31-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the graph to find $a$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=200,\\quad b=120$.",
+          "worked": "The curve meets the axis at $x=200$, so $a=200$. It touches the axis at $x=120$, corresponding to the squared factor, so $b=120$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p31-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given the rollercoaster is 4 m above the ground after travelling 100 m, find the value of $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=1\\,000\\,000$.",
+          "worked": "Using $a=200$, $b=120$ and $h(100)=4$:\n$$\\begin{align*}4&=\\frac{-100(100-200)(100-120)^2}{k}\\\\4&=\\frac{4\\,000\\,000}{k}\\\\k&=1\\,000\\,000.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p31-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the height of the rollercoaster above the ground after it has travelled 150 m.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6.75\\ \\mathrm{m}$.",
+          "worked": "$$\\begin{align*}h(150)&=\\frac{-150(150-200)(150-120)^2}{1\\,000\\,000}\\\\h(150)&=\\frac{6\\,750\\,000}{1\\,000\\,000}\\\\h(150)&=6.75.\\end{align*}$$\nThe rollercoaster is $6.75\\ \\mathrm{m}$ above the ground.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q12-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p31-q12-heading-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p31-q12-label-item",
+                      "type": "item",
+                      "ref": "p31-q12-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p31-q12-prompt-item",
+                      "type": "item",
+                      "ref": "p31-q12-root/prompt"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p31-q12-graph-response-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p31-q12-graph-item",
+                      "type": "item",
+                      "ref": "p31-q12-graph",
+                      "width": 70
+                    },
+                    {
+                      "id": "p31-q12-ab-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p31-q12-a-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p31-q12-a-label-item",
+                              "type": "item",
+                              "ref": "p31-q12-a/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p31-q12-a-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p31-q12-a-prompt-item",
+                                  "type": "item",
+                                  "ref": "p31-q12-a/prompt"
+                                },
+                                {
+                                  "id": "p31-q12-a-space-item",
+                                  "type": "item",
+                                  "ref": "p31-q12-a/space"
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p31-q12-b-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p31-q12-b-label-item",
+                              "type": "item",
+                              "ref": "p31-q12-b/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p31-q12-b-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p31-q12-b-prompt-item",
+                                  "type": "item",
+                                  "ref": "p31-q12-b/prompt"
+                                },
+                                {
+                                  "id": "p31-q12-b-space-item",
+                                  "type": "item",
+                                  "ref": "p31-q12-b/space"
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p31-q12-c-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p31-q12-c-label-item",
+                      "type": "item",
+                      "ref": "p31-q12-c/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p31-q12-c-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p31-q12-c-prompt-item",
+                          "type": "item",
+                          "ref": "p31-q12-c/prompt"
+                        },
+                        {
+                          "id": "p31-q12-c-space-item",
+                          "type": "item",
+                          "ref": "p31-q12-c/space"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p31-q12"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:16:27.869Z",
+  "updatedAt": "2026-10-21T11:16:27.870Z"
+}

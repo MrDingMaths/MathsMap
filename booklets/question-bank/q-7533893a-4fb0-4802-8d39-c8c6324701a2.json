@@ -1,0 +1,212 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7533893a-4fb0-4802-8d39-c8c6324701a2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "sector-interior-angle"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Translate the watering description into an annular sector, subtract the opening angle from 360 degrees, infer the inner radius from the watering width, and subtract the two sector areas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:08.063Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "491a27e92b86a7286fc0cc87a5ce23f32ac8c1460a9ed8d4d8dc3b3e0cade8cb",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/fd9ca9a19321aae9e1cc776d17f368cf0676ece4b5d1838fade7bb58aa419295-1792556081290/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q7-response",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p21-q7-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A golf course has a sprinkler system that waters the grass in the shape of a sector, as shown.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "A sprinkler is positioned at point ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "L",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". The unwatered opening shown has an angle of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "100^\\circ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "The section of grass that is watered is 4.5 m wide at all points.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "Water can reach a maximum of 12 m from the sprinkler at ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "L",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "What is the area of grass that this sprinkler will water?",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "Round your answer to the nearest square metre.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"wateredFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the watered annular region\"}],\"reference\":\"source page 21, p21-q7-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,font=\\fontsize{10}{12}\\selectfont,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{wateredFill}{HTML}{D4E8FF}\n\\coordinate (L) at (0,0);\n\\coordinate (M) at (140:3);\n\\coordinate (N) at (140:1.875);\n\\coordinate (R) at (40:3);\n\\coordinate (S) at (40:1.875);\n\\path[fill=wateredFill] (M) arc[start angle=140,end angle=400,radius=3] -- (S) arc[start angle=40,end angle=-220,radius=1.875] -- cycle;\n\\draw[black,line width=0.8pt] (M) arc[start angle=140,end angle=400,radius=3] -- (S) arc[start angle=40,end angle=-220,radius=1.875] -- cycle;\n\\draw[black,dashed,line width=0.4pt] (L) -- (M);\n\\draw[black,dashed,line width=0.4pt] (L) -- (R);\n\\coordinate (Md) at ($(M)+(50:0.18)$);\n\\coordinate (Nd) at ($(N)+(50:0.18)$);\n\\coordinate (Ld) at ($(L)+(130:0.16)$);\n\\coordinate (Rd) at ($(R)+(130:0.16)$);\n\\draw[black,dashed,line width=0.4pt,{Latex[length=1.5mm]}-{Latex[length=1.5mm]}] (Md) -- node[midway,above,sloped] {$4.5\\ \\mathrm{m}$} (Nd);\n\\draw[black,dashed,line width=0.4pt,{Latex[length=1.5mm]}-{Latex[length=1.5mm]}] (Ld) -- node[midway,above left] {$12\\ \\mathrm{m}$} (Rd);\n\\node[above left] at (M) {$M$};\n\\node[above right=3mm] at (N) {$N$};\n\\node[below] at (L) {$L$};\n\\node at ($(L)+(90:0.60)$) {$100^\\circ$};\n\\coordinate (WateredTarget) at (-8:2.45);\n\\coordinate (WateredLabel) at ($(WateredTarget)+(2.35,0)$);\n\\draw[black,line width=0.4pt,-{Latex[length=1.5mm]}] (WateredLabel) -- (WateredTarget);\n\\node[anchor=west] at (WateredLabel) {area watered by sprinkler};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 7 diagram below the prompt on the left",
+          "description": "A shaded annular region surrounds L except for a 100-degree opening above it. M and N are the outer and inner endpoints on the left radial boundary. MN is 4.5 m; the maximum radius is 12 m. A labelled arrow identifies the watered region.",
+          "mathematics": "Concentric outer and inner arcs have radius ratio 12:7.5. The unshaded wedge is 100 degrees, so the shaded annular sector occupies 260 degrees. Construction coordinates encode these relationships without adding student-visible derived measurements.",
+          "answerVisibility": "Only source givens appear. The derived inner radius, shaded angle and area remain in the answer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$199\\ \\mathrm{m}^2$",
+      "worked": "For the shaded region shown, subtract the inner sector from the outer sector.\n\n$$\\begin{align*}\n\\theta &= 360^\\circ-100^\\circ=260^\\circ\\\\\nr &= 12-4.5=7.5\\ \\mathrm{m}\\\\\nA_1 &= \\frac{260}{360}\\pi(12)^2\\\\\nA_2 &= \\frac{260}{360}\\pi(7.5)^2\\\\\nA_{\\text{Total}} &= A_1-A_2\\\\\nA_{\\text{Total}} &= \\frac{260}{360}\\pi(144-56.25)\\\\\nA_{\\text{Total}} &\\approx 199\\ \\mathrm{m}^2\n\\end{align*}$$\n\nRounded to the nearest square metre.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 64
+  },
+  "presentation": {
+    "ownerId": "p21-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q7-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q7-response/label",
+                  "type": "item",
+                  "ref": "p21-q7-response/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p21-q7-response/prompt#p21-q7-stem",
+                  "type": "item",
+                  "ref": "p21-q7-response/prompt#p21-q7-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q7-diagram",
+                  "type": "item",
+                  "ref": "p21-q7-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p21-q7-response/space",
+                  "type": "item",
+                  "ref": "p21-q7-response/space",
+                  "title": "Answer space",
+                  "height": 30
+                }
+              ],
+              "title": "Question 7",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p21-q7-response": 30
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:42:52.643Z",
+  "updatedAt": "2026-10-21T10:42:52.644Z"
+}

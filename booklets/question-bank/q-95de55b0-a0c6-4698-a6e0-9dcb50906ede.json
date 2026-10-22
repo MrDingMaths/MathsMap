@@ -1,0 +1,510 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-95de55b0-a0c6-4698-a6e0-9dcb50906ede",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "speed-time-graph-acceleration",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Read endpoint changes from graph scales and calculate gradients; the hardest case also requires converting the time axis from minutes to seconds before reporting acceleration in m/s².",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:08:47.760Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f6411db7fa43c99d8476236fa61a2318b91c898bbd178fb36e16652d1038f7a8",
+      "evidence": ".booklet-work/reasoning-ratings/calls/graphs-of-rates-of-change-v1/0503bdf417e17be6245abe1549d2099b609dfd2f324495273020f393bf330584-1792559303715/last-message.txt",
+      "originalTaskHash": "736ab7df9f06ee090cf7ce8d756d48af5769e1e1a10ff39b6f3bcef1ae8da58a",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "f944640fdaceb5e8d0c97b3020afb0febed577594ecf7facbbd3e75428a18597"
+      }
+    }
+  },
+  "content": {
+    "id": "p43-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Using the graphs below, calculate the acceleration/deceleration in each case in $\\frac{\\mathrm{m}}{\\mathrm{s}^2}$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p43-q1a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p43-q1a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"speed-time series\"}],\"reference\":\"source page 43 p43-q1a-graph\"}\n\\begin{tikzpicture}[x=0.22cm,y=0.48cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[step=1,draw=none] (0,0) rectangle (22,8);\n\\draw[xstep=2,ystep=1,gridGrey,line width=0.25pt] (0,0) grid (22,8);\n\\draw[->,black,line width=0.5pt] (0,0)--(23,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,8.6);\n\\foreach \\t in {2,4,...,20}{\\draw[black,line width=0.4pt] (\\t,0)--++(0,-0.16);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.16){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\t\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {1,2,...,7}{\\draw[black,line width=0.4pt] (0,\\v)--++(-0.35,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.35,\\v){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (11,-1.35){Time (s)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-3.7,4){Speed (m/s)};\n\\draw[seriesBlue,line width=0.8pt] (0,0)--(16,6);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 43,
+              "sourceRegion": "Question 1(a)",
+              "description": "Arrowed speed-time axes with a neutral grid and a blue straight segment. Explicit grid steps are 2 seconds horizontally and 1 m/s vertically.",
+              "mathematics": "Segment from (0,0) to (16,6); grid extends to 22 seconds and 8 m/s. Horizontal labels 2 to 20 by 2; vertical labels 1 to 7.",
+              "answerVisibility": "The supplied graph is visible; the numerical acceleration is answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$0.375\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$",
+          "worked": "$\\begin{align*}a&=\\dfrac{\\text{change in speed}}{\\text{time taken}}\\\\&=\\dfrac{6-0}{16-0}\\\\&=0.375\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p43-q1b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p43-q1b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"speed-time series\"}],\"reference\":\"source page 43 p43-q1b-graph\"}\n\\begin{tikzpicture}[x=0.22cm,y=0.48cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[xstep=2,ystep=1,gridGrey,line width=0.25pt] (0,0) grid (22,8);\n\\draw[->,black,line width=0.5pt] (0,0)--(23,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,8.6);\n\\foreach \\t in {2,4,...,20}{\\draw[black,line width=0.4pt] (\\t,0)--++(0,-0.16);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.16){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\t\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {1,2,...,7}{\\draw[black,line width=0.4pt] (0,\\v)--++(-0.35,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.35,\\v){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (11,-1.35){Time (s)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-3.7,4){Speed (m/s)};\n\\draw[seriesBlue,line width=0.8pt] (0,2)--(15,5);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 43,
+              "sourceRegion": "Question 1(b)",
+              "description": "Arrowed speed-time axes with a neutral grid and a blue straight segment. Explicit grid steps are 2 seconds horizontally and 1 m/s vertically.",
+              "mathematics": "Segment from (0,2) to (15,5); grid extends to 22 seconds and 8 m/s. Horizontal labels 2 to 20 by 2; vertical labels 1 to 7. The endpoint lies halfway between the 14-second and 16-second grid lines.",
+              "answerVisibility": "The supplied graph is visible; the numerical acceleration is answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$0.2\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$",
+          "worked": "$\\begin{align*}a&=\\dfrac{5-2}{15-0}\\\\&=\\dfrac{3}{15}\\\\&=0.2\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p43-q1c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p43-q1c-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"speed-time series\"}],\"reference\":\"source page 43 p43-q1c-graph\"}\n\\begin{tikzpicture}[x=0.88cm,y=0.096cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[xstep=0.5,ystep=5,gridGrey,line width=0.25pt] (0,0) grid (5.5,40);\n\\draw[->,black,line width=0.5pt] (0,0)--(5.8,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,43);\n\\foreach \\t in {0.5,1,...,5}{\\draw[black,line width=0.4pt] (\\t,0)--++(0,-0.8);}\n\\foreach \\t in {1,2,...,5}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.8){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\t\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {5,10,...,35}{\\draw[black,line width=0.4pt] (0,\\v)--++(-0.09,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.09,\\v){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (2.75,-6.75){Time (s)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1,20){Speed (m/s)};\n\\draw[seriesBlue,line width=0.8pt] (0,0)--(5,35);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 43,
+              "sourceRegion": "Question 1(c)",
+              "description": "Arrowed speed-time axes with a neutral grid and a blue straight segment. Explicit grid steps are 0.5 seconds horizontally and 5 m/s vertically.",
+              "mathematics": "Segment from (0,0) to (5,35); grid extends to 5.5 seconds and 40 m/s. Horizontal labels 1 to 5; vertical labels 5 to 35 by 5.",
+              "answerVisibility": "The supplied graph is visible; the numerical acceleration is answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$7\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$",
+          "worked": "$\\begin{align*}a&=\\dfrac{35-0}{5-0}\\\\&=7\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p43-q1d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p43-q1d-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"speed-time series\"}],\"reference\":\"source page 43 p43-q1d-graph\"}\n\\begin{tikzpicture}[x=4.48cm,y=0.048cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[xstep=0.083333333333,ystep=10,gridGrey,line width=0.25pt] (0,0) grid (1.083333333333,80);\n\\draw[->,black,line width=0.5pt] (0,0)--(1.14,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,86);\n\\foreach \\k in {1,...,12}{\\draw[black,line width=0.4pt] ({\\k/12},0)--++(0,-1.6);}\n\\foreach \\t in {0.5,1}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-1.6){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\t\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {10,20,...,70}{\\draw[black,line width=0.4pt] (0,\\v)--++(-0.018,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.018,\\v){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (0.54,-13.5){Time (min)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-0.2,40){Speed (m/s)};\n\\draw[seriesBlue,line width=0.8pt] (0,0)--({2/3},70);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 43,
+              "sourceRegion": "Question 1(d)",
+              "description": "Arrowed speed-time axes, retaining minutes on the horizontal axis. Explicit grid steps are 1/12 minute horizontally and 10 m/s vertically.",
+              "mathematics": "Segment from (0,0) to (2/3,70), with time in minutes; grid extends to 13/12 minutes and 80 m/s. Horizontal labels 0.5 and 1; vertical labels 10 to 70 by 10.",
+              "answerVisibility": "The supplied graph is visible; the time conversion and acceleration are answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$1.75\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$",
+          "worked": "$\\begin{align*}t&=\\dfrac23\\times60\\\\&=40\\ \\mathrm{s}\\\\a&=\\dfrac{70-0}{40-0}\\\\&=1.75\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p43-q1e",
+        "type": "part",
+        "label": "e",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p43-q1e-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"speed-time series\"}],\"reference\":\"source page 43 p43-q1e-graph\"}\n\\begin{tikzpicture}[x=0.22cm,y=0.48cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[xstep=2,ystep=1,gridGrey,line width=0.25pt] (0,0) grid (22,8);\n\\draw[->,black,line width=0.5pt] (0,0)--(23,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,8.6);\n\\foreach \\t in {2,4,...,20}{\\draw[black,line width=0.4pt] (\\t,0)--++(0,-0.16);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-0.16){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\t\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {1,2,...,7}{\\draw[black,line width=0.4pt] (0,\\v)--++(-0.35,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.35,\\v){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (11,-1.35){Time (s)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-3.7,4){Speed (m/s)};\n\\draw[seriesBlue,line width=0.8pt] (0,5)--(20,0);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 43,
+              "sourceRegion": "Question 1(e)",
+              "description": "Arrowed speed-time axes with a neutral grid and a blue descending straight segment. Explicit grid steps are 2 seconds horizontally and 1 m/s vertically.",
+              "mathematics": "Segment from (0,5) to (20,0); grid extends to 22 seconds and 8 m/s. Horizontal labels 2 to 20 by 2; vertical labels 1 to 7.",
+              "answerVisibility": "The supplied graph is visible; acceleration and deceleration values are answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Acceleration $-0.25\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$, or deceleration $0.25\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$.",
+          "worked": "$\\begin{align*}a&=\\dfrac{0-5}{20-0}\\\\&=-0.25\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}\\end{align*}$\nThe negative gradient means the speed decreases, so the deceleration is $0.25\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p43-q1f",
+        "type": "part",
+        "label": "f",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p43-q1f-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"speed-time series\"}],\"reference\":\"source page 43 p43-q1f-graph\"}\n\\begin{tikzpicture}[x=4.48cm,y=0.048cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[xstep=0.083333333333,ystep=10,gridGrey,line width=0.25pt] (0,0) grid (1.083333333333,80);\n\\draw[->,black,line width=0.5pt] (0,0)--(1.14,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,86);\n\\foreach \\k in {1,...,12}{\\draw[black,line width=0.4pt] ({\\k/12},0)--++(0,-1.6);}\n\\foreach \\t in {0.5,1}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-1.6){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\t\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {10,20,...,70}{\\draw[black,line width=0.4pt] (0,\\v)--++(-0.018,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.018,\\v){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (0.54,-13.5){Time (min)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-0.2,40){Speed (m/s)};\n\\draw[seriesBlue,line width=0.8pt] (0,60)--(1,0);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 43,
+              "sourceRegion": "Question 1(f)",
+              "description": "Arrowed speed-time axes, retaining minutes on the horizontal axis. Explicit grid steps are 1/12 minute horizontally and 10 m/s vertically.",
+              "mathematics": "Segment from (0,60) to (1,0), with time in minutes; grid extends to 13/12 minutes and 80 m/s. Horizontal labels 0.5 and 1; vertical labels 10 to 70 by 10.",
+              "answerVisibility": "The supplied graph is visible; the conversion and acceleration/deceleration values are answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Acceleration $-1\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$, or deceleration $1\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$.",
+          "worked": "$\\begin{align*}t&=1\\times60\\\\&=60\\ \\mathrm{s}\\\\a&=\\dfrac{0-60}{60-0}\\\\&=-1\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}\\end{align*}$\nThe negative gradient means the speed decreases, so the deceleration is $1\\ \\frac{\\mathrm{m}}{\\mathrm{s}^2}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p43-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p43-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p43-q1-root/label",
+                  "type": "item",
+                  "ref": "p43-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p43-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p43-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p43-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p43-q1-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p43-q1a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p43-q1a/label",
+                              "type": "item",
+                              "ref": "p43-q1a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p43-q1a-graph",
+                              "type": "item",
+                              "ref": "p43-q1a-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p43-q1a/space",
+                              "type": "item",
+                              "ref": "p43-q1a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p43-q1b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p43-q1b/label",
+                              "type": "item",
+                              "ref": "p43-q1b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p43-q1b-graph",
+                              "type": "item",
+                              "ref": "p43-q1b-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p43-q1b/space",
+                              "type": "item",
+                              "ref": "p43-q1b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p43-q1-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p43-q1c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p43-q1c/label",
+                              "type": "item",
+                              "ref": "p43-q1c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p43-q1c-graph",
+                              "type": "item",
+                              "ref": "p43-q1c-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p43-q1c/space",
+                              "type": "item",
+                              "ref": "p43-q1c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p43-q1d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p43-q1d/label",
+                              "type": "item",
+                              "ref": "p43-q1d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p43-q1d-graph",
+                              "type": "item",
+                              "ref": "p43-q1d-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p43-q1d/space",
+                              "type": "item",
+                              "ref": "p43-q1d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p43-q1-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p43-q1e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p43-q1e/label",
+                              "type": "item",
+                              "ref": "p43-q1e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p43-q1e-graph",
+                              "type": "item",
+                              "ref": "p43-q1e-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p43-q1e/space",
+                              "type": "item",
+                              "ref": "p43-q1e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p43-q1f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p43-q1f/label",
+                              "type": "item",
+                              "ref": "p43-q1f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p43-q1f-graph",
+                              "type": "item",
+                              "ref": "p43-q1f-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p43-q1f/space",
+                              "type": "item",
+                              "ref": "p43-q1f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:59:39.552Z",
+  "updatedAt": "2026-10-21T08:59:39.552Z"
+}

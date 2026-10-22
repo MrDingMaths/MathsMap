@@ -1,0 +1,451 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0127c4c8-1430-44b7-baa7-ebb8fa89f3a9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compare-box-plots",
+    "secondarySkillIds": [
+      "interquartile-range",
+      "box-plot-percentages"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Compare calculated spreads and interpret consistency, then recognise that 70 is one student's median and the other's upper quartile and compare proportions for equal assessment totals.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:02.742Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "355a9c52a7c0fd12e810848f44b3b02c2fa77fb20995fc3b444baa3a45fd34db",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/baf7b587bb0e36dd70d9284b7dac922c4815409535bf6f3149518722337860ff-1792561414425/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "A class has eight assessment tasks over a year. The parallel box plots show a summary of the marks for the assessments for two students, Jamie and Maryanne.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"jamieOrange\",\"hex\":\"EF8B2C\",\"reason\":\"Jamie data series\"},{\"name\":\"maryanneGreen\",\"hex\":\"4F9B63\",\"reason\":\"Maryanne data series\"}],\"reference\":\"source page 20, p20-q1-diagram\"}\n\\begin{tikzpicture}[x=0.105cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{jamieOrange}{HTML}{EF8B2C}\n\\definecolor{maryanneGreen}{HTML}{4F9B63}\n\\draw[step=2,xstep=2,ystep=0.25,draw=housegrid,line width=0.15pt] (22,0) grid (98,3.5);\n\\draw[<->,black,line width=0.5pt] (22,0)--(98,0);\n\\foreach \\v in {30,40,50,60,70,80,90} {\n\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-0.12);\n\\node[below] at (\\v,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\node[below] at (60,-0.63) {Marks};\n\\node[anchor=west] at (26,3.12) {Jamie};\n\\node[anchor=west] at (26,1.62) {Maryanne};\n\\draw[jamieOrange,line width=0.8pt] (35,2.5)--(55,2.5) (80,2.5)--(90,2.5) (55,2)--(80,2)--(80,3)--(55,3)--cycle (70,2)--(70,3);\n\\draw[jamieOrange,line width=0.4pt] (35,2.38)--(35,2.62) (90,2.38)--(90,2.62);\n\\draw[maryanneGreen,line width=0.8pt] (45,1)--(50,1) (70,1)--(75,1) (50,0.5)--(70,0.5)--(70,1.5)--(50,1.5)--cycle (60,0.5)--(60,1.5);\n\\draw[maryanneGreen,line width=0.4pt] (45,0.88)--(45,1.12) (75,0.88)--(75,1.12);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 1 supplied graph",
+          "description": "Parallel horizontal box plots with Jamie above Maryanne, a shared Marks axis, labelled tens and an explicit grid with 2-mark horizontal subdivisions. Decorative box fills are omitted.",
+          "mathematics": {
+            "axis": {
+              "min": 22,
+              "max": 98,
+              "gridStep": 2,
+              "labelledTicks": [
+                30,
+                40,
+                50,
+                60,
+                70,
+                80,
+                90
+              ],
+              "arrows": "both"
+            },
+            "series": [
+              {
+                "name": "Jamie",
+                "minimum": 35,
+                "lowerQuartile": 55,
+                "median": 70,
+                "upperQuartile": 80,
+                "maximum": 90
+              },
+              {
+                "name": "Maryanne",
+                "minimum": 45,
+                "lowerQuartile": 50,
+                "median": 60,
+                "upperQuartile": 70,
+                "maximum": 75
+              }
+            ]
+          },
+          "answerVisibility": "All supplied box plots, names, ticks and grid remain visible in the student edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Who scored the highest mark?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Jamie.",
+          "worked": "Jamie: his maximum is 90 marks, compared with Maryanne's 75 marks.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p20-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Who scored the lowest mark?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Jamie.",
+          "worked": "Jamie: his minimum is 35 marks, compared with Maryanne's 45 marks.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p20-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What was the range of marks for each student?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Jamie: 55 marks; Maryanne: 30 marks.",
+          "worked": "Range = maximum − minimum.\n\nJamie: $90-35=55$ marks.\n\nMaryanne: $75-45=30$ marks.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p20-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Who had the greater spread of marks?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Jamie.",
+          "worked": "Jamie has the greater range: $55>30$ marks. His IQR is also greater.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p20-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What was the interquartile range for each student?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Jamie: 25 marks; Maryanne: 20 marks.",
+          "worked": "$\\text{IQR}=Q_3-Q_1$.\n\nJamie: $80-55=25$ marks.\n\nMaryanne: $70-50=20$ marks.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p20-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Whose marks were the more consistent?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Maryanne's; she has a smaller range and IQR.",
+          "worked": "Maryanne's marks are more consistent: her IQR is 20 marks compared with Jamie's 25 marks, and her range is 30 marks compared with his 55 marks.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p20-q1-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "Who had more marks over 70?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Jamie.",
+          "worked": "70 is Jamie's median and Maryanne's upper quartile. Using the quartile comparison, 50% of Jamie's marks are above 70, compared with 25% of Maryanne's. Both students completed eight assessments, so Jamie had more marks over 70.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q1-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q1-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q1-root/label",
+                  "type": "item",
+                  "ref": "p20-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p20-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q1-diagram",
+                  "type": "item",
+                  "ref": "p20-q1-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p20-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p20-q1-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-a/label",
+                          "type": "item",
+                          "ref": "p20-q1-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p20-q1-a/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q1-a/space",
+                          "type": "item",
+                          "ref": "p20-q1-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q1-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-b/label",
+                          "type": "item",
+                          "ref": "p20-q1-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p20-q1-b/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q1-b/space",
+                          "type": "item",
+                          "ref": "p20-q1-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q1-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-c/label",
+                          "type": "item",
+                          "ref": "p20-q1-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p20-q1-c/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q1-c/space",
+                          "type": "item",
+                          "ref": "p20-q1-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q1-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-d/label",
+                          "type": "item",
+                          "ref": "p20-q1-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p20-q1-d/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q1-d/space",
+                          "type": "item",
+                          "ref": "p20-q1-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q1-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-e/label",
+                          "type": "item",
+                          "ref": "p20-q1-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p20-q1-e/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q1-e/space",
+                          "type": "item",
+                          "ref": "p20-q1-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q1-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-f/label",
+                          "type": "item",
+                          "ref": "p20-q1-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p20-q1-f/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q1-f/space",
+                          "type": "item",
+                          "ref": "p20-q1-f/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q1-g:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-g/label",
+                          "type": "item",
+                          "ref": "p20-q1-g/label",
+                          "title": "Label g"
+                        },
+                        {
+                          "id": "layout:p20-q1-g/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-g/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q1-g/space",
+                          "type": "item",
+                          "ref": "p20-q1-g/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part g",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:35:59.752Z",
+  "updatedAt": "2026-10-21T09:35:59.753Z"
+}

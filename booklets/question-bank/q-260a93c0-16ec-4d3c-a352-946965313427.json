@@ -1,0 +1,368 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-260a93c0-16ec-4d3c-a352-946965313427",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-trapezium",
+    "secondarySkillIds": [
+      "area-composite-figures",
+      "area-of-rectangle",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Infer that the recombined triangles have base b−a, express both component areas symbolically, and simplify their sum to the trapezium formula. The supplied decomposition and addition scaffold guide the derivation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:24.984Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8b2569e8d88fddecc0cdd8808dd038ef532214db8a14a818c1759711bc844340",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-quadrilaterals-v1/7d3b1e63137c8697d1aa6ab98b3fd7b62731eec77894c671497db507cecab7c2-1792556156946/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "Using the diagram and your knowledge of the area of composite figures, derive the area of a trapezium by splitting a trapezium up into a rectangle and triangles.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q10-trapezium",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"rectangleRegion\",\"hex\":\"E8DEF4\",\"reason\":\"tracks the central rectangle through the decomposition\"},{\"name\":\"triangleRegion\",\"hex\":\"FCE8D5\",\"reason\":\"tracks the two triangular regions through their recombination\"}],\"reference\":\"source page 17 p17-q10-trapezium\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{rectangleRegion}{HTML}{E8DEF4}\n\\definecolor{triangleRegion}{HTML}{FCE8D5}\n\\path[use as bounding box] (-1,-0.9) rectangle (4.1,2.45);\n\\coordinate (L) at (0,0);\n\\coordinate (R) at (4,0);\n\\coordinate (T) at (2.65,1.6);\n\\coordinate (S) at (0.85,1.6);\n\\coordinate (P) at (0.85,0);\n\\coordinate (Q) at (2.65,0);\n\\fill[triangleRegion] (L)--(P)--(S)--cycle;\n\\fill[rectangleRegion] (P)--(Q)--(T)--(S)--cycle;\n\\fill[triangleRegion] (Q)--(R)--(T)--cycle;\n\\draw[black,line width=0.8pt] (L)--(R)--(T)--(S)--cycle;\n\\draw[black,line width=0.8pt] (S)--(P) (T)--(Q);\n\\draw[black,line width=0.4pt,-{Stealth[length=2.5mm,width=2mm]}] (1.95,1.6)--(1.45,1.6);\n\\draw[black,line width=0.4pt,-{Stealth[length=2.5mm,width=2mm]}] (2.35,0)--(1.85,0);\n\\draw[black,line width=0.4pt] (0.85,2.04)--(2.65,2.04);\n\\draw[black,line width=0.4pt] (0.85,1.94)--(0.85,2.14) (2.65,1.94)--(2.65,2.14);\n\\node[black,font=\\fontsize{10}{12}\\selectfont,anchor=south] at (1.75,2.1) {$a$};\n\\draw[black,line width=0.4pt] (0,-0.43)--(4,-0.43);\n\\draw[black,line width=0.4pt] (0,-0.53)--(0,-0.33) (4,-0.53)--(4,-0.33);\n\\node[black,font=\\fontsize{10}{12}\\selectfont,anchor=north] at (2,-0.49) {$b$};\n\\draw[black,line width=0.4pt] (-0.43,0)--(-0.43,1.6);\n\\draw[black,line width=0.4pt] (-0.53,0)--(-0.33,0) (-0.53,1.6)--(-0.33,1.6);\n\\node[black,font=\\fontsize{10}{12}\\selectfont,anchor=east] at (-0.49,0.8) {$h$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 10, left divided trapezium.",
+          "description": "Horizontal trapezium split by two vertical segments into a central rectangle and two side triangles. Capped dimensions label the top side a, bottom side b and perpendicular height h. Both parallel markers point left.",
+          "mathematics": "The rectangle has width a and height h. The two triangular bases together have length b-a. Drawing coordinates reproduce the visible proportions and are not additional numerical givens.",
+          "answerVisibility": "All geometry, region distinctions and a, b, h dimension labels remain visible in the student question; no area expressions are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q10-a1-scaffold",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p17-q10-a1-line",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "A_1=",
+                  "display": false
+                },
+                {
+                  "type": "cloze",
+                  "answer": "$ah$",
+                  "width": 14
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q10-rectangle",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"rectangleRegion\",\"hex\":\"E8DEF4\",\"reason\":\"tracks the same central rectangle after detachment\"}],\"reference\":\"source page 17 p17-q10-rectangle\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{rectangleRegion}{HTML}{E8DEF4}\n\\path[use as bounding box] (-0.05,-0.9) rectangle (1.85,2.45);\n\\fill[rectangleRegion] (0,0) rectangle (1.8,1.6);\n\\draw[black,line width=0.8pt] (0,0) rectangle (1.8,1.6);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 15.27,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 10, detached rectangle in the middle.",
+              "description": "Upright rectangle matching the central rectangular region of the original trapezium.",
+              "mathematics": "Its width and height correspond to a and h in the original figure. The common vertical coordinate frame preserves the original figures' relative scale and baseline.",
+              "answerVisibility": "The detached region is visible; its area is an editable response directly below."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$ah$",
+          "worked": "The rectangle has width $a$ and height $h$.\n$$A_1=ah$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p17-q10-a2-scaffold",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p17-q10-a2-line",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "A_2=",
+                  "display": false
+                },
+                {
+                  "type": "cloze",
+                  "answer": "$\\frac{h}{2}(b-a)$",
+                  "width": 24
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q10-triangles",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"triangleRegion\",\"hex\":\"FCE8D5\",\"reason\":\"tracks both side triangles after their recombination\"}],\"reference\":\"source page 17 p17-q10-triangles\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{triangleRegion}{HTML}{FCE8D5}\n\\path[use as bounding box] (-0.05,-0.9) rectangle (2.25,2.45);\n\\coordinate (L) at (0,0);\n\\coordinate (R) at (2.2,0);\n\\coordinate (T) at (0.85,1.6);\n\\coordinate (P) at (0.85,0);\n\\fill[triangleRegion] (L)--(R)--(T)--cycle;\n\\draw[black,line width=0.8pt] (L)--(R)--(T)--cycle;\n\\draw[black,line width=0.8pt] (T)--(P);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 18.49,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 10, recombined triangles to the right of the detached rectangle.",
+              "description": "One upright triangle with a horizontal base and a vertical internal dividing segment from the apex to a point left of the base midpoint.",
+              "mathematics": "The two original side triangles are recombined with total base b-a and height h. Their unequal bases and the asymmetric divider are retained. No new numerical measurements are stated.",
+              "answerVisibility": "The recombined figure remains visible; its area is an editable response directly below."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{h}{2}(b-a)$",
+          "worked": "The combined triangle has base $b-a$ and height $h$.\n$$A_2=\\frac{h}{2}(b-a)$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p17-q10-area-scaffold",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p17-q10-area-start",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "\\begin{aligned}A&=A_1+A_2\\\\&=\\end{aligned}",
+                  "display": false
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=\\frac{h}{2}(a+b)$. Add the rectangle area $ah$ and the combined triangle area $\\frac{h}{2}(b-a)$.",
+          "worked": "$$\\begin{align*}A&=A_1+A_2\\\\A&=ah+\\frac{h}{2}(b-a)\\\\A&=ah+\\frac{bh}{2}-\\frac{ah}{2}\\\\A&=\\frac{ah}{2}+\\frac{bh}{2}\\\\A&=\\frac{h}{2}(a+b)\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q10-arrangement-root",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p17-q10-arrangement-label",
+                  "type": "item",
+                  "ref": "p17-q10-root/label",
+                  "width": 5,
+                  "align": "left"
+                },
+                {
+                  "id": "p17-q10-arrangement-body",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q10-arrangement-stem",
+                      "type": "item",
+                      "ref": "p17-q10-root/prompt",
+                      "width": 168,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p17-q10-arrangement-figures-and-work",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p17-q10-arrangement-original",
+                          "type": "item",
+                          "ref": "p17-q10-trapezium",
+                          "width": 41,
+                          "align": "center"
+                        },
+                        {
+                          "id": "p17-q10-arrangement-rectangle-column",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p17-q10-arrangement-rectangle-figure",
+                              "type": "item",
+                              "ref": "p17-q10-rectangle",
+                              "width": 15.27,
+                              "align": "center"
+                            },
+                            {
+                              "id": "p17-q10-arrangement-rectangle-response",
+                              "type": "item",
+                              "ref": "p17-q10-a1-scaffold/prompt#p17-q10-a1-line",
+                              "width": 34,
+                              "align": "center"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p17-q10-arrangement-triangle-column",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p17-q10-arrangement-triangle-figure",
+                              "type": "item",
+                              "ref": "p17-q10-triangles",
+                              "width": 18.49,
+                              "align": "center"
+                            },
+                            {
+                              "id": "p17-q10-arrangement-triangle-response",
+                              "type": "item",
+                              "ref": "p17-q10-a2-scaffold/prompt#p17-q10-a2-line",
+                              "width": 40,
+                              "align": "center"
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "p17-q10-arrangement-derivation-column",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p17-q10-arrangement-derivation-start",
+                              "type": "item",
+                              "ref": "p17-q10-area-scaffold/prompt#p17-q10-area-start",
+                              "width": 44,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p17-q10-arrangement-derivation-space",
+                              "type": "item",
+                              "ref": "p17-q10-area-scaffold/space",
+                              "width": 44,
+                              "height": 0,
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 3,
+                      "verticalAlign": "top"
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 2,
+              "verticalAlign": "top",
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p17-q10-area-scaffold": 0
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p17-q10"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:05.101Z",
+  "updatedAt": "2026-10-21T07:41:05.102Z"
+}

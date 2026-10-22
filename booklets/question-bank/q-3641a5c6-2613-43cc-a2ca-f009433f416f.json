@@ -1,0 +1,321 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3641a5c6-2613-43cc-a2ca-f009433f416f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "logarithmic-scales",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Read magnitudes from the chart, convert the supplied logarithmic model to powers of ten, and compare amplitudes by dividing or exponentiating the magnitude difference. The earlier difference calculations and stated 100-fold comparison scaffold this routine connection.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T12:39:17.122Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ffeda1d6e6917cf1de7b714b3c2ebf459735dc00140141e40fa531c374671071",
+      "evidence": ".booklet-work/reasoning-ratings/calls/logarithms-v1/5a4989c4186a4ba5a1155ccef9337d875145d6a1b51a2d335e64f533d4766432-1792586349771/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q2",
+    "type": "question",
+    "label": "2",
+    "prompt": "This chart shows the Richter scale measurements rounded to the nearest integer for five different earthquakes recorded in 2022.\n\nUse the model $M=\\log_{10}(A)$, where $M$ is the magnitude and $A$ is the wave amplitude relative to the reference amplitude.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q2-chart",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q2-chart\"}\n\\begin{tikzpicture}[x=10mm,y=6mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt,->] (0,0) -- (6.7,0);\n\\draw[line width=0.5pt,->] (0,0) -- (0,6.05);\n\\foreach \\x in {0,1,2,3,4,5,6}{\\draw[line width=0.4pt] (\\x,0) -- (\\x,-0.20);\\node[anchor=north,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.27) {\\x};}\n\\draw[line width=0.8pt] (0,4.75) rectangle (6,5.25);\n\\draw[line width=0.8pt] (0,3.75) rectangle (5,4.25);\n\\draw[line width=0.8pt] (0,2.75) rectangle (4,3.25);\n\\draw[line width=0.8pt] (0,1.75) rectangle (3,2.25);\n\\draw[line width=0.8pt] (0,0.75) rectangle (2,1.25);\n\\node[anchor=east] at (-0.08,5) {Pacific Ridge};\n\\node[anchor=east] at (-0.08,4) {Japan};\n\\node[anchor=east] at (-0.08,3) {Timor};\n\\node[anchor=east] at (-0.08,2) {Hawaii};\n\\node[anchor=east] at (-0.08,1) {Idaho, US};\n\\node[anchor=north,font=\\fontsize{10}{12}\\selectfont\\itshape] at (3.3,-1.05) {Richter scale};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 96,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 2, between the stem and part a.",
+          "description": "Centered horizontal categorical bar chart. From top to bottom: Pacific Ridge, Japan, Timor, Hawaii, Idaho, US. Upward vertical-axis arrow and rightward horizontal-axis arrow; integer ticks 0–6; italic horizontal-axis title Richter scale. No grid, legend or chart title.",
+          "mathematics": {
+            "displayType": "horizontal-bar-chart",
+            "categories": [
+              {
+                "label": "Pacific Ridge",
+                "value": 6
+              },
+              {
+                "label": "Japan",
+                "value": 5
+              },
+              {
+                "label": "Timor",
+                "value": 4
+              },
+              {
+                "label": "Hawaii",
+                "value": 3
+              },
+              {
+                "label": "Idaho, US",
+                "value": 2
+              }
+            ],
+            "baseline": 0,
+            "tickValues": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "precision": "Magnitudes rounded to the nearest integer."
+          },
+          "answerVisibility": "All bars, category names and ticks are supplied question data. No solution annotations.",
+          "sourceColourEvidence": "Dark-blue bar outlines and muted-lavender fill; black axes and labels.",
+          "houseStyleOverride": "Single-series bars reconstructed with black outlines and no fill. Source colour and shading encode no mathematical distinction. Original pixels remain unchanged; source-hashed shading acceptance is pending."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p34-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the difference between the magnitude of the earthquakes for Pacific Ridge compared to Timor?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2$ magnitude units.",
+          "worked": "Using the displayed rounded magnitudes, the difference is $6-4=2$ magnitude units.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 7
+      },
+      {
+        "id": "p34-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Using the displayed rounded magnitudes and the model, explain why the Pacific Ridge earthquake has 100 times the amplitude of the Timor earthquake.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A difference of $2$ magnitude units gives an amplitude ratio of $10^2=100$.",
+          "worked": "$$\\begin{align*}A_{\\mathrm{Pacific}}&=10^6\\\\A_{\\mathrm{Timor}}&=10^4\\\\\\frac{A_{\\mathrm{Pacific}}}{A_{\\mathrm{Timor}}}&=\\frac{10^6}{10^4}\\\\\\frac{A_{\\mathrm{Pacific}}}{A_{\\mathrm{Timor}}}&=10^2\\\\\\frac{A_{\\mathrm{Pacific}}}{A_{\\mathrm{Timor}}}&=100\\end{align*}$$\nUsing the displayed rounded magnitudes, Pacific Ridge has 100 times the amplitude of Timor.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p34-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the difference between the magnitude of the earthquakes for Japan compared to Idaho?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3$ magnitude units.",
+          "worked": "Using the displayed rounded magnitudes, the difference is $5-2=3$ magnitude units.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 7
+      },
+      {
+        "id": "p34-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Using the displayed rounded magnitudes and the model, how many times the amplitude does the Japan earthquake have compared with Idaho?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1000$ times the amplitude, using the displayed rounded magnitudes.",
+          "worked": "$$\\begin{align*}A_{\\mathrm{Japan}}&=10^5\\\\A_{\\mathrm{Idaho}}&=10^2\\\\\\frac{A_{\\mathrm{Japan}}}{A_{\\mathrm{Idaho}}}&=\\frac{10^5}{10^2}\\\\\\frac{A_{\\mathrm{Japan}}}{A_{\\mathrm{Idaho}}}&=10^3\\\\\\frac{A_{\\mathrm{Japan}}}{A_{\\mathrm{Idaho}}}&=1000\\end{align*}$$\nUsing the displayed rounded magnitudes, Japan has 1000 times the amplitude of Idaho.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 7
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q2-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q2-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q2:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q2/label",
+                  "type": "item",
+                  "ref": "p34-q2/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p34-q2/prompt",
+                  "type": "item",
+                  "ref": "p34-q2/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p34-q2-chart",
+                  "type": "item",
+                  "ref": "p34-q2-chart",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p34-q2:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p34-q2-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q2-a/label",
+                          "type": "item",
+                          "ref": "p34-q2-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p34-q2-a/prompt",
+                          "type": "item",
+                          "ref": "p34-q2-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-a/space",
+                          "type": "item",
+                          "ref": "p34-q2-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p34-q2-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q2-b/label",
+                          "type": "item",
+                          "ref": "p34-q2-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p34-q2-b/prompt",
+                          "type": "item",
+                          "ref": "p34-q2-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-b/space",
+                          "type": "item",
+                          "ref": "p34-q2-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p34-q2-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q2-c/label",
+                          "type": "item",
+                          "ref": "p34-q2-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p34-q2-c/prompt",
+                          "type": "item",
+                          "ref": "p34-q2-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-c/space",
+                          "type": "item",
+                          "ref": "p34-q2-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p34-q2-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q2-d/label",
+                          "type": "item",
+                          "ref": "p34-q2-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p34-q2-d/prompt",
+                          "type": "item",
+                          "ref": "p34-q2-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q2-d/space",
+                          "type": "item",
+                          "ref": "p34-q2-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T12:39:38.493Z",
+  "updatedAt": "2026-10-21T12:39:38.493Z"
+}

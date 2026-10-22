@@ -1,0 +1,443 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dab575a6-6d1e-46c6-ac64-dd94ce415065",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "average-speed-journey",
+    "secondarySkillIds": [
+      "speed-from-distance-time",
+      "interpret-distance-time-graphs"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret two journeys, calculate segment speeds and calculate average speed excluding a stop.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T16:33:41.089Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7d92c3af63d5531a68f4edb24f0c9de2f17be27d8ed509b73f882a6122d2c5db",
+      "evidence": ".booklet-work/full-imports/rates-v1-20261002-medium/semantic-packets/assignments/assignment-3124fe94532180a2d7fc/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p52-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The graph shows Flo and Chloe’s journeys as they drove from home.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p52-q6-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"journeyBlue\",\"hex\":\"268CFF\",\"reason\":\"shared source journey series distinguished by solid and dotted strokes\"}],\"reference\":\"source page 52 p52-q6-graph\"}\n\\begin{tikzpicture}[x=1.6cm,y=0.018cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{journeyBlue}{HTML}{268CFF}\n\\draw[black,opacity=0.22,line width=0.25pt,dashed,xstep=1,ystep=50] (0,0) grid (3,250);\n\\draw[black,line width=0.5pt] (0,0) rectangle (3,250);\n\\foreach \\x/\\lab in {0/09:00,1/10:00,2/11:00,3/12:00}{\n\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-3);\n\\node[below,inner sep=2pt] at (\\x,-3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\lab\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\y in {0,50,100,150,200,250}{\n\\draw[black,line width=0.4pt] (0,\\y)--(-0.025,\\y);\n\\node[left,inner sep=2pt] at (-0.025,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};\n}\n\\node[black,below] at (1.5,-18) {Time};\n\\node[black,rotate=90] at (-0.36,125) {Distance (km)};\n\\draw[journeyBlue,line width=0.8pt] (0,0)--(1,100)--(1.5,100)--(2.5,250);\n\\draw[journeyBlue,line width=0.8pt,densely dotted,line cap=round] (0.5,0)--(2,250);\n\\draw[journeyBlue,line width=0.8pt] (0.12,234)--(0.28,234);\n\\node[black,anchor=west,inner sep=2pt] at (0.31,234) {Flo};\n\\draw[journeyBlue,line width=0.8pt,densely dotted,line cap=round] (0.12,214)--(0.28,214);\n\\node[black,anchor=west,inner sep=2pt] at (0.31,214) {Chloe};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 52,
+          "sourceRegion": "Question 6, lower-left graph",
+          "description": "Rectangular shared graph with an upper-left legend: Flo solid blue, Chloe dotted blue. Time runs from 09:00 to 12:00; distance runs from 0 to 250 km. Pale dashed gridlines occur at hourly and 50 km intervals.",
+          "mathematics": {
+            "horizontalAxis": {
+              "label": "Time",
+              "coordinateUnit": "hours after 09:00",
+              "extent": [
+                0,
+                3
+              ],
+              "ticks": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "tickLabels": [
+                "09:00",
+                "10:00",
+                "11:00",
+                "12:00"
+              ],
+              "gridStep": 1
+            },
+            "verticalAxis": {
+              "label": "Distance (km)",
+              "extent": [
+                0,
+                250
+              ],
+              "ticks": [
+                0,
+                50,
+                100,
+                150,
+                200,
+                250
+              ],
+              "gridStep": 50
+            },
+            "series": [
+              {
+                "name": "Flo",
+                "style": "solid",
+                "points": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    100
+                  ],
+                  [
+                    1.5,
+                    100
+                  ],
+                  [
+                    2.5,
+                    250
+                  ]
+                ]
+              },
+              {
+                "name": "Chloe",
+                "style": "dotted",
+                "points": [
+                  [
+                    0.5,
+                    0
+                  ],
+                  [
+                    2,
+                    250
+                  ]
+                ]
+              }
+            ]
+          },
+          "answerVisibility": "All axes, ticks, gridlines, journey lines and legend entries are permanent student-visible givens. No answers are drawn."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p52-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain how the graph shows that Chloe drove at a constant speed for the whole journey.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Her line is a straight line with constant steepness.",
+          "worked": "Chloe’s line is straight with constant steepness, so she travels equal distances in equal time intervals. Her speed is constant.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p52-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate Chloe’s speed, round to one decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$250\\div1.5\\approx166.7\\text{ km/h}$",
+          "worked": "From 9:30 am to 11:00 am, the time taken is $1.5\\text{ h}$.\n$$\\begin{align*}\\text{Speed}&=\\frac{\\text{distance travelled}}{\\text{time taken}}\\\\\\text{Speed}&=\\frac{250}{1.5}\\\\\\text{Speed}&=\\frac{500}{3}\\text{ km/h}\\\\\\text{Speed}&\\approx166.7\\text{ km/h}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p52-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Flo stopped to fix a puncture.\nFor how long did she stop?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$30\\text{ min}$",
+          "worked": "Flo’s horizontal segment runs from 10:00 am to 10:30 am, so she stopped for $30\\text{ min}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p52-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find Flo’s speed for the remainder of the journey after she fixed the puncture.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$150\\text{ km/h}$",
+          "worked": "From 10:30 am to 11:30 am, Flo travels from $100\\text{ km}$ to $250\\text{ km}$ in $1\\text{ h}$.\n$$\\begin{align*}\\text{Speed}&=\\frac{\\text{distance travelled}}{\\text{time taken}}\\\\\\text{Speed}&=\\frac{250-100}{1}\\\\\\text{Speed}&=150\\text{ km/h}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p52-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find Flo’s average speed for the whole journey, not including when she was stopped.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$250\\div2=125\\text{ km/h}$",
+          "worked": "Flo drives for $1\\text{ h}$ before the stop and $1\\text{ h}$ after it.\n$$\\begin{align*}\\text{Driving time}&=1+1=2\\text{ h}\\\\\\text{Average speed}&=\\frac{\\text{total distance}}{\\text{driving time}}\\\\\\text{Average speed}&=\\frac{250}{2}\\\\\\text{Average speed}&=125\\text{ km/h}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p52-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p52-q6-source-layout",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p52-q6-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p52-q6-number-item",
+                      "type": "item",
+                      "ref": "p52-q6-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p52-q6-stem-item",
+                      "type": "item",
+                      "ref": "p52-q6-root/prompt"
+                    }
+                  ]
+                },
+                {
+                  "id": "p52-q6-graph-response-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p52-q6-graph-item",
+                      "type": "item",
+                      "ref": "p52-q6-graph",
+                      "width": 85,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p52-q6-right-responses",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p52-q6-a-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p52-q6-a-label-item",
+                              "type": "item",
+                              "ref": "p52-q6-a/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p52-q6-a-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p52-q6-a-prompt-item",
+                                  "type": "item",
+                                  "ref": "p52-q6-a/prompt"
+                                },
+                                {
+                                  "id": "p52-q6-a-space-item",
+                                  "type": "item",
+                                  "ref": "p52-q6-a/space"
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p52-q6-b-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p52-q6-b-label-item",
+                              "type": "item",
+                              "ref": "p52-q6-b/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p52-q6-b-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p52-q6-b-prompt-item",
+                                  "type": "item",
+                                  "ref": "p52-q6-b/prompt"
+                                },
+                                {
+                                  "id": "p52-q6-b-space-item",
+                                  "type": "item",
+                                  "ref": "p52-q6-b/space"
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p52-q6-c-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p52-q6-c-label-item",
+                              "type": "item",
+                              "ref": "p52-q6-c/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p52-q6-c-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p52-q6-c-prompt-item",
+                                  "type": "item",
+                                  "ref": "p52-q6-c/prompt"
+                                },
+                                {
+                                  "id": "p52-q6-c-space-item",
+                                  "type": "item",
+                                  "ref": "p52-q6-c/space"
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ]
+                        }
+                      ],
+                      "gap": 1,
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p52-q6-d-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p52-q6-d-label-item",
+                      "type": "item",
+                      "ref": "p52-q6-d/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p52-q6-d-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p52-q6-d-prompt-item",
+                          "type": "item",
+                          "ref": "p52-q6-d/prompt"
+                        },
+                        {
+                          "id": "p52-q6-d-space-item",
+                          "type": "item",
+                          "ref": "p52-q6-d/space"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "p52-q6-e-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p52-q6-e-label-item",
+                      "type": "item",
+                      "ref": "p52-q6-e/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p52-q6-e-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p52-q6-e-prompt-item",
+                          "type": "item",
+                          "ref": "p52-q6-e/prompt"
+                        },
+                        {
+                          "id": "p52-q6-e-space-item",
+                          "type": "item",
+                          "ref": "p52-q6-e/space"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ]
+                }
+              ],
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p52-q6"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:24:22.960Z",
+  "updatedAt": "2026-10-21T11:24:22.961Z"
+}

@@ -1,0 +1,227 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-47a50e53-003d-4e8f-9720-324190c6f8f9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "bearings-problems",
+    "secondarySkillIds": [
+      "trig-find-angle",
+      "bearing-between-two-points"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Use a reverse bearing to establish the right angle, then select inverse cosine and determine which way to adjust the initial bearing to reach the construction site.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:48:13.583Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "83d7a6739f070a071738da6fc2ed96945a839fc72c68bae5282565aa20bc862a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/elevation-depression-bearings-v1/5b363a7cedf2849a7b5372c8e2607113b938b3ef241b091139cf6d4a16a45afd-1792558067132/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p40-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "A helicopter flew from a town on a bearing of $315^\\circ$ and travelled for 40 km to pick up its cargo from a depot. The helicopter then carried the cargo to a construction site on a bearing of $225^\\circ$. The construction site is 105 km from the town.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p40-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 40 p40-q18-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (T) at (0,0);\n\\coordinate (D) at (-1.414214,1.414214);\n\\coordinate (C) at (-4.846569,-2.018141);\n\\draw[black,line width=0.8pt] (T)--(D)--(C)--cycle;\n\\draw[black,->,line width=0.5pt] (T)--++(0,1.25) node[above right=3pt] {$N$};\n\\draw[black,->,line width=0.5pt] (T)--++(-0.65,0);\n\\draw[black,->,line width=0.5pt] (T)--++(0,-0.55);\n\\draw[black,->,line width=0.5pt] (D)--++(0,1.2) node[above] {$N$};\n\\draw[black,->,line width=0.5pt] (D)--++(-0.6,0);\n\\draw[black,line width=0.4pt] (T) ++(90:0.43) arc[start angle=90,end angle=-225,radius=0.43];\n\\path (T) ++(-67.5:0.74) node[right] {$315^\\circ$};\n\\draw[black,line width=0.4pt] (D) ++(90:0.42) arc[start angle=90,end angle=-135,radius=0.42];\n\\path (D) ++(0.85,0.65) node[anchor=west] (depotBearing) {$225^\\circ$};\n\\draw[black,line width=0.4pt] (depotBearing.west)--++(-0.2,0)--($(D)+(25:0.42)$);\n\\path (T)--(D) node[midway,sloped,below=5pt,fill=white,inner sep=1pt] {40 km};\n\\path (C)--(T) node[midway,sloped,below,fill=white,inner sep=1pt] {105 km};\n\\node[right] at (T) {$T$ (town)};\n\\path (D) ++(-0.55,0.6) node[anchor=east] {$D$ (depot)};\n\\node[below,align=center] at (C) {$C$ (construction site)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 72,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 18, left-hand triangle",
+          "description": "Triangle DTC with D northwest of T and C southwest of D. North arrows and westward compass cues at D and T; clockwise reflex bearing arcs of 225 degrees at D and 315 degrees at T. No supplied right-angle marker. Route colours are replaced by ordinary black lines and labels.",
+          "mathematics": "Set T=(0,0), TD=40 on bearing 315 degrees, DC=sqrt(105^2-40^2) on bearing 225 degrees, and TC=105. Drawing coordinates use 2 coordinate units for 40 km.",
+          "answerVisibility": "Only source givens are visible; the right angle, reference angle and requested bearing are not supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p40-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\triangle TDC$ is a right-angled triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle CDT=225^\\circ-135^\\circ=90^\\circ$, so $\\triangle TDC$ is right-angled at $D$.",
+          "worked": "The bearing of $D$ from $T$ is $315^\\circ$, so the bearing of $T$ from $D$ is $135^\\circ$.\n$$\\begin{align*}\\angle CDT&=225^\\circ-135^\\circ\\\\&=90^\\circ\\end{align*}$$\nTherefore, $\\triangle TDC$ is right-angled at $D$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p40-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate the bearing of the construction site from the town, to the nearest minute.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$247^\\circ24'$",
+          "worked": "$$\\begin{align*}\\cos\\angle DTC&=\\frac{40}{105}\\\\\\angle DTC&=\\cos^{-1}\\!\\left(\\frac{40}{105}\\right)\\\\\\text{Bearing of }C\\text{ from }T&=315^\\circ-\\cos^{-1}\\!\\left(\\frac{40}{105}\\right)\\\\&\\approx247^\\circ24'\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p40-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p40-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p40-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p40-q18-root/label",
+                  "type": "item",
+                  "ref": "p40-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "p40-q18-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p40-q18-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q18-diagram",
+                          "type": "item",
+                          "ref": "p40-q18-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p40-q18-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q18-root/prompt",
+                          "type": "item",
+                          "ref": "p40-q18-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p40-q18-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p40-q18-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p40-q18-a/label",
+                                  "type": "item",
+                                  "ref": "p40-q18-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p40-q18-a/prompt",
+                                  "type": "item",
+                                  "ref": "p40-q18-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p40-q18-a/space",
+                                  "type": "item",
+                                  "ref": "p40-q18-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p40-q18-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p40-q18-b/label",
+                                  "type": "item",
+                                  "ref": "p40-q18-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p40-q18-b/prompt",
+                                  "type": "item",
+                                  "ref": "p40-q18-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p40-q18-b/space",
+                                  "type": "item",
+                                  "ref": "p40-q18-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:40:48.240Z",
+  "updatedAt": "2026-10-21T08:40:48.241Z"
+}

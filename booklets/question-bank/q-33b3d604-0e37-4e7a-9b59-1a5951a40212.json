@@ -1,0 +1,324 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-33b3d604-0e37-4e7a-9b59-1a5951a40212",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-dependent-events",
+    "secondarySkillIds": [
+      "multistage-outcomes",
+      "complementary-probability"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Construct and label a without-replacement tree, recognise both orders for exactly one colour, and calculate at least one red using a complement or path addition.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:21.308Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e9ddac0602c77f9a4d32ab8d4f633eb4afe2a93eabce8e672ac1a98c93c7288b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/1eaaaefe62203cd5f68a3afd8566ab8e202f011c4142b5296e3a313f669df3f8-1792560721192/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p44-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "A bag contains 3 red and 4 white counters. Two are taken without replacement.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p44-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a tree diagram and label the branches with the corresponding probability.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "First draw: $P(R)=\\frac37$, $P(W)=\\frac47$. After $R$: $P(R)=\\frac26$, $P(W)=\\frac46$. After $W$: $P(R)=\\frac36$, $P(W)=\\frac36$.",
+          "worked": "Let $R$ represent red and $W$ represent white. After the first draw, 6 counters remain. After a red counter, 2 red and 4 white remain; after a white counter, 3 red and 3 white remain.",
+          "solutionDiagrams": [
+            {
+              "id": "p44-q6-a-solution-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 44 question 6a solution tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (3,2);\n\\coordinate (W) at (3,-2);\n\\coordinate (RR) at (6,3);\n\\coordinate (RW) at (6,1);\n\\coordinate (WR) at (6,-1);\n\\coordinate (WW) at (6,-3);\n\\draw (O)--node[midway,above left]{$\\frac37$}(R);\n\\draw (O)--node[midway,below left]{$\\frac47$}(W);\n\n\n\\draw (3.4,2)--node[midway,above]{$\\frac26$}(RR);\n\\draw (3.4,2)--node[midway,below]{$\\frac46$}(RW);\n\\draw (3.4,-2)--node[midway,above]{$\\frac36$}(WR);\n\\draw (3.4,-2)--node[midway,below]{$\\frac36$}(WW);\n\\node[right] at (RR) {$R$};\n\\node[right] at (RW) {$W$};\n\\node[right] at (WR) {$R$};\n\\node[right] at (WW) {$W$};\n\\node at (1.5,4) {First draw};\n\\node at (4.8,4) {Second draw};\n\\node[right,fill=white,inner sep=2pt] at (R) {$R$};\n\\node[right,fill=white,inner sep=2pt] at (W) {$W$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 105,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 44,
+                "sourceRegion": "Question 6a",
+                "description": "Authored complete two-stage probability tree, using black branches and labels.",
+                "mathematics": "First-stage probabilities 3/7 and 4/7; second-stage probabilities after R are 2/6 and 4/6, and after W are 3/6 and 3/6.",
+                "answerVisibility": "Solution only; the student prompt contains no completed tree."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p44-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the probability of picking exactly one white counter?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac47$",
+          "worked": "$\\begin{align*}P(\\text{exactly one white})&=P(RW)+P(WR)\\\\P(\\text{exactly one white})&=\\frac37\\times\\frac46+\\frac47\\times\\frac36\\\\P(\\text{exactly one white})&=\\frac{24}{42}=\\frac47\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p44-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the probability of picking exactly one red counter?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac47$",
+          "worked": "$\\begin{align*}P(\\text{exactly one red})&=P(RW)+P(WR)\\\\P(\\text{exactly one red})&=\\frac37\\times\\frac46+\\frac47\\times\\frac36\\\\P(\\text{exactly one red})&=\\frac{24}{42}=\\frac47\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p44-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What is the probability of picking no red counters?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac27$",
+          "worked": "$\\begin{align*}P(\\text{no red})&=P(WW)\\\\P(\\text{no red})&=\\frac47\\times\\frac36\\\\P(\\text{no red})&=\\frac{12}{42}=\\frac27\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      },
+      {
+        "id": "p44-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What is the probability of picking at least one red?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac57$",
+          "worked": "$\\begin{align*}P(\\text{at least one red})&=1-P(WW)\\\\P(\\text{at least one red})&=1-\\frac27\\\\P(\\text{at least one red})&=\\frac57\\end{align*}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p44-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p44-q6-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p44-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p44-q6-root/label",
+                  "type": "item",
+                  "ref": "p44-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p44-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p44-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p44-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p44-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q6-a/label",
+                          "type": "item",
+                          "ref": "p44-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p44-q6-a/prompt",
+                          "type": "item",
+                          "ref": "p44-q6-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p44-q6-a/space",
+                          "type": "item",
+                          "ref": "p44-q6-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q6-b/label",
+                          "type": "item",
+                          "ref": "p44-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p44-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p44-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p44-q6-b/space",
+                          "type": "item",
+                          "ref": "p44-q6-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q6-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q6-c/label",
+                          "type": "item",
+                          "ref": "p44-q6-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p44-q6-c/prompt",
+                          "type": "item",
+                          "ref": "p44-q6-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p44-q6-c/space",
+                          "type": "item",
+                          "ref": "p44-q6-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q6-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q6-d/label",
+                          "type": "item",
+                          "ref": "p44-q6-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p44-q6-d/prompt",
+                          "type": "item",
+                          "ref": "p44-q6-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p44-q6-d/space",
+                          "type": "item",
+                          "ref": "p44-q6-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q6-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q6-e/label",
+                          "type": "item",
+                          "ref": "p44-q6-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p44-q6-e/prompt",
+                          "type": "item",
+                          "ref": "p44-q6-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p44-q6-e/space",
+                          "type": "item",
+                          "ref": "p44-q6-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:51.086Z",
+  "updatedAt": "2026-10-21T10:53:51.086Z"
+}

@@ -1,0 +1,267 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3d3c8f24-55b4-48ec-818d-f032cb7e47ae",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "depreciation",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Read the initial value and two yearly values from the graph, subtract to estimate depreciation, and use the graph-derived initial value in the taught formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:20:01.877Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8af0799335ac5daad22819605e6a091b98f4335d76bf4b2d96ff136539a87890",
+      "evidence": ".booklet-work/reasoning-ratings/calls/compound-interest-depreciation-v1/0e2c5dcf9d136cac577d4a1642b83f0e6e045ec4482c02e8e5ef28e3805b0419-1792556392098/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p27-q16",
+    "type": "question",
+    "label": "16",
+    "prompt": "The value of office furniture is shown by the graph. The furniture depreciates at 22% p.a.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p27-q16-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied furniture depreciation curve and markers\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"graph coordinate grid\"}],\"reference\":\"source page 27, p27-q16-graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.17cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[gridBlue,line width=0.15pt,xstep=0.2,ystep=1] (0,0) grid (6,55);\n\\draw[gridBlue,line width=0.25pt,xstep=1,ystep=5] (0,0) grid (6,55);\n\\draw[black,line width=0.5pt] (0,55)--(0,0)--(6,0);\n\\foreach \\x in {1,2,3,4,5,6}{\\draw[black,line width=0.4pt] (\\x,0)--++(0,-0.55);\\node[below=3pt] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {0/0,5/{5\\,000},10/{10\\,000},15/{15\\,000},20/{20\\,000},25/{25\\,000},30/{30\\,000},35/{35\\,000},40/{40\\,000},45/{45\\,000},50/{50\\,000},55/{55\\,000}}{\\draw[black,line width=0.4pt] (0,\\y)--++(-0.1,0);\\node[left=4pt] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\node[above=5pt,align=center,text width=60mm] at (3,55) {Depreciation of office furniture};\n\\node[below=17pt] at (3,0) {Years, $n$};\n\\node[rotate=90] at (-1.7,27.5) {Value, $S$ (\\$)};\n\\draw[seriesBlue,line width=0.8pt,domain=0:6,samples=121] plot (\\x,{50*pow(0.78,\\x)});\n\\foreach \\x/\\y in {0/50,1/39,2/30.42,3/23.7276,4/18.507528,5/14.43587184,6/11.2599800352}{\\fill[seriesBlue] (\\x,\\y) circle[radius=1.6pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Lower-right supplied graph shared by question 16a–c",
+          "description": "Editable supplied blue decay curve and integer-year markers, with black axes, pale blue coordinate grid, original title and axis labels. The known depreciation model determines the curve rather than tracing approximate pixels.",
+          "mathematics": "S=50000(0.78)^n, 0≤n≤6. Horizontal major step 1 and minor step 0.2; vertical range 0–55000, major step 5000 and minor step 1000. Horizontal labels 1–6; vertical labels 0–55000.",
+          "answerVisibility": "The graph, including its initial-value marker and all supplied markers, is permanently visible as question evidence."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p27-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How much did the furniture cost?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$50\\,000$",
+          "worked": "At $n=0$, the graph shows $S=\\$50\\,000$. The furniture cost $\\$50\\,000$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p27-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the graph to estimate how much it depreciated between year 1 and year 2. Give your estimate to the nearest $\\$1000$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately $\\$9000$.",
+          "worked": "From the graph, the values at years 1 and 2 are approximately $\\$39\\,000$ and $\\$30\\,000$.\n$$\\begin{align*}\\text{Depreciation}&\\approx39\\,000-30\\,000\\\\\\text{Depreciation}&\\approx\\$9000\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p27-q16-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the salvage value formula to find the value of the furniture after 8 years. Round your answer to the nearest cent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$6850.57$",
+          "worked": "$$\\begin{align*}S&=V_0(1-r)^n\\\\S&=50\\,000(1-0.22)^8\\\\S&\\approx\\$6850.57\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p27-q16-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p27-q16-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p27-q16:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p27-q16/label",
+                  "type": "item",
+                  "ref": "p27-q16/label",
+                  "title": "Label 16"
+                },
+                {
+                  "id": "p27-q16:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p27-q16:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p27-q16/prompt",
+                          "type": "item",
+                          "ref": "p27-q16/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p27-q16:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p27-q16-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p27-q16-a/label",
+                                  "type": "item",
+                                  "ref": "p27-q16-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p27-q16-a/prompt",
+                                  "type": "item",
+                                  "ref": "p27-q16-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p27-q16-a/space",
+                                  "type": "item",
+                                  "ref": "p27-q16-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p27-q16-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p27-q16-b/label",
+                                  "type": "item",
+                                  "ref": "p27-q16-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p27-q16-b/prompt",
+                                  "type": "item",
+                                  "ref": "p27-q16-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p27-q16-b/space",
+                                  "type": "item",
+                                  "ref": "p27-q16-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p27-q16-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p27-q16-c/label",
+                                  "type": "item",
+                                  "ref": "p27-q16-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p27-q16-c/prompt",
+                                  "type": "item",
+                                  "ref": "p27-q16-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p27-q16-c/space",
+                                  "type": "item",
+                                  "ref": "p27-q16-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p27-q16:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p27-q16-graph",
+                          "type": "item",
+                          "ref": "p27-q16-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 16",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:48:47.035Z",
+  "updatedAt": "2026-10-21T07:48:47.035Z"
+}

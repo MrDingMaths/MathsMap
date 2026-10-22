@@ -1,0 +1,115 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d0b1f599-eeb3-4530-8861-82ccf4f496b5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-practical-problems",
+    "secondarySkillIds": [],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise the ground segment as the hypotenuse, calculate both broken sections using different ratios, and interpret original height as their sum.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:47:25.835Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "21c983b57026b5eb78725540664eb424691caee2d08cca2454a2b4bf128e72ba",
+      "evidence": ".booklet-work/reasoning-ratings/calls/right-angled-trigonometry-v1/a77e7e9f78f8c6f34b2d4f6ac8dab2b5808ad9b058a65ccd119767513df32363-1792561606021/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p49-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A tree snapped into two sections $AB$ and $BC$ in high winds and then fell. The section $BA$ is inclined at $51^{\\circ}38'$ to the horizontal and $AC$ is 9.4 metres long. Find the height of the original tree, in metres correct to one decimal place.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p49-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 49 p49-q11-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (A) at (0,0);\n\\coordinate (C) at (5,0);\n\\coordinate (B) at ({5*cos(51+38/60)*cos(51+38/60)},{5*sin(51+38/60)*cos(51+38/60)});\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\coordinate (U) at ($(B)!0.24cm!(A)$);\n\\coordinate (V) at ($(B)!0.24cm!(C)$);\n\\draw[black,line width=0.4pt] (U)--($(U)+(V)-(B)$)--(V);\n\\pic[draw=black,line width=0.4pt,angle radius=0.72cm] {angle=C--A--B};\n\\node[anchor=east] (anglelabel) at (-0.4,0.8) {$51^{\\circ}38'$};\n\\draw[line width=0.4pt] (anglelabel.east)--($(A)+(25.8166667:0.72)$);\n\\node[below left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at ($(A)!0.5!(C)$) {$9.4\\ \\mathrm{m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 49,
+          "sourceRegion": "Question 11, triangle below the stem",
+          "description": "Unshaded triangle ABC with horizontal hypotenuse AC, vertex B above it, an interior angle at A and a right-angle square at B. Ordinary geometry and labels use black.",
+          "mathematics": "AC = 9.4 m; angle BAC = 51 degrees 38 minutes; angle ABC = 90 degrees. Coordinates derive from the given angle and right-angle relationship.",
+          "answerVisibility": "Only source givens are visible; neither section length nor the original height appears."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$13.2\\ \\mathrm{m}$",
+      "worked": "$$\\begin{align*}\\cos 51^{\\circ}38' &= \\frac{AB}{9.4}\\\\AB &= 9.4\\cos 51^{\\circ}38'\\\\\\sin 51^{\\circ}38' &= \\frac{BC}{9.4}\\\\BC &= 9.4\\sin 51^{\\circ}38'\\end{align*}$$\nThe original height is the sum of the two sections.\n$$\\begin{align*}AB+BC &= 9.4\\cos 51^{\\circ}38'+9.4\\sin 51^{\\circ}38'\\\\&\\approx 13.2\\ \\mathrm{m}\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 36
+  },
+  "presentation": {
+    "ownerId": "p49-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p49-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p49-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p49-q11-root/label",
+                  "type": "item",
+                  "ref": "p49-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p49-q11-root/prompt",
+                  "type": "item",
+                  "ref": "p49-q11-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p49-q11-diagram",
+                  "type": "item",
+                  "ref": "p49-q11-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p49-q11-root/space",
+                  "type": "item",
+                  "ref": "p49-q11-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:51:21.300Z",
+  "updatedAt": "2026-10-21T09:51:21.300Z"
+}

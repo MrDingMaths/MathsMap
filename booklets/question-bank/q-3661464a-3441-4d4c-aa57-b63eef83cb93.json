@@ -1,0 +1,303 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3661464a-3441-4d4c-aa57-b63eef83cb93",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "bearing-between-two-points",
+    "secondarySkillIds": [
+      "unknown-angles-parallel"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Combine reverse bearings with a given triangle angle to determine successive directions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T13:51:44.241Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "225f2288fec049d1db97bf75b05e2a5b51b9f1a9b131d656a2620b04658d3e34",
+      "evidence": ".booklet-work/full-imports/elevation-depression-bearings-20261006/semantic-packets/assignments/assignment-29109f5366bc4a664723/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p30-q17",
+    "type": "question",
+    "label": "17",
+    "prompt": "A hiker walks on a triangular pathway starting at point A, walking to point B then C, then A again.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p30-q17-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 p30-q17-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,{3*sin(75)/sin(65)});\n\\coordinate (B) at ({3*sin(140)},{3*sin(75)/sin(65)+3*cos(140)});\n\\coordinate (C) at (0,0);\n\\coordinate (N) at ($(A)+(0,1.15)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[black,->,line width=0.5pt] (A)--(N) node[above] {$N$};\n\\draw[black,line width=0.4pt] ($(A)+(90:0.6)$) arc[start angle=90,end angle=-50,radius=0.6];\n\\node at ($(A)+(20:0.93)$) {$140^{\\circ}$};\n\\pic[draw=black,line width=0.4pt,angle radius=0.45cm] {angle=A--B--C};\n\\node at ($(B)+(167.5:0.78)$) {$75^{\\circ}$};\n\\node[left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 48,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 30,
+          "sourceRegion": "Question 17, shared triangular pathway diagram",
+          "description": "Triangle ABC with A above C on a vertical line, B to their right, and the north ray extending AC above A. Ordinary source blue geometry is reconstructed in house black. Coordinates express the given angles rather than the source's schematic proportions; no lengths are printed.",
+          "mathematics": "The clockwise bearing from north at A to AB is 140 degrees. Interior angle ABC is 75 degrees. AC points south from A. The derived interior angles at A and C are 40 and 65 degrees.",
+          "answerVisibility": "Only the supplied 140-degree and 75-degree angles are visible; calculated bearings are confined to answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p30-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p30-q17-a-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Find the bearing ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "from B to A",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$320^{\\circ}$",
+          "worked": "Reverse bearings differ by $180^{\\circ}$.\n$$\\begin{align*}\\text{Bearing from B to A}&=140^{\\circ}+180^{\\circ}\\\\&=320^{\\circ}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p30-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the bearing from B to C.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$245^{\\circ}$",
+          "worked": "At B, BC lies $75^{\\circ}$ anticlockwise from BA.\n$$\\begin{align*}\\text{Bearing from B to C}&=320^{\\circ}-75^{\\circ}\\\\&=245^{\\circ}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p30-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the bearing from C to B.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$065^{\\circ}$",
+          "worked": "Reverse bearings differ by $180^{\\circ}$.\n$$\\begin{align*}\\text{Bearing from C to B}&=245^{\\circ}-180^{\\circ}\\\\&=65^{\\circ}\\end{align*}$$\nThe three-digit bearing is $065^{\\circ}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p30-q17-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q17-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q17:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q17/label",
+                  "type": "item",
+                  "ref": "p30-q17/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "p30-q17:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p30-q17:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q17-diagram",
+                          "type": "item",
+                          "ref": "p30-q17-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q17:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q17/prompt",
+                          "type": "item",
+                          "ref": "p30-q17/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p30-q17:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p30-q17-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p30-q17-a/label",
+                                  "type": "item",
+                                  "ref": "p30-q17-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p30-q17-a/prompt#p30-q17-a-prompt",
+                                  "type": "item",
+                                  "ref": "p30-q17-a/prompt#p30-q17-a-prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p30-q17-a/space",
+                                  "type": "item",
+                                  "ref": "p30-q17-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p30-q17-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p30-q17-b/label",
+                                  "type": "item",
+                                  "ref": "p30-q17-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p30-q17-b/prompt",
+                                  "type": "item",
+                                  "ref": "p30-q17-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p30-q17-b/space",
+                                  "type": "item",
+                                  "ref": "p30-q17-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p30-q17-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p30-q17-c/label",
+                                  "type": "item",
+                                  "ref": "p30-q17-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p30-q17-c/prompt",
+                                  "type": "item",
+                                  "ref": "p30-q17-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p30-q17-c/space",
+                                  "type": "item",
+                                  "ref": "p30-q17-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:40:20.894Z",
+  "updatedAt": "2026-10-21T08:40:20.894Z"
+}

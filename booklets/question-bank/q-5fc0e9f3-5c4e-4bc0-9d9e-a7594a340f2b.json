@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5fc0e9f3-5c4e-4bc0-9d9e-a7594a340f2b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "collect-like-terms",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Identify complete lines in three directions with one missing cell, subtract their known algebraic terms from 4x+2, and use newly determined cells to unlock further lines while preserving signs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:59:24.129Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ca9d24ec531230f3a6e3027c8e82dbc3040944e7e7ac9e9656c74fbd18276304",
+      "evidence": ".booklet-work/reasoning-ratings/calls/expanding-brackets-v1/feb330845a48ea6526790c0961ea8d677d846b73b16d9510af42f2eeb6442212-1792558736227/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q17-content",
+    "type": "question",
+    "label": "17",
+    "prompt": "Complete the hex grid so that every complete straight line of hexagons, in each of the three grid directions, sums to $4x+2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q17-grid",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22, p22-q17-grid\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,line width=0.8pt,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont,inner sep=0pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-5.08,-4.08) rectangle (5.08,4.08);\n\\foreach \\cx/\\cy in {-2/3,0/3,2/3,-3/1.5,-1/1.5,1/1.5,3/1.5,-4/0,-2/0,0/0,2/0,4/0,-3/-1.5,-1/-1.5,1/-1.5,3/-1.5,-2/-3,0/-3,2/-3} {\n  \\draw (\\cx,{\\cy+1}) -- ({\\cx+1},{\\cy+0.5}) -- ({\\cx+1},{\\cy-0.5}) -- (\\cx,{\\cy-1}) -- ({\\cx-1},{\\cy-0.5}) -- ({\\cx-1},{\\cy+0.5}) -- cycle;\n}\n\\node at (-2,3) {$x$};\n\\node at (2,3) {$2x-3$};\n\\node at (1,1.5) {$x-1$};\n\\node at (-4,0) {$2x$};\n\\node at (0,0) {$14-x$};\n\\node at (4,0) {$x+1$};\n\\node at (-2,-3) {$x-6$};\n\\node at (2,-3) {$2x-2$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 17, left-hand hexagonal grid",
+          "description": "Unshaded point-top hexagons in five staggered rows of 3, 4, 5, 4 and 3 cells. Preserve the source's approximately equal cell width and height, eight givens and eleven empty writing cells.",
+          "mathematics": "Rows from top to bottom, left to right: [x, blank, 2x-3]; [blank, blank, x-1, blank]; [2x, blank, 14-x, blank, x+1]; [blank, blank, blank, blank]; [x-6, blank, 2x-2]. Consecutive cell centres define complete lines in three directions.",
+          "answerVisibility": "Only the eight source givens are visible. All eleven response cells remain empty."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Completed grid shown.",
+      "worked": "Subtract the known cells in a complete line from $4x+2$, then collect like terms. For the top-middle cell $T$:\n$$\\begin{align*}T&=4x+2-[x+(2x-3)]\\\\T&=4x+2-(3x-3)\\\\T&=x+5\\end{align*}$$\nFor the bottom-middle cell $B$:\n$$\\begin{align*}B&=4x+2-[(x-6)+(2x-2)]\\\\B&=4x+2-(3x-8)\\\\B&=x+10\\end{align*}$$\nContinue along complete lines containing just one empty cell. The completed grid is shown; all 15 complete lines in the three directions sum to $4x+2$.",
+      "solutionDiagrams": [
+        {
+          "id": "p22-q17-answer-grid",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22, p22-q17-answer-grid\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,line width=0.8pt,every node/.style={text=black,font=\\fontsize{10}{12}\\selectfont,inner sep=0pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-5.08,-4.08) rectangle (5.08,4.08);\n\\foreach \\cx/\\cy in {-2/3,0/3,2/3,-3/1.5,-1/1.5,1/1.5,3/1.5,-4/0,-2/0,0/0,2/0,4/0,-3/-1.5,-1/-1.5,1/-1.5,3/-1.5,-2/-3,0/-3,2/-3} {\n  \\draw (\\cx,{\\cy+1}) -- ({\\cx+1},{\\cy+0.5}) -- ({\\cx+1},{\\cy-0.5}) -- (\\cx,{\\cy-1}) -- ({\\cx-1},{\\cy-0.5}) -- ({\\cx-1},{\\cy+0.5}) -- cycle;\n}\n\\node at (-2,3) {$x$};\n\\node at (0,3) {$x+5$};\n\\node at (2,3) {$2x-3$};\n\\node at (-3,1.5) {$x+2$};\n\\node at (-1,1.5) {$x-3$};\n\\node at (1,1.5) {$x-1$};\n\\node at (3,1.5) {$x+4$};\n\\node at (-4,0) {$2x$};\n\\node at (-2,0) {$x-8$};\n\\node at (0,0) {$14-x$};\n\\node at (2,0) {$x-5$};\n\\node at (4,0) {$x+1$};\n\\node at (-3,-1.5) {$x+8$};\n\\node at (-1,-1.5) {$x-2$};\n\\node at (1,-1.5) {$x-7$};\n\\node at (3,-1.5) {$x+3$};\n\\node at (-2,-3) {$x-6$};\n\\node at (0,-3) {$x+10$};\n\\node at (2,-3) {$2x-2$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 100,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 22,
+            "sourceRegion": "Question 17, supplied completed grid on the right",
+            "description": "Complete self-contained answer grid using the same cell geometry, bounding box and label positions as the question grid. Unshaded, with black ordinary outlines and 10 pt labels. Intentional house-style departure: the source's blue ordinary outlines and labels identify supplied answers without mathematical colour meaning; use black ink and preserve answer-only visibility. Original source evidence remains unchanged.",
+            "mathematics": "Rows from top to bottom, left to right: [x, x+5, 2x-3]; [x+2, x-3, x-1, x+4]; [2x, x-8, 14-x, x-5, x+1]; [x+8, x-2, x-7, x+3]; [x-6, x+10, 2x-2]. Each of the five horizontal lines and ten diagonal lines sums to 4x+2.",
+            "answerVisibility": "Answer-only figure. Never included in the student prompt."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 0,
+    "responseSpace": "scaffold"
+  },
+  "presentation": {
+    "ownerId": "p22-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q17-content:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q17-content/label",
+                  "type": "item",
+                  "ref": "p22-q17-content/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p22-q17-content/prompt",
+                  "type": "item",
+                  "ref": "p22-q17-content/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p22-q17-grid",
+                  "type": "item",
+                  "ref": "p22-q17-grid",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p22-q17-content/space",
+                  "type": "item",
+                  "ref": "p22-q17-content/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:42:03.001Z",
+  "updatedAt": "2026-10-21T08:42:03.002Z"
+}

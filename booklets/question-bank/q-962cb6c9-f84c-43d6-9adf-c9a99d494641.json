@@ -1,0 +1,398 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-962cb6c9-f84c-43d6-9adf-c9a99d494641",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "equation-from-graph"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Use graph readings to calculate a monthly decrease, give the model a negative gradient and solve for zero population. Earlier parts explicitly scaffold the rate and initial value.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:56.985Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "14ff575bca653bcbe6397609f233faa16f1c8b43754cfd20b13b0106d6b4832e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/3e04bc65e28ee803f073854c76c04141e3ad4b4ff13b194854f7830a7d2c8fe5-1792559188126/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "The number of deer in a forest has decreased over time according to the graph shown.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q9-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"populationBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied population-model series\"}],\"reference\":\"source page 42, p42-q9-graph\"}\n\\begin{tikzpicture}[x=0.23cm,y=0.0138cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{populationBlue}{HTML}{268CFF}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\draw[graphGrid,line width=0.25pt] (0,100)--(18,100) (0,200)--(18,200) (0,300)--(18,300) (9,0)--(9,300) (18,0)--(18,300);\n\\draw[black,->,line width=0.5pt] (-0.5,0)--(19.5,0);\n\\draw[black,->,line width=0.5pt] (0,-5)--(0,318);\n\\foreach \\x in {9,18} {\n\\draw[black,line width=0.4pt] (\\x,-4)--(\\x,4);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,-5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\y in {100,200,300} {\n\\draw[black,line width=0.4pt] (-0.35,\\y)--(0.35,\\y);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-0.4,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};\n}\n\\draw[populationBlue,line width=0.8pt] plot[domain=0:19.5,samples=2] (\\x,{300-100*\\x/9});\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (9,-27) {Time (months)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-5.2,160) {Population};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 9, graph on the left",
+          "description": "Arrowed black axes, grey grid at the labelled values, and a blue declining population line extending slightly beyond 18 months. No origin label or plotted-point markers.",
+          "mathematics": "The line passes through (0,300), (9,200) and (18,100), so d=300-(100/9)t. Horizontal labels: 9 and 18 months. Vertical labels: 100, 200 and 300 deer.",
+          "answerVisibility": "The complete supplied graph remains visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many deer were there to begin with?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "300 deer",
+          "worked": "At $t=0$, the graph shows a population of 300 deer.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p42-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many deer were there after 18 months?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "100 deer",
+          "worked": "At $t=18$, the graph shows a population of 100 deer.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p42-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How many deer disappeared during the 18-month period?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "200 deer",
+          "worked": "$$300-100=200$$\n200 deer disappeared.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p42-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "How many deer disappear each month?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{100}{9}=11\\dfrac{1}{9}$ deer per month",
+          "worked": "$$\\begin{align*}\\text{Monthly decrease}&=\\frac{300-100}{18}\\\\&=\\frac{100}{9}\\\\&=11\\frac{1}{9}\\end{align*}$$\nThe population decreases by $11\\dfrac{1}{9}$ deer per month.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p42-q9-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Write an equation relating number of deer $d$ and time $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$d=-\\dfrac{100}{9}t+300$",
+          "worked": "$$\\begin{align*}m&=\\frac{100-300}{18-0}\\\\&=-\\frac{100}{9}\\\\c&=300\\\\d&=-\\frac{100}{9}t+300\\end{align*}$$\nHere $t$ is time in months.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p42-q9-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Use your equation to estimate when the deer will become extinct in this forest.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "After a total of 27 months",
+          "worked": "Set $d=0$.\n$$\\begin{align*}0&=-\\frac{100}{9}t+300\\\\\\frac{100}{9}t&=300\\\\t&=300\\times\\frac{9}{100}\\\\t&=27\\end{align*}$$\nThe model predicts extinction after a total of 27 months.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p42-q9-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q9-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p42-q9-root/label",
+                  "type": "item",
+                  "ref": "p42-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "p42-q9-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p42-q9-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q9-graph",
+                          "type": "item",
+                          "ref": "p42-q9-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p42-q9-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q9-root/prompt",
+                          "type": "item",
+                          "ref": "p42-q9-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p42-q9-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p42-q9-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q9-a/label",
+                                  "type": "item",
+                                  "ref": "p42-q9-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p42-q9-a/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q9-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q9-a/space",
+                                  "type": "item",
+                                  "ref": "p42-q9-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q9-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q9-b/label",
+                                  "type": "item",
+                                  "ref": "p42-q9-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p42-q9-b/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q9-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q9-b/space",
+                                  "type": "item",
+                                  "ref": "p42-q9-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q9-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q9-c/label",
+                                  "type": "item",
+                                  "ref": "p42-q9-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p42-q9-c/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q9-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q9-c/space",
+                                  "type": "item",
+                                  "ref": "p42-q9-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q9-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q9-d/label",
+                                  "type": "item",
+                                  "ref": "p42-q9-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p42-q9-d/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q9-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q9-d/space",
+                                  "type": "item",
+                                  "ref": "p42-q9-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q9-e:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q9-e/label",
+                                  "type": "item",
+                                  "ref": "p42-q9-e/label",
+                                  "title": "Label e"
+                                },
+                                {
+                                  "id": "layout:p42-q9-e/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q9-e/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q9-e/space",
+                                  "type": "item",
+                                  "ref": "p42-q9-e/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part e",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q9-f:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q9-f/label",
+                                  "type": "item",
+                                  "ref": "p42-q9-f/label",
+                                  "title": "Label f"
+                                },
+                                {
+                                  "id": "layout:p42-q9-f/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q9-f/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q9-f/space",
+                                  "type": "item",
+                                  "ref": "p42-q9-f/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part f",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:45.368Z",
+  "updatedAt": "2026-10-21T08:56:45.368Z"
+}

@@ -1,0 +1,118 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-96e875a7-f51e-4899-8511-540e888d917f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quadratic-word-problems",
+    "secondarySkillIds": [
+      "find-equation-parabola-features",
+      "interpret-quadratic-model"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Use the hinted intercept form and limiting point to determine the quadratic's scale, then use symmetry to calculate and interpret its maximum height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:04:13.126Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1a441d59336f0d3afbd779ea6752f70df8b2eb9b713dba0561a11f3ca0b8c144",
+      "evidence": ".booklet-work/reasoning-ratings/calls/further-parabolas-v1/976b403867b2ca9a9f436fa129a7bbe94ad457d35dcbd169c766d5691f2b406c-1792559018394/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p60-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "A professional tennis player returns a ball from ground level. It was hit in such a way that it will cover a horizontal distance of 22 m and land just inside the opposite end of the court.\n\nThe opponent is standing 4 m from the baseline and he can hit any ball less than 3 m high.\n\nWhat is the lowest maximum height the ball must reach to fly over the opponent and win the point?\n\n(Hint: Find the equation of the parabola using the $x$-intercepts and the point $(4,3)$.)",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p60-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 60 p60-q12-diagram\"}\n\\begin{tikzpicture}[x=0.28cm,y=0.65cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt] (0,0)--(25.5,0);\n\\draw[line width=0.8pt] plot[domain=0:22,samples=81] (\\x,{\\x*(22-\\x)/24});\n\\foreach \\a/\\b in {21/19.5,17/15.5,13/11.5,9/7.5,5/3.5,2/0.5}{\\draw[->,line width=0.8pt] plot[domain=\\a:\\b,samples=12] (\\x,{\\x*(22-\\x)/24});}\n\\foreach \\t in {0.5,2.2,4.2,6.4,8.7,11,13.3,15.6,17.8,20}{\\draw[fill=white,line width=0.4pt] (\\t,{\\t*(22-\\t)/24}) circle[radius=0.075cm];\\draw[line width=0.4pt] (\\t-0.2,{\\t*(22-\\t)/24})--(\\t+0.2,{\\t*(22-\\t)/24});}\n\\node[above] at (12,2.2) {parabolic path of ball};\n\\draw[line width=0.5pt] (4,2.35) circle[radius=0.10cm];\n\\draw[line width=0.5pt] (4,2.2)--(4,1.15)--(3.6,0.1) (4,1.15)--(4.4,0.1) (4,1.9)--(3.5,2.7) (4,1.9)--(4.5,2.8);\n\\draw[<->,line width=0.4pt] (4.9,0)--(4.9,3) node[midway,right] {$3\\text{ m}$};\n\\draw[line width=0.5pt] (11,0)--(11,1.0) node[right] {tennis net};\n\\draw[<->,line width=0.4pt] (0,-0.35)--(4,-0.35) node[midway,below] {$4\\text{ m}$};\n\\draw[<->,line width=0.4pt] (0,-1.1)--(22,-1.1) node[midway,below] {$22\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 90,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 60,
+          "sourceRegion": "Upper-left tennis diagram",
+          "description": "Unshaded contextual schematic retaining the ball markers, right-to-left travel arrows, opponent, tennis net and all three measurements. The opponent is represented by an editable simple figure.",
+          "mathematics": "Ground endpoints are 22 m apart. The limiting path passes through a point 4 m from the left endpoint at height 3 m. The curve is equation-derived; no equation or calculated maximum is printed.",
+          "answerVisibility": "Permanent supplied contextual diagram; calculated model and maximum remain answer-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\frac{121}{24}\\text{ m}=5\\frac{1}{24}\\text{ m}$. Use the intercepts to obtain $h=-\\frac{1}{24}x(x-22)$; its maximum occurs at $x=11$.",
+      "worked": "Let $h$ be the height in metres and $x$ the distance in metres from the left endpoint. The intercepts are $x=0$ and $x=22$.\n\n$$\\begin{align*}h&=kx(x-22)\\\\3&=k(4)(4-22)\\\\3&=-72k\\\\k&=-\\frac{1}{24}\\\\h&=-\\frac{1}{24}x(x-22)\\end{align*}$$\n\nThe turning point lies midway between the intercepts.\n\n$$\\begin{align*}x&=\\frac{0+22}{2}\\\\x&=11\\\\h&=-\\frac{1}{24}(11)(11-22)\\\\h&=\\frac{121}{24}\\end{align*}$$\n\nThe parabola is concave down, so the lowest maximum height is $5\\dfrac{1}{24}\\text{ m}$. At this limiting height, the ball is 3 m high at the opponent.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 66
+  },
+  "presentation": {
+    "ownerId": "p60-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p60-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p60-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p60-q12-root/label",
+                  "type": "item",
+                  "ref": "p60-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p60-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p60-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p60-q12-diagram",
+                  "type": "item",
+                  "ref": "p60-q12-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p60-q12-root/space",
+                  "type": "item",
+                  "ref": "p60-q12-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:52:32.086Z",
+  "updatedAt": "2026-10-21T08:52:32.087Z"
+}

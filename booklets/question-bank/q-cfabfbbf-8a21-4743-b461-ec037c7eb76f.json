@@ -1,0 +1,115 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cfabfbbf-8a21-4743-b461-ec037c7eb76f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise that adult age lies far outside the infant data and explain why changing growth rates invalidate extending the infant linear model.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:59.518Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "db1942617042456fd20628f2d58236c2a1b17e11e5fa9f766e3f65f67afe9f93",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/70cdd0af5a1a37e1a228363b45885f5101b1bca2b36f6245b7328091bfc6bbbc-1792556190496/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q7-response",
+    "type": "question",
+    "label": "7",
+    "prompt": "April collects data on the average height versus age for baby girls.\nExplain why this line of best fit is not useful for predicting the height of 30-year-old women.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"dataBlue\",\"hex\":\"268CFF\",\"reason\":\"observed heights\"},{\"name\":\"fitRed\",\"hex\":\"EF6068\",\"reason\":\"line of best fit distinct from observed data\"}],\"reference\":\"source page 22 p22-q7-graph\"}\n\\begin{tikzpicture}[x=0.32cm,y=0.11cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\definecolor{dataBlue}{HTML}{268CFF}\n\\definecolor{fitRed}{HTML}{EF6068}\n\\draw[graphGrid,line width=0.25pt,xstep=5,ystep=5] (5,60) grid (25,90);\n\\draw[black,line width=0.5pt] (5,90)--(5,60)--(25,60);\n\\draw[graphGrid,line width=0.25pt] (5,90)--(25,90)--(25,60);\n\\foreach \\x in {5,10,15,20,25}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,60) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {60,65,70,75,80,85,90}{\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (5,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[anchor=south,font=\\fontsize{10}{12}\\selectfont] at (15,92) {Average height vs. age for girls};\n\\node[anchor=north,font=\\fontsize{10}{12}\\selectfont] at (15,56) {Age (months)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (2,75) {Avg. height (cm)};\n\\foreach \\x/\\y in {6/65.8,7/67.0,8/68.7,9/70.0,10/71.4,11/72.8,12/73.8,13/75.2,14/76.5,15/77.7,16/78.8,17/79.8,18/80.9,19/81.8,20/82.8,21/83.9,22/84.8,23/85.5,24/86.5}{\\fill[dataBlue] (\\x,\\y) circle[radius=2.25pt];}\n\\draw[fitRed,line width=0.8pt,domain=6:24,samples=2] plot (\\x,{1.1355*\\x+59.962});\n\\node[anchor=west,font=\\fontsize{10}{12}\\selectfont] at (15.2,66.2) {$y=1.1355x+59.962$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 95,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 7, graph below the prompt",
+          "description": "Complete height-versus-age graph with source scales, monthly observation markers, supplied equation and bounded best-fit line. Observation heights are approximate readings from the source image; they are not an exact dataset.",
+          "mathematics": "Age runs from 5 to 25 months and average height from 60 to 90 cm. Major grid intervals are 5 months and 5 cm. The supplied line is y = 1.1355x + 59.962, shown over approximately 6–24 months.",
+          "answerVisibility": "All graph features, including the equation, are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Thirty years is far outside the observed age range. Height does not keep increasing at the infant growth rate.",
+      "worked": "The data cover approximately 6–24 months, whereas 30 years is 360 months. This would be extrapolation far beyond the data. Growth slows and eventually stops, so the infant linear trend cannot predict adult height reliably.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 18
+  },
+  "presentation": {
+    "ownerId": "p22-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q7-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q7-response/label",
+                  "type": "item",
+                  "ref": "p22-q7-response/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p22-q7-response/prompt",
+                  "type": "item",
+                  "ref": "p22-q7-response/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p22-q7-graph",
+                  "type": "item",
+                  "ref": "p22-q7-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p22-q7-response/space",
+                  "type": "item",
+                  "ref": "p22-q7-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:54.908Z",
+  "updatedAt": "2026-10-21T07:41:54.908Z"
+}

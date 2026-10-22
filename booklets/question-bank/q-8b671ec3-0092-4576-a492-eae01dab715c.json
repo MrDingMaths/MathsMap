@@ -1,0 +1,140 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8b671ec3-0092-4576-a492-eae01dab715c",
+  "status": "approved",
+  "title": "2016 HSC Extension 2 Band 5",
+  "classification": {
+    "primarySkillId": "alternate-segment-theorem",
+    "secondarySkillIds": [
+      "tangent-secant-properties",
+      "circle-angle-properties"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires an unscaffolded proof strategy: add useful radii and chords, exploit BP=BC to constrain angles, and connect tangent geometry with angle bisection or equivalent length relations to prove OP=OQ.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:53.409Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6a19b74ad494895e086dbd57309705739b4bfffa0a78e23894703aaf85e9d318",
+      "evidence": ".booklet-work/reasoning-ratings/calls/circle-geometry-v1/0648cd7a796a87ff508945f6eb8173334ce513e51ae97c996f71d17cb6dc44a6-1792556250906/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p47-question-1-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "The circle centred at $O$ has diameter $AB$. A point $P$ on $AB$ produced is chosen so that $PC$ is a tangent to the circle at $C$ and $BP=BC$. The tangents to the circle at $A$ and $C$ meet at $Q$.\n\nProve that $OP=OQ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p47-diagram-1",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 47 p47-diagram-1\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,2);\\coordinate (C) at (0,0);\\coordinate (A) at ({sqrt(3)},3);\\coordinate (B) at ({-sqrt(3)},1);\\coordinate (P) at ({-2*sqrt(3)},0);\\coordinate (Q) at ({2*sqrt(3)},0);\n\\draw (O) circle (2);\\draw (P)--(A);\\draw (P)--(Q);\\draw (B)--(C);\\draw (Q)--($(Q)!1.23!(A)$);\n\\fill (O) circle (1.2pt);\n\\foreach \\U/\\V in {P/B,B/C}{\\draw[line width=0.4pt] ($ (\\U)!0.47!(\\V)!2pt!90:(\\V) $)--($ (\\U)!0.47!(\\V)!2pt!-90:(\\V) $);\\draw[line width=0.4pt] ($ (\\U)!0.53!(\\V)!2pt!90:(\\V) $)--($ (\\U)!0.53!(\\V)!2pt!-90:(\\V) $);}\n\\node[left] at (P){$P$};\\node[above left] at (B){$B$};\\node[above left] at (O){$O$};\\node[right] at (A){$A$};\\node[below] at (C){$C$};\\node[right] at (Q){$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 47,
+          "sourceRegion": "Question 8 diagram; original unannotated Word image165",
+          "description": "Circle, diameter PBOA, tangent PCQ, tangent AQ extended beyond A, and chord BC with matching double ticks on BP and BC.",
+          "mathematics": "AB is a diameter, PC and QA are tangents, BP=BC. Coordinates express the exact compatible geometry without printing extra measurements.",
+          "answerVisibility": "OC, AC, OQ, derived equality marks and angle labels are withheld from the student figure."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\angle OPQ=\\angle OQP=30^\\circ$, so $\\triangle OPQ$ is isosceles and $OP=OQ$.",
+      "worked": "Construct $OC$, $AC$ and $OQ$. Let $\\angle BPC=\\phi$.\n\nSince $BP=BC$, $\\triangle BPC$ is isosceles, so $\\angle BCP=\\phi$. The exterior angle at $B$ gives $\\angle OBC=2\\phi$.\n\nBy the alternate segment theorem, $\\angle BAC=\\angle BCP=\\phi$. Since $AB$ is a diameter, $\\angle BCA=90^\\circ$.\n$$\\begin{align*}\\phi+2\\phi&=90^\\circ\\\\\\phi&=30^\\circ.\\end{align*}$$\nThe radius is perpendicular to the tangent, so $OA\\perp AQ$ and\n$$\\angle CAQ=90^\\circ-\\phi=60^\\circ.$$\nTangents from $Q$ are equal: $QA=QC$. Thus $\\triangle QAC$ is isosceles and $\\angle QCA=60^\\circ$. Hence\n$$\\angle AQC=180^\\circ-60^\\circ-60^\\circ=60^\\circ.$$\nTriangles $OAQ$ and $OCQ$ are congruent by SSS: $OA=OC$ (radii), $AQ=CQ$ (equal tangents), and $OQ$ is common. Therefore $OQ$ bisects $\\angle AQC$, giving\n$$\\angle OQC=\\frac{60^\\circ}{2}=30^\\circ=\\angle OPC.$$\nSince $P,C,Q$ are collinear, $\\angle OQP=\\angle OQC$ and $\\angle OPQ=\\angle OPC$. Thus $\\triangle OPQ$ is isosceles and $OP=OQ$.",
+      "solutionDiagrams": [
+        {
+          "id": "p47-diagram-1-solution",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 47 p47-diagram-1-solution\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,2);\\coordinate (C) at (0,0);\\coordinate (A) at ({sqrt(3)},3);\\coordinate (B) at ({-sqrt(3)},1);\\coordinate (P) at ({-2*sqrt(3)},0);\\coordinate (Q) at ({2*sqrt(3)},0);\n\\draw (O) circle (2);\\draw (P)--(A) (P)--(Q) (B)--(C) (Q)--($(Q)!1.23!(A)$);\\draw (O)--(C) (A)--(C) (O)--(Q);\\fill (O) circle (1.2pt);\n\\foreach \\U/\\V in {O/A,O/B,O/C}{\\draw[line width=0.4pt] ($ (\\U)!0.5!(\\V)!2pt!90:(\\V) $)--($ (\\U)!0.5!(\\V)!2pt!-90:(\\V) $);}\n\\foreach \\U/\\V in {P/B,B/C}{\\foreach \\t in {0.47,0.53}{\\draw[line width=0.4pt] ($ (\\U)!\\t!(\\V)!2pt!90:(\\V) $)--($ (\\U)!\\t!(\\V)!2pt!-90:(\\V) $);}}\n\\foreach \\U/\\V in {A/Q,C/Q}{\\foreach \\t in {0.47,0.5,0.53}{\\draw[line width=0.4pt] ($ (\\U)!\\t!(\\V)!2pt!90:(\\V) $)--($ (\\U)!\\t!(\\V)!2pt!-90:(\\V) $);}}\n\\pic[draw=none,angle radius=6mm,angle eccentricity=1,\"$\\phi$\"] {angle=C--P--B};\\pic[draw=none,angle radius=6mm,angle eccentricity=1,\"$\\phi$\"] {angle=B--C--P};\\pic[draw=none,angle radius=5mm,angle eccentricity=1,\"$2\\phi$\"] {angle=C--B--O};\\pic[draw=none,angle radius=5mm,angle eccentricity=1,\"$\\phi$\"] {angle=B--A--C};\n\\coordinate (CB) at ($(C)!3mm!(B)$);\\coordinate (CA) at ($(C)!3mm!(A)$);\\draw[line width=0.4pt] (CB)--($(CB)+(CA)-(C)$)--(CA);\n\\node[left] at (P){$P$};\\node[above left] at (B){$B$};\\node[above left] at (O){$O$};\\node[right] at (A){$A$};\\node[below] at (C){$C$};\\node[right] at (Q){$Q$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 110,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 47,
+            "sourceRegion": "Annotated proof diagram",
+            "description": "Complete answer figure with constructions OC, AC and OQ, angle annotations, radius ticks, equal-tangent ticks and the right angle BCA.",
+            "mathematics": "Single ticks denote equal radii; double ticks denote BP=BC; triple ticks denote AQ=CQ. The labelled angles follow the supplied proof.",
+            "answerVisibility": "Answer-only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 150
+  },
+  "presentation": {
+    "ownerId": "p47-question-1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p47-question-1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p47-question-1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p47-question-1-root/label",
+                  "type": "item",
+                  "ref": "p47-question-1-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p47-question-1-root/prompt",
+                  "type": "item",
+                  "ref": "p47-question-1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p47-diagram-1",
+                  "type": "item",
+                  "ref": "p47-diagram-1",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p47-question-1-root/space",
+                  "type": "item",
+                  "ref": "p47-question-1-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:33:23.709Z",
+  "updatedAt": "2026-10-21T08:33:23.709Z"
+}

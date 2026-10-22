@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-65fa3c71-9163-417b-b080-f9af24647d69",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-find-side-denominator",
+    "secondarySkillIds": [],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Express two lengths using the shared unknown height, equate their difference to 8, and factor and solve; the parts explicitly supply this sequence.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:47:13.709Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4509f8f931259e689d205d13deb669b6352a357bcfc7a2fdb843df2b29748a07",
+      "evidence": ".booklet-work/reasoning-ratings/calls/right-angled-trigonometry-v1/ea07c735f6a0ac11db3257ca372283ad6eb81aaee82bc3346db18cdc59bf0b75-1792561590342/last-message.txt",
+      "originalTaskHash": "13dbb4ab283c83228a05561bb1fda87aa1f9e886f667e6092754af7569123923",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "127a5b4bfa17dad469a533328097e0a35ec7cb98bfdbb75d960395192fb724a9"
+      }
+    }
+  },
+  "content": {
+    "id": "p30-bridge-equation-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Find $x$. Round your answer to 2 decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p30-bridge-equation-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"user-approved bridging question\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (0,-2);\\coordinate (D) at ({2/tan(60)},0);\\coordinate (C) at ({2/tan(30)},0);\n\\draw[line width=.8pt] (A)--(B)--(C)--cycle (B)--(D);\n\\pic[draw,line width=.4pt,angle radius=2mm] {right angle=B--A--D};\n\\path (A)--(B) node[midway,left] {$x$};\n\\pic[draw,line width=.4pt,angle radius=5mm,angle eccentricity=1.6,\"$60^\\circ$\"] {angle=A--D--B};\n\\pic[draw,line width=.4pt,angle radius=7mm,angle eccentricity=1.6,\"$30^\\circ$\"] {angle=A--C--B};\n\\draw[<->,>=Stealth] ($(D)+(0,.35)$)--($(C)+(0,.35)$) node[midway,above] {$8$};\n\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "description": "Two right triangles share vertical height x; near angle 60 degrees and far angle 30 degrees; the difference of the horizontal lengths is 8.",
+          "mathematics": "Use tangent as opposite over adjacent, rearrange horizontal length as height divided by tangent, and subtract the shorter horizontal side from the full side.",
+          "answerVisibility": "Only givens and unknown labels appear; answers remain in the solution fields."
+        },
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "p30-bridge-equation-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Express the shorter and full horizontal lengths in terms of $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{x}{\\tan60^\\circ}$ and $\\frac{x}{\\tan30^\\circ}$",
+          "worked": "Apply $\\tan\\theta=\\frac{O}{A}$ and rearrange: $s=\\frac{x}{\\tan60^\\circ}$, $l=\\frac{x}{\\tan30^\\circ}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p30-bridge-equation-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the difference of 8 to form an equation in $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{x}{\\tan30^\\circ}-\\frac{x}{\\tan60^\\circ}=8$",
+          "worked": "$\\frac{x}{\\tan30^\\circ}-\\frac{x}{\\tan60^\\circ}=8$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p30-bridge-equation-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Factor out $x$, then solve the equation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=6.93$",
+          "worked": "$$\\begin{align*}x\\left(\\frac{1}{\\tan30^\\circ}-\\frac{1}{\\tan60^\\circ}\\right)&=8\\\\x&=\\frac{8}{\\frac{1}{\\tan30^\\circ}-\\frac{1}{\\tan60^\\circ}}\\\\x&\\approx6.93\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-bridge-equation",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:50:16.522Z",
+  "updatedAt": "2026-10-21T09:50:16.522Z"
+}

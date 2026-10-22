@@ -1,0 +1,641 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5ba05f47-b431-4023-9b68-34fd3ddb7b7a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "simultaneous-equations-graphically",
+    "secondarySkillIds": [
+      "simultaneous-word-problems"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Match contextual starting savings and hourly rates to graph intercepts and slopes, read graphical solutions, verify the intersection by substitution into both equations and interpret its coordinates in context.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:49:34.209Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cde55719ad9941424f37d10a24a32df2481284ddf6810db4275160f018abc4a2",
+      "evidence": ".booklet-work/reasoning-ratings/calls/simultaneous-equations-v1/3f8044f5dd626d375ff5513c2f4d5bf94b0db0581fa0dee73d2a0b2ff2154c8e-1792561754208/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q7-root",
+    "type": "question",
+    "label": "",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p13-q7-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Jayden and Ruby are saving all their money for the school ski trip.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p13-q7-givens",
+          "type": "list",
+          "ordered": false,
+          "start": 1,
+          "indent": 7,
+          "items": [
+            {
+              "id": "p13-q7-jayden-given",
+              "type": "list-item",
+              "blocks": [
+                {
+                  "id": "p13-q7-jayden-text",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "Jayden has saved $24 and earns $6 per hour mowing lawns.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "p13-q7-ruby-given",
+              "type": "list-item",
+              "blocks": [
+                {
+                  "id": "p13-q7-ruby-text",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "Ruby has saved $10 and earns $8 per hour babysitting.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"Jayden savings series\"},{\"name\":\"seriesRed\",\"hex\":\"EF6068\",\"reason\":\"Ruby savings series\"}],\"reference\":\"source page 13 p13-q7-graph\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.055cm]\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[gridGrey,line width=0.25pt,xstep=1,ystep=10] (0,0) grid (13,120);\n\\draw[black,line width=0.5pt,->] (0,0)--(13,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,0)--(0,120) node[above] {$y$};\n\\foreach \\n in {1,...,12} {\n\\draw[black,line width=0.4pt] (\\n,0)--(\\n,-2);\n\\node[below] at (\\n,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\a in {2,4,...,118} {\\draw[black,line width=0.4pt] (0,\\a)--(-0.10,\\a);}\n\\foreach \\a in {10,20,...,110} {\n\\draw[black,line width=0.4pt] (0,\\a)--(-0.20,\\a);\n\\node[left] at (-0.20,\\a) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a$\\special{dvisvgm:raw </g>}};\n}\n\\node[below] at (6.5,-13) {Number ($n$) of hours worked};\n\\node[rotate=90] at (-2.1,60) {Amount ($A$) saved (\\$)};\n\\draw[seriesBlue,line width=0.8pt,<->] plot[domain=0:13,samples=2] (\\x,{24+6*\\x});\n\\draw[seriesRed,line width=0.8pt,<->] plot[domain=0:13,samples=2] (\\x,{10+8*\\x});\n\\foreach \\n/\\a in {2/36,4/48,7/66,9/78,11/90} {\\fill[seriesBlue] (\\n,\\a) circle[radius=1.3pt];}\n\\foreach \\n/\\a in {2/26,4/42,7/66,9/82,11/98} {\\fill[seriesRed] (\\n,\\a) circle[radius=1.3pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Shared savings graph above parts a–d",
+          "description": "Unshaded coordinate graph with grey house grid, positive axis arrows, x and y tip labels, axis titles, all printed numbered ticks and vertical minor ticks. Blue and red series retain their mathematical distinction.",
+          "mathematics": "0 ≤ n ≤ 13; 0 ≤ A ≤ 120. Grid steps are 1 hour and 10 dollars. Jayden: A=24+6n, marked at (2,36),(4,48),(7,66),(9,78),(11,90). Ruby: A=10+8n, marked at (2,26),(4,42),(7,66),(9,82),(11,98). Both series have arrows at both visible ends. No origin label or printed equations.",
+          "answerVisibility": "The source-supplied graph and all marked points remain visible in student editions; teacher answer prose is separate."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The two graphs represent Jayden and Ruby’s savings over time.\nWhich line represents Jayden, and which line represents Ruby? Why?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Jayden: blue, starting at $\\$24$ and increasing by $\\$6$ per hour. Ruby: red, starting at $\\$10$ and increasing by $\\$8$ per hour.",
+          "worked": "The blue line has vertical intercept $24$ and gradient $6$, matching Jayden’s initial savings and hourly earnings. The red line has vertical intercept $10$ and gradient $8$, matching Ruby’s initial savings and hourly earnings.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p13-q7-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Use the appropriate line on the graph above to find the solution to the following equations.\nDo not solve using the inverse operations method. Solve graphically.",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p13-q7-b-1",
+            "type": "part",
+            "label": "i",
+            "prompt": "$$10+8n=42$$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$n=4$",
+              "worked": "Read across from $A=42$ to the red line, then down to the horizontal axis: $n=4$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p13-q7-b-2",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$$24+6n=48$$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$n=4$",
+              "worked": "Read across from $A=48$ to the blue line, then down to the horizontal axis: $n=4$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p13-q7-b-3",
+            "type": "part",
+            "label": "iii",
+            "prompt": "$$10+8n=66$$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$n=7$",
+              "worked": "Read across from $A=66$ to the red line, then down to the horizontal axis: $n=7$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p13-q7-b-4",
+            "type": "part",
+            "label": "iv",
+            "prompt": "$$24+6n=66$$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$n=7$",
+              "worked": "Read across from $A=66$ to the blue line, then down to the horizontal axis: $n=7$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p13-q7-b-5",
+            "type": "part",
+            "label": "v",
+            "prompt": "$$10+8n=98$$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$n=11$",
+              "worked": "Read across from $A=98$ to the red line, then down to the horizontal axis: $n=11$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p13-q7-b-6",
+            "type": "part",
+            "label": "vi",
+            "prompt": "$$24+6n=90$$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$n=11$",
+              "worked": "Read across from $A=90$ to the blue line, then down to the horizontal axis: $n=11$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          }
+        ]
+      },
+      {
+        "id": "p13-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write the coordinates of the point of intersection.\nShow that these values satisfy both Ruby and Jayden’s equations.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(7,66)$. Ruby: $10+8(7)=66$. Jayden: $24+6(7)=66$.",
+          "worked": "The graph shows the intersection at $(7,66)$.\n\nRuby:\n$$\\begin{align*}10+8(7)&=10+56\\\\&=66\\end{align*}$$\nJayden:\n$$\\begin{align*}24+6(7)&=24+42\\\\&=66\\end{align*}$$\nBoth equations give $A=66$ when $n=7$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p13-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Identify how many hours have been worked and what their savings are at the point of intersection of the two lines.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each has worked 7 hours and saved $\\$66$.",
+          "worked": "At the intersection, $n=7$ and $A=66$. Each has worked 7 hours and has $\\$66$ in savings.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q7-root/label",
+                  "type": "item",
+                  "ref": "p13-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p13-q7-root/prompt#p13-q7-stem",
+                  "type": "item",
+                  "ref": "p13-q7-root/prompt#p13-q7-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p13-q7-root/prompt#p13-q7-givens",
+                  "type": "item",
+                  "ref": "p13-q7-root/prompt#p13-q7-givens",
+                  "title": "list"
+                },
+                {
+                  "id": "layout:p13-q7-graph",
+                  "type": "item",
+                  "ref": "p13-q7-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p13-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q7-a/label",
+                          "type": "item",
+                          "ref": "p13-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p13-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p13-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q7-a/space",
+                          "type": "item",
+                          "ref": "p13-q7-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p13-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q7-b/label",
+                          "type": "item",
+                          "ref": "p13-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p13-q7-b/prompt",
+                          "type": "item",
+                          "ref": "p13-q7-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p13-q7-b:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p13-q7-b:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p13-q7-b-1:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q7-b-1/label",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-1/label",
+                                      "title": "Label i"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-1/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-1/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-1/space",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-1/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part i",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p13-q7-b-2:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q7-b-2/label",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-2/label",
+                                      "title": "Label ii"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-2/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-2/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-2/space",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-2/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part ii",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p13-q7-b-3:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q7-b-3/label",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-3/label",
+                                      "title": "Label iii"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-3/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-3/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-3/space",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-3/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part iii",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p13-q7-b:row:3",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p13-q7-b-4:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q7-b-4/label",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-4/label",
+                                      "title": "Label iv"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-4/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-4/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-4/space",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-4/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part iv",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p13-q7-b-5:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q7-b-5/label",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-5/label",
+                                      "title": "Label v"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-5/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-5/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-5/space",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-5/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part v",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p13-q7-b-6:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q7-b-6/label",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-6/label",
+                                      "title": "Label vi"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-6/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-6/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q7-b-6/space",
+                                      "type": "item",
+                                      "ref": "p13-q7-b-6/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part vi",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p13-q7-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q7-c/label",
+                          "type": "item",
+                          "ref": "p13-q7-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p13-q7-c/prompt",
+                          "type": "item",
+                          "ref": "p13-q7-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q7-c/space",
+                          "type": "item",
+                          "ref": "p13-q7-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p13-q7-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q7-d/label",
+                          "type": "item",
+                          "ref": "p13-q7-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p13-q7-d/prompt",
+                          "type": "item",
+                          "ref": "p13-q7-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q7-d/space",
+                          "type": "item",
+                          "ref": "p13-q7-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 7",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:30:58.899Z",
+  "updatedAt": "2026-10-21T11:30:58.899Z"
+}

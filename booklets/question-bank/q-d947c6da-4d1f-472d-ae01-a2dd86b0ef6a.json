@@ -1,0 +1,771 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d947c6da-4d1f-472d-ae01-a2dd86b0ef6a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "bearing-between-two-points",
+    "secondarySkillIds": [
+      "unknown-angles-parallel"
+    ],
+    "reasoningScore": 20,
+    "difficulty": "Foundation",
+    "difficultyReason": "Students interpret which location is the starting point and apply the taught reverse-bearing procedure to explicitly stated bearings, including where a north ray is absent.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:48:05.767Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bce26a849c0988a8fab7c53f06289b12fe7d3e49a136a2be28d241d09744e9ac",
+      "evidence": ".booklet-work/reasoning-ratings/calls/elevation-depression-bearings-v1/e986aa3ec0e65f0fc39568d42729a4b343a1ebc4246382c3b5587692863202b5-1792558065454/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q11-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "The bearing of $S$ from $L$ is $285^{\\circ}$. Find the bearing of $L$ from $S$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-a-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11a question\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(105)},{1.8*cos(105)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\n\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11a",
+              "description": "C lower left, S above, L lower right; north rays at S and L. Only the central ray is labelled North.",
+              "mathematics": "L lies on bearing 105 degrees from S; SL has no supplied length.",
+              "answerVisibility": "No teacher arcs, added rays, auxiliary angles or results."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$105^{\\circ}$",
+          "worked": "At $L$, the angle on the other side of north is $360^{\\circ}-285^{\\circ}=\\color{#4f9b63}{75^{\\circ}}$.\n\nThe north lines are parallel, so cointerior angles sum to $180^{\\circ}$.\n\n$$\\begin{align*}\\text{Bearing of }L\\text{ from }S&=180^{\\circ}-75^{\\circ}\\\\&=105^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11a solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(105)},{1.8*cos(105)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (L) circle (1.2pt);\\node[anchor=west,inner sep=0pt] at ($(L)+(0.65,0)$) {$L$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] ($(L)+(90:0.38)$) arc[start angle=90,end angle=-195,radius=0.38];\\node[givenPurple] at ($(L)+(-52.5:0.67)$) {$285^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] ($(L)+(90:0.26)$) arc[start angle=90,end angle=165,radius=0.26];\\node[auxGreen] at ($(L)+(127.5:0.60)$) {$75^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] (90:0.38) arc[start angle=90,end angle=-15,radius=0.38];\\node[answerRed] at (37.5:0.72) {$105^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11a worked annotations",
+                "description": "Given clockwise 285 degrees at L in purple; remaining 75 degrees at L in green; sought clockwise 105 degrees at S in red.",
+                "mathematics": "285+75=360; 75+105=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": "The bearing of $S$ from $C$ is $76^{\\circ}$. Find the bearing of $C$ from $S$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-b-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11b question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({-1.8*sin(76)},{-1.8*cos(76)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11b",
+              "description": "C lower left, S above, L lower right; original north rays at C and S, with North above S.",
+              "mathematics": "CS has bearing 76 degrees from C; no lengths are given.",
+              "answerVisibility": "Teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$256^{\\circ}$",
+          "worked": "The north lines are parallel. The cointerior angle at $S$ is $180^{\\circ}-76^{\\circ}=\\color{#4f9b63}{104^{\\circ}}$.\n\nUsing angles at a point:\n\n$$\\begin{align*}\\text{Bearing of }C\\text{ from }S&=360^{\\circ}-104^{\\circ}\\\\&=256^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"cointerior angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11b solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({-1.8*sin(76)},{-1.8*cos(76)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\n\\foreach \\P/\\pos in {C/below left,L/below right}{\\fill (\\P) circle (1.2pt) node[\\pos]{$\\P$};}\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] ($(C)+(90:0.32)$) arc[start angle=90,end angle=14,radius=0.32];\\node[givenPurple] at ($(C)+(52:0.66)$) {$76^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] (90:0.27) arc[start angle=90,end angle=194,radius=0.27];\\node[auxGreen] at (142:0.64) {$104^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] (90:0.43) arc[start angle=90,end angle=-166,radius=0.43];\\node[answerRed] at (0.65,-1.25) {$256^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11b worked annotations",
+                "description": "76 degrees at C in purple, 104 degrees at S in green and clockwise 256 degrees at S in red.",
+                "mathematics": "76+104=180; 104+256=360.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-c-node",
+        "type": "part",
+        "label": "c",
+        "prompt": "The bearing of $L$ from $S$ is $118^{\\circ}$. Find the bearing of $S$ from $L$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-c-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11c question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(118)},{1.8*cos(118)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11c",
+              "description": "C lower left, S above, L lower right. Original north rays at C and S; North labels S.",
+              "mathematics": "SL lies on bearing 118 degrees from S; no lengths are given.",
+              "answerVisibility": "The coloured north ray at L and teacher angle annotations are omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$298^{\\circ}$",
+          "worked": "Draw a north line at $L$, parallel to the north line at $S$. The cointerior angle at $L$ is $180^{\\circ}-118^{\\circ}=\\color{#4f9b63}{62^{\\circ}}$.\n\nUsing angles at a point:\n\n$$\\begin{align*}\\text{Bearing of }S\\text{ from }L&=360^{\\circ}-62^{\\circ}\\\\&=298^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"cointerior angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"added north ray and sought bearing\"}],\"reference\":\"p28 11c solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(118)},{1.8*cos(118)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\\draw[->,answerRed,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (L) circle (1.2pt);\\node[anchor=west,inner sep=0pt] at ($(L)+(0.65,0)$) {$L$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] (90:0.32) arc[start angle=90,end angle=-28,radius=0.32];\\node[givenPurple] at (31:0.68) {$118^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] ($(L)+(90:0.27)$) arc[start angle=90,end angle=152,radius=0.27];\\node[auxGreen] at ($(L)+(121:0.60)$) {$62^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] ($(L)+(90:0.43)$) arc[start angle=90,end angle=-208,radius=0.43];\\node[answerRed] at ($(L)+(-59:0.72)$) {$298^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11c worked annotations",
+                "description": "Purple 118-degree bearing at S; added red north ray at L; green 62-degree angle and red clockwise 298-degree bearing at L.",
+                "mathematics": "118+62=180; 62+298=360.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-d-node",
+        "type": "part",
+        "label": "d",
+        "prompt": "The bearing of $C$ from $S$ is $252^{\\circ}$. Find the bearing of $S$ from $C$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-d-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11d question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(252)},{1.8*cos(252)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11d",
+              "description": "C lower left, S above, L lower right; original north rays at S and L.",
+              "mathematics": "SC has bearing 252 degrees from S.",
+              "answerVisibility": "Added north ray at C and teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$072^{\\circ}$",
+          "worked": "The remaining angle at $S$ is $360^{\\circ}-252^{\\circ}=\\color{#4f9b63}{108^{\\circ}}$.\n\nDraw a parallel north line at $C$. Using cointerior angles:\n\n$$\\begin{align*}\\text{Bearing of }S\\text{ from }C&=180^{\\circ}-108^{\\circ}\\\\&=072^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-d-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"added north ray and sought bearing\"}],\"reference\":\"p28 11d solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(252)},{1.8*cos(252)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\\draw[->,answerRed,line width=0.5pt] (C)--++(0,1.05);\n\\foreach \\P/\\pos in {C/below left,L/below right}{\\fill (\\P) circle (1.2pt) node[\\pos]{$\\P$};}\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] (90:0.43) arc[start angle=90,end angle=-162,radius=0.43];\\node[givenPurple] at (0.65,-1.25) {$252^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] (90:0.27) arc[start angle=90,end angle=198,radius=0.27];\\node[auxGreen] at (144:0.64) {$108^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] ($(C)+(90:0.32)$) arc[start angle=90,end angle=18,radius=0.32];\\node[answerRed] at ($(C)+(54:0.66)$) {$072^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11d worked annotations",
+                "description": "Purple 252-degree bearing and green 108-degree angle at S; added red north ray and 072-degree bearing at C.",
+                "mathematics": "252+108=360; 108+72=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-e-node",
+        "type": "part",
+        "label": "e",
+        "prompt": "The bearing of $S$ from $C$ is $68^{\\circ}$. Find the bearing of $C$ from $S$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-e-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11e question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({-1.8*sin(68)},{-1.8*cos(68)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11e",
+              "description": "C lower left, S above, L lower right; original north rays at C and S.",
+              "mathematics": "CS has bearing 68 degrees from C.",
+              "answerVisibility": "Teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$248^{\\circ}$",
+          "worked": "The cointerior angle at $S$ is $180^{\\circ}-68^{\\circ}=\\color{#4f9b63}{112^{\\circ}}$.\n\nUsing angles at a point:\n\n$$\\begin{align*}\\text{Bearing of }C\\text{ from }S&=360^{\\circ}-112^{\\circ}\\\\&=248^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-e-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"cointerior angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11e solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({-1.8*sin(68)},{-1.8*cos(68)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\n\\foreach \\P/\\pos in {C/below left,L/below right}{\\fill (\\P) circle (1.2pt) node[\\pos]{$\\P$};}\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] ($(C)+(90:0.32)$) arc[start angle=90,end angle=22,radius=0.32];\\node[givenPurple] at ($(C)+(56:0.66)$) {$68^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] (90:0.27) arc[start angle=90,end angle=202,radius=0.27];\\node[auxGreen] at (146:0.64) {$112^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] (90:0.43) arc[start angle=90,end angle=-158,radius=0.43];\\node[answerRed] at (0.65,-1.25) {$248^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11e worked annotations",
+                "description": "Purple 68-degree bearing at C, green 112-degree cointerior angle at S and red clockwise 248-degree bearing at S.",
+                "mathematics": "68+112=180; 112+248=360.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-f-node",
+        "type": "part",
+        "label": "f",
+        "prompt": "The bearing of $L$ from $S$ is $106^{\\circ}$. Find the bearing of $S$ from $L$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-f-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11f question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(106)},{1.8*cos(106)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11f",
+              "description": "C lower left, S above, L lower right; original north rays at S and L.",
+              "mathematics": "SL has bearing 106 degrees from S.",
+              "answerVisibility": "Teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$286^{\\circ}$",
+          "worked": "The cointerior angle at $L$ is $180^{\\circ}-106^{\\circ}=\\color{#4f9b63}{74^{\\circ}}$.\n\nUsing angles at a point:\n\n$$\\begin{align*}\\text{Bearing of }S\\text{ from }L&=360^{\\circ}-74^{\\circ}\\\\&=286^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-f-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"cointerior angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11f solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(106)},{1.8*cos(106)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (L) circle (1.2pt);\\node[anchor=west,inner sep=0pt] at ($(L)+(0.65,0)$) {$L$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] (90:0.32) arc[start angle=90,end angle=-16,radius=0.32];\\node[givenPurple] at (37:0.68) {$106^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] ($(L)+(90:0.27)$) arc[start angle=90,end angle=164,radius=0.27];\\node[auxGreen] at ($(L)+(127:0.60)$) {$74^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] ($(L)+(90:0.43)$) arc[start angle=90,end angle=-196,radius=0.43];\\node[answerRed] at ($(L)+(-53:0.72)$) {$286^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11f worked annotations",
+                "description": "Purple 106-degree bearing at S, green 74-degree angle at L and red clockwise 286-degree bearing at L.",
+                "mathematics": "106+74=180; 74+286=360.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-g-node",
+        "type": "part",
+        "label": "g",
+        "prompt": "The bearing of $S$ from $L$ is $289^{\\circ}$. Find the bearing of $L$ from $S$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-g-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11g question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(109)},{1.8*cos(109)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11g",
+              "description": "C lower left, S above, L lower right; original north rays at S and L.",
+              "mathematics": "SL has bearing 109 degrees from S.",
+              "answerVisibility": "Teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$109^{\\circ}$",
+          "worked": "The remaining angle at $L$ is $360^{\\circ}-289^{\\circ}=\\color{#4f9b63}{71^{\\circ}}$.\n\nUsing cointerior angles:\n\n$$\\begin{align*}\\text{Bearing of }L\\text{ from }S&=180^{\\circ}-71^{\\circ}\\\\&=109^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-g-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11g solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(109)},{1.8*cos(109)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (L) circle (1.2pt);\\node[anchor=west,inner sep=0pt] at ($(L)+(0.65,0)$) {$L$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] ($(L)+(90:0.43)$) arc[start angle=90,end angle=-199,radius=0.43];\\node[givenPurple] at ($(L)+(-54.5:0.72)$) {$289^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] ($(L)+(90:0.27)$) arc[start angle=90,end angle=161,radius=0.27];\\node[auxGreen] at ($(L)+(125.5:0.60)$) {$71^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] (90:0.32) arc[start angle=90,end angle=-19,radius=0.32];\\node[answerRed] at (35.5:0.68) {$109^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11g worked annotations",
+                "description": "Purple clockwise 289 degrees and green 71 degrees at L; red clockwise 109 degrees at S.",
+                "mathematics": "289+71=360; 71+109=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-h-node",
+        "type": "part",
+        "label": "h",
+        "prompt": "The bearing of $C$ from $S$ is $258^{\\circ}$. Find the bearing of $S$ from $C$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-h-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11h question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(258)},{1.8*cos(258)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11h",
+              "description": "C lower left, S above, L lower right; original north rays at C and S.",
+              "mathematics": "SC has bearing 258 degrees from S.",
+              "answerVisibility": "Teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$078^{\\circ}$",
+          "worked": "The remaining angle at $S$ is $360^{\\circ}-258^{\\circ}=\\color{#4f9b63}{102^{\\circ}}$.\n\nUsing cointerior angles:\n\n$$\\begin{align*}\\text{Bearing of }S\\text{ from }C&=180^{\\circ}-102^{\\circ}\\\\&=078^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-h-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11h solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(258)},{1.8*cos(258)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,line width=0.5pt] (C)--++(0,1.05);\n\\foreach \\P/\\pos in {C/below left,L/below right}{\\fill (\\P) circle (1.2pt) node[\\pos]{$\\P$};}\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] (90:0.43) arc[start angle=90,end angle=-168,radius=0.43];\\node[givenPurple] at (0.65,-1.25) {$258^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] (90:0.27) arc[start angle=90,end angle=192,radius=0.27];\\node[auxGreen] at (141:0.64) {$102^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] ($(C)+(90:0.32)$) arc[start angle=90,end angle=12,radius=0.32];\\node[answerRed] at ($(C)+(51:0.66)$) {$078^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11h worked annotations",
+                "description": "Purple 258-degree bearing and green 102-degree angle at S; red 078-degree bearing at C.",
+                "mathematics": "258+102=360; 102+78=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-i-node",
+        "type": "part",
+        "label": "i",
+        "prompt": "The bearing of $S$ from $L$ is $294^{\\circ}$. Find the bearing of $L$ from $S$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-i-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11i question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(114)},{1.8*cos(114)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11i",
+              "description": "C lower left, S above, L lower right; original north ray at S only.",
+              "mathematics": "SL has bearing 114 degrees from S.",
+              "answerVisibility": "Coloured added north ray at L and teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$114^{\\circ}$",
+          "worked": "Draw a north line at $L$. The remaining angle there is $360^{\\circ}-294^{\\circ}=\\color{#4f9b63}{66^{\\circ}}$.\n\nUsing cointerior angles:\n\n$$\\begin{align*}\\text{Bearing of }L\\text{ from }S&=180^{\\circ}-66^{\\circ}\\\\&=114^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-i-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"added north ray for given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11i solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(114)},{1.8*cos(114)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,givenPurple,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (L) circle (1.2pt);\\node[anchor=west,inner sep=0pt] at ($(L)+(0.65,0)$) {$L$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] ($(L)+(90:0.43)$) arc[start angle=90,end angle=-204,radius=0.43];\\node[givenPurple] at ($(L)+(-57:0.72)$) {$294^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] ($(L)+(90:0.27)$) arc[start angle=90,end angle=156,radius=0.27];\\node[auxGreen] at ($(L)+(123:0.60)$) {$66^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] (90:0.32) arc[start angle=90,end angle=-24,radius=0.32];\\node[answerRed] at (33:0.68) {$114^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11i worked annotations",
+                "description": "Added purple north ray and clockwise 294-degree given at L; green 66 degrees at L; red clockwise 114 degrees at S.",
+                "mathematics": "294+66=360; 66+114=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-j-node",
+        "type": "part",
+        "label": "j",
+        "prompt": "The bearing of $C$ from $S$ is $248^{\\circ}$. Find the bearing of $S$ from $C$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-j-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11j question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(248)},{1.8*cos(248)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11j",
+              "description": "C lower left, S above, L lower right; original north ray at S only.",
+              "mathematics": "SC has bearing 248 degrees from S.",
+              "answerVisibility": "Added north ray at C and teacher annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$068^{\\circ}$",
+          "worked": "The remaining angle at $S$ is $360^{\\circ}-248^{\\circ}=\\color{#4f9b63}{112^{\\circ}}$.\n\nDraw a parallel north line at $C$. Using cointerior angles:\n\n$$\\begin{align*}\\text{Bearing of }S\\text{ from }C&=180^{\\circ}-112^{\\circ}\\\\&=068^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-j-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"added north ray and sought bearing\"}],\"reference\":\"p28 11j solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(248)},{1.8*cos(248)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,answerRed,line width=0.5pt] (C)--++(0,1.05);\n\\foreach \\P/\\pos in {C/below left,L/below right}{\\fill (\\P) circle (1.2pt) node[\\pos]{$\\P$};}\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] (90:0.43) arc[start angle=90,end angle=-158,radius=0.43];\\node[givenPurple] at (0.65,-1.25) {$248^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] (90:0.27) arc[start angle=90,end angle=202,radius=0.27];\\node[auxGreen] at (146:0.64) {$112^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] ($(C)+(90:0.32)$) arc[start angle=90,end angle=22,radius=0.32];\\node[answerRed] at ($(C)+(56:0.66)$) {$068^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11j worked annotations",
+                "description": "Purple 248 degrees and green 112 degrees at S; added red north ray and clockwise 068-degree bearing at C.",
+                "mathematics": "248+112=360; 112+68=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-k-node",
+        "type": "part",
+        "label": "k",
+        "prompt": "The bearing of $S$ from $L$ is $289^{\\circ}$. Find the bearing of $L$ from $S$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-k-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11k question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(109)},{1.8*cos(109)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11k",
+              "description": "C lower left, S above, L lower right. Original central north direction retained; coloured added north ray at L is answer content.",
+              "mathematics": "SL has bearing 109 degrees from S.",
+              "answerVisibility": "Teacher colours, arcs and derived labels omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$109^{\\circ}$",
+          "worked": "Draw a north line at $L$. The remaining angle there is $360^{\\circ}-289^{\\circ}=\\color{#4f9b63}{71^{\\circ}}$.\n\nUsing cointerior angles:\n\n$$\\begin{align*}\\text{Bearing of }L\\text{ from }S&=180^{\\circ}-71^{\\circ}\\\\&=109^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-k-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"added north ray for given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"sought bearing\"}],\"reference\":\"p28 11k solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at (-1.6,-0.6);\\coordinate (L) at ({1.8*sin(109)},{1.8*cos(109)});\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,givenPurple,line width=0.5pt] (L)--++(0,1.05);\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (L) circle (1.2pt);\\node[anchor=west,inner sep=0pt] at ($(L)+(0.65,0)$) {$L$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] ($(L)+(90:0.43)$) arc[start angle=90,end angle=-199,radius=0.43];\\node[givenPurple] at ($(L)+(-54.5:0.72)$) {$289^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] ($(L)+(90:0.27)$) arc[start angle=90,end angle=161,radius=0.27];\\node[auxGreen] at ($(L)+(125.5:0.60)$) {$71^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] (90:0.32) arc[start angle=90,end angle=-19,radius=0.32];\\node[answerRed] at (35.5:0.68) {$109^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11k worked annotations",
+                "description": "Added purple north ray and clockwise 289-degree bearing at L; green 71-degree angle at L; red clockwise 109-degree bearing at S.",
+                "mathematics": "289+71=360; 71+109=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p28-q11-l-node",
+        "type": "part",
+        "label": "l",
+        "prompt": "The bearing of $C$ from $S$ is $241^{\\circ}$. Find the bearing of $S$ from $C$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q11-l-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p28 11l question\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(241)},{1.8*cos(241)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\n\\fill (C) circle (1.2pt) node[below left]{$C$};\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\\fill (L) circle (1.2pt) node[below right]{$L$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "11l",
+              "description": "C lower left, S above, L lower right; original central north ray retained.",
+              "mathematics": "SC has bearing 241 degrees from S.",
+              "answerVisibility": "Added north ray at C, teacher colours and angle annotations omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$061^{\\circ}$",
+          "worked": "The remaining angle at $S$ is $360^{\\circ}-241^{\\circ}=\\color{#4f9b63}{119^{\\circ}}$.\n\nDraw a parallel north line at $C$. Using cointerior angles:\n\n$$\\begin{align*}\\text{Bearing of }S\\text{ from }C&=180^{\\circ}-119^{\\circ}\\\\&=061^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q11-l-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"givenPurple\",\"hex\":\"8B5CC7\",\"reason\":\"given bearing\"},{\"name\":\"auxGreen\",\"hex\":\"4F9B63\",\"reason\":\"auxiliary angle\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"added north ray and sought bearing\"}],\"reference\":\"p28 11l solution\"}\n\\begin{tikzpicture}[line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{givenPurple}{HTML}{8B5CC7}\\definecolor{auxGreen}{HTML}{4F9B63}\\definecolor{answerRed}{HTML}{EF6068}\n\\coordinate (S) at (0,0);\\coordinate (C) at ({1.8*sin(241)},{1.8*cos(241)});\\coordinate (L) at (1.6,-0.6);\n\\draw[line width=0.8pt] (C)--(S)--(L);\\draw[->,line width=0.5pt] (S)--++(0,1.15) node[above]{North};\\draw[->,answerRed,line width=0.5pt] (C)--++(0,1.05);\n\\foreach \\P/\\pos in {C/below left,L/below right}{\\fill (\\P) circle (1.2pt) node[\\pos]{$\\P$};}\\fill (S) circle (1.2pt);\\node at ($(S)+(0,-0.80)$) {$S$};\n\\draw[->,givenPurple,line width=0.4pt] (90:0.43) arc[start angle=90,end angle=-151,radius=0.43];\\node[givenPurple] at (0.65,-1.25) {$241^{\\circ}$};\n\\draw[auxGreen,line width=0.4pt] (90:0.27) arc[start angle=90,end angle=209,radius=0.27];\\node[auxGreen] at (149.5:0.64) {$119^{\\circ}$};\n\\draw[->,answerRed,line width=0.4pt] ($(C)+(90:0.32)$) arc[start angle=90,end angle=29,radius=0.32];\\node[answerRed] at ($(C)+(59.5:0.66)$) {$061^{\\circ}$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 62,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "11l worked annotations",
+                "description": "Purple 241-degree bearing and green 119-degree angle at S; added red north ray and clockwise 061-degree bearing at C.",
+                "mathematics": "241+119=360; 119+61=180.",
+                "answerVisibility": "Worked answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q11-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:40:14.292Z",
+  "updatedAt": "2026-10-21T08:40:14.293Z"
+}

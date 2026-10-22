@@ -1,0 +1,115 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e54d1b0e-e0b9-4b79-9ccc-294b623f030e",
+  "status": "approved",
+  "title": "2018 HSC Extension 1 Band 5",
+  "classification": {
+    "primarySkillId": "cyclic-quadrilateral-properties",
+    "secondarySkillIds": [],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires expressing opposite angles of the inner quadrilateral through two surrounding triangles and connecting their sum to the halved angle sum of the outer quadrilateral; the half-angle labels are supplied.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:53.409Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b1a6946888b2059098258fe18ac6088a2c426a288d1b92c6d6b32e0740800fe4",
+      "evidence": ".booklet-work/reasoning-ratings/calls/circle-geometry-v1/0648cd7a796a87ff508945f6eb8173334ce513e51ae97c996f71d17cb6dc44a6-1792556250906/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p46-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The diagram shows quadrilateral $ABCD$ and the bisectors of the angles at $A$, $B$, $C$ and $D$. The bisectors at $A$ and $B$ intersect at the point $P$. The bisectors at $A$ and $D$ meet at $Q$. The bisectors at $C$ and $D$ meet at $R$. The bisectors at $B$ and $C$ meet at $S$.\n\nShow that $PQRS$ is a cyclic quadrilateral.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p46-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 46 p46-q6-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (1.3,3);\\coordinate (B) at (0,0);\\coordinate (C) at (6,0);\\coordinate (D) at (4.5,1.6);\n\\coordinate (P) at (1.97101,1.29401);\\coordinate (Q) at (2.79819,-0.80903);\\coordinate (R) at (3.98607,0.87250);\\coordinate (S) at (2.38531,1.56600);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (A)--(Q) (D)--(Q);\n\\draw (B)--($(B)!1.35!(S)$) (C)--($(C)!1.35!(S)$);\n\\draw[line width=0.8pt] (P)--(Q)--(R)--(S)--cycle;\n\\node[above] at (A){$A$};\\node[below left] at (B){$B$};\\node[below right] at (C){$C$};\\node[above right] at (D){$D$};\n\\node[left] at (P){$P$};\\node[below right] at (Q){$Q$};\\node[below right] at (R){$R$};\\node[above] at (S){$S$};\n\\pic[draw=none,angle radius=6mm,angle eccentricity=1,\"$\\alpha$\"] {angle=B--A--Q};\n\\pic[draw=none,angle radius=6mm,angle eccentricity=1,\"$\\alpha$\"] {angle=Q--A--D};\n\\pic[draw=none,angle radius=6mm,angle eccentricity=1,\"$\\beta$\"] {angle=C--B--S};\n\\pic[draw=none,angle radius=6mm,angle eccentricity=1,\"$\\beta$\"] {angle=S--B--A};\n\\pic[draw=none,angle radius=7mm,angle eccentricity=1,\"$\\gamma$\"] {angle=D--C--S};\n\\pic[draw=none,angle radius=7mm,angle eccentricity=1,\"$\\gamma$\"] {angle=S--C--B};\n\\pic[draw=none,angle radius=5mm,angle eccentricity=1,\"$\\delta$\"] {angle=A--D--Q};\n\\pic[draw=none,angle radius=5mm,angle eccentricity=1,\"$\\delta$\"] {angle=Q--D--C};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 46,
+          "sourceRegion": "Question 6 diagram",
+          "description": "Quadrilateral and its four angle bisectors, with Q below BC and the inner quadrilateral emphasised.",
+          "mathematics": "P=AP∩BP, Q=AQ∩DQ, R=CR∩DR, S=BS∩CS; each vertex angle has two equal labelled halves.",
+          "answerVisibility": "All supplied angle-half labels are permanent givens; the proof is answer-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$PQRS$ is cyclic because $\\angle PSR+\\angle PQR=180^\\circ$.",
+      "worked": "Let $\\alpha=\\frac12\\angle A$, $\\beta=\\frac12\\angle B$, $\\gamma=\\frac12\\angle C$ and $\\delta=\\frac12\\angle D$.\n\nThe angle sum of quadrilateral $ABCD$ gives\n$$\\begin{align*}2\\alpha+2\\beta+2\\gamma+2\\delta&=360^\\circ\\\\\\alpha+\\beta+\\gamma+\\delta&=180^\\circ.\\end{align*}$$\nUsing the angle sums of $\\triangle BSC$ and $\\triangle AQD$,\n$$\\begin{align*}\\angle PSR&=\\angle BSC=180^\\circ-(\\beta+\\gamma)\\\\\\angle PQR&=\\angle AQD=180^\\circ-(\\alpha+\\delta).\\end{align*}$$\nHere $SP$ lies along $SB$ and $SR$ lies along $SC$, while $QP$ lies along $QA$ and $QR$ lies along $QD$.\n$$\\begin{align*}\\angle PSR+\\angle PQR&=2\\times180^\\circ-(\\alpha+\\beta+\\gamma+\\delta)\\\\\\angle PSR+\\angle PQR&=2\\times180^\\circ-180^\\circ\\\\\\angle PSR+\\angle PQR&=180^\\circ.\\end{align*}$$\nTherefore $PQRS$ is cyclic because its opposite angles are supplementary.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p46-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p46-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p46-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p46-q6-root/label",
+                  "type": "item",
+                  "ref": "p46-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p46-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p46-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p46-q6-diagram",
+                  "type": "item",
+                  "ref": "p46-q6-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p46-q6-root/space",
+                  "type": "item",
+                  "ref": "p46-q6-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:33:21.142Z",
+  "updatedAt": "2026-10-21T08:33:21.142Z"
+}

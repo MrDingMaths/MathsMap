@@ -1,0 +1,146 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d90320bc-3851-4e58-a24c-b266fd79b224",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "chord-properties",
+    "secondarySkillIds": [],
+    "reasoningScore": 21,
+    "difficulty": "Foundation",
+    "difficultyReason": "Interpret the equal chord marks as equal central angles and divide a full turn into eight equal sectors.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:18:26.161Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "68858f7d18dfce3a58eeaa1ee7bd5b91e65fd031cc71ff5b32879ec151f5ce0e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/circle-geometry-v1/36d6de551938d1090170dab60564dc7622a54f406fbb6e89fa4663c46dcdfbdc-1792556250036/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q1-jj-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Find the values of the pronumerals.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-jj",
+        "type": "part",
+        "label": "jj",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p38-jj-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38, p38-jj-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\foreach \\i in {0,...,7} {\\coordinate (V\\i) at ({45*\\i}:2);}\n\\draw[line width=0.8pt] (O) circle[radius=2];\n\\draw[line width=0.8pt] (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--(V6)--(V7)--cycle;\n\\foreach \\i in {0,...,7} {\\draw[line width=0.8pt] (O)--(V\\i);}\n\\foreach \\i in {0,...,7} {\n  \\pgfmathtruncatemacro{\\j}{mod(\\i+1,8)}\n  \\coordinate (M\\i) at ($(V\\i)!0.5!(V\\j)$);\n  \\draw[line width=0.4pt] ($(M\\i)+({45*\\i+22.5}:0.075)$)--($(M\\i)+({45*\\i+202.5}:0.075)$);\n}\n\\fill (O) circle[radius=0.045];\n\\node[below right,inner sep=2pt] at (O) {$O$};\n\\node[inner sep=1pt] at (22.5:0.62) {$x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 58,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 38,
+              "sourceRegion": "Second row, right: jj",
+              "description": "An eight-sided polygon inscribed in a circle, with matching single ticks on all eight sides and radii from O to every vertex. The unknown x lies between the rightward and upper-right radii.",
+              "mathematics": "Eight equal chords subtend eight equal angles at the centre. The central angles sum to 360 degrees.",
+              "answerVisibility": "The diagram retains x and all givens; the supplied 45-degree answer is excluded from the question diagram."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=45^\\circ$",
+          "worked": "Equal chords subtend equal angles at the centre.\n$$\\begin{aligned}8x&=360^\\circ\\\\x&=45^\\circ\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q1-jj",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q1-jj": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q1-jj-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q1-jj-root/label",
+                  "type": "item",
+                  "ref": "p38-q1-jj-root/label",
+                  "title": "Unlabelled stem"
+                },
+                {
+                  "id": "p38-q1-jj-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p38-jj:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-jj/label",
+                          "type": "item",
+                          "ref": "p38-jj/label",
+                          "title": "Label jj"
+                        },
+                        {
+                          "id": "layout:p38-jj-diagram",
+                          "type": "item",
+                          "ref": "p38-jj-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p38-jj/space",
+                          "type": "item",
+                          "ref": "p38-jj/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part jj",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question ",
+              "gap": 2,
+              "inset": 7,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:32:04.056Z",
+  "updatedAt": "2026-10-21T08:32:04.056Z"
+}

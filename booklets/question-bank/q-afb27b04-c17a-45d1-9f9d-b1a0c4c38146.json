@@ -1,0 +1,267 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-afb27b04-c17a-45d1-9f9d-b1a0c4c38146",
+  "status": "approved",
+  "title": "2008 HSC Advanced Band 5",
+  "classification": {
+    "primarySkillId": "multistage-outcomes",
+    "secondarySkillIds": [
+      "probability-independent-events",
+      "complementary-multistage"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Extend the partial tree while stopping paths when either player reaches two wins, then identify and combine terminal paths of different lengths for a series win and a three-game series.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fd8c301c5e74654f790a9ead11810e3132128868942232d7910682bee8872e3a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q24-root",
+    "type": "question",
+    "label": "24",
+    "prompt": "Xena and Gabrielle compete in a series of games. The series finishes when one player has won two games. In any game, the probability that Xena wins is $\\frac{2}{3}$ and the probability that Gabrielle wins is $\\frac{1}{3}$. Part of the tree diagram for this series of games is shown.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q24-tree",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 p39-q24-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (U) at (1.8,0.7);\n\\coordinate (L) at (1.8,-0.7);\n\\draw[black] (O)--(U) node[midway,above=3pt] {$\\frac{2}{3}$};\n\\draw[black] (O)--(L) node[midway,below=3pt] {$\\frac{1}{3}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 32,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Black initial branches at the left of the tree",
+          "description": "Only the two black supplied branches and their probabilities; the blue completion is excluded from the student diagram.",
+          "mathematics": "Upper branch has probability 2/3; lower branch has probability 1/3.",
+          "answerVisibility": "Permanent student-visible partial tree; no supplied response labels."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p39-q24-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Complete the tree diagram, showing the possible outcomes (there are only 6).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$XX,\\ XGX,\\ XGG,\\ GXX,\\ GXG,\\ GG$.",
+          "worked": "Use $X$ for a Xena win and $G$ for a Gabrielle win. At every continuing stage, label the $X$ branch $\\frac{2}{3}$ and the $G$ branch $\\frac{1}{3}$. Stop the $XX$ and $GG$ paths after the second game. Continue only $XG$ and $GX$ to a third game. The six terminal outcomes are $XX$, $XGX$, $XGG$, $GXX$, $GXG$ and $GG$.",
+          "solutionDiagrams": [
+            {
+              "id": "p39-q24-a-supplied-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 p39-q24-a-supplied-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[align=center] at (2,6.9) {First\\\\game};\n\\node[align=center] at (4.6,6.9) {Second\\\\game};\n\\node[align=center] at (7.2,6.9) {Third\\\\game};\n\\coordinate (O) at (0,0);\n\\node (X) at (2,3.6) {$X$};\n\\node (G) at (2,-3.6) {$G$};\n\\node (XX) at (4.6,5.8) {$X$};\n\\node (XG) at (4.6,2.4) {$G$};\n\\node (GX) at (4.6,-2.4) {$X$};\n\\node (GG) at (4.6,-5.8) {$G$};\n\\node (XGX) at (7.2,3.8) {$X$};\n\\node (XGG) at (7.2,1) {$G$};\n\\node (GXX) at (7.2,-1) {$X$};\n\\node (GXG) at (7.2,-3.8) {$G$};\n\\draw[black] (O)--(X) node[midway,above=3pt] {$\\frac{2}{3}$};\n\\draw[black] (O)--(G) node[midway,below=3pt] {$\\frac{1}{3}$};\n\\draw[black] (X)--(XX) node[midway,above=3pt] {$\\frac{2}{3}$};\n\\draw[black] (X)--(XG) node[midway,below=3pt] {$\\frac{1}{3}$};\n\\draw[black] (G)--(GX) node[midway,above=3pt] {$\\frac{2}{3}$};\n\\draw[black] (G)--(GG) node[midway,below=3pt] {$\\frac{1}{3}$};\n\\draw[black] (XG)--(XGX) node[midway,above=3pt] {$\\frac{2}{3}$};\n\\draw[black] (XG)--(XGG) node[midway,below=3pt] {$\\frac{1}{3}$};\n\\draw[black] (GX)--(GXX) node[midway,above=3pt] {$\\frac{2}{3}$};\n\\draw[black] (GX)--(GXG) node[midway,below=3pt] {$\\frac{1}{3}$};\n\\node at (7.2,5.8) {N/A};\n\\node at (7.2,-5.8) {N/A};\n\\node[anchor=west] at (8,5.8) {$XX$};\n\\node[anchor=west] at (8,3.8) {$XGX$};\n\\node[anchor=west] at (8,1) {$XGG$};\n\\node[anchor=west] at (8,-1) {$GXX$};\n\\node[anchor=west] at (8,-3.8) {$GXG$};\n\\node[anchor=west] at (8,-5.8) {$GG$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 145,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 39,
+                "sourceRegion": "Supplied blue tree completion",
+                "description": "Complete three-stage tree with six terminal paths. Preserve the N/A third-game entries for XX and GG; make both terminating outcome strings explicit. Ordinary strokes and labels use house black.",
+                "mathematics": "X branches have probability 2/3 and G branches 1/3. XX and GG stop after two games; XG and GX branch once more. Terminal outcomes are XX, XGX, XGG, GXX, GXG, GG.",
+                "answerVisibility": "Solution only; excluded from the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p39-q24-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the probability Gabrielle wins the series?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{7}{27}$",
+          "worked": "Gabrielle wins on $XGG$, $GXG$ or $GG$.\n$$\\begin{align*}P(\\text{Gabrielle wins})&=P(XGG)+P(GXG)+P(GG)\\\\&=\\frac{2}{3}\\times\\frac{1}{3}\\times\\frac{1}{3}+\\frac{1}{3}\\times\\frac{2}{3}\\times\\frac{1}{3}+\\frac{1}{3}\\times\\frac{1}{3}\\\\&=\\frac{2}{27}+\\frac{2}{27}+\\frac{1}{9}\\\\&=\\frac{7}{27}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p39-q24-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the probability three games are played in the series?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{4}{9}$",
+          "worked": "The series ends after two games only on $XX$ or $GG$.\n$$\\begin{align*}P(\\text{three games})&=1-\\bigl(P(XX)+P(GG)\\bigr)\\\\&=1-\\left(\\frac{2}{3}\\times\\frac{2}{3}+\\frac{1}{3}\\times\\frac{1}{3}\\right)\\\\&=1-\\left(\\frac{4}{9}+\\frac{1}{9}\\right)\\\\&=\\frac{4}{9}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q24",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q24": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q24-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q24-root/label",
+                  "type": "item",
+                  "ref": "p39-q24-root/label",
+                  "title": "Label 24"
+                },
+                {
+                  "id": "layout:p39-q24-root/prompt",
+                  "type": "item",
+                  "ref": "p39-q24-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p39-q24-tree",
+                  "type": "item",
+                  "ref": "p39-q24-tree",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p39-q24-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p39-q24-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q24-a/label",
+                          "type": "item",
+                          "ref": "p39-q24-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p39-q24-a/prompt",
+                          "type": "item",
+                          "ref": "p39-q24-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q24-a/space",
+                          "type": "item",
+                          "ref": "p39-q24-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p39-q24-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q24-b/label",
+                          "type": "item",
+                          "ref": "p39-q24-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p39-q24-b/prompt",
+                          "type": "item",
+                          "ref": "p39-q24-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q24-b/space",
+                          "type": "item",
+                          "ref": "p39-q24-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p39-q24-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q24-c/label",
+                          "type": "item",
+                          "ref": "p39-q24-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p39-q24-c/prompt",
+                          "type": "item",
+                          "ref": "p39-q24-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q24-c/space",
+                          "type": "item",
+                          "ref": "p39-q24-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 24",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:38.226Z",
+  "updatedAt": "2026-10-21T10:53:38.226Z"
+}

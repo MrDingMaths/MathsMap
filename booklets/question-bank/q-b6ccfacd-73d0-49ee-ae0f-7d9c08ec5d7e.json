@@ -1,0 +1,670 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b6ccfacd-73d0-49ee-ae0f-7d9c08ec5d7e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Construct the replacement tree and use its ordered outcomes to distinguish exactly one red from at least one red, including both orders where appropriate.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:22.628Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a98e9c47338bafd20c95b12396f8e7affedde1b16427b2c52d14ae41d60a8e61",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/cc1c2a04a167a7646fa0d225e69171a892812e8924835418a62ee9e7ae9f2c52-1792560710787/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p15-q17-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A bag contains one red, one blue and one white marble.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "One marble is chosen at random from the bag, and then ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "replaced",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " into the bag.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "A second marble is chosen.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a tree diagram of the situation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p15-q17-tree-solution",
+        "answer": {
+          "short": "Three first-draw branches, R, B and W; each has three second-draw branches, R, B and W.",
+          "worked": "Let R, B and W denote red, blue and white. Replacement leaves the same three possibilities for the second draw after every first draw. The tree has $3\\times3=9$ complete paths.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p15-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "List the outcomes to the right of the branches.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p15-q17-tree-solution",
+        "answer": {
+          "short": "$RR,\\ RB,\\ RW,\\ BR,\\ BB,\\ BW,\\ WR,\\ WB,\\ WW$.",
+          "worked": "Write each ordered outcome beside its terminal branch, with the first draw first: $RR, RB, RW, BR, BB, BW, WR, WB, WW$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p15-q17-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Find the probability that:",
+        "layout": "grid",
+        "columns": 4,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p15-q17-c-a",
+            "type": "part",
+            "label": "i",
+            "prompt": "both marbles are red",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{9}$",
+              "worked": "Only $RR$ is favourable among the nine equally likely outcomes.\n$$P(\\text{both red})=\\frac{1}{9}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p15-q17-c-b",
+            "type": "part",
+            "label": "ii",
+            "prompt": "both marbles are the same colour",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{3}$",
+              "worked": "The favourable outcomes are $RR, BB, WW$.\n$$\\begin{aligned}P(\\text{same colour})&=\\frac{3}{9}\\\\&=\\frac{1}{3}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p15-q17-c-c",
+            "type": "part",
+            "label": "iii",
+            "prompt": "both marbles are different colours",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2}{3}$",
+              "worked": "The favourable outcomes are $RB, RW, BR, BW, WR, WB$.\n$$\\begin{aligned}P(\\text{different colours})&=\\frac{6}{9}\\\\&=\\frac{2}{3}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          },
+          {
+            "id": "p15-q17-c-d",
+            "type": "part",
+            "label": "iv",
+            "prompt": "the first marble is red",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{3}$",
+              "worked": "The favourable outcomes are $RR, RB, RW$.\n$$\\begin{aligned}P(\\text{first red})&=\\frac{3}{9}\\\\&=\\frac{1}{3}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p15-q17-c-e",
+            "type": "part",
+            "label": "v",
+            "prompt": "there is one blue and one white marble",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2}{9}$",
+              "worked": "Both orders count: $BW$ and $WB$.\n$$P(\\text{one blue and one white})=\\frac{2}{9}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p15-q17-c-f",
+            "type": "part",
+            "label": "vi",
+            "prompt": "exactly one marble is red",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{4}{9}$",
+              "worked": "The favourable outcomes are $RB, RW, BR, WR$; $RR$ is excluded.\n$$P(\\text{exactly one red})=\\frac{4}{9}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p15-q17-c-g",
+            "type": "part",
+            "label": "vii",
+            "prompt": "at least one marble is red",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{5}{9}$",
+              "worked": "The favourable outcomes are $RR, RB, RW, BR, WR$.\n$$P(\\text{at least one red})=\\frac{5}{9}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p15-q17-c-h",
+            "type": "part",
+            "label": "viii",
+            "prompt": "no marbles are blue",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{4}{9}$",
+              "worked": "The favourable outcomes are $RR, RW, WR, WW$.\n$$P(\\text{no blue})=\\frac{4}{9}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ]
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p15-q17-tree-solution",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15 p15-q17-tree-solution\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=0.6mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[align=center] at (14,31) {First\\\\draw};\n\\node[align=center] at (31,31) {Second\\\\draw};\n\\node at (45,31) {Outcomes};\n\\foreach \\y/\\a in {18/R,0/B,-18/W}{\n\\draw (0,0)--(14,\\y);\n\\foreach \\d/\\b in {5/R,0/B,-5/W}{\\draw (14,\\y)--(30,{\\y+\\d});}\n}\n\\foreach \\y/\\a in {18/R,0/B,-18/W}{\n\\node[fill=white] at (14,\\y) {\\a};\n\\foreach \\d/\\b in {5/R,0/B,-5/W}{\n\\node[anchor=west,fill=white] at (30,{\\y+\\d}) {\\b};\n\\node at (45,{\\y+\\d}) {\\a\\b};\n}}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 115,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 17 parts a and b",
+          "description": "Two-stage tree with three branches at each stage. Ordered outcomes appear to the right of their terminal branches. R, B and W denote red, blue and white.",
+          "mathematics": "Replacement permits each of R, B and W on both draws, giving nine equally likely ordered outcomes.",
+          "answerVisibility": "Solution only; the source supplies no student tree."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "answerPartLabels": {
+      "short": {
+        "p15-q17-c-a": "ci",
+        "p15-q17-c-b": "cii",
+        "p15-q17-c-c": "ciii",
+        "p15-q17-c-d": "civ",
+        "p15-q17-c-e": "cv",
+        "p15-q17-c-f": "cvi",
+        "p15-q17-c-g": "cvii",
+        "p15-q17-c-h": "cviii"
+      },
+      "worked": {
+        "p15-q17-c-a": "ci",
+        "p15-q17-c-b": "cii",
+        "p15-q17-c-c": "ciii",
+        "p15-q17-c-d": "civ",
+        "p15-q17-c-e": "cv",
+        "p15-q17-c-f": "cvi",
+        "p15-q17-c-g": "cvii",
+        "p15-q17-c-h": "cviii"
+      }
+    },
+    "ownerId": "p15-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p15-q17-root/label",
+                  "type": "item",
+                  "ref": "p15-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p15-q17-root/prompt#p15-q17-stem",
+                  "type": "item",
+                  "ref": "p15-q17-root/prompt#p15-q17-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "p15-q17-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p15-q17-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q17-a/label",
+                          "type": "item",
+                          "ref": "p15-q17-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p15-q17-a/prompt",
+                          "type": "item",
+                          "ref": "p15-q17-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q17-a/space",
+                          "type": "item",
+                          "ref": "p15-q17-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q17-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q17-b/label",
+                          "type": "item",
+                          "ref": "p15-q17-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p15-q17-b/prompt",
+                          "type": "item",
+                          "ref": "p15-q17-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q17-b/space",
+                          "type": "item",
+                          "ref": "p15-q17-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q17-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q17-c/label",
+                          "type": "item",
+                          "ref": "p15-q17-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p15-q17-c/prompt",
+                          "type": "item",
+                          "ref": "p15-q17-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p15-q17-c:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p15-q17-c:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p15-q17-c-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-a/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-a/label",
+                                      "title": "Label i"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-a/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-a/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part i",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p15-q17-c-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-b/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-b/label",
+                                      "title": "Label ii"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-b/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-b/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part ii",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p15-q17-c-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-c/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-c/label",
+                                      "title": "Label iii"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-c/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-c/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-c/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part iii",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p15-q17-c-d:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-d/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-d/label",
+                                      "title": "Label iv"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-d/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-d/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-d/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-d/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part iv",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p15-q17-c:row:4",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p15-q17-c-e:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-e/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-e/label",
+                                      "title": "Label v"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-e/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-e/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-e/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-e/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part v",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p15-q17-c-f:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-f/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-f/label",
+                                      "title": "Label vi"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-f/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-f/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-f/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-f/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part vi",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p15-q17-c-g:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-g/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-g/label",
+                                      "title": "Label vii"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-g/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-g/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-g/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-g/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part vii",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p15-q17-c-h:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q17-c-h/label",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-h/label",
+                                      "title": "Label viii"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-h/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-h/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q17-c-h/space",
+                                      "type": "item",
+                                      "ref": "p15-q17-c-h/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part viii",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:51:58.416Z",
+  "updatedAt": "2026-10-21T10:51:58.416Z"
+}

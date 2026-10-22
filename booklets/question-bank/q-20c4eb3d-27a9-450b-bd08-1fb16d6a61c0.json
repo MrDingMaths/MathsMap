@@ -1,0 +1,355 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-20c4eb3d-27a9-450b-bd08-1fb16d6a61c0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "equation-from-graph"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Interpolate graph readings, including a fractional week, calculate and interpret a negative gradient, then combine it with the initial balance to write the model.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:45.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c4e5034638217c987a2915a2099f6ac01324f3ccd2c833fb8fb313da5f4790f5",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/d6c4994230b01d119dc223b8e2c0ec8950a352c420ac83b6e204d6d4563566d8-1792559183057/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Nikki’s balance in her bank account is shown in the graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"modelBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied linear model series\"}],\"reference\":\"source page 39 p39-q3-graph\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.0023cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{modelBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[step=1,gridGrey,line width=0.25pt] (0,0) grid[xstep=1,ystep=400] (10,3600);\n\\foreach \\y in {200,600,1000,1400,1800,2200,2600,3000,3400} {\\draw[gridGrey,line width=0.15pt] (0,\\y)--(10,\\y);}\n\\draw[->,black,line width=0.5pt] (0,0)--(10.65,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,3750);\n\\foreach \\x in {1,...,10} {\\draw[black,line width=0.4pt] (\\x,0)--++(0,-45);\\node[below=3pt,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {400,800,...,3600} {\\draw[black,line width=0.4pt] (0,\\y)--++(-0.16,0);\\node[left=3pt,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {200,600,1000,1400,1800,2200,2600,3000,3400} {\\draw[black,line width=0.4pt] (0,\\y)--++(-0.1,0);}\n\\node[below=17pt,font=\\fontsize{10}{12}\\selectfont] at (5,0) {Time (weeks)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-3.1,1800) {Bank balance (\\$)};\n\\draw[modelBlue,line width=0.8pt] plot[domain=0:8.25,samples=2] (\\x,{3300-400*\\x});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 3, left-hand bank-balance graph",
+          "description": "Portrait grid with horizontal labels 1–10 weeks, vertical labels 400–3600 dollars at intervals of 400, intermediate horizontal grid lines every 200 dollars, and arrowheads on both axes.",
+          "mathematics": "Bank balance b = 3300 - 400t, plotted from (0,3300) to (8.25,0). Grid steps are 1 week horizontally and 200 dollars vertically.",
+          "answerVisibility": "The supplied model graph is always visible. Numerical responses and the equation appear only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p39-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How much money does she have after 3 weeks?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$2100$",
+          "worked": "Read the balance at $t=3$ weeks from the graph: $\\$2100$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p39-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "When did she have $\\$700$ in her account?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "After 6.5 weeks.",
+          "worked": "Read across from $\\$700$ to the model line, then down to the time axis: $6.5$ weeks.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p39-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the $y$-intercept?\nWhat does it represent in this scenario?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$3300$; the initial amount in Nikki’s account.",
+          "worked": "At $t=0$, the graph meets the balance axis at $\\$3300$. This is the initial amount in Nikki’s account.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p39-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What is the gradient?\nWhat does it represent in this scenario?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-400$; her bank balance decreases by $\\$400$ per week.",
+          "worked": "Using $(0,3300)$ and $(3,2100)$:\n$$\\begin{aligned}m&=\\frac{\\text{change in balance}}{\\text{change in time}}\\\\m&=\\frac{2100-3300}{3-0}\\\\m&=-400\\end{aligned}$$\nHer bank balance decreases by $\\$400$ per week.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p39-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Write an equation relating bank balance $b$ and time in weeks $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$b=-400t+3300$",
+          "worked": "The gradient is $-400$ and the initial balance is $3300$.\n$$\\begin{aligned}b&=mt+c\\\\b&=-400t+3300\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p39-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q3-root/label",
+                  "type": "item",
+                  "ref": "p39-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "p39-q3-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p39-q3-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q3-graph",
+                          "type": "item",
+                          "ref": "p39-q3-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q3-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q3-root/prompt",
+                          "type": "item",
+                          "ref": "p39-q3-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p39-q3-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p39-q3-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q3-a/label",
+                                  "type": "item",
+                                  "ref": "p39-q3-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p39-q3-a/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q3-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q3-a/space",
+                                  "type": "item",
+                                  "ref": "p39-q3-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q3-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q3-b/label",
+                                  "type": "item",
+                                  "ref": "p39-q3-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p39-q3-b/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q3-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q3-b/space",
+                                  "type": "item",
+                                  "ref": "p39-q3-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q3-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q3-c/label",
+                                  "type": "item",
+                                  "ref": "p39-q3-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p39-q3-c/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q3-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q3-c/space",
+                                  "type": "item",
+                                  "ref": "p39-q3-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q3-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q3-d/label",
+                                  "type": "item",
+                                  "ref": "p39-q3-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p39-q3-d/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q3-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q3-d/space",
+                                  "type": "item",
+                                  "ref": "p39-q3-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q3-e:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q3-e/label",
+                                  "type": "item",
+                                  "ref": "p39-q3-e/label",
+                                  "title": "Label e"
+                                },
+                                {
+                                  "id": "layout:p39-q3-e/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q3-e/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q3-e/space",
+                                  "type": "item",
+                                  "ref": "p39-q3-e/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part e",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:37.708Z",
+  "updatedAt": "2026-10-21T08:56:37.708Z"
+}

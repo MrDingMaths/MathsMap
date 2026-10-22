@@ -1,0 +1,278 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9a920757-c0b9-4644-b2a8-6351ecc71fbb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "multistage-probability-by-counting",
+      "complementary-probability"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Organise unequal die labels to count winning pairs, model repeated losses with a complement and exponent, then use the logarithm hint to solve a probability threshold and round up to whole games.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b5c8ee0432233c8827fb895ff82fef751065d8ce3964ed2e533fe89a9ae25620",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt",
+      "originalTaskHash": "cca157d8009d981032beca9e60937b4d8eac7e8861c88aeac845f7ee3211cde7",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "9e416b2c33961ab1ddab57d10848e7dc3f488a371f1f411116ac8d8f92925a31"
+      }
+    }
+  },
+  "content": {
+    "id": "p38-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "A game is played in which two coloured dice are rolled once.\nThe six faces of the black die are numbered 5, 7, 8, 10, 11, 14.\nThe six faces of the white die are numbered 3, 6, 9, 12, 13, 15.\nThe player wins if the number on the black die is bigger than the number on the white die.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Calculate the probability of a player winning the game.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{4}{9}$",
+          "worked": "A two-way table is useful for this question. For black-die values 5, 7, 8, 10, 11 and 14, the numbers of smaller white-die values are respectively 1, 2, 2, 3, 3 and 5. Thus 16 of the 36 equally likely outcomes are wins.\n$$\\begin{align*}P(\\text{win})&=\\frac{16}{36}\\\\P(\\text{win})&=\\frac49\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p38-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate the probability that a player will lose at least once in two consecutive games.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{65}{81}$",
+          "worked": "$$\\begin{align*}P(\\text{lose at least once in 2 games})&=1-P(\\text{win both})\\\\P(\\text{lose at least once in 2 games})&=1-\\left(\\frac49\\right)^2\\\\P(\\text{lose at least once in 2 games})&=1-\\frac{16}{81}\\\\P(\\text{lose at least once in 2 games})&=\\frac{65}{81}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p38-q23-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How many games must be played before you have a 90% chance of winning at least one game? (hint: set up an equation and use logarithms)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At least 4 games.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p38-q23-c-working",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}P(\\text{win at least once in }n\\text{ games})&\\geq0.9\\\\1-\\left(\\frac59\\right)^n&\\geq0.9\\\\\\left(\\frac59\\right)^n&\\leq0.1\\\\n&\\geq\\log_{\\frac{5}{9}}(0.1)\\\\n&\\geq3.917\\ldots\\end{align*}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p38-q23-c-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Therefore, at least 4 games are required.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p38-q23-answer-note",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Note: reverse the inequality when taking logarithms with a base less than one. Since the number of games is a whole number, round 3.917… up to 4.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q23",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q23": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q23-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q23-root/label",
+                  "type": "item",
+                  "ref": "p38-q23-root/label",
+                  "title": "Label 23"
+                },
+                {
+                  "id": "layout:p38-q23-root/prompt",
+                  "type": "item",
+                  "ref": "p38-q23-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p38-q23-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p38-q23-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q23-a/label",
+                          "type": "item",
+                          "ref": "p38-q23-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p38-q23-a/prompt",
+                          "type": "item",
+                          "ref": "p38-q23-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q23-a/space",
+                          "type": "item",
+                          "ref": "p38-q23-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p38-q23-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q23-b/label",
+                          "type": "item",
+                          "ref": "p38-q23-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p38-q23-b/prompt",
+                          "type": "item",
+                          "ref": "p38-q23-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q23-b/space",
+                          "type": "item",
+                          "ref": "p38-q23-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p38-q23-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q23-c/label",
+                          "type": "item",
+                          "ref": "p38-q23-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p38-q23-c/prompt",
+                          "type": "item",
+                          "ref": "p38-q23-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q23-c/space",
+                          "type": "item",
+                          "ref": "p38-q23-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 23",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:36.006Z",
+  "updatedAt": "2026-10-21T10:53:36.006Z"
+}

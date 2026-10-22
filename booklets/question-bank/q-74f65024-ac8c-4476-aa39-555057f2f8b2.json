@@ -1,0 +1,249 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-74f65024-ac8c-4476-aa39-555057f2f8b2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compare-box-plots",
+    "secondarySkillIds": [
+      "interquartile-range"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Infer before and after from the shift in the middle 50%, calculate both IQRs and distinguish unchanged variability from an increase in typical heart rate.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:03.269Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "16e02d1eec6d55897d7f25c3228a35ba64194dfe14e149dd0fccb920e950e362",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/adac7b507ff7a6565236753a1544420c729ca548cd92ebd633c2e1b682564d58-1792561423024/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p35-q7",
+    "type": "question",
+    "label": "7",
+    "prompt": "A cyclist measures her heartrate in beats per minute (bpm) before and after a ride.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p35-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 35 p35-q7-diagram\"}\n\\begin{tikzpicture}[x=0.1cm,y=0.8cm,line cap=butt,line join=miter]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.4pt] (60,0) rectangle (140,3.8);\n\\draw[black,line width=0.5pt] (60,0)--(140,0);\n\\foreach \\x in {62,64,...,138} {\\draw[black,line width=0.4pt] (\\x,0)--(\\x,0.25);}\n\\foreach \\x in {60,70,...,140} {\\draw[black,line width=0.4pt] (\\x,0)--(\\x,0.5);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt] (64,2.7)--(74,2.7) (86,2.7)--(116,2.7);\n\\draw[black,line width=0.8pt] (64,2.45)--(64,2.95) (116,2.45)--(116,2.95);\n\\draw[black,line width=0.8pt] (74,2.2) rectangle (86,3.2);\n\\fill[black] (79.86,2.2) rectangle (80.14,3.2);\n\\draw[black,line width=0.8pt] (76,1.25)--(86,1.25) (98,1.25)--(132,1.25);\n\\draw[black,line width=0.8pt] (76,1)--(76,1.5) (132,1)--(132,1.5);\n\\draw[black,line width=0.8pt] (86,0.75) rectangle (98,1.75);\n\\fill[black] (91.86,0.75) rectangle (92.14,1.75);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 35,
+          "sourceRegion": "Question 7, lower-right shared diagram",
+          "description": "Two unlabelled, unfilled horizontal box plots sharing a framed scale from 60 to 140. Major labels occur every 10 bpm and minor ticks every 2 bpm. Preserve the top/bottom comparison without identifying either plot in the student figure.",
+          "mathematics": {
+            "scale": {
+              "min": 60,
+              "max": 140,
+              "majorStep": 10,
+              "minorStep": 2,
+              "units": "bpm"
+            },
+            "top": {
+              "minimum": 64,
+              "lowerQuartile": 74,
+              "median": 80,
+              "upperQuartile": 86,
+              "maximum": 116
+            },
+            "bottom": {
+              "minimum": 76,
+              "lowerQuartile": 86,
+              "median": 92,
+              "upperQuartile": 98,
+              "maximum": 132
+            },
+            "outliers": []
+          },
+          "answerVisibility": "The supplied plots and scale remain visible; before/after identification and IQR calculations appear only in editable answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p35-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Which box plot do you think is before her ride and which is after? Explain with reference to clustering.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Top: before the ride. Bottom: after the ride. The middle 50% shifts from 74–86 bpm to 86–98 bpm.",
+          "worked": "The top plot is before the ride and the bottom plot is after. The middle 50% of readings lies between 74 and 86 bpm in the top plot, compared with 86 and 98 bpm in the bottom plot. This cluster has shifted to higher heart rates, as expected after exercise.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p35-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Compare her IQR before and after a ride. Does her heartrate remain consistent?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both IQRs are 12 bpm. The variability of the middle 50% remains the same, although her heart rate increases.",
+          "worked": "$$\\begin{aligned}\\text{IQR before}&=86-74\\\\&=12\\text{ bpm}\\\\\\text{IQR after}&=98-86\\\\&=12\\text{ bpm}\\end{aligned}$$\nHer heart rate remains consistent in terms of the spread of the middle 50% of readings. The readings shift to higher values after the ride, so the heart rate itself has increased.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p35-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p35-q7-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p35-q7:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p35-q7/label",
+                  "type": "item",
+                  "ref": "p35-q7/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "p35-q7:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p35-q7:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p35-q7/prompt",
+                          "type": "item",
+                          "ref": "p35-q7/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p35-q7:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p35-q7-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p35-q7-a/label",
+                                  "type": "item",
+                                  "ref": "p35-q7-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p35-q7-a/prompt",
+                                  "type": "item",
+                                  "ref": "p35-q7-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p35-q7-a/space",
+                                  "type": "item",
+                                  "ref": "p35-q7-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p35-q7-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p35-q7-b/label",
+                                  "type": "item",
+                                  "ref": "p35-q7-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p35-q7-b/prompt",
+                                  "type": "item",
+                                  "ref": "p35-q7-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p35-q7-b/space",
+                                  "type": "item",
+                                  "ref": "p35-q7-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p35-q7:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p35-q7-diagram",
+                          "type": "item",
+                          "ref": "p35-q7-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:36:32.985Z",
+  "updatedAt": "2026-10-21T09:36:32.985Z"
+}

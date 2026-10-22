@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-17a0d2dd-4acc-4bd3-b308-62a975780564",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "unknown-sides-angles-figures",
+    "secondarySkillIds": [
+      "angle-sum-triangle",
+      "angle-sum-quadrilateral",
+      "quadrilateral-properties"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine square or equilateral-triangle properties with several angle relationships in overlapping figures."
+  },
+  "content": {
+    "id": "p44-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Work out the size of angles $a$ and $b$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p44-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Two overlapping squares",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p44-q4-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 44 p44-q4-a-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n% Complete squares, constructed from perpendicular equal side vectors.\n\\coordinate (D) at (0,0);\n\\coordinate (C) at ({4*cos(34)},{4*sin(34)});\n\\coordinate (A) at ({-4*sin(34)},{4*cos(34)});\n\\coordinate (B) at ($(A)+(C)-(D)$);\n\\coordinate (P) at ($(D)!0.20!(C)$);\n\\pgfmathsetmacro{\\smallSide}{3.2*cos(22)}\n\\coordinate (R) at ($(P)+({\\smallSide*cos(12)},{\\smallSide*sin(12)})$);\n\\coordinate (T) at ($(P)+({-\\smallSide*sin(12)},{\\smallSide*cos(12)})$);\n\\coordinate (S) at ($(R)+(T)-(P)$);\n\\coordinate (X) at (intersection cs:first line={(B)--(C)},second line={(T)--(S)});\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (P)--(R)--(S)--(T)--cycle;\n\\pic[draw,line width=0.4pt,angle radius=5mm,angle eccentricity=1.65,\"$68^\\circ$\"] {angle=B--X--T};\n\\pic[draw,line width=0.4pt,angle radius=4mm,angle eccentricity=1.55,\"$b$\"] {angle=C--P--T};\n\\pic[draw,line width=0.4pt,angle radius=4mm,angle eccentricity=1.55,\"$a$\"] {angle=P--C--R};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 44,
+              "sourceRegion": "Question 4a, upper-left cell",
+              "description": "Two complete, differently rotated squares. The smaller square's lower-left vertex lies on the larger square's lower-right edge; the larger square's rightmost vertex lies on the smaller square's right edge. Their upper edges cross above the overlap.",
+              "mathematics": "Both outlines are exact squares. The marked upper crossing sector is 68 degrees. The lower shared-edge vertex carries b between its upward-left and upward-right rays. The rightmost overlap vertex carries a between its downward-left and downward-right rays. Coordinate names are internal construction references and are not printed.",
+              "answerVisibility": "Only the supplied 68-degree angle and unknown labels a and b appear; completed answers remain in semantic answer fields."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$a=b=68^\\circ$.",
+          "worked": "The angle inside the overlapping quadrilateral at the upper crossing is $180^\\circ-68^\\circ=112^\\circ$. Its two square corners are right angles.\n$$\\begin{align*}b+112+90+90&=360\\\\b+292&=360\\\\b&=68^\\circ\\end{align*}$$\nThe remaining angle at the smaller square's lower-left corner is $90^\\circ-68^\\circ=22^\\circ$. In the small triangle at the lower right:\n$$\\begin{align*}a+22+90&=180\\\\a+112&=180\\\\a&=68^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      },
+      {
+        "id": "p44-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Quadrilateral inside an equilateral triangle",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p44-q4-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 44 p44-q4-b-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (0,0);\n\\coordinate (R) at (6,0);\n\\coordinate (T) at (3,{3*sqrt(3)});\n% Points derived from the equilateral outline and supplied angle relationships.\n\\coordinate (U) at ($(L)!0.72!(T)$);\n\\pgfmathsetmacro{\\ux}{2.16}\n\\pgfmathsetmacro{\\uy}{2.16*sqrt(3)}\n\\pgfmathsetmacro{\\vx}{(6*sqrt(3)-\\uy-tan(28)*\\ux)/(sqrt(3)-tan(28))}\n\\pgfmathsetmacro{\\vy}{sqrt(3)*(6-\\vx)}\n\\coordinate (V) at (\\vx,\\vy);\n\\pgfmathsetmacro{\\wx}{\\vx-\\vy/tan(58)}\n\\coordinate (W) at (\\wx,0);\n\\pgfmathsetmacro{\\kx}{\\wx*tan(25)/(sqrt(3)+tan(25))}\n\\coordinate (K) at (\\kx,{sqrt(3)*\\kx});\n\\draw (L)--(R)--(T)--cycle;\n\\draw (U)--(V)--(W)--(K);\n\\pic[draw,line width=0.4pt,angle radius=4mm,angle eccentricity=1.65,\"$88^\\circ$\"] {angle=V--U--T};\n\\pic[draw,line width=0.4pt,angle radius=4mm,angle eccentricity=1.65,\"$85^\\circ$\"] {angle=W--K--U};\n\\pic[draw,line width=0.4pt,angle radius=4mm,angle eccentricity=1.5,\"$a$\"] {angle=U--V--W};\n\\pic[draw,line width=0.4pt,angle radius=4mm,angle eccentricity=1.55,\"$b$\"] {angle=V--W--K};\n\\pic[draw,line width=0.4pt,angle radius=5mm,angle eccentricity=1.55,\"$58^\\circ$\"] {angle=R--W--V};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 44,
+              "sourceRegion": "Question 4b, upper-right cell",
+              "description": "An upright equilateral triangle with horizontal base contains a quadrilateral whose left edge lies on the outer triangle's left side. Its upper-right vertex lies on the right triangle side and its bottom vertex lies on the base.",
+              "mathematics": "The 88-degree angle lies in the small top triangle. The quadrilateral has an 85-degree lower-left interior angle, unknown a at its upper-right vertex and unknown b at its bottom vertex. The 58-degree sector is between the ascending internal edge and the base ray to the right. All sectors and coordinates are consistent with the given angles and equilateral condition. Internal coordinate names are not printed.",
+              "answerVisibility": "Only 88 degrees, 85 degrees, 58 degrees and unknown labels a and b appear; completed answers remain in semantic answer fields."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$a=86^\\circ,\\ b=97^\\circ$.",
+          "worked": "Each angle of the equilateral triangle is $60^\\circ$. The quadrilateral's upper-left angle is $180^\\circ-88^\\circ=92^\\circ$.\n\nIn the small bottom-left triangle, the angle beside $85^\\circ$ is $180^\\circ-85^\\circ=95^\\circ$. Its angle at the base vertex is $180^\\circ-60^\\circ-95^\\circ=25^\\circ$.\n\nAngles on the straight base sum to $180^\\circ$:\n$$\\begin{align*}b+25+58&=180\\\\b+83&=180\\\\b&=97^\\circ\\end{align*}$$\nThe quadrilateral's interior angles sum to $360^\\circ$:\n$$\\begin{align*}a+92+85+97&=360\\\\a+274&=360\\\\a&=86^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p44-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-02T20:36:11.997Z",
+  "updatedAt": "2026-10-02T20:36:11.997Z"
+}

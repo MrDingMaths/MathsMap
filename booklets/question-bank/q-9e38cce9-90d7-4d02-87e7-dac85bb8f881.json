@@ -1,0 +1,117 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9e38cce9-90d7-4d02-87e7-dac85bb8f881",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quadratic-word-problems",
+    "secondarySkillIds": [
+      "quadratic-formula"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret the shaded region as outer rectangle area minus the rotated inner rectangle area, solve the resulting quadratic and retain the root giving positive dimensions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:04:23.686Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3822f1d6a621eefc57721f49b16e89f41f0a52e257040cdb7a33c4714c52dfcf",
+      "evidence": ".booklet-work/reasoning-ratings/calls/further-quadratic-equations-v1/f76672a63e1a485b284a36cec934fedd4ebb54d92c718c3a9bcf116ee0ce15f0-1792559039837/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p35-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "The shaded area is $18\\text{ cm}^2$. What is the value of $x$?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p35-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"areaFill\",\"hex\":\"FCDFE1\",\"reason\":\"Identifies the area inside the outer rectangle and outside the inner rectangle.\"}],\"reference\":\"source page 35, p35-q9-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaFill}{HTML}{FCDFE1}\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (5.2,0);\n\\coordinate (T) at (5.2,5.2);\n\\coordinate (L) at (0,5.2);\n\\coordinate (A) at (0.2,3.5);\n\\coordinate (B) at (4.2,4.6);\n\\coordinate (C) at (5,1.690909);\n\\coordinate (D) at (1,0.590909);\n\\fill[areaFill] (O)--(R)--(T)--(L)--cycle;\n\\fill[white] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,line width=0.8pt] (O)--(R)--(T)--(L)--cycle;\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\path (L)--(T) node[midway,above=3pt] {$2x+1$};\n\\path (R)--(T) node[midway,right=3pt] {$x+4$};\n\\path (A)--(B) node[midway,below=5pt] {$x+2$};\n\\path (D)--(A) node[midway,right=5pt] {$x+1$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 35,
+          "sourceRegion": "Question 9 diagram, lower left",
+          "description": "An upright outer rectangle surrounds a tilted white inner rectangle. The inner upper edge rises towards the right. Coordinates provide schematic placement and perpendicular inner sides; no numerical rotation angle or scale is asserted.",
+          "mathematics": "Outer rectangle dimensions are 2x+1 and x+4. Inner rectangle dimensions are x+2 and x+1. The shaded difference of their areas is 18 cm².",
+          "answerVisibility": "All four dimension expressions and the shaded region are permanent givens. No equation or value of x appears in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$x=2$. Use $(2x+1)(x+4)-(x+1)(x+2)=18$; reject $x=-8$ because lengths must be positive.",
+      "worked": "Subtract the inner rectangle's area from the outer rectangle's area.\n$$\\begin{align*}\n(2x+1)(x+4)-(x+1)(x+2)&=18\\\\\n2x^2+9x+4-(x^2+3x+2)&=18\\\\\nx^2+6x-16&=0\n\\end{align*}$$\nWith $a=1$, $b=6$ and $c=-16$,\n$$\\begin{align*}\nx&=\\frac{-6\\pm\\sqrt{6^2-4(1)(-16)}}{2(1)}\\\\\nx&=\\frac{-6\\pm\\sqrt{100}}{2}\\\\\nx&=\\frac{-6\\pm10}{2}\\\\\nx&=2\\text{ or }-8.\n\\end{align*}$$\nReject $x=-8$ because it gives negative lengths. Therefore $x=2$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 58
+  },
+  "presentation": {
+    "ownerId": "p35-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p35-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p35-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p35-q9-root/label",
+                  "type": "item",
+                  "ref": "p35-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p35-q9-root/prompt",
+                  "type": "item",
+                  "ref": "p35-q9-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p35-q9-diagram",
+                  "type": "item",
+                  "ref": "p35-q9-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p35-q9-root/space",
+                  "type": "item",
+                  "ref": "p35-q9-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:54:44.399Z",
+  "updatedAt": "2026-10-21T08:54:44.399Z"
+}

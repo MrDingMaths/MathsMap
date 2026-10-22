@@ -1,0 +1,331 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0e762c58-b100-4f27-be6b-66e71d36759e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compare-box-plots",
+    "secondarySkillIds": [
+      "interquartile-range",
+      "box-plot-percentages"
+    ],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Compare extrema and box widths, justify consistency using IQR, and infer relative frequency below 7 by locating that threshold on opposite sides of the two medians.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:02.742Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b0468c5bf6c053e4f6431c1818072ef7eca687e3abb6e5553909d424a1fdf1cc",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/baf7b587bb0e36dd70d9284b7dac922c4815409535bf6f3149518722337860ff-1792561414425/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "A new Toyota Corolla and Mazda 3 were each taken for ten test drives over the same routes. These parallel box plots show a summary of the fuel consumption, in L/100 km, of each vehicle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"corollaOrange\",\"hex\":\"EF8B2C\",\"reason\":\"Corolla comparison series\"},{\"name\":\"mazdaGreen\",\"hex\":\"4F9B63\",\"reason\":\"Mazda 3 comparison series\"}],\"reference\":\"source page 20 p20-q2-diagram\"}\n\\begin{tikzpicture}[x=1.15cm,y=0.58cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{corollaOrange}{HTML}{EF8B2C}\n\\definecolor{mazdaGreen}{HTML}{4F9B63}\n\\draw[step=0.2,line width=0.15pt,color=housegrid] (4.2,0) grid (10.8,2.8);\n\\draw[line width=0.25pt,color=housegrid] (4.2,0) rectangle (10.8,2.8);\n\\draw[<->,black,line width=0.5pt] (4.2,0)--(10.8,0);\n\\foreach \\v in {5,6,7,8,9,10}{\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-0.1);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[anchor=west,font=\\fontsize{10}{12}\\selectfont] at (4.6,2.5) {Corolla};\n\\node[anchor=west,font=\\fontsize{10}{12}\\selectfont] at (4.6,1.3) {Mazda 3};\n\\draw[corollaOrange,line width=0.8pt] (5.5,2)--(6.3,2) (8.5,2)--(9.8,2) (6.3,1.6) rectangle (8.5,2.4);\n\\fill[black] (7.08782609,1.6) rectangle (7.11217391,2.4);\n\\draw[corollaOrange,line width=0.4pt] (5.5,1.9)--(5.5,2.1) (9.8,1.9)--(9.8,2.1);\n\\draw[mazdaGreen,line width=0.8pt] (5.8,0.8)--(6,0.8) (7.8,0.8)--(9.1,0.8) (6,0.4) rectangle (7.8,1.2);\n\\fill[mazdaGreen] (6.68782609,0.4) rectangle (6.71217391,1.2);\n\\draw[mazdaGreen,line width=0.4pt] (5.8,0.7)--(5.8,0.9) (9.1,0.7)--(9.1,0.9);\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (7.5,-0.65) {Fuel consumption (L/100 km)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 2 parallel fuel-consumption box plots",
+          "description": "Shared horizontal axis with arrows, labelled integer ticks from 5 to 10 and fine 0.2 subdivisions. Corolla is above Mazda 3. Coloured outlines distinguish the two series; decorative box fills are omitted.",
+          "mathematics": "Approximate source-read five-number positions: Corolla (5.5, 6.3, 7.1, 8.5, 9.8); Mazda 3 (5.8, 6.0, 6.7, 7.8, 9.1). These coordinates reconstruct unlabelled source positions and are not exact numerical givens.",
+          "answerVisibility": "All supplied box plots, labels, ticks and grid remain visible in the student edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Which car recorded the highest fuel consumption?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Corolla.",
+          "worked": "Corolla: its maximum is farther to the right.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p20-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Which car recorded the lowest fuel consumption?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Corolla.",
+          "worked": "Corolla: its minimum is farther to the left.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p20-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Which car had the greater range of results?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Corolla.",
+          "worked": "Corolla has the greater range because the distance from its minimum to its maximum is larger.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p20-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Which car demonstrated the more consistent fuel consumption over all routes? Give a reason.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Mazda 3, because it has a smaller IQR.",
+          "worked": "Mazda 3 has the narrower box, so its IQR is smaller. Its middle 50% of fuel-consumption results are more consistent.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p20-q2-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Which car used less than 7 L/100 km more often?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Mazda 3.",
+          "worked": "Mazda 3's median is below 7 L/100 km, whereas Corolla's median is above 7 L/100 km. Using the box-plot percentage comparison, Mazda 3 used less than 7 L/100 km more often.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q2-root/label",
+                  "type": "item",
+                  "ref": "p20-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p20-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q2-diagram",
+                  "type": "item",
+                  "ref": "p20-q2-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p20-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p20-q2-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q2-a/label",
+                          "type": "item",
+                          "ref": "p20-q2-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p20-q2-a/prompt",
+                          "type": "item",
+                          "ref": "p20-q2-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q2-a/space",
+                          "type": "item",
+                          "ref": "p20-q2-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q2-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q2-b/label",
+                          "type": "item",
+                          "ref": "p20-q2-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p20-q2-b/prompt",
+                          "type": "item",
+                          "ref": "p20-q2-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q2-b/space",
+                          "type": "item",
+                          "ref": "p20-q2-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q2-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q2-c/label",
+                          "type": "item",
+                          "ref": "p20-q2-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p20-q2-c/prompt",
+                          "type": "item",
+                          "ref": "p20-q2-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q2-c/space",
+                          "type": "item",
+                          "ref": "p20-q2-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q2-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q2-d/label",
+                          "type": "item",
+                          "ref": "p20-q2-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p20-q2-d/prompt",
+                          "type": "item",
+                          "ref": "p20-q2-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q2-d/space",
+                          "type": "item",
+                          "ref": "p20-q2-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p20-q2-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q2-e/label",
+                          "type": "item",
+                          "ref": "p20-q2-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p20-q2-e/prompt",
+                          "type": "item",
+                          "ref": "p20-q2-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p20-q2-e/space",
+                          "type": "item",
+                          "ref": "p20-q2-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:36:01.218Z",
+  "updatedAt": "2026-10-21T09:36:01.218Z"
+}

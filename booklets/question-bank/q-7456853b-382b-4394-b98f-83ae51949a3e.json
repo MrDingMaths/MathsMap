@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7456853b-382b-4394-b98f-83ae51949a3e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-exponential-log-equations",
+    "secondarySkillIds": [
+      "solve-linear-inequalities"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied decay model to solve a strict inequality, convert five-minute periods into minutes, and round the threshold as requested.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:31:31.300Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "89e4d68afc4f6537fbc61d8a2b714415f095c386631de66a6ae6c7f505a3c66c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/logarithms-v1/2ede82b1b16b93e8bde8a998aeb8cfbd282f3530b2bbd6c5a149d9f78d98e862-1792560650912/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p49-q9-response",
+    "type": "question",
+    "label": "9",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p49-q9-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The temperature difference between a cup of coffee and its surroundings decreases by 25% every 5 minutes. The coffee is initially 60 degrees hotter than its surroundings; this can be modelled by ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "D=60(0.75)^t",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "t",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is the number of 5 minute periods. After how long will it take for the temperature difference to be less than 5°C? Answer to the nearest whole minute.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "43 min (threshold rounded to the nearest whole minute)\n\nSolve the decay inequality using logarithms, reversing the sign for a base below 1, then convert five-minute intervals to minutes.",
+      "worked": "Here $t\\geq0$ counts five-minute periods.\n$$\\begin{align*}60(0.75)^t &< 5\\\\(0.75)^t &< \\frac{1}{12}\\\\t &> \\log_{0.75}\\left(\\frac{1}{12}\\right)\\end{align*}$$\nTaking logarithms to base $0.75$ reverses the inequality because $0<0.75<1$. For elapsed time $m=5t$ in minutes,\n$$m>5\\log_{0.75}\\left(\\frac{1}{12}\\right).$$\nThe threshold is approximately 43.1884 minutes, which rounds to 43 minutes as requested. The first whole minute satisfying the strict inequality is 44 minutes.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 20
+  },
+  "presentation": {
+    "ownerId": "p49-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p49-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p49-q9-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p49-q9-response/label",
+                  "type": "item",
+                  "ref": "p49-q9-response/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p49-q9-response/prompt#p49-q9-stem",
+                  "type": "item",
+                  "ref": "p49-q9-response/prompt#p49-q9-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p49-q9-response/space",
+                  "type": "item",
+                  "ref": "p49-q9-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 9",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:49:58.149Z",
+  "updatedAt": "2026-10-21T10:49:58.149Z"
+}

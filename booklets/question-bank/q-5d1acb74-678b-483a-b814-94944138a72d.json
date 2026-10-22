@@ -1,0 +1,310 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5d1acb74-678b-483a-b814-94944138a72d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "speed-time-graph-acceleration",
+    "secondarySkillIds": [],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Identify the animal traces from the chase context, select the relevant segments and calculate gradients, using elapsed time rather than the final time for the gazelle and interpreting negative acceleration as deceleration.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:08:47.760Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8845a85ac06890bb513037116f85a5242176c98a5e90bc34e270ffa354f3a37c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/graphs-of-rates-of-change-v1/0503bdf417e17be6245abe1549d2099b609dfd2f324495273020f393bf330584-1792559303715/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p44-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The speed–time graph represents a cheetah seeing a gazelle and chasing it.\n\nThe cheetah catches the gazelle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p44-q3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"cheetahGreen\",\"hex\":\"4F9B63\",\"reason\":\"upper animal trace\"},{\"name\":\"gazelleRed\",\"hex\":\"EF6068\",\"reason\":\"lower animal trace\"}],\"reference\":\"source page 44, p44-q3-graph\"}\n\\begin{tikzpicture}[x=0.23cm,y=0.115cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cheetahGreen}{HTML}{4F9B63}\n\\definecolor{gazelleRed}{HTML}{EF6068}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\draw[xstep=2,ystep=5,draw=graphGrid,line width=0.25pt] (0,0) grid (22,40);\n\\draw[black,->,line width=0.5pt] (0,0)--(23.2,0);\n\\draw[black,->,line width=0.5pt] (0,0)--(0,42.5);\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\foreach \\v in {2,4,6,8,10,12,14,16,18,20} {\n\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-1);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {5,10,15,20,25,30,35} {\n\\draw[black,line width=0.4pt] (0,\\v)--(-0.5,\\v);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.5,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\n}\n\\node[font=\\fontsize{10}{12}\\selectfont] at (11,-7) {Time (s)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-4.5,20) {Speed (m/s)};\n\\draw[cheetahGreen,line width=0.8pt] (0,0)--(4,30)--(14,30)--(16,0);\n\\draw[gazelleRed,line width=0.8pt] (1,0)--(5,20)--(14,20)--(16,0);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 44,
+          "sourceRegion": "Question 3, shared graph",
+          "description": "Two animal speed traces on a common grid with arrowed axes. Neutral grey grid replaces the source blue grid; semantic green and red traces are retained.",
+          "mathematics": "Upper trace: (0,0), (4,30), (14,30), (16,0). Lower trace: (1,0), (5,20), (14,20), (16,0). Grid steps are 2 seconds horizontally and 5 m/s vertically, extending to 22 seconds and 40 m/s.",
+          "answerVisibility": "The supplied traces and axis labels are permanent student-visible givens; animal identities are supplied only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p44-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Does the top graph represent the cheetah or the gazelle?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cheetah.",
+          "worked": "The top graph represents the cheetah: it reaches the greater speed and catches the gazelle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p44-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Calculate the cheetah’s acceleration in the initial stages of the chase.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7.5\\text{ m/s}^2$",
+          "worked": "$$\\begin{align*}\\text{Acceleration}&=\\frac{\\text{change in speed}}{\\text{time taken}}\\\\\\text{Acceleration}&=\\frac{30-0}{4-0}\\\\\\text{Acceleration}&=7.5\\text{ m/s}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p44-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Calculate the gazelle’s acceleration in the initial stages of the chase.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5\\text{ m/s}^2$",
+          "worked": "$$\\begin{align*}\\text{Acceleration}&=\\frac{\\text{change in speed}}{\\text{time taken}}\\\\\\text{Acceleration}&=\\frac{20-0}{5-1}\\\\\\text{Acceleration}&=5\\text{ m/s}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p44-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Calculate the cheetah’s deceleration at the end.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$15\\text{ m/s}^2$",
+          "worked": "$$\\begin{align*}\\text{Acceleration}&=\\frac{0-30}{16-14}\\\\\\text{Acceleration}&=-15\\text{ m/s}^2\\end{align*}$$\nThe deceleration is the magnitude of the negative acceleration: $15\\text{ m/s}^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p44-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p44-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p44-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p44-q3-root/label",
+                  "type": "item",
+                  "ref": "p44-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "p44-q3-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q3-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q3-graph",
+                          "type": "item",
+                          "ref": "p44-q3-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q3-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q3-root/prompt",
+                          "type": "item",
+                          "ref": "p44-q3-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p44-q3-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p44-q3-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q3-a/label",
+                                  "type": "item",
+                                  "ref": "p44-q3-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p44-q3-a/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q3-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q3-a/space",
+                                  "type": "item",
+                                  "ref": "p44-q3-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q3-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q3-b/label",
+                                  "type": "item",
+                                  "ref": "p44-q3-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p44-q3-b/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q3-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q3-b/space",
+                                  "type": "item",
+                                  "ref": "p44-q3-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q3-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q3-c/label",
+                                  "type": "item",
+                                  "ref": "p44-q3-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p44-q3-c/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q3-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q3-c/space",
+                                  "type": "item",
+                                  "ref": "p44-q3-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q3-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q3-d/label",
+                                  "type": "item",
+                                  "ref": "p44-q3-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p44-q3-d/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q3-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q3-d/space",
+                                  "type": "item",
+                                  "ref": "p44-q3-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:59:42.072Z",
+  "updatedAt": "2026-10-21T08:59:42.072Z"
+}

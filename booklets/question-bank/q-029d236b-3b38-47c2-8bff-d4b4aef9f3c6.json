@@ -1,0 +1,245 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-029d236b-3b38-47c2-8bff-d4b4aef9f3c6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-quadratic-model",
+    "secondarySkillIds": [
+      "quadratic-word-problems",
+      "complete-square-form"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "The supplied constraint and area expression scaffold the modelling; complete the square or use the vertex formula to identify the maximum area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:04:13.126Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "68f307ab42844c8c1102f04a2baf32fb1cfc6fabb23c9c24ee54c2af3e4a3392",
+      "evidence": ".booklet-work/reasoning-ratings/calls/further-parabolas-v1/976b403867b2ca9a9f436fa129a7bbe94ad457d35dcbd169c766d5691f2b406c-1792559018394/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p57-q7-root",
+    "type": "question",
+    "label": "",
+    "prompt": "A farmer has 400 metres of fencing to construct a rectangular field.\nOne of the sides is a river, so the farmer only needs to fence three sides of the rectangle.\nThe farmer wants to use all the fencing available to make the largest possible area.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p57-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 57 p57-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.8pt] (0,0)--(0,2)--(4,2)--(4,0);\n\\node[left] at (0,1) {$x$};\n\\node[above] at (2,2) {$y$};\n\\draw[black,line width=0.4pt] (-0.8,0) .. controls (-0.4,0.06) and (-0.2,-0.06) .. (0.2,0) .. controls (0.8,0.06) and (1.2,-0.06) .. (1.8,0) .. controls (2.4,0.06) and (2.8,-0.06) .. (3.4,0) .. controls (4,0.06) and (4.4,-0.06) .. (4.8,0);\n\\node[below] at (2,-0.1) {River};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 57,
+          "sourceRegion": "Question 7: diagram beneath the shared stem",
+          "description": "Three fenced sides of an unshaded rectangular field meet a river along the unfenced bottom side. The river is explicitly labelled to retain its identity without decorative fill.",
+          "mathematics": "The two sides perpendicular to the river each have length x; the fenced side parallel to the river has length y. No numerical lengths or scale are supplied.",
+          "answerVisibility": "Permanent student given."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p57-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that we can model this situation as $2x+y=400$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The fenced sides total $x+y+x=400$, so $2x+y=400$.",
+          "worked": "The three fenced sides have lengths $x$, $y$ and $x$ metres, and all 400 metres of fencing are used.\n$$\\begin{align*}x+y+x&=400\\\\2x+y&=400\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p57-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the area of the field is $A=400x-2x^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=xy=x(400-2x)=400x-2x^2$.",
+          "worked": "From part (a), $y=400-2x$.\n$$\\begin{align*}A&=xy\\\\A&=x(400-2x)\\\\A&=400x-2x^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p57-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "By completing the square of the above expression, or otherwise, find the maximum area of the field that the farmer can construct.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$20\\,000\\text{ m}^2$, since $A=-2(x-100)^2+20\\,000$.",
+          "worked": "$$\\begin{align*}A&=400x-2x^2\\\\A&=-2(x^2-200x)\\\\A&=-2\\bigl((x-100)^2-10\\,000\\bigr)\\\\A&=-2(x-100)^2+20\\,000\\end{align*}$$\nSince $(x-100)^2\\geq0$, the maximum turning point is $(100,20\\,000)$. The maximum area is $20\\,000\\text{ m}^2$.\n\nAlternatively, the parabola is concave down and its vertex occurs at\n$$\\begin{align*}x&=-\\frac{b}{2a}\\\\x&=-\\frac{400}{2(-2)}\\\\x&=100.\\end{align*}$$\nSubstituting into the area model,\n$$\\begin{align*}A&=400(100)-2(100)^2\\\\A&=20\\,000\\text{ m}^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p57-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p57-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p57-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p57-q7-root/label",
+                  "type": "item",
+                  "ref": "p57-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p57-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p57-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p57-q7-diagram",
+                  "type": "item",
+                  "ref": "p57-q7-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p57-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p57-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p57-q7-a/label",
+                          "type": "item",
+                          "ref": "p57-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p57-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p57-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p57-q7-a/space",
+                          "type": "item",
+                          "ref": "p57-q7-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p57-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p57-q7-b/label",
+                          "type": "item",
+                          "ref": "p57-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p57-q7-b/prompt",
+                          "type": "item",
+                          "ref": "p57-q7-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p57-q7-b/space",
+                          "type": "item",
+                          "ref": "p57-q7-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p57-q7-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p57-q7-c/label",
+                          "type": "item",
+                          "ref": "p57-q7-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p57-q7-c/prompt",
+                          "type": "item",
+                          "ref": "p57-q7-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p57-q7-c/space",
+                          "type": "item",
+                          "ref": "p57-q7-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 7",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:52:25.446Z",
+  "updatedAt": "2026-10-21T08:52:25.446Z"
+}

@@ -1,0 +1,137 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-82b9641a-16d5-4c28-99fe-3618ddfcec5d",
+  "status": "approved",
+  "title": "2007 HSC Standard 2 Band 5",
+  "classification": {
+    "primarySkillId": "probability-dependent-events",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Infer selection without replacement, reduce the matching category count and total for the second choice, then sum the three same-rating path products.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ea19672bcb4ca89751b6d07d00f0722fe7b1b2e9630275d9ff82421aa66b2f0b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p37-q21",
+    "type": "question",
+    "label": "21",
+    "prompt": "In a stack of 10 DVDs, there are 5 rated PG, 3 rated G and 2 rated M.\n\nGrant chooses two DVDs at random from the stack.\n\nCalculate the probability that Grant chooses two DVDs with the same rating.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p37-q21-tree",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q21-tree\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[font=\\fontsize{10}{12}\\selectfont\\bfseries] at (29,96) {1st choice};\n\\node[font=\\fontsize{10}{12}\\selectfont\\bfseries] at (69,96) {2nd choice};\n\\coordinate (root) at (0,45);\n\\foreach \\name/\\yy in {PG/75,G/45,M/15}{\n\\draw (root)--(24,\\yy);\n\\node[anchor=west] at (24,\\yy) {\\name};\n\\draw (37,\\yy)--(64,{\\yy+10});\n\\draw (37,\\yy)--(64,\\yy);\n\\draw (37,\\yy)--(64,{\\yy-10});\n\\node[anchor=west] at (65,{\\yy+10}) {PG};\n\\node[anchor=west] at (65,\\yy) {G};\n\\node[anchor=west] at (65,{\\yy-10}) {M};\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 37,
+          "sourceRegion": "Question 21 supplied tree",
+          "description": "Unlabelled probability branches with first- and second-choice headings. Each first-choice rating branches to PG, G and M in that order.",
+          "mathematics": "Three first-choice branches and nine second-choice branches; repeated terminal labels are distinguished by their first-choice paths.",
+          "answerVisibility": "Only supplied rating labels and stage headings are visible; no probabilities or answers are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\frac{14}{45}$",
+      "worked": "The DVDs are chosen without replacement.\n\n$$\\begin{align*}P(\\text{PG, PG})&=\\frac{5}{10}\\times\\frac{4}{9}=\\frac{20}{90}\\\\P(\\text{G, G})&=\\frac{3}{10}\\times\\frac{2}{9}=\\frac{6}{90}\\\\P(\\text{M, M})&=\\frac{2}{10}\\times\\frac{1}{9}=\\frac{2}{90}\\\\P(\\text{same rating})&=\\frac{20}{90}+\\frac{6}{90}+\\frac{2}{90}=\\frac{14}{45}\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p37-q21-solution-tree",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q21-solution-tree\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=0.6mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[align=center,font=\\fontsize{10}{12}\\selectfont\\bfseries] at (17,78) {1st\\\\choice};\\node[align=center,font=\\fontsize{10}{12}\\selectfont\\bfseries] at (44,78) {2nd\\\\choice};\n\\foreach \\a/\\y in {PG/48,G/0,M/-48}{\\draw (0,0)--(17,\\y);\\foreach \\d in {16,0,-16}{\\draw (17,\\y)--(43,{\\y+\\d});}}\n\\foreach \\a/\\y/\\f/\\p/\\g/\\m in {PG/48/5/4/3/2,G/0/3/5/2/2,M/-48/2/5/3/1}{\n\\node[fill=white] at (8,{\\y/2}) {$\\dfrac{\\f}{10}$};\n\\node[fill=white] at (17,\\y) {\\a};\n\\node[above,fill=white] at (32,{\\y+10}) {$\\dfrac{\\p}{9}$};\n\\node[fill=white] at (27,\\y) {$\\dfrac{\\g}{9}$};\n\\node[below,fill=white] at (32,{\\y-10}) {$\\dfrac{\\m}{9}$};\n\\node[anchor=west,fill=white] at (43,{\\y+16}) {PG};\\node[anchor=west,fill=white] at (43,\\y) {G};\\node[anchor=west,fill=white] at (43,{\\y-16}) {M};\n}\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 100,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 37,
+            "sourceRegion": "Question 21 supplied tree, completed",
+            "description": "Complete probability tree showing the changing second-choice probabilities without replacement.",
+            "mathematics": "First-choice probabilities PG 5/10, G 3/10, M 2/10. Second-choice PG/G/M probabilities are 4/9,3/9,2/9 after PG; 5/9,2/9,2/9 after G; and 5/9,3/9,1/9 after M.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 38
+  },
+  "presentation": {
+    "ownerId": "p37-q21-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p37-q21-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p37-q21:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p37-q21/label",
+                  "type": "item",
+                  "ref": "p37-q21/label",
+                  "title": "Label 21"
+                },
+                {
+                  "id": "layout:p37-q21/prompt",
+                  "type": "item",
+                  "ref": "p37-q21/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p37-q21-tree",
+                  "type": "item",
+                  "ref": "p37-q21-tree",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p37-q21/space",
+                  "type": "item",
+                  "ref": "p37-q21/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 21",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:31.975Z",
+  "updatedAt": "2026-10-21T10:53:31.976Z"
+}

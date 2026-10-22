@@ -1,0 +1,215 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9c290aa7-554a-4995-b16f-06a628cd42e0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "multistage-outcomes",
+      "complementary-multistage"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Represent city selection before two responses, retain the same city's approval rate for both electors, combine weighted city-specific probabilities, and use the complement for at least one approval.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:21.308Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d646bc55719dee33aef48d65cd0f463b4117fc6d648a42346f751a75aa24c9b7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/1eaaaefe62203cd5f68a3afd8566ab8e202f011c4142b5296e3a313f669df3f8-1792560721192/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p50-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": "An interviewer conducts a poll in Sydney and Melbourne on the popularity of the prime minister. In Sydney, 52% of the population approve of the prime minister, and in Melbourne her approval rating is 60%. If one of the two capital cities is selected at random and two electors from that city are surveyed, find the probability that:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p50-q21-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "both electors approve of the prime minister,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$31.52\\%$",
+          "worked": "Assume the electors' responses are independent within each city.\n\nThe stages are city, first elector and second elector. Each city has probability 0.5; approval probabilities are 0.52 in Sydney and 0.60 in Melbourne.\n\n$$\\begin{aligned}P(\\text{both approve})&=P(\\text{Syd, Approve, Approve})+P(\\text{Mel, Approve, Approve})\\\\P(\\text{both approve})&=(0.5)(0.52)(0.52)+(0.5)(0.6)(0.6)\\\\P(\\text{both approve})&=31.52\\%\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p50-q21-city-electors-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"question p50-q21, city then two independent electors\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.5pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node at (3,7.4) {City};\\node at (7,7.4) {\\shortstack{First\\\\elector}};\\node at (11,7.4) {\\shortstack{Second\\\\elector}};\\coordinate (O) at (0,0);\n\\node (S) at (3,4) {Sydney};\\draw[black] (O)--(S) node[midway,above] {$0.5$};\n\\node (SA) at (7,5.8) {A};\\draw[black] (S)--(SA) node[midway,above] {$0.52$};\n\\node (SAA) at (11,6.6) {A};\\draw[black] (SA)--(SAA) node[midway,above] {$0.52$};\n\\node (SAN) at (11,5) {N};\\draw[black] (SA)--(SAN) node[midway,below] {$0.48$};\n\\node (SN) at (7,2.2) {N};\\draw[black] (S)--(SN) node[midway,above] {$0.48$};\n\\node (SNA) at (11,3) {A};\\draw[black] (SN)--(SNA) node[midway,above] {$0.52$};\n\\node (SNN) at (11,1.4000000000000001) {N};\\draw[black] (SN)--(SNN) node[midway,below] {$0.48$};\n\\node (M) at (3,-4) {Melbourne};\\draw[black] (O)--(M) node[midway,above] {$0.5$};\n\\node (MA) at (7,-2.2) {A};\\draw[black] (M)--(MA) node[midway,above] {$0.60$};\n\\node (MAA) at (11,-1.4000000000000001) {A};\\draw[black] (MA)--(MAA) node[midway,above] {$0.60$};\n\\node (MAN) at (11,-3) {N};\\draw[black] (MA)--(MAN) node[midway,below] {$0.40$};\n\\node (MN) at (7,-5.8) {N};\\draw[black] (M)--(MN) node[midway,above] {$0.40$};\n\\node (MNA) at (11,-5) {A};\\draw[black] (MN)--(MNA) node[midway,above] {$0.60$};\n\\node (MNN) at (11,-6.6) {N};\\draw[black] (MN)--(MNN) node[midway,below] {$0.40$};\n\\node[anchor=west] at (0,-7.5) {A = approves; N = does not approve.};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 150,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "description": "City, first elector and second elector, with every conditional branch labelled.",
+                "mathematics": "P(AA)=0.5(0.52)^2+0.5(0.60)^2=0.3152. Electors independent conditional on city."
+              },
+              "derived": false
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p50-q21-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "at least one elector approves of the prime minister.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$80.48\\%$",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p50-q21-b-answer",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}P(\\text{at least one approves})&=1-P(\\text{both disapprove})\\\\P(\\text{at least one approves})&=1-\\bigl(P(\\text{Syd, Disapprove, Disapprove})+P(\\text{Mel, Disapprove, Disapprove})\\bigr)\\\\P(\\text{at least one approves})&=1-\\bigl((0.5)(0.48)(0.48)+(0.5)(0.4)(0.4)\\bigr)\\\\P(\\text{at least one approves})&=80.48\\%\\end{aligned}",
+                    "display": true,
+                    "colour": "#268cff"
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p50-q21",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p50-q21": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p50-q21-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p50-q21-root/label",
+                  "type": "item",
+                  "ref": "p50-q21-root/label",
+                  "title": "Label 21"
+                },
+                {
+                  "id": "layout:p50-q21-root/prompt",
+                  "type": "item",
+                  "ref": "p50-q21-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p50-q21-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p50-q21-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p50-q21-a/label",
+                          "type": "item",
+                          "ref": "p50-q21-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p50-q21-a/prompt",
+                          "type": "item",
+                          "ref": "p50-q21-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p50-q21-a/space",
+                          "type": "item",
+                          "ref": "p50-q21-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p50-q21-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p50-q21-b/label",
+                          "type": "item",
+                          "ref": "p50-q21-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p50-q21-b/prompt",
+                          "type": "item",
+                          "ref": "p50-q21-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p50-q21-b/space",
+                          "type": "item",
+                          "ref": "p50-q21-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 21",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:54:23.065Z",
+  "updatedAt": "2026-10-21T10:54:23.066Z"
+}

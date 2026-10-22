@@ -1,0 +1,295 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4f2267cd-531f-4b1f-992d-1325cc8dabc8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-log-functions",
+    "secondarySkillIds": [
+      "domain-and-range",
+      "graph-function-transformations",
+      "solve-exponential-log-equations"
+    ],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Identify the shifted logarithm's domain, asymptote and translations, and convert the explicitly prompted zero-output equation into exponential form.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:31:31.300Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "48178f9bbdc4e1ccf7ba0468c97173d66ca474514ed2ba8495c70d6689111388",
+      "evidence": ".booklet-work/reasoning-ratings/calls/logarithms-v1/2ede82b1b16b93e8bde8a998aeb8cfbd282f3530b2bbd6c5a149d9f78d98e862-1792560650912/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "For the graph of $y=\\log_2(x-3)+2$:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"source logarithmic graph series\"}],\"reference\":\"source page 42 p42-q7-graph\"}\n\\begin{tikzpicture}[x=0.52cm,y=0.52cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,<->] (-2,0)--(13,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-2.9)--(0,6.1) node[above,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\foreach \\t in {-1,1,2,3,4,5,6,7,8,9,10,11,12} {\\draw[black,line width=0.4pt] (\\t,0)--(\\t,-0.18) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\t$};}\n\\foreach \\t in {-2,-1,1,2,3,4,5} {\\draw[black,line width=0.4pt] (0,\\t)--(-0.18,\\t) node[left,font=\\fontsize{8.5}{10}\\selectfont] {$\\t$};}\n\\draw[curveBlue,line width=0.8pt,<->,samples=180,domain=-2.7:5.25,variable=\\t] plot ({3+pow(2,\\t-2)},{\\t});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 83.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 7, right of parts a–c",
+          "description": "Unshaded axes with unit ticks, axis letters, two-ended axis arrows and an increasing blue logarithmic curve with endpoint arrows. No grid, marked points or drawn asymptote. The source origin O is omitted under the graph contract.",
+          "mathematics": "y=log_2(x-3)+2; x>3; vertical asymptote x=3; horizontal intercept (13/4,0).",
+          "answerVisibility": "Supplied question graph remains visible; supplied textual answers occur only in answer fields."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the domain.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x>3$",
+          "worked": "$$\\begin{align*}x-3&>0\\\\x&>3\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 9
+      },
+      {
+        "id": "p42-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "State the equation of the asymptote.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=3$",
+          "worked": "The vertical asymptote occurs where the logarithm’s argument is zero.\n$$\\begin{align*}x-3&=0\\\\x&=3\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 9
+      },
+      {
+        "id": "p42-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Determine the $x$-intercept by letting $y=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(3.25,0)$",
+          "worked": "$$\\begin{align*}0&=\\log_2(x-3)+2\\\\\\log_2(x-3)&=-2\\\\x-3&=2^{-2}\\\\x-3&=\\frac14\\\\x&=\\frac{13}{4}=3.25\\end{align*}$$\nThe $x$-intercept is $(3.25,0)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p42-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "State the horizontal and vertical translations applied to the graph of $\\log_2 x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Right by 3, up by 2.",
+          "worked": "Replacing $x$ with $x-3$ translates the graph 3 units right. Adding 2 translates it 2 units up.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q7-layout",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "restored:p42-q7-root/label",
+                  "type": "item",
+                  "ref": "p42-q7-root/label"
+                },
+                {
+                  "id": "p42-q7-stem-item",
+                  "type": "item",
+                  "ref": "p42-q7-root/prompt",
+                  "align": "left"
+                },
+                {
+                  "id": "p42-q7-main-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p42-q7-parts-column",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "labelled:p42-q7-a-item",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "restored:p42-q7-a/label",
+                              "type": "item",
+                              "ref": "p42-q7-a/label"
+                            },
+                            {
+                              "id": "p42-q7-a-item",
+                              "type": "item",
+                              "ref": "p42-q7-a/prompt",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 4
+                        },
+                        {
+                          "id": "labelled:p42-q7-b-item",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "restored:p42-q7-b/label",
+                              "type": "item",
+                              "ref": "p42-q7-b/label"
+                            },
+                            {
+                              "id": "p42-q7-b-item",
+                              "type": "item",
+                              "ref": "p42-q7-b/prompt",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 4
+                        },
+                        {
+                          "id": "labelled:p42-q7-c-item",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "restored:p42-q7-c/label",
+                              "type": "item",
+                              "ref": "p42-q7-c/label"
+                            },
+                            {
+                              "id": "p42-q7-c-item",
+                              "type": "item",
+                              "ref": "p42-q7-c/prompt",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 4
+                        },
+                        {
+                          "id": "restored:p42-q7-a/space",
+                          "type": "item",
+                          "ref": "p42-q7-a/space",
+                          "height": 8
+                        },
+                        {
+                          "id": "restored:p42-q7-b/space",
+                          "type": "item",
+                          "ref": "p42-q7-b/space",
+                          "height": 8
+                        },
+                        {
+                          "id": "restored:p42-q7-c/space",
+                          "type": "item",
+                          "ref": "p42-q7-c/space",
+                          "height": 8
+                        }
+                      ],
+                      "gap": 4,
+                      "weight": 1
+                    },
+                    {
+                      "id": "p42-q7-graph-item",
+                      "type": "item",
+                      "ref": "p42-q7-graph",
+                      "width": 83.5,
+                      "align": "right"
+                    }
+                  ],
+                  "gap": 5,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "labelled:p42-q7-d-item",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "restored:p42-q7-d/label",
+                      "type": "item",
+                      "ref": "p42-q7-d/label"
+                    },
+                    {
+                      "id": "p42-q7-d-item",
+                      "type": "item",
+                      "ref": "p42-q7-d/prompt",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 4
+                },
+                {
+                  "id": "restored:p42-q7-d/space",
+                  "type": "item",
+                  "ref": "p42-q7-d/space",
+                  "height": 8
+                }
+              ],
+              "gap": 4
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p42-q7-a": 8,
+        "p42-q7-b": 8,
+        "p42-q7-c": 8,
+        "p42-q7-d": 8
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p42-q7"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:49:23.533Z",
+  "updatedAt": "2026-10-21T10:49:23.534Z"
+}

@@ -1,0 +1,226 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-eb994b99-9c80-4865-b891-ff3b521f3521",
+  "status": "approved",
+  "title": "2021 HSC Standard 2 Band 5",
+  "classification": {
+    "primarySkillId": "equation-from-graph",
+    "secondarySkillIds": [
+      "outlier-effect-line-best-fit"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Read suitable points from the fitted line to obtain its equation, then reason how a new point above the line at a large x-value pulls the fitted gradient upwards.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:19.912Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4a6963984fc0a33cd75c09beb57e68bdcd0edb6dbcd4a5b66a6aaf18bce9aadd",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/de620e08a370a01d826c0fb64abcd6a6845885884056d736ec1034db321d4ca3-1792556219584/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p37-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "A salesperson is interested in the relationship between the number of bottles of lemonade sold per day and the number of hours of sunshine on the day.\n\nThe diagram shows the dataset used in the investigation and the least-squares regression line.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p37-q13-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q13-graph\"}\n\\begin{tikzpicture}[x=5.8mm,y=1.8125mm]\n\\definecolor{fixedGrid}{HTML}{CCCCCC}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\y in {2,6,10,14,18,22,26,30}{\\draw[draw=fixedGrid,dotted,line width=0.15pt] (0,\\y)--(10,\\y);}\n\\draw[draw=fixedGrid,line width=0.25pt,xstep=1,ystep=4] (0,0) grid (10,32);\n\\draw[black,line width=0.5pt] (0,32)--(0,0)--(10,0);\n\\foreach \\x in {0,1,2,3,4,5,6,7,8,9,10}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,4,8,12,16,20,24,28,32}{\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[font=\\fontsize{10}{12}\\selectfont] at (5,-4.2) {Number of hours of sunshine ($x$)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1.25,16) {Number of bottles sold ($y$)};\n\\begin{scope}\\clip (0,0) rectangle (10,32);\\draw[black,dashed,line width=0.8pt,domain=0:10,samples=2] plot (\\x,{3.2*\\x+2});\\end{scope}\n\\foreach \\x/\\y in {2/8,3/11,5/19,6/22,9/30}{\\fill[black] (\\x,\\y) circle[radius=0.7mm];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 37,
+          "sourceRegion": "Lower-left graph beside question 13",
+          "description": "Five black circular markers and the supplied dashed regression line; solid major grid and dotted intermediate horizontal grid.",
+          "mathematics": "x from 0 to 10, ticks every 1; y from 0 to 32, labelled ticks every 4 and dotted intermediate lines every 2. Points (2,8), (3,11), (5,19), (6,22), (9,30). Supplied graphical line y=3.2x+2, clipped at y=32.",
+          "answerVisibility": "The dataset and dashed line are permanent givens. No equation label or sixth point is printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p37-q13-part1",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the equation of the least-squares regression line relating to the dataset?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=3.2x+2$",
+          "worked": "The line crosses the $y$-axis at 2. Two points read from the line are approximately $(0,2)$ and $(5,18)$.\n$$\\begin{aligned}m&=\\frac{18-2}{5-0}\\\\&=3.2\\\\y&=3.2x+2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p37-q13-part2",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose a sixth dataset was collected on a day that had 10 hours of sunshine and 45 bottles of lemonade sold. What would happen to the gradient of the line?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The gradient would increase: the line would become steeper.",
+          "worked": "The new point $(10,45)$ is above the current line and to the right of the existing points. It pulls the right-hand end of the fitted line upwards, so the gradient increases.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p37-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p37-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p37-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p37-q13-root/label",
+                  "type": "item",
+                  "ref": "p37-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "p37-q13-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p37-q13-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p37-q13-graph",
+                          "type": "item",
+                          "ref": "p37-q13-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p37-q13-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p37-q13-root/prompt",
+                          "type": "item",
+                          "ref": "p37-q13-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p37-q13-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p37-q13-part1:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p37-q13-part1/label",
+                                  "type": "item",
+                                  "ref": "p37-q13-part1/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p37-q13-part1/prompt",
+                                  "type": "item",
+                                  "ref": "p37-q13-part1/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p37-q13-part1/space",
+                                  "type": "item",
+                                  "ref": "p37-q13-part1/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p37-q13-part2:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p37-q13-part2/label",
+                                  "type": "item",
+                                  "ref": "p37-q13-part2/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p37-q13-part2/prompt",
+                                  "type": "item",
+                                  "ref": "p37-q13-part2/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p37-q13-part2/space",
+                                  "type": "item",
+                                  "ref": "p37-q13-part2/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 13",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:42:28.607Z",
+  "updatedAt": "2026-10-21T07:42:28.608Z"
+}

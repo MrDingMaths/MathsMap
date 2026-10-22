@@ -1,0 +1,490 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-101536b3-7914-4053-956e-6b175462e270",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a two-stage probability tree, multiply branch probabilities and add mutually exclusive outcomes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T13:58:01.985Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "50350361e042af87cc615b4f37f445d876a501e48babd9625684f04c2100140f",
+      "evidence": ".booklet-work/full-imports/multistage-probability-import-20261006/semantic-packets/assignments/assignment-99ae1000394133a2116f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p33-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "In group A there are three girls and seven boys, and in group B there are six girls and four boys. One person is chosen at random from each group.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a probability tree diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$G$ denotes girl and $B$ denotes boy. Group A: $P(G)=\\frac{3}{10}$, $P(B)=\\frac{7}{10}$. Group B after either first outcome: $P(G)=\\frac{6}{10}$, $P(B)=\\frac{4}{10}$.",
+          "worked": "Use group A for the first stage and group B for the second stage. Label the first branches $\\frac{3}{10}$ for $G$ and $\\frac{7}{10}$ for $B$. After either first-stage outcome, label the branches $\\frac{6}{10}$ for $G$ and $\\frac{4}{10}$ for $B$.",
+          "solutionDiagrams": [
+            {
+              "id": "p33-q11-tree-answer",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 33 p33-q11-tree-answer\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\n\\coordinate (AG) at (2,1.25);\n\\coordinate (AB) at (2,-1.25);\n\\coordinate (GG) at (4.4,1.9);\n\\coordinate (GB) at (4.4,0.6);\n\\coordinate (BG) at (4.4,-0.6);\n\\coordinate (BB) at (4.4,-1.9);\n\\node[anchor=east] at (S) {Start};\n\\node at (2,2.65) {Group A};\n\\node at (4.4,2.65) {Group B};\n\\draw[black] (S) -- (AG) node[midway,above left] {$\\frac{3}{10}$};\n\\draw[black] (S) -- (AB) node[midway,below left] {$\\frac{7}{10}$};\n\\draw[black] (AG) -- (GG) node[midway,above] {$\\frac{6}{10}$};\n\\draw[black] (AG) -- (GB) node[midway,below] {$\\frac{4}{10}$};\n\\draw[black] (AB) -- (BG) node[midway,above] {$\\frac{6}{10}$};\n\\draw[black] (AB) -- (BB) node[midway,below] {$\\frac{4}{10}$};\n\\node[fill=white,inner sep=2pt] at (AG) {$G$};\n\\node[fill=white,inner sep=2pt] at (AB) {$B$};\n\\node[anchor=west,fill=white,inner sep=2pt] at (GG) {$G$};\n\\node[anchor=west,fill=white,inner sep=2pt] at (GB) {$B$};\n\\node[anchor=west,fill=white,inner sep=2pt] at (BG) {$G$};\n\\node[anchor=west,fill=white,inner sep=2pt] at (BB) {$B$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 82,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 33,
+                "sourceRegion": "Question 11(a), supplied answer tree",
+                "description": "Answer-only two-stage tree with Start at the left, group A before group B, and G above B at each fork. Ordinary strokes and labels use house black; white label masks keep edges clear.",
+                "mathematics": "Group A probabilities are 3/10 and 7/10. Group B probabilities are 6/10 and 4/10 after either first-stage outcome. Terminal paths are GG, GB, BG and BB.",
+                "answerVisibility": "Answer editions only; no supplied tree appears in the unsolved prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p33-q11-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "By multiplying along the branches of the tree, find:",
+        "layout": "grid",
+        "columns": 4,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p33-q11-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$P(GG)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{9}{50}$",
+              "worked": "$$\\begin{align*}P(GG)&=\\frac{3}{10}\\times\\frac{6}{10}\\\\P(GG)&=\\frac{18}{100}\\\\P(GG)&=\\frac{9}{50}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 29
+          },
+          {
+            "id": "p33-q11-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "$P(GB)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{3}{25}$",
+              "worked": "$$\\begin{align*}P(GB)&=\\frac{3}{10}\\times\\frac{4}{10}\\\\P(GB)&=\\frac{12}{100}\\\\P(GB)&=\\frac{3}{25}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 29
+          },
+          {
+            "id": "p33-q11-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "$P(BG)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{21}{50}$",
+              "worked": "$$\\begin{align*}P(BG)&=\\frac{7}{10}\\times\\frac{6}{10}\\\\P(BG)&=\\frac{42}{100}\\\\P(BG)&=\\frac{21}{50}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 29
+          },
+          {
+            "id": "p33-q11-b-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "$P(BB)$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{7}{25}$",
+              "worked": "$$\\begin{align*}P(BB)&=\\frac{7}{10}\\times\\frac{4}{10}\\\\P(BB)&=\\frac{28}{100}\\\\P(BB)&=\\frac{7}{25}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 29
+          }
+        ]
+      },
+      {
+        "id": "p33-q11-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Hence, by adding, find the probability that:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p33-q11-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "two boys or two girls are chosen",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{23}{50}$",
+              "worked": "$$\\begin{align*}P(\\text{two boys or two girls})&=P(GG)+P(BB)\\\\P(\\text{two boys or two girls})&=\\frac{9}{50}+\\frac{14}{50}\\\\P(\\text{two boys or two girls})&=\\frac{23}{50}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p33-q11-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "one boy and one girl are chosen",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{27}{50}$",
+              "worked": "$$\\begin{align*}P(\\text{one boy and one girl})&=P(GB)+P(BG)\\\\P(\\text{one boy and one girl})&=\\frac{6}{50}+\\frac{21}{50}\\\\P(\\text{one boy and one girl})&=\\frac{27}{50}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p33-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p33-q11-root/label",
+                  "type": "item",
+                  "ref": "p33-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p33-q11-root/prompt",
+                  "type": "item",
+                  "ref": "p33-q11-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p33-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p33-q11-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11-a/label",
+                          "type": "item",
+                          "ref": "p33-q11-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p33-q11-a/prompt",
+                          "type": "item",
+                          "ref": "p33-q11-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11-a/space",
+                          "type": "item",
+                          "ref": "p33-q11-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11-b/label",
+                          "type": "item",
+                          "ref": "p33-q11-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p33-q11-b/prompt",
+                          "type": "item",
+                          "ref": "p33-q11-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p33-q11-b:parts",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p33-q11-b-i:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p33-q11-b-i/label",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-i/label",
+                                  "title": "Label i"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-i/prompt",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-i/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-i/space",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-i/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part i",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p33-q11-b-ii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p33-q11-b-ii/label",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-ii/label",
+                                  "title": "Label ii"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-ii/prompt",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-ii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-ii/space",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-ii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part ii",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p33-q11-b-iii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p33-q11-b-iii/label",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-iii/label",
+                                  "title": "Label iii"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-iii/prompt",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-iii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-iii/space",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-iii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iii",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p33-q11-b-iv:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p33-q11-b-iv/label",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-iv/label",
+                                  "title": "Label iv"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-iv/prompt",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-iv/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p33-q11-b-iv/space",
+                                  "type": "item",
+                                  "ref": "p33-q11-b-iv/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iv",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11-c/label",
+                          "type": "item",
+                          "ref": "p33-q11-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p33-q11-c/prompt",
+                          "type": "item",
+                          "ref": "p33-q11-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p33-q11-c:parts",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p33-q11-c-i:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p33-q11-c-i/label",
+                                  "type": "item",
+                                  "ref": "p33-q11-c-i/label",
+                                  "title": "Label i"
+                                },
+                                {
+                                  "id": "layout:p33-q11-c-i/prompt",
+                                  "type": "item",
+                                  "ref": "p33-q11-c-i/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p33-q11-c-i/space",
+                                  "type": "item",
+                                  "ref": "p33-q11-c-i/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part i",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p33-q11-c-ii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p33-q11-c-ii/label",
+                                  "type": "item",
+                                  "ref": "p33-q11-c-ii/label",
+                                  "title": "Label ii"
+                                },
+                                {
+                                  "id": "layout:p33-q11-c-ii/prompt",
+                                  "type": "item",
+                                  "ref": "p33-q11-c-ii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p33-q11-c-ii/space",
+                                  "type": "item",
+                                  "ref": "p33-q11-c-ii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part ii",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:11.717Z",
+  "updatedAt": "2026-10-21T10:53:11.718Z"
+}

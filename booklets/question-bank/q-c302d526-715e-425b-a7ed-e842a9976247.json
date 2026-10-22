@@ -1,0 +1,232 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c302d526-715e-425b-a7ed-e842a9976247",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-figures",
+    "secondarySkillIds": [
+      "area-of-rectangle",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied decomposition lines to calculate rectangle and triangle areas, then decide whether to add the triangle or subtract the notch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:08.063Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "93ffe2a9173ed6e8eed5e6803d20d0eec48ea8ee1c685cd5fed3198b2635de8b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/fd9ca9a19321aae9e1cc776d17f368cf0676ece4b5d1838fade7bb58aa419295-1792556081290/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Calculate the area of these composite shapes.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p15-q2-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15, p15-q2-a-diagram\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (7,0);\n\\coordinate (C) at (7,5);\n\\coordinate (D) at (0,8);\n\\coordinate (E) at (0,5);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[dashed,line width=0.4pt] (E)--(C);\n\\draw[line width=0.4pt] (0,0.45)--(0.45,0.45)--(0.45,0);\n\\draw[line width=0.4pt] (6.55,0)--(6.55,0.45)--(7,0.45);\n\\draw[line width=0.4pt] (0,5.45)--(0.45,5.45)--(0.45,5);\n\\path (A)--(B) node[midway,below=2mm] {$7\\ \\mathrm{m}$};\n\\path (E)--(A) node[midway,left=2mm] {$5\\ \\mathrm{m}$};\n\\path (D)--(E) node[midway,left=2mm] {$3\\ \\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 30,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 15,
+              "sourceRegion": "Question 2a, lower-left cell",
+              "description": "A composite quadrilateral with vertical sides and a top edge sloping down to the right. A horizontal dashed decomposition line separates a lower rectangle from an upper triangle. All three source right-angle markers are retained.",
+              "mathematics": "The rectangle is 7 m wide and 5 m high. The triangle above it has base 7 m and perpendicular height 3 m.",
+              "answerVisibility": "Only source givens and construction marks are visible; the supplied result is stored in the part answer."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$45.5\\ \\text{m}^2$",
+          "worked": "Add the areas of the rectangle and triangle.\n$$\\begin{align*}\nA_{\\text{rectangle}} &= 7\\times5\\\\\nA_{\\text{rectangle}} &= 35\\ \\text{m}^2\\\\\nA_{\\text{triangle}} &= \\frac12\\times7\\times3\\\\\nA_{\\text{triangle}} &= 10.5\\ \\text{m}^2\\\\\nA &= A_{\\text{rectangle}}+A_{\\text{triangle}}\\\\\nA &= 35+10.5\\\\\nA &= 45.5\\ \\text{m}^2\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p15-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p15-q2-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\usetikzlibrary{decorations.markings}\n% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredRegionFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identifies the measured rectangle outside the excluded triangular notch\"}],\"reference\":\"source page 15, p15-q2-b-diagram\"}\n\\begin{tikzpicture}[x=0.4cm,y=0.4cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\n\\tikzset{\ntickmark/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw[black] (0pt,-4pt)--(0pt,4pt);}}}},\ntickmark2/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw[black] (-2pt,-4pt)--(-2pt,4pt);\\draw[black] (2pt,-4pt)--(2pt,4pt);}}}},\ntickmark3/.style={postaction={decorate,decoration={markings,mark=at position 0.5 with {\\draw[black] (-3pt,-4pt)--(-3pt,4pt);\\draw[black] (0pt,-4pt)--(0pt,4pt);\\draw[black] (3pt,-4pt)--(3pt,4pt);}}}}}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{measuredRegionFill}{HTML}{D4E8FF}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (10,0);\n\\coordinate (C) at (10,9);\n\\coordinate (D) at (0,9);\n\\coordinate (M) at (5,9);\n\\coordinate (N) at (5,4);\n\\fill[measuredRegionFill] (A)--(B)--(C)--(N)--(D)--cycle;\n\\draw[] (A)--(B);\n\\draw[,tickmark] (B)--(C);\n\\draw[] (C)--(N);\n\\draw[] (N)--(D);\n\\draw[,tickmark] (D)--(A);\n\\draw[dashed,line width=0.4pt] (D)--(C);\n\\draw[dashed,line width=0.4pt] (M)--(N);\n\\draw[line width=0.4pt] (0,0.5)--(0.5,0.5)--(0.5,0);\n\\draw[line width=0.4pt] (9.5,0)--(9.5,0.5)--(10,0.5);\n\\draw[line width=0.4pt] (4.5,9)--(4.5,8.5)--(5,8.5);\n\n\n\\draw[line width=0.4pt] (2.4,8.8)--(2.4,9.2);\n\\draw[line width=0.4pt] (2.6,8.8)--(2.6,9.2);\n\\draw[line width=0.4pt] (7.4,8.8)--(7.4,9.2);\n\\draw[line width=0.4pt] (7.6,8.8)--(7.6,9.2);\n\\draw[line width=0.4pt] (4.8,6.4)--(5.2,6.4);\n\\draw[line width=0.4pt] (4.8,6.6)--(5.2,6.6);\n\\path (A)--(B) node[midway,below=2mm] {$10\\ \\mathrm{cm}$};\n\\path (B)--(C) node[midway,right=2mm] {$9\\ \\mathrm{cm}$};\n\\path (M)--(N) node[pos=0.25,left=2mm] {$5\\ \\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 40,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 15,
+              "sourceRegion": "Question 2b, lower-right cell",
+              "description": "A rectangle with a downward triangular notch removed from its top. The original top and notch altitude are dashed. Matching single ticks mark the vertical sides; matching double ticks mark both halves of the original top and the notch altitude. Three right-angle markers are retained. The measured region has a restrained light-blue fill and the excluded notch remains white.",
+              "mathematics": "The enclosing rectangle is 10 cm wide and 9 cm high. The removed triangle has base 10 cm and perpendicular height 5 cm. Each half of the top and the notch altitude has equal length.",
+              "answerVisibility": "Only source givens, equality marks and construction lines are visible; the supplied result is stored in the part answer."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$65\\ \\text{cm}^2$",
+          "worked": "Subtract the triangular notch from the rectangle.\n$$\\begin{align*}\nA_{\\text{rectangle}} &= 10\\times9\\\\\nA_{\\text{rectangle}} &= 90\\ \\text{cm}^2\\\\\nA_{\\text{triangle}} &= \\frac12\\times10\\times5\\\\\nA_{\\text{triangle}} &= 25\\ \\text{cm}^2\\\\\nA &= A_{\\text{rectangle}}-A_{\\text{triangle}}\\\\\nA &= 90-25\\\\\nA &= 65\\ \\text{cm}^2\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p15-q2-root/label",
+                  "type": "item",
+                  "ref": "p15-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p15-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p15-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p15-q2-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p15-q2-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q2-a/label",
+                          "type": "item",
+                          "ref": "p15-q2-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p15-q2-a-diagram",
+                          "type": "item",
+                          "ref": "p15-q2-a-diagram",
+                          "title": "Diagram",
+                          "width": 30
+                        },
+                        {
+                          "id": "layout:p15-q2-a/space",
+                          "type": "item",
+                          "ref": "p15-q2-a/space",
+                          "title": "Answer space",
+                          "height": 20
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p15-q2-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q2-b/label",
+                          "type": "item",
+                          "ref": "p15-q2-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p15-q2-b-diagram",
+                          "type": "item",
+                          "ref": "p15-q2-b-diagram",
+                          "title": "Diagram",
+                          "width": 40
+                        },
+                        {
+                          "id": "layout:p15-q2-b/space",
+                          "type": "item",
+                          "ref": "p15-q2-b/space",
+                          "title": "Answer space",
+                          "height": 20
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 2",
+              "gap": 2
+            }
+          }
+        },
+        "p15-q2-a-diagram": {
+          "diagramWidthMm": 30
+        },
+        "p15-q2-b-diagram": {
+          "diagramWidthMm": 40
+        }
+      },
+      "answerSpaces": {
+        "p15-q2-a": 20,
+        "p15-q2-b": 20
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:42:32.456Z",
+  "updatedAt": "2026-10-21T10:42:32.456Z"
+}

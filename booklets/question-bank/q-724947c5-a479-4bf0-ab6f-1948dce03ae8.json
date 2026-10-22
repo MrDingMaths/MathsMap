@@ -1,0 +1,370 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-724947c5-a479-4bf0-ab6f-1948dce03ae8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Extend the supplied line for inverse and zero-yield predictions, interpret the lowest point as evidence against linear continuation and assess distant extrapolation using plant behaviour.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:59.518Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9087abfaa31864339664e3e5e8c7080efa4b33a17824cf4a8fcd0f93fa012519",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/70cdd0af5a1a37e1a228363b45885f5101b1bca2b36f6245b7328091bfc6bbbc-1792556190496/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "Experiments were run in a greenhouse to determine the effect of temperature on berry production. Sections of the greenhouse were kept at different temperatures and the mass of berries produced was then measured (the yield). The gathered data is shown in the scatterplot, along with the line of best fit.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q9-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"berryBlue\",\"hex\":\"268CFF\",\"reason\":\"berry-yield data series\"}],\"reference\":\"source page 23 p23-q9-graph\"}\n\\begin{tikzpicture}[x=0.32cm,y=0.30cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{berryBlue}{HTML}{268CFF}\n\\definecolor{gridPaint}{HTML}{CCCCCC}\n\\definecolor{majorGrid}{HTML}{777777}\n\\path[use as bounding box] (-3,-2.5) rectangle (31,21);\n\\draw[step=1cm,draw=none] (0,0) rectangle (30,20);\n\\foreach \\x in {0,1,...,30}{\\draw[gridPaint,line width=0.15pt] (\\x,0)--(\\x,20);}\n\\foreach \\k in {0,1,...,50}{\\draw[gridPaint,line width=0.15pt] (0,{0.4*\\k})--(30,{0.4*\\k});}\n\\foreach \\x in {0,5,...,30}{\\draw[majorGrid,line width=0.25pt] (\\x,0)--(\\x,20);}\n\\foreach \\y in {0,2,...,20}{\\draw[majorGrid,line width=0.25pt] (0,\\y)--(30,\\y);}\n\\draw[black,line width=0.5pt] (0,20)--(0,0)--(30,0);\n\\foreach \\x in {0,5,...,30}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.25);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.25){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,2,...,20}{\\draw[black,line width=0.4pt] (0,\\y)--(-0.25,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.25,\\y){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (15,-1.55){Temperature (degrees C)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at ([xshift=-9mm]-2.3,10){Yield (kg)};\n\\draw[black,line width=0.8pt] (12,4.5)--(26,14);\n\\foreach \\x/\\y in {12/3.4,14/6.2,16/8.3,18/8.7,20/9.5,22/11.9,24/12.5,26/13.6}{\\fill[berryBlue] (\\x,\\y) ++(0,0.23)--++(0.23,-0.23)--++(-0.23,-0.23)--++(-0.23,0.23)--cycle;}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Upper graph, beneath question 9 introduction",
+          "description": "Eight blue diamond markers, rectangular grid, labelled temperature and yield axes, and the supplied rising best-fit segment. Source grey best-fit stroke is rendered black under house style.",
+          "mathematics": {
+            "horizontalAxis": {
+              "label": "Temperature (degrees C)",
+              "min": 0,
+              "max": 30,
+              "labelStep": 5,
+              "gridStep": 1
+            },
+            "verticalAxis": {
+              "label": "Yield (kg)",
+              "min": 0,
+              "max": 20,
+              "labelStep": 2,
+              "gridStep": 0.4
+            },
+            "approximatePoints": [
+              [
+                12,
+                3.4
+              ],
+              [
+                14,
+                6.2
+              ],
+              [
+                16,
+                8.3
+              ],
+              [
+                18,
+                8.7
+              ],
+              [
+                20,
+                9.5
+              ],
+              [
+                22,
+                11.9
+              ],
+              [
+                24,
+                12.5
+              ],
+              [
+                26,
+                13.6
+              ]
+            ],
+            "approximateSuppliedLineEndpoints": [
+              [
+                12,
+                4.5
+              ],
+              [
+                26,
+                14
+              ]
+            ],
+            "coordinateStatus": "Reconstructed from the source image; no numerical dataset or regression is supplied."
+          },
+          "answerVisibility": "Supplied data and best-fit segment remain visible; extensions and reading guides are solution-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the line of best fit to estimate the yield for plants kept at $19^\\circ\\mathrm{C}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately $9.2\\text{ kg}$.",
+          "worked": "From $19^\\circ\\mathrm{C}$ on the horizontal axis, read vertically to the line of best fit, then horizontally to the yield axis: approximately $9.2\\text{ kg}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p23-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Extend the line of best fit to extrapolate the temperature required for a yield of $16\\text{ kg}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p23-q9-extension-overlay",
+        "answer": {
+          "short": "Approximately $29^\\circ\\mathrm{C}$.",
+          "worked": "Extend the line upwards. From $16\\text{ kg}$ on the yield axis, read horizontally to the extended line, then down to the temperature axis: approximately $29^\\circ\\mathrm{C}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p23-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Extrapolate to determine the approximate temperature at which the bushes would produce no berries. How might the lowest data point affect your answer?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p23-q9-extension-overlay",
+        "answer": {
+          "short": "Approximately $5.5^\\circ\\mathrm{C}$. The lowest point suggests the relationship may become non-linear at low temperatures, making this estimate less reliable.",
+          "worked": "Extend the line downwards to the temperature axis, where the yield is $0\\text{ kg}$. The intercept is approximately $5.5^\\circ\\mathrm{C}$. The lowest data point lies below the line, suggesting that yield may fall faster at low temperatures than the linear model predicts.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p23-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Would it be sensible to extrapolate to determine the yield for a temperature of $50^\\circ\\mathrm{C}$? Why?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. This is far outside the observed temperature range; heat stress could cause yield to fall instead of continuing to rise.",
+          "worked": "No. The data cover approximately $12^\\circ\\mathrm{C}$ to $26^\\circ\\mathrm{C}$, so $50^\\circ\\mathrm{C}$ is far beyond the observed range. The relationship may change, and heat stress could cause the yield to drop rapidly.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p23-q9-extension-overlay",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"berryBlue\",\"hex\":\"268CFF\",\"reason\":\"berry-yield data series\"},{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution-only line extensions and reading guides\"}],\"reference\":\"source page 23 p23-q9-extension-overlay\"}\n\\begin{tikzpicture}[x=0.32cm,y=0.30cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{berryBlue}{HTML}{268CFF}\n\\definecolor{gridPaint}{HTML}{CCCCCC}\n\\definecolor{majorGrid}{HTML}{777777}\n\\path[use as bounding box] (-3,-2.5) rectangle (31,21);\n\\draw[step=1cm,draw=none] (0,0) rectangle (30,20);\n\\foreach \\x in {0,1,...,30}{\\draw[gridPaint,line width=0.15pt] (\\x,0)--(\\x,20);}\n\\foreach \\k in {0,1,...,50}{\\draw[gridPaint,line width=0.15pt] (0,{0.4*\\k})--(30,{0.4*\\k});}\n\\foreach \\x in {0,5,...,30}{\\draw[majorGrid,line width=0.25pt] (\\x,0)--(\\x,20);}\n\\foreach \\y in {0,2,...,20}{\\draw[majorGrid,line width=0.25pt] (0,\\y)--(30,\\y);}\n\\draw[black,line width=0.5pt] (0,20)--(0,0)--(30,0);\n\\foreach \\x in {0,5,...,30}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.25);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.25){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,2,...,20}{\\draw[black,line width=0.4pt] (0,\\y)--(-0.25,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.25,\\y){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (15,-1.55){Temperature (degrees C)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at ([xshift=-9mm]-2.3,10){Yield (kg)};\n\\draw[black,line width=0.8pt] (12,4.5)--(26,14);\n\\foreach \\x/\\y in {12/3.4,14/6.2,16/8.3,18/8.7,20/9.5,22/11.9,24/12.5,26/13.6}{\\fill[berryBlue] (\\x,\\y) ++(0,0.23)--++(0.23,-0.23)--++(-0.23,-0.23)--++(-0.23,0.23)--cycle;}\n\\definecolor{solutionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3,-2.5) rectangle (31,21);\n\\draw[solutionBlue,dashed,line width=0.8pt] (5.368421,0)--(12,4.5);\n\\draw[solutionBlue,dashed,line width=0.8pt] (26,14)--(28.947368,16);\n\\draw[solutionBlue,dashed,line width=0.4pt] (0,16)--(28.947368,16)--(28.947368,0);\n\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 9 supplied graph",
+          "description": "Solution-only extensions of the reconstructed supplied segment to zero yield and to 16 kg; guides show the graphical reading for part b.",
+          "mathematics": "The overlay uses the base graph's exact coordinate frame, units and bounding box. Intersections are derived from the reconstructed segment, not a regression of the plotted points.",
+          "answerVisibility": "Solutions only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q9-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q9-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p23-q9-root/label",
+                  "type": "item",
+                  "ref": "p23-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p23-q9-root/prompt",
+                  "type": "item",
+                  "ref": "p23-q9-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p23-q9-graph",
+                  "type": "item",
+                  "ref": "p23-q9-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p23-q9-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p23-q9-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q9-a/label",
+                          "type": "item",
+                          "ref": "p23-q9-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p23-q9-a/prompt",
+                          "type": "item",
+                          "ref": "p23-q9-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q9-a/space",
+                          "type": "item",
+                          "ref": "p23-q9-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q9-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q9-b/label",
+                          "type": "item",
+                          "ref": "p23-q9-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p23-q9-b/prompt",
+                          "type": "item",
+                          "ref": "p23-q9-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q9-b/space",
+                          "type": "item",
+                          "ref": "p23-q9-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q9-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q9-c/label",
+                          "type": "item",
+                          "ref": "p23-q9-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p23-q9-c/prompt",
+                          "type": "item",
+                          "ref": "p23-q9-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q9-c/space",
+                          "type": "item",
+                          "ref": "p23-q9-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q9-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q9-d/label",
+                          "type": "item",
+                          "ref": "p23-q9-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p23-q9-d/prompt",
+                          "type": "item",
+                          "ref": "p23-q9-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q9-d/space",
+                          "type": "item",
+                          "ref": "p23-q9-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:58.672Z",
+  "updatedAt": "2026-10-21T07:41:58.672Z"
+}

@@ -1,0 +1,162 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-67dc400b-18d9-424e-ae47-84427d125aa0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-trig-functions",
+    "secondarySkillIds": [],
+    "reasoningScore": 20,
+    "difficulty": "Foundation",
+    "difficultyReason": "Read the duration of one repeating cycle from a supplied position–time graph."
+  },
+  "content": {
+    "id": "p50-q7-response",
+    "type": "question",
+    "label": "7",
+    "prompt": "The diagram shows the motion of a swinging pendulum and its graph.\n\nWhat is the period of this graph?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p50-q7-pendulum",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 50 p50-q7-pendulum\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.1,-1.1) rectangle (3.1,2.85);\n\\coordinate (P) at (0,2.4);\n\\draw[black,line width=0.8pt,rounded corners=2pt] (-0.35,2.4) rectangle (0.35,2.7);\n\\foreach \\a in {-30,-20,-10,0,10,20,30} {\n  \\coordinate (B\\a) at ({2.4*sin(\\a)},{2.4-2.4*cos(\\a)});\n  \\draw[black,line width=0.8pt] (P)--(B\\a);\n  \\draw[black,fill=white,line width=0.8pt] (B\\a) circle[radius=0.15cm];\n}\n\\draw[black,line width=0.5pt,<->] ({2.8*cos(240)},{2.4+2.8*sin(240)}) arc[start angle=240,end angle=300,radius=2.8cm];\n\\node[align=center,anchor=north,text width=2.1cm] at (-2.05,0.12) {Left (negative)\\\\displacement};\n\\node[align=center,anchor=north,text width=2.1cm] at (2.05,0.12) {Right (positive)\\\\displacement};\n\\node[anchor=north,align=center] at (0,-0.48) {Zero position};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 50,
+          "sourceRegion": "Question 7, upper-right pendulum illustration",
+          "description": "Seven positions of one pendulum suspended from a fixed support, symmetric about the central vertical position. An outward double-ended curved arrow connects the negative and positive displacement directions.",
+          "mathematics": "Equal string lengths and symmetric angular positions represent the motion. Diagram coordinates are illustrative and carry no numerical length or angle givens.",
+          "answerVisibility": "All seven positions, directional arrows and displacement labels are permanent question givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p50-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"motionRed\",\"hex\":\"EF6068\",\"reason\":\"position–time series\"}],\"reference\":\"source page 50 p50-q7-graph\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.45cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{motionRed}{HTML}{EF6068}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\path[use as bounding box] (-1.8,-3.2) rectangle (30.5,3.2);\n\\draw[gridBlue,line width=0.25pt,xstep=1,ystep=1] (0,-3) grid (30,3);\n\\draw[black,line width=0.5pt,<->] (0,-3)--(0,3);\n\\draw[black,line width=0.5pt,->] (0,0)--(30,0);\n\\node[rotate=90] at (-0.65,0) {Position (m)};\n\\node[anchor=south east] at (30,0.12) {Time (s)};\n\\foreach \\t in {2,4,...,28} {\n  \\draw[black,line width=0.4pt] (\\t,-0.12)--(\\t,0.12);\n  \\node[below] at (\\t,-0.18) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[motionRed,line width=0.8pt,domain=0:30,samples=601] plot (\\x,{2*sin(72*\\x)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 155,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 50,
+          "sourceRegion": "Question 7, wide graph below the prompt and illustration",
+          "description": "Position–time graph from 0 to 30 seconds with one-second grid columns, time labels at every two seconds from 2 to 28, and six complete sinusoidal cycles.",
+          "mathematics": "The curve begins at zero rising, repeats every five seconds, and ends at zero rising. Drawing ordinates encode the source proportions only; no numerical vertical scale is supplied.",
+          "answerVisibility": "The complete supplied curve, grid, axes and time labels remain visible. No period annotation or supplied answer is printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$5\\text{ seconds}$.",
+      "worked": "The curve crosses zero rising at $t=0\\text{ s}$ and again at $t=5\\text{ s}$. These points mark one complete cycle.\n\n$$\\begin{align*}T&=5-0\\\\T&=5\\text{ s}\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 12
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p50-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p50-q7-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p50-q7-label-item",
+                  "type": "item",
+                  "ref": "p50-q7-response/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p50-q7-body-stack",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p50-q7-upper-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p50-q7-prompt-space-stack",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p50-q7-prompt-item",
+                              "type": "item",
+                              "ref": "p50-q7-response/prompt",
+                              "width": 85,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p50-q7-space-item",
+                              "type": "item",
+                              "ref": "p50-q7-response/space",
+                              "width": 85,
+                              "align": "left"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "p50-q7-pendulum-item",
+                          "type": "item",
+                          "ref": "p50-q7-pendulum",
+                          "width": 78,
+                          "align": "right"
+                        }
+                      ],
+                      "gap": 3,
+                      "verticalAlign": "top"
+                    },
+                    {
+                      "id": "p50-q7-graph-item",
+                      "type": "item",
+                      "ref": "p50-q7-graph",
+                      "width": 155,
+                      "align": "left"
+                    }
+                  ]
+                }
+              ],
+              "verticalAlign": "top"
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p50-q7"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-03T10:04:43.296Z",
+  "updatedAt": "2026-10-03T10:04:43.296Z"
+}

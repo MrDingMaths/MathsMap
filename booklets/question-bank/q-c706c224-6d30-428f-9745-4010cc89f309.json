@@ -1,0 +1,512 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c706c224-6d30-428f-9745-4010cc89f309",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [],
+    "reasoningScore": 19,
+    "difficulty": "Foundation",
+    "difficultyReason": "Read predictions in both directions from a supplied line, interpreting broken axes and interpolating between scale markings.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:59.518Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d8598b7cd86f59a70cc37ee89bd193427e47a69dc06f49d42405fb41cd30f7e0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/70cdd0af5a1a37e1a228363b45885f5101b1bca2b36f6245b7328091bfc6bbbc-1792556190496/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "This scatterplot shows the height and lung capacity of a group of students. A line of best fit has been drawn for these points. Use the line of best fit to predict:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q1-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"dataOrange\",\"hex\":\"EF8B2C\",\"reason\":\"scatterplot observations\"},{\"name\":\"fitGreen\",\"hex\":\"4F9B63\",\"reason\":\"supplied line of best fit\"}],\"reference\":\"source page 20 p20-q1-graph\"}\n\\begin{tikzpicture}[x=0.105cm,y=0.105cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{dataOrange}{HTML}{EF8B2C}\n\\definecolor{fitGreen}{HTML}{4F9B63}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\draw[step=2,graphGrid,line width=0.15pt] (0,0) grid (50,50);\n\\draw[graphGrid,line width=0.25pt] (0,0) rectangle (50,50);\n\\draw[black,line width=0.5pt,->] (0,0)--(53.5,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,53.5);\n\\foreach \\x/\\lab in {10/150,20/160,30/170,40/180,50/190}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.8);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.8) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\lab\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {10/360,20/400,30/440,40/480,50/520}{\\draw[black,line width=0.4pt] (0,\\y)--(-0.8,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.8,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\lab\\special{dvisvgm:raw </g>}};}\n\\fill[white] (3.4,-1.2) rectangle (6.4,1.2);\n\\draw[black,line width=0.4pt] (3.4,0)--(4.1,1)--(5.1,-1)--(5.8,0)--(6.4,0);\n\\fill[white] (-1.2,4.5) rectangle (1.2,7.5);\n\\draw[black,line width=0.4pt] (0,4.5)--(-1,5.2)--(1,6.2)--(0,6.9)--(0,7.5);\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (25,-6) {Height (cm)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-10,25) {Lung capacity ($\\mathrm{cm}^{3}$)};\n\\node[above,font=\\fontsize{10}{12}\\selectfont] at (25,54) {Lung capacity versus height};\n\\draw[fitGreen,line width=0.8pt] (8,15)--(48,38);\n\\foreach \\x/\\y in {8/8.75,10/17,13/19.5,13/21,15/18.25,18/26,22/14.25,24/30,25/27.75,26/18.25,29/31,30/25.5,31/30.5,31/9.5,33/36.5,35/25,37/49,41/39.75,46/23,48/41.5}{\\fill[dataOrange] (\\x,\\y) circle[radius=2.25pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 1, left-hand scatterplot",
+          "description": "Lung capacity versus height, with 20 source-traced orange points, a rising green supplied line, square grid, arrowed axes and white-masked breaks on both axes. Coordinates are visual estimates rather than a supplied dataset.",
+          "mathematics": "Horizontal displayed grid spans 140–190 cm with 2 cm increments. Vertical displayed grid spans 320–520 cm³ with 8 cm³ increments. The visually traced supplied line runs approximately from (148,380) to (188,472). Axis breaks separate the displayed ranges from the printed zero.",
+          "answerVisibility": "The supplied line and all data points remain visible. No prediction guides or answers appear in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q1-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "The lung capacity of a student with a height of:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p20-q1-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p20-q1-a-i-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "160 cm   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$408\\text{ cm}^{3}$",
+                      "width": 22
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Approximately $408\\text{ cm}^{3}$.",
+              "worked": "From $160\\text{ cm}$ on the height axis, read vertically to the line of best fit and then horizontally to the lung-capacity axis: approximately $408\\text{ cm}^{3}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p20-q1-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p20-q1-a-ii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "178 cm   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$448\\text{ cm}^{3}$",
+                      "width": 22
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Approximately $448\\text{ cm}^{3}$.",
+              "worked": "From $178\\text{ cm}$ on the height axis, read vertically to the line of best fit and then horizontally to the lung-capacity axis: approximately $448\\text{ cm}^{3}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      },
+      {
+        "id": "p20-q1-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "The height of a student with a lung capacity of",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p20-q1-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p20-q1-b-i-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "400\\text{ cm}^{3}",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": "   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$157\\text{ cm}$",
+                      "width": 22
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Approximately $157\\text{ cm}$.",
+              "worked": "From $400\\text{ cm}^{3}$ on the lung-capacity axis, read horizontally to the line of best fit and then vertically to the height axis: approximately $157\\text{ cm}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p20-q1-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p20-q1-b-ii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "420\\text{ cm}^{3}",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": "   ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$166\\text{ cm}$",
+                      "width": 22
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Approximately $166\\text{ cm}$.",
+              "worked": "From $420\\text{ cm}^{3}$ on the lung-capacity axis, read horizontally to the line of best fit and then vertically to the height axis: approximately $166\\text{ cm}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p20-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q1-root/label",
+                  "type": "item",
+                  "ref": "p20-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "p20-q1-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q1-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-graph",
+                          "type": "item",
+                          "ref": "p20-q1-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p20-q1-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q1-root/prompt",
+                          "type": "item",
+                          "ref": "p20-q1-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p20-q1-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p20-q1-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p20-q1-a/label",
+                                  "type": "item",
+                                  "ref": "p20-q1-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p20-q1-a/prompt",
+                                  "type": "item",
+                                  "ref": "p20-q1-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p20-q1-a:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p20-q1-a-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p20-q1-a-i/label",
+                                          "type": "item",
+                                          "ref": "p20-q1-a-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-a-i/prompt#p20-q1-a-i-prompt",
+                                          "type": "item",
+                                          "ref": "p20-q1-a-i/prompt#p20-q1-a-i-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-a-i/space",
+                                          "type": "item",
+                                          "ref": "p20-q1-a-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p20-q1-a-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p20-q1-a-ii/label",
+                                          "type": "item",
+                                          "ref": "p20-q1-a-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-a-ii/prompt#p20-q1-a-ii-prompt",
+                                          "type": "item",
+                                          "ref": "p20-q1-a-ii/prompt#p20-q1-a-ii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-a-ii/space",
+                                          "type": "item",
+                                          "ref": "p20-q1-a-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p20-q1-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p20-q1-b/label",
+                                  "type": "item",
+                                  "ref": "p20-q1-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p20-q1-b/prompt",
+                                  "type": "item",
+                                  "ref": "p20-q1-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p20-q1-b:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p20-q1-b-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p20-q1-b-i/label",
+                                          "type": "item",
+                                          "ref": "p20-q1-b-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-b-i/prompt#p20-q1-b-i-prompt",
+                                          "type": "item",
+                                          "ref": "p20-q1-b-i/prompt#p20-q1-b-i-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-b-i/space",
+                                          "type": "item",
+                                          "ref": "p20-q1-b-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p20-q1-b-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p20-q1-b-ii/label",
+                                          "type": "item",
+                                          "ref": "p20-q1-b-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-b-ii/prompt#p20-q1-b-ii-prompt",
+                                          "type": "item",
+                                          "ref": "p20-q1-b-ii/prompt#p20-q1-b-ii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p20-q1-b-ii/space",
+                                          "type": "item",
+                                          "ref": "p20-q1-b-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:52.069Z",
+  "updatedAt": "2026-10-21T07:41:52.069Z"
+}

@@ -1,0 +1,340 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a6fe88ea-b66d-4f70-914f-136df3f566e6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-exponential-model",
+    "secondarySkillIds": [
+      "exponential-growth-decay-model"
+    ],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Read the exponential graph in both directions, convert the supplied growth factor to a percentage, and explain the limitation of assuming constant percentage growth.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:00:46.539Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f3795638abd19a2c55efa180b52fe544fd5972571d3098f77e1304dd9b80b75c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/features-quadratics-exponentials-v1/4e58d6bea5a63581a27accdd79a9d5a39abb340f79219b32f9911309ea32cef4-1792558823714/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "The equation $m = 1.5(1.2)^x$ can be used to model the mass of a baby orangutan up to 6 months of age, where $m$ is the mass in kilograms and $x$ is the age in months.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p42-q1-graph-parts",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p42-q1-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied exponential curve and its plotted markers\"}],\"reference\":\"source page 42 p42-q1-graph\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.9cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[graphGrid,line width=0.15pt,xstep=0.25,ystep=0.25] (0,0) grid (6.5,5.5);\n\\draw[black,line width=0.5pt,->] (0,0)--(6.5,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,5.5);\n\\foreach \\v in {1,2,3,4,5,6} {\n\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-0.12);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {1,2,3,4,5} {\n\\draw[black,line width=0.4pt] (0,\\v)--(-0.12,\\v);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (6.5,-0.12) {$x$};\n\\node[left,font=\\fontsize{10}{12}\\selectfont] at (-0.12,5.5) {$m$};\n\\draw[seriesBlue,line width=0.8pt,domain=0:6,samples=100] plot (\\x,{1.5*pow(1.2,\\x)});\n\\foreach \\v in {0,1,2,3,4,5,6} {\\fill[seriesBlue] (\\v,{1.5*pow(1.2,\\v)}) circle[radius=1.2pt];}\n\\node[black,font=\\fontsize{10}{12}\\selectfont] at (4,4.4) {$m=1.5(1.2)^x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 42,
+              "sourceRegion": "Question 1, left-hand graph",
+              "description": "Supplied increasing exponential graph with quarter-unit grid, integer-age markers and equation label above the curve.",
+              "mathematics": "m=1.5(1.2)^x for 0≤x≤6; axes extend to x=6.5 and m=5.5; markers at integer x from 0 to 6.",
+              "answerVisibility": "The supplied curve remains visible because parts a and b require reading it."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p42-q1-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Estimate the mass of the orangutan at age 3.5 months.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\approx 2.8\\text{ kg}$",
+              "worked": "Read upwards from $x=3.5$ to the curve, then across to the mass axis: $m\\approx2.8\\text{ kg}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p42-q1-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "At about what age would the orangutan weigh 3.4 kg?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\approx 4.5$ months",
+              "worked": "Read across from $m=3.4$ to the curve, then down to the age axis: $x\\approx4.5$ months.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p42-q1-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "Each month, the mass increases by a factor of 1.2. What is the monthly growth rate of the baby orangutan’s mass? Write your answer as a percentage.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$20\\%$",
+              "worked": "$$\\begin{align*}1.2&=1+0.2\\\\0.2\\times100\\%&=20\\%\\end{align*}$$The mass increases by $20\\%$ each month.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      },
+      {
+        "id": "p42-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Why might this model only be useful up to age 6 months?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The orangutan’s growth rate might speed up or slow down after 6 months.",
+          "worked": "The model assumes a constant monthly percentage increase. After 6 months, the orangutan’s growth rate may change, so the model may no longer give reliable masses.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p42-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p42-q1-root/label",
+                  "type": "item",
+                  "ref": "p42-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p42-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p42-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p42-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p42-q1-graph-parts:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p42-q1-graph-parts:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p42-q1-graph-parts:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q1-graph",
+                                  "type": "item",
+                                  "ref": "p42-q1-graph",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q1-graph-parts:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p42-q1-graph-parts:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p42-q1-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p42-q1-a/label",
+                                          "type": "item",
+                                          "ref": "p42-q1-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p42-q1-a/prompt",
+                                          "type": "item",
+                                          "ref": "p42-q1-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p42-q1-a/space",
+                                          "type": "item",
+                                          "ref": "p42-q1-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p42-q1-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p42-q1-b/label",
+                                          "type": "item",
+                                          "ref": "p42-q1-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p42-q1-b/prompt",
+                                          "type": "item",
+                                          "ref": "p42-q1-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p42-q1-b/space",
+                                          "type": "item",
+                                          "ref": "p42-q1-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p42-q1-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p42-q1-c/label",
+                                          "type": "item",
+                                          "ref": "p42-q1-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p42-q1-c/prompt",
+                                          "type": "item",
+                                          "ref": "p42-q1-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p42-q1-c/space",
+                                          "type": "item",
+                                          "ref": "p42-q1-c/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p42-q1-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q1-d/label",
+                          "type": "item",
+                          "ref": "p42-q1-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p42-q1-d/prompt",
+                          "type": "item",
+                          "ref": "p42-q1-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q1-d/space",
+                          "type": "item",
+                          "ref": "p42-q1-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:44:04.190Z",
+  "updatedAt": "2026-10-21T08:44:04.190Z"
+}

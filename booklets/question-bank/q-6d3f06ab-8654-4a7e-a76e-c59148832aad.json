@@ -1,0 +1,226 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6d3f06ab-8654-4a7e-a76e-c59148832aad",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "equation-from-graph",
+    "secondarySkillIds": [
+      "gradient-of-interval"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish coordinate changes from visual tick counts on differently scaled axes, calculate the actual gradient and explain how the scale mismatch produced the incorrect equation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:28.030Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5b764d01ddcd94e6b9716048db1d74417255685853ee6682358e92d6466f2221",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/73102c7af3452f60cd70fc0888d40633228642b582cc14374b4da7e859586a0e-1792559168579/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q9-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Beca says that the equation of this line is $y = \\frac{1}{2}x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"lineBlue\",\"hex\":\"268CFF\",\"reason\":\"plotted line\"}],\"reference\":\"source page 26, p26-q9-diagram\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.325cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{lineBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.8,-8.9) rectangle (5.5,10.2);\n\\draw[black,line width=0.5pt,->] (-4.5,0)--(5,0);\n\\draw[black,line width=0.5pt,->] (0,-8.5)--(0,9.8);\n\\foreach \\v in {-4,-3,-2,-1,1,2,3,4} {\n  \\draw[black,line width=0.4pt] (\\v,-0.16)--(\\v,0.16);\n  \\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\v,-0.16) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-8,-6,-4,-2,2,4,6,8} {\n  \\draw[black,line width=0.4pt] (-0.08,\\v)--(0.08,\\v);\n  \\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-0.08,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\node[above right,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\node[right,font=\\fontsize{10}{12}\\selectfont] at (5,0) {$x$};\n\\node[above left,font=\\fontsize{10}{12}\\selectfont] at (0,9.8) {$y$};\n\\draw[lineBlue,line width=0.8pt,domain=-4:4,samples=2] plot (\\x,{\\x});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 26,
+          "sourceRegion": "Question 9, shared graph on the left",
+          "description": "An ascending line through the origin with no grid or line arrowheads. Unit x ticks and two-unit y ticks have equal physical spacing. Preserve the numeric zero at the origin.",
+          "mathematics": "The line is y=x, shown from (-4,-4) to (4,4). Label x ticks -4 through 4 and y ticks -8 through 8 in steps of 2.",
+          "answerVisibility": "The given graph is always visible; the correct equation and gradient appear only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p26-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why she is incorrect.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The gradient is $1$, so the equation is $y=x$.",
+          "worked": "Using $(0,0)$ and $(4,4)$:\n$$\\begin{aligned}m&=\\frac{\\text{rise}}{\\text{run}}\\\\m&=\\frac{4}{4}\\\\m&=1\\end{aligned}$$\nThe $y$-intercept is $0$, so $y=x$, rather than $y=\\frac12x$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p26-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What makes this question tricky?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The $y$-axis and $x$-axis scales are different.",
+          "worked": "Each tick interval represents $1$ on the $x$-axis and $2$ on the $y$-axis. Use the coordinate values to calculate rise and run.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p26-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p26-q9-root/label",
+                  "type": "item",
+                  "ref": "p26-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "p26-q9-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p26-q9-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q9-diagram",
+                          "type": "item",
+                          "ref": "p26-q9-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q9-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q9-root/prompt",
+                          "type": "item",
+                          "ref": "p26-q9-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p26-q9-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p26-q9-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p26-q9-a/label",
+                                  "type": "item",
+                                  "ref": "p26-q9-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p26-q9-a/prompt",
+                                  "type": "item",
+                                  "ref": "p26-q9-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p26-q9-a/space",
+                                  "type": "item",
+                                  "ref": "p26-q9-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p26-q9-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p26-q9-b/label",
+                                  "type": "item",
+                                  "ref": "p26-q9-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p26-q9-b/prompt",
+                                  "type": "item",
+                                  "ref": "p26-q9-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p26-q9-b/space",
+                                  "type": "item",
+                                  "ref": "p26-q9-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:18.344Z",
+  "updatedAt": "2026-10-21T08:56:18.344Z"
+}

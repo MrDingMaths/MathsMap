@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-46b64d71-4ef3-4fbe-9047-ab088a5578b0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "surface-area-partial-cylinder",
+    "secondarySkillIds": [
+      "surface-area-prism"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Build separate surface-area totals for triangular and semicircular prism tents, including both ends and floors, then compare and calculate the difference. Required triangle dimensions are supplied.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:56:16.199Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1ef51aef27ea6cc4ab5ed7d2612d6d17b2df6809ba47f28aea3413d892029aa4",
+      "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/786302251fc1dfe8b6e368b195ba40f2fbcea5a84bc7d80d80cebda5b5789b9e-1792562143319/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Which tent has the greater surface area? Include the floors. Give the difference to the nearest $0.1\\text{ m}^2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q4-diagram-triangular",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q4-diagram-triangular\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0); \\coordinate (B) at (2,0); \\coordinate (C) at (1,2);\n\\coordinate (D) at (3,1); \\coordinate (E) at (5,1); \\coordinate (F) at (4,3); \\coordinate (M) at (1,0);\n% Explicit faces: ABC, DEF, ABED, ACFD, BCEF. Projection of the prism axis is (3,1); front and right faces are visible.\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (C)--(F)--(E)--(B);\n\\draw[black,line width=0.8pt,dashed] (A)--(D)--(E) (D)--(F);\n\\draw[black,line width=0.4pt,dashed] (C)--(M);\n\\draw[black,line width=0.4pt] (1,0.16)--(1.16,0.16)--(1.16,0);\n\\draw[black,line width=0.4pt] (0.42,1.04)--(0.58,0.96) (1.42,0.96)--(1.58,1.04);\n\\path (C)--(M) node[midway,left] {$2\\text{ m}$};\n\\path (F)--(E) node[midway,right] {$2.24\\text{ m}$};\n\\draw[black,line width=0.4pt] (A)--(0,-0.4) (B)--(2,-0.4);\n\\draw[black,line width=0.5pt,<->] (0,-0.3)--(2,-0.3) node[midway,below] {$2\\text{ m}$};\n\\draw[black,line width=0.4pt] (B)--(2.13,-0.39) (E)--(5.13,0.61);\n\\draw[black,line width=0.5pt,<->] (2.10,-0.30)--(5.10,0.70) node[midway,below,sloped] {$5\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 4, upper tent",
+          "description": "Triangular-prism tent with an isosceles front cross-section, dashed perpendicular altitude, right-angle marker, matching sloping-edge ticks and dashed hidden rear geometry. Ordinary source purple strokes are reconstructed in black.",
+          "mathematics": "Triangular end base 2 m, perpendicular height 2 m, equal sloping sides with supplied length 2.24 m, prism length 5 m. Both triangular ends, both sloping rectangles and the floor are included.",
+          "answerVisibility": "All measurements and marks are permanent givens; no calculated areas are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p28-q4-diagram-half-cylinder",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q4-diagram-half-cylinder\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n% Radius 1; front centre (1,0), rear centre (4,1). Axis projection (3,1). Faces are two semicircular ends, the curved roof and the diameter-by-length floor.\n% The upper silhouette joins corresponding tangent points at angle 108.434949 degrees, rather than joining the arc apexes.\n\\draw[black,line width=0.8pt] (0,0)--(2,0)--(5,1);\n\\draw[black,line width=0.8pt] (2,0) arc[start angle=0,end angle=180,radius=1];\n\\draw[black,line width=0.8pt] (5,1) arc[start angle=0,end angle=108.434949,radius=1];\n\\draw[black,line width=0.8pt] (0.683772,0.948683)--(3.683772,1.948683);\n\\draw[black,line width=0.8pt,dashed] (3.683772,1.948683) arc[start angle=108.434949,end angle=180,radius=1];\n\\draw[black,line width=0.8pt,dashed] (0,0)--(3,1)--(5,1);\n\\draw[black,line width=0.4pt,dashed] (1,0)--(1,1);\n\\draw[black,line width=0.4pt] (1,0.16)--(1.16,0.16)--(1.16,0);\n\\draw[black,line width=0.4pt] (0,0)--(0,-0.4) (2,0)--(2,-0.4);\n\\draw[black,line width=0.5pt,<->] (0,-0.3)--(2,-0.3) node[midway,below] {$2\\text{ m}$};\n\\draw[black,line width=0.4pt] (2,0)--(2.13,-0.39) (5,1)--(5.13,0.61);\n\\draw[black,line width=0.5pt,<->] (2.10,-0.30)--(5.10,0.70) node[midway,below,sloped] {$5\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 4, lower tent",
+          "description": "Half-cylinder tent with semicircular ends and a rectangular floor. The front vertical radius cue is dashed and meets the diameter at a right-angle marker. Rear hidden arc and floor geometry are dashed. Ordinary source purple strokes are reconstructed in black.",
+          "mathematics": "Diameter 2 m and length 5 m; radius is therefore 1 m. Include both semicircular ends, the half-cylinder curved surface and the rectangular floor.",
+          "answerVisibility": "Diameter, length and construction marks are permanent givens; radius and calculated areas are answer-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "The triangular prism tent has $7.6\\text{ m}^2$ more surface area.",
+      "worked": "Triangular prism tent, including the floor:\n$$\\begin{align*}A_{\\text{triangular}}&=2\\left(\\frac12\\times2\\times2\\right)+2(2.24\\times5)+2\\times5\\\\A_{\\text{triangular}}&=4+22.4+10\\\\A_{\\text{triangular}}&=36.4\\text{ m}^2\\end{align*}$$\nHalf-cylinder tent, including both ends and the floor, with $r=1\\text{ m}$:\n$$\\begin{align*}A_{\\text{half-cylinder}}&=2\\left(\\frac12\\pi(1)^2\\right)+\\frac12\\times2\\pi(1)(5)+2\\times5\\\\A_{\\text{half-cylinder}}&=\\pi+5\\pi+10\\\\A_{\\text{half-cylinder}}&=(10+6\\pi)\\text{ m}^2\\end{align*}$$\n$$\\begin{align*}\\text{Difference}&=36.4-(10+6\\pi)\\\\\\text{Difference}&\\approx7.6\\text{ m}^2\\end{align*}$$\nThe triangular prism tent has the greater surface area.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 65
+  },
+  "presentation": {
+    "ownerId": "p28-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q4-root/label",
+                  "type": "item",
+                  "ref": "p28-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p28-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p28-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p28-q4-diagram-triangular",
+                  "type": "item",
+                  "ref": "p28-q4-diagram-triangular",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p28-q4-diagram-half-cylinder",
+                  "type": "item",
+                  "ref": "p28-q4-diagram-half-cylinder",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p28-q4-root/space",
+                  "type": "item",
+                  "ref": "p28-q4-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:30:24.085Z",
+  "updatedAt": "2026-10-21T10:30:24.085Z"
+}

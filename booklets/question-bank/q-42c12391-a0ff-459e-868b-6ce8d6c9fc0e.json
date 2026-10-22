@@ -1,0 +1,141 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-42c12391-a0ff-459e-868b-6ce8d6c9fc0e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-unknown-side-from-area",
+    "secondarySkillIds": [
+      "area-of-triangle"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Identify the right triangle within the rectangle and reinterpret its diagonal as a base with x as the corresponding altitude. Equate two area expressions for that triangle and solve.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:58.455Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3466fff68cc2c7c1d15a09710e65e03dac0f735b71d2b4e6e294034bafbec63e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-parallelograms-triangles-v1/fd9cf53e3c3f74e03907317197f3f217b0e7cfa7f2272829e862c3f67099e489-1792556141823/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p47-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "Find the value of $x$. 10 cm is the length of the entire diagonal.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p47-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 47 p47-q9-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=5mm,y=5mm,line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (8,0);\n\\coordinate (C) at (8,6);\n\\coordinate (D) at (0,6);\n\\coordinate (F) at ($(A)!(B)!(C)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,line width=0.8pt] (A)--(C);\n\\draw[black,line width=0.8pt] (B)--(F);\n\\coordinate (U) at ($(F)!0.20cm!(A)$);\n\\coordinate (V) at ($(F)!0.20cm!(B)$);\n\\draw[black,line width=0.4pt] (U)--($(U)+(V)-(F)$)--(V);\n\\path (A)--(B) node[midway,below=3pt] {$8\\,\\mathrm{cm}$};\n\\path (B)--(C) node[midway,right=3pt] {$6\\,\\mathrm{cm}$};\n\\path (A)--(C) node[pos=0.38,above=3mm] {$10\\,\\mathrm{cm}$};\n\\path (B)--(F) node[midway,left=3pt] {$x\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 62,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 47,
+          "sourceRegion": "Question 9 figure",
+          "description": "An unfilled rectangle with its full rising diagonal and the perpendicular segment from the bottom-right corner to that diagonal.",
+          "mathematics": "The rectangle sides are 8 cm and 6 cm. Its entire diagonal is 10 cm. The unknown x is the perpendicular height of the lower-right triangle when that diagonal is its base. The foot and right-angle marker are derived from the rectangle coordinates.",
+          "answerVisibility": "All four source measurement labels are visible; no calculated value is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$x=4.8\\text{ cm}$. Use $\\frac{8\\times6}{2}=\\frac{10x}{2}$.",
+      "worked": "The diagonal divides the rectangle into two equal-area triangles.\n$$\\begin{align*}A&=\\frac{bh}{2}\\\\A&=\\frac{8\\times6}{2}\\\\A&=24\\text{ cm}^{2}\\end{align*}$$\nFor the same triangle, use the entire diagonal as the base and $x$ as its perpendicular height.\n$$\\begin{align*}24&=\\frac{10x}{2}\\\\48&=10x\\\\x&=\\frac{48}{10}\\\\x&=4.8\\text{ cm}\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 54
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p47-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p47-q9-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p47-q9-instruction-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p47-q9-label-item",
+                      "type": "item",
+                      "ref": "p47-q9-root/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p47-q9-prompt-item",
+                      "type": "item",
+                      "ref": "p47-q9-root/prompt",
+                      "width": 173,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p47-q9-body-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p47-q9-figure-item",
+                      "type": "item",
+                      "ref": "p47-q9-diagram",
+                      "width": 62,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p47-q9-working-item",
+                      "type": "item",
+                      "ref": "p47-q9-root/space",
+                      "width": 106,
+                      "height": 50,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p47-q9-root": 50
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p47-q9"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:40:06.832Z",
+  "updatedAt": "2026-10-21T07:40:06.832Z"
+}

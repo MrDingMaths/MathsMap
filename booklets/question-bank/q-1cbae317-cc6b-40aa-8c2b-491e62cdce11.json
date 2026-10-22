@@ -1,0 +1,195 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1cbae317-cc6b-40aa-8c2b-491e62cdce11",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-using-pythagoras",
+    "secondarySkillIds": [
+      "area-kite-rhombus",
+      "find-unknown-side-from-area"
+    ],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "Choose to calculate the rhombus area from the rectangle-sized diagonals, derive a side from midpoint lengths using Pythagoras, then reinterpret that side as a base and reverse A=bh to obtain the oblique height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:30.447Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "05c8de62c3dc1a37237189c9fce2f16a80f33082fed5a615aa036b423137fc60",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-quadrilaterals-v1/f8e3986e0bfdb03f64f62b4d29e67101c03bcf11a6ebc35dea0f2b68dade7bb7-1792556158371/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q6-response",
+    "type": "question",
+    "label": "6",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p26-q6-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A rhombus sits inside a rectangle with side lengths 11 cm and 7 cm. The vertices of the rhombus are at the midpoints of the sides of the rectangle.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p26-q6-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Determine the length of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "h",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", rounded to 2 decimal places.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-q6-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (SW) at (0,0);\n\\coordinate (SE) at (5.5,0);\n\\coordinate (NE) at (5.5,3.5);\n\\coordinate (NW) at (0,3.5);\n\\coordinate (L) at ($(SW)!0.5!(NW)$);\n\\coordinate (T) at ($(NW)!0.5!(NE)$);\n\\coordinate (R) at ($(NE)!0.5!(SE)$);\n\\coordinate (B) at ($(SW)!0.5!(SE)$);\n% Orthogonal projection of B onto TR; parameter is 49/85.\n\\coordinate (H) at ($(T)!0.5764705882352941!(R)$);\n\\draw[line width=0.8pt] (SW)--(SE)--(NE)--(NW)--cycle;\n\\draw[line width=0.8pt] (L)--(T)--(R)--(B)--cycle;\n\\foreach \\p/\\q in {L/T,T/R,R/B,B/L} {\n  \\coordinate (M) at ($(\\p)!0.5!(\\q)$);\n  \\draw[line width=0.4pt] ($(M)!0.12cm!90:(\\q)$)--($(M)!0.12cm!-90:(\\q)$);\n}\n\\draw[line width=0.8pt] (B)--(H) node[midway,left=1.3mm] {$h$};\n\\coordinate (U) at ($(B)!0.23cm!(L)$);\n\\coordinate (V) at ($(B)!0.23cm!(H)$);\n\\draw[line width=0.4pt] (U)--($(U)+(V)-(B)$)--(V);\n\\path (NW)--(NE) node[midway,above=1.5mm] {$11\\,\\mathrm{cm}$};\n\\path (SE)--(NE) node[midway,right=1.5mm] {$7\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 26,
+          "sourceRegion": "Question 6 figure, below the prompt on the left",
+          "description": "Unshaded horizontal rectangle with a rhombus joining its side midpoints. All four rhombus sides have matching single ticks. The segment h joins the bottom midpoint to the upper-right rhombus side; its right-angle marker at the bottom midpoint is against the parallel lower-left side.",
+          "mathematics": "Rectangle dimensions are 11 cm by 7 cm. Rhombus diagonals are 11 cm and 7 cm. The height endpoint is the orthogonal projection of the bottom midpoint onto the upper-right rhombus side.",
+          "answerVisibility": "Only the supplied dimensions, equality marks, right-angle mark and unknown h are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$A=\\frac{11\\times7}{2}=38.5\\,\\text{cm}^2$ and $b=\\sqrt{5.5^2+3.5^2}=\\sqrt{42.5}\\,\\text{cm}$. Using $A=bh$, $h=\\frac{38.5}{\\sqrt{42.5}}\\approx5.91\\,\\text{cm}$.",
+      "worked": "The rhombus diagonals are the rectangle’s side lengths.\n$$\\begin{align*}A&=\\frac{xy}{2}\\\\A&=\\frac{11\\times7}{2}\\\\A&=38.5\\,\\text{cm}^2\\end{align*}$$\nThe midpoints give a right triangle with legs $5.5$ cm and $3.5$ cm. Let the rhombus side length be $b$.\n$$\\begin{align*}b&=\\sqrt{5.5^2+3.5^2}\\\\b&=\\sqrt{42.5}\\,\\text{cm}\\end{align*}$$\nUsing the side as the base,\n$$\\begin{align*}A&=bh\\\\38.5&=\\sqrt{42.5}\\,h\\\\h&=\\frac{38.5}{\\sqrt{42.5}}\\,\\text{cm}\\\\h&\\approx5.91\\,\\text{cm}\\quad\\text{(2 d.p.)}\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 68
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q6-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p26-q6-label-item",
+                  "type": "item",
+                  "ref": "p26-q6-response/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p26-q6-prompt-item",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p26-q6-response/prompt#p26-q6-stem",
+                      "type": "item",
+                      "ref": "p26-q6-response/prompt#p26-q6-stem",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "layout:p26-q6-response/prompt#p26-q6-instruction",
+                      "type": "item",
+                      "ref": "p26-q6-response/prompt#p26-q6-instruction",
+                      "title": "Text"
+                    }
+                  ],
+                  "gap": 0,
+                  "align": "left"
+                },
+                {
+                  "id": "p26-q6-working-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p26-q6-diagram-item",
+                      "type": "item",
+                      "ref": "p26-q6-diagram",
+                      "width": 55,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p26-q6-space-item",
+                      "type": "item",
+                      "ref": "p26-q6-response/space",
+                      "width": 110,
+                      "height": 40,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 5,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p26-q6-response": 40
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p26-q6"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:20.136Z",
+  "updatedAt": "2026-10-21T07:41:20.136Z"
+}

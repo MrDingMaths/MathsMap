@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3ee95170-81e1-4204-9a5f-c5df40225960",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-circle",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Infer the triangle's base and perpendicular height from the circle's radius, then subtract its area from the circle's area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-01T03:23:56.634Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f248fbd34d0e6740ed0af14969e5b247ca9394c6f634708b6382c0e4044e1db3",
+      "evidence": ".booklet-work/full-imports/area-circles-sectors-v1-20261001/semantic-packets/assignments/assignment-618dec7f16997298c734/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p21-q9-response",
+    "type": "question",
+    "label": "9",
+    "prompt": "A triangle is inscribed in a circle, as shown. Calculate the shaded area to 2 d.p.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the requested region inside the circle and outside the triangle\"}],\"reference\":\"source page 21, p21-q9-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (L) at (-2,0);\n\\coordinate (R) at (2,0);\n\\coordinate (T) at (0,2);\n\\path[fill=regionBlue] (O) circle[radius=2];\n\\path[fill=white] (L)--(T)--(R)--cycle;\n\\draw[black,line width=0.8pt] (O) circle[radius=2];\n\\draw[black,line width=0.8pt] (L)--(T)--(R)--cycle;\n\\draw[black,line width=0.4pt,dashed] (T)--(O);\n\\coordinate (H) at ($(O)!0.1!(T)$);\n\\coordinate (J) at ($(O)!0.1!(R)$);\n\\coordinate (K) at ($(H)+(J)-(O)$);\n\\draw[black,line width=0.4pt] (H)--(K)--(J);\n\\fill[black] (O) circle[radius=1.2pt];\n\\node[anchor=north,yshift=-1.5mm] at ($(O)!0.45!(R)$) {$r=12.5\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 9 diagram below the prompt, on the left",
+          "description": "A circle with an inscribed triangle whose base is a horizontal diameter and whose apex is the topmost point. The dashed perpendicular altitude meets the marked centre, with a right-angle marker above the diameter. The region outside the triangle and inside the circle is shaded. The radius label is below the diameter toward the right.",
+          "mathematics": "The radius is 12.5 cm. The triangle's base is the diameter, 25 cm, and its perpendicular height is the radius, 12.5 cm.",
+          "answerVisibility": "The given radius and measured-region shading remain visible; no calculated lengths or areas are printed in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$334.62\\text{ cm}^2$",
+      "worked": "The triangle's base is the diameter, $25\\text{ cm}$, and its perpendicular height is $12.5\\text{ cm}$.\n$$\\begin{align*}\nA_1 &= \\pi(12.5)^2\\\\\nA_1 &= 156.25\\pi\\text{ cm}^2\\\\\nA_2 &= \\frac12(25)(12.5)\\\\\nA_2 &= 156.25\\text{ cm}^2\\\\\nA_{\\text{Total}} &= A_1-A_2\\\\\nA_{\\text{Total}} &= (156.25\\pi-156.25)\\text{ cm}^2\\\\\nA_{\\text{Total}} &\\approx 334.62\\text{ cm}^2\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 49
+  },
+  "presentation": {
+    "ownerId": "p21-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q9-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q9-response/label",
+                  "type": "item",
+                  "ref": "p21-q9-response/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p21-q9-response/prompt",
+                  "type": "item",
+                  "ref": "p21-q9-response/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q9-diagram",
+                  "type": "item",
+                  "ref": "p21-q9-diagram",
+                  "title": "Diagram",
+                  "width": 41.5
+                },
+                {
+                  "id": "layout:p21-q9-response/space",
+                  "type": "item",
+                  "ref": "p21-q9-response/space",
+                  "title": "Answer space",
+                  "height": 0
+                }
+              ],
+              "title": "Question 9",
+              "gap": 2
+            }
+          }
+        },
+        "p21-q9-diagram": {
+          "diagramWidthMm": 41.5
+        }
+      },
+      "answerSpaces": {
+        "p21-q9-response": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:42:44.615Z",
+  "updatedAt": "2026-10-21T10:42:44.615Z"
+}

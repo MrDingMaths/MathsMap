@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-50c28046-36e2-46f8-96fb-217e9687a51e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-find-side-denominator",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Rearrange the supplied first tangent equation, construct its analogue for the larger triangle, and subtract the resulting symbolic lengths as explicitly directed.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:47:13.709Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "46fa6e2d5be6001cf2283e7a849907c61f905ad274756946bf529fa9c9005572",
+      "evidence": ".booklet-work/reasoning-ratings/calls/right-angled-trigonometry-v1/ea07c735f6a0ac11db3257ca372283ad6eb81aaee82bc3346db18cdc59bf0b75-1792561590342/last-message.txt",
+      "originalTaskHash": "918576a6d50f6af1cdf67755c63667171a445954aacff1c2ceb4b38629708ece",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "142ad7feabf331be52ba72de5b05f388f959adc47d7cdfff90e600f4f28dad1d"
+      }
+    }
+  },
+  "content": {
+    "id": "p30-bridge-symbolic-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Express each horizontal length in terms of $x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p30-bridge-symbolic-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"user-approved bridging question\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (A) at (0,0);\\coordinate (B) at (0,-2);\\coordinate (D) at ({2/tan(50)},0);\\coordinate (C) at ({2/tan(25)},0);\n\\draw[line width=.8pt] (A)--(B)--(C)--cycle (B)--(D);\n\\pic[draw,line width=.4pt,angle radius=2mm] {right angle=B--A--D};\n\\path (A)--(B) node[midway,left] {$x$};\n\\pic[draw,line width=.4pt,angle radius=5mm,angle eccentricity=1.6,\"$50^\\circ$\"] {angle=A--D--B};\n\\pic[draw,line width=.4pt,angle radius=7mm,angle eccentricity=1.6,\"$25^\\circ$\"] {angle=A--C--B};\n\n\\path (A)--(D) node[midway,above] {$s$};\\path (A)--(C) node[midway,above=8mm] {$l$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "description": "Two right triangles share vertical height x; shorter horizontal length s, full horizontal length l; near angle 50 degrees and far angle 25 degrees.",
+          "mathematics": "Use tangent as opposite over adjacent, rearrange horizontal length as height divided by tangent, and subtract the shorter horizontal side from the full side.",
+          "answerVisibility": "Only givens and unknown labels appear; answers remain in the solution fields."
+        },
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "p30-bridge-symbolic-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use $\\tan50^\\circ=\\frac{x}{s}$ to make $s$ the subject.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$s=\\frac{x}{\\tan50^\\circ}$",
+          "worked": "$$\\begin{align*}s\\tan50^\\circ&=x\\\\s&=\\frac{x}{\\tan50^\\circ}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p30-bridge-symbolic-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write an equation using the larger triangle and make $l$ the subject.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$l=\\frac{x}{\\tan25^\\circ}$",
+          "worked": "$$\\begin{align*}\\tan25^\\circ&=\\frac{x}{l}\\\\l\\tan25^\\circ&=x\\\\l&=\\frac{x}{\\tan25^\\circ}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p30-bridge-symbolic-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write an expression for the difference $l-s$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{x}{\\tan25^\\circ}-\\frac{x}{\\tan50^\\circ}$",
+          "worked": "$\\frac{x}{\\tan25^\\circ}-\\frac{x}{\\tan50^\\circ}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-bridge-symbolic",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:50:14.831Z",
+  "updatedAt": "2026-10-21T09:50:14.831Z"
+}

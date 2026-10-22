@@ -1,0 +1,389 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-773579b3-aa58-4dac-9c91-f4e8b809a570",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-power-curves",
+    "secondarySkillIds": [],
+    "reasoningScore": 12,
+    "difficulty": "Foundation",
+    "difficultyReason": "Apply the taught relationship between a positive quartic coefficient and curve width, using the common graph scales to match the four coefficients.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:03:15.174Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0a7510e99d34d5626155c498b0576519f482eda8ec7457eb23eb1037081bdf93",
+      "evidence": ".booklet-work/reasoning-ratings/calls/further-non-linear-relationships-v1/2dff3885f86d802b83675bbd96a18ba4cc8141fe3af3f4a46772a52174ec3fa0-1792558965843/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p61-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Match each graph with its equation.",
+    "layout": "grid",
+    "columns": 4,
+    "questionDiagrams": [
+      {
+        "id": "p61-q2-graphs",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 61 p61-q2-graphs\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\panel/\\coef/\\name in {0/1/A,1/0.5/B,2/5/C,3/0.1666666667/D}{\n\\begin{scope}[xshift=\\panel*4.3cm]\n\\draw[black,line width=0.25pt,step=1] (-3,0) grid (3,5);\n\\draw[black,line width=0.5pt,<->] (-3.1,0)--(3.1,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,5.05);\n\\foreach \\xx in {-2,-1,0,1,2}{\n\\draw[black,line width=0.4pt] (\\xx,0)--(\\xx,-0.12);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\xx,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\xx$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\yy in {1,2,3,4}{\n\\draw[black,line width=0.4pt] (-0.12,\\yy)--(0,\\yy);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.12,\\yy) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\yy$\\special{dvisvgm:raw </g>}};\n}\n\\node[anchor=north west,font=\\fontsize{10}{12}\\selectfont] at (2.75,-0.35) {$x$};\n\\node[anchor=north east,font=\\fontsize{10}{12}\\selectfont] at (-0.22,5.1) {$y$};\n\\node[anchor=east,font=\\fontsize{10}{12}\\selectfont] at (-3.25,4.9) {\\name};\n\\pgfmathsetmacro{\\lim}{pow(4.75/\\coef,0.25)}\n\\draw[black,line width=0.8pt,<->,domain=-\\lim:\\lim,samples=121] plot (\\x,{\\coef*\\x*\\x*\\x*\\x});\n\\end{scope}\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 170,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 61,
+          "sourceRegion": "Question 2, graph strip A–D",
+          "description": "Four equally scaled quartic graphs in source order A, B, C, D, with unit grids, labelled axes and arrowheads on both upper branches. Ordinary grey source curves are rendered black under house style.",
+          "mathematics": "A: y=x^4; B: y=x^4/2; C: y=5x^4; D: y=x^4/6. Each vertex is (0,0). Horizontal grid extent is -3 to 3; vertical grid extent is 0 to 5. Printed x ticks are -2,-1,0,1,2 and y ticks are 1,2,3,4.",
+          "answerVisibility": "All four graphs and their A–D identities are permanent student givens; equations are not printed inside the graphs."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p61-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p61-q2-a-equation",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "y=x^4",
+                  "display": false
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "cloze",
+                  "answer": "A",
+                  "width": 9
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A",
+          "worked": "Graph A has $y=1$ at $x=1$, matching $y=x^4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p61-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p61-q2-b-equation",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "y=5x^4",
+                  "display": false
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "cloze",
+                  "answer": "C",
+                  "width": 9
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "C",
+          "worked": "The coefficient $5$ is the largest, so this is the narrowest curve: graph C.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p61-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p61-q2-c-equation",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "y=\\frac12x^4",
+                  "display": false
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "cloze",
+                  "answer": "B",
+                  "width": 9
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "B",
+          "worked": "Since $\\frac16<\\frac12<1$, this curve is wider than graph A but narrower than graph D. It is graph B.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p61-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p61-q2-d-equation",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "y=\\frac{x^4}{6}",
+                  "display": false
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "cloze",
+                  "answer": "D",
+                  "width": 9
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "D",
+          "worked": "The coefficient $\\frac16$ is the smallest positive coefficient, so this is the widest curve: graph D.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p61-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p61-q2-matching-stack",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p61-q2-instruction-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p61-q2-number-item",
+                      "type": "item",
+                      "ref": "p61-q2-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p61-q2-instruction-item",
+                      "type": "item",
+                      "ref": "p61-q2-root/prompt"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p61-q2-equation-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p61-q2-a-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p61-q2-a-label-item",
+                          "type": "item",
+                          "ref": "p61-q2-a/label",
+                          "width": 7
+                        },
+                        {
+                          "id": "p61-q2-a-prompt-item",
+                          "type": "item",
+                          "ref": "p61-q2-a/prompt#p61-q2-a-equation"
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 1
+                    },
+                    {
+                      "id": "p61-q2-b-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p61-q2-b-label-item",
+                          "type": "item",
+                          "ref": "p61-q2-b/label",
+                          "width": 7
+                        },
+                        {
+                          "id": "p61-q2-b-prompt-item",
+                          "type": "item",
+                          "ref": "p61-q2-b/prompt#p61-q2-b-equation"
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 1
+                    },
+                    {
+                      "id": "p61-q2-c-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p61-q2-c-label-item",
+                          "type": "item",
+                          "ref": "p61-q2-c/label",
+                          "width": 7
+                        },
+                        {
+                          "id": "p61-q2-c-prompt-item",
+                          "type": "item",
+                          "ref": "p61-q2-c/prompt#p61-q2-c-equation"
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 1
+                    },
+                    {
+                      "id": "p61-q2-d-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p61-q2-d-label-item",
+                          "type": "item",
+                          "ref": "p61-q2-d/label",
+                          "width": 7
+                        },
+                        {
+                          "id": "p61-q2-d-prompt-item",
+                          "type": "item",
+                          "ref": "p61-q2-d/prompt#p61-q2-d-equation"
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p61-q2-graph-strip-item",
+                  "type": "item",
+                  "ref": "p61-q2-graphs",
+                  "width": 170,
+                  "align": "center"
+                }
+              ],
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p61-q2"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:14:09.891Z",
+  "updatedAt": "2026-10-21T08:14:09.891Z"
+}

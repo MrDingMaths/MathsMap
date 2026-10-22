@@ -1,0 +1,339 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-64e03a3c-ac21-4938-bdd0-869fc0626074",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [
+      "line-of-best-fit",
+      "describe-association"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Choose a line balancing the scattered points, judge correlation strength and use the constructed line to estimate either height from the other.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:59.518Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3287df328166bc9806b86b160eae5e06b8c98464fc7e31e1c6126b99c097310b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/70cdd0af5a1a37e1a228363b45885f5101b1bca2b36f6245b7328091bfc6bbbc-1792556190496/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The scatterplot shows a mother’s height and her daughter’s height.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 p21-q5-graph\"}\n\\begin{tikzpicture}[x=0.18cm,y=0.18cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\foreach \\v in {150,152.5,...,180} {\\draw[graphGrid,line width=0.25pt] (\\v,150)--(\\v,180);\\draw[graphGrid,line width=0.25pt] (150,\\v)--(180,\\v);}\n\\draw[black,line width=0.5pt] (150,180)--(150,150)--(180,150);\n\\foreach \\v in {150,152,...,180} {\\draw[black,line width=0.4pt] (\\v,150)--++(0,-0.45);\\draw[black,line width=0.4pt] (150,\\v)--++(-0.45,0);}\n\\foreach \\v in {150,160,170,180} {\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,149.4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (149.4,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (165,146.5) {Mother's height (cm)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at ([xshift=-9mm]144,165) {Daughter's height (cm)};\n\\foreach \\x/\\y in {152/160,156/165,159/164,162/171,163/164,164/173,170/168,172/176,174/176,175/172} {\\fill[black] (\\x,\\y) circle[radius=2.25pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 5, left scatterplot",
+          "description": "Ten points and a square grid for drawing a line of best fit. Point positions are traced approximations, not an exact dataset. No answer line appears in the question graph.",
+          "mathematics": "Both axes run from 150 to 180 cm; labelled ticks occur every 10 cm, grid lines every 2.5 cm and finer unlabelled ticks every 2 cm.",
+          "answerVisibility": "The student draws directly on this graph; the example answer line is solution-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a line of best fit.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p21-q5-example-line",
+        "answer": {
+          "short": "An upward-sloping line through the centre of the points; see the example. Other reasonable lines are acceptable.",
+          "worked": "Draw a straight line through the centre of the scatter, with roughly equal numbers of points above and below it. One acceptable example passes through approximately (154, 162) and (170, 172).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p21-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Describe the strength of the relationship as strong, moderate, or weak.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Moderate",
+          "worked": "Moderate: the points follow an upward trend but have noticeable scatter about a line of best fit.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Estimate the daughter’s height if the mother’s height is 170 cm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p21-q5-example-line",
+        "answer": {
+          "short": "About 172 cm; reasonable estimates depend on the line drawn.",
+          "worked": "From 170 cm on the mother’s-height axis, read up to your line and across to the daughter’s-height axis. The example line gives about 172 cm; another reasonable line may give a slightly different estimate.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Estimate the mother’s height if the daughter’s height is 162 cm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p21-q5-example-line",
+        "answer": {
+          "short": "About 154 cm; reasonable estimates depend on the line drawn.",
+          "worked": "From 162 cm on the daughter’s-height axis, read across to your line and down to the mother’s-height axis. The example line gives about 154 cm; another reasonable line may give a slightly different estimate.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p21-q5-example-line",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 p21-q5-example-line\"}\n\\begin{tikzpicture}[x=0.18cm,y=0.18cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\foreach \\v in {150,152.5,...,180} {\\draw[graphGrid,line width=0.25pt] (\\v,150)--(\\v,180);\\draw[graphGrid,line width=0.25pt] (150,\\v)--(180,\\v);}\n\\draw[black,line width=0.5pt] (150,180)--(150,150)--(180,150);\n\\foreach \\v in {150,152,...,180} {\\draw[black,line width=0.4pt] (\\v,150)--++(0,-0.45);\\draw[black,line width=0.4pt] (150,\\v)--++(-0.45,0);}\n\\foreach \\v in {150,160,170,180} {\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,149.4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (149.4,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (165,146.5) {Mother's height (cm)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at ([xshift=-9mm]144,165) {Daughter's height (cm)};\n\\foreach \\x/\\y in {152/160,156/165,159/164,162/171,163/164,164/173,170/168,172/176,174/176,175/172} {\\fill[black] (\\x,\\y) circle[radius=2.25pt];}\n\\draw[black,line width=0.8pt] plot[domain=150:180,samples=2] (\\x,{162+0.625*(\\x-154)});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 5 scatterplot",
+          "description": "Complete source graph with one acceptable authored by-eye line. Other reasonable lines and corresponding estimates are acceptable.",
+          "mathematics": "Example line passes through approximately (154,162) and (170,172), supporting the source estimates without imposing a unique regression line.",
+          "answerVisibility": "Solution-only example line."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p21-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q5-root/label",
+                  "type": "item",
+                  "ref": "p21-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p21-q5-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p21-q5-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q5-graph",
+                          "type": "item",
+                          "ref": "p21-q5-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q5-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q5-root/prompt",
+                          "type": "item",
+                          "ref": "p21-q5-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p21-q5-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p21-q5-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q5-a/label",
+                                  "type": "item",
+                                  "ref": "p21-q5-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p21-q5-a/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q5-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p21-q5-a/space",
+                                  "type": "item",
+                                  "ref": "p21-q5-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p21-q5-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q5-b/label",
+                                  "type": "item",
+                                  "ref": "p21-q5-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p21-q5-b/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q5-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p21-q5-b/space",
+                                  "type": "item",
+                                  "ref": "p21-q5-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p21-q5-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q5-c/label",
+                                  "type": "item",
+                                  "ref": "p21-q5-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p21-q5-c/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q5-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p21-q5-c/space",
+                                  "type": "item",
+                                  "ref": "p21-q5-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p21-q5-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p21-q5-d/label",
+                                  "type": "item",
+                                  "ref": "p21-q5-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p21-q5-d/prompt",
+                                  "type": "item",
+                                  "ref": "p21-q5-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p21-q5-d/space",
+                                  "type": "item",
+                                  "ref": "p21-q5-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:57.745Z",
+  "updatedAt": "2026-10-21T07:41:57.745Z"
+}

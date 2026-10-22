@@ -1,0 +1,329 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-74c94640-6c7d-4131-b141-22ff278fe926",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expected-frequency",
+    "secondarySkillIds": [
+      "theoretical-probability",
+      "observed-probability"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Count prize conditions, predict frequencies and interpret a large observed departure without claiming proof of rigging."
+  },
+  "content": {
+    "id": "p22-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Wheel of Fortune is a quiz show where winners get to spin a wheel to determine their prize. The spinner is fair and has an equal chance of landing on each segment.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q7-wheel",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 p22-q7-wheel\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,10}{\\coordinate (V\\i) at ({90-360*\\i/11}:3.2);}\n\\draw (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--(V6)--(V7)--(V8)--(V9)--(V10)--cycle;\n\\foreach \\i in {0,...,10}{\\draw (0,0)--(V\\i);}\n\\foreach \\i/\\prize in {0/{100\\,000},1/{500},2/{100},3/{5000},4/{0},5/{50\\,000},6/{1000},7/{10\\,000},8/{100},9/{20\\,000},10/{0}}{\n\\pgfmathsetmacro{\\angle}{90-360*(\\i+0.5)/11}\n\\pgfmathsetmacro{\\labelrotation}{\\angle}\n\\ifdim\\labelrotation pt<-90pt\\pgfmathsetmacro{\\labelrotation}{\\labelrotation+180}\\fi\n\\node[rotate=\\labelrotation] at (\\angle:2.36) {$\\$\\prize$};\n}\n\\draw[line width=0.8pt] (0,0)--(0,2.72);\n\\fill[black] (-0.17,2.62)--(0,3.01)--(0.17,2.62)--cycle;\n\\fill[black] (0,0) circle[radius=0.34];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 68,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 7, large wheel to the right of stem and parts a–b",
+          "description": "Eleven-sided prize wheel with radial dividers, rotated monetary labels, black central hub and upward pointer.",
+          "mathematics": {
+            "equalOutcomeProbabilities": true,
+            "clockwiseFromTopDivider": [
+              "$100 000",
+              "$500",
+              "$100",
+              "$5000",
+              "$0",
+              "$50 000",
+              "$1000",
+              "$10 000",
+              "$100",
+              "$20 000",
+              "$0"
+            ],
+            "model": "Approved eleven equal sectors; retain both $0 sectors and both $100 sectors."
+          },
+          "answerVisibility": "All prize labels are permanent question givens; no qualifying outcomes are highlighted.",
+          "sourceColourEvidence": "Uniform pale-yellow fill, black labels, dividers, hub and pointer.",
+          "shadingDecision": "Approved omission of decorative uniform yellow fill; preserve black hub and pointer as structural markers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p22-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the probability that a winner gets a prize more than $\\$1000$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac5{11}$",
+          "worked": "The qualifying prizes are $\\$5000$, $\\$10\\,000$, $\\$20\\,000$, $\\$50\\,000$ and $\\$100\\,000$: five of the eleven equally likely segments.\n$$P(\\text{prize}>\\$1000)=\\frac5{11}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p22-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "In 110 spins of the Wheel of Fortune, how many winners are expected to receive a prize that is $\\$5000$ or less?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "70 winners",
+          "worked": "Seven segments qualify: two $\\$0$, two $\\$100$, $\\$500$, $\\$1000$ and $\\$5000$.\n$$\\begin{align*}P(\\text{prize}\\le\\$5000)&=\\frac7{11}\\\\f&=np\\\\f&=110\\times\\frac7{11}\\\\f&=70\\end{align*}$$Expected frequency: 70 winners.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p22-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p22-q7-c-stem",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Out of the first 110 winners, 104 have received a prize that is ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\$5000",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " or less.",
+                  "marks": []
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "text": "Is there a reason to believe that the wheel may be rigged?",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Yes. The observed 104 is much higher than the expected 70, giving reason to suspect rigging, but not proving it.",
+          "worked": "The expected frequency is 70 winners. The observed frequency is 104, which is $104-70=34$ more than expected. This gives reason to suspect that the wheel may be rigged. Actual frequency can differ because of randomness, so this does not prove rigging.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q7-root/label",
+                  "type": "item",
+                  "ref": "p22-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "p22-q7-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p22-q7-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q7-root/prompt",
+                          "type": "item",
+                          "ref": "p22-q7-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p22-q7-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p22-q7-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q7-a/label",
+                                  "type": "item",
+                                  "ref": "p22-q7-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p22-q7-a/prompt",
+                                  "type": "item",
+                                  "ref": "p22-q7-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q7-a/space",
+                                  "type": "item",
+                                  "ref": "p22-q7-a/space",
+                                  "title": "Answer space",
+                                  "height": 8
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p22-q7-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q7-b/label",
+                                  "type": "item",
+                                  "ref": "p22-q7-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p22-q7-b/prompt",
+                                  "type": "item",
+                                  "ref": "p22-q7-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q7-b/space",
+                                  "type": "item",
+                                  "ref": "p22-q7-b/space",
+                                  "title": "Answer space",
+                                  "height": 8
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p22-q7-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q7-c/label",
+                                  "type": "item",
+                                  "ref": "p22-q7-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p22-q7-c/prompt#p22-q7-c-stem",
+                                  "type": "item",
+                                  "ref": "p22-q7-c/prompt#p22-q7-c-stem",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q7-c/space",
+                                  "type": "item",
+                                  "ref": "p22-q7-c/space",
+                                  "title": "Answer space",
+                                  "height": 8
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 1.3621486167200343
+                    },
+                    {
+                      "id": "p22-q7-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q7-wheel",
+                          "type": "item",
+                          "ref": "p22-q7-wheel",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2,
+                      "weight": 0.6378513832799657
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 7",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p22-q7-a": 8,
+        "p22-q7-b": 8,
+        "p22-q7-c": 8
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p22-q7"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-14T06:57:17.314Z",
+  "updatedAt": "2026-09-14T06:57:17.314Z"
+}

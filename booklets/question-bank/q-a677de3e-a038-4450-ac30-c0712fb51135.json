@@ -1,0 +1,392 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a677de3e-a038-4450-ac30-c0712fb51135",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "multistage-probability-by-counting"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Combine the unequal spinner ranges into 15 ordered outcomes, then identify and combine pairs satisfying matching-number or sum conditions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:22.628Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0569a972bede70a792a9eb8456b4d51df6af01cbe7c857f1496243e5bb070791",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/cc1c2a04a167a7646fa0d225e69171a892812e8924835418a62ee9e7ae9f2c52-1792560710787/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "I spin both these two spinners.\n\nWhat is the probability that:",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [
+      {
+        "id": "p22-q14-spinners",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 p22-q14-spinners\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (T) at (0,2);\n\\coordinate (L) at (-1.732,-1);\n\\coordinate (R) at (1.732,-1);\n\\coordinate (O) at (0,0);\n\\draw[black] (T)--(R)--(L)--cycle;\n\\draw[black] (O)--(T) (O)--(L) (O)--(R);\n\\node at (-0.65,0.28) {$1$};\n\\node at (0.65,0.28) {$2$};\n\\node at (0,-0.65) {$3$};\n\\coordinate (P0) at (4.5,2);\n\\coordinate (P1) at (6.402,0.618);\n\\coordinate (P2) at (5.676,-1.618);\n\\coordinate (P3) at (3.324,-1.618);\n\\coordinate (P4) at (2.598,0.618);\n\\coordinate (C) at (4.5,0);\n\\draw[black] (P0)--(P1)--(P2)--(P3)--(P4)--cycle;\n\\draw[black] (C)--(P0) (C)--(P1) (C)--(P2) (C)--(P3) (C)--(P4);\n\\node at (5.134,0.873) {$1$};\n\\node at (5.526,-0.333) {$2$};\n\\node at (4.5,-1.079) {$3$};\n\\node at (3.474,-0.333) {$4$};\n\\node at (3.866,0.873) {$5$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 14 paired spinners above parts a–f",
+          "description": "An upright triangular spinner on the left and an upright pentagonal spinner on the right, each partitioned from its centre to every vertex. Decorative sector fills are omitted.",
+          "mathematics": "Left sectors: 1 at left, 2 at right, 3 at bottom. Right sectors clockwise from upper right: 1, 2, 3, 4, 5. The paired left-to-right order identifies ordered outcomes.",
+          "answerVisibility": "All boundaries and sector labels are permanent student givens; no answers appear in the diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p22-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "I get 1 on both spinners?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1}{15}$",
+          "worked": "$$\\begin{align*}P(1,1)&=\\frac{1}{3}\\times\\frac{1}{5}\\\\&=\\frac{1}{15}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p22-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "I get 2 on both spinners?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1}{15}$",
+          "worked": "$$\\begin{align*}P(2,2)&=\\frac{1}{3}\\times\\frac{1}{5}\\\\&=\\frac{1}{15}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p22-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "I get 1 on both spinners or 2 on both spinners?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{2}{15}$",
+          "worked": "The two outcomes are mutually exclusive.\n\n$$\\begin{align*}P((1,1)\\text{ or }(2,2))&=\\frac{1}{15}+\\frac{1}{15}\\\\&=\\frac{2}{15}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p22-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "I get the same number on both spinners?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(1,1)$, $(2,2)$ or $(3,3)$; $\\frac{3}{15}=\\frac{1}{5}$.",
+          "worked": "Favourable outcomes: $(1,1)$, $(2,2)$ and $(3,3)$.\n\nThere are $3\\times5=15$ equally likely outcomes.\n\n$$\\begin{align*}P(\\text{same number})&=\\frac{3}{15}\\\\&=\\frac{1}{5}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p22-q14-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "I get a sum of 3?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "2 ways: $(1,2)$ or $(2,1)$; $\\frac{2}{15}$.",
+          "worked": "Favourable outcomes: $(1,2)$ and $(2,1)$.\n\nThere are $3\\times5=15$ equally likely outcomes.\n\n$$P(\\text{sum of }3)=\\frac{2}{15}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p22-q14-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "I get a sum of 4?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "3 ways: $(1,3)$, $(2,2)$ or $(3,1)$; $\\frac{3}{15}$.",
+          "worked": "Favourable outcomes: $(1,3)$, $(2,2)$ and $(3,1)$.\n\nThere are $3\\times5=15$ equally likely outcomes.\n\n$$P(\\text{sum of }4)=\\frac{3}{15}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q14-root/label",
+                  "type": "item",
+                  "ref": "p22-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p22-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p22-q14-spinners",
+                  "type": "item",
+                  "ref": "p22-q14-spinners",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p22-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p22-q14-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p22-q14-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p22-q14-a/label",
+                              "type": "item",
+                              "ref": "p22-q14-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p22-q14-a/prompt",
+                              "type": "item",
+                              "ref": "p22-q14-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p22-q14-a/space",
+                              "type": "item",
+                              "ref": "p22-q14-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p22-q14-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p22-q14-b/label",
+                              "type": "item",
+                              "ref": "p22-q14-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p22-q14-b/prompt",
+                              "type": "item",
+                              "ref": "p22-q14-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p22-q14-b/space",
+                              "type": "item",
+                              "ref": "p22-q14-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p22-q14-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p22-q14-c/label",
+                              "type": "item",
+                              "ref": "p22-q14-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p22-q14-c/prompt",
+                              "type": "item",
+                              "ref": "p22-q14-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p22-q14-c/space",
+                              "type": "item",
+                              "ref": "p22-q14-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p22-q14-root:row:3",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p22-q14-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p22-q14-d/label",
+                              "type": "item",
+                              "ref": "p22-q14-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p22-q14-d/prompt",
+                              "type": "item",
+                              "ref": "p22-q14-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p22-q14-d/space",
+                              "type": "item",
+                              "ref": "p22-q14-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p22-q14-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p22-q14-e/label",
+                              "type": "item",
+                              "ref": "p22-q14-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p22-q14-e/prompt",
+                              "type": "item",
+                              "ref": "p22-q14-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p22-q14-e/space",
+                              "type": "item",
+                              "ref": "p22-q14-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p22-q14-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p22-q14-f/label",
+                              "type": "item",
+                              "ref": "p22-q14-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p22-q14-f/prompt",
+                              "type": "item",
+                              "ref": "p22-q14-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p22-q14-f/space",
+                              "type": "item",
+                              "ref": "p22-q14-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        },
+        "p22-q14-spinners": {
+          "diagramWidthMm": 32
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:52:34.611Z",
+  "updatedAt": "2026-10-21T10:52:34.611Z"
+}

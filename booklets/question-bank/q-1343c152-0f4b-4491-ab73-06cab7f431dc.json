@@ -1,0 +1,224 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1343c152-0f4b-4491-ab73-06cab7f431dc",
+  "status": "approved",
+  "title": "2016 HSC Standard 2 Band 5",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Select and add the WD and DW path products from the supplied tree; reject 1.4 using the probability range or the multiplication rule.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "402b1102130e67dfb68580d8bc4f7a240ab6c7b5554871759a1205a3db3cdec4",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p37-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "A cricket team is about to play two matches. The probability of the team having a win, a loss or a draw is 0.7, 0.1 and 0.2 respectively in each match. The possible results in the two matches are displayed in the probability tree diagram.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p37-q20-tree",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q20-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=2pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (W) at (2.4,3);\n\\coordinate (L) at (2.4,0);\n\\coordinate (D) at (2.4,-3);\n\\draw (O)--(W) node[midway,fill=white] {$0.7$};\n\\draw (O)--(L) node[midway,fill=white] {$0.1$};\n\\draw (O)--(D) node[midway,fill=white] {$0.2$};\n\n\n\n\\foreach \\parent/\\height in {W/3,L/0,D/-3}{\n  \\draw (\\parent)--(5,\\height+1) node[midway,fill=white] {$0.7$};\n  \\draw (\\parent)--(5,\\height) node[midway,fill=white] {$0.1$};\n  \\draw (\\parent)--(5,\\height-1) node[midway,fill=white] {$0.2$};\n  \\node[anchor=west] at (5,\\height+1) {$W$};\n  \\node[anchor=west] at (5,\\height) {$L$};\n  \\node[anchor=west] at (5,\\height-1) {$D$};\n}\n\\node[fill=white] at (W) {$W$};\n\\node[fill=white] at (L) {$L$};\n\\node[fill=white] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 37,
+          "sourceRegion": "Question 20, supplied tree on the left",
+          "description": "An unshaded, left-to-right two-stage tree with three first-match branches and three second-match branches from each first-match result. All nine terminal labels are retained as W, L and D in source order.",
+          "mathematics": "First-match probabilities are W:0.7, L:0.1 and D:0.2. Every first-match result has second-match branches W:0.7, L:0.1 and D:0.2. The twelve branch probabilities are supplied givens.",
+          "answerVisibility": "Only source-supplied branch probabilities and outcome labels are visible; calculated path probabilities are omitted."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p37-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the probability of the team having a win and a draw, in any order?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.28$",
+          "worked": "$$\\begin{align*}P(WD)&=0.7\\times0.2=0.14\\\\P(DW)&=0.2\\times0.7=0.14\\\\P(\\text{a win and a draw})&=P(WD)+P(DW)\\\\&=0.14+0.14\\\\&=0.28\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p37-q20-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Paul claims that 1.4 is the probability of the team winning both matches.\nGive one reason why this is NOT correct.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A probability cannot be greater than 1. Alternatively, Paul added instead of multiplying along the branches.",
+          "worked": "A probability cannot be greater than 1. Paul added the branch probabilities; winning both matches requires multiplication:\n$$\\begin{align*}P(WW)&=0.7\\times0.7\\\\&=0.49.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p37-q20-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p37-q20-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p37-q20-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p37-q20-root/label",
+                  "type": "item",
+                  "ref": "p37-q20-root/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "p37-q20-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p37-q20-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p37-q20-tree",
+                          "type": "item",
+                          "ref": "p37-q20-tree",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p37-q20-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p37-q20-root/prompt",
+                          "type": "item",
+                          "ref": "p37-q20-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p37-q20-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p37-q20-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p37-q20-a/label",
+                                  "type": "item",
+                                  "ref": "p37-q20-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p37-q20-a/prompt",
+                                  "type": "item",
+                                  "ref": "p37-q20-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p37-q20-a/space",
+                                  "type": "item",
+                                  "ref": "p37-q20-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p37-q20-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p37-q20-b/label",
+                                  "type": "item",
+                                  "ref": "p37-q20-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p37-q20-b/prompt",
+                                  "type": "item",
+                                  "ref": "p37-q20-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p37-q20-b/space",
+                                  "type": "item",
+                                  "ref": "p37-q20-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 20",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:29.646Z",
+  "updatedAt": "2026-10-21T10:53:29.646Z"
+}

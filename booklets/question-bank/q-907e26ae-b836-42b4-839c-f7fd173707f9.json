@@ -1,0 +1,480 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-907e26ae-b836-42b4-839c-f7fd173707f9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compare-box-plots",
+    "secondarySkillIds": [
+      "box-plot-percentages",
+      "interquartile-range"
+    ],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Translate finishing percentages into quartile thresholds, compare ranges and IQRs, and interpret the lower median time as faster typical performance.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:02.742Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8cc63f786aea51a818f8e2783a366bc5b9fad4e6350680f8a57178c159b00dee",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/baf7b587bb0e36dd70d9284b7dac922c4815409535bf6f3149518722337860ff-1792561414425/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "This parallel box plot shows the times (in seconds) male and female competitors take to complete a triathlon.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"femaleGreen\",\"hex\":\"4F9B63\",\"reason\":\"female data series\"},{\"name\":\"maleOrange\",\"hex\":\"EF8B2C\",\"reason\":\"male data series\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"shared reading grid\"}],\"reference\":\"source page 21 p21-q3-diagram\"}\n\\begin{tikzpicture}[x=0.022cm,y=0.022cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{femaleGreen}{HTML}{4F9B63}\n\\definecolor{maleOrange}{HTML}{EF8B2C}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[step=100,gridBlue,line width=0.15pt] (0,0) grid (4600,1400);\n\\draw[black,<->,line width=0.5pt] (0,0)--(4600,0);\n\\foreach \\x/\\t in {200/6500,700/7000,1200/7500,1700/8000,2200/8500,2700/9000,3200/9500,3700/10000,4200/10500}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-35);\\node[below] at (\\x,-35) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\t\\special{dvisvgm:raw </g>}};}\n\\node[below] at (2300,-240) {Time (s)};\n\\node[above] at (2300,1400) {Triathlon};\n\\node[anchor=north west] at (100,1350) {Females};\n\\node[anchor=north west] at (100,750) {Males};\n\\draw[femaleGreen,line width=0.8pt] (900,1000)--(1800,1000) (3200,1000)--(4300,1000) (1800,800) rectangle (3200,1200);\n\\fill[femaleGreen] (2299.36363636,800) rectangle (2300.63636364,1200);\n\\draw[femaleGreen,line width=0.4pt] (900,950)--(900,1050) (4300,950)--(4300,1050);\n\\draw[maleOrange,line width=0.8pt] (500,400)--(1500,400) (2400,400)--(3900,400) (1500,200) rectangle (2400,600);\n\\fill[black] (1899.36363636,200) rectangle (1900.63636364,600);\n\\draw[maleOrange,line width=0.4pt] (500,350)--(500,450) (3900,350)--(3900,450);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 3 parallel box plots",
+          "description": "Unfilled parallel box plots with females above males, shared 100-second grid, labelled 500-second ticks and endpoint caps. Source decorative fills are omitted; series colours distinguish the groups.",
+          "mathematics": {
+            "axisExtent": [
+              6300,
+              10900
+            ],
+            "minorGridInterval": 100,
+            "femaleFiveNumberSummary": [
+              7200,
+              8100,
+              8600,
+              9500,
+              10600
+            ],
+            "maleFiveNumberSummary": [
+              6800,
+              7800,
+              8200,
+              8700,
+              10200
+            ]
+          },
+          "answerVisibility": "All supplied plots, ticks and labels remain visible in the question edition; no answers are drawn."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What was the fastest time for the event?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6800\\text{ s}$",
+          "worked": "The smallest minimum is the male minimum: $6800\\text{ s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What was the difference in time between the slowest male and slowest female competitor?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$400\\text{ s}$",
+          "worked": "Compare the maximum times: $$10600-10200=400\\text{ s}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p21-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How long did it take the first half of the male competitors to finish?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8200\\text{ s}$",
+          "worked": "The median marks the halfway point for the males: $8200\\text{ s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "How long did it take the first 75% of the males to finish?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8700\\text{ s}$",
+          "worked": "The upper quartile marks the first $75\\%$ to finish: $8700\\text{ s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "How long did it take the first 25% of the females to finish?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8100\\text{ s}$",
+          "worked": "The lower quartile marks the first $25\\%$ to finish: $8100\\text{ s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p21-q3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Which group had the greatest range of times?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both groups had the same range.",
+          "worked": "$$\\begin{aligned}\\text{Female range}&=10600-7200=3400\\text{ s}\\\\\\text{Male range}&=10200-6800=3400\\text{ s}\\end{aligned}$$Both groups had the same range.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p21-q3-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "Which group had the smallest interquartile range of times?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Males.",
+          "worked": "$$\\begin{aligned}\\text{Male IQR}&=8700-7800=900\\text{ s}\\\\\\text{Female IQR}&=9500-8100=1400\\text{ s}\\end{aligned}$$The males had the smaller IQR.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p21-q3-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "Which group had the fastest overall times?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Males.",
+          "worked": "The males had the lower median time ($8200\\text{ s}$ compared with $8600\\text{ s}$), indicating faster typical completion times.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q3-root/label",
+                  "type": "item",
+                  "ref": "p21-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p21-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p21-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q3-diagram",
+                  "type": "item",
+                  "ref": "p21-q3-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p21-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p21-q3-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-a/label",
+                          "type": "item",
+                          "ref": "p21-q3-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p21-q3-a/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-a/space",
+                          "type": "item",
+                          "ref": "p21-q3-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q3-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-b/label",
+                          "type": "item",
+                          "ref": "p21-q3-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p21-q3-b/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-b/space",
+                          "type": "item",
+                          "ref": "p21-q3-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q3-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-c/label",
+                          "type": "item",
+                          "ref": "p21-q3-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p21-q3-c/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-c/space",
+                          "type": "item",
+                          "ref": "p21-q3-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q3-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-d/label",
+                          "type": "item",
+                          "ref": "p21-q3-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p21-q3-d/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-d/space",
+                          "type": "item",
+                          "ref": "p21-q3-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q3-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-e/label",
+                          "type": "item",
+                          "ref": "p21-q3-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p21-q3-e/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-e/space",
+                          "type": "item",
+                          "ref": "p21-q3-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q3-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-f/label",
+                          "type": "item",
+                          "ref": "p21-q3-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p21-q3-f/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-f/space",
+                          "type": "item",
+                          "ref": "p21-q3-f/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q3-g:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-g/label",
+                          "type": "item",
+                          "ref": "p21-q3-g/label",
+                          "title": "Label g"
+                        },
+                        {
+                          "id": "layout:p21-q3-g/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-g/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-g/space",
+                          "type": "item",
+                          "ref": "p21-q3-g/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part g",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p21-q3-h:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-h/label",
+                          "type": "item",
+                          "ref": "p21-q3-h/label",
+                          "title": "Label h"
+                        },
+                        {
+                          "id": "layout:p21-q3-h/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-h/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-h/space",
+                          "type": "item",
+                          "ref": "p21-q3-h/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part h",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:36:02.821Z",
+  "updatedAt": "2026-10-21T09:36:02.821Z"
+}

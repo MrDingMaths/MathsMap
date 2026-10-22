@@ -1,0 +1,356 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-25297c09-e557-4aaa-b99f-b8f0d27d5387",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "predict-from-regression-equation",
+    "secondarySkillIds": [
+      "interpolation-extrapolation",
+      "correlation-coefficient"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Evaluate the model and compare each input with the observed distance range, while interpreting the sign and strength of the supplied correlation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:29.964Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "03419a50953216657c1c3869af4488c87c193d50b03b6bf77266748b4bbb9201",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/1e68715aa360e91166c1becf467b4564d7149b462ca85a2739add9bbeb0f359a-1792556207511/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p36-q11",
+    "type": "question",
+    "label": "11",
+    "prompt": "For three months, Cameron has been wearing an exercise tracking wristband that records the distance he walks and the number of calories he burns. The graph shows his weekly totals. The regression line equation for this data is $y=14301+115.02x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p36-q11-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"observations and their regression line\"}],\"reference\":\"source page 36 p36-q11-graph\"}\n\\begin{tikzpicture}[x=0.085cm,y=0.85cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[->,black,line width=0.5pt] (10,15)--(75,15) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (10,15)--(10,22.5) node[above left] {$y$};\n\\fill[white] (12.5,14.8) rectangle (17.5,15.2);\n\\draw[black,line width=0.5pt] (12.5,15)--(14,15.2)--(15.5,14.8)--(17.5,15);\n\\fill[white] (8,15.3) rectangle (12,15.7);\n\\draw[black,line width=0.5pt] (10,15.3)--(8,15.43)--(12,15.57)--(10,15.7);\n\\foreach \\v in {20,30,40,50,60,70}{\\draw[black,line width=0.4pt] (\\v,15)--(\\v,14.82);\\node[below] at (\\v,14.82) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v/\\t in {16/{16\\,000},17/{17\\,000},18/{18\\,000},19/{19\\,000},20/{20\\,000},21/{21\\,000},22/{22\\,000}}{\\draw[black,line width=0.4pt] (10,\\v)--(8.2,\\v);\\node[left] at (8.2,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\node[below left] at (10,15) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\node[below=9mm] at (43,15) {Distance walked (km)};\n\\node[rotate=90,above=14mm] at ([xshift=-18mm]10,18.8) {Calories burned};\n\\draw[seriesBlue,line width=0.8pt,domain=19:66,samples=2] plot (\\x,{14.301+0.11502*\\x});\n\\foreach \\x/\\y in {19/16.2,24/17,32/18.1,38/18.5,41.5/19.1,43.5/18.95,43.2/20,51.3/20.53,53.7/20.47,54.5/20.28,55.8/20.62,58.5/20.92,66/21.8}{\\fill[seriesBlue] (\\x,\\y) circle[radius=2.25pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 36,
+          "sourceRegion": "Question 11 weekly totals graph",
+          "description": "Scatterplot with both axes broken below the displayed ranges, all supplied ticks, coordinate cues and an equation-driven regression line. Observations are approximate visual reconstructions, not an exact numerical dataset.",
+          "mathematics": "Horizontal ticks 20–70 km in steps of 10; vertical ticks 16000–22000 calories in steps of 1000. Regression line y=14301+115.02x. Observations span approximately 19–66 km.",
+          "answerVisibility": "The scatterplot and regression line are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p36-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Using the equation for the regression line, determine the number of calories burned if a person walked 50 km in a week.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Estimated $20\\,052$ calories.",
+          "worked": "$$\\begin{aligned}y&=14301+115.02(50)\\\\y&=14301+5751\\\\y&=20052\\end{aligned}$$\nThe estimated number of calories burned is $20\\,052$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p36-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Is this interpolation or extrapolation?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Interpolation.",
+          "worked": "Interpolation, because $50$ km lies within the observed distance range.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p36-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Due to an injury, in one week Cameron only walked 10 km and he forgot to wear his tracker. Determine the number of calories this distance would burn.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Estimated $15\\,451.2$ calories.",
+          "worked": "$$\\begin{aligned}y&=14301+115.02(10)\\\\y&=14301+1150.2\\\\y&=15451.2\\end{aligned}$$\nThe estimated number of calories burned is $15\\,451.2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p36-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Is this interpolation or extrapolation?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Extrapolation.",
+          "worked": "Extrapolation, because $10$ km is below the observed distance range. This prediction is less reliable because it extends the model beyond the recorded data.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p36-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Pearson’s correlation coefficient for this data is $0.9678$.\n\nWhat does this mean for the direction and strength of the correlation?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Strong positive correlation.",
+          "worked": "Since $r=0.9678$ is positive and close to $1$, there is a strong positive correlation. Greater weekly distances walked tend to be associated with more calories burned.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p36-q11-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p36-q11-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p36-q11:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p36-q11/label",
+                  "type": "item",
+                  "ref": "p36-q11/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "p36-q11:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p36-q11:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p36-q11-graph",
+                          "type": "item",
+                          "ref": "p36-q11-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p36-q11:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p36-q11/prompt",
+                          "type": "item",
+                          "ref": "p36-q11/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p36-q11:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p36-q11-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p36-q11-a/label",
+                                  "type": "item",
+                                  "ref": "p36-q11-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p36-q11-a/prompt",
+                                  "type": "item",
+                                  "ref": "p36-q11-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p36-q11-a/space",
+                                  "type": "item",
+                                  "ref": "p36-q11-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p36-q11-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p36-q11-b/label",
+                                  "type": "item",
+                                  "ref": "p36-q11-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p36-q11-b/prompt",
+                                  "type": "item",
+                                  "ref": "p36-q11-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p36-q11-b/space",
+                                  "type": "item",
+                                  "ref": "p36-q11-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p36-q11-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p36-q11-c/label",
+                                  "type": "item",
+                                  "ref": "p36-q11-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p36-q11-c/prompt",
+                                  "type": "item",
+                                  "ref": "p36-q11-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p36-q11-c/space",
+                                  "type": "item",
+                                  "ref": "p36-q11-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p36-q11-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p36-q11-d/label",
+                                  "type": "item",
+                                  "ref": "p36-q11-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p36-q11-d/prompt",
+                                  "type": "item",
+                                  "ref": "p36-q11-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p36-q11-d/space",
+                                  "type": "item",
+                                  "ref": "p36-q11-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p36-q11-e:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p36-q11-e/label",
+                                  "type": "item",
+                                  "ref": "p36-q11-e/label",
+                                  "title": "Label e"
+                                },
+                                {
+                                  "id": "layout:p36-q11-e/prompt",
+                                  "type": "item",
+                                  "ref": "p36-q11-e/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p36-q11-e/space",
+                                  "type": "item",
+                                  "ref": "p36-q11-e/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part e",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:42:24.328Z",
+  "updatedAt": "2026-10-21T07:42:24.329Z"
+}

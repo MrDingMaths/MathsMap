@@ -1,0 +1,294 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-80157844-c1c6-4298-a5ea-e01d318e0b03",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-quadrilaterals",
+    "secondarySkillIds": [
+      "area-kite-rhombus",
+      "area-of-rectangle",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hardest demand is recognising that the unequal end triangles share a base and their unknown heights can be combined as 24−8, avoiding the need to find either height separately.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:30.447Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "02132e778e86d509edfa51b5c987f8beb5c0b144834d217267850d835e52edcf",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-quadrilaterals-v1/f8e3986e0bfdb03f64f62b4d29e67101c03bcf11a6ebc35dea0f2b68dade7bb7-1792556158371/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Calculate the shaded area of these shapes.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q8-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredArea\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the two shaded triangles whose combined area is requested\"}],\"reference\":\"source page 22 p22-q8-a-diagram\"}\n\\usetikzlibrary{calc,arrows.meta}\n\\definecolor{measuredArea}{HTML}{D4E8FF}\n\\begin{tikzpicture}[x=1cm,y=1cm,font=\\fontsize{10}{12}\\selectfont,outline/.style={draw=black,line width=0.8pt},guide/.style={draw=black,dashed,line width=0.4pt},dimensionMark/.style={draw=black,line width=0.4pt},dimension/.style={draw=black,line width=0.4pt,<->,>={Stealth}}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-1.38564,0.8);\n\\coordinate (B) at (1,1.73205);\n\\coordinate (C) at (1.38564,-0.8);\n\\coordinate (D) at (-1,-1.73205);\n\\coordinate (E) at (-0.2,-0.34641);\n\\fill[measuredArea] (A)--(D)--(C)--(E)--cycle;\n\\draw[outline] (A)--(B)--(C)--(D)--cycle;\n\\draw[guide] (A)--(C) (D)--(B);\n\\draw[outline] (A)--(E)--(C);\n\\foreach \\P/\\Q in {A/B,B/C,C/D,D/A} {\n  \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!0.5!(\\Q)+(\\n1:0.08)$)--($(\\P)!0.5!(\\Q)+(\\n1:-0.08)$);\n}\n\\foreach \\P/\\Q in {A/E,E/C} {\n  \\foreach \\t in {0.47,0.53} {\n    \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!\\t!(\\Q)+(\\n1:0.08)$)--($(\\P)!\\t!(\\Q)+(\\n1:-0.08)$);\n  }\n}\n\\coordinate (ACstart) at ($(A)+(0.85,1.47224)$);\n\\coordinate (ACend) at ($(C)+(0.85,1.47224)$);\n\\draw[dimension] (ACstart)--(ACend) node[midway,sloped,above=5mm] {$16\\ \\mathrm{cm}$};\n\\coordinate (DBstart) at ($(D)+(1.64545,-0.95)$);\n\\coordinate (DBend) at ($(B)+(1.64545,-0.95)$);\n\\draw[dimension] (DBstart)--(DBend) node[midway,sloped,below] {$20\\ \\mathrm{cm}$};\n\\path (D)--(E) node[midway,sloped,above] {$8\\ \\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 47,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 8(a), left column",
+              "description": "An oblique rhombus with single ticks on its four sides, both dashed diagonals, and an interior point on the longer diagonal below their intersection. The two solid segments from this point to the endpoints of the shorter diagonal carry double ticks. The two triangles adjacent to the lower endpoint of the longer diagonal are shaded. Vertex names in the code are construction identifiers and are not printed.",
+              "mathematics": "The full perpendicular diagonals measure 16 cm and 20 cm. The lower segment of the longer diagonal, ending at the interior point, measures 8 cm. The remaining unshaded kite therefore has diagonals 16 cm and 12 cm.",
+              "answerVisibility": "All measurements and shading are permanent givens; no answer or calculated length is printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$64\\ \\text{cm}^2$",
+          "worked": "Subtract the unshaded kite from the outer rhombus.\n$$\\begin{align*}d&=20-8=12\\ \\text{cm}\\\\A_{\\text{rhombus}}&=\\frac{16\\times20}{2}\\\\A_{\\text{rhombus}}&=160\\ \\text{cm}^2\\\\A_{\\text{kite}}&=\\frac{16\\times12}{2}=96\\ \\text{cm}^2\\\\A_{\\text{shaded}}&=160-96=64\\ \\text{cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p22-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q8-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredArea\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the entire composite region whose shaded area is requested\"}],\"reference\":\"source page 22 p22-q8-b-diagram\"}\n\\usetikzlibrary{calc}\n\\definecolor{measuredArea}{HTML}{D4E8FF}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,font=\\fontsize{10}{12}\\selectfont,outline/.style={draw=black,line width=0.8pt},guide/.style={draw=black,dashed,line width=0.4pt},dimensionMark/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (-2,0.8);\n\\coordinate (A) at (0,1.6);\n\\coordinate (B) at (1.6,1.6);\n\\coordinate (R) at (2.8,0.8);\n\\coordinate (C) at (1.6,0);\n\\coordinate (D) at (0,0);\n\\fill[measuredArea] (L)--(A)--(B)--(R)--(C)--(D)--cycle;\n\\draw[outline] (L)--(A)--(B)--(R)--(C)--(D)--cycle;\n\\draw[guide] (A)--(D) (B)--(C);\n\\foreach \\P/\\Q in {A/B,B/C,C/D,D/A} {\n  \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!0.5!(\\Q)+(\\n1:0.08)$)--($(\\P)!0.5!(\\Q)+(\\n1:-0.08)$);\n}\n\\foreach \\P/\\Q in {L/A,D/L} {\n  \\foreach \\t in {0.47,0.53} {\n    \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!\\t!(\\Q)+(\\n1:0.08)$)--($(\\P)!\\t!(\\Q)+(\\n1:-0.08)$);\n  }\n}\n\\foreach \\P/\\Q in {B/R,R/C} {\n  \\foreach \\t in {0.46,0.5,0.54} {\n    \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!\\t!(\\Q)+(\\n1:0.08)$)--($(\\P)!\\t!(\\Q)+(\\n1:-0.08)$);\n  }\n}\n\\draw[dimensionMark] (-2,1.98)--(2.8,1.98) node[midway,above] {$24\\ \\mathrm{m}$};\n\\draw[dimensionMark] (-2,1.88)--(-2,2.08) (2.8,1.88)--(2.8,2.08);\n\\path (D)--(C) node[midway,below] {$8\\ \\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 47,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 8(b), middle column",
+              "description": "A fully shaded horizontal hexagon comprising a central square and an isosceles triangle on each vertical side. The joins are dashed. All four central sides have single ticks, the left triangle's sloping sides have double ticks, and the right triangle's sloping sides have triple ticks. The triangles retain the source's different horizontal extents. No right-angle symbols or extra measurements are added.",
+              "mathematics": "The central square has side 8 m. The full horizontal span is 24 m, so the two external perpendicular triangle heights together are 24 − 8 = 16 m. Each triangle has base 8 m.",
+              "answerVisibility": "Only the supplied 24 m and 8 m measurements are printed; calculated dimensions and answers are withheld."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$128\\ \\text{m}^2$",
+          "worked": "The middle region is a square. The two triangles have base $8\\ \\text{m}$, and their perpendicular heights add to $24-8=16\\ \\text{m}$.\n$$\\begin{align*}A_{\\text{square}}&=8\\times8=64\\ \\text{m}^2\\\\A_{\\text{triangles}}&=\\frac{8\\times(24-8)}{2}\\\\A_{\\text{triangles}}&=64\\ \\text{m}^2\\\\A_{\\text{shaded}}&=64+64=128\\ \\text{m}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 59
+      },
+      {
+        "id": "p22-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q8-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredArea\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the outer kite region remaining after exclusion of the white inner square\"}],\"reference\":\"source page 22 p22-q8-c-diagram\"}\n\\usetikzlibrary{calc}\n\\definecolor{measuredArea}{HTML}{D4E8FF}\n\\begin{tikzpicture}[x=0.8cm,y=0.8cm,font=\\fontsize{10}{12}\\selectfont,outline/.style={draw=black,line width=0.8pt},guide/.style={draw=black,dashed,line width=0.4pt},dimensionMark/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (T) at (0,2.58);\n\\coordinate (R) at (1.58,0);\n\\coordinate (B) at (0,-4.3);\n\\coordinate (L) at (-1.58,0);\n\\coordinate (U) at (0,1.58);\n\\coordinate (V) at (0,-1.58);\n\\fill[measuredArea] (T)--(R)--(B)--(L)--cycle;\n\\fill[white] (U)--(R)--(V)--(L)--cycle;\n\\draw[guide] (T)--(B) (L)--(R);\n\\draw[outline] (T)--(R)--(B)--(L)--cycle;\n\\draw[outline] (U)--(R)--(V)--(L)--cycle;\n\\foreach \\P/\\Q in {U/R,R/V,V/L,L/U} {\n  \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!0.5!(\\Q)+(\\n1:0.08)$)--($(\\P)!0.5!(\\Q)+(\\n1:-0.08)$);\n}\n\\foreach \\P/\\Q in {T/R,L/T} {\n  \\foreach \\t in {0.46,0.5,0.54} {\n    \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!\\t!(\\Q)+(\\n1:0.08)$)--($(\\P)!\\t!(\\Q)+(\\n1:-0.08)$);\n  }\n}\n\\foreach \\P/\\Q in {R/B,B/L} {\n  \\foreach \\t in {0.47,0.53} {\n    \\draw[dimensionMark] let \\p1=($(\\Q)-(\\P)$),\\n1={atan2(\\y1,\\x1)+90} in ($(\\P)!\\t!(\\Q)+(\\n1:0.08)$)--($(\\P)!\\t!(\\Q)+(\\n1:-0.08)$);\n  }\n}\n\\coordinate (LU) at ($(L)!0.11!(U)$);\n\\coordinate (LV) at ($(L)!0.11!(V)$);\n\\draw[dimensionMark] (LU)--($(LU)+(LV)-(L)$)--(LV);\n\\draw[dimensionMark] (-1.58,2.97)--(1.58,2.97) node[midway,above] {$7.9\\ \\mathrm{m}$};\n\\draw[dimensionMark] (-1.58,2.87)--(-1.58,3.07) (1.58,2.87)--(1.58,3.07);\n\\draw[dimensionMark] (2.02,1.58)--(2.02,-1.58) node[midway,sloped,above=3mm] {$7.9\\ \\mathrm{m}$};\n\\draw[dimensionMark] (1.92,1.58)--(2.12,1.58) (1.92,-1.58)--(2.12,-1.58);\n\\coordinate (DT) at (-1.05,2.58);\n\\coordinate (DU) at (-1.05,1.58);\n\\draw[dimensionMark] ($(T)+(-0.08,0)$)--($(DT)+(-0.12,0)$) ($(U)+(-0.08,0)$)--($(DU)+(-0.12,0)$);\n\\draw[dimensionMark] (DT)--(DU) node[midway,left=1mm,inner sep=0pt] {$2.5\\ \\mathrm{m}$};\n\\draw[dimensionMark] ($(DT)+(-0.1,0)$)--($(DT)+(0.1,0)$) ($(DU)+(-0.1,0)$)--($(DU)+(0.1,0)$);\n\\path (V)--(B) node[midway,sloped,below] {$6.8\\ \\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 47,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 8(c), right column",
+              "description": "A tall shaded outer kite with a white inner square drawn as a diamond. The left and right square vertices coincide with the kite's corresponding vertices. The square has single side ticks and a right-angle mark at its left vertex; the outer upper sides have triple ticks and the outer lower sides have double ticks. Both centre lines are dashed. The top horizontal dimension spans the full left-to-right width, while the right vertical dimension spans only the inner square's top-to-bottom diagonal. The 2.5 m and 6.8 m labels lie along their respective vertical gaps.",
+              "mathematics": "The outer horizontal diagonal and both inner-square diagonals are 7.9 m. The outer vertical diagonal is 2.5 + 7.9 + 6.8 = 17.2 m. Subtract the inner square's area, calculated from its diagonals, from the outer kite's area.",
+              "answerVisibility": "The four source measurements, equality marks and right-angle mark remain visible. No calculated diagonal or area is printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$36.735\\ \\text{m}^2$",
+          "worked": "Subtract the inner square from the outer kite, using their diagonals.\n$$\\begin{align*}d_{\\text{kite}}&=2.5+7.9+6.8\\\\d_{\\text{kite}}&=17.2\\ \\text{m}\\\\A_{\\text{kite}}&=\\frac{7.9\\times17.2}{2}=67.94\\ \\text{m}^2\\\\A_{\\text{square}}&=\\frac{7.9\\times7.9}{2}=31.205\\ \\text{m}^2\\\\A_{\\text{shaded}}&=67.94-31.205\\\\A_{\\text{shaded}}&=36.735\\ \\text{m}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q8-root/label",
+                  "type": "item",
+                  "ref": "p22-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p22-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p22-q8-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p22-q8-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q8-a/label",
+                          "type": "item",
+                          "ref": "p22-q8-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p22-q8-a-diagram",
+                          "type": "item",
+                          "ref": "p22-q8-a-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p22-q8-a/space",
+                          "type": "item",
+                          "ref": "p22-q8-a/space",
+                          "title": "Answer space",
+                          "height": 50
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p22-q8-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q8-b/label",
+                          "type": "item",
+                          "ref": "p22-q8-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p22-q8-b-diagram",
+                          "type": "item",
+                          "ref": "p22-q8-b-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p22-q8-b/space",
+                          "type": "item",
+                          "ref": "p22-q8-b/space",
+                          "title": "Answer space",
+                          "height": 50
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p22-q8-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q8-c/label",
+                          "type": "item",
+                          "ref": "p22-q8-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p22-q8-c-diagram",
+                          "type": "item",
+                          "ref": "p22-q8-c-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p22-q8-c/space",
+                          "type": "item",
+                          "ref": "p22-q8-c/space",
+                          "title": "Answer space",
+                          "height": 50
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 8",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p22-q8-a": 50,
+        "p22-q8-b": 50,
+        "p22-q8-c": 50
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:11.789Z",
+  "updatedAt": "2026-10-21T07:41:11.789Z"
+}

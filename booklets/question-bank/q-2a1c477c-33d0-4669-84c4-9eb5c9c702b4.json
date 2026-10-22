@@ -1,0 +1,202 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2a1c477c-33d0-4669-84c4-9eb5c9c702b4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "bearings-problems",
+    "secondarySkillIds": [
+      "unknown-angles-parallel",
+      "trig-find-angle"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Establish a right angle from bearings, then use an inverse trigonometric ratio to determine a new bearing.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T14:02:24.606Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1ba9147d0826d029183e45f7652598536a1e2b47686f0a4b12a891c791466c2c",
+      "evidence": ".booklet-work/full-imports/elevation-depression-bearings-20261006/semantic-packets/assignments/assignment-baabad4d271cf0dcfe48/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p39-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "A ship leaves port $P$ and travels 150 nautical miles to port $Q$ on a bearing of $110^{\\circ}\\mathrm{T}$. It then travels 120 nautical miles to port $R$ on a bearing of $200^{\\circ}\\mathrm{T}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q17-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 p39-q17-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at ({5*sin(110)},{5*cos(110)});\n\\coordinate (R) at ({5*sin(110)+4*sin(200)},{5*cos(110)+4*cos(200)});\n\\draw[black,line width=0.8pt] (P)--(Q)--(R)--cycle;\n\\draw[black,dashed,->,line width=0.5pt] (P)--++(0,2);\n\\draw[black,dashed,->,line width=0.5pt] (Q)--++(0,2);\n\\draw[black,line width=0.4pt] (P) ++(90:0.55) arc[start angle=90,end angle=-20,radius=0.55];\n\\path (P) ++(35:0.95) node {$110^{\\circ}$};\n\\draw[black,line width=0.4pt] (Q) ++(90:0.55) arc[start angle=90,end angle=-110,radius=0.55];\n\\path (Q) ++(-10:0.98) node {$200^{\\circ}$};\n\\node[below left] at (P) {$P$};\n\\node[above left] at (Q) {$Q$};\n\\node[below] at (R) {$R$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 17 diagram, lower left",
+          "description": "Unshaded triangle PQR with parallel dashed north arrows at P and Q, clockwise 110-degree bearing arc at P and clockwise reflex 200-degree bearing arc at Q. No side lengths or right-angle mark are printed.",
+          "mathematics": "P=(0,0); Q=5(sin110°,cos110°); R=Q+4(sin200°,cos200°). The leg ratio is 150:120. Bearing arcs run from TikZ angle 90° to −20° at P and −110° at Q.",
+          "answerVisibility": "Only source-supplied geometry, point labels and bearing labels are visible; answers and derived angles are omitted."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p39-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $\\angle PQR=90^{\\circ}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle PQR=360^{\\circ}-(200^{\\circ}+70^{\\circ})=90^{\\circ}$, using co-interior angles on parallel north lines and angles about a point.",
+          "worked": "The north lines are parallel, so the angle between $QP$ and north at $Q$ is $180^{\\circ}-110^{\\circ}=70^{\\circ}$ by co-interior angles. Angles about $Q$ sum to $360^{\\circ}$.\n$$\\begin{align*}\\angle PQR&=360^{\\circ}-(200^{\\circ}+70^{\\circ})\\\\&=90^{\\circ}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p39-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the bearing of $R$ from $P$ to the nearest degree.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$149^{\\circ}\\mathrm{T}$",
+          "worked": "Let $\\theta=\\angle QPR$. In the right-angled triangle, $QR$ is opposite $\\theta$ and $PQ$ is adjacent.\n$$\\begin{align*}\\tan\\theta&=\\frac{120}{150}\\\\\\theta&=\\tan^{-1}\\!\\left(\\frac{120}{150}\\right).\\end{align*}$$\nThe bearing of $PR$ is clockwise beyond the bearing of $PQ$.\n$$\\begin{align*}\\text{Bearing of }R\\text{ from }P&=110^{\\circ}+\\tan^{-1}\\!\\left(\\frac{120}{150}\\right)\\\\&\\approx149^{\\circ}\\mathrm{T}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q17-root/label",
+                  "type": "item",
+                  "ref": "p39-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p39-q17-root/prompt",
+                  "type": "item",
+                  "ref": "p39-q17-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p39-q17-diagram",
+                  "type": "item",
+                  "ref": "p39-q17-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p39-q17-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p39-q17-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q17-a/label",
+                          "type": "item",
+                          "ref": "p39-q17-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p39-q17-a/prompt",
+                          "type": "item",
+                          "ref": "p39-q17-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q17-a/space",
+                          "type": "item",
+                          "ref": "p39-q17-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q17-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q17-b/label",
+                          "type": "item",
+                          "ref": "p39-q17-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p39-q17-b/prompt",
+                          "type": "item",
+                          "ref": "p39-q17-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p39-q17-b/space",
+                          "type": "item",
+                          "ref": "p39-q17-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:40:46.851Z",
+  "updatedAt": "2026-10-21T08:40:46.851Z"
+}

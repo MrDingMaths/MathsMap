@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4e19a3e2-542c-4461-b2ad-2938fc601427",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "conditional-probability",
+    "secondarySkillIds": [
+      "probability-dependent-events"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Model committee selection without replacement, calculate both girls and at least one girl using disjoint paths or a complement, then form their conditional ratio. These linked steps must be selected without intermediate prompts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:47:43.038Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "97bb3e2984a460ca1d21087da360ff3a792e0ee16b6e5c4d10b4d5705a9aacbe",
+      "evidence": ".booklet-work/reasoning-ratings/calls/set-notation-and-conditional-probability-v1/f0295323eaf90bb4f13749ffd58f187c6bc4759951505ddb71bf51b98ae23437-1792561641754/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q20",
+    "type": "question",
+    "label": "20",
+    "prompt": "A small committee of two is formed from a group of 4 boys and 8 girls.\nIf at least one of the members is a girl, what is the probability that both are girls?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\frac{7}{15}$",
+      "worked": "A probability tree is useful here. Let $G$ denote a girl and $B$ a boy. The second selection is made without replacement.\n\n$$\\begin{align*}P(GG)&=\\frac{8}{12}\\times\\frac{7}{11}=\\frac{14}{33}\\\\P(GB)&=\\frac{8}{12}\\times\\frac{4}{11}=\\frac{8}{33}\\\\P(BG)&=\\frac{4}{12}\\times\\frac{8}{11}=\\frac{8}{33}\\\\P(\\text{at least one girl})&=\\frac{14}{33}+\\frac{8}{33}+\\frac{8}{33}=\\frac{30}{33}\\\\P(\\text{both girls}\\mid\\text{at least one girl})&=\\frac{P(\\text{both girls})}{P(\\text{at least one girl})}\\\\P(\\text{both girls}\\mid\\text{at least one girl})&=\\frac{14/33}{30/33}=\\frac{7}{15}\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p39-q20-solution-tree",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 question 20; authored solution tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (G) at (2,1.5);\n\\coordinate (B) at (2,-1.5);\n\\coordinate (GG) at (4.8,2.3);\n\\coordinate (GB) at (4.8,0.7);\n\\coordinate (BG) at (4.8,-0.7);\n\\coordinate (BB) at (4.8,-2.3);\n\\draw (O)--(G) node[midway,above left] {$\\frac{8}{12}$};\n\\draw (O)--(B) node[midway,below left] {$\\frac{4}{12}$};\n\\node[above] at (G) {$G$};\n\\node[below] at (B) {$B$};\n\\draw (G)--(GG) node[midway,above] {$\\frac{7}{11}$};\n\\draw (G)--(GB) node[midway,below] {$\\frac{4}{11}$};\n\\draw (B)--(BG) node[midway,above] {$\\frac{8}{11}$};\n\\draw (B)--(BB) node[midway,below] {$\\frac{3}{11}$};\n\\node[right] at (GG) {$G\\quad GG$};\n\\node[right] at (GB) {$B\\quad GB$};\n\\node[right] at (BG) {$G\\quad BG$};\n\\node[right] at (BB) {$B\\quad BB$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 110,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 39,
+            "sourceRegion": "Question 20 answer",
+            "description": "Authored two-stage selection tree implementing the source answer's suggested method.",
+            "mathematics": "First selection: girl 8/12, boy 4/12. After a girl: girl 7/11, boy 4/11. After a boy: girl 8/11, boy 3/11.",
+            "answerVisibility": "Solution only; the source provides no student tree."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 75
+  },
+  "presentation": {
+    "ownerId": "p39-q20-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q20-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q20:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q20/label",
+                  "type": "item",
+                  "ref": "p39-q20/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "layout:p39-q20/prompt",
+                  "type": "item",
+                  "ref": "p39-q20/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p39-q20/space",
+                  "type": "item",
+                  "ref": "p39-q20/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 20",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:28:40.604Z",
+  "updatedAt": "2026-10-21T11:28:40.604Z"
+}

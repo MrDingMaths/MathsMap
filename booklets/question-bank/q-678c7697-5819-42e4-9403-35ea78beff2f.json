@@ -1,0 +1,173 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-678c7697-5819-42e4-9403-35ea78beff2f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interquartile-range",
+    "secondarySkillIds": [
+      "five-number-summary"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Recalculate quartiles after the added score changes the dataset from odd to even, compare the unchanged IQR with the increased range, and explain the difference using the middle 50% of the data.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:43:34.183Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "105da6cf7929c3c53d92697082ad3cbe16a0fbcca2b07a30f340deb012fefced",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/d77becfc1c8207be0c152250238e5c68d2a8066e47dc22a730aedfb28178927d-1792561395163/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-q6-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Consider the scores $2, 3, 4, 5, 5, 5, 6, 7, 8$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p11-q6-iqr",
+        "type": "part",
+        "label": "a",
+        "prompt": "A score of 23 is added to the dataset. How will this affect the IQR?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The IQR is unchanged at 3.",
+          "worked": "Exclude the median when dividing the original nine scores into halves.\n$$\\begin{align*}Q_1&=\\frac{3+4}{2}=3.5\\\\Q_3&=\\frac{6+7}{2}=6.5\\\\\\mathrm{IQR}&=6.5-3.5=3\\end{align*}$$\nAfter adding 23, the ordered scores are $2,3,4,5,5,5,6,7,8,23$. Each half contains five scores.\n$$\\begin{align*}Q_1&=4\\\\Q_3&=7\\\\\\mathrm{IQR}&=7-4=3\\end{align*}$$\nThe IQR remains 3.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p11-q6-explanation",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, describe why the IQR is more useful than the range when there are outliers.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The range increases from 6 to 21, while the IQR remains 3. The IQR measures the spread of the middle 50% of the data and is less affected by outliers.",
+          "worked": "$$\\begin{align*}\\text{Original range}&=8-2=6\\\\\\text{New range}&=23-2=21\\end{align*}$$\nThe IQR remains 3. It measures the spread of the middle 50% of the data, so it is less affected by outliers than the range.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p11-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p11-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p11-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p11-q6-root/label",
+                  "type": "item",
+                  "ref": "p11-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p11-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p11-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p11-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p11-q6-iqr:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p11-q6-iqr/label",
+                          "type": "item",
+                          "ref": "p11-q6-iqr/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p11-q6-iqr/prompt",
+                          "type": "item",
+                          "ref": "p11-q6-iqr/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-q6-iqr/space",
+                          "type": "item",
+                          "ref": "p11-q6-iqr/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p11-q6-explanation:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p11-q6-explanation/label",
+                          "type": "item",
+                          "ref": "p11-q6-explanation/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p11-q6-explanation/prompt",
+                          "type": "item",
+                          "ref": "p11-q6-explanation/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-q6-explanation/space",
+                          "type": "item",
+                          "ref": "p11-q6-explanation/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 6",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:35:41.974Z",
+  "updatedAt": "2026-10-21T09:35:41.974Z"
+}

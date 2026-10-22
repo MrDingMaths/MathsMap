@@ -1,0 +1,246 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d055ef4f-3b73-47aa-860f-a788165c6afa",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "outlier-effect-line-best-fit",
+    "secondarySkillIds": [],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Identify the high outlier on the right and infer that removing its upward pull makes the negative fitted gradient more negative and the line steeper.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:47.446Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e8db1fc9e7398f1c69cd0a7265e0ad1fd465b3b2f5947ed7d3464f457979db57",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/66d76637ee7bcb0528a3e4e83c234a9bd2a91ae5c8257fa3997c43a367a47275-1792556185095/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "A survey collected data on cars with a 50 L petrol tank.\nIt compared distance driven and litres of petrol remaining in the tank.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"Observed data and supplied fitted line\"}],\"reference\":\"source page 12 p12-q5-graph\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridPaint}{HTML}{CCCCCC}\n\\path[use as bounding box] (-2,-1.8) rectangle (11,11);\n\\draw[step=1,line width=0.25pt,color=gridPaint] (0,0) grid (10,10);\n\\draw[->,black,line width=0.5pt] (0,0)--(10.6,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,10.6) node[above] {$y$};\n\\foreach \\v in {1,...,10} {\n\\draw[black,line width=0.4pt] (\\v,0.12)--(\\v,-0.12);\n\\node[below] at (\\v,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (0.12,\\v)--(-0.12,\\v);\n\\node[left] at (-0.12,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\node[below] at (5,-0.95) {Hundreds of km driven};\n\\node[rotate=90] at ([xshift=-9mm]-1.5,5) {Litres of petrol remaining};\n\\foreach \\px/\\py in {1.1/5.2,1.1/4.4,1.7/3.0,2.0/4.2,2.8/5.0,2.9/2.7,3.8/3.4,4.0/1.6,4.7/2.4,5.5/0.7,6.2/2.2,6.9/9.8,7.4/0.9} {\n\\fill[seriesBlue] (\\px,\\py) circle[radius=2.25pt];\n}\n\\draw[seriesBlue,line width=0.8pt] (0,4)--(10.4,2.6);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Question 5, lower-left scatterplot",
+          "description": "Unit grid with numbered ticks 1–10, arrowed axes, axis titles, thirteen points and a supplied descending fitted line. Non-outlier point positions and fitted-line endpoints are approximate visual reconstructions, not exact numerical givens.",
+          "mathematics": "The supplied outlier is (6.9,9.8). The other twelve observations follow a negative association. Removing the high outlier makes the fitted gradient more negative.",
+          "answerVisibility": "The supplied fitted line is permanent question content. The outlier circle appears only in the solution."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p12-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Identify the outlier. Circle the data point.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(6.9,9.8)$.",
+          "worked": "Circle $(6.9,9.8)$, which lies well above the negative trend of the other points.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q5-a-circle",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"Observed data and supplied fitted line\"},{\"name\":\"answerRed\",\"hex\":\"EF6068\",\"reason\":\"Solution-only circle identifying the outlier\"}],\"reference\":\"source page 12 p12-q5-a-circle\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridPaint}{HTML}{CCCCCC}\n\\path[use as bounding box] (-2,-1.8) rectangle (11,11);\n\\draw[step=1,line width=0.25pt,color=gridPaint] (0,0) grid (10,10);\n\\draw[->,black,line width=0.5pt] (0,0)--(10.6,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,10.6) node[above] {$y$};\n\\foreach \\v in {1,...,10} {\n\\draw[black,line width=0.4pt] (\\v,0.12)--(\\v,-0.12);\n\\node[below] at (\\v,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (0.12,\\v)--(-0.12,\\v);\n\\node[left] at (-0.12,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\node[below] at (5,-0.95) {Hundreds of km driven};\n\\node[rotate=90] at ([xshift=-9mm]-1.5,5) {Litres of petrol remaining};\n\\foreach \\px/\\py in {1.1/5.2,1.1/4.4,1.7/3.0,2.0/4.2,2.8/5.0,2.9/2.7,3.8/3.4,4.0/1.6,4.7/2.4,5.5/0.7,6.2/2.2,6.9/9.8,7.4/0.9} {\n\\fill[seriesBlue] (\\px,\\py) circle[radius=2.25pt];\n}\n\\draw[seriesBlue,line width=0.8pt] (0,4)--(10.4,2.6);\n\\definecolor{answerRed}{HTML}{EF6068}\n\\path[use as bounding box] (-2,-1.8) rectangle (11,11);\n\\draw[answerRed,line width=0.8pt] (6.9,9.8) circle[radius=0.32];\n\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "Question 5 scatterplot",
+                "description": "Solution-only circle around the supplied outlier, using the base graph's exact coordinate units, origin and bounding box.",
+                "mathematics": "Circle the point (6.9,9.8).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p12-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If the outlier were removed, what would happen to the gradient of the line of best fit? Would it be steeper or less steep?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "More negative and steeper.",
+          "worked": "The high outlier pulls the right-hand end of the fitted line upwards. Removing it makes the line slope downwards more steeply, so its gradient becomes more negative.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p12-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q5-root/label",
+                  "type": "item",
+                  "ref": "p12-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p12-q5-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p12-q5-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-q5-graph",
+                          "type": "item",
+                          "ref": "p12-q5-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q5-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-q5-root/prompt",
+                          "type": "item",
+                          "ref": "p12-q5-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p12-q5-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p12-q5-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p12-q5-a/label",
+                                  "type": "item",
+                                  "ref": "p12-q5-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p12-q5-a/prompt",
+                                  "type": "item",
+                                  "ref": "p12-q5-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p12-q5-a/space",
+                                  "type": "item",
+                                  "ref": "p12-q5-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p12-q5-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p12-q5-b/label",
+                                  "type": "item",
+                                  "ref": "p12-q5-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p12-q5-b/prompt",
+                                  "type": "item",
+                                  "ref": "p12-q5-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p12-q5-b/space",
+                                  "type": "item",
+                                  "ref": "p12-q5-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:39.837Z",
+  "updatedAt": "2026-10-21T07:41:39.837Z"
+}

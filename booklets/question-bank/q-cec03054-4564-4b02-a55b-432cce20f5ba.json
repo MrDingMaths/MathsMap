@@ -1,0 +1,340 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cec03054-4564-4b02-a55b-432cce20f5ba",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-exponential-model",
+    "secondarySkillIds": [
+      "exponential-growth-decay-model"
+    ],
+    "reasoningScore": 20,
+    "difficulty": "Foundation",
+    "difficultyReason": "Interpret the initial-population intercept, estimate population and time from the labelled graph, and explain the annual percentage increase encoded by 1.02.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:00:46.539Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dea879d8306858b5f2e7bea14577ea40ef193f2ee927e8dcfd3799050b2cdf38",
+      "evidence": ".booklet-work/reasoning-ratings/calls/features-quadratics-exponentials-v1/4e58d6bea5a63581a27accdd79a9d5a39abb340f79219b32f9911309ea32cef4-1792558823714/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "The population of an island is modelled using the equation $P = 30\\,000(1.02)^t$, where $P$ is the population and $t$ is the time in years.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p42-q2-graph-reading",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p42-q2-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential population curve and its plotted markers\"},{\"name\":\"gridGrey\",\"hex\":\"CCCCCC\",\"reason\":\"coordinate grid\"}],\"reference\":\"source page 42, p42-q2-graph\"}\n\\begin{tikzpicture}[x=0.24cm,y=0.24cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\path[use as bounding box] (-4,-2) rectangle (29,22);\n\\draw[step=1,gridGrey,line width=0.25pt] (0,0) grid (27,20);\n\\draw[black,line width=0.5pt,->] (0,0)--(27,0);\n\\draw[black,line width=0.5pt] (0,0)--(0,1.1);\n\\draw[black,line width=0.5pt] (0,1.1)--(-0.5,1.4)--(0.5,1.7)--(0,2);\n\\draw[black,line width=0.5pt,->] (0,2)--(0,20.8);\n\\foreach \\x in {5,10,15,20,25}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.35);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.35) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {3/20\\,000,8/30\\,000,13/40\\,000,18/50\\,000}{\\draw[black,line width=0.4pt] (0,\\y)--(-0.35,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.35,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.35,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\node[above left] at (0,20.8) {$P$};\n\\node[below right] at (27,0) {$t$};\n\\draw[seriesBlue,line width=0.8pt,domain=0:25,samples=101] plot (\\x,{15*pow(1.02,\\x)-7});\n\\foreach \\x in {0,5,10,15,20,25}{\\fill[seriesBlue] (\\x,{15*pow(1.02,\\x)-7}) circle[radius=1.1pt];}\n\\node[black,below] at (16,10.3) {$P=30\\,000(1.02)^t$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 42,
+              "sourceRegion": "Question 2, left-hand graph",
+              "description": "Supplied increasing exponential curve with six markers, a broken vertical axis, unit horizontal grid intervals and population grid intervals of 2000. The upper grid represents populations from 14000 to 54000; the baseline is labelled 0 with a zigzag showing the omitted vertical interval.",
+              "mathematics": "P=30000(1.02)^t for 0≤t≤25. Horizontal grid extends to t=27. Markers occur at t=0,5,10,15,20,25. Labelled population ticks are 20000,30000,40000,50000.",
+              "answerVisibility": "The curve is a permanent given used to interpret and read the model; no response annotations are shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p42-q2-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "What does the intercept of the curve with the vertical axis represent?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The initial population: $30\\,000$ people.",
+              "worked": "The vertical-axis intercept occurs at $t=0$, so it represents the initial population of $30\\,000$ people.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p42-q2-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "Use the graph to estimate the population after 18 years.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Approximately $43\\,000$ people.",
+              "worked": "Read upwards from $t=18$ to the curve, then across to the population axis. The population is approximately $43\\,000$ people.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          },
+          {
+            "id": "p42-q2-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "Estimate the time taken for the population to reach $39\\,000$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Approximately 13 years.",
+              "worked": "Read across from $P=39\\,000$ to the curve, then down to the time axis. The time is approximately 13 years.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 10
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      },
+      {
+        "id": "p42-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What is the percentage increase in population each year?\nExplain how you can work this out from looking at the equation $P = 30\\,000(1.02)^t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\%$ per year, since $1.02=1+0.02$.",
+          "worked": "$$\\begin{align*}1.02&=1+0.02\\\\0.02\\times100\\%&=2\\%\\end{align*}$$\nThe factor $1.02$ represents a $2\\%$ increase each year.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p42-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p42-q2-root/label",
+                  "type": "item",
+                  "ref": "p42-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p42-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p42-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p42-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p42-q2-graph-reading:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p42-q2-graph-reading:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p42-q2-graph-reading:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q2-graph",
+                                  "type": "item",
+                                  "ref": "p42-q2-graph",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q2-graph-reading:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p42-q2-graph-reading:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p42-q2-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p42-q2-a/label",
+                                          "type": "item",
+                                          "ref": "p42-q2-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p42-q2-a/prompt",
+                                          "type": "item",
+                                          "ref": "p42-q2-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p42-q2-a/space",
+                                          "type": "item",
+                                          "ref": "p42-q2-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p42-q2-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p42-q2-b/label",
+                                          "type": "item",
+                                          "ref": "p42-q2-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p42-q2-b/prompt",
+                                          "type": "item",
+                                          "ref": "p42-q2-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p42-q2-b/space",
+                                          "type": "item",
+                                          "ref": "p42-q2-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p42-q2-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p42-q2-c/label",
+                                          "type": "item",
+                                          "ref": "p42-q2-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p42-q2-c/prompt",
+                                          "type": "item",
+                                          "ref": "p42-q2-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p42-q2-c/space",
+                                          "type": "item",
+                                          "ref": "p42-q2-c/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p42-q2-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q2-d/label",
+                          "type": "item",
+                          "ref": "p42-q2-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p42-q2-d/prompt",
+                          "type": "item",
+                          "ref": "p42-q2-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q2-d/space",
+                          "type": "item",
+                          "ref": "p42-q2-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:44:05.474Z",
+  "updatedAt": "2026-10-21T08:44:05.474Z"
+}

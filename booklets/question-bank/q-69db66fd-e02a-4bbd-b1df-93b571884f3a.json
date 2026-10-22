@@ -1,0 +1,753 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-69db66fd-e02a-4bbd-b1df-93b571884f3a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interquartile-range",
+    "secondarySkillIds": [
+      "grouped-summary-statistics"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Identify each ogive's total frequency, calculate the quartile positions, read corresponding scores from the graph and subtract. These are routine linked numerical and graphical steps; the six repetitions add no new demand.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:09:05.181Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "af5b21357c3bbb7df5706dfb1caa676e3f335373584f435ceb8b60a2e85e7b3e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/grouped-data-v1/c4a0c0ef97a1a6b4d607fd859c34fa2186f9d689648ce6a7562acc9152766d4d-1792559327834/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "Determine the IQR from these ogives.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p18-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q11-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesGreen\",\"hex\":\"4F9B63\",\"reason\":\"supplied ogive\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"graph reading grid\"}],\"reference\":\"page 18 p18-q11-a-graph\"}\n\\begin{tikzpicture}[x=1.35mm,y=0.65mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesGreen}{HTML}{4F9B63}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[step={(2,5)},color=gridBlue,line width=0.15pt] (0,0) grid (44,90);\n\\draw[black,line width=0.5pt,->] (0,0)--(44,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,90);\n\\foreach \\v in {10,20,30,40}{\\draw[black,line width=0.4pt] (\\v,0)--++(0,-1.5);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-1.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {0,10,20,30,40,50,60,70,80}{\\draw[black,line width=0.4pt] (0,\\v)--++(-0.7,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.7,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (22,-10) {Score};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-8,45) {Cumulative frequency};\n\\draw[seriesGreen,line width=0.8pt] (5,0)--(10,4)--(15,16)--(20,26)--(25,34)--(30,55)--(35,72)--(40,80);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 11a, upper left",
+              "description": "Unshaded green ogive with score and cumulative-frequency axes; intermediate vertices reconstructed as graphical readings.",
+              "mathematics": {
+                "vertices": [
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    10,
+                    4
+                  ],
+                  [
+                    15,
+                    16
+                  ],
+                  [
+                    20,
+                    26
+                  ],
+                  [
+                    25,
+                    34
+                  ],
+                  [
+                    30,
+                    55
+                  ],
+                  [
+                    35,
+                    72
+                  ],
+                  [
+                    40,
+                    80
+                  ]
+                ],
+                "minorGridSteps": {
+                  "x": 2,
+                  "y": 5
+                },
+                "totalFrequency": 80
+              },
+              "answerVisibility": "Supplied curve remains visible; separate teacher answer is excluded."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\mathrm{IQR}\\approx31-17=14$",
+          "worked": "Total frequency: $80$.\n$$\\begin{align*}\\text{Lower quartile position}&=0.25\\times80=20\\\\\\text{Upper quartile position}&=0.75\\times80=60\\end{align*}$$\nRead horizontally to the ogive, then down to the score axis: $Q_1\\approx17$ and $Q_3\\approx31$.\n$$\\mathrm{IQR}\\approx31-17=14.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p18-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q11-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesGreen\",\"hex\":\"4F9B63\",\"reason\":\"supplied ogive\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"graph reading grid\"}],\"reference\":\"page 18 p18-q11-b-graph\"}\n\\begin{tikzpicture}[x=0.32mm,y=0.32mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesGreen}{HTML}{4F9B63}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[step={(5,10)},color=gridBlue,line width=0.15pt] (0,0) grid (195,180);\n\\draw[black,line width=0.5pt,->] (0,0)--(195,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,180);\n\\foreach \\v in {10,30,50,70,90,110,130,150,170,190}{\\draw[black,line width=0.4pt] (\\v,0)--++(0,-3);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {0,20,40,60,80,100,120,140,160}{\\draw[black,line width=0.4pt] (0,\\v)--++(-3,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-3,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (98,-22) {Score};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-31,90) {Cumulative frequency};\n\\draw[seriesGreen,line width=0.8pt] (30,0)--(55,14)--(70,28)--(95,59)--(110,66)--(130,85)--(150,112)--(170,133)--(190,150);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 78,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 11b, upper right",
+              "description": "Unshaded green ogive; intermediate vertices are graphical readings rather than numerical givens.",
+              "mathematics": {
+                "vertices": [
+                  [
+                    30,
+                    0
+                  ],
+                  [
+                    55,
+                    14
+                  ],
+                  [
+                    70,
+                    28
+                  ],
+                  [
+                    95,
+                    59
+                  ],
+                  [
+                    110,
+                    66
+                  ],
+                  [
+                    130,
+                    85
+                  ],
+                  [
+                    150,
+                    112
+                  ],
+                  [
+                    170,
+                    133
+                  ],
+                  [
+                    190,
+                    150
+                  ]
+                ],
+                "minorGridSteps": {
+                  "x": 5,
+                  "y": 10
+                },
+                "totalFrequency": 150
+              },
+              "answerVisibility": "No teacher answer or quartile guides in the question graph."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\mathrm{IQR}\\approx150-78=72$",
+          "worked": "Total frequency: $150$.\n$$\\begin{align*}\\text{Lower quartile position}&=0.25\\times150=37.5\\\\\\text{Upper quartile position}&=0.75\\times150=112.5\\end{align*}$$\nRead horizontally to the ogive, then down to the score axis: $Q_1\\approx78$ and $Q_3\\approx150$.\n$$\\mathrm{IQR}\\approx150-78=72.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p18-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q11-c-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesGreen\",\"hex\":\"4F9B63\",\"reason\":\"supplied ogive\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"graph reading grid\"}],\"reference\":\"page 18 p18-q11-c-graph\"}\n\\begin{tikzpicture}[x=1mm,y=0.52mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesGreen}{HTML}{4F9B63}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[step={(2,5)},color=gridBlue,line width=0.15pt] (0,0) grid (60,110);\n\\draw[black,line width=0.5pt,->] (0,0)--(60,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,110);\n\\foreach \\v in {10,20,30,40,50,60}{\\draw[black,line width=0.4pt] (\\v,0)--++(0,-2);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {0,10,20,30,40,50,60,70,80,90,100}{\\draw[black,line width=0.4pt] (0,\\v)--++(-1,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-1,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (30,-13) {Score};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-11,55) {Cumulative frequency};\n\\draw[seriesGreen,line width=0.8pt] (20,0)--(25,5)--(30,17)--(35,33)--(40,65)--(45,81)--(50,87)--(55,100);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 11c, middle left",
+              "description": "Unshaded green ogive; intermediate vertices estimated from the source grid.",
+              "mathematics": {
+                "vertices": [
+                  [
+                    20,
+                    0
+                  ],
+                  [
+                    25,
+                    5
+                  ],
+                  [
+                    30,
+                    17
+                  ],
+                  [
+                    35,
+                    33
+                  ],
+                  [
+                    40,
+                    65
+                  ],
+                  [
+                    45,
+                    81
+                  ],
+                  [
+                    50,
+                    87
+                  ],
+                  [
+                    55,
+                    100
+                  ]
+                ],
+                "minorGridSteps": {
+                  "x": 2,
+                  "y": 5
+                },
+                "totalFrequency": 100
+              },
+              "answerVisibility": "Separate blue answer excluded."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\mathrm{IQR}\\approx43-33=10$",
+          "worked": "Total frequency: $100$.\n$$\\begin{align*}\\text{Lower quartile position}&=0.25\\times100=25\\\\\\text{Upper quartile position}&=0.75\\times100=75\\end{align*}$$\nRead horizontally to the ogive, then down to the score axis: $Q_1\\approx33$ and $Q_3\\approx43$.\n$$\\mathrm{IQR}\\approx43-33=10.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p18-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q11-d-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesGreen\",\"hex\":\"4F9B63\",\"reason\":\"supplied ogive\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"graph reading grid\"}],\"reference\":\"page 18 p18-q11-d-graph\"}\n\\begin{tikzpicture}[x=0.77mm,y=0.44mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesGreen}{HTML}{4F9B63}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[step={(2,5)},color=gridBlue,line width=0.15pt] (0,0) grid (84,130);\n\\draw[black,line width=0.5pt,->] (0,0)--(84,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,130);\n\\foreach \\v in {10,20,30,40,50,60,70,80}{\\draw[black,line width=0.4pt] (\\v,0)--++(0,-2);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {0,10,20,30,40,50,60,70,80,90,100,110,120}{\\draw[black,line width=0.4pt] (0,\\v)--++(-1.3,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-1.3,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (42,-16) {Score};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-14,65) {Cumulative frequency};\n\\draw[seriesGreen,line width=0.8pt] (10,0)--(20,9)--(30,15)--(40,39)--(50,65)--(60,82)--(70,102)--(80,120);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 78,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 11d, middle right",
+              "description": "Unshaded green ogive with intermediate vertices read from graphical evidence.",
+              "mathematics": {
+                "vertices": [
+                  [
+                    10,
+                    0
+                  ],
+                  [
+                    20,
+                    9
+                  ],
+                  [
+                    30,
+                    15
+                  ],
+                  [
+                    40,
+                    39
+                  ],
+                  [
+                    50,
+                    65
+                  ],
+                  [
+                    60,
+                    82
+                  ],
+                  [
+                    70,
+                    102
+                  ],
+                  [
+                    80,
+                    120
+                  ]
+                ],
+                "minorGridSteps": {
+                  "x": 2,
+                  "y": 5
+                },
+                "totalFrequency": 120
+              },
+              "answerVisibility": "Separate teacher answer excluded."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\mathrm{IQR}\\approx64-36=28$",
+          "worked": "Total frequency: $120$.\n$$\\begin{align*}\\text{Lower quartile position}&=0.25\\times120=30\\\\\\text{Upper quartile position}&=0.75\\times120=90\\end{align*}$$\nRead horizontally to the ogive, then down to the score axis: $Q_1\\approx36$ and $Q_3\\approx64$.\n$$\\mathrm{IQR}\\approx64-36=28.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p18-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q11-e-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesOrange\",\"hex\":\"EF8B2C\",\"reason\":\"supplied ogive\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"graph reading grid\"}],\"reference\":\"page 18 p18-q11-e-graph\"}\n\\begin{tikzpicture}[x=0.75mm,y=0.44mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesOrange}{HTML}{EF8B2C}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[step={(2,5)},color=gridBlue,line width=0.15pt] (26,0) grid (114,130);\n\\draw[black,line width=0.5pt] (26,0)--(27,0);\n\\draw[black,line width=0.4pt] (27,0)--(27.7,2)--(28.4,-2)--(29.1,0);\n\\draw[black,line width=0.5pt,->] (29.1,0)--(114,0);\n\\draw[black,line width=0.5pt,->] (26,0)--(26,130);\n\\foreach \\v in {30,40,50,60,70,80,90,100,110}{\\draw[black,line width=0.4pt] (\\v,0)--++(0,-2);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {0,10,20,30,40,50,60,70,80,90,100,110,120}{\\draw[black,line width=0.4pt] (26,\\v)--++(-1.3,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (24.7,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (70,-16) {Mark};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (12,65) {Cumulative frequency};\n\\draw[seriesOrange,line width=0.8pt] (30,0)--(40,10)--(50,18)--(60,35)--(70,65)--(80,75)--(90,90)--(100,97)--(110,120);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 78,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 11e, lower left",
+              "description": "Unshaded orange ogive; horizontal-axis break immediately before 30 retained. Intermediate vertices are graphical readings.",
+              "mathematics": {
+                "vertices": [
+                  [
+                    30,
+                    0
+                  ],
+                  [
+                    40,
+                    10
+                  ],
+                  [
+                    50,
+                    18
+                  ],
+                  [
+                    60,
+                    35
+                  ],
+                  [
+                    70,
+                    65
+                  ],
+                  [
+                    80,
+                    75
+                  ],
+                  [
+                    90,
+                    90
+                  ],
+                  [
+                    100,
+                    97
+                  ],
+                  [
+                    110,
+                    120
+                  ]
+                ],
+                "minorGridSteps": {
+                  "x": 2,
+                  "y": 5
+                },
+                "totalFrequency": 120,
+                "axisBreakBefore": 30
+              },
+              "answerVisibility": "Separate blue answer excluded."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\mathrm{IQR}\\approx90-57=33$",
+          "worked": "Total frequency: $120$.\n$$\\begin{align*}\\text{Lower quartile position}&=0.25\\times120=30\\\\\\text{Upper quartile position}&=0.75\\times120=90\\end{align*}$$\nRead horizontally to the ogive, then down to the mark axis: $Q_1\\approx57$ and $Q_3\\approx90$.\n$$\\mathrm{IQR}\\approx90-57=33.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p18-q11-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p18-q11-f-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesOrange\",\"hex\":\"EF8B2C\",\"reason\":\"supplied ogive\"},{\"name\":\"gridBlue\",\"hex\":\"D4E8FF\",\"reason\":\"graph reading grid\"}],\"reference\":\"page 18 p18-q11-f-graph\"}\n\\begin{tikzpicture}[x=0.75mm,y=0.5mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesOrange}{HTML}{EF8B2C}\n\\definecolor{gridBlue}{HTML}{D4E8FF}\n\\draw[step={(2.5,5)},color=gridBlue,line width=0.15pt] (45,0) grid (135,110);\n\\draw[black,line width=0.5pt,->] (45,0)--(135,0);\n\\draw[black,line width=0.5pt,->] (45,0)--(45,110);\n\\foreach \\v in {50,60,70,80,90,100,110,120,130}{\\draw[black,line width=0.4pt] (\\v,0)--++(0,-2);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {0,10,20,30,40,50,60,70,80,90,100}{\\draw[black,line width=0.4pt] (45,\\v)--++(-1.3,0);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (43.7,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (90,-14) {Score};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (31,55) {Cumulative frequency};\n\\draw[seriesOrange,line width=0.8pt] (50,0)--(60,8)--(70,15)--(80,25)--(90,42)--(100,70)--(110,75)--(120,90)--(130,100);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 78,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 18,
+              "sourceRegion": "Question 11f, lower right",
+              "description": "Unshaded orange ogive; intermediate vertices reconstructed from the graph.",
+              "mathematics": {
+                "vertices": [
+                  [
+                    50,
+                    0
+                  ],
+                  [
+                    60,
+                    8
+                  ],
+                  [
+                    70,
+                    15
+                  ],
+                  [
+                    80,
+                    25
+                  ],
+                  [
+                    90,
+                    42
+                  ],
+                  [
+                    100,
+                    70
+                  ],
+                  [
+                    110,
+                    75
+                  ],
+                  [
+                    120,
+                    90
+                  ],
+                  [
+                    130,
+                    100
+                  ]
+                ],
+                "minorGridSteps": {
+                  "x": 2.5,
+                  "y": 5
+                },
+                "totalFrequency": 100
+              },
+              "answerVisibility": "Separate teacher answer excluded."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\mathrm{IQR}\\approx110-80=30$",
+          "worked": "Total frequency: $100$.\n$$\\begin{align*}\\text{Lower quartile position}&=0.25\\times100=25\\\\\\text{Upper quartile position}&=0.75\\times100=75\\end{align*}$$\nRead horizontally to the ogive, then down to the score axis: $Q_1\\approx80$ and $Q_3\\approx110$.\n$$\\mathrm{IQR}\\approx110-80=30.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p18-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p18-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p18-q11-root/label",
+                  "type": "item",
+                  "ref": "p18-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p18-q11-root/prompt",
+                  "type": "item",
+                  "ref": "p18-q11-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p18-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p18-q11-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p18-q11-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p18-q11-a/label",
+                              "type": "item",
+                              "ref": "p18-q11-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p18-q11-a-graph",
+                              "type": "item",
+                              "ref": "p18-q11-a-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p18-q11-a/space",
+                              "type": "item",
+                              "ref": "p18-q11-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p18-q11-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p18-q11-b/label",
+                              "type": "item",
+                              "ref": "p18-q11-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p18-q11-b-graph",
+                              "type": "item",
+                              "ref": "p18-q11-b-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p18-q11-b/space",
+                              "type": "item",
+                              "ref": "p18-q11-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p18-q11-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p18-q11-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p18-q11-c/label",
+                              "type": "item",
+                              "ref": "p18-q11-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p18-q11-c-graph",
+                              "type": "item",
+                              "ref": "p18-q11-c-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p18-q11-c/space",
+                              "type": "item",
+                              "ref": "p18-q11-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p18-q11-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p18-q11-d/label",
+                              "type": "item",
+                              "ref": "p18-q11-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p18-q11-d-graph",
+                              "type": "item",
+                              "ref": "p18-q11-d-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p18-q11-d/space",
+                              "type": "item",
+                              "ref": "p18-q11-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p18-q11-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p18-q11-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p18-q11-e/label",
+                              "type": "item",
+                              "ref": "p18-q11-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p18-q11-e-graph",
+                              "type": "item",
+                              "ref": "p18-q11-e-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p18-q11-e/space",
+                              "type": "item",
+                              "ref": "p18-q11-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p18-q11-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p18-q11-f/label",
+                              "type": "item",
+                              "ref": "p18-q11-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p18-q11-f-graph",
+                              "type": "item",
+                              "ref": "p18-q11-f-graph",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p18-q11-f/space",
+                              "type": "item",
+                              "ref": "p18-q11-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:20:25.253Z",
+  "updatedAt": "2026-10-21T08:20:25.253Z"
+}

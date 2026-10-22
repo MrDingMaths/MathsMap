@@ -1,0 +1,249 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f17df7da-5fb1-45b4-8a53-b702ffd21fff",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-using-gradient-intercept",
+    "secondarySkillIds": [
+      "slope-intercept-interpret",
+      "parallel-lines-equal-gradient"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Infer the parameter's sign from an unscaled graph, then use the original intercept of -5 to position two parallel lines with specified intercepts on the same axes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:31.593Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3003c050258b27d228ad094059669037373239ab1af01bae4f77b4a6589db4e9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/5e3fd41048f0a4908b8241207fca6fed9f395ca9dfe12b389f83174073882f03-1792559162060/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-q6",
+    "type": "question",
+    "label": "6",
+    "prompt": "Here is the graph of $y=x+a$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p16-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 16 p16-q6-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt,->] (-2.1,0)--(2.2,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.1)--(0,2.2) node[above] {$y$};\n\\draw[black,line width=0.8pt] (-1.1,-1.9)--(1.9,1.1);\n\\node[above left] at (1.9,1.1) {$y=x+a$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 16,
+          "sourceRegion": "Question 6 supplied sketch, lower left",
+          "description": "Unscaled perpendicular axes labelled x and y, with no ticks or grid. The labelled line rises from left to right, crosses the y-axis below the origin and crosses the x-axis to its right. Schematic drawing coordinates carry no numerical givens.",
+          "mathematics": "The line has gradient 1 and an unspecified negative y-intercept a.",
+          "answerVisibility": "Permanent supplied graph; no answers or additional lines appear in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p16-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $a$ is negative.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The $y$-intercept is below the $x$-axis.",
+          "worked": "In $y=x+a$, $a$ is the $y$-intercept. The line crosses the $y$-axis below the $x$-axis, so $a<0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p16-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If the value of $a$ is $-5$, on the same axis, sketch $y=x+3$ and $y=x-12$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x+3$ is parallel to and above the original line, with $y$-intercept $3$. $y=x-12$ is parallel to and below the original line, with $y$-intercept $-12$.",
+          "worked": "The original line is $y=x-5$. Plot $(0,3)$ for $y=x+3$ and $(0,-12)$ for $y=x-12$. From each point, move right 1 unit and up 1 unit, then draw and extend the line. Both new lines have gradient 1, so they are parallel to the original line.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-q6-b-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"upperBlue\",\"hex\":\"268CFF\",\"reason\":\"new line y=x+3\"},{\"name\":\"lowerPurple\",\"hex\":\"8B5CC7\",\"reason\":\"new line y=x-12\"}],\"reference\":\"source page 16 p16-q6-b-solution-diagram\"}\n\\begin{tikzpicture}[x=0.22cm,y=0.22cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{upperBlue}{HTML}{268CFF}\n\\definecolor{lowerPurple}{HTML}{8B5CC7}\n\\draw[black,line width=0.5pt,->] (-8,0)--(16,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-16)--(0,9) node[above] {$y$};\n\\draw[black,line width=0.8pt,<->] plot[domain=-8:13,samples=2] (\\x,{\\x-5});\n\\draw[upperBlue,line width=0.8pt,<->] plot[domain=-8:5,samples=2] (\\x,{\\x+3});\n\\draw[lowerPurple,line width=0.8pt,dashed,<->] plot[domain=-3:15,samples=2] (\\x,{\\x-12});\n\\node[black,right] at (13,8) {$y=x-5$};\n\\node[upperBlue,anchor=west] at (6.5,10.5) {$y=x+3$};\n\\node[lowerPurple,right] at (15,3) {$y=x-12$};\n\\fill[upperBlue] (0,3) circle (1.2pt);\n\\fill[black] (0,-5) circle (1.2pt);\n\\fill[lowerPurple] (0,-12) circle (1.2pt);\n\\node[upperBlue,left] at (0,3) {$3$};\n\\node[black,left] at (0,-5) {$-5$};\n\\node[lowerPurple,left] at (0,-12) {$-12$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 16,
+                "sourceRegion": "Question 6 part b",
+                "description": "Complete answer figure showing the original line and both requested parallel lines on shared axes. Coloured intercept markers and labels identify the new lines; the lower new line is also dashed. Axes remain without a grid or graduated ticks.",
+                "mathematics": "All three lines have gradient 1. Their y-intercepts are 3, -5 and -12, respectively.",
+                "answerVisibility": "Answer-only completed sketch."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 28
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p16-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p16-q6-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p16-q6:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p16-q6/label",
+                  "type": "item",
+                  "ref": "p16-q6/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "p16-q6:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p16-q6:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q6-diagram",
+                          "type": "item",
+                          "ref": "p16-q6-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q6:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q6/prompt",
+                          "type": "item",
+                          "ref": "p16-q6/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p16-q6:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p16-q6-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q6-a/label",
+                                  "type": "item",
+                                  "ref": "p16-q6-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p16-q6-a/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q6-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q6-a/space",
+                                  "type": "item",
+                                  "ref": "p16-q6-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p16-q6-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q6-b/label",
+                                  "type": "item",
+                                  "ref": "p16-q6-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p16-q6-b/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q6-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q6-b/space",
+                                  "type": "item",
+                                  "ref": "p16-q6-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 6",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:05.087Z",
+  "updatedAt": "2026-10-21T08:56:05.087Z"
+}

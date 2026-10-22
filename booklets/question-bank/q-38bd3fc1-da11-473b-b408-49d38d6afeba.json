@@ -1,0 +1,201 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-38bd3fc1-da11-473b-b408-49d38d6afeba",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-equation-polynomial-graph",
+    "secondarySkillIds": [
+      "polynomial-roots-multiplicity"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Connect the final zero on the graph to the supplied repeated factor, interpret zero depression in context, and substitute the given time and depression to determine k.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:38:04.152Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8f0311f1a8d69eddc846f0d71f2427e50bead827b2f919047ddc9223b0a9c417",
+      "evidence": ".booklet-work/reasoning-ratings/calls/polynomials-v1/a819c338cdbbb8e783d50c4412bd7d24f67622e9e592c308a4e9b4ac97168028-1792561067219/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A scientist is trying to design an ideal crash test barrier with the characteristics shown in the graph below. The independent variable $t$ is time after impact, measured in milliseconds. The dependent variable is the distance the barrier is depressed during the impact, measured in millimetres.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q11-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 p31-q11-graph\"}\n\\begin{tikzpicture}[x=0.009cm,y=0.023cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[<->,black,line width=0.5pt] (-90,0)--(1020,0) node[above left] {$t\\ (\\mathrm{ms})$};\n\\draw[<->,black,line width=0.5pt] (0,-27)--(0,145) node[right] {$f(t)$};\n\\foreach \\v in {200,400,600,800} {\n\\draw[black,line width=0.4pt] (\\v,-2)--(\\v,2);\n\\node[below] at (\\v,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {20,40,60,80,100,120} {\n\\draw[black,line width=0.4pt] (-5,\\v)--(5,\\v);\n\\node[left] at (-5,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[black,line width=0.8pt,domain=0:1,samples=141,smooth] plot ({700*\\x},{809.8611111111111*\\x*(1-\\x)^2});\n\\draw[black,line width=0.4pt] (0,0) circle[radius=2.2pt];\n\\fill[black] (700,0) circle[radius=1.7pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 11 graph",
+          "description": "Unshaded black function graph with two-ended axes, no grid, horizontal ticks at 200, 400, 600 and 800, vertical ticks from 20 to 120 in steps of 20, an open circular origin marker and a filled endpoint at t = 700.",
+          "mathematics": "Plot f(t) = (17/7200000)t(t-700)^2 on 0 ≤ t ≤ 700. The simple root is t = 0, the double root is t = 700, and the maximum is approximately (233.33, 119.98).",
+          "answerVisibility": "The curve, axis labels, ticks and endpoint markers are permanent student-visible givens. Do not print the derived equation or an additional 700 tick."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p31-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The equation for this graph has the form $f(t)=kt(t-a)^2$, $0\\leq t\\leq700$.\n\nUse the graph to find the value of $a$ and explain what this represents.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a=700$. The barrier returns to its original position 700 milliseconds after impact.",
+          "worked": "The graph meets the horizontal axis again at $t=700$, where the repeated factor is zero. Hence $a=700$. At this time the depression is zero, so the barrier has returned to its original position 700 milliseconds after impact.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p31-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "This ideal crash barrier is depressed by 85 mm after 100 milliseconds. Find the value of $k$ that gives this result and hence find the equation of the graph.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\dfrac{17}{7200000}$; $f(t)=\\dfrac{17}{7200000}t(t-700)^2$, $0\\leq t\\leq700$.",
+          "worked": "Using $a=700$ and the point $(100,85)$:\n$$\\begin{align*}85&=k(100)(100-700)^2\\\\85&=36000000k\\\\k&=\\frac{85}{36000000}\\\\k&=\\frac{17}{7200000}.\\end{align*}$$\nHence\n$$f(t)=\\frac{17}{7200000}t(t-700)^2,\\qquad 0\\leq t\\leq700,$$\nwhere $t$ is measured in milliseconds and $f(t)$ in millimetres.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p31-q11-root/label",
+                  "type": "item",
+                  "ref": "p31-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p31-q11-root/prompt",
+                  "type": "item",
+                  "ref": "p31-q11-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p31-q11-graph",
+                  "type": "item",
+                  "ref": "p31-q11-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p31-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p31-q11-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q11-a/label",
+                          "type": "item",
+                          "ref": "p31-q11-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p31-q11-a/prompt",
+                          "type": "item",
+                          "ref": "p31-q11-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q11-a/space",
+                          "type": "item",
+                          "ref": "p31-q11-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p31-q11-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q11-b/label",
+                          "type": "item",
+                          "ref": "p31-q11-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p31-q11-b/prompt",
+                          "type": "item",
+                          "ref": "p31-q11-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q11-b/space",
+                          "type": "item",
+                          "ref": "p31-q11-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:16:26.026Z",
+  "updatedAt": "2026-10-21T11:16:26.026Z"
+}

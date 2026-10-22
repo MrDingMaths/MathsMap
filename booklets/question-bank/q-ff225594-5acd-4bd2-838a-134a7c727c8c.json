@@ -1,0 +1,282 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ff225594-5acd-4bd2-838a-134a7c727c8c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "factor-theorem",
+    "secondarySkillIds": [],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Infer that cutting removes twice x from both base dimensions, solve the resulting cubic, and enforce the physical domain to reject an algebraic root while retaining two valid boxes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:39:18.033Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "eb6e1e01b2f44f1e4a0045544c13845c9f5ff7b1a15a6b820862f7e52a663721",
+      "evidence": ".booklet-work/reasoning-ratings/calls/polynomials-v1/63e4aa805e26596c7c630d467b9acc984332e0b081415edb0cefa732c3f819ab-1792561080882/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p68-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": "Four identical squares are cut from the corners of a rectangular sheet of metal $8\\text{ cm}\\times10\\text{ cm}$. The sides are folded up along the dotted lines to form a rectangular box, as shown.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p68-q21-diagram-net",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 68 p68-q21-diagram-net\"}\n\\begin{tikzpicture}[x=6mm,y=6mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black] (1,0)--(9,0)--(9,1)--(10,1)--(10,7)--(9,7)--(9,8)--(1,8)--(1,7)--(0,7)--(0,1)--(1,1)--cycle;\n\\draw[black,dashed,line width=0.4pt] (1,1) rectangle (9,7);\n\\draw[black,line width=0.4pt] (0.7,0.5)--(1.3,0.5) (0.7,7.5)--(1.3,7.5) (8.7,0.5)--(9.3,0.5) (8.7,7.5)--(9.3,7.5);\n\\draw[black,line width=0.4pt] (0.5,0.7)--(0.5,1.3) (9.5,0.7)--(9.5,1.3) (0.5,6.7)--(0.5,7.3) (9.5,6.7)--(9.5,7.3);\n\\draw[black,<->,line width=0.5pt] (0,8.8)--node[midway,fill=white,inner sep=2pt] {$10\\text{ cm}$} (10,8.8);\n\\draw[black,<->,line width=0.5pt] (-1.2,0)--node[midway,fill=white,inner sep=2pt] {$8\\text{ cm}$} (-1.2,8);\n\\node[right] at (9.35,7.5) {$x$};\n\\node[right] at (9.35,0.5) {$x$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 66,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 68,
+          "sourceRegion": "Question 21, left diagram",
+          "description": "Cut sheet with four attached flaps, dashed fold rectangle, equal-cut ticks and overall sheet dimensions. Drawing proportions are illustrative.",
+          "mathematics": "Original sheet is 10 cm by 8 cm. Each cut square has side x; the folded base is (10−2x) by (8−2x).",
+          "answerVisibility": "Only source givens are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p68-q21-diagram-arrow",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 68 p68-q21-diagram-arrow\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,->,line width=0.8pt] (0,0)--(1.2,0);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 12,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 68,
+          "sourceRegion": "Question 21, arrow between diagrams",
+          "description": "Right-pointing transformation arrow from the cut sheet to the folded open box.",
+          "mathematics": "Shows folding, rather than a numerical operation.",
+          "answerVisibility": "Permanent supplied transformation cue."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p68-q21-diagram-box",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 68 p68-q21-diagram-box\"}\n\\begin{tikzpicture}[x=8mm,y=8mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0); \\coordinate (B) at (4,0); \\coordinate (C) at (5.6,1.4); \\coordinate (D) at (1.6,1.4);\n\\coordinate (At) at (0,0.75); \\coordinate (Bt) at (4,0.75); \\coordinate (Ct) at (5.6,2.15); \\coordinate (Dt) at (1.6,2.15);\n\\coordinate (E) at ({6/7},0.75);\n\\coordinate (F) at ({166/35},1.4);\n\\draw[black] (A)--(B)--(C)--(Ct)--(Dt)--(At)--cycle;\n\\draw[black] (At)--(Bt)--(Ct) (Bt)--(B) (Dt)--(D) (E)--(D)--(F);\n\\draw[black,dashed,line width=0.4pt] (A)--(E) (F)--(C);\n\\path (C)--(Ct) node[midway,right] {$x$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 68,
+          "sourceRegion": "Question 21, right diagram",
+          "description": "Perspective open rectangular box with no top face; source-visible rim, wall and base edges, one obscured dashed base edge and height x on the rear-right vertical edge.",
+          "mathematics": "Height is x, obtained by folding up the flaps. No additional numerical dimensions are supplied.",
+          "answerVisibility": "Only the supplied height label is visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p68-q21-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find an expression for the volume of the box.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V=x(8-2x)(10-2x)\\text{ cm}^3$.",
+          "worked": "The height is $x$ cm and the base measures $(8-2x)$ cm by $(10-2x)$ cm.\n$$\\begin{align*}V&=\\text{length}\\times\\text{width}\\times\\text{height}\\\\V&=x(8-2x)(10-2x)\\text{ cm}^3.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p68-q21-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the side length of the square that should be cut from each corner if the volume is to be $48\\text{ cm}^3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=1\\text{ cm}$ or $2\\text{ cm}$.",
+          "worked": "$$\\begin{align*}x(8-2x)(10-2x)&=48\\\\4x^3-36x^2+80x-48&=0\\\\x^3-9x^2+20x-12&=0.\\end{align*}$$\nLet $P(x)=x^3-9x^2+20x-12$. Test factors of $12$:\n$$P(1)=1-9+20-12=0.$$\nTherefore $x-1$ is a factor. Long division gives\n$$\\begin{array}{r|rrrr}&x^2&-8x&+12&\\\\\\hline x-1&x^3&-9x^2&+20x&-12\\\\&x^3&-x^2&&\\\\\\hline &&-8x^2&+20x&-12\\\\&&-8x^2&+8x&\\\\\\hline &&&12x&-12\\\\&&&12x&-12\\\\\\hline &&&&0\\end{array}$$\nHence\n$$\\begin{align*}(x-1)(x^2-8x+12)&=0\\\\(x-1)(x-2)(x-6)&=0.\\end{align*}$$\nBy the null factor law, $x=1,2,6$. A box requires $0<x<4$, so reject $x=6$. The cut squares must have side length $1$ cm or $2$ cm.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 105
+      },
+      {
+        "id": "p68-q21-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence state the dimensions of the rectangular box with this volume.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8\\text{ cm}\\times6\\text{ cm}\\times1\\text{ cm}$ or $6\\text{ cm}\\times4\\text{ cm}\\times2\\text{ cm}$.",
+          "worked": "For $x=1$, the base dimensions are $10-2(1)=8$ cm and $8-2(1)=6$ cm, and the height is $1$ cm.\nFor $x=2$, the base dimensions are $10-2(2)=6$ cm and $8-2(2)=4$ cm, and the height is $2$ cm.\nThus the dimensions are $8\\text{ cm}\\times6\\text{ cm}\\times1\\text{ cm}$ or $6\\text{ cm}\\times4\\text{ cm}\\times2\\text{ cm}$; both volumes are $48\\text{ cm}^3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p68-q21": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p68-q21-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p68-q21-label-item",
+                  "type": "item",
+                  "ref": "p68-q21-root/label"
+                },
+                {
+                  "id": "p68-q21-stem-item",
+                  "type": "item",
+                  "ref": "p68-q21-root/prompt"
+                },
+                {
+                  "id": "p68-q21-figure-pair",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p68-q21-net-item",
+                      "type": "item",
+                      "ref": "p68-q21-diagram-net",
+                      "width": 66
+                    },
+                    {
+                      "id": "p68-q21-arrow-item",
+                      "type": "item",
+                      "ref": "p68-q21-diagram-arrow",
+                      "width": 12
+                    },
+                    {
+                      "id": "p68-q21-box-item",
+                      "type": "item",
+                      "ref": "p68-q21-diagram-box",
+                      "width": 65
+                    }
+                  ],
+                  "gap": 5,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "p68-q21-a-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p68-q21-a-label-item",
+                      "type": "item",
+                      "ref": "p68-q21-a/label"
+                    },
+                    {
+                      "id": "p68-q21-a-prompt-item",
+                      "type": "item",
+                      "ref": "p68-q21-a/prompt"
+                    },
+                    {
+                      "id": "p68-q21-a-space-item",
+                      "type": "item",
+                      "ref": "p68-q21-a/space"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p68-q21-b-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p68-q21-b-label-item",
+                      "type": "item",
+                      "ref": "p68-q21-b/label"
+                    },
+                    {
+                      "id": "p68-q21-b-prompt-item",
+                      "type": "item",
+                      "ref": "p68-q21-b/prompt"
+                    },
+                    {
+                      "id": "p68-q21-b-space-item",
+                      "type": "item",
+                      "ref": "p68-q21-b/space"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p68-q21-c-row",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p68-q21-c-label-item",
+                      "type": "item",
+                      "ref": "p68-q21-c/label"
+                    },
+                    {
+                      "id": "p68-q21-c-prompt-item",
+                      "type": "item",
+                      "ref": "p68-q21-c/prompt"
+                    },
+                    {
+                      "id": "p68-q21-c-space-item",
+                      "type": "item",
+                      "ref": "p68-q21-c/space"
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 3,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p68-q21"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:19:03.150Z",
+  "updatedAt": "2026-10-21T11:19:03.150Z"
+}

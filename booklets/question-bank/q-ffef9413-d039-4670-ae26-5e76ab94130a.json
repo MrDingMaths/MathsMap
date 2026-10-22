@@ -1,0 +1,377 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ffef9413-d039-4670-ae26-5e76ab94130a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-dependent-events",
+    "secondarySkillIds": [
+      "multistage-outcomes",
+      "complementary-multistage"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a two-stage tree with changing counts, calculate path probabilities, and select the paths or complement representing each verbal event.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:21.308Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f10b91e860f781ad17e8a442509a370820e8c410fab4d3c5f81c3a6348f8b496",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/1eaaaefe62203cd5f68a3afd8566ab8e202f011c4142b5296e3a313f669df3f8-1792560721192/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p44-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Two animals are selected from 3 rabbits (R) and 4 guinea pigs (G) **without replacement**.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p44-q5-tree-response",
+        "type": "part",
+        "label": "",
+        "prompt": "Draw a tree diagram and then find the probability of each possible event.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(RR)=\\frac17$, $P(RG)=\\frac27$, $P(GR)=\\frac27$, $P(GG)=\\frac27$. See the labelled tree.",
+          "worked": "The second selection is from the 6 animals remaining. Multiply the probabilities along each path.\n$$\\begin{aligned}P(RR)&=\\frac37\\times\\frac26=\\frac17\\\\P(RG)&=\\frac37\\times\\frac46=\\frac27\\\\P(GR)&=\\frac47\\times\\frac36=\\frac27\\\\P(GG)&=\\frac47\\times\\frac36=\\frac27\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p44-q5-tree-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 44, p44-q5-tree\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=0.6mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0)--(15,16) (0,0)--(15,-16);\n\\draw (15,16)--(32,26) (15,16)--(32,6) (15,-16)--(32,-6) (15,-16)--(32,-26);\n\\node[above left,fill=white] at (7,8) {$\\dfrac37$};\\node[below left,fill=white] at (7,-8) {$\\dfrac47$};\n\\node[above,fill=white] at (24,21) {$\\dfrac13$};\\node[below,fill=white] at (24,11) {$\\dfrac23$};\\node[above,fill=white] at (24,-11) {$\\dfrac12$};\\node[below,fill=white] at (24,-21) {$\\dfrac12$};\n\\node[fill=white] at (15,16) {R};\\node[fill=white] at (15,-16) {G};\n\\foreach \\y/\\a/\\out in {26/R/{R,R},6/G/{R,G},-6/R/{G,R},-26/G/{G,G}}{\\node[anchor=west,fill=white] at (32,\\y) {\\a};\\node[anchor=west] at (41,\\y) {$(\\out)$};}\n\\node[anchor=west] at (0,-38) {$(R,R):\\ \\dfrac37\\times\\dfrac13=\\dfrac17$};\n\\node[anchor=west] at (0,-50) {$(R,G):\\ \\dfrac37\\times\\dfrac23=\\dfrac27$};\n\\node[anchor=west] at (0,-62) {$(G,R):\\ \\dfrac47\\times\\dfrac12=\\dfrac27$};\n\\node[anchor=west] at (0,-74) {$(G,G):\\ \\dfrac47\\times\\dfrac12=\\dfrac27$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 145,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 44,
+                "sourceRegion": "Question 5 supplied tree",
+                "description": "Two-stage tree with rabbits above guinea pigs at each split. Each terminal path is horizontally aligned with its ordered outcome and probability calculation. Source answer blue is replaced by ordinary black diagram marks.",
+                "mathematics": "Initially 3 rabbits and 4 guinea pigs. After R, probabilities are 1/3 and 2/3; after G, probabilities are 1/2 and 1/2. Terminal probabilities are 1/7, 2/7, 2/7 and 2/7.",
+                "answerVisibility": "Solution only; no completed tree appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p44-q5-events",
+        "type": "group",
+        "label": "",
+        "prompt": "What is the probability of selecting",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p44-q5-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "1 of each animal",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac47$",
+              "worked": "$$\\begin{aligned}P(RG)+P(GR)&=\\frac27+\\frac27\\\\&=\\frac47\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p44-q5-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "2 of the same animal",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac37$",
+              "worked": "$$\\begin{aligned}P(RR)+P(GG)&=\\frac17+\\frac27\\\\&=\\frac37\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p44-q5-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "No rabbits",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac27$",
+              "worked": "$$\\begin{aligned}P(GG)&=\\frac47\\times\\frac36\\\\&=\\frac27\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p44-q5-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "At least one rabbit",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac57$",
+              "worked": "$$\\begin{aligned}P(\\text{at least one rabbit})&=1-P(GG)\\\\&=1-\\frac27\\\\&=\\frac57\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "answerPartLabels": {
+      "short": {
+        "p44-q5-tree-response": ""
+      },
+      "worked": {
+        "p44-q5-tree-response": ""
+      }
+    },
+    "ownerId": "p44-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p44-q5-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p44-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p44-q5-root/label",
+                  "type": "item",
+                  "ref": "p44-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p44-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p44-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p44-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p44-q5-tree-response:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q5-tree-response/prompt",
+                          "type": "item",
+                          "ref": "p44-q5-tree-response/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p44-q5-tree-response/space",
+                          "type": "item",
+                          "ref": "p44-q5-tree-response/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q5-events:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q5-events/prompt",
+                          "type": "item",
+                          "ref": "p44-q5-events/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p44-q5-events:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p44-q5-events:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p44-q5-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p44-q5-a/label",
+                                      "type": "item",
+                                      "ref": "p44-q5-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-a/prompt",
+                                      "type": "item",
+                                      "ref": "p44-q5-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-a/space",
+                                      "type": "item",
+                                      "ref": "p44-q5-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p44-q5-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p44-q5-b/label",
+                                      "type": "item",
+                                      "ref": "p44-q5-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-b/prompt",
+                                      "type": "item",
+                                      "ref": "p44-q5-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-b/space",
+                                      "type": "item",
+                                      "ref": "p44-q5-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p44-q5-events:row:2",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p44-q5-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p44-q5-c/label",
+                                      "type": "item",
+                                      "ref": "p44-q5-c/label",
+                                      "title": "Label c"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-c/prompt",
+                                      "type": "item",
+                                      "ref": "p44-q5-c/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-c/space",
+                                      "type": "item",
+                                      "ref": "p44-q5-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part c",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p44-q5-d:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p44-q5-d/label",
+                                      "type": "item",
+                                      "ref": "p44-q5-d/label",
+                                      "title": "Label d"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-d/prompt",
+                                      "type": "item",
+                                      "ref": "p44-q5-d/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p44-q5-d/space",
+                                      "type": "item",
+                                      "ref": "p44-q5-d/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part d",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Unlabelled part 2",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:48.414Z",
+  "updatedAt": "2026-10-21T10:53:48.415Z"
+}

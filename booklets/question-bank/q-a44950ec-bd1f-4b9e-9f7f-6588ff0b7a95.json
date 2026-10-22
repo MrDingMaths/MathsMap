@@ -1,0 +1,364 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a44950ec-bd1f-4b9e-9f7f-6588ff0b7a95",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "multistage-outcomes",
+      "complementary-probability"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a two-stage win/not-win tree, derive failure probabilities, interpret ordered outcomes, and use neither win as the complement of at least one win.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2be29256e55a657133dcb748b278e1f06d5cfe3657f2ebc8cc7e1a127d1de2ff",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q13",
+    "type": "question",
+    "label": "13",
+    "prompt": "A student enters the 100 m and 400 m events at the school swimming carnival.\nHer chance of winning the 100 m event is 0.8 and her chance of winning the 400 m event is 0.6.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a probability tree showing the possible results for each event and the combined results.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Let $W$ mean win and $N$ mean not win. In stage order 100 m, then 400 m, the combined results are $WW$, $WN$, $NW$ and $NN$. The first-stage probabilities are 0.8 and 0.2; from each first-stage result, the second-stage probabilities are 0.6 and 0.4.",
+          "worked": "Let $W$ mean win and $N$ mean not win.\n$$\\begin{aligned}P(N_{100})&=1-0.8=0.2\\\\P(N_{400})&=1-0.6=0.4\\end{aligned}$$\nThe second-stage probabilities remain 0.6 and 0.4 on both branches, using the independent-events model.",
+          "solutionDiagrams": [
+            {
+              "id": "p34-q13-a-solution-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 34 question 13a solution tree\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=0.6mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[align=center] at (14,29) {100\\\\m};\\node[align=center] at (31,29) {400\\\\m};\\node[align=center] at (46,29) {Combined\\\\results};\n\\draw (0,0)--(14,12) (0,0)--(14,-12);\n\\draw (14,12)--(30,20) (14,12)--(30,4) (14,-12)--(30,-4) (14,-12)--(30,-20);\n\\node[above left] at (7,6) {0.8};\\node[below left] at (7,-6) {0.2};\n\\node[above,fill=white] at (23,16) {0.6};\\node[below,fill=white] at (23,8) {0.4};\\node[above,fill=white] at (23,-8) {0.6};\\node[below,fill=white] at (23,-16) {0.4};\n\\node[fill=white] at (14,12) {W};\\node[fill=white] at (14,-12) {N};\n\\foreach \\y/\\a/\\out in {20/W/WW,4/N/WN,-4/W/NW,-20/N/NN}{\\node[anchor=west] at (30,\\y) {\\a};\\node at (46,\\y) {\\out};}\n\\node[anchor=west] at (0,-28) {W: win; N: not win};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 115,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 34,
+                "sourceRegion": "Question 13a",
+                "description": "Two-stage probability tree with 100 m first, 400 m second, and distinguishable ordered combined outcomes. W means win; N means not win.",
+                "mathematics": "First-stage W/N probabilities 0.8/0.2; second-stage W/N probabilities 0.6/0.4 following either first-stage outcome; final outcomes WW, WN, NW, NN.",
+                "answerVisibility": "Solution only; the source question provides a blank drawing region."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p34-q13-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Calculate the probability that she will (answer as a decimal):",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p34-q13-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "win both events.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.48$",
+              "worked": "$$\\begin{aligned}P(WW)&=0.8\\times0.6\\\\&=0.48\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p34-q13-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "not win either event.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.08$",
+              "worked": "$$\\begin{aligned}P(NN)&=0.2\\times0.4\\\\&=0.08\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p34-q13-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "win the 100 m but not win the 400 m.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.32$",
+              "worked": "$$\\begin{aligned}P(WN)&=0.8\\times0.4\\\\&=0.32\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p34-q13-b-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "win at least one event.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.92$",
+              "worked": "The complement of winning at least one event is winning neither event.\n$$\\begin{aligned}P(\\text{at least one win})&=1-P(NN)\\\\&=1-0.08\\\\&=0.92\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q13-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q13-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q13:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p34-q13/label",
+                  "type": "item",
+                  "ref": "p34-q13/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p34-q13/prompt",
+                  "type": "item",
+                  "ref": "p34-q13/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p34-q13:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p34-q13-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q13-a/label",
+                          "type": "item",
+                          "ref": "p34-q13-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p34-q13-a/prompt",
+                          "type": "item",
+                          "ref": "p34-q13-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p34-q13-a/space",
+                          "type": "item",
+                          "ref": "p34-q13-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p34-q13-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p34-q13-b/label",
+                          "type": "item",
+                          "ref": "p34-q13-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p34-q13-b/prompt",
+                          "type": "item",
+                          "ref": "p34-q13-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p34-q13-b:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p34-q13-b-i:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p34-q13-b-i/label",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-i/label",
+                                  "title": "Label i"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-i/prompt",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-i/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-i/space",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-i/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part i",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p34-q13-b-ii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p34-q13-b-ii/label",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-ii/label",
+                                  "title": "Label ii"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-ii/prompt",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-ii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-ii/space",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-ii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part ii",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p34-q13-b-iii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p34-q13-b-iii/label",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-iii/label",
+                                  "title": "Label iii"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-iii/prompt",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-iii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-iii/space",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-iii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iii",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p34-q13-b-iv:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p34-q13-b-iv/label",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-iv/label",
+                                  "title": "Label iv"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-iv/prompt",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-iv/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p34-q13-b-iv/space",
+                                  "type": "item",
+                                  "ref": "p34-q13-b-iv/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iv",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:15.668Z",
+  "updatedAt": "2026-10-21T10:53:15.669Z"
+}

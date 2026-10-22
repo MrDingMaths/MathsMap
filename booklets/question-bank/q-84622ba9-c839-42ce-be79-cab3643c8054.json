@@ -1,0 +1,397 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-84622ba9-c839-42ce-be79-cab3643c8054",
+  "status": "approved",
+  "title": "2023 HSC Advanced",
+  "classification": {
+    "primarySkillId": "parabola-transformations",
+    "secondarySkillIds": [
+      "intersection-line-curve"
+    ],
+    "reasoningScore": 37,
+    "difficulty": "Development",
+    "difficultyReason": "Following the hint, obtain both pairs of symbolic intersection coordinates, turn their differences into chord lengths and compare them using a positive scale factor.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:04:13.126Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "973984bf994d4801a6d11501b73b1d3841535a040b78eb407b561d3dd3399acc",
+      "evidence": ".booklet-work/reasoning-ratings/calls/further-parabolas-v1/976b403867b2ca9a9f436fa129a7bbe94ad457d35dcbd169c766d5691f2b406c-1792559018394/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p61-q15-root",
+    "type": "question",
+    "label": "",
+    "prompt": "The graph $y=x^2$ meets the line $y=k$, where $k>0$, at points $P$ and $Q$ as shown.\n\nThe length of interval $PQ$ is $L$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p61-q15-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 61, p61-q15-diagram\"}\n\\begin{tikzpicture}[x=1.3cm,y=0.9cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,black,line width=0.5pt] (-2.1,0)--(2.2,0) node[below] {$x$};\n\\draw[->,black,line width=0.5pt] (0,-0.75)--(0,3.3) node[left] {$y$};\n\\draw[black,line width=0.8pt,domain=-1.65:1.65,samples=101] plot (\\x,{\\x*\\x});\n\\node[black,anchor=west] at (1.85,3.0) {$y=x^2$};\n\\draw[black,line width=0.8pt] (-1.85,1.44)--(1.95,1.44) node[above right,xshift=2mm] {$y=k$};\n\\fill[black] (-1.2,1.44) circle (1.5pt) node[below left] {$P$};\n\\fill[black] (1.2,1.44) circle (1.5pt) node[below right] {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 61,
+          "sourceRegion": "Question 15 reference graph",
+          "description": "Unshaded y=x² reference curve with a horizontal line y=k above the x-axis, marked intersections P and Q, and symbolic curve and line labels. No ticks or numerical scale.",
+          "mathematics": "The intersections have opposite horizontal coordinates. Drawing coordinates use a representative positive k solely to construct the unscaled schematic; no numerical value is supplied or printed.",
+          "answerVisibility": "Permanent supplied reference graph. No second parabola, S, T or derived chord length is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p61-q15-response",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p61-q15-second-curve",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Let ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "a",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " be a positive number. The graph ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y=\\frac{x^2}{a^2}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " meets the line ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y=k",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " at points ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "S",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "T",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p61-q15-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "What is the length of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "ST",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": "? (Hint: find an expression for ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "L",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", then find an expression for ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "ST",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".)",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p61-q15-option-a",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "A. ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{L}{a}",
+                  "display": false
+                }
+              ]
+            },
+            {
+              "id": "p61-q15-option-b",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "B. ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{L}{a^2}",
+                  "display": false
+                }
+              ]
+            },
+            {
+              "id": "p61-q15-option-c",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "C. ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "aL",
+                  "display": false
+                }
+              ]
+            },
+            {
+              "id": "p61-q15-option-d",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "D. ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "a^2L",
+                  "display": false
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$ST=aL$. Correct answer: C.",
+          "worked": "At the intersections of $y=x^2$ and $y=k$:\n\n$$\\begin{align*}x^2&=k\\\\x&=\\pm\\sqrt{k}\\\\L&=\\sqrt{k}-(-\\sqrt{k})\\\\L&=2\\sqrt{k}\\end{align*}$$\n\nAt the intersections of $y=\\dfrac{x^2}{a^2}$ and $y=k$:\n\n$$\\begin{align*}\\frac{x^2}{a^2}&=k\\\\x^2&=a^2k\\\\x&=\\pm a\\sqrt{k}\\\\ST&=a\\sqrt{k}-(-a\\sqrt{k})\\\\ST&=2a\\sqrt{k}\\\\ST&=aL\\end{align*}$$\n\nHere $a>0$, so $\\sqrt{a^2}=a$.\n\nCorrect answer: C.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "answerPartLabels": {
+      "short": {
+        "p61-q15-response": ""
+      },
+      "worked": {
+        "p61-q15-response": ""
+      }
+    },
+    "ownerId": "p61-q15",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p61-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p61-q15-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p61-q15-root/label",
+                  "type": "item",
+                  "ref": "p61-q15-root/label",
+                  "title": "Label 15"
+                },
+                {
+                  "id": "layout:p61-q15-root/prompt",
+                  "type": "item",
+                  "ref": "p61-q15-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p61-q15-diagram",
+                  "type": "item",
+                  "ref": "p61-q15-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p61-q15-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p61-q15-response:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p61-q15-response/prompt#p61-q15-second-curve",
+                          "type": "item",
+                          "ref": "p61-q15-response/prompt#p61-q15-second-curve",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p61-q15-response/prompt#p61-q15-instruction",
+                          "type": "item",
+                          "ref": "p61-q15-response/prompt#p61-q15-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p61-q15-response/prompt#p61-q15-option-a",
+                          "type": "item",
+                          "ref": "p61-q15-response/prompt#p61-q15-option-a",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p61-q15-response/prompt#p61-q15-option-b",
+                          "type": "item",
+                          "ref": "p61-q15-response/prompt#p61-q15-option-b",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p61-q15-response/prompt#p61-q15-option-c",
+                          "type": "item",
+                          "ref": "p61-q15-response/prompt#p61-q15-option-c",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p61-q15-response/prompt#p61-q15-option-d",
+                          "type": "item",
+                          "ref": "p61-q15-response/prompt#p61-q15-option-d",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p61-q15-response/space",
+                          "type": "item",
+                          "ref": "p61-q15-response/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 15",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:52:36.041Z",
+  "updatedAt": "2026-10-21T08:52:36.041Z"
+}

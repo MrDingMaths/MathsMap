@@ -1,0 +1,115 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-808a613f-540d-4a3b-831a-d1cdb82146bc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interior-angle-regular-polygon",
+    "secondarySkillIds": [],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the central angle of a regular octagon and identify the required reflex angle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T11:54:48.545Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f31c244c9a42c91c8f14b2580b1eb21d40db6e2213bc947afb621b6ae27d0cf5",
+      "evidence": ".booklet-work/full-imports/angle-sums-of-polygons-20261008/semantic-packets/assignments/assignment-5c6334c678d64e331d25/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p12-q8-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Work out the value of $a$ in this regular octagon.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p12 Q8\"}\n\\begin{tikzpicture}[x=22mm,y=22mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},tick/.style={line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\foreach \\i in {0,...,7}{\\coordinate (V\\i) at ({cos(67.5-45*\\i)},{sin(67.5-45*\\i)});}\n\\draw (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--(V6)--(V7)--cycle;\n\\draw (O)--(V0) (O)--(V1);\n\\foreach \\a/\\b in {V0/V1,V1/V2,V2/V3,V3/V4,V4/V5,V5/V6,V6/V7,V7/V0}{\\path (\\a)--(\\b) coordinate[midway] (T); \\draw[tick] ($(T)!2pt!90:(\\b)$)--($(T)!2pt!-90:(\\b)$);}\n\\foreach \\b in {V0,V1}{\\foreach \\t in {.47,.53}{\\path (O)--(\\b) coordinate[pos=\\t] (T); \\draw[tick] ($(T)!2pt!90:(\\b)$)--($(T)!2pt!-90:(\\b)$);}}\n\\fill (O) circle[radius=1pt];\n\\draw[line width=0.4pt] (67.5:3mm) arc[start angle=67.5,end angle=382.5,radius=3mm];\n\\node at ($(O)+(247.5:6mm)$) {$a^\\circ$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 52,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Q8, middle left",
+          "description": "Octagon with horizontal top and bottom sides, vertical left and right sides, single equality ticks on all outer edges, and double ticks on radii to adjacent upper-right vertices. A marked centre and reflex arc labelled a degrees are retained. Decorative blue source lines become house black; no shading.",
+          "mathematics": "Adjacent radii of a regular octagon enclose 45 degrees. The required reflex angle is 315 degrees.",
+          "answerVisibility": "Question shows the centre, equal-length marks and a degrees, without the 45-degree or 315-degree answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$a=315$",
+      "worked": "Let $\\theta$ be the angle inside the triangle at the centre of the regular octagon.\n$$\\begin{aligned}\\theta&=\\frac{360^\\circ}{8}\\\\\\theta&=45^\\circ.\\end{aligned}$$\nThe marked angle is reflex:\n$$\\begin{aligned}a&=360-45\\\\a&=315.\\end{aligned}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 26
+  },
+  "presentation": {
+    "ownerId": "p12-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q8-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q8-root/label",
+                  "type": "item",
+                  "ref": "p12-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p12-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p12-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q8-diagram",
+                  "type": "item",
+                  "ref": "p12-q8-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p12-q8-root/space",
+                  "type": "item",
+                  "ref": "p12-q8-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:08:11.110Z",
+  "updatedAt": "2026-10-21T07:08:11.110Z"
+}

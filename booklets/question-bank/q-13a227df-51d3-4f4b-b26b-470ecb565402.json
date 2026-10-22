@@ -1,0 +1,248 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-13a227df-51d3-4f4b-b26b-470ecb565402",
+  "status": "approved",
+  "title": "2022 HSC Standard 2 Band 4",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Complete a two-stage tree, count winning outcomes and calculate an expected frequency.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T13:35:20.733Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b260c092a620c08158884d2cda1970083884a657874f6e99777c7f1988b04185",
+      "evidence": ".booklet-work/full-imports/multistage-probability-import-20261006/semantic-packets/assignments/assignment-ed68b4b4b17cef9f51f4/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": "The numbers 1, 2, 3, 4, 5 and 6 are each written on separate cards.\n\nAmy has cards 1, 3 and 5 and Bob has cards 2, 4 and 6.\n\nThey play a game in which each person randomly chooses one of their own cards and compares it with the other person's card. The person with the higher card wins.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q21-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Complete the tree diagram and find the probability that Bob wins.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p17-q21-tree",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 17, p17-q21-tree\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2,-4) rectangle (76,105);\n\\node[align=center] at (28,100) {Amy's\\\\card};\n\\node[align=center] at (65,100) {Bob's\\\\card};\n\\draw (0,45)--(24,78) (0,45)--(24,45) (0,45)--(24,12);\n\\foreach \\y/\\v in {78/1,45/3,12/5}{\\fill (24,\\y) circle (0.65mm);\\node[anchor=west] at (26,\\y) {\\v};}\n\\foreach \\y in {78,45,12}{\\draw (38,\\y)--(64,{\\y+10}) (38,\\y)--(64,\\y) (38,\\y)--(64,{\\y-10});\\foreach \\d in {10,0,-10}{\\fill (64,{\\y+\\d}) circle (0.65mm);}}\n\\node[anchor=west] at (66,88) {2};\n\\node[anchor=west] at (66,78) {4};\n\\node[anchor=west] at (66,55) {2};\n\\foreach \\y in {68,45,35,22,12,2}{\\draw[densely dotted,line width=0.4pt] (66,\\y)--(74,\\y);}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 78,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 17,
+              "sourceRegion": "Question 21, tree on the right",
+              "description": "Two disconnected stage fans as printed, with solid endpoint dots. Amy's outcomes are 1, 3, 5. Bob's supplied labels are 2 and 4 under Amy's 1 and 2 under Amy's 3. Six dotted completion regions replace source underlined blanks.",
+              "mathematics": "Each Amy card pairs with each of Bob's three cards, giving nine equally likely outcomes. No branch probabilities or terminal outcome column are supplied.",
+              "answerVisibility": "Only source-supplied labels appear in the question diagram; the six missing labels appear in the solution diagram."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "Bob's branches are $2,4,6$ beneath each Amy card. $P(\\text{Bob wins})=\\frac{6}{9}=\\frac{2}{3}$.",
+          "worked": "Complete each set of Bob's branches with $2,4,6$, from top to bottom.\n\nBob wins for $(1,2),(1,4),(1,6),(3,4),(3,6),(5,6)$, where each pair lists Amy's card first.\n\n$$\\begin{align*}N(\\text{outcomes})&=3\\times3=9\\\\P(\\text{Bob wins})&=\\frac{6}{9}\\\\&=\\frac{2}{3}\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p17-q21-tree-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 17, p17-q21-tree-solution\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2,-4) rectangle (76,105);\n\\node[align=center] at (28,100) {Amy's\\\\card};\n\\node[align=center] at (65,100) {Bob's\\\\card};\n\\draw (0,45)--(24,78) (0,45)--(24,45) (0,45)--(24,12);\n\\foreach \\y/\\v in {78/1,45/3,12/5}{\\fill (24,\\y) circle (0.65mm);\\node[anchor=west] at (26,\\y) {\\v};}\n\\foreach \\y in {78,45,12}{\\draw (38,\\y)--(64,{\\y+10}) (38,\\y)--(64,\\y) (38,\\y)--(64,{\\y-10});\\foreach \\d/\\v in {10/2,0/4,-10/6}{\\fill (64,{\\y+\\d}) circle (0.65mm);\\node[anchor=west] at (66,{\\y+\\d}) {\\v};}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 17,
+                "sourceRegion": "Question 21 tree",
+                "description": "Complete self-contained tree retaining both stage headings, all endpoint dots and all nine Bob branch labels.",
+                "mathematics": "Bob's cards 2, 4, 6 appear beneath each of Amy's cards 1, 3, 5.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p17-q21-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose Amy and Bob play this game 30 times.\nHow many times would Bob be expected to win?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "20 times.",
+          "worked": "$$\\begin{align*}\\text{Expected wins}&=30\\times\\frac{2}{3}\\\\&=20\\end{align*}$$\nBob would be expected to win 20 times.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p17-q21-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q21-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q21-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p17-q21-root/label",
+                  "type": "item",
+                  "ref": "p17-q21-root/label",
+                  "title": "Label 21"
+                },
+                {
+                  "id": "layout:p17-q21-root/prompt",
+                  "type": "item",
+                  "ref": "p17-q21-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p17-q21-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q21-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q21-a/label",
+                          "type": "item",
+                          "ref": "p17-q21-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "p17-q21-a:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p17-q21-a:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p17-q21-a/prompt",
+                                  "type": "item",
+                                  "ref": "p17-q21-a/prompt",
+                                  "title": "Text"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p17-q21-a:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p17-q21-tree",
+                                  "type": "item",
+                                  "ref": "p17-q21-tree",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        },
+                        {
+                          "id": "layout:p17-q21-a/space",
+                          "type": "item",
+                          "ref": "p17-q21-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q21-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q21-b/label",
+                          "type": "item",
+                          "ref": "p17-q21-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p17-q21-b/prompt",
+                          "type": "item",
+                          "ref": "p17-q21-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q21-b/space",
+                          "type": "item",
+                          "ref": "p17-q21-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 21",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:52:05.376Z",
+  "updatedAt": "2026-10-21T10:52:05.376Z"
+}

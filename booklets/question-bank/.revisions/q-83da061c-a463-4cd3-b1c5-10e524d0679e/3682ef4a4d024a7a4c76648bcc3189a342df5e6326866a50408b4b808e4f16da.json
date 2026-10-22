@@ -1,0 +1,194 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-83da061c-a463-4cd3-b1c5-10e524d0679e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "clusters-gaps-outliers",
+    "secondarySkillIds": [],
+    "reasoningScore": 50,
+    "difficulty": "Mastery",
+    "difficultyReason": "Separate two labelled groups to reveal outliers concealed by the pooled display, and explain the misconception."
+  },
+  "content": {
+    "id": "p73-q2",
+    "type": "question",
+    "label": "2",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p73-q2-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The chart shows the masses, in kg, of some leopards.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p73-q2-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Charlie says there are no outliers.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "Explain why he is incorrect.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p73-q2-chart",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"femaleBlue\",\"hex\":\"268CFF\",\"reason\":\"Female data points and matching legend marker\"},{\"name\":\"maleRed\",\"hex\":\"EF6068\",\"reason\":\"Male data points and matching legend marker\"},{\"name\":\"graphGrid\",\"hex\":\"CCCCCC\",\"reason\":\"Subordinate dashed vertical mass guides\"}],\"reference\":\"source page 73, p73-q2-chart\"}\n\\begin{tikzpicture}[x=0.75mm,y=2.25mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{femaleBlue}{HTML}{268CFF}\n\\definecolor{maleRed}{HTML}{EF6068}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\path[use as bounding box] (-3,-4.7) rectangle (104,15.5);\n\\foreach \\mass in {0,10,...,100} {\n  \\draw[graphGrid,line width=0.4pt,dash pattern=on 2mm off 1.5mm] (\\mass,0) -- (\\mass,15);\n}\n\\draw[black,line width=0.5pt] (0,0) -- (100,0);\n\\foreach \\mass in {0,10,...,100} {\n  \\draw[black,line width=0.4pt] (\\mass,-0.16) -- (\\mass,0.16);\n  \\node[anchor=north,inner sep=0pt,text=black,font=\\fontsize{8.5}{10}\\selectfont] at (\\mass,-0.85) {\\mass};\n}\n\\foreach \\mass/\\count in {20/1,60/2,70/5,80/3,90/1} {\n  \\foreach \\level in {1,...,\\count} {\n    \\fill[maleRed] (\\mass,{\\level-0.4}) circle[radius=1.05mm];\n  }\n}\n\\foreach \\mass/\\count in {30/4,40/5,50/4} {\n  \\foreach \\level in {1,...,\\count} {\n    \\fill[femaleBlue] (\\mass,{\\level-0.4}) circle[radius=1.05mm];\n  }\n}\n\\fill[femaleBlue] (80,3.6) circle[radius=1.05mm];\n\\fill[femaleBlue] (1,-3.6) circle[radius=1.05mm];\n\\node[anchor=west,inner sep=0pt,text=black] at (4,-3.6) {Female};\n\\fill[maleRed] (28,-3.6) circle[radius=1.05mm];\n\\node[anchor=west,inner sep=0pt,text=black] at (31,-3.6) {Male};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80.25,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 73,
+          "sourceRegion": "Question 2: leopard-mass chart to the right of the prompt",
+          "description": "Stacked-dot chart with a horizontal mass scale from 0 to 100, ticks and dashed vertical guides every 10, and a Female/Male legend below. Preserve the tall guide region above the dot stacks.",
+          "mathematics": "Female counts: 30 kg: 4; 40 kg: 5; 50 kg: 4; 80 kg: 1. Male counts: 20 kg: 1; 60 kg: 2; 70 kg: 5; 80 kg: 3; 90 kg: 1. There are 14 female and 12 male observations. At 80 kg, the female dot occupies the fourth position, above three male dots. No frequency axis is supplied.",
+          "answerVisibility": "All observations, scale labels and legend entries are permanent question givens. No outlier circles, labels or other answer annotations appear in the question chart."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "There appear to be no outliers when all leopards are put together, but there are outliers when females and males are considered separately: the 80 kg female and the 20 kg male.",
+      "worked": "The other females have masses from 30 kg to 50 kg, so the 80 kg female is unusually heavy. The other males have masses from 60 kg to 90 kg, so the 20 kg male is unusually light. Combining the groups conceals these outliers; each leopard should be compared with its own group.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 18
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p73-q2-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p73-q2-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p73-q2-label-item",
+                  "type": "item",
+                  "ref": "p73-q2/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p73-q2-body",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p73-q2-prompt-chart-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p73-q2-text-column",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p73-q2-introduction-item",
+                              "type": "item",
+                              "ref": "p73-q2/prompt#p73-q2-introduction",
+                              "width": 85,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p73-q2-request-item",
+                              "type": "item",
+                              "ref": "p73-q2/prompt#p73-q2-request",
+                              "width": 85,
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 3
+                        },
+                        {
+                          "id": "p73-q2-chart-item",
+                          "type": "item",
+                          "ref": "p73-q2-chart",
+                          "width": 80.25,
+                          "align": "right"
+                        }
+                      ],
+                      "gap": 4,
+                      "verticalAlign": "top"
+                    },
+                    {
+                      "id": "p73-q2-response-item",
+                      "type": "item",
+                      "ref": "p73-q2/space",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 3,
+                  "weight": 1
+                }
+              ],
+              "gap": 3,
+              "verticalAlign": "top"
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p73-q2": 0
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p73-q2-block"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-11T09:50:39.748Z",
+  "updatedAt": "2026-10-11T09:50:39.748Z"
+}

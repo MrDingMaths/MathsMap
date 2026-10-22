@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-12014a94-ec2e-486c-ae65-8102f24414c7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-of-sector",
+    "secondarySkillIds": [
+      "halve-diameter-for-radius",
+      "round-decimals"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Convert one diameter to a radius, calculate two sector areas using different angles, and subtract with sufficient precision to identify the slightly larger piece and its advantage.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:00.014Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "349138795e90c054e9073848ae11da6a8164c5817e6ac6c6edb3e0d94d7eff93",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/b7449c10c491fb97e46fcb2eb3f41da2413d6cf3b941838cec48ca7d3f63c72f-1792556066894/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q6-response",
+    "type": "question",
+    "label": "6",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p14-q6-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A shop sells pizza sectors. The two options are:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p14-q6-options",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "15 cm radius pizza with an angle of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "45^\\circ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " or 26 cm diameter pizza with an angle of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "60^\\circ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p14-q6-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Which piece gives the bigger area and by how much? Round the answer to two decimal places.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-q6-feedback-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"User-approved feedback 19 October 2026\"}\n\\begin{tikzpicture}[x=12mm,y=12mm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0)--(1.5,0) arc[start angle=0,end angle=45,radius=1.5]--cycle;\n\\node[below] at (.9,0) {$15\\,\\mathrm{cm}$};\n\\draw (.4,0) arc[start angle=0,end angle=45,radius=.4];\n\\node at (22.5:.78) {$45^\\circ$};\n\\begin{scope}[xshift=55mm]\n\\draw (0,0)--(1.5,0) arc[start angle=0,end angle=60,radius=1.5]--cycle;\n\\draw[dashed,latex-latex] (-1.5,0)--(1.5,0);\n\\node[below] at (0,-.15) {$d=26\\,\\mathrm{cm}$};\n\\draw (.4,0) arc[start angle=0,end angle=60,radius=.4];\n\\node at (30:.78) {$60^\\circ$};\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 105,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "description": "Two pizza sectors: the first has radius 15 cm and interior angle 45 degrees; the second has interior angle 60 degrees and a dashed full-diameter line through its centre labelled d = 26 cm. No derived radius is supplied.",
+          "mathematics": "Two pizza sectors: the first has radius 15 cm and interior angle 45 degrees; the second has interior angle 60 degrees and a dashed full-diameter line through its centre labelled d = 26 cm. No derived radius is supplied.",
+          "answerVisibility": "Given measurements only; unknowns are not evaluated."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "The $60^\\circ$ sector, by around $0.13\\text{ cm}^2$.",
+      "worked": "$$\\begin{align*}r_{60^\\circ}&=\\frac{26}{2}=13\\text{ cm}\\\\A_{45^\\circ}&=\\frac{45}{360}\\times\\pi(15)^2\\\\A_{45^\\circ}&=\\frac{225\\pi}{8}\\text{ cm}^2\\\\A_{60^\\circ}&=\\frac{60}{360}\\times\\pi(13)^2\\\\A_{60^\\circ}&=\\frac{169\\pi}{6}\\text{ cm}^2\\\\A_{60^\\circ}-A_{45^\\circ}&=\\frac{169\\pi}{6}-\\frac{225\\pi}{8}\\\\A_{60^\\circ}-A_{45^\\circ}&=\\frac{\\pi}{24}\\text{ cm}^2\\\\A_{60^\\circ}-A_{45^\\circ}&\\approx0.13\\text{ cm}^2\\end{align*}$$\nThe $60^\\circ$ sector gives the bigger area, by $0.13\\text{ cm}^2$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 64
+  },
+  "presentation": {
+    "ownerId": "p14-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p14-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p14-q6-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p14-q6-response/label",
+                  "type": "item",
+                  "ref": "p14-q6-response/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p14-q6-response/prompt#p14-q6-introduction",
+                  "type": "item",
+                  "ref": "p14-q6-response/prompt#p14-q6-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p14-q6-response/prompt#p14-q6-options",
+                  "type": "item",
+                  "ref": "p14-q6-response/prompt#p14-q6-options",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p14-q6-response/prompt#p14-q6-instruction",
+                  "type": "item",
+                  "ref": "p14-q6-response/prompt#p14-q6-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p14-q6-feedback-diagram",
+                  "type": "item",
+                  "ref": "p14-q6-feedback-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p14-q6-response/space",
+                  "type": "item",
+                  "ref": "p14-q6-response/space",
+                  "title": "Answer space",
+                  "height": 20
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p14-q6-response": 20
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:42:24.617Z",
+  "updatedAt": "2026-10-21T10:42:24.618Z"
+}

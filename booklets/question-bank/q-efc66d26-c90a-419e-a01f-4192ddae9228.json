@@ -1,0 +1,150 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-efc66d26-c90a-419e-a01f-4192ddae9228",
+  "status": "approved",
+  "title": "2017 HSC Standard 2 Band 5",
+  "classification": {
+    "primarySkillId": "arc-length-perimeter-sector",
+    "secondarySkillIds": [
+      "find-unknown-from-circle-area"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Find the radius from the quadrant area, then use it to calculate the quadrant arc length.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-01T04:21:41.070Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "142754d933ede6e0a95c55e48a7a8c2df7984077c6633016630e1fa5b21fc490",
+      "evidence": ".booklet-work/full-imports/area-circles-sectors-v1-20261001/semantic-packets/assignments/assignment-0555a5e286693e1f3406/1/generation.json",
+      "originalTaskHash": "f3b2efa097f2bcf2a0385113271c0f03d7577e65a191328548845fc545c4099c",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "7862b22c89a32a6373086d1dd30944f6fa60f513202a8a3230e792a19767bd2a"
+      }
+    }
+  },
+  "content": {
+    "id": "p29-q10-content",
+    "type": "question",
+    "label": "10",
+    "prompt": "In the circle, the area of the quadrant is $100\\text{ cm}^2$.\n\nWhat is the arc length $l$, correct to one decimal place?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredQuadrant\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the quadrant whose area is given within the complete circle\"}],\"reference\":\"source page 29, p29-q10-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{measuredQuadrant}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (U) at (45:2.8);\n\\coordinate (D) at (-45:2.8);\n\\fill[measuredQuadrant] (O) -- (D) arc[start angle=-45,end angle=45,radius=2.8] -- cycle;\n\\draw[black,line width=0.8pt] (O) circle[radius=2.8];\n\\draw[black,line width=0.8pt] (U) -- (O) -- (D);\n\\coordinate (RU) at ($(O)!0.12!(U)$);\n\\coordinate (RD) at ($(O)!0.12!(D)$);\n\\coordinate (RC) at ($(RU)+(RD)-(O)$);\n\\fill[white] (O) -- (RU) -- (RC) -- (RD) -- cycle;\n\\draw[black,line width=0.4pt] (RU) -- (RC) -- (RD);\n\\node[black,anchor=east,inner sep=2pt] at (O) {$O$};\n\\node[black,inner sep=1pt] at (1.58,0) {$A=100\\text{ cm}^2$};\n\\draw[black,line width=0.4pt,->,>=stealth] (8:3.05) arc[start angle=8,end angle=45,radius=3.05];\n\\draw[black,line width=0.4pt,->,>=stealth] (-8:3.05) arc[start angle=-8,end angle=-45,radius=3.05];\n\\node[black,anchor=west,inner sep=1pt] at (3.05,0) {$l$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Question 10: circle below the prompt on the left",
+          "description": "Complete circle centred at O, with diagonal radii enclosing the right-hand quadrant, a derived right-angle marker, its given area, and an external split curved dimension arrow labelled l.",
+          "mathematics": "The radii meet at 90 degrees. The quadrant area is 100 cm²; l denotes its bounding quarter-circle arc.",
+          "answerVisibility": "Only source givens and the requested unknown appear in the question diagram. No calculated radius or arc length is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$17.7\\text{ cm}$. Find $r=\\sqrt{\\frac{400}{\\pi}}\\text{ cm}$, then use $l=\\frac14(2\\pi r)$.",
+      "worked": "$$\\begin{align*}\nA&=\\frac{\\pi r^2}{4}\\\\\n100&=\\frac{\\pi r^2}{4}\\\\\n400&=\\pi r^2\\\\\n\\frac{400}{\\pi}&=r^2\\\\\nr&=\\sqrt{\\frac{400}{\\pi}}\\text{ cm}\\\\\nl&=\\frac14(2\\pi r)\\\\\nl&=\\frac14\\left(2\\pi\\sqrt{\\frac{400}{\\pi}}\\right)\\text{ cm}\\\\\nl&\\approx17.7\\text{ cm}\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 64
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q10-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p29-q10-label-item",
+                  "type": "item",
+                  "ref": "p29-q10-content/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p29-q10-body",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p29-q10-prompt-item",
+                      "type": "item",
+                      "ref": "p29-q10-content/prompt",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p29-q10-figure-working-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p29-q10-diagram-item",
+                          "type": "item",
+                          "ref": "p29-q10-diagram",
+                          "width": 55,
+                          "weight": 68,
+                          "align": "left"
+                        },
+                        {
+                          "id": "p29-q10-working-item",
+                          "type": "item",
+                          "ref": "p29-q10-content/space",
+                          "width": 97,
+                          "weight": 97,
+                          "height": 50,
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 5,
+                      "verticalAlign": "top"
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 3,
+              "verticalAlign": "top"
+            }
+          }
+        },
+        "p29-q10-diagram": {
+          "diagramWidthMm": 55
+        }
+      },
+      "answerSpaces": {
+        "p29-q10-content": 50
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p29-q10"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:43:15.365Z",
+  "updatedAt": "2026-10-21T10:43:15.365Z"
+}

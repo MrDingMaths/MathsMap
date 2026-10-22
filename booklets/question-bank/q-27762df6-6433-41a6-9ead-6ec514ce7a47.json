@@ -1,0 +1,330 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-27762df6-6433-41a6-9ead-6ec514ce7a47",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "speed-from-distance-time",
+    "secondarySkillIds": [
+      "interpret-distance-time-graphs"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate a signed gradient and interpret changing slopes and daily intervals in a contextual graph.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T16:36:04.615Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f6d98b20532c217eee50befca29b5d03bc7ae5eaa20e24af8e5c45f8a85ac952",
+      "evidence": ".booklet-work/full-imports/rates-v1-20261002-medium/semantic-packets/assignments/assignment-d1c0670e6311ebd54250/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p53-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Jade is investigating the rate at which water evaporates from her swimming pool.\nOne evening she fills the pool and marks a line at the recommended maximum level.\nEach day at the same time she records the water level relative to that mark, with negative values below the mark and positive values above it.\nHer results are shown in the graph. For parts (c) and (d), name each daily interval by the day of its starting measurement.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p53-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"waterSeries\",\"hex\":\"EF8B2C\",\"reason\":\"water-level series and matching graph title\"},{\"name\":\"graphGrid\",\"hex\":\"D4E8FF\",\"reason\":\"coordinate grid\"}],\"reference\":\"source page 53 p53-q7-graph\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.12cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{waterSeries}{HTML}{EF8B2C}\n\\definecolor{graphGrid}{HTML}{D4E8FF}\n\\draw[graphGrid,line width=0.25pt,xstep=1,ystep=5] (0,-30) grid (12,10);\n\\draw[black,line width=0.5pt,->] (0,0)--(12,0);\n\\draw[black,line width=0.5pt,<->] (0,-30)--(0,10);\n\\foreach \\d in {1,...,11} {\n  \\draw[black,line width=0.4pt] (\\d,0)--(\\d,-0.9);\n  \\node[below,inner sep=2pt] at (\\d,-0.9) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\d\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-25,-20,-15,-10,-5,0,5} {\n  \\draw[black,line width=0.4pt] (-0.14,\\v)--(0,\\v);\n  \\node[left,inner sep=2pt] at (-0.14,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\draw[waterSeries,line width=0.8pt] (0,0)--(3,-9)--(4,-9.2)--(5,-5)--(8,-20)--(10,-21.5)--(10,2.5)--(11,0);\n\\node[text=waterSeries,font=\\bfseries,anchor=south] at (6,10.7) {Swimming pool water level};\n\\node[black,rotate=90] at (-1.85,-10) {Water level (mm)};\n\\node[black] at (6.5,-6.8) {Days};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 53,
+          "sourceRegion": "Centred swimming-pool graph above parts a–e.",
+          "description": "Unshaded rectangular coordinate grid with a horizontal zero axis, rightward horizontal arrow, two-ended vertical arrow, and an orange connected water-level series. The title matches the series colour.",
+          "mathematics": "Grid steps are 1 day horizontally and 5 mm vertically. Exact assessed points are (0,0), (3,-9), (5,-5), (8,-20) and (11,0). The visually reconstructed unlabelled heights at day 4 and immediately before and after the day-10 rise are approximate drawing positions, not additional numerical givens: approximately -9.2, -21.5 and +2.5 mm respectively. The day-10 rise remains vertical. All source tick labels are retained.",
+          "answerVisibility": "The graph is a permanent student-visible given; supplied answer text is excluded."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p53-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What was the water level on day 3?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-9\\text{ mm}$",
+          "worked": "At day 3, the graph shows a water level of $-9\\text{ mm}$, which is 9 mm below the marked level.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p53-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What was the rate of change of the water level in mm per day for the first 3 days?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-3\\text{ mm/day}$",
+          "worked": "$$\\begin{align*}\\text{Rate of change}&=\\frac{\\text{change in water level}}{\\text{change in time}}\\\\\\text{Rate of change}&=\\frac{-9-0}{3-0}\\\\\\text{Rate of change}&=-3\\text{ mm/day}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p53-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "It rained a little during one daily interval and then more during the next. Using the evaporation rate for the first 3 days, identify the two consecutive daily intervals consistent with this. Assume that evaporation continued at that rate during those two intervals.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Day 3 (days 3–4) and day 4 (days 4–5), under the stated evaporation assumption.",
+          "worked": "Between days 3 and 4, the level falls by less than the expected 3 mm, consistent with a little rain partly replacing the evaporated water. Between days 4 and 5, the level rises, consistent with more rain. Naming intervals by their starting measurement gives day 3 and day 4.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p53-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Which 3 days were the hottest? (The evaporation is greatest when it’s hot)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Days 5, 6 and 7.",
+          "worked": "$$\\begin{align*}\\text{Rate of change}&=\\frac{-20-(-5)}{8-5}\\\\\\text{Rate of change}&=-5\\text{ mm/day}\\end{align*}$$\nThe steepest sustained downward segment is from day 5 to day 8. Its three daily intervals start on days 5, 6 and 7.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p53-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Jade filled the pool with the hose one evening but forgot to turn it off. When was this?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At the end of day 9.",
+          "worked": "The sudden rise at the day-10 measurement shows that the pool was filled after the day-9 measurement: at the end of day 9.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p53-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p53-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p53-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p53-q7-root/label",
+                  "type": "item",
+                  "ref": "p53-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p53-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p53-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p53-q7-graph",
+                  "type": "item",
+                  "ref": "p53-q7-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p53-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p53-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p53-q7-a/label",
+                          "type": "item",
+                          "ref": "p53-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p53-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p53-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p53-q7-a/space",
+                          "type": "item",
+                          "ref": "p53-q7-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p53-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p53-q7-b/label",
+                          "type": "item",
+                          "ref": "p53-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p53-q7-b/prompt",
+                          "type": "item",
+                          "ref": "p53-q7-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p53-q7-b/space",
+                          "type": "item",
+                          "ref": "p53-q7-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p53-q7-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p53-q7-c/label",
+                          "type": "item",
+                          "ref": "p53-q7-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p53-q7-c/prompt",
+                          "type": "item",
+                          "ref": "p53-q7-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p53-q7-c/space",
+                          "type": "item",
+                          "ref": "p53-q7-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p53-q7-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p53-q7-d/label",
+                          "type": "item",
+                          "ref": "p53-q7-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p53-q7-d/prompt",
+                          "type": "item",
+                          "ref": "p53-q7-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p53-q7-d/space",
+                          "type": "item",
+                          "ref": "p53-q7-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p53-q7-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p53-q7-e/label",
+                          "type": "item",
+                          "ref": "p53-q7-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p53-q7-e/prompt",
+                          "type": "item",
+                          "ref": "p53-q7-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p53-q7-e/space",
+                          "type": "item",
+                          "ref": "p53-q7-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:24:25.857Z",
+  "updatedAt": "2026-10-21T11:24:25.858Z"
+}

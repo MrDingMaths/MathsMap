@@ -1,0 +1,491 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-88ba3b55-ad43-4fa6-a871-c7907ded74f6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-linear-inequalities-region",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Link algebraic rearrangement to boundary plotting and half-plane shading, reversing the inequality when dividing by a negative coefficient and preserving boundary inclusion.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:07:07.413Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d14187b652e8fa78b6873231303eae1c836a01d20dabdb1ef831cc6a0812f27a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/graph-regions-v1/a843a3d58232f6f172764bef215117c161dfd36aa2b7874008dbbc0567f0d604-1792559205544/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Sketch the region for the following linear inequalities.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-q5a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$x+3y<9$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y<-\\frac13x+3$. Dotted boundary through $(0,3)$ and $(9,0)$; shade below.",
+          "worked": "$$\\begin{align*}x+3y&<9\\\\3y&<-x+9\\\\y&<-\\frac13x+3\\end{align*}$$\nThe boundary has intercepts $(0,3)$ and $(9,0)$. Draw it dotted because the inequality is strict. Shade below the line; the boundary is excluded.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"D4E8FF\",\"reason\":\"required solution half-plane\"},{\"name\":\"boundaryBlue\",\"hex\":\"268CFF\",\"reason\":\"boundary matched to required-region legend\"}],\"reference\":\"source page 9 p9-q5a-graph\"}\n\\begin{tikzpicture}[x=0.25cm,y=0.20cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\definecolor{boundaryBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4,-7) rectangle (13,8);\n\\fill[regionFill] (-4,-6)--(12,-6)--(12,-1)--(-4,{13/3})--cycle;\n\\draw[<->,black,line width=0.5pt] (-4,0)--(12.7,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-6)--(0,7) node[above] {$y$};\n\\draw[<->,boundaryBlue,densely dashed,line width=0.8pt] (-4,{13/3})--(12,-1);\n\\fill[boundaryBlue] (0,3) circle (1.3pt) (9,0) circle (1.3pt);\n\\node[anchor=south east] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[below] at (9,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$9$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,draw=boundaryBlue,fill=regionFill,minimum size=2mm,inner sep=0pt] at (-3,-6.5) {};\n\\node[anchor=north west] at (-1.8,-6.5) {Region required};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5a supplied answer graph",
+                "description": "Ungriddded Cartesian graph with dotted descending boundary, labelled intercepts and a required-region legend. Origin O omitted under house convention; viewport chosen to show both intercepts.",
+                "mathematics": "Boundary y=-x/3+3 through (0,3) and (9,0); required half-plane y<-x/3+3.",
+                "answerVisibility": "Answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p9-q5b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$3x-y\\ge3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\le3x-3$. Solid boundary through $(0,-3)$ and $(1,0)$; shade below.",
+          "worked": "$$\\begin{align*}3x-y&\\ge3\\\\-y&\\ge3-3x\\\\y&\\le3x-3\\end{align*}$$\nDividing by $-1$ reverses the inequality. The boundary has intercepts $(0,-3)$ and $(1,0)$. Draw it solid and shade below the line, including the boundary.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"D4E8FF\",\"reason\":\"required solution half-plane\"},{\"name\":\"boundaryBlue\",\"hex\":\"268CFF\",\"reason\":\"boundary matched to required-region legend\"}],\"reference\":\"source page 9 p9-q5b-graph\"}\n\\begin{tikzpicture}[x=0.43cm,y=0.17cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\definecolor{boundaryBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4,-13) rectangle (7,14);\n\\fill[regionFill] (-3,-12)--(6,-12)--(6,12)--(5,12)--cycle;\n\\draw[<->,black,line width=0.5pt] (-3.5,0)--(6.5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-12)--(0,12.5) node[above] {$y$};\n\\draw[<->,boundaryBlue,line width=0.8pt] (-3,-12)--(5,12);\n\\fill[boundaryBlue] (0,-3) circle (1.3pt) (1,0) circle (1.3pt);\n\\node[anchor=east] at (0,-3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,draw=boundaryBlue,fill=regionFill,minimum size=2mm,inner sep=0pt] at (-3,-12.5) {};\n\\node[anchor=north west] at (-2.3,-12.5) {Region required};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5b supplied answer graph",
+                "description": "Ungriddded Cartesian graph with solid ascending boundary, labelled intercepts and required-region legend. The region below the steep boundary lies to its right in the displayed viewport. Origin O omitted.",
+                "mathematics": "Boundary y=3x-3 through (0,-3) and (1,0); required half-plane y<=3x-3.",
+                "answerVisibility": "Answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p9-q5c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$4x+2y\\ge8$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\ge-2x+4$. Solid boundary through $(0,4)$ and $(2,0)$; shade above.",
+          "worked": "$$\\begin{align*}4x+2y&\\ge8\\\\2y&\\ge-4x+8\\\\y&\\ge-2x+4\\end{align*}$$\nThe boundary has intercepts $(0,4)$ and $(2,0)$. Draw it solid and shade above the line, including the boundary.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"D4E8FF\",\"reason\":\"required solution half-plane\"},{\"name\":\"boundaryBlue\",\"hex\":\"268CFF\",\"reason\":\"boundary matched to required-region legend\"}],\"reference\":\"source page 9 p9-q5c-graph\"}\n\\begin{tikzpicture}[x=0.44cm,y=0.25cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\definecolor{boundaryBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4,-7) rectangle (6,9);\n\\fill[regionFill] (-2,8)--(5,8)--(5,-6)--cycle;\n\\draw[<->,black,line width=0.5pt] (-3.5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-6)--(0,8) node[above] {$y$};\n\\draw[<->,boundaryBlue,line width=0.8pt] (-2,8)--(5,-6);\n\\fill[boundaryBlue] (0,4) circle (1.3pt) (2,0) circle (1.3pt);\n\\node[anchor=east] at (0,4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,draw=boundaryBlue,fill=regionFill,minimum size=2mm,inner sep=0pt] at (-3,-6.5) {};\n\\node[anchor=north west] at (-2.3,-6.5) {Region required};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5c supplied answer graph",
+                "description": "Ungriddded Cartesian graph with solid descending boundary, labelled intercepts and required-region legend. Origin O omitted.",
+                "mathematics": "Boundary y=-2x+4 through (0,4) and (2,0); required half-plane y>=-2x+4.",
+                "answerVisibility": "Answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p9-q5d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$2x-3y\\ge18$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\le\\frac23x-6$. Solid boundary through $(0,-6)$ and $(9,0)$; shade below.",
+          "worked": "$$\\begin{align*}2x-3y&\\ge18\\\\-3y&\\ge18-2x\\\\y&\\le\\frac23x-6\\end{align*}$$\nDividing by $-3$ reverses the inequality. The boundary has intercepts $(0,-6)$ and $(9,0)$. Draw it solid and shade below the line, including the boundary.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5d-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"D4E8FF\",\"reason\":\"required solution half-plane\"},{\"name\":\"boundaryBlue\",\"hex\":\"268CFF\",\"reason\":\"boundary matched to required-region legend\"}],\"reference\":\"source page 9 p9-q5d-graph\"}\n\\begin{tikzpicture}[x=0.25cm,y=0.25cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\definecolor{boundaryBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-6,-11) rectangle (13,7);\n\\fill[regionFill] (-6,-10)--(12,-10)--(12,2)--cycle;\n\\draw[<->,black,line width=0.5pt] (-6,0)--(12.5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-10)--(0,6) node[above] {$y$};\n\\draw[<->,boundaryBlue,line width=0.8pt] (-6,-10)--(12,2);\n\\fill[boundaryBlue] (0,-6) circle (1.3pt) (9,0) circle (1.3pt);\n\\node[anchor=west] at (0,-6) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-6$\\special{dvisvgm:raw </g>}};\n\\node[above] at (9,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$9$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,draw=boundaryBlue,fill=regionFill,minimum size=2mm,inner sep=0pt] at (-5,-10.5) {};\n\\node[anchor=north west] at (-3.8,-10.5) {Region required};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5d supplied answer graph",
+                "description": "Ungriddded Cartesian graph with solid ascending boundary, labelled intercepts and required-region legend. Origin O omitted.",
+                "mathematics": "Boundary y=2x/3-6 through (0,-6) and (9,0); required half-plane y<=2x/3-6.",
+                "answerVisibility": "Answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p9-q5e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$-2x+y\\le5$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\le2x+5$. Solid boundary through $(0,5)$ and $(-2.5,0)$; shade below.",
+          "worked": "$$\\begin{align*}-2x+y&\\le5\\\\y&\\le2x+5\\end{align*}$$\nFor the $x$-intercept, $0=2x+5$, so $x=-\\frac52=-2.5$. The $y$-intercept is $5$. Draw a solid boundary through $(-2.5,0)$ and $(0,5)$, then shade below it, including the boundary.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5e-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"D4E8FF\",\"reason\":\"required solution half-plane\"},{\"name\":\"boundaryBlue\",\"hex\":\"268CFF\",\"reason\":\"boundary matched to required-region legend\"}],\"reference\":\"source page 9 p9-q5e-graph\"}\n\\begin{tikzpicture}[x=0.40cm,y=0.23cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\definecolor{boundaryBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-6,-6) rectangle (5,11);\n\\fill[regionFill] (-5,-5)--(4,-5)--(4,10)--(2.5,10)--cycle;\n\\draw[<->,black,line width=0.5pt] (-5.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-5)--(0,10) node[above] {$y$};\n\\draw[<->,boundaryBlue,line width=0.8pt] (-5,-5)--(2.5,10);\n\\fill[boundaryBlue] (-2.5,0) circle (1.3pt) (0,5) circle (1.3pt);\n\\node[below right] at (-2.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2.5$\\special{dvisvgm:raw </g>}};\n\\node[anchor=west] at (0,5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$5$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,draw=boundaryBlue,fill=regionFill,minimum size=2mm,inner sep=0pt] at (-5,-5.5) {};\n\\node[anchor=north west] at (-4.2,-5.5) {Region required};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5e supplied answer graph",
+                "description": "Ungriddded Cartesian graph with solid ascending boundary, labelled intercepts and required-region legend. Origin O omitted.",
+                "mathematics": "Boundary y=2x+5 through (-2.5,0) and (0,5); required half-plane y<=2x+5.",
+                "answerVisibility": "Answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p9-q5f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$-2x+4y\\le6$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\le\\frac12x+\\frac32$. Solid boundary through $(0,1.5)$ and $(-3,0)$; shade below.",
+          "worked": "$$\\begin{align*}-2x+4y&\\le6\\\\4y&\\le2x+6\\\\y&\\le\\frac12x+\\frac32\\end{align*}$$\nThe boundary has intercepts $(-3,0)$ and $(0,\\frac32)$. Draw it solid and shade below the line, including the boundary.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-q5f-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionFill\",\"hex\":\"D4E8FF\",\"reason\":\"required solution half-plane\"},{\"name\":\"boundaryBlue\",\"hex\":\"268CFF\",\"reason\":\"boundary matched to required-region legend\"}],\"reference\":\"source page 9 p9-q5f-graph\"}\n\\begin{tikzpicture}[x=0.40cm,y=0.40cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionFill}{HTML}{D4E8FF}\n\\definecolor{boundaryBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (6,6);\n\\fill[regionFill] (-5,-4)--(5,-4)--(5,4)--(-5,-1)--cycle;\n\\draw[<->,black,line width=0.5pt] (-5,0)--(5.5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-4)--(0,5) node[above] {$y$};\n\\draw[<->,boundaryBlue,line width=0.8pt] (-5,-1)--(5,4);\n\\fill[boundaryBlue] (-3,0) circle (1.3pt) (0,1.5) circle (1.3pt);\n\\node[below] at (-3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east] at (0,1.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1.5$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,draw=boundaryBlue,fill=regionFill,minimum size=2mm,inner sep=0pt] at (-4.5,-4.5) {};\n\\node[anchor=north west] at (-3.7,-4.5) {Region required};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 50,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 9,
+                "sourceRegion": "Question 5f supplied answer graph",
+                "description": "Ungriddded Cartesian graph with solid ascending boundary, labelled intercepts and required-region legend. Origin O omitted.",
+                "mathematics": "Boundary y=x/2+3/2 through (-3,0) and (0,1.5); required half-plane y<=x/2+3/2.",
+                "answerVisibility": "Answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p9-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p9-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p9-q5-root/label",
+                  "type": "item",
+                  "ref": "p9-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p9-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p9-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p9-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p9-q5-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p9-q5a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p9-q5a/label",
+                              "type": "item",
+                              "ref": "p9-q5a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p9-q5a/prompt",
+                              "type": "item",
+                              "ref": "p9-q5a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p9-q5a/space",
+                              "type": "item",
+                              "ref": "p9-q5a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p9-q5b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p9-q5b/label",
+                              "type": "item",
+                              "ref": "p9-q5b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p9-q5b/prompt",
+                              "type": "item",
+                              "ref": "p9-q5b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p9-q5b/space",
+                              "type": "item",
+                              "ref": "p9-q5b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p9-q5c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p9-q5c/label",
+                              "type": "item",
+                              "ref": "p9-q5c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p9-q5c/prompt",
+                              "type": "item",
+                              "ref": "p9-q5c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p9-q5c/space",
+                              "type": "item",
+                              "ref": "p9-q5c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p9-q5-root:row:3",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p9-q5d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p9-q5d/label",
+                              "type": "item",
+                              "ref": "p9-q5d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p9-q5d/prompt",
+                              "type": "item",
+                              "ref": "p9-q5d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p9-q5d/space",
+                              "type": "item",
+                              "ref": "p9-q5d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p9-q5e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p9-q5e/label",
+                              "type": "item",
+                              "ref": "p9-q5e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p9-q5e/prompt",
+                              "type": "item",
+                              "ref": "p9-q5e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p9-q5e/space",
+                              "type": "item",
+                              "ref": "p9-q5e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p9-q5f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p9-q5f/label",
+                              "type": "item",
+                              "ref": "p9-q5f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p9-q5f/prompt",
+                              "type": "item",
+                              "ref": "p9-q5f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p9-q5f/space",
+                              "type": "item",
+                              "ref": "p9-q5f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:17:39.151Z",
+  "updatedAt": "2026-10-21T08:17:39.151Z"
+}

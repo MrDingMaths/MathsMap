@@ -1,0 +1,254 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-983641cf-4589-472b-9035-2541a1e5a469",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "identify-outliers-iqr",
+    "secondarySkillIds": [
+      "interquartile-range"
+    ],
+    "reasoningScore": 26,
+    "difficulty": "Development",
+    "difficultyReason": "Read quartiles and extremes from the box plot, calculate the explicitly requested IQR and fences, and compare the extremes to establish whether outliers exist.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:10.311Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e651a4ca24ccf3e1b2bdcb62873f88c77bd076c420db4571a3816513694f6488",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/39f9bd4e63647ec95333179f4b245e099cf0954f745cbffa8f5a16c393cf3aff-1792561425660/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The results of an assignment are represented in the following box plot.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42, p42-q5-diagram\"}\n\\begin{tikzpicture}[x=0.25cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.5pt,->] (30,0)--(62.5,0);\n\\foreach \\v in {30,...,60} {\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-0.07);}\n\\foreach \\v in {30,35,40,45,50,55,60} {\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-0.10) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt] (31,0.7)--(42,0.7);\n\\draw[black,line width=0.8pt] (48,0.7)--(56,0.7);\n\\fill[black] (30.944,0.55) rectangle (31.056,0.85);\n\\fill[black] (55.944,0.55) rectangle (56.056,0.85);\n\\draw[black,line width=0.8pt] (42,0.45) rectangle (48,0.95);\n\\fill[black] (43.944,0.45) rectangle (44.056,0.95);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 5 box plot between the shared stem and part a",
+          "description": "Unfilled horizontal box plot with vertical whisker caps and median line above a unit-ticked axis labelled every five units from 30 to 60, with a right-pointing arrow.",
+          "mathematics": {
+            "minimum": 31,
+            "lowerQuartile": 42,
+            "median": 44,
+            "upperQuartile": 48,
+            "maximum": 56,
+            "axisMinimum": 30,
+            "axisMaximumLabel": 60,
+            "tickStep": 1,
+            "labelStep": 5
+          },
+          "answerVisibility": "Permanent supplied question diagram; no answers or fence annotations."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the interquartile range.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6$",
+          "worked": "$$\\begin{align*}\\mathrm{IQR}&=Q_3-Q_1\\\\&=48-42\\\\&=6\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p42-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What are the upper and lower limits for outliers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Upper limit: $57$. Lower limit: $33$.",
+          "worked": "$$\\begin{align*}\\text{Upper limit}&=Q_3+1.5\\times\\mathrm{IQR}\\\\&=48+1.5\\times6\\\\&=57\\\\\\text{Lower limit}&=Q_1-1.5\\times\\mathrm{IQR}\\\\&=42-1.5\\times6\\\\&=33\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p42-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Are there outliers in this dataset?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Yes. The minimum, $31$, is below the lower limit of $33$.",
+          "worked": "The minimum is $31$. Since $31<33$, there is at least one outlier below the lower limit. The maximum is $56<57$, so there are no outliers above the upper limit.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p42-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p42-q5-root/label",
+                  "type": "item",
+                  "ref": "p42-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p42-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p42-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p42-q5-diagram",
+                  "type": "item",
+                  "ref": "p42-q5-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p42-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p42-q5-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q5-a/label",
+                          "type": "item",
+                          "ref": "p42-q5-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p42-q5-a/prompt",
+                          "type": "item",
+                          "ref": "p42-q5-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q5-a/space",
+                          "type": "item",
+                          "ref": "p42-q5-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p42-q5-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q5-b/label",
+                          "type": "item",
+                          "ref": "p42-q5-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p42-q5-b/prompt",
+                          "type": "item",
+                          "ref": "p42-q5-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q5-b/space",
+                          "type": "item",
+                          "ref": "p42-q5-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p42-q5-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q5-c/label",
+                          "type": "item",
+                          "ref": "p42-q5-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p42-q5-c/prompt",
+                          "type": "item",
+                          "ref": "p42-q5-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p42-q5-c/space",
+                          "type": "item",
+                          "ref": "p42-q5-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:36:51.141Z",
+  "updatedAt": "2026-10-21T09:36:51.141Z"
+}

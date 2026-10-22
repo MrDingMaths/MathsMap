@@ -1,0 +1,152 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8d40e1a7-f442-4dec-8f39-92b8e2a605d2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "unknown-angles-point",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Combine full-turn sector packing with the number of vertical layers, checking matching radii."
+  },
+  "content": {
+    "id": "p74-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "You are a mouse. How many mini-cheeses will fit into this container?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p74-q12-cheese",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 74 p74-q12-cheese\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0.32);\n\\coordinate (Ob) at (0,0);\n\\coordinate (A) at (-3,0.32);\n\\coordinate (Ab) at (-3,0);\n\\coordinate (B) at ({3*cos(225)-sin(225)},{1.5*sin(225)+0.32});\n\\coordinate (Bb) at ({3*cos(225)-sin(225)},{1.5*sin(225)});\n% Explicit top-sector face boundary; no fill.\n\\path (O)--(A) plot[domain=180:225,samples=30] ({3*cos(\\x)-sin(\\x)},{1.5*sin(\\x)+0.32})--cycle;\n% Explicit visible radial face at theta=225; no fill.\n\\path (O)--(B)--(Bb)--(Ob)--cycle;\n% Explicit curved outer face; no fill.\n\\path (A) plot[domain=180:225,samples=30] ({3*cos(\\x)-sin(\\x)},{1.5*sin(\\x)+0.32})--(Bb) plot[domain=225:180,samples=30] ({3*cos(\\x)-sin(\\x)},{1.5*sin(\\x)})--cycle;\n\\draw[black,line width=0.8pt] (A)--(O)--(B);\n\\draw[black,line width=0.8pt] plot[domain=180:225,samples=30] ({3*cos(\\x)-sin(\\x)},{1.5*sin(\\x)+0.32});\n\\draw[black,line width=0.8pt] (A)--(Ab);\n\\draw[black,line width=0.8pt] (B)--(Bb)--(Ob)--(O);\n\\draw[black,line width=0.8pt] plot[domain=180:225,samples=30] ({3*cos(\\x)-sin(\\x)},{1.5*sin(\\x)});\n\\path (A)--(Ab) node[midway,left] {$2\\mathrm{cm}$};\n\\path (Bb)--(Ob) node[midway,below right] {$5\\mathrm{cm}$};\n\\node at (-1.2,-0.25) {$45^\\circ$};\n% Obscured lower radial edge: adjacent bottom and theta180 faces both face away.\n\\draw[black,line width=0.8pt,dashed] (Ob)--(Ab);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 39.2,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 74,
+          "sourceRegion": "Question 12, left member of paired solids",
+          "description": "Sector prism with its pointed vertex at the right/back and curved outer end at the left/front. Preserve 45 degrees on the top sector, 5 cm on the lower/right radial side and 2 cm beside the left thickness. No added angle arc.",
+          "mathematics": "Circular sector180..225 extruded vertically; projection x=X−Y/3,y=Y/2+Z, view(-1/3,-1,1/2). Top, theta225 radial and curved outer faces visible; lower theta180 radial edge hidden/dashed. Printed radius5cm and height2cm retained; projection schematic.",
+          "answerVisibility": "All three given measurements remain visible. No count or answer is drawn.",
+          "sourceColourEvidence": "Small black/grey raster linework on white; fine edge details are uncertain.",
+          "shadingDecision": "All faces unfilled. No face-differentiation shading.",
+          "visibilityReview": "Explicit face/view derivation recorded in p74-solid-model-review.json and superseding p74-solid-view-r35.json. Hidden boundaries restored as dashed; final-size acceptance pending."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p74-q12-container",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 74 p74-q12-container\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n% Explicit top face and visible lateral face, both unfilled.\n\\path (0,0.9) ellipse[x radius=1.8,y radius=0.45];\n\\path (-1.8,0.9)--(-1.8,0) arc[start angle=180,end angle=360,x radius=1.8,y radius=0.45]--(1.8,0.9) arc[start angle=360,end angle=180,x radius=1.8,y radius=0.45]--cycle;\n\\draw[black,line width=0.8pt] (0,0.9) ellipse[x radius=1.8,y radius=0.45];\n\\draw[black,line width=0.8pt] (-1.8,0.9)--(-1.8,0);\n\\draw[black,line width=0.8pt] (1.8,0.9)--(1.8,0);\n\\draw[black,line width=0.8pt] (-1.8,0) arc[start angle=180,end angle=360,x radius=1.8,y radius=0.45];\n\\draw[black,line width=0.4pt,dashed] (-1.8,0.9)--(1.8,0.9);\n\\node[fill=white,inner sep=2pt] at (0,0.9) {$10\\mathrm{cm}$};\n\\path (1.8,0.9)--(1.8,0) node[midway,right] {$4\\mathrm{cm}$};\n% Obscured rear half of the lower circular rim.\n\\draw[black,line width=0.8pt,dashed] (-1.8,0) arc[start angle=180,end angle=0,x radius=1.8,y radius=0.45];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 44,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 74,
+          "sourceRegion": "Question 12, right member of paired solids",
+          "description": "Unshaded cylinder with a full elliptical top rim, vertical silhouette sides and front lower elliptical arc. Dashed top diameter is interrupted by its 10 cm label. Height 4 cm is outside the right side.",
+          "mathematics": "Ideal cylinder x^2+y^2 <= 25, 0 <= z <= 4. Projection P(x,y,z)=(0.36x,0.11y+0.15z), viewer direction (0,-0.15,0.11). Top disc is visible. The front half of the lateral face has y<0. Silhouettes are x=+-5. Bottom rear rim y>0 is hidden and omitted. Dashed diameter is a measurement guide, not an object edge.",
+          "answerVisibility": "Only the source diameter 10 cm and height 4 cm are labelled; no radius or answer is added.",
+          "sourceColourEvidence": "Black/grey raster outlines, dashed top diameter and black labels.",
+          "shadingDecision": "Unfilled faces. A small white mask behind the diameter label preserves the source interruption of the dashed guide.",
+          "visibilityReview": "Explicit face/view derivation recorded in p74-solid-model-review.json and superseding p74-solid-view-r35.json. Hidden boundaries restored as dashed; final-size acceptance pending."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "16 mini-cheeses",
+      "worked": "The container radius is $10\\div2=5\\mathrm{cm}$, matching the cheese radius.\n$$\\begin{align*}\\text{Cheeses per layer} &= 360^\\circ\\div45^\\circ\\\\\\text{Cheeses per layer} &= 8\\\\\\text{Number of layers} &= 4\\div2\\\\\\text{Number of layers} &= 2\\\\\\text{Total mini-cheeses} &= 2\\times8\\\\\\text{Total mini-cheeses} &= 16\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 25
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p74-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p74-q12-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p74-q12-root/label",
+                  "type": "item",
+                  "ref": "p74-q12-root/label"
+                },
+                {
+                  "id": "p74-q12-stem-item",
+                  "type": "item",
+                  "ref": "p74-q12-root/prompt",
+                  "align": "left"
+                },
+                {
+                  "id": "p74-q12-paired-solids",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p74-q12-cheese-item",
+                      "type": "item",
+                      "ref": "p74-q12-cheese",
+                      "width": 39.2,
+                      "weight": 65,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p74-q12-container-item",
+                      "type": "item",
+                      "ref": "p74-q12-container",
+                      "width": 55,
+                      "weight": 55,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 7,
+                  "width": 127,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "layout:p74-q12-root/space",
+                  "type": "item",
+                  "ref": "p74-q12-root/space"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p74-q12"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-09-14T07:03:33.046Z",
+  "updatedAt": "2026-09-14T07:03:33.046Z"
+}

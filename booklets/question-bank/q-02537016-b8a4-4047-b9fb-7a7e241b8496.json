@@ -1,0 +1,406 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-02537016-b8a4-4047-b9fb-7a7e241b8496",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Build the ordered outcome tree and translate conditions into favourable paths, especially recognising that no more than one 2 includes outcomes with zero 2s.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:22.628Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f642671ed6c2ede87ce73a0a645f2396c0bbd54b9421f0c267e72cdd7a8ed469",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/cc1c2a04a167a7646fa0d225e69171a892812e8924835418a62ee9e7ae9f2c52-1792560710787/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "A spinner with three numbers, 1, 2 and 3, is spun twice.\nEach number is equally likely to be spun on a single spin.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q19-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "List the set of possible outcomes, using a tree diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{11,12,13,21,22,23,31,32,33\\}$",
+          "worked": "Each first-spin result branches to 1, 2 and 3 on the second spin. The complete paths give $\\{11,12,13,21,22,23,31,32,33\\}$.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-q19-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 16 p16-q19-a-tree\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=0.6mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[align=center] at (14,31) {Spin\\\\1};\\node[align=center] at (31,31) {Spin\\\\2};\\node at (45,31) {Outcomes};\n\\foreach \\y/\\a in {18/1,0/2,-18/3}{\\draw (0,0)--(14,\\y);\\foreach \\d in {5,0,-5}{\\draw (14,\\y)--(30,{\\y+\\d});}}\n\\foreach \\y/\\a in {18/1,0/2,-18/3}{\\node[fill=white] at (14,\\y) {\\a};\\foreach \\d/\\b in {5/1,0/2,-5/3}{\\node[anchor=west,fill=white] at (30,{\\y+\\d}) {\\b};\\node at (45,{\\y+\\d}) {\\a\\b};}}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 16,
+                "sourceRegion": "Question 19(a), supplied completed tree",
+                "description": "Two-stage tree with first-spin branches 1, 2, 3; each branches to second-spin results 1, 2, 3. Nine terminal outcomes align with their complete paths. Ordinary strokes and labels use house black; no shading.",
+                "mathematics": "Ordered sample space: 11, 12, 13, 21, 22, 23, 31, 32, 33. No branch probabilities are printed.",
+                "answerVisibility": "Supplied completed tree belongs only in the answer."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p16-q19-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the total number of possible outcomes?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$9$",
+          "worked": "$3\\times3=9$ outcomes.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p16-q19-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Find the probability of spinning:",
+        "layout": "grid",
+        "columns": 4,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-q19-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "two 3s",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{9}$",
+              "worked": "Only 33 has two 3s.\n$$P(\\text{two 3s})=\\frac{1}{9}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p16-q19-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "at least one 3",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{5}{9}$",
+              "worked": "The favourable outcomes are 13, 23, 31, 32 and 33.\n$$P(\\text{at least one 3})=\\frac{5}{9}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p16-q19-c-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "no more than one 2",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{8}{9}$",
+              "worked": "Every outcome except 22 has zero or one 2, giving 8 favourable outcomes.\n$$P(\\text{no more than one 2})=\\frac{8}{9}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p16-q19-c-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "two odd numbers",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{4}{9}$",
+              "worked": "The favourable outcomes are 11, 13, 31 and 33.\n$$P(\\text{two odd numbers})=\\frac{4}{9}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q19",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p16-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p16-q19-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p16-q19-root/label",
+                  "type": "item",
+                  "ref": "p16-q19-root/label",
+                  "title": "Label 19"
+                },
+                {
+                  "id": "layout:p16-q19-root/prompt",
+                  "type": "item",
+                  "ref": "p16-q19-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p16-q19-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p16-q19-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q19-a/label",
+                          "type": "item",
+                          "ref": "p16-q19-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p16-q19-a/prompt",
+                          "type": "item",
+                          "ref": "p16-q19-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q19-a/space",
+                          "type": "item",
+                          "ref": "p16-q19-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p16-q19-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q19-b/label",
+                          "type": "item",
+                          "ref": "p16-q19-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p16-q19-b/prompt",
+                          "type": "item",
+                          "ref": "p16-q19-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q19-b/space",
+                          "type": "item",
+                          "ref": "p16-q19-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p16-q19-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q19-c/label",
+                          "type": "item",
+                          "ref": "p16-q19-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p16-q19-c/prompt",
+                          "type": "item",
+                          "ref": "p16-q19-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p16-q19-c:parts",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p16-q19-c-i:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q19-c-i/label",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-i/label",
+                                  "title": "Label i"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-i/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-i/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-i/space",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-i/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part i",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p16-q19-c-ii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q19-c-ii/label",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-ii/label",
+                                  "title": "Label ii"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-ii/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-ii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-ii/space",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-ii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part ii",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p16-q19-c-iii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q19-c-iii/label",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-iii/label",
+                                  "title": "Label iii"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-iii/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-iii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-iii/space",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-iii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iii",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p16-q19-c-iv:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q19-c-iv/label",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-iv/label",
+                                  "title": "Label iv"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-iv/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-iv/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q19-c-iv/space",
+                                  "type": "item",
+                                  "ref": "p16-q19-c-iv/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iv",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 19",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:52:01.938Z",
+  "updatedAt": "2026-10-21T10:52:01.939Z"
+}

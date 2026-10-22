@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b5a48f1c-69bb-4e37-b6fb-6e11b4f51d72",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-circle"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Convert the stated radius-to-diameter relationship into an area ratio, subtract the inner circle, and combine the ring's fraction of the outer circle with the three shaded sectors out of six.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:27.942Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "351a5e3fc232673ec1a9e81bfc5647c08755b1339ef2240f7fc5ada3aebd673f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/57edba1e62e7a142a69e612abf82519a6c7bc2196690170309fc5fee3aa8a94e-1792556108162/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q11-response",
+    "type": "question",
+    "label": "11",
+    "prompt": "The diagram shows two circles with the same centre.\nThe radius of the outer circle is equal to the diameter of the inner circle.\nIf the region between the two circles is divided into six equal segments, what fraction of the area of the outer circle is shaded in the diagram?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"shadedRegion\",\"hex\":\"FCDFE1\",\"reason\":\"Identifies the three annular sectors whose combined area is requested\"}],\"reference\":\"source page 34, p34-q11-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{shadedRegion}{HTML}{FCDFE1}\n\\path[fill=shadedRegion] (90:2) arc[start angle=90,end angle=150,radius=2] -- (150:1) arc[start angle=150,end angle=90,radius=1] -- cycle;\n\\path[fill=shadedRegion] (-30:2) arc[start angle=-30,end angle=30,radius=2] -- (30:1) arc[start angle=30,end angle=-30,radius=1] -- cycle;\n\\path[fill=shadedRegion] (210:2) arc[start angle=210,end angle=270,radius=2] -- (270:1) arc[start angle=270,end angle=210,radius=1] -- cycle;\n\\draw[black,line width=0.8pt] (0,0) circle[radius=2];\n\\draw[black,line width=0.8pt] (0,0) circle[radius=1];\n\\foreach \\a in {30,90,150,210,270,330} {\n  \\draw[black,line width=0.8pt] (\\a:1) -- (\\a:2);\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 11, concentric-circle diagram below the prompt on the left",
+          "description": "Two concentric circles with six equal annular sectors. The upper-left, right and lower-left sectors are shaded. The inner disc remains white; no centre marker, dimensions or labels are printed.",
+          "mathematics": "The outer radius is twice the inner radius. Annular boundaries occur at 30, 90, 150, 210, 270 and 330 degrees. Three of the six annular sectors are shaded.",
+          "answerVisibility": "The shaded regions are permanent question givens. No supplied answer or solution annotation appears in the diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\frac{3}{8}$. Half the ring is shaded, and the ring occupies $\\frac{3}{4}$ of the outer circle.",
+      "worked": "Let the inner radius be $r$, so the outer radius is $2r$.\n$$\\begin{align*}\nA_{\\text{ring}} &= \\pi(2r)^2-\\pi r^2 \\\\\nA_{\\text{ring}} &= 3\\pi r^2\n\\end{align*}$$\nThree of the six equal sectors are shaded, so half the ring is shaded.\n$$\\begin{align*}\nA_{\\text{shaded}} &= \\frac{1}{2}\\times3\\pi r^2 \\\\\n\\text{Fraction shaded} &= \\frac{\\frac{3}{2}\\pi r^2}{\\pi(2r)^2} \\\\\n\\text{Fraction shaded} &= \\frac{3}{8}\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 55
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q11-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p34-q11-label-item",
+                  "type": "item",
+                  "ref": "p34-q11-response/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p34-q11-body-stack",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p34-q11-prompt-item",
+                      "type": "item",
+                      "ref": "p34-q11-response/prompt",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p34-q11-diagram-item",
+                      "type": "item",
+                      "ref": "p34-q11-diagram",
+                      "width": 40,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p34-q11-working-item",
+                      "type": "item",
+                      "ref": "p34-q11-response/space",
+                      "height": 0,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 4,
+                  "weight": 1
+                }
+              ],
+              "gap": 3,
+              "verticalAlign": "top"
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p34-q11-response": 0
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p34-q11"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:43:25.095Z",
+  "updatedAt": "2026-10-21T10:43:25.095Z"
+}

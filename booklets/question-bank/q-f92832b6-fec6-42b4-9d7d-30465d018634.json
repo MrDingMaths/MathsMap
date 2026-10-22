@@ -1,0 +1,299 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f92832b6-fec6-42b4-9d7d-30465d018634",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "distance-between-points",
+      "midpoint-of-interval"
+    ],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Calculate the specified diagonal lengths and midpoints, then interpret equal lengths and coincident midpoints as equal diagonals that bisect each other.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:41:21.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "969433d0b2cf3993cdadd1c225e42aebb0f958e59e7bcd46cccb92969ce7ed60",
+      "evidence": ".booklet-work/reasoning-ratings/calls/coordinate-geometry-problems-v1/4adbd17b595ad2aa6618ac211f0fd8e4bacbec6dc1fcbac68c95ba4811318cd2-1792557652616/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "$A(-3,0)$, $B(1,6)$, $C(4,4)$ and $D(0,-2)$ are the vertices of a rectangle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"rectangleBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied quadrilateral plotted on coordinate axes\"}],\"reference\":\"source page 12 p12-q1-diagram\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.48cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{gridBorder}{HTML}{CCCCCC}\n\\definecolor{rectangleBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.3,-4.3) rectangle (6.5,8.5);\n\\draw[step=1,gridBorder,line width=0.25pt] (-5,-4) grid (6,8);\n\\draw[<->,black,line width=0.5pt] (-5,0)--(6,0) node[below left] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-4)--(0,8) node[above left] {$y$};\n\\foreach \\v in {-4,-3,-2,-1,1,2,3,4,5}{\\draw[black,line width=0.4pt] (\\v,0.10)--(\\v,-0.10);\\node[below,inner sep=2pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-3,-2,-1,1,2,3,4,5,6,7}{\\draw[black,line width=0.4pt] (0.10,\\v)--(-0.10,\\v);\\node[left,inner sep=2pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[below left,inner sep=2pt] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\coordinate (A) at (-3,0);\\coordinate (B) at (1,6);\\coordinate (C) at (4,4);\\coordinate (D) at (0,-2);\n\\draw[rectangleBlue,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\foreach \\p in {A,B,C,D}{\\fill[rectangleBlue] (\\p) circle (1.5pt);}\n\\node[above left,black] at (A) {$A$};\\node[above left,black] at (B) {$B$};\\node[above right,black] at (C) {$C$};\\node[below right,black] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Q1 coordinate grid",
+          "description": "Rectangle ABCD on a unit grid, with double-ended axes, supplied numerical ticks and no diagonals.",
+          "mathematics": {
+            "vertices": {
+              "A": [
+                -3,
+                0
+              ],
+              "B": [
+                1,
+                6
+              ],
+              "C": [
+                4,
+                4
+              ],
+              "D": [
+                0,
+                -2
+              ]
+            },
+            "gridBounds": {
+              "x": [
+                -5,
+                6
+              ],
+              "y": [
+                -4,
+                8
+              ]
+            },
+            "gridStep": 1,
+            "xTickLabels": [
+              -4,
+              -3,
+              -2,
+              -1,
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "yTickLabels": [
+              -3,
+              -2,
+              -1,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ]
+          },
+          "answerVisibility": "Permanent supplied question figure; no calculated diagonals or midpoint annotations."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p12-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the lengths of $AC$ and $BD$ and show that the diagonals are equal.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AC=BD=\\sqrt{65}$; the diagonals are equal.",
+          "worked": "$$\\begin{align*}AC&=\\sqrt{(4-(-3))^2+(4-0)^2}=\\sqrt{65}\\\\BD&=\\sqrt{(0-1)^2+(-2-6)^2}=\\sqrt{65}\\end{align*}$$\nThe diagonals are equal.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p12-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the midpoints of the diagonals $AC$ and $BD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both midpoints are $\\left(\\frac12,2\\right)$.",
+          "worked": "$$\\begin{align*}M_{AC}&=\\left(\\frac{-3+4}{2},\\frac{0+4}{2}\\right)=\\left(\\frac12,2\\right)\\\\M_{BD}&=\\left(\\frac{1+0}{2},\\frac{6+(-2)}{2}\\right)=\\left(\\frac12,2\\right)\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p12-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What property of rectangles have you shown?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The diagonals of a rectangle are equal and bisect each other.",
+          "worked": "The diagonals have equal lengths and the same midpoint, so they are equal and bisect each other.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q1-root/label",
+                  "type": "item",
+                  "ref": "p12-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p12-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p12-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q1-diagram",
+                  "type": "item",
+                  "ref": "p12-q1-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p12-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p12-q1-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-q1-a/label",
+                          "type": "item",
+                          "ref": "p12-q1-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p12-q1-a/prompt",
+                          "type": "item",
+                          "ref": "p12-q1-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-q1-a/space",
+                          "type": "item",
+                          "ref": "p12-q1-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q1-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-q1-b/label",
+                          "type": "item",
+                          "ref": "p12-q1-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p12-q1-b/prompt",
+                          "type": "item",
+                          "ref": "p12-q1-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-q1-b/space",
+                          "type": "item",
+                          "ref": "p12-q1-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q1-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p12-q1-c/label",
+                          "type": "item",
+                          "ref": "p12-q1-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p12-q1-c/prompt",
+                          "type": "item",
+                          "ref": "p12-q1-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p12-q1-c/space",
+                          "type": "item",
+                          "ref": "p12-q1-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:52:49.355Z",
+  "updatedAt": "2026-10-21T07:52:49.355Z"
+}

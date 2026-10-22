@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e01ba6f2-e2d7-40d7-aeb2-989c9d197f5f",
+  "status": "approved",
+  "title": "2021 HSC Standard 2 Band 5",
+  "classification": {
+    "primarySkillId": "exponential-growth-decay-model",
+    "secondarySkillIds": [
+      "interpret-exponential-model"
+    ],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Find the initial population and substitute five years, then translate those results into labelled points and an increasing exponential sketch on unscaled axes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:00:43.890Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "88d28a279946c5b3bd19c6f6187ec25553f04c9d7c4507127b5ec3632e4d7887",
+      "evidence": ".booklet-work/reasoning-ratings/calls/features-quadratics-exponentials-v1/dfe26093468ead068a47188286d6c46826acb6e7a7edfc8932b1a405e15e2a7c-1792558827815/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p46-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "A population $P$ is to be modelled using the function $P = 2000(1.2)^t$ where $t$ is the time in years.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p46-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the initial population?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "2000",
+          "worked": "At $t=0$,\n$$\\begin{aligned}P&=2000(1.2)^0\\\\P&=2000.\\end{aligned}$$\nThe initial population is 2000.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p46-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the population after 5 years. Answer to the nearest whole.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "4977",
+          "worked": "$$\\begin{aligned}P&=2000(1.2)^5\\\\P&=4976.64\\\\P&\\approx4977.\\end{aligned}$$\nThe population after 5 years is 4977, to the nearest whole.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p46-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "On the axes, sketch the population against time, showing the points at $t = 0$ and $t = 5$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p46-q9-axes",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 46 p46-q9-axes\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.0006cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.3,-850) rectangle (7.2,6600);\n\\draw[black,line width=0.5pt,->] (-1,0)--(7,0) node[below left,font=\\fontsize{10}{12}\\selectfont] {$t$};\n\\draw[black,line width=0.5pt,->] (0,-700)--(0,6400) node[above left,font=\\fontsize{10}{12}\\selectfont] {$P$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 46,
+              "sourceRegion": "Question 9, blank axes at upper right",
+              "description": "Unnumbered perpendicular axes with positive arrowheads, labels P and t, and short negative extensions. No grid, ticks or curve.",
+              "mathematics": "Blank axes for a sketch of P=2000(1.2)^t.",
+              "answerVisibility": "Student scaffold only; the completed curve and points are answer-side."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "Exponential growth curve through $(0,2000)$ and $(5,4977)$.",
+          "worked": "Plot $(0,2000)$ and $(5,4976.64)$, labelling the second population as 4977 to the nearest whole. Draw a smooth increasing exponential curve for $t\\geq0$, becoming steeper as time increases.",
+          "solutionDiagrams": [
+            {
+              "id": "p46-q9-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 46 p46-q9-c solution\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.0006cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.3,-850) rectangle (7.2,6600);\n\\draw[black,line width=0.5pt,->] (-1,0)--(7,0) node[below left,font=\\fontsize{10}{12}\\selectfont] {$t$};\n\\draw[black,line width=0.5pt,->] (0,-700)--(0,6400) node[above left,font=\\fontsize{10}{12}\\selectfont] {$P$};\n\\draw[black,line width=0.8pt,domain=0:6.2,samples=90,->] plot (\\x,{2000*pow(1.2,\\x)});\n\\fill[black] (0,2000) circle[radius=1.5pt];\n\\node[anchor=west,font=\\fontsize{10}{12}\\selectfont] at (0.15,1850) {$(0,2000)$};\n\\fill[black] (5,4976.64) circle[radius=1.5pt];\n\\node[anchor=south east,font=\\fontsize{10}{12}\\selectfont] at (4.95,5100) {$(5,4977)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 46,
+                "sourceRegion": "Question 9 supplied textual sketch answer",
+                "description": "Complete answer graph on unnumbered axes, showing an increasing exponential curve and the two requested labelled points.",
+                "mathematics": "P=2000(1.2)^t for t>=0; P(0)=2000 and P(5)=4976.64, labelled 4977 after rounding.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p46-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:44:13.013Z",
+  "updatedAt": "2026-10-21T08:44:13.013Z"
+}

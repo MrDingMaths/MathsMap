@@ -1,0 +1,141 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-68893cc0-8f9d-4bea-a84e-d578b83d646d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "pythagoras-find-side",
+      "area-of-sector",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 73,
+    "difficulty": "Mastery",
+    "difficultyReason": "Find an unstated radius using Pythagoras, then combine two triangle areas with a sector area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-01T04:45:25.355Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e06f4f5ecd21c327dd12c0f43450e6e08cdbd63c757cb71f07122ca67fa5e5ae",
+      "evidence": ".booklet-work/full-imports/area-circles-sectors-v1-20261001/semantic-packets/assignments/assignment-505dd7eb9b36ecbb6e2e/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q6-response",
+    "type": "question",
+    "label": "6",
+    "prompt": "Find the area of the composite shape to 2 d.p.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 32, p32-q6-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=5mm,y=5mm,draw=black,text=black,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (BL) at (-4,0);\n\\coordinate (BR) at (4,0);\n\\coordinate (L) at (-4,3);\n\\coordinate (R) at (4,3);\n\\pgfmathsetmacro{\\rightangle}{atan2(3,4)}\n\\pgfmathsetmacro{\\leftangle}{180-\\rightangle}\n\\draw[line width=0.8pt] (L) -- (BL) -- (BR) -- (R);\n\\draw[line width=0.8pt] (L) arc[start angle=\\leftangle,end angle=\\rightangle,radius=25mm];\n\\draw[line width=0.4pt,dashed] (L) -- (O) -- (R);\n\\foreach \\side in {BL,BR}{\n  \\coordinate (Vone) at ($(\\side)+(0,1.35)$);\n  \\coordinate (Vtwo) at ($(\\side)+(0,1.65)$);\n  \\draw[line width=0.4pt] ($(Vone)+(-0.38,0)$) -- ($(Vone)+(0.38,0)$);\n  \\draw[line width=0.4pt] ($(Vtwo)+(-0.38,0)$) -- ($(Vtwo)+(0.38,0)$);\n}\n\\coordinate (LT) at ($(O)!0.55!(L)$);\n\\coordinate (RT) at ($(O)!0.55!(R)$);\n\\draw[line width=0.4pt] ($(LT)+(-0.18,-0.24)$) -- ($(LT)+(0.18,0.24)$);\n\\draw[line width=0.4pt] ($(RT)+(-0.18,0.24)$) -- ($(RT)+(0.18,-0.24)$);\n\\pic[draw=black,line width=0.4pt,angle radius=4mm,angle eccentricity=1.9,\"$106^\\circ$\"] {angle=R--O--L};\n\\node[below=2mm] at ($(BL)!0.5!(BR)$) {$8\\,\\mathrm{mm}$};\n\\node[right=2mm] at ($(BR)!0.5!(R)$) {$3\\,\\mathrm{mm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Question 6 diagram below the prompt on the left",
+          "description": "An unshaded composite outline with a horizontal base, equal vertical sides and a circular arc. Dashed equal radii join the base midpoint to the arc endpoints.",
+          "mathematics": "The base is 8 mm and both vertical sides are 3 mm. The radii are equal and meet at the base midpoint. Preserve the source's stated 106° angle, its angle marker, double ticks on the vertical sides and single ticks on the radii. Coordinates derived from the lengths give radius 5 mm and an angle approximately 106°.",
+          "answerVisibility": "Only source givens appear: 8 mm, 3 mm and 106°. The radius and area are withheld."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$35.13\\text{ mm}^2$",
+      "worked": "Half the base is $4\\text{ mm}$. Using a right-angled triangle:\n$$\\begin{align*}r&=\\sqrt{4^2+3^2}\\\\r&=5\\text{ mm}\\end{align*}$$\nAdd the areas of the two triangles and the sector.\n$$\\begin{align*}A&=2\\left(\\frac12\\times3\\times4\\right)+\\frac{106}{360}\\pi(5)^2\\\\A&=12+\\frac{265\\pi}{36}\\\\A&\\approx35.13\\text{ mm}^2\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 46
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p32-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p32-q6-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p32-q6-heading-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p32-q6-label-item",
+                      "type": "item",
+                      "ref": "p32-q6-response/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p32-q6-prompt-item",
+                      "type": "item",
+                      "ref": "p32-q6-response/prompt",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p32-q6-working-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p32-q6-diagram-item",
+                      "type": "item",
+                      "ref": "p32-q6-diagram",
+                      "width": 55,
+                      "weight": 55,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p32-q6-space-item",
+                      "type": "item",
+                      "ref": "p32-q6-response/space",
+                      "width": 110,
+                      "weight": 100,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p32-q6"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:43:36.468Z",
+  "updatedAt": "2026-10-21T10:43:36.468Z"
+}

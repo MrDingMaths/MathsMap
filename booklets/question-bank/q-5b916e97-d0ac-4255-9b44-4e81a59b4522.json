@@ -1,0 +1,310 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5b916e97-d0ac-4255-9b44-4e81a59b4522",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "graph-using-gradient-intercept",
+      "linear-real-life"
+    ],
+    "reasoningScore": 37,
+    "difficulty": "Development",
+    "difficultyReason": "Graph the supplied model and interpret its intercept, then recognise that a negative predicted distance is physically unsuitable and restrict the model to the journey ending at arrival.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:56.985Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "82c4ce843d4e4896ac156970c88ad6719999682a25b7e6296754c922c788d4e9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/3e04bc65e28ee803f073854c76c04141e3ad4b4ff13b194854f7830a7d2c8fe5-1792559188126/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p41-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Tina travels 200 km to her friend’s home at an average speed of 80 km/h.\nTina’s distance from her friend’s home after travelling for $t$ hours can be modelled using the equation $D = 200 - 80t$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p41-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw the graph of $D = 200 - 80t$. Remember to label the axes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p41-q8-a-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 41, p41-q8-a-grid\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.012cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.5,-180) rectangle (5.8,245);\n\\draw[black!20,line width=0.15pt,xstep=0.5,ystep=20] (0,-140) grid (5,220);\n\\draw[black,line width=0.5pt,->] (0,0)--(5.4,0);\n\\draw[black,line width=0.5pt,<->] (0,-145)--(0,225);\n\\foreach \\x in {0.5,1,...,5} {\\draw[black,line width=0.4pt] (\\x,-3)--(\\x,3);}\n\\foreach \\y in {-140,-120,...,220} {\\draw[black,line width=0.4pt] (-0.06,\\y)--(0.06,\\y);}\n\\foreach \\x in {1,2,3,4,5} {\\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,-5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {-120,-80,-40,40,80,120,160,200} {\\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-0.08,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 41,
+              "sourceRegion": "Question 8a supplied coordinate grid",
+              "description": "Unlabelled coordinate axes on a rectangular grid. Horizontal subdivisions are 0.5 and vertical subdivisions are 20. The vertical axis has arrowheads at both ends. Space is retained for students to add axis titles. TikZ is required because the blank-grid template cannot express numbered axes, negative coordinates and axis arrowheads.",
+              "mathematics": "Horizontal labels 1, 2, 3, 4, 5; vertical labels −120, −80, −40, 40, 80, 120, 160, 200. Grid extends from t=0 to 5 and D=−140 to 220.",
+              "answerVisibility": "No model line or axis titles supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Straight line through $(0,200)$ and $(2.5,0)$; horizontal axis: time $t$ (h), vertical axis: distance $D$ (km).",
+          "worked": "The intercept is 200 and the gradient is $-80$.\n$$\\begin{aligned}D(0)&=200\\\\D(1)&=200-80=120\\\\D(2)&=200-160=40\\\\D(2.5)&=200-200=0\\end{aligned}$$\nPlot these points and draw the straight line. Label the horizontal axis time $t$ (h) and the vertical axis distance $D$ (km). The journey is represented by the segment from $(0,200)$ to $(2.5,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p41-q8-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"modelBlue\",\"hex\":\"268CFF\",\"reason\":\"linear model; dashed continuation lies beyond the journey\"}],\"reference\":\"source page 41, p41-q8-a-solution-graph\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.012cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{modelBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.5,-180) rectangle (5.8,245);\n\\draw[black!20,line width=0.15pt,xstep=0.5,ystep=20] (0,-140) grid (5,220);\n\\draw[black,line width=0.5pt,->] (0,0)--(5.4,0);\n\\draw[black,line width=0.5pt,<->] (0,-145)--(0,225);\n\\foreach \\x in {0.5,1,...,5} {\\draw[black,line width=0.4pt] (\\x,-3)--(\\x,3);}\n\\foreach \\y in {-140,-120,...,220} {\\draw[black,line width=0.4pt] (-0.06,\\y)--(0.06,\\y);}\n\\foreach \\x in {1,2,3,4,5} {\\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,-5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {-120,-80,-40,40,80,120,160,200} {\\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-0.08,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[modelBlue,line width=0.8pt,domain=0:2.5,samples=2] plot (\\x,{200-80*\\x});\n\\draw[modelBlue,line width=0.8pt,dashed,domain=2.5:4.25,samples=2] plot (\\x,{200-80*\\x});\n\\node[font=\\fontsize{10}{12}\\selectfont] at (2.5,-170) {Time $t$ (h)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1.2,40) {Distance $D$ (km)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 41,
+                "sourceRegion": "Question 8a solution",
+                "description": "Complete labelled solution graph. The physical journey is solid; the equation’s continuation below zero is dashed to support part d.",
+                "mathematics": "D=200−80t. Intercepts (0,200) and (2.5,0). Same coordinate grid, ticks and bounds as the question figure.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p41-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the graph to find how far Tina is from her friend’s home after 1.5 hours.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "80 km",
+          "worked": "At $t=1.5$, read $D=80$ from the graph. Tina is 80 km from her friend’s home.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p41-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the graph to find how long it takes for Tina to reach her friend’s home.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "2.5 hours",
+          "worked": "Tina reaches her friend’s home when $D=0$. Read the horizontal intercept: $t=2.5$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p41-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What would be the value of $D$ after 4 hours?\nHence explain the limits of this model.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-120$ km. Distance cannot be negative; Tina stops at her friend’s home. The model is valid for $0\\leq t\\leq2.5$.",
+          "worked": "$$\\begin{aligned}D&=200-80t\\\\D&=200-80(4)\\\\D&=-120\\text{ km}\\end{aligned}$$\nA negative distance from her friend’s home is impossible. Tina arrives after 2.5 hours and stops there, so the model is valid only for $0\\leq t\\leq2.5$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p41-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p41-q8-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p41-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p41-q8-root/label",
+                  "type": "item",
+                  "ref": "p41-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p41-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p41-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p41-q8-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p41-q8-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-q8-a/label",
+                          "type": "item",
+                          "ref": "p41-q8-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p41-q8-a/prompt",
+                          "type": "item",
+                          "ref": "p41-q8-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-q8-a-grid",
+                          "type": "item",
+                          "ref": "p41-q8-a-grid",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p41-q8-a/space",
+                          "type": "item",
+                          "ref": "p41-q8-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p41-q8-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-q8-b/label",
+                          "type": "item",
+                          "ref": "p41-q8-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p41-q8-b/prompt",
+                          "type": "item",
+                          "ref": "p41-q8-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-q8-b/space",
+                          "type": "item",
+                          "ref": "p41-q8-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p41-q8-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-q8-c/label",
+                          "type": "item",
+                          "ref": "p41-q8-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p41-q8-c/prompt",
+                          "type": "item",
+                          "ref": "p41-q8-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-q8-c/space",
+                          "type": "item",
+                          "ref": "p41-q8-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p41-q8-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-q8-d/label",
+                          "type": "item",
+                          "ref": "p41-q8-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p41-q8-d/prompt",
+                          "type": "item",
+                          "ref": "p41-q8-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-q8-d/space",
+                          "type": "item",
+                          "ref": "p41-q8-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:44.034Z",
+  "updatedAt": "2026-10-21T08:56:44.034Z"
+}

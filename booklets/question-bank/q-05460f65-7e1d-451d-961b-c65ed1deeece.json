@@ -1,0 +1,269 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-05460f65-7e1d-451d-961b-c65ed1deeece",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "volume-composite-pyramid-cone-sphere",
+    "secondarySkillIds": [
+      "volume-pyramid-cone"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate two cone volumes and subtract to obtain a frustum volume.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-07T13:19:12.785Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a0470946b404cfe211b6c1c3038da1a4ec194724cce7f82c00b06b6e673a00c0",
+      "evidence": ".booklet-work/full-imports/volume-pyramids-cones-spheres-20261007/semantic-packets/assignments/assignment-eb8d32e15720c96fe098/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p19-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A frustum is a portion of a solid. The frustum shown opposite is formed from a cone.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"removedRed\",\"hex\":\"EF6068\",\"reason\":\"Dashed outline identifies the missing top cone.\"}],\"reference\":\"source page 19 p19-q3-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{removedRed}{HTML}{EF6068}\n\\coordinate (A) at (0,4.8);\n\\coordinate (T) at (0,2.4);\n\\coordinate (B) at (0,0);\n\\coordinate (TL) at (-1,2.4);\n\\coordinate (TR) at (1,2.4);\n\\coordinate (BL) at (-2,0);\n\\coordinate (BR) at (2,0);\n\\draw[dashed,line width=0.4pt] (A)--(B);\n\\draw[removedRed,dashed] (TL)--(A)--(TR);\n\\draw (BL)--(TL) (TR)--(BR);\n\\draw (T) ellipse [x radius=1,y radius=0.24];\n\\draw[dashed,line width=0.4pt] (BR) arc[start angle=0,end angle=180,x radius=2,y radius=0.3];\n\\draw (BL) arc[start angle=180,end angle=360,x radius=2,y radius=0.3];\n\\draw[->,line width=0.4pt] (T)--(TR);\n\\draw[line width=0.4pt] (0,2.58)--(0.18,2.58)--(0.18,2.4);\n\\draw[->,line width=0.4pt] (B)--(BR) node[midway,above] {$10\\,\\mathrm{m}$};\n\\draw[line width=0.4pt] (0,0.18)--(0.18,0.18)--(0.18,0);\n\\draw[->,line width=0.4pt] (0.9,3.5) to[out=180,in=90] (0.28,2.4);\n\\path (0.9,3.5) node[right] {$5\\,\\mathrm{m}$};\n\\draw[line width=0.4pt] (2.28,4.8)--(2.5,4.8) (2.28,2.4)--(2.5,2.4) (2.28,0)--(2.5,0);\n\\draw[<->,line width=0.4pt] (2.39,2.4)--(2.39,4.8) node[midway,right] {$30\\,\\mathrm{m}$};\n\\draw[<->,line width=0.4pt] (2.39,0)--(2.39,2.4) node[midway,right] {$30\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 66,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Upper right, shared figure for question 3.",
+          "description": "An upright cone divided halfway up into a missing cone and a frustum. Missing sloping edges are dashed red; the frustum silhouette and circular section are solid black. The lower base rear arc and central altitude are dashed. Both radii have perpendicularity marks.",
+          "mathematics": "Missing cone: radius 5 m, height 30 m. Entire cone: radius 10 m, height 60 m. Frustum height: 30 m.",
+          "answerVisibility": "Only supplied measurements and component boundaries are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the volume of the missing top cone? Answer correct to the nearest cubic metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$785\\text{ m}^3$",
+          "worked": "$$\\begin{align*}V_{\\text{top}}&=\\frac13\\pi r^2h\\\\&=\\frac13\\times\\pi\\times5^2\\times30\\\\&=250\\pi\\\\&\\approx785\\text{ m}^3\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p19-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What was the volume of the entire cone? Answer correct to the nearest cubic metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6283\\text{ m}^3$",
+          "worked": "$$\\begin{align*}h&=30+30=60\\text{ m}\\\\V_{\\text{entire}}&=\\frac13\\pi r^2h\\\\&=\\frac13\\times\\pi\\times10^2\\times60\\\\&=2000\\pi\\\\&\\approx6283\\text{ m}^3\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p19-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the volume of the frustum? Answer correct to the nearest cubic metre.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5498\\text{ m}^3$",
+          "worked": "$$\\begin{align*}V_{\\text{frustum}}&=V_{\\text{entire}}-V_{\\text{top}}\\\\&=2000\\pi-250\\pi\\\\&=1750\\pi\\\\&\\approx5498\\text{ m}^3\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p19-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q3-root/label",
+                  "type": "item",
+                  "ref": "p19-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "p19-q3-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p19-q3-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q3-root/prompt",
+                          "type": "item",
+                          "ref": "p19-q3-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p19-q3-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p19-q3-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p19-q3-a/label",
+                                  "type": "item",
+                                  "ref": "p19-q3-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p19-q3-a/prompt",
+                                  "type": "item",
+                                  "ref": "p19-q3-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p19-q3-a/space",
+                                  "type": "item",
+                                  "ref": "p19-q3-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p19-q3-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p19-q3-b/label",
+                                  "type": "item",
+                                  "ref": "p19-q3-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p19-q3-b/prompt",
+                                  "type": "item",
+                                  "ref": "p19-q3-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p19-q3-b/space",
+                                  "type": "item",
+                                  "ref": "p19-q3-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p19-q3-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p19-q3-c/label",
+                                  "type": "item",
+                                  "ref": "p19-q3-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p19-q3-c/prompt",
+                                  "type": "item",
+                                  "ref": "p19-q3-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p19-q3-c/space",
+                                  "type": "item",
+                                  "ref": "p19-q3-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p19-q3-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q3-diagram",
+                          "type": "item",
+                          "ref": "p19-q3-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 3",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:35:32.465Z",
+  "updatedAt": "2026-10-21T10:35:32.465Z"
+}

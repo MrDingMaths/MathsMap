@@ -1,0 +1,193 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c2056c1b-c269-4594-956a-5609995e8570",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-region-multiple-inequalities",
+    "secondarySkillIds": [],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Intersect three half-planes with strict and inclusive boundaries, then enumerate integer coordinate pairs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T11:59:27.738Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f365ebd34d3793032fd899427282fd969a248fc9c410f43fc77ee9154a5c1447",
+      "evidence": ".booklet-work/full-imports/graph-regions-20261008/semantic-packets/assignments/assignment-b76c113ec71672702997/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p14-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "$x$ and $y$ satisfy the inequalities $y<2x+1$, $3y+2x\\le 12$ and $y>1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "On a set of coordinate axes, show the region satisfied by the inequalities and shade the unwanted region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Leave the triangular region above $y=1$, below $y=2x+1$ and on or below $y=4-\\frac23x$ unshaded. The first two boundaries are dotted; the third is solid.",
+          "worked": "Rearrange the second inequality:\n$$\\begin{aligned}3y+2x&\\le12\\\\3y&\\le12-2x\\\\y&\\le4-\\frac23x.\\end{aligned}$$\nDraw dotted boundaries $y=2x+1$ and $y=1$. Draw the solid boundary $y=4-\\frac23x$ through $(0,4)$ and $(6,0)$. Shade above $y=2x+1$, above $y=4-\\frac23x$ and below $y=1$. The unshaded triangle is the required region; its dotted edges are excluded and its solid edge is included.",
+          "solutionDiagrams": [
+            {
+              "id": "p14-q13-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[\"gridGrey\"],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"268CFF\",\"reason\":\"unwanted half-plane shading; overlaps show simultaneous exclusions\"}],\"reference\":\"source page 14 p14-q13-graph\"}\n\\begin{tikzpicture}[x=0.58cm,y=0.58cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\definecolor{regionBlue}{HTML}{268CFF}\n\\begin{scope}\n\\clip (-4,-2) rectangle (7,5);\n\\fill[regionBlue,opacity=0.2] (-4,-2)--(-1.5,-2)--(2,5)--(-4,5)--cycle;\n\\fill[regionBlue,opacity=0.2] (-1.5,5)--(7,5)--(7,-0.6666667)--cycle;\n\\fill[regionBlue,opacity=0.2] (-4,-2) rectangle (7,1);\n\\draw[gridGrey,line width=0.25pt,step=1] (-4,-2) grid (7,5);\n\\draw[black,line width=0.8pt,densely dotted] plot[domain=-1.5:2,samples=2] (\\x,{2*\\x+1});\n\\draw[black,line width=0.8pt] plot[domain=-1.5:7,samples=2] (\\x,{4-2*\\x/3});\n\\draw[black,line width=0.8pt,densely dotted] (-4,1)--(7,1);\n\\end{scope}\n\\draw[black,line width=0.5pt,->] (-4.25,0)--(7.75,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.2)--(0,5.75) node[above] {$y$};\n\\foreach \\v in {-4,-3,-2,-1,0,1,2,3,4,5,6,7}{\n\\draw[black,line width=0.4pt] (\\v,-0.08)--(\\v,0.08);\n\\node[below,fill=white,inner sep=0.5pt] at (\\v,-0.14) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {-2,-1,1,2,3,4,5}{\n\\draw[black,line width=0.4pt] (-0.08,\\v)--(0.08,\\v);\n\\node[left,fill=white,inner sep=0.5pt] at (-0.14,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 14,
+                "sourceRegion": "Question 13 supplied answer graph",
+                "description": "Unit Cartesian grid with x ticks −4 to 7 and y ticks −2 to 5. Two dotted boundaries and one solid boundary enclose an unshaded triangle. Restrained blue fills mark unwanted half-planes, with darker overlaps.",
+                "mathematics": "Required region: y>1, y<2x+1, y≤4−2x/3. Closure vertices are (0,1), (9/8,13/4), (9/2,1). All three vertices are excluded by a strict inequality.",
+                "answerVisibility": "Answer only; the supplied source graph must not appear in the student question."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p14-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given that $x$ and $y$ are both integers, state the possible values of $x$ and $y$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(1,2),\\ (3,2),\\ (2,2)$.",
+          "worked": "The highest point of the triangular region has $y=\\frac{13}{4}$, so the possible integer values are $y=2$ and $y=3$.\nFor $y=2$:\n$$\\begin{aligned}2&<2x+1\\\\x&>\\frac12,\\\\6+2x&\\le12\\\\x&\\le3.\\end{aligned}$$\nThus $x=1,2,3$.\nFor $y=3$:\n$$\\begin{aligned}3&<2x+1\\\\x&>1,\\\\9+2x&\\le12\\\\x&\\le\\frac32.\\end{aligned}$$\nThere is no integer $x$ in this interval. Hence the possible pairs are $(1,2)$, $(3,2)$ and $(2,2)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p14-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p14-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p14-q13-root/label",
+                  "type": "item",
+                  "ref": "p14-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p14-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p14-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p14-q13-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p14-q13-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p14-q13-a/label",
+                          "type": "item",
+                          "ref": "p14-q13-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p14-q13-a/prompt",
+                          "type": "item",
+                          "ref": "p14-q13-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p14-q13-a/space",
+                          "type": "item",
+                          "ref": "p14-q13-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p14-q13-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p14-q13-b/label",
+                          "type": "item",
+                          "ref": "p14-q13-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p14-q13-b/prompt",
+                          "type": "item",
+                          "ref": "p14-q13-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p14-q13-b/space",
+                          "type": "item",
+                          "ref": "p14-q13-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:17:45.569Z",
+  "updatedAt": "2026-10-21T08:17:45.569Z"
+}

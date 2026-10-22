@@ -1,0 +1,197 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-297f2b49-ec11-4a04-8c9c-36f4b5c293d8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quartiles-from-cumulative-histogram",
+    "secondarySkillIds": [
+      "interquartile-range"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Find the total from the graph, calculate the two quartile frequencies and estimate their horizontal-axis values from the ogive before subtracting.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:03.269Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3cb3593636af05358a833405ec0b88de25f3bd855563a486f97d6fea89f9725e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/adac7b507ff7a6565236753a1544420c729ca548cd92ebd633c2e1b682564d58-1792561423024/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Determine IQR from this graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q2-diagram\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.16cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\x in {0,...,9} {\\draw[housegrid,line width=0.25pt] (\\x,0)--(\\x,40);}\n\\foreach \\y in {0,5,...,40} {\\draw[housegrid,line width=0.25pt] (0,\\y)--(9,\\y);}\n\\draw[black,line width=0.5pt,->] (-1,0)--(-1,40);\n\\draw[black,line width=0.5pt] (-1,0)--(-0.72,0);\n\\draw[black,line width=0.5pt,->] (-0.28,0)--(9,0);\n\\draw[black,line width=0.4pt] (-0.72,-1.2)--(-0.48,1.2) (-0.48,-1.2)--(-0.24,1.2);\n\\draw[black,line width=0.4pt] (-1,0) circle[x radius=0.13,y radius=0.65];\n\\foreach \\y in {5,10,...,35} {\\draw[black,line width=0.4pt] (-1.18,\\y)--(-1,\\y);\\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-1.23,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\foreach \\x/\\label in {0/19,1/20,2/21,3/22,4/23,5/24,6/25,7/26,8/27} {\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-1.4);\\node[anchor=north,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\label\\special{dvisvgm:raw </g>}};}\n\\foreach \\left/\\right/\\height in {0.5/1.5/7,1.5/2.5/13,2.5/3.5/19,3.5/4.5/23,4.5/5.5/26,5.5/6.5/28,6.5/7.5/30} {\\draw[black,line width=0.8pt] (\\left,0)--(\\left,\\height)--(\\right,\\height)--(\\right,0);}\n\\draw[black,line width=0.8pt] (0.5,0)--(1.5,7)--(2.5,13)--(3.5,19)--(4.5,23)--(5.5,26)--(6.5,28)--(7.5,30);\n\\node[font=\\fontsize{10}{12}\\selectfont,anchor=north] at (4,-7) {Number of plants};\n\\node[font=\\fontsize{10}{12}\\selectfont,rotate=90] at (-3.1,20) {Cumulative frequency};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Question 2, lower-left cumulative histogram",
+          "description": "Unfilled adjacent histogram bars with a black ogive, square grid, integer horizontal ticks, axis arrows and a horizontal-axis break before 19. Decorative grey bar fill is omitted.",
+          "mathematics": {
+            "horizontalAxis": "Number of plants",
+            "verticalAxis": "Cumulative frequency",
+            "horizontalTicks": [
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27
+            ],
+            "verticalTicks": [
+              5,
+              10,
+              15,
+              20,
+              25,
+              30,
+              35
+            ],
+            "gridStep": {
+              "x": 1,
+              "y": 5
+            },
+            "barCentres": [
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26
+            ],
+            "barHeights": [
+              7,
+              13,
+              19,
+              23,
+              26,
+              28,
+              30
+            ],
+            "barWidth": 1,
+            "ogiveVertices": [
+              [
+                19.5,
+                0
+              ],
+              [
+                20.5,
+                7
+              ],
+              [
+                21.5,
+                13
+              ],
+              [
+                22.5,
+                19
+              ],
+              [
+                23.5,
+                23
+              ],
+              [
+                24.5,
+                26
+              ],
+              [
+                25.5,
+                28
+              ],
+              [
+                26.5,
+                30
+              ]
+            ]
+          },
+          "answerVisibility": "Only supplied histogram and ogive are visible; quartile readings and IQR belong to the editable answer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\mathrm{IQR}\\approx 3$ plants.",
+      "worked": "Total frequency: $30$.\n\n$\\begin{aligned}Q_1\\text{ position}&=0.25\\times30=7.5\\\\Q_3\\text{ position}&=0.75\\times30=22.5\\end{aligned}$\n\nDraw horizontal guides from these frequencies to the ogive and read down to the horizontal axis. To the precision of the graph, $Q_1\\approx20.5$ and $Q_3\\approx23.5$ plants.\n\n$\\begin{aligned}\\mathrm{IQR}&=Q_3-Q_1\\\\&\\approx23.5-20.5\\\\&=3\\text{ plants}\\end{aligned}$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 28
+  },
+  "presentation": {
+    "ownerId": "p29-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p29-q2-root/label",
+                  "type": "item",
+                  "ref": "p29-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p29-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p29-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p29-q2-diagram",
+                  "type": "item",
+                  "ref": "p29-q2-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p29-q2-root/space",
+                  "type": "item",
+                  "ref": "p29-q2-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:36:16.708Z",
+  "updatedAt": "2026-10-21T09:36:16.708Z"
+}

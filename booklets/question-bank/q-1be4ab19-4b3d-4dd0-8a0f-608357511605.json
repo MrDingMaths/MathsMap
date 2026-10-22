@@ -1,0 +1,192 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1be4ab19-4b3d-4dd0-8a0f-608357511605",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "composite-area-problems",
+    "secondarySkillIds": [
+      "area-composite-circles"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret a practical composite shape, derive the semicircle radius and subtract both components of the opening.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-01T03:26:12.086Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0cac2fbb860dd750f56924cf84c62a846010496476a877b7eed8c08d1bcb3ec4",
+      "evidence": ".booklet-work/full-imports/area-circles-sectors-v1-20261001/semantic-packets/assignments/assignment-dd2fde76785e8a0cba83/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p21-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p21-q10-wall-givens",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.2,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Tui has a wall that has a height of 3.5 m and width of 6.5 m.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p21-q10-opening-givens",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.2,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "She has cut an arch into the wall that consists of a semicircle with a diameter of 3.5 m and a rectangle that is 1.75 m high.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p21-q10-area-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.2,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Calculate the area of the wall she has left, correct to 2 decimal places.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"wallRegionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"Identifies the remaining wall whose area is requested\"}],\"reference\":\"source page 21, p21-q10-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=butt,line join=round,font=\\fontsize{10}{12}\\selectfont\\bfseries]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{wallRegionGreen}{HTML}{DCEBE0}\n\\coordinate (BL) at (0,0);\n\\coordinate (BR) at (6.5,0);\n\\coordinate (TL) at (0,3.5);\n\\coordinate (TR) at (6.5,3.5);\n\\coordinate (OpeningBL) at (1.5,0);\n\\coordinate (OpeningBR) at (5,0);\n\\coordinate (SpringL) at (1.5,1.75);\n\\coordinate (SpringR) at (5,1.75);\n\\path[fill=wallRegionGreen] (BL)--(OpeningBL)--(SpringL) arc[start angle=180,end angle=0,radius=1.75]--(OpeningBR)--(BR)--(TR)--(TL)--cycle;\n\\draw[black,line width=0.8pt] (BL)--(OpeningBL)--(SpringL) arc[start angle=180,end angle=0,radius=1.75]--(OpeningBR)--(BR)--(TR)--(TL)--cycle;\n\\coordinate (WidthL) at ($(TL)+(0,0.45)$);\n\\coordinate (WidthR) at ($(TR)+(0,0.45)$);\n\\draw[black,line width=0.5pt] (WidthL)--node[midway,above=2mm] {$6.5\\,\\mathrm{m}$}(WidthR);\n\\foreach \\P in {WidthL,WidthR} {\\draw[black,line width=0.4pt] ($(\\P)+(0,-0.18)$)--($(\\P)+(0,0.18)$);}\n\\coordinate (HeightB) at ($(BR)+(0.45,0)$);\n\\coordinate (HeightT) at ($(TR)+(0.45,0)$);\n\\draw[black,line width=0.5pt] (HeightB)--node[midway,right=2mm] {$3.5\\,\\mathrm{m}$}(HeightT);\n\\foreach \\P in {HeightB,HeightT} {\\draw[black,line width=0.4pt] ($(\\P)+(-0.18,0)$)--($(\\P)+(0.18,0)$);}\n\\coordinate (OpeningWidthL) at ($(OpeningBL)+(0,-0.45)$);\n\\coordinate (OpeningWidthR) at ($(OpeningBR)+(0,-0.45)$);\n\\draw[black,line width=0.5pt] (OpeningWidthL)--node[midway,below=2mm] {$3.5\\,\\mathrm{m}$}(OpeningWidthR);\n\\foreach \\P in {OpeningWidthL,OpeningWidthR} {\\draw[black,line width=0.4pt] ($(\\P)+(0,-0.18)$)--($(\\P)+(0,0.18)$);}\n\\coordinate (RectangleHeightB) at ($(OpeningBR)+(-0.4,0)$);\n\\coordinate (RectangleHeightT) at ($(SpringR)+(-0.4,0)$);\n\\draw[black,line width=0.5pt] (RectangleHeightB)--node[midway,left=3mm] {$1.75\\,\\mathrm{m}$}(RectangleHeightT);\n\\foreach \\P in {RectangleHeightB,RectangleHeightT} {\\draw[black,line width=0.4pt] ($(\\P)+(-0.18,0)$)--($(\\P)+(0.18,0)$);}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 10 diagram, below the prompt on the left",
+          "description": "A rectangular wall with a central arch opening extending from its bottom edge. The opening consists of a rectangle topped by a semicircle tangent to the wall's top edge. Light green identifies the remaining wall; the opening remains white.",
+          "mathematics": "Wall dimensions are 6.5 m by 3.5 m. The opening is 3.5 m wide, with a rectangular height of 1.75 m and a semicircle of radius 1.75 m. All four source dimension labels and their aligned endpoints are retained.",
+          "answerVisibility": "All dimension labels and region shading are permanent question givens. No calculated area is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$11.81\\,\\mathrm{m}^{2}$",
+      "worked": "$$\\begin{align*}\nr&=\\frac{3.5}{2}=1.75\\,\\mathrm{m}\\\\\nA_{\\text{wall}}&=3.5\\times6.5=22.75\\,\\mathrm{m}^{2}\\\\\nA_{\\text{rectangle}}&=3.5\\times1.75=6.125\\,\\mathrm{m}^{2}\\\\\nA_{\\text{semicircle}}&=\\frac12\\pi(1.75)^2\\,\\mathrm{m}^{2}\\\\\nA_{\\text{remaining}}&=A_{\\text{wall}}-A_{\\text{rectangle}}-A_{\\text{semicircle}}\\\\\nA_{\\text{remaining}}&=22.75-6.125-\\frac12\\pi(1.75)^2\\\\\nA_{\\text{remaining}}&\\approx11.81\\,\\mathrm{m}^{2}\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 54
+  },
+  "presentation": {
+    "ownerId": "p21-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q10-root/label",
+                  "type": "item",
+                  "ref": "p21-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p21-q10-root/prompt#p21-q10-wall-givens",
+                  "type": "item",
+                  "ref": "p21-q10-root/prompt#p21-q10-wall-givens",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q10-root/prompt#p21-q10-opening-givens",
+                  "type": "item",
+                  "ref": "p21-q10-root/prompt#p21-q10-opening-givens",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q10-root/prompt#p21-q10-area-instruction",
+                  "type": "item",
+                  "ref": "p21-q10-root/prompt#p21-q10-area-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q10-diagram",
+                  "type": "item",
+                  "ref": "p21-q10-diagram",
+                  "title": "Diagram",
+                  "width": 70
+                },
+                {
+                  "id": "layout:p21-q10-root/space",
+                  "type": "item",
+                  "ref": "p21-q10-root/space",
+                  "title": "Answer space",
+                  "height": 0
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1
+            }
+          }
+        },
+        "p21-q10-diagram": {
+          "diagramWidthMm": 70
+        }
+      },
+      "answerSpaces": {
+        "p21-q10-root": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:42:46.892Z",
+  "updatedAt": "2026-10-21T10:42:46.892Z"
+}

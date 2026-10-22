@@ -1,0 +1,115 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-78bd3281-7163-4069-9839-1d48b2fd4f4b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "conversion-graphs",
+    "secondarySkillIds": [],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Determine the conversion factor from the graph and use the equation to convert an amount beyond the plotted range.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-07T13:41:16.733Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6860e8ee8f3579be55005da8fbbcc33a6af1541b626c6f0892a2132556aabb71",
+      "evidence": ".booklet-work/full-imports/graphs-of-rates-of-change-import-20261007/semantic-packets/assignments/assignment-fa183a8edf852d0617db/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p15-q5",
+    "type": "question",
+    "label": "5",
+    "prompt": "The graph shows the conversion between US dollars, $\\$$, and euros, €.\n\nHow many euros is $\\$300$ US?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"conversion graph series\"}],\"reference\":\"source page 15 p15-q5-graph\"}\n\\begin{tikzpicture}[x=0.09cm,y=0.09cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[step=5,gridGrey,line width=0.15pt] (0,0) grid (50,60);\n\\draw[step=10,gridGrey,line width=0.25pt] (0,0) grid (50,60);\n\\draw[->,black,line width=0.5pt] (0,0)--(54,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,64);\n\\foreach \\x in {5,10,...,50} {\\draw[black,line width=0.4pt] (\\x,-0.8)--(\\x,0.8);}\n\\foreach \\y in {5,10,...,60} {\\draw[black,line width=0.4pt] (-0.8,\\y)--(0.8,\\y);}\n\\foreach \\x in {10,20,30,40,50} {\\node[below,black,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {10,20,30,40,50,60} {\\node[left,black,font=\\fontsize{8.5}{10}\\selectfont] at (-1,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[->,seriesBlue,line width=0.8pt] plot[domain=0:53,samples=2] (\\x,{1.2*\\x});\n\\node[black,font=\\fontsize{10}{12}\\selectfont] at (25,-9) {Euros};\n\\node[black,rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-11,30) {USD};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 5, lower-left graph",
+          "description": "Euros on the horizontal axis and USD on the vertical axis. Labelled ticks are every 10 units, with intermediate ticks and grid lines every 5 units. Both axes and the blue conversion line have arrowheads. The origin has no label. Axis titles sit outside the numeric ticks.",
+          "mathematics": "D = 1.2E; the line passes through (0,0) and (50,60). The grid spans 0 to 50 euros and 0 to 60 USD; the line continues beyond (50,60).",
+          "answerVisibility": "The supplied conversion graph is always visible; the calculation and final conversion answer are answer-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "250 euros",
+      "worked": "Using $(50,60)$, $k=\\dfrac{60}{50}=1.2$.\n\n$$\\begin{align*}D&=1.2E\\\\300&=1.2E\\\\E&=\\frac{300}{1.2}\\\\E&=250\\end{align*}$$\n\n250 euros.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 28
+  },
+  "presentation": {
+    "ownerId": "p15-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q5-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q5:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p15-q5/label",
+                  "type": "item",
+                  "ref": "p15-q5/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p15-q5/prompt",
+                  "type": "item",
+                  "ref": "p15-q5/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p15-q5-graph",
+                  "type": "item",
+                  "ref": "p15-q5-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p15-q5/space",
+                  "type": "item",
+                  "ref": "p15-q5/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:59:00.586Z",
+  "updatedAt": "2026-10-21T08:59:00.586Z"
+}

@@ -1,0 +1,80 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e791f574-1648-4d08-a80e-e50b4bd15d47",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "surface-area-pyramid",
+    "secondarySkillIds": [
+      "pythagoras-find-side",
+      "identify-slant-perpendicular-height"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Find the square's side from its diagonal, then calculate the face slant height from a lateral edge before summing face areas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-07T13:19:59.752Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "eaac37b5c6abce39306ca5904b82be84117243460ef19dacbb6a43552c4867aa",
+      "evidence": ".booklet-work/full-imports/surface-area-pyramids-cones-spheres-20261007/semantic-packets/assignments/assignment-f4eaab78c87b08efced6/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p12-q7",
+    "type": "question",
+    "label": "7",
+    "prompt": "Calculate the surface area of this pyramid. Round your answer to 1 decimal place.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"Highlighted base diagonal identified by the separate 10 cm leader\"}],\"reference\":\"source page 12 p12-q7-diagram\"}\n% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"kind\":\"polyhedron\",\"vertices\":{\"P\":[1.5,3.6742346141747673,1.5],\"B0\":[0,0,0],\"B1\":[3,0,0],\"B2\":[3,0,3],\"B3\":[0,0,3]},\"view\":{\"right\":[1,0,0.65],\"up\":[0,1,0.38],\"toward\":[0.65,0.38,-1]},\"faces\":[[\"B0\",\"B1\",\"B2\",\"B3\"],[\"B0\",\"B1\",\"P\"],[\"B1\",\"B2\",\"P\"],[\"B2\",\"B3\",\"P\"],[\"B3\",\"B0\",\"P\"]]}}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (P) at (2.475,4.24423461);\n\\coordinate (B0) at (0,0);\n\\coordinate (B1) at (3,0);\n\\coordinate (B2) at (4.95,1.14);\n\\coordinate (B3) at (1.95,1.14);\n\\draw (B0)--(B1);\n\\draw (B1)--(B2);\n\\draw[dashed] (B2)--(B3);\n\\draw[dashed] (B3)--(B0);\n\\draw (B0)--(P);\n\\draw (B1)--(P);\n\\draw (B2)--(P);\n\\draw[dashed] (B3)--(P);\n\\draw[diagonalRed,dashed,line width=0.4pt] (B0)--(B2);\n\\foreach \\a/\\b in {B0/B1,B1/B2,B2/B3,B3/B0}{\n\\draw[line width=0.4pt] ($ (\\a)!0.47!(\\b)!0.09cm!90:(\\b) $)--($ (\\a)!0.47!(\\b)!0.09cm!-90:(\\b) $);\n\\draw[line width=0.4pt] ($ (\\a)!0.53!(\\b)!0.09cm!90:(\\b) $)--($ (\\a)!0.53!(\\b)!0.09cm!-90:(\\b) $);\n}\n\\path (P)--(B2) node[pos=0.43,above right,inner sep=2pt] {$10\\text{ cm}$};\n\\node[anchor=east] (diagonal-label) at (0.55,2.15) {$10\\text{ cm}$};\n\\draw[-{Stealth[length=2mm]},line width=0.4pt] (diagonal-label.east) to[out=0,in=110] ($(B0)!0.56!(B2)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Question 7, lower-left pyramid",
+          "description": "Unshaded right square pyramid with four matching double ticks on the base edges. A lateral edge is labelled 10 cm; a separate curved leader identifies the base diagonal as 10 cm. Ordinary geometry is black, with the highlighted base diagonal in standard red.",
+          "mathematics": "Square base diagonal 10 cm and lateral edge 10 cm. Base side sqrt(50) cm; face slant height sqrt(175/2) cm. The coordinate model uses a uniformly scaled square base and centred apex.",
+          "answerVisibility": "Only the two supplied 10 cm measurements and equal-base-edge marks are visible; derived lengths and areas occur only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "beside-prompt",
+    "answer": {
+      "short": "$182.3\\text{ cm}^2$",
+      "worked": "Side length of the square base:\n$$\\begin{align*}2s^2&=10^2\\\\s^2&=50\\\\s&=\\sqrt{50}\\text{ cm}\\end{align*}$$\nSlant height of each triangular face:\n$$\\begin{align*}l^2&=10^2-\\left(\\frac{\\sqrt{50}}{2}\\right)^2\\\\l^2&=\\frac{175}{2}\\\\l&=\\sqrt{\\frac{175}{2}}\\text{ cm}\\end{align*}$$\nTotal surface area:\n$$\\begin{align*}A&=(\\sqrt{50})^2+4\\left(\\frac12\\times\\sqrt{50}\\times\\sqrt{\\frac{175}{2}}\\right)\\\\A&=50+50\\sqrt7\\\\A&\\approx182.3\\text{ cm}^2\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 48
+  },
+  "presentation": {
+    "ownerId": "p12-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:31:59.046Z",
+  "updatedAt": "2026-10-21T10:31:59.046Z"
+}

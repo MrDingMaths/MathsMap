@@ -1,0 +1,217 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1ed10bf3-ddc5-4241-8d74-842ab7a24a59",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "identify-outliers-iqr",
+    "secondarySkillIds": [
+      "five-number-summary",
+      "interquartile-range"
+    ],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Locate quartiles after excluding the overall median, then follow the explicitly staged IQR and fence calculations to identify outliers.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:10.311Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5aacf3da4a4bb064e52283f5e2e032be76572028fad3e1255dfcffa0273bfd0d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/39f9bd4e63647ec95333179f4b245e099cf0954f745cbffa8f5a16c393cf3aff-1792561425660/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p41-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The ages of a group of people attending a musical were as follows:\n\n14, 23, 25, 26, 26, 27, 27, 27, 28, 28, 29, 29, 30, 31, 31, 32, 34, 36, 37, 40, 40, 40, 42, 52, 76",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p41-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the lower and upper quartiles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1=27$, $Q_3=38.5$.",
+          "worked": "Exclude the median, $30$, leaving $12$ values in each half.\n\n$\\begin{aligned}Q_1&=\\frac{27+27}{2}=27\\\\Q_3&=\\frac{37+40}{2}=38.5\\end{aligned}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p41-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the IQR?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$11.5$ years.",
+          "worked": "$\\text{IQR}=Q_3-Q_1=38.5-27=11.5$ years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p41-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Identify any outliers.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The only outlier is $76$ years. The fences are $9.75$ and $55.75$ years.",
+          "worked": "$\\begin{aligned}\\text{Lower fence}&=27-1.5\\times11.5=9.75\\\\\\text{Upper fence}&=38.5+1.5\\times11.5=55.75\\end{aligned}$\n\nSince $76>55.75$ and all other ages lie between the fences, the only outlier is $76$ years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p41-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p41-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p41-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p41-q3-root/label",
+                  "type": "item",
+                  "ref": "p41-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p41-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p41-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p41-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p41-q3-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-q3-a/label",
+                          "type": "item",
+                          "ref": "p41-q3-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p41-q3-a/prompt",
+                          "type": "item",
+                          "ref": "p41-q3-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-q3-a/space",
+                          "type": "item",
+                          "ref": "p41-q3-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p41-q3-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-q3-b/label",
+                          "type": "item",
+                          "ref": "p41-q3-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p41-q3-b/prompt",
+                          "type": "item",
+                          "ref": "p41-q3-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-q3-b/space",
+                          "type": "item",
+                          "ref": "p41-q3-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p41-q3-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-q3-c/label",
+                          "type": "item",
+                          "ref": "p41-q3-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p41-q3-c/prompt",
+                          "type": "item",
+                          "ref": "p41-q3-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-q3-c/space",
+                          "type": "item",
+                          "ref": "p41-q3-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:36:47.447Z",
+  "updatedAt": "2026-10-21T09:36:47.447Z"
+}

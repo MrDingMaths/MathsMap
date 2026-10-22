@@ -1,0 +1,665 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4fdddb07-1923-458f-a730-e2b85953bcd8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "identify-outliers-iqr",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Find quartiles for odd and even dataset sizes, calculate both fences, and compare observations with them, including recognising that a value equal to a fence is not an outlier.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:44:10.311Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "95bf945bf9b3204a7ba3a8ebe9473b8cff40d1ab68f4931dda561b4af61a5a53",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/39f9bd4e63647ec95333179f4b245e099cf0954f745cbffa8f5a16c393cf3aff-1792561425660/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p41-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Calculate the upper and lower fences for this data. Then identify any outliers, if any exist.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p41-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p41-q1-a-data",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "1, 6, 7, 7, 8, 9, 9",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p41-q1-a-iqr",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "IQR = ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "$3$",
+                  "width": 9
+                }
+              ]
+            },
+            {
+              "id": "p41-q1-a-fences",
+              "type": "table",
+              "widthMm": null,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                28
+              ],
+              "annotations": [],
+              "border": false,
+              "padding": 0,
+              "widths": [
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p41-q1-a-lower-cell",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p41-q1-a-lower-heading",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Lower fence",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p41-q1-a-upper-cell",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p41-q1-a-upper-heading",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Upper fence",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "IQR $=3$; lower fence $=1.5$; upper fence $=13.5$. The only outlier is $1$.",
+          "worked": "$\\begin{aligned}Q_1&=6,\\quad Q_3=9\\\\\\text{IQR}&=9-6=3\\\\\\text{Lower fence}&=6-1.5\\times3=1.5\\\\\\text{Upper fence}&=9+1.5\\times3=13.5\\end{aligned}$\n\nSince $1<1.5$, the only outlier is $1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p41-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p41-q1-b-data",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "0, 0, 1, 3, 5, 5, 10",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p41-q1-b-iqr",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "IQR = ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "$5$",
+                  "width": 9
+                }
+              ]
+            },
+            {
+              "id": "p41-q1-b-fences",
+              "type": "table",
+              "widthMm": null,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                28
+              ],
+              "annotations": [],
+              "border": false,
+              "padding": 0,
+              "widths": [
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p41-q1-b-lower-cell",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p41-q1-b-lower-heading",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Lower fence",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p41-q1-b-upper-cell",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p41-q1-b-upper-heading",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Upper fence",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "IQR $=5$; lower fence $=-7.5$; upper fence $=12.5$. No outliers.",
+          "worked": "$\\begin{aligned}Q_1&=0,\\quad Q_3=5\\\\\\text{IQR}&=5-0=5\\\\\\text{Lower fence}&=0-1.5\\times5=-7.5\\\\\\text{Upper fence}&=5+1.5\\times5=12.5\\end{aligned}$\n\nAll values lie between the fences, so there are no outliers.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p41-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "20, 31, 32, 35, 35, 35, 35, 36, 36",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "IQR $=4$; lower fence $=25.5$; upper fence $=41.5$. The only outlier is $20$.",
+          "worked": "$\\begin{aligned}Q_1&=\\frac{31+32}{2}=31.5\\\\Q_3&=\\frac{35+36}{2}=35.5\\\\\\text{IQR}&=35.5-31.5=4\\\\\\text{Lower fence}&=31.5-1.5\\times4=25.5\\\\\\text{Upper fence}&=35.5+1.5\\times4=41.5\\end{aligned}$\n\nSince $20<25.5$, the only outlier is $20$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p41-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "32, 33, 33, 33, 33, 34, 35, 43, 48",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "IQR $=6$; lower fence $=24$; upper fence $=48$. No outliers.",
+          "worked": "$\\begin{aligned}Q_1&=\\frac{33+33}{2}=33\\\\Q_3&=\\frac{35+43}{2}=39\\\\\\text{IQR}&=39-33=6\\\\\\text{Lower fence}&=33-1.5\\times6=24\\\\\\text{Upper fence}&=39+1.5\\times6=48\\end{aligned}$\n\nAll values lie between or on the fences. In particular, $48$ equals the upper fence, so it is not an outlier.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p41-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "56, 66, 68, 70, 70",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "IQR $=9$; lower fence $=47.5$; upper fence $=83.5$. No outliers.",
+          "worked": "$\\begin{aligned}Q_1&=\\frac{56+66}{2}=61\\\\Q_3&=\\frac{70+70}{2}=70\\\\\\text{IQR}&=70-61=9\\\\\\text{Lower fence}&=61-1.5\\times9=47.5\\\\\\text{Upper fence}&=70+1.5\\times9=83.5\\end{aligned}$\n\nAll values lie between the fences, so there are no outliers.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p41-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "101, 102, 102, 102, 103, 115",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "IQR $=1$; lower fence $=100.5$; upper fence $=104.5$. The only outlier is $115$.",
+          "worked": "$\\begin{aligned}Q_1&=102,\\quad Q_3=103\\\\\\text{IQR}&=103-102=1\\\\\\text{Lower fence}&=102-1.5\\times1=100.5\\\\\\text{Upper fence}&=103+1.5\\times1=104.5\\end{aligned}$\n\nSince $115>104.5$, the only outlier is $115$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p41-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p41-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p41-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p41-q1-root/label",
+                  "type": "item",
+                  "ref": "p41-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p41-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p41-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p41-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p41-q1-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p41-q1-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p41-q1-a/label",
+                              "type": "item",
+                              "ref": "p41-q1-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p41-q1-a/prompt#p41-q1-a-data",
+                              "type": "item",
+                              "ref": "p41-q1-a/prompt#p41-q1-a-data",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-a/prompt#p41-q1-a-iqr",
+                              "type": "item",
+                              "ref": "p41-q1-a/prompt#p41-q1-a-iqr",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-a/prompt#p41-q1-a-fences",
+                              "type": "item",
+                              "ref": "p41-q1-a/prompt#p41-q1-a-fences",
+                              "title": "table"
+                            },
+                            {
+                              "id": "layout:p41-q1-a/space",
+                              "type": "item",
+                              "ref": "p41-q1-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p41-q1-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p41-q1-b/label",
+                              "type": "item",
+                              "ref": "p41-q1-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p41-q1-b/prompt#p41-q1-b-data",
+                              "type": "item",
+                              "ref": "p41-q1-b/prompt#p41-q1-b-data",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-b/prompt#p41-q1-b-iqr",
+                              "type": "item",
+                              "ref": "p41-q1-b/prompt#p41-q1-b-iqr",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-b/prompt#p41-q1-b-fences",
+                              "type": "item",
+                              "ref": "p41-q1-b/prompt#p41-q1-b-fences",
+                              "title": "table"
+                            },
+                            {
+                              "id": "layout:p41-q1-b/space",
+                              "type": "item",
+                              "ref": "p41-q1-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p41-q1-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p41-q1-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p41-q1-c/label",
+                              "type": "item",
+                              "ref": "p41-q1-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p41-q1-c/prompt",
+                              "type": "item",
+                              "ref": "p41-q1-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-c/space",
+                              "type": "item",
+                              "ref": "p41-q1-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p41-q1-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p41-q1-d/label",
+                              "type": "item",
+                              "ref": "p41-q1-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p41-q1-d/prompt",
+                              "type": "item",
+                              "ref": "p41-q1-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-d/space",
+                              "type": "item",
+                              "ref": "p41-q1-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p41-q1-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p41-q1-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p41-q1-e/label",
+                              "type": "item",
+                              "ref": "p41-q1-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p41-q1-e/prompt",
+                              "type": "item",
+                              "ref": "p41-q1-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-e/space",
+                              "type": "item",
+                              "ref": "p41-q1-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p41-q1-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p41-q1-f/label",
+                              "type": "item",
+                              "ref": "p41-q1-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p41-q1-f/prompt",
+                              "type": "item",
+                              "ref": "p41-q1-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p41-q1-f/space",
+                              "type": "item",
+                              "ref": "p41-q1-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:36:44.025Z",
+  "updatedAt": "2026-10-21T09:36:44.026Z"
+}

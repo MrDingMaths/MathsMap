@@ -1,0 +1,74 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-67a8c376-bf7a-4166-baf9-233f278afb31",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "split-linear-numerator",
+    "secondarySkillIds": [
+      "area-of-circle"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate half an annulus into a fraction of the outer circle, cancel the area factors, then use numerator splitting and positivity to justify a strict bound.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:49:58.196Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e65b0f3fb9beb36281e6a9a3754c7503a078d56ba9e8db925f8a5dc6c5e2ce87",
+      "evidence": ".booklet-work/reasoning-ratings/calls/simultaneous-equations-v1/96e8be8af26241e203af1c6902ce541acff74d5235c71793153ffec71eed65a3-1792561769899/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "splitting-numerator-concentric-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "The inner radius is $r>0$ and the outer radius is $kr$, where $k>1$. Half the ring is shaded. Find the shaded fraction of the outer circle. Can it ever equal one half? Explain by splitting the numerator.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "splitting-numerator-concentric-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"ringFill\",\"hex\":\"D4E8FF\",\"reason\":\"Half the annular region is the requested shaded area\"}],\"reference\":\"User-requested concentric-circle extension, 14 October 2026\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{ringFill}{HTML}{D4E8FF}\n\\path[fill=ringFill] (2,0) arc[start angle=0,end angle=180,radius=2]--(-1,0) arc[start angle=180,end angle=0,radius=1]--cycle;\n\\draw[black,line width=0.8pt] (0,0) circle[radius=2];\n\\draw[black,line width=0.8pt] (0,0) circle[radius=1];\n\\draw[black,line width=0.8pt] (1,0)--(2,0) (-2,0)--(-1,0);\n\\draw[black,line width=0.6pt] (0,0)--(0,-1) node[midway,left] {$r$};\n\\draw[black,line width=0.6pt] (0,0)--(330:2) node[pos=0.75,below=2pt] {$kr$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "description": "Concentric circles with half the ring shaded. Schematic radii r and kr; k>1.",
+          "mathematics": "Inner radius r>0, outer radius kr, k>1. Shaded area is half the annulus."
+        },
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\dfrac{k^2-1}{2k^2}=\\dfrac12-\\dfrac{1}{2k^2}<\\dfrac12$. Since $k>1$, the subtracted term is positive, so it never equals one half.",
+      "worked": "$$\\begin{align*}A_{\\text{outer}}&=\\pi(kr)^2=\\pi k^2r^2\\\\A_{\\text{shaded}}&=\\frac12(\\pi k^2r^2-\\pi r^2)\\\\f&=\\frac{\\frac12\\pi r^2(k^2-1)}{\\pi k^2r^2}\\\\f&=\\frac{k^2-1}{2k^2}\\\\f&=\\frac{k^2}{2k^2}-\\frac1{2k^2}\\\\f&=\\frac12-\\frac1{2k^2}\\end{align*}$$\nFor every $k>1$, $\\frac1{2k^2}>0$, so the shaded fraction is always less than one half and can never equal it.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 64
+  },
+  "presentation": {
+    "ownerId": "splitting-numerator-concentric-extension",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:33:55.090Z",
+  "updatedAt": "2026-10-21T11:33:55.090Z"
+}

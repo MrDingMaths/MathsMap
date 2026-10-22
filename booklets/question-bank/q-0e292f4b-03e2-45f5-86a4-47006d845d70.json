@@ -1,0 +1,117 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0e292f4b-03e2-45f5-86a4-47006d845d70",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "surface-area-composite-solids",
+    "secondarySkillIds": [
+      "surface-area-cylinder"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Convert the length to centimetres and diameters to radii, then combine two annular ends with inner and outer curved surfaces, all explicitly requested in the task.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:56:11.779Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4ff48f51e96088c4fb4ed6110b5f34020b558f598deadbb5aadb815cb9f4d8e2",
+      "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/a706a2c5e563c0ee6cf6c4418206746536e2d0121e29baf4055db4759c3fb1ab-1792562143672/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q3",
+    "type": "question",
+    "label": "3",
+    "prompt": "A log with diameter 60 cm is 3 m in length. Its hollow centre is 20 cm in diameter. Find the surface area of the log in cm², including the ends and the inside, correct to 1 decimal place.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q3-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (P) at (4,1.15);\n\\pgfmathsetmacro{\\tangentAngle}{180-atan(4/(0.55*1.15))}\n\\pgfmathsetmacro{\\lowerAngle}{\\tangentAngle-180}\n\\pgfmathsetmacro{\\hiddenEndAngle}{\\tangentAngle+180}\n\\pgfmathsetmacro{\\tx}{0.55*cos(\\tangentAngle)}\n\\pgfmathsetmacro{\\ty}{sin(\\tangentAngle)}\n\\coordinate (U) at (\\tx,\\ty);\\coordinate (V) at (-\\tx,-\\ty);\n\\coordinate (RU) at ({4+\\tx},{1.15+\\ty});\\coordinate (RV) at ({4-\\tx},{1.15-\\ty});\n\\draw[dashed,line width=0.4pt] (RU) arc[start angle=\\tangentAngle,end angle=\\hiddenEndAngle,x radius=0.55,y radius=1];\n\\draw (RU) arc[start angle=\\tangentAngle,end angle=\\lowerAngle,x radius=0.55,y radius=1];\n\\draw (U)--(RU) (V)--(RV);\n\\draw (O) ellipse (0.55 and 1);\\draw (O) ellipse ({0.55/3} and {1/3});\n\\draw[dashed,line width=0.4pt] (P) ellipse ({0.55/3} and {1/3});\n\\draw[dashed,line width=0.4pt] ({\\tx/3},{\\ty/3})--({4+\\tx/3},{1.15+\\ty/3}) ({-\\tx/3},{-\\ty/3})--({4-\\tx/3},{1.15-\\ty/3});\n\\draw[<->,line width=0.5pt] (-0.95,-1)--(-0.95,1) node[midway,left] {$60\\text{ cm}$};\\draw[line width=0.4pt] (-1.08,-1)--(-0.65,-1) (-1.08,1)--(-0.65,1);\n\\draw[<->,line width=0.5pt] (-0.31,{-1/3})--(-0.31,{1/3});\\draw[line width=0.4pt] (-0.42,{-1/3})--(-0.2,{-1/3}) (-0.42,{1/3})--(-0.2,{1/3});\n\\draw[->,line width=0.4pt] (-0.62,1.48)--(-0.31,0.05);\\node[anchor=south east] at (-0.62,1.48) {$20\\text{ cm}$};\n\\path (U)--(RU) node[midway,above] {$3\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 76,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Lower half, question 3",
+          "description": "Hollow cylindrical log extending towards the upper right, with annular front end, outer silhouettes, concealed inner surface and rear-end geometry. Both diameter dimension cues are retained; ordinary visible and dashed edges use black.",
+          "mathematics": "Outer diameter 60 cm, inner diameter 20 cm and length 3 m.",
+          "answerVisibility": "Givens only; supplied working is stored in the answer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$80\\,424.8\\text{ cm}^2$",
+      "worked": "$3\\text{ m}=300\\text{ cm}$.\n\nCircular ends:\n$$\\begin{aligned}A_{\\text{ends}}&=\\bigl[\\pi(30^2)-\\pi(10^2)\\bigr]\\times2\\\\&=1600\\pi\\end{aligned}$$\nOutside:\n$$\\begin{aligned}A_{\\text{outside}}&=2\\pi(30)(300)\\\\&=18\\,000\\pi\\end{aligned}$$\nInside:\n$$\\begin{aligned}A_{\\text{inside}}&=2\\pi(10)(300)\\\\&=6000\\pi\\end{aligned}$$\n$$\\begin{aligned}A_{\\text{total}}&=1600\\pi+18\\,000\\pi+6000\\pi\\\\&=25\\,600\\pi\\\\&\\approx80\\,424.8\\text{ cm}^2\\end{aligned}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 43
+  },
+  "presentation": {
+    "ownerId": "p38-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q3-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q3:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q3/label",
+                  "type": "item",
+                  "ref": "p38-q3/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p38-q3/prompt",
+                  "type": "item",
+                  "ref": "p38-q3/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q3-diagram",
+                  "type": "item",
+                  "ref": "p38-q3-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p38-q3/space",
+                  "type": "item",
+                  "ref": "p38-q3/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:30:52.170Z",
+  "updatedAt": "2026-10-21T10:30:52.170Z"
+}

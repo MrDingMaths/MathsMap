@@ -1,0 +1,242 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4d4950e8-50c3-4fcd-ad50-11c2bb63810f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "factor-theorem",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Translate the square-base dimensions into a volume equation, solve the cubic with taught methods, and interpret the valid real root as box dimensions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:39:18.033Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d75a6415c4dc39219fb35d0aa9dd2ed4cdda5a2381f7e1a74aecb51c6ea982f9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/polynomials-v1/63e4aa805e26596c7c630d467b9acc984332e0b081415edb0cefa732c3f819ab-1792561080882/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p68-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "A box is to be built with a square base and height 2 cm more than the length of the base.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p68-q20-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 68 p68-q20-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2,0);\n\\coordinate (C) at (3,0.8);\n\\coordinate (D) at (1,0.8);\n\\coordinate (E) at (0,2.1);\n\\coordinate (F) at (2,2.1);\n\\coordinate (G) at (3,2.9);\n\\coordinate (H) at (1,2.9);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(G)--(H)--(E)--cycle;\n\\draw[black,line width=0.8pt] (E)--(F)--(G) (F)--(B);\n\\draw[black,line width=0.8pt,dashed] (A)--(D)--(C) (D)--(H);\n\\path (A)--(B) node[midway,below] {$x$};\n\\path (B)--(C) node[midway,below right] {$x$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 68,
+          "sourceRegion": "Question 20 box diagram below the parts, toward the left",
+          "description": "Perspective box with front, top and right faces visible. Both base edges are labelled x. The three edges meeting at the hidden rear bottom vertex are dashed. Drawing proportions are illustrative; no height label is added. Decorative orange strokes and face shading are replaced by black outlines and white faces.",
+          "mathematics": "Square base of side x; height is x + 2 cm as supplied by the stem. No numerical dimensions are given.",
+          "answerVisibility": "Always visible; contains only supplied givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p68-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write an expression for the volume of the box.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V=x^2(x+2)$",
+          "worked": "The square base has side length $x$ cm and the height is $(x+2)$ cm.\n$$\\begin{align*}V&=x\\times x\\times(x+2)\\\\V&=x^2(x+2)\\text{ cm}^3\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p68-q20-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "If the volume is to be $45\\text{ cm}^3$, write a polynomial equation modelling this scenario.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x^3+2x^2-45=0$",
+          "worked": "$$\\begin{align*}x^2(x+2)&=45\\\\x^3+2x^2&=45\\\\x^3+2x^2-45&=0\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p68-q20-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the dimensions that will give this volume.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\text{ cm}\\times3\\text{ cm}\\times5\\text{ cm}$",
+          "worked": "Let $P(x)=x^3+2x^2-45$. Test factors of $45$:\n$$P(3)=27+18-45=0.$$\nTherefore $x-3$ is a factor. Long division gives\n$$\\begin{array}{r|rrrr}&x^2&+5x&+15&\\\\\\hline x-3&x^3&+2x^2&+0x&-45\\\\&x^3&-3x^2&&\\\\\\hline &&5x^2&+0x&-45\\\\&&5x^2&-15x&\\\\\\hline &&&15x&-45\\\\&&&15x&-45\\\\\\hline &&&&0\\end{array}$$\nThus\n$$(x-3)(x^2+5x+15)=0.$$\nThe quadratic has discriminant $5^2-4(1)(15)=-35<0$, so its roots are not real. Hence $x=3$ cm and the height is $x+2=5$ cm. The box dimensions are $3\\text{ cm}\\times3\\text{ cm}\\times5\\text{ cm}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p68-q20",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p68-q20": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p68-q20-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p68-q20-root/label",
+                  "type": "item",
+                  "ref": "p68-q20-root/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "layout:p68-q20-root/prompt",
+                  "type": "item",
+                  "ref": "p68-q20-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p68-q20-diagram",
+                  "type": "item",
+                  "ref": "p68-q20-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p68-q20-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p68-q20-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p68-q20-a/label",
+                          "type": "item",
+                          "ref": "p68-q20-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p68-q20-a/prompt",
+                          "type": "item",
+                          "ref": "p68-q20-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p68-q20-a/space",
+                          "type": "item",
+                          "ref": "p68-q20-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p68-q20-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p68-q20-b/label",
+                          "type": "item",
+                          "ref": "p68-q20-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p68-q20-b/prompt",
+                          "type": "item",
+                          "ref": "p68-q20-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p68-q20-b/space",
+                          "type": "item",
+                          "ref": "p68-q20-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p68-q20-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p68-q20-c/label",
+                          "type": "item",
+                          "ref": "p68-q20-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p68-q20-c/prompt",
+                          "type": "item",
+                          "ref": "p68-q20-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p68-q20-c/space",
+                          "type": "item",
+                          "ref": "p68-q20-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 20",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:19:01.073Z",
+  "updatedAt": "2026-10-21T11:19:01.073Z"
+}

@@ -1,0 +1,353 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2a2a3f2d-e383-4842-af4a-6fe29fa534d0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "congruent-triangle-tests",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Extract the specified triangles from larger figures, recognise common sides and infer an unmarked vertically opposite angle pair before selecting a congruence test.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:39:55.060Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c8b47ee7b47c6dfe8f7aecc85daf4cbc4d725bd75021f9b052f94fe0cbdb2a00",
+      "evidence": ".booklet-work/reasoning-ratings/calls/congruence-v1/8bfa7a04c3fc709470b744f84b556de1a5aaa9481ec60561a205fb782a5fc941-1792557578879/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "Determine a test that could be used to prove these triangles are congruent.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\triangle ADC$ and $\\triangle ABC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the shared diagonal from the perimeter\"}],\"reference\":\"page 14 p14-q10-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.4,1.7);\\coordinate (C) at (4.8,2.05);\\coordinate (D) at (3.4,.35);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[diagonalBlue,dashed] (A)--(C);\n\\path (A)--(B) node[midway,sloped] {$|$};\\path (D)--(C) node[midway,sloped] {$|$};\n\\path (B)--(C) node[midway,sloped] {$\\vert\\vert$};\\path (A)--(D) node[midway,sloped] {$\\vert\\vert$};\n\\foreach \\p/\\pos in {A/below left,B/above left,C/above right,D/below right}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10a",
+              "description": "Slanted quadrilateral with one-tick sides AB and DC, two-tick sides BC and AD, and dashed diagonal AC.",
+              "mathematics": "AB=DC, BC=AD, AC is common.",
+              "answerVisibility": "Only source givens; no answer is drawn."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "SSS",
+          "worked": "$AD=BC$, $DC=AB$ and $AC$ is common. The triangles are congruent by SSS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p14-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\triangle ABC$ and $\\triangle DBC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the shared diagonal\"}],\"reference\":\"page 14 p14-q10-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,2);\\coordinate (B) at (3.3,2);\\coordinate (C) at (1.4,0);\\coordinate (D) at (4.7,0);\n\\draw (A)--(B)--(D)--(C)--cycle;\\draw[diagonalBlue,dashed] (C)--(B);\n\\foreach \\u/\\v in {A/B,C/D}{\\draw[-{Stealth},line width=.4pt] ($(\\u)!.40!(\\v)$)--($(\\u)!.49!(\\v)$);\\draw[-{Stealth},line width=.4pt] ($(\\u)!.50!(\\v)$)--($(\\u)!.59!(\\v)$);}\n\\foreach \\u/\\v in {C/A,D/B}{\\draw[-{Stealth},line width=.4pt] ($(\\u)!.44!(\\v)$)--($(\\u)!.56!(\\v)$);}\n\\pic[draw,line width=.4pt,angle radius=7mm] {angle=A--B--C};\\pic[draw,line width=.4pt,angle radius=6mm] {angle=C--B--D};\n\\pic[draw,line width=.4pt,angle radius=6mm] {angle=B--C--A};\\pic[draw,line width=.4pt,angle radius=7mm] {angle=D--C--B};\n\\node at ($(B)+(-.85,-.24)$) {$a^\\circ$};\\node at ($(B)+(-.02,-.83)$) {$b^\\circ$};\n\\node at ($(C)+(.02,.83)$) {$b^\\circ$};\\node at ($(C)+(.85,.24)$) {$a^\\circ$};\n\\foreach \\p/\\pos in {A/above left,B/above right,C/below left,D/below right}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10b",
+              "description": "Parallelogram-shaped perimeter AB–BD–DC–CA with matching parallel marks, shared dashed BC and two marked angle pairs.",
+              "mathematics": "Angle ABC=BCD=a°, angle ACB=CBD=b°, BC is common.",
+              "answerVisibility": "Marked angles and parallel arrows are permanent givens."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "AAS",
+          "worked": "$\\angle ABC=\\angle BCD=a^\\circ$ and $\\angle ACB=\\angle CBD=b^\\circ$. Also, $BC$ is common. The triangles are congruent by AAS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p14-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\triangle BEA$ and $\\triangle DEA$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the intersecting diagonals\"}],\"reference\":\"page 14 p14-q10-c-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (C) at (0,0);\\coordinate (B) at (3.2,.15);\\coordinate (A) at (4.25,3.15);\\coordinate (D) at (1.05,3);\\coordinate (E) at (2.125,1.575);\n\\draw (C)--(B)--(A)--(D)--cycle;\\draw[diagonalBlue,dashed] (C)--(A) (D)--(B);\n\\foreach \\u/\\v in {C/B,B/A,A/D,D/C}{\\path (\\u)--(\\v) node[midway,sloped] {$|$};}\n\\draw[line width=.4pt] ($(E)!3mm!(A)$)--($(E)!3mm!(A)+(E)!3mm!(B)-(E)$)--($(E)!3mm!(B)$);\n\\foreach \\p/\\pos in {A/above right,B/below right,C/below left,D/above left,E/above}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10c",
+              "description": "Four equally marked perimeter sides; diagonals CA and DB intersect at E with a right-angle square in AEB.",
+              "mathematics": "AB=AD, EA is common and the angles BEA and DEA are right angles.",
+              "answerVisibility": "No congruence result is printed in the diagram."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "RHS",
+          "worked": "$\\angle BEA=\\angle DEA=90^\\circ$. The hypotenuses satisfy $BA=DA$, and $EA$ is common. The triangles are congruent by RHS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p14-q10-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$\\triangle ABD$ and $\\triangle DBC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the common diagonal\"}],\"reference\":\"page 14 p14-q10-d-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,2.3);\\coordinate (B) at (4.4,2.52);\\coordinate (C) at (4.51,.32);\\coordinate (D) at (.11,.10);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[diagonalBlue,dashed] (D)--(B);\n\\foreach \\u/\\v in {A/B,D/C}{\\draw[-{Stealth},line width=.4pt] ($(\\u)!.40!(\\v)$)--($(\\u)!.49!(\\v)$);\\draw[-{Stealth},line width=.4pt] ($(\\u)!.50!(\\v)$)--($(\\u)!.59!(\\v)$);}\n\\foreach \\u/\\v in {D/A,C/B}{\\draw[-{Stealth},line width=.4pt] ($(\\u)!.44!(\\v)$)--($(\\u)!.56!(\\v)$);}\n\\foreach \\v/\\u/\\w in {A/B/D,C/B/D}{\\draw[line width=.4pt] ($(\\v)!2.6mm!(\\u)$)--($(\\v)!2.6mm!(\\u)+(\\v)!2.6mm!(\\w)-(\\v)$)--($(\\v)!2.6mm!(\\w)$);}\n\\pic[draw,line width=.4pt,angle radius=8mm] {angle=A--B--D};\\pic[draw,line width=.4pt,angle radius=8mm] {angle=C--D--B};\n\\node at ($(B)+(-.90,-.28)$) {$a^\\circ$};\\node at ($(D)+(.90,.28)$) {$a^\\circ$};\n\\foreach \\p/\\pos in {A/above left,B/above right,C/below right,D/below left}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10d",
+              "description": "Tilted rectangle with parallel-arrow pairs, right-angle squares at A and C, dashed DB and equal marked angles ABD and BDC.",
+              "mathematics": "Angle BAD=BCD=90°, angle ABD=BDC=a°, BD is common.",
+              "answerVisibility": "Only permanent givens are shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "AAS",
+          "worked": "$\\angle BAD=\\angle BCD=90^\\circ$ and $\\angle ABD=\\angle BDC=a^\\circ$. Also, $BD$ is common. The triangles are congruent by AAS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p14-q10-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$\\triangle ABC$ and $\\triangle DBC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-e-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes both diagonals from the perimeter\"}],\"reference\":\"page 14 p14-q10-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,1.7);\\coordinate (B) at (4.8,2.18);\\coordinate (C) at (4.97,.48);\\coordinate (D) at (.17,0);\\coordinate (E) at (2.485,1.09);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[diagonalBlue,dashed] (A)--(C) (D)--(B);\n\\foreach \\u/\\v in {A/B,D/C}{\\path (\\u)--(\\v) node[midway,sloped] {$\\vert\\vert$};}\n\\foreach \\u/\\v in {A/D,B/C}{\\path (\\u)--(\\v) node[midway,sloped] {$|$};}\n\\foreach \\v/\\u/\\w in {A/B/D,B/A/C,C/B/D,D/A/C}{\\draw[line width=.4pt] ($(\\v)!2.6mm!(\\u)$)--($(\\v)!2.6mm!(\\u)+(\\v)!2.6mm!(\\w)-(\\v)$)--($(\\v)!2.6mm!(\\w)$);}\n\\foreach \\p/\\pos in {A/above left,B/above right,C/below right,D/below left,E/above}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10e",
+              "description": "Tilted rectangle with all four right-angle squares, AB=DC, AD=BC and intersecting dashed diagonals AC and DB.",
+              "mathematics": "AB=DC, BC is common and angle ABC=DCB=90° give SAS directly.",
+              "answerVisibility": "The source answer is excluded from the question diagram."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "SAS",
+          "worked": "$AB=DC$, $BC$ is common and $\\angle ABC=\\angle DCB=90^\\circ$. These are the included angles, so the triangles are congruent by SAS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p14-q10-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$\\triangle AED$ and $\\triangle BEC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-f-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the intersecting diagonals\"}],\"reference\":\"page 14 p14-q10-f-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,2.8);\\coordinate (B) at (3.8,2.8);\\coordinate (C) at (5.2,0);\\coordinate (D) at (1.4,0);\\coordinate (E) at (2.6,1.4);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[diagonalBlue,dashed] (A)--(C) (D)--(B);\n\\path (A)--(B) node[midway,sloped] {$\\vert\\vert$};\\path (A)--(D) node[midway,sloped] {$|$};\\path (B)--(C) node[midway,sloped] {$|$};\n\\pic[draw,line width=.4pt,angle radius=7mm] {angle=D--A--E};\\pic[draw,line width=.4pt,angle radius=7mm] {angle=B--C--E};\n\\pic[draw,line width=.4pt,angle radius=7mm] {angle=E--D--A};\\pic[draw,line width=.4pt,angle radius=7mm] {angle=E--B--C};\n\\node at ($(A)+(.90,-.95)$) {$b^\\circ$};\\node at ($(C)+(-.90,.95)$) {$b^\\circ$};\n\\node at ($(D)+(.02,.86)$) {$a^\\circ$};\\node at ($(B)+(-.02,-.86)$) {$a^\\circ$};\n\\foreach \\p/\\pos in {A/above left,B/above right,C/below right,D/below left,E/above}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10f",
+              "description": "Slanted quadrilateral with AB double-ticked, AD and BC single-ticked, intersecting diagonals and four angle sectors labelled a° or b°.",
+              "mathematics": "AD=BC, angle ADE=EBC=a°, angle DAE=BCE=b°, and vertically opposite angles AED=BEC.",
+              "answerVisibility": "All source givens, including the redundant AB tick, remain visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "AAS",
+          "worked": "$\\angle ADE=\\angle EBC=a^\\circ$ and $\\angle AED=\\angle BEC$ because they are vertically opposite. Also, $AD=BC$. The triangles are congruent by AAS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p14-q10-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "$\\triangle AEB$, $\\triangle AED$, $\\triangle DEC$, and $\\triangle CEB$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-g-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the diagonals and their equal-segment marks\"}],\"reference\":\"page 14 p14-q10-g-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,3);\\coordinate (B) at (3,3);\\coordinate (C) at (3,0);\\coordinate (D) at (0,0);\\coordinate (E) at (1.5,1.5);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[diagonalBlue,dashed] (A)--(C) (D)--(B);\n\\foreach \\u/\\v in {A/B,B/C,C/D,D/A}{\\path (\\u)--(\\v) node[midway,sloped] {$|$};}\n\\foreach \\u/\\v in {A/E,B/E,C/E,D/E}{\\path (\\u)--(\\v) node[midway,sloped,text=diagonalBlue] {$\\vert\\vert$};}\n\\foreach \\v/\\u/\\w in {A/B/D,B/A/C,C/B/D,D/A/C}{\\draw[line width=.4pt] ($(\\v)!2.6mm!(\\u)$)--($(\\v)!2.6mm!(\\u)+(\\v)!2.6mm!(\\w)-(\\v)$)--($(\\v)!2.6mm!(\\w)$);}\n\\foreach \\p/\\pos in {A/above left,B/above right,C/below right,D/below left,E/above}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10g",
+              "description": "Square-shaped perimeter with four equal sides and four right-angle squares; both diagonals and all four equally double-ticked half-diagonals are blue.",
+              "mathematics": "AB=AD=DC=CB and AE=BE=CE=DE. Each named triangle has two double-ticked sides and one single-ticked side.",
+              "answerVisibility": "Equal-side marks are source givens; no response is embedded."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "SSS",
+          "worked": "$AB=AD=DC=CB$ and $AE=BE=CE=DE$. Each triangle has two equal diagonal segments and one equal perimeter side. All four triangles are congruent by SSS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p14-q10-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "$\\triangle AEB$ and $\\triangle DEC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q10-h-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the intersecting diagonals\"}],\"reference\":\"page 14 p14-q10-h-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,.55);\\coordinate (C) at (5.3,2.2);\\coordinate (D) at (1.3,1.65);\\coordinate (E) at (2.65,1.1);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw[diagonalBlue,dashed] (A)--(C) (D)--(B);\n\\path (A)--(D) node[midway,sloped] {$|$};\\path (B)--(C) node[midway,sloped] {$|$};\n\\path (A)--(B) node[midway,sloped] {$\\vert\\vert$};\\path (D)--(C) node[midway,sloped] {$\\vert\\vert$};\n\\pic[draw,line width=.4pt,angle radius=9mm] {angle=E--D--C};\\pic[draw,line width=.4pt,angle radius=9mm] {angle=E--B--A};\n\\node at ($(D)+(1.45,-.18)$) {$a^\\circ$};\\node at ($(B)+(-1.45,.18)$) {$a^\\circ$};\n\\foreach \\p/\\pos in {A/below left,B/below right,C/above right,D/above left}{\\fill (\\p) circle (1.5pt);\\node[\\pos] at (\\p) {$\\p$};}\n\\fill (E) circle (1.5pt);\\node at ($(E)+(.75,0)$) {$E$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 10h",
+              "description": "Slanted quadrilateral with opposite equal-side pairs, intersecting dashed diagonals, and equal angles CDE and ABE. No parallel or right-angle marks are added.",
+              "mathematics": "AB=DC, angle ABE=CDE=a°, angle AEB=DEC by vertically opposite angles.",
+              "answerVisibility": "No inferred markings or supplied answer are drawn."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "AAS",
+          "worked": "$\\angle ABE=\\angle CDE=a^\\circ$ and $\\angle AEB=\\angle DEC$ because they are vertically opposite. Also, $AB=DC$. The triangles are congruent by AAS.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:34:36.592Z",
+  "updatedAt": "2026-10-21T08:34:36.592Z"
+}

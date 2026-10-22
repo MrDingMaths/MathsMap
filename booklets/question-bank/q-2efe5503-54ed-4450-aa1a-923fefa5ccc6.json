@@ -1,0 +1,203 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2efe5503-54ed-4450-aa1a-923fefa5ccc6",
+  "status": "approved",
+  "title": "2019 HSC Standard 2 Band 5",
+  "classification": {
+    "primarySkillId": "area-composite-figures",
+    "secondarySkillIds": [
+      "area-of-rectangle",
+      "area-of-triangle",
+      "convert-area-units"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Account for the path width on both sides of each garden dimension, subtract the garden area, reconcile square metres with square centimetres, and divide by the right-triangular paver area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:58.253Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dce92eb65dbf13b1613d9c9bf80a5c2a8fcd72ab36b227937a02d30222f0444c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-parallelograms-triangles-v1/e6ffe733e0572d97c61db2f74260d7dd5df8eb240ab652af5e7c16b009ab91cf-1792556134828/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q14-response",
+    "type": "question",
+    "label": "14",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p42-q14-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A path 1.8 m wide is being built around a rectangular garden.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "The garden is 8.4 m long and 5.4 m wide. The path is shaded in the diagram.",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "The path is to be covered with triangular pavers with side lengths of 15 cm and 20 cm as shown. How many pavers are needed?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q14-garden",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42, p42-q14-garden\"}\n\\begin{tikzpicture}[x=0.43cm,y=0.43cm,font=\\fontsize{10}{12}\\selectfont,draw=black,text=black,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (Gsw) at (1.8,1.8);\n\\coordinate (Gse) at (10.2,1.8);\n\\coordinate (Gne) at (10.2,7.2);\n\\coordinate (Gnw) at (1.8,7.2);\n\\begin{scope}\n\\pgfseteorule\n\\pgfpathrectangle{\\pgfpointxy{0}{0}}{\\pgfpointxy{12}{9}}\n\\pgfpathrectangle{\\pgfpointxy{1.8}{1.8}}{\\pgfpointxy{8.4}{5.4}}\n\\pgfusepath{clip}\n\\foreach \\h in {-9,-8.65,...,12} {\\draw[line width=0.15pt] (\\h,0) -- ++(9,9);}\n\\end{scope}\n\\fill[white] (1.8,1.8) rectangle (10.2,7.2);\n\\draw[line width=0.8pt] (O) rectangle (12,9);\n\\draw[line width=0.8pt] (Gsw) rectangle (Gne);\n\\node at (6,4.5) {Garden};\n\\draw[<->,line width=0.4pt] (1.8,7.75) -- (10.2,7.75) node[midway,fill=white,inner sep=1pt] {$8.4\\ \\mathrm{m}$};\n\\draw[<->,line width=0.4pt] (10.95,1.8) -- (10.95,7.2) node[midway,fill=white,inner sep=1pt] {$5.4\\ \\mathrm{m}$};\n\\draw[<->,line width=0.4pt] (0,4.6) -- (1.8,4.6);\n\\node[anchor=north,fill=white,inner sep=1pt] at (0.9,4.25) {$1.8\\ \\mathrm{m}$};\n\\draw[<->,line width=0.4pt] (6,0) -- (6,1.8);\n\\node[anchor=west,fill=white,inner sep=1pt] at (6.3,0.9) {$1.8\\ \\mathrm{m}$};\n\\node[anchor=west,align=center] at (13,4.5) {NOT TO\\\\SCALE};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 14, left diagram",
+          "description": "A rectangular garden inside an outer rectangle, with restrained diagonal hatching identifying the surrounding path. Preserve all four dimension arrows, the Garden label and NOT TO SCALE.",
+          "mathematics": "The inner rectangle measures 8.4 m by 5.4 m. The path is 1.8 m wide on every side. Dimension arrows above and right of the inner rectangle measure the garden; arrows across the left and bottom strips measure path width.",
+          "answerVisibility": "Only source givens and region labels are visible; outer dimensions and calculated areas are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p42-q14-paver",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 42, p42-q14-paver\"}\n\\begin{tikzpicture}[x=0.19cm,y=0.19cm,font=\\fontsize{10}{12}\\selectfont,draw=black,text=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (20,0);\n\\coordinate (C) at (0,15);\n\\draw[line width=0.8pt] (A) -- (B) -- (C) -- cycle;\n\\draw[line width=0.4pt] (0,1.5) -- (1.5,1.5) -- (1.5,0);\n\\path (A) -- (C) node[midway,left=2mm] {$15\\ \\mathrm{cm}$};\n\\path (A) -- (B) node[midway,below=2mm] {$20\\ \\mathrm{cm}$};\n\\node[above=2mm] at (10,16) {One paver};\n\\node[anchor=west,align=center] at (26,8) {NOT TO\\\\SCALE};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 14, right diagram",
+          "description": "One right triangular paver, with a vertical left side, horizontal bottom side and hypotenuse descending to the right. Preserve the right-angle marker, One paver heading and NOT TO SCALE.",
+          "mathematics": "The perpendicular sides are 15 cm and 20 cm.",
+          "answerVisibility": "Only the supplied lengths and right-angle marker are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$4176$ pavers.",
+      "worked": "The path adds $1.8\\ \\text{m}$ on each side of the garden.\n$$\\begin{align*}\nL_{\\text{outer}} &= 8.4+2\\times1.8=12\\ \\text{m} \\\\\nW_{\\text{outer}} &= 5.4+2\\times1.8=9\\ \\text{m} \\\\\nA_{\\text{path}} &= 12\\times9-8.4\\times5.4 \\\\\nA_{\\text{path}} &= 62.64\\ \\text{m}^{2} \\\\\nA_{\\text{path}} &= 626400\\ \\text{cm}^{2} \\\\\nA_{\\text{paver}} &= \\frac12\\times20\\times15 \\\\\nA_{\\text{paver}} &= 150\\ \\text{cm}^{2} \\\\\nN_{\\text{pavers}} &= \\frac{626400}{150} \\\\\nN_{\\text{pavers}} &= 4176\n\\end{align*}$$\nTherefore, $4176$ pavers are needed.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 72
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q14-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p42-q14-label-item",
+                  "type": "item",
+                  "ref": "p42-q14-response/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p42-q14-prompt-item",
+                  "type": "item",
+                  "ref": "p42-q14-response/prompt#p42-q14-stem",
+                  "align": "left"
+                },
+                {
+                  "id": "p42-q14-paired-figures",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p42-q14-garden-item",
+                      "type": "item",
+                      "ref": "p42-q14-garden",
+                      "width": 70,
+                      "align": "center"
+                    },
+                    {
+                      "id": "p42-q14-paver-item",
+                      "type": "item",
+                      "ref": "p42-q14-paver",
+                      "width": 60,
+                      "align": "center"
+                    }
+                  ],
+                  "gap": 5,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "p42-q14-working-item",
+                  "type": "item",
+                  "ref": "p42-q14-response/space",
+                  "height": 40,
+                  "align": "left"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        },
+        "p42-q14-garden": {
+          "diagramWidthMm": 70
+        },
+        "p42-q14-paver": {
+          "diagramWidthMm": 60
+        }
+      },
+      "answerSpaces": {
+        "p42-q14-response": 40
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p42-q14"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:39:53.783Z",
+  "updatedAt": "2026-10-21T07:39:53.783Z"
+}

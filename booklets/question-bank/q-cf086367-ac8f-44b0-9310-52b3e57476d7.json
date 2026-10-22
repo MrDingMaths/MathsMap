@@ -1,0 +1,985 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cf086367-ac8f-44b0-9310-52b3e57476d7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "similar-triangle-tests",
+    "secondarySkillIds": [],
+    "reasoningScore": 18,
+    "difficulty": "Foundation",
+    "difficultyReason": "Match explicitly marked angles, use their endpoints to identify corresponding sides, and calculate the supplied ratios. The preceding parts scaffold the final similarity explanation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:48:36.551Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cd5fa22414d46056cfa1388b82a0db868c013d264b37cefe99af7bb41c0ebb09",
+      "evidence": ".booklet-work/reasoning-ratings/calls/similar-triangles-v1/5f8806c11129f5646b1d0df3f61f4cf66cb872b5c546dc86ffd9c416789b0ace-1792561694957/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p4-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Consider these two triangles.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p4-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 4 p4-q1-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (1,4.5);\n\\coordinate (B) at (0.6875,5.449918);\n\\coordinate (C) at (3,4.5);\n\\draw (A)--(B)--(C)--cycle;\n\\node[below left] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\path (A)--(B) node[midway,left] {$1\\text{ cm}$};\n\\path (A)--(C) node[midway,below] {$2\\text{ cm}$};\n\\path (B)--(C) node[midway,above right] {$2.5\\text{ cm}$};\n\\coordinate (Am) at ($(A)!0.17!($(B)!0.5!(C)$)$);\n\\coordinate (Bm) at ($(B)!0.17!($(A)!0.5!(C)$)$);\n\\coordinate (Cm) at ($(C)!0.22!($(A)!0.5!(B)$)$);\n\\fill (Am) circle[radius=0.6mm];\n\\draw[line width=0.4pt] (Bm) circle[radius=0.6mm];\n\\draw[line width=0.4pt] ($(Cm)+(-0.06,-0.06)$)--($(Cm)+(0.06,0.06)$) ($(Cm)+(-0.06,0.06)$)--($(Cm)+(0.06,-0.06)$);\n\\coordinate (D) at (0.5,2);\n\\coordinate (E) at (0.5,0);\n\\coordinate (F) at (4.299671,3.25);\n\\draw (D)--(E)--(F)--cycle;\n\\node[above left] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\node[above right] at (F) {$F$};\n\\path (D)--(E) node[midway,left] {$2\\text{ cm}$};\n\\path (D)--(F) node[midway,above left] {$4\\text{ cm}$};\n\\path (E)--(F) node[midway,below right] {$5\\text{ cm}$};\n\\coordinate (Dm) at ($(D)!0.13!($(E)!0.5!(F)$)$);\n\\coordinate (Em) at ($(E)!0.11!($(D)!0.5!(F)$)$);\n\\coordinate (Fm) at ($(F)!0.17!($(D)!0.5!(E)$)$);\n\\fill (Dm) circle[radius=0.6mm];\n\\draw[line width=0.4pt] (Em) circle[radius=0.6mm];\n\\draw[line width=0.4pt] ($(Fm)+(-0.06,-0.06)$)--($(Fm)+(0.06,0.06)$) ($(Fm)+(-0.06,0.06)$)--($(Fm)+(0.06,-0.06)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 48,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 4,
+          "sourceRegion": "Question 1, paired figures to the left of parts a–d",
+          "description": "Smaller ABC above larger DEF, preserving their different orientations. Ordinary blue source outlines are rendered black under house style. Solid dots mark A and D, hollow circles B and E, and crosses C and F.",
+          "mathematics": "Corrected source givens: AB = 1 cm, AC = 2 cm, BC = 2.5 cm; DE = 2 cm, DF = 4 cm, EF = 5 cm. Original longest sides 3 and 6 made degenerate triangles. Correspondence A↔D, B↔E, C↔F and common side ratio 2 are preserved. Coordinates satisfy the corrected lengths and corresponding angles.",
+          "answerVisibility": "All vertex names, measurements and correspondence markers are permanent givens; no answers are included."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p4-q1-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Name the angle on the larger triangle that corresponds to:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p4-q1-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-a-i-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "\\angle A",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$\\angle D$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\angle D$",
+              "worked": "The solid-dot markers match $A$ with $D$, so $\\angle A$ corresponds to $\\angle D$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p4-q1-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-a-ii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "\\angle B",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$\\angle E$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\angle E$",
+              "worked": "The hollow-circle markers match $B$ with $E$, so $\\angle B$ corresponds to $\\angle E$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p4-q1-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-a-iii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "\\angle C",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$\\angle F$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\angle F$",
+              "worked": "The cross markers match $C$ with $F$, so $\\angle C$ corresponds to $\\angle F$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      },
+      {
+        "id": "p4-q1-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Name the side on the smaller triangle that corresponds to:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p4-q1-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-b-i-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "DE",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$AB$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$AB$",
+              "worked": "$D$ corresponds to $A$ and $E$ to $B$, so $DE$ corresponds to $AB$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p4-q1-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-b-ii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "EF",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$BC$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$BC$",
+              "worked": "$E$ corresponds to $B$ and $F$ to $C$, so $EF$ corresponds to $BC$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p4-q1-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-b-iii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "FD",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$CA$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$CA$",
+              "worked": "$F$ corresponds to $C$ and $D$ to $A$, so $FD$ corresponds to $CA$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      },
+      {
+        "id": "p4-q1-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Find these side ratios.",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p4-q1-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-c-i-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "\\dfrac{DE}{AB}",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$2$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$2$",
+              "worked": "$$\\begin{aligned}\\frac{DE}{AB}&=\\frac{2}{1}\\\\\\frac{DE}{AB}&=2\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p4-q1-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-c-ii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "\\dfrac{EF}{BC}",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$2$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$2$",
+              "worked": "$$\\begin{aligned}\\frac{EF}{BC}&=\\frac{5}{2.5}\\\\\\frac{EF}{BC}&=2\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          },
+          {
+            "id": "p4-q1-c-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "p4-q1-c-iii-prompt",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 1,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "math",
+                      "latex": "\\dfrac{FD}{CA}",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " ",
+                      "marks": []
+                    },
+                    {
+                      "type": "cloze",
+                      "answer": "$2$",
+                      "width": 13
+                    }
+                  ]
+                }
+              ]
+            },
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$2$",
+              "worked": "$$\\begin{aligned}\\frac{FD}{CA}&=\\frac{4}{2}\\\\\\frac{FD}{CA}&=2\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 0,
+            "responseSpace": "scaffold"
+          }
+        ]
+      },
+      {
+        "id": "p4-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain why the two triangles are similar.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Corresponding angles are equal and corresponding sides are in the same ratio.",
+          "worked": "The markers show that corresponding angles are equal. Also, $\\frac{DE}{AB}=\\frac{EF}{BC}=\\frac{FD}{CA}=2$, so corresponding sides are in the same ratio.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p4-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p4-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p4-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p4-q1-root/label",
+                  "type": "item",
+                  "ref": "p4-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "p4-q1-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p4-q1-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p4-q1-diagram",
+                          "type": "item",
+                          "ref": "p4-q1-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p4-q1-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p4-q1-root/prompt",
+                          "type": "item",
+                          "ref": "p4-q1-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p4-q1-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p4-q1-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p4-q1-a/label",
+                                  "type": "item",
+                                  "ref": "p4-q1-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p4-q1-a/prompt",
+                                  "type": "item",
+                                  "ref": "p4-q1-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p4-q1-a:parts",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p4-q1-a-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-a-i/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-a-i/prompt#p4-q1-a-i-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-i/prompt#p4-q1-a-i-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-a-i/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p4-q1-a-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-a-ii/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-a-ii/prompt#p4-q1-a-ii-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-ii/prompt#p4-q1-a-ii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-a-ii/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p4-q1-a-iii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-a-iii/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-iii/label",
+                                          "title": "Label iii"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-a-iii/prompt#p4-q1-a-iii-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-iii/prompt#p4-q1-a-iii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-a-iii/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-a-iii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iii",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p4-q1-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p4-q1-b/label",
+                                  "type": "item",
+                                  "ref": "p4-q1-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p4-q1-b/prompt",
+                                  "type": "item",
+                                  "ref": "p4-q1-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p4-q1-b:parts",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p4-q1-b-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-b-i/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-b-i/prompt#p4-q1-b-i-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-i/prompt#p4-q1-b-i-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-b-i/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p4-q1-b-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-b-ii/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-b-ii/prompt#p4-q1-b-ii-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-ii/prompt#p4-q1-b-ii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-b-ii/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p4-q1-b-iii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-b-iii/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-iii/label",
+                                          "title": "Label iii"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-b-iii/prompt#p4-q1-b-iii-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-iii/prompt#p4-q1-b-iii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-b-iii/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-b-iii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iii",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p4-q1-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p4-q1-c/label",
+                                  "type": "item",
+                                  "ref": "p4-q1-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p4-q1-c/prompt",
+                                  "type": "item",
+                                  "ref": "p4-q1-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p4-q1-c:parts",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p4-q1-c-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-c-i/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-c-i/prompt#p4-q1-c-i-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-i/prompt#p4-q1-c-i-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-c-i/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p4-q1-c-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-c-ii/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-c-ii/prompt#p4-q1-c-ii-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-ii/prompt#p4-q1-c-ii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-c-ii/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p4-q1-c-iii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p4-q1-c-iii/label",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-iii/label",
+                                          "title": "Label iii"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-c-iii/prompt#p4-q1-c-iii-prompt",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-iii/prompt#p4-q1-c-iii-prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p4-q1-c-iii/space",
+                                          "type": "item",
+                                          "ref": "p4-q1-c-iii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iii",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p4-q1-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p4-q1-d/label",
+                                  "type": "item",
+                                  "ref": "p4-q1-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p4-q1-d/prompt",
+                                  "type": "item",
+                                  "ref": "p4-q1-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p4-q1-d/space",
+                                  "type": "item",
+                                  "ref": "p4-q1-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:00:52.692Z",
+  "updatedAt": "2026-10-21T10:00:52.693Z"
+}

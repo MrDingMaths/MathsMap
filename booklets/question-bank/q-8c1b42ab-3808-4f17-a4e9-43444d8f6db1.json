@@ -1,0 +1,423 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8c1b42ab-3808-4f17-a4e9-43444d8f6db1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "exponential-growth-decay-model",
+    "secondarySkillIds": [
+      "interpret-exponential-model"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret a decay model, read approximate values from its graph and explain the annual percentage decrease.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T14:41:32.631Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "883e4bede3de9eb1e97e4e2b8d73b6215d3e844df197b7967b9f8e775e755a92",
+      "evidence": ".booklet-work/full-imports/features-quadratics-exponentials-20261006/semantic-packets/assignments/assignment-6d6dee9fbfd9e6dddaed/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p43-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Radioactive decay is a physical phenomenon that can be modelled using an exponential relationship. A piece of radioactive material decays according to the equation $m = 800(0.95)^t$, where $m$ is the mass of radioactive substance in grams and $t$ is the number of years.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p43-q3-graph-parts",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p43-q3-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"given exponential decay curve and its point markers\"},{\"name\":\"gridGrey\",\"hex\":\"CCCCCC\",\"reason\":\"coordinate grid\"}],\"reference\":\"source page 43, p43-q3-graph\"}\n\\begin{tikzpicture}[x=0.23cm,y=0.006cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[gridGrey,line width=0.15pt,xstep=1.25,ystep=50] (0,0) grid (27.5,900);\n\\draw[black,line width=0.5pt,->] (0,0)--(27.5,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,900);\n\\foreach \\t in {5,10,15,20,25} {\n  \\draw[black,line width=0.4pt] (\\t,0)--(\\t,-22);\n  \\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-22) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\m in {0,100,200,300,400,500,600,700,800} {\n  \\draw[black,line width=0.4pt] (0,\\m)--(-0.45,\\m);\n  \\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.45,\\m) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\m$\\special{dvisvgm:raw </g>}};\n}\n\\node[above left,font=\\fontsize{10}{12}\\selectfont] at (0,900) {$m$};\n\\node[below right,font=\\fontsize{10}{12}\\selectfont] at (27.5,0) {$t$};\n\\draw[seriesBlue,line width=0.8pt,domain=0:25,samples=101] plot (\\x,{800*pow(0.95,\\x)});\n\\foreach \\t in {0,5,10,15,20,25} {\n  \\fill[seriesBlue] (\\t,{800*pow(0.95,\\t)}) circle[radius=1.4pt];\n}\n\\node[black,anchor=west,font=\\fontsize{10}{12}\\selectfont] at (7,720) {$m=800(0.95)^t$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 75,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 43,
+              "sourceRegion": "Question 3, upper-left graph",
+              "description": "Given decay graph with rectangular grid, positive axes, equation label and six marked points. Source teal curve becomes house blue; grid becomes house grey.",
+              "mathematics": {
+                "equation": "m=800(0.95)^t",
+                "horizontalRange": [
+                  0,
+                  27.5
+                ],
+                "verticalRange": [
+                  0,
+                  900
+                ],
+                "gridStep": {
+                  "horizontal": 1.25,
+                  "vertical": 50
+                },
+                "horizontalLabelledTicks": [
+                  5,
+                  10,
+                  15,
+                  20,
+                  25
+                ],
+                "verticalLabelledTicks": [
+                  0,
+                  100,
+                  200,
+                  300,
+                  400,
+                  500,
+                  600,
+                  700,
+                  800
+                ],
+                "markedPointTimes": [
+                  0,
+                  5,
+                  10,
+                  15,
+                  20,
+                  25
+                ]
+              },
+              "answerVisibility": "The given curve, equation and point markers remain visible in the question edition; response text is answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p43-q3-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Explain how we can see that this model represents exponential decay.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The graph decreases and the base $0.95$ is between $0$ and $1$.",
+              "worked": "The graph decreases as $t$ increases. Since $0<0.95<1$, the mass is multiplied by a factor less than $1$ each year, so the model represents exponential decay.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p43-q3-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "What was the initial mass of radioactive material?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$800\\text{ g}$",
+              "worked": "At $t=0$,\n$$\\begin{align*}m&=800(0.95)^0\\\\m&=800\\text{ g}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p43-q3-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "Use the graph to estimate the mass of radioactive substance after 22.5 years.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\approx250\\text{ g}$",
+              "worked": "Read vertically from $t=22.5$ to the curve, then horizontally to the mass axis. The mass is approximately $250\\text{ g}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      },
+      {
+        "id": "p43-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Estimate the time taken for the mass of radioactive substance to reach 600 g.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\approx6$ years",
+          "worked": "Read horizontally from $m=600$ to the curve, then vertically to the time axis. The time is approximately $6$ years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p43-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What is the percentage rate of decay each year?\nExplain how you can work this out from looking at the equation $m = 800(0.95)^t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5\\%$ per year; $0.95=1-0.05$.",
+          "worked": "$0.95=1-0.05$, so $95\\%$ of the mass remains each year. The mass therefore decreases by $5\\%$ each year.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p43-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p43-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p43-q3-root/label",
+                  "type": "item",
+                  "ref": "p43-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p43-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p43-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p43-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p43-q3-graph-parts:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p43-q3-graph-parts:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p43-q3-graph-parts:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p43-q3-graph",
+                                  "type": "item",
+                                  "ref": "p43-q3-graph",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p43-q3-graph-parts:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p43-q3-graph-parts:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p43-q3-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p43-q3-a/label",
+                                          "type": "item",
+                                          "ref": "p43-q3-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p43-q3-a/prompt",
+                                          "type": "item",
+                                          "ref": "p43-q3-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p43-q3-a/space",
+                                          "type": "item",
+                                          "ref": "p43-q3-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p43-q3-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p43-q3-b/label",
+                                          "type": "item",
+                                          "ref": "p43-q3-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p43-q3-b/prompt",
+                                          "type": "item",
+                                          "ref": "p43-q3-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p43-q3-b/space",
+                                          "type": "item",
+                                          "ref": "p43-q3-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p43-q3-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p43-q3-c/label",
+                                          "type": "item",
+                                          "ref": "p43-q3-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p43-q3-c/prompt",
+                                          "type": "item",
+                                          "ref": "p43-q3-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p43-q3-c/space",
+                                          "type": "item",
+                                          "ref": "p43-q3-c/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p43-q3-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p43-q3-d/label",
+                          "type": "item",
+                          "ref": "p43-q3-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p43-q3-d/prompt",
+                          "type": "item",
+                          "ref": "p43-q3-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p43-q3-d/space",
+                          "type": "item",
+                          "ref": "p43-q3-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p43-q3-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p43-q3-e/label",
+                          "type": "item",
+                          "ref": "p43-q3-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p43-q3-e/prompt",
+                          "type": "item",
+                          "ref": "p43-q3-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p43-q3-e/space",
+                          "type": "item",
+                          "ref": "p43-q3-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:44:06.706Z",
+  "updatedAt": "2026-10-21T08:44:06.707Z"
+}

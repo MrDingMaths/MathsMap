@@ -1,0 +1,288 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3713d78a-aa9f-46e0-b560-499c40922b97",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "identify-slant-perpendicular-height",
+    "secondarySkillIds": [
+      "pythagoras-find-side"
+    ],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise the triangular face in both a net and a solid, halve its base, and subtract squared lengths to obtain its altitude rather than using the side edge as the slant height.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:56:24.756Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c0dd78d5f5049f0503507826c3692afca02224b8dbbb68035b38e13137b34aa6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-pyramids-cones-spheres-v1/d56a532848257a32739ff81a5df4c856c251bbb0987009078abb27a7bcc5dd25-1792562147458/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p5-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "You are given a side edge. Calculate the slant height using Pythagoras’ Theorem.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p5-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p5-q2-a-net",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 question 2a\"}\n\\begin{tikzpicture}[line join=round,line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0.65);\\coordinate (B) at (0.65,0);\\coordinate (C) at (0,-0.65);\\coordinate (D) at (-0.65,0);\n\\coordinate (T) at (1.65,1.65);\\coordinate (R) at (1.65,-1.65);\\coordinate (U) at (-1.65,-1.65);\\coordinate (L) at (-1.65,1.65);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[line width=0.8pt] (A)--(T)--(B) (B)--(R)--(C) (C)--(U)--(D) (D)--(L)--(A);\n\\fill (0,0) circle (1pt);\n\\node[align=left,anchor=south] (baseLabel) at (0,2.1) {Square base\\\\sides $11\\ \\mathrm{cm}$};\n\\draw[line width=0.4pt] (baseLabel.south west) to[out=190,in=130] (0,0);\n\\path (C)--(R) node[midway,below,sloped] {$45\\ \\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 49,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 5,
+              "sourceRegion": "Question 2a",
+              "description": "Unshaded square-pyramid net with a central square and four attached triangular faces. The base label points to the central square; 45 cm labels a lateral edge of an attached triangle.",
+              "mathematics": "Square base side 11 cm; triangular face has equal side edges 45 cm. Its slant height bisects the 11 cm base.",
+              "answerVisibility": "Only supplied measurements are visible; calculated slant height is withheld."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{1994.75}\\ \\mathrm{cm}$",
+          "worked": "The slant height bisects the base of a triangular face.\n$$\\begin{align*}\\frac{11}{2}&=5.5\\\\l^2+5.5^2&=45^2\\\\l^2&=2025-30.25\\\\l^2&=1994.75\\\\l&=\\sqrt{1994.75}\\ \\mathrm{cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p5-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p5-q2-b-pyramid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 question 2b\"}\n\\begin{tikzpicture}[line join=round,line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (2,0);\\coordinate (C) at (3,0.65);\\coordinate (D) at (1,0.65);\\coordinate (V) at (1.5,2.6);\\coordinate (M) at (2.5,0.325);\n% Explicit base and side faces, viewed from the front-right above the base.\n\\path (A)--(B)--(C)--(D)--cycle;\n\\path (V)--(A)--(B)--cycle;\\path (V)--(B)--(C)--cycle;\n\\path (V)--(C)--(D)--cycle;\\path (V)--(D)--(A)--cycle;\n\\draw[line width=0.8pt] (V)--(A)--(B)--(C)--(V) (V)--(B);\n\\draw[line width=0.4pt,dashed] (A)--(D)--(C) (D)--(V);\n\\draw[line width=0.4pt,densely dotted] (V)--(M);\n\\coordinate (Q) at ($(M)!0.16cm!(B)$);\\coordinate (S) at ($(M)!0.16cm!(V)$);\\coordinate (K) at ($(Q)+(S)-(M)$);\n\\draw[line width=0.4pt] (Q)--(K)--(S);\n\\path (A)--(B) node[midway,below] {$72\\ \\mathrm{mm}$};\n\\path (V)--(C) node[midway,above,sloped] {$85\\ \\mathrm{mm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 49,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 5,
+              "sourceRegion": "Question 2b",
+              "description": "Upright right square pyramid with front and right faces visible, rear edges dashed, and a dotted face-height construction ending at the midpoint of the right base edge with a right-angle marker.",
+              "mathematics": "Square base side 72 mm; lateral edge 85 mm. The face-height right triangle has legs l and 36 mm, and hypotenuse 85 mm.",
+              "answerVisibility": "No calculated height is printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$77\\ \\mathrm{mm}$",
+          "worked": "$$\\begin{align*}\\frac{72}{2}&=36\\\\l^2+36^2&=85^2\\\\l^2&=7225-1296\\\\l^2&=5929\\\\l&=77\\ \\mathrm{mm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p5-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p5-q2-c-pyramid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 question 2c\"}\n\\begin{tikzpicture}[line join=round,line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.5,0);\\coordinate (C) at (2.3,0.7);\\coordinate (D) at (0.8,0.7);\\coordinate (V) at (1.15,3.2);\\coordinate (M) at (1.9,0.35);\n% Explicit base and side faces, viewed from the front-right above the base.\n\\path (A)--(B)--(C)--(D)--cycle;\n\\path (V)--(A)--(B)--cycle;\\path (V)--(B)--(C)--cycle;\n\\path (V)--(C)--(D)--cycle;\\path (V)--(D)--(A)--cycle;\n\\draw[line width=0.8pt] (V)--(A)--(B)--(C)--(V) (V)--(B);\n\\draw[line width=0.4pt,dashed] (A)--(D)--(C) (D)--(V);\n\\draw[line width=0.4pt,densely dotted] (V)--(M);\n\\coordinate (Q) at ($(M)!0.16cm!(B)$);\\coordinate (S) at ($(M)!0.16cm!(V)$);\\coordinate (K) at ($(Q)+(S)-(M)$);\n\\draw[line width=0.4pt] (Q)--(K)--(S);\n\\path (B)--(C) node[midway,below,sloped] {$1.9\\ \\mathrm{m}$};\n\\path (V)--(C) node[midway,above,sloped] {$3.1\\ \\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 45,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 5,
+              "sourceRegion": "Question 2c",
+              "description": "Upright right square pyramid with front and right faces visible, dashed rear edges, and a dotted face-height construction perpendicular to the right base edge at its midpoint.",
+              "mathematics": "Square base side 1.9 m; lateral edge 3.1 m. The face-height right triangle has legs l and 0.95 m, and hypotenuse 3.1 m.",
+              "answerVisibility": "No calculated height is printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{8.7075}\\ \\mathrm{m}$",
+          "worked": "$$\\begin{align*}\\frac{1.9}{2}&=0.95\\\\l^2+0.95^2&=3.1^2\\\\l^2&=9.61-0.9025\\\\l^2&=8.7075\\\\l&=\\sqrt{8.7075}\\ \\mathrm{m}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p5-q2-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p5-q2-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p5-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p5-q2-root/label",
+                  "type": "item",
+                  "ref": "p5-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p5-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p5-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p5-q2-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p5-q2-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p5-q2-a/label",
+                          "type": "item",
+                          "ref": "p5-q2-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p5-q2-a-net",
+                          "type": "item",
+                          "ref": "p5-q2-a-net",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p5-q2-a/space",
+                          "type": "item",
+                          "ref": "p5-q2-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p5-q2-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p5-q2-b/label",
+                          "type": "item",
+                          "ref": "p5-q2-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p5-q2-b-pyramid",
+                          "type": "item",
+                          "ref": "p5-q2-b-pyramid",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p5-q2-b/space",
+                          "type": "item",
+                          "ref": "p5-q2-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p5-q2-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p5-q2-c/label",
+                          "type": "item",
+                          "ref": "p5-q2-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p5-q2-c-pyramid",
+                          "type": "item",
+                          "ref": "p5-q2-c-pyramid",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p5-q2-c/space",
+                          "type": "item",
+                          "ref": "p5-q2-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        },
+        "p5-q2-a-net": {
+          "diagramWidthMm": 32
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:31:45.816Z",
+  "updatedAt": "2026-10-21T10:31:45.816Z"
+}

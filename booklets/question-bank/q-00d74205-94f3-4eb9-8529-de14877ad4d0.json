@@ -1,0 +1,353 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-00d74205-94f3-4eb9-8529-de14877ad4d0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-quadratic-model",
+    "secondarySkillIds": [
+      "quadratic-word-problems",
+      "sketch-parabola-from-equation"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Link the perimeter constraint to an area quadratic, sketch its vertex and intercepts, restrict the domain to positive dimensions, and interpret the maximum.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:04:13.126Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7de7098171a6475598cf51f579947dc55015201bfb29b6d05b620f38433f571d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/further-parabolas-v1/976b403867b2ca9a9f436fa129a7bbe94ad457d35dcbd169c766d5691f2b406c-1792559018394/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p56-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "A 20 cm piece of wire is bent to form a rectangle. Let $x$ cm be the breadth of the rectangle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p56-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Using the perimeter, explain why the length of the rectangle can be written as $10-x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$l=10-x$ cm, since $2x+2l=20$.",
+          "worked": "The perimeter is 20 cm.\n$$\\begin{align*}x+x+l+l&=20\\\\2x+2l&=20\\\\2l&=20-2x\\\\l&=10-x\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p56-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write an equation for the area of the rectangle $A$ cm² in terms of $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=x(10-x)$.",
+          "worked": "$$\\begin{align*}A&=lx\\\\A&=x(10-x)\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p56-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Sketch the graph of $A$ vs $x$ for suitable values of $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p56-q5-c-axes",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p56 p56-q5-c-axes\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.9,-2.8) rectangle (3.2,3.1);\n\\draw[<->,line width=0.5pt] (-2.7,0)--(2.8,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-2.6)--(0,2.8) node[above] {$A$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 80,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 56,
+              "sourceRegion": "Question 5c, blank axes",
+              "description": "Blank perpendicular axes with arrows at both ends; no ticks, grid, origin label or completed curve. Vertical label corrected to A.",
+              "mathematics": "Drawing scaffold for A=x(10-x), with suitable domain 0<x<10.",
+              "answerVisibility": "Axes only are student-visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$A=-(x-5)^2+25$, for $0<x<10$: a concave-down arc with maximum at $(5,25)$ and limiting intercepts $(0,0)$ and $(10,0)$.",
+          "worked": "$$\\begin{align*}A&=x(10-x)\\\\A&=-x^2+10x\\\\A&=-(x^2-10x+25)+25\\\\A&=-(x-5)^2+25\\end{align*}$$\nThe graph is concave down, with vertex $(5,25)$ and axis of symmetry $x=5$. Its intercepts are $(0,0)$ and $(10,0)$. Both dimensions must be positive, so the suitable domain is $0<x<10$; the endpoints represent degenerate rectangles.",
+          "solutionDiagrams": [
+            {
+              "id": "p56-q5-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p56 p56-q5-c-solution\"}\n\\begin{tikzpicture}[x=0.48cm,y=0.13cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.5,-7) rectangle (12.4,31);\n\\draw[->,line width=0.5pt] (-0.6,0)--(11.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2)--(0,29) node[above] {$A$};\n\\draw[line width=0.8pt,domain=0:10,samples=81] plot (\\x,{\\x*(10-\\x)});\n\\draw[dashed,line width=0.4pt] (5,0)--(5,25)--(0,25);\n\\fill (5,25) circle (1.3pt);\n\\draw[fill=white,line width=0.8pt] (0,0) circle (1.5pt) (10,0) circle (1.5pt);\n\\node[above] at (5,25) {$(5,25)$};\n\\node[below left] at (0,0) {$(0,0)$};\n\\node[below] at (10,0) {$(10,0)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 56,
+                "sourceRegion": "Question 5c, authored answer",
+                "description": "Complete area graph, with labelled maximum and open limiting endpoints.",
+                "mathematics": "A=x(10-x), 0<x<10; vertex (5,25).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p56-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the graph to determine the maximum area that can be formed.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$25\\text{ cm}^2$.",
+          "worked": "The highest point of the graph is $(5,25)$, so the maximum area is $25\\text{ cm}^2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p56-q5-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What will be the dimensions of the rectangle to achieve its maximum area?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5\\text{ cm}\\times5\\text{ cm}$.",
+          "worked": "The maximum occurs at $x=5$.\n$$\\begin{align*}l&=10-5\\\\l&=5\\end{align*}$$\nThe rectangle is a square measuring $5\\text{ cm}\\times5\\text{ cm}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p56-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p56-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p56-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p56-q5-root/label",
+                  "type": "item",
+                  "ref": "p56-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p56-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p56-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p56-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p56-q5-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p56-q5-a/label",
+                          "type": "item",
+                          "ref": "p56-q5-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p56-q5-a/prompt",
+                          "type": "item",
+                          "ref": "p56-q5-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p56-q5-a/space",
+                          "type": "item",
+                          "ref": "p56-q5-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p56-q5-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p56-q5-b/label",
+                          "type": "item",
+                          "ref": "p56-q5-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p56-q5-b/prompt",
+                          "type": "item",
+                          "ref": "p56-q5-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p56-q5-b/space",
+                          "type": "item",
+                          "ref": "p56-q5-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p56-q5-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p56-q5-c/label",
+                          "type": "item",
+                          "ref": "p56-q5-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p56-q5-c/prompt",
+                          "type": "item",
+                          "ref": "p56-q5-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p56-q5-c-axes",
+                          "type": "item",
+                          "ref": "p56-q5-c-axes",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p56-q5-c/space",
+                          "type": "item",
+                          "ref": "p56-q5-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p56-q5-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p56-q5-d/label",
+                          "type": "item",
+                          "ref": "p56-q5-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p56-q5-d/prompt",
+                          "type": "item",
+                          "ref": "p56-q5-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p56-q5-d/space",
+                          "type": "item",
+                          "ref": "p56-q5-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p56-q5-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p56-q5-e/label",
+                          "type": "item",
+                          "ref": "p56-q5-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p56-q5-e/prompt",
+                          "type": "item",
+                          "ref": "p56-q5-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p56-q5-e/space",
+                          "type": "item",
+                          "ref": "p56-q5-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:52:22.657Z",
+  "updatedAt": "2026-10-21T08:52:22.657Z"
+}

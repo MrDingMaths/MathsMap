@@ -1,0 +1,355 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-479bc64b-4a40-44b2-89e8-351b41a5cdc1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "complementary-probability"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Select paths from the labelled tree, distinguish specified order from either order, and choose a complement for at least one red ball.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9faf272a6df025c4897540739cd4a1822610dab783e566375c63de67fb9077ba",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "A bag contains 3 white and 4 red balls. Another bag contains 2 white and 3 red balls.\nA ball is chosen from each bag.\nFind the probability of getting:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q8-tree",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 32, p32-q8-tree\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=1pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (W) at (2,1.1);\\coordinate (R) at (2,-1.1);\n\\coordinate (WW) at (4,1.65);\\coordinate (WR) at (4,0.55);\\coordinate (RW) at (4,-0.55);\\coordinate (RR) at (4,-1.65);\n\\node[font=\\fontsize{10}{12}\\selectfont\\bfseries] at (1,2.3) {1st bag};\n\\node[font=\\fontsize{10}{12}\\selectfont\\bfseries] at (3.7,2.3) {2nd bag};\n\\node[font=\\fontsize{10}{12}\\selectfont\\bfseries] at (6.1,2.3) {Result};\n\\draw (O)--(W) node[midway,above] {$\\frac{3}{7}$};\n\\draw (O)--(R) node[midway,below] {$\\frac{4}{7}$};\n\\draw (W)--(WW) node[midway,above] {$\\frac{2}{5}$};\n\\draw (W)--(WR) node[midway,below] {$\\frac{3}{5}$};\n\\draw (R)--(RW) node[midway,above] {$\\frac{2}{5}$};\n\\draw (R)--(RR) node[midway,below] {$\\frac{3}{5}$};\n\\node[fill=white,inner sep=2pt] at (W) {W};\\node[fill=white,inner sep=2pt] at (R) {R};\n\\node[right] at (WW) {W};\\node[right] at (WR) {R};\\node[right] at (RW) {W};\\node[right] at (RR) {R};\n\\node at (6.1,1.65) {WW};\\node at (6.1,0.55) {WR};\\node at (6.1,-0.55) {RW};\\node at (6.1,-1.65) {RR};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Question 8, right-hand probability tree",
+          "description": "Complete two-stage tree with aligned stage headings and terminal results. Ordinary source green branches are rendered black; white label masks maintain readability.",
+          "mathematics": "First bag: W with probability 3/7, R with probability 4/7. From either first-stage outcome, second bag: W with probability 2/5, R with probability 3/5. Terminal results, top to bottom: WW, WR, RW, RR.",
+          "answerVisibility": "All branch labels, branch probabilities and terminal result labels are permanent supplied givens. No calculated event probabilities appear in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p32-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "2 white balls",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{6}{35}$",
+          "worked": "$$\\begin{aligned}P(WW)&=\\frac{3}{7}\\times\\frac{2}{5}\\\\&=\\frac{6}{35}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p32-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "2 red balls",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{12}{35}$",
+          "worked": "$$\\begin{aligned}P(RR)&=\\frac{4}{7}\\times\\frac{3}{5}\\\\&=\\frac{12}{35}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p32-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "a white and a red ball, in that order",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{9}{35}$",
+          "worked": "$$\\begin{aligned}P(WR)&=\\frac{3}{7}\\times\\frac{3}{5}\\\\&=\\frac{9}{35}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p32-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "a white and a red ball, in any order",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{17}{35}$",
+          "worked": "$$\\begin{aligned}P(WR)+P(RW)&=\\frac{3}{7}\\times\\frac{3}{5}+\\frac{4}{7}\\times\\frac{2}{5}\\\\&=\\frac{9}{35}+\\frac{8}{35}\\\\&=\\frac{17}{35}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p32-q8-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "at least 1 red ball.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{29}{35}$",
+          "worked": "The complement is two white balls.\n$$\\begin{aligned}P(\\text{at least 1 red})&=1-P(WW)\\\\&=1-\\frac{6}{35}\\\\&=\\frac{29}{35}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p32-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p32-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p32-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p32-q8-root/label",
+                  "type": "item",
+                  "ref": "p32-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "p32-q8-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p32-q8-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q8-root/prompt",
+                          "type": "item",
+                          "ref": "p32-q8-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p32-q8-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p32-q8-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q8-a/label",
+                                  "type": "item",
+                                  "ref": "p32-q8-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p32-q8-a/prompt",
+                                  "type": "item",
+                                  "ref": "p32-q8-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p32-q8-a/space",
+                                  "type": "item",
+                                  "ref": "p32-q8-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p32-q8-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q8-b/label",
+                                  "type": "item",
+                                  "ref": "p32-q8-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p32-q8-b/prompt",
+                                  "type": "item",
+                                  "ref": "p32-q8-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p32-q8-b/space",
+                                  "type": "item",
+                                  "ref": "p32-q8-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p32-q8-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q8-c/label",
+                                  "type": "item",
+                                  "ref": "p32-q8-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p32-q8-c/prompt",
+                                  "type": "item",
+                                  "ref": "p32-q8-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p32-q8-c/space",
+                                  "type": "item",
+                                  "ref": "p32-q8-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p32-q8-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q8-d/label",
+                                  "type": "item",
+                                  "ref": "p32-q8-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p32-q8-d/prompt",
+                                  "type": "item",
+                                  "ref": "p32-q8-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p32-q8-d/space",
+                                  "type": "item",
+                                  "ref": "p32-q8-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p32-q8-e:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p32-q8-e/label",
+                                  "type": "item",
+                                  "ref": "p32-q8-e/label",
+                                  "title": "Label e"
+                                },
+                                {
+                                  "id": "layout:p32-q8-e/prompt",
+                                  "type": "item",
+                                  "ref": "p32-q8-e/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p32-q8-e/space",
+                                  "type": "item",
+                                  "ref": "p32-q8-e/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part e",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p32-q8-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q8-tree",
+                          "type": "item",
+                          "ref": "p32-q8-tree",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:05.769Z",
+  "updatedAt": "2026-10-21T10:53:05.770Z"
+}

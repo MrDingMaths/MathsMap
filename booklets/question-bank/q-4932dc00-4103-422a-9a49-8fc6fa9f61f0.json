@@ -1,0 +1,309 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4932dc00-4103-422a-9a49-8fc6fa9f61f0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "equation-from-graph"
+    ],
+    "reasoningScore": 31,
+    "difficulty": "Development",
+    "difficultyReason": "Identify the empty-box mass as the intercept and infer one matchstick’s mass from the change between two graph points, then combine these quantities in an equation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:45.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "836edb6ec44706ae8d69bf022ee896c04a2691150f8d975fd7d92802efc97541",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/d6c4994230b01d119dc223b8e2c0ec8950a352c420ac83b6e204d6d4563566d8-1792559183057/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p40-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The graph shows the mass of a box when some identical matchsticks are put into it.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p40-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"modelBlue\",\"hex\":\"268CFF\",\"reason\":\"linear-model graph series\"}],\"reference\":\"source page 40, p40-q5-graph\"}\n\\begin{tikzpicture}[x=0.45cm,y=1.55cm,>=stealth,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{modelBlue}{HTML}{268CFF}\n\\draw[black,line width=0.15pt,xstep=1,ystep=0.25] (0,0) grid (10,6);\n\\draw[black,line width=0.25pt,xstep=1,ystep=1] (0,0) grid (10,6);\n\\draw[black,->,line width=0.5pt] (0,0)--(10.65,0);\n\\draw[black,->,line width=0.5pt] (0,0)--(0,6.2);\n\\foreach \\x in {1,...,10} {\n  \\draw[black,line width=0.4pt] (\\x,-0.05)--(\\x,0.05);\n  \\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\y in {1,...,6} {\n  \\draw[black,line width=0.4pt] (-0.12,\\y)--(0.12,\\y);\n  \\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-0.14,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\y in {0.25,0.5,...,5.75} {\n  \\draw[black,line width=0.4pt] (-0.08,\\y)--(0.08,\\y);\n}\n\\node[below,align=center] at (5,-0.35) {Number of matchsticks};\n\\node[rotate=90] at (-1.3,3) {Mass (g)};\n\\draw[modelBlue,->,line width=0.8pt] plot[domain=0:10.6,samples=2] (\\x,{0.5*\\x+0.75});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 40,
+          "sourceRegion": "Question 5, left-hand graph",
+          "description": "Tall Cartesian graph with arrowed axes, horizontal integer labels 1–10, vertical integer labels 1–6, and grid subdivisions of 1 matchstick and 0.25 g. The blue model line starts on the vertical axis and continues with an upper-right arrow.",
+          "mathematics": "M = 0.5n + 0.75; the plotted line starts at (0, 0.75) and passes through (10, 5.75).",
+          "answerVisibility": "The model line is a permanent given. Its equation, intercept value and gradient value are not printed as annotations."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p40-q5-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Use the graph to determine the mass of",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p40-q5-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "the empty box",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.75\\text{ g}$",
+              "worked": "At $n=0$, the graph gives $M=0.75\\text{ g}$. The empty box has mass $0.75\\text{ g}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p40-q5-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "one matchstick",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.5\\text{ g}$",
+              "worked": "Using $(0,0.75)$ and $(10,5.75)$ from the graph:\n$$\\begin{align*}m&=\\frac{5.75-0.75}{10-0}\\\\m&=0.5\\end{align*}$$\nEach matchstick adds $0.5\\text{ g}$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          }
+        ]
+      },
+      {
+        "id": "p40-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation relating mass $M$ and number of matchsticks $n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$M=0.5n+0.75$",
+          "worked": "The gradient is $0.5$ g per matchstick and the initial mass is $0.75$ g.\n$$\\begin{align*}M&=mn+c\\\\M&=0.5n+0.75\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p40-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p40-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p40-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p40-q5-root/label",
+                  "type": "item",
+                  "ref": "p40-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p40-q5-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p40-q5-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q5-graph",
+                          "type": "item",
+                          "ref": "p40-q5-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p40-q5-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p40-q5-root/prompt",
+                          "type": "item",
+                          "ref": "p40-q5-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p40-q5-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p40-q5-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p40-q5-a/label",
+                                  "type": "item",
+                                  "ref": "p40-q5-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p40-q5-a/prompt",
+                                  "type": "item",
+                                  "ref": "p40-q5-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p40-q5-a:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p40-q5-a-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p40-q5-a-i/label",
+                                          "type": "item",
+                                          "ref": "p40-q5-a-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p40-q5-a-i/prompt",
+                                          "type": "item",
+                                          "ref": "p40-q5-a-i/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p40-q5-a-i/space",
+                                          "type": "item",
+                                          "ref": "p40-q5-a-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p40-q5-a-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p40-q5-a-ii/label",
+                                          "type": "item",
+                                          "ref": "p40-q5-a-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p40-q5-a-ii/prompt",
+                                          "type": "item",
+                                          "ref": "p40-q5-a-ii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p40-q5-a-ii/space",
+                                          "type": "item",
+                                          "ref": "p40-q5-a-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p40-q5-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p40-q5-b/label",
+                                  "type": "item",
+                                  "ref": "p40-q5-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p40-q5-b/prompt",
+                                  "type": "item",
+                                  "ref": "p40-q5-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p40-q5-b/space",
+                                  "type": "item",
+                                  "ref": "p40-q5-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:40.290Z",
+  "updatedAt": "2026-10-21T08:56:40.290Z"
+}

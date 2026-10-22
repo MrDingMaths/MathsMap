@@ -1,0 +1,353 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bbf4d3a8-91dc-4a7d-b1dc-1559ffa7f4f8",
+  "status": "approved",
+  "title": "2014 HSC Standard 2 Band 6",
+  "classification": {
+    "primarySkillId": "predict-from-regression-equation",
+    "secondarySkillIds": [
+      "correlation-coefficient",
+      "interpolation-extrapolation"
+    ],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Use the calculated IQR to construct an upper outlier boundary and justify a comparison; also plot the supplied regression equation and recognise prediction beyond the observed range as extrapolation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:19.912Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0a61be249a80841197ebaee35591265913139665b8d6735b0e7273ea1ca21efd",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/de620e08a370a01d826c0fb64abcd6a6845885884056d736ec1034db321d4ca3-1792556219584/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p38-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "The scatterplot shows the relationship between expenditure per primary school student, as a percentage of a country’s Gross Domestic Product (GDP), and the life expectancy in years for 15 countries.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q14-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q14-graph\"}\n\\begin{tikzpicture}[x=0.20cm,y=0.05cm]\n\\definecolor{fixedGrid}{HTML}{CCCCCC}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-5,-16) rectangle (33,126);\n\\foreach \\x in {0,1,...,30} {\\draw[color=fixedGrid,densely dotted,line width=0.15pt] (\\x,0)--(\\x,90);}\n\\foreach \\y in {0,2,...,90} {\\draw[color=fixedGrid,densely dotted,line width=0.15pt] (0,\\y)--(30,\\y);}\n\\foreach \\x in {0,5,...,30} {\\draw[black,line width=0.25pt] (\\x,0)--(\\x,90);}\n\\foreach \\y in {0,10,...,90} {\\draw[black,line width=0.25pt] (0,\\y)--(30,\\y);}\n\\draw[black,line width=0.25pt] (0,0) rectangle (30,90);\n\\draw[->,black,line width=0.5pt] (0,0)--(31.8,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,97) node[above] {$y$};\n\\foreach \\x in {0,1,...,30} {\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-1.3);}\n\\foreach \\y in {0,2,...,90} {\\draw[black,line width=0.4pt] (0,\\y)--(-0.35,\\y);}\n\\foreach \\x in {0,5,...,30} {\\node[below] at (\\x,-1.3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,10,...,90} {\\node[left] at (-0.35,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node[align=center,text width=5cm] at (15,118) {Expenditure per primary school student and life expectancy};\n\\node[align=center,text width=5cm] at ([yshift=-8mm]15,-12) {Expenditure per primary school student (\\% of GDP)};\n\\node[rotate=90] at (-4.2,45) {Life expectancy (years)};\n\\foreach \\x/\\y in {5.8/56,7/54,7.5/73,8.4/62,11.1/56.5,11.1/54.5,13.7/73,17.1/63.5,18.7/81,21/81,22/79,22.5/82,23.2/82,25/81,27.5/81} {\\draw[black,fill=white,line width=0.8pt] (\\x,\\y) ++(0,1.3)--++(0.32,-1.3)--++(-0.32,-1.3)--++(-0.32,1.3)--cycle;}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Scatterplot below the introductory paragraph",
+          "description": "Rectangular scatterplot with 15 distinct diamond markers, major solid grid lines, dotted minor subdivisions, axis ticks, titles and arrow-end coordinate cues. Marker locations are read approximately from the printed graph; no exact dataset is asserted. Source grey marker fills are replaced by black outlines with white interiors.",
+          "mathematics": "Horizontal range 0–30, labelled every 5, minor subdivisions every 1. Vertical range 0–90, labelled every 10, minor subdivisions every 2. Two vertically adjacent points near x=11 remain distinct.",
+          "answerVisibility": "Supplied points and grid are permanent givens. The regression line is absent from the student graph."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p38-q14-part1",
+        "type": "part",
+        "label": "a",
+        "prompt": "For the given data, the correlation coefficient, $r$, is 0.83. What does this indicate about the relationship between expenditure per primary school student and life expectancy for the 15 countries?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "There is a strong positive correlation between expenditure per primary school student and life expectancy.",
+          "worked": "Since $r=0.83$, there is a strong positive correlation: countries with greater expenditure per primary school student tend to have higher life expectancy.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p38-q14-part2",
+        "type": "part",
+        "label": "b",
+        "prompt": "For the data representing expenditure per primary school student, $Q_L=8.4$ and $Q_U=22.5$. Calculate the interquartile range.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "14.1 percentage points.",
+          "worked": "$$\\begin{align*}\\mathrm{IQR}&=Q_U-Q_L\\\\&=22.5-8.4\\\\&=14.1\\end{align*}$$\nThe interquartile range is 14.1 percentage points.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p38-q14-part3",
+        "type": "part",
+        "label": "c",
+        "prompt": "Another country has an expenditure per primary school student of 47.6% of its GDP. Would this country be an outlier for this set of data? Justify your answer with calculations.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Yes. The upper outlier boundary is $22.5+1.5(14.1)=43.65\\%$, and $47.6\\%>43.65\\%$.",
+          "worked": "$$\\begin{align*}\\text{Upper boundary}&=Q_U+1.5\\,\\mathrm{IQR}\\\\&=22.5+1.5(14.1)\\\\&=43.65\\end{align*}$$\nSince $47.6>43.65$, this country would be an outlier for expenditure per primary school student.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p38-q14-part4",
+        "type": "part",
+        "label": "d",
+        "prompt": "On the scatterplot, draw the least-squares line of best fit $y=1.29x+49.9$.\n\nUsing this line, estimate the life expectancy in a country which has an expenditure per primary school student of 18% of its GDP. Give your answer to the nearest whole year.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "See the plotted line. About 73 years.",
+          "worked": "Draw the straight line through $(0,49.9)$ and $(30,88.6)$.\n\n$$\\begin{align*}y&=1.29(18)+49.9\\\\&=73.12\\end{align*}$$\nThe estimated life expectancy is about 73 years.",
+          "solutionDiagrams": [
+            {
+              "id": "p38-q14-part4-line",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q14-part4-line\"}\n\\begin{tikzpicture}[x=0.20cm,y=0.05cm]\n\\definecolor{fixedGrid}{HTML}{CCCCCC}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-5,-16) rectangle (33,126);\n\\foreach \\x in {0,1,...,30} {\\draw[color=fixedGrid,densely dotted,line width=0.15pt] (\\x,0)--(\\x,90);}\n\\foreach \\y in {0,2,...,90} {\\draw[color=fixedGrid,densely dotted,line width=0.15pt] (0,\\y)--(30,\\y);}\n\\foreach \\x in {0,5,...,30} {\\draw[black,line width=0.25pt] (\\x,0)--(\\x,90);}\n\\foreach \\y in {0,10,...,90} {\\draw[black,line width=0.25pt] (0,\\y)--(30,\\y);}\n\\draw[black,line width=0.25pt] (0,0) rectangle (30,90);\n\\draw[->,black,line width=0.5pt] (0,0)--(31.8,0) node[right] {$x$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,97) node[above] {$y$};\n\\foreach \\x in {0,1,...,30} {\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-1.3);}\n\\foreach \\y in {0,2,...,90} {\\draw[black,line width=0.4pt] (0,\\y)--(-0.35,\\y);}\n\\foreach \\x in {0,5,...,30} {\\node[below] at (\\x,-1.3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,10,...,90} {\\node[left] at (-0.35,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node[align=center,text width=5cm] at (15,118) {Expenditure per primary school student and life expectancy};\n\\node[align=center,text width=5cm] at ([yshift=-8mm]15,-12) {Expenditure per primary school student (\\% of GDP)};\n\\node[rotate=90] at (-4.2,45) {Life expectancy (years)};\n\\foreach \\x/\\y in {5.8/56,7/54,7.5/73,8.4/62,11.1/56.5,11.1/54.5,13.7/73,17.1/63.5,18.7/81,21/81,22/79,22.5/82,23.2/82,25/81,27.5/81} {\\draw[black,fill=white,line width=0.8pt] (\\x,\\y) ++(0,1.3)--++(0.32,-1.3)--++(-0.32,-1.3)--++(-0.32,1.3)--cycle;}\n\\path[use as bounding box] (-5,-16) rectangle (33,126);\n\\draw[black,line width=0.8pt] plot[domain=0:30,samples=2] (\\x,{1.29*\\x+49.9});\n\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 110,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 38,
+                "sourceRegion": "Shared scatterplot and fourth response prompt",
+                "description": "Equation-derived regression-line overlay using exactly the base graph coordinate units and bounding box.",
+                "mathematics": "Plot y=1.29x+49.9 for 0≤x≤30. Endpoints are (0,49.9) and (30,88.6).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 19
+      },
+      {
+        "id": "p38-q14-part5",
+        "type": "part",
+        "label": "e",
+        "prompt": "Why is this line NOT useful for predicting life expectancy in a country which has expenditure per primary school student of 60% of its GDP?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "60% is far outside the observed expenditure range, so this would be unreliable extrapolation.",
+          "worked": "An expenditure of 60% is far outside the observed data range. Using the line would involve extrapolation, and the observed relationship may not continue that far.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p38-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p38-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p38-q14-root/label",
+                  "type": "item",
+                  "ref": "p38-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p38-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p38-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p38-q14-graph",
+                  "type": "item",
+                  "ref": "p38-q14-graph",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p38-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p38-q14-part1:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q14-part1/label",
+                          "type": "item",
+                          "ref": "p38-q14-part1/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p38-q14-part1/prompt",
+                          "type": "item",
+                          "ref": "p38-q14-part1/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q14-part1/space",
+                          "type": "item",
+                          "ref": "p38-q14-part1/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p38-q14-part2:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q14-part2/label",
+                          "type": "item",
+                          "ref": "p38-q14-part2/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p38-q14-part2/prompt",
+                          "type": "item",
+                          "ref": "p38-q14-part2/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q14-part2/space",
+                          "type": "item",
+                          "ref": "p38-q14-part2/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p38-q14-part3:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q14-part3/label",
+                          "type": "item",
+                          "ref": "p38-q14-part3/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p38-q14-part3/prompt",
+                          "type": "item",
+                          "ref": "p38-q14-part3/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q14-part3/space",
+                          "type": "item",
+                          "ref": "p38-q14-part3/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p38-q14-part4:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q14-part4/label",
+                          "type": "item",
+                          "ref": "p38-q14-part4/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p38-q14-part4/prompt",
+                          "type": "item",
+                          "ref": "p38-q14-part4/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q14-part4/space",
+                          "type": "item",
+                          "ref": "p38-q14-part4/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p38-q14-part5:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p38-q14-part5/label",
+                          "type": "item",
+                          "ref": "p38-q14-part5/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p38-q14-part5/prompt",
+                          "type": "item",
+                          "ref": "p38-q14-part5/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p38-q14-part5/space",
+                          "type": "item",
+                          "ref": "p38-q14-part5/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 14",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:42:29.602Z",
+  "updatedAt": "2026-10-21T07:42:29.603Z"
+}

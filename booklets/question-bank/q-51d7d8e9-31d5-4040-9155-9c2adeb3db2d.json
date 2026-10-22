@@ -1,0 +1,115 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-51d7d8e9-31d5-4040-9155-9c2adeb3db2d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "distance-formula",
+    "secondarySkillIds": [],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Compare three distances and recognise two equally close points.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-07T13:08:48.591Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "28bbc53b5ae2c154f70c6662c633da9f61275fe6754af506dae1c9b454f6f776",
+      "evidence": ".booklet-work/full-imports/coordinate-geometry-formulas-import-20261007/semantic-packets/assignments/assignment-c04632962b100f73981d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p13-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Which of the points $A$, $B$, or $C$ are closest to the point $(2,3)$?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q3-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"connectionRed\",\"hex\":\"EF6068\",\"reason\":\"distances from the common reference point\"},{\"name\":\"pointBlue\",\"hex\":\"268CFF\",\"reason\":\"marked points being compared\"}],\"reference\":\"page 13 p13-q3-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{connectionRed}{HTML}{EF6068}\n\\definecolor{pointBlue}{HTML}{268CFF}\n\\draw[<->,line width=0.5pt] (-3.9,0)--(3.9,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-3.9)--(0,3.9) node[above] {$y$};\n\\foreach \\v in {-3,-2,-1,1,2,3} {\n\\draw[line width=0.4pt] (\\v,0.1)--(\\v,-0.1);\n\\node[below] at (\\v,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\draw[line width=0.4pt] (0.1,\\v)--(-0.1,\\v);\n\\node[left] at (-0.1,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\coordinate (P) at (2,3);\n\\coordinate (A) at (3,-2);\n\\coordinate (B) at (-1,-1);\n\\coordinate (C) at (-3,3);\n\\draw[connectionRed,dashed,line width=0.4pt] (P)--(A);\n\\draw[connectionRed,dashed,line width=0.4pt] (P)--(B);\n\\draw[connectionRed,dashed,line width=0.4pt] (P)--(C);\n\\foreach \\p in {P,A,B,C} {\\fill[pointBlue] (\\p) circle (2pt);}\n\\node[below right] at (A) {$A(3,-2)$};\n\\node[below left] at (B) {$B(-1,-1)$};\n\\node[below] at (C) {$C(-3,3)$};\n\\node[below] at (P) {$(2,3)$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 3 graph",
+          "description": "Both axes have arrows at both ends and integer ticks at −3, −2, −1, 1, 2 and 3. Red dashed connections join the reference point to each candidate. No grid. The origin letter is omitted under the house graph convention.",
+          "mathematics": "Reference P=(2,3); A=(3,-2), B=(-1,-1), C=(-3,3). PA²=26, PB²=25, PC²=25.",
+          "answerVisibility": "Only supplied coordinates and connections are visible; the closest points are not identified."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$B$ and $C$ are both $5$ units from $(2,3)$. Compare the distances using the distance formula.",
+      "worked": "$$\\begin{aligned}PA&=\\sqrt{(3-2)^2+(-2-3)^2}\\\\PA&=\\sqrt{26}\\\\PB&=\\sqrt{(-1-2)^2+(-1-3)^2}\\\\PB&=5\\\\PC&=\\sqrt{(-3-2)^2+(3-3)^2}\\\\PC&=5\\end{aligned}$$\nSince $5<\\sqrt{26}$, $B$ and $C$ are equally closest, each $5$ units away.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 43
+  },
+  "presentation": {
+    "ownerId": "p13-q3-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q3-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q3-root/label",
+                  "type": "item",
+                  "ref": "p13-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p13-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p13-q3-figure",
+                  "type": "item",
+                  "ref": "p13-q3-figure",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p13-q3-root/space",
+                  "type": "item",
+                  "ref": "p13-q3-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:52:13.443Z",
+  "updatedAt": "2026-10-21T07:52:13.443Z"
+}

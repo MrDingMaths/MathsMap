@@ -1,0 +1,170 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b1de268c-18f9-46df-a8ed-f944e1019e28",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-unknown-from-circle-area",
+    "secondarySkillIds": [
+      "area-of-sector"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Read the figures as three-quarter and one-twelfth circles, equate their areas using radii r and r+6, and solve the resulting squared relationship using the taught trial or algebraic method.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:27.942Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "825d45d7ae253abf8499f29d6c3571bc137f50aff102cb72b1e6aae8268cc3d9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/57edba1e62e7a142a69e612abf82519a6c7bc2196690170309fc5fee3aa8a94e-1792556108162/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q13-response",
+    "type": "question",
+    "label": "13",
+    "prompt": "The shapes in the diagram below have equal areas. Determine the value of $r$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p34-q13-diagrams",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34, question 13 left figure\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=1pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.65,-1.65) rectangle (1.65,1.65);\n\\coordinate (O) at (0,0);\n\\coordinate (E) at (1.5,0);\n\\coordinate (S) at (0,-1.5);\n\\draw (O)--(E) arc[start angle=0,end angle=270,radius=1.5cm]--cycle;\n\\pic[draw=black,line width=0.4pt,angle radius=2.5mm] {right angle=S--O--E};\n\\coordinate (ME) at ($(O)!0.5!(E)$);\n\\coordinate (MS) at ($(O)!0.5!(S)$);\n\\draw[line width=0.4pt] ($(ME)+(0,-0.13)$)--($(ME)+(0,0.13)$);\n\\draw[line width=0.4pt] ($(MS)+(-0.13,0)$)--($(MS)+(0.13,0)$);\n\\node[anchor=west] at ($(MS)+(0.18,0)$) {$r$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 36,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 13, left figure",
+          "description": "Unshaded circle with its lower-right quadrant removed. Bounding radii point right and down, have matching single ticks, and enclose a right-angle square in the missing quadrant. The downward radius is labelled r.",
+          "mathematics": "The retained major sector has angle 270 degrees and radius r, so its area is three quarters of pi r squared.",
+          "answerVisibility": "Permanent question givens only; no supplied solution is drawn."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p34-q13-sector-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34, question 13 right figure\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=1pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.15,-1.65) rectangle (3.15,1.65);\n\\coordinate (O) at (0,-0.35);\n\\coordinate (A) at (3,-0.35);\n\\coordinate (B) at ({3*cos(30)},{3*sin(30)-0.35});\n\\draw (O)--(A) arc[start angle=0,end angle=30,radius=3cm]--cycle;\n\\pic[draw=black,line width=0.4pt,angle radius=5mm,angle eccentricity=1.8,\"$30^\\circ$\"] {angle=A--O--B};\n\\coordinate (MA) at ($(O)!0.5!(A)$);\n\\coordinate (MB) at ($(O)!0.5!(B)$);\n\\begin{scope}[shift={(MA)}]\n\\draw[line width=0.4pt] (-0.05,-0.13)--(-0.05,0.13);\n\\draw[line width=0.4pt] (0.05,-0.13)--(0.05,0.13);\n\\end{scope}\n\\begin{scope}[shift={(MB)},rotate=30]\n\\draw[line width=0.4pt] (-0.05,-0.13)--(-0.05,0.13);\n\\draw[line width=0.4pt] (0.05,-0.13)--(0.05,0.13);\n\\end{scope}\n\\node[anchor=north] at ($(MA)+(0,-0.2)$) {$r+6$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 36,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 34,
+          "sourceRegion": "Question 13, right figure",
+          "description": "Unshaded 30-degree minor sector with a horizontal lower radius and an upper radius sloping right. Both radii carry matching double ticks. The lower radius is labelled r + 6.",
+          "mathematics": "The minor sector has angle 30 degrees and radius r + 6, so its area is one twelfth of pi times (r + 6) squared. Drawing coordinates are construction values, not additional givens.",
+          "answerVisibility": "Permanent question givens only; no supplied solution is drawn."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$r=3$. Equate the areas: $\\frac34\\pi r^2=\\frac1{12}\\pi(r+6)^2$.",
+      "worked": "The left shape is $\\frac34$ of a circle; the right shape is $\\frac{30}{360}=\\frac1{12}$ of a circle.\n\n$$\\begin{align*}\n\\frac34\\pi r^2&=\\frac1{12}\\pi(r+6)^2\\\\\n\\frac34 r^2&=\\frac1{12}(r+6)^2\\\\\n\\frac{r^2}{(r+6)^2}&=\\frac19\n\\end{align*}$$\n\nBy trial and error, $r=3$. Checking:\n\n$$\\begin{align*}\n\\frac{3^2}{(3+6)^2}&=\\frac9{81}\\\\\n\\frac9{81}&=\\frac19\n\\end{align*}$$\n\nAlternate method using quadratic equations:\n\n$$\\begin{align*}\n\\frac34 r^2&=\\frac1{12}(r^2+12r+36)\\\\\n-2r^2+3r+9&=0\\\\\n(-2r-3)(r-3)&=0\n\\end{align*}$$\n\n$r=3$ or $r=-\\frac32$, but a radius must be positive. Therefore $r=3$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 64
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p34-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p34-q13-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p34-q13-label-item",
+                  "type": "item",
+                  "ref": "p34-q13-response/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p34-q13-body-stack",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p34-q13-prompt-item",
+                      "type": "item",
+                      "ref": "p34-q13-response/prompt",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p34-q13-paired-figures",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p34-q13-left-figure-item",
+                          "type": "item",
+                          "ref": "p34-q13-diagrams",
+                          "width": 36,
+                          "weight": 36,
+                          "align": "left"
+                        },
+                        {
+                          "id": "p34-q13-right-figure-item",
+                          "type": "item",
+                          "ref": "p34-q13-sector-diagram",
+                          "width": 36,
+                          "weight": 36,
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 7,
+                      "verticalAlign": "top"
+                    },
+                    {
+                      "id": "p34-q13-working-space-item",
+                      "type": "item",
+                      "ref": "p34-q13-response/space",
+                      "height": 30,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 3,
+                  "weight": 1
+                }
+              ],
+              "gap": 3,
+              "verticalAlign": "top"
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p34-q13-response": 30
+      },
+      "diagramColourModes": {}
+    },
+    "ownerId": "p34-q13"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:43:26.910Z",
+  "updatedAt": "2026-10-21T10:43:26.910Z"
+}

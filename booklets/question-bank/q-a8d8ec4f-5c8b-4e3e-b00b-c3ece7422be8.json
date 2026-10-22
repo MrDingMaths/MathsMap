@@ -1,0 +1,395 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a8d8ec4f-5c8b-4e3e-b00b-c3ece7422be8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "complementary-probability"
+    ],
+    "reasoningScore": 26,
+    "difficulty": "Development",
+    "difficultyReason": "After prompted path multiplication, recognise that at least one working bulb is the complement of both being defective and reuse that probability.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "acfc9bd187adf682e726efffcf3a9833b2bcc24c88bbc3132d84a50591a63813",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Two light bulbs are selected at random from a large batch of bulbs in which 5% are defective.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q6-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "By multiplying along the branches of the tree, find:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q6-tree",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 p31-q6-tree\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (S) at (0,0);\n\\coordinate (D) at (23,18);\n\\coordinate (W) at (23,-18);\n\\coordinate (DD) at (49,27);\n\\coordinate (DW) at (49,9);\n\\coordinate (WD) at (49,-9);\n\\coordinate (WW) at (49,-27);\n\\node[anchor=east] at (S) {Start};\n\\node[align=center] at (23,39) {1st\\\\Bulb};\n\\node[align=center] at (49,39) {2nd\\\\Bulb};\n\\draw (S)--(D) node[midway,above,sloped=false] {0.05};\n\\draw (S)--(W) node[midway,below,sloped=false] {0.95};\n\\draw (D)--(DD) node[midway,above] {0.05};\n\\draw (D)--(DW) node[midway,below] {0.95};\n\\draw (W)--(WD) node[midway,above] {0.05};\n\\draw (W)--(WW) node[midway,below] {0.95};\n\\node[fill=white,inner sep=1pt] at (D) {D};\n\\node[fill=white,inner sep=1pt] at (W) {W};\n\\node[anchor=west,fill=white,inner sep=1pt] at (DD) {D};\n\\node[anchor=west,fill=white,inner sep=1pt] at (DW) {W};\n\\node[anchor=west,fill=white,inner sep=1pt] at (WD) {D};\n\\node[anchor=west,fill=white,inner sep=1pt] at (WW) {W};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 62,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Question 6, tree to the left of part a",
+              "description": "Two-stage binary probability tree with Start, 1st Bulb and 2nd Bulb labels. D appears above W at each branching point. White label masks keep branch strokes clear of letters.",
+              "mathematics": "At both stages P(D)=0.05 and P(W)=0.95, independently of the preceding outcome. Paths are DD, DW, WD and WW.",
+              "answerVisibility": "All six branch probabilities and all outcome letters are permanent supplied givens; no calculated path probabilities are printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p31-q6-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "$P(\\text{both bulbs work})$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.9025=90.25\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{both work})&=0.95\\times0.95\\\\&=0.9025\\\\&=90.25\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p31-q6-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "the first bulb works, but the second is defective",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.0475=4.75\\%$",
+              "worked": "$$\\begin{aligned}P(WD)&=0.95\\times0.05\\\\&=0.0475\\\\&=4.75\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p31-q6-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "the first bulb is defective, but the second works",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.0475=4.75\\%$",
+              "worked": "$$\\begin{aligned}P(DW)&=0.05\\times0.95\\\\&=0.0475\\\\&=4.75\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p31-q6-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "$P(\\text{both bulbs are defective})$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.0025=0.25\\%$",
+              "worked": "$$\\begin{aligned}P(\\text{both defective})&=0.05\\times0.05\\\\&=0.0025\\\\&=0.25\\%\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      },
+      {
+        "id": "p31-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence find the probability that at least one bulb works.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.9975=99.75\\%$",
+          "worked": "The complement of at least one bulb working is both bulbs being defective.\n$$\\begin{aligned}P(\\text{at least one works})&=1-P(\\text{both defective})\\\\&=1-0.0025\\\\&=0.9975\\\\&=99.75\\%\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p31-q6-root/label",
+                  "type": "item",
+                  "ref": "p31-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p31-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p31-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p31-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p31-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q6-a/label",
+                          "type": "item",
+                          "ref": "p31-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "p31-q6-a:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p31-q6-a:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p31-q6-tree",
+                                  "type": "item",
+                                  "ref": "p31-q6-tree",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 1
+                            },
+                            {
+                              "id": "p31-q6-a:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p31-q6-a/prompt",
+                                  "type": "item",
+                                  "ref": "p31-q6-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p31-q6-a:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p31-q6-a-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p31-q6-a-i/label",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-i/prompt",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-i/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-i/space",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p31-q6-a-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p31-q6-a-ii/label",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-ii/prompt",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-ii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-ii/space",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p31-q6-a-iii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p31-q6-a-iii/label",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-iii/label",
+                                          "title": "Label iii"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-iii/prompt",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-iii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-iii/space",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-iii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iii",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p31-q6-a-iv:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p31-q6-a-iv/label",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-iv/label",
+                                          "title": "Label iv"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-iv/prompt",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-iv/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p31-q6-a-iv/space",
+                                          "type": "item",
+                                          "ref": "p31-q6-a-iv/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iv",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p31-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q6-b/label",
+                          "type": "item",
+                          "ref": "p31-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p31-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p31-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q6-b/space",
+                          "type": "item",
+                          "ref": "p31-q6-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:02.055Z",
+  "updatedAt": "2026-10-21T10:53:02.055Z"
+}

@@ -1,0 +1,373 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e4e4a53b-bf2d-48e3-ac63-5e70080179e8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "linear-real-life",
+    "secondarySkillIds": [
+      "interpolation-extrapolation"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Evaluate and reverse the model, then use the plotted stall range to explain the supplied interpolation and extrapolation classifications.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:29.964Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "29f1ed48830207a1612010d22245f6e33c89d839c41adf016cf7b7fde496b854",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/1e68715aa360e91166c1becf467b4564d7149b462ca85a2739add9bbeb0f359a-1792556207511/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p31-q7-root",
+    "type": "question",
+    "label": "",
+    "prompt": "In the scatterplot shown, the line of best fit has the equation $c = 13.33 + 2.097m$, where $c$ is the number of new customers each hour and $m$ is the number of market stalls.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q7-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"scatterplot data and fitted model\"}],\"reference\":\"source page 31, p31-q7-graph\"}\n\\begin{tikzpicture}[x=0.085cm,y=0.036cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (0,0)--(55,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,0)--(0,130) node[above left] {$y$};\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\foreach \\v in {10,20,30,40,50} {\n\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-3);\n\\node[below] at (\\v,-3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\v in {20,40,60,80,100,120} {\n\\draw[black,line width=0.4pt] (0,\\v)--(-1.5,\\v);\n\\node[left] at (-1.5,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\node[below,align=center] at (27.5,-14) {No. of market stalls};\n\\node[rotate=90,align=center] at (-12,65) {No. of new customers each hour};\n\\draw[seriesBlue,line width=0.8pt,domain=5:50,samples=2] plot (\\x,{13.33+2.097*\\x});\n\\foreach \\px/\\py in {5/20,10/40,15/40,20/50,25/70,30/90,40/100,45/100,50/120} {\n\\fill[seriesBlue] (\\px,\\py) circle[radius=2.25pt];\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 7, left-hand scatterplot",
+          "description": "Arrowed black axes, no grid, nine blue data points and an ascending blue fitted line. Preserve the printed x and y coordinate cues and origin numeral.",
+          "mathematics": {
+            "horizontalAxis": {
+              "label": "No. of market stalls",
+              "ticks": [
+                10,
+                20,
+                30,
+                40,
+                50
+              ]
+            },
+            "verticalAxis": {
+              "label": "No. of new customers each hour",
+              "ticks": [
+                20,
+                40,
+                60,
+                80,
+                100,
+                120
+              ]
+            },
+            "points": [
+              [
+                5,
+                20
+              ],
+              [
+                10,
+                40
+              ],
+              [
+                15,
+                40
+              ],
+              [
+                20,
+                50
+              ],
+              [
+                25,
+                70
+              ],
+              [
+                30,
+                90
+              ],
+              [
+                40,
+                100
+              ],
+              [
+                45,
+                100
+              ],
+              [
+                50,
+                120
+              ]
+            ],
+            "line": "c = 13.33 + 2.097m",
+            "lineDomain": [
+              5,
+              50
+            ]
+          },
+          "answerVisibility": "All plotted data and the fitted line are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p31-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Using the line of best fit, find the number of new customers expected if there are 30 market stalls. Give your answer to the nearest whole number.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "76 new customers per hour.",
+          "worked": "$\\begin{align*}m &= 30\\\\c &= 13.33 + 2.097(30)\\\\c &= 76.24\\end{align*}$\nExpected number: 76 new customers per hour, to the nearest whole number.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p31-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the equation to find the number of market stalls required to expect 150 new customers. Give your answer to the nearest whole number.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "65 stalls.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "c0bfbef0-f5c3-4b27-975c-6acd131026c4-compact-0",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 0,
+                "lineHeight": 1.25,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}c &= 150\\\\150 &= 13.33 + 2.097m\\\\150 - 13.33 &= 2.097m\\\\m &= \\frac{136.67}{2.097}\\\\m &\\approx 65.17\\end{align*}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "c0bfbef0-f5c3-4b27-975c-6acd131026c4-compact-1",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 0,
+                "lineHeight": 1.25,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Estimated number: 65 stalls, to the nearest whole number.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p31-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why part a is interpolation, while part b is extrapolation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "30 stalls is within the observed range of 5–50 stalls; the estimate of about 65 stalls is outside it.",
+          "worked": "Part a uses 30 stalls, within the observed range of 5–50 stalls, so it is interpolation. Part b predicts about 65 stalls, beyond the observed maximum of 50 stalls, so it is extrapolation. The target of 150 new customers also exceeds the observed maximum of 120.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p31-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q7-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p31-q7-root/label",
+                  "type": "item",
+                  "ref": "p31-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "p31-q7-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p31-q7-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q7-graph",
+                          "type": "item",
+                          "ref": "p31-q7-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p31-q7-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q7-root/prompt",
+                          "type": "item",
+                          "ref": "p31-q7-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p31-q7-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p31-q7-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p31-q7-a/label",
+                                  "type": "item",
+                                  "ref": "p31-q7-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p31-q7-a/prompt",
+                                  "type": "item",
+                                  "ref": "p31-q7-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p31-q7-a/space",
+                                  "type": "item",
+                                  "ref": "p31-q7-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p31-q7-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p31-q7-b/label",
+                                  "type": "item",
+                                  "ref": "p31-q7-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p31-q7-b/prompt",
+                                  "type": "item",
+                                  "ref": "p31-q7-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p31-q7-b/space",
+                                  "type": "item",
+                                  "ref": "p31-q7-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p31-q7-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p31-q7-c/label",
+                                  "type": "item",
+                                  "ref": "p31-q7-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p31-q7-c/prompt",
+                                  "type": "item",
+                                  "ref": "p31-q7-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p31-q7-c/space",
+                                  "type": "item",
+                                  "ref": "p31-q7-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:42:11.780Z",
+  "updatedAt": "2026-10-21T07:42:11.780Z"
+}

@@ -1,0 +1,619 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-654beb7d-8010-4b46-81af-ca8f49868e63",
+  "status": "approved",
+  "title": "2022 HSC Standard 1",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [
+      "scatter-plot",
+      "line-of-best-fit"
+    ],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Plot table values as coordinates, choose a balanced best-fit line, then read an interpolated sleep estimate from it.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:29.964Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "05beccef2e9e0079c16f58ab9ff7d1a74048950d13196f84074e5c81589f91a7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/1e68715aa360e91166c1becf467b4564d7149b462ca85a2739add9bbeb0f359a-1792556207511/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q12-root",
+    "type": "question",
+    "label": "",
+    "prompt": "A teacher surveyed the students in her Year 8 class to investigate the relationship between the average number of hours of phone use per day and the average number of hours of sleep per day. The results are shown on the scatterplot below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p24-q12-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 24 p24-q12-graph\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.9,1.6) rectangle (10.5,11.3);\n\\draw[black,dotted,line width=0.15pt,xstep=0.2,ystep=0.2] (0,3) grid (10,11);\n\\draw[black,line width=0.25pt,xstep=1,ystep=1] (0,3) grid (10,11);\n\\draw[black,line width=0.5pt] (0,3)--(10,3);\n\\draw[black,line width=0.5pt] (0,3)--(0,11);\n\\fill[white] (-0.12,3.22) rectangle (0.12,3.5);\n\\draw[black,line width=0.4pt] (0,3.22)--(-0.08,3.29)--(0.08,3.36)--(0,3.43);\n\\foreach \\x in {0,...,10}{\\draw[line width=0.4pt] (\\x,3)--(\\x,2.85);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,2.85){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {4,...,11}{\\draw[line width=0.4pt] (0,\\y)--(-0.15,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.15,\\y){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[font=\\fontsize{10}{12}\\selectfont] at ([yshift=-8mm]5,1.95) {Average hours of phone use per day};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1.45,7) {Average hours of sleep per day};\n\\foreach \\x/\\y in {0/10,0.5/10,0.5/9.7,1/9.5,1.5/9.5,2.5/8.8,2.5/8.2,3/8.5,3/8.2,3.5/7.8,4.5/7.5,5/7.2,5.5/7,6/6.8}{\\fill[black] (\\x,\\y) circle[radius=2.25pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 95,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 24,
+          "sourceRegion": "Question 12 scatterplot, lower right",
+          "description": "Square plotting grid with solid major lines, dotted fine subdivisions and a vertical-axis break below 4. Alinta and Birrani are not plotted.",
+          "mathematics": "Horizontal axis 0–10 hours, major step 1 and minor step 0.2. Vertical labels 4–11 hours, major step 1 and minor step 0.2. Supplied points are reconstructed from their visible positions, not treated as an exact numerical dataset.",
+          "answerVisibility": "Supplied points and blank plotting grid only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p24-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p24-q12-a-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The data for two new students, Alinta and Birrani, are shown in the table below. Plot their results on the scatterplot.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p24-q12-table",
+              "type": "table",
+              "widthMm": 75,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                20,
+                8,
+                8
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 1,
+              "widths": [
+                0.24,
+                0.38,
+                0.38
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p24-q12-table-h-name",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-h-name-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p24-q12-table-h-phone",
+                    "type": "cell",
+                    "header": true,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-h-phone-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Average hours of phone use per day",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p24-q12-table-h-sleep",
+                    "type": "cell",
+                    "header": true,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-h-sleep-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Average hours of sleep per day",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p24-q12-table-alinta-name",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-alinta-name-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Alinta",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p24-q12-table-alinta-phone",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-alinta-phone-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "4",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p24-q12-table-alinta-sleep",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-alinta-sleep-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "8",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p24-q12-table-birrani-name",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-birrani-name-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Birrani",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p24-q12-table-birrani-phone",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-birrani-phone-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "0",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p24-q12-table-birrani-sleep",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p24-q12-table-birrani-sleep-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "center",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "10.5",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p24-q12-answer-overlay",
+        "answer": {
+          "short": "Alinta: $(4,8)$; Birrani: $(0,10.5)$.",
+          "worked": "Use phone use as the horizontal coordinate and sleep as the vertical coordinate. Plot Alinta at $(4,8)$ and Birrani at $(0,10.5)$; Birrani’s point lies on the vertical axis.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p24-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By first fitting the line of best fit by eye on the scatterplot, estimate the average number of hours of sleep per day for a student who uses the phone for an average of 2 hours per day.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p24-q12-answer-overlay",
+        "answer": {
+          "short": "About $9$ hours per day; reasonable by-eye estimates may vary.",
+          "worked": "Draw a straight line through the centre of the plotted points, with roughly balanced points above and below it. From $2$ hours of phone use, move vertically to the line and horizontally to the sleep axis. The estimate is about $9$ hours of sleep per day.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p24-q12-answer-overlay",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"answerBlue\",\"hex\":\"268CFF\",\"reason\":\"added student points, example best-fit line and reading guides\"}],\"reference\":\"source page 24 p24-q12-answer-overlay\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.9,1.6) rectangle (10.5,11.3);\n\\draw[black,dotted,line width=0.15pt,xstep=0.2,ystep=0.2] (0,3) grid (10,11);\n\\draw[black,line width=0.25pt,xstep=1,ystep=1] (0,3) grid (10,11);\n\\draw[black,line width=0.5pt] (0,3)--(10,3);\n\\draw[black,line width=0.5pt] (0,3)--(0,11);\n\\fill[white] (-0.12,3.22) rectangle (0.12,3.5);\n\\draw[black,line width=0.4pt] (0,3.22)--(-0.08,3.29)--(0.08,3.36)--(0,3.43);\n\\foreach \\x in {0,...,10}{\\draw[line width=0.4pt] (\\x,3)--(\\x,2.85);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,2.85){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {4,...,11}{\\draw[line width=0.4pt] (0,\\y)--(-0.15,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.15,\\y){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[font=\\fontsize{10}{12}\\selectfont] at ([yshift=-8mm]5,1.95) {Average hours of phone use per day};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1.45,7) {Average hours of sleep per day};\n\\foreach \\x/\\y in {0/10,0.5/10,0.5/9.7,1/9.5,1.5/9.5,2.5/8.8,2.5/8.2,3/8.5,3/8.2,3.5/7.8,4.5/7.5,5/7.2,5.5/7,6/6.8}{\\fill[black] (\\x,\\y) circle[radius=2.25pt];}\n\\definecolor{answerBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.9,1.6) rectangle (10.5,11.3);\n\\draw[answerBlue,line width=0.8pt] (0,10.2)--(6,6.6);\n\\draw[answerBlue,dashed,line width=0.4pt] (2,3)--(2,9)--(0,9);\n\\draw[answerBlue,line width=0.8pt] (3.9,7.9)--(4.1,8.1) (3.9,8.1)--(4.1,7.9);\n\\draw[answerBlue,line width=0.8pt] (-0.1,10.4)--(0.1,10.6) (-0.1,10.6)--(0.1,10.4);\n\\node[answerBlue,right,font=\\fontsize{10}{12}\\selectfont] at (4.15,8.1) {Alinta};\n\\node[answerBlue,right,font=\\fontsize{10}{12}\\selectfont] at (0.2,10.55) {Birrani};\n\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 95,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 24,
+          "sourceRegion": "Question 12 scatterplot",
+          "description": "Added points for Alinta and Birrani, one acceptable by-eye line and reading guides at 2 hours.",
+          "mathematics": "Alinta (4,8); Birrani (0,10.5). Example line y=10.2−0.6x gives 9 hours at x=2; alternative reasonable by-eye lines are acceptable.",
+          "answerVisibility": "Solution only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p24-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p24-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p24-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p24-q12-root/label",
+                  "type": "item",
+                  "ref": "p24-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "p24-q12-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p24-q12-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q12-root/prompt",
+                          "type": "item",
+                          "ref": "p24-q12-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p24-q12-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p24-q12-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p24-q12-a/label",
+                                  "type": "item",
+                                  "ref": "p24-q12-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p24-q12-a/prompt#p24-q12-a-instruction",
+                                  "type": "item",
+                                  "ref": "p24-q12-a/prompt#p24-q12-a-instruction",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p24-q12-a/prompt#p24-q12-table",
+                                  "type": "item",
+                                  "ref": "p24-q12-a/prompt#p24-q12-table",
+                                  "title": "table"
+                                },
+                                {
+                                  "id": "layout:p24-q12-a/space",
+                                  "type": "item",
+                                  "ref": "p24-q12-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p24-q12-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p24-q12-b/label",
+                                  "type": "item",
+                                  "ref": "p24-q12-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p24-q12-b/prompt",
+                                  "type": "item",
+                                  "ref": "p24-q12-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p24-q12-b/space",
+                                  "type": "item",
+                                  "ref": "p24-q12-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p24-q12-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p24-q12-graph",
+                          "type": "item",
+                          "ref": "p24-q12-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 12",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:59.523Z",
+  "updatedAt": "2026-10-21T07:41:59.524Z"
+}

@@ -1,0 +1,364 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2fbf57f2-76fc-4e26-b3dd-56cf8475204b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "multistage-probability-by-counting",
+    "secondarySkillIds": [
+      "multistage-outcomes",
+      "independent-dependent-events"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a without-replacement tree and count outcomes satisfying events in either order.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T13:34:01.910Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "33ec1de909208bf84887a897e2780e6fd57779831cba2839efbfbd5aa511b27a",
+      "evidence": ".booklet-work/full-imports/multistage-probability-import-20261006/semantic-packets/assignments/assignment-e7f3bcd28720f42b15cb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p16-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p16-q20-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Two lollipops are selected at random ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "without replacement",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " from a group of three:",
+              "marks": []
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "strawberry (S), grape (G) and cola (C).",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "List all the possible outcomes for the selection using a tree diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{SG,SC,GS,GC,CS,CG\\}$",
+          "worked": "Each first selection leaves two possible second selections. The tree gives six equally likely ordered outcomes: $SG,SC,GS,GC,CS,CG$.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-q20-a-tree",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 16 p16-q20-a-tree\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (S) at (1.6,2);\n\\coordinate (G) at (1.6,0);\n\\coordinate (C) at (1.6,-2);\n\\draw (O)--(S) (O)--(G) (O)--(C);\n\\node[fill=white,inner sep=2pt] at (S) {S};\n\\node[fill=white,inner sep=2pt] at (G) {G};\n\\node[fill=white,inner sep=2pt] at (C) {C};\n\\draw (1.9,2)--(3.2,2.65) (1.9,2)--(3.2,1.35);\n\\draw (1.9,0)--(3.2,0.65) (1.9,0)--(3.2,-0.65);\n\\draw (1.9,-2)--(3.2,-1.35) (1.9,-2)--(3.2,-2.65);\n\\node[right] at (3.2,2.65) {G};\n\\node[right] at (3.2,1.35) {C};\n\\node[right] at (3.2,0.65) {S};\n\\node[right] at (3.2,-0.65) {C};\n\\node[right] at (3.2,-1.35) {S};\n\\node[right] at (3.2,-2.65) {G};\n\\node at (4.7,3.25) {Outcomes};\n\\node at (4.7,2.65) {SG};\n\\node at (4.7,1.35) {SC};\n\\node at (4.7,0.65) {GS};\n\\node at (4.7,-0.65) {GC};\n\\node at (4.7,-1.35) {CS};\n\\node at (4.7,-2.65) {CG};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 16,
+                "sourceRegion": "Question 20(a), completed tree beneath the instruction",
+                "description": "Two-stage tree progressing left to right. First selections S, G, C occur top to bottom. Each splits into the two remaining flavours, with terminal outcomes aligned to their paths. Ordinary source blue strokes and labels use house black.",
+                "mathematics": "Without replacement: S leads to G and C; G leads to S and C; C leads to S and G. Terminal outcomes are SG, SC, GS, GC, CS, CG. No probabilities or stage headings are supplied.",
+                "answerVisibility": "Supplied completed answer; show only with solutions."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "p16-q20-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the probability that the selection will contain:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-q20-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "strawberry and cola",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{3}$",
+              "worked": "Favourable outcomes: $SC,CS$.\n$$\\begin{align*}P(\\text{strawberry and cola})&=\\frac{2}{6}\\\\&=\\frac{1}{3}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p16-q20-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "grape",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2}{3}$",
+              "worked": "Favourable outcomes: $SG,GS,GC,CG$.\n$$\\begin{align*}P(\\text{grape})&=\\frac{4}{6}\\\\&=\\frac{2}{3}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p16-q20-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "grape or cola",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$1$",
+              "worked": "All six outcomes contain grape or cola, including selections containing both.\n$$\\begin{align*}P(\\text{grape or cola})&=\\frac{6}{6}\\\\&=1\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q20",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p16-q20": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p16-q20-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p16-q20-root/label",
+                  "type": "item",
+                  "ref": "p16-q20-root/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "layout:p16-q20-root/prompt#p16-q20-stem",
+                  "type": "item",
+                  "ref": "p16-q20-root/prompt#p16-q20-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "p16-q20-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p16-q20-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q20-a/label",
+                          "type": "item",
+                          "ref": "p16-q20-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p16-q20-a/prompt",
+                          "type": "item",
+                          "ref": "p16-q20-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q20-a/space",
+                          "type": "item",
+                          "ref": "p16-q20-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p16-q20-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q20-b/label",
+                          "type": "item",
+                          "ref": "p16-q20-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p16-q20-b/prompt",
+                          "type": "item",
+                          "ref": "p16-q20-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p16-q20-b:parts",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p16-q20-b-i:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q20-b-i/label",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-i/label",
+                                  "title": "Label i"
+                                },
+                                {
+                                  "id": "layout:p16-q20-b-i/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-i/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q20-b-i/space",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-i/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part i",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p16-q20-b-ii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q20-b-ii/label",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-ii/label",
+                                  "title": "Label ii"
+                                },
+                                {
+                                  "id": "layout:p16-q20-b-ii/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-ii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q20-b-ii/space",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-ii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part ii",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p16-q20-b-iii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p16-q20-b-iii/label",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-iii/label",
+                                  "title": "Label iii"
+                                },
+                                {
+                                  "id": "layout:p16-q20-b-iii/prompt",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-iii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p16-q20-b-iii/space",
+                                  "type": "item",
+                                  "ref": "p16-q20-b-iii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iii",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 20",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:52:03.648Z",
+  "updatedAt": "2026-10-21T10:52:03.649Z"
+}

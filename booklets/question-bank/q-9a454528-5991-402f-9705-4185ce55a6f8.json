@@ -1,0 +1,223 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9a454528-5991-402f-9705-4185ce55a6f8",
+  "status": "approved",
+  "title": "2016 HSC Extension 1 Band 5",
+  "classification": {
+    "primarySkillId": "cyclic-quadrilateral-properties",
+    "secondarySkillIds": [
+      "circle-angle-properties"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "After establishing cyclicity from semicircle right angles, requires finding a proof route to perpendicularity, such as constructing CD and transferring angles through both circles to establish a right angle at F.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:53.409Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "40de37c738cf8cf6a750443a3a33ab577e41d2672d844c33928ba4ea3788f8b7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/circle-geometry-v1/0648cd7a796a87ff508945f6eb8173334ce513e51ae97c996f71d17cb6dc44a6-1792556250906/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p46-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The circle centred at $O$ has a diameter $AB$. From the point $M$ outside the circle the line segments $MA$ and $MB$ are drawn meeting the circle at $C$ and $D$ respectively. The chords $AD$ and $BC$ meet at $E$. The line segment $ME$ produced meets the diameter $AB$ at $F$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p46-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 46 p46-q7-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (-2,0);\\coordinate (B) at (2,0);\\coordinate (M) at (-0.7,3.7);\\coordinate (C) at (-1.56047,1.25098);\\coordinate (D) at (0.61010,1.90467);\\coordinate (E) at (-0.7,0.94865);\\coordinate (F) at (-0.7,0);\n\\draw (O) circle (2);\\draw (M)--(A)--(B)--(M);\\draw (A)--(D) (B)--(C) (M)--(F);\n\\fill (O) circle (1.2pt);\n\\node[below] at (O){$O$};\\node[left] at (A){$A$};\\node[right] at (B){$B$};\\node[above] at (M){$M$};\\node[above left] at (C){$C$};\\node[above right] at (D){$D$};\\node[below right] at (E){$E$};\\node[below] at (F){$F$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 46,
+          "sourceRegion": "Question 7 shared diagram",
+          "description": "Diameter AB, two secants from M, intersecting chords AD and BC, and line MEF.",
+          "mathematics": "M,C,A and M,D,B are collinear; AD∩BC=E; ME∩AB=F; O is the circle centre.",
+          "answerVisibility": "Construction CD and the derived right angle at F are absent from the student diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p46-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $CMDE$ is a cyclic quadrilateral.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$CMDE$ is cyclic because exterior $\\angle ACB$ equals opposite interior $\\angle MDE$.",
+          "worked": "$$\\begin{align*}\\angle ADB&=90^\\circ\\\\\\angle BCA&=90^\\circ\\end{align*}$$\nBoth are angles in a semicircle. Since $DB$ and $DM$ are opposite rays, and $DE$ lies along $DA$,\n$$\\angle MDE=180^\\circ-\\angle ADB=90^\\circ.$$\nThus exterior $\\angle ACB$ equals opposite interior $\\angle MDE$, so $CMDE$ is cyclic.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p46-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, or otherwise, prove that $MF$ is perpendicular to $AB$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle MFA=90^\\circ$, hence $MF\\perp AB$.",
+          "worked": "Construct $CD$. Let $\\angle ABC=x$.\n\nAngles standing on chord $AC$ give $\\angle ADC=x$. Since $D,E,A$ are collinear, $\\angle EDC=x$. In cyclic quadrilateral $CMDE$, angles standing on chord $CE$ give $\\angle CME=\\angle CDE=x$.\n\nIn $\\triangle ABC$, $\\angle BCA=90^\\circ$, so\n$$\\angle CAB=90^\\circ-x.$$\nSince $MC$ lies along $MA$ and $ME$ lies along $MF$, the angle sum of $\\triangle MFA$ gives\n$$\\begin{align*}\\angle MFA&=180^\\circ-\\angle CME-\\angle CAB\\\\\\angle MFA&=180^\\circ-x-(90^\\circ-x)\\\\\\angle MFA&=90^\\circ.\\end{align*}$$\nTherefore $MF\\perp AB$.",
+          "solutionDiagrams": [
+            {
+              "id": "p46-q7-b-construction",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 46 p46-q7-b-construction\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (-2,0);\\coordinate (B) at (2,0);\\coordinate (M) at (-0.7,3.7);\\coordinate (C) at (-1.56047,1.25098);\\coordinate (D) at (0.61010,1.90467);\\coordinate (E) at (-0.7,0.94865);\\coordinate (F) at (-0.7,0);\n\\draw (O) circle (2);\\draw (M)--(A)--(B)--(M);\\draw (A)--(D) (B)--(C) (M)--(F);\\draw[dashed] (C)--(D);\n\\fill (O) circle (1.2pt);\n\\node[below] at (O){$O$};\\node[left] at (A){$A$};\\node[right] at (B){$B$};\\node[above] at (M){$M$};\\node[above left] at (C){$C$};\\node[above right] at (D){$D$};\\node[below right] at (E){$E$};\\node[below] at (F){$F$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 46,
+                "sourceRegion": "Question 7(b) construction instruction",
+                "description": "Complete shared figure with the answer construction CD distinguished by dashes.",
+                "mathematics": "CD enables the same-chord angle arguments in the two circles.",
+                "answerVisibility": "Answer-only construction."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 80
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p46-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p46-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p46-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p46-q7-root/label",
+                  "type": "item",
+                  "ref": "p46-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p46-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p46-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p46-q7-diagram",
+                  "type": "item",
+                  "ref": "p46-q7-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p46-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p46-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p46-q7-a/label",
+                          "type": "item",
+                          "ref": "p46-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p46-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p46-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p46-q7-a/space",
+                          "type": "item",
+                          "ref": "p46-q7-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p46-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p46-q7-b/label",
+                          "type": "item",
+                          "ref": "p46-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p46-q7-b/prompt",
+                          "type": "item",
+                          "ref": "p46-q7-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p46-q7-b/space",
+                          "type": "item",
+                          "ref": "p46-q7-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:33:22.421Z",
+  "updatedAt": "2026-10-21T08:33:22.421Z"
+}

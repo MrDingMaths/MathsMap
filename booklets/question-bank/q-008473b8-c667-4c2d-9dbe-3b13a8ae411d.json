@@ -1,0 +1,277 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-008473b8-c667-4c2d-9dbe-3b13a8ae411d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [
+      "describe-association"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Read an inverse prediction from a supplied line of best fit and explain the limitation of distant extrapolation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T12:37:12.461Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2d41b43cfa6fd22a9c1f43bfa24c477be600a84e90414d66d7f73112c29f0b75",
+      "evidence": ".booklet-work/full-imports/bivariate-data-analysis-2026-10-06/semantic-packets/assignments/assignment-4ae71c5b32657daa5554/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q8",
+    "type": "question",
+    "label": "8",
+    "prompt": "The scatter graph shows the cost of rent per month for office space and the distance from the city centre.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p22-q8-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesPurple\",\"hex\":\"8B5CC7\",\"reason\":\"observed rent data, distinguished from the fitted line\"},{\"name\":\"fitRed\",\"hex\":\"EF6068\",\"reason\":\"supplied line of best fit\"}],\"reference\":\"source page 22 p22-q8-graph\"}\n\\begin{tikzpicture}[x=0.12cm,y=0.003cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\definecolor{seriesPurple}{HTML}{8B5CC7}\n\\definecolor{fitRed}{HTML}{EF6068}\n\\draw[step={(1,40)},draw=graphGrid,line width=0.15pt] (0,0) grid (50,2000);\n\\draw[step={(5,200)},draw=graphGrid,line width=0.25pt] (0,0) grid (50,2000);\n\\draw[black,line width=0.5pt,->] (0,0)--(52.5,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,2100);\n\\foreach \\v in {0,5,10,15,20,25,30,35,40,45,50} {\n  \\draw[black,line width=0.4pt] (\\v,0)--(\\v,-25);\n  \\node[anchor=north,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,-45) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\n}\n\\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-0.7,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\$0\\special{dvisvgm:raw </g>}};\n\\foreach \\v in {200,400,600,800,1000,1200,1400,1600,1800,2000} {\n  \\draw[black,line width=0.4pt] (0,\\v)--(-0.5,\\v);\n  \\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-0.7,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\n}\n\\node[anchor=north,font=\\fontsize{10}{12}\\selectfont] at (25,-155) {Distance from city centre (km)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-8.5,1000) {Rent};\n\\foreach \\px/\\py in {2.5/1600,10/1400,15/1400,20/1320,25/1200,30/1000,35/1200,45/800} {\n  \\draw[seriesPurple,line width=0.8pt] (\\px-0.35,\\py-14)--(\\px+0.35,\\py+14);\n  \\draw[seriesPurple,line width=0.8pt] (\\px-0.35,\\py+14)--(\\px+0.35,\\py-14);\n}\n\\draw[fitRed,line width=0.8pt] (2,1680)--(45,900);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Question 8, lower-left graph",
+          "description": "Fine square grid, arrowheaded axes, eight purple crosses and a red decreasing supplied line of best fit. The axis currency is corrected to dollars to agree with part b. Coordinates are visual estimates because the source provides no dataset.",
+          "mathematics": "Horizontal axis: distance from city centre, 0–50 km, labels every 5 km and grid every 1 km. Vertical axis: monthly rent, 0–2000 dollars, labels every 200 and grid every 40. Crosses approximately at (2.5,1600), (10,1400), (15,1400), (20,1320), (25,1200), (30,1000), (35,1200), (45,800). Supplied best-fit line approximately joins (2,1680) and (45,900).",
+          "answerVisibility": "All points and the best-fit line are permanent student-visible givens; no prediction guides or answers appear."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p22-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the direction of correlation shown in the scatter graph?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Negative.",
+          "worked": "Negative correlation: rent generally decreases as distance from the city centre increases.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p22-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Estimate the distance from the city centre for an office space that costs $\\$1000$ per month.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "About 38 km.",
+          "worked": "Read horizontally from a rent of $\\$1000$ to the line of best fit, then vertically down to the distance axis. The distance is approximately 38 km; readings around 38–40 km are reasonable.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p22-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "If the graph was extended up to 100 km from the city centre, do you think the trend shown by the line of best fit would continue? Explain your answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. This is far outside the existing data range, so the trend may change.",
+          "worked": "No. Predicting rent at 100 km would extrapolate far beyond the observed distances. The relationship may change, and continuing this decreasing line would eventually predict a negative rent.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "answerPartLabels": {
+      "short": {
+        "p22-q8-a": "a"
+      },
+      "worked": {
+        "p22-q8-a": "a"
+      }
+    },
+    "ownerId": "p22-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q8-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q8:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q8/label",
+                  "type": "item",
+                  "ref": "p22-q8/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "p22-q8:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p22-q8:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q8-graph",
+                          "type": "item",
+                          "ref": "p22-q8-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q8:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q8/prompt",
+                          "type": "item",
+                          "ref": "p22-q8/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p22-q8:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p22-q8-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q8-a/label",
+                                  "type": "item",
+                                  "ref": "p22-q8-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p22-q8-a/prompt",
+                                  "type": "item",
+                                  "ref": "p22-q8-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q8-a/space",
+                                  "type": "item",
+                                  "ref": "p22-q8-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p22-q8-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q8-b/label",
+                                  "type": "item",
+                                  "ref": "p22-q8-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p22-q8-b/prompt",
+                                  "type": "item",
+                                  "ref": "p22-q8-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q8-b/space",
+                                  "type": "item",
+                                  "ref": "p22-q8-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p22-q8-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p22-q8-c/label",
+                                  "type": "item",
+                                  "ref": "p22-q8-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p22-q8-c/prompt",
+                                  "type": "item",
+                                  "ref": "p22-q8-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p22-q8-c/space",
+                                  "type": "item",
+                                  "ref": "p22-q8-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:56.809Z",
+  "updatedAt": "2026-10-21T07:41:56.809Z"
+}
