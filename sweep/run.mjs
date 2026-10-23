@@ -45,8 +45,14 @@ export function unreviewed(){
  return out;
 }
 
-// Imports and reviews in flight anywhere, and any process naming this booklet.
-export function liveWork(id){
+// Default: imports/reviews anywhere (used before shared-code maintenance). A
+// polish save may request projectOnly: unrelated imports do not own its booklet.
+export function workProcessFlags(lines,id,{projectOnly=false}={}){
+ const blocked=lines.filter(line=>/lean-(?:import|review|route)\.mjs/.test(line)&&(!projectOnly||!id||line.includes(id))).map(line=>'running: '+line.slice(0,160));
+ const held=id?lines.filter(line=>line.includes(id)).map(line=>'process names this booklet: '+line.slice(0,160)):[];
+ return {blocked,held};
+}
+export function liveWork(id,{projectOnly=false}={}){
  let lines=[];
  try{
   const out=process.platform==='win32'
@@ -54,8 +60,7 @@ export function liveWork(id){
    :execFileSync('ps',['-eo','pid,args'],{encoding:'utf8'});
   lines=out.split(/\r?\n/).filter(Boolean).filter(line=>!line.startsWith(String(process.pid)+' ')&&!line.includes('sweep/run.mjs')&&!line.includes('sweep\\run.mjs'));
  }catch(error){return {blocked:['process list unavailable: '+error.message]};}
- const blocked=lines.filter(line=>/lean-(?:import|review|route)\.mjs/.test(line)).map(line=>'running: '+line.slice(0,160));
- const held=id?lines.filter(line=>line.includes(id)).map(line=>'process names this booklet: '+line.slice(0,160)):[];
+ const {blocked,held}=workProcessFlags(lines,id,{projectOnly});
  // Another run folder holding newer work on this booklet than the live file.
  if(id){
   const live=fs.statSync(path.join(PROJECTS,id+'.json')).mtimeMs,work=path.join(ROOT,'.booklet-work');

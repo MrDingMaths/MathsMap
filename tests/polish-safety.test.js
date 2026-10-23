@@ -10,9 +10,18 @@ import {savePolished,saveThroughStudio,pinMilestone} from '../polish/run.mjs';
 import {describeUnits,bandAllows,optimisePagination,tightenToFloor} from '../src/lib/booklet-pagination-optimiser.js';
 import {runWrappedMath} from '../checks/wrapped-math.mjs';
 import {removalBlocked} from '../polish/content.mjs';
+import {workProcessFlags} from '../sweep/run.mjs';
 
 const blocks=p=>p.sections[1].blocks;
 const trial=(p,patches,extra={})=>trialApply({blocks:blocks(p),settings:p.settings,corrections:[{id:'repair',patches}],applyCorrections,...extra});
+
+test('polish saves exclude unrelated imports without weakening same-booklet or shared-code guards',()=>{
+ const lines=['100 node scripts/booklet/lean-import.mjs --run-id unrelated-book','101 node scripts/booklet/lean-review.mjs export --project target-book','102 node polish/run.mjs --project target-book'];
+ assert.equal(workProcessFlags(lines,'target-book').blocked.length,2,'shared-code maintenance still sees both imports');
+ const scoped=workProcessFlags(lines,'target-book',{projectOnly:true});assert.equal(scoped.blocked.length,1);assert.equal(scoped.held.length,2);
+ assert.deepEqual(workProcessFlags(lines,'free-book',{projectOnly:true}),{blocked:[],held:[]});
+ assert.equal(workProcessFlags(lines,null,{projectOnly:true}).blocked.length,2,'an unspecified booklet fails closed');
+});
 
 test('authorised feedback, resolved comments and nested comment anchors protect their whole blocks',()=>{
  const p=booklet();blocks(p)[0].sourceReview={authorisedFeedback:{note:'Keep this'}};

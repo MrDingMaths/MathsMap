@@ -362,7 +362,7 @@ export async function savePolished({state,work,id,root=ROOT,deps={}}){
  const present=new Set(after.sections.flatMap(s=>s.blocks.map(b=>b.id)));
  const changed=[...new Set([...changedBlocks(before,after),...before.sections.flatMap(s=>s.blocks.filter(b=>!present.has(b.id)).map(b=>b.id))])];
  if(!changed.length&&JSON.stringify(before.studio)===JSON.stringify(after.studio)&&JSON.stringify(before.settings)===JSON.stringify(after.settings))return {saved:false,reason:'nothing changed'};
- const liveWork=deps.liveWork??(await import('../sweep/run.mjs')).liveWork,{blocked,held}=liveWork(id);
+ const liveWork=deps.liveWork??(await import('../sweep/run.mjs')).liveWork,{blocked=[],held=[]}=liveWork(id,{projectOnly:true});
  if(blocked.length||held.length)throw Error('Deferred: '+[...blocked,...held].join('; '));
  const {changedPaths}=await import('../scripts/booklet/feedback-preflight.mjs'),saveRepair=deps.saveRepair??(await import('../scripts/booklet/feedback-closeout.mjs')).saveRepair;
  const strip=p=>({...p,sections:p.sections.map(s=>({...s,blocks:s.blocks.filter(b=>!changed.includes(b.id)).map(b=>b.id)}))});
