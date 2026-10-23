@@ -160,6 +160,21 @@ test('normaliseProject: the sweep and the working space apply, except on a block
  assert.equal(JSON.stringify(after.studio.flags),JSON.stringify(before.studio.flags),'teacher comments are untouched');
 });
 import {restoreImportedZeroSpaces} from '../polish/normalise.mjs';
+test('normalise restores a protected block\'s separately stored scaffold arrangement',async()=>{
+ const {normaliseProject}=await import('../polish/normalise.mjs');
+ const arrangement={root:{id:'q-root:layout',type:'group',direction:'row',children:[
+  {id:'layout:q-a/prompt#q-a-scaffold',type:'item',ref:'q-a/prompt#q-a-scaffold',align:'right',before:10},
+ ]}};
+ const before=project([question([part('q-a',[math('q-a-scaffold','x=')])])],{layoutOverrides:{blockLayouts:{q:{arrangement}}}});
+ before.studio.flags=[{id:'teacher',at:'2026-10-24T00:00:00Z',targetId:'q',note:'Keep this layout'}];
+ const swept=sweep(before,['scaffold-anchor']);
+ assert.equal(swept.project.settings.layoutOverrides.blockLayouts.q.arrangement.root.children[0].align,'left','the sweep attempts the confirmed change');
+ const {project:after,report}=normaliseProject(before,{workingSpace:false});
+ assert.equal(report.protectedBlocks,1);
+ assert.deepEqual(after.sections,before.sections);
+ assert.deepEqual(after.settings.layoutOverrides,before.settings.layoutOverrides);
+ assert.deepEqual(after.studio,before.studio);
+});
 test('failed normalisation candidate restores only unchanged explicit-zero responses',()=>{
  const input={settings:{layoutOverrides:{answerSpaces:{}}},sections:[{blocks:[{id:'q',content:{id:'root',answerSpaceMm:0,prompt:'Fill table',answer:{short:'Values',worked:'Complete table'}},sourceReview:{workingSpaceEstimate:{estimates:[{targetId:'root',answerSpaceMm:0}]}}}]}]},candidate=structuredClone(input);candidate.sections[0].blocks[0].content.answerSpaceMm=404;
  const repaired=restoreImportedZeroSpaces(input,candidate);assert.equal(repaired.project.sections[0].blocks[0].content.answerSpaceMm,0);assert.equal(repaired.changes.length,1);assert.equal(candidate.sections[0].blocks[0].content.answerSpaceMm,404);

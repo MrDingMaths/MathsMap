@@ -9,6 +9,7 @@ import {applyCalibratedWorkingSpace} from '../paginate/lib/working-space-apply.m
 import {hasTeacherReview} from '../src/lib/booklet-import-spacing.js';
 import {importFinalRevision} from '../bench/history.mjs';
 import {teacherBlocks} from './flags.mjs';
+import {nodesOf} from './guards.mjs';
 import {exerciseStarts} from '../sweep/rules.mjs';
 
 const blocksOf=project=>(project.sections??[]).flatMap(section=>section.blocks??[]);
@@ -16,7 +17,18 @@ const blocksOf=project=>(project.sections??[]).flatMap(section=>section.blocks??
 function restoreBlocks(project,original,ids){
  if(!ids.size)return project;
  const old=new Map(blocksOf(original).map(block=>[block.id,block]));
- return {...project,sections:project.sections.map(section=>({...section,blocks:section.blocks.map(block=>ids.has(block.id)&&old.has(block.id)?structuredClone(old.get(block.id)):block)}))};
+ const next={...project,settings:structuredClone(project.settings??{}),sections:project.sections.map(section=>({...section,blocks:section.blocks.map(block=>ids.has(block.id)&&old.has(block.id)?structuredClone(old.get(block.id)):block)}))};
+ // Sweep rules can also change an arrangement stored outside the block. Restore
+ // every keyed setting owned by a rejected block, including its nested nodes.
+ const owned=new Set([...ids].flatMap(id=>nodesOf(old.get(id)).map(node=>node.id)));
+ const entries=(value,parts=[],out=new Map())=>{for(const [key,child] of Object.entries(value??{}))if(owned.has(key))out.set(JSON.stringify([...parts,key]),child);else if(child&&typeof child==='object')entries(child,[...parts,key],out);return out;};
+ const before=entries(original.settings),after=entries(next.settings);
+ for(const encoded of new Set([...before.keys(),...after.keys()])){
+  const parts=JSON.parse(encoded),key=parts.pop();let parent=next.settings;
+  for(const part of parts)parent=parent[part]??={};
+  if(before.has(encoded))parent[key]=structuredClone(before.get(encoded));else delete parent[key];
+ }
+ return next;
 }
 
 // The import as delivered, for a reviewed booklet whose blocks record no import allowance: the last revision before
@@ -52,7 +64,7 @@ export function normaliseProject(input,{protectedIds=teacherBlocks(input),freshI
   const bad=new Set(verifyCandidate(project,swept,changed).map(problem=>problem.split(':')[0]));
   for(const id of changed)if(protectedIds.has(id))bad.add(id);
   for(const id of bad)report.dropped.push(id);
-  project=restoreBlocks(swept,project,bad);
+  project=restoreBlocks(swept,project,new Set([...bad,...protectedIds]));
   const kept=changed.filter(id=>!bad.has(id)),byBlock=Object.fromEntries(kept.map(id=>[id,[...new Set(findings.filter(f=>f.blockId===id&&f.action==='fix').map(f=>f.rule))]]));
   for(const block of blocksOf(project))if(kept.includes(block.id)){
    block.sourceReview??={};(block.sourceReview.feedbackRepairs??=[]).push({date,source:'polish',note:'Polish normalise ('+byBlock[block.id].join(', ')+'): standing house conventions applied; content and answers unchanged.'});
