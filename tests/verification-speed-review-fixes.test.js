@@ -5,8 +5,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {saveTarget,settingsAllowedPaths} from '../checks/lib/common.mjs';
-import {runHandoff,STEPS} from '../handoff/run.mjs';
-import {runSourceMatch} from '../source-match/run.mjs';
+import {runPolish,STEPS} from '../polish/run.mjs';
 import {applyCalibratedWorkingSpace} from '../paginate/lib/working-space-apply.mjs';
 import {tightenToFloor} from '../src/lib/booklet-pagination-optimiser.js';
 import {tightenStages} from '../src/lib/booklet-layout-actions.js';
@@ -36,26 +35,14 @@ test('a check save names the settings it changed to the repair scope and expects
  await assert.rejects(()=>saveTarget({file:'x.json',live:true,before,after,changed:['A'],allowLive:true,deps:{...deps,liveWork:()=>({blocked:['running: lean-import.mjs'],held:[]})}}),/Deferred/);
 });
 
-test('handoff records the input revision at the start and runs the regions step before roles',async()=>{
- assert.ok(STEPS.indexOf('regions')>=0&&STEPS.indexOf('regions')<STEPS.indexOf('roles'));
- assert.ok(STEPS.indexOf('regions')<STEPS.indexOf('source-match'));
- const dir=fs.mkdtempSync(path.join(os.tmpdir(),'handoff-rev-'));
+test('polish records the input revision at the start',async()=>{
+ assert.ok(STEPS.includes('normalise')&&STEPS.includes('residual')&&!STEPS.includes('source-match'));
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'polish-rev-'));
  try{
   const file=path.join(dir,'in.json');fs.writeFileSync(file,JSON.stringify(project([block('A',[part('A-a',60)])])));
-  const {state}=await runHandoff({file,workDir:path.join(dir,'work'),only:[]});
+  const {state}=await runPolish({file,baseDir:path.join(dir,'work'),only:[]});
   assert.equal(state.input.revision,5);
  }finally{fs.rmSync(dir,{recursive:true,force:true});}
-});
-
-test('source-match on a live booklet applies the same live-work hold as the optimiser',async()=>{
- const root=fs.mkdtempSync(path.join(os.tmpdir(),'sm-live-'));
- try{
-  const dir=path.join(root,'booklets','projects');fs.mkdirSync(dir,{recursive:true});
-  const file=path.join(dir,'fx.json');fs.writeFileSync(file,JSON.stringify(project([block('A',[part('A-a',60)])])));
-  await assert.rejects(()=>runSourceMatch({projectFile:file,root,allowLive:true,liveWorkCheck:()=>({blocked:['running: lean-review.mjs'],held:[]})}),/Deferred: running: lean-review/);
-  await assert.rejects(()=>runSourceMatch({projectFile:file,root,allowLive:true,liveWorkCheck:()=>({blocked:[],held:['newer unsaved candidate: x']})}),/Deferred/);
-  await assert.rejects(()=>runSourceMatch({projectFile:file,root}),/Refusing to change a live project/);
- }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
 
 test('the optimiser tightens only allowances still equal to their import value in every stored copy',()=>{

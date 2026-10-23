@@ -49,21 +49,23 @@ const blocksById=project=>new Map(project.sections.flatMap(section=>section.bloc
 // every field on readback, rather than duplicating or bypassing those transforms.
 export function verifyRepairReadback(saved,reloaded,{expectedRevision,changedBlockIds=[]}={}){
  const wanted=blocksById(saved),actual=blocksById(reloaded);
- const mismatched=changedBlockIds.filter(id=>!wanted.has(id)||!isDeepStrictEqual(actual.get(id),wanted.get(id)));
+ const mismatched=changedBlockIds.filter(id=>!isDeepStrictEqual(actual.get(id),wanted.get(id)));
  const projectPaths=changedPaths(saved,reloaded);
  const readback={revision:reloaded.revision,expectedRevision:expectedRevision+1,blocksChecked:changedBlockIds.length,mismatched,projectPaths};
  if(reloaded.revision!==expectedRevision+1||mismatched.length||projectPaths.length)throw Object.assign(Error('Saved project does not match the repair candidate: '+JSON.stringify(readback)),{readback});
  return readback;
 }
-export async function saveRepair({candidate,expectedRevision,changedBlockIds=[],allowedPaths=[],runDir,options={}}){
+export async function saveRepair({candidate,expectedRevision,changedBlockIds=[],allowedPaths=[],runDir,options={},saveProject=saveBookletProject}){
  if(!Number.isInteger(expectedRevision))throw Error('saveRepair requires the expected input revision');
  const before=await loadBookletProject(candidate.id,{...options,refreshRatings:false});
  if(before.revision!==expectedRevision)throw Error('Project changed in another session; reload before saving');
  const scope=assertRepairScope(before,candidate,{blockIds:changedBlockIds,allowedPaths});
- const preflight=structuralPreflight(candidate,{blockIds:changedBlockIds});
+ // A declared removal is checked by scope; structural checks cover the surviving document.
+ const present=blocksById(candidate);
+ const preflight=structuralPreflight(candidate,{blockIds:changedBlockIds.filter(id=>present.has(id))});
  if(runDir){await fs.mkdir(runDir,{recursive:true});await fs.writeFile(path.join(runDir,'preflight.json'),JSON.stringify({...preflight,scope},null,2)+'\n');}
  if(preflight.issues.length)throw Error('Repair structural preflight failed: '+JSON.stringify(preflight.issues));
- const saved=await saveBookletProject(candidate,{...options,expectedRevision});
+ const saved=await saveProject(candidate,{...options,expectedRevision});
  const reloaded=await loadBookletProject(saved.id,{...options,refreshRatings:false});
  // Reload normalises the persisted JSON. Use that same projection for fields
  // omitted by JSON serialization (undefined), retaining all meaningful metadata.

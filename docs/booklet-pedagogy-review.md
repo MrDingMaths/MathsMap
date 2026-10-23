@@ -67,6 +67,10 @@ Suggestions (kinds `extension` and `variation-sequence`) are stored beside findi
 
 Context questions are not findings. They are asked in chat, and the answers are recorded as booklet assumptions with `status --assume`.
 
+## In the polish pipeline (23 October 2026)
+
+`polish/pedagogy.mjs` runs this review, with low review and low challenge settings as required for every polish model call, in suggestions-only mode: nothing it finds is applied. A suggestion (an extension or a variation sequence) and a bridging question (a finding whose repair adds a question, a review or teaching) become Studio comments of kind `pedagogy-suggestion` on the first target they can anchor to; every other finding is listed in `polish/report.json` and left alone. Earlier decisions travel with a copy of the booklet's own record (`polish/provenance-pedagogy/`), so a rejected suggestion stays rejected. See [the polish pipeline](booklet-verification-speed.md).
+
 ## Repairs
 
 Approved findings are repaired through the [lean local feedback-repair rule](booklet-change-runbook.md#minimum-verification-for-feedback-maintenance), after reading the [standing conventions](booklet-standing-conventions.md). In addition:

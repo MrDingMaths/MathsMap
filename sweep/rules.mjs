@@ -9,8 +9,8 @@ import {restartedPartLabels} from '../scripts/booklet/check-part-label-sequence.
 import {dormantAlignment} from '../scripts/booklet/check-dormant-alignment.mjs';
 import {repairExampleGutters} from '../scripts/content/example-gutters.mjs';
 import {fromSource} from '../src/lib/document-content.js';
-import {clozeHandwritingMm} from '../public/libs/maths-editor/house-style.mjs';
-import {fractionConvention} from '../src/lib/booklet-cloze-convention.js';
+import {clozeHandwritingMm,BOOKLET_HOUSE_STYLE} from '../public/libs/maths-editor/house-style.mjs';
+import {fractionConvention,bracketBlanks} from '../src/lib/booklet-cloze-convention.js';
 import {teachingLabels,usesTeachingLetters} from '../src/lib/booklet-labels.js';
 import {resolveArrangement} from '../src/lib/booklet-arrangement.js';
 
@@ -133,6 +133,7 @@ function gutterRule(block,{fix,report}){
 // ---------------------------------------------------------------- clozes
 const BOX=/\\boxed\{\s*\\rule\{0pt\}\{[\d.]+mm\}\s*\\hspace\{[\d.]+mm\}\s*\}/g;
 const DOTS=/\\(?:ldots|cdots|dots|dotfill)|\\mathord\{\\ldotp|\\underline\{\\hspace/;
+const GAP=/\\rule\{0pt\}\{[\d.]+mm\}\s*\\hspace\{[\d.]+mm\}/g;
 const PHANTOM_BOX=new RegExp('\\\\phantom\\{\\s*'+BOX.source+'\\s*\\}','g'),SIZED_DOTS=/\\underline\{\\hspace\{[\d.]+mm\}\}/g;
 // Split a \frac's numerator and denominator (balanced braces).
 function fracs(latex){
@@ -168,17 +169,18 @@ function clozeRule(block,{fix,report}){
    if(node.type==='math'&&typeof node.latex==='string'){
     const target=owner?.id??block.id;
     // The fraction decisions live in src/lib/booklet-cloze-convention.js (22 October 2026): numerator and
-    // denominator boxes stay (a full scaffold keeps both boxes and the vinculum), a blank inside
-    // parentheses in a component is empty space with no box and no dots, dotted or invisible
-    // components become boxes. Anything fixable is fixed; the rest is reported.
-    const convention=fractionConvention(node.latex);
+    // denominator boxes stay (a full scaffold keeps both boxes and the vinculum), dotted or invisible
+    // components become boxes. Anything fixable is fixed; the rest is reported. A blank inside parentheses
+    // is the bracket-blank rule's (23 October 2026).
+    const convention=fractionConvention(node.latex,{parens:false});
     const fixable=convention.issues.filter(i=>i.fixable),stuck=convention.issues.filter(i=>!i.fixable);
     if(fixable.length){
      if(exception)for(const i of fixable)out.push(report('cloze',target,i.detail+'; local exception: '+exception));
      else{if(fix)node.latex=convention.latex;out.push({rule:'cloze',target,action:'fix',detail:[...new Set(fixable.map(i=>i.kind))].join(', ')+': '+node.latex.slice(0,60)});}
     }
     for(const i of stuck)out.push(report('cloze',target,i.detail+': '+node.latex.slice(0,60)));
-    const latex=convention.latex,frac=fracs(latex);
+    // A box in parentheses is a gap (bracket-blank), not a blank to dot.
+    const latex=bracketBlanks(convention.latex).latex,frac=fracs(latex);
     // Boxes outside fractions and powers are blanks inside an equation. An invisible \phantom box is not one.
     let stripped=latex.split('').map((c,i)=>frac.some(f=>i>=f.start&&i<f.end)?' ':c).join('');
     stripped=stripped.replace(/\^\{?\\boxed\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\}?/g,'').replace(new RegExp('\\\\phantom\\{\\s*'+BOX.source+'\\s*\\}','g'),'');
@@ -454,10 +456,288 @@ function forcedBreaks(project,block,index,{report}){
  return [report('breaks',block.id,(flow.pageBreakBefore===true?'forced page break':'source page boundary')+' before this block; measure with `pages`')];
 }
 
+// ---------------------------------------------------------------- worked-example steps (23 October 2026)
+// A worked example's working is numbered in red in the gutter beside the working (teacher's rates-v1 p4 and
+// p11 examples). Two stored shapes reach it:
+//   - `examples[].steps[]`: numbering is `presentation.numberSteps`. The worked-rows renderer numbers unless
+//     it is false while the arrangement renderer numbers only when it is true, so the rule writes an explicit
+//     true (render-neutral for every booklet that has not been through the rule) and, where the block has no
+//     layout, the worked-rows layout; a `columns` layout is the source's side-by-side structure and stays;
+//   - an ordered list of maths-only items in an example's prompt: the list prints black numbers beside the
+//     working, so it becomes the teacher's borderless two-column table with the number as red text.
+const STEP_RED=BOOKLET_HOUSE_STYLE.teaching.stepNumberColour;
+const mathParagraph=p=>p?.type==='paragraph'&&(p.inlines??[]).some(i=>i.type==='math')&&p.inlines.every(i=>i.type==='math'||i.type==='break'||i.type==='text'&&!String(i.text).trim());
+const workingList=list=>list?.type==='list'&&list.ordered===true&&list.items?.length>0&&list.items.every(item=>item?.type==='list-item'&&item.blocks?.length>0&&item.blocks.every(mathParagraph));
+const isExample=block=>block.type==='worked-example'&&['example','worked-example'].includes(block.pedagogyRole??block.sourceAtom?.kind);
+export function stepTable(list){
+ const indent=Number.isFinite(list.indent)&&list.indent>0?list.indent:7;
+ let number=Number.isInteger(list.start)?list.start:1;
+ const rows=list.items.map(item=>{
+  if(Number.isInteger(item.value))number=item.value;
+  const label=number++;
+  return [
+   {id:item.id+'-label-cell',type:'cell',align:'left',verticalAlign:'middle',blocks:[{id:item.id+'-label',type:'paragraph',align:'left',spaceBefore:0,spaceAfter:1,inlines:[{type:'text',text:label+'.',colour:STEP_RED}]}]},
+   {id:item.id+'-work-cell',type:'cell',align:'left',verticalAlign:'middle',blocks:item.blocks},
+  ];
+ });
+ // The teacher's rows are one even height: 12 mm for working with a fraction in it, 8 mm otherwise.
+ const height=list.items.some(item=>item.blocks.some(b=>b.inlines.some(i=>/\\[dt]?frac(?![a-zA-Z])/.test(i.latex??''))))?12:8;
+ return {id:list.id,type:'table',widths:[indent,100-indent],padding:0,border:false,marginBefore:0,marginAfter:0,rows,rowHeights:list.items.map(()=>height)};
+}
+// Working written as one aligned block, or as several lines of blue working in an example's solution, is a sequence of steps
+// (23 October 2026): each row becomes one step of the red-gutter table. An aligned row `lhs & = rhs` is a step `= rhs`; its
+// left side is dropped only where it repeats the example's own given (algebraic-fractions p13), so the given is not printed
+// twice. An example with one line of working (a single answer) is not numbered.
+const ALIGNED_ENV=/\\begin\{(align\*?|aligned)\}([\s\S]*?)\\end\{\1\}/;
+export function alignedRows(latex){
+ const text=String(latex??''),match=text.match(ALIGNED_ENV);
+ if(!match||text.replace(match[0],'').replace(/[$\s]/g,''))return null;
+ const rows=match[2].split(/\\\\(?:\[[^\]]*\])?/).map(row=>row.trim()).filter(Boolean);
+ if(rows.some(row=>row.split('&').length>2))return null;
+ return rows.map(row=>{const at=row.indexOf('&');return at<0?{lhs:'',rhs:row}:{lhs:row.slice(0,at).trim(),rhs:row.slice(at+1).trim()};});
+}
+const sameMath=(a,b)=>{const n=x=>String(x??'').replace(/[$\s{}]/g,'').replace(/\\[dt]frac/g,'\\frac').replace(/\\(?:displaystyle|left|right)/g,'');return n(a)!==''&&n(a)===n(b);};
+const mathsIn=value=>typeof value==='string'?[value]:(value?.blocks??[]).flatMap(b=>b.type==='paragraph'?[(b.inlines??[]).filter(i=>i.type==='math').map(i=>i.latex??'').join(''),(b.inlines??[]).map(i=>i.latex??i.text??'').join('')]:[]);
+const stepList=(example,steps,colour)=>({id:example.id+'-steps',type:'list',ordered:true,start:1,indent:7,items:steps.map((step,i)=>({id:`${example.id}-step${i+1}`,type:'list-item',blocks:step.blocks??[{id:`${example.id}-step${i+1}-maths`,type:'paragraph',align:'left',inlines:[{type:'math',latex:step.latex,display:false,colour}],spaceAfter:1}]}))});
+const stepDoc=table=>({format:'maths-editor-document-v1',version:1,blocks:[table]});
+// The steps an example's solution holds, or null when it is not a sequence of steps.
+function workingSteps(example){
+ const solution=example.theorySolution,colour=BOOKLET_HOUSE_STYLE.teaching.solutionColour;
+ if(typeof solution==='string'||isDoc(solution)&&solution.blocks.filter(b=>!emptyParagraph(b)).length===1){
+  const paragraph=typeof solution==='string'?null:solution.blocks.find(b=>!emptyParagraph(b)),inline=paragraph?.type==='paragraph'&&paragraph.inlines?.length===1&&paragraph.inlines[0].type==='math'?paragraph.inlines[0]:null;
+  const latex=typeof solution==='string'?solution:inline?.latex,rows=alignedRows(latex);
+  if(typeof solution!=='string'&&!inline)return null;
+  if(!rows||rows.length<2)return null;
+  const given=mathsIn(example.prompt);
+  if(!rows.every((row,i)=>row.rhs&&startsWithRelation(row.rhs)&&(row.lhs===''||i===0&&given.some(g=>sameMath(g,row.lhs)))))return null;
+  return {steps:rows.map(row=>({latex:row.rhs})),colour:inline?.colour??colour};
+ }
+ if(isDoc(solution)){
+  const lines=solution.blocks.filter(b=>!emptyParagraph(b));
+  if(lines.length<2||!lines.every(b=>b.type==='paragraph'&&b.inlines?.length&&b.inlines.some(i=>i.type==='math')&&b.inlines.every(i=>['math','text'].includes(i.type)&&i.colour===colour)))return null;
+  return {steps:lines.map(line=>({blocks:[{...line,align:'left',spaceAfter:line.spaceAfter??1}]})),colour};
+ }
+ return null;
+}
+// A saved arrangement that names a node of the example's solution (an item ref such as `example/theorySolution#paragraph-id`)
+// would lose it when the solution becomes a table: the example stays as it is.
+const arranged=(block,project,example)=>[block.presentation?.layoutOverrides,project?.settings?.layoutOverrides].some(overrides=>JSON.stringify(overrides?.blockLayouts?.[block.id]??null).includes(example.id+'/'));
+function workingStepsRule(block,{fix,report,project},exception){
+ const out=[];
+ for(const example of block.examples??[]){
+  const found=workingSteps(example);
+  if(!found||arranged(block,project,example))continue;
+  if(exception){out.push(report('steps',block.id,'working of '+example.id+' is a sequence of steps; local exception: '+exception));continue;}
+  if(fix)example.theorySolution=stepDoc(stepTable(stepList(example,found.steps,found.colour)));
+  out.push({rule:'steps',target:block.id,action:'fix',detail:'working of '+example.id+' → red step numbers in the gutter ('+found.steps.length+' steps)'});
+ }
+ return out;
+}
+function stepsRule(block,{fix,report,project}){
+ if(!isExample(block))return [];
+ const out=[],exception=notes(block).find(n=>/step number|number(?:ing)? (?:the )?steps|step gutter/i.test(n));
+ if((block.examples??[]).some(e=>e.steps?.length)&&block.presentation?.numberSteps!==true){
+  if(exception)out.push(report('steps',block.id,'steps are not numbered; local exception: '+exception));
+  else{
+   if(fix)block.presentation={...block.presentation,numberSteps:true,...(block.presentation?.layout?{}:{layout:'worked-rows'})};
+   out.push({rule:'steps',target:block.id,action:'fix',detail:'steps numbered in red in the gutter (numberSteps true'+(block.presentation?.layout?'':', worked-rows layout')+')'});
+  }
+ }
+ for(const {doc,owner} of documents(block)){
+  doc.blocks.forEach((child,index)=>{
+   if(!workingList(child))return;
+   const target=owner?.id??block.id;
+   if(exception){out.push(report('steps',target,'ordered list of working ('+child.id+'); local exception: '+exception));return;}
+   if(fix)doc.blocks[index]=stepTable(child);
+   out.push({rule:'steps',target,action:'fix',detail:'list '+child.id+' → red step numbers in the gutter ('+child.items.length+' steps)'});
+  });
+ }
+ out.push(...workingStepsRule(block,{fix,report,project},exception));
+ return out;
+}
+
+// ---------------------------------------------------------------- scaffold anchor (23 October 2026)
+// The working scaffold of a part sits left-aligned under the part label with no extra gap above it. A
+// right-aligned scaffold line, a scaffold item centred or right-aligned in an arrangement, and a gap above one
+// larger than 2 mm are fixed. A centred display equation is house style (the teacher keeps those) and stays.
+const SCAFFOLD_ID=/scaffold/i;
+const PART_GAP_MM=2;
+const ASSUMED_COLUMN_MM=80;
+// A scaffold laid out by hand (a `layout` node, arrangement "scaffold", with the given in one slot and the
+// numerator/bar/denominator in another) fills its column in equal tracks with 3 mm of margin and padding,
+// so the pieces float apart and indent. Anchored: no margin or padding, a 2 mm gap, and tracks sized to
+// the content with a spare track after them that takes the rest of the row.
+function latexWidthMm(latex){
+ let width=0,rest=String(latex??'');
+ rest=rest.replace(/\\hspace\{([\d.]+)mm\}|\\rule\{([\d.]+)(mm|pt)\}\{[\d.]+(?:mm|pt)\}/g,(_,h,r,unit)=>{width+=Number(h??r)*(unit==='pt'?0.3528:1);return '';});
+ rest=rest.replace(/\\(?:text|mathrm|textbf|mathbf|operatorname)\s*\{([^{}]*)\}/g,'$1').replace(/\\(?:approx|times|div|pm|leq?|geq?|neq?|cdot|rightarrow|to|equiv)(?![a-zA-Z])/g,'=');
+ let previous;
+ do{previous=rest;rest=rest.replace(/\\[dt]?frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g,(_,a,b)=>a.length>=b.length?a:b);}while(rest!==previous);
+ const visible=rest.replace(/\\(?:left|right|boxed|quad|qquad|,|;|!)/g,'').replace(/\\[a-zA-Z]+/g,'').replace(/[{}\\^_&\s]/g,'');
+ // Relations and operators carry space either side, a fraction a little either side, a box its frame.
+ const spaced=(visible.match(/[=<>+]/g)?.length??0)*2.1,fractions=(String(latex??'').match(/\\[dt]?frac(?![a-zA-Z])/g)?.length??0)*1.5,boxes=(String(latex??'').match(/\\boxed/g)?.length??0)*2;
+ return width+visible.length*2.1+spaced+fractions+boxes;
+}
+function slotWidthMm(slot){
+ let widest=0;
+ for(const child of slot.blocks??[]){
+  if(child.type==='table')widest=Math.max(widest,Number(child.widthMm)||24);
+  else if(child.type==='paragraph')widest=Math.max(widest,(child.inlines??[]).reduce((sum,i)=>sum+(i.type==='math'?latexWidthMm(i.latex):i.type==='cloze'?Number(i.width)||20:i.type==='text'?String(i.text).length*2.1:0),0));
+ }
+ return Math.max(10,Math.ceil(widest*1.1+1));
+}
+export const layoutAnchored=node=>node.padding===0&&node.margin===0&&node.slots?.at(-1)?.id?.endsWith('-anchor-slot');
+export function anchorLayoutScaffold(node,available=ASSUMED_COLUMN_MM){
+ const widths=node.slots.map(slotWidthMm),spare=Math.max(10,available-widths.reduce((a,b)=>a+b,0)-2*widths.length);
+ node.columns=node.slots.length+1;node.tracks=[...widths,spare];node.gap=2;node.padding=0;node.margin=0;
+ node.slots=[...node.slots,{id:node.id+'-anchor-slot',blocks:[]}];
+}
+// Only a scaffold whose slots sit side by side in one row is anchored: a layout with fewer columns than slots stacks them
+// (a caption above a working row), and one with a nested layout in a slot has no content width to size by; adding a
+// track per slot to either puts the stacked slots side by side in a few mm each, so their content overlaps.
+const sideBySide=node=>(Number(node.columns)||node.slots.length)>=node.slots.length&&!node.slots.some(slot=>(slot.blocks??[]).some(child=>child.type==='layout'));
+const hand=node=>node?.type==='layout'&&node.arrangement==='scaffold'&&node.slots?.length>=2&&node.slots.length<=3&&!layoutAnchored(node)&&sideBySide(node);
+// A scaffold whose authored tracks are not all equal is hand-sized and stays, unless it still has the default
+// 3 mm margin and padding: those tracks are fractions of the whole column, so each slot is stretched past its
+// content (rates p11 worked examples: the fraction sat far to the right of "120 c / 1 L =").
+const floating=node=>!node.tracks||new Set(node.tracks).size<=1||node.padding!==0||node.margin!==0;
+// The width each layout has to fill: the page column, divided by the enclosing columns and arrangement tracks.
+const COLUMN_MM=165;
+function availableWidths(block){
+ const widths=new Map(),columns=block.presentation?.layout==='columns'?Math.max(1,Number(block.presentation.columns)||2):1;
+ const walk=(value,width)=>{
+  if(!value||typeof value!=='object')return;
+  if(Array.isArray(value)){value.forEach(child=>walk(child,width));return;}
+  if(value.type==='layout'&&Array.isArray(value.slots)){
+   widths.set(value,width);
+   const tracks=value.slots.map((_,i)=>Number(value.tracks?.[i])||1),sum=tracks.reduce((a,b)=>a+b,0),gap=Number.isFinite(value.gap)?value.gap:3;
+   value.slots.forEach((slot,i)=>walk(slot.blocks,Math.max(10,Math.floor((width-gap*(value.slots.length-1))*tracks[i]/sum))));
+   return;
+  }
+  if(value.type==='table')widths.set(value,width);
+  // The parts of a question in a grid or in columns each have a share of the row.
+  const share=['grid','columns'].includes(value.layout)&&Number(value.columns)>1?Math.floor(width/Number(value.columns))-3:width;
+  for(const [key,child] of Object.entries(value))if(!SKIP.has(key)&&child&&typeof child==='object')walk(child,key==='children'?share:width);
+ };
+ walk({content:block.content,examples:block.examples},Math.floor(COLUMN_MM/columns)-(columns>1?3:0));
+ return widths;
+}
+// A borderless scaffold table with no width of its own fills its whole column in proportional tracks, so the given
+// and the blank sit far apart (rates p15 guided practice). Sized to its content, in mm, it packs left.
+function tableColumnWidths(table){
+ const widths=[],pending=[];
+ for(const row of table.rows??[]){
+  let column=0;
+  for(const cell of row){
+   while(pending[column]>0){pending[column]--;column++;}
+   const span=Math.max(1,Number(cell.colspan)||1),rowspan=Math.max(1,Number(cell.rowspan)||1);
+   if(span===1)widths[column]=Math.max(widths[column]??0,slotWidthMm({blocks:cell.blocks})+2);
+   for(let i=0;i<span;i++)pending[column+i]=rowspan-1;
+   column+=span;
+  }
+  while(column<pending.length){if(pending[column]>0)pending[column]--;column++;}
+ }
+ return Array.from({length:Math.max(widths.length,0)},(_,i)=>widths[i]??10);
+}
+const looseScaffoldTable=table=>table?.type==='table'&&SCAFFOLD_ID.test(table.id??'')&&table.border===false&&table.widthMm==null&&Array.isArray(table.rows)&&table.rows.length>0;
+export function packScaffoldTable(table,available=ASSUMED_COLUMN_MM){
+ const widths=tableColumnWidths(table),total=widths.reduce((a,b)=>a+b,0);
+ if(!widths.length||widths.length!==(table.widths?.length??widths.length)||total>available)return false;
+ table.widths=widths;table.widthMm=total;return true;
+}
+function layoutScaffolds(block,{fix,report},exception){
+ const out=[],available=availableWidths(block);
+ for(const {doc,owner} of documents(block))nodes(doc,node=>{
+  const target=owner?.id??block.id;
+  if(looseScaffoldTable(node)){
+   if(exception){out.push(report('scaffold-anchor',target,'scaffold table '+node.id+' fills its column; local exception: '+exception));return;}
+   const room=available.get(node)??ASSUMED_COLUMN_MM;
+   if(!packScaffoldTable(fix?node:structuredClone(node),room))return;
+   out.push({rule:'scaffold-anchor',target,action:'fix',detail:node.id+': table filled its column → sized to its content, packed left'});
+   return;
+  }
+  if(!hand(node)||!floating(node))return;
+  if(exception){out.push(report('scaffold-anchor',target,'hand-built scaffold '+node.id+' floats in equal columns; local exception: '+exception));return;}
+  if(fix)anchorLayoutScaffold(node,available.get(node)??ASSUMED_COLUMN_MM);
+  out.push({rule:'scaffold-anchor',target,action:'fix',detail:node.id+': floating columns with 3 mm margin and padding → anchored left'});
+ });
+ return out;
+}
+function scaffoldRule(project,block,{fix,report}){
+ const exception=notes(block).find(n=>/scaffold/i.test(n)&&/align|float|centre|center|anchor|gap/i.test(n)),out=layoutScaffolds(block,{fix,report},exception);
+ if(block.type!=='question')return out;
+ for(const {doc,owner,key} of documents(block)){
+  if(key!=='prompt'||owner?.type!=='part')continue;
+  for(const paragraph of doc.blocks){
+   if(paragraph.type!=='paragraph'||!SCAFFOLD_ID.test(paragraph.id??'')||!mathParagraph(paragraph))continue;
+   const problems=[];
+   if(paragraph.align==='right')problems.push('right-aligned');
+   if(Number(paragraph.spaceBefore)>PART_GAP_MM)problems.push(paragraph.spaceBefore+' mm above');
+   if(!problems.length)continue;
+   if(exception){out.push(report('scaffold-anchor',owner.id,'scaffold '+paragraph.id+' '+problems.join(', ')+'; local exception: '+exception));continue;}
+   if(fix){if(paragraph.align==='right')paragraph.align='left';if(Number(paragraph.spaceBefore)>PART_GAP_MM)paragraph.spaceBefore=1;}
+   out.push({rule:'scaffold-anchor',target:owner.id,action:'fix',detail:paragraph.id+': '+problems.join(', ')});
+  }
+ }
+ for(const [overrides,source] of [[project.settings?.layoutOverrides,'project'],[block.presentation?.layoutOverrides,'block']]){
+  const root=overrides?.blockLayouts?.[block.id]?.arrangement?.root;
+  if(!root)continue;
+  const visit=node=>{
+   if(node.type==='item'&&/\/prompt#[^#]*scaffold/i.test(node.ref??'')){
+    const problems=[];
+    if(['center','right'].includes(node.align))problems.push(node.align+'-aligned');
+    if(Number(node.before)>PART_GAP_MM)problems.push(node.before+' mm above');
+    if(problems.length){
+     if(exception)out.push(report('scaffold-anchor',block.id,'scaffold item '+node.id+' '+problems.join(', ')+'; local exception: '+exception));
+     else{
+      if(fix){if(['center','right'].includes(node.align))node.align='left';if(Number(node.before)>PART_GAP_MM)delete node.before;}
+      out.push({rule:'scaffold-anchor',target:block.id,action:'fix',detail:node.id+': '+problems.join(', ')+' ('+source+' layout)'});
+     }
+    }
+   }
+   for(const child of node.children??[])visit(child);
+  };
+  visit(root);
+ }
+ return out;
+}
+
+// ---------------------------------------------------------------- blanks in brackets (23 October 2026)
+// A box already inside parentheses becomes the teacher's parenthesised gap, (\rule{0pt}{5mm}\hspace{Nmm}), the
+// same width (src/lib/booklet-cloze-convention.js). It covers the components of a fraction and the hand-built
+// numerators and denominators of a scaffold (a layout scaffold, or a paragraph named for one). A box with no
+// brackets is left: whether the source printed brackets is for the review that sees the source.
+function bracketBlankRule(block,{fix,report}){
+ const out=[],exception=notes(block).find(n=>/for this question only|(?:user|teacher)[^.]*\b(?:keep|retain)[^.]*\b(?:box|dots|cloze)|(?:keep|retain)s? (?:the )?(?:outlined )?box(?:es)? (?:at|by|on) (?:user|teacher)/i.test(n));
+ for(const {doc,owner} of documents(block)){
+  const built=new Set();
+  nodes(doc,node=>{
+   if(node.type==='layout'&&node.arrangement==='scaffold')nodes(node,m=>{if(m.type==='math')built.add(m);});
+   if(node.type==='paragraph'&&/numerator|denominator|scaffold/i.test(node.id??''))for(const inline of node.inlines??[])if(inline.type==='math')built.add(inline);
+  });
+  nodes(doc,node=>{
+   if(node.type!=='math'||typeof node.latex!=='string')return;
+   const target=owner?.id??block.id;
+   const result=built.has(node)?bracketBlanks(node.latex,{where:'scaffold'}):fractionConvention(node.latex,{parens:true,components:false});
+   const fixable=result.issues.filter(i=>i.fixable),stuck=result.issues.filter(i=>!i.fixable);
+   if(fixable.length){
+    if(exception)for(const i of fixable)out.push(report('bracket-blank',target,i.detail+'; local exception: '+exception));
+    else{
+     const before=node.latex;
+     if(fix)node.latex=result.latex;
+     out.push({rule:'bracket-blank',target,action:'fix',detail:[...new Set(fixable.map(i=>i.kind))].join(', ')+': '+before.slice(0,60)});
+    }
+   }
+   for(const i of stuck)out.push(report('bracket-blank',target,i.detail+': '+node.latex.slice(0,60)));
+  });
+ }
+ return out;
+}
+
 // ---------------------------------------------------------------- driver
 export const RULES=Object.freeze({
  gutter:'Equals-sign gutter (checklist, 10 October 2026)',
- cloze:'Fraction boxes (a full scaffold keeps both boxes and the vinculum; blanks inside parentheses in a component are empty space), dotted clozes elsewhere, no dots in table cells or circles, cloze widths 2.2 mm/character + 6 mm, one size per question',
+ cloze:'Fraction boxes (a full scaffold keeps both boxes and the vinculum), dotted clozes elsewhere, no dots in table cells or circles, cloze widths 2.2 mm/character + 6 mm, one size per question',
  labels:'No lone "a" on investigations, worked examples and Key Ideas; Key Ideas numbered from 1; bold part labels without ")"',
  empty:'Empty paragraphs, empty answer groups under completed tables, stale layout groups',
  ratio:'Ratio scaffolds: no header fill, no borders, terms beside a narrow colon column',
@@ -465,6 +745,9 @@ export const RULES=Object.freeze({
  breaks:'Forced page breaks and source page boundaries (report only; `pages` measures empty space)',
  sequence:'Part labels restart inside a question (report only)',
  alignment:'Dormant table-cell alignment (report only)',
+ steps:'Worked-example steps numbered in red in the gutter (numberSteps true on steps[]; an ordered list of working becomes the red step table)',
+ 'scaffold-anchor':'Part scaffolds left-aligned under the part label with no gap above larger than 2 mm',
+ 'bracket-blank':'A box inside parentheses becomes the parenthesised gap, same width: (\\rule{0pt}{5mm}\\hspace{Nmm})',
 });
 export function exerciseStarts(project){
  const starts=new Set();
@@ -486,6 +769,9 @@ export function sweepProject(input,{fix=false,rules=Object.keys(RULES)}={}){
   if(on.has('cloze'))add(clozeRule(block,{fix,report}));
   if(on.has('empty'))add(emptyRule(project,block,{fix,report}));
   if(on.has('ratio'))add(ratioRule(block,{fix,report}));
+  if(on.has('steps'))add(stepsRule(block,{fix,report,project}));
+  if(on.has('scaffold-anchor'))add(scaffoldRule(project,block,{fix,report}));
+  if(on.has('bracket-blank'))add(bracketBlankRule(block,{fix,report}));
   if(on.has('tables'))add(fragmentedTables(block,{report}));
   if(on.has('breaks'))add(forcedBreaks(project,block,index,{report}));
   if(on.has('alignment'))add(dormantAlignment(block,[block.id]).map(h=>report('alignment',h.owner||block.id,'paragraph '+h.paragraph+' stored '+h.stored+', prints '+h.shown)));
@@ -501,16 +787,24 @@ function blockOwning(all,id){for(const block of all){if(block.id===id)return blo
 // What must not change: every word, number, expression and answer. Gutters,
 // cloze widths, labels and layout are presentation; this signature strips them.
 export function contentSignature(block){
- const parts=[];
+ const parts=[],lhs=[];
  const walk=(node,key)=>{
   if(node==null)return;
+  // Aligned working is its rows (the steps rule turns the rows into numbered steps); the left side of a row repeating the example's given counts once.
+  if(typeof node==='string'&&['latex','theorySolution'].includes(key)){
+   const rows=alignedRows(node);
+   if(rows?.length>1){for(const row of rows){parts.push('latex:'+row.rhs);if(row.lhs)lhs.push(row.lhs);}return;}
+  }
   // A blank is a blank whether it is drawn as a box, left as empty space (\phantom of the box) or dotted
   // with a stated width: the convention changes how it is drawn, never what it asks for.
-  if(typeof node==='string'){if(['text','latex','answer','expectedResponse','prompt','short','worked','theorySolution','solution_text','question_text'].includes(key))parts.push(key+':'+node.replaceAll(PHANTOM,'').replace(PHANTOM_BOX,'[blank]').replace(BOX,'[blank]').replace(SIZED_DOTS,'[blank]').trim());return;}
+  if(typeof node==='string'){if(['text','latex','answer','expectedResponse','prompt','short','worked','theorySolution','solution_text','question_text'].includes(key))parts.push(key+':'+node.replaceAll(PHANTOM,'').replace(PHANTOM_BOX,'[blank]').replace(BOX,'[blank]').replace(GAP,'[blank]').replace(SIZED_DOTS,'[blank]').trim());return;}
   if(typeof node!=='object')return;
   if(Array.isArray(node)){node.forEach(n=>walk(n,key));return;}
+  // A red step number ("1.") is gutter decoration the steps rule adds, not content.
+  if(node.type==='text'&&node.colour===STEP_RED&&/^\d+\.$/.test(String(node.text??'')))return;
   for(const [k,v] of Object.entries(node))if(!SKIP.has(k)&&k!=='label')walk(v,k);
  };
  walk({content:block.content,examples:block.examples},'');
+ for(const left of lhs)if(!parts.some(part=>sameMath(part.slice(part.indexOf(':')+1),left)))parts.push('lhs:'+left);
  return parts.filter(p=>p!=='text:');
 }

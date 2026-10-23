@@ -186,6 +186,16 @@ test('grid candidates are questions whose parts are all short',()=>{
  assert.deepEqual(gridCandidates({blocks:[short,long,grid,saved]}).map(b=>b.id),['S']);
 });
 
+test('grid candidates include questions whose parts are each one graph of at most half a column',()=>{
+ const graph=(id,widthMm,extra={})=>({id,type:'part',prompt:'',answerSpaceMm:50,questionDiagrams:[{id:id+'-graph',format:'tikz',widthMm}],answer:{short:'1',worked:'1'},...extra});
+ const graphs=question('F',10,{content:{children:[graph('a',72),graph('b',76),graph('c',54),graph('d',76)]}});
+ const wide=question('W',10,{content:{children:[graph('a',72),graph('b',120)]}});
+ const two=question('T',10,{content:{children:[{...graph('a',60),questionDiagrams:[{id:'x',widthMm:30},{id:'y',widthMm:30}]},graph('b',60)]}});
+ const dependent=question('D',10,{content:{children:[graph('a',60),graph('b',60,{dependsOn:['a']})]}});
+ const shared=question('R',10,{content:{questionDiagrams:[{id:'r',widthMm:60}],children:[graph('a',60),graph('b',60)]}});
+ assert.deepEqual(gridCandidates({blocks:[graphs,wide,two,dependent,shared]}).map(b=>b.id),['F']);
+});
+
 test('exercises that share a page with the section before are not optimised',()=>{
  const p=project(null,{sections:[{id:'s1',phase:'practice',topicId:'t',blocks:[question('A',10)]},{id:'s2',phase:'practice',topicId:'t',pageBreakBefore:false,blocks:[question('B',10)]}]});
  assert.deepEqual(optimisableSections(p).map(x=>x.section.id),['s1']);

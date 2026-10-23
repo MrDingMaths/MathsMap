@@ -4,6 +4,9 @@
 // patches; guards keep the edit to layout; one revision-safe save applies the
 // survivors; the automated checks and a bounded visual retry decide what stays. A finding
 // that cannot be applied, or does not verify, becomes a comment for the teacher.
+// Polish pipeline (23 October 2026): the findings that share a block are one batch, applied whole or not at all
+// (a keep-with-next without the space reductions that make it fit is worse than neither), and a batch that adds a
+// pagination issue or raises any edition's page count is reverted.
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -11,6 +14,8 @@ import {isDeepStrictEqual} from 'node:util';
 import {fragmentQuestion} from '../src/lib/booklet-pagination.js';
 import {normalizeArrangement} from '../public/libs/maths-editor/arrangement-model.mjs';
 import {normalizeBlockLayouts} from '../src/lib/booklet-layout.js';
+import {isPractice} from '../src/lib/booklet-flow.js';
+import {layoutSafetyIssues} from '../polish/guards.mjs';
 import {
  EDITIONS,contract,bookletIndex,overridesFor,blockEntry,compactLayout,blockHash,targetsUnchanged,provenanceFile,loadProvenance,saveProvenance,setState,commentNote,
  callWorker,pool,defaultRunner,defaultLease,defaultMapPages,defaultRenderImages,canonicalRunDir,contentHash,BASE
@@ -32,26 +37,49 @@ export const LEFT_AREAS=Object.freeze(['review','extension','duplicate']);
 const LAYOUT_FIELDS=new Set(['align','verticalAlign','spaceBefore','spaceAfter','marginBefore','marginAfter','padding','paddingMm','margin','widths','rowHeights','border','borders','borderColour','background','headerBackground','widthMm','width','heightMm','gap','minHeight','minHeightMm','answerSpaceMm','responseSpace','layout','columns','flow','fontSize','lineHeight','indent','display','header','headerRow','colspan','rowspan','pageBreakBefore','breakBefore','keepTogether','responseLabel','unlabelled','label','presentation','clozeStyle','style','preserveParagraphAlignment','arrangement','responseWidthMm',
  'backgroundColor','borderWidthMm','diagramPlacement','direction','weight','tail','gapMm','diagramWidthMm','rowLayout']);
 // Containers a table or cloze change has to rebuild; the content check guards what they hold.
-// examples and annotations were added for source-match (22 October 2026): worked-example rows and table arrows.
+// examples and annotations: worked-example rows and table arrows (22 October 2026).
 const STRUCTURE_FIELDS=new Set(['rows','cells','children','prompt','inlines','parts','items','blocks','examples','annotations']);
 // Answer-edition diagram sizes are per-diagram settings; the booklet-wide defaults are not repairs.
 const EDITION_SETTINGS=new Set(['diagramWidths','diagramStyles']);
 const pointerParts=field=>typeof field==='string'&&field.startsWith('/')?field.split('/').slice(1).map(part=>part.replace(/~1/g,'/').replace(/~0/g,'~')):null;
+// A patch that turns a page break on is never applied (23 October 2026, user decision): only exercise starts and topic banners start a
+// page, and the reviewer's "restore the source page break" repairs left half-empty pages inside a topic. Turning one off is fine.
+const BREAK_FLAGS=new Set(['pageBreakBefore','sourcePageBreakBefore','exercisePageBreakBefore','breakBefore']);
+export function addsPageBreak(patch){
+ const parts=pointerParts(patch?.field);
+ if(!parts?.length)return false;
+ const on=value=>value===true||value&&typeof value==='object'&&[...BREAK_FLAGS].some(flag=>value[flag]===true);
+ return BREAK_FLAGS.has(parts.at(-1))&&patch.corrected===true||parts.at(-1)==='flow'&&on(patch.corrected);
+}
 export function patchAllowed(patch){
  const parts=pointerParts(patch?.field);
  if(!parts?.length)return false;
+ if(addsPageBreak(patch))return false;
  if(patch.targetId==='project')return parts[0]==='settings'&&parts.length>2&&(parts[1]==='layoutOverrides'||parts[1]==='compactAnswers'&&EDITION_SETTINGS.has(parts[2])&&parts.length>3);
  const head=parts[0]==='content'?parts[1]:parts[0];
  // A source response label is a label like any other.
- // sourceReview.structure and .customArrangement record how a teaching block follows its source (source-match).
- if(head==='sourceReview')return parts.at(-1)==='label'||['structure','customArrangement'].includes(parts[parts.indexOf('sourceReview')+1]);
+ if(head==='sourceReview')return parts.at(-1)==='label';
  return head!==undefined&&(LAYOUT_FIELDS.has(head)||STRUCTURE_FIELDS.has(head));
+}
+
+// Part labels of a practice question run in one sequence (11 October 2026, user requested): taking the letters
+// off its parts, with an empty label or an empty source response label, changes what the question numbers, so it
+// is content there. A teaching block (an investigation, guided practice) printed without letters in the source may
+// lose them: the teacher's own rates-v1 does (23 October 2026).
+export function removesPracticeLabel(patch,blocks){
+ const parts=pointerParts(patch?.field);
+ // Letters printed (or automatic, original null) and now an empty label, or an explicit label now gone.
+ const gone=patch?.corrected===''?patch.original!=='':patch?.corrected==null&&patch.original!=null&&patch.original!=='';
+ if(!parts||parts.at(-1)!=='label'||!gone)return false;
+ const owns=(node,id)=>!!node&&typeof node==='object'&&(node.id===id||Object.values(node).some(child=>owns(child,id)));
+ const block=blocks.find(b=>b.id===patch.targetId||owns(b.content,patch.targetId));
+ return !!block&&isPractice(block);
 }
 
 // What a student reads or an answer key records, as a sorted list. Layout, labels, ids and
 // empty strings do not count; any answer string counts as an answer wherever it sits, so a
 // cloze answer may move into a response answer field.
-// sourceReview and the annotation references (cellId, toCellId, startAnchor, endAnchor, heads, side) are structure, not printed content (source-match, 22 October 2026).
+// sourceReview and the annotation references (cellId, toCellId, startAnchor, endAnchor, heads, side) are structure, not printed content (22 October 2026).
 const IGNORED_KEYS=new Set(['format','sourceReview','cellId','toCellId','startAnchor','endAnchor','heads','side','id','type','label','responseLabel','unlabelled','align','verticalAlign','background','headerBackground','border','borders','borderColour','layout','display','flow','presentation','style','clozeStyle','variant','arrangement','colour','color']);
 const ANSWER_KEYS=new Set(['answer','answers','short','worked','expected','solution']);
 export function contentTokens(value){
@@ -60,7 +88,7 @@ export function contentTokens(value){
   // A table arrow or equation annotation is a printed relationship: one token per entry, carrying its label.
   if(key==='annotations'&&Array.isArray(node))for(const entry of node)if(entry&&typeof entry==='object')tokens.push('ann:'+String(entry.label??'').replace(/\s+/g,' ').trim());
   if(Array.isArray(node))return node.forEach(child=>walk(child,key,answer));
-  if(typeof node==='string'){const textValue=node.replace(/\s+/g,' ').trim();if(textValue&&!IGNORED_KEYS.has(key))tokens.push((answer?'ans:':'c:')+textValue);return;}
+  if(typeof node==='string'||answer&&['number','boolean'].includes(typeof node)){const textValue=String(node).replace(/\s+/g,' ').trim();if(textValue&&!IGNORED_KEYS.has(key))tokens.push((answer?'ans:':'c:')+textValue);return;}
   if(!node||typeof node!=='object')return;
   for(const [name,child] of Object.entries(node)){
    if(IGNORED_KEYS.has(name)||LAYOUT_FIELDS.has(name)&&typeof child!=='object'&&!ANSWER_KEYS.has(name))continue;
@@ -70,7 +98,7 @@ export function contentTokens(value){
  walk(value,'',false);
  return tokens.sort();
 }
-// Annotation tokens may only grow (source-match adds arrows); a removed arrow or a changed label is a content change.
+// Annotation tokens may only grow (a repair may add arrows); a removed arrow or a changed label is a content change.
 // Anchors, curve, distance and side stay layout.
 export function sameContent(before,after){
  const split=tokens=>({plain:tokens.filter(t=>!t.startsWith('ann:')),ann:tokens.filter(t=>t.startsWith('ann:'))});
@@ -97,7 +125,7 @@ const countHoles=value=>Array.isArray(value)?value.reduce((sum,child)=>sum+(chil
 // Each correction (one finding) is applied, in order, on a running clone of the affected
 // blocks. A correction that does not match, touches a forbidden field, loses content, or
 // conflicts with an earlier one (its original no longer matches) becomes a comment.
-export function trialApply({blocks,settings,corrections,applyCorrections,preflight=null}){
+export function trialApply({blocks,settings,corrections,applyCorrections,preflight=null,safetyGuard=null}){
  const accepted=[],comments=[];
  const run=structuredClone(blocks),holder={id:'project',settings:structuredClone(settings??{})};
  for(const correction of corrections){
@@ -108,12 +136,17 @@ export function trialApply({blocks,settings,corrections,applyCorrections,preflig
   if(!patches.length){fail('The worker returned no patch.');continue;}
   const bad=patches.find(patch=>!patchAllowed(patch));
   if(bad){fail(`Patch on ${bad.targetId}${bad.field} is not a layout field.`);continue;}
+  const unlabel=patches.find(patch=>removesPracticeLabel(patch,run));
+  if(unlabel){fail(`Patch on ${unlabel.targetId}${unlabel.field} takes the letters off a practice question; its part labels are content.`);continue;}
   if(patches.some(patch=>isDeepStrictEqual(patch.original??null,patch.corrected??null))){fail('A patch changes nothing.');continue;}
   const trial=structuredClone(run),trialHolder={id:'project',settings:structuredClone(holder.settings)};
   const outcome=applyCorrections([...trial,trialHolder],[{...correction,patches}]);
   const rejected=(outcome.rejected??[]).filter(row=>row.status==='rejected');
   if(rejected.length){fail('Does not apply: '+rejected.map(row=>`${row.targetId}${row.field} (${row.error})`).join('; '));continue;}
   if(!outcome.applied?.length){fail('Applies nothing.');continue;}
+  const unsafe=trial.flatMap((block,i)=>layoutSafetyIssues(run[i],block));
+  if(safetyGuard)unsafe.push(...safetyGuard(trial,trialHolder.settings));
+  if(unsafe.length){fail('Unsafe layout repair: '+unsafe.join('; '));continue;}
   // A list entry set to null leaves a hole the project validator rejects on save.
   const holes=trial.filter((block,i)=>countHoles(block)>countHoles(run[i]));
   if(holes.length){fail('Would leave an empty entry in a list in '+holes.map(block=>block.id).join(', ')+'; remove the entry by rewriting its list.');continue;}
@@ -144,6 +177,36 @@ export function trialApply({blocks,settings,corrections,applyCorrections,preflig
 }
 // The same patches undone, last first.
 export const inversePatches=corrections=>corrections.map(correction=>({id:correction.id+'-revert',reason:'Revert '+correction.id,patches:[...correction.patches].reverse().map(patch=>({targetId:patch.targetId,field:patch.field,original:patch.corrected,corrected:patch.original}))})).reverse();
+
+// A batch is the findings that share a block (groupFindings). trialApply accepts corrections one by one; here a batch
+// with a finding the worker declined or the trial refused loses its other corrections too, and the rest is tried
+// again without them, so a half-applied batch never reaches the save.
+export function atomicTrial({blocks,settings,corrections,applyCorrections,preflight=null,safetyGuard=null,groups,declined=new Set()}){
+ let list=corrections;const dropped=[];
+ for(let round=0;round<5;round++){
+  const trial=trialApply({blocks,settings,corrections:list,applyCorrections,preflight,safetyGuard});
+  const failed=new Set([...declined,...trial.comments.map(row=>row.findingId)]),accepted=new Set(trial.accepted.map(row=>row.id));
+  const broken=groups.filter(group=>group.some(finding=>failed.has(finding.id))&&group.some(finding=>accepted.has(finding.id)));
+  if(!broken.length)return {...trial,dropped};
+  for(const group of broken){
+   const culprit=group.find(finding=>failed.has(finding.id)).id;
+   for(const finding of group)if(accepted.has(finding.id)){dropped.push({findingId:finding.id,why:'Not applied with its batch: '+culprit+' could not be applied.'});list=list.filter(row=>row.id!==finding.id);}
+  }
+ }
+ return {...trialApply({blocks,settings,corrections:list,applyCorrections,preflight,safetyGuard}),dropped};
+}
+// What a repair made worse in pagination: more pages in any edition, or a pagination issue (oversized-content and
+// the like) the earlier layout did not have. `before` and `after` are page maps (first-pass/review.mjs).
+export function paginationRegression(before,after){
+ const reasons=[],key=issue=>issue.kind+':'+issue.id;
+ for(const edition of EDITIONS){
+  const was=before?.[edition]?.length,now=after?.[edition]?.length;
+  if(Number.isInteger(was)&&Number.isInteger(now)&&now>was)reasons.push(`${edition} grew from ${was} to ${now} pages`);
+  const known=new Set((before?.issues?.[edition]??[]).map(key));
+  for(const issue of after?.issues?.[edition]??[])if(!known.has(key(issue)))reasons.push(`${edition} has a new ${issue.kind} issue on ${issue.id}`);
+ }
+ return reasons;
+}
 
 // ---- worker --------------------------------------------------------------------------------
 
@@ -255,11 +318,10 @@ export const RENDERER_FIELDS=`Fields the renderer reads (checked against the cod
 - Tables and cells: widths, rowHeights, border, borderWidthMm, backgroundColor, align, verticalAlign, header.
 - Answer editions: block.presentation.answerPartLabels.short|worked[nodeId] is the label suffix shown after the question number in that edition only (for example "a" gives 4a instead of 4(1)a); presentation.shortAnswerGroupStarts lists node ids that start a new Short answers row; presentation.shortAnswerTableFullWidth:true lets a completed short-answer table use the full page width; settings.compactAnswers.diagramWidths[diagramId] = {short:mm, worked:mm} and diagramStyles[edition][diagramId].widthMm size a diagram in one answer edition only.
 - Worked examples and teaching: presentation.layout ("columns", "worked-rows") with presentation.columns, presentation.numberSteps, presentation.showLabels; presentation.sourceResponseLabels:true with sourceReview.responses[].label shows source response labels; presentation.reviewNumbering:"source".
-- Flow (block.flow): pageBreakBefore:true starts a new page; in the Questions edition sourcePageBreakBefore:true also does unless pageBreakBefore is false, so set pageBreakBefore:false to remove a source break. keepTogether and keepWithNext keep a block with its continuation or the next block.
+- Flow (block.flow): pageBreakBefore:true starts a new page; in the Questions edition sourcePageBreakBefore:true also does unless pageBreakBefore is false, so set pageBreakBefore:false to remove a source break. Never turn a page break on (a patch that sets pageBreakBefore, sourcePageBreakBefore or exercisePageBreakBefore to true is refused). keepTogether and keepWithNext keep a block with its continuation or the next block.
 - Worked-example rows (added 22 October 2026): block.examples[].rowLayout {gapMm, aboveMm, belowMm, minHeightMm}; presentation.layout "worked-rows" stacks the examples as rows, "columns" sets them side by side (presentation.columns); presentation.numberSteps numbers the steps. A paragraph's indent (mm of left padding), spaceBefore, spaceAfter, align and lineHeight are its own fields.
 - Table arrows (added 22 October 2026): table.annotations is a list of {id, type:"arrow"|"circle"|"box", cellId, toCellId, side:"top"|"bottom"|"middle", label, colour, heads:"none"|"start"|"end"|"both", distanceMm, curveMm, thicknessMm, labelOffsetMm}; cell ids are table cell node ids and an arrow joins two cells.
-- Annotated equations (added 22 October 2026): an annotated-equation node has annotations [{targetId (an anchor id), placement:"above"|"below", decoration:"arrow"|"bracket"|"highlight"|"none", colour}], connections [{fromId, toId, colour, height}], gap, arrowSpace, width and align.
-- Structure record (added 22 October 2026): sourceReview.structure is {preset, signatureHash}; a custom arrangement also has sourceReview.customArrangement {reason}.`;
+- Annotated equations (added 22 October 2026): an annotated-equation node has annotations [{targetId (an anchor id), placement:"above"|"below", decoration:"arrow"|"bracket"|"highlight"|"none", colour}], connections [{fromId, toId, colour, height}], gap, arrowSpace, width and align.`;
 export function rendererCapabilities(root){
  const sources=[['src/lib/booklet-labels.js',65,110],['src/lib/booklet-exercises.js',10,40],['src/lib/booklet-short-answer-grid.js',60,70],['src/components/PracticeQuestionRenderer.svelte',27,39],['src/components/BookletArrangement.svelte',20,72],['public/libs/maths-editor/arrangement-model.mjs',12,31],['public/libs/maths-editor/document-model.mjs',131,146],['public/libs/maths-editor/document-model.mjs',192,206],['public/libs/maths-editor/document-model.mjs',235,241]];
  return {catalogue:RENDERER_FIELDS,notes:'The excerpts are actual renderer code. Do not invent controls: prove the renderer consumes any proposed field. Preserve continuation table ownership, content and response answers. Existing custom arrangement sizes or layoutOverrides can override node sizes. A change of printed page number alone is not a defect if the requested grouping is achieved.',sources:sources.filter(([file])=>fs.existsSync(path.join(root,file))).map(([file,start,end])=>({file,code:fs.readFileSync(path.join(root,file),'utf8').split(/\r?\n/).slice(start,end).join('\n')}))};
@@ -332,7 +394,11 @@ export async function defaultVerify({project,projectFile,root,workDir,runDir,run
   verdicts.push(row?{...row,edition:task.edition}:{id:task.row.id,edition:task.edition,fixed:false,regressed:false,unverified:true,note:'No verdict returned.'});
  });
  const findings=accepted.map(row=>{const own=verdicts.filter(v=>v.id===row.id);return {id:row.id,fixed:own.length>0&&own.every(v=>v.fixed===true),regressed:own.some(v=>v.regressed===true),unverified:own.some(v=>v.unverified===true),note:own.map(v=>v.edition+': '+v.note).join('; ')};});
- return {automated,findings,after:after.report,evidence};
+ return {automated,findings,after:after.report,evidence,pagination:paginationRegression(before?.pagemap,mapped)};
+}
+// The page map alone, for trying one batch at a time after a round raised the page count.
+export async function defaultCheckPagination({project,workDir,before,base,root}){
+ return paginationRegression(before?.pagemap,await defaultMapPages({project,dir:path.join(workDir,'pagination-'+contentHash(project).slice(0,12)),base,fresh:true,root}));
 }
 export function verificationTasks({accepted,findingDetails={},index,before,after,editions}){
  return accepted.flatMap(row=>{
@@ -385,7 +451,7 @@ export async function saveRepair(applyRepair,options,{attempts=6,wait=ms=>new Pr
 // Queue mode (17 October 2026): `findingIds` names pending findings to attempt again with the
 // widened worker access, whatever their earlier outcome. Each gets one queue rerun; its
 // in-run retry is used only if the earlier attempts never consumed one.
-export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workDir,concurrency=3,runner=defaultRunner,lease=defaultLease,verify=defaultVerify,renderBefore=verify===defaultVerify?defaultRenderBefore:null,retry=true,retryFindings=[],findingIds=null,queueLabel=null,base=BASE,log=()=>{}}={}){
+export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workDir,concurrency=3,runner=defaultRunner,lease=defaultLease,verify=defaultVerify,renderBefore=verify===defaultVerify?defaultRenderBefore:null,checkPagination=verify===defaultVerify?defaultCheckPagination:null,retry=true,retryFindings=[],findingIds=null,queueLabel=null,base=BASE,safetyGuard=null,log=()=>{}}={}){
  if(!runDir)throw Error('Name a run folder for the corrections file');
  const {applyCorrections,applyRepair}=await repairModule();
  const handle=await openProject(projectFile,root),project=handle.project,index=bookletIndex(project),file=provenanceFile(project.id,{root,provenanceDir}),record=loadProvenance(file,project);
@@ -428,8 +494,10 @@ export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workD
   try{
    const {result}=await callWorker({runner,lease,canonicalRunDir:canonical,workDir,name:recovery.size?'repair-retry':'repair',prompt:recovery.size?'This is the final retry. The previous repair was reverted as ineffective. Use verificationFeedback, the attached page images and the actual renderer excerpts to choose a different safe layout change, or return a comment.\n'+prompt:prompt,images:visuals?.images??[]});
    const seen=new Set();
-   for(const row of Array.isArray(result?.corrections)?result.corrections:[])if(byId.has(row?.id)&&!seen.has(row.id)){seen.add(row.id);corrections.push(row);}
-   for(const row of Array.isArray(result?.comments)?result.comments:[])if(byId.has(row?.findingId)&&!seen.has(row.findingId)){seen.add(row.findingId);comments.set(row.findingId,String(row.why??'Not expressible as layout.'));}
+   // A worker answers for the findings of its own batch only (another batch's finding in its reply is not a second correction).
+   const own=id=>group.some(finding=>finding.id===id);
+   for(const row of Array.isArray(result?.corrections)?result.corrections:[])if(byId.has(row?.id)&&own(row.id)&&!seen.has(row.id)){seen.add(row.id);corrections.push(row);}
+   for(const row of Array.isArray(result?.comments)?result.comments:[])if(byId.has(row?.findingId)&&own(row.findingId)&&!seen.has(row.findingId)){seen.add(row.findingId);comments.set(row.findingId,String(row.why??'Not expressible as layout.'));}
    for(const finding of group)if(!seen.has(finding.id))comments.set(finding.id,'The repair worker returned nothing for this finding.');
   }catch(error){call.error=error.message;for(const finding of group)comments.set(finding.id,'Repair worker failed: '+error.message);}
  });
@@ -438,8 +506,9 @@ export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workD
  const touchedIds=[...targetBlocks,...neighbours];
  const {structuralPreflight}=await import('../scripts/booklet/feedback-preflight.mjs');
  const preflight=(blocks,settings)=>structuralPreflight({id:project.id,revision:project.revision,sections:[{id:'first-pass-trial',phase:'practice',blocks}],settings},{blockIds:blocks.map(block=>block.id)}).issues.filter(issue=>/arrangement/.test(issue.kind)).map(issue=>`${issue.blockId} ${issue.kind} ${issue.ref??issue.message??''}`.trim());
- const trial=trialApply({blocks:blockList(project,touchedIds),settings:project.settings,corrections,applyCorrections,preflight});
- for(const row of trial.comments)comments.set(row.findingId,row.why);
+ const guard=safetyGuard?(blocks,settings)=>{const by=new Map(blocks.map(b=>[b.id,b]));return safetyGuard({...project,settings,sections:project.sections.map(s=>({...s,blocks:s.blocks.map(b=>by.get(b.id)??b)}))});}:null;
+ const trial=atomicTrial({blocks:blockList(project,touchedIds),settings:project.settings,corrections,applyCorrections,preflight,safetyGuard:guard,groups:groupFindings(current),declined:new Set(comments.keys())});
+ for(const row of [...trial.comments,...trial.dropped])comments.set(row.findingId,row.why);
  let accepted=trial.accepted;
  const outcome={project:project.id,applied:[],reverted:[],comment:[],left:left.map(finding=>finding.id),stale:stale.map(finding=>finding.id),errors:[],calls,retries:[],verificationAttempts:[]};
  if(recovery.size)outcome.retries=current.map(f=>({id:f.id,kind:recovery.get(f.id).kind,note:recovery.get(f.id).note,historical:true}));
@@ -475,6 +544,29 @@ export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workD
    await saveRepair(applyRepair,{runDir,projectFile,correctionsFile:undoFile,root});
   };
   let verdicts=await verifyOnce(saved,accepted);
+  // A round that raised a page count or created a pagination issue is taken back whole; where several batches were
+  // applied, each is then tried alone and only the ones that leave pagination as it was stay.
+  if(verdicts.pagination?.length){
+   const reasons=verdicts.pagination,batches=groupFindings(accepted.map(row=>byId.get(row.id)));
+   log('Pagination got worse ('+reasons.join('; ')+'); reverting the round.');
+   await undoRows(accepted);
+   const kept=[];
+   for(const batch of batches){
+    const rows=accepted.filter(row=>batch.some(finding=>finding.id===row.id)),single=batches.length===1||!checkPagination;
+    let why=reasons;
+    if(!single){
+     const file=path.join(runDir,'batch-'+now().replace(/[:.]/g,'-')+'.json');
+     fs.writeFileSync(file,JSON.stringify({project:project.id,corrections:rows},null,1)+'\n');
+     await saveRepair(applyRepair,{runDir,projectFile,correctionsFile:file,root});
+     why=await checkPagination({project:read(handle.file),workDir,before,base,root});
+     if(!why.length){kept.push(...rows);continue;}
+     await undoRows(rows);
+    }
+    for(const row of rows){outcome.reverted.push(row.id);comments.set(row.id,'Reverted: its batch made pagination worse ('+why.join('; ')+').');}
+   }
+   accepted=kept;
+   verdicts=kept.length?await verifyOnce(read(handle.file),kept):{automated:verdicts.automated,findings:[]};
+  }
   const initialVerdicts=new Map((verdicts.findings??[]).map(row=>[row.id,row]));
   // A queue rerun keeps the one-retry budget: a finding that already used its retry gets none.
   const retryable=retry?accepted.filter(row=>{const v=initialVerdicts.get(row.id);return !(named&&byId.get(row.id).retryUsed)&&(!v||(v.regressed!==true&&v.fixed!==true));}):[];
@@ -505,7 +597,7 @@ export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workD
      }catch(error){call.error=error.message;for(const f of group)comments.set(f.id,'Retry repair failed: '+error.message);}
     });
     retryCorrections.sort((a,b)=>current.findIndex(f=>f.id===a.id)-current.findIndex(f=>f.id===b.id));
-    const retrial=trialApply({blocks:blockList(snapshot,touchedIds),settings:snapshot.settings,corrections:retryCorrections,applyCorrections,preflight});
+    const retrial=trialApply({blocks:blockList(snapshot,touchedIds),settings:snapshot.settings,corrections:retryCorrections,applyCorrections,preflight,safetyGuard:guard});
     for(const row of retrial.comments)comments.set(row.findingId,row.why);
     if(retrial.accepted.length){
      const retryFile=path.join(runDir,'retry-corrections-'+now().replace(/[:.]/g,'-')+'.json');
@@ -522,8 +614,12 @@ export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workD
   if(verdicts.error)outcome.errors.push('Verification failed: '+verdicts.error);
   const verdict=new Map((verdicts.findings??[]).map(row=>[row.id,row]));
   // No verdict, an unfixed defect or a regression all revert: nothing unverified stays.
-  const bad=accepted.filter(row=>{const v=verdict.get(row.id);return !v||v.fixed!==true||v.regressed===true;});
-  for(const row of bad)comments.set(row.id,'Reverted after verification: '+(verdict.get(row.id)?.note||'no verdict returned')+'.');
+  const failing=accepted.filter(row=>{const v=verdict.get(row.id);return !v||v.fixed!==true||v.regressed===true;});
+  for(const row of failing)comments.set(row.id,'Reverted after verification: '+(verdict.get(row.id)?.note||'no verdict returned')+'.');
+  // One failing finding takes its whole batch back with it.
+  const batches=groupFindings(accepted.map(item=>byId.get(item.id))),spoiled=new Set(failing.flatMap(row=>batches.find(batch=>batch.some(finding=>finding.id===row.id))?.map(finding=>finding.id)??[]));
+  const bad=accepted.filter(row=>spoiled.has(row.id));
+  for(const row of bad)if(!failing.includes(row))comments.set(row.id,'Reverted with its batch: another finding on the same blocks did not verify.');
   if(bad.length){
    await undoRows(bad);
    for(const row of bad)outcome.reverted.push(row.id);

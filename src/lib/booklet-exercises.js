@@ -199,7 +199,9 @@ export function exerciseUnits(section, blocks = section.blocks) {
   // Dependencies and keep-with-next constraints join the whole intervening range.
   const ownedNodes=b=>{const found=[b];const visit=n=>{if(!n||typeof n!=='object')return;if(n.id)found.push(n);for(const c of n.children??[])visit(c);};visit(b.content);return found;};
   const owner=new Map(units.flatMap((u,j)=>u.blocks.flatMap(b=>ownedNodes(b).map(n=>[n.id,j])))),joined=new Set();
-  const references=b=>[...(b.dependsOn??[]),b.pairedBlockId,b.flow?.continuationOf??b.continuationOf].filter(Boolean);
+  // flow.dependsOn is the layout-level order dependency of the polish pipeline (it keeps a question after the one it
+  // scaffolds from or refers to, with no meaning for the bank); dependsOn is the content-level one.
+  const references=b=>[...(b.dependsOn??[]),...(b.flow?.dependsOn??[]),b.pairedBlockId,b.flow?.continuationOf??b.continuationOf].filter(Boolean);
   let unresolved=false;
   for(const b of blocks.flatMap(ownedNodes))if(references(b).some(id=>!owner.has(id)))unresolved=true;
   units.forEach((u,j)=>u.blocks.flatMap(ownedNodes).forEach(b=>{

@@ -82,6 +82,10 @@ export function applyWorkingSpaceFit(fit, estimate, floorMm = 8) {
 // inline, scaffold, native table cells) stay 0.
 export function calibratedWorkingSpace(node, opts = {}, calibration = WORKING_SPACE_CALIBRATION_20261022) {
   const {importMm, ...estimateOptions} = opts;
+  // An explicit imported zero is a response contract (for example a native
+  // table supplies all cells), not missing estimation data. Deterministic
+  // calibration must not invent an extra external writing area from its key.
+  if(importMm===0&&node.answerSpaceMm===0)return 0;
   const kind = estimateOptions.responseKind ?? 'working';
   const estimate = estimateWorkedWritingSpace(node, {...estimateOptions, preserveExplicit: false});
   if (!(estimate > 0)) return 0;

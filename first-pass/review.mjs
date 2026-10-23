@@ -13,10 +13,10 @@ import {conflictsWithDecidedConvention} from '../src/lib/booklet-cloze-conventio
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const BASE='http://127.0.0.1:5173';
-export const LIMITS=Object.freeze({concurrency:3,studentPages:10,answerPages:6,blockCharacters:1800,payloadCharacters:90000,nodes:60,similarPerKind:2,similarBlocks:12,similarCharacters:12000,sourceImages:4,blockArgument:24000});
+export const LIMITS=Object.freeze({concurrency:3,studentPages:6,answerPages:6,blockCharacters:1800,payloadCharacters:90000,nodes:60,similarPerKind:2,similarBlocks:12,similarCharacters:12000,sourceImages:8,blockArgument:24000});
 export const EDITIONS=Object.freeze(['student','short','worked']);
 export const EDITION_NAMES=Object.freeze({student:'Questions',short:'Short answers',worked:'Worked solutions'});
-export const AREAS=Object.freeze(['pagination','spacing','labels','response','table','diagram','alignment','answers','review','extension','duplicate']);
+export const AREAS=Object.freeze(['pagination','spacing','labels','response','table','diagram','alignment','answers','content','review','extension','duplicate']);
 const SCOPES=['local','all'];
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const sha=value=>createHash('sha256').update(value).digest('hex');
@@ -166,21 +166,21 @@ export function decidedFor(record,blockIds){
  const wanted=new Set(blockIds),state=finding=>finding.state==='rejected'?'rejected':finding.state==='approved'?'kept':finding.commentId&&['pending','stale'].includes(finding.state)?'open':null;
  return (record.findings??[]).filter(finding=>state(finding)&&finding.targets.some(target=>wanted.has(target.blockId))).map(finding=>({state:state(finding),edition:finding.edition,area:finding.area,targets:finding.targets.map(target=>target.id),comment:finding.comment}));
 }
-export function batchPrompt({project,index,edition,rows,pagemap,record={findings:[]},source=[],root=ROOT}){
+export function batchPrompt({project,index,edition,rows,pagemap,record={findings:[]},source=[],root=ROOT,textbook=false}){
  const ids=[...new Set(rows.flatMap(row=>row.blocks.map(block=>block.id)))].filter(id=>index.blocks.has(id));
  const payload={booklet:project.title??project.id,course:project.settings?.cover?.course??null,edition,pages:rows,
   blocks:edition==='student'?ids.map(id=>blockEntry(project,index,id)).filter(Boolean):ids.map(id=>textEntry(index,id)).filter(Boolean),
   similar:edition==='student'?similarBlocks(project,index,ids,pagemap.student):[],
   decided:decidedFor(record,ids),...(source.length?{source:source.map(row=>({sourcePage:row.page}))}:{})};
- const build=()=>contract({root})+'\n\n'+FRAMING+'\n\nInput:\n'+JSON.stringify(payload);
+ const build=()=>contract({root})+'\n\n'+FRAMING+(textbook?'\n\nTextbook import override: do not assess pedagogy, opening reviews, extensions, bridging questions or teaching-sequence redesign. Return only source/content and presentation defects; never return review or extension findings.':'')+'\n\nInput:\n'+JSON.stringify(payload);
  let prompt=build();
  // Too large: drop the comparisons first, then cut block layouts to a line of text.
  if(prompt.length>LIMITS.payloadCharacters&&payload.similar.length){payload.similar=[];prompt=build();}
  if(prompt.length>LIMITS.payloadCharacters&&edition==='student'){payload.blocks=payload.blocks.map(block=>({...block,layout:{id:block.id,type:block.type,text:textOf(index.blocks.get(block.id)?.block)}}));prompt=build();}
  return {prompt,payload};
 }
-// At most ten Questions pages or six answer pages per call, one edition per
-// call, and a new call before the prompt passes the size limit.
+// At most six pages per call (polish pipeline, 23 October 2026: the source pages of the batch's own blocks, up to
+// eight, travel with them), one edition per call, and a new call before the prompt passes the size limit.
 export function planBatches({project,index,selection,pagemap,record,root=ROOT}){
  const batches=[];
  for(const edition of EDITIONS){
@@ -194,7 +194,8 @@ export function planBatches({project,index,selection,pagemap,record,root=ROOT}){
  }
  return batches;
 }
-// Source page images for the blocks on a Questions batch, when the import run kept them.
+// Source page images for the blocks on a Questions batch, when the import run kept them: the pages of the batch's
+// own blocks (sourcePageNumber, then sourceRefs), in the order the blocks print, at most `limit`.
 export function sourceImages(index,rows,runDir,{limit=LIMITS.sourceImages}={}){
  if(!runDir)return [];
  const pages=[];
@@ -248,6 +249,8 @@ async function renderPageMapInner(project,{base=BASE,editions=EDITIONS}={}){
     for(const el of element.querySelectorAll('[data-question-id],[data-node-id],[data-diagram-id]')){const id=el.dataset.questionId||el.dataset.nodeId||el.dataset.diagramId;if(id&&!nodes.includes(id))nodes.push(id);}
     return {page:i+1,blocks:element.dataset.flowBlocks?.split(',').filter(Boolean)??[],nodes:nodes.slice(0,80),isAnswer:!!element.querySelector('.compact-answer,.answer-columns,[id*="answer-section-"]'),isCover:!!element.querySelector('.booklet-cover,.project-cover')};
    }));
+   // The paginator's own issues for this edition (oversized-content and the like): a repair that adds one is reverted.
+   (result.issues??={})[edition]=await page.evaluate(()=>{try{return JSON.parse(document.querySelector('.project-print')?.dataset.layoutIssues||'[]').map(issue=>({kind:issue.kind,id:issue.id,message:issue.message}));}catch{return [];}});
    await page.emulateMedia({media:'screen'});
   }
   return result;
@@ -412,7 +415,9 @@ export function canonicalRunDir(project,{root=ROOT}={}){
 // ---- review --------------------------------------------------------------------------------
 
 const describeBatch=batch=>({edition:batch.edition,pages:batch.rows.map(row=>row.page)});
-export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITIONS,concurrency=LIMITS.concurrency,dry=false,fresh=false,source=false,base=BASE,runner=defaultRunner,lease=defaultLease,mapPages=defaultMapPages,renderImages=defaultRenderImages,provenanceDir,workDir,runDir,log=()=>{}}={}){
+// reportOnly (polish residual check): the same review and contract; the findings of this run are returned as
+// `residual`, and the record is saved only into an explicitly named --provenance-dir, never the booklet's own.
+export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITIONS,concurrency=LIMITS.concurrency,dry=false,fresh=false,source=false,reportOnly=false,textbook=false,base=BASE,runner=defaultRunner,lease=defaultLease,mapPages=defaultMapPages,renderImages=defaultRenderImages,provenanceDir,workDir,runDir,log=()=>{}}={}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>LIMITS.concurrency)throw Error('Use one to three workers');
  if(!editions.length||editions.some(edition=>!EDITIONS.includes(edition)))throw Error('--editions takes student, short and worked');
  const project=read(projectFile),index=bookletIndex(project),hash=contentHash(project);
@@ -434,7 +439,7 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
  const found=[],unreliable=[],calls=[],errors=[],reviewed={student:new Set(),short:new Set(),worked:new Set()},reviewedPages={student:new Set(),short:new Set(),worked:new Set()};
  await pool(batches,concurrency,async(batch,i)=>{
   const extra=source&&batch.edition==='student'?sourceImages(index,batch.rows,runDir):[];
-  const {prompt}=batchPrompt({project,index,edition:batch.edition,rows:batch.rows,pagemap,record,source:extra,root});
+  const {prompt}=batchPrompt({project,index,edition:batch.edition,rows:batch.rows,pagemap,record,source:extra,root,textbook});
   const blockIds=[...new Set(batch.rows.flatMap(row=>row.blocks.map(block=>block.id)))],pageNumbers=batch.rows.map(row=>row.page);
   const call={batch:i,...describeBatch(batch),findings:0,discarded:[]};calls.push(call);
   try{
@@ -444,6 +449,7 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
    const {result,usage,elapsedMs,out}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,name:batch.edition+'-'+pageNumbers[0],prompt,images});
    Object.assign(call,{usage,elapsedMs,out:relative(root,out)});
    for(const raw of Array.isArray(result?.findings)?result.findings:[]){
+    if(textbook&&['review','extension'].includes(raw.area)){call.discarded.push('Excluded from textbook import: '+raw.area);continue;}
     const {value,error}=normalise(raw,{index,edition:batch.edition,blockIds,pages:pageNumbers});
     if(error){call.discarded.push(error);continue;}
     found.push({id:findingId(value.area,value.edition,value.targets),...value,targets:targetRows(project,index,value.targets),revision:project.revision??null,batch:i});call.findings++;
@@ -452,13 +458,14 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
    blockIds.forEach(id=>reviewed[batch.edition].add(id));pageNumbers.forEach(page=>reviewedPages[batch.edition].add(page));
   }catch(error){call.error=error.message;errors.push(`${batch.edition} ${pageNumbers.join(',')}: ${error.message}`);}
  });
- calls.sort((a,b)=>a.batch-b.batch);found.sort((a,b)=>a.batch-b.batch||EDITIONS.indexOf(a.edition)-EDITIONS.indexOf(b.edition)||(a.page??Infinity)-(b.page??Infinity));
+calls.sort((a,b)=>a.batch-b.batch);found.sort((a,b)=>a.batch-b.batch||EDITIONS.indexOf(a.edition)-EDITIONS.indexOf(b.edition)||(a.page??Infinity)-(b.page??Infinity));
+ const residual=found.map(({batch,...finding})=>({id:finding.id,edition:finding.edition,page:finding.page,area:finding.area,scope:finding.scope,targets:finding.targets.map(target=>target.id),comment:finding.comment,...(finding.proposal?{proposal:finding.proposal}:{})}));
  const merged=mergeFindings(record.findings??[],found.map(({batch,...finding})=>finding),{reviewed,project,index});
  Object.assign(record,{projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),model:'gpt-6.1-sol',effort:'low',findings:merged.findings,
   notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!reviewedPages[row.edition]?.has(row.page)),...unreliable],
   lastRun:{contentHash:hash,pages:plan.reviewed,calls,suppressed:merged.suppressed,render:{report:rendered.report,reused:rendered.reused,automatedFailures:(rendered.failures??[]).map(row=>row.kind+(row.count?' ×'+row.count:''))},errors}});
- saveProvenance(file,record);
- return {...summary(record,project),provenance:relative(root,file),calls:calls.map(({out,...call})=>call),errors};
+ if(!reportOnly||provenanceDir)saveProvenance(file,record);
+ return {...summary(record,project),provenance:relative(root,file),calls:calls.map(({out,...call})=>call),errors,...(reportOnly?{reportOnly:true,residual,pageCounts:plan.pageCounts}:{})};
 }
 const brief=finding=>({id:finding.id,state:finding.state,edition:finding.edition,page:finding.page,area:finding.area,scope:finding.scope,targets:finding.targets.map(target=>target.id),comment:finding.comment,...(finding.proposal?{proposal:finding.proposal}:{}),...(finding.commentId?{posted:true}:{})});
 export function summary(record,project){
@@ -560,7 +567,7 @@ export async function reconcile({projectFile,root=ROOT,provenanceDir,triaged=fal
 export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
-  if(['--fresh','--source','--dry','--triaged','--queues'].includes(args[i])){flags.add(args[i]);continue;}
+  if(['--fresh','--source','--dry','--triaged','--queues','--report-only'].includes(args[i])){flags.add(args[i]);continue;}
   if(!['--project','--project-file','--pages','--editions','--concurrency','--provenance-dir','--base','--findings','--approve','--reject','--resolve'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
@@ -575,7 +582,7 @@ export async function main(args=process.argv.slice(2)){
  const log=message=>console.error(message),options={projectFile,provenanceDir,pages:parsePages(values['--pages']),editions:values['--editions']?list('--editions'):EDITIONS,base:values['--base']??BASE,fresh:flags.has('--fresh'),log};
  let result;
  if(command==='map'||command==='review'&&flags.has('--dry'))result=await runReview({...options,dry:true});
- else if(command==='review')result=await runReview({...options,concurrency:Number(values['--concurrency']??LIMITS.concurrency),source:flags.has('--source')});
+ else if(command==='review')result=await runReview({...options,concurrency:Number(values['--concurrency']??LIMITS.concurrency),source:flags.has('--source'),reportOnly:flags.has('--report-only')});
  else if(command==='post'){if(!live||values['--project-file'])throw Error('Comments are posted only to a live project: use --project ID');result=await postFindings({projectFile,provenanceDir,...(values['--findings']?{findingIds:list('--findings')}:{})});}
  else if(command==='status')result=await reconcile({projectFile,provenanceDir,triaged:flags.has('--triaged'),approve:list('--approve'),reject:list('--reject'),resolve:list('--resolve')});
  else if(command==='confirm'||command==='group'){

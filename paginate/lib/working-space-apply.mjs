@@ -12,11 +12,14 @@
 //    least its cells need (tableRowMinimum), unless the row changed since the first
 //    revision. The calibration data supports no fit for table rows (78% unchanged),
 //    so by default rows keep their content-sized minimum untouched.
+// Guided practice and "your turn" blocks are included (workingSpaceProtected below: only a repair or a note
+// about spacing protects them; `teaching:false` restores the stricter rule). `freshImport` says the project
+// has not been edited since import, so with `tableRows` every body row is still its import height.
 // Skipped: blocks with sourceReview.intentionalDepartures, authorisedFeedback or
 // feedbackRepairs, front matter, and teacher-reviewed booklets unless `named`.
 import {findContent} from '../../src/lib/booklet-arrangement.js';
 import {arrangementItems} from '../../public/libs/maths-editor/arrangement-model.mjs';
-import {hasTeacherReview,spacingProtected,tableRowMinimum,tableResponseAnswers} from '../../src/lib/booklet-import-spacing.js';
+import {hasTeacherReview,spacingProtected,automatedRepair,tableRowMinimum,tableResponseAnswers} from '../../src/lib/booklet-import-spacing.js';
 import {blockDocuments} from '../../src/lib/booklet-bulk-spacing.js';
 import {calibratedWorkingSpace,allowanceCopies,stillImportAllowance,WORKING_SPACE_CALIBRATION_20261022} from '../../src/lib/booklet-working-space.js';
 import {revisionsOf,loadRevision,allBlocks,collect} from '../../bench/history.mjs';
@@ -25,6 +28,29 @@ const clone=v=>structuredClone(v);
 const near=(a,b)=>Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<0.01;
 const RESPONSE_KINDS=new Set(['short','cloze','inline','working']);
 export const isFrontMatter=section=>section.phase==='front-matter'||section.role==='front-matter';
+
+// Guided practice and "your turn" response areas inside teaching blocks (23 October 2026). The import records
+// departures and an authorised-feedback note on nearly every teaching block (palette, answers as editable text,
+// "writing-space dimensions are authored estimates"); those do not make its working space a teacher's decision,
+// and a value that still equals its import value in every stored copy has not been touched by anyone. Such a
+// block is protected only by a repair or note about spacing, or by any non-automated feedback repair.
+export const teachingResponseBlock=block=>block.pedagogyRole==='guided-practice'||block.presentation?.studentRole==='your-turn';
+const SPACING_NOTE=/\b(?:keep|retain|preserve|leave|reduce|tighten|increase|enlarge|shrink)\b[^.]*\b(?:spac(?:e|ing)|gap|height|room)\b|\b(?:spac(?:e|ing)|gap)\b[^.]*\b(?:keep|retain|preserve|reduce|tighten|increase)\b/i;
+// `relaxed` (a teacher-reviewed booklet in a polish run, 23 October 2026): the import's own departures protect no
+// block by themselves; a non-automated repair, an authorised-feedback note or a note about spacing still does,
+// and every allowance the teacher changed is protected one by one (it no longer equals its import value).
+export function workingSpaceProtected(block,{teaching=true,relaxed=false}={}){
+ if(!spacingProtected(block))return false;
+ const sourceReview=block.sourceReview??{};
+ if(relaxed&&!(teaching&&teachingResponseBlock(block))){
+  const notes=[...(sourceReview.intentionalDepartures??[]),sourceReview.authorisedFeedback?.note].filter(n=>typeof n==='string'&&!/authored estimates/i.test(n));
+  return !!sourceReview.authorisedFeedback||(sourceReview.feedbackRepairs??[]).some(entry=>!automatedRepair(entry))||notes.some(note=>SPACING_NOTE.test(note));
+ }
+ if(!teaching||!teachingResponseBlock(block))return true;
+ if((sourceReview.feedbackRepairs??[]).some(entry=>!automatedRepair(entry)))return true;
+ const notes=[...(sourceReview.intentionalDepartures??[]),sourceReview.authorisedFeedback?.note].filter(n=>typeof n==='string'&&!/authored estimates/i.test(n));
+ return notes.some(note=>SPACING_NOTE.test(note));
+}
 
 // Keys (blockId/nodeId.field[index]) of table rows changed since the first revision. Null when the history
 // cannot say (an error, no revisions, one revision): callers treat that as everything changed (fail closed).
@@ -37,19 +63,39 @@ export function changedSinceImport(project){
  }catch{return null;}
 }
 
-export function applyCalibratedWorkingSpace(source,{named=false,history=true,raise=true,tableRows=false,calibration=WORKING_SPACE_CALIBRATION_20261022}={}){
+// The allowances of a block as the import delivered it, for a block that records none (older imports): the leaf
+// answers of `imported`, the project as it stood before the first teacher comment (bench/history.mjs
+// importFinalRevision). Null import, no such block or a part with no allowance: nothing (fail closed).
+function importedEstimates(imported,block){
+ const old=imported?(imported.sections??[]).flatMap(section=>section.blocks??[]).find(b=>b.id===block.id):null;
+ const found=new Map();
+ const visit=node=>{
+  if(!node||typeof node!=='object')return;
+  if(node.children?.length){node.children.forEach(visit);return;}
+  const mm=imported.settings?.layoutOverrides?.answerSpaces?.[node.id]??node.answerSpaceMm;
+  if(node.answer&&node.id&&Number.isFinite(mm))found.set(node.id,{targetId:node.id,answerSpaceMm:mm});
+ };
+ if(old)visit(old.content);
+ return found;
+}
+
+// protectedIds: block ids the teacher has decided (polish/flags.mjs teacherBlocks); they never change.
+// imported: the project as the import delivered it, the import value of a block with no recorded estimate.
+export function applyCalibratedWorkingSpace(source,{named=false,history=true,raise=true,tableRows=false,teaching=true,freshImport=false,protectedIds=null,imported=null,relaxed=false,calibration=WORKING_SPACE_CALIBRATION_20261022}={}){
  if(hasTeacherReview(source)&&!named)throw Error(`${source.id} has teacher comments; it changes only when named explicitly.`);
  const project=clone(source),changes=[],skipped={};
  const skip=reason=>{skipped[reason]=(skipped[reason]??0)+1;};
  const o=project.settings.layoutOverrides??={};
- const changedKeys=tableRows&&history?changedSinceImport(source):null;
+ // A fresh import has no history and nothing changed since import: every row is still its import height.
+ const changedKeys=tableRows?(freshImport?new Set():history?changedSinceImport(source):null):null;
  for(const section of project.sections){
   if(isFrontMatter(section))continue;
   for(const block of section.blocks??[]){
-   if(spacingProtected(block)){skip('protected-block');continue;}
+   if(protectedIds?.has(block.id)||workingSpaceProtected(block,{teaching,relaxed})){skip('protected-block');continue;}
    // ---- answer allowances ----
    const responses=new Map((block.sourceReview?.responses??[]).map(r=>[r.targetId,r.kind]));
    const recorded=new Map((block.sourceReview?.workingSpaceEstimate?.estimates??[]).map(e=>[e.targetId,e]));
+   if(!recorded.size&&imported)for(const [id,e] of importedEstimates(imported,block))recorded.set(id,e);
    const layout=o.blockLayouts?.[block.id]?.arrangement;
    for(const [targetId,estimate] of recorded){
     const node=findContent(block,targetId);

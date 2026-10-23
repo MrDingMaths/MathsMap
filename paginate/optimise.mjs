@@ -3,7 +3,7 @@
 // Studio action a person uses ("Optimise pagination" in the Page tab of the Spacing
 // panel, src/components/BookletPaginationOptimiser.svelte), so there is one
 // implementation. Nothing here reimplements the optimiser.
-//   node paginate/optimise.mjs --candidate FILE [--apply] [--out FILE] [--named]
+//   node paginate/optimise.mjs --candidate FILE [--apply] [--out FILE] [--named] [--suggest-breaks]
 //   node paginate/optimise.mjs --project ID [--apply] [--named]
 // Without --apply it reports what it would change and writes nothing. With --apply:
 //   --candidate  writes the optimised project to --out (default FILE-pg.json);
@@ -25,7 +25,9 @@ const write=(f,v)=>{fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileS
 
 // Open the project in Studio, open Spacing > Page and run the action. Returns the
 // result object the component publishes on window.__bookletOptimiseResult.
-export async function driveStudio(project,{base=BASE,apply=false,named=false,checkUndo=false,timeoutMs=60*60*1000,log=()=>{}}={}){
+// suggest: after the run (and Apply), also list the exercise breaks worth removing (suggestBreakRemovals);
+// suggestOnly: that and nothing else (the booklet is not optimised).
+export async function driveStudio(project,{base=BASE,apply=false,named=false,checkUndo=false,suggest=false,suggestOnly=false,timeoutMs=60*60*1000,log=()=>{}}={}){
  return withRenderResource(async()=>{
   const {chromium}=await import('playwright-core'),{routeCandidateProject}=await import('../scripts/booklet/diagram-preflight.mjs');
   let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
@@ -62,6 +64,7 @@ export async function driveStudio(project,{base=BASE,apply=false,named=false,che
     }
     return page.evaluate(()=>window.__bookletOptimiseResult);
    };
+   if(suggestOnly)return {state:'suggested',moves:[],breakSuggestions:await page.evaluate(()=>window.__bookletSuggestBreaks()),pageErrors:errors};
    let result=await run();
    if(result.state==='error')throw Error('Optimise pagination failed: '+result.message);
    const out={...result,pageErrors:errors};
@@ -81,6 +84,7 @@ export async function driveStudio(project,{base=BASE,apply=false,named=false,che
      out.undoReproduces=JSON.stringify(again.moves.map(m=>[m.type,m.blockIds??m.blockId]))===JSON.stringify(result.moves.map(m=>[m.type,m.blockIds??m.blockId]));
     }
    }
+   if(suggest)out.breakSuggestions=await page.evaluate(()=>window.__bookletSuggestBreaks());
    return out;
   }finally{await browser.close();}
  });
@@ -92,7 +96,7 @@ async function main(){
  if(!file&&!id)throw Error('Use --candidate FILE or --project ID');
  const project=file?read(path.resolve(file)):liveProject(id);
  if(hasTeacherReview(project)&&!named)throw Error(`${project.id} has teacher comments: pass --named only when the teacher named this booklet for the change.`);
- const result=await driveStudio(project,{base:arg('--base',BASE).replace(/\/$/,''),apply,named,checkUndo:args.includes('--check-undo'),log:m=>console.log(m)});
+ const result=await driveStudio(project,{base:arg('--base',BASE).replace(/\/$/,''),apply,named,checkUndo:args.includes('--check-undo'),suggest:args.includes('--suggest-breaks'),log:m=>console.log(m)});
  const {project:optimised,...report}=result;
  const out=path.resolve(arg('--out',file?file.replace(/\.json$/,'')+'-pg.json':path.join(WORK,project.id,'candidate-pg.json')));
  write(out.replace(/\.json$/,'')+'.report.json',{project:project.id,revision:project.revision??null,at:new Date().toISOString(),...report});

@@ -351,3 +351,19 @@ test('changing the column count regroups a saved arrangement and keeps each part
  assert.equal(gridRows('q',[1,2,3,4,5].map(i=>group('g'+i,[])),2).at(-1).children.length,2);
 });
 function copyTree(tree){return JSON.parse(JSON.stringify(tree));}
+
+import {gridFigureParts} from '../src/lib/booklet-arrangement.js';
+test('parts that are each a figure with its working space beside it regroup into a grid of figure-over-space cells',()=>{
+ const ids=['a','b','c','d'],content={id:'q',children:ids.map(id=>({id:'q-'+id}))};
+ const row=id=>({id:'q-'+id+'-row',type:'group',direction:'row',gap:8,children:[{id:'fig-'+id,type:'group',direction:'stack',gap:0,children:[{id:'l-'+id,type:'item',ref:'q-'+id+'/label'},{id:'g-'+id,type:'item',ref:'q-'+id+'-graph',width:72}]},{id:'s-'+id,type:'item',ref:'q-'+id+'/space'}]});
+ const saved={version:1,root:{id:'q-layout',type:'group',direction:'stack',gap:5,children:[{id:'l',type:'item',ref:'q/label'},{id:'stem',type:'item',ref:'q/prompt'},...ids.map(row)]}};
+ const before=JSON.stringify(saved),next=gridFigureParts(saved,content,2);
+ assert.equal(JSON.stringify(saved),before,'the saved tree is not changed');
+ assert.deepEqual(next.root.children.map(c=>c.id),['l','stem','q:row:0','q:row:2']);
+ const rows=next.root.children.slice(2);
+ assert.deepEqual(rows.map(r=>[r.direction,r.children.length]),[['row',2],['row',2]]);
+ assert.ok(rows.flatMap(r=>r.children).every(cell=>cell.direction==='stack'&&cell.children.length===2),'each part keeps its own group, now figure over space');
+ assert.deepEqual(rows.flatMap(r=>r.children).map(c=>c.id),ids.map(id=>'q-'+id+'-row'));
+ assert.equal(gridFigureParts(saved,{id:'q',children:[...content.children,{id:'q-e'}]},2),null,'a part with no row of its own');
+ assert.equal(gridFigureParts(saved,content,1),null);
+});

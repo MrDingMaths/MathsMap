@@ -39,6 +39,9 @@ test('page QA detects nested overflow, writing spaces, overlap, scaled fonts and
  assert.ok((await check('<div style="height:280mm"><p>Nested</p></div>')).issues.some(i=>i.kind==='footer-overflow'));
  assert.ok((await check('<div style="height:250mm"></div><div class="answer-space"></div>')).issues.some(i=>i.kind==='footer-overflow'));
  assert.ok((await check('<div class="arr-group"><div style="height:30mm">A</div><div style="height:30mm;margin-top:-20mm">B</div></div>')).issues.some(i=>i.kind==='sibling-overlap'));
+ const slots=(columns,first)=>`<section class="me-layout"><div style="display:grid;grid-template-columns:${columns}"><div data-slot="caption"><p style="white-space:nowrap">${first}</p></div><div data-slot="math"><table style="width:20mm;border:1px solid #000"><tr><td>1</td><td>2</td></tr></table></div></div></section>`;
+ assert.ok((await check(slots('8mm 40mm','Simplify the expression fully'))).issues.some(i=>i.kind==='layout-content-overlap'&&i.id==='caption'&&i.other==='math'),'text spilling over a table in the next slot is an overlap');
+ assert.ok(!(await check(slots('60mm 40mm','Simplify'))).issues.some(i=>i.kind==='layout-content-overlap'));
  assert.ok((await check('<div class="tikz-wrap"><svg width="100" height="100" viewBox="0 0 200 200"><text x="10" y="20" font-size="14.667">1</text></svg></div>')).issues.some(i=>i.kind==='small-graph-label'));
  for(const [size,kind]of [[12,'small-graph-label'],[15,'large-graph-label']])assert.ok((await check(`<div class="tikz-wrap"><svg width="100" height="50"><text x="10" y="20" font-size="${size}">A</text></svg></div>`)).issues.some(i=>i.kind===kind),'Geometry labels need both bounds without graph tick metadata');
  const tickSvg=x=>'<div class="tikz-wrap"><svg width="160" height="50"><g data-graph-text="tick"><text x="20" y="30" font-size="11.3333">11</text></g><g data-graph-text="tick"><text x="'+x+'" y="30" font-size="11.3333">12</text></g></svg></div>';

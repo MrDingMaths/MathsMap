@@ -1,5 +1,5 @@
-// Shared plumbing of the checks (22 October 2026): finding the booklet a command names, the source
-// inventory of its import run, one render with the extra probes, and saving what a check repaired.
+// Shared plumbing of the checks (22 October 2026): finding the booklet a command names, the import
+// run folder, one render with the extra probes, and saving what a check repaired.
 // Lives outside scripts/ and vite.config.js, which export evidence hashes.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -34,26 +34,6 @@ export function resolveTarget(opts,{root=ROOT}={}){
 export function runDirOf(project,{root=ROOT}={}){
  const runId=project.source?.runId??project.runId,dir=runId&&path.join(root,'.booklet-work','full-imports',String(runId).replace(/[^\w.-]/g,'_'));
  return dir&&fs.existsSync(dir)?dir:null;
-}
-
-// ---- the source inventory ---------------------------------------------------------------
-import {groupFamily} from '../../src/lib/booklet-role-check.js';
-const inventoryCache=new Map();
-// Source entry id -> {family, kind, header, page} from the inventory of every source page.
-export function inventoryGroups(project,{root=ROOT}={}){
- const run=runDirOf(project,{root});if(!run)return new Map();
- if(inventoryCache.has(run))return inventoryCache.get(run);
- const dir=path.join(run,'semantic-packets'),map=new Map();
- if(fs.existsSync(dir))for(const name of fs.readdirSync(dir).filter(f=>/^page-\d+\.inventory\.json$/.test(f)).sort()){
-  let inventory;try{inventory=read(path.join(dir,name));}catch{continue;}
-  for(const group of inventory.groups??[]){
-   const family=groupFamily(group);if(!family)continue;
-   const header=typeof group.header==='string'?group.header:'';
-   // Blocks are named after an entry, or after the group that holds the entries.
-   for(const id of [group.id,...(group.entryIds??[])].filter(Boolean))if(!map.has(id)||id===group.id)map.set(id,{family,kind:group.kind,header,page:inventory.pageNumber});
-  }
- }
- inventoryCache.set(run,map);return map;
 }
 
 // ---- saving ---------------------------------------------------------------------------------

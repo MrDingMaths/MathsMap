@@ -21,6 +21,28 @@ test('the input snapshot is written once and rejects a changed project',()=>temp
  assert.equal(JSON.parse(await fs.readFile(first.file,'utf8')).title,'Closeout');
 }));
 
+test('a save transport rechecks the revision after CLI preflight and preserves a racing teacher edit',()=>temporary(async root=>{
+ const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank')};await fs.mkdir(options.projectRoot,{recursive:true});
+ const created=await saveBookletProject(make(),{...options,create:true}),candidate=structuredClone(created);
+ candidate.sections[0].blocks[0].content=fromSource('Polish edit.');
+ const teacherContent=fromSource('Teacher edit during save preparation.');
+ const saveProject=async(project,saveOptions)=>{
+  const teacher=structuredClone(created);teacher.sections[0].blocks[0].content=teacherContent;
+  await saveBookletProject(teacher,saveOptions);
+  return saveBookletProject(project,saveOptions);
+ };
+ await assert.rejects(saveRepair({candidate,expectedRevision:created.revision,changedBlockIds:['b1'],options,saveProject}),/another session/);
+ const live=await loadBookletProject(created.id,{...options,refreshRatings:false});
+ assert.deepEqual(live.sections[0].blocks[0].content,teacherContent);assert.equal(live.revision,created.revision+1);
+}));
+
+test('an explicitly scoped removal saves and its readback verifies absence',()=>temporary(async root=>{
+ const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank')};await fs.mkdir(options.projectRoot,{recursive:true});
+ const created=await saveBookletProject(make(),{...options,create:true}),candidate=structuredClone(created);candidate.sections[0].blocks.pop();
+ const done=await saveRepair({candidate,expectedRevision:created.revision,changedBlockIds:['b2'],options});
+ assert.deepEqual(done.readback.mismatched,[]);assert.deepEqual(done.project.sections[0].blocks.map(b=>b.id),['b1']);
+}));
+
 test('repairs save against the expected revision and read back the changed blocks',()=>temporary(async root=>{
  const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank')};await fs.mkdir(options.projectRoot,{recursive:true});
  const created=await saveBookletProject(make(),{...options,create:true}),candidate=structuredClone(await loadBookletProject('closeout',{...options,refreshRatings:false}));

@@ -124,7 +124,7 @@ export function buildCorpus({projectIds=null,out=DEFAULT_OUT,log=()=>{}}={}){
 
 // ---------------------------------------------------------------- detectors
 // Sweep rule -> comment categories; also used to credit a block the handoff sweep already fixed.
-export const SWEEP_RULE_CATEGORIES={gutter:['alignment'],cloze:['cloze-scaffold'],labels:['part-labels'],empty:['spacing-pagination'],ratio:['cloze-scaffold','borders-house-style'],tables:['source-layout'],breaks:['spacing-pagination'],sequence:['part-labels'],alignment:['alignment']};
+export const SWEEP_RULE_CATEGORIES={gutter:['alignment'],cloze:['cloze-scaffold'],labels:['part-labels'],empty:['spacing-pagination'],ratio:['cloze-scaffold','borders-house-style'],tables:['source-layout'],breaks:['spacing-pagination'],sequence:['part-labels'],alignment:['alignment'],steps:['source-layout'],'scaffold-anchor':['alignment','spacing-pagination'],'bracket-blank':['cloze-scaffold']};
 // A detector is {name, categories:[...], detect(project, ctx) -> [{blockId, detail}]}.
 const registry=new Map();
 export function registerDetector(detector){

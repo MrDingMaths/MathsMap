@@ -14,8 +14,19 @@
 // mid-page, takes an allowance below the floor, adds a pagination issue, or (checked
 // once per exercise) makes the short or worked edition longer. Units are the
 // movable groups of exerciseUnits(), so dependsOn, keepWithNext, pairedBlockId and
-// continuations never separate. Every accepted move is recorded, and block.flow.
-// autoOrder keeps the order while ratings are unchanged.
+// continuations never separate (polish pipeline, 23 October 2026: block.flow.dependsOn counts too, so a
+// question that scaffolds the next, refers back or shares a stimulus keeps its order). Every accepted move is
+// recorded, and block.flow.autoOrder keeps the order while ratings are unchanged.
+//
+// Orphan pull (23 October 2026): an exercise that still ends with one lone question on its last page gets
+// its allowances at the floor together with a band-limited (+-1) move of that unit to an earlier position,
+// kept only if the page goes. A trial with an oversized-content issue, any new issue, a new split or more
+// pages than before is rejected outright. Short tails (23 October 2026): a teaching block (guided practice, an
+// example, a set-up) that splits across two pages with at most two parts on the second is kept whole when it
+// can be: its allowances come to the floor first and, if it still splits, it is marked keepTogether; the trial is
+// kept only if the block stops splitting without gaining a page, an issue or a split elsewhere. A block that
+// cannot be kept together without that cost keeps its split. suggestBreakRemovals() reports, changing nothing, the forced
+// exercise breaks that follow a page with at least 60 mm free and the pages removing each would save.
 //
 //   paginate(project, {sectionId, blockIds}) -> Promise<{pages, issues}>
 //     pages: [{blocks:[{id, flow?}], space?:{capacityMm, usedMm, remainingMm},
@@ -29,10 +40,12 @@ import {bandIndex, reasoningScore, difficultyInversions} from './booklet-paginat
 import {blockPages, newSplits, newIssues} from './booklet-layout-actions.js';
 import {workingSpaceFloor, importedAllowance, allowanceCopies, stillImportAllowance} from './booklet-working-space.js';
 import {hasTeacherReview, spacingProtected} from './booklet-import-spacing.js';
-import {findContent, regridParts} from './booklet-arrangement.js';
+import {findContent, regridParts, gridFigureParts} from './booklet-arrangement.js';
+import {setPageBoundary} from './booklet-workspace.js';
 import {arrangementItems} from '../../public/libs/maths-editor/arrangement-model.mjs';
+import {teacherBlocks,polishSafetyIssues} from '../../polish/guards.mjs';
 
-export const OPTIMISER_LIMITS = Object.freeze({trials: 40, gapMm: 15, epsilonMm: 0.5, gridPartChars: 60, gridAnswerMm: 40, gridMinParts: 2, gridMaxParts: 8});
+export const OPTIMISER_LIMITS = Object.freeze({trials: 40, gapMm: 15, epsilonMm: 0.5, gridPartChars: 60, gridAnswerMm: 40, gridFigureMm: 80, gridLastGainMm: 30, gridMinParts: 2, gridMaxParts: 8, orphanTrials: 12, breakFreeMm: 60, tailParts: 2});
 export const MAX_BAND_DISTANCE = 1;
 
 const sum = values => values.reduce((total, value) => total + value, 0);
@@ -69,15 +82,17 @@ export function optimisableSections(project) {
 
 // A unit is movable when it has a rating and no manual break of its own; an unrated
 // unit or one that forces a page break is a barrier nothing may jump over.
-export function describeUnits(section) {
-  const {groups} = exerciseUnits(section);
+export function describeUnits(section, protectedIds = new Set()) {
+  const {groups,unresolved} = exerciseUnits(section);
+  // Protected blocks cannot receive the autoOrder metadata required to persist a reorder.
+  const protectedSection=section.blocks.some(b=>protectedIds.has(b.id));
   return groups.map((group, index) => {
     const practice = group.blocks.filter(isPractice);
     const scores = practice.map(reasoningScore);
     const rated = scores.length > 0 && scores.every(s => s != null);
     const score = rated ? Math.max(...scores) : null;
-    const barrier = !rated || group.blocks.some(b => b.flow?.pageBreakBefore || b.flow?.sourcePageBreakBefore && b.flow.pageBreakBefore !== false || b.flow?.continueBefore || b.presentation?.editorOnly);
-    return {index, blocks: group.blocks, ids: group.blocks.map(b => b.id), practiceIds: practice.map(b => b.id), score, band: rated ? bandIndex(score) : null, barrier};
+    const barrier = unresolved || protectedSection || !rated || group.blocks.some(b => b.flow?.pageBreakBefore || b.flow?.sourcePageBreakBefore && b.flow.pageBreakBefore !== false || b.flow?.continueBefore || b.presentation?.editorOnly);
+    return {index, blocks: group.blocks, ids: group.blocks.map(b => b.id), practiceIds: practice.map(b => b.id), score, band: rated ? bandIndex(score) : null, bands: scores.map(bandIndex), barrier};
   });
 }
 
@@ -89,7 +104,7 @@ export function bandAllows(units, from, to) {
   const [lo, hi] = from > to ? [to, from - 1] : [from + 1, to - 1];
   for (let k = lo; k <= hi; k++) {
     const other = units[k];
-    if (other.barrier || other.band == null || Math.abs(moving.band - other.band) > MAX_BAND_DISTANCE) return false;
+    if (other.barrier || other.band == null || (moving.bands??[moving.band]).some(a=>(other.bands??[other.band]).some(b=>Math.abs(a-b)>MAX_BAND_DISTANCE))) return false;
   }
   return true;
 }
@@ -115,11 +130,22 @@ function exerciseStats(map, section, units, order) {
   const scoreOf = new Map(units.flatMap(u => u.practiceIds.map(id => [id, u.score])));
   const inversions = difficultyInversions(seen.filter(id => scoreOf.has(id)).map(id => scoreOf.get(id)));
   const startsClean = !!mine.length && mine[0].blocks.every(b => owned.has(b.id) || owned.has(identity(b)));
-  return {pages: mine.length, pageList: mine, trailingMm: round(sum(trailing)), trailing, inversionPenalty: inversions.penalty, inversionPairs: inversions.pairs, startsClean, order: seen, total: (map.pages ?? []).length};
+  const lastFreeMm = round(Math.max(0, mine.at(-1)?.space?.remainingMm ?? 0));
+  return {pages: mine.length, pageList: mine, trailingMm: round(sum(trailing)), lastFreeMm, trailing, inversionPenalty: inversions.penalty, inversionPairs: inversions.pairs, startsClean, order: seen, total: (map.pages ?? []).length};
 }
 
 const unitHeightMm = (unit, pages) => sum(pages.flatMap(p => (p.elements ?? []).filter(e => e.kind === 'question' && unit.ids.includes(e.id)).map(e => e.h)));
 const unitPages = (unit, map) => [...new Set(unit.ids.flatMap(id => blockPages(map, id)))];
+
+// The unit that is all there is on the exercise's last page, when the exercise has more than one page: a lone
+// trailing question (or part). Null when that page also holds another unit or content of another section.
+export function orphanUnit(units, pageList, owned) {
+  if (pageList.length < 2) return null;
+  const ids = [...new Set(pageList.at(-1).blocks.map(identity))];
+  if (!ids.length || ids.some(id => !owned.has(id))) return null;
+  const holders = units.filter(unit => unit.ids.some(id => ids.includes(id)));
+  return holders.length === 1 && ids.every(id => holders[0].ids.includes(id)) ? holders[0] : null;
+}
 
 // Lexicographic: pages, then trailing whitespace (beyond a small tolerance), then
 // inversion penalty.
@@ -169,11 +195,13 @@ export function belowFloor(base, candidate, sectionIndex) {
 
 // Move 1: allowances above the floor come down to it, but only values still equal to their import value in
 // every stored copy; a changed value belongs to the teacher or a repair (17 October rule).
-export function tightenToFloor(project, sectionIndex) {
+export function tightenToFloor(project, sectionIndex, {blockIds = null} = {}) {
   const changes = [], reviewed = hasTeacherReview(project);
+  const protectedIds=teacherBlocks(project);
   const section = project.sections[sectionIndex];
   const blocks = section.blocks.map(block => {
-    if (!isPractice(block) || spacingProtected(block)) return block;
+    if (blockIds ? !blockIds.includes(block.id) : !isPractice(block)) return block;
+    if (protectedIds.has(block.id)||spacingProtected(block)) return block;
     const next = structuredClone(block);
     for (const node of leafAnswers(next)) {
       const space = project.settings?.layoutOverrides?.answerSpaces?.[node.id] ?? node.answerSpaceMm;
@@ -208,6 +236,7 @@ export function tightenToFloor(project, sectionIndex) {
 }
 
 // Move 3: blocks whose parts are all short, laid out as a list.
+const hasFigureParts = root => (root?.children ?? []).some(part => part.questionDiagrams?.length);
 export function gridCandidates(section, limits = OPTIMISER_LIMITS) {
   const text = value => typeof value === 'string' ? value : JSON.stringify(value ?? '');
   return section.blocks.filter(block => {
@@ -215,9 +244,12 @@ export function gridCandidates(section, limits = OPTIMISER_LIMITS) {
     const root = block.content, parts = root?.children;
     if (!parts || parts.length < limits.gridMinParts || parts.length > limits.gridMaxParts || root.layout === 'grid') return false;
     if (root.questionDiagrams?.length || root.representations) return false;
-    return parts.every(part => !part.children?.length && !part.questionDiagrams?.length && !part.dependsOn?.length &&
+    // A figure part (a graph to read, its answer below) is not short text, but two half-column graphs sit side by
+    // side (logarithms Exercise 6 Q11: four graphs stacked in one column left the right half of the page empty).
+    const figure = part => part.questionDiagrams?.length === 1 && Number(part.questionDiagrams[0].widthMm) > 0 && Number(part.questionDiagrams[0].widthMm) <= limits.gridFigureMm;
+    return parts.every(part => !part.children?.length && !part.dependsOn?.length &&
       text(part.prompt).length <= limits.gridPartChars && !/\\{1,2}(?:begin|d?frac)|"type":"table"/.test(text(part.prompt)) &&
-      (!Number.isFinite(part.answerSpaceMm) || part.answerSpaceMm <= limits.gridAnswerMm));
+      (part.questionDiagrams?.length ? figure(part) : !Number.isFinite(part.answerSpaceMm) || part.answerSpaceMm <= limits.gridAnswerMm));
   });
 }
 export function gridBlock(project, sectionIndex, blockId, columns = 2) {
@@ -228,12 +260,30 @@ export function gridBlock(project, sectionIndex, blockId, columns = 2) {
   let next = withSectionBlocks(project, sectionIndex, section.blocks.map(b => b.id === blockId ? block : b));
   const saved = project.settings?.layoutOverrides?.blockLayouts?.[blockId]?.arrangement;
   if (saved) {
-    const arrangement = regridParts(saved, block.content, columns);
+    const arrangement = regridParts(saved, block.content, columns) ?? (hasFigureParts(block.content) ? gridFigureParts(saved, block.content, columns) : null);
     if (!arrangement) return null; // a custom arrangement: leave it alone
     const overrides = next.settings.layoutOverrides;
     next = {...next, settings: {...next.settings, layoutOverrides: {...overrides, blockLayouts: {...overrides.blockLayouts, [blockId]: {...overrides.blockLayouts[blockId], arrangement}}}}};
   }
   return next;
+}
+
+// ---- short tails of teaching blocks ---------------------------------------------------
+
+// Non-practice blocks that split across exactly two pages with at most `maxParts` parts on the second: the
+// fragments carry flow.fragment and `parts` (the leaf count of that slice), as the paginate callback reports.
+export function shortTailSplits(map, project, maxParts = OPTIMISER_LIMITS.tailParts) {
+  const owner = new Map(project.sections.flatMap((section, index) => section.blocks.map(block => [block.id, {section, index, block}])));
+  const seen = new Map();
+  for (const [page, p] of (map.pages ?? []).entries()) for (const b of p.blocks) {
+    if (!Number.isInteger(b.flow?.fragment) || !owner.has(b.id)) continue;
+    (seen.get(b.id) ?? seen.set(b.id, []).get(b.id)).push({page, fragment: b.flow.fragment, parts: b.parts ?? null});
+  }
+  return [...seen].filter(([id, rows]) => {
+    const {block} = owner.get(id), tail = rows.at(-1);
+    return rows.length === 2 && tail.fragment === 1 && Number.isInteger(tail.parts) && tail.parts > 0 && tail.parts <= maxParts &&
+      !isPractice(block) && block.type !== 'page-break' && !block.flow?.keepTogether && !block.presentation?.editorOnly && !block.flow?.continuationOf && !block.continuationOf;
+  }).map(([id, rows]) => ({id, sectionIndex: owner.get(id).index, sectionId: owner.get(id).section.id, tailParts: rows.at(-1).parts, pages: rows.map(r => r.page)}));
 }
 
 // ---- autoOrder ----------------------------------------------------------------------
@@ -259,6 +309,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
   if (baseline.issues?.length) throw Error('Resolve the pagination issues before optimising: ' + baseline.issues.map(i => `${i.id}: ${i.message}`).join('; '));
   const guardBaseline = guard ? await guard(source) : null;
   const rejected = [], exercises = [], moves = [];
+  const protectedIds=teacherBlocks(source);
   let project = source, totalTrials = 0, map = baseline;
   const reject = (sectionId, reason, detail = {}) => rejected.push({sectionId, reason, ...detail});
 
@@ -266,12 +317,45 @@ export async function optimisePagination(source, {paginate, guard = null, named 
   const optimised = new Set(targets.map(t => t.section.id));
   for (const skipped of source.sections.filter(s => s.phase === 'practice' && s.role !== 'candidate-pool' && !optimised.has(s.id) && s.blocks.some(b => isPractice(b)))) exercises.push({sectionId: skipped.id, skipped: 'continues its topic after teaching content; no page boundary'});
 
+  // Short tails of teaching blocks come first: the page they free is the exercise's neighbour, not its content.
+  for (const split of shortTailSplits(baseline, project)) {
+    if (shouldStop()) break;
+    const index = project.sections.findIndex(section => section.id === split.sectionId), block = project.sections[index]?.blocks.find(b => b.id === split.id);
+    if (!block||protectedIds.has(block.id)) continue;
+    const attempts = [];
+    const tightened = tightenToFloor(project, index, {blockIds: [split.id]});
+    if (tightened.changes.length) attempts.push({label: 'tighten ' + split.id, project: tightened.project, changes: tightened.changes});
+    const kept = (tightened.changes.length ? tightened.project : project);
+    attempts.push({label: 'keep together ' + split.id, project: withSectionBlocks(kept, index, kept.sections[index].blocks.map(b => b.id === split.id ? {...b, flow: {...b.flow, keepTogether: true}} : b)),
+      changes: [...(tightened.changes), {type: 'keep-together', sectionId: split.sectionId, blockId: split.id, tailParts: split.tailParts}]});
+    for (const attempt of attempts) {
+      if(polishSafetyIssues(source,attempt.project,{protectedIds,spacing:false}).length)continue;
+      totalTrials++;
+      let result;
+      try { result = await paginate(attempt.project, {sectionId: split.sectionId, blockIds: [split.id]}); } catch (error) { reject(split.sectionId, 'pagination-error', {label: attempt.label, message: error.message}); continue; }
+      const reasonRejected = (result.issues ?? []).some(issue => issue.kind === 'oversized-content') ? 'oversized-content'
+        : newIssues(map, result).length ? 'pagination-issue'
+        : newSplits(map, result).length ? 'new-split'
+        : (result.pages ?? []).length > (map.pages ?? []).length ? 'page-gain'
+        : blockPages(result, split.id).length > 1 ? 'still-split' : null;
+      if (reasonRejected) { reject(split.sectionId, reasonRejected, {label: attempt.label}); continue; }
+      project = attempt.project; map = result;
+      for (const change of attempt.changes) moves.push({...change, reason: change.type === 'keep-together' ? `keeps the block whole: ${split.tailParts} part${split.tailParts === 1 ? '' : 's'} were alone on page ${split.pages[1] + 1}` : undefined, pagesBefore: baseline.pages.length, pagesAfter: result.pages.length});
+      break;
+    }
+  }
+  if (moves.length && guard) {
+    const after = await guard(project);
+    const worse = ['short', 'worked'].filter(e => (after[e] ?? 0) > (guardBaseline[e] ?? 0));
+    if (worse.length) { reject(null, 'guard-edition-gained-pages', {editions: worse, step: 'teaching'}); project = source; moves.length = 0; map = baseline; }
+  }
+
   for (const [position, {index, section: originalSection}] of targets.entries()) {
     if (shouldStop()) break;
     onprogress?.({exercise: position + 1, exercises: targets.length, sectionId: originalSection.id, trials: totalTrials});
     const sectionStart = project;
     const exerciseMoves = [];
-    let units = describeUnits(project.sections[index]);
+    let units = describeUnits(project.sections[index],protectedIds);
     let order = units.map((_, i) => i);
     let used = 0;
     const owned = () => project.sections[index].blocks.map(b => b.id);
@@ -286,11 +370,15 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     // One trial: paginate the candidate and apply the hard rejections.
     const trial = async (candidate, label) => {
       used++; totalTrials++;
+      const unsafe=polishSafetyIssues(source,candidate,{protectedIds,spacing:false});
+      if(unsafe.length){reject(originalSection.id,'safety',{label,issues:unsafe});return null;}
       let result;
       try { result = await paginate(candidate, focusOf()); } catch (error) { reject(originalSection.id, 'pagination-error', {label, message: error.message}); return null; }
+      if ((result.issues ?? []).some(issue => issue.kind === 'oversized-content')) { reject(originalSection.id, 'oversized-content', {label}); return null; }
       if (newIssues(baseMap, result).length) { reject(originalSection.id, 'pagination-issue', {label}); return null; }
       const splits = newSplits(baseMap, result);
       if (splits.length) { reject(originalSection.id, 'new-split', {label, blocks: splits.slice(0, 5)}); return null; }
+      if ((result.pages ?? []).length > (baseMap.pages ?? []).length) { reject(originalSection.id, 'page-gain', {label}); return null; }
       const stats = exerciseStats(result, candidate.sections[index], units, order);
       if (!stats.startsClean) { reject(originalSection.id, 'exercise-start', {label}); return null; }
       const low = belowFloor(project, candidate, index);
@@ -356,14 +444,47 @@ export async function optimisePagination(source, {paginate, guard = null, named 
       }
     }
 
-    // Move 3: a two-column grid for short parts, kept only when it removes a page or
-    // closes a gap of at least a tenth of the page.
+    // Move 2b: a lone question left on the exercise's last page. The allowances come to the floor together
+    // with a band-limited move of that unit to an earlier position (nearest first); kept only if a page goes.
+    const orphan = orphanUnit(units, best.pageList, new Set(owned()));
+    let orphanSkipped = false;
+    if (orphan && best.pages > 1) {
+      const from = order.indexOf(orphan.index), floor = tightenToFloor(project, index);
+      const orphanBase = floor.changes.length ? floor.project : project;
+      // The pages before the last one must hold the question's whole height: what they have free, plus what the
+      // floor can still take from their allowances. Short of that no trial can remove the page.
+      const needMm = unitHeightMm(orphan, best.pageList), freeMm = sum(best.pageList.slice(0, -1).map(p => Math.max(0, p.space?.remainingMm ?? 0))) + sum(floor.changes.map(c => c.before - c.after));
+      if (needMm > 0 && best.pageList.slice(0, -1).every(p => Number.isFinite(p.space?.remainingMm)) && freeMm < needMm - 1) {
+        reject(originalSection.id, 'orphan-no-fit', {label: 'orphan ' + orphan.ids[0], needMm: round(needMm), freeMm: round(freeMm)});
+        orphanSkipped = true;
+      }
+      for (let position = from - 1, spent = 0; !orphanSkipped && position >= 0 && spent < OPTIMISER_LIMITS.orphanTrials && !shouldStop(); position--) {
+        if (!bandAllows(order.map(i => units[i]), from, position)) continue;
+        spent++;
+        const nextOrder = moveUnit(order, from, position), nextProject = withSectionBlocks(orphanBase, index, flattenOrder(units, nextOrder));
+        const saveOrder = order; order = nextOrder;
+        const outcome = await trial(nextProject, 'orphan ' + orphan.ids[0]);
+        if (outcome && outcome.stats.pages < best.pages) {
+          const jumped = saveOrder.slice(position, from).flatMap(i => units[i].ids);
+          project = nextProject; best = outcome.stats; bestMap = outcome.result;
+          exerciseMoves.push(...floor.changes, {type: 'reorder', sectionId: originalSection.id, blockIds: orphan.ids, from, to: position, band: bandName(orphan.band), jumped, reason: 'pulls the lone last question back', pagesBefore: before.pages, pagesAfter: outcome.stats.pages});
+          break;
+        }
+        order = saveOrder;
+        if (outcome) reject(originalSection.id, 'not-better', {label: 'orphan ' + orphan.ids[0]});
+      }
+    }
+
+    // Move 3: a two-column grid for short parts or half-column figures, kept only when it removes a page, closes a
+    // gap of at least a tenth of the page or leaves the exercise's last page at least `gridLastGainMm` emptier (the
+    // room a forced break after it, or the pages of a later pull, can use).
     if (best.pages > 1) for (const block of gridCandidates(project.sections[index])) {
+      if(protectedIds.has(block.id))continue;
       if (used >= trials || shouldStop()) break;
       const candidate = gridBlock(project, index, block.id, 2);
       if (!candidate) continue;
       const outcome = await trial(candidate, 'grid ' + block.id);
-      if (outcome && (outcome.stats.pages < best.pages || outcome.stats.pages === best.pages && outcome.stats.trailingMm < best.trailingMm - 10)) {
+      if (outcome && (outcome.stats.pages < best.pages || outcome.stats.pages === best.pages && (outcome.stats.trailingMm < best.trailingMm - 10 || outcome.stats.trailingMm <= best.trailingMm + 1 && outcome.stats.lastFreeMm >= best.lastFreeMm + OPTIMISER_LIMITS.gridLastGainMm))) {
         adopt(candidate, outcome, {type: 'grid', sectionId: originalSection.id, blockId: block.id, columns: 2, pagesBefore: best.pages, pagesAfter: outcome.stats.pages});
       } else if (outcome) reject(originalSection.id, 'not-better', {label: 'grid ' + block.id});
     }
@@ -408,4 +529,45 @@ export function summariseRejections(rejected) {
   const by = {};
   for (const r of rejected) by[r.reason] = (by[r.reason] ?? 0) + 1;
   return by;
+}
+
+// ---- exercise-break suggestions (polish pipeline, 23 October 2026) ---------------------------------------
+// Every exercise starts a page and stays that way: the teacher removes a break by hand. This reports EVERY
+// forced exercise break that follows a page with at least `minFreeMm` free, whether or not removing it saves a
+// page (the next forced topic break often absorbs the gain), and estimates by paginating a copy with that break
+// removed (setPageBoundary 'remove', the Studio action the suggestion's button runs): the pages saved, and the
+// space (`savedMm`) the exercise gives back, measured at its last page. Nothing is kept. Each trial is
+// independent: removing two breaks may save less than the sum.
+//   -> [{sectionId, topicId, firstBlockId, pageBefore, freeMm, estPagesSaved, savedMm, newSplits}], in booklet order
+export async function suggestBreakRemovals(source, {paginate, minFreeMm = OPTIMISER_LIMITS.breakFreeMm, shouldStop = () => false} = {}) {
+  if (typeof paginate !== 'function') throw Error('suggestBreakRemovals needs a paginate callback');
+  const baseline = await paginate(source, {});
+  const targets = optimisableSections(source).map(({section}) => ({section, first: section.blocks[0]})).filter(({first}) => first);
+  const rows = targets.map(({section, first}) => {
+    const page = blockPages(baseline, first.id)[0];
+    return {section, first, page, before: page > 0 ? baseline.pages[page - 1] : null};
+  }).filter(row => row.before);
+  if (!rows.length) return [];
+  // One measuring pass for every page that precedes an exercise and every page an exercise ends on.
+  const ownedIds = row => row.section.blocks.map(b => b.id);
+  const measured = await paginate(source, {blockIds: [...new Set(rows.flatMap(row => [...row.before.blocks.map(b => b.id), ...ownedIds(row)]))]});
+  // Where the exercise's own content ends: the last page holding one of its blocks and what is left on it.
+  const endOf = (map, row) => {
+    const last = Math.max(...ownedIds(row).flatMap(id => blockPages(map, id)));
+    const space = map.pages[last]?.space;
+    return Number.isFinite(last) && space ? {page: last, capacityMm: space.capacityMm, remainingMm: space.remainingMm} : null;
+  };
+  const suggestions = [];
+  for (const row of rows) {
+    if (shouldStop()) break;
+    const free = measured.pages[row.page - 1]?.space?.remainingMm;
+    if (!Number.isFinite(free) || free < minFreeMm) continue;
+    const trial = await paginate(setPageBoundary(source, row.first.id, 'remove'), {blockIds: ownedIds(row)});
+    const issues = newIssues(baseline, trial);
+    const was = endOf(measured, row), now = endOf(trial, row);
+    const savedMm = was && now ? Math.max(0, round((was.page - now.page) * was.capacityMm + (now.remainingMm - was.remainingMm))) : null;
+    suggestions.push({sectionId: row.section.id, topicId: row.section.topicId ?? null, firstBlockId: row.first.id, pageBefore: row.page, freeMm: round(free),
+      estPagesSaved: issues.length ? 0 : Math.max(0, (baseline.pages ?? []).length - (trial.pages ?? []).length), savedMm: issues.length ? 0 : savedMm, newSplits: newSplits(baseline, trial).length, ...(issues.length ? {issue: issues[0].kind} : {})});
+  }
+  return suggestions;
 }

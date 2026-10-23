@@ -8,6 +8,7 @@
 import path from 'node:path';
 import {wrapProbe,wrappedFindings,estimatedWraps,wrapFix,WRAP_STEPS} from '../src/lib/booklet-wrap-check.js';
 import {ownerIndex} from '../bench/fields.mjs';
+import {teacherBlocks} from '../polish/guards.mjs';
 import {ROOT,write,now,isMain,parseArgs,resolveTarget,saveTarget,changedBlocks,renderWithProbes} from './lib/common.mjs';
 
 // The replay cannot render: it uses the width estimate, conservatively.
@@ -27,7 +28,7 @@ const restore=(working,saved,blockId)=>{
  if(layouts){if(was)layouts[blockId]=structuredClone(was);else delete layouts[blockId];}
 };
 
-export async function runWrappedMath({project,file,live=false,apply=false,allowLive=false,log=()=>{},render=measure}){
+export async function runWrappedMath({project,file,live=false,apply=false,allowLive=false,log=()=>{},render=measure,protectedIds=teacherBlocks(project)}){
  const started=Date.now(),report={project:project.id,at:now(),steps:[],before:null,after:null};
  let state=await render(project,log);
  report.before={pages:state.pageCount,wrapped:state.findings.length,findings:state.findings.map(({blockId,nodeId,lines,widthMm,containerMm,detail})=>({blockId,nodeId,lines,widthMm,containerMm,detail}))};
@@ -37,7 +38,7 @@ export async function runWrappedMath({project,file,live=false,apply=false,allowL
   const before=structuredClone(working),touched=new Map(),changes=[];
   // One fix per block per step: a column change reflows every formula in the grid.
   for(const finding of open){
-   if(touched.has(finding.blockId))continue;
+   if(protectedIds.has(finding.blockId)||touched.has(finding.blockId))continue;
    const fix=wrapFix(step,working,finding);if(!fix)continue;
    working=fix.project;touched.set(finding.blockId,finding);changes.push({blockId:finding.blockId,change:fix.change});
   }

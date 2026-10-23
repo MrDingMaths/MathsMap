@@ -105,6 +105,15 @@ and house style decides every measurement; house rules win where they conflict. 
 supersedes the first sentence above for teaching blocks only. Independent practice
 keeps the presets below. See [verification speed](booklet-verification-speed.md).
 
+**Teaching-block structure rule (23 October 2026, user approved).** The 22 October rule stands,
+but the source-region matcher, the teaching signatures and the teaching presets that carried
+it are gone. The rule is now enforced in two places: the sweep rule `steps` (worked-example
+steps in the red step gutter, `presentation.numberSteps`) and the full-book first-pass review,
+which sees each batch's source pages beside the render and reports a teaching block laid out
+differently from its source (arrows, alignment, side-by-side placement, indents, grouping).
+The measurements stay the house values. See the
+[polish pipeline](booklet-verification-speed.md).
+
 **Preset arrangements.** Teaching and practice content uses the shared
 arrangement presets. A custom arrangement is used only where position carries
 mathematical or instructional meaning (paired figures, matching activities, card
@@ -193,6 +202,14 @@ elsewhere in a fraction do not remove unrelated boxes, such as the coefficient i
 line wrapping and pagination during repairs; `\phantom{\boxed{...}}` may retain
 the former blank's exact occupied dimensions without drawing its outline. Preserve
 source evidence and explicit local exceptions; do not migrate content on load.
+
+**Parenthesised blanks are the rule-and-space gap (23 October 2026, user approved).** The
+form of that blank is `(\rule{0pt}{5mm}\hspace{Nmm})`: parentheses around an empty rule-and-space
+gap, with no `\phantom` around a box, no outline and no dots. A scaffold blank matches the
+source: brackets in the source give the gap, a box in the source gives an outlined box, and a
+box whose brackets were lost at import gets them back. The sweep rule `bracket-blank` converts a
+box already inside parentheses; the full-book review restores brackets the source shows. Writing
+capacity, line wrapping and pagination are preserved, and unrelated boxes stay.
 
 **Fraction-component exception (14 October 2026, reaffirmed 17 October 2026, user requested):** Missing
 numerators and denominators use outlined boxes in editable native mathematics,

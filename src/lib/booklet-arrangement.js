@@ -61,6 +61,18 @@ export function regridParts(tree,node,columns){
  else {parts.direction=columns?'row':'stack';parts.children=cells;}
  return next;
 }
+// A saved arrangement in which each part is a row of its figure and its working space (graph left, space right),
+// the parts stacked directly under the question's root. In a grid each part is a column cell: the figure with its
+// working space under it, a part's own group intact. Null when the parts do not sit that way.
+export function gridFigureParts(tree,node,columns=2){
+ const next=JSON.parse(JSON.stringify(tree)),root=next.root,parts=node.children??[];
+ if(root?.type!=='group'||root.direction==='row'||!parts.length||columns<2)return null;
+ const cells=parts.map(part=>root.children.findIndex(child=>child.type==='group'&&child.direction==='row'&&arrangementItems(child).some(i=>i.ref===part.id+'/space')));
+ if(cells.some(i=>i<0)||cells.some((i,k)=>k&&i!==cells[k-1]+1))return null;
+ const groups=cells.map(i=>({...root.children[i],direction:'stack'}));
+ root.children.splice(cells[0],cells.length,...gridRows(node.id,groups,columns));
+ return next;
+}
 
 export function arrangementCatalog(block,overrides={},widthMm=180){
  const labels={...teachingLabels([block]),...overrides.labels};

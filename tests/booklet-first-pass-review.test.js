@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {contract,FRAMING,bookletIndex,blockHash,overridesFor,parsePages,selectPages,planBatches,batchPrompt,checkReport,runReview,postFindings,reconcile,commentNote,findingId,LIMITS,AREAS} from '../first-pass/review.mjs';
+import {contract,FRAMING,bookletIndex,blockHash,overridesFor,parsePages,selectPages,planBatches,batchPrompt,checkReport,runReview,postFindings,reconcile,commentNote,findingId,sourceImages,LIMITS,AREAS} from '../first-pass/review.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const temp=t=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'first-pass-review-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir;};
@@ -50,6 +50,8 @@ function workspace(t,mutate){
 test('the contract comes from the doc and every prompt starts with it',()=>{
  const text=contract();
  for(const phrase of ['first review of a mathematics booklet','Pagination','Answer editions','Missing opening review','Extension','notReliablyReviewed','"reviewer":"first-pass"'])assert.ok(text.includes(phrase),phrase);
+ // Polish pipeline additions (23 October 2026).
+ for(const phrase of ['Teaching blocks match the source\'s structure','A scaffold blank matches the source','\\rule{0pt}{5mm}\\hspace{Nmm}','no empty interior','floating, centred or right-pushed scaffold','red step-number gutter','Palette colours never change','No display maths wraps','Unexplained vertical gaps','more than half empty','Content (`area` "content"','never applied'])assert.ok(text.includes(phrase),phrase);
  for(const area of AREAS)assert.ok(text.includes(area),area);
  const project=booklet(),index=bookletIndex(project),map=pagemap(),selection=selectPages(index,map);
  const [first]=planBatches({project,index,selection,pagemap:map,record:{findings:[]}});
@@ -63,17 +65,17 @@ test('the contract comes from the doc and every prompt starts with it',()=>{
  assert.match(payload.blocks.find(block=>block.id==='q2').arrangement,/"version":1/);
  // Comparable blocks come from outside the batch, nearest first.
  assert.ok(payload.similar.length>0&&payload.similar.every(block=>!payload.pages.some(page=>page.blocks.some(row=>row.id===block.id))));
- assert.deepEqual(payload.similar.filter(block=>block.role==='practice').map(block=>[block.id,block.page]),[['q10',12],['q11',13]]);
+ assert.deepEqual(payload.similar.filter(block=>block.role==='practice').map(block=>[block.id,block.page]),[['q6',8],['q7',9]]);
  const answer=batchPrompt({project,index,edition:'short',rows:[{edition:'short',page:1,blocks:[{id:'q1'},{id:'q2'}],nodes:[]}],pagemap:map}).payload;
  assert.deepEqual(answer.blocks.map(block=>Object.keys(block)),[['id','label','text'],['id','label','text']]);assert.deepEqual(answer.similar,[]);
 });
 
-test('pages skip front matter; batches hold at most ten Questions or six answer pages of one edition',async t=>{
+test('pages skip front matter; batches hold at most six pages of one edition',async t=>{
  const space=workspace(t),before=fs.readFileSync(space.projectFile);
  const plan=await runReview({...space.options,dry:true,runner:()=>{throw Error('no model call in a dry run');}});
  assert.deepEqual(plan.pageCounts,{student:16,short:7,worked:14});
  assert.deepEqual(plan.reviewed.student,Array.from({length:15},(_,i)=>i+2));
- assert.deepEqual(plan.batches.map(batch=>[batch.edition,batch.pages.length]),[['student',10],['student',5],['short',6],['short',1],['worked',6],['worked',6],['worked',2]]);
+ assert.deepEqual(plan.batches.map(batch=>[batch.edition,batch.pages.length]),[['student',6],['student',6],['student',3],['short',6],['short',1],['worked',6],['worked',6],['worked',2]]);
  assert.ok(plan.batches.every(batch=>batch.promptCharacters<LIMITS.payloadCharacters));
  assert.equal(fs.existsSync(path.join(space.dir,'provenance')),false);assert.ok(fs.readFileSync(space.projectFile).equals(before));
  // A page range reviews those Questions pages and only the answer pages of their blocks.
@@ -96,11 +98,11 @@ test('review sends rasters in page order at low effort, keeps only findings on i
   'short:1':{findings:[finding(1,['q1-b'],{edition:'student',area:'answers',comment:'Start question 2 on a new line.'})]}};
  const result=await runReview({...space.options,runDir,runner:stubRunner({review,calls})});
  assert.ok(fs.readFileSync(space.projectFile).equals(before));
- assert.equal(calls.length,7);assert.ok(calls.every(call=>call.stage==='first-pass'&&call.effort==='low'&&call.runDir===path.join(space.dir,'work')));
+ assert.equal(calls.length,8);assert.ok(calls.every(call=>call.stage==='first-pass'&&call.effort==='low'&&call.runDir===path.join(space.dir,'work')));
  assert.ok(calls.every(call=>!path.resolve(call.cwd).startsWith(ROOT)));
- assert.equal(space.leases.length,7);assert.ok(space.leases.every(lease=>lease.runDir===runDir&&lease.details.tool==='first-pass-review'));
+ assert.equal(space.leases.length,8);assert.ok(space.leases.every(lease=>lease.runDir===runDir&&lease.details.tool==='first-pass-review'));
  const first=calls.find(call=>call.payload.edition==='student'&&call.payload.pages[0].page===2);
- assert.deepEqual(first.images,Array.from({length:10},(_,i)=>`student-${i+2}.png`));
+ assert.deepEqual(first.images,Array.from({length:6},(_,i)=>`student-${i+2}.png`));
  assert.deepEqual(calls.find(call=>call.payload.edition==='short'&&call.payload.pages[0].page===1).images,['short-1.png','short-2.png','short-3.png','short-4.png','short-5.png','short-6.png']);
  const record=space.record();
  assert.deepEqual(record.findings.map(row=>[row.edition,row.page,row.area,row.scope,row.targets.map(target=>target.id)]),[['student',3,'spacing','local',['q1-a']],['student',4,'pagination','all',['q2']],['student',null,'labels','local',['q4']],['short',1,'answers','local',['q1-b']]]);

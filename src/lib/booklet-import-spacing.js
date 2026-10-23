@@ -6,8 +6,8 @@ export const IMPORT_SPACING = Object.freeze({spaceAfter:1,spaceBefore:0,gap:1,ro
 export const COMPACT_IMPORT_PROMPT = ` Layout defaults for new imports (17 October 2026): ordinary paragraphs have spaceBefore:0 and spaceAfter:1 mm; plain stacks use gap:1 mm and side-by-side arrangement rows use gap:2 mm. Use padding:1 mm on ordinary tables and 0 on borderless mathematical alignment layouts. Table body row heights are content-sized plus a small margin, not a fixed tall row: retain at least 8 mm per handwritten line and all space required by the expected response, fractions and drawings. Do not reduce cloze or column widths. Question graphs start around 70 mm, short-answer graphs around 50 mm. Simple supplied figures inside tables and part grids start around 32 mm; use larger figures wherever mathematical features or 10 pt labels require it. Preserve meaningful placement, avatars, card activities, manual exceptions and handwriting capacity. Working-space reductions are pilot-only; retain reviewed solution-based working estimates. Write these values explicitly in new semantic content and saved arrangements; legacy rendering defaults are unchanged.`;
 
 export const hasTeacherReview=project=>(project.studio?.flags??[]).some(f=>!f.kind&&f.at);
-// A repair the automated sweep or handoff recorded ("Pre-review sweep ...") is not teacher-driven feedback and does not protect spacing.
-export const automatedRepair=entry=>['sweep','handoff'].includes(entry?.source)||typeof entry?.note==='string'&&/^Pre-review sweep/.test(entry.note);
+// A repair the automated sweep, handoff or polish run recorded ("Pre-review sweep ...") is not teacher-driven feedback and does not protect spacing.
+export const automatedRepair=entry=>['sweep','handoff','polish'].includes(entry?.source)||typeof entry?.note==='string'&&/^Pre-review sweep/.test(entry.note);
 export const spacingProtected=block=>!!(block.sourceReview?.intentionalDepartures?.length||block.sourceReview?.authorisedFeedback||(block.sourceReview?.feedbackRepairs??[]).some(entry=>!automatedRepair(entry)));
 
 export function responseCellHeight(cell,{widthMm=40,padding=1,expectedAnswer=cell.expectedAnswer}={}){

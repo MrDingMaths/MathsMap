@@ -3,8 +3,9 @@
 // reviewer stops suggesting dots for the fraction boxes the teacher keeps:
 //   - a missing numerator or denominator is an outlined box in native maths, also when both are missing
 //     (the full scaffold keeps its two boxes and its vinculum), also in teaching and in-place answers;
-//   - a blank enclosed by parentheses inside a numerator or denominator keeps the parentheses and its
-//     handwriting space with no visible box and no dots (\phantom of the box keeps the exact size);
+//   - a blank enclosed by parentheses keeps the parentheses and its handwriting space with no visible box
+//     and no dots, written the teacher's way (23 October 2026): (\rule{0pt}{5mm}\hspace{Nmm}), a bare
+//     rule-and-space gap with no \boxed and no \phantom, N being the box's width;
 //   - parentheses elsewhere in a fraction do not remove unrelated boxes;
 //   - every other blank is one dotted cloze (an ordinary blank in an equation, outside a fraction or a power).
 // Dotted and invisible fraction components are rebuilt as boxes. Pure string functions over LaTeX.
@@ -17,7 +18,8 @@ const OPEN_SRC='(?:\\\\left\\(|\\\\[Bb]ig{1,2}[lL]?\\(|\\()';
 const CLOSE_SRC='(?:\\\\right\\)|\\\\[Bb]ig{1,2}[rR]?\\)|\\))';
 export const BOX_HEIGHT_MM=5;
 export const boxLatex=widthMm=>`\\boxed{\\rule{0pt}{${BOX_HEIGHT_MM}mm}\\hspace{${widthMm}mm}}`;
-const phantomBox=widthMm=>`\\phantom{${boxLatex(widthMm)}}`;
+export const gapLatex=widthMm=>`\\rule{0pt}{${BOX_HEIGHT_MM}mm}\\hspace{${widthMm}mm}`;
+const PHANTOM_BLANK_SRC=`\\\\phantom\\{${COLBOX_SRC}\\}`;
 
 // Split the two arguments of a \frac starting at `at` (balanced braces). null when it is not a fraction.
 export function parseFraction(latex,at){
@@ -33,26 +35,40 @@ export function parseFraction(latex,at){
  return {start:at,end:i,command:head[0],num:parts[0],den:parts[1]};
 }
 
-const PAREN_BLANK=new RegExp(`(${OPEN_SRC})(${STRUT})(${COLBOX_SRC}|${DOTS_SRC})(${STRUT})(${CLOSE_SRC})`,'g');
+const PAREN_BLANK=new RegExp(`(${OPEN_SRC})(${STRUT})(${PHANTOM_BLANK_SRC}|${COLBOX_SRC}|${DOTS_SRC})(${STRUT})(${CLOSE_SRC})`,'g');
+const DOTS_WIDTH=/\\underline\{\\hspace\{([\d.]+)mm\}\}/;
 const WHOLE=src=>new RegExp(`^\\s*(?:${STRUT})(?:${src})(?:${STRUT})\\s*$`);
 const WHOLE_BOX=WHOLE(COLBOX_SRC),WHOLE_DOTS=WHOLE(DOTS_SRC),WHOLE_PHANTOM=WHOLE(`\\\\phantom\\{${COLBOX_SRC}\\}`);
 const BOX_IN=new RegExp(BOX_SRC);
 
-// Repair one numerator or denominator. Returns the part and the issues found in it.
-function repairPart(part,side,where){
- const issues=[];
- let next=part.replace(PAREN_BLANK,(whole,open,leadStrut,blank,boxWidth,boxWidth2,dotWidth,trail,close)=>{
-  const isBox=/\\boxed/.test(blank);
-  if(isBox){
-   const box=BOX_IN.exec(blank)?.[0];
-   issues.push({kind:'parenthesised-blank-visible',side,detail:`${where}: the box inside parentheses in the ${side} should be empty space, no box`,fixable:true});
-   return open+leadStrut+`\\phantom{${box}}`+trail+close;
+// Every blank enclosed by parentheses becomes the gap form (23 October 2026, user requested): a box, an
+// invisible box (the earlier \phantom form) or sized dots between ( and ) turn into
+// (\rule{0pt}{5mm}\hspace{Nmm}), keeping the width. Dots of unknown width are reported, not guessed.
+// Pure string function over any LaTeX, inside a fraction or not.
+export function bracketBlanks(latex,{where='blank',side='blank'}={}){
+ const issues=[],source=String(latex??'');
+ const next=source.replace(PAREN_BLANK,(whole,...args)=>{
+  const groups=args.slice(0,-2),open=groups[0],lead=groups[1],blank=groups[2],trail=groups.at(-2),close=groups.at(-1);
+  const phantom=/^\\phantom/.test(blank),boxWidth=BOX_IN.exec(blank)?.[1],dotWidth=DOTS_WIDTH.exec(blank)?.[1];
+  if(boxWidth){
+   issues.push(phantom
+    ?{kind:'parenthesised-blank-phantom',side,detail:`${where}: the invisible box inside parentheses in the ${side} should be the rule-and-space gap`,fixable:true}
+    :{kind:'parenthesised-blank-visible',side,detail:`${where}: the box inside parentheses in the ${side} should be empty space, no box`,fixable:true});
+   return open+lead+gapLatex(boxWidth)+trail+close;
   }
-  const width=/\\underline/.test(blank)?dotWidth:null;
-  if(width){issues.push({kind:'parenthesised-blank-dotted',side,detail:`${where}: the dots inside parentheses in the ${side} should be empty space, no dots`,fixable:true});return open+leadStrut+phantomBox(width)+trail+close;}
+  if(dotWidth){issues.push({kind:'parenthesised-blank-dotted',side,detail:`${where}: the dots inside parentheses in the ${side} should be empty space, no dots`,fixable:true});return open+lead+gapLatex(dotWidth)+trail+close;}
   issues.push({kind:'parenthesised-blank-dotted',side,detail:`${where}: the dots inside parentheses in the ${side} should be empty space; their width is unknown`,fixable:false});
   return whole;
  });
+ return {latex:next,issues,changed:next!==source};
+}
+
+// Repair one numerator or denominator. Returns the part and the issues found in it.
+function repairPart(part,side,where,{parens=true,components=true}={}){
+ const issues=[];
+ let next=part;
+ if(parens){const r=bracketBlanks(part,{where,side});next=r.latex;issues.push(...r.issues);}
+ if(!components)return {part:next,issues};
  // A whole component that is dots, or invisible without parentheses, is a missing numerator or denominator: a box.
  if(WHOLE_DOTS.test(next)){
   const m=/\\underline\{\\hspace\{([\d.]+)mm\}\}/.exec(next);
@@ -68,7 +84,9 @@ function repairPart(part,side,where){
 
 // The convention applied to every fraction of a formula, outermost first, nested fractions inside the parts.
 // Returns the repaired formula (every fixable issue applied) and the issues, fixed or not.
-export function fractionConvention(latex,{where='fraction'}={}){
+// parens:false leaves blanks in parentheses to bracketBlanks (the sweep's bracket-blank rule); components:false
+// leaves dotted and invisible whole components alone (the sweep's cloze rule owns them).
+export function fractionConvention(latex,{where='fraction',parens=true,components=true}={}){
  const issues=[];
  const run=text=>{
   let out='',i=0;
@@ -77,7 +95,7 @@ export function fractionConvention(latex,{where='fraction'}={}){
     const f=parseFraction(text,i);
     if(f){
      const inner=run(f.num),inner2=run(f.den);
-     const a=repairPart(inner,'numerator',where),b=repairPart(inner2,'denominator',where);
+     const a=repairPart(inner,'numerator',where,{parens,components}),b=repairPart(inner2,'denominator',where,{parens,components});
      issues.push(...a.issues,...b.issues);
      out+=f.command+'{'+a.part+'}{'+b.part+'}';i=f.end;continue;
     }

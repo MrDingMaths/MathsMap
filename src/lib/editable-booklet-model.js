@@ -229,6 +229,7 @@ function rekeyTree(value, prefix) {
     if (node?.overlayOf && idMap.has(node.overlayOf)) node.overlayOf = idMap.get(node.overlayOf);
     if(node.sharedSolutionDiagramId&&idMap.has(node.sharedSolutionDiagramId))node.sharedSolutionDiagramId=idMap.get(node.sharedSolutionDiagramId);
     if(node.dependsOn)node.dependsOn=node.dependsOn.map(id=>idMap.get(id)??id);
+    if(Array.isArray(node.flow?.dependsOn))node.flow.dependsOn=node.flow.dependsOn.map(id=>idMap.get(id)??id);
     if(node.diagramSlots)node.diagramSlots=Object.fromEntries(Object.entries(node.diagramSlots).map(([id,slot])=>[idMap.get(id)??id,slot]));
   });
   if(copy.presentation){if(value.presentation.ownerId)idMap.set(value.presentation.ownerId,prefix);copy.presentation=remapQuestionPresentation(value.presentation,idMap);}

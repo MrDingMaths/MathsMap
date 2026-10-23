@@ -1,7 +1,7 @@
 <script>
  import {tick, onMount} from 'svelte';
  import FlowBookletPreview from './FlowBookletPreview.svelte';
- import {optimisePagination, summariseMoves, summariseRejections} from '../lib/booklet-pagination-optimiser.js';
+ import {optimisePagination, suggestBreakRemovals, summariseMoves, summariseRejections} from '../lib/booklet-pagination-optimiser.js';
  import {measureBookletPage} from '../lib/booklet-page-space.js';
  import {hasTeacherReview} from '../lib/booklet-import-spacing.js';
  import {flowNumbers} from '../lib/booklet-flow.js';
@@ -23,7 +23,7 @@
   const map = await probe.waitUntilReady({allowIssues: true});
   const wanted = new Set(focus?.blockIds ?? []);
   const identity = b => b.flow?.continuationOf ?? b.continuationOf ?? b.id;
-  const pages = map.pages.map(p => ({blocks: p.blocks.map(b => ({id: b.id, flow: {continuationOf: b.flow?.continuationOf, fragment: b.flow?.fragment}, continuationOf: b.continuationOf})), mode: p.mode}));
+  const pages = map.pages.map(p => ({blocks: p.blocks.map(b => ({id: b.id, flow: {continuationOf: b.flow?.continuationOf, fragment: b.flow?.fragment}, continuationOf: b.continuationOf, parts: b.content?.children?.length ?? null})), mode: p.mode}));
   for (const [i, page] of map.pages.entries()) {
    if (!page.blocks.some(b => wanted.has(b.id) || wanted.has(identity(b)))) continue;
    const root = await probe.revealPage(i), space = root && measureBookletPage(root);
@@ -59,6 +59,14 @@
   finally { running = false; progress = ''; candidate = null; }
   return result;
  }
+ // Forced exercise breaks that follow a page with 60 mm or more free (polish pipeline, 23 October 2026). Nothing
+ // changes; the polish run turns them into Studio comments with a one-click "Remove page break" button.
+ export async function suggestBreaks() {
+  if (running || !project) return [];
+  running = true; progress = 'Measuring the exercise breaks…';
+  try { const found = await suggestBreakRemovals(structuredClone($state.snapshot(project)), {paginate}); window.__bookletBreakSuggestions = found; return found; }
+  finally { running = false; progress = ''; candidate = null; }
+ }
  // One undo step: the same path as the other quick layout actions.
  export function apply() {
   if (!result?.moves.length) return;
@@ -67,8 +75,8 @@
  }
  function discard() { result = null; message = 'Discarded. Nothing changed.'; publish({state: 'discarded'}); }
  const describe = m => m.type === 'reorder' ? `${m.blockIds.map(id => result.label[id] ?? id).join(', ')} moved before ${m.jumped.length ? (result.label[m.jumped[0]] ?? m.jumped[0]) : 'the next question'} (${m.reason})`
-  : m.type === 'tighten' ? `${result.label[m.blockId] ?? m.blockId} working space ${m.before} → ${m.after} mm` : `${result.label[m.blockId] ?? m.blockId} parts in two columns`;
- onMount(() => { window.__bookletOptimise = run; window.__bookletOptimiseApply = apply; return () => { delete window.__bookletOptimise; delete window.__bookletOptimiseApply; }; });
+  : m.type === 'tighten' ? `${result.label[m.blockId] ?? m.blockId} working space ${m.before} → ${m.after} mm` : m.type === 'keep-together' ? `${result.label[m.blockId] ?? m.blockId} kept on one page (${m.reason})` : `${result.label[m.blockId] ?? m.blockId} parts in two columns`;
+ onMount(() => { window.__bookletOptimise = run; window.__bookletOptimiseApply = apply; window.__bookletSuggestBreaks = suggestBreaks; window.__bookletPaginate = paginate; return () => { delete window.__bookletPaginate; delete window.__bookletOptimise; delete window.__bookletOptimiseApply; delete window.__bookletSuggestBreaks; }; });
 </script>
 <section class="optimiser" aria-label="Optimise pagination">
  <button disabled={running || !project || (reviewed && !confirmed)} onclick={run}>{running ? 'Measuring…' : 'Optimise pagination'}</button>

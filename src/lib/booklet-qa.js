@@ -83,6 +83,26 @@ export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={})
   const children=[...group.children].filter(n=>visible(n)&&getComputedStyle(n).position!=='absolute'&&!n.matches('.label-item,.column-handle,button,.hidden-space'));
   for(let i=0;i<children.length;i++)for(let j=i+1;j<children.length;j++){const a=children[i].getBoundingClientRect(),b=children[j].getBoundingClientRect();if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>mm&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>mm)add('sibling-overlap',children[i],{other:id(children[j])});}
  }
+ // Content in different slots of a layout or cells of a table must never land on top of each other: a slot narrower than
+ // its content lets the content spill over its neighbour (algebraic-fractions p8 q3, "Simplify" drawn over a boxed scaffold).
+ // Leaves are a paragraph's text (its content range, not its full-width block) and a whole table; a leaf that contains
+ // another (a table and its cell paragraphs) is not compared with it.
+ const leaves=[...main.querySelectorAll('.me-layout [data-slot] p,.me-layout [data-slot] table,.me-layout [data-slot] .text-line')].filter(visible).map(n=>{
+  if(n.tagName==='TABLE')return {n,b:n.getBoundingClientRect()};
+  if(!n.textContent.trim())return null;
+  const range=document.createRange();range.selectNodeContents(n);const b=range.getBoundingClientRect();
+  return b.width>0&&b.height>0?{n,b}:null;
+ }).filter(Boolean);
+ const slotOf=n=>n.closest('[data-slot]');
+ const reported=new Set();
+ for(let i=0;i<leaves.length;i++)for(let j=i+1;j<leaves.length;j++){
+  const a=leaves[i],b=leaves[j];
+  if(a.n.contains(b.n)||b.n.contains(a.n)||slotOf(a.n)===slotOf(b.n))continue;
+  if(Math.min(a.b.right,b.b.right)-Math.max(a.b.left,b.b.left)>mm&&Math.min(a.b.bottom,b.b.bottom)-Math.max(a.b.top,b.b.top)>mm){
+   const owner=slotOf(a.n).closest('[data-node-id],[data-id],.me-layout'),key=slotOf(a.n).dataset.slot+'|'+slotOf(b.n).dataset.slot;
+   if(!reported.has(key)){reported.add(key);add('layout-content-overlap',slotOf(a.n),{id:slotOf(a.n).dataset.slot,other:slotOf(b.n).dataset.slot,targetId:owner?.dataset?.nodeId??owner?.dataset?.id});}
+  }
+ }
  for(const cell of main.querySelectorAll('.answer-row-grid .answer-fragment')){
   const bounds=cell.getBoundingClientRect();
   for(const n of cell.querySelectorAll('.katex-html > .base'))if(visible(n)){

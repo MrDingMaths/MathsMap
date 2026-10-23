@@ -2,6 +2,7 @@
   import {tick} from 'svelte';
   import {bookletComments,createFeedback,updateFeedback,feedbackStatus,snapshotFeedbackAnchor,feedbackTargetPreview} from '../lib/booklet-feedback.js';
   import {contentTarget} from '../lib/booklet-document-controller.js';
+  import {setPageBoundary} from '../lib/booklet-workspace.js';
   let {project,onchange,oncopy,onlocate}= $props();
   let filter=$state('open'),selected=$state([]),note=$state(''),scope=$state('all'),anchor=$state.raw(null),editing=$state(null),writing=$state(false),input=$state(),formError=$state('');
   let editReturn=null;
@@ -25,6 +26,8 @@
   export function focusDraft(){if(!writing)return false;tick().then(()=>input?.focus());return true;}
   export function start(target=null){if(focusDraft())return;editReturn=null;formError='';try{anchor=snapshotFeedbackAnchor(project,target);}catch(e){anchor=target==null?null:JSON.parse(JSON.stringify(target));formError=e.message;}note='';scope='all';editing=null;writing=true;setTimeout(()=>input?.focus(),0);}
   export function reveal(ids){filter='all';writing=false;const flag=bookletComments(project).find(f=>ids.includes(contentTarget(project,f.targetId)?.block?.id??f.targetId));if(flag)setTimeout(()=>document.querySelector(`[data-comment-id="${CSS.escape(flag.id)}"]`)?.scrollIntoView({block:'nearest'}),0);}
+  // A polish page-break suggestion removes the break through the same action as the Page tab, then resolves itself.
+  const removeBreak=flag=>onchange(updateFeedback(setPageBoundary(project,flag.firstBlockId,'remove'),flag.id,{resolved:true,resolvedAt:new Date().toISOString(),resolution:'Page break removed.'}));
   function save(){if(!note.trim()||formError||(!editing&&preview.error))return;try{if(editing){if(!editingFlag)throw Error('This comment is no longer available.');onchange(updateFeedback(project,editing,{note:note.trim(),scope,editedAt:new Date().toISOString()}));}else onchange({...project,studio:{version:1,...project.studio,flags:[...(project.studio?.flags??[]),createFeedback(project,anchor,note,scope)]}});closeForm();note='';formError='';}catch(e){formError=e.message;}}
   function edit(flag,event){const button=event.currentTarget,pane=button.closest('.comments-pane');if(pane&&!writing)editReturn={button,pane,scrollTop:pane.scrollTop};editing=flag.id;note=flag.note;scope=flag.scope??'all';anchor=flag.anchor?JSON.parse(JSON.stringify(flag.anchor)):null;formError='';writing=true;setTimeout(()=>input?.focus(),0);}
 </script>
@@ -46,7 +49,7 @@
       {#if flag.quote}<blockquote>{flag.quote}</blockquote>{/if}<p>{flag.note}</p>
       <small>{flag.scope==='local'?'This occurrence only':'All applicable occurrences'}</small>{#if when(flag)}<time datetime={flag.at}>{when(flag)}</time>{/if}
       {#if feedbackStatus(project,flag)}<p class="attention">{feedbackStatus(project,flag)}</p>{/if}
-      <div class="actions"><button onclick={event=>edit(flag,event)}>Edit</button><button onclick={()=>onchange(updateFeedback(project,flag.id,{resolved:!flag.resolved}))}>{flag.resolved?'Reopen':'Resolve'}</button><button onclick={()=>onchange({...project,studio:{...project.studio,flags:project.studio.flags.filter(f=>f.id!==flag.id)}})}>Delete</button></div>
+      <div class="actions">{#if flag.kind==='polish-break-suggestion'&&flag.firstBlockId&&!flag.resolved}<button data-remove-break onclick={()=>removeBreak(flag)}>Remove page break</button>{/if}<button onclick={event=>edit(flag,event)}>Edit</button><button onclick={()=>onchange(updateFeedback(project,flag.id,{resolved:!flag.resolved}))}>{flag.resolved?'Reopen':'Resolve'}</button><button onclick={()=>onchange({...project,studio:{...project.studio,flags:project.studio.flags.filter(f=>f.id!==flag.id)}})}>Delete</button></div>
     </article>
   {:else}<p>No {filter==='resolved'?'resolved':filter==='open'?'unresolved':''} comments.</p>{/each}
 </section>

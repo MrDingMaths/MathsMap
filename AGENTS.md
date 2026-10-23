@@ -121,9 +121,9 @@ Compact-layout tuning remains user-directed. The import-efficiency work must not
 
 The [calibrated spacing exception](docs/booklet-cross-session-rules.md#tighter-unreviewed-layouts-17-october-2026-user-requested) permits tighter future import defaults and revision-checked maintenance of unreviewed, sweep-complete booklets. Any teacher flag with no `kind` and an `at` means reviewed. Preserve changed fields, repairs and exceptions; never migrate on load. Studio actions change only explicitly selected layouts, with undo and save/reopen verification.
 
-## Faster verification (22 October 2026, user approved)
+## Booklet polish pipeline (23 October 2026, user approved)
 
-[Verification speed](docs/booklet-verification-speed.md): teaching blocks take structure from the source, measurements from house style (not practice); calibrated working space is the new-import floor; run `handoff/run.mjs` before teacher review.
+[Polish pipeline](docs/booklet-verification-speed.md) replaces `handoff/run.mjs`: run `polish/run.mjs` before teacher review. Exercise breaks stay forced (suggestions only); only extension and bridging suggestions reach the user.
 
 ## Future imports: three-pass precedence (28 September 2026)
 

@@ -20,12 +20,15 @@ test('candidate routing uses the open envelope, blocks writes, and inspects cali
   const html='<style>.booklet-page{width:210mm}.tikz-wrap{width:40mm}svg{width:100%;height:auto}</style><div class="project-print"><article class="print-page booklet-page"><div data-diagram-id="d" class="tikz-wrap"><svg viewBox="0 0 100 40"><g data-diagram-label="1" data-label-font="10" data-label-anchor="west"><text x="98" y="20" font-size="10">ABC</text></g></svg></div></article></div>';
   await page.route('http://preflight.test/**',r=>{
    const name=new URL(r.request().url()).pathname;
-   const file={'/src/lib/diagram-typography.js':'src/lib/diagram-typography.js','/public/libs/maths-editor/house-style.mjs':'public/libs/maths-editor/house-style.mjs'}[name];
+   const file={'/src/lib/diagram-typography.js':'src/lib/diagram-typography.js','/src/lib/diagram-label-geometry.js':'src/lib/diagram-label-geometry.js','/public/libs/maths-editor/house-style.mjs':'public/libs/maths-editor/house-style.mjs'}[name];
    return r.fulfill({contentType:file?'text/javascript':'text/html',body:file?fs.readFileSync(file,'utf8'):html});
   });
   await routeCandidateProject(page,project);await page.goto('http://preflight.test/');
   const open=await page.evaluate(async()=>await(await fetch('/__booklet/projects/candidate/open')).json());
   assert.deepEqual(open,{project,bankSync:{items:[]},bankSyncError:''});
+  // Live bank ratings and shared-content state of the same id never reach the candidate (algebraic-fractions-v1 polish failure, 23 October 2026).
+  assert.deepEqual(await page.evaluate(async()=>await(await fetch('/__booklet/projects/candidate/bank-sync')).json()),{items:[]});
+  assert.deepEqual(await page.evaluate(async()=>await(await fetch('/__booklet/projects/candidate/shared')).json()),{members:[],checks:[]});
   assert.equal(await page.evaluate(async()=>{try{await fetch('/__booklet/projects/candidate',{method:'POST',body:'{}'});return 'written';}catch{return 'blocked';}}),'blocked');
   await page.evaluate(async()=>{const {calibrateDiagramTypography}=await import('/src/lib/diagram-typography.js');calibrateDiagramTypography(document);});
   const visible=await inspectFinalSizeDiagrams(page);

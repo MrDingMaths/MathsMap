@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // Teacher-calibrated working space (22 October 2026, user approved).
 //   node paginate/working-space.mjs calibrate [--out FILE] [--min-rows N]
-//   node paginate/working-space.mjs apply --candidate FILE [--out FILE] [--named] [--no-history] [--no-raise] [--table-rows]
+//   node paginate/working-space.mjs apply --candidate FILE [--out FILE] [--named] [--no-history] [--no-raise] [--table-rows] [--no-teaching] [--fresh-import]
 //   node paginate/working-space.mjs apply --project ID [--out FILE] [--named]
 // calibrate refits the per-kind scale and offset on the answer bodies whose
 // import-time estimate and final teacher allowance are both recorded, and prints
 // the constants for WORKING_SPACE_CALIBRATION_20261022 in
 // src/lib/booklet-working-space.js. apply writes a candidate file with the
-// calibrated allowances; it never touches booklets/projects.
+// calibrated allowances; it never touches booklets/projects. Guided practice and "your turn" areas are
+// included unless --no-teaching; --fresh-import (with --table-rows) says nothing has been edited since import.
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -52,7 +53,7 @@ async function main(){
   const project=file?read(path.resolve(file)):liveProject(id);
   const named=args.includes('--named');
   if(hasTeacherReview(project)&&!named)throw Error(`${project.id} has teacher comments: pass --named only when the teacher named this booklet for the change.`);
-  const result=applyCalibratedWorkingSpace(project,{named,history:!args.includes('--no-history'),raise:!args.includes('--no-raise'),tableRows:args.includes('--table-rows'),calibration:CALIBRATION});
+  const result=applyCalibratedWorkingSpace(project,{named,history:!args.includes('--no-history'),raise:!args.includes('--no-raise'),tableRows:args.includes('--table-rows'),teaching:!args.includes('--no-teaching'),freshImport:args.includes('--fresh-import'),calibration:CALIBRATION});
   const out=path.resolve(arg('--out',file?file.replace(/\.json$/,'')+'-ws.json':path.join(WORK,project.id,'candidate-ws.json')));
   write(out,result.project);
   console.log(JSON.stringify({out,project:project.id,revision:project.revision,summary:result.summary},null,1));

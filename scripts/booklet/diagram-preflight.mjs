@@ -21,6 +21,10 @@ export async function routeCandidateProject(page,project) {
  const get=(route,json)=>route.request().method()==='GET'?route.fulfill({json}):route.abort();
  await page.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());
  await page.route('**/__booklet/bank/manifest',r=>get(r,{format:'mathsmap-practice-bank-v3',version:3,questions:[]}));
+ // A candidate shares its id with the live booklet; the live bank ratings and shared-content state must not
+ // reach it (they would change the candidate while a check runs).
+ await page.route('**/__booklet/projects/'+encodeURIComponent(project.id)+'/bank-sync',r=>get(r,{items:[]}));
+ await page.route('**/__booklet/projects/'+encodeURIComponent(project.id)+'/shared',r=>get(r,{members:[],checks:[]}));
  await page.route(/\/__booklet\/projects(?:\?.*)?$/,r=>get(r,[{id:project.id,title:project.title}]));
  await page.route('**/__booklet/projects/'+encodeURIComponent(project.id),r=>get(r,project));
  await page.route('**/__booklet/projects/'+encodeURIComponent(project.id)+'/open',r=>get(r,{project,bankSync:{items:[]},bankSyncError:''}));

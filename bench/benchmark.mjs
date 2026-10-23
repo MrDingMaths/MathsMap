@@ -51,12 +51,12 @@ export async function runArm(id,arm,{candidate=null,base,editions,log=console.lo
  if(arm==='B'){
   if(candidate)file=path.resolve(candidate);
   else{
-   // handoff/run.mjs (phase 4) takes armB.json through the whole pipeline and writes the
+   // polish/run.mjs (the polish pipeline) takes armB.json through the whole pipeline and writes the
    // processed project to --out; pass --candidate FILE to render an existing candidate instead.
-   const handoff=path.join(ROOT,'handoff','run.mjs');
-   if(!fs.existsSync(handoff))throw Error('Arm B needs --candidate FILE: handoff/run.mjs does not exist yet.');
-   const out=path.join(workDir(id),'armB.candidate.json'),result=spawnSync(process.execPath,[handoff,'--project-file',armFile(id,'B'),'--out',out],{cwd:ROOT,stdio:'inherit'});
-   if(result.status!==0||!fs.existsSync(out))throw Error('handoff/run.mjs did not produce a candidate');
+   const polish=path.join(ROOT,'polish','run.mjs');
+   if(!fs.existsSync(polish))throw Error('Arm B needs --candidate FILE: polish/run.mjs does not exist.');
+   const out=path.join(workDir(id),'armB.candidate.json'),result=spawnSync(process.execPath,[polish,'--candidate',armFile(id,'B'),'--work-dir',path.join(workDir(id),'armB-polish'),'--out',out],{cwd:ROOT,stdio:'inherit'});
+   if(result.status!==0||!fs.existsSync(out))throw Error('polish/run.mjs did not produce a candidate');
    file=out;
   }
  }
