@@ -109,6 +109,14 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+The 24 October 2026 working-tree settlement raises the tracked-file budget from
+2.1 GiB to 2200 MiB for 34 Stage 6 Advanced booklet projects, 23 new ICE-EM
+chapter projects, Network Concepts and its original sources, referenced source
+images, and saved booklet repairs with synchronised bank baselines and durable
+review records. The Stage 6 Advanced group adds about 30 MiB of editable content
+and source assets. Individual file limits and generated-file exclusions remain
+unchanged. This allowance records storage growth, not content acceptance.
+
 The 18 October 2026 working-tree settlement raises the tracked-file budget to
 1700 MiB for saved booklet convention/layout repairs, synchronised bank records,
 pinned bank revision baselines and first-pass review records. Inspection of the
