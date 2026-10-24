@@ -52,6 +52,20 @@ test('editor content changes still expand saved paragraph slots',()=>{
  assert.equal(holder.arrangement.root.children.filter(n=>n.ref?.includes('/prompt#')).length,2);
 });
 
+test('sync inserts multipart variations with diagrams and preserves existing part geometry',()=>{
+ const before={id:'b',type:'question',content:{id:'q',type:'question',layout:'grid',columns:2,children:['a','b'].map(id=>({id,type:'part',label:id,prompt:'Expand',answerSpaceMm:20}))}};
+ const holder={arrangement:arrangementCatalog(before).initial};
+ const visit=(n,fn)=>{fn(n);n.children?.forEach(child=>visit(child,fn));};
+ visit(holder.arrangement.root,n=>{if(n.id==='b:question')n.gap=7;});
+ const after=structuredClone(before);after.content.children.splice(1,0,{id:'new',type:'part',label:'c',prompt:'New variation',questionDiagrams:[{id:'model',format:'tikz',code:'area model',widthMm:46}],answerSpaceMm:18,answer:{short:'result',solutionDiagrams:[{id:'solution',format:'tikz',code:'completed area model',widthMm:46}]}});
+ reconcileSyncLayout(before,after,holder);
+ const refs=[];visit(holder.arrangement.root,n=>{if(n.ref)refs.push(n.ref);if(n.id==='b:question')assert.equal(n.gap,7);});
+ for(const ref of ['new/prompt','new/space','model','b/space'])assert(refs.includes(ref));
+ assert(!refs.includes('solution'));
+ assert.deepEqual(resolveArrangement(after,holder.arrangement).missing,[]);
+ const once=structuredClone(holder);reconcileSyncLayout(before,after,holder);assert.deepEqual(holder,once);
+});
+
 test('a single response extended into parts keeps all new responses and diagram sizing',()=>{
  const before={id:'block',type:'question',content:{id:'q',prompt:'Compare f and g.',questionDiagrams:[{id:'figure',format:'tikz',code:'geometry',widthMm:48}],answerSpaceMm:32,answer:{short:'f'}}};
  const holder={arrangement:arrangementCatalog(before).initial};

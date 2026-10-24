@@ -49,6 +49,24 @@ export function reconcileSyncLayout(before, after, holder, {editable=false}={}) 
     value.arrangement.root=next;
    }
    const tree=value.arrangement.root,items=[];
+   // Newly inserted parts need complete layout groups before their diagrams
+   // can be placed. Reuse surviving groups, including their local geometry.
+   const oldNodes=new Map(),indexContent=n=>{if(n?.id)oldNodes.set(n.id,n);n?.children?.forEach(indexContent);};indexContent(before.content);
+   const find=(root,id)=>{if(root.id===id)return root;for(const child of root.children??[]){const found=find(child,id);if(found)return found;}};
+   const insertParts=n=>{
+    if(!n)return;
+    const old=oldNodes.get(n.id),added=(n.children??[]).some(child=>!old?.children?.some(prior=>prior.id===child.id));
+    if(old&&added){
+     const target=find(tree,n.id+':parts'),fresh=find(catalog.initial.root,n.id+':parts');
+     if(target&&fresh){
+      const prior=new Map();const collect=n=>{if(n.id?.endsWith(':question'))prior.set(n.id,n);n.children?.forEach(collect);};collect(target);
+      const replacement=structuredClone(fresh);
+      const retain=n=>{if(n.children)n.children=n.children.map(child=>prior.get(child.id)??retain(child));return n;};retain(replacement);
+      target.children=replacement.children;target.direction=replacement.direction;
+     }
+    }
+    n.children?.forEach(insertParts);
+   };insertParts(after.content);
    const collect=n=>{if(n.type==='item')items.push(n);else n.children?.forEach(collect);};collect(tree);
    const replacements=new Map();
    for(const [field,oldRefs] of oldFields){
@@ -87,7 +105,7 @@ export function reconcileSyncLayout(before, after, holder, {editable=false}={}) 
    // content. Insert only newly added diagrams in their existing owner's stack.
    const present=new Set();const index=n=>{if(n.ref)present.add(n.ref);n.children?.forEach(index);};index(tree);
    const initialItems=new Map();const collectInitial=n=>{if(n.ref)initialItems.set(n.ref,n);n.children?.forEach(collectInitial);};collectInitial(catalog.initial.root);
-   for(const [ref,entry]of catalog.entries)if(entry.kind==='diagram'&&!oldCatalog.entries.has(ref)&&!present.has(ref)){
+   for(const [ref,entry]of catalog.entries)if(entry.kind==='diagram'&&entry.role!=='answer-worked'&&!oldCatalog.entries.has(ref)&&!present.has(ref)){
     let owner;const find=n=>{if(n.id===entry.ownerId+':question')owner=n;n.children?.forEach(find);};find(tree);
     if(!owner)throw new Error('Bank sync could not place new diagram; review '+ref);
     const node=structuredClone(initialItems.get(ref));

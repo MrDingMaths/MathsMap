@@ -21,6 +21,38 @@ export const practiceContinuation=block=>block.type==='question'&&(block.flow?.f
 // Matching endpoints at the end of a row are real columns.
 export const arrangementRowChildren=(node,entries)=>(node.children??[]).filter((child,index)=>index!==0||entries.get(child.ref)?.kind!=='label');
 
+// Explicit maintenance operation, never a load-time migration. A shared question
+// stem belongs beside its number, above a diagram/parts row. Preserve each
+// existing item (including its sizing), and leave part prompts in that row.
+export function liftQuestionStem(tree,ownerId){
+ const next=structuredClone(tree),prefix=ownerId+'/prompt';
+ const isStem=n=>n.type==='item'&&(n.ref===prefix||n.ref?.startsWith(prefix+'#'));
+ const contains=n=>isStem(n)||(n.children??[]).some(contains);
+ let changed=false;
+ const visit=n=>{
+  if(n.type!=='group')return;
+  n.children.forEach(visit);
+  const diagramFirstStack=n.direction==='stack'&&n.children[0]?.id===ownerId+':diagrams';
+  if(n.direction!=='row'&&!diagramFirstStack||!n.children.slice(1).some(contains))return;
+  const lifted=[];
+  const extract=node=>{
+   if(isStem(node)){lifted.push(node);return false;}
+   if(node.type==='group'){node.children=node.children.filter(extract);return node.children.length>0;}
+   return true;
+  };
+  // The first column may also contain deliberately separate prompt fragments.
+  // Move all root fragments together in their existing reading order.
+  n.children=n.children.filter(extract);
+  if(!lifted.length)return;
+  const row={...n,id:n.id+':below-stem',children:n.children};
+  n.direction='stack';n.children=[...lifted,...(row.children.length?[row]:[])];
+  if(row.children.length===1)row.direction='stack';
+  changed=true;
+ };
+ visit(next.root);
+ return changed?next:null;
+}
+
 // A short last row keeps the grid's columns, so each part stays under the
 // part above it. The filler is an ordinary empty column.
 const gridFiller=(rowId,index)=>({...group(rowId+':fill:'+index,[]),title:'Empty column'});

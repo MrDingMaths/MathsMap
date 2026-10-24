@@ -37,3 +37,17 @@ test('explicit shared instruction survives a continuation without repeating its 
  assert.deepEqual(last.content.children.map(n=>n.id),['c']);
  b.flow.repeatSharedStem=false;assert.equal(arrangementCatalog(fragmentQuestion(b,groups.slice(2),1)).entries.has('root/prompt'),false);
 });
+
+test('nested response leaves continue without dropping demonstrations or writing allowance',async()=>{
+ const b={id:'nested',type:'question',flow:{allowWorkingContinuation:true},content:{id:'root',type:'group',label:'10',children:['a','b'].map((id,i)=>({id,type:'part',label:id,prompt:'Retained supplied proof demonstration '+id,answerSpaceMm:i?225:235,answer:{short:'Proof '+id,worked:'Complete proof '+id}}))}},original=structuredClone(b);
+ const measured=page=>({height:page.blocks.reduce((sum,b)=>{let n=b.content;while(n.children?.length)n=n.children[0];return sum+n.answerSpaceMm+(n.prompt?70:0);},0),capacity:250});
+ const result=await paginateFlow(project(b),'student',measured);assert.deepEqual(result.issues,[]);assert.equal(result.pages.length,4);
+ for(const id of ['a','b']){const fragments=result.pages.flatMap(p=>p.blocks).filter(b=>b.flow.workingSpaceSlice?.ownerId===id);assert.equal(fragments.reduce((n,b)=>n+b.flow.workingSpaceSlice.heightMm,0),id==='a'?235:225);assert.match(fragments[0].content.children[0].prompt,/Retained supplied/);assert.equal(fragments[1].content.children[0].prompt,'');assert.deepEqual(fragments[1].content.children[0].answer,original.content.children.find(n=>n.id===id).answer);}
+ assert.deepEqual(b,original);
+});
+test('nested working continuation respects leaf overrides and refuses atomic/row ancestors',async()=>{
+ const b={id:'nested',type:'question',flow:{allowWorkingContinuation:true},content:{id:'root',type:'group',children:[{id:'leaf',prompt:'Task',answerSpaceMm:235}]}},p=project(b);p.settings.layoutOverrides.answerSpaces.leaf=350;
+ const measured=page=>({height:page.blocks.reduce((n,b)=>n+(b.flow.workingSpaceSlice?.heightMm??350),0),capacity:150});
+ const r=await paginateFlow(p,'student',measured);assert.deepEqual(r.issues,[]);assert.equal(r.pages.reduce((n,p)=>n+p.blocks[0].flow.workingSpaceSlice.heightMm,0),350);
+ for(const unsafe of [{keepTogether:true},{layout:'grid',columns:2},{representations:[{}]},{answer:{short:'Ancestor response'}}]){const c=structuredClone(b);Object.assign(c.content,unsafe);assert.throws(()=>workingContinuation(c,100),/safe working-response/);}
+});

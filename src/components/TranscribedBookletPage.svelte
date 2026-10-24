@@ -98,10 +98,10 @@
 
 {#snippet diagramView(diagram, transparent=false)}
   {#if diagram?.format === 'tikz' && diagram.code}
-    <div data-diagram-id={diagram.id} class="example-diagram" style={'width:' + (diagram.widthMm ?? 78) + 'mm'}><Tikz code={diagram.code} eager={true} {transparent} /></div>
+    <div data-diagram-id={diagram.id} data-diagram-align={diagram.align} class="example-diagram" style={'width:' + (diagram.widthMm ?? 78) + 'mm'}><Tikz code={diagram.code} eager={true} {transparent} /></div>
   {:else if diagram?.src}
     {@const region=sourceRegionStyles(diagram.sourceRegion)}
-    <figure data-diagram-id={diagram.id} class:grayscale={diagramColourModes[diagram.id] === 'grayscale'} class="example-diagram" style={'width:' + (diagram.widthMm ?? 78) + 'mm;'+(region?.frame??'')}><img style={region?.image} src={assetUrl(diagram.src)} alt={diagram.alt ?? 'Mathematical diagram'} /></figure>
+    <figure data-diagram-id={diagram.id} data-diagram-align={diagram.align} class:grayscale={diagramColourModes[diagram.id] === 'grayscale'} class="example-diagram" style={'width:' + (diagram.widthMm ?? 78) + 'mm;'+(region?.frame??'')}><img style={region?.image} src={assetUrl(diagram.src)} alt={diagram.alt ?? 'Mathematical diagram'} /></figure>
   {/if}
 {/snippet}
 
@@ -348,6 +348,8 @@
   .example-illustration { align-self:center; min-width:0; }
   .example-explanation { align-self:stretch; padding:4mm 1mm 1mm 2mm; border-left:.2mm solid var(--booklet-border); color:var(--booklet-muted); font-style:italic; }
   .number-line, .example-diagram { max-width:100%; margin:1mm auto; }
+  .example-diagram[data-diagram-align="left"] { margin-left:0; margin-right:auto; }
+  .example-diagram[data-diagram-align="right"] { margin-left:auto; margin-right:0; }
   .number-line :global(svg), .example-diagram :global(svg), .example-diagram img { display:block; width:100%; height:auto; }
   .example-diagram :global(.tikz-wrap) { margin:0; min-height:0; overflow:visible; }
   .booklet-page :global(.tikz-wrap svg) { filter:none !important; }

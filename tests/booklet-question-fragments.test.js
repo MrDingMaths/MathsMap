@@ -39,6 +39,18 @@ test('fragment merging rejects distinct questions, unsafe order and content loss
  assert.throws(()=>mergeQuestionFragments(packets(),[{canonicalBlockId:'missing',fragmentBlockIds:['question-2']}]));
 });
 
+test('an explicitly selected standalone continuation part keeps its mapped answer and diagram',()=>{
+ const input=packets(),body=input[1].sections[0].blocks[0].content.children[0];
+ body.prompt='';body.questionDiagrams=[{id:'given-2'}];input[1].sections[0].blocks[0].content=body;
+ const selection=[{...groups[0],allowEmptyContinuationStem:true,singlePartBlockIds:['question-2']}];
+ const result=mergeQuestionFragments(input,selection),parts=result[0].sections[0].blocks[0].content.children;
+ assert.deepEqual(parts.map(p=>p.id),['part-1','part-2']);
+ assert.deepEqual(parts[1],body);assert.deepEqual(result[1].inventoryMappings,input[1].inventoryMappings);
+ assert.throws(()=>mergeQuestionFragments(input,[{...groups[0],allowEmptyContinuationStem:true}]));
+ input[1].sections[0].blocks[0].content.prompt='Another task';
+ assert.throws(()=>mergeQuestionFragments(input,selection));
+});
+
 test('explicit orphan continuations accept empty repeated stems and several packets on the later page',()=>{
  const input=packets(),third=structuredClone(input[1]);
  input[1].sections[0].blocks[0].content.prompt='';
@@ -48,6 +60,9 @@ test('explicit orphan continuations accept empty repeated stems and several pack
  const selection=[{canonicalBlockId:'question-1',fragmentBlockIds:['question-2','question-3'],allowEmptyContinuationStem:true}];
  const result=mergeQuestionFragments(input,selection);
  assert.deepEqual(result[0].sections[0].blocks[0].content.children.map(p=>p.id),['part-1','part-2','part-3']);
+ delete input[1].sections[0].blocks[0].content.prompt;
+ assert.deepEqual(mergeQuestionFragments(input,selection)[0].sections[0].blocks[0].content.children.map(p=>p.id),['part-1','part-2','part-3']);
+ assert.throws(()=>mergeQuestionFragments(input,groups));
  input[1].sections[0].blocks[0].content.prompt='A different task';
  assert.throws(()=>mergeQuestionFragments(input,selection));
 });

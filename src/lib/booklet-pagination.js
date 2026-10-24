@@ -4,7 +4,7 @@ import {paginateCompactAnswers} from './booklet-answer-pagination.js';
 import {paragraphSlice} from './booklet-document-fragments.js';
 import {paginationReuse,samePageCarry} from './booklet-pagination-cache.js';
 import {isLeanReview,printableProject} from './booklet-review-profile.js';
-import {workingContinuation} from './booklet-working-continuation.js';
+import {workingContinuation,workingContinuationOwner} from './booklet-working-continuation.js';
 
 const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
@@ -320,8 +320,9 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
       // A long single response can continue its writing area without inventing
       // semantic parts or reducing the solution-based allowance. This is opt-in
       // and cannot split a paired/atomic task or a multi-cell arrangement.
-      if(blocks.length===1&&block.type==='question'&&block.flow?.allowWorkingContinuation&&!block.flow.keepTogether&&!block.pairedBlockId&&!block.content.children?.length&&Number.isFinite(block.content.answerSpaceMm)&&block.content.answerSpaceMm>0){
-        const total=layouts[block.content.id]?.answerSpaceMm??project.settings.layoutOverrides.answerSpaces?.[block.content.id]??block.content.answerSpaceMm;
+      const response=workingContinuationOwner(block);
+      if(blocks.length===1&&block.type==='question'&&block.flow?.allowWorkingContinuation&&!block.flow.keepTogether&&!block.pairedBlockId&&response){
+        const total=layouts[response.id]?.answerSpaceMm??project.settings.layoutOverrides.answerSpaces?.[response.id]??response.answerSpaceMm;
         let remaining=total,index=0;
         while(remaining>0){
           let lo=1,hi=Math.ceil(remaining),best=0;

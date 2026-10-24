@@ -20,8 +20,35 @@ test('explicit native grid frames survive save, resize and question layout resol
  assert.equal(block.content.children[0].answerSpaceMm,45);
  assert.deepEqual(saved,before);
 });
-import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText} from '../src/lib/booklet-arrangement.js';
+import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText,liftQuestionStem} from '../src/lib/booklet-arrangement.js';
 import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
+
+test('explicit stem repair keeps the number and stem above the unchanged graph/parts row',()=>{
+ const block={id:'block',type:'question',content:{id:'q',label:'3',prompt:'Shared context.',diagramPlacement:'beside-prompt',questionDiagrams:[{id:'graph',widthMm:70}],children:[{id:'a',label:'a',prompt:'Find the gradient.',answerSpaceMm:24}]}};
+ const tree=arrangementCatalog(block).initial,before=structuredClone(tree);
+ const repaired=liftQuestionStem(tree,'q');
+ assert.deepEqual(tree,before);
+ assert.equal(repaired.root.children[0].ref,'q/label');
+ assert.equal(repaired.root.children[1].children[0].ref,'q/prompt');
+ const row=repaired.root.children[1].children[1];
+ assert.equal(row.direction,'row');
+ assert.equal(row.children[0].children[0].ref,'graph');
+ assert.deepEqual(row.children[1].children[0],before.root.children[1].children[1].children[1]);
+ assert.deepEqual(arrangementItems(repaired.root).map(n=>n.ref).sort(),arrangementItems(before.root).map(n=>n.ref).sort());
+ assert.equal(liftQuestionStem(repaired,'q'),null);
+});
+
+test('source-backed left-column stems and unrelated part instructions are unchanged',()=>{
+ const tree={version:1,root:group('q',[item('q/label'),item('q/prompt'),group('paired',[item('graph'),group('parts',[item('a/prompt'),item('a/space')])],'row')])};
+ assert.equal(liftQuestionStem(tree,'q'),null);
+});
+
+test('a legacy diagram-first stack also restores its stem above the graph',()=>{
+ const tree={version:1,root:group('q',[item('q/label'),group('q:beside',[group('q:diagrams',[item('graph')]),group('q:text',[item('q/prompt'),item('a/prompt')])])])};
+ const repaired=liftQuestionStem(tree,'q');
+ assert.equal(repaired.root.children[1].children[0].ref,'q/prompt');
+ assert.deepEqual(arrangementItems(repaired.root).map(n=>n.ref),['q/label','q/prompt','graph','a/prompt']);
+});
 
 test('standalone diagrams keep their content after arrangement resize and save',()=>{
  for(const type of ['diagram','image']){
