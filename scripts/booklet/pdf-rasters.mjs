@@ -5,6 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {spawn,spawnSync} from 'node:child_process';
 import {gzipSync,gunzipSync,deflateSync} from 'node:zlib';
+import {pdfToolPath} from './pdf-layout-qa.mjs';
 
 export const RASTER_FORMAT='mathsmap-pdf-rasters-v1',DPI=144,FOOTER_MM=15;
 export const TARGETED_RASTER_FORMAT='mathsmap-pdf-targeted-rasters-v1';
@@ -29,7 +30,7 @@ export function rgbPng({width,height,pixels}){
  return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',deflateSync(rows)),chunk('IEND',Buffer.alloc(0))]);
 }
 export function popplerVersion(renderer='pdftoppm'){if(!['pdftoppm','pdftocairo'].includes(renderer))throw Error('Unsupported PDF rasterizer');const r=spawnSync(renderer,['-v'],{windowsHide:true,encoding:'utf8'});if(r.error||r.status!==0)throw Error('PDF rasterization requires '+renderer+': '+(r.error?.message??r.stderr));return (r.stderr+r.stdout).trim();}
-export function renderPdfPage(pdf,page){const r=spawnSync('pdftoppm',['-r',String(DPI),'-f',String(page),'-l',String(page),'-singlefile',pdf],{windowsHide:true,maxBuffer:64*1024*1024});if(r.error||r.status!==0)throw Error('PDF rasterization failed: '+(r.error?.message??r.stderr?.toString()));decodePpm(r.stdout);return r.stdout;}
+export function renderPdfPage(pdf,page){const r=spawnSync('pdftoppm',['-r',String(DPI),'-f',String(page),'-l',String(page),'-singlefile',pdfToolPath(pdf)],{windowsHide:true,maxBuffer:64*1024*1024});if(r.error||r.status!==0)throw Error('PDF rasterization failed: '+(r.error?.message??r.stderr?.toString()));decodePpm(r.stdout);return r.stdout;}
 // Native PNG output is retained verbatim. Cache validation reads its hash and
 // header, never inflates pixels or re-encodes an already accepted image.
 function pngSize(bytes){
@@ -55,7 +56,7 @@ export async function renderPdfRange(pdf,first,last,{out}){
   await new Promise((resolve,reject)=>{
    // Splash/pdftoppm can omit complete vertical strokes present in the PDF.
    // Cairo preserves those vectors (verified against the native browser SVG).
-   const child=spawn('pdftocairo',['-r',String(DPI),'-f',String(first),'-l',String(last),'-png',pdf,prefix],{windowsHide:true,stdio:['ignore','ignore','pipe']});let errors='';
+   const child=spawn('pdftocairo',['-r',String(DPI),'-f',String(first),'-l',String(last),'-png',pdfToolPath(pdf),pdfToolPath(prefix)],{windowsHide:true,stdio:['ignore','ignore','pipe']});let errors='';
    child.stderr.on('data',bytes=>{errors=(errors+bytes.toString()).slice(-8192);});
    child.on('error',reject);child.on('close',code=>code===0?resolve():reject(Error('PDF rasterization failed: '+errors)));
   });

@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
+import {pdfToolPath} from './pdf-layout-qa.mjs';
 
 const decodeName=name=>name.replace(/#([\da-f]{2})/gi,(_,hex)=>String.fromCharCode(parseInt(hex,16)));
 
@@ -43,7 +44,7 @@ export function verifyPdfNavigation(annotations,destinations,expectedLinks){
 }
 
 export function inspectPdfNavigation(file,expectedLinks){
- const result=spawnSync('pdfinfo',['-dests',file],{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
+ const result=spawnSync('pdfinfo',['-dests',pdfToolPath(file)],{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
  if(result.error||result.status!==0)throw Error('PDF navigation validation requires pdfinfo: '+(result.error?.message??result.stderr));
  if(/error|bad named destination|failed to look up/i.test(result.stderr))throw Error(result.stderr);
  const destinations=new Map([...result.stdout.matchAll(/^\s*(\d+)\s+\[[^\]]*\]\s+"([^"]+)"\s*$/gm)].map(m=>[m[2],Number(m[1])]));

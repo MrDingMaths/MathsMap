@@ -1,9 +1,17 @@
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import path from 'node:path';
+// Poppler's Windows file APIs need the native extended form beyond MAX_PATH.
+// Keep artifact paths and hashes unchanged; only the external tool argument changes.
+export function pdfToolPath(file,platform=process.platform){
+ if(platform!=='win32')return file;
+ const absolute=path.win32.resolve(file);
+ return absolute.length>=260?path.win32.toNamespacedPath(absolute):file;
+}
 // The DOM cannot expose Chromium's final fragmentation of flowing answer sheets.
 // Poppler supplies actual printed word bounds, including SVG graph labels.
 export function inspectPrintedPdf(file) {
- const command=process.env.BOOKLET_PDF_PYTHON??'pdftotext',args=process.env.BOOKLET_PDF_PYTHON?[fileURLToPath(new URL('./pdf-word-bounds.py',import.meta.url)),file]:['-bbox','-enc','UTF-8',file,'-'];
+ const command=process.env.BOOKLET_PDF_PYTHON??'pdftotext',args=process.env.BOOKLET_PDF_PYTHON?[fileURLToPath(new URL('./pdf-word-bounds.py',import.meta.url)),file]:['-bbox','-enc','UTF-8',pdfToolPath(file),'-'];
  const result=spawnSync(command,args,{encoding:'utf8',maxBuffer:32*1024*1024,windowsHide:true});
  if(result.error||result.status!==0)throw Error('PDF geometry validation requires the configured word-bounds backend: '+(result.error?.message??result.stderr));
  const pages=[];
