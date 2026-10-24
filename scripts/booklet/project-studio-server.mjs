@@ -241,17 +241,20 @@ export async function duplicateBookletProject(id, { projectRoot = PROJECT_ROOT, 
 
 // Library-only maintenance never publishes pending question changes to the bank.
 // It may also rename the booklet; an omitted library keeps the current one.
-export async function updateProjectLibrary(id, library, {projectRoot = PROJECT_ROOT, expectedRevision, title} = {}) {
+export async function updateProjectLibrary(id, library, {projectRoot = PROJECT_ROOT, expectedRevision, title, cover} = {}) {
   const nextTitle=title==null?null:String(title).trim();
   if(nextTitle==='')throw Object.assign(new Error('Project needs a title'),{statusCode:400});
+  if(cover!=null&&(typeof cover!=='object'||Array.isArray(cover)||Object.entries(cover).some(([key,value])=>!['title','course','book'].includes(key)||typeof value!=='string'||!value.trim())))throw Object.assign(new Error('Cover metadata must contain non-empty title, course or book strings'),{statusCode:400});
   return withBankLock(async()=>{
     const file=fileFor(projectRoot,id), previous=await readJson(file);
     if(!previous)throw Object.assign(new Error('Booklet project not found'),{statusCode:404});
     if(expectedRevision==null || Number(expectedRevision)!==Number(previous.revision))throw Object.assign(new Error('Project changed; reload before updating its library details.'),{statusCode:409});
     const nextLibrary=normalizeProjectLibrary(library??previous.library);
     const renamed=nextTitle!=null&&nextTitle!==previous.title;
-    if(!renamed&&JSON.stringify(library==null?nextLibrary:previous.library)===JSON.stringify(nextLibrary))return previous;
-    const project={...previous,...(renamed?{title:nextTitle}:{}),library:nextLibrary,revision:Number(previous.revision)+1,updatedAt:new Date().toISOString()};
+    const nextCover=cover==null?previous.settings?.cover:{...previous.settings?.cover,...Object.fromEntries(Object.entries(cover).map(([key,value])=>[key,value.trim()]))};
+    const coverChanged=cover!=null&&JSON.stringify(nextCover)!==JSON.stringify(previous.settings?.cover);
+    if(!renamed&&!coverChanged&&JSON.stringify(library==null?nextLibrary:previous.library)===JSON.stringify(nextLibrary))return previous;
+    const project={...previous,...(renamed?{title:nextTitle}:{}),...(coverChanged?{settings:{...previous.settings,cover:nextCover}}:{}),library:nextLibrary,revision:Number(previous.revision)+1,updatedAt:new Date().toISOString()};
     const checkpoints=await projectCheckpointEntries(projectRoot,previous);
     await writeTransaction([...checkpoints,[file,project]]);
     if(checkpoints.length)await retainHistory(projectRoot,id);
@@ -542,7 +545,7 @@ export function projectStudioPlugin() {
           const libraryMatch=pathname.match(/^\/__booklet\/projects\/([^/]+)\/library$/);
           if(libraryMatch&&req.method==='PATCH'){
             const body=await readBody(req);
-            return send(res,200,await updateProjectLibrary(decodeURIComponent(libraryMatch[1]),body.library,{expectedRevision:body.expectedRevision,title:body.title}));
+            return send(res,200,await updateProjectLibrary(decodeURIComponent(libraryMatch[1]),body.library,{expectedRevision:body.expectedRevision,title:body.title,cover:body.cover}));
           }
           const openMatch=pathname.match(/^\/__booklet\/projects\/([^/]+)\/open$/);
           if(openMatch&&req.method==='GET')return send(res,200,await openBookletProject(decodeURIComponent(openMatch[1])));

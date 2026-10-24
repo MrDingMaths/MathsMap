@@ -63,6 +63,16 @@ const built = await build({
 });
 const rendered = await import('data:text/javascript;base64,' + Buffer.from(built.outputFiles[0].text).toString('base64'));
 
+test('standalone teaching diagrams pass explicit alignment to both image and TikZ output',()=>{
+ for(const align of ['left','center','right',undefined])for(const format of ['image','tikz']){
+  const block={id:'alignment-cue',type:'diagram',format,align,widthMm:25,...(format==='tikz'?{code:'\\begin{tikzpicture}\\end{tikzpicture}'}:{src:'/cue.png'})};
+  const p={id:'alignment-page',pageNumber:1,mode:'student',flexible:true,section:{id:'teaching',phase:'teaching'},blocks:[block]};
+  const html=rendered.page({page:p,bookletPages:[p],runId:'fixture'});
+  if(align)assert.match(html,new RegExp(`data-diagram-id="alignment-cue" data-diagram-align="${align}"`));
+  else assert.doesNotMatch(html,/data-diagram-align=/);
+ }
+});
+
 test('actual student, combined and compact answer components print unnumbered exercise nouns once',()=>{
  for(const label of['Exercise','Exercises','8A']){
   const heading=label==='8A'?'Exercise 8A':label;

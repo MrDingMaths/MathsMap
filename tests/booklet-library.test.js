@@ -99,6 +99,30 @@ test('library-only saves rename without touching content and reject blank titles
   assert.equal(both.title,'Both');assert.equal(both.library.category,'import-review');assert.equal(both.revision,renamed.revision+1);
 });
 
+test('library metadata saves cover overrides without normalising content or touching the bank',async t=>{
+ const root=await fs.mkdtemp(path.join(os.tmpdir(),'booklet-library-cover-'));t.after(()=>fs.rm(root,{recursive:true,force:true}));
+ const options={projectRoot:path.join(root,'projects'),bankRoot:path.join(root,'bank')};
+ const created=await createBookletProject({title:'Old name',library:{category:'master',courseId:'s5-core'}},options);
+ const file=path.join(options.projectRoot,created.id+'.json'),before=JSON.parse(await fs.readFile(file,'utf8'));
+ before.settings.cover={title:'Old cover',version:'261001',feedback:'https://example.com'};
+ // Pending or historically invalid content must survive a metadata-only save.
+ before.sections[0].blocks=[{id:'pending',type:'rich-text',content:{legacy:true}}];
+ await fs.writeFile(file,JSON.stringify(before));
+ await fs.mkdir(options.bankRoot,{recursive:true});await fs.writeFile(path.join(options.bankRoot,'sentinel.json'),'pending bank content');
+ const cover={title:'  Linear Inequalities  ',course:'Mathematics Stage 5 Paths',book:'Book 5'};
+ const saved=await updateProjectLibrary(created.id,{...before.library,courseId:'s5-path'},{...options,expectedRevision:before.revision,title:'Equations 5: Linear Inequalities',cover});
+ assert.equal(saved.title,'Equations 5: Linear Inequalities');assert.equal(saved.library.courseId,'s5-path');
+ assert.deepEqual(saved.settings.cover,{...before.settings.cover,...cover,title:'Linear Inequalities'});
+ assert.deepEqual(saved.sections,before.sections);assert.equal(saved.revision,before.revision+1);
+ assert.deepEqual({...saved.settings,cover:before.settings.cover},before.settings);
+ assert.equal(await fs.readFile(path.join(options.bankRoot,'sentinel.json'),'utf8'),'pending bank content');
+ assert.deepEqual(JSON.parse(await fs.readFile(file,'utf8')),saved);
+ const same=await updateProjectLibrary(saved.id,saved.library,{...options,expectedRevision:saved.revision,title:saved.title,cover:saved.settings.cover&&{title:saved.settings.cover.title,course:saved.settings.cover.course,book:saved.settings.cover.book}});
+ assert.equal(same.revision,saved.revision);
+ await assert.rejects(updateProjectLibrary(saved.id,saved.library,{...options,expectedRevision:before.revision,cover}),{statusCode:409});
+ for(const invalid of [{title:''},{course:7},{version:'changed'},[]])await assert.rejects(updateProjectLibrary(saved.id,undefined,{...options,expectedRevision:saved.revision,cover:invalid}),{statusCode:400});
+});
+
 test('client library update sends a title only when supplied',async()=>{
   const bodies=[];const fetchImpl=async(url,options)=>{bodies.push(JSON.parse(options.body));return {ok:true,json:async()=>({})};};
   await updateBookletProjectLibrary('a',{category:'master'},3,fetchImpl);

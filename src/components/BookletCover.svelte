@@ -71,7 +71,7 @@
   .contents-list { display:grid; gap:3.1mm; }
   .contents-list.long-compact { gap:1.5mm; }
   .contents-row { display:grid; grid-template-columns:max-content 1fr max-content; align-items:end; gap:2mm; font-size:var(--type-body); line-height:1.15; }
-  .contents-row.numbered { grid-template-columns:8mm minmax(0,1fr) 8mm; align-items:start; font-size:10pt; }
+  .contents-row.numbered { grid-template-columns:minmax(8mm,max-content) minmax(0,1fr) 8mm; align-items:start; font-size:10pt; }
   .contents-number { font-variant-numeric:tabular-nums; }
   .leader { border-bottom:.45mm dotted var(--booklet-muted); transform:translateY(-1.25mm); }
   .page-no { min-width:5mm; text-align:right; font-variant-numeric:tabular-nums; }
