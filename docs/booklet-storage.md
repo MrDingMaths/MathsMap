@@ -114,8 +114,10 @@ The 24 October 2026 working-tree settlement raises the tracked-file budget from
 chapter projects, Network Concepts and its original sources, referenced source
 images, and saved booklet repairs with synchronised bank baselines and durable
 review records. The Stage 6 Advanced group adds about 30 MiB of editable content
-and source assets. Individual file limits and generated-file exclusions remain
-unchanged. This allowance records storage growth, not content acceptance.
+and source assets. Network Concepts.docx is an original 10,965,177-byte Word
+source and receives a narrow 11 MiB file allowance. Other individual file limits
+and generated-file exclusions remain unchanged. These allowances record storage
+growth, not content acceptance.
 
 The 18 October 2026 working-tree settlement raises the tracked-file budget to
 1700 MiB for saved booklet convention/layout repairs, synchronised bank records,
