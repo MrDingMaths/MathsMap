@@ -9,6 +9,25 @@ import {verificationDependencies,PIPELINE_POLICY} from '../scripts/booklet/impor
 import {createHash} from 'node:crypto';
 const block=()=>({id:'old',type:'question',number:1,sourcePageNumber:3,classification:{primarySkillId:'s4'},content:{id:'n',prompt:'Find x.',answer:{short:'4',worked:'x = 8 / 2 = 4'},questionDiagrams:[{id:'d',format:'tikz',code:'label 8',widthMm:50}]}});
 const context=prior=>({projectId:'prior',blocks:[prior],accepted:new Map([[prior.id,{record:'reviewed.json',note:'Independent mathematical review'}]])});
+
+test('unstable advisory project reads fall back without accepting partial or changed content',()=>{
+ const tempRoot=path.resolve(os.tmpdir()),dir=fs.mkdtempSync(path.join(tempRoot,'review-reuse-race-'));
+ assert.ok(path.resolve(dir).startsWith(tempRoot+path.sep));
+ const file=path.join(dir,'prior.json'),prior=block(),copy=structuredClone(prior),project={id:'prior',sections:[{blocks:[prior]}]},text=JSON.stringify(project);
+ const source={...context(prior),projectFile:file,projectFileHash:createHash('sha256').update(text).digest('hex')};
+ try{
+  fs.writeFileSync(file,text);
+  assert.equal(reuseCandidate(copy,source).blockId,'old');
+  assert.equal(reuseCandidate(copy,{...source,currentProjectHash(){throw Error('Reuse project changed during retrieval');}}),null);
+  fs.writeFileSync(file,'{"id":"prior","sections":[');
+  assert.equal(reuseCandidate(copy,source),null,'partial source JSON cannot supply acceptance');
+  const changed=structuredClone(project);changed.sections[0].blocks[0].content.answer.short='5';fs.writeFileSync(file,JSON.stringify(changed));
+  assert.equal(reuseCandidate(copy,source),null,'a stable changed answer still cannot reuse the prior acceptance');
+  fs.writeFileSync(file,JSON.stringify({...project,revision:2}));
+  assert.equal(reuseCandidate(copy,source).blockId,'old','unchanged content remains reusable after a metadata save');
+  assert.throws(()=>reuseCandidate(copy,{...source,currentProjectHash(){throw Error('unexpected implementation failure');}}),/unexpected implementation failure/);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+});
 test('editable copies remap local IDs, references and source pages without bank or review acceptance',()=>{
  const prior=block();prior.sourceRefs=[{pageNumber:3,targetId:'n',runId:'old-run'}];prior.bankRef={id:'bank'};prior.canonicalId='bank';prior.verification={passed:true};prior.content.arrangement={targetId:'d'};prior.sourceReview={responses:['4'],status:'accepted',reviewer:'old',sourcePages:[3],teachingPages:[3,5],sourcePagination:{page:3,breakBefore:true}};
  const copy=cloneReusableBlock(prior,{projectId:'ratios-v1',idPrefix:'stage5',pageMap:{3:41},runId:'new-run'});

@@ -84,8 +84,13 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
    const parent=teachingGroups.get(e.parentId);
    return !e.exclusionReason&&e.kind==='example'&&promptTargets.has(e.targetId)&&parent&&Number.isInteger(e.pageNumber)&&e.pageNumber===parent.pageNumber;
   }).map(e=>[e.id,e]));
+  const teachingQuestions=new Map(entries.filter(e=>{
+   if(!block.pedagogyRole||e.exclusionReason||e.kind!=='question'||!promptTargets.has(e.targetId)||!Number.isInteger(e.pageNumber))return false;
+   return sourceGroups.some(group=>group.id===block.sourceAtom?.id&&group.kind===block.pedagogyRole&&group.id===e.parentId&&group.pageNumber===e.pageNumber&&!group.exclusionReason&&group.entryIds?.includes(e.id));
+  }).map(e=>[e.id,e]));
   const teachingResponse=e=>{
-   const parent=teachingGroups.get(e.parentId)??teachingExamples.get(e.parentId);
+   const parent=teachingGroups.get(e.parentId)??teachingExamples.get(e.parentId)??teachingQuestions.get(e.parentId);
+   if(teachingQuestions.has(e.parentId)&&!sourceGroups.some(group=>group.id===parent.parentId&&group.pageNumber===parent.pageNumber&&group.entryIds?.includes(e.id)))return false;
    return e.kind==='part'&&parent&&Number.isInteger(e.pageNumber)&&e.pageNumber===parent.pageNumber&&['cloze','inline','short','working','tick-cross'].includes(e.responseKind);
   };
   // Some original inventories store range instructions in their groups table,
@@ -103,7 +108,7 @@ export function derivedAnswerDiagramEntries(sections,entries,{groups:sourceGroup
    members.forEach(member=>metadataOwners.add(member));
   }
   const visit=(node,owner=source)=>{
-   if(groups.size||metadataOwners.size)owner=entries.find(e=>!e.exclusionReason&&e.targetId===node?.id&&(e.kind==='question'&&(metadataOwners.has(e)||groups.has(e.parentId)||groups.has(e.sharedStemId))||teachingResponse(e)))??owner;
+   if(groups.size||metadataOwners.size||teachingQuestions.size)owner=entries.find(e=>!e.exclusionReason&&e.targetId===node?.id&&(e.kind==='question'&&(metadataOwners.has(e)||groups.has(e.parentId)||groups.has(e.sharedStemId))||teachingResponse(e)))??owner;
    // A nested multipart teaching task can own its independently inventoried
    // instruction directly, without a second inventory entry for its header.
    // Require the exact native group and the activity's source page; a heading,

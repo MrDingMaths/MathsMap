@@ -1,5 +1,9 @@
 # Booklet change runbook
 
+## Import completion and repair routing (24 October 2026)
+
+New imports follow [streamlined completion](booklet-three-pass-import.md#streamlined-completion-24-october-2026). Saving a revision is progress, not acceptance. The shared gate blocks missing/stale reviews, unreliable inspections, unresolved substantive findings, unverified content repairs and failed/stale exports; there is no residual finding-count allowance. Route scaffold/content structure and diagram-code changes to the existing content-capable path even when the finding's area says layout or response. Independently check changed mathematics and visually verify the exact requested relationship before resolving it. Preserve teacher decisions and local exceptions; an open request does not approve its whole block. Verified substantive repairs may justify page growth; discretionary pagination trials retain no-growth and working-space floors. Use one final export and scoped repair checks, not a second full residual review. ICE-EM keeps its direct-route exception; historical evidence and active workers are preserved. This does not initiate any existing-booklet repair campaign or alter the local-maintenance matrix below.
+
 Accepted 11 September 2026; feedback verification narrowed by user request on 16 September 2026. Use for booklet content, renderer, editor and house-style changes. Ordinary feedback uses the scoped checks below, not a new transcription settlement. The [cross-session rules](booklet-cross-session-rules.md) and [acceptance checklist](booklet-transcription-feedback-checklist.md) supply applicable quality requirements; the full [review-first workflow](booklet-review-first-workflow.md) applies to new imports and required full acceptance.
 
 ## 1. Establish scope once

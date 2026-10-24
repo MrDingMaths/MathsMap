@@ -1,7 +1,7 @@
 // Save invariants shared by the polish driver and its layout trials. Pure/browser-safe.
 import {isPractice} from '../src/lib/booklet-flow.js';
 import {bandIndex,reasoningScore} from '../src/lib/booklet-pagination-metrics.js';
-import {allowanceCopies,importedAllowance,stillImportAllowance} from '../src/lib/booklet-working-space.js';
+import {allowanceCopies,importedAllowance,stillImportAllowance,workingSpaceFloor} from '../src/lib/booklet-working-space.js';
 import {automatedRepair} from '../src/lib/booklet-import-spacing.js';
 
 const blocksOf=p=>(p.sections??[]).flatMap(s=>s.blocks??[]);
@@ -15,7 +15,8 @@ export function nodesOf(value){
 export const teacherFlags=p=>(p.studio?.flags??[]).filter(f=>!f.kind&&f.at);
 export function teacherBlocks(project){
  const owners=new Map(blocksOf(project).flatMap(b=>nodesOf(b).map(n=>[n.id,b.id]))),found=new Set();
- for(const flag of teacherFlags(project))for(const id of [flag.targetId,flag.anchor?.rootId])if(owners.has(id))found.add(owners.get(id));
+ // Open requests still need repair. Resolved decisions and authorised repairs stay protected.
+ for(const flag of teacherFlags(project).filter(f=>f.resolved))for(const id of [flag.targetId,flag.anchor?.rootId])if(owners.has(id))found.add(owners.get(id));
  for(const b of blocksOf(project))if(b.sourceReview?.authorisedFeedback||(b.sourceReview?.feedbackRepairs??[]).some(e=>!automatedRepair(e)))found.add(b.id);
  return found;
 }
@@ -74,6 +75,10 @@ export function polishSafetyIssues(before,after,{reference=before,imported=null,
    const importedBlock=imported&&blocksOf(imported).find(b=>b.id===block.id),importedNode=importedBlock&&nodesOf(importedBlock).find(n=>n.id===node.id);
    const estimate=importedAllowance(original,node.id)??(importedNode?imported.settings?.layoutOverrides?.answerSpaces?.[node.id]??importedNode.answerSpaceMm:undefined);
    const protectedSpace=!stillImportAllowance(copies,estimate),afterCopies=n?allowanceCopies(after,now,n):[];
+   if(n)for(const [key,value]of afterCopies){
+    const previous=allowanceCopies(before,block,node).find(([k])=>k===key)?.[1];
+    if(Number.isFinite(previous)&&value<previous&&value+0.01<workingSpaceFloor(now,n,{reviewed:teacherFlags(reference).some(f=>f.resolved)}))issues.push('working space below its floor '+node.id);
+   }
    if(protectedSpace&&!equal(copies,afterCopies))issues.push('changed teacher/unknown working space '+node.id);
    if(teacherFlags(reference).length&&afterCopies.some(([key,value])=>{const previous=allowanceCopies(before,block,node).find(([k])=>k===key)?.[1];return Number.isFinite(previous)&&value>previous+0.01;}))issues.push('increased reviewed working space '+node.id);
   }

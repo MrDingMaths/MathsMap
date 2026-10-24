@@ -55,7 +55,7 @@ export function mergeQuestionFragments(input,groups=[]){
   locations.set(block.id,{packet,section,block});
  }
  const used=new Set();
- for(const {canonicalBlockId,fragmentBlockIds,allowEmptyContinuationStem=false,allowFragmentLayouts=false}of groups){
+ for(const {canonicalBlockId,fragmentBlockIds,allowEmptyContinuationStem=false,allowFragmentLayouts=false,singlePartBlockIds=[]}of groups){
   const canonical=locations.get(canonicalBlockId);
   if(!canonical||used.has(canonicalBlockId)||!Array.isArray(fragmentBlockIds)||!fragmentBlockIds.length)throw Error('Invalid canonical question fragment '+canonicalBlockId);
   const {block,packet,section}=canonical,root=block.content;
@@ -66,9 +66,10 @@ export function mergeQuestionFragments(input,groups=[]){
    const current=locations.get(id);
    if(!current||used.has(id)||current.packet.pageNumber<previousPage||current.packet.pageNumber<=packet.pageNumber||current.section.phase!=='practice'||current.section.topicId!==section.topicId)throw Error('Invalid ordered question fragment '+id);
    const next=current.block,body=next.content;
-   if(next.type!=='question'||!body?.children?.length||!(isDeepStrictEqual(body.prompt,root.prompt)||(allowEmptyContinuationStem&&body.prompt===''))||(!allowFragmentLayouts&&(body.layout!==root.layout||body.columns!==root.columns))||body.questionDiagrams?.length||body.answer||body.sharedSolutionDiagrams?.length||next.presentation?.layoutOverrides?.blockLayouts?.[id]?.arrangement)throw Error('Question fragment has distinct content or arrangement '+id);
-   if(current.packet.inventoryMappings.some(mapping=>!mapping.exclusionReason&&[id,body.id].includes(mapping.targetId)))throw Error('Question fragment owns a separately inventoried stem '+id);
-   for(const part of body.children){
+   const singlePart=singlePartBlockIds.includes(id)&&body?.type==='part'&&!!body.label&&!body.children?.length;
+   if(next.type!=='question'||!singlePart&&!body?.children?.length||!(isDeepStrictEqual(body.prompt,root.prompt)||(allowEmptyContinuationStem&&(body.prompt??'')===''))||!singlePart&&(!allowFragmentLayouts&&(body.layout!==root.layout||body.columns!==root.columns)||body.questionDiagrams?.length||body.answer||body.sharedSolutionDiagrams?.length)||next.presentation?.layoutOverrides?.blockLayouts?.[id]?.arrangement)throw Error('Question fragment has distinct content or arrangement '+id);
+   if(current.packet.inventoryMappings.some(mapping=>!mapping.exclusionReason&&(mapping.targetId===id||!singlePart&&mapping.targetId===body.id)))throw Error('Question fragment owns a separately inventoried stem '+id);
+   for(const part of singlePart?[body]:body.children){
     if(!part.label||labels.has(part.label))throw Error('Duplicate or unlabelled question fragment part '+id);
     for(const nodeId of nodeIds(part)){if(ids.has(nodeId))throw Error('Duplicate question fragment node '+nodeId);ids.add(nodeId);}
     labels.add(part.label);root.children.push(part);

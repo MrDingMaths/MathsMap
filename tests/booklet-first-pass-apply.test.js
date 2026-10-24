@@ -273,3 +273,13 @@ test('the original finding is checked only in its own edition; other editions ch
  const tasks=verificationTasks({accepted:[{id:'fix',patches:[]}],findingDetails:{fix:{edition:'student',targets:[{blockId:'q1'}]}},index:{owners:new Map()},before:source,after:source,editions:['student','short','worked']});
  assert.deepEqual(tasks.map(t=>[t.edition,t.requireFix]),[['student',true],['short',false],['worked',false]]);
 });
+
+
+test('source/readability growth needs positive exact-result verification and does not waive pagination defects',async t=>{
+ const space=await seeded(t),ids=idsOf(space),record=space.record();
+ record.findings.find(f=>f.id===ids.spacing).sourceRepair=true;
+ fs.writeFileSync(path.join(space.options.provenanceDir,'first-pass-fixture.json'),JSON.stringify(record));
+ const result=await apply(space,{findingIds:[ids.spacing],allowSubstantiveGrowth:true,retry:false,runner:repairRunner([{id:ids.spacing,reason:'Restore source grouping',patches:[patch('q1-a','/answerSpaceMm',18,24)]}]),verify:async({accepted})=>({automated:[],pagination:['student grew from 7 to 8 pages'],findings:accepted.map(row=>({id:row.id,fixed:true,regressed:false,note:'Exact source grouping restored'}))})});
+ assert.deepEqual(result.applied,[ids.spacing]);
+ assert.equal(space.record().findings.find(f=>f.id===ids.spacing).growthReason.verified,true);
+});

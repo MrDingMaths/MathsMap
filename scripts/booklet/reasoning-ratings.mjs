@@ -44,6 +44,15 @@ export function assessedRating(block,rating,{model,assessedAt,evidence}){
 export function validatePacketRatings(packet){
  for(const {block} of practiceRatingBlocks(packet))if(!validRawRating(block.classification))throw Error('Missing or invalid individual reasoning rating: '+block.id);
 }
+// A fresh model supplies the score and rationale; the rubric determines its band.
+// This does not create assessment provenance or change saved project ratings.
+export function normaliseAuthoredRatingBands(packet){
+ for(const {block} of practiceRatingBlocks(packet)){
+  const rating=block.classification,score=rating?.reasoningScore;
+  if(Number.isInteger(score)&&score>=0&&score<=100)rating.difficulty=difficultyBandForScore(score);
+ }
+ return packet;
+}
 export function stampPacketRatings(packet,metrics,evidence){
  validatePacketRatings(packet);
  for(const {block} of practiceRatingBlocks(packet)){

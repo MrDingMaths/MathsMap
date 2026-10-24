@@ -10,6 +10,7 @@ import {spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {conflictsWithDecidedConvention} from '../src/lib/booklet-cloze-convention.js';
+import {flowEditionSections} from '../src/lib/booklet-flow.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const BASE='http://127.0.0.1:5173';
@@ -166,13 +167,14 @@ export function decidedFor(record,blockIds){
  const wanted=new Set(blockIds),state=finding=>finding.state==='rejected'?'rejected':finding.state==='approved'?'kept':finding.commentId&&['pending','stale'].includes(finding.state)?'open':null;
  return (record.findings??[]).filter(finding=>state(finding)&&finding.targets.some(target=>wanted.has(target.blockId))).map(finding=>({state:state(finding),edition:finding.edition,area:finding.area,targets:finding.targets.map(target=>target.id),comment:finding.comment}));
 }
-export function batchPrompt({project,index,edition,rows,pagemap,record={findings:[]},source=[],root=ROOT,textbook=false}){
+export function batchPrompt({project,index,edition,rows,pagemap,record={findings:[]},source=[],root=ROOT,textbook=false,verificationFindings=[]}){
  const ids=[...new Set(rows.flatMap(row=>row.blocks.map(block=>block.id)))].filter(id=>index.blocks.has(id));
  const payload={booklet:project.title??project.id,course:project.settings?.cover?.course??null,edition,pages:rows,
   blocks:edition==='student'?ids.map(id=>blockEntry(project,index,id)).filter(Boolean):ids.map(id=>textEntry(index,id)).filter(Boolean),
   similar:edition==='student'?similarBlocks(project,index,ids,pagemap.student):[],
   decided:decidedFor(record,ids),...(source.length?{source:source.map(row=>({sourcePage:row.page}))}:{})};
  const build=()=>contract({root})+'\n\n'+FRAMING+(textbook?'\n\nTextbook import override: do not assess pedagogy, opening reviews, extensions, bridging questions or teaching-sequence redesign. Return only source/content and presentation defects; never return review or extension findings.':'')+'\n\nInput:\n'+JSON.stringify(payload);
+ if(verificationFindings.length)payload.verificationRequests=verificationFindings.map(f=>({id:f.id,comment:f.comment,targets:f.targets}));
  let prompt=build();
  // Too large: drop the comparisons first, then cut block layouts to a line of text.
  if(prompt.length>LIMITS.payloadCharacters&&payload.similar.length){payload.similar=[];prompt=build();}
@@ -218,6 +220,7 @@ export async function withRenderResource(action){
 export async function renderPageMap(project,options={}){
  return withRenderResource(()=>renderPageMapInner(project,options));
 }
+export const editionHasContent=(project,edition)=>flowEditionSections(project,edition).some(section=>section.blocks.length);
 async function renderPageMapInner(project,{base=BASE,editions=EDITIONS}={}){
  if(!await serverReady(base))throw Error(`No Studio server at ${base}. Start the port-5173 server with the mathsmap-dev launch configuration (AGENTS.md, Remote Studio access).`);
  const {chromium}=await import('playwright-core'),{routeCandidateProject}=await import('../scripts/booklet/diagram-preflight.mjs');
@@ -227,6 +230,7 @@ async function renderPageMapInner(project,{base=BASE,editions=EDITIONS}={}){
   page.setDefaultTimeout(300000);
   await routeCandidateProject(page,record);
   for(const edition of editions){
+   if(!editionHasContent(record,edition)){result[edition]=[];(result.issues??={})[edition]=[];continue;}
    record.settings.flowEdition=edition;
    await page.goto('about:blank');
    await page.goto(base+'/#/booklet?stage=projects&project='+encodeURIComponent(project.id),{waitUntil:'domcontentloaded',timeout:180000});
@@ -326,7 +330,7 @@ export function normalise(row,{index,edition,blockIds,pages}){
  // A decided convention (src/lib/booklet-cloze-convention.js) is dropped even when the worker raises it: 92 such findings were rejected by the teacher.
  const decided=conflictsWithDecidedConvention({comment:text(row.comment),proposal});
  if(decided)return {error:'conflicts with a decided convention: '+decided};
- return {value:{edition,page,area:row.area,scope:SCOPES.includes(row.scope)?row.scope:'local',targets,comment:text(row.comment),gain:text(row.gain),proposal}};
+ return {value:{edition,page,area:row.area,scope:SCOPES.includes(row.scope)?row.scope:'local',targets,comment:text(row.comment),gain:text(row.gain),proposal,...(['layout','structure','diagram-code','mathematics'].includes(row.repairKind)?{repairKind:row.repairKind}:{})}};
 }
 const targetRows=(project,index,targets)=>targets.map(id=>({id,blockId:index.owners.get(id),hash:blockHash(project,index,index.owners.get(id))}));
 // One issue: the same area in the same edition on an overlapping block. The
@@ -417,7 +421,7 @@ export function canonicalRunDir(project,{root=ROOT}={}){
 const describeBatch=batch=>({edition:batch.edition,pages:batch.rows.map(row=>row.page)});
 // reportOnly (polish residual check): the same review and contract; the findings of this run are returned as
 // `residual`, and the record is saved only into an explicitly named --provenance-dir, never the booklet's own.
-export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITIONS,concurrency=LIMITS.concurrency,dry=false,fresh=false,source=false,reportOnly=false,textbook=false,base=BASE,runner=defaultRunner,lease=defaultLease,mapPages=defaultMapPages,renderImages=defaultRenderImages,provenanceDir,workDir,runDir,log=()=>{}}={}){
+export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITIONS,concurrency=LIMITS.concurrency,dry=false,fresh=false,source=false,reportOnly=false,textbook=false,verificationFindings=[],base=BASE,runner=defaultRunner,lease=defaultLease,mapPages=defaultMapPages,renderImages=defaultRenderImages,provenanceDir,workDir,runDir,log=()=>{}}={}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>LIMITS.concurrency)throw Error('Use one to three workers');
  if(!editions.length||editions.some(edition=>!EDITIONS.includes(edition)))throw Error('--editions takes student, short and worked');
  const project=read(projectFile),index=bookletIndex(project),hash=contentHash(project);
@@ -436,10 +440,11 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
  if(dry)return plan;
 
  const rendered=await renderImages({project,dir:renderDir,selection,pagemap,base,fresh,root,log});
- const found=[],unreliable=[],calls=[],errors=[],reviewed={student:new Set(),short:new Set(),worked:new Set()},reviewedPages={student:new Set(),short:new Set(),worked:new Set()};
+ const found=[],unreliable=[],calls=[],errors=[],verifiedFindings=[],reviewed={student:new Set(),short:new Set(),worked:new Set()},reviewedPages={student:new Set(),short:new Set(),worked:new Set()};
  await pool(batches,concurrency,async(batch,i)=>{
   const extra=source&&batch.edition==='student'?sourceImages(index,batch.rows,runDir):[];
-  const {prompt}=batchPrompt({project,index,edition:batch.edition,rows:batch.rows,pagemap,record,source:extra,root,textbook});
+  const verify=verificationFindings.filter(f=>f.edition===batch.edition&&f.targets.some(t=>batch.rows.some(row=>row.blocks.some(b=>b.id===t.blockId))));
+  const {prompt}=batchPrompt({project,index,edition:batch.edition,rows:batch.rows,pagemap,record,source:extra,root,textbook,verificationFindings:verify});
   const blockIds=[...new Set(batch.rows.flatMap(row=>row.blocks.map(block=>block.id)))],pageNumbers=batch.rows.map(row=>row.page);
   const call={batch:i,...describeBatch(batch),findings:0,discarded:[]};calls.push(call);
   try{
@@ -448,11 +453,12 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
    log(`Reviewing ${EDITION_NAMES[batch.edition]} pages ${pageNumbers.join(',')}`);
    const {result,usage,elapsedMs,out}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,name:batch.edition+'-'+pageNumbers[0],prompt,images});
    Object.assign(call,{usage,elapsedMs,out:relative(root,out)});
+   for(const verdict of result?.verifiedFindings??[])if(verify.some(f=>f.id===verdict.id))verifiedFindings.push(verdict);
    for(const raw of Array.isArray(result?.findings)?result.findings:[]){
     if(textbook&&['review','extension'].includes(raw.area)){call.discarded.push('Excluded from textbook import: '+raw.area);continue;}
     const {value,error}=normalise(raw,{index,edition:batch.edition,blockIds,pages:pageNumbers});
     if(error){call.discarded.push(error);continue;}
-    found.push({id:findingId(value.area,value.edition,value.targets),...value,targets:targetRows(project,index,value.targets),revision:project.revision??null,batch:i});call.findings++;
+    found.push({id:findingId(value.area,value.edition,value.targets),...value,...(source&&extra.length?{sourceRepair:true}:{}),targets:targetRows(project,index,value.targets),revision:project.revision??null,batch:i});call.findings++;
    }
    for(const row of Array.isArray(result?.notReliablyReviewed)?result.notReliablyReviewed:[])if(text(row?.note))unreliable.push({edition:batch.edition,page:Number.isInteger(row.page)?row.page:null,note:text(row.note),revision:project.revision??null});
    blockIds.forEach(id=>reviewed[batch.edition].add(id));pageNumbers.forEach(page=>reviewedPages[batch.edition].add(page));
@@ -464,8 +470,9 @@ calls.sort((a,b)=>a.batch-b.batch);found.sort((a,b)=>a.batch-b.batch||EDITIONS.i
  Object.assign(record,{projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),model:'gpt-6.1-sol',effort:'low',findings:merged.findings,
   notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!reviewedPages[row.edition]?.has(row.page)),...unreliable],
   lastRun:{contentHash:hash,pages:plan.reviewed,calls,suppressed:merged.suppressed,render:{report:rendered.report,reused:rendered.reused,automatedFailures:(rendered.failures??[]).map(row=>row.kind+(row.count?' ×'+row.count:''))},errors}});
+ for(const finding of record.findings??[])if(verificationFindings.some(f=>f.id===finding.id)&&verifiedFindings.some(v=>v.id===finding.id&&v.fixed===true)&&!verifiedFindings.some(v=>v.id===finding.id&&v.fixed!==true)){finding.visualVerified=true;if(finding.contentVerified)setState(finding,'repaired','Independent content and affected-page verification passed');}
  if(!reportOnly||provenanceDir)saveProvenance(file,record);
- return {...summary(record,project),provenance:relative(root,file),calls:calls.map(({out,...call})=>call),errors,...(reportOnly?{reportOnly:true,residual,pageCounts:plan.pageCounts}:{})};
+ return {...summary(record,project),verifiedFindings,provenance:relative(root,file),calls:calls.map(({out,...call})=>call),errors,...(reportOnly?{reportOnly:true,residual,pageCounts:plan.pageCounts}:{})};
 }
 const brief=finding=>({id:finding.id,state:finding.state,edition:finding.edition,page:finding.page,area:finding.area,scope:finding.scope,targets:finding.targets.map(target=>target.id),comment:finding.comment,...(finding.proposal?{proposal:finding.proposal}:{}),...(finding.commentId?{posted:true}:{})});
 export function summary(record,project){

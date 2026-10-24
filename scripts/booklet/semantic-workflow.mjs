@@ -5,7 +5,7 @@ import {isLeanReview,LEAN_EDITORIAL_PROMPT} from './lean-profile.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {runCodexTranscription} from './codex-transcription.mjs';
-import {DEFAULT_CONCURRENCY} from './transcription.mjs';
+import {DEFAULT_CONCURRENCY,presentationContractForRun} from './transcription.mjs';
 import {requireCurrentTranscription,transcriptionConfiguration} from './transcription-settings.mjs';
 import {COMPACT_RECONSTRUCTION_PROMPT,COMPACT_SCHEMA,COMPACT_SOLUTIONS,compactTikzPrompt} from './token-efficient-prompts.mjs';
 import {currentEditorialContext,decisionInventoryIds} from './editorial-context.mjs';
@@ -107,6 +107,7 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
   if(preparedTask){const section=preparedTask.promptSections.find(s=>s.name==='automatic-reuse');if(section)add(section.name,section.text);}
   else if(reuseCandidates.length)add('automatic-reuse',AUTHOR_REUSE_CONTRACT+'\n'+JSON.stringify({reuseCandidates:reuseCandidates.map(({context,score,weight,...c})=>({...c,projectFileHash:context.projectFileHash,acceptance:context.accepted.get(c.blockId)}))}));
   add('contract',stage==='author'?COMPACT_RECONSTRUCTION_PROMPT:SOURCE_CONTRACT+'\n'+(isLeanReview(manifest)?'Make a concise source coverage checklist: every question/part, teaching group, supplied answer, meaningful diagram/table and source identity. Preserve full text, given values, order and source references. Do not independently solve questions at this stage or create a pattern-approval register. Exclude renderer-owned decorations explicitly.':INVENTORY_CONTRACT));
+  if(stage==='author')add('source-presentation',presentationContractForRun(manifest));
   if(isLeanReview(manifest))add('three-pass-precedence',LEAN_EDITORIAL_PROMPT+' Author questions, worked and short answers and classifications together. Check a small initial difficult-layout sample, repair shared problems, then continue. No pattern approval records. The independent content review follows authoring.');
   if(config.contentScope==='practice-only')add('content-scope',PRACTICE_ONLY_PROMPT);
   if(reviewed&&!isLeanReview(manifest)){
@@ -222,7 +223,8 @@ export function validateSemanticResult(result,{stage,page,inventory,reviewed=fal
   const entry=sourceEntries.get(mapping.inventoryId);
   const examplePart=entry?.kind==='part'&&sourceEntries.get(entry.parentId)?.kind==='example';
   const suppliedPart=entry?.kind==='part'&&(!entry.responseKind||entry.responseKind==='none')&&sourceDemonstration(entry);
-  return (entry?.kind==='example'||entry?.kind==='teaching'&&entry.expectedAnswer===undefined||examplePart||suppliedPart)&&(!entry.responseKind||entry.responseKind==='none');
+  const suppliedExampleWorking=entry?.kind==='answer'&&sourceEntries.get(entry.parentId)?.kind==='example'&&sourceDemonstration(entry);
+  return (entry?.kind==='example'||entry?.kind==='teaching'&&entry.expectedAnswer===undefined||examplePart||suppliedPart||suppliedExampleWorking)&&(!entry.responseKind||entry.responseKind==='none');
  }).flatMap(mapping=>[mapping.targetId,...(nodes.get(mapping.targetId)?.ancestors??[]).filter(node=>['question','group','part'].includes(node.type)).map(node=>node.id)]));
  const nonResponseExamples=new Set(result.sections.flatMap(section=>(section.blocks??[]).flatMap(block=>(block.sourceReview?.responses??[]).filter(response=>response.kind==='none'&&demonstrationTargets.has(response.targetId)).map(response=>response.targetId))));
  // Supplied alternatives are givens. Keep the single selection response
@@ -329,10 +331,10 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
  if(localReplay&&assigned)throw Error('Local replay cannot dispatch authoring assignments; select explicit pageReplay');
  let assignmentTasks,assignmentPlan;
  if(assigned){
-  const selected=new Set(pages);let changed=true;
-  while(changed){changed=false;for(const pair of manifest.continuations??[]){const values=Array.isArray(pair)?pair:[pair.from,pair.to];if(values.some(p=>selected.has(p)))for(const p of values)if(!selected.has(p)){selected.add(p);changed=true;}}}
-  assignmentTasks=createSemanticTasks({runDir,manifest,config,stage,pages:[...selected].sort((a,b)=>a-b),attempt,representative});
   const assignmentContinuations=config.assignmentLimits?.continuations??manifest.continuations??[];
+  const selected=new Set(pages);let changed=true;
+  while(changed){changed=false;for(const pair of assignmentContinuations){const values=Array.isArray(pair)?pair:[pair.from,pair.to];if(values.some(p=>selected.has(p)))for(const p of values)if(!selected.has(p)){selected.add(p);changed=true;}}}
+  assignmentTasks=createSemanticTasks({runDir,manifest,config,stage,pages:[...selected].sort((a,b)=>a-b),attempt,representative});
   assignmentPlan=planTaskAssignments(assignmentTasks,{...config.assignmentLimits,continuations:assignmentContinuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>selected.has(p)))});
   for(const a of assignmentPlan.assignments){const payload=assignmentPayload(a,assignmentTasks);a.variableCharacters=payload.promptStats.sections.assignment;a.oversized ||= a.variableCharacters>assignmentPlan.limits.maxCharacters;if(a.oversized)a.exception??='Indivisible question/activity plus required evidence exceeds the budget; retained in full';}
  }

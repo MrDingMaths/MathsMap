@@ -46,13 +46,16 @@ test('startState keeps finished work only for an unchanged input, and --fresh di
  assert.equal(startState({previous,inputSha:'abc',project,file:'f.json',fresh:true}).resumed,false);
 });
 
-test('residual hold: more than one layout finding per ten Questions pages',()=>{
+test('residual hold is finding-based: unresolved content and layout block, suggestions do not',()=>{
  const rows=n=>Array.from({length:n},(_,i)=>({id:'r'+i,area:'spacing'}));
- assert.equal(residualHold(rows(6),60).held,false,'one in ten is the limit');
+ assert.equal(residualHold(rows(6),60).held,true,'each unresolved substantive finding matters');
  assert.equal(residualHold(rows(7),60).held,true);
  assert.equal(residualHold([...rows(2),{id:'c',area:'content'},{id:'e',area:'extension'}],20).layout,2,'content and suggestions do not count');
  assert.equal(residualHold(rows(1),7).held,true,'any finding holds a booklet under ten pages');
  assert.equal(residualHold([],74).held,false);
+ assert.equal(residualHold([{id:'c',area:'content'}],60).held,true);
+ assert.equal(residualHold([{id:'e',area:'extension'}],60).held,false);
+ assert.equal(residualHold([{id:'r',area:'diagram',state:'repaired'}],60).held,false);
 });
 
 test('the export gate refuses a longer edition, an oversized block and a pagination issue the input did not have',()=>{
@@ -79,7 +82,7 @@ test('the start revision is pinned as a milestone checkpoint, once, in the bookl
 });
 
 test('a save expects the revision the run began from and refuses a failed gate or a busy booklet',async t=>{
- const root=temp(t),before=booklet(),after=booklet();after.sections[1].blocks[0].content.children[0].answerSpaceMm=12;
+ const root=temp(t),before=booklet(),after=booklet();after.sections[1].blocks[0].content.children[0].answerSpaceMm=14;
  // This allowance is demonstrably untouched since import; changed/unknown values are protected.
  delete before.settings.layoutOverrides.answerSpaces['q1-a'];delete after.settings.layoutOverrides.answerSpaces['q1-a'];
  before.sections[1].blocks[0].sourceReview={workingSpaceEstimate:{estimates:[{targetId:'q1-a',answerSpaceMm:18}]}};

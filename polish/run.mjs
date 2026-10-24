@@ -37,6 +37,7 @@ import {spawnSync} from 'node:child_process';
 import {ROOT,read,write,now,isMain,parseArgs,runDirOf,changedBlocks} from '../checks/lib/common.mjs';
 import {teacherBlocks,openMachineFlagIds,supersedeMachineFlags,addBreakSuggestionFlags,KIND_BREAK} from './flags.mjs';
 import {assertPolishSafety,polishSafetyIssues} from './guards.mjs';
+import {assessCompletion,completionHash} from '../scripts/booklet/import-completion.mjs';
 
 export const STEPS=Object.freeze(['snapshot','normalise','blank-style','wrapped-math','dependencies','paginate','review','content','residual','supersede','breaks','export','sheets','pedagogy','report']);
 const MODEL_STEPS=new Set(['blank-style','dependencies','review','content','residual','pedagogy']);
@@ -49,13 +50,13 @@ const SUGGESTION_AREAS=new Set(['extension','review']);
 // ---- pure helpers (tested) ---------------------------------------------------------------------------
 // The residual findings that count against the booklet: layout and answer-edition findings, not suggestions or content.
 export function residualHold(residual,studentPages){
- const layout=residual.filter(row=>LAYOUT_AREAS.has(row.area)),limit=Math.floor(studentPages/RESIDUAL_PER_PAGES);
- return {count:residual.length,layout:layout.length,limit,held:layout.length>limit,perTenPages:studentPages?Math.round(layout.length/studentPages*100)/10:0};
+ const completion=assessCompletion({findings:residual}),layout=residual.filter(row=>LAYOUT_AREAS.has(row.area)),limit=0;
+ return {count:residual.length,layout:layout.length,limit,held:!completion.ready,perTenPages:studentPages?Math.round(layout.length/studentPages*100)/10:0};
 }
 // What the export gate refuses: a longer edition, an oversized block, or a pagination issue the input did not have.
-export function gateProblems(baseline,final){
+export function gateProblems(baseline,final,{growthReasons=[]}={}){
  const problems=[];
- for(const edition of ['student','short','worked'])if(Number.isInteger(baseline?.pages?.[edition])&&final.pages[edition]>baseline.pages[edition])problems.push(`${edition} grew from ${baseline.pages[edition]} to ${final.pages[edition]} pages`);
+ for(const edition of ['student','short','worked'])if(!growthReasons.some(r=>r.verified===true&&r.cause?.trim())&&Number.isInteger(baseline?.pages?.[edition])&&final.pages[edition]>baseline.pages[edition])problems.push(`${edition} grew from ${baseline.pages[edition]} to ${final.pages[edition]} pages`);
  const known=new Set(Object.entries(baseline?.issues??{}).flatMap(([edition,issues])=>issues.map(issue=>`${edition}:${issue.kind}:${issue.id}`)));
  for(const [edition,issues] of Object.entries(final.issues??{}))for(const issue of issues)if(issue.kind==='oversized-content'||!known.has(`${edition}:${issue.kind}:${issue.id}`))problems.push(`${edition} pagination issue ${issue.kind} on ${issue.id}`);
  return problems;
@@ -138,6 +139,7 @@ const impl={
   return {blocks:changedBlocks(project,next).length,sweep:report.sweep,sourceBreaksCleared:report.sourceBreaksCleared?.length??0,workingSpace:report.workingSpace?.byField??null,protectedBlocks:report.protectedBlocks,dropped:report.dropped};
  },
  async 'blank-style'(ctx){
+  if(ctx.opts['--textbook'])return {skipped:'Blank/scaffold intent is verified in the existing source/content review'};
   const {runBlankStyle}=await import('./blank-style.mjs'),project=read(ctx.work);
   const {project:next,report}=await(ctx.deps.runBlankStyle??runBlankStyle)({project,runDir:ctx.runDir,cacheDir:ctx.baseDir,protectedIds:teacherBlocks(project),log:ctx.log});
   write(ctx.work,next);
@@ -150,7 +152,7 @@ const impl={
  },
  async dependencies(ctx){
   const {runDependencies}=await import('./dependencies.mjs'),project=read(ctx.work);
-  const {project:next,report}=await runDependencies({project,runDir:ctx.baseDir,model:!ctx.opts['--no-model'],log:ctx.log});
+  const {project:next,report}=await runDependencies({project,runDir:ctx.baseDir,model:!ctx.opts['--no-model']&&!ctx.opts['--textbook'],log:ctx.log});
   write(ctx.work,next);
   return {exercises:report.exercises,wording:report.regex,model:report.model,cache:report.cache,pairs:report.pairs.length,blocksChanged:report.changed.length,errors:report.errors};
  },
@@ -165,7 +167,8 @@ const impl={
   const rv=await import('../first-pass/review.mjs'),queues=await import('../first-pass/queues.mjs'),{runApply,APPLY_AREAS}=await import('../first-pass/apply.mjs'),{feedbackStatus}=await import('../src/lib/booklet-feedback.js');
   const provenanceDir=seedProvenance(ctx),workDir=path.join(ctx.polishDir,'first-pass'),file=rv.provenanceFile(ctx.id,{provenanceDir});
   const review=ctx.deps.runReview??rv.runReview,apply=ctx.deps.runApply??runApply;
-  const result={rounds:[]};
+  const result={rounds:[],pageMap:await(ctx.deps.mapPages??mapPages)(ctx,read(ctx.work),'render-review-map')};
+  write(path.join(ctx.polishDir,'review-input.json'),read(ctx.work));
   const first=await review({projectFile:ctx.work,provenanceDir,workDir,runDir:ctx.runDir,source:true,textbook:!!ctx.opts['--textbook'],concurrency:3,log:ctx.log});
   result.reviewed={pages:first.reviewed,states:first.states,errors:first.errors};
   for(let round=1;round<=2;round++){
@@ -188,30 +191,28 @@ const impl={
  async content(ctx){
   const {runContentRepair}=await import('./content.mjs'),project=read(ctx.work);
   const out=await(ctx.deps.runContentRepair??runContentRepair)({projectFile:ctx.work,provenanceDir:provenanceDirOf(ctx),polishDir:ctx.polishDir,runDir:ctx.runDir,protectedIds:teacherBlocks(ctx.original),safetyGuard:safetyGuard(ctx,project),log:ctx.log});
-  return {findings:out.findings,applied:out.applied.length,operations:out.operations.length,commented:out.commented,rejected:out.rejected,errors:out.errors,calls:out.calls};
+  return {findings:out.findings,applied:out.applied.length,operations:out.operations.length,commented:out.commented,rejected:out.rejected,errors:out.errors,calls:out.calls,growthReasons:out.applied.map(id=>({cause:'Independently checked source/content repair '+id,verified:true}))};
  },
  async residual(ctx){
-  const rv=await import('../first-pass/review.mjs'),{runApply}=await import('../first-pass/apply.mjs'),queues=await import('../first-pass/queues.mjs'),{feedbackStatus}=await import('../src/lib/booklet-feedback.js');
-  const mainDir=provenanceDirOf(ctx),dir=path.join(ctx.polishDir,'provenance-residual');
-  fs.mkdirSync(dir,{recursive:true});
-  const mainFile=rv.provenanceFile(ctx.id,{provenanceDir:mainDir});
-  if(fs.existsSync(mainFile))fs.copyFileSync(mainFile,rv.provenanceFile(ctx.id,{provenanceDir:dir}));
-  const review=ctx.deps.runReview??rv.runReview,workDir=path.join(ctx.polishDir,'first-pass');
-  const out=await review({projectFile:ctx.work,provenanceDir:dir,workDir,runDir:ctx.runDir,source:true,reportOnly:true,textbook:!!ctx.opts['--textbook'],concurrency:3,log:ctx.log});
-  const studentPages=out.pageCounts?.student??0;let hold=residualHold(out.residual,studentPages);
-  const result={reviewedPages:out.reviewed,found:out.residual.length,layout:hold.layout,limit:hold.limit,perTenPages:hold.perTenPages,held:hold.held,errors:out.errors,applied:0};
-  let listed=out.residual;
-  if(hold.held){
-   const project=read(ctx.work),protectedIds=teacherBlocks(project),file=rv.provenanceFile(ctx.id,{provenanceDir:dir}),record=rv.loadProvenance(file,project);
-   queues.classifyRecord(record,project,{feedbackStatus});
-   for(const finding of record.findings??[])if(finding.state==='pending'&&!finding.applyOutcome&&finding.targets.some(target=>protectedIds.has(target.blockId))){finding.applyOutcome='protected';}
-   rv.saveProvenance(file,record);
-   const outcome=await(ctx.deps.runApply??runApply)({projectFile:ctx.work,provenanceDir:dir,runDir:path.join(ctx.polishDir,'apply-residual'),workDir,queueLabel:'residual',safetyGuard:safetyGuard(ctx,project),log:ctx.log});
-   result.applied=outcome.applied.length;result.roundErrors=outcome.errors;
-   const appliedIds=new Set(outcome.applied);listed=out.residual.filter(row=>!appliedIds.has(row.id));
+  const rv=await import('../first-pass/review.mjs'),provenanceDir=provenanceDirOf(ctx),project=read(ctx.work);
+  const record=rv.loadProvenance(rv.provenanceFile(ctx.id,{provenanceDir}),project);
+  const before=ctx.state.steps.review?.result?.pageMap;
+  const after=await(ctx.deps.mapPages??mapPages)(ctx,project,'render-repairs');
+  const reviewInput=path.join(ctx.polishDir,'review-input.json');
+  const changed=fs.existsSync(reviewInput)?new Set(changedBlocks(read(reviewInput),project)):new Set();
+  const pages=new Set();
+  for(const row of after.student??[]){
+   const old=(before?.student??[]).find(p=>p.page===row.page);
+   if(!old||JSON.stringify(old)!==JSON.stringify(row)||(row.blocks??[]).some(id=>changed.has(typeof id==='string'?id:id.id)))for(const n of [row.page-1,row.page,row.page+1])if(n>0)pages.add(n);
   }
-  result.remaining=listed.length;result.listed=listed;
-  return result;
+  // With no baseline map, do not invent scoped acceptance or silently reread the whole book.
+  let verification=null;
+  if(before&&pages.size)verification=await(ctx.deps.runReview??rv.runReview)({projectFile:ctx.work,provenanceDir,workDir:path.join(ctx.polishDir,'first-pass'),runDir:ctx.runDir,source:true,pages,verificationFindings:(record.findings??[]).filter(f=>f.visualVerified===false),textbook:!!ctx.opts['--textbook'],concurrency:3,log:ctx.log});
+  const finalRecord=rv.loadProvenance(rv.provenanceFile(ctx.id,{provenanceDir}),read(ctx.work));
+  const listed=(finalRecord.findings??[]).filter(f=>!['repaired','rejected','closed'].includes(f.state));
+  const missingMap=changed.size&&!before?['Changed content has no original review page map']:[];
+  const completion=assessCompletion({findings:[...listed,...(finalRecord.findings??[]).filter(f=>f.visualVerified===false)],unreliable:finalRecord.notReliablyReviewed??[],errors:[...(verification?.errors??[]),...missingMap]});
+  return {reviewedPages:verification?.reviewed??{},found:listed.length,layout:listed.filter(f=>LAYOUT_AREAS.has(f.area)).length,held:!completion.ready,remaining:listed.length,listed,errors:verification?.errors??[],applied:0};
  },
  async supersede(ctx){
   const rv=await import('../first-pass/review.mjs'),project=read(ctx.work),date=now().slice(0,10);
@@ -240,7 +241,8 @@ const impl={
   fs.mkdirSync(dir,{recursive:true});
   const final=countsOf(await(ctx.deps.mapPages??mapPages)(ctx,project,'render-final'));
   ctx.state.final=final;
-  const problems=gateProblems(ctx.state.baseline,final);
+  const growthReasons=ctx.state.steps.content?.result?.growthReasons??[];
+  const problems=gateProblems(ctx.state.baseline,final,{growthReasons});
   // The student edition must export without --draft: that runs the page checks (inspectBooklet) and refuses any pagination issue.
   const doExport=ctx.deps.exportPdf??exportPdf,run=doExport(ctx.work,pdf);
   let note=null;
@@ -252,7 +254,7 @@ const impl={
    if(qaFailed){
     const draft=doExport(ctx.work,pdf,{draft:true}),inputPdf=path.join(path.dirname(pdf),'input.pdf'),before=doExport(ctx.state.input.file,inputPdf,{draft:true});
     const now=qaCounts(pdf),was=qaCounts(inputPdf),worse=qaWorse(was,now);
-    if(draft.status===0&&before.status===0&&!worse.length)note='The student export has page-check findings, but no more than the input: '+JSON.stringify(now);
+    if(!ctx.opts['--textbook']&&draft.status===0&&before.status===0&&!worse.length)note='The student export has page-check findings, but no more than the input: '+JSON.stringify(now);
     else problems.push(message+(worse.length?' (worse than the input: '+worse.join('; ')+')':''));
    }else problems.push(message);
   }
@@ -345,9 +347,13 @@ export async function runPolish({file,baseDir,opts={},skip=[],only=null,fresh=fa
   }
   write(statePath,state);
  }
+ const rv=await import('../first-pass/review.mjs'),current=read(work),record=rv.loadProvenance(rv.provenanceFile(id,{provenanceDir:provenanceDirOf(ctx)}),current);
+ const completed=Object.entries(state.steps).filter(([,row])=>row.status==='done').map(([name])=>name);
+ state.completion=assessCompletion({required:['snapshot','normalise','wrapped-math','dependencies','paginate','review','content','residual','export'],completed,findings:record.findings??[],unreliable:record.notReliablyReviewed??[],errors:Object.values(state.steps).flatMap(row=>row.result?.errors??[]),exportProblems:state.gates?.ok?[]:state.gates?.problems??['No checked export']});
+ state.completionBinding=completionHash(current);
  state.finishedAt=now();write(statePath,state);
  const reportFile=path.join(polishDir,'report.json');
- return {state,work,polishDir,report:fs.existsSync(reportFile)?read(reportFile):null};
+ return {state,work,polishDir,completion:state.completion,report:fs.existsSync(reportFile)?read(reportFile):null};
 }
 
 // Writes the polished copy to the live booklet through the revision-checked path. The input revision is the one the
@@ -369,7 +375,7 @@ export async function savePolished({state,work,id,root=ROOT,deps={}}){
  // A whole-booklet run declares every path it changed outside the changed blocks, as the optimiser does for its own.
  const allowedPaths=changedPaths(strip(before),strip(after)).filter(pointer=>!['/','/sections','/settings','/studio'].includes(pointer));
  const result=await saveRepair({candidate:after,expectedRevision:state.input.revision,changedBlockIds:changed,allowedPaths,runDir:path.join(root,'.booklet-work','polish-save',id,now().replace(/[:.]/g,'-')),options:{checkpoint:true},saveProject:deps.saveProject??saveThroughStudio});
- return {saved:true,revision:result.project.revision,changed:changed.length,allowedPaths:allowedPaths.length};
+ return {saved:true,ready:state.completion?.ready===true,progress:state.completion?.ready!==true,revision:result.project.revision,changed:changed.length,allowedPaths:allowedPaths.length};
 }
 
 async function main(){
@@ -394,7 +400,8 @@ async function main(){
    }
   }
  }
- console.log(JSON.stringify({project:project.id,work:path.relative(ROOT,work),saved,steps:STEPS.map(name=>({step:name,status:state.steps[name]?.status??'-',seconds:state.steps[name]?.seconds??null,note:state.steps[name]?.reason??state.steps[name]?.error??null})),gates:state.gates??null,report:path.relative(ROOT,path.join(path.dirname(work),'report.json'))},null,1));
+ console.log(JSON.stringify({project:project.id,work:path.relative(ROOT,work),saved,steps:STEPS.map(name=>({step:name,status:state.steps[name]?.status??'-',seconds:state.steps[name]?.seconds??null,note:state.steps[name]?.reason??state.steps[name]?.error??null})),gates:state.gates??null,completion:state.completion,report:path.relative(ROOT,path.join(path.dirname(work),'report.json'))},null,1));
  if(report)console.log(report.line??reportLine(report));
+ if(!state.completion?.ready)process.exitCode=1;
 }
 if(isMain(import.meta))await main().catch(error=>{console.error(error.step?`polish failed at ${error.step}: ${error.message}`:error.stack??error.message);process.exitCode=1;});

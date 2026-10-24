@@ -14,6 +14,7 @@ import {bookletIndex,pool,targetsUnchanged,setState,loadProvenance,saveProvenanc
 import {groupFindings,blockPayload} from '../first-pass/apply.mjs';
 import {read,write,now} from '../checks/lib/common.mjs';
 import {nodesOf,polishSafetyIssues,teacherBlocks} from './guards.mjs';
+import {repairRoute,FEEDBACK_CHECKS} from './repair-routing.mjs';
 
 export const CONTENT_AREAS=Object.freeze(['content','duplicate']);
 // What the teacher is left to decide: ideas for the booklet, never applied by the pipeline.
@@ -23,7 +24,7 @@ export const ROLES=Object.freeze(['theory','definition','example','guided-practi
 // The pending findings this step repairs, not on a block the teacher decided.
 export function contentFindings(record,project,protectedIds=new Set()){
  const index=bookletIndex(project);
- return (record.findings??[]).filter(finding=>finding.state==='pending'&&CONTENT_AREAS.includes(finding.area)&&!finding.groupedUnder&&targetsUnchanged(finding,project,index)&&!finding.targets.some(target=>protectedIds.has(target.blockId)));
+ return (record.findings??[]).filter(finding=>finding.state==='pending'&&repairRoute(finding)==='content'&&!finding.groupedUnder&&targetsUnchanged(finding,project,index)&&!finding.targets.some(target=>protectedIds.has(target.blockId)));
 }
 
 export function authorPrompt({project,index,group,pages}){
@@ -34,6 +35,7 @@ export function authorPrompt({project,index,group,pages}){
  return `You correct printed CONTENT in a MathsMap maths booklet. Do not run commands or open files: everything you need is below and in the attached images (the original document's pages, in the order of "sourcePages"). A reviewer looked at the rendered booklet beside the source and wrote the findings. Decide whether each is right; if it is, return the smallest exact-field patches that fix it.
 
 Rules:
+- Structural and diagram-code repairs are allowed here, including moving diagrams into table cells and removing redundant scaffolds; retain all givens, response owners, answers and teacher exceptions. ${FEEDBACK_CHECKS}
 - A patch is {"targetId": id of the block or of a node inside it, "field": JSON pointer relative to that node, "original": exact current value (null if absent), "corrected": final value}. "original" must match exactly or the patch is rejected. Each block lists its nodes with their id path and pointer.
 - Answers: derive every answer you change yourself, from the question as printed and the source page; never copy an answer from a finding. Change answer.short and answer.worked (and any steps) together so they agree, using the method the booklet teaches.
 - Theory wording follows the source page. Keep the booklet's structure and house style; change as little as possible.
@@ -51,7 +53,7 @@ ${JSON.stringify(payload)}`;
 export function checkPrompt({changes,pages}){
  return `You are the independent checker of corrections made to a printed MathsMap maths booklet. Do not run commands or open files: everything is below and in the attached images (the original document's pages, in the order of "sourcePages"). Another worker wrote each correction; you have not seen its reasoning.
 
-For every correction: first derive, yourself, the correct answer to each question or part it touches (from the question as printed in "after" and the source page), and only then compare your answer with the "after" answer.short and answer.worked. Then check that the question still matches the source, that the short and worked answers agree, that the working uses the method the booklet teaches, and that nothing else was lost. Theory wording corrections must match the source page. A role change must put the block where the source puts it. Accept a correction only when every changed answer is yours.
+For every correction: first derive, yourself, the correct answer to each question or part it touches (from the question as printed in "after" and the source page), and only then compare your answer with the "after" answer.short and answer.worked. Then check that the question still matches the source, that the short and worked answers agree, that the working uses the method the booklet teaches, and that nothing else was lost. Theory wording corrections must match the source page. A role change must put the block where the source puts it. Accept a correction only when every changed answer is yours. Verify the exact requested structural relationship in the finding against before/after data. ${FEEDBACK_CHECKS} A successful content check still needs affected-page visual verification before completion.
 
 Return one JSON object and nothing else: {"checks":[{"id":"FINDING_ID","verdict":"accept|reject","derived":"your answer to each changed question, in short","note":"why, in under 25 words"}]} with exactly one entry per correction.
 
@@ -160,7 +162,7 @@ export async function runContentRepair({projectFile,provenanceDir,polishDir,runD
  const batches=[];for(const item of checkable){const last=batches.at(-1);if(last&&last.length<4&&last.reduce((n,x)=>n+JSON.stringify(x.after).length,0)<30000)last.push(item);else batches.push([item]);}
  await pool(batches,Math.max(1,Math.min(3,concurrency)),async batch=>{
   const pages=[...new Map(batch.flatMap(item=>sourceFor(item.row.group)).map(page=>[page.page,page])).values()].slice(0,8);
-  const changes=batch.map(({row,before,after})=>({id:row.id,reason:row.reason,fieldsChanged:before.flatMap((block,i)=>changedFields(questionReviewContent(block),questionReviewContent(after[i]??block))),...(row.operation?.role?{newRole:row.operation.role}:{}),...(row.operation?.remove?{removedBlock:row.operation.remove}:{}),before:before.map(questionReviewContent),after:after.map(questionReviewContent)}));
+  const changes=batch.map(({row,before,after})=>({id:row.id,reason:row.reason,requested:byId.get(row.id)?.comment,fieldsChanged:before.flatMap((block,i)=>changedFields(questionReviewContent(block),questionReviewContent(after[i]??block))),...(row.operation?.role?{newRole:row.operation.role}:{}),...(row.operation?.remove?{removedBlock:row.operation.remove}:{}),before:before.map(questionReviewContent),after:after.map(questionReviewContent)}));
   try{
    result.calls++;
    const {result:answer}=await askModel({prompt:checkPrompt({changes,pages}),images:pages.map(page=>page.path),name:'content-check'});
@@ -206,7 +208,7 @@ export async function runContentRepair({projectFile,provenanceDir,polishDir,runD
  const final=read(projectFile),finalIndex=bookletIndex(final),date=now().slice(0,10);
  for(const row of accepted){
   for(const id of row.touched){const block=finalIndex.blocks.get(id)?.block;if(!block)continue;block.sourceReview??={};(block.sourceReview.feedbackRepairs??=[]).push({date,source:'polish',note:`Polish content repair (${row.id}): ${row.reason??'content corrected'}; independently checked.`});}
-  const finding=byId.get(row.id);finding.applyOutcome='repaired';finding.applyReason=row.reason;setState(finding,'repaired','Content repaired and independently checked (polish).');result.applied.push(row.id);
+  const finding=byId.get(row.id);finding.applyOutcome='repaired';finding.applyReason=row.reason;finding.contentVerified=true;finding.visualVerified=false;setState(finding,'repaired','Content repaired and independently checked; affected-page verification remains required.');result.applied.push(row.id);
  }
  if(accepted.length)write(projectFile,final);
  for(const finding of pending)if(!result.applied.includes(finding.id)){finding.applyOutcome='comment';finding.applyNote=comments.get(finding.id)??'Not applied.';result.commented.push({id:finding.id,why:finding.applyNote});}

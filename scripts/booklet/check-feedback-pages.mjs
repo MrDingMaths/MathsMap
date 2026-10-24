@@ -4,6 +4,7 @@
 // bank or comment is written. No report here is a visual inspection.
 // --blocks selects pages by the blocks a repair changed and needs no baseline;
 // --checks-only editions run the automated checks without printing.
+// --editions none completes checks without reprinting already inspected pages.
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -100,7 +101,8 @@ export function parseOverrides(values){
 async function main(){
  const args=process.argv.slice(2),arg=(name,fallback)=>{const i=args.indexOf(name);return i<0?fallback:args[i+1];},all=name=>args.flatMap((value,i)=>value===name?[args[i+1]]:[]),flag=name=>args.includes(name);
  const out=path.resolve(arg('--out')??(()=>{throw Error('--out DIRECTORY is required');})()),base=arg('--base','http://127.0.0.1:5173').replace(/\/$/,'');
- const editions=arg('--editions','student').split(',');
+ const editionChoice=arg('--editions','student');
+ const editions=editionChoice==='none'?[]:editionChoice.split(',');
  const sampleDense=Number(arg('--sample-dense','0'));
  if(!Number.isInteger(sampleDense)||sampleDense<0||sampleDense>10)throw Error('--sample-dense takes an integer from 1 to 10');
  if(editions.some(edition=>!FEEDBACK_EDITIONS.includes(edition))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');

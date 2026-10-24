@@ -69,6 +69,10 @@ export function missingEqualsGutter(value) {
         // Wrapped lines after a relation row continue that row; they open nothing.
         let prior=i-1;while(prior>0&&manualGutter(parsed.rows[prior])&&!startsWithRelation(parsed.rows[prior]))prior--;
         if(!bareExpression(first)||!startsWithRelation(second)||i>0&&startsWithRelation(parsed.rows[prior]))continue;
+        // A wrapped binary addition/product can follow `S &= ...`, whose
+        // relation is after its left-hand side rather than at the row's start.
+        const continuation=lead(first).replace(MANUAL,'').trimStart().replace(/^(?:(?:\\left|\\right)\.|\{\}|\s)*/, '');
+        if(i>0&&manualGutter(first)&&/^(?:[+-]|\\(?:times|cdot|div)(?![a-zA-Z]))/.test(continuation)&&ANY.test(body(parsed.rows[prior])))continue;
         // `&a+b\\={}&c` already puts the relation in the gutter column.
         if(/^align/.test(parsed.env)&&/^\s*&/.test(first)&&ANY.test(body(second.split('&')[0])))continue;
         const left=/^align/.test(parsed.env)&&/^\s*&/.test(first)&&!/&/.test(first.replace(/^\s*&/,''))||parsed.env==='array'&&/^\{l/.test(parsed.columns);

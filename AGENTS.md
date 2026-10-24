@@ -2,9 +2,9 @@
 
 Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it. Put detail in `docs/` and link it from here. `npm run repo:check` enforces the limit.
 
-## Streamlined textbook imports (18 October 2026, user approved)
+## Streamlined imports (24 October 2026, user approved)
 
-Unstarted work follows [the streamlined import](docs/booklet-three-pass-import.md#streamlined-textbook-imports-18-october-2026-user-approved): no pedagogy stage; combine concise coverage and source organisation; reuse completed work and proven ordinary layout inspections. Keep independent content review, final checks and requested editions. Adopt at the next launch or completed boundary; preserve active workers. This supersedes conflicting stage rules below.
+Follow [the current workflow](docs/booklet-three-pass-import.md#streamlined-completion-24-october-2026): shared completion gate, repair by required edit, one source-side rendered review, scoped repair verification and reused exports. Use `lean-review.mjs finish`; saving progress is not completion. Keep ICE-EM's direct exception, accepted work and active workers. No automatic live-booklet repair campaign. This supersedes conflicting import/polish stages below.
 
 Separately requested [pedagogy reviews](docs/booklet-pedagogy-review.md) retain their low review/medium challenge settings, named-user approval for repairs and [first-pass rules](docs/booklet-first-pass-review.md). Keep the tool outside `scripts/`.
 

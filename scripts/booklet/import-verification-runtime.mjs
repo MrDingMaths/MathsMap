@@ -10,7 +10,9 @@ import {isLeanReview} from './lean-profile.mjs';
 import {visitFigures,isSolidCandidate} from '../audit-solid-visibility.mjs';
 import {firstAnswerNode} from '../../src/lib/booklet-exercises.js';
 const hash=f=>createHash('sha256').update(fs.readFileSync(f)).digest('hex');
-const entries=['src','data','public','scripts','index.html','vite.config.js','package.json','package-lock.json'];
+// The pagination optimiser imports these browser-safe save invariants. Keep
+// their actual bytes in the frozen app without adding a polish workflow stage.
+const entries=['src','data','public','scripts','polish/guards.mjs','polish/repair-routing.mjs','index.html','vite.config.js','package.json','package-lock.json'];
 // These host coordinators never run in the frozen print checker. Exclude them
 // only while their imports remain confined to the known parent CLI callers.
 // A renderer/checker import restores the dependency, including old manifests.

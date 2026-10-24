@@ -95,6 +95,9 @@ test('one numbered question keeps its independently mapped nested parts and expl
  b.sourceReview={workingSpaceEstimate:{method:'Count full-width proof lines'},arrangements:[{targetId:'q',layout:'list',columns:null,description:'Keep the supplied diagram above sequential dependent proof parts.'}]};
  a.inventoryMappings.push(...['a','b'].map(id=>({inventoryId:'source-'+id,targetId:'part-'+id})));
  assert.doesNotThrow(()=>check(a,i));
+ i.entries[0].sourceLabel='Chapter 13: Circle geometry — 1';assert.doesNotThrow(()=>check(a,i));
+ i.entries[0].sourceLabel='Chapter 13: Circle geometry — 1 and 2';assert.throws(()=>check(a,i),/distinct part targets/);
+ i.entries[0].sourceLabel='Chapter 13: Circle geometry — 1';
  delete b.sourceReview.arrangements[0].description;assert.throws(()=>check(a,i),/full-width layout/);
  b.sourceReview.arrangements[0].description='Sequential proof';a.inventoryMappings.pop();assert.throws(()=>check(a,i),/distinct part targets/);
 });

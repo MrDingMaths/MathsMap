@@ -6,6 +6,18 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {answerMatchText,answerMatchingIssues,approvedAnswerConflict,derivedAnswerDiagramEntries} from '../scripts/booklet/answer-evidence.mjs';
 
+test('guided response figures bind through an explicitly inventoried nested question and source group',()=>{
+ const block={id:'guided',type:'question',pedagogyRole:'guided-practice',sourceAtom:{id:'source-guided'},content:{id:'root',children:[{id:'show',type:'group',prompt:'Show the walk.',children:[{id:'draw',prompt:'A–B–C',answer:{solutionDiagrams:[{id:'walk'}]}}]}]}};
+ const question={id:'source-show',kind:'question',parentId:'source-guided',targetId:'show',pageNumber:16};
+ const response={id:'source-draw',kind:'part',parentId:'source-show',targetId:'draw',responseKind:'working',pageNumber:16};
+ const group={id:'source-guided',kind:'guided-practice',pageNumber:16,entryIds:['source-show','source-draw']};
+ const derive=(q=question,r=response,g=group)=>derivedAnswerDiagramEntries([{blocks:[block]}],[q,r],{groups:[g]});
+ assert.deepEqual(derive().map(e=>[e.targetId,e.derivedFrom,e.responseId]),[['walk','source-draw','draw']]);
+ for(const q of [{...question,targetId:'foreign'},{...question,pageNumber:17},{...question,parentId:'foreign'},{...question,exclusionReason:'Excluded'}])assert.throws(()=>derive(q),/inventoried source question/);
+ for(const r of [{...response,targetId:'foreign'},{...response,pageNumber:17},{...response,parentId:'foreign'},{...response,responseKind:'none'}])assert.throws(()=>derive(question,r),/inventoried source question/);
+ for(const g of [{...group,id:'foreign'},{...group,kind:'practice'},{...group,pageNumber:17},{...group,entryIds:['source-show']},{...group,entryIds:['source-draw']}])assert.throws(()=>derive(question,response,g),/inventoried source question/);
+});
+
 test('a shared teaching construction binds to its mapped drawing response and supplied figure',()=>{
  const block={id:'activity',type:'question',pedagogyRole:'investigation',sourceReview:{responses:[{targetId:'construct',kind:'working'}]},content:{id:'root',questionDiagrams:[{id:'given'}],sharedSolutionDiagrams:[{id:'completed'}],children:[{id:'construct',prompt:'Construct a right-angled triangle.'}]}};
  const entries=[{id:'heading',kind:'teaching',targetId:'activity',pageNumber:20},{id:'source-figure',kind:'diagram',targetId:'given',parentId:'heading',pageNumber:20},{id:'source-task',kind:'part',targetId:'construct',parentId:'heading',responseKind:'working',pageNumber:20}];

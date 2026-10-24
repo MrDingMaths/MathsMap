@@ -160,9 +160,16 @@ export function reuseCandidate(block,context,{pinCurrent}={}){
  }
  let currentBlocks;
  if(context.projectFileHash){
-  if(!fs.existsSync(context.projectFile))return null;
-  const currentHash=context.currentProjectHash?context.currentProjectHash():sha(fs.readFileSync(context.projectFile,'utf8'));
-  if(currentHash!==context.projectFileHash)currentBlocks=(read(context.projectFile).sections??[]).flatMap(section=>section.blocks??[]);
+  try{
+   if(!fs.existsSync(context.projectFile))return null;
+   const currentHash=context.currentProjectHash?context.currentProjectHash():sha(fs.readFileSync(context.projectFile,'utf8'));
+   if(currentHash!==context.projectFileHash)currentBlocks=(read(context.projectFile).sections??[]).flatMap(section=>section.blocks??[]);
+  }catch(error){
+   // Discovery is advisory. A concurrent save can change the signature or
+   // expose incomplete JSON; unavailable proof requires ordinary review.
+   if(error instanceof SyntaxError||['ENOENT','EBUSY','EACCES','EPERM','UNKNOWN'].includes(error.code)||error.message==='Reuse project changed during retrieval')return null;
+   throw error;
+  }
  }
  const reference=block.sourceReview?.reuse;
  const hash=context.hashBlock?context.hashBlock(block):reuseContentHash(block),requested=reference?.projectId&&reference.projectId!==context.projectId?null:reference?.blockId??block.provenance?.reuse?.blockId;

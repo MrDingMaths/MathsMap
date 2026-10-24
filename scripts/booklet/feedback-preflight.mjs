@@ -75,6 +75,10 @@ export function structuralPreflight(project,{blockIds=[]}={}){
    walk(value,(n,suffix)=>{
    const at=basePath+suffix;
    if(n.arrangement){
+    // Nested nodes may retain old block-layout entries. Only a flow block's
+    // own arrangement is rendered; node-level sizing fields remain inventoried.
+    const holder=/(?:^|\/)blockLayouts\/([^/]+)$/.exec(at);
+    if(holder&&holder[1].replaceAll('~1','/').replaceAll('~0','~')!==block.id)return;
     row.layouts.push({source,path:at,arrangement:n.arrangement});
     try{
      const resolved=resolveArrangement(block,structuredClone(n.arrangement),source==='project'?project.settings.layoutOverrides:value);

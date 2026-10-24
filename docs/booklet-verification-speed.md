@@ -1,5 +1,15 @@
 # Booklet polish pipeline (23 October 2026, user approved)
 
+## Current completion workflow (24 October 2026)
+
+Imports use [streamlined completion](booklet-three-pass-import.md#streamlined-completion-24-october-2026), coordinated by `lean-review.mjs finish`. Its one five-edition export supplies automated checks and the one source-side Questions review, targeted answers and combined boundaries. No separate student export, second full residual review or final visual rereading is required. This supersedes the import stage sequence and residual-density hold described historically below. ICE-EM retains its explicit direct route.
+
+The standalone polish tool remains available. Its `residual` step now verifies changed pages and neighbours rather than rereading the whole book. Shared completion is `{ready, blockers, warnings}`: unresolved substantive findings and unverified content repairs block readiness individually. A passing export gate or a saved revision does not grant completion; incomplete progress saves remain possible and report `progress: true`. Textbook mode never accepts pre-existing print defects as final import acceptance.
+
+Repair routing follows the required edit. Layout refusals needing scaffold/content structure, diagram creation or TikZ changes reach the existing content-capable repair path, with independent content checks and exact-result visual verification. Preserve resolved teacher decisions and local exceptions. A verified substantive repair may justify page growth; discretionary optimiser trials may not. Standalone pedagogy is opt-in for imports and remains outside the import sequence.
+
+The contracts cover recurring Stage 5 relationships (stem/number, graph/table cell, teaching grouping, scaffold progression, diagram features and difficulty progression); there is no new stage per feedback pattern. Existing Stage 5 content is not automatically migrated or repaired by this tooling change.
+
 This document replaces "Faster verification" of 22 October 2026. It keeps that document's decisions that still hold and drops its machinery: the source-region matcher, the teaching signatures and presets, the role, theory-diff and whitespace checks and `handoff/`.
 
 ## Why
@@ -45,7 +55,7 @@ The pipeline works on a copy, `<work>/polish/candidate.json`, and is resumable f
 | `paginate` | The optimiser through Studio (`paginate/optimise.mjs`): tighten to the floor, best-fit pulls, grids, then the orphan pull. |
 | `review` | The full-book first-pass review (every page; `first-pass/review.mjs --source`), then its layout findings applied (`first-pass/apply.mjs`), at most two rounds. |
 | `content` | Content findings (roles, theory wording, answers, duplicates, merges) repaired and independently checked (`polish/content.mjs`). |
-| `residual` | A second full-book review, report only, same contract. More than one layout finding per ten Questions pages holds the booklet: one more apply round on those findings, then the rest is listed in the report. |
+| `residual` | Scoped verification of changed/reflowed pages and neighbours, with exact previous requests. Every unresolved substantive finding blocks completion. |
 | `supersede` | Open machine comments of earlier runs closed as superseded. |
 | `breaks` | Every forced exercise break after a page with 60 mm or more free goes to `<work>/polish/break-suggestions.json` with the pages and the mm (`savedMm`, measured at the exercise's last page) removing it would give back; only those that save a whole page become Studio comments (a following forced topic break often absorbs the rest). |
 | `export` | The gates (below) and the student PDF, without `--draft`. |

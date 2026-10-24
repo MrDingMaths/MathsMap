@@ -240,6 +240,7 @@ test('content review saves corrections, fills the table and resumes without repe
   return {result:passAll(ids)};
  };
  const first=await runContentReview({runDir,projectFile:file,runner,skills:[],concurrency:2});
+ assert.deepEqual(first.errors,[]);
  assert.equal(first.batches,3);assert.equal(first.applied,1);assert.equal(first.remaining,0);assert.deepEqual(first.failedBlocks.map(row=>row.id),['q3']);
  assert.equal(JSON.parse(fs.readFileSync(file,'utf8')).sections[2].blocks[0].content.answer.short,'7');
  assert.equal(fs.readFileSync(path.join(dir,'corrections.jsonl'),'utf8').trim().split('\n').length,1);
@@ -256,6 +257,7 @@ test('a correction that does not match the content leaves the block pending, the
  const {runDir,file,dir}=workspace({...fixture(),sections:[{id:'practice',phase:'practice',topicId:'t1',blocks:[question('q1')]}]});
  const runner=async()=>({result:{records:[{id:'q1',outcome:'passed'}],corrections:[{id:'bad',patches:[{targetId:'q1-root',field:'/answer/short',original:'not this',corrected:'8'}]}]}});
  const first=await runContentReview({runDir,projectFile:file,runner,skills:[]});
+ assert.deepEqual(first.errors,[]);
  assert.equal(first.pending,1);assert.equal(first.remaining,1);
  const second=await runContentReview({runDir,projectFile:file,runner,skills:[]});
  assert.equal(second.failed,1);assert.equal(second.remaining,0);assert.equal(fs.readFileSync(path.join(dir,"corrections.jsonl"),"utf8").trim().split('\n').length,2,'rejected patches are logged');assert.equal(loadReviewed(dir).questions.q1.outcome,'failed');
@@ -289,12 +291,13 @@ test('visual plan skips accepted page hashes and combined bodies; findings are r
  fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify({student:{pending:[{page:1,hash:'a',blocks:[],image:'one.png'},{page:2,hash:'b',blocks:['q1'],image:'two.png'}]}}));
  let calls=0;const runner=async({images})=>{calls++;assert.deepEqual(images,['one.png','two.png']);return {result:{pages:[{page:1,outcome:'accepted'},{page:2,outcome:'needs-change',finding:'Clipped table'}]}};};
  const first=await runVisualReview({runDir,projectFile:file,exportDir,runner});
+ assert.deepEqual(first.errors,[]);
  assert.equal(first.pagesInspected,2);assert.equal(first.findings,1);
  const unchanged=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async()=>assert.fail('Unchanged failed pixels require repair, not another opinion')});
  assert.equal(unchanged.pagesInspected,0);assert.equal(unchanged.outstandingFindings,1);
  const savedRepairPlan=JSON.parse(fs.readFileSync(path.join(exportDir,'visual-plan.json')));savedRepairPlan.student.pending[1].hash='b-repaired';fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify(savedRepairPlan));
  await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async({images})=>{calls++;assert.deepEqual(images,['two.png']);return {result:{pages:[{page:2,outcome:'accepted'}]}};}});
- assert.equal(calls,2);assert.deepEqual(reviewStatus({runDir,projectFile:file}),{blocks:6,pending:6,shadingPending:0,reasoningRatings:{total:5,verified:5,missing:[]},failed:[],pagesAccepted:2,pagesNeedingChange:1});
+ assert.equal(calls,2);assert.deepEqual(reviewStatus({runDir,projectFile:file}),{completion:{ready:false,blockers:['No current export supplied'],warnings:[]},deliverable:false,blocks:6,pending:6,shadingPending:0,reasoningRatings:{total:5,verified:5,missing:[]},failed:[],pagesAccepted:2,pagesNeedingChange:1});
  const exportState=loadReviewed(path.join(runDir,'lean-review'));exportState.pages['student:obsolete']={outcome:'needs-change'};
  fs.writeFileSync(path.join(runDir,'lean-review/reviewed.json'),JSON.stringify(exportState));
  const currentReport=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,{pdf:{path:'x.pdf'},issues:[],pageHashes:[{page:1,hash:edition==='student'?'a':'current-'+edition,blocks:[],isCover:true}]}]));

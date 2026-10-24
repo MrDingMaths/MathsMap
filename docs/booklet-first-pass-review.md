@@ -1,5 +1,11 @@
 # Booklet first-pass review
 
+## Import integration (24 October 2026)
+
+For imports the [streamlined workflow](booklet-three-pass-import.md#streamlined-completion-24-october-2026) supersedes the older proposal-only and separate-final-review wording below. One source-side rendered review owns presentation acceptance. Repairs are autonomous within the authorised import, routed by required edit; content/diagram-code changes use the content-capable path and independent checking. Reinspect only affected/reflowed pages, neighbours and unreliable pages. Do not add a second full residual pass. Missing verdicts and unresolved substantive findings block the shared completion decision; saving progress remains possible. ICE-EM retains its targeted direct route.
+
+Resolved teacher decisions and local exceptions remain protected. Open teacher requests still require repair and exact-result verification. A source/readability correction may justify page growth; discretionary compaction retains no-growth and handwriting floors. Standalone first-pass/pedagogy requests retain their explicitly requested approval behaviour.
+
 User approved, 15 October 2026. An LLM reads a delivered booklet before the teacher does and drafts the comments the teacher would otherwise write in Studio. The teacher keeps a comment to approve it and deletes it to reject it, exactly as with [pedagogy review](booklet-pedagogy-review.md) comments. Nothing is repaired until the teacher has triaged.
 
 The principles were derived from the teacher's own Studio history on ten booklets: Computation with Integers, Indices (`stage4-indices-v1`), Linear Relationships, Length, Volume, Angle Relationships, Properties of Geometrical Figures, Data Classification and Visualisation, Data Analysis 1 and Probability. That history is about 200 of the teacher's comments with their resolutions, about 80 kept or deleted pedagogy-review comments, and the last 20 revision snapshots of each booklet. See [Calibration](#calibration).
@@ -104,6 +110,8 @@ Workers stay Sol 6.1 at low reasoning, within each booklet's three-worker lease.
 ## Reviewer contract
 
 <!-- contract:first-pass:start -->
+Check recurring source relationships explicitly: question stems beside their numbers and above subordinate columns; diagrams inside their corresponding labelled table cells; teaching grouping, equation alignment and arrow endpoints; scaffold intent, progression, compactness and local blank exceptions; necessary diagonals/hidden edges, stem-and-leaf separators/alignment, grid scales and measurement-label association. Check difficulty progression from existing ratings without inventing ratings, separating dependencies or overriding deliberate pagination exceptions. A repair must achieve the exact requested relationship, not merely make a tidy panel. These belong in this review, not separate stages; do not generalise local teacher choices. Each finding may include repairKind: "layout", "structure", "diagram-code" or "mathematics" to route the required edit without another diagnosis pass. When verificationRequests are supplied, return verifiedFindings:[{id,fixed:true|false,note}] against the current page and source. Verify the exact request; a merely tidier page is insufficient. Missing verdicts leave the repair unverified.
+
 You are doing the first review of a mathematics booklet that a teacher will print for a class. The teacher reviews every page after you. Write the comments the teacher would write, and only those. The teacher keeps a useful comment and deletes the rest, so a deleted comment costs their time. A page with nothing to report is a normal result.
 
 Already checked elsewhere, so do not spend effort on them: skill labels, the mathematics of worked solutions unless a result is visibly wrong, and automated checks for clipping, overflow and footer clearance. Report a clipped or overlapping element only when you can see it.
@@ -183,7 +191,7 @@ What to look for, in this order:
 
 Content (`area` "content"; the polish pipeline applies these itself, so give the exact correction in `proposal`): only what the pages and the source show you: a block in the wrong role (a practice task inside a theory, example or review block; teaching under an exercise heading); theory wording that departs from the source page; an answer or worked solution that is wrong or does not match the question as printed; a duplicate task (`area` "duplicate") or a question that belongs in another as its next part. Extensions and opening reviews (`area` "extension", "review") are suggestions for the teacher and are never applied.
 
-Do not report: wording preferences; mathematics or source fidelity beyond the content cases above; difficulty order, which the teaching review handles; compaction that moves nothing onto a page and fixes no visible gap; anything you cannot see clearly. List what you could not judge under `notReliablyReviewed`.
+Do not report: wording preferences; mathematics or source fidelity beyond the content cases above; compaction that moves nothing onto a page and fixes no visible gap; anything you cannot see clearly. List what you could not judge under `notReliablyReviewed`.
 
 Write each comment as the teacher would: short, direct and specific. Put the comment on the block or part it concerns. When the same defect recurs, write one comment with every occurrence as targets and scope `all`; otherwise scope `local`. Before keeping a finding, check it against the image: can you point to the page and the element, and say what the fix is and what it gains? If not, leave it out.
 

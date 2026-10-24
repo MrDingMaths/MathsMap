@@ -16,6 +16,7 @@ import {normalizeArrangement} from '../public/libs/maths-editor/arrangement-mode
 import {normalizeBlockLayouts} from '../src/lib/booklet-layout.js';
 import {isPractice} from '../src/lib/booklet-flow.js';
 import {layoutSafetyIssues} from '../polish/guards.mjs';
+import {FEEDBACK_CHECKS} from '../polish/repair-routing.mjs';
 import {
  EDITIONS,contract,bookletIndex,overridesFor,blockEntry,compactLayout,blockHash,targetsUnchanged,provenanceFile,loadProvenance,saveProvenance,setState,commentNote,
  callWorker,pool,defaultRunner,defaultLease,defaultMapPages,defaultRenderImages,canonicalRunDir,contentHash,BASE
@@ -424,7 +425,7 @@ export async function defaultRenderBefore({project,changed,editions,workDir,root
  return {...await defaultRenderImages({project,dir,selection:{...pages,blocks:changed},pagemap:mapped,base,fresh:false,root,log}),pagemap:mapped};
 }
 export function verifyPrompt({accepted,pages,requireFix=true}){
- return `You check repairs to a printed MathsMap booklet. Do not run commands or open files. Each attached image has its own entry in "pages", including phase (before or after), edition, physical page, block IDs and image number. Page numbers can change after repagination: compare the same blocks across phases, never assume that equal page numbers contain the same content. Neighbour pages provide continuation context. ${requireFix?'Check that the original finding is fixed in its own edition.':'This is a regression-only check of another edition. Do not require a student-only feature such as handwriting space in an answer edition, or an answer-only feature in Questions. Return fixed:true if this edition has no regression; the original defect is checked separately in its own edition.'} Say whether the AFTER evidence regressed anything: clipping, overlap, lost content, a collision, or cramped working space. A different physical page number alone is neither an unfixed defect nor regression. If a target is not shown, say it cannot be verified; never infer content was lost from a page-number shift. Optional wording or cosmetic preferences never count as regression.\nReturn one JSON object and nothing else: {"findings":[{"id":"FINDING_ID","fixed":true|false,"regressed":true|false,"note":"short reason"}]} with exactly one entry per finding.\nInput:\n`+JSON.stringify({pages,requireFix,findings:accepted.map(row=>({id:row.id,finding:row.finding,reason:row.reason,changes:row.patches.map(patch=>patch.targetId+patch.field)}))});
+ return `You check repairs to a printed MathsMap booklet. Do not run commands or open files. Each attached image has its own entry in "pages", including phase (before or after), edition, physical page, block IDs and image number. Page numbers can change after repagination: compare the same blocks across phases, never assume that equal page numbers contain the same content. Neighbour pages provide continuation context. ${requireFix?'Check that the original finding is fixed in its own edition.':'This is a regression-only check of another edition. Do not require a student-only feature such as handwriting space in an answer edition, or an answer-only feature in Questions. Return fixed:true if this edition has no regression; the original defect is checked separately in its own edition.'} ${FEEDBACK_CHECKS} Verify the exact original request, not merely an improvement in appearance. Say whether the AFTER evidence regressed anything: clipping, overlap, lost content, a collision, or cramped working space. A different physical page number alone is neither an unfixed defect nor regression. If a target is not shown, say it cannot be verified; never infer content was lost from a page-number shift. Optional wording or cosmetic preferences never count as regression.\nReturn one JSON object and nothing else: {"findings":[{"id":"FINDING_ID","fixed":true|false,"regressed":true|false,"note":"short reason"}]} with exactly one entry per finding.\nInput:\n`+JSON.stringify({pages,requireFix,findings:accepted.map(row=>({id:row.id,finding:row.finding,reason:row.reason,changes:row.patches.map(patch=>patch.targetId+patch.field)}))});
 }
 
 // A save can meet a Windows file lock (UNKNOWN, EBUSY, EPERM). Before trying again, check
@@ -451,7 +452,7 @@ export async function saveRepair(applyRepair,options,{attempts=6,wait=ms=>new Pr
 // Queue mode (17 October 2026): `findingIds` names pending findings to attempt again with the
 // widened worker access, whatever their earlier outcome. Each gets one queue rerun; its
 // in-run retry is used only if the earlier attempts never consumed one.
-export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workDir,concurrency=3,runner=defaultRunner,lease=defaultLease,verify=defaultVerify,renderBefore=verify===defaultVerify?defaultRenderBefore:null,checkPagination=verify===defaultVerify?defaultCheckPagination:null,retry=true,retryFindings=[],findingIds=null,queueLabel=null,base=BASE,safetyGuard=null,log=()=>{}}={}){
+export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workDir,concurrency=3,runner=defaultRunner,lease=defaultLease,verify=defaultVerify,renderBefore=verify===defaultVerify?defaultRenderBefore:null,checkPagination=verify===defaultVerify?defaultCheckPagination:null,retry=true,retryFindings=[],findingIds=null,queueLabel=null,base=BASE,safetyGuard=null,allowSubstantiveGrowth=false,log=()=>{}}={}){
  if(!runDir)throw Error('Name a run folder for the corrections file');
  const {applyCorrections,applyRepair}=await repairModule();
  const handle=await openProject(projectFile,root),project=handle.project,index=bookletIndex(project),file=provenanceFile(project.id,{root,provenanceDir}),record=loadProvenance(file,project);
@@ -534,6 +535,11 @@ export async function runApply({projectFile,root=ROOT,provenanceDir,runDir,workD
    let result;
    try{result=await verify({project:snapshot,projectFile,root,workDir,runDir:canonical,runner,lease,accepted:rows,changed,editions,base,before,log,findingDetails:Object.fromEntries(current.map(f=>[f.id,f]))});}
    catch(error){result={automated:[],findings:[],error:error.message};}
+   // Only positive exact-result verification can justify a source/readability page increase.
+   if(allowSubstantiveGrowth&&!result.error&&!result.automated?.length&&rows.every(row=>byId.get(row.id)?.sourceRepair===true&&(result.findings??[]).some(v=>v.id===row.id&&v.fixed===true&&!v.regressed&&!v.unverified))){
+    result.pagination=(result.pagination??[]).filter(reason=>!/^\w+ grew from \d+ to \d+ pages$/.test(reason));
+    for(const row of rows)byId.get(row.id).growthReason={cause:byId.get(row.id).comment,verified:true};
+   }
    outcome.verificationAttempts.push({at:now(),findings:result.findings??[],automated:result.automated??[],...(result.error?{error:result.error}:{})});
    return result;
   };

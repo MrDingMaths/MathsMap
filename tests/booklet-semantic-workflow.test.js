@@ -46,6 +46,16 @@ test('initial authoring requires a reasoning assessment without an optional skil
  assert.equal(fs.existsSync(task.resultFile),false);
 });
 
+test('semantic authors receive the current presentation contract even with a historical v2 pin',t=>{
+ const options=fixture(t),relative='scripts/booklet/prompts/source-presentation-v2.md';
+ options.manifest.pins={files:{[relative]:'d84dcd762277ebeb25c896857b29e0f93a2920159a1d15a26531fe6fc52879be'}};
+ const current=fs.readFileSync(new URL('../'+relative,import.meta.url),'utf8');
+ const task=createSemanticTasks(options)[0];
+ assert.ok(task.prompt.includes(current));
+ assert.match(task.prompt,/Question-stem placement \(24 October 2026, user feedback\)/);
+ assert.equal(task.promptSections.filter(section=>section.name==='source-presentation').length,1);
+});
+
 test('assignment prompt compatibility permits only explicit empty group membership lists',()=>{
  const context={assignment:{pages:[1]},evidence:[{hash:'source-hash'}],groups:[{id:'group',entryIds:['question']}]};
  const prompt=value=>'Read the exact source.\n'+JSON.stringify(value);
@@ -859,4 +869,14 @@ test('unused prepared reuse candidate acceptance changes do not invalidate ordin
 test('current workflow source correction holds an in-flight prepared generation',async t=>{
  const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',workflowPolicy:'review-first-v1'};options.config.automaticReuse=true;fs.writeFileSync(path.join(options.runDir,'manifest.json'),JSON.stringify(options.manifest));const state={version:1,revision:0,reviewProfile:'textbook-three-pass-v1',pages:{4:{patterns:[]}},issues:{},corrections:[],representatives:{}};fs.mkdirSync(path.join(options.runDir,'workflow'));const file=path.join(options.runDir,'workflow/issues.json');fs.writeFileSync(file,JSON.stringify(state));let calls=0;
  const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{state.corrections.push({id:'changed-source',status:'approved',reason:'Current source decision',patches:[{scope:'inventory',page:4,targetId:'src-4',field:'/description',original:'Solve the equation.',corrected:'Changed assessed source task.'}]});fs.writeFileSync(file,JSON.stringify(state));},runner:async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};}});assert.equal(report.ok,false,JSON.stringify(report));assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed/);assert.ok(!fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
+});
+
+
+test('resumed authoring closes config-only continuations transitively without expanding unrelated pages',async t=>{
+ const options=fixture(t);options.manifest.pipelinePolicy='pdf-import-efficient-v1';options.manifest.continuations=[];
+ options.pages=[3];options.config.assignmentLimits={continuations:[{from:3,to:4,entryIds:['src-3','src-4']},{from:4,to:5,entryIds:['src-4','src-5']}]};
+ const result=await runSemanticPackets({...options,dryRun:true},{...quiet,runner:()=>assert.fail('A dry run must not call a model')});
+ assert.deepEqual(result.pages.map(p=>p.page),[3],'only the requested page is published');
+ assert.deepEqual([...new Set(result.assignmentPlan.assignments.flatMap(a=>a.pages))].sort(),[3,4,5]);
+ assert.equal(result.assignmentPlan.assignments.length,1,'the continued question stays indivisible');
 });

@@ -115,7 +115,7 @@ export function validatePracticeAuthor(result,inventory,{continuations=[],ancest
       const range=String(q.sourceLabel??q.sourceReview?.sourceIdentity?.questionLabel??'').match(/^\s*Q?(\d+)\s*[-–—]\s*Q?(\d+)\s*$/i);
       const partNumbers=new Set(localParts.map(e=>String(e.sourceLabel??'').match(/^\s*Q?(\d+)(?:\b|\()/i)?.[1]).filter(Boolean).map(Number));
       const groupedRangeRoot=distinctLocalParts&&range&&Number(range[2])>=Number(range[1])&&partNumbers.size===Number(range[2])-Number(range[1])+1&&[...partNumbers].every(n=>n>=Number(range[1])&&n<=Number(range[2]));
-      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*(?:(?:Review\s+exercise\s*,\s*)|(?:Exercises?\s*\d+\s*[A-Z]\s*,\s*)|(?:\d+\s*[A-Z]\s*(?:Exercises\s*[,]?\s*)?))?Q?\d+\.?\s*[†‡*!]*\s*$/i.test(String(q.sourceLabel??''))&&
+      const numberedNestedRoot=distinctLocalParts&&!range&&/^\s*(?:(?:Review\s+exercise\s*,\s*)|(?:Chapter\s+\d+\s*:\s*[^\n\r—–]+\s*[—–]\s*)|(?:Exercises?\s*\d+\s*[A-Z]\s*,\s*)|(?:\d+\s*[A-Z]\s*(?:Exercises\s*[,]?\s*)?))?Q?\d+\.?\s*[†‡*!]*\s*$/i.test(String(q.sourceLabel??''))&&
        questions.filter(entry=>entry.sharedStemId===q.sharedStemId).length===1&&
        (q.sourceReview?.sourceIdentity?.pdfPages??[inventory.pageNumber]).length===1;
       // A source-labelled unnumbered task can still be one whole question.
