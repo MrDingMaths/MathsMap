@@ -5,6 +5,79 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-974cbf76ee",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p7-q6",
+     "blockId": "p7-q6",
+     "hash": "9dad5d0f88b5fb930cb6013f1eefd8322fb6949121fd4bc99c2d17032020d6ab"
+    },
+    {
+     "id": "p7-q5",
+     "blockId": "p7-q5",
+     "hash": "77002cf986f083d76a185464b4e3a0a5b4882dd964e78108df3070a53cd6e606"
+    }
+   ],
+   "finding": "In the supplied booklet order, p7-q6 introduces unknown-side calculation together with an hourglass configuration and angle equalities inferred from parallel lines.",
+   "breakdown": "Students must identify triangles within a combined figure, establish correspondence using angle relationships, and calculate an unknown corresponding length at their first application of proportional side calculation.",
+   "checked": "The preceding teaching and practice establish similarity tests, correspondence and numerical side ratios, but do not bridge this combined demand. The later p7-q5 supplies the missing intermediate task using separate right triangles.",
+   "assumptions": "Prior angle relationships and proportional reasoning are available from the course library. This finding concerns the supplied block order and does not depend on calculator use.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move p7-q5 immediately before p7-q6, introducing unknown-side calculation in separate triangles before the hourglass configuration."
+   },
+   "doneWhen": "Students complete p7-q5 before attempting p7-q6.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "similar-triangles"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:40:46.640Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-9584e588be",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p10-q14",
+     "blockId": "p10-q14",
+     "hash": "703f1c27c45e04be08e3869d829ed050c2a906d3b9b8d92bdc616ea73e7c5b70"
+    }
+   ],
+   "finding": "Extend the existing construction with numerical calculations connecting the altitude and the two segments of the hypotenuse.",
+   "breakdown": "The follow-up applies the similarity correspondence already established in p10-q14 to concrete lengths.",
+   "checked": "With BC=6, AC=8 and AB=10, CD=6×8/10=4.8. Similarity gives AD/AC=AC/AB, so AD=6.4; BD=10−6.4=3.6. All required methods are available by this point.",
+   "assumptions": "The additional numerical givens apply to all three new parts.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p10-q14-b, add: “For parts (c)–(e), let a=6, b=8 and c=10. (c) Find CD. (d) Find AD using triangle ABC similar to triangle ACD. (e) Find BD.” Expected answers: (c) 4.8; (d) 6.4; (e) 3.6."
+   },
+   "doneWhen": "The three numerical follow-up parts appear after p10-q14-b with the shared numerical givens.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "similar-triangles"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:40:46.640Z"
+    }
+   ]
+  },
+  {
    "id": "pf-17dbf879d1",
    "kind": "extension",
    "severity": "suggestion",
@@ -41,43 +114,22 @@
    "postedAt": "2026-10-15T10:50:42.494Z"
   }
  ],
- "contextQuestions": [
-  {
-   "sequence": "similar-triangles",
-   "targets": [
-    "p7-q5-b",
-    "p7-q6-b",
-    "p7-q7-b",
-    "p10-q14-b"
-   ],
-   "question": "Have students previously been taught to find unknown corresponding lengths using a scale factor or a proportion, for example in Properties of Geometrical Figures — A: Similarity? The supplied teaching states proportionality but does not demonstrate this calculation; the answer determines whether these tasks require additional teaching."
-  }
- ],
+ "contextQuestions": [],
  "protectedGroups": [
-  {
-   "sequence": "similar-triangles",
-   "targets": [
-    "p7-q6-root",
-    "p7-q7-root"
-   ],
-   "observation": "Parallel lines can establish triangle similarity in both intersecting and nested configurations before corresponding sides are used.",
-   "varies": "Intersecting versus nested triangles, alternate versus corresponding angles, and scale direction.",
-   "invariant": "Parallel sides establish equal angles, followed by a corresponding-side calculation."
-  },
   {
    "sequence": "similar-triangles",
    "targets": [
     "p9-q13-b",
     "p9-q13-c"
    ],
-   "observation": "The same common-angle and corresponding-angle proof works after changing the orientation.",
-   "varies": "Orientation and vertex names.",
-   "invariant": "A segment parallel to one side creates a smaller triangle sharing a vertex with the larger triangle."
+   "observation": "The same common-angle and parallel-line proof applies despite a change in orientation.",
+   "varies": "Orientation, labels and the location of the internal parallel segment.",
+   "invariant": "Nested triangles sharing one angle with a pair of parallel corresponding sides."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 9,
- "reviewedAt": "2026-10-15T10:50:42.332Z",
+ "reviewedRevision": 16,
+ "reviewedAt": "2026-10-23T08:40:46.640Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -86,7 +138,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -101,14 +153,14 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 54469,
-     "cached_input_tokens": 14592,
+     "input_tokens": 54658,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4063,
-     "reasoning_output_tokens": 139
+     "output_tokens": 3838,
+     "reasoning_output_tokens": 186
     },
-    "elapsedMs": 98859,
-    "candidates": 0,
+    "elapsedMs": 112024,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 2
    }
@@ -116,18 +168,18 @@
   "dropped": [
    {
     "ids": [
-     "c1"
+     "c2"
     ],
-    "reason": "The proposed sequence requires an additional instruction allowing 'not enough information' and 'not similar', beyond the permitted single prediction line. Those parts also conflict with p5-q3's existing instruction to choose a test proving similarity. Removing them defeats the proposed comparison.",
+    "reason": "The proposed contrast fails the mathematical check. In (iii), AB=4, AC=6 and angle ABC=50° determine a unique triangle up to similarity, so the proportional second triangle is necessarily similar. In (iv), AC=6, AB=4 and angle ACB=50° are impossible: the sine rule would require sin B=1.5 sin 50°>1. Moreover, insufficient-information parts would conflict with p5-q3's existing instruction to choose a test proving that the pairs are similar.",
     "candidates": [
      {
-      "id": "c1",
+      "id": "c2",
       "sequence": "similar-triangles",
       "kind": "variation-sequence",
       "targets": [
        "p5-q3"
       ],
-      "finding": "Hold two proportional side pairs fixed while varying whether the angle information establishes similarity."
+      "finding": "Contrast an included equal angle with an equal angle outside the two supplied sides."
      }
     ]
    }
@@ -135,7 +187,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/similar-triangles-v1/candidates-low-1792061397775.json",
+  "candidateFile": ".booklet-work/full-imports/similar-triangles-v1-2026-10-08/polish/pedagogy-work/candidates-low-1792744808732.json",
   "errors": []
  },
  "postedRevision": 10

@@ -205,6 +205,40 @@
    "postedAt": "2026-10-15T10:22:21.452Z"
   },
   {
+   "id": "pf-4dfec953fd",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q9",
+     "blockId": "p12-q9",
+     "hash": "794cf615d441e69cbb958d376922dfe2153d1e8dded7fb5254612b185dc4e552"
+    }
+   ],
+   "finding": "Extend the temperature question by finding two times with the same nonzero temperature.",
+   "breakdown": "The follow-up connects the two roots of a quadratic equation with two times sharing one temperature.",
+   "checked": "Noon corresponds to t=2 and gives 4−18+8=−6°C. Setting the temperature to −6°C gives t²−9t+14=(t−2)(t−7)=0, so the other time is 5 pm. Both times lie within the stated day and require only substitution and the taught solving method.",
+   "assumptions": "The supplied temperature model applies at noon and 5 pm.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Label the existing question (a), then add: (b) Find the temperature at noon. Answer: −6°C. (c) Find the other time when the temperature is −6°C. Answer: 5 pm, since t=2 or 7 hours after 10 am."
+   },
+   "doneWhen": "The optional follow-up parts use the existing model and include their expected answers.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "monic-trinomials"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T09:06:05.633Z"
+    }
+   ]
+  },
+  {
    "id": "pf-10d4aac42f",
    "kind": "extension",
    "severity": "suggestion",
@@ -244,14 +278,44 @@
  "contextQuestions": [],
  "protectedGroups": [
   {
+   "sequence": "null-factor-law",
+   "targets": [
+    "p3-c",
+    "p3-d"
+   ],
+   "observation": "Reversing the factors leaves the solution set unchanged.",
+   "varies": "Order of the two factors.",
+   "invariant": "The factors, zero right-hand side and solution set."
+  },
+  {
+   "sequence": "null-factor-law",
+   "targets": [
+    "p3-d",
+    "p3-e"
+   ],
+   "observation": "Changing the sign inside one factor changes the sign of its corresponding root.",
+   "varies": "x+3 becomes x−3.",
+   "invariant": "The factor x+6 and zero right-hand side."
+  },
+  {
+   "sequence": "null-factor-law",
+   "targets": [
+    "p3-i",
+    "p3-j"
+   ],
+   "observation": "A squared binomial represents two identical factors and gives the same solution.",
+   "varies": "Squared notation versus explicit repeated multiplication.",
+   "invariant": "The expression, equation and solution."
+  },
+  {
    "sequence": "monic-trinomials",
    "targets": [
     "p9-q1-row7",
     "p9-q1-row8"
    ],
-   "observation": "Reversing the linear coefficient's sign reverses the roots' signs while the constant remains fixed.",
-   "varies": "The linear coefficient changes from 2 to -2.",
-   "invariant": "The leading coefficient is 1 and the constant is -3."
+   "observation": "Reversing the middle coefficient's sign changes the signed factor pair and reverses the solutions' signs.",
+   "varies": "The sign of the middle coefficient.",
+   "invariant": "Leading coefficient 1 and constant −3."
   },
   {
    "sequence": "monic-trinomials",
@@ -259,9 +323,9 @@
     "p10-q5-h",
     "p10-q5-i"
    ],
-   "observation": "Changing the sign of the linear coefficient changes the sign of the repeated root.",
-   "varies": "The linear coefficient changes from -18 to 18.",
-   "invariant": "The leading coefficient, constant 81 and repeated-factor structure."
+   "observation": "Opposite middle coefficients produce opposite repeated roots.",
+   "varies": "The sign of the middle coefficient.",
+   "invariant": "Its magnitude, constant 81 and repeated-factor structure."
   },
   {
    "sequence": "monic-trinomials",
@@ -277,57 +341,14 @@
     "p10-q3-i",
     "p10-q3-j"
    ],
-   "observation": "A fixed constant can admit different factor pairs, and rearranged presentations can lead to the same standard-form equation.",
-   "varies": "Linear coefficients, signs, term order and allocation of terms across the equality.",
-   "invariant": "The monic standard form has constant term 20."
-  },
-  {
-   "sequence": "null-factor-law",
-   "targets": [
-    "p3-c",
-    "p3-d"
-   ],
-   "observation": "Changing factor order leaves the solution set unchanged.",
-   "varies": "Order of the two factors.",
-   "invariant": "Factors and solutions."
-  },
-  {
-   "sequence": "null-factor-law",
-   "targets": [
-    "p3-d",
-    "p3-e",
-    "p3-f",
-    "p3-g"
-   ],
-   "observation": "The signs inside factors determine the opposite signs of their roots.",
-   "varies": "Signs and then one constant in the factors.",
-   "invariant": "Two linear factors with product zero and the null-factor method."
-  },
-  {
-   "sequence": "null-factor-law",
-   "targets": [
-    "p3-i",
-    "p3-j"
-   ],
-   "observation": "A squared factor and its expanded product notation give the same single distinct solution.",
-   "varies": "Notation for the repeated factor.",
-   "invariant": "The equation and its solution."
-  },
-  {
-   "sequence": "null-factor-law",
-   "targets": [
-    "p5-q1-d",
-    "p5-q1-e",
-    "p5-q1-f"
-   ],
-   "observation": "Opposite constant terms produce opposite roots, with the coefficient of x affecting their magnitude.",
-   "varies": "Constant magnitude, then the coefficient of x.",
-   "invariant": "Opposite binomial factors with product zero."
+   "observation": "A common constant supports comparing factor pairs and recognising equivalent equations in different arrangements.",
+   "varies": "The middle coefficient and the arrangement of terms across the equation.",
+   "invariant": "Constant magnitude 20 and a monic quadratic after rearrangement; retain this design when changing the duplicate."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 12,
- "reviewedAt": "2026-10-15T10:22:20.811Z",
+ "reviewedRevision": 23,
+ "reviewedAt": "2026-10-23T09:06:05.633Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -336,7 +357,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -351,13 +372,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 25662,
-     "cached_input_tokens": 12544,
+     "input_tokens": 26778,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5108,
-     "reasoning_output_tokens": 111
+     "output_tokens": 4933,
+     "reasoning_output_tokens": 129
     },
-    "elapsedMs": 108100,
+    "elapsedMs": 135893,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -369,13 +390,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 29235,
-     "cached_input_tokens": 14592,
+     "input_tokens": 31418,
+     "cached_input_tokens": 31232,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4921,
-     "reasoning_output_tokens": 102
+     "output_tokens": 5072,
+     "reasoning_output_tokens": 237
     },
-    "elapsedMs": 105366,
+    "elapsedMs": 164572,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -385,7 +406,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/monic-quadratic-equations-v1/candidates-low-1792059663557.json",
+  "candidateFile": ".booklet-work/full-imports/monic-quadratic-equations-20261007/polish/pedagogy-work/candidates-low-1792746317063.json",
   "errors": []
  },
  "postedRevision": 13

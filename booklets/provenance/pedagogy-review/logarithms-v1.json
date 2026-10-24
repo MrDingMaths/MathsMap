@@ -5,42 +5,6 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-5a9ec4cbf8",
-   "kind": "unsupported-transition",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p3-equations-d",
-     "blockId": "p3-equations",
-     "hash": "34fe662c3217b6e5c49db27d113aab0ed13abfd782734d3434d5eeadd1dc1706"
-    }
-   ],
-   "finding": "The opening review asks students to solve an equation whose nonexistence of real solutions requires an unsupported comparison argument.",
-   "breakdown": "For 5^x = sqrt(x), the domain is x >= 0, and the exponential remains above the radical. Matching familiar powers cannot establish this, unlike the surrounding review questions.",
-   "checked": "Checked p3-powers, all p3-equations parts and the introduction teaching. No preceding method establishes the required nonexistence result.",
-   "assumptions": "Familiar powers and fractional indices are prior knowledge. Calculator trials alone do not establish nonexistence.",
-   "repair": {
-    "type": "change-values",
-    "proposal": "Replace the equation with 5^x = sqrt(5). Answer: x = 1/2."
-   },
-   "doneWhen": "The replacement uses the familiar-powers method rehearsed by the review.",
-   "from": [
-    "c1"
-   ],
-   "sequences": [
-    "introduction"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:24:30.213Z"
-    }
-   ],
-   "commentId": "9d35b056-8d28-4ced-b7d3-0f57edd72014",
-   "postedAt": "2026-10-15T10:24:30.708Z"
-  },
-  {
    "id": "pf-583c5d965d",
    "kind": "difficulty-jump",
    "severity": "high",
@@ -75,6 +39,45 @@
    ],
    "commentId": "11f0cfc9-1ca6-46bf-9d5a-5f74af500b75",
    "postedAt": "2026-10-15T10:24:30.712Z"
+  },
+  {
+   "id": "pf-d5d1418e63",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p19-q18-response",
+     "blockId": "p19-q18",
+     "hash": "1deac44fb1fac920f79bd86e1e821e59574fbfbbb0a9daead20752488de4564e"
+    },
+    {
+     "id": "p19-q19-response",
+     "blockId": "p19-q19",
+     "hash": "fde60bbb852ce715a9daa0f72347c6bc527c94884c8cf5a7da79a7280eb2977d"
+    }
+   ],
+   "finding": "The common-base equations introduce base conversion and algebraic exponents on both sides together.",
+   "breakdown": "Students must rewrite bases, multiply complete exponent expressions and equate algebraic exponents without preceding practice combining these steps.",
+   "checked": "The index-law review supplies components. Neither p18-q17 nor p19-q19 supplies a bridge that introduces only one additional demand.",
+   "assumptions": "Index laws and linear equations are prior knowledge.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Before p19-q18-response add: (a) Solve 2^(x+1)=2^(3x-5). Answer: x=3. (b) Solve 4^(x+1)=2^(3x-5). Answer: x=7."
+   },
+   "doneWhen": "Equating algebraic exponents is practised before incorporating base conversion.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "logarithm-laws"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
   },
   {
    "id": "pf-4ce67420b7",
@@ -158,25 +161,74 @@
    "postedAt": "2026-10-15T10:24:30.720Z"
   },
   {
-   "id": "pf-4f00276e23",
-   "kind": "extension",
-   "severity": "suggestion",
+   "id": "pf-51b5f469bd",
+   "kind": "missing-prerequisite",
+   "severity": "high",
    "targets": [
     {
-     "id": "p22-q2-root",
-     "blockId": "p22-q2",
-     "hash": "ea3bf01b410498c94be73d9c495977f4719af82e8396f0cca9ab9f3d77f815d0"
+     "id": "p23-q3-a",
+     "blockId": "p23-q3",
+     "hash": "9c2abe0d8ec3795e5ddf9894696c833ba5af3a90cf0a22352f54a79081cfaa16"
+    },
+    {
+     "id": "p23-q3-b",
+     "blockId": "p23-q3",
+     "hash": "9c2abe0d8ec3795e5ddf9894696c833ba5af3a90cf0a22352f54a79081cfaa16"
+    },
+    {
+     "id": "p23-q4-root",
+     "blockId": "p23-q4",
+     "hash": "5c675887eb0360cc52ae793658c3c006059634f937ceb1deba950f75ac987581"
     }
    ],
-   "finding": "Extend the existing equations by connecting multiplication of the right side by 3 with addition to the exponent.",
-   "breakdown": "The follow-up connects logarithmic solutions with the index laws already taught.",
-   "checked": "For k = log_3 13, 3^(k+1) = 39 and 3^(k-1) = 13/3, so the two solutions differ by 2. All arguments and bases are valid.",
-   "assumptions": "Students use the exact value of k rather than its rounded decimal approximation.",
+   "finding": "Exponential substitution is requested without modelling the rewrite into a quadratic and the return to the original variable.",
+   "breakdown": "Naming u=2^x does not explain the complete substitution method or distinguish roots for u from solutions for x.",
+   "checked": "Earlier teaching supplies index laws, logarithmic conversion and single exponential equations, but no exponential substitution model.",
+   "assumptions": "Quadratic factorisation is prior knowledge; scientific calculators are available where needed.",
    "repair": {
-    "type": "add-question",
-    "proposal": "After p22-q2-u add: (v) Let k be the exact solution of 3^x = 13. Solve 3^x = 39 in terms of k. Answer: x = k+1. (w) Solve 3^x = 13/3 in terms of k. Answer: x = k-1. (x) If 3^m = 39 and 3^n = 13/3, find m-n without a calculator. Answer: 2."
+    "type": "add-teaching",
+    "proposal": "Before p23-q3-a model 4^x-5×2^x+6=0: let u=2^x>0, so 4^x=(2^x)^2=u^2. Then (u-2)(u-3)=0, giving u=2 or 3. Return to 2^x=2 or 3, hence x=1 or log_2 3. State that nonpositive substitute roots are rejected because 2^x>0."
    },
-   "doneWhen": "The optional follow-up uses exact solutions to expose the additive effect of multiplying an exponential value by its base.",
+   "doneWhen": "One model shows the rewrite, quadratic solution, positivity condition and return to x.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "equations-change-base"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-33cb9ec39c",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p27-q23-root",
+     "blockId": "p27-q23",
+     "hash": "8ab98fc7527e9d0181c7bef1c93fe0ffc16f48b80b05ad0969a056ff6e995c0f"
+    },
+    {
+     "id": "p27-q22-root",
+     "blockId": "p27-q22",
+     "hash": "ba3a0316a4f315026cba18c117c7e962a7a2027c3f1bc2ae42f32b6b15ad3685"
+    }
+   ],
+   "finding": "The different-base exponential equation precedes the booklet's explicit teaching of its method.",
+   "breakdown": "The earlier single-exponential procedure does not model collecting unknown terms after taking logarithms of both sides.",
+   "checked": "The supplied practice order places p27-q23 before p27-q22, whose worked example supplies the missing combined method.",
+   "assumptions": "Logarithm laws and linear algebra are available.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move the complete p27-q22 block, including its worked example and your-turn task, immediately before p27-q23."
+   },
+   "doneWhen": "The combined method and its guided practice precede p27-q23.",
    "from": [
     "c7"
    ],
@@ -187,11 +239,116 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T10:24:30.213Z"
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-63f5c3baf8",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p25-q13",
+     "blockId": "p25-q13",
+     "hash": "310105d4cff5bcf48934cebba6a7b98539947b21f002fc70450ba87fd5413159"
     }
    ],
-   "commentId": "c0de1e78-8ce3-4908-b616-429d3c980379",
-   "postedAt": "2026-10-15T10:24:30.724Z"
+   "finding": "Connect doubling the equation's right side with squaring its solution.",
+   "breakdown": "The follow-up exposes the relationship between a logarithmic value and its corresponding argument.",
+   "checked": "Change of base gives (5/6)log_2 x. Right sides 5 and 10 give x=64 and x=4096 respectively.",
+   "assumptions": "Use x>0, as required by the original logarithms.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Make the original task part (a). Add (b) Solve log_8 x+log_4 x=10. Answer: 4096. (c) Explain why the solution in part (b) is the square of the original solution, 64. Answer: log_2 x doubles from 6 to 12, so 2^12=(2^6)^2."
+   },
+   "doneWhen": "The optional follow-up appears directly after the original equation.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "equations-change-base"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-6402d2ffb5",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p29-q2",
+     "blockId": "p29-q2",
+     "hash": "9d65ddcc32db7dad310f126a3fbd2bdb45d25080810fac5d43fe94f8c33f1cd0"
+    }
+   ],
+   "finding": "Compare elapsed times to reach successive halves of the initial temperature.",
+   "breakdown": "Only the target temperature varies, exposing equal additional times for equal multiplicative decreases.",
+   "checked": "All proposed temperatures are positive and below 100; the stated logarithmic times solve the supplied model.",
+   "assumptions": "The supplied temperature model continues to apply.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After part (b), add the single instruction: 'Predict how the times will change before calculating.' Add (c) time to 50°C; (d) time to 25°C; (e) time to 12.5°C; then unpatterned (f) time to 40°C. Answers in minutes: L, 2L, 3L and log_0.87(0.4), where L=log_0.87(0.5)."
+   },
+   "doneWhen": "The three-part run and unpatterned follow-up are appended under the existing context.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "exponential-modelling"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-10ccf7c136",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p32-c",
+     "blockId": "p32-activity",
+     "hash": "a90853cc8ecdf4d8a74eceb2c6905d790b87d7bb2afe8ccf1acbcd4bb927b63e"
+    },
+    {
+     "id": "p32-d",
+     "blockId": "p32-activity",
+     "hash": "a90853cc8ecdf4d8a74eceb2c6905d790b87d7bb2afe8ccf1acbcd4bb927b63e"
+    }
+   ],
+   "finding": "Interpreting changing logarithmic slope as changing proportional growth requires a connection the investigation has not established.",
+   "breakdown": "Recognising straight-line exponential growth does not itself explain why flattening indicates smaller growth factors rather than smaller numerical additions.",
+   "checked": "Part (a) addresses scale spacing and part (b) constant exponential growth. Neither explicitly connects equal-time logarithmic rises with growth factors.",
+   "assumptions": "Ordinary slope interpretation is prior knowledge.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before part (c), add: 'Compare equal time intervals. A rise of 1 on the base-10 logarithmic scale means multiplying cases by 10. A smaller rise over the same time means a smaller growth factor, so a flattening log graph shows slowing proportional growth even while total cases keep rising.'"
+   },
+   "doneWhen": "The growth-factor connection precedes the proportional-growth interpretations.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "logarithmic-scales"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
   },
   {
    "id": "pf-1c4b733e28",
@@ -235,27 +392,27 @@
    "postedAt": "2026-10-15T10:24:30.727Z"
   },
   {
-   "id": "pf-3d88b44d3b",
-   "kind": "extension",
+   "id": "pf-984f6c158b",
+   "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p35-q4",
-     "blockId": "p35-q4",
-     "hash": "c48853aaacdcb30409ec9c8427fdea3728deac5c43000ad8d11350300574e944"
+     "id": "p34-q1-comparison-instructions",
+     "blockId": "p34-q1-block",
+     "hash": "e2cf2dfd61d22e5f538378544e1cdcce1488716aeb0a8d68b59bd6a6e877996e"
     }
    ],
-   "finding": "Extend the investment table by connecting its annual multiplier with equal increments on its logarithm graph.",
-   "breakdown": "The follow-up makes the relationship between exponential growth and a straight logarithm graph explicit using the existing investment.",
-   "checked": "The table has multiplier 1.2. Its logarithm increases by log_10(1.2), approximately 0.07918, each year. The continued model gives 10000(1.2)^10 = 61917.364224.",
-   "assumptions": "The investment continues with the same annual multiplier.",
+   "finding": "Hold the smaller magnitude fixed while increasing the larger magnitude by one.",
+   "breakdown": "The run exposes the factor of ten associated with each additional magnitude unit.",
+   "checked": "Amplitude ratios are 10 raised to the magnitude difference; all proposed answers are correct.",
+   "assumptions": "Use the existing simplified magnitude–amplitude model.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p35-q4-c add: (d) By what factor does A increase each year? Answer: 1.2. (e) By how much does log_10 A increase each year? Answer: log_10(1.2), approximately 0.07918. (f) If this pattern continues, what is the investment value at t = 10? Answer: approximately $61,917.36. (g) Explain why the points on the logarithm graph continue in a straight line. Answer: Each one-year increase adds the same amount, log_10(1.2), to log_10 A."
+    "proposal": "Append: 'Predict how the next ratio will change before calculating.' Add pairs (f) 2 and 3; (g) 2 and 4; (h) 2 and 5; (i) 2 and 6; then unpatterned (j) 3.5 and 5. Answers to 2 s.f.: 1.0×10^1, 1.0×10^2, 1.0×10^3, 1.0×10^4 and 32."
    },
-   "doneWhen": "The optional parts connect the numerical multiplier, logarithmic increment and straight graph.",
+   "doneWhen": "The fixed-smaller-magnitude run and unpatterned follow-up follow part (e).",
    "from": [
-    "c11"
+    "c13"
    ],
    "sequences": [
     "logarithmic-scales"
@@ -264,11 +421,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T10:24:30.213Z"
+     "at": "2026-10-23T13:12:14.011Z"
     }
-   ],
-   "commentId": "4c4c49b0-f9a5-4fb1-81d3-e4bbfc4f6253",
-   "postedAt": "2026-10-15T10:24:30.731Z"
+   ]
   },
   {
    "id": "pf-bf6bb374b6",
@@ -305,6 +460,223 @@
    ],
    "commentId": "68d4fbb4-92f3-43d2-97cb-f86a2c026148",
    "postedAt": "2026-10-15T10:24:30.734Z"
+  },
+  {
+   "id": "pf-4b8d76e0cd",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p40-q3-i",
+     "blockId": "p40-q3",
+     "hash": "bab4d5ac28035b38548dd3e8bd9038a7823ded502b690f6ab497c3f2e8f6f5ce"
+    }
+   ],
+   "finding": "The negative-input function requires reversing direction, while the local teaching only establishes direction for y=log_a x.",
+   "breakdown": "Using the base alone would incorrectly classify log_3(-x) as increasing; preceding parts do not expose this reversal.",
+   "checked": "The supplied investigations address changing bases, and the later transformation investigation addresses translations.",
+   "assumptions": "Graph reflections may be prior knowledge; a local application cue is sufficient.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Append: 'Compare with y=log_3 x: replacing x by -x reflects the graph in the y-axis. What happens to its direction?'"
+   },
+   "doneWhen": "Students consider the input reflection before classifying direction.",
+   "from": [
+    "c17"
+   ],
+   "sequences": [
+    "curve-domain"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-0d8e6b13bb",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p44-q11-b",
+     "blockId": "p44-q11",
+     "hash": "2fea5ba063711c29215aeed4829a5fb43415c42606ae82472185a337f611ea04"
+    },
+    {
+     "id": "p44-q11-d",
+     "blockId": "p44-q11",
+     "hash": "2fea5ba063711c29215aeed4829a5fb43415c42606ae82472185a337f611ea04"
+    }
+   ],
+   "finding": "Parts b and d repeat the same complete graph-fitting task without an instructional purpose.",
+   "breakdown": "Both supply asymptote x = 2 and points (3,3) and (6,5), under the same instruction.",
+   "checked": "Compared both complete diagram specifications. The source-retention note explains document handling, not a retrieval or comparison activity.",
+   "assumptions": "The repeated task has no additional teacher-specified instructional purpose.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change the later graph to asymptote x = 1 and labelled points (2,2) and (10,4). Draw the matching curve. Answer: y = log_3(x-1)+2."
+   },
+   "doneWhen": "The later graph has distinct givens, a matching curve and the stated answer.",
+   "from": [
+    "c15"
+   ],
+   "sequences": [
+    "curve-domain"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:24:30.213Z"
+    }
+   ],
+   "commentId": "7273634b-f28e-468f-9074-f058c47b3236",
+   "postedAt": "2026-10-15T10:24:30.741Z"
+  },
+  {
+   "id": "pf-15d5597f91",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p41-q6",
+     "blockId": "p41-q6",
+     "hash": "92bd5951992c802b32f73a30640ff526c27989f81ca6ce6ba3ca58877bfe6231"
+    }
+   ],
+   "finding": "Connect an additional upward translation with the intercept's distance from the asymptote.",
+   "breakdown": "The numerical follow-up reveals how a vertical translation changes the corresponding exponential distance.",
+   "checked": "The original intercept is 4+2^-3; after moving up one unit it is 4+2^-4. Distances from x=4 are 0.125 and 0.0625.",
+   "assumptions": "Use the given base-2 function and its established domain.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After part (d), add optional parts: (e) Move this graph up one more unit. Find its new x-intercept. Answer: (4.0625,0). (f) For the original and new graphs, find the horizontal distances from their x-intercepts to x=4. Answer: 0.125 and 0.0625 units. (g) How has this distance changed? Answer: it has halved."
+   },
+   "doneWhen": "The optional parts follow the existing intercept and translation questions.",
+   "from": [
+    "c21"
+   ],
+   "sequences": [
+    "curve-domain"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:12:14.011Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-5a9ec4cbf8",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p3-equations-d",
+     "blockId": "p3-equations",
+     "hash": "34fe662c3217b6e5c49db27d113aab0ed13abfd782734d3434d5eeadd1dc1706"
+    }
+   ],
+   "finding": "The opening review asks students to solve an equation whose nonexistence of real solutions requires an unsupported comparison argument.",
+   "breakdown": "For 5^x = sqrt(x), the domain is x >= 0, and the exponential remains above the radical. Matching familiar powers cannot establish this, unlike the surrounding review questions.",
+   "checked": "Checked p3-powers, all p3-equations parts and the introduction teaching. No preceding method establishes the required nonexistence result.",
+   "assumptions": "Familiar powers and fractional indices are prior knowledge. Calculator trials alone do not establish nonexistence.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Replace the equation with 5^x = sqrt(5). Answer: x = 1/2."
+   },
+   "doneWhen": "The replacement uses the familiar-powers method rehearsed by the review.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "introduction"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:24:30.213Z"
+    }
+   ],
+   "commentId": "9d35b056-8d28-4ced-b7d3-0f57edd72014",
+   "postedAt": "2026-10-15T10:24:30.708Z"
+  },
+  {
+   "id": "pf-4f00276e23",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p22-q2-root",
+     "blockId": "p22-q2",
+     "hash": "ea3bf01b410498c94be73d9c495977f4719af82e8396f0cca9ab9f3d77f815d0"
+    }
+   ],
+   "finding": "Extend the existing equations by connecting multiplication of the right side by 3 with addition to the exponent.",
+   "breakdown": "The follow-up connects logarithmic solutions with the index laws already taught.",
+   "checked": "For k = log_3 13, 3^(k+1) = 39 and 3^(k-1) = 13/3, so the two solutions differ by 2. All arguments and bases are valid.",
+   "assumptions": "Students use the exact value of k rather than its rounded decimal approximation.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p22-q2-u add: (v) Let k be the exact solution of 3^x = 13. Solve 3^x = 39 in terms of k. Answer: x = k+1. (w) Solve 3^x = 13/3 in terms of k. Answer: x = k-1. (x) If 3^m = 39 and 3^n = 13/3, find m-n without a calculator. Answer: 2."
+   },
+   "doneWhen": "The optional follow-up uses exact solutions to expose the additive effect of multiplying an exponential value by its base.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "equations-change-base"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:24:30.213Z"
+    }
+   ],
+   "commentId": "c0de1e78-8ce3-4908-b616-429d3c980379",
+   "postedAt": "2026-10-15T10:24:30.724Z"
+  },
+  {
+   "id": "pf-3d88b44d3b",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p35-q4",
+     "blockId": "p35-q4",
+     "hash": "c48853aaacdcb30409ec9c8427fdea3728deac5c43000ad8d11350300574e944"
+    }
+   ],
+   "finding": "Extend the investment table by connecting its annual multiplier with equal increments on its logarithm graph.",
+   "breakdown": "The follow-up makes the relationship between exponential growth and a straight logarithm graph explicit using the existing investment.",
+   "checked": "The table has multiplier 1.2. Its logarithm increases by log_10(1.2), approximately 0.07918, each year. The continued model gives 10000(1.2)^10 = 61917.364224.",
+   "assumptions": "The investment continues with the same annual multiplier.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p35-q4-c add: (d) By what factor does A increase each year? Answer: 1.2. (e) By how much does log_10 A increase each year? Answer: log_10(1.2), approximately 0.07918. (f) If this pattern continues, what is the investment value at t = 10? Answer: approximately $61,917.36. (g) Explain why the points on the logarithm graph continue in a straight line. Answer: Each one-year increase adds the same amount, log_10(1.2), to log_10 A."
+   },
+   "doneWhen": "The optional parts connect the numerical multiplier, logarithmic increment and straight graph.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "logarithmic-scales"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:24:30.213Z"
+    }
+   ],
+   "commentId": "4c4c49b0-f9a5-4fb1-81d3-e4bbfc4f6253",
+   "postedAt": "2026-10-15T10:24:30.731Z"
   },
   {
    "id": "pf-80b52a7f51",
@@ -353,47 +725,6 @@
    "postedAt": "2026-10-15T10:24:30.737Z"
   },
   {
-   "id": "pf-0d8e6b13bb",
-   "kind": "duplicate-question",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p44-q11-b",
-     "blockId": "p44-q11",
-     "hash": "2fea5ba063711c29215aeed4829a5fb43415c42606ae82472185a337f611ea04"
-    },
-    {
-     "id": "p44-q11-d",
-     "blockId": "p44-q11",
-     "hash": "2fea5ba063711c29215aeed4829a5fb43415c42606ae82472185a337f611ea04"
-    }
-   ],
-   "finding": "Parts b and d repeat the same complete graph-fitting task without an instructional purpose.",
-   "breakdown": "Both supply asymptote x = 2 and points (3,3) and (6,5), under the same instruction.",
-   "checked": "Compared both complete diagram specifications. The source-retention note explains document handling, not a retrieval or comparison activity.",
-   "assumptions": "The repeated task has no additional teacher-specified instructional purpose.",
-   "repair": {
-    "type": "change-values",
-    "proposal": "Change the later graph to asymptote x = 1 and labelled points (2,2) and (10,4). Draw the matching curve. Answer: y = log_3(x-1)+2."
-   },
-   "doneWhen": "The later graph has distinct givens, a matching curve and the stated answer.",
-   "from": [
-    "c15"
-   ],
-   "sequences": [
-    "curve-domain"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:24:30.213Z"
-    }
-   ],
-   "commentId": "7273634b-f28e-468f-9074-f058c47b3236",
-   "postedAt": "2026-10-15T10:24:30.741Z"
-  },
-  {
    "id": "pf-3624e08e19",
    "kind": "extension",
    "severity": "suggestion",
@@ -437,163 +768,26 @@
     "p23-q5-root",
     "p23-q6-root"
    ],
-   "question": "Before p23-q5 and p23-q6, have students separately learned that exponential functions with base greater than 1 are increasing and used this to preserve inequality direction when converting between exponential and logarithmic inequalities? The supplied teaching first establishes the relevant graph behaviour later. If this prior knowledge is absent, these tasks need a short teaching insert."
+   "question": "Have students already learnt that exponential and logarithmic functions with base greater than 1 preserve order, and used this to solve inequalities? The supplied preceding teaching does not establish this, while the separately listed exponential-graph and inequalities courses may do so. The answer determines whether a short explanation and worked inequality are needed here."
   }
  ],
  "protectedGroups": [
-  {
-   "sequence": "equations-change-base",
-   "targets": [
-    "p20-part-a",
-    "p20-part-b"
-   ],
-   "observation": "The same logarithm can be expressed using different common bases.",
-   "varies": "The requested new base, from 10 to 5.",
-   "invariant": "The original logarithm and the numerator/denominator placement."
-  },
-  {
-   "sequence": "equations-change-base",
-   "targets": [
-    "p22-q2-g",
-    "p22-q2-h",
-    "p22-q2-i"
-   ],
-   "observation": "Changing the exponential base changes the exponent needed to reach a fixed value.",
-   "varies": "The base: 8, 4, 2.",
-   "invariant": "The right side is 512 and the unknown is the exponent."
-  },
-  {
-   "sequence": "equations-change-base",
-   "targets": [
-    "p22-q2-i",
-    "p22-q2-j",
-    "p22-q2-k"
-   ],
-   "observation": "Reversing an equation preserves the task, whereas moving the unknown from exponent to base changes the inverse operation needed.",
-   "varies": "Equation orientation, then the position of the unknown.",
-   "invariant": "The numerical relationship 2^9=512."
-  },
-  {
-   "sequence": "equations-change-base",
-   "targets": [
-    "p22-q2-l",
-    "p22-q2-m",
-    "p22-q2-n"
-   ],
-   "observation": "Reciprocal arguments require negative exponents, with magnitude depending on the base.",
-   "varies": "The base: 2, 4, 8.",
-   "invariant": "The right side is 1/512."
-  },
-  {
-   "sequence": "equations-change-base",
-   "targets": [
-    "p22-q2-o",
-    "p22-q2-p",
-    "p22-q2-q",
-    "p22-q2-r"
-   ],
-   "observation": "Raising the argument to a power multiplies its logarithm; 169 and 13^2 deliberately express the same value.",
-   "varies": "The argument and its numerical or power representation.",
-   "invariant": "The base is 3 and the unknown is the exponent."
-  },
-  {
-   "sequence": "equations-change-base",
-   "targets": [
-    "p25-q14-a",
-    "p25-q14-b",
-    "p25-q14-c",
-    "p25-q14-d"
-   ],
-   "observation": "Swapping base and argument reciprocates the logarithm, while reciprocating the argument changes its sign.",
-   "varies": "Base/argument order and reciprocal arguments.",
-   "invariant": "The underlying power relationship between 8 and 64."
-  },
-  {
-   "sequence": "equations-change-base",
-   "targets": [
-    "p25-q15-a",
-    "p25-q15-b",
-    "p25-q15-c",
-    "p25-q15-d"
-   ],
-   "observation": "The numerical reciprocal and sign relationships are expressed symbolically.",
-   "varies": "Base/argument order and reciprocal arguments.",
-   "invariant": "The underlying relationship between a and a^n."
-  },
-  {
-   "sequence": "logarithm-laws",
-   "targets": [
-    "p11-simplify-a",
-    "p11-simplify-b",
-    "p11-simplify-c",
-    "p11-simplify-d",
-    "p11-simplify-e",
-    "p11-simplify-f"
-   ],
-   "observation": "Product and quotient laws combine logarithms with matching bases; matching arguments alone do not permit combination.",
-   "varies": "The numerical bases and arguments, followed by a mismatched-base contrast within each operation.",
-   "invariant": "A pair of logarithms joined by addition in a–c, or subtraction in d–f."
-  },
-  {
-   "sequence": "logarithm-laws",
-   "targets": [
-    "p14-q3-a",
-    "p14-q3-b",
-    "p14-q3-c"
-   ],
-   "observation": "The logarithm of 1 remains zero when the valid base changes.",
-   "varies": "The base changes from numerical examples to a symbolic base.",
-   "invariant": "The argument is 1."
-  },
-  {
-   "sequence": "logarithm-laws",
-   "targets": [
-    "p14-q3-d",
-    "p14-q3-e",
-    "p14-q3-f"
-   ],
-   "observation": "The logarithm of its own base remains 1 across numerical and symbolic examples.",
-   "varies": "The common value of the base and argument.",
-   "invariant": "The base equals the argument."
-  },
-  {
-   "sequence": "logarithm-laws",
-   "targets": [
-    "p15-q5-a",
-    "p15-q5-b",
-    "p15-q5-c"
-   ],
-   "observation": "The exponent of 2 becomes the coefficient of log_a 2.",
-   "varies": "The argument is 2 raised to powers 3, 4 and 6.",
-   "invariant": "The logarithm base and the requested expression in terms of log_a 2."
-  },
-  {
-   "sequence": "logarithm-laws",
-   "targets": [
-    "p15-q5-d",
-    "p15-q5-e",
-    "p15-q5-f"
-   ],
-   "observation": "Reciprocal powers of 2 produce negative coefficients of log_a 2.",
-   "varies": "The reciprocal argument is 2 raised to powers -1, -3 and -5.",
-   "invariant": "The logarithm base and the requested expression in terms of log_a 2."
-  },
   {
    "sequence": "introduction",
    "targets": [
     "p4-table-1-response"
    ],
-   "observation": "Increasing the exponent increases the argument while the logarithm returns that exponent.",
-   "varies": "Argument and corresponding exponent.",
-   "invariant": "Base 3 and the supplied logarithmic representation."
+   "observation": "Increasing powers of a fixed base produce increasing logarithm values.",
+   "varies": "The argument changes from 9 to 27 to 81.",
+   "invariant": "Base 3 and the conversion format."
   },
   {
    "sequence": "introduction",
    "targets": [
     "p4-table-3-response"
    ],
-   "observation": "The same argument has different logarithms in different bases.",
-   "varies": "Base 2, 4 and 16 and the corresponding exponent.",
+   "observation": "The logarithm value depends on the base even when the argument stays fixed.",
+   "varies": "Bases 2, 4 and 16.",
    "invariant": "Argument 256."
   },
   {
@@ -601,8 +795,8 @@
    "targets": [
     "p4-table-4-response"
    ],
-   "observation": "Replacing a power by its reciprocal changes the sign of its exponent.",
-   "varies": "25 versus 1/25, followed by transfer to base 6.",
+   "observation": "Taking a reciprocal changes the sign of the required exponent, and the negative-exponent interpretation transfers to another base.",
+   "varies": "First the argument becomes its reciprocal, then the base and matching reciprocal change.",
    "invariant": "Exponent magnitude 2."
   },
   {
@@ -612,9 +806,9 @@
     "p7-q5-h",
     "p7-q5-i"
    ],
-   "observation": "Increasing the base reduces the exponent needed to obtain 64.",
-   "varies": "Base 2, 4 and 8.",
-   "invariant": "Argument 64 and unknown logarithm value."
+   "observation": "A fixed argument can require different exponents for different bases.",
+   "varies": "Bases 2, 4 and 8.",
+   "invariant": "Argument 64 and the unknown logarithm value."
   },
   {
    "sequence": "introduction",
@@ -622,9 +816,9 @@
     "p8-q7-r5c3",
     "p8-q7-r6c1"
    ],
-   "observation": "Changing a half exponent to a negative half exponent reciprocates the result.",
-   "varies": "Sign of the logarithm value.",
-   "invariant": "Base 7 and unknown argument."
+   "observation": "Changing a half exponent to a negative half exponent makes the resulting argument reciprocal.",
+   "varies": "The sign of the logarithm value.",
+   "invariant": "Base 7 and the unknown argument."
   },
   {
    "sequence": "introduction",
@@ -632,9 +826,71 @@
     "p8-q7-r8c2",
     "p8-q7-r8c3"
    ],
-   "observation": "With a fixed negative exponent, reciprocal arguments require reciprocal bases.",
-   "varies": "Argument 1/2 versus 2.",
-   "invariant": "Logarithm value -1/4 and unknown base."
+   "observation": "With a fixed negative fractional exponent, reciprocal arguments require reciprocal bases.",
+   "varies": "The argument changes from 1/2 to 2.",
+   "invariant": "Logarithm value -1/4 and the unknown base."
+  },
+  {
+   "sequence": "logarithm-laws",
+   "targets": [
+    "p11-simplify-a",
+    "p11-simplify-d"
+   ],
+   "observation": "Changing addition to subtraction changes multiplication of the arguments to division.",
+   "varies": "The operation between the logarithms.",
+   "invariant": "Base 6 and arguments 2 and 4."
+  },
+  {
+   "sequence": "logarithm-laws",
+   "targets": [
+    "p11-simplify-b",
+    "p11-simplify-e"
+   ],
+   "observation": "A second matched pair reinforces the product-versus-quotient distinction.",
+   "varies": "Addition or subtraction.",
+   "invariant": "Base 2 and arguments 3 and 7."
+  },
+  {
+   "sequence": "logarithm-laws",
+   "targets": [
+    "p11-simplify-c",
+    "p11-simplify-f"
+   ],
+   "observation": "Neither addition nor subtraction permits these laws to combine logarithms with unequal bases.",
+   "varies": "Addition or subtraction.",
+   "invariant": "Arguments 2 and unequal bases 3 and 5."
+  },
+  {
+   "sequence": "logarithm-laws",
+   "targets": [
+    "p14-q3-a",
+    "p14-q3-b",
+    "p14-q3-c"
+   ],
+   "observation": "The logarithm of 1 is zero across numerical and symbolic valid bases.",
+   "varies": "The base.",
+   "invariant": "Argument 1."
+  },
+  {
+   "sequence": "logarithm-laws",
+   "targets": [
+    "p14-q3-d",
+    "p14-q3-e",
+    "p14-q3-f"
+   ],
+   "observation": "A logarithm is 1 when its argument equals its base.",
+   "varies": "The common base and argument.",
+   "invariant": "Equality of base and argument."
+  },
+  {
+   "sequence": "logarithm-laws",
+   "targets": [
+    "p15-q6-e",
+    "p15-q6-g"
+   ],
+   "observation": "Reciprocating the argument reverses the sign of its logarithm.",
+   "varies": "Argument 3/2 or 2/3.",
+   "invariant": "Base 2 and the pair of factors."
   },
   {
    "sequence": "exponential-modelling",
@@ -644,19 +900,100 @@
     "p30-q4-c",
     "p30-q4-d"
    ],
-   "observation": "Each additional hour adds two doubling periods and multiplies the population by 4, preparing the exponent 2t.",
-   "varies": "Elapsed time: 1, 2 and 3 hours, followed by t hours.",
-   "invariant": "Initial population of 1000 and doubling every half hour."
+   "observation": "Successive hourly populations expose fourfold growth per hour and prepare the equation with two doubling periods per hour.",
+   "varies": "Elapsed time increases from 1 to 2 to 3 hours before students express the pattern algebraically.",
+   "invariant": "Initial population and half-hour doubling interval."
   },
   {
-   "sequence": "logarithmic-scales",
+   "sequence": "equations-change-base",
    "targets": [
-    "p32-c",
-    "p32-d"
+    "p20-part-a",
+    "p20-part-b"
    ],
-   "observation": "Increasing totals can have different trends in proportional growth.",
-   "varies": "The direction of the change in logarithmic slope.",
-   "invariant": "The time interval, logarithmic vertical scale and cumulative-case context."
+   "observation": "The same logarithm can be rewritten in different common bases.",
+   "varies": "Requested common base.",
+   "invariant": "Original base, argument and logarithm value."
+  },
+  {
+   "sequence": "equations-change-base",
+   "targets": [
+    "p22-q2-g",
+    "p22-q2-h",
+    "p22-q2-i"
+   ],
+   "observation": "A smaller exponential base needs a larger exponent to produce the same result.",
+   "varies": "Base: 8, 4, 2.",
+   "invariant": "Right side 512 and equation structure."
+  },
+  {
+   "sequence": "equations-change-base",
+   "targets": [
+    "p22-q2-i",
+    "p22-q2-j",
+    "p22-q2-k"
+   ],
+   "observation": "Reversing an equality preserves the unknown exponent, whereas moving the unknown to the base calls for a root.",
+   "varies": "Equation orientation, then position of the unknown.",
+   "invariant": "The numerical relationship 2^9=512."
+  },
+  {
+   "sequence": "equations-change-base",
+   "targets": [
+    "p22-q2-l",
+    "p22-q2-m",
+    "p22-q2-n"
+   ],
+   "observation": "Reciprocal arguments give negative exponents whose magnitudes depend on the base.",
+   "varies": "Base: 2, 4, 8.",
+   "invariant": "Right side 1/512."
+  },
+  {
+   "sequence": "equations-change-base",
+   "targets": [
+    "p22-q2-o",
+    "p22-q2-p",
+    "p22-q2-q",
+    "p22-q2-r"
+   ],
+   "observation": "Powers of the argument multiply the required exponent; 169 and 13^2 are explicitly compared representations.",
+   "varies": "Argument power and its written representation.",
+   "invariant": "Base 3 and underlying argument 13."
+  },
+  {
+   "sequence": "equations-change-base",
+   "targets": [
+    "p25-q14-a",
+    "p25-q14-b",
+    "p25-q14-c",
+    "p25-q14-d"
+   ],
+   "observation": "Interchanging base and argument reciprocates the logarithm; reciprocating the argument changes its sign.",
+   "varies": "Base–argument interchange and argument reciprocation.",
+   "invariant": "Underlying relationship 8^2=64."
+  },
+  {
+   "sequence": "equations-change-base",
+   "targets": [
+    "p25-q14-e",
+    "p25-q14-f",
+    "p25-q14-g",
+    "p25-q14-h"
+   ],
+   "observation": "The preceding reciprocal and sign relationships transfer to a second numerical family.",
+   "varies": "Base–argument interchange and argument reciprocation.",
+   "invariant": "Underlying relationship 2^3=8."
+  },
+  {
+   "sequence": "equations-change-base",
+   "targets": [
+    "p25-q15-a",
+    "p25-q15-b",
+    "p25-q15-c",
+    "p25-q15-d"
+   ],
+   "observation": "The numerical relationships are expressed using a general exponent.",
+   "varies": "Placement of the power and reciprocation of the argument.",
+   "invariant": "Underlying base a and exponent n."
   },
   {
    "sequence": "logarithmic-scales",
@@ -666,20 +1003,20 @@
     "p34-q2-c",
     "p34-q2-d"
    ],
-   "observation": "A difference in magnitude corresponds to a multiplicative amplitude comparison.",
-   "varies": "The pair of earthquakes and the magnitude difference; the second pair removes the supplied multiplier.",
-   "invariant": "The chart, base-10 model and difference-then-ratio structure."
+   "observation": "A magnitude difference determines an amplitude ratio; support fades from explaining a supplied ratio to calculating one.",
+   "varies": "The earthquake pair and magnitude difference.",
+   "invariant": "The common-reference base-10 magnitude model and difference-then-ratio structure."
   },
   {
    "sequence": "logarithmic-scales",
    "targets": [
-    "p36-q6-a",
-    "p36-q6-b",
-    "p36-q6-c"
+    "p36-q5-b",
+    "p36-q5-c",
+    "p36-q5-d"
    ],
-   "observation": "A comparison between sounds is obtained by comparing their intensity ratios to the same reference.",
-   "varies": "The decibel value, followed by the comparison requested.",
-   "invariant": "The intensity-level formula and reference intensity."
+   "observation": "Lower pH gives greater hydrogen ion concentration, while higher pH gives a smaller concentration.",
+   "varies": "The pH relative to water, including values on both sides of 7.",
+   "invariant": "The formula and water reference."
   },
   {
    "sequence": "inequalities",
@@ -687,8 +1024,8 @@
     "p46-base5-comparison",
     "p46-basehalf-comparison"
    ],
-   "observation": "Taking logarithms preserves or reverses order according to the base.",
-   "varies": "The logarithm base changes from above 1 to below 1.",
+   "observation": "Taking logarithms preserves or reverses the same input ordering according to whether the base is above or below 1.",
+   "varies": "The logarithm base.",
    "invariant": "The positive inputs 5 and 3 and their original ordering."
   },
   {
@@ -697,19 +1034,9 @@
     "p47-example-left",
     "p47-example-right"
    ],
-   "observation": "The same exponential inequality requires opposite solution directions for increasing and decreasing bases.",
-   "varies": "The exponential base changes from 2 to 0.5.",
-   "invariant": "The exponent x, target 3 and original greater-than sign."
-  },
-  {
-   "sequence": "inequalities",
-   "targets": [
-    "p48-q1-j",
-    "p48-q1-k"
-   ],
-   "observation": "Students must choose the inequality direction from the base.",
-   "varies": "The base changes from above 1 to below 1.",
-   "invariant": "The target 11 and original greater-than sign."
+   "observation": "Solving otherwise matching exponential inequalities requires opposite inequality directions for increasing and decreasing bases.",
+   "varies": "The exponential base and matching logarithm base.",
+   "invariant": "The unknown exponent, right-hand side 3 and original greater-than sign."
   },
   {
    "sequence": "inequalities",
@@ -717,9 +1044,9 @@
     "p48-q1-m",
     "p48-q1-n"
    ],
-   "observation": "Decimal bases near 1 still require different inequality directions on opposite sides of 1.",
+   "observation": "Decimal bases close to 1 still require different direction decisions on opposite sides of 1.",
    "varies": "The base changes from 1.05 to 0.95.",
-   "invariant": "The target 2 and original greater-than sign."
+   "invariant": "The unknown exponent, right-hand side 2, original greater-than sign and numerical-accuracy instruction."
   },
   {
    "sequence": "curve-domain",
@@ -730,9 +1057,19 @@
     "p38-q2-log0p9",
     "p38-q2-loghalf"
    ],
-   "observation": "Changing the base across one changes the direction of the logarithmic curve.",
-   "varies": "The positive base.",
-   "invariant": "The argument x, intercept (1,0) and asymptote x=0."
+   "observation": "Increasing versus decreasing behaviour depends on whether the base is above or below one.",
+   "varies": "The base, including values close to one.",
+   "invariant": "The form y=log_a x."
+  },
+  {
+   "sequence": "curve-domain",
+   "targets": [
+    "p39-part-c",
+    "p39-part-d"
+   ],
+   "observation": "Changing the sign of the input coefficient changes which side of the boundary belongs to the domain.",
+   "varies": "3x+7 becomes 7-3x.",
+   "invariant": "Base two, constant seven and coefficient magnitude three."
   },
   {
    "sequence": "curve-domain",
@@ -742,9 +1079,9 @@
     "p41-q4-c",
     "p41-q4-d"
    ],
-   "observation": "A constant inside the logarithm changes the domain boundary; an external constant does not.",
-   "varies": "Placement and sign of the constant.",
-   "invariant": "Base two and a unit coefficient of x."
+   "observation": "Internal additions change the domain boundary; external additions do not.",
+   "varies": "Whether the same addition or subtraction is inside or outside the logarithm.",
+   "invariant": "Base two within each comparison."
   },
   {
    "sequence": "curve-domain",
@@ -752,9 +1089,9 @@
     "p41-q5-a",
     "p41-q5-b"
    ],
-   "observation": "Internal and external additions produce horizontal and vertical translations respectively.",
-   "varies": "Translation amount and whether it is inside or outside the logarithm.",
-   "invariant": "The parent function log_2 x and the comparison amounts 1, 7 and -3."
+   "observation": "Internal and external constants produce horizontal and vertical translations, respectively.",
+   "varies": "The constant and its position inside or outside the logarithm.",
+   "invariant": "The underlying base-two logarithmic curve."
   },
   {
    "sequence": "curve-domain",
@@ -763,14 +1100,14 @@
     "p43-q10-c",
     "p43-q10-d"
    ],
-   "observation": "Fit a multiplier and a vertical shift separately before fitting both together.",
+   "observation": "A coefficient and a vertical shift can first be recovered separately and then together.",
    "varies": "Which parameters are unknown.",
-   "invariant": "Substitution of graph coordinates into the stated logarithmic form."
+   "invariant": "Recovering a logarithmic equation from readable graph points."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 230,
- "reviewedAt": "2026-10-15T10:24:30.213Z",
+ "reviewedRevision": 243,
+ "reviewedAt": "2026-10-23T13:12:14.011Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -779,7 +1116,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -794,16 +1131,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 29066,
-     "cached_input_tokens": 14592,
+     "input_tokens": 30677,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 6942,
-     "reasoning_output_tokens": 349
+     "output_tokens": 3697,
+     "reasoning_output_tokens": 440
     },
-    "elapsedMs": 149517,
-    "candidates": 3,
+    "elapsedMs": 108845,
+    "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "logarithm-laws",
@@ -812,16 +1149,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 37071,
-     "cached_input_tokens": 12544,
+     "input_tokens": 38149,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5389,
-     "reasoning_output_tokens": 701
+     "output_tokens": 5223,
+     "reasoning_output_tokens": 461
     },
-    "elapsedMs": 134027,
-    "candidates": 1,
+    "elapsedMs": 143587,
+    "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "equations-change-base",
@@ -830,14 +1167,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 34787,
-     "cached_input_tokens": 14592,
+     "input_tokens": 36820,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4558,
-     "reasoning_output_tokens": 518
+     "output_tokens": 6287,
+     "reasoning_output_tokens": 147
     },
-    "elapsedMs": 110681,
-    "candidates": 0,
+    "elapsedMs": 190182,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    },
@@ -848,16 +1185,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 31297,
-     "cached_input_tokens": 14592,
+     "input_tokens": 31854,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2440,
-     "reasoning_output_tokens": 134
+     "output_tokens": 2474,
+     "reasoning_output_tokens": 279
     },
-    "elapsedMs": 60157,
+    "elapsedMs": 78359,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "logarithmic-scales",
@@ -866,14 +1203,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46179,
-     "cached_input_tokens": 14592,
+     "input_tokens": 46959,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3667,
-     "reasoning_output_tokens": 150
+     "output_tokens": 3654,
+     "reasoning_output_tokens": 145
     },
-    "elapsedMs": 92720,
-    "candidates": 1,
+    "elapsedMs": 114853,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 2
    },
@@ -884,14 +1221,14 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 55021,
-     "cached_input_tokens": 14592,
+     "input_tokens": 56287,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4084,
-     "reasoning_output_tokens": 84
+     "output_tokens": 4181,
+     "reasoning_output_tokens": 73
     },
-    "elapsedMs": 96390,
-    "candidates": 4,
+    "elapsedMs": 116389,
+    "candidates": 6,
     "discarded": [],
     "suggestions": 1
    },
@@ -902,87 +1239,50 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 34635,
-     "cached_input_tokens": 14592,
+     "input_tokens": 35192,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3266,
-     "reasoning_output_tokens": 323
+     "output_tokens": 3131,
+     "reasoning_output_tokens": 192
     },
-    "elapsedMs": 72631,
+    "elapsedMs": 86146,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c2"
-    ],
-    "reason": "The whole-task comparison defeats the duplicate claim: p7-q5 requires an explicit index-form rewrite, whereas p7-q6 permits another solution route and reverses the displayed equality. These are not unchanged complete tasks under the stated duplicate test.",
-    "candidates": [
-     {
-      "id": "c2",
-      "sequence": "introduction",
-      "kind": "duplicate-question",
-      "targets": [
-       "p7-q5-g",
-       "p7-q6-a",
-       "p7-q5-a",
-       "p7-q6-b"
-      ],
-      "finding": "p7-q6-a and p7-q6-b repeat the complete solving tasks in p7-q5-g and p7-q5-a, with only the sides of the equality reversed."
-     }
-    ]
-   },
-   {
-    "ids": [
      "c4"
     ],
-    "reason": "The mathematics and follow-up structure are valid, but this is omitted under the four-suggestion limit. The retained suggestions provide broader connections beyond an additional application of the population's stated doubling rule.",
+    "reason": "The existing p15-q5 already varies positive, negative and fractional powers of the same argument. Other suggestions expose relationships less directly represented in existing practice; this is outside the four retained suggestions.",
     "candidates": [
      {
       "id": "c4",
-      "sequence": "introduction",
-      "kind": "extension",
-      "targets": [
-       "p9-q8"
-      ],
-      "finding": "Extend the population question by comparing exact times when the target population doubles."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c6"
-    ],
-    "reason": "The proposed values are correct, but this is omitted under the four-suggestion limit. Earlier investigations and fractional-logarithm practice already explore logarithms as exponents; the retained suggestions add stronger connections across representations and methods.",
-    "candidates": [
-     {
-      "id": "c6",
       "sequence": "logarithm-laws",
       "kind": "variation-sequence",
       "targets": [
-       "p18-q15"
+       "p15-q5"
       ],
-      "finding": "Add a fixed-base run that makes fractional logarithm values visible as the argument changes through powers of 2."
+      "finding": "Add a short run crossing positive, zero and negative powers of the same argument."
      }
     ]
    },
    {
     "ids": [
-     "c8"
+     "c5"
     ],
-    "reason": "The numerical answer and doubling relationship are correct, but this is omitted under the four-suggestion limit. The retained investment-table extension connects the same multiplicative-growth idea directly to logarithmic increments and graph shape.",
+    "reason": "The mathematics is correct, but p15-q6-f and p15-q6-g already practise reciprocal arguments. This routine follow-up is weaker than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c8",
-      "sequence": "exponential-modelling",
+      "id": "c5",
+      "sequence": "logarithm-laws",
       "kind": "extension",
       "targets": [
-       "p30-q5"
+       "p15-q6"
       ],
-      "finding": "Compare the time required for the same balance to double and quadruple."
+      "finding": "Use the given approximations to connect reciprocal arguments and zero sums."
      }
     ]
    },
@@ -990,51 +1290,85 @@
     "ids": [
      "c10"
     ],
-    "reason": "The ratios are correct and the instruction meets the variation-sequence requirement, but this is omitted under the four-suggestion limit. The retained logarithmic investment extension develops the same additive-logarithm and multiplicative-value relationship across more representations.",
+    "reason": "The mathematics and follow-up format are valid. Its repeated-multiplier relationship overlaps the retained halving-time sequence; it falls outside the four-suggestion limit.",
     "candidates": [
      {
       "id": "c10",
-      "sequence": "logarithmic-scales",
-      "kind": "variation-sequence",
+      "sequence": "exponential-modelling",
+      "kind": "extension",
       "targets": [
-       "p34-q1-comparison-instructions"
+       "p30-q5"
       ],
-      "finding": "Hold one magnitude fixed while increasing the other by equal steps."
+      "finding": "Use the same investment to connect quadrupling time with doubling time."
      }
     ]
    },
    {
     "ids": [
-     "c13"
+     "c14"
     ],
-    "reason": "These are repeated worked demonstrations, not duplicate whole practice questions. No specific misconception or point of breakdown is identified, so the repetition does not meet the high-severity threshold.",
+    "reason": "The mathematics is correct, but the existing six-row table already displays the approximately constant logarithmic increments. It is weaker than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c13",
+      "id": "c14",
+      "sequence": "logarithmic-scales",
+      "kind": "extension",
+      "targets": [
+       "p35-q4-root"
+      ],
+      "finding": "Continue the investment pattern and connect its multiplier with the next logarithmic increment."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c16"
+    ],
+    "reason": "These are supplied worked demonstrations, not repeated whole student practice tasks. The accidental-practice-duplicate exception does not apply, and the repetition creates no identified misconception meeting the high threshold.",
+    "candidates": [
+     {
+      "id": "c16",
       "sequence": "curve-domain",
       "kind": "duplicate-question",
       "targets": [
        "p39-demo-2",
        "p39-demo-3"
       ],
-      "finding": "Two consecutive domain demonstrations repeat the complete expression and solution without an explicit comparison or retrieval purpose."
+      "finding": "p39-demo-3 repeats the complete log_10(x+4) demonstration without an explicit comparison or retrieval purpose."
      }
     ]
    },
    {
     "ids": [
-     "c17"
+     "c18"
     ],
-    "reason": "The inequalities and answers are correct, but this is omitted under the four-suggestion limit. Existing p48-q1-j/k and m/n already contrast bases above and below one; the four retained extensions offer stronger additional connections.",
+    "reason": "The task applies prior coordinate interpretation and substitution to a stated function form. Parts (a)–(c) introduce one parameter at a time before part (d) combines two. No genuinely new method or sharp unsupported transition is established.",
     "candidates": [
      {
-      "id": "c17",
-      "sequence": "inequalities",
-      "kind": "variation-sequence",
+      "id": "c18",
+      "sequence": "curve-domain",
+      "kind": "unsupported-transition",
       "targets": [
-       "p48-q1"
+       "p43-q10"
       ],
-      "finding": "Append a reciprocal-base comparison that links opposite logarithmic boundaries with reversed solution directions."
+      "finding": "'Find the equation ... given it is of the stated form' first requires converting graph coordinates into equations for unknown parameters without showing that connection."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c19"
+    ],
+    "reason": "This closing mastery task combines taught logarithm laws, logarithmic conversion and prior elimination after p43-q10-d has required determining two parameters from two points. The combination is an intentional challenge using available methods; an absent combined demonstration alone does not establish an unsupported method.",
+    "candidates": [
+     {
+      "id": "c19",
+      "sequence": "curve-domain",
+      "kind": "unsupported-transition",
+      "targets": [
+       "p44-q11-a"
+      ],
+      "finding": "The first task in the form y=log_a(x-b)+c combines an unknown base and vertical shift without demonstrating how to separate them."
      }
     ]
    }
@@ -1042,7 +1376,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/logarithms-v1/candidates-low-1792059755452.json",
+  "candidateFile": ".booklet-work/full-imports/logarithms-v1-20260915/polish/pedagogy-work/candidates-low-1792761018626.json",
   "errors": []
  },
  "postedRevision": 231

@@ -92,25 +92,25 @@
    "postedAt": "2026-10-15T10:50:19.436Z"
   },
   {
-   "id": "pf-aa296a6c98",
-   "kind": "variation-sequence",
+   "id": "pf-af3589d7ee",
+   "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p5-q1",
+     "id": "p5-10-b",
      "blockId": "p5-q1",
-     "hash": "0eabe0a0b463d1885be0a06f6d96da6f1dfa260c525200aecd2dd13141746665"
+     "hash": "3164c5defec98ddfa51cbd6bd74af2bc2ead159e5c9a49f4d97abe99e9ccbe11"
     }
    ],
-   "finding": "Vary the largest observation while holding the other observations fixed to expose unchanged quartiles.",
-   "breakdown": "The run distinguishes quartile positions from the magnitude of the largest observation.",
-   "checked": "All proposed quartiles are correct under the booklet's median-of-halves method. The existing positional groups vary dataset size rather than systematically changing only the maximum.",
-   "assumptions": "Use the method taught in this topic.",
+   "finding": "Explore which observations determine the quartiles by changing the extremes.",
+   "breakdown": "The follow-up exposes the dependence of quartiles on ordered positions.",
+   "checked": "Both replacements preserve order and leave positions 3,5,6 and 8 unchanged. The quartiles remain 58,70,88.",
+   "assumptions": "Use the booklet's median-of-halves convention.",
    "repair": {
     "type": "add-question",
-    "proposal": "Append after p5-10-c under the existing instruction. Add only this instruction: 'Predict which quartiles will change before calculating.' Parts: (p) 2, 4, 6, 8, 10, 12; (q) 2, 4, 6, 8, 10, 20; (r) 2, 4, 6, 8, 10, 50. Answers for each: Q1 = 4, Q2 = 7, Q3 = 10. Follow with the unpatterned part (s) 1, 3, 8, 10, 14, 18. Answers: Q1 = 3, Q2 = 9, Q3 = 14."
+    "proposal": "Immediately after p5-10-b, add optional parts: (i) Replace 38 with 8. Find Q₁, Q₂ and Q₃. Answer: 58,70,88. (ii) Also replace 94 with 194. Find Q₁, Q₂ and Q₃. Answer: 58,70,88. (iii) Explain why the quartiles stayed the same. Expected answer: the observations at positions 3,5,6 and 8 did not change."
    },
-   "doneWhen": "Three parts vary only the maximum, followed by one unpatterned part, with only the prediction line added.",
+   "doneWhen": "The optional follow-up uses the existing dataset and includes the expected answers.",
    "from": [
     "c3"
    ],
@@ -121,47 +121,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T10:50:19.265Z"
+     "at": "2026-10-23T12:12:59.325Z"
     }
-   ],
-   "commentId": "45b49d6e-0183-4178-88d6-7e4750536ae6",
-   "postedAt": "2026-10-15T10:50:19.437Z"
-  },
-  {
-   "id": "pf-10d4aac42f",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p10-q4",
-     "blockId": "p10-q4",
-     "hash": "10759a1b246f96d02a224a12fed0e0199d10ec17400eb8c7844fb700b678124d"
-    }
-   ],
-   "finding": "Extend part (a) by translating every observation and comparing its summary and IQR.",
-   "breakdown": "The follow-up exposes a change in location without a change in spread.",
-   "checked": "The original summary is (1, 3, 7, 10, 11). Adding 5 gives (6, 8, 12, 15, 16), whose IQR remains 7. Only methods already taught are required.",
-   "assumptions": "Optional further parts use the existing dataset.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Append after p10-q4-d: (e) Add 5 to every value in part (a). Find the new five-number summary. Answer: (6, 8, 12, 15, 16). (f) Find the new dataset's IQR. Answer: 7. (g) Explain why adding 5 to every value leaves the IQR unchanged. Expected answer: Q1 and Q3 both increase by 5, so their difference stays the same."
-   },
-   "doneWhen": "The optional follow-up has separate parts for the summary, IQR and explanation.",
-   "from": [
-    "c4"
-   ],
-   "sequences": [
-    "five-number-summary-iqr"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:50:19.265Z"
-    }
-   ],
-   "commentId": "32f270fd-44d3-4d1d-bcfe-a95366cbd45a",
-   "postedAt": "2026-10-15T10:50:19.437Z"
+   ]
   },
   {
    "id": "pf-99afc5ce8a",
@@ -246,6 +208,123 @@
    "postedAt": "2026-10-15T10:50:19.441Z"
   },
   {
+   "id": "pf-082728f09e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p26-q3-b",
+     "blockId": "p26-q3-block",
+     "hash": "dadb051c1e47ad355cbef75eb4513dd9a11c34f6893dcc6ded716eecb2c4c93a"
+    }
+   ],
+   "finding": "Translate the existing dataset to connect changes in centre with unchanged spread.",
+   "breakdown": "Adding a constant shifts every summary value equally while preserving the IQR.",
+   "checked": "The original ordered data have summary (8,11,17,21,29). Adding 10 gives (18,21,27,31,39), with IQR 10.",
+   "assumptions": "Students use methods taught by the end of this topic.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p26-q3-b, add optional parts: (c) Add 10 to every value in part b. What is the new five-number summary? Answer: (18,21,27,31,39). (d) What is the new IQR? Answer: 10. (e) How does the box plot move? Answer: 10 units to the right."
+   },
+   "doneWhen": "The follow-up remains attached to part b and includes the expected answers.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "summary-stem-leaf-dot"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:12:59.325Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-2e2b0b8546",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p27-key-ideas",
+     "blockId": "p27-key-ideas",
+     "hash": "c43bf0015331a76b25e244494ba05603a0cd271e719471413a32135bf3a12c0f"
+    },
+    {
+     "id": "p27-example-demonstration",
+     "blockId": "p27-example",
+     "hash": "5d013544ecdca930b4f02a2e9d0c5a7d4d59f0b438193ba6a70833cc924126f4"
+    },
+    {
+     "id": "p28-q3",
+     "blockId": "p28-guided-practice",
+     "hash": "7d247cdda675fe5b549f05b59e9318c6a25e9c17edba7bb978b8597c5e252dd8"
+    }
+   ],
+   "finding": "The teaching gives an ogive-estimation procedure, but the guided practice requires an exact discrete median without explaining the change of procedure.",
+   "breakdown": "For p28-q3, half the total is 19, but the 19th and 20th observations are 21 and 22. Reading only the prescribed halfway position does not supply their average, 21.5.",
+   "checked": "Earlier teaching supplies medians of ordered observations. The opening review asks students to recall cumulative-frequency medians, but its answer working is not permanent teaching. The new key ideas and example do not distinguish graph estimates from exact discrete summaries.",
+   "assumptions": "Students retain the earlier median-of-halves method; calculator access is immaterial.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "After p27-key-ideas, add: 'Use the ogive for estimates. For exact summaries of individual scores, use cumulative column heights to locate the middle observation or observations in the whole dataset and in each half.' Make the p28 instruction request exact summaries. Beside p28-q3, add: 'Locate the 19th and 20th scores separately, then average them for the median.'"
+   },
+   "doneWhen": "The teaching distinguishes estimation from exact rank-based summaries before guided practice.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "summary-cumulative-histograms"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:12:59.325Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-791bc81ec8",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p30-q4",
+     "blockId": "p30-q4-block",
+     "hash": "bc3263bd051d099c4438363a5147963aa1852b04e59bbfd921cbca5f4a425257"
+    },
+    {
+     "id": "p30-q5",
+     "blockId": "p30-q5-block",
+     "hash": "3334cc1085202c8ae8bce1d4ebe9964ab19ea71c00c0ae77d4f40e909decaede"
+    }
+   ],
+   "finding": "The final question moves directly from reading complete distributions to reverse quartile reasoning with two missing cumulative frequencies and a minimum constraint.",
+   "breakdown": "Students must infer a quartile from the known IQR, translate its rank into a cumulative-frequency bound, and minimise an unknown bar. The preceding questions practise only forward readings.",
+   "checked": "No supplied earlier question bridges the reverse rank-to-frequency decision. The closing challenge combines several changes rather than introducing one new feature.",
+   "assumptions": "Use the booklet's median-of-halves convention.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Before p30-q5, insert: 'A dataset contains 50 integer scores, all at least 15. Its cumulative frequency at 15 is 4, and its lower quartile is 16. What is the smallest possible cumulative frequency at 16?' Answer: 13, because the lower half contains 25 observations and its median is the 13th observation."
+   },
+   "doneWhen": "Students encounter one reverse quartile-to-frequency task before the combined challenge.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "summary-cumulative-histograms"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:12:59.325Z"
+    }
+   ]
+  },
+  {
    "id": "pf-8e8756cbd6",
    "kind": "variation-sequence",
    "severity": "suggestion",
@@ -316,19 +395,104 @@
    ],
    "commentId": "27ce3c95-e1a5-40a7-81f1-a08e0d8afd35",
    "postedAt": "2026-10-15T10:50:19.448Z"
+  },
+  {
+   "id": "pf-aa296a6c98",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p5-q1",
+     "blockId": "p5-q1",
+     "hash": "0eabe0a0b463d1885be0a06f6d96da6f1dfa260c525200aecd2dd13141746665"
+    }
+   ],
+   "finding": "Vary the largest observation while holding the other observations fixed to expose unchanged quartiles.",
+   "breakdown": "The run distinguishes quartile positions from the magnitude of the largest observation.",
+   "checked": "All proposed quartiles are correct under the booklet's median-of-halves method. The existing positional groups vary dataset size rather than systematically changing only the maximum.",
+   "assumptions": "Use the method taught in this topic.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append after p5-10-c under the existing instruction. Add only this instruction: 'Predict which quartiles will change before calculating.' Parts: (p) 2, 4, 6, 8, 10, 12; (q) 2, 4, 6, 8, 10, 20; (r) 2, 4, 6, 8, 10, 50. Answers for each: Q1 = 4, Q2 = 7, Q3 = 10. Follow with the unpatterned part (s) 1, 3, 8, 10, 14, 18. Answers: Q1 = 3, Q2 = 9, Q3 = 14."
+   },
+   "doneWhen": "Three parts vary only the maximum, followed by one unpatterned part, with only the prediction line added.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "quartiles"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:50:19.265Z"
+    }
+   ],
+   "commentId": "45b49d6e-0183-4178-88d6-7e4750536ae6",
+   "postedAt": "2026-10-15T10:50:19.437Z"
+  },
+  {
+   "id": "pf-10d4aac42f",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p10-q4",
+     "blockId": "p10-q4",
+     "hash": "10759a1b246f96d02a224a12fed0e0199d10ec17400eb8c7844fb700b678124d"
+    }
+   ],
+   "finding": "Extend part (a) by translating every observation and comparing its summary and IQR.",
+   "breakdown": "The follow-up exposes a change in location without a change in spread.",
+   "checked": "The original summary is (1, 3, 7, 10, 11). Adding 5 gives (6, 8, 12, 15, 16), whose IQR remains 7. Only methods already taught are required.",
+   "assumptions": "Optional further parts use the existing dataset.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append after p10-q4-d: (e) Add 5 to every value in part (a). Find the new five-number summary. Answer: (6, 8, 12, 15, 16). (f) Find the new dataset's IQR. Answer: 7. (g) Explain why adding 5 to every value leaves the IQR unchanged. Expected answer: Q1 and Q3 both increase by 5, so their difference stays the same."
+   },
+   "doneWhen": "The optional follow-up has separate parts for the summary, IQR and explanation.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "five-number-summary-iqr"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:50:19.265Z"
+    }
+   ],
+   "commentId": "32f270fd-44d3-4d1d-bcfe-a95366cbd45a",
+   "postedAt": "2026-10-15T10:50:19.437Z"
   }
  ],
  "contextQuestions": [],
  "protectedGroups": [
+  {
+   "sequence": "quartiles",
+   "targets": [
+    "p5-5-values",
+    "p5-6-values",
+    "p5-7-values",
+    "p5-9-values",
+    "p5-10-values"
+   ],
+   "observation": "The positional scaffolds show when a quartile is a single observation and when it is the average of two observations.",
+   "varies": "Dataset size and the resulting odd or even size of each half.",
+   "invariant": "Find the overall median, form the two halves, then find each half's median."
+  },
   {
    "sequence": "box-plots",
    "targets": [
     "p14-q4-a",
     "p14-q4-b"
    ],
-   "observation": "Translating every value changes the median but preserves range and IQR.",
-   "varies": "Every summary value increases by 1.",
-   "invariant": "Box and whisker lengths."
+   "observation": "Moving every value equally changes the median but preserves range and IQR.",
+   "varies": "All five feature positions increase by one.",
+   "invariant": "Plot shape, range and IQR."
   },
   {
    "sequence": "box-plots",
@@ -336,7 +500,7 @@
     "p14-q4-b",
     "p14-q4-c"
    ],
-   "observation": "Changing the maximum can change range without changing median or IQR.",
+   "observation": "Moving the maximum can change range without changing median or IQR.",
    "varies": "Maximum increases from 6 to 8.",
    "invariant": "Minimum, quartiles and median."
   },
@@ -346,7 +510,7 @@
     "p14-q4-c",
     "p14-q4-d"
    ],
-   "observation": "Moving Q3 changes IQR while range and median remain fixed.",
+   "observation": "Changing an upper quartile changes IQR while range and median remain fixed.",
    "varies": "Q3 increases from 5 to 7.",
    "invariant": "Minimum, Q1, median and maximum."
   },
@@ -356,9 +520,9 @@
     "p14-q4-d",
     "p14-q4-e"
    ],
-   "observation": "The median can change independently of range and IQR.",
+   "observation": "The median can change without changing either measure of spread.",
    "varies": "Median increases from 4 to 5.",
-   "invariant": "Endpoints and box edges."
+   "invariant": "Endpoints and quartiles."
   },
   {
    "sequence": "box-plots",
@@ -366,9 +530,9 @@
     "p14-q4-e",
     "p14-q4-f"
    ],
-   "observation": "A narrower box can preserve the median and overall range.",
-   "varies": "Q1 increases from 3 to 4 and Q3 decreases from 7 to 6.",
-   "invariant": "Minimum 2, median 5 and maximum 8."
+   "observation": "The middle half can become less spread out while the overall range stays fixed.",
+   "varies": "Q1 and Q3 move inward equally.",
+   "invariant": "Minimum, median and maximum."
   },
   {
    "sequence": "five-number-summary-iqr",
@@ -376,13 +540,11 @@
     "p6-calculate-a-node",
     "p6-calculate-b-node",
     "p6-calculate-c-node",
-    "p6-calculate-d-node",
-    "p6-calculate-e-node",
-    "p6-calculate-f-node"
+    "p6-calculate-d-node"
    ],
-   "observation": "IQR depends on the labelled lower and upper quartiles, regardless of presentation order or additional statistics.",
-   "varies": "Values, order of givens and presence of irrelevant statistics.",
-   "invariant": "Select Q3 and Q1 and calculate Q3 − Q1."
+   "observation": "The subtraction follows the quartile labels rather than the order in which the givens appear.",
+   "varies": "Values and the presentation order of Q1 and Q3.",
+   "invariant": "Calculate Q3 minus Q1."
   },
   {
    "sequence": "five-number-summary-iqr",
@@ -390,19 +552,21 @@
     "p9-q2",
     "p9-q3"
    ],
-   "observation": "Odd and even totals require different treatment of the overall median when forming the halves.",
-   "varies": "Dataset parity and whether the middle observation is excluded or the list splits directly into equal halves.",
-   "invariant": "Find each half's median and subtract the lower quartile from the upper quartile."
+   "observation": "An odd dataset excludes its central observation when forming halves; an even dataset splits between its central observations.",
+   "varies": "Dataset parity and the corresponding splitting instruction.",
+   "invariant": "Find the median of each half, then subtract Q1 from Q3."
   },
   {
-   "sequence": "comparing-box-plots",
+   "sequence": "box-plot-percentages",
    "targets": [
-    "p21-q3-c",
-    "p21-q3-d"
+    "p17-q1-h",
+    "p17-q1-i",
+    "p17-q1-j",
+    "p17-q1-k"
    ],
-   "observation": "Different cumulative proportions select different quartile boundaries on the same plot.",
-   "varies": "The finishing proportion changes from 50% to 75%.",
-   "invariant": "The male competitors, time scale and box plot."
+   "observation": "Percentages depend on the quartile regions covered, including differently positioned intervals containing the same proportion.",
+   "varies": "Interval endpoints and the number of quartile regions included.",
+   "invariant": "Dataset and box plot."
   },
   {
    "sequence": "box-plot-percentages",
@@ -411,67 +575,45 @@
     "p17-q2-c-iii",
     "p17-q2-c-iv"
    ],
-   "observation": "The same numerical age interval can contain different proportions of different datasets, and combined counts must use the appropriate group totals.",
-   "varies": "The selected dataset, its quartile boundaries and its total.",
+   "observation": "The same age interval can contain different proportions of different populations; combined counts come from adding the subgroup counts.",
+   "varies": "Population, quartile coverage and population total, followed by aggregation.",
    "invariant": "The age interval from 67 to 78."
   },
   {
-   "sequence": "box-plot-percentages",
+   "sequence": "skewness-box-plots",
    "targets": [
-    "p18-q4-e",
-    "p18-q4-f"
+    "p32-q2-a",
+    "p32-q2-d",
+    "p32-q2-choice-c",
+    "p32-q2-choice-d"
    ],
-   "observation": "The lower 75% ends at Q3, whereas the upper 75% starts at Q1.",
-   "varies": "Whether observations are below or above the requested boundary.",
-   "invariant": "The plot and the percentage, 75%."
+   "observation": "Approximately symmetrical distributions can have different concentrations in their central half, so symmetry alone cannot determine the match.",
+   "varies": "Relative central concentration and box width compared with the whiskers.",
+   "invariant": "Approximate symmetry."
   },
   {
    "sequence": "skewness-box-plots",
    "targets": [
-    "p31-negative-pair-example",
-    "p31-positive-pair-example"
+    "p36-q8-b-summary",
+    "p36-q8-b-iqr",
+    "p36-q8-b-comparison"
    ],
-   "observation": "Reversing the tail reverses the direction of skew and the corresponding long whisker.",
-   "varies": "Direction of tail, longer whisker and median displacement.",
-   "invariant": "Aligned distribution curve and box-plot representation."
-  },
-  {
-   "sequence": "skewness-box-plots",
-   "targets": [
-    "p33-q3-a",
-    "p33-q3-b",
-    "p33-q3-c"
-   ],
-   "observation": "The same summary-to-plot procedure can produce symmetry or either direction of skew.",
-   "varies": "Dataset and resulting shape.",
-   "invariant": "Find the five-number summary, sketch the box plot, then classify."
-  },
-  {
-   "sequence": "outliers",
-   "targets": [
-    "p44-q11-response",
-    "p44-q12-response"
-   ],
-   "observation": "The maximum range can be inferred first from numerical quartiles and then from IQR alone.",
-   "varies": "Specific quartiles are replaced by the width between them.",
-   "invariant": "Both endpoints can lie on the fences, giving a maximum range of four IQRs."
+   "observation": "Equal ranges do not imply equal IQRs, medians or shapes.",
+   "varies": "Median, quartiles, IQR and skewness between the two samples.",
+   "invariant": "Minimum 0, maximum 10 and range 10."
   }
  ],
  "notReliablyReviewed": [
   {
    "sequence": "skewness-box-plots",
    "targets": [
-    "p39-q13-cumulative-graph",
-    "p39-q13-option-a",
-    "p39-q13-option-b",
-    "p39-q13-option-c",
-    "p39-q13-option-d"
+    "p39-q13-cumulative-graph"
    ],
-   "reason": "Page 39 is not among the eight attached images. The supplied specifications support reviewing the instructional transition, but not inspecting the displayed graph itself."
+   "reason": "The page 39 image was not attached. The specification permits review of the task's method and its earlier preparation, but not reliable visual inspection of the cumulative display."
   }
  ],
- "reviewedRevision": 25,
- "reviewedAt": "2026-10-15T10:50:19.265Z",
+ "reviewedRevision": 42,
+ "reviewedAt": "2026-10-23T12:12:59.325Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -480,7 +622,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -495,13 +637,13 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32832,
-     "cached_input_tokens": 12544,
+     "input_tokens": 33100,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2580,
-     "reasoning_output_tokens": 74
+     "output_tokens": 2630,
+     "reasoning_output_tokens": 80
     },
-    "elapsedMs": 55193,
+    "elapsedMs": 70634,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -513,13 +655,13 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 36563,
-     "cached_input_tokens": 12544,
+     "input_tokens": 37679,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3080,
-     "reasoning_output_tokens": 221
+     "output_tokens": 3162,
+     "reasoning_output_tokens": 162
     },
-    "elapsedMs": 73465,
+    "elapsedMs": 83782,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -531,13 +673,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 42097,
+     "input_tokens": 42483,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2751,
-     "reasoning_output_tokens": 128
+     "output_tokens": 2960,
+     "reasoning_output_tokens": 160
     },
-    "elapsedMs": 67743,
+    "elapsedMs": 80967,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -549,16 +691,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 38483,
-     "cached_input_tokens": 12544,
+     "input_tokens": 38751,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3361,
-     "reasoning_output_tokens": 139
+     "output_tokens": 2827,
+     "reasoning_output_tokens": 79
     },
-    "elapsedMs": 76300,
+    "elapsedMs": 70201,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "comparing-box-plots",
@@ -567,13 +709,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 42744,
-     "cached_input_tokens": 14592,
+     "input_tokens": 43859,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1435,
-     "reasoning_output_tokens": 129
+     "output_tokens": 1600,
+     "reasoning_output_tokens": 341
     },
-    "elapsedMs": 44282,
+    "elapsedMs": 61579,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -585,13 +727,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47241,
-     "cached_input_tokens": 14592,
+     "input_tokens": 47509,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3368,
-     "reasoning_output_tokens": 355
+     "output_tokens": 3313,
+     "reasoning_output_tokens": 93
     },
-    "elapsedMs": 80547,
+    "elapsedMs": 81522,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -603,14 +745,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 43909,
-     "cached_input_tokens": 14592,
+     "input_tokens": 44178,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2230,
-     "reasoning_output_tokens": 165
+     "output_tokens": 2401,
+     "reasoning_output_tokens": 208
     },
-    "elapsedMs": 62875,
-    "candidates": 1,
+    "elapsedMs": 72620,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    },
@@ -621,13 +763,13 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 63370,
-     "cached_input_tokens": 14592,
+     "input_tokens": 63636,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2496,
-     "reasoning_output_tokens": 114
+     "output_tokens": 2844,
+     "reasoning_output_tokens": 193
     },
-    "elapsedMs": 65934,
+    "elapsedMs": 84526,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -639,13 +781,13 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 39071,
+     "input_tokens": 39339,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2822,
-     "reasoning_output_tokens": 196
+     "output_tokens": 2770,
+     "reasoning_output_tokens": 224
     },
-    "elapsedMs": 72459,
+    "elapsedMs": 79156,
     "candidates": 0,
     "discarded": [],
     "suggestions": 2
@@ -654,9 +796,26 @@
   "dropped": [
    {
     "ids": [
+     "c4"
+    ],
+    "reason": "Mathematically valid, but repeats the range-versus-IQR relationship already explicitly investigated by p11-q6. It is not among the four strongest booklet suggestions.",
+    "candidates": [
+     {
+      "id": "c4",
+      "sequence": "five-number-summary-iqr",
+      "kind": "extension",
+      "targets": [
+       "p11-q6"
+      ],
+      "finding": "Compare appending 103 with appending 23 to the original scores."
+     }
+    ]
+   },
+   {
+    "ids": [
      "c6"
     ],
-    "reason": "Not selected within the four-suggestion limit. Its unchanged-quartile response to changing an extreme overlaps c3, while c4 supplies the complementary location-versus-spread comparison.",
+    "reason": "The supplied plot specification does not establish the claimed minimum and maximum independently of the candidate. It also repeats the endpoint-change relationship already addressed elsewhere; it is not among the four selected suggestions.",
     "candidates": [
      {
       "id": "c6",
@@ -665,7 +824,7 @@
       "targets": [
        "p14-q4-c"
       ],
-      "finding": "Ask students to predict how changing the maximum affects the two measures of spread."
+      "finding": "Use the existing plot to explore the different sensitivity of range and IQR to an endpoint change."
      }
     ]
    },
@@ -673,70 +832,16 @@
     "ids": [
      "c7"
     ],
-    "reason": "The extension mainly adds complementary counts and subtraction after those interval counts have already been calculated. It is a weaker opening for a relationship central to this topic than the four retained suggestions.",
+    "reason": "A valid comparison in principle, but the numerical plot landmarks needed to verify the proposed new range are not supplied. Four better-supported suggestions are retained.",
     "candidates": [
      {
       "id": "c7",
-      "sequence": "box-plot-percentages",
-      "kind": "extension",
-      "targets": [
-       "p17-q2"
-      ],
-      "finding": "Use the complementary age regions to compare subgroup counts with the combined total."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c8"
-    ],
-    "reason": "Not selected within the four-suggestion limit. Changing only an extreme repeats the relationship exposed by c3 rather than adding a stronger booklet-wide extension.",
-    "candidates": [
-     {
-      "id": "c8",
       "sequence": "comparing-box-plots",
       "kind": "extension",
       "targets": [
        "p20-q1-root"
       ],
-      "finding": "Change only Jamie's maximum to contrast the response of range and IQR."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c10"
-    ],
-    "reason": "Not selected within the four-suggestion limit. Its translation and maximum-change investigations repeat the relationships in retained c4 and c3.",
-    "candidates": [
-     {
-      "id": "c10",
-      "sequence": "summary-stem-leaf-dot",
-      "kind": "extension",
-      "targets": [
-       "p26-q3-b"
-      ],
-      "finding": "Use the existing dataset to compare a shift in all observations with a change to the maximum alone."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c11"
-    ],
-    "reason": "The earlier-teaching check defeats the missing-prerequisite claim: p27-review already requires finding exact medians from cumulative histograms, including one without an ogive, and the stated delivery has the teacher check that review and respond to gaps. The worked example explicitly asks for estimates to the nearest whole number, so its rounding instruction is scoped to that estimation task. Exact observation-location and averaging methods are therefore available before p28-q3.",
-    "candidates": [
-     {
-      "id": "c11",
-      "sequence": "summary-cumulative-histograms",
-      "kind": "missing-prerequisite",
-      "targets": [
-       "p27-key-ideas",
-       "p27-example-demonstration",
-       "p28-q1",
-       "p28-q3"
-      ],
-      "finding": "The teaching models rounded ogive estimates but does not explain how to obtain an exact summary from discrete cumulative counts, although the guided practice requires that distinction."
+      "finding": "Change Maryanne's maximum while retaining her other summary values to distinguish overall spread from the spread of the middle half."
      }
     ]
    },
@@ -744,7 +849,7 @@
     "ids": [
      "c12"
     ],
-    "reason": "Not selected within the four-suggestion limit. It repeats the unchanged-middle-half relationship of c3. Its assumed extreme battery-life values also cannot be independently checked from the supplied histogram specifications.",
+    "reason": "The supplied graph specification does not give Brand A's individual quartiles; its answer gives their difference only. The proposed numerical quartiles cannot be independently verified, and the translation relationship is covered by a stronger retained suggestion.",
     "candidates": [
      {
       "id": "c12",
@@ -753,7 +858,27 @@
       "targets": [
        "p30-q4"
       ],
-      "finding": "Change one extreme battery life while preserving the middle half."
+      "finding": "Shift every battery life by the same amount and compare the resulting IQRs."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c13"
+    ],
+    "reason": "The teaching does leave the whisker-only shortcut uncontrasted, but the supplied p37-q9 specification gives neither numerical landmarks nor equal-whisker geometry. Its classification answer alone cannot establish the claimed equal-whisker test case. The specific breakdown therefore cannot be verified from the supplied evidence.",
+    "candidates": [
+     {
+      "id": "c13",
+      "sequence": "skewness-box-plots",
+      "kind": "example-choice",
+      "targets": [
+       "p31-whisker-statement-block",
+       "p31-negative-pair-example",
+       "p31-positive-pair-example",
+       "p37-q9"
+      ],
+      "finding": "‘The whiskers of a box plot tell us about the shape of the distribution’ and both introductory illustrations allow students to use whisker lengths alone, but p37-q9 requires recognising positive skew despite equal whiskers."
      }
     ]
    },
@@ -761,41 +886,24 @@
     "ids": [
      "c14"
     ],
-    "reason": "Not selected within the four-suggestion limit. It repeats c4's translation relationship and contributes less to the skewness objective of its own topic.",
+    "reason": "The proposed median of 80 before translation is not supplied in the plot specification or practice answers. The translation relationship is also covered by retained suggestions, so this is not among the four selected.",
     "candidates": [
      {
       "id": "c14",
       "sequence": "skewness-box-plots",
       "kind": "extension",
       "targets": [
-       "p35-q7-block"
+       "p35-q7"
       ],
-      "finding": "Use the before-and-after summaries to examine a uniform increase in every reading."
+      "finding": "Translate every heart-rate reading by the same amount to separate changes in centre from changes in spread."
      }
     ]
    }
   ],
-  "unchecked": [
-   {
-    "id": "c13",
-    "reason": "The decisive diagram evidence cannot be verified. The supplied p37-q9 specification gives neither whisker lengths nor median position, so it does not establish the claimed equal-whisker, off-centre-median contrast. The positive-skew answer alone cannot establish that geometry. A read-only attempt to locate additional source evidence was blocked by the execution policy. The actual plot or a numerical geometry specification is needed to adjudicate this candidate.",
-    "candidate": {
-     "id": "c13",
-     "sequence": "skewness-box-plots",
-     "kind": "example-choice",
-     "targets": [
-      "p31-whisker-statement-block",
-      "p31-negative-pair-example",
-      "p31-positive-pair-example",
-      "p37-q9"
-     ],
-     "finding": "The teaching foregrounds whisker lengths without explaining median position, allowing a whisker-only rule to survive until the equal-whisker plot in p37-q9."
-    }
-   }
-  ],
+  "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/quartiles-and-box-plots-v1/candidates-low-1792061305341.json",
+  "candidateFile": ".booklet-work/full-imports/quartiles-and-box-plots-v1-20261006/polish/pedagogy-work/candidates-low-1792757494413.json",
   "errors": []
  },
  "postedRevision": 26

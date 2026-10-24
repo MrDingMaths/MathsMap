@@ -5,6 +5,47 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-9c8bf00979",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p9-q16-root",
+     "blockId": "p9-q16",
+     "hash": "30e2cc7284a1da97524dd68f20abcc29164754c3e381f9ccc27ac7367fbb1e72"
+    },
+    {
+     "id": "p21-q9-p",
+     "blockId": "p21-q9",
+     "hash": "611f7893748c5852aaef3c72a2b4de333fefb103c04fca2068dc0fa6515206ff"
+    }
+   ],
+   "finding": "Negative powers of fractional bases are required without a demonstration of how to simplify the resulting reciprocal fraction.",
+   "breakdown": "In p9-q16, converting the mixed numeral supplies the fractional base but leaves students to connect the negative-index rule with fraction division. The same unsupported variant recurs in p21-q9-p.",
+   "checked": "The p3–p4 teaching demonstrates integer bases only. The later p12 review rehearses reciprocals and fraction division, but no teaching demonstrates a negative power of a non-unit fraction. The proposed example gives (5/3)^(-2)=9/25.",
+   "assumptions": "Mixed-number conversion, ordinary fraction operations and positive powers of fractions are prior knowledge. No calculator is needed.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Immediately before p9-q16, model: (1 2/3)^(-2)=(5/3)^(-2)=1/((5/3)^2)=1/(25/9)=9/25. Beside the last step state: “Dividing 1 by a fraction gives its reciprocal.” This also prepares students for p21-q9-p; no second demonstration is necessary."
+   },
+   "doneWhen": "Before q16, students see the negative-index rule applied to an entire fractional base and the resulting fraction division completed.",
+   "from": [
+    "c1",
+    "c11"
+   ],
+   "sequences": [
+    "negative-index",
+    "negative-coefficients"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:09:00.901Z"
+    }
+   ]
+  },
+  {
    "id": "pf-323a6df1a9",
    "kind": "duplicate-question",
    "severity": "high",
@@ -44,6 +85,188 @@
    ],
    "commentId": "94db8832-1d9c-4d89-aa93-f8ac69f540e4",
    "postedAt": "2026-10-15T11:44:30.042Z"
+  },
+  {
+   "id": "pf-b4a2a34406",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p20-q8-root",
+     "blockId": "p20-q8-block",
+     "hash": "c7a70124f281ff1abf547658712c5031f0dec85188129ad507e2e28d533b756b"
+    },
+    {
+     "id": "p21-q9-i",
+     "blockId": "p21-q9",
+     "hash": "611f7893748c5852aaef3c72a2b4de333fefb103c04fca2068dc0fa6515206ff"
+    },
+    {
+     "id": "p21-q9-r",
+     "blockId": "p21-q9",
+     "hash": "611f7893748c5852aaef3c72a2b4de333fefb103c04fca2068dc0fa6515206ff"
+    }
+   ],
+   "finding": "Combined quotient and power-of-power laws with negative exponents are required before their extension to signed exponents is demonstrated.",
+   "breakdown": "p20-q8 requires subtracting from a negative exponent and then multiplying that exponent by an outer power. Later nested powers also require products of signed exponents. Earlier reciprocal conversions and the single signed-exponent product do not model these decisions.",
+   "checked": "p3-review-division uses positive input exponents; p12-review-powers-c uses addition of opposite exponents. Neither demonstrates quotient or power-of-power laws with negative input exponents. Independently calculated p20-q8 as 4^(-27), p21-q9-i as 4/25 and p21-q9-r as 1/3.",
+   "assumptions": "Positive-index laws are prior knowledge from the separately taught index-law material. No calculator is needed.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p20-q8, state that the same-base index laws also apply to negative integer exponents. Model 3^(-2)÷3^4=3^(-2-4)=3^(-6), (3^(-2))^3=3^((-2)×3)=3^(-6), and (3^(-2))^(-1)=3^((-2)×(-1))=3^2."
+   },
+   "doneWhen": "Students see subtraction and multiplication of signed exponents in the relevant laws before the combined questions.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "negative-coefficients"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:09:00.901Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-a9244d7436",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p8-q13",
+     "blockId": "p8-q13",
+     "hash": "fee0aa85cbad681cd631bb78928a7e617d0d0ac4bcdd5c99ff5b525f8770dbda"
+    }
+   ],
+   "finding": "Connect the two representations of 1/16 already obtained in parts b and c.",
+   "breakdown": "The follow-up exposes how changing the base changes the exponent while preserving the value.",
+   "checked": "4^(-2)=2^(-4), 4^(-3)=2^(-6), and 2^(-8)=4^(-4). These concrete equalities can be established by evaluating powers and using the reciprocal rule.",
+   "assumptions": "Positive integer powers are prior knowledge.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to p8-q13: i. Using parts b and c, complete 4^(-2)=2^□. Answer: -4. j. Write 4^(-3) as a power of 2. Answer: 2^(-6). k. Write 2^(-8) as a power of 4. Answer: 4^(-4)."
+   },
+   "doneWhen": "The optional follow-up is appended as three separate parts.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "negative-index"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:09:00.901Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-9e3ac0af48",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p16-q5",
+     "blockId": "p16-q5",
+     "hash": "c084c81521463158d2af7929d87058c12901b3aa30bdbd5ea2411b0136b100ad"
+    }
+   ],
+   "finding": "Connect the reciprocal values already evaluated in parts d and k.",
+   "breakdown": "Multiplying these answers links the two negative-index conversion rules.",
+   "checked": "Part d gives 1/16 and part k gives 16; their product is 1.",
+   "assumptions": "Multiplication of fractions and the meaning of reciprocal are available by this topic.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional part u: “Find the product of your answers to parts d and k. Explain why the product is 1.” Expected answer: (1/16)×16=1 because the numbers are reciprocals."
+   },
+   "doneWhen": "The optional part follows p16-q5-t.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "mixed-practice"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:09:00.901Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-dc1ad1e4eb",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p19-q2",
+     "blockId": "p19-q2",
+     "hash": "57453dfe7ac4da4dcb88f6bfd2884d338187c69bf1217ebb36f174ce5d19c65c"
+    }
+   ],
+   "finding": "Vary the denominator exponent through negative, zero and positive values while retaining the numerator and base.",
+   "breakdown": "The sequence distinguishes removing a negative denominator exponent from moving every denominator power into multiplication.",
+   "checked": "The five answers are 3×2^2, 3×2, 3, 3/2 and 3/(2^2). The unpatterned answer is 7×5^3. All use methods available by this topic.",
+   "assumptions": "The existing instruction to rewrite with positive indices remains in force.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p19-q2-h, add only this instruction: “Predict each answer before rewriting it.” Append i. 3/(2^(-2)); j. 3/(2^(-1)); k. 3/(2^0); l. 3/(2^1); m. 3/(2^2). Expected answers: 3×2^2, 3×2, 3, 3/2, 3/(2^2). Follow with unpatterned part n. 7/(5^(-3)), answer 7×5^3. Only the denominator exponent varies in i–m."
+   },
+   "doneWhen": "The five-part run and unpatterned follow-up appear under the existing instruction.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "negative-coefficients"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:09:00.901Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-10d40dac7b",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p19-q3",
+     "blockId": "p19-q3",
+     "hash": "50f5d648184b5fc3e5115389df3cc546a5b6ef3bbd9458700b99689f1e05a0e0"
+    }
+   ],
+   "finding": "Use existing expressions to choose coefficients that make their values equal 1.",
+   "breakdown": "Students connect the coefficient with the denominator produced by the negative power.",
+   "checked": "64 × 4^(-3) = 64/64 = 1 and 25 × 5^(-2) = 25/25 = 1. These use precisely the coefficient and reciprocal method taught in p17 and p18.",
+   "assumptions": "Optional follow-up to the existing numerical parts.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to p19-q3: i. In part b, replace the coefficient 5 with a number that makes the expression equal 1. Answer: 64. j. In part c, replace the coefficient 7 with a number that makes the expression equal 1. Answer: 25."
+   },
+   "doneWhen": "The optional parts follow p19-q3-h and each asks for one replacement coefficient.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "negative-coefficients"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T11:37:22.223Z"
+    }
+   ],
+   "commentId": "3c076ce3-9fe1-461b-b3b5-ae0e49b2d0c8",
+   "postedAt": "2026-10-15T11:44:30.051Z"
   },
   {
    "id": "pf-44b6d02ea8",
@@ -236,42 +459,6 @@
    "postedAt": "2026-10-15T11:44:30.051Z"
   },
   {
-   "id": "pf-10d40dac7b",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p19-q3",
-     "blockId": "p19-q3",
-     "hash": "50f5d648184b5fc3e5115389df3cc546a5b6ef3bbd9458700b99689f1e05a0e0"
-    }
-   ],
-   "finding": "Use existing expressions to choose coefficients that make their values equal 1.",
-   "breakdown": "Students connect the coefficient with the denominator produced by the negative power.",
-   "checked": "64 × 4^(-3) = 64/64 = 1 and 25 × 5^(-2) = 25/25 = 1. These use precisely the coefficient and reciprocal method taught in p17 and p18.",
-   "assumptions": "Optional follow-up to the existing numerical parts.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Append to p19-q3: i. In part b, replace the coefficient 5 with a number that makes the expression equal 1. Answer: 64. j. In part c, replace the coefficient 7 with a number that makes the expression equal 1. Answer: 25."
-   },
-   "doneWhen": "The optional parts follow p19-q3-h and each asks for one replacement coefficient.",
-   "from": [
-    "c9"
-   ],
-   "sequences": [
-    "negative-coefficients"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T11:37:22.223Z"
-    }
-   ],
-   "commentId": "3c076ce3-9fe1-461b-b3b5-ae0e49b2d0c8",
-   "postedAt": "2026-10-15T11:44:30.051Z"
-  },
-  {
    "id": "pf-517a5a25b4",
    "kind": "opening-review",
    "severity": "high",
@@ -378,9 +565,9 @@
     "p10-response-e",
     "p10-response-f"
    ],
-   "observation": "Swapping the two numbers distinguishes the role of the base from the role of the exponent.",
-   "varies": "Which of 73 and 12 is the base and which is the exponent.",
-   "invariant": "The two numbers and the unit-fraction conversion structure."
+   "observation": "Swapping 73 and 12 distinguishes the roles of base and exponent.",
+   "varies": "Which number is the base and which is the exponent.",
+   "invariant": "The two numbers, unit numerator and reciprocal-to-negative-power conversion."
   },
   {
    "sequence": "fractions-negative-index",
@@ -390,71 +577,9 @@
     "p11-q2-c",
     "p11-q2-d"
    ],
-   "observation": "The negative exponent tracks the denominator's exponent while the base remains unchanged, including the implicit exponent 1.",
-   "varies": "The denominator exponent.",
-   "invariant": "Base 2, numerator 1 and the required conversion."
-  },
-  {
-   "sequence": "negative-index",
-   "targets": [
-    "p3-evaluate-left-column"
-   ],
-   "observation": "Decreasing the exponent by one divides the value by five, continuing through zero into negative exponents.",
-   "varies": "Exponent, from 3 to -3.",
-   "invariant": "Base five and evaluation instruction."
-  },
-  {
-   "sequence": "negative-index",
-   "targets": [
-    "p3-evaluate-middle-column",
-    "p3-evaluate-right-column"
-   ],
-   "observation": "Changing the base while retaining exponent -1 or -2 exposes the reciprocal pattern; the repeated powers of five deliberately connect these runs to the first column.",
-   "varies": "Base from three to six within each column.",
-   "invariant": "Exponent within each column."
-  },
-  {
-   "sequence": "negative-index",
-   "targets": [
-    "p5-q1-a",
-    "p5-q1-b",
-    "p5-q1-c",
-    "p5-q1-d"
-   ],
-   "observation": "Each table continues the same multiplicative pattern across exponent zero.",
-   "varies": "Exponent within each table and base between tables.",
-   "invariant": "Exponent range and evaluation task."
-  },
-  {
-   "sequence": "negative-index",
-   "targets": [
-    "p7-q9-n",
-    "p7-q9-o"
-   ],
-   "observation": "An external minus sign negates the value of the entire power.",
-   "varies": "Presence of an external minus sign.",
-   "invariant": "Bracketed base -2 and exponent -2."
-  },
-  {
-   "sequence": "negative-index",
-   "targets": [
-    "p8-q13-b",
-    "p8-q13-c"
-   ],
-   "observation": "The same number and reciprocal require different exponent magnitudes when the specified base changes.",
-   "varies": "Given base, four then two.",
-   "invariant": "16 and 1/16."
-  },
-  {
-   "sequence": "negative-index",
-   "targets": [
-    "p8-q13-d",
-    "p8-q13-e",
-    "p8-q13-f"
-   ],
-   "observation": "Successive positive powers and their reciprocals have opposite exponents of increasing magnitude.",
-   "varies": "Number pair, from 25 and its reciprocal to 625 and its reciprocal.",
-   "invariant": "Base five and paired representation task."
+   "observation": "The base stays unchanged while the denominator's exponent becomes negative, including the implicit exponent 1.",
+   "varies": "The denominator's exponent.",
+   "invariant": "Base 2, unit numerator and conversion direction."
   },
   {
    "sequence": "mixed-practice",
@@ -462,19 +587,19 @@
     "p15-q1-a",
     "p15-q1-b"
    ],
-   "observation": "Changing the exponent magnitude changes the denominator's power while the reciprocal structure remains.",
-   "varies": "Exponent: -1 to -3.",
-   "invariant": "Base 2 and conversion to a positive index."
+   "observation": "The reciprocal conversion works for exponent magnitude 1 and for a larger magnitude.",
+   "varies": "Exponent magnitude.",
+   "invariant": "Base 2, conversion direction and instruction not to evaluate."
   },
   {
    "sequence": "mixed-practice",
    "targets": [
-    "p15-q1-c",
-    "p15-q1-d"
+    "p15-q1-d",
+    "p15-q1-e"
    ],
-   "observation": "Changing the base preserves the conversion structure.",
-   "varies": "Base: 3 to 5.",
-   "invariant": "Exponent -2 and instruction."
+   "observation": "A larger exponent magnitude changes the exponent in the denominator without changing the conversion.",
+   "varies": "Exponent magnitude from 2 to 10.",
+   "invariant": "Base 5 and negative-power representation."
   },
   {
    "sequence": "mixed-practice",
@@ -483,9 +608,9 @@
     "p15-q3-b",
     "p15-q3-c"
    ],
-   "observation": "A negative power in the denominator becomes a positive power for different exponent magnitudes.",
-   "varies": "Exponent magnitude: 3, 1, 10.",
-   "invariant": "Base 4, numerator 1 and negative power in the denominator."
+   "observation": "A negative exponent in the denominator becomes the corresponding positive exponent in the numerator.",
+   "varies": "Exponent magnitude.",
+   "invariant": "Base 4 and unit numerator."
   },
   {
    "sequence": "mixed-practice",
@@ -499,19 +624,75 @@
     "p16-q4-g",
     "p16-q4-h"
    ],
-   "observation": "Matched pairs distinguish a negative power from its reciprocal; the final pair reverses their order.",
-   "varies": "Location of the negative power within each pair; base or exponent between pairs.",
-   "invariant": "Base and exponent within each pair, and instruction to use positive powers."
+   "observation": "A negative power and its reciprocal require different positive-power forms; the final pair reverses their order.",
+   "varies": "Within each pair, whether the negative power is itself the expression or is in the denominator.",
+   "invariant": "Base and exponent within each pair, and the instruction not to evaluate."
   },
   {
-   "sequence": "negative-denominator",
+   "sequence": "mixed-practice",
    "targets": [
-    "p14-q4",
-    "p14-q5"
+    "p16-q4-k",
+    "p16-q4-l",
+    "p16-q4-o",
+    "p16-q4-p"
    ],
-   "observation": "The exponent obtained from the reciprocal law can itself be negative; n is not automatically positive.",
-   "varies": "The sign of the exponent on the right-hand side.",
-   "invariant": "The left-hand expression 1/a^-n and the magnitude 6 of the right-hand exponent."
+   "observation": "Matched reciprocal pairs reinforce choosing the conversion from the expression's structure.",
+   "varies": "Position of the negative power within each pair.",
+   "invariant": "Base and exponent magnitude within each pair."
+  },
+  {
+   "sequence": "negative-index",
+   "targets": [
+    "p3-evaluate-left-column"
+   ],
+   "observation": "Decreasing the exponent by one divides the value by five, continuing through zero into negative exponents.",
+   "varies": "Exponent from 3 to -3.",
+   "invariant": "Base 5."
+  },
+  {
+   "sequence": "negative-index",
+   "targets": [
+    "p3-evaluate-middle-column",
+    "p3-evaluate-right-column"
+   ],
+   "observation": "The reciprocal relationship persists across bases, and exponent -2 squares the denominator.",
+   "varies": "Bases 3, 4, 5 and 6; exponent -1 versus -2.",
+   "invariant": "Corresponding base order and reciprocal structure. The repeated base-5 entries connect these comparisons to the first column."
+  },
+  {
+   "sequence": "negative-index",
+   "targets": [
+    "p5-q1-a",
+    "p5-q1-b",
+    "p5-q1-c",
+    "p5-q1-d"
+   ],
+   "observation": "Each table continues the same multiplicative pattern across exponent zero.",
+   "varies": "Exponent within each table and base between tables.",
+   "invariant": "Exponent sequence from 4 to -4."
+  },
+  {
+   "sequence": "negative-index",
+   "targets": [
+    "p7-q9-m",
+    "p7-q9-n",
+    "p7-q9-o",
+    "p7-q9-p"
+   ],
+   "observation": "The sign depends on the parity of the power and on whether a minus sign lies outside the power.",
+   "varies": "Exponent and presence of an external minus sign.",
+   "invariant": "Bracketed base -2."
+  },
+  {
+   "sequence": "negative-index",
+   "targets": [
+    "p8-q13-d",
+    "p8-q13-e",
+    "p8-q13-f"
+   ],
+   "observation": "Successive powers and their reciprocals have opposite exponents.",
+   "varies": "Magnitude of the exponent from 2 to 4.",
+   "invariant": "Base 5 and paired reciprocal values."
   },
   {
    "sequence": "negative-denominator",
@@ -519,20 +700,29 @@
     "p13-rewrite-e",
     "p13-rewrite-f"
    ],
-   "observation": "The conversion preserves the distinct roles of base and exponent even when their numerical values are exchanged.",
-   "varies": "Which of 35 and 67 is the base and which is the exponent magnitude.",
-   "invariant": "The reciprocal structure and the need to reverse the exponent's sign."
+   "observation": "Swapping the base and exponent reinforces that their roles remain distinct and that neither power needs evaluating.",
+   "varies": "The positions of 35 and 67 as base and exponent magnitude.",
+   "invariant": "A unit numerator and a negative power in the denominator, rewritten as a positive power."
   },
   {
    "sequence": "negative-coefficients",
    "targets": [
     "p17-positive-demo-1",
-    "p17-positive-demo-2",
-    "p17-positive-demo-3"
+    "p17-positive-demo-2"
    ],
-   "observation": "Changing the exponent does not change the coefficient's role.",
-   "varies": "First the exponent; then the coefficient and base.",
-   "invariant": "Only the factor carrying the negative index becomes a reciprocal."
+   "observation": "Changing the exponent changes only the denominator power; the coefficient remains unchanged.",
+   "varies": "Exponent magnitude.",
+   "invariant": "Coefficient 4, base 3 and multiplication structure."
+  },
+  {
+   "sequence": "negative-coefficients",
+   "targets": [
+    "p17-negative-example-1",
+    "p17-negative-example-2"
+   ],
+   "observation": "Reverse conversion retains the numerator and base while changing the exponent's sign.",
+   "varies": "Denominator exponent.",
+   "invariant": "Numerator 5 and base 3."
   },
   {
    "sequence": "negative-coefficients",
@@ -542,9 +732,29 @@
     "p17-negative-c",
     "p17-negative-d"
    ],
-   "observation": "The numerator becomes a coefficient, and a leading minus sign remains outside the power.",
-   "varies": "Numerator value and notation for the minus sign.",
+   "observation": "The numerator remains a coefficient; a minus in the numerator or outside the fraction has the same effect.",
+   "varies": "Numerator value, sign and placement of the minus sign.",
    "invariant": "Denominator 4^2."
+  },
+  {
+   "sequence": "negative-coefficients",
+   "targets": [
+    "p17-negative-e",
+    "p17-negative-f"
+   ],
+   "observation": "Changing the coefficient's sign does not change the negative power.",
+   "varies": "Numerator sign.",
+   "invariant": "Numerator magnitude 7 and denominator 13^5."
+  },
+  {
+   "sequence": "negative-coefficients",
+   "targets": [
+    "p18-rewrite-example-1",
+    "p18-rewrite-example-2"
+   ],
+   "observation": "The denominator base becomes the multiplication base unchanged.",
+   "varies": "Base.",
+   "invariant": "Numerator 5 and exponent -2."
   },
   {
    "sequence": "negative-coefficients",
@@ -552,25 +762,24 @@
     "p18-rewrite-c",
     "p18-rewrite-d"
    ],
-   "observation": "Changing the numerator's sign leaves the denominator-conversion decision unchanged.",
-   "varies": "Sign of the numerator.",
+   "observation": "The numerator sign survives denominator conversion.",
+   "varies": "Numerator sign.",
    "invariant": "Numerator magnitude 4 and denominator 3^-5."
   },
   {
    "sequence": "negative-coefficients",
    "targets": [
-    "p18-key-ideas-1",
-    "p18-key-ideas-2",
-    "p18-key-ideas-3"
+    "p19-q1-a",
+    "p19-q1-b"
    ],
-   "observation": "Multiplying by a negative power and dividing by one require different reciprocal placements.",
-   "varies": "Position and sign of the power.",
-   "invariant": "Coefficient 5, base 3 and exponent magnitude 7."
+   "observation": "Changing the coefficient changes the resulting numerator only.",
+   "varies": "Coefficient and withdrawal of the worked conversion.",
+   "invariant": "Negative power 2^-3."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 16,
- "reviewedAt": "2026-10-15T11:37:22.223Z",
+ "reviewedRevision": 32,
+ "reviewedAt": "2026-10-23T11:09:00.901Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -579,7 +788,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -594,14 +803,14 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32592,
-     "cached_input_tokens": 14592,
+     "input_tokens": 33278,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3752,
-     "reasoning_output_tokens": 271
+     "output_tokens": 4364,
+     "reasoning_output_tokens": 331
     },
-    "elapsedMs": 87249,
-    "candidates": 1,
+    "elapsedMs": 112941,
+    "candidates": 4,
     "discarded": [],
     "suggestions": 1
    },
@@ -612,13 +821,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 25514,
-     "cached_input_tokens": 14592,
+     "input_tokens": 25778,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2024,
-     "reasoning_output_tokens": 246
+     "output_tokens": 1606,
+     "reasoning_output_tokens": 259
     },
-    "elapsedMs": 53724,
+    "elapsedMs": 51912,
     "candidates": 1,
     "discarded": [],
     "suggestions": 0
@@ -630,16 +839,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 27727,
-     "cached_input_tokens": 14592,
+     "input_tokens": 28910,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2604,
-     "reasoning_output_tokens": 286
+     "output_tokens": 2436,
+     "reasoning_output_tokens": 309
     },
-    "elapsedMs": 65041,
+    "elapsedMs": 71593,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "mixed-practice",
@@ -648,13 +857,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 29206,
-     "cached_input_tokens": 12544,
+     "input_tokens": 29470,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1412,
-     "reasoning_output_tokens": 89
+     "output_tokens": 1636,
+     "reasoning_output_tokens": 216
     },
-    "elapsedMs": 42211,
+    "elapsedMs": 52480,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -666,16 +875,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 33713,
-     "cached_input_tokens": 12544,
+     "input_tokens": 33978,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3335,
-     "reasoning_output_tokens": 96
+     "output_tokens": 5850,
+     "reasoning_output_tokens": 135
     },
-    "elapsedMs": 78374,
-    "candidates": 1,
+    "elapsedMs": 139006,
+    "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    }
   ],
   "dropped": [
@@ -683,33 +892,16 @@
     "ids": [
      "c7"
     ],
-    "reason": "The mathematics and placement are valid, but this is the weakest of five suggestions. Its two reciprocal products repeat the relationship already explored by c2 and c4. Drop it to retain at most four suggestions for the booklet.",
+    "reason": "The mathematics and instruction pass, but its denominator-exponent comparison substantially overlaps c12. Under the four-suggestion limit, retain c12 because it also exposes preservation of the coefficient, alongside the three concrete extensions.",
     "candidates": [
      {
       "id": "c7",
-      "sequence": "mixed-practice",
-      "kind": "extension",
+      "sequence": "negative-denominator",
+      "kind": "variation-sequence",
       "targets": [
-       "p16-q5-root"
+       "p14-q2"
       ],
-      "finding": "Use already evaluated expressions to explore reciprocal products."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c8"
-    ],
-    "reason": "Existing teaching supplies a complete route without a new reciprocal-first shortcut: p3-rule-completion applies to any non-zero number, so (3/8)^(-2) = 1/((3/8)^2) = 1/(9/64) = 64/9. Positive powers of fractions are assumed known in the candidate, and p12-review-division explicitly rehearses division by a fraction. Thus the claim that no preceding method supplies the task is defeated; inverting the base before applying the power is not a required additional method.",
-    "candidates": [
-     {
-      "id": "c8",
-      "sequence": "negative-coefficients",
-      "kind": "missing-prerequisite",
-      "targets": [
-       "p21-q9-p"
-      ],
-      "finding": "The first negative power of a non-unit fractional base appears without teaching how to reciprocate the whole fraction before applying the positive power."
+      "finding": "Add a run that crosses zero in the denominator exponent while retaining the same base."
      }
     ]
    }
@@ -717,14 +909,8 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/negative-indices-v1/candidates-low-1792060160259.json",
-  "errors": [],
-  "recoveredFrom": {
-   "candidateFile": "D:\\WebApps\\MathsMap\\.booklet-work\\pedagogy-review\\negative-indices-v1\\candidates-low-1792060160259.json",
-   "challengeResultFile": "D:\\WebApps\\MathsMap\\.booklet-work\\pedagogy-review\\negative-indices-v1\\calls\\pedagogy-challenge-1792060160267-6ronkv\\last-message.txt",
-   "at": "2026-10-15T11:37:22.223Z",
-   "newModelCalls": 0
-  }
+  "candidateFile": ".booklet-work/full-imports/negative-indices-v1-20261008/polish/pedagogy-work/candidates-low-1792753663312.json",
+  "errors": []
  },
  "postedRevision": 17
 }

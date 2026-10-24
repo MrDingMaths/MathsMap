@@ -83,6 +83,74 @@
    "postedAt": "2026-10-15T10:46:04.834Z"
   },
   {
+   "id": "pf-b0be692c63",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p6-q4-block",
+     "blockId": "p6-q4-block",
+     "hash": "24698fa8df022fd40d688f1325cdadd6a07948c3e56c67adce3bdbc3574dddd5"
+    }
+   ],
+   "finding": "Use a second drawing of the same playground to connect a change in drawing scale with the squared area multiplier.",
+   "breakdown": "The real playground remains unchanged while its diagram lengths double, making its diagram area four times as large.",
+   "checked": "The original scale is 1 cm = 10 m and the proposed scale is 2 cm = 10 m. Corresponding diagram lengths therefore double, and 4 × 4.3 = 17.2 cm². This uses the area scaling taught in p4-information and p4-example-triangle.",
+   "assumptions": "The playground represents the same real region in both drawings.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p6-q4c-node, add part d: “The same park is redrawn using a scale of 2 cm = 10 m. What area does the playground occupy on the new diagram? Explain why.” Expected answer: 17.2 cm²; the diagram lengths double, so its area is multiplied by 2² = 4."
+   },
+   "doneWhen": "The follow-up appears as part d of the existing park question with the expected answer 17.2 cm².",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "areas-of-similar-figures"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:56:15.041Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-02c38b1a7d",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p14-q17-response",
+     "blockId": "p14-q17",
+     "hash": "6d8b1d54cdc66966635e13b6163f6447b572713af9cbcede5a0309e8507b7514"
+    }
+   ],
+   "finding": "Compare the combined surface area of the smaller balls with the surface area of the original ball.",
+   "breakdown": "The follow-up connects conservation of volume with the different scaling of surface area.",
+   "checked": "A radius ratio of 1:5 gives a surface-area ratio of 1:25 and a volume ratio of 1:125. Consequently, 125 smaller balls have combined surface area 125/25 = 5 times the original. Both scaling relationships are available by the end of this topic; no sphere formula is required.",
+   "assumptions": "The existing task assumes that all the original metal becomes the 125 smaller solid balls without loss.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After the existing question, add (b): “What fraction of the original ball’s surface area does one smaller ball have?” Expected answer: 1/25. Add (c): “How many times the original ball’s surface area is the combined surface area of all 125 smaller balls?” Expected answer: 5 times."
+   },
+   "doneWhen": "The two separate follow-up parts retain the original ball context and have expected answers 1/25 and 5 times.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "volumes-of-similar-solids"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:56:15.041Z"
+    }
+   ]
+  },
+  {
    "id": "pf-17e0958b9f",
    "kind": "example-choice",
    "severity": "high",
@@ -168,14 +236,35 @@
  "contextQuestions": [],
  "protectedGroups": [
   {
+   "sequence": "volumes-of-similar-solids",
+   "targets": [
+    "p10-q1c-i-node",
+    "p10-q1c-ii-node",
+    "p10-q1c-iii-node"
+   ],
+   "observation": "Increasing the linear ratio produces cubic growth in the volume ratio.",
+   "varies": "The image entry of the length ratio: 10, 20, 100.",
+   "invariant": "Original entry 1 and the instruction to find the volume ratio."
+  },
+  {
+   "sequence": "volumes-of-similar-solids",
+   "targets": [
+    "p14-q18-a",
+    "p14-q18-b"
+   ],
+   "observation": "The direction of comparison determines whether the same squared scale factor multiplies or divides the given area.",
+   "varies": "Which vase has the known surface area.",
+   "invariant": "The vase pair and its corresponding length ratio."
+  },
+  {
    "sequence": "areas-of-similar-figures",
    "targets": [
     "p3-pair-1-group",
     "p3-pair-2-group"
    ],
-   "observation": "Doubling lengths multiplies area by four; tripling lengths multiplies area by nine.",
-   "varies": "The enlargement factor changes from 2 to 3.",
-   "invariant": "The original 2 cm by 1 cm rectangle and the requested area and ratio comparisons."
+   "observation": "Doubling corresponding lengths multiplies area by four, while tripling them multiplies area by nine.",
+   "varies": "The image length scale factor changes from 2 to 3.",
+   "invariant": "The original rectangle, shape and order of the requested calculations."
   },
   {
    "sequence": "areas-of-similar-figures",
@@ -183,9 +272,9 @@
     "p5-q1-a",
     "p5-q1-b"
    ],
-   "observation": "Area factors 4, 9 and 16 support the relationship between a length factor and its square.",
-   "varies": "The image length factor changes through 2, 3 and 4 before being expressed as n.",
-   "invariant": "The original triangle and the quantities compared."
+   "observation": "The area-ratio terms are squares of the corresponding length-ratio terms, leading to 1:n².",
+   "varies": "The image length factor changes through 2, 3 and 4, then becomes n.",
+   "invariant": "The original triangle and original-to-image comparison."
   },
   {
    "sequence": "areas-of-similar-figures",
@@ -194,48 +283,14 @@
     "p5-q1-c-ii",
     "p5-q1-c-iii"
    ],
-   "observation": "The area-ratio term is the square of the corresponding length-ratio term.",
-   "varies": "The length multiplier is 10, 20 or 100.",
-   "invariant": "The instruction and original-to-image ratio orientation."
-  },
-  {
-   "sequence": "volumes-of-similar-solids",
-   "targets": [
-    "p10-q1a-node",
-    "p10-q1b-node",
-    "p10-q1c-i-node",
-    "p10-q1c-ii-node",
-    "p10-q1c-iii-node",
-    "p10-q1d-node"
-   ],
-   "observation": "The cube comparisons establish cubic growth, generalise it and then apply it to larger and fractional factors.",
-   "varies": "The linear factor, followed by numerical versus symbolic representation.",
-   "invariant": "The original-to-image ordering and the relationship between length ratio and volume ratio."
-  },
-  {
-   "sequence": "volumes-of-similar-solids",
-   "targets": [
-    "p9-guided-a",
-    "p9-guided-b"
-   ],
-   "observation": "The volume rule applies to both enlargement and reduction without calculating shape-specific volumes.",
-   "varies": "Scale factor above or below one and the solid shown.",
-   "invariant": "A supplied original volume, a supplied linear factor and an unknown image volume."
-  },
-  {
-   "sequence": "volumes-of-similar-solids",
-   "targets": [
-    "p14-q18-a",
-    "p14-q18-b"
-   ],
-   "observation": "The same similarity relationship supports finding either the larger or smaller surface area.",
-   "varies": "Which surface area is known.",
-   "invariant": "The vase pair and its corresponding length ratio."
+   "observation": "Large length-ratio terms must still be squared to obtain area-ratio terms.",
+   "varies": "The second length-ratio term: 10, 20 and 100.",
+   "invariant": "The first ratio term and the requested area-ratio calculation."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 10,
- "reviewedAt": "2026-10-15T10:46:04.699Z",
+ "reviewedRevision": 23,
+ "reviewedAt": "2026-10-23T08:56:15.041Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -244,7 +299,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -259,14 +314,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37050,
-     "cached_input_tokens": 14592,
+     "input_tokens": 37357,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3343,
-     "reasoning_output_tokens": 169
+     "output_tokens": 3121,
+     "reasoning_output_tokens": 330
     },
-    "elapsedMs": 83731,
-    "candidates": 2,
+    "elapsedMs": 101450,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -277,41 +332,23 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 43775,
-     "cached_input_tokens": 12544,
+     "input_tokens": 45348,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3917,
-     "reasoning_output_tokens": 232
+     "output_tokens": 3294,
+     "reasoning_output_tokens": 79
     },
-    "elapsedMs": 94033,
+    "elapsedMs": 73000,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
    }
   ],
-  "dropped": [
-   {
-    "ids": [
-     "c3"
-    ],
-    "reason": "The extension centres on the distinction between numerical measures in different units and a ratio in matching units, rather than extending the central similarity relationship. The suggestion standard excludes tangential distinctions, and p6-q4a-node already explicitly requires matching units.",
-    "candidates": [
-     {
-      "id": "c3",
-      "sequence": "areas-of-similar-figures",
-      "kind": "extension",
-      "targets": [
-       "p6-q4-block"
-      ],
-      "finding": "Use the playground to distinguish a numerical multiplier between different units from an area ratio in matching units."
-     }
-    ]
-   }
-  ],
+  "dropped": [],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/similar-areas-and-volumes-v1/candidates-low-1792061124730.json",
+  "candidateFile": ".booklet-work/full-imports/similar-areas-and-volumes-20261008/polish/pedagogy-work/candidates-low-1792745732041.json",
   "errors": []
  },
  "postedRevision": 11

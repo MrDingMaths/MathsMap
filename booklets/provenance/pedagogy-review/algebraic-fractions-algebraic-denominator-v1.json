@@ -5,47 +5,6 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-e2ae243334",
-   "kind": "example-choice",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p3-equivalent-example-left-example",
-     "blockId": "p3-equivalent-example-block",
-     "hash": "04f6a0e98579819b1d835f9fd7c74ac15584b164b66f6bcb799e93183f04f60d"
-    },
-    {
-     "id": "p3-equivalent-example-right-example",
-     "blockId": "p3-equivalent-example-block",
-     "hash": "04f6a0e98579819b1d835f9fd7c74ac15584b164b66f6bcb799e93183f04f60d"
-    }
-   ],
-   "finding": "The equivalent-fraction examples introduce their multipliers without showing how the target denominators determine them.",
-   "breakdown": "The algebraic example requires choosing 3b⁵ before multiplying both parts. Showing that multiplier already inserted does not model this decision.",
-   "checked": "The preceding definition explains applying the same multiplier, but not choosing it. No earlier teaching supplies the algebraic calculation; the division index law appears afterwards in p4-indices-definition.",
-   "assumptions": "Students are learning equivalent algebraic fractions. Calculator use does not affect the symbolic decision.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "Add before the respective working: “Required multiplier: 14 ÷ 7 = 2.” and “Required multiplier: 12b⁷ ÷ 4b² = 3b⁵.”"
-   },
-   "doneWhen": "The examples explicitly derive their multipliers from the original and required denominators.",
-   "from": [
-    "c1"
-   ],
-   "sequences": [
-    "simplifying-indices"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T09:00:02.608Z"
-    }
-   ],
-   "commentId": "c396d08b-663f-4272-88f8-c6ceb66483dd",
-   "postedAt": "2026-10-15T09:00:02.795Z"
-  },
-  {
    "id": "pf-d71c43a44a",
    "kind": "opening-review",
    "severity": "high",
@@ -253,32 +212,32 @@
    "postedAt": "2026-10-15T09:00:02.799Z"
   },
   {
-   "id": "pf-b588432d91",
-   "kind": "example-choice",
+   "id": "pf-6e7c27017a",
+   "kind": "missing-prerequisite",
    "severity": "high",
    "targets": [
     {
-     "id": "p8-example-left-node",
-     "blockId": "p8-example-block",
-     "hash": "178f976c809fcb9e90eec30b16001b0eb3d10e4ad11a59eb6cdadce18a48ed3e"
+     "id": "p8-information-block",
+     "blockId": "p8-information-block",
+     "hash": "5feb610336e8cd7b189240ea38521e8911e0245db827cb0040ccb6f7816bf9b8"
     },
     {
-     "id": "p8-example-right-node",
-     "blockId": "p8-example-block",
-     "hash": "178f976c809fcb9e90eec30b16001b0eb3d10e4ad11a59eb6cdadce18a48ed3e"
+     "id": "p8-guided-e-node",
+     "blockId": "p8-guided-block",
+     "hash": "3c7fec947c46c5d4091c8bcd899191a2044122846af2555594c04689f0d1a2c4"
     }
    ],
-   "finding": "The introductory addition and subtraction examples supply algebraic common denominators without modelling their selection.",
-   "breakdown": "Students see equivalent numerators calculated but do not see why shared variable factors appear only once in the lowest common denominator. Multiplying the denominators would also work, concealing this distinction.",
-   "checked": "Earlier teaching supplies equivalent fractions with a given target denominator and cancellation. p8 names the lowest common multiple, but its examples and first two guided parts supply it without explaining its algebraic construction.",
-   "assumptions": "Numerical lowest common multiples are prior knowledge; choosing them for algebraic terms is new in the supplied teaching.",
+   "finding": "Choosing the lowest common denominator for unequal powers of the same pronumeral is required but never demonstrated.",
+   "breakdown": "In 5/a + 2/a³, students must recognise that a³ already contains a as a factor. The preceding examples do not expose this decision: their variable powers are either confined to one denominator or identical in both.",
+   "checked": "Searched the complete earlier teaching. Equivalent-fraction examples supply the destination denominator, and the simplification examples teach cancellation. Neither teaches selecting a common denominator for unequal powers. Using a⁴ can produce a correct but unreduced result; it does not demonstrate the stated lowest-common-multiple method.",
+   "assumptions": "Numerical LCM and index operations are prior knowledge. Selecting algebraic common multiples with unequal powers is a new variant here.",
    "repair": {
-    "type": "add-cue",
-    "proposal": "Before the examples' supplied denominators, add: “For the lowest common denominator, use the numerical LCM and the highest power of each variable present. For 5 and a², this gives 5a².” Then: “For 3x and 5x, LCM(3, 5) = 15 and the highest power of x is x, so use 15x.”"
+    "type": "add-teaching",
+    "proposal": "Immediately before p8-guided-e-node, add: “For denominators a and a³, use a³: it already contains a as a factor. Since a × a² = a³, multiply the numerator and denominator of the first fraction by a²; the second fraction stays unchanged.” Leave students to complete the sum."
    },
-   "doneWhen": "The examples connect their original denominators to the chosen common denominators and explain the treatment of shared variable factors.",
+   "doneWhen": "The teaching explicitly connects the higher denominator power with the multiplier needed for the lower power.",
    "from": [
-    "c5"
+    "c4"
    ],
    "sequences": [
     "adding-subtracting"
@@ -287,11 +246,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T09:00:02.608Z"
+     "at": "2026-10-23T09:46:27.495Z"
     }
-   ],
-   "commentId": "5e2b3409-76f1-481a-b1ec-37961f36cad2",
-   "postedAt": "2026-10-15T09:00:02.801Z"
+   ]
   },
   {
    "id": "pf-b18d629a4d",
@@ -328,42 +285,6 @@
    ],
    "commentId": "e7c35e11-de75-4502-adbd-9ce7b19e647e",
    "postedAt": "2026-10-15T09:00:02.805Z"
-  },
-  {
-   "id": "pf-b997b36a1c",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p15-q5",
-     "blockId": "p15-q5",
-     "hash": "a1bc1755c0e78ac352eb8aec8e259030f5147192915657c63c9b0b5805284854"
-    }
-   ],
-   "finding": "Extend the rectangle task by doubling both dimensions and comparing areas.",
-   "breakdown": "The existing context supports a concrete comparison between doubling each factor and multiplying the area by four.",
-   "checked": "The original dimensions are 3x/5 and 12x/5 cm, giving area 36x²/25 cm². The doubled dimensions give area 144x²/25 cm². Only taught multiplication and simplification are needed.",
-   "assumptions": "The rectangle context requires x > 0, so its original area is nonzero and the area ratio is defined.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After the existing area task, append: (b) A second rectangle has twice the width and twice the length of the first. Write its width and length. Answers: 6x/5 cm and 24x/5 cm. (c) Find its area. Answer: 144x²/25 cm². (d) How many times the original area is this? Answer: 4 times."
-   },
-   "doneWhen": "The optional follow-up uses the original rectangle and compares the two areas.",
-   "from": [
-    "c8"
-   ],
-   "sequences": [
-    "multiplying-dividing"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T09:00:02.608Z"
-    }
-   ],
-   "commentId": "8e5916e3-b039-4987-97d4-1562e569dcb0",
-   "postedAt": "2026-10-15T09:00:02.806Z"
   },
   {
    "id": "pf-46c07dbb35",
@@ -436,6 +357,124 @@
    ],
    "commentId": "54148b09-7df0-4d30-86b2-0159dde8284d",
    "postedAt": "2026-10-15T09:00:02.808Z"
+  },
+  {
+   "id": "pf-e2ae243334",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p3-equivalent-example-left-example",
+     "blockId": "p3-equivalent-example-block",
+     "hash": "04f6a0e98579819b1d835f9fd7c74ac15584b164b66f6bcb799e93183f04f60d"
+    },
+    {
+     "id": "p3-equivalent-example-right-example",
+     "blockId": "p3-equivalent-example-block",
+     "hash": "04f6a0e98579819b1d835f9fd7c74ac15584b164b66f6bcb799e93183f04f60d"
+    }
+   ],
+   "finding": "The equivalent-fraction examples introduce their multipliers without showing how the target denominators determine them.",
+   "breakdown": "The algebraic example requires choosing 3b⁵ before multiplying both parts. Showing that multiplier already inserted does not model this decision.",
+   "checked": "The preceding definition explains applying the same multiplier, but not choosing it. No earlier teaching supplies the algebraic calculation; the division index law appears afterwards in p4-indices-definition.",
+   "assumptions": "Students are learning equivalent algebraic fractions. Calculator use does not affect the symbolic decision.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add before the respective working: “Required multiplier: 14 ÷ 7 = 2.” and “Required multiplier: 12b⁷ ÷ 4b² = 3b⁵.”"
+   },
+   "doneWhen": "The examples explicitly derive their multipliers from the original and required denominators.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "simplifying-indices"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:00:02.608Z"
+    }
+   ],
+   "commentId": "c396d08b-663f-4272-88f8-c6ceb66483dd",
+   "postedAt": "2026-10-15T09:00:02.795Z"
+  },
+  {
+   "id": "pf-b588432d91",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p8-example-left-node",
+     "blockId": "p8-example-block",
+     "hash": "178f976c809fcb9e90eec30b16001b0eb3d10e4ad11a59eb6cdadce18a48ed3e"
+    },
+    {
+     "id": "p8-example-right-node",
+     "blockId": "p8-example-block",
+     "hash": "178f976c809fcb9e90eec30b16001b0eb3d10e4ad11a59eb6cdadce18a48ed3e"
+    }
+   ],
+   "finding": "The introductory addition and subtraction examples supply algebraic common denominators without modelling their selection.",
+   "breakdown": "Students see equivalent numerators calculated but do not see why shared variable factors appear only once in the lowest common denominator. Multiplying the denominators would also work, concealing this distinction.",
+   "checked": "Earlier teaching supplies equivalent fractions with a given target denominator and cancellation. p8 names the lowest common multiple, but its examples and first two guided parts supply it without explaining its algebraic construction.",
+   "assumptions": "Numerical lowest common multiples are prior knowledge; choosing them for algebraic terms is new in the supplied teaching.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before the examples' supplied denominators, add: “For the lowest common denominator, use the numerical LCM and the highest power of each variable present. For 5 and a², this gives 5a².” Then: “For 3x and 5x, LCM(3, 5) = 15 and the highest power of x is x, so use 15x.”"
+   },
+   "doneWhen": "The examples connect their original denominators to the chosen common denominators and explain the treatment of shared variable factors.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "adding-subtracting"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:00:02.608Z"
+    }
+   ],
+   "commentId": "5e2b3409-76f1-481a-b1ec-37961f36cad2",
+   "postedAt": "2026-10-15T09:00:02.801Z"
+  },
+  {
+   "id": "pf-b997b36a1c",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p15-q5",
+     "blockId": "p15-q5",
+     "hash": "a1bc1755c0e78ac352eb8aec8e259030f5147192915657c63c9b0b5805284854"
+    }
+   ],
+   "finding": "Extend the rectangle task by doubling both dimensions and comparing areas.",
+   "breakdown": "The existing context supports a concrete comparison between doubling each factor and multiplying the area by four.",
+   "checked": "The original dimensions are 3x/5 and 12x/5 cm, giving area 36x²/25 cm². The doubled dimensions give area 144x²/25 cm². Only taught multiplication and simplification are needed.",
+   "assumptions": "The rectangle context requires x > 0, so its original area is nonzero and the area ratio is defined.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After the existing area task, append: (b) A second rectangle has twice the width and twice the length of the first. Write its width and length. Answers: 6x/5 cm and 24x/5 cm. (c) Find its area. Answer: 144x²/25 cm². (d) How many times the original area is this? Answer: 4 times."
+   },
+   "doneWhen": "The optional follow-up uses the original rectangle and compares the two areas.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "multiplying-dividing"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:00:02.608Z"
+    }
+   ],
+   "commentId": "8e5916e3-b039-4987-97d4-1562e569dcb0",
+   "postedAt": "2026-10-15T09:00:02.806Z"
   }
  ],
  "contextQuestions": [],
@@ -444,32 +483,16 @@
    "sequence": "multiplying-dividing",
    "targets": [
     "p15-q4-a",
-    "p15-q4-b"
-   ],
-   "observation": "Reversing the factors leaves the product unchanged.",
-   "varies": "Order of the two fractions.",
-   "invariant": "The fractions and multiplication operation."
-  },
-  {
-   "sequence": "multiplying-dividing",
-   "targets": [
+    "p15-q4-b",
     "p15-q4-c",
     "p15-q4-d",
-    "p15-q4-e"
-   ],
-   "observation": "Introducing a common factor permits cancellation, and its position in either denominator does not change the product.",
-   "varies": "Presence and position of the denominator factor x.",
-   "invariant": "Numerator factors x and 3, denominator factors y and 6, and multiplication."
-  },
-  {
-   "sequence": "multiplying-dividing",
-   "targets": [
+    "p15-q4-e",
     "p15-q4-f",
     "p15-q4-g"
    ],
-   "observation": "An additional denominator factor y remains in the simplified denominator.",
-   "varies": "The second denominator changes from 6 to 6y.",
-   "invariant": "First fraction, numerator 3 and multiplication."
+   "observation": "Factor order does not affect a product, and common factors can cancel across either fraction while unmatched factors remain.",
+   "varies": "Factor order, one coefficient or the location and multiplicity of a denominator factor.",
+   "invariant": "Multiplication of two fractions using the same core pronumerals."
   },
   {
    "sequence": "multiplying-dividing",
@@ -479,33 +502,25 @@
     "p15-q4-i",
     "p15-q4-j"
    ],
-   "observation": "Changing multiplication to division or replacing the second fraction by its reciprocal changes which factors cancel.",
-   "varies": "One operation or the orientation of the second fraction at each step.",
-   "invariant": "First fraction and the factors used in the second fraction."
+   "observation": "Dividing by a fraction has the same effect as multiplying by its reciprocal.",
+   "varies": "The operation and the orientation of the second fraction.",
+   "invariant": "The first fraction and the factors appearing in the second fraction."
   },
   {
    "sequence": "multiplying-dividing",
    "targets": [
     "p15-q4-k",
     "p15-q4-l-middle",
-    "p15-q4-l-right"
-   ],
-   "observation": "Each division requires the reciprocal of the corresponding following fraction.",
-   "varies": "One multiplication sign becomes division at each step.",
-   "invariant": "The three fractions and their order."
-  },
-  {
-   "sequence": "multiplying-dividing",
-   "targets": [
     "p15-q4-l-right",
     "p15-q4-m",
     "p15-q4-n",
     "p15-q4-o",
-    "p15-q4-p"
+    "p15-q4-p",
+    "p15-q4-q"
    ],
-   "observation": "The effect of a numerator power, grouping, an inner operation and a numerical coefficient can be compared one change at a time.",
-   "varies": "Successively the numerator power, brackets, inner operation and one numerical denominator.",
-   "invariant": "All other components of each neighbouring pair."
+   "observation": "Operation signs and grouping determine which fractions are reciprocated; similar-looking expressions can therefore have different values.",
+   "varies": "One operation, exponent, grouping or coefficient at a time, followed by an exchange of operations.",
+   "invariant": "The three-fraction structure and most of its factors."
   },
   {
    "sequence": "multiplying-dividing",
@@ -513,49 +528,37 @@
     "p16-q6-a",
     "p16-q6-b"
    ],
-   "observation": "Multiplying by 1/x and dividing by 1/x give different results.",
-   "varies": "Multiplication versus division.",
-   "invariant": "The two operands."
+   "observation": "Multiplying by 1/x and dividing by 1/x have different effects.",
+   "varies": "The operation sign.",
+   "invariant": "The operands x and 1/x."
   },
   {
    "sequence": "adding-subtracting",
    "targets": [
     "p9-q1-a-i",
-    "p9-q1-b-i",
     "p9-q1-a-ii",
-    "p9-q1-b-ii",
     "p9-q1-a-iii",
-    "p9-q1-b-iii",
     "p9-q1-a-iv",
+    "p9-q1-b-i",
+    "p9-q1-b-ii",
+    "p9-q1-b-iii",
     "p9-q1-b-iv"
    ],
-   "observation": "Matched addition and subtraction tasks retain the same denominator conversion.",
-   "varies": "The operation within each matched pair.",
-   "invariant": "The fractions, their order and their common denominator."
+   "observation": "Corresponding addition and subtraction tasks preserve the denominator decisions while changing the operation.",
+   "varies": "Addition versus subtraction in each corresponding pair.",
+   "invariant": "The fractions and their common denominator within each pair."
   },
   {
    "sequence": "adding-subtracting",
    "targets": [
-    "p10-q5-a",
     "p10-q5-b",
     "p10-q5-c",
     "p10-q5-d",
-    "p10-q5-e",
-    "p10-q5-f"
+    "p10-q5-e"
    ],
-   "observation": "Small changes expose the effects of numerator coefficients, operation and subtraction order.",
-   "varies": "One numerator coefficient, then the operation, then fraction order, then the first numerator.",
-   "invariant": "Numerical denominators 2 and 5 and numerators proportional to x."
-  },
-  {
-   "sequence": "adding-subtracting",
-   "targets": [
-    "p10-q5-g",
-    "p10-q5-h"
-   ],
-   "observation": "Changing one denominator power changes whether the resulting numerator terms are like terms.",
-   "varies": "The first denominator changes from x to x².",
-   "invariant": "Numerators 5 and 2, addition, and the second denominator x."
+   "observation": "The sequence isolates a numerator change, then the operation, then subtraction order.",
+   "varies": "One numerator coefficient, addition versus subtraction, then fraction order.",
+   "invariant": "The denominator pair 2 and 5 and the common pronumeral numerator factor."
   },
   {
    "sequence": "adding-subtracting",
@@ -564,9 +567,20 @@
     "p10-q5-k",
     "p10-q5-l"
    ],
-   "observation": "Successive denominator changes alter the missing factors used to form equivalent fractions.",
-   "varies": "One x factor becomes y, then a numerical factor 3 enters the second denominator.",
-   "invariant": "Numerators 6 and 2, addition, and a shared x factor."
+   "observation": "Changing x² to xy exposes which missing pronumeral factor is needed; the next part changes only a numerical denominator coefficient.",
+   "varies": "One pronumeral factor, then one numerical coefficient.",
+   "invariant": "Numerators 6 and 2, addition, and the first denominator's coefficient 2."
+  },
+  {
+   "sequence": "simplifying-indices",
+   "targets": [
+    "p5-q2-a",
+    "p5-q2-e",
+    "p5-q2-j"
+   ],
+   "observation": "Cancelling identical variable factors can leave 1, a whole-number coefficient or a numerical fraction.",
+   "varies": "The position of a coefficient 2.",
+   "invariant": "Both numerator and denominator contain a single factor x."
   },
   {
    "sequence": "simplifying-indices",
@@ -575,19 +589,21 @@
     "p5-q3-b",
     "p5-q3-c"
    ],
-   "observation": "An unmatched variable remains on the side where it occurs while the numerical fraction reduces in the same way.",
-   "varies": "Presence and position of x.",
-   "invariant": "Numerical coefficients 3 and 12."
+   "observation": "A variable appearing on only one side of the fraction bar remains on that side after numerical reduction.",
+   "varies": "The presence and position of x.",
+   "invariant": "The numerical fraction is 3/12."
   },
   {
    "sequence": "simplifying-indices",
    "targets": [
     "p5-q3-d",
-    "p5-q3-e"
+    "p5-q3-e",
+    "p5-q3-f",
+    "p5-q3-g"
    ],
-   "observation": "Adding a matching denominator factor changes an uncancelled numerator variable into a cancelled factor.",
-   "varies": "Presence of x in the denominator.",
-   "invariant": "Numerator 12x and denominator coefficient 3."
+   "observation": "A matching denominator variable cancels, changing a numerical coefficient changes only its quotient, and an unmatched numerator variable remains.",
+   "varies": "One denominator factor, then the denominator coefficient, then an additional numerator variable.",
+   "invariant": "The numerator retains the factor 12x and each adjacent pair changes one feature."
   },
   {
    "sequence": "simplifying-indices",
@@ -599,24 +615,14 @@
     "p5-q3-m",
     "p5-q3-n"
    ],
-   "observation": "The remaining location and power of each variable depend on the powers present above and below the fraction bar.",
+   "observation": "Matching powers cancel factor by factor, so a variable can remain below the bar, disappear or remain above it as its numerator exponent increases.",
    "varies": "One variable exponent at each step.",
-   "invariant": "Coefficients 10 and 12."
-  },
-  {
-   "sequence": "simplifying-indices",
-   "targets": [
-    "p6-q6-b",
-    "p6-q6-c"
-   ],
-   "observation": "Introducing the same extra factor above and below the bar leaves the simplified result unchanged.",
-   "varies": "Presence of a as an additional common factor.",
-   "invariant": "Coefficient ratio and powers of b."
+   "invariant": "The numerical coefficients remain 10 and 12, and the denominator retains x throughout."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 13,
- "reviewedAt": "2026-10-15T09:00:02.608Z",
+ "reviewedRevision": 30,
+ "reviewedAt": "2026-10-23T09:46:27.495Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -625,7 +631,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -640,14 +646,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 25839,
-     "cached_input_tokens": 14592,
+     "input_tokens": 26128,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5864,
-     "reasoning_output_tokens": 230
+     "output_tokens": 6234,
+     "reasoning_output_tokens": 404
     },
-    "elapsedMs": 154724,
-    "candidates": 3,
+    "elapsedMs": 164410,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    },
@@ -658,13 +664,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 27767,
-     "cached_input_tokens": 12544,
+     "input_tokens": 28903,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5273,
-     "reasoning_output_tokens": 208
+     "output_tokens": 4373,
+     "reasoning_output_tokens": 376
     },
-    "elapsedMs": 123486,
+    "elapsedMs": 136624,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -676,13 +682,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 29634,
-     "cached_input_tokens": 12544,
+     "input_tokens": 30006,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4861,
-     "reasoning_output_tokens": 177
+     "output_tokens": 5081,
+     "reasoning_output_tokens": 142
     },
-    "elapsedMs": 113856,
+    "elapsedMs": 132472,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -694,32 +700,41 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 28532,
-     "cached_input_tokens": 12544,
+     "input_tokens": 28824,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2685,
-     "reasoning_output_tokens": 104
+     "output_tokens": 2769,
+     "reasoning_output_tokens": 180
     },
-    "elapsedMs": 74245,
+    "elapsedMs": 79356,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
    }
   ],
-  "dropped": [],
-  "unchecked": [],
-  "suppressed": [],
-  "droppedQuestions": [
+  "dropped": [
    {
-    "question": "Have students already learned to convert a bucket-completion time into an hourly work rate, add two workers' rates, and interpret the reciprocal of the combined rate as the completion time?",
-    "targets": [
-     "p16-q8-rate",
-     "p16-q8-reciprocal"
+    "ids": [
+     "c7"
     ],
-    "reason": "The course separately teaches rates, and p16-q8 is a labelled closing application of unit rates and the fraction operations already taught. Whether students have previously met this particular combined-worker context would not by itself establish an unsupported method or actionable difficulty jump, so the question would not change a finding."
+    "reason": "The central-relationship test defeats this suggestion. Its mathematics is correct for x > 0, but the relationship exposed is area scaling when both dimensions double, rather than a relationship central to multiplying and dividing algebraic fractions.",
+    "candidates": [
+     {
+      "id": "c7",
+      "sequence": "multiplying-dividing",
+      "kind": "extension",
+      "targets": [
+       "p15-q5-root"
+      ],
+      "finding": "Use the same rectangle to compare doubling its width with the resulting change in area."
+     }
+    ]
    }
   ],
-  "candidateFile": ".booklet-work/pedagogy-review/algebraic-fractions-algebraic-denominator-v1/candidates-low-1792054685585.json",
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/full-imports/algebraic-fractions-algebraic-denominator-v1-20261007/polish/pedagogy-work/candidates-low-1792748703834.json",
   "errors": []
  },
  "postedRevision": 14

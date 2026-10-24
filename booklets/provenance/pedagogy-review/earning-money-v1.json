@@ -5,27 +5,71 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-0bc538f8e0",
+   "id": "pf-0c18850b1a",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p13-total-pay-formulas",
+     "blockId": "p13-total-pay-formulas",
+     "hash": "7061d5216dea602a2ea838c6822012268a03a094efb631561d63f7c9a44b26d8"
+    },
+    {
+     "id": "p13-example-lily",
+     "blockId": "p13-pay-example-group",
+     "hash": "6828b84baf28a84abe9d095e3b4673adddd730fa7050190b10441400266201b3"
+    },
+    {
+     "id": "p14-q2",
+     "blockId": "p14-q2",
+     "hash": "b6255804168805f8bff92a862f7a801f5f1e4079b4b753e5cb9a5daaac656ef4"
+    }
+   ],
+   "finding": "The overtime-pay formula calls its dimensionless final factor 'Penalty rate', although the preceding questions use that term for an hourly dollar amount.",
+   "breakdown": "Students can substitute their calculated overtime hourly rate into the final factor and multiply by the normal hourly rate twice.",
+   "checked": "p12-calculate-penalty-rates asks for hourly dollar rates. p13-total-pay-formulas instead requires 1.5, 2 or 2.5. The reference and numerical example show these multipliers but never distinguish the two meanings of the formula label.",
+   "assumptions": "Students use formula labels to select quantities. Calculator access does not affect this distinction.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "In p13-total-pay-formulas, p13-example-lily and both formulas in p14-q2, replace the final factor 'Penalty rate' with 'Penalty multiplier (1.5, 2 or 2.5)'."
+   },
+   "doneWhen": "Every displayed overtime-pay formula distinguishes the multiplier from the overtime hourly rate.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "penalty-rates"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T14:16:00.590Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-1032f30caf",
    "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p24-q9-a",
-     "blockId": "p24-q9",
-     "hash": "d1ea860565c60e0cd8a86592541f11db3a886cbcccae79113ab6d2455e90795b"
+     "id": "p23-q5",
+     "blockId": "p23-q5",
+     "hash": "75e21b88c2c53b7243f9b37fcd24065762e3b73a3f98fc6e44a2794d642e51ff"
     }
    ],
-   "finding": "Vary Alison's output across the threshold while keeping both payment rates fixed.",
-   "breakdown": "The sequence exposes that only arrangements above 20 receive the higher rate.",
-   "checked": "The existing scaffold establishes payment for the first 20 plus payment for the excess. The proposed answers follow that model and use methods available here.",
-   "assumptions": "Use the sliding-scale interpretation explicitly established by p24-q9-a's scaffold.",
+   "finding": "Compare exactly attainable earnings targets with targets requiring another completed box.",
+   "breakdown": "Holding payment per box fixed exposes when rounding up changes the quotient and when it does not.",
+   "checked": "At $7.20 per box, the minimum box counts for $194.40, $195, $201.60, $202 and $225 are respectively 27, 28, 28, 29 and 32. p22-example-larry supplies the required rounding reasoning.",
+   "assumptions": "Only completed boxes earn payment.",
    "repair": {
     "type": "add-question",
-    "proposal": "Immediately after p24-q9-a, add: 'Predict how earnings will change before calculating.' Under Alison's existing payment conditions, add further parts asking for earnings from (i) 19 arrangements [$129.20], (ii) 20 [$136.00], (iii) 21 [$144.90], and (iv) 22 [$153.80]. Follow with (v) 26 arrangements [$189.40]. Only output varies; the threshold and both rates remain fixed."
+    "proposal": "Append to p23-q5: 'Predict which targets need an extra box before calculating.' (c) How many boxes must Dimitri pick to earn at least $194.40? (d) How many to earn at least $195? (e) How many to earn at least $201.60? (f) How many to earn at least $202? Follow with (g) How many to earn at least $225? Answers: 27, 28, 28, 29 and 32 boxes. Only the earnings target varies; payment remains $7.20 per box."
    },
-   "doneWhen": "The further parts compare earnings immediately below, at and above the threshold, followed by an unpatterned calculation.",
+   "doneWhen": "The added parts contrast exact and non-exact quotients and finish with the unpatterned $225 target.",
    "from": [
-    "c4"
+    "c3"
    ],
    "sequences": [
     "piecework"
@@ -34,11 +78,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T09:35:00.424Z"
+     "at": "2026-10-23T14:16:00.590Z"
     }
-   ],
-   "commentId": "cfe0cd68-c0ce-44ed-bd84-19ee31655836",
-   "postedAt": "2026-10-15T09:35:00.675Z"
+   ]
   },
   {
    "id": "pf-b59f23348b",
@@ -92,27 +134,27 @@
    "postedAt": "2026-10-15T09:35:00.687Z"
   },
   {
-   "id": "pf-6f6b1c04fd",
-   "kind": "extension",
+   "id": "pf-4655e2b94c",
+   "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p30-q15",
-     "blockId": "p30-q15",
-     "hash": "a1b547e3f6a8e2a3ac42c6ceaa48dde418f7ac24c945d52d20a5c09042dae903"
+     "id": "p30-q11",
+     "blockId": "p30-q11",
+     "hash": "5bb7a3643cbf75ab46f270fe4d185fd00605578c930d59f5fa5ab48d31a6b154"
     }
    ],
-   "finding": "Follow the equal-pay calculation with comparisons on either side of the crossover.",
-   "breakdown": "Students connect the $40000 crossover to which payment option earns more.",
-   "checked": "At $30000, the options pay $1200 and $1050. At $50000, they pay $1600 and $1750. Both calculations use the taught retainer-plus-commission method.",
-   "assumptions": "Both options use the same weekly sales value.",
+   "finding": "Hold the commission schedule fixed while sale prices cross its $800,000 boundary.",
+   "breakdown": "The run exposes that the lower rate applies only to additional sales beyond the boundary.",
+   "checked": "Using 2% of the first $800,000 and 1.5% of the excess gives $14,000, $16,000, $17,500, $19,000 and $21,550 for the proposed prices. p27 teaches the required method.",
+   "assumptions": "The existing commission schedule applies unchanged.",
    "repair": {
     "type": "add-question",
-    "proposal": "Treat the existing question as part (a). Add (b) 'By how much does option 1's pay exceed option 2's pay when William sells $30000 in a week?' [$150] (c) 'By how much does option 2's pay exceed option 1's pay when William sells $50000 in a week?' [$150]"
+    "proposal": "After the existing calculation in p30-q11, add: 'Predict how the commission will change before calculating.' Calculate commission for sale prices of (b) $700,000; (c) $800,000; (d) $900,000; (e) $1,000,000. Follow with (f) $1,170,000. Answers: $14,000; $16,000; $17,500; $19,000; $21,550. Sale price varies; the schedule stays fixed."
    },
-   "doneWhen": "Students compare the options below and above the equal-pay sales figure.",
+   "doneWhen": "The added run crosses the boundary and ends with an unpatterned sale price.",
    "from": [
-    "c6"
+    "c5"
    ],
    "sequences": [
     "royalties-commissions"
@@ -121,52 +163,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T09:35:00.424Z"
+     "at": "2026-10-23T14:16:00.590Z"
     }
-   ],
-   "commentId": "46428a85-1505-4102-a3aa-f5ecaaf72e80",
-   "postedAt": "2026-10-15T09:35:00.692Z"
-  },
-  {
-   "id": "pf-030729a263",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p31-example-left",
-     "blockId": "p31-example",
-     "hash": "f8e41945b1c9afb9c3f7dbc005fd5af56e43f821be5c84f91e0332687fa2421d"
-    },
-    {
-     "id": "p31-example-right",
-     "blockId": "p31-example",
-     "hash": "f8e41945b1c9afb9c3f7dbc005fd5af56e43f821be5c84f91e0332687fa2421d"
-    }
-   ],
-   "finding": "The salary examples use the year-to-fortnight and year-to-week relationships without an opening review.",
-   "breakdown": "Students must select 26 as the divisor and 52 as the multiplier. These relationships were taught before several intervening topics.",
-   "checked": "p3-teaching establishes both relationships. The immediately preceding royalties and commissions topic does not rehearse them. p31-salary supplies the fortnightly factor but contains no retrieval question. Monthly conversion is excluded from the claimed missing pieces because neither worked example uses it.",
-   "assumptions": "Calculators are assumed; selecting conversion factors is the prerequisite being reviewed.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p31-salary, add: (a) Complete: 1 year = ___ weeks. [52] (b) Complete: 1 year = ___ fortnights. [26] (c) Convert $52000 per year to fortnightly pay. [$2000] (d) Convert $900 per week to annual pay. [$46800] Keep the review within one page."
-   },
-   "doneWhen": "Students rehearse both time factors and their use before the salary examples.",
-   "from": [
-    "c7"
-   ],
-   "sequences": [
-    "salary"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T09:35:00.424Z"
-    }
-   ],
-   "commentId": "59917dd3-09d1-4ff0-957c-b28a25760a06",
-   "postedAt": "2026-10-15T09:35:00.695Z"
+   ]
   },
   {
    "id": "pf-1107bc4b0d",
@@ -251,6 +250,152 @@
    "postedAt": "2026-10-15T09:35:00.702Z"
   },
   {
+   "id": "pf-80fb4c7500",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p40-q7",
+     "blockId": "p40-q7-block",
+     "hash": "7b926cc72646dc5bde22efbab41b8f4d2b8aec0bb54e2ff1c7d85a15b4b6469d"
+    }
+   ],
+   "finding": "Compare the same weekly hours spread over different numbers of allowance-bearing days.",
+   "breakdown": "This separates hourly wages, which depend on total hours, from the allowance, which depends on days worked.",
+   "checked": "For 45 hours over four days, wages are $1012.50 and allowances are $220, giving $1232.50. This is $55 below the existing five-day total. p38-example-vicki teaches the separate calculations.",
+   "assumptions": "The stated hourly rate remains unchanged, with no additional overtime conditions.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to p40-q7: (c) The window washer instead works the same 45 hours over four days and receives the height allowance on each day. Calculate his weekly earnings. Answer: $1232.50. (d) How much less does he earn than for five days of work? Answer: $55. (e) Explain why his earnings change although his total hours stay the same. Answer: hourly wages stay the same, but he receives one fewer $55 daily allowance."
+   },
+   "doneWhen": "The optional follow-up keeps total hours fixed and makes the daily allowance's effect explicit.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "bonuses-allowances"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T14:16:00.590Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-9a488da538",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p41-example-salary-entry",
+     "blockId": "p41-example-block",
+     "hash": "9c0153010645fdc0d6648d36c911c792e9a613e7023cb7396d22e33d1d506a9a"
+    }
+   ],
+   "finding": "The example substitutes 70000/52 for weekly pay without writing the annual-to-weekly conversion.",
+   "breakdown": "The substituted quantity requires a conversion decision whose origin and meaning are not explicitly connected to the formula.",
+   "checked": "p3 and p31 establish pay-period conversions. They make the decision available but do not supply the missing connecting line in this example, as required by the worked-example standard.",
+   "assumptions": "Salary conversion has been taught earlier. Calculator access is immaterial.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before the loading calculation, insert: 'Weekly pay = annual salary ÷ 52 = $70,000/52. Keep this value unrounded.'"
+   },
+   "doneWhen": "The example identifies the origin and meaning of 70000/52 before substituting it.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "leave-loading"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T14:16:00.590Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-d1281e0564",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p41-topic-block",
+     "blockId": "p41-topic-block",
+     "hash": "4897344f235405658b750a11fde3b176cc32c97fa9d6097a85c30705bb789e36"
+    },
+    {
+     "id": "p41-example-block",
+     "blockId": "p41-example-block",
+     "hash": "9c0153010645fdc0d6648d36c911c792e9a613e7023cb7396d22e33d1d506a9a"
+    }
+   ],
+   "finding": "No opening review rehearses the percentage calculation and annual-to-weekly conversion combined in the salary example.",
+   "breakdown": "Students must retrieve both methods together while learning leave loading and total holiday pay.",
+   "checked": "Percentage amounts occur in the preceding bonuses topic and conversions in salary. The combined-method exception requires rehearsal of both here. p41 supplies formulas and examples but no review questions.",
+   "assumptions": "A calculator is available. The finding concerns recognising and combining methods, not evaluating products or quotients.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p41-topic-block, add: (a) Find 6% of $2400. (b) Find 17.5% of $3600. (c) An employee earns $62,400 per year. Calculate weekly pay using 52 weeks per year. (d) An employee earns $78,000 per year. Calculate four weeks' normal pay. Answers: $144; $630; $1200; $6000. Keep the review within one page."
+   },
+   "doneWhen": "Students rehearse both component methods before the example combines them.",
+   "from": [
+    "c13"
+   ],
+   "sequences": [
+    "leave-loading"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T14:16:00.590Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-7fc21205af",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p45-q18",
+     "blockId": "p45-q18",
+     "hash": "876559acceb6001860d78b12121036bedf5bed24f35d51912bf8da15e0ab8436"
+    },
+    {
+     "id": "p45-q15",
+     "blockId": "p45-q15",
+     "hash": "aedcf235c58978a2072b8ff0570fc25a57e07974402d94b639ab25807b4bd70f"
+    }
+   ],
+   "finding": "In the supplied practice order, p45-q18 introduces reverse total holiday pay and annual-salary recovery before the existing intermediate reverse question.",
+   "breakdown": "After scaffolded forward calculations, students must identify the 117.5% total, reverse it and recover an annual salary together.",
+   "checked": "The practice places p45-q18 immediately after p44-q11. Earlier p45-q16 reverses loading alone. Later p44-q13 explicitly gives the total-pay multiplier and p45-q15 asks for weekly pay from total holiday pay, supplying the bridge.",
+   "assumptions": "The supplied practice order is the teaching order. Inverse calculation and salary conversion are available earlier methods.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move p45-q18 immediately after p45-q15. Students then recover weekly pay from total holiday pay before adding the annual conversion."
+   },
+   "doneWhen": "The annual-salary reverse problem follows the existing reverse-total-pay bridge.",
+   "from": [
+    "c14"
+   ],
+   "sequences": [
+    "leave-loading"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T14:16:00.590Z"
+    }
+   ]
+  },
+  {
    "id": "pf-6fbc8f07c6",
    "kind": "difficulty-jump",
    "severity": "high",
@@ -287,114 +432,32 @@
    "postedAt": "2026-10-15T09:35:00.705Z"
   },
   {
-   "id": "pf-e797d80219",
-   "kind": "untested-distinction",
+   "id": "pf-50f1359989",
+   "kind": "difficulty-jump",
    "severity": "high",
    "targets": [
     {
-     "id": "p57-q15-root",
-     "blockId": "p57-q15",
-     "hash": "035b49ec71c130643228bd17f22f27c46cfad744eba65f49d847b4fac48fb5f7"
+     "id": "p59-q3",
+     "blockId": "p59-q3",
+     "hash": "3437c464c053b64693f34d95bad858df70cb423504692ab7b495edd2a40d8c33"
     },
     {
-     "id": "p57-q15-a",
-     "blockId": "p57-q15",
-     "hash": "035b49ec71c130643228bd17f22f27c46cfad744eba65f49d847b4fac48fb5f7"
-    },
-    {
-     "id": "p57-q15-b",
-     "blockId": "p57-q15",
-     "hash": "035b49ec71c130643228bd17f22f27c46cfad744eba65f49d847b4fac48fb5f7"
+     "id": "p59-q4",
+     "blockId": "p59-q4",
+     "hash": "5d81ebc37c32e0b26379b31bdd0913cf387024dad78509804ae1e30aafbc0f51"
     }
    ],
-   "finding": "Question 15's third-bracket base contradicts the cumulative-base relationship explicitly taught immediately beforehand.",
-   "breakdown": "The preceding bracket accumulates 0.22 × (54000 − 21000) = $7260, but the next bracket begins with $11880. This presents an inconsistent model of how base tax is formed.",
-   "checked": "p56-q12 explicitly defines base tax as accumulated tax from preceding brackets. Recalculation gives a third-bracket base of $7260 and a fourth-bracket base of $19970. Reducing part (b)'s tax by $4620 preserves its recovered rate of 41.9875 cents, rounded to 42 cents.",
-   "assumptions": "The fictional table follows the cumulative progressive-tax model taught in this topic.",
-   "repair": {
-    "type": "change-values",
-    "proposal": "Change the third-bracket base from $11880 to $7260. In part (a), ask students to show x = $19970. In part (b), change tax payable to $31726.50. Answers: x = 7260 + 0.31(95000 − 54000) = $19970; y = (31726.50 − 19970) ÷ 28000 × 100 = 41.9875 cents, rounding to 42 cents."
-   },
-   "doneWhen": "Every base equals the tax accumulated through preceding brackets, and both parts use the corrected values.",
-   "from": [
-    "c17"
-   ],
-   "sequences": [
-    "income-tax"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T09:35:00.424Z"
-    }
-   ],
-   "commentId": "62c32d09-7ca3-413a-aba3-7912daf97da4",
-   "postedAt": "2026-10-15T09:35:00.717Z"
-  },
-  {
-   "id": "pf-4df2a8b33a",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p52-q2-b",
-     "blockId": "p52-q2",
-     "hash": "738634241d6d389edc6000271e7a00779220424f8fe76df7ea1984fdf301e68c"
-    }
-   ],
-   "finding": "Compare equal income increments across the $45000 bracket boundary.",
-   "breakdown": "The run exposes that the tax increase changes at the boundary while tax itself remains continuous.",
-   "checked": "All proposed taxes agree with the supplied historical table. p51 addresses crossing a bracket, but the supplied practice has no equivalent run of equal income increments.",
-   "assumptions": "Use the booklet's supplied 2022–23 table.",
+   "finding": "The final PAYG question simultaneously adds multiple payroll deductions, mixed periods and a percentage-of-net calculation after staged tax-only tasks.",
+   "breakdown": "Students must independently construct net pay, align expenses with its period and choose net pay as the denominator. No preceding task rehearses that percentage decision.",
+   "checked": "p58 and p59-q2–q3 stage tax-only net earnings; p59-q1 rehearses period conversion. Earlier teaching defines other deductions but does not bridge the combined percentage-of-net task. Its closing position does not supply that preparation.",
+   "assumptions": "Students know ordinary percentage comparison. A calculator is available.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p52-q2-b, under the existing instruction, add: 'Predict how much tax will increase between consecutive incomes.' Add further parts with taxable incomes $43000 [$4712], $44000 [$4902], $45000 [$5092], $46000 [$5417], and $47000 [$5742]. Follow with the unpatterned income $62400 [$10747]. The table stays fixed while income increases by $1000 through the run."
+    "proposal": "Before p59-q4, insert: 'Sam earns $1000 gross per week and has weekly PAYG deductions of $250. (a) Calculate his weekly net pay. (b) He spends $90 per week on household expenses. What percentage of his net pay is this?' Answers: (a) $750; (b) 12%."
    },
-   "doneWhen": "The further parts expose the change from $190 to $325 extra tax per $1000 of income.",
+   "doneWhen": "Students practise the percentage-of-net decision with matching periods before the final combination.",
    "from": [
-    "c18"
-   ],
-   "sequences": [
-    "income-tax"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T09:35:00.424Z"
-    }
-   ],
-   "commentId": "fb5eb688-8616-4514-a7aa-7f86bbaa5ac4",
-   "postedAt": "2026-10-15T09:35:00.726Z"
-  },
-  {
-   "id": "pf-98232de7c7",
-   "kind": "opening-review",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p58-payg-method",
-     "blockId": "p58-payg-method",
-     "hash": "e46e58d515f61c15f4ca1553f4cbafb180df2e83c63a97cc284e0375f0211a71"
-    },
-    {
-     "id": "p58-charlie",
-     "blockId": "p58-example-block",
-     "hash": "c7c9f98823dffc7d576b41f23274a18e2f2d4f55a682b907a8c3d55cdd978a78"
-    }
-   ],
-   "finding": "The PAYG example combines tax-table calculation, pay-period conversion and net-income calculation without an opening review.",
-   "breakdown": "Following Charlie requires selecting and applying a tax-table row, converting annual amounts to fortnightly amounts and subtracting tax from gross pay.",
-   "checked": "Income tax immediately precedes PAYG, but the worked example combines that method with earlier salary conversion and net-income calculation. The standard's combined-method exception therefore applies. p58-payg-method restates the sequence without retrieval questions.",
-   "assumptions": "Calculators are assumed. Review uses the supplied historical tax table.",
-   "repair": {
-    "type": "add-review",
-    "proposal": "Before p58-payg-method, add: (a) For taxable income $60000, state the bracket's base tax, decimal rate and excess. [$5092; 0.325; $15000] (b) Calculate annual tax on $60000. [$9967] (c) Convert $52000 annual salary to fortnightly pay. [$2000] (d) Gross annual income is $60000 and annual tax is $9967. Find annual net income. [$50033] Keep the review within one page."
-   },
-   "doneWhen": "Students rehearse each earlier method that Charlie's example combines.",
-   "from": [
-    "c20"
+    "c19"
    ],
    "sequences": [
     "payg"
@@ -403,11 +466,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T09:35:00.424Z"
+     "at": "2026-10-23T14:16:00.590Z"
     }
-   ],
-   "commentId": "e7845d12-01c4-4a76-bcf2-221835938aa3",
-   "postedAt": "2026-10-15T09:35:00.730Z"
+   ]
   },
   {
    "id": "pf-12c154b33d",
@@ -531,6 +592,242 @@
    ],
    "commentId": "83587ecb-5b1c-484d-b032-9850c9853973",
    "postedAt": "2026-10-15T09:35:00.745Z"
+  },
+  {
+   "id": "pf-0bc538f8e0",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p24-q9-a",
+     "blockId": "p24-q9",
+     "hash": "d1ea860565c60e0cd8a86592541f11db3a886cbcccae79113ab6d2455e90795b"
+    }
+   ],
+   "finding": "Vary Alison's output across the threshold while keeping both payment rates fixed.",
+   "breakdown": "The sequence exposes that only arrangements above 20 receive the higher rate.",
+   "checked": "The existing scaffold establishes payment for the first 20 plus payment for the excess. The proposed answers follow that model and use methods available here.",
+   "assumptions": "Use the sliding-scale interpretation explicitly established by p24-q9-a's scaffold.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p24-q9-a, add: 'Predict how earnings will change before calculating.' Under Alison's existing payment conditions, add further parts asking for earnings from (i) 19 arrangements [$129.20], (ii) 20 [$136.00], (iii) 21 [$144.90], and (iv) 22 [$153.80]. Follow with (v) 26 arrangements [$189.40]. Only output varies; the threshold and both rates remain fixed."
+   },
+   "doneWhen": "The further parts compare earnings immediately below, at and above the threshold, followed by an unpatterned calculation.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "piecework"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:35:00.424Z"
+    }
+   ],
+   "commentId": "cfe0cd68-c0ce-44ed-bd84-19ee31655836",
+   "postedAt": "2026-10-15T09:35:00.675Z"
+  },
+  {
+   "id": "pf-6f6b1c04fd",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p30-q15",
+     "blockId": "p30-q15",
+     "hash": "a1b547e3f6a8e2a3ac42c6ceaa48dde418f7ac24c945d52d20a5c09042dae903"
+    }
+   ],
+   "finding": "Follow the equal-pay calculation with comparisons on either side of the crossover.",
+   "breakdown": "Students connect the $40000 crossover to which payment option earns more.",
+   "checked": "At $30000, the options pay $1200 and $1050. At $50000, they pay $1600 and $1750. Both calculations use the taught retainer-plus-commission method.",
+   "assumptions": "Both options use the same weekly sales value.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Treat the existing question as part (a). Add (b) 'By how much does option 1's pay exceed option 2's pay when William sells $30000 in a week?' [$150] (c) 'By how much does option 2's pay exceed option 1's pay when William sells $50000 in a week?' [$150]"
+   },
+   "doneWhen": "Students compare the options below and above the equal-pay sales figure.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "royalties-commissions"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:35:00.424Z"
+    }
+   ],
+   "commentId": "46428a85-1505-4102-a3aa-f5ecaaf72e80",
+   "postedAt": "2026-10-15T09:35:00.692Z"
+  },
+  {
+   "id": "pf-030729a263",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p31-example-left",
+     "blockId": "p31-example",
+     "hash": "f8e41945b1c9afb9c3f7dbc005fd5af56e43f821be5c84f91e0332687fa2421d"
+    },
+    {
+     "id": "p31-example-right",
+     "blockId": "p31-example",
+     "hash": "f8e41945b1c9afb9c3f7dbc005fd5af56e43f821be5c84f91e0332687fa2421d"
+    }
+   ],
+   "finding": "The salary examples use the year-to-fortnight and year-to-week relationships without an opening review.",
+   "breakdown": "Students must select 26 as the divisor and 52 as the multiplier. These relationships were taught before several intervening topics.",
+   "checked": "p3-teaching establishes both relationships. The immediately preceding royalties and commissions topic does not rehearse them. p31-salary supplies the fortnightly factor but contains no retrieval question. Monthly conversion is excluded from the claimed missing pieces because neither worked example uses it.",
+   "assumptions": "Calculators are assumed; selecting conversion factors is the prerequisite being reviewed.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p31-salary, add: (a) Complete: 1 year = ___ weeks. [52] (b) Complete: 1 year = ___ fortnights. [26] (c) Convert $52000 per year to fortnightly pay. [$2000] (d) Convert $900 per week to annual pay. [$46800] Keep the review within one page."
+   },
+   "doneWhen": "Students rehearse both time factors and their use before the salary examples.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "salary"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:35:00.424Z"
+    }
+   ],
+   "commentId": "59917dd3-09d1-4ff0-957c-b28a25760a06",
+   "postedAt": "2026-10-15T09:35:00.695Z"
+  },
+  {
+   "id": "pf-e797d80219",
+   "kind": "untested-distinction",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p57-q15-root",
+     "blockId": "p57-q15",
+     "hash": "035b49ec71c130643228bd17f22f27c46cfad744eba65f49d847b4fac48fb5f7"
+    },
+    {
+     "id": "p57-q15-a",
+     "blockId": "p57-q15",
+     "hash": "035b49ec71c130643228bd17f22f27c46cfad744eba65f49d847b4fac48fb5f7"
+    },
+    {
+     "id": "p57-q15-b",
+     "blockId": "p57-q15",
+     "hash": "035b49ec71c130643228bd17f22f27c46cfad744eba65f49d847b4fac48fb5f7"
+    }
+   ],
+   "finding": "Question 15's third-bracket base contradicts the cumulative-base relationship explicitly taught immediately beforehand.",
+   "breakdown": "The preceding bracket accumulates 0.22 × (54000 − 21000) = $7260, but the next bracket begins with $11880. This presents an inconsistent model of how base tax is formed.",
+   "checked": "p56-q12 explicitly defines base tax as accumulated tax from preceding brackets. Recalculation gives a third-bracket base of $7260 and a fourth-bracket base of $19970. Reducing part (b)'s tax by $4620 preserves its recovered rate of 41.9875 cents, rounded to 42 cents.",
+   "assumptions": "The fictional table follows the cumulative progressive-tax model taught in this topic.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Change the third-bracket base from $11880 to $7260. In part (a), ask students to show x = $19970. In part (b), change tax payable to $31726.50. Answers: x = 7260 + 0.31(95000 − 54000) = $19970; y = (31726.50 − 19970) ÷ 28000 × 100 = 41.9875 cents, rounding to 42 cents."
+   },
+   "doneWhen": "Every base equals the tax accumulated through preceding brackets, and both parts use the corrected values.",
+   "from": [
+    "c17"
+   ],
+   "sequences": [
+    "income-tax"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:35:00.424Z"
+    }
+   ],
+   "commentId": "62c32d09-7ca3-413a-aba3-7912daf97da4",
+   "postedAt": "2026-10-15T09:35:00.717Z"
+  },
+  {
+   "id": "pf-4df2a8b33a",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p52-q2-b",
+     "blockId": "p52-q2",
+     "hash": "738634241d6d389edc6000271e7a00779220424f8fe76df7ea1984fdf301e68c"
+    }
+   ],
+   "finding": "Compare equal income increments across the $45000 bracket boundary.",
+   "breakdown": "The run exposes that the tax increase changes at the boundary while tax itself remains continuous.",
+   "checked": "All proposed taxes agree with the supplied historical table. p51 addresses crossing a bracket, but the supplied practice has no equivalent run of equal income increments.",
+   "assumptions": "Use the booklet's supplied 2022–23 table.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p52-q2-b, under the existing instruction, add: 'Predict how much tax will increase between consecutive incomes.' Add further parts with taxable incomes $43000 [$4712], $44000 [$4902], $45000 [$5092], $46000 [$5417], and $47000 [$5742]. Follow with the unpatterned income $62400 [$10747]. The table stays fixed while income increases by $1000 through the run."
+   },
+   "doneWhen": "The further parts expose the change from $190 to $325 extra tax per $1000 of income.",
+   "from": [
+    "c18"
+   ],
+   "sequences": [
+    "income-tax"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:35:00.424Z"
+    }
+   ],
+   "commentId": "fb5eb688-8616-4514-a7aa-7f86bbaa5ac4",
+   "postedAt": "2026-10-15T09:35:00.726Z"
+  },
+  {
+   "id": "pf-98232de7c7",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p58-payg-method",
+     "blockId": "p58-payg-method",
+     "hash": "e46e58d515f61c15f4ca1553f4cbafb180df2e83c63a97cc284e0375f0211a71"
+    },
+    {
+     "id": "p58-charlie",
+     "blockId": "p58-example-block",
+     "hash": "c7c9f98823dffc7d576b41f23274a18e2f2d4f55a682b907a8c3d55cdd978a78"
+    }
+   ],
+   "finding": "The PAYG example combines tax-table calculation, pay-period conversion and net-income calculation without an opening review.",
+   "breakdown": "Following Charlie requires selecting and applying a tax-table row, converting annual amounts to fortnightly amounts and subtracting tax from gross pay.",
+   "checked": "Income tax immediately precedes PAYG, but the worked example combines that method with earlier salary conversion and net-income calculation. The standard's combined-method exception therefore applies. p58-payg-method restates the sequence without retrieval questions.",
+   "assumptions": "Calculators are assumed. Review uses the supplied historical tax table.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Before p58-payg-method, add: (a) For taxable income $60000, state the bracket's base tax, decimal rate and excess. [$5092; 0.325; $15000] (b) Calculate annual tax on $60000. [$9967] (c) Convert $52000 annual salary to fortnightly pay. [$2000] (d) Gross annual income is $60000 and annual tax is $9967. Find annual net income. [$50033] Keep the review within one page."
+   },
+   "doneWhen": "Students rehearse each earlier method that Charlie's example combines.",
+   "from": [
+    "c20"
+   ],
+   "sequences": [
+    "payg"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:35:00.424Z"
+    }
+   ],
+   "commentId": "e7845d12-01c4-4a76-bcf2-221835938aa3",
+   "postedAt": "2026-10-15T09:35:00.730Z"
   }
  ],
  "contextQuestions": [
@@ -539,7 +836,7 @@
    "targets": [
     "p40-q12"
    ],
-   "question": "Have students already learned that profit equals revenue minus costs, including the meaning of revenue? The supplied teaching does not establish this, and the course-library titles do not resolve it. If it is new, Shirley's question needs that short teaching cue."
+   "question": "Have students previously learned that profit equals revenue minus costs? The supplied teaching does not establish this relationship, and the answer determines whether p40-q12 needs a brief cue before calculating the bonus."
   }
  ],
  "protectedGroups": [
@@ -549,9 +846,9 @@
     "p3-time-conversion-activity-a",
     "p3-time-conversion-activity-b"
    ],
-   "observation": "Converting the same duration back reverses multiplication into division.",
-   "varies": "Conversion direction.",
-   "invariant": "The duration and the factor of 12 between years and months."
+   "observation": "Reversing a conversion reverses the operation and recovers the original quantity.",
+   "varies": "Conversion direction and operation.",
+   "invariant": "The same duration and the relationship of 12 months per year."
   },
   {
    "sequence": "units-time",
@@ -559,39 +856,9 @@
     "p3-time-conversion-activity-c",
     "p3-time-conversion-activity-d"
    ],
-   "observation": "The route through years works in both directions between months and weeks.",
-   "varies": "Conversion direction and the order of the factors.",
-   "invariant": "The equivalent duration under the 52-week convention."
-  },
-  {
-   "sequence": "wages",
-   "targets": [
-    "p7-q1-a",
-    "p7-q1-b"
-   ],
-   "observation": "At a fixed hourly rate, earnings scale with hours.",
-   "varies": "Hours worked: 8 and 40.",
-   "invariant": "Ariel’s hourly rate of $45.70."
-  },
-  {
-   "sequence": "wages",
-   "targets": [
-    "p7-q3-a",
-    "p7-q3-b"
-   ],
-   "observation": "With the same weekly hours, changing the hourly rate changes weekly earnings.",
-   "varies": "Hourly rate and the amount of supplied working.",
-   "invariant": "7 hours per day and 5 days per week."
-  },
-  {
-   "sequence": "wages",
-   "targets": [
-    "p11-q15",
-    "p11-q16"
-   ],
-   "observation": "Hourly wages exclude a separately received tip; students first have a visual decomposition and then apply it independently.",
-   "varies": "Amounts, hours and visual support.",
-   "invariant": "Subtract the tip from total receipts before dividing by hours."
+   "observation": "Months and weeks can be converted in either direction through years.",
+   "varies": "Conversion direction and the order of the annual conversion factors.",
+   "invariant": "The same duration under the convention of 12 months and 52 weeks per year."
   },
   {
    "sequence": "penalty-rates",
@@ -600,31 +867,39 @@
     "p17-q14-b",
     "p17-q14-c"
    ],
-   "observation": "Successive parts expose which pay bands apply as total hours cross the agreement's thresholds.",
+   "observation": "Increasing total hours successively activates the normal, time-and-a-half and double-time bands.",
    "varies": "Total hours: 33, 40 and 44.5.",
-   "invariant": "The normal hourly rate and the 35-hour normal band followed by five time-and-a-half hours."
+   "invariant": "Normal hourly rate and the 35-hour and 40-hour band boundaries."
   },
   {
    "sequence": "penalty-rates",
    "targets": [
-    "p20-q26-gary",
-    "p20-q26-herbert",
-    "p20-q26-ian"
+    "p18-q16-root",
+    "p18-q17-root"
    ],
-   "observation": "The same total earnings can correspond to different missing actual hours depending on the pay category.",
-   "varies": "The missing category: normal, time-and-a-half, then double time.",
-   "invariant": "$40 normal hourly rate, $1200 total pay and eight hours in each of the two given categories."
+   "observation": "The same three working hours represent different amounts of normal-rate earning time under different multipliers.",
+   "varies": "Double time versus time-and-a-half.",
+   "invariant": "Three hours worked and the same-pay comparison."
   },
   {
    "sequence": "royalties-commissions",
    "targets": [
     "p29-q5-olivia",
+    "p29-q5-stella"
+   ],
+   "observation": "Adding a retainer changes total pay without changing commission.",
+   "varies": "Retainer changes from $0 to $1000.",
+   "invariant": "Sales of $10,000 and commission rate of 5%."
+  },
+  {
+   "sequence": "royalties-commissions",
+   "targets": [
     "p29-q5-stella",
     "p29-q5-emma"
    ],
-   "observation": "A retainer changes total pay without changing commission; changing the rate changes commission at fixed sales.",
-   "varies": "First the retainer changes from $0 to $1000, then the commission rate changes from 5% to 10%.",
-   "invariant": "Sales remain $10 000; each adjacent pair holds the other pay parameter fixed."
+   "observation": "Doubling the commission rate doubles commission but does not double total pay when a retainer is present.",
+   "varies": "Commission rate changes from 5% to 10%.",
+   "invariant": "Sales of $10,000 and retainer of $1000."
   },
   {
    "sequence": "royalties-commissions",
@@ -633,47 +908,14 @@
     "p30-q10-b",
     "p30-q10-c"
    ],
-   "observation": "Additional sales activate successive commission bands while completed bands retain their contributions.",
-   "varies": "Sale price reaches the first boundary, then the second band, then the third band.",
-   "invariant": "The fixed payment, rates and band boundaries."
-  },
-  {
-   "sequence": "salary",
-   "targets": [
-    "p33-q9-a",
-    "p33-q9-b",
-    "p33-q9-c"
-   ],
-   "observation": "A fixed annual income produces different periodic payments according to the number of periods in a year.",
-   "varies": "Requested payment period: week, fortnight, month.",
-   "invariant": "Annual salary of $68600 and the annual-pay division method."
-  },
-  {
-   "sequence": "salary",
-   "targets": [
-    "p33-q10-a",
-    "p33-q10-b",
-    "p33-q10-c"
-   ],
-   "observation": "The same annual salary can be expressed consistently across three payment periods.",
-   "varies": "Requested payment period: week, fortnight, month.",
-   "invariant": "Annual salary of $74250 and the annual-pay division method."
-  },
-  {
-   "sequence": "medicare",
-   "targets": [
-    "p67-q2-b",
-    "p67-q2-c",
-    "p67-q2-d"
-   ],
-   "observation": "All income sources and all allowable deductions must be included before applying the levy.",
-   "varies": "Whether income, deductions or both contain multiple amounts.",
-   "invariant": "Add incomes, subtract total deductions, then multiply taxable income by 0.02."
+   "observation": "Only sales reaching a band receive that band's rate; a partially filled band uses only the amount reached.",
+   "varies": "Sale price reaches the first boundary, part of the second band, then the third band.",
+   "invariant": "The fixed base commission and complete commission schedule."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 680,
- "reviewedAt": "2026-10-15T09:35:00.424Z",
+ "reviewedRevision": 698,
+ "reviewedAt": "2026-10-23T14:16:00.590Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -682,7 +924,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -697,13 +939,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 23838,
-     "cached_input_tokens": 12544,
+     "input_tokens": 24106,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1405,
-     "reasoning_output_tokens": 92
+     "output_tokens": 1503,
+     "reasoning_output_tokens": 101
     },
-    "elapsedMs": 38208,
+    "elapsedMs": 45403,
     "candidates": 0,
     "discarded": [],
     "suggestions": 0
@@ -714,17 +956,7 @@
     "blocks": 33,
     "images": 1,
     "imagesExpected": true,
-    "usage": {
-     "input_tokens": 32862,
-     "cached_input_tokens": 12544,
-     "cache_write_input_tokens": 0,
-     "output_tokens": 2824,
-     "reasoning_output_tokens": 239
-    },
-    "elapsedMs": 73278,
-    "candidates": 0,
-    "discarded": [],
-    "suggestions": 1
+    "error": "Expected ',' or '}' after property value in JSON at position 328 (line 8 column 97)"
    },
    {
     "id": "penalty-rates",
@@ -733,16 +965,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 34054,
-     "cached_input_tokens": 14592,
+     "input_tokens": 35744,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4260,
-     "reasoning_output_tokens": 167
+     "output_tokens": 4648,
+     "reasoning_output_tokens": 180
     },
-    "elapsedMs": 103738,
-    "candidates": 0,
+    "elapsedMs": 129849,
+    "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "piecework",
@@ -751,13 +983,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 29762,
-     "cached_input_tokens": 12544,
+     "input_tokens": 30863,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2505,
-     "reasoning_output_tokens": 280
+     "output_tokens": 2439,
+     "reasoning_output_tokens": 296
     },
-    "elapsedMs": 69292,
+    "elapsedMs": 81520,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -769,16 +1001,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 31665,
-     "cached_input_tokens": 14592,
+     "input_tokens": 32150,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4119,
-     "reasoning_output_tokens": 202
+     "output_tokens": 4953,
+     "reasoning_output_tokens": 258
     },
-    "elapsedMs": 104287,
+    "elapsedMs": 123144,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "salary",
@@ -787,14 +1019,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 32312,
-     "cached_input_tokens": 12544,
+     "input_tokens": 32580,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3361,
-     "reasoning_output_tokens": 184
+     "output_tokens": 2961,
+     "reasoning_output_tokens": 331
     },
-    "elapsedMs": 80579,
-    "candidates": 1,
+    "elapsedMs": 87344,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
@@ -805,13 +1037,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 29972,
-     "cached_input_tokens": 12544,
+     "input_tokens": 31088,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3204,
-     "reasoning_output_tokens": 313
+     "output_tokens": 3142,
+     "reasoning_output_tokens": 240
     },
-    "elapsedMs": 88335,
+    "elapsedMs": 95030,
     "candidates": 2,
     "discarded": [],
     "suggestions": 2
@@ -823,14 +1055,14 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 32925,
-     "cached_input_tokens": 12544,
+     "input_tokens": 33193,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3146,
-     "reasoning_output_tokens": 429
+     "output_tokens": 3424,
+     "reasoning_output_tokens": 377
     },
-    "elapsedMs": 84254,
-    "candidates": 1,
+    "elapsedMs": 110000,
+    "candidates": 3,
     "discarded": [],
     "suggestions": 1
    },
@@ -841,13 +1073,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 31318,
-     "cached_input_tokens": 14592,
+     "input_tokens": 31604,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2034,
-     "reasoning_output_tokens": 244
+     "output_tokens": 1894,
+     "reasoning_output_tokens": 205
     },
-    "elapsedMs": 59499,
+    "elapsedMs": 61211,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -859,16 +1091,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 38251,
-     "cached_input_tokens": 14592,
+     "input_tokens": 38593,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3025,
-     "reasoning_output_tokens": 200
+     "output_tokens": 2354,
+     "reasoning_output_tokens": 379
     },
-    "elapsedMs": 80886,
-    "candidates": 2,
+    "elapsedMs": 76127,
+    "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "payg",
@@ -877,16 +1109,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 32298,
-     "cached_input_tokens": 14592,
+     "input_tokens": 32586,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2053,
-     "reasoning_output_tokens": 389
+     "output_tokens": 2259,
+     "reasoning_output_tokens": 311
     },
-    "elapsedMs": 63133,
+    "elapsedMs": 74697,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 0
+    "suggestions": 1
    },
    {
     "id": "tax-refund",
@@ -895,16 +1127,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 34555,
-     "cached_input_tokens": 12544,
+     "input_tokens": 34840,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3076,
-     "reasoning_output_tokens": 238
+     "output_tokens": 3294,
+     "reasoning_output_tokens": 285
     },
-    "elapsedMs": 79219,
+    "elapsedMs": 104615,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "medicare",
@@ -913,13 +1145,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 39912,
-     "cached_input_tokens": 14592,
+     "input_tokens": 40182,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3585,
-     "reasoning_output_tokens": 140
+     "output_tokens": 3324,
+     "reasoning_output_tokens": 236
     },
-    "elapsedMs": 84929,
+    "elapsedMs": 104424,
     "candidates": 1,
     "discarded": [],
     "suggestions": 2
@@ -928,26 +1160,9 @@
   "dropped": [
    {
     "ids": [
-     "c1"
-    ],
-    "reason": "The mathematics and placement are sound, but this repeats wage multiplication and difference calculations. It is less valuable than the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c1",
-      "sequence": "wages",
-      "kind": "extension",
-      "targets": [
-       "p9-q9-block"
-      ],
-      "finding": "Extend the comparison to show how the hourly-rate difference determines the change in the weekly earnings gap."
-     }
-    ]
-   },
-   {
-    "ids": [
      "c2"
     ],
-    "reason": "The rates are correct, but the proposed normal-time part does not fit the existing instruction to calculate overtime rates without revision. Even with that revision, it is less valuable than the four retained suggestions.",
+    "reason": "The arithmetic is correct, but this is a lower-priority suggestion than the four retained: the existing reference and guided practice already explicitly distinguish all three multipliers.",
     "candidates": [
      {
       "id": "c2",
@@ -956,111 +1171,58 @@
       "targets": [
        "p14-q1"
       ],
-      "finding": "Hold the normal hourly rate fixed while varying the penalty multiplier."
+      "finding": "Add a fixed-base-rate run comparing normal pay with all three penalty rates."
      }
     ]
    },
    {
     "ids": [
-     "c3"
+     "c6"
     ],
-    "reason": "The proposed hours and equivalent-normal-hours explanation are correct, but this is less valuable than the four retained suggestions.",
+    "reason": "The follow-up is valid and its answers are correct, but it is outside the four strongest suggestions retained for the booklet.",
     "candidates": [
      {
-      "id": "c3",
-      "sequence": "penalty-rates",
+      "id": "c6",
+      "sequence": "royalties-commissions",
       "kind": "extension",
       "targets": [
-       "p20-q25"
+       "p30-q15"
       ],
-      "finding": "Compare the actual hours needed to match Luke's earnings at different penalty rates."
+      "finding": "Compare the two options above their equal-pay sales level."
      }
     ]
    },
    {
     "ids": [
-     "c8"
+     "c7"
     ],
-    "reason": "The required monthly salary is correctly $5850, a $150 increase. This offers less additional insight than the four retained suggestions.",
+    "reason": "The proposed $5850 monthly salary and $150 increase are correct, but this is a lower-priority suggestion than the four retained and mainly repeats pay-period conversion.",
     "candidates": [
      {
-      "id": "c8",
+      "id": "c7",
       "sequence": "salary",
       "kind": "extension",
       "targets": [
        "p37-q23"
       ],
-      "finding": "Find the monthly salary that would make Georgia's earnings equal Emma's."
+      "finding": "Find the monthly salary that would make Georgia earn exactly as much as Emma."
      }
     ]
    },
    {
     "ids": [
-     "c11"
+     "c10"
     ],
-    "reason": "The numerical answers are correct, but the proposal adds a new calculation instruction beyond the permitted single prediction line, and the unpatterned part changes the bonus representation as well as its size. A revised sequence would still rank below the four retained suggestions.",
+    "reason": "The proposed run changes both bonus size and representation, and its three-month case repeats the existing task. It is weaker than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c11",
+      "id": "c10",
       "sequence": "bonuses-allowances",
       "kind": "variation-sequence",
       "targets": [
        "p39-q3"
       ],
-      "finding": "Hold Jenni's salary fixed while changing the bonus measured in months."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c12"
-    ],
-    "reason": "Although 25% and 20% are correct, this mainly tests the choice of percentage base rather than extending the central bonus calculation. It is less suitable than the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c12",
-      "sequence": "bonuses-allowances",
-      "kind": "extension",
-      "targets": [
-       "p39-q3"
-      ],
-      "finding": "Compare the same bonus with normal salary and with total earnings."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c13"
-    ],
-    "reason": "The claimed sharp jump is defeated by the existing preparation. p44-q13 explicitly supplies Leave Loading = 4x × 0.175 with x defined as weekly pay, and earlier p26-aspen models reversing a decimal-coefficient equation. Question 14 adds reversal of the supplied formula; students need not separately recover and reinterpret a four-week base. This does not meet the several-changes threshold.",
-    "candidates": [
-     {
-      "id": "c13",
-      "sequence": "leave-loading",
-      "kind": "difficulty-jump",
-      "targets": [
-       "p44-q13",
-       "p45-q14",
-       "p45-q16"
-      ],
-      "finding": "The exercise moves directly from forward loading calculations to reversing the percentage calculation and converting its result to weekly pay, although p45-q16 already provides the simpler one-stage reversal."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c14"
-    ],
-    "reason": "Both proposed answers are correct: the original loading is $980, so a 1.5% rise gives $112 more and equal compensation requires $73780. The follow-up largely repeats the existing comparison and ranks below the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c14",
-      "sequence": "leave-loading",
-      "kind": "extension",
-      "targets": [
-       "p45-q20"
-      ],
-      "finding": "Extend Chloe's comparison to a second percentage increase and an exactly compensating dollar increase."
+      "finding": "Connect bonuses expressed in months of salary with bonuses expressed as percentages."
      }
     ]
    },
@@ -1068,33 +1230,67 @@
     "ids": [
      "c15"
     ],
-    "reason": "The revised taxable incomes and offset explanation are correct, but the equal income-and-deduction change is less valuable than the four retained suggestions.",
+    "reason": "The $980 replacement and 1.35% are correct, but this valid extension is outside the four strongest suggestions retained.",
     "candidates": [
      {
       "id": "c15",
-      "sequence": "taxable-income",
+      "sequence": "leave-loading",
       "kind": "extension",
       "targets": [
-       "p48-q11"
+       "p45-q20"
       ],
-      "finding": "Use Loretta's figures to compare equal annual changes to income and deductions."
+      "finding": "Find the salary increase that would exactly replace Chloe's lost leave loading."
      }
     ]
    },
    {
     "ids": [
-     "c19"
+     "c16"
     ],
-    "reason": "The retained increases of $13608 and $11340 are correct. However, p51 already explicitly explains a rise split across two marginal rates, and the retained boundary sequence provides a more direct comparison.",
+    "reason": "The unchanged taxable income of $88,024 is correct. The compound prompt could be split into parts, but the suggestion is lower priority than the four retained.",
     "candidates": [
      {
-      "id": "c19",
+      "id": "c16",
+      "sequence": "taxable-income",
+      "kind": "extension",
+      "targets": [
+       "p47-q3"
+      ],
+      "finding": "Explore the effect of increasing income and deductions by the same amount."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c18"
+    ],
+    "reason": "The $60,667 tax, $9000 increase and 45% are correct, and the plotted point fits the supplied axes. This valid extension is outside the four strongest suggestions retained.",
+    "candidates": [
+     {
+      "id": "c18",
       "sequence": "income-tax",
       "kind": "extension",
       "targets": [
-       "p55-q9-root"
+       "p55-q11"
       ],
-      "finding": "Compare Luke's original rise with equal rises wholly within either relevant bracket."
+      "finding": "Extend the graph into the fifth tax bracket and connect its increase to the marginal rate."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c20"
+    ],
+    "reason": "The numerical answers are correct, but the proposed endpoint chiefly tests accumulated cent-rounding differences rather than a central PAYG relationship; this is a tangential extension.",
+    "candidates": [
+     {
+      "id": "c20",
+      "sequence": "payg",
+      "kind": "extension",
+      "targets": [
+       "p59-q3"
+      ],
+      "finding": "Compare weekly and fortnightly PAYG deductions for Andrew using the same annual tax."
      }
     ]
    },
@@ -1102,7 +1298,7 @@
     "ids": [
      "c22"
     ],
-    "reason": "The balances are correct and the proposal satisfies the prediction-line constraint, but existing teaching explicitly explains positive, negative and zero balances. It ranks below the four retained suggestions.",
+    "reason": "The answers are correct, but p60 already explicitly teaches and practises the sign-to-refund relationship. This suggestion is lower priority than the four retained.",
     "candidates": [
      {
       "id": "c22",
@@ -1111,24 +1307,41 @@
       "targets": [
        "p60-practice"
       ],
-      "finding": "Hold tax payable fixed while instalments cross from underpayment through exact payment to overpayment."
+      "finding": "Hold tax payable constant while instalments move from below it to above it."
      }
     ]
    },
    {
     "ids": [
-     "c24"
+     "c23"
     ],
-    "reason": "The levy answers are correct under the booklet's model. The retained Catriona extension develops the deduction relationship further by linking income tax, levy and refund, so this is excluded by the four-suggestion limit.",
+    "reason": "The revised tax of $11,762.63, refund of $1307.37 and $32.50 increase are correct. c26 develops the same relationship while also connecting the levy, so c23 is not retained within the four-suggestion limit.",
     "candidates": [
      {
-      "id": "c24",
+      "id": "c23",
+      "sequence": "tax-refund",
+      "kind": "extension",
+      "targets": [
+       "p63-q6"
+      ],
+      "finding": "Use Lee's figures to investigate how an extra allowable deduction changes her refund."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c25"
+    ],
+    "reason": "The proposed levies are correct, but the run mainly repeats subtraction followed by a fixed 2% calculation. It is lower priority than the four retained suggestions.",
+    "candidates": [
+     {
+      "id": "c25",
       "sequence": "medicare",
       "kind": "variation-sequence",
       "targets": [
        "p67-q2"
       ],
-      "finding": "Hold gross income fixed while increasing allowable deductions by equal amounts."
+      "finding": "Hold gross income fixed while changing allowable deductions."
      }
     ]
    }
@@ -1136,8 +1349,10 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/earning-money-v1/candidates-low-1792056769166.json",
-  "errors": []
+  "candidateFile": ".booklet-work/full-imports/earning-money-20261003/polish/pedagogy-work/candidates-low-1792764838460.json",
+  "errors": [
+   "wages: Expected ',' or '}' after property value in JSON at position 328 (line 8 column 97)"
+  ]
  },
  "postedRevision": 681
 }

@@ -41,6 +41,50 @@
    "postedAt": "2026-10-15T09:11:10.519Z"
   },
   {
+   "id": "pf-bf483de1b8",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p18-q22-a",
+     "blockId": "p18-q22",
+     "hash": "9d4b0d81c4f6c6e0366272da80df100c9005740ff283bf550f1ef1d39f7ce8fa"
+    },
+    {
+     "id": "p18-q22-b-iv",
+     "blockId": "p18-q22",
+     "hash": "9d4b0d81c4f6c6e0366272da80df100c9005740ff283bf550f1ef1d39f7ce8fa"
+    },
+    {
+     "id": "p18-q23-b",
+     "blockId": "p18-q23",
+     "hash": "ca673a783c71b76d8e911d9d116d052cd9dd8ffa1a236db74cdf03cb6d42918e"
+    }
+   ],
+   "finding": "The transition to three sets does not teach that a pairwise total includes the all-three region, whereas a pairwise-only count excludes it.",
+   "breakdown": "In q22, placing 3 directly in the local–interstate-only region double counts the 2 companies offering all three services. Earlier two-set teaching never requires splitting an intersection into these two regions. This new decision also underlies the distinction between q22(b)(iv) and q23(b).",
+   "checked": "Searched all supplied teaching and preceding practice: teaching uses two sets throughout, and no preceding practice instruction explains this three-set distinction. Independently checked q22: the local–interstate-only count is 3 − 2 = 1, yielding consistent set totals. The harder-question label does not supply the missing method.",
+   "assumptions": "The complete supplied teaching represents students' preparation for three-set construction. Calculator availability does not affect this issue.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before q22(a), add: 'With three sets, start with the all-three region. “Local and interstate” includes companies that also offer international service. Put 2 in the centre, then put 3 − 2 = 1 in the local-and-interstate-only region. To complete each set, subtract all its known regions from its total.' Leave the remaining regions for students."
+   },
+   "doneWhen": "Before completing q22, students see how a pairwise total includes the triple intersection and how to calculate the pairwise-only count.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "constructing-venn"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T09:17:07.030Z"
+    }
+   ]
+  },
+  {
    "id": "pf-84b6251331",
    "kind": "missing-prerequisite",
    "severity": "high",
@@ -167,17 +211,33 @@
     "p4-a",
     "p4-b",
     "p4-c",
-    "p4-d",
+    "p4-d"
+   ],
+   "observation": "A complete set includes its intersection, whereas only excludes it.",
+   "varies": "The named set and whether only is specified.",
+   "invariant": "The T/C Venn scaffold and matching table."
+  },
+  {
+   "sequence": "interpreting-venn-two-way",
+   "targets": [
     "p5-e-part",
-    "p5-f-part",
+    "p5-f-part"
+   ],
+   "observation": "Both selects the intersection; inclusive or selects all regions in either circle.",
+   "varies": "The connective joining the same two attributes.",
+   "invariant": "The sets and representations."
+  },
+  {
+   "sequence": "interpreting-venn-two-way",
+   "targets": [
     "p5-g-part",
     "p5-h-part",
     "p5-i-part",
     "p5-j-part"
    ],
-   "observation": "The same two representations expose the differences between an event, only, both, inclusive or, a complement, neither and everyone.",
-   "varies": "The requested membership condition.",
-   "invariant": "The tea/coffee context, set positions and table headings."
+   "observation": "A complement includes the exterior, neither selects only the exterior, and everyone includes the entire frame.",
+   "varies": "The requested group.",
+   "invariant": "The underlying population and four regions."
   },
   {
    "sequence": "interpreting-venn-two-way",
@@ -185,19 +245,21 @@
     "p8-q3-b",
     "p9-q6-table-panel"
    ],
-   "observation": "The same event counts and probability requests appear in Venn and table representations, allowing answers to be checked across representations.",
+   "observation": "The same probability selections can be made from a Venn diagram or a two-way table.",
    "varies": "The representation.",
-   "invariant": "The dataset and six requested probabilities."
+   "invariant": "The four counts and six requested events."
   },
   {
    "sequence": "constructing-venn",
    "targets": [
-    "p14-q14-a",
-    "p14-q14-b"
+    "p13-q12-a",
+    "p13-q12-b",
+    "p13-q12-c",
+    "p13-q12-d"
    ],
-   "observation": "Students transfer the same four-region structure while responsibility for naming table categories increases.",
-   "varies": "Supplied versus student-generated table headings.",
-   "invariant": "A fully populated two-set Venn diagram converted into a two-way table."
+   "observation": "Completion moves through neither, overlap and both exclusive positions, reinforcing that each disjoint region contributes once to the population total.",
+   "varies": "The missing region and contextual counts.",
+   "invariant": "A two-set diagram with three supplied region counts and one missing count."
   },
   {
    "sequence": "constructing-venn",
@@ -205,29 +267,24 @@
     "p16-q16-b",
     "p16-q16-d"
    ],
-   "observation": "The same dataset distinguishes exclusive or from inclusive or.",
-   "varies": "Whether people in the overlap are included.",
-   "invariant": "Population, region counts and the two language attributes."
-  }
- ],
- "notReliablyReviewed": [
-  {
-   "sequence": "interpreting-venn-two-way",
-   "targets": [
-    "p11-q10-venn"
-   ],
-   "reason": "No page 11 image is attached. The mathematical transition was assessed from the supplied diagram specification; the actual placement and legibility of its counts were not visually reviewed."
+   "observation": "The same data distinguish 'or, but not both' from inclusive 'or'.",
+   "varies": "Whether the overlap belongs to the requested event.",
+   "invariant": "The diagram, population and two named languages."
   },
   {
    "sequence": "constructing-venn",
    "targets": [
-    "p17-q21-response"
+    "p18-q22-b-i",
+    "p18-q22-b-ii"
    ],
-   "reason": "The question refers to a shaded section, but page 17 is not attached and the text does not identify the shaded cells; that restriction could not be checked visually."
+   "observation": "The paired requests distinguish membership of a whole set from membership of that set only.",
+   "varies": "The presence of 'only'.",
+   "invariant": "The local-service set and the sampled population."
   }
  ],
- "reviewedRevision": 10,
- "reviewedAt": "2026-10-15T09:11:10.272Z",
+ "notReliablyReviewed": [],
+ "reviewedRevision": 29,
+ "reviewedAt": "2026-10-23T09:17:07.030Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -236,7 +293,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -251,14 +308,14 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 54276,
-     "cached_input_tokens": 12544,
+     "input_tokens": 54542,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3135,
-     "reasoning_output_tokens": 146
+     "output_tokens": 2885,
+     "reasoning_output_tokens": 99
     },
-    "elapsedMs": 83843,
-    "candidates": 2,
+    "elapsedMs": 77352,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -269,41 +326,23 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 55512,
-     "cached_input_tokens": 12544,
+     "input_tokens": 56621,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3421,
-     "reasoning_output_tokens": 121
+     "output_tokens": 3559,
+     "reasoning_output_tokens": 224
     },
-    "elapsedMs": 93906,
-    "candidates": 2,
+    "elapsedMs": 91403,
+    "candidates": 1,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    }
   ],
-  "dropped": [
-   {
-    "ids": [
-     "c2"
-    ],
-    "reason": "Existing teaching defeats the claimed missing method: p4-a and p4-b explicitly include the whole circle, including overlapping regions, and p5-g and p5-h identify its complement. Applying that same region-selection rule to a circle split into four regions is a single representational extension. The missing Horse-only count does not prevent using the total and the supplied Goat regions. No unsupported method is established.",
-    "candidates": [
-     {
-      "id": "c2",
-      "sequence": "interpreting-venn-two-way",
-      "kind": "unsupported-transition",
-      "targets": [
-       "p11-q10"
-      ],
-      "finding": "p11-q10 first introduces a three-set diagram without explaining that the Goat event includes all four regions inside its circle."
-     }
-    ]
-   }
-  ],
+  "dropped": [],
   "unchecked": [
    {
     "id": "c1",
-    "reason": "The supplied p9-q6-venn-panel diagram specification omits its four region counts, so its complete givens cannot be compared with p8-q3-a. Matching requests and answers alone do not establish an unchanged whole task. An attempted read-only source listing was blocked by execution policy; the later diagram's counts or source image are needed to resolve this candidate.",
+    "reason": "The supplied p9-q6-venn diagram specification omits its four region counts, and no page image is attached. Identical prompts and answers cannot establish an unchanged whole task. The candidate's claim of an image comparison could not be independently verified; a read-only attempt to locate local evidence was blocked by tool policy. The four visible counts in p9-q6-venn are needed to decide this candidate.",
     "candidate": {
      "id": "c1",
      "sequence": "interpreting-venn-two-way",
@@ -312,13 +351,13 @@
       "p8-q3-a",
       "p9-q6-venn-panel"
      ],
-     "finding": "The entire six-part Venn task in p8-q3-a is repeated in p9-q6-venn-panel with unchanged data and requests, without an explicit retrieval or comparison purpose."
+     "finding": "The complete six-part Venn task in p8-q3-a is repeated unchanged in p9-q6-venn-panel without an explicit retrieval or comparison purpose."
     }
    }
   ],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/compound-events-v1/candidates-low-1792055389336.json",
+  "candidateFile": ".booklet-work/full-imports/compound-events-import-20261007/polish/pedagogy-work/candidates-low-1792746985923.json",
   "errors": []
  },
  "postedRevision": 11

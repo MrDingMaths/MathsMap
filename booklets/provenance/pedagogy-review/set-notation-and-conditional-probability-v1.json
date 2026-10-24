@@ -5,25 +5,25 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-5d0ace10f6",
-   "kind": "extension",
+   "id": "pf-1bb78c5566",
+   "kind": "variation-sequence",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p12-q22-a",
+     "id": "p12-q22-root",
      "blockId": "p12-q22",
      "hash": "37a71da6fc5fb57a6c0fd627242e9acb95206961566c0c7b582c5089763b6d9e"
     }
    ],
-   "finding": "Extend part a to examine how shared elements affect the number of distinct elements in a union.",
-   "breakdown": "The follow-up connects counting distinct elements with the effect of adding an element already in the union.",
-   "checked": "For A={1,3,5} and B={3,5,7}, n(A)+n(B)=6 and n(A∪B)=4. Adding 1 to B leaves the union unchanged. All required set notation and methods are taught before this question.",
-   "assumptions": "Optional follow-up for students who finish early.",
+   "finding": "Vary the overlap while keeping both sets' sizes fixed.",
+   "breakdown": "The run exposes how increasing overlap increases the intersection size and decreases the union size.",
+   "checked": "The existing parts vary several features together. All proposed unions and intersections are correct and use taught methods.",
+   "assumptions": "These are optional further parts.",
    "repair": {
     "type": "add-question",
-    "proposal": "After p12-q22-a add: (i) Find n(A)+n(B). Answer: 6. (ii) How much greater is this than n(A∪B)? Answer: 2. (iii) If 1 is added to B, find the new n(A∪B). Answer: 4. (iv) Explain why adding 1 to B leaves the union unchanged. Answer: 1 was already in A and therefore already in the union."
+    "proposal": "Append: 'Predict how the number of elements in each answer will change before calculating.' (f) A={1,3,5}, B={2,4,6}: union={1,2,3,4,5,6}, intersection=∅. (g) A={1,3,5}, B={2,4,5}: union={1,2,3,4,5}, intersection={5}. (h) A={1,3,5}, B={2,3,5}: union={1,2,3,5}, intersection={3,5}. (i) A={1,3,5}, B={1,3,5}: union=intersection={1,3,5}. Unpatterned follow-up (j) A={2,5,8,11}, B={1,5,7}: union={1,2,5,7,8,11}, intersection={5}."
    },
-   "doneWhen": "The optional parts use the original sets and include the expected answers.",
+   "doneWhen": "The four-part run and unpatterned follow-up appear under the existing instruction, with only the prediction line added.",
    "from": [
     "c1"
    ],
@@ -34,11 +34,43 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T10:49:41.452Z"
+     "at": "2026-10-23T12:43:10.657Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-20a8618f73",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q16-root",
+     "blockId": "p11-q16",
+     "hash": "5ffa52f47865729154ff22446529edfb074362d998a6b83467b1380b8ef59647"
     }
    ],
-   "commentId": "87ee0416-2fec-452b-b922-945ae83d58a0",
-   "postedAt": "2026-10-15T10:49:41.600Z"
+   "finding": "Compare the effect of adding an existing union member to B.",
+   "breakdown": "The change enlarges the intersection while leaving the union unchanged.",
+   "checked": "With B changed to {3,4,5}, the union is {1,3,4,5} and the intersection is {3,5}. Both operations have been taught.",
+   "assumptions": "Adding 5 applies throughout the further parts.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts with the shared statement 'For parts (g)–(i), add 5 to B.' (g) What is the new A∪B? Answer: {1,3,4,5}. (h) What is the new A∩B? Answer: {3,5}. (i) Explain why the union is unchanged. Answer: 5 was already in A and therefore already in the union."
+   },
+   "doneWhen": "The follow-up uses the existing sets and gives each question its own part.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "set-notation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:43:10.657Z"
+    }
+   ]
   },
   {
    "id": "pf-fdfcd08634",
@@ -77,6 +109,40 @@
    "postedAt": "2026-10-15T10:49:41.603Z"
   },
   {
+   "id": "pf-4cc25f1749",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p18-q17-response",
+     "blockId": "p18-q17",
+     "hash": "be60e2e7af5d1c6558149aaa297681a374168c487886142fba8c5d41f8dc80dd"
+    }
+   ],
+   "finding": "Compare membership totals while keeping the two equipment-use totals fixed.",
+   "breakdown": "The follow-up connects changes in the union with changes in the overlap.",
+   "checked": "90+110−160=40 and 90+110−60=140. Both scenarios have feasible nonnegative region counts and use the addition rule already taught.",
+   "assumptions": "Everyone uses at least one equipment type in each scenario.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts: (b) The gym instead has 160 members, all using at least one type of equipment. Still 90 use weights and 110 use cardio. How many use both? Answer: 40. (c) With the same equipment-use counts, how many members would the gym have if 60 used both and everyone used at least one type? Answer: 140."
+   },
+   "doneWhen": "Both numerical follow-ups retain the original equipment-use counts and explicitly state the union condition.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "venn-diagrams"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:43:10.657Z"
+    }
+   ]
+  },
+  {
    "id": "pf-b42a0478aa",
    "kind": "example-choice",
    "severity": "high",
@@ -113,27 +179,27 @@
    "postedAt": "2026-10-15T10:49:41.604Z"
   },
   {
-   "id": "pf-7bdf8eadc7",
-   "kind": "variation-sequence",
+   "id": "pf-5dcd52df44",
+   "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p24-q6",
-     "blockId": "p24-q6",
-     "hash": "344bfba976234978215f4209fe7670a8824ad7ee54c08961158f62b80179d9b5"
+     "id": "p23-q2-root",
+     "blockId": "p23-q2",
+     "hash": "1d8b6de97015bcbc2fd3bd6902270d7f06af409884d85906769ecc3168418f54"
     }
    ],
-   "finding": "Extend question 6 with a controlled comparison that holds the marginal probabilities fixed while varying the overlap.",
-   "breakdown": "Increasing the overlap decreases the union and increases neither. The existing parts compare different set relationships but do not provide a consecutive three-case run with fixed marginal probabilities.",
-   "checked": "The proposed intersection probabilities 0, 1/6 and 1/3 are all feasible with marginals 1/2 and 1/3. The resulting union and complement probabilities are correct. Addition and complement methods are taught on p21.",
-   "assumptions": "The new cases are separate parts of question 6, each with its own givens; the diagram and fixed intersection in part c do not apply to them.",
+   "finding": "Compare two groups with fixed fruit-preference totals and different overlaps.",
+   "breakdown": "Increasing the overlap by one decreases the union by one and increases the neither count by one.",
+   "checked": "The second group has union 5+6−5=6 and neither count 10−6=4. Its region counts are 0, 5, 1 and 4, so the scenario is feasible.",
+   "assumptions": "The second group is separate from the original group.",
    "repair": {
     "type": "add-question",
-    "proposal": "After q6(c), add further parts under the existing “Find” instruction, requesting P(A∪B) and P(overline{A∪B}) in each case. Add only this instructional line: “Predict how each answer will change before calculating.” (d) P(A)=1/2, P(B)=1/3, P(A∩B)=0. Answers: 5/6, 1/6. (e) P(A)=1/2, P(B)=1/3, P(A∩B)=1/6. Answers: 2/3, 1/3. (f) P(A)=1/2, P(B)=1/3, P(A∩B)=1/3. Answers: 1/2, 1/2. Follow with (g) P(A)=3/5, P(B)=1/4, P(A∩B)=1/10. Answers: 3/4, 1/4. In d–f only the intersection varies."
+    "proposal": "Append the shared statement: 'In a second group of 10 people, 5 like apples, 6 like bananas and 5 like both.' (e) How many like apples or bananas? Answer: 6. (f) How many like neither fruit? Answer: 4. (g) Explain why one more person likes neither fruit than in the original group. Answer: Increasing the overlap by one while keeping the individual totals fixed decreases the number liking at least one fruit by one."
    },
-   "doneWhen": "The three comparison cases and unpatterned follow-up appear as independent parts without altering the existing diagrams or givens.",
+   "doneWhen": "The optional follow-up separates the three questions and retains the comparison with the original group.",
    "from": [
-    "c5"
+    "c6"
    ],
    "sequences": [
     "compound-events"
@@ -142,11 +208,48 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T10:49:41.452Z"
+     "at": "2026-10-23T12:43:10.657Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-5acf9827b9",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p29-interpret-a",
+     "blockId": "p29-interpret",
+     "hash": "5137394610d1e8d9892410d13fee75a0af381f5c4d2da7cc46a5ac5f46851758"
+    },
+    {
+     "id": "p30-diagram-step3",
+     "blockId": "p30-diagram-step3",
+     "hash": "0abce49e756f166e848b0ffc724e58ebdd9b8eb1d02b33602f75a14dd441fac2"
     }
    ],
-   "commentId": "dc5b141d-eb62-44d2-a936-8885ac0e94e6",
-   "postedAt": "2026-10-15T10:49:41.608Z"
+   "finding": "The topic uses probability-tree branch completion and path multiplication without rehearsing them in an opening review.",
+   "breakdown": "p29-interpret-a requires complementary branches, joint probabilities and a combined endpoint probability. The zoo worked example then uses these together, displaying completed products without rehearsing the prior tree operations.",
+   "checked": "The complete preceding teaching contains no probability-tree review. Compound-events teaching supplies complement and addition rules, but does not rehearse completing conditional branches or multiplying along tree paths. p29 introduces conditional tree notation rather than rehearsing those operations.",
+   "assumptions": "Tree operations are prior learning from Multistage Probability, which the course lists separately. A calculator may handle arithmetic but does not choose the operations.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Add a short opening review with a supplied two-stage tree: first-stage A has probability 0.4; second-stage B has probability 0.7 after A and 0.2 after A′. (a) Complete the three complementary branch probabilities. Answers: 0.6, 0.3, 0.8. (b) Find P(A∩B). Answer: 0.28. (c) Find P(A′∩B). Answer: 0.12. (d) Find P(B). Answer: 0.40. Use ordinary branch labels so the review does not require conditional notation before it is taught; keep it within one page."
+   },
+   "doneWhen": "Before the topic's teaching, students rehearse branch complements, path multiplication and addition of alternative paths.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "conditional-probability"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:43:10.657Z"
+    }
+   ]
   },
   {
    "id": "pf-3aeff9a703",
@@ -188,6 +291,78 @@
    ],
    "commentId": "c119de8b-6ff0-4f17-833c-f3be494d104f",
    "postedAt": "2026-10-15T10:49:41.610Z"
+  },
+  {
+   "id": "pf-5d0ace10f6",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q22-a",
+     "blockId": "p12-q22",
+     "hash": "37a71da6fc5fb57a6c0fd627242e9acb95206961566c0c7b582c5089763b6d9e"
+    }
+   ],
+   "finding": "Extend part a to examine how shared elements affect the number of distinct elements in a union.",
+   "breakdown": "The follow-up connects counting distinct elements with the effect of adding an element already in the union.",
+   "checked": "For A={1,3,5} and B={3,5,7}, n(A)+n(B)=6 and n(A∪B)=4. Adding 1 to B leaves the union unchanged. All required set notation and methods are taught before this question.",
+   "assumptions": "Optional follow-up for students who finish early.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p12-q22-a add: (i) Find n(A)+n(B). Answer: 6. (ii) How much greater is this than n(A∪B)? Answer: 2. (iii) If 1 is added to B, find the new n(A∪B). Answer: 4. (iv) Explain why adding 1 to B leaves the union unchanged. Answer: 1 was already in A and therefore already in the union."
+   },
+   "doneWhen": "The optional parts use the original sets and include the expected answers.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "set-notation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:49:41.452Z"
+    }
+   ],
+   "commentId": "87ee0416-2fec-452b-b922-945ae83d58a0",
+   "postedAt": "2026-10-15T10:49:41.600Z"
+  },
+  {
+   "id": "pf-7bdf8eadc7",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p24-q6",
+     "blockId": "p24-q6",
+     "hash": "344bfba976234978215f4209fe7670a8824ad7ee54c08961158f62b80179d9b5"
+    }
+   ],
+   "finding": "Extend question 6 with a controlled comparison that holds the marginal probabilities fixed while varying the overlap.",
+   "breakdown": "Increasing the overlap decreases the union and increases neither. The existing parts compare different set relationships but do not provide a consecutive three-case run with fixed marginal probabilities.",
+   "checked": "The proposed intersection probabilities 0, 1/6 and 1/3 are all feasible with marginals 1/2 and 1/3. The resulting union and complement probabilities are correct. Addition and complement methods are taught on p21.",
+   "assumptions": "The new cases are separate parts of question 6, each with its own givens; the diagram and fixed intersection in part c do not apply to them.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After q6(c), add further parts under the existing “Find” instruction, requesting P(A∪B) and P(overline{A∪B}) in each case. Add only this instructional line: “Predict how each answer will change before calculating.” (d) P(A)=1/2, P(B)=1/3, P(A∩B)=0. Answers: 5/6, 1/6. (e) P(A)=1/2, P(B)=1/3, P(A∩B)=1/6. Answers: 2/3, 1/3. (f) P(A)=1/2, P(B)=1/3, P(A∩B)=1/3. Answers: 1/2, 1/2. Follow with (g) P(A)=3/5, P(B)=1/4, P(A∩B)=1/10. Answers: 3/4, 1/4. In d–f only the intersection varies."
+   },
+   "doneWhen": "The three comparison cases and unpatterned follow-up appear as independent parts without altering the existing diagrams or givens.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "compound-events"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:49:41.452Z"
+    }
+   ],
+   "commentId": "dc5b141d-eb62-44d2-a936-8885ac0e94e6",
+   "postedAt": "2026-10-15T10:49:41.608Z"
   },
   {
    "id": "pf-cce9b45a06",
@@ -271,19 +446,9 @@
     "p24-q6-b",
     "p24-q6-c"
    ],
-   "observation": "Compare how subset, disjoint and overlapping relationships determine intersection, union and complements.",
-   "varies": "The relationship between the events; the marginal probabilities also change in part b.",
-   "invariant": "The same two-event probability framework and repeated complement and union requests."
-  },
-  {
-   "sequence": "compound-events",
-   "targets": [
-    "p25-q7-e",
-    "p25-q7-f"
-   ],
-   "observation": "Distinguish A only from B only when the intersection must first be recovered.",
-   "varies": "The requested exclusive region and the numerical probabilities.",
-   "invariant": "Union and both marginal probabilities are supplied as decimals."
+   "observation": "The union and intersection depend on the relationship between the sets; containment, disjointness and overlap require different readings.",
+   "varies": "The set relationship and, in part b, the individual probabilities.",
+   "invariant": "Two-event probability calculations involving complements, unions and intersections; parts a and c retain the same individual probabilities."
   },
   {
    "sequence": "compound-events",
@@ -291,9 +456,9 @@
     "p26-q9-a",
     "p26-q9-b"
    ],
-   "observation": "B only equals all of B precisely when there is no overlap.",
-   "varies": "A specified union versus a disjointness condition.",
-   "invariant": "The marginal probabilities and the requested event A′ ∩ B."
+   "observation": "The B-only probability equals all of P(B) when the events are disjoint, but excludes the intersection when they overlap.",
+   "varies": "The overlap condition.",
+   "invariant": "P(A), P(B) and the requested probability P(A'∩B)."
   },
   {
    "sequence": "venn-diagrams",
@@ -303,9 +468,9 @@
     "p16-q5-c",
     "p16-q5-d"
    ],
-   "observation": "The complement always includes everything in the universal set outside A, regardless of B's relationship to A.",
-   "varies": "One set, overlapping sets, disjoint sets and nested sets.",
-   "invariant": "The requested region is A'."
+   "observation": "The complement always consists of everything in the universe outside A, regardless of B's position.",
+   "varies": "The presence and relationship of B: absent, overlapping, disjoint and containing A.",
+   "invariant": "The requested set A′."
   },
   {
    "sequence": "venn-diagrams",
@@ -315,9 +480,19 @@
     "p16-q7-a",
     "p16-q7-b"
    ],
-   "observation": "Union combines memberships while intersection retains common membership, including when a component is complemented.",
-   "varies": "Union versus intersection, then which component is complemented and the amount of prompting.",
-   "invariant": "The underlying overlapping two-set membership regions."
+   "observation": "Union combines membership from either picture, while intersection retains membership common to both.",
+   "varies": "The operation and which component set is complemented.",
+   "invariant": "The underlying overlapping two-set universe."
+  },
+  {
+   "sequence": "venn-diagrams",
+   "targets": [
+    "p20-q23-a",
+    "p20-q23-b"
+   ],
+   "observation": "The grouping and position of union and intersection change which regions are selected.",
+   "varies": "The expressions (A∩B)∪C and A∩(B∪C).",
+   "invariant": "The three-set diagram."
   },
   {
    "sequence": "venn-diagrams",
@@ -326,49 +501,20 @@
     "p19-q20-b",
     "p19-q20-c"
    ],
-   "observation": "Complementing the union gives the same region as intersecting the two complements.",
-   "varies": "The sequence of operations used to construct the region.",
-   "invariant": "The underlying sets and final neither region."
-  },
-  {
-   "sequence": "venn-diagrams",
-   "targets": [
-    "p20-q23-a",
-    "p20-q23-b"
-   ],
-   "observation": "Combining an intersection with an entire third set differs from restricting a union to A.",
-   "varies": "The grouping and placement of union and intersection.",
-   "invariant": "The same three-set membership structure."
+   "observation": "Complementing a union gives the same region as intersecting the individual complements.",
+   "varies": "The route used to construct the region.",
+   "invariant": "The underlying sets and final shaded region."
   },
   {
    "sequence": "set-notation",
    "targets": [
-    "p6-union-b",
-    "p6-union-c"
+    "p12-q20-a",
+    "p12-q20-b",
+    "p12-q20-c"
    ],
-   "observation": "A union keeps each distinct element once even when the two sets become identical.",
-   "varies": "D changes from {3,4,5} to {1,2,3}, increasing overlap to equality.",
-   "invariant": "C={1,2,3}, the size of D, and the union instruction."
-  },
-  {
-   "sequence": "set-notation",
-   "targets": [
-    "p10-q14-c",
-    "p10-q14-d"
-   ],
-   "observation": "Complementing an intersection differs from complementing a union.",
-   "varies": "The operation inside the parentheses.",
-   "invariant": "The universe, the two sets, and the outer complement."
-  },
-  {
-   "sequence": "set-notation",
-   "targets": [
-    "p7-k",
-    "p7-l"
-   ],
-   "observation": "Each direction of a subset claim must be checked separately.",
-   "varies": "The direction of the containment statement.",
-   "invariant": "The two sets and the requirement that every element of the first belongs to the second."
+   "observation": "The elements that must be removed are precisely the shared elements.",
+   "varies": "The number of shared elements increases from one to two to three, with letters introduced in the third pair.",
+   "invariant": "Remove the intersection from A while leaving B unchanged."
   },
   {
    "sequence": "conditional-probability",
@@ -376,9 +522,9 @@
     "p28-example-a",
     "p28-example-b"
    ],
-   "observation": "Reversing the condition changes the denominator and generally changes the answer.",
-   "varies": "Which event is given and which is requested.",
-   "invariant": "Population, marginal probabilities and intersection probability."
+   "observation": "Reversing the condition changes the denominator while retaining the intersection.",
+   "varies": "Which characteristic is given.",
+   "invariant": "Population and all three probabilities."
   },
   {
    "sequence": "conditional-probability",
@@ -386,7 +532,7 @@
     "p33-independence-example-left",
     "p33-practice-left"
    ],
-   "observation": "Changing one marginal probability can change whether the product equals the intersection.",
+   "observation": "Changing one marginal can change whether the product equals the intersection.",
    "varies": "P(Y), from 0.6 to 0.3.",
    "invariant": "P(X)=0.2 and P(X∩Y)=0.06."
   },
@@ -396,8 +542,8 @@
     "p33-independence-example-right",
     "p33-practice-right"
    ],
-   "observation": "The same marginal probabilities do not guarantee independence when the intersection changes.",
-   "varies": "Intersection probability, from 1/18 to 1/12.",
+   "observation": "The intersection must match the product, rather than merely being a plausible probability.",
+   "varies": "Intersection probability, with event letters relabelled.",
    "invariant": "Marginal probabilities 1/9 and 1/2."
   },
   {
@@ -406,9 +552,9 @@
     "p36-q12-a",
     "p36-q12-c"
    ],
-   "observation": "Joint probability and conditional probability are different quantities even for the same independent events.",
+   "observation": "An intersection and a conditional probability require different calculations even with identical independent-event givens.",
    "varies": "Requested probability.",
-   "invariant": "Independence and marginal probabilities 0.4 and 0.6."
+   "invariant": "Independence and marginals 0.4 and 0.6."
   },
   {
    "sequence": "conditional-probability",
@@ -416,14 +562,14 @@
     "p44-q29-g",
     "p44-q29-h"
    ],
-   "observation": "Two equivalent independence tests determine the same unknown frequency.",
+   "observation": "The two independence criteria produce the same unknown count.",
    "varies": "Equation used.",
-   "invariant": "Venn frequencies and unknown total."
+   "invariant": "Venn counts and the independence assumption."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 19,
- "reviewedAt": "2026-10-15T10:49:41.452Z",
+ "reviewedRevision": 33,
+ "reviewedAt": "2026-10-23T12:43:10.657Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -432,7 +578,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -447,16 +593,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 34035,
-     "cached_input_tokens": 14592,
+     "input_tokens": 34300,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5568,
-     "reasoning_output_tokens": 130
+     "output_tokens": 5965,
+     "reasoning_output_tokens": 294
     },
-    "elapsedMs": 115533,
+    "elapsedMs": 157134,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "venn-diagrams",
@@ -465,13 +611,13 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 68132,
-     "cached_input_tokens": 12544,
+     "input_tokens": 68395,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3322,
-     "reasoning_output_tokens": 157
+     "output_tokens": 3221,
+     "reasoning_output_tokens": 78
     },
-    "elapsedMs": 83945,
+    "elapsedMs": 103740,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -483,13 +629,13 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 48858,
+     "input_tokens": 49102,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2942,
-     "reasoning_output_tokens": 78
+     "output_tokens": 2960,
+     "reasoning_output_tokens": 303
     },
-    "elapsedMs": 71077,
+    "elapsedMs": 98491,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -501,33 +647,33 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 65794,
+     "input_tokens": 69205,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5980,
-     "reasoning_output_tokens": 397
+     "output_tokens": 6702,
+     "reasoning_output_tokens": 94
     },
-    "elapsedMs": 126291,
-    "candidates": 1,
+    "elapsedMs": 166141,
+    "candidates": 2,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c3"
+     "c9"
     ],
-    "reason": "The mathematics is correct, but the follow-up mainly repeats routine region counting and recombines exactly one with both. It is the weakest of the five suggestions; the four retained suggestions expose stronger relationships within the booklet's content.",
+    "reason": "The proposed extension follows p31-q2 but uses the zoo worked example rather than that practice question's factory context. It therefore fails the requirement that an extension follow an existing practice question using its numbers or context. Its numerical answers are correct.",
     "candidates": [
      {
-      "id": "c3",
-      "sequence": "venn-diagrams",
+      "id": "c9",
+      "sequence": "conditional-probability",
       "kind": "extension",
       "targets": [
-       "p18-q16"
+       "p31-q2"
       ],
-      "finding": "Use the employee counts to connect the union with neither and exactly one."
+      "finding": "Return to the zoo example and reverse the condition using days when no article appeared."
      }
     ]
    }
@@ -535,7 +681,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/set-notation-and-conditional-probability-v1/candidates-low-1792061319998.json",
+  "candidateFile": ".booklet-work/full-imports/set-notation-and-conditional-probability-20261007/polish/pedagogy-work/candidates-low-1792759306682.json",
   "errors": []
  },
  "postedRevision": 20

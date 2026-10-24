@@ -1,7 +1,7 @@
 {
  "version": 1,
  "projectId": "inequalities-v1",
- "title": "Inequalities",
+ "title": "Equations B: Inequalities",
  "assumptions": {},
  "findings": [
   {
@@ -109,42 +109,6 @@
    "postedAt": "2026-10-15T10:06:42.080Z"
   },
   {
-   "id": "pf-b745fa9d6d",
-   "kind": "example-choice",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p8-example-a",
-     "blockId": "p8-positive-coefficients-examples",
-     "hash": "85ec91348615a5df8d0a88ec175dcdee75bbecd4580334dde7ce6987974e5413"
-    }
-   ],
-   "finding": "The introductory coefficient example leaves the division connecting 2≤2a to 1≤a unstated.",
-   "breakdown": "Addition is explicitly annotated, but the decision that removes the coefficient is left unwritten. This omits a central operation in the model students must transfer to coefficient inequalities.",
-   "checked": "The transition is mathematically correct. The preceding numerical investigation establishes that positive division preserves the symbol, and p8 names inverse operations, but neither explicitly models choosing division to remove an algebraic coefficient. The other introductory example requires only subtraction.",
-   "assumptions": "The issue is the unwritten decision in the worked model, not a need to reteach division or equation solving.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "Between 2≤2a and 1≤a, write: 'Divide both sides by 2; keep the inequality symbol because 2 is positive.'"
-   },
-   "doneWhen": "The example explicitly identifies the coefficient-removal operation and its effect on the inequality symbol.",
-   "from": [
-    "c3"
-   ],
-   "sequences": [
-    "solve-inequalities-positive"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:06:41.776Z"
-    }
-   ],
-   "commentId": "569ca070-b496-451f-8a7e-3a840799748e",
-   "postedAt": "2026-10-15T10:06:42.083Z"
-  },
-  {
    "id": "pf-3a1fb09064",
    "kind": "extension",
    "severity": "suggestion",
@@ -179,6 +143,42 @@
    ],
    "commentId": "8e06cee2-974c-458b-99fb-34f56da4d853",
    "postedAt": "2026-10-15T10:06:42.086Z"
+  },
+  {
+   "id": "pf-b745fa9d6d",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p8-example-a",
+     "blockId": "p8-positive-coefficients-examples",
+     "hash": "85ec91348615a5df8d0a88ec175dcdee75bbecd4580334dde7ce6987974e5413"
+    }
+   ],
+   "finding": "The introductory coefficient example leaves the division connecting 2≤2a to 1≤a unstated.",
+   "breakdown": "Addition is explicitly annotated, but the decision that removes the coefficient is left unwritten. This omits a central operation in the model students must transfer to coefficient inequalities.",
+   "checked": "The transition is mathematically correct. The preceding numerical investigation establishes that positive division preserves the symbol, and p8 names inverse operations, but neither explicitly models choosing division to remove an algebraic coefficient. The other introductory example requires only subtraction.",
+   "assumptions": "The issue is the unwritten decision in the worked model, not a need to reteach division or equation solving.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Between 2≤2a and 1≤a, write: 'Divide both sides by 2; keep the inequality symbol because 2 is positive.'"
+   },
+   "doneWhen": "The example explicitly identifies the coefficient-removal operation and its effect on the inequality symbol.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "solve-inequalities-positive"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:06:41.776Z"
+    }
+   ],
+   "commentId": "569ca070-b496-451f-8a7e-3a840799748e",
+   "postedAt": "2026-10-15T10:06:42.083Z"
   }
  ],
  "contextQuestions": [],
@@ -191,9 +191,19 @@
     "p3-comparison-le-panel",
     "p3-comparison-ge-panel"
    ],
-   "observation": "Direction and boundary inclusion are independent decisions.",
-   "varies": "Comparison direction and strict versus inclusive comparison.",
-   "invariant": "Symbolic boundary a and the number-line representation."
+   "observation": "Direction and boundary inclusion are separate decisions.",
+   "varies": "Comparison direction and presence of equality.",
+   "invariant": "Symbolic boundary a and number-line representation."
+  },
+  {
+   "sequence": "represent-inequalities",
+   "targets": [
+    "p4-q3",
+    "p4-q4"
+   ],
+   "observation": "The same four diagrams distinguish direction from endpoint inclusion.",
+   "varies": "The requested inequality.",
+   "invariant": "Boundary −1 and the four diagram options."
   },
   {
    "sequence": "represent-inequalities",
@@ -201,21 +211,39 @@
     "p6-q6-c",
     "p6-q6-d"
    ],
-   "observation": "Exchanging strict and inclusive symbols exchanges the open and closed endpoints.",
+   "observation": "Each endpoint's inclusion corresponds to its adjacent comparison sign.",
    "varies": "Which endpoint is included.",
-   "invariant": "Boundaries 1 and 2 and the interval between them."
+   "invariant": "Bounds 1 and 2 and the intervening segment."
   },
   {
    "sequence": "represent-inequalities",
    "targets": [
     "p6-q8-a",
-    "p6-q8-b",
+    "p6-q8-b"
+   ],
+   "observation": "Changing endpoint inclusion changes the corresponding inequality signs.",
+   "varies": "Inclusion at the two endpoints.",
+   "invariant": "Bounds −2 and 3."
+  },
+  {
+   "sequence": "represent-inequalities",
+   "targets": [
     "p6-q8-c",
     "p6-q8-d"
    ],
-   "observation": "Each endpoint's inclusion determines its own comparison symbol independently of its numerical value.",
-   "varies": "Endpoint inclusion within each pair; boundary values between pairs.",
-   "invariant": "Bounded-interval representation and interval length."
+   "observation": "The same endpoint distinction is repeated with different bounds.",
+   "varies": "Inclusion at the two endpoints.",
+   "invariant": "Bounds −3 and 2."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p9-q4b",
+    "p9-q4c"
+   ],
+   "observation": "Changing addition to subtraction changes the inverse operation and boundary while preserving the comparison direction.",
+   "varies": "The sign of the constant beside x.",
+   "invariant": "The pronumeral, constant magnitude, right-hand value and strict greater-than comparison."
   },
   {
    "sequence": "solve-inequalities-positive",
@@ -223,9 +251,9 @@
     "p10-q6-c",
     "p10-q6-d"
    ],
-   "observation": "Swapping sides and reversing the symbol preserves the solution set.",
-   "varies": "Order of the two sides and direction of the symbol.",
-   "invariant": "Expressions, numerical values and solution set."
+   "observation": "Exchanging sides and reversing the symbol preserves the solution set.",
+   "varies": "The order of the sides and corresponding symbol.",
+   "invariant": "Both expressions and their mathematical relationship."
   },
   {
    "sequence": "solve-inequalities-positive",
@@ -233,9 +261,9 @@
     "p10-q6-g",
     "p10-q6-h"
    ],
-   "observation": "The same equivalence holds for an inclusive inequality.",
-   "varies": "Order of the sides and direction of the inclusive symbol.",
-   "invariant": "Expressions, values and solution set."
+   "observation": "The same side-exchange relationship holds for an inclusive inequality.",
+   "varies": "The order of the sides and corresponding symbol.",
+   "invariant": "The expressions, inclusion of the boundary and solution set."
   },
   {
    "sequence": "solve-inequalities-positive",
@@ -244,9 +272,19 @@
     "p12-q12-b",
     "p12-q12-c"
    ],
-   "observation": "The scope of a fraction bar changes which operation must be undone.",
-   "varies": "Which terms are divided by 4.",
-   "invariant": "Variable, constants 3 and 4, and right-hand side 5."
+   "observation": "The fraction bar determines which terms are divided and therefore which inverse operation comes first.",
+   "varies": "Which terms lie under the fraction bar.",
+   "invariant": "The numbers 3, 4 and 5, the pronumeral n and equality."
+  },
+  {
+   "sequence": "solve-inequalities-positive",
+   "targets": [
+    "p12-q12-d",
+    "p12-q12-e"
+   ],
+   "observation": "A negative right-hand value changes the arithmetic without changing the sequence of inverse operations.",
+   "varies": "The sign of the right-hand value.",
+   "invariant": "The entire left-hand expression and equality."
   },
   {
    "sequence": "solve-inequalities-positive",
@@ -255,9 +293,9 @@
     "p12-q14-b",
     "p12-q14-c"
    ],
-   "observation": "Changing the inner constant or the sign of the bound changes the endpoint while positive division preserves direction.",
-   "varies": "The sign of the inner constant, then the sign of the right-hand bound.",
-   "invariant": "Outside multiplier 5, inequality direction and solution method."
+   "observation": "Changing a constant's sign or the right-hand value changes the boundary while positive division preserves the inequality direction.",
+   "varies": "First the sign inside the brackets, then the right-hand sign.",
+   "invariant": "The outer coefficient, pronumeral and strict less-than comparison."
   },
   {
    "sequence": "solve-inequalities-negative",
@@ -266,8 +304,8 @@
     "p16-q3-b",
     "p16-q3-c"
    ],
-   "observation": "Changing the relation changes the solution direction; swapping both sides preserves the original solution.",
-   "varies": "Inequality direction and side order.",
+   "observation": "Changing the comparison changes the solution, while swapping both sides and reversing the comparison preserves it.",
+   "varies": "Comparison direction and side orientation.",
    "invariant": "The expressions 2x + 5 and 9."
   },
   {
@@ -278,24 +316,34 @@
     "p16-q3-e",
     "p16-q3-f"
    ],
-   "observation": "Tracks separately the effects of a changed bound, endpoint inclusion and the constant term's sign.",
-   "varies": "One numerical or symbolic feature at each step.",
-   "invariant": "Positive coefficient 2 and variable expression on the right."
+   "observation": "A changed bound, endpoint inclusion and constant-term sign have distinct effects.",
+   "varies": "One constant, then strictness, then the constant-term sign.",
+   "invariant": "The positive coefficient 2 and variable on the right."
   },
   {
    "sequence": "solve-inequalities-negative",
    "targets": [
+    "p16-q3-g",
+    "p16-q3-h",
     "p16-q3-i",
     "p16-q3-j-middle",
-    "p16-q3-j-right",
+    "p16-q3-j-right"
+   ],
+   "observation": "Coefficient magnitude, coefficient sign and comparison direction affect different parts of solving.",
+   "varies": "Coefficient, expression order/sign and comparison direction in successive parts.",
+   "invariant": "The variable x and right-hand bound -10."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
     "p16-q3-k",
     "p16-q3-l",
     "p16-q3-m",
     "p16-q3-n"
    ],
-   "observation": "Separates relation direction, coefficient magnitude, term order and constant signs; reordering the same two terms leaves the solution unchanged.",
-   "varies": "One feature at each adjacent step.",
-   "invariant": "A two-term expression with a negative variable coefficient."
+   "observation": "Reordering terms preserves the solution; changing a constant's sign need not.",
+   "varies": "Term order, then constant-term sign, then right-hand sign.",
+   "invariant": "Coefficient -5 and comparison ≤."
   },
   {
    "sequence": "solve-inequalities-negative",
@@ -303,9 +351,9 @@
     "p17-q7-left-method",
     "p17-q7-right-method"
    ],
-   "observation": "Two valid collection choices give the same solution, with one avoiding negative division.",
+   "observation": "Equivalent routes can differ in whether negative division is needed.",
    "varies": "The first variable term added to both sides.",
-   "invariant": "The complete inequality."
+   "invariant": "The entire starting inequality and its solution set."
   },
   {
    "sequence": "solve-inequalities-negative",
@@ -313,14 +361,26 @@
     "p18-q9-left-working",
     "p18-q9-right-working"
    ],
-   "observation": "Clearing denominators first and collecting fractional terms first give the same solution.",
-   "varies": "The first operation.",
-   "invariant": "The complete inequality."
+   "observation": "Clearing fractions first can simplify the arithmetic without changing the solution.",
+   "varies": "First operation.",
+   "invariant": "The entire starting inequality and its solution set."
+  },
+  {
+   "sequence": "solve-inequalities-negative",
+   "targets": [
+    "p20-q12-a",
+    "p20-q12-b",
+    "p20-q12-c",
+    "p20-q12-d"
+   ],
+   "observation": "Reversing subtraction inside a bracket changes its sign and can change the direction of the final bound.",
+   "varies": "Order of subtraction inside the brackets and comparison symbol.",
+   "invariant": "Multipliers 5 and 3 and the numerical ingredients 1 and 2."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 17,
- "reviewedAt": "2026-10-15T10:06:41.776Z",
+ "reviewedRevision": 29,
+ "reviewedAt": "2026-10-23T10:28:43.783Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -329,7 +389,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -344,13 +404,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 38652,
-     "cached_input_tokens": 12544,
+     "input_tokens": 39054,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2885,
-     "reasoning_output_tokens": 59
+     "output_tokens": 2672,
+     "reasoning_output_tokens": 90
     },
-    "elapsedMs": 72890,
+    "elapsedMs": 71285,
     "candidates": 1,
     "discarded": [],
     "suggestions": 0
@@ -362,14 +422,14 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 41576,
+     "input_tokens": 41832,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3143,
-     "reasoning_output_tokens": 146
+     "output_tokens": 5030,
+     "reasoning_output_tokens": 159
     },
-    "elapsedMs": 83611,
-    "candidates": 2,
+    "elapsedMs": 120531,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -380,13 +440,13 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47421,
+     "input_tokens": 47678,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5522,
-     "reasoning_output_tokens": 113
+     "output_tokens": 5852,
+     "reasoning_output_tokens": 146
     },
-    "elapsedMs": 125068,
+    "elapsedMs": 133406,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -395,18 +455,18 @@
   "dropped": [
    {
     "ids": [
-     "c6"
+     "c5"
     ],
-    "reason": "The calculations are correct: at x=-4 the expressions equal -2 and 1. However, the proposed extension primarily tests whether an implication can be reversed, using a supplied counterexample. This is a tangential logical distinction rather than a relationship central to solving and representing linear inequalities, so it fails the extension standard.",
+    "reason": "The proposed three sign combinations, together with the existing negative/positive combination in part d, enumerate all four strict-sign combinations. This fails the instruction excluding extensions that enumerate every case. The proposed answers themselves are correct.",
     "candidates": [
      {
-      "id": "c6",
+      "id": "c5",
       "sequence": "solve-inequalities-negative",
       "kind": "extension",
       "targets": [
-       "p17-q6"
+       "p17-q5-root"
       ],
-      "finding": "Use the expressions in part b to examine whether its implication can be reversed."
+      "finding": "Reuse part d's expressions to compare the ranges in which their signs agree or differ."
      }
     ]
    }
@@ -414,7 +474,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/inequalities-v1/candidates-low-1792058734426.json",
+  "candidateFile": ".booklet-work/full-imports/inequalities-v1-20261007/polish/pedagogy-work/candidates-low-1792751290237.json",
   "errors": []
  },
  "postedRevision": 18

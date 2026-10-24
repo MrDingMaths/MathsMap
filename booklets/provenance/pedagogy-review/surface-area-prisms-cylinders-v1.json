@@ -5,6 +5,273 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-c4eb2fbf47",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p12-q13",
+     "blockId": "p12-q13",
+     "hash": "d60f65b565177325386906a03442ed4f7d7c50cb506c4f33006360227655ad19"
+    },
+    {
+     "id": "p9-q2-block",
+     "blockId": "p9-q2-block",
+     "hash": "4ee5706a59cf4c3339830bf7d78a855b86b60fe6b8062ea8947f949c60c3db43"
+    },
+    {
+     "id": "p11-q10",
+     "blockId": "p11-q10",
+     "hash": "7cb6d47f57eec6fca54b992538ba69990c263e817262e63ef46a46288509954f"
+    },
+    {
+     "id": "p12-q12-block",
+     "blockId": "p12-q12-block",
+     "hash": "f7c99a7d12f0adfe413602b9ed6c04bde36248d893d866f1bfbae341c0ec8eb2"
+    }
+   ],
+   "finding": "The inverse cube question occurs immediately after scaffolded forward surface-area calculations, before the exercise's existing preparation for inverse calculations.",
+   "breakdown": "Students must independently reverse total surface area to face area and then side length. This simultaneously changes the direction of calculation and introduces recovering a length from a square area.",
+   "checked": "p9-q1 rehearses multiplying a cube's face area by six, but does not reverse that process. p11-q10 develops SA = 6s², and p12-q12 supplies inverse calculations, including a quadratic case. These existing questions provide the bridge.",
+   "assumptions": "The supplied order is the teaching order. Simple quadratic equations are prior knowledge; calculator availability does not affect the placement issue.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move p12-q13 to immediately after p12-q12-block."
+   },
+   "doneWhen": "The inverse cube question follows the cube formula and existing inverse surface-area questions.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "rectangular-prisms"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:55:43.877Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-c1fe7daf6c",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p17-q6-root",
+     "blockId": "p17-q6",
+     "hash": "a03e32c3fcd2c4b3c111d971a8ff1c1a3eb71a09af91bc1444eea415ac385d98"
+    }
+   ],
+   "finding": "Compare the effects of doubling prism length on the rectangular faces and triangular ends.",
+   "breakdown": "The follow-up exposes why doubling length does not double total surface area.",
+   "checked": "The triangular ends total 24 cm² and their perimeter is 18 cm. At length 22 cm, SA = 24 + 18 × 22 = 420 cm², which is 24 cm² less than 444 cm².",
+   "assumptions": "Students first determine x = 11 cm in the existing question.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts: (b) The prism length is doubled from 11 cm to 22 cm. Find its new surface area. Answer: 420 cm². (c) Explain why this is 24 cm² less than twice the original surface area. Answer: the rectangular areas double, but the two triangular ends retain their combined area of 24 cm²."
+   },
+   "doneWhen": "The follow-up compares the fixed end areas with the changing lateral area.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "triangular-prisms"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:55:43.877Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-e37dadbb65",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p21-q5",
+     "blockId": "p21-q5-block",
+     "hash": "3698cbf33b27b2f413a72f1efab2ef3d5bed6fd9110c3173d0844dd2c6a87f7b"
+    }
+   ],
+   "finding": "Reverse the existing percentage-change calculation to determine a cylinder height.",
+   "breakdown": "Students compare a percentage change in total surface area with the required percentage change in height.",
+   "checked": "Original SA = 768π cm². Solving 288π + 24πh = 1.1 × 768π gives h = 23.2 cm; the height increases by 16%. Rearrangement and percentage calculations are available prior knowledge.",
+   "assumptions": "The original radius remains 12 cm and both ends remain closed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts: (d) Starting with the original cylinder, what height would give a total surface area 10% greater than the original? Answer: 23.2 cm. (e) What percentage increase in height is this? Answer: 16%."
+   },
+   "doneWhen": "Both follow-up parts use the original cylinder and retain its radius.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "closed-cylinders"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:55:43.877Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-a3492974c9",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p26-example-top-component",
+     "blockId": "p26-example-components",
+     "hash": "cb86c49b0e7c2fafada7acaa0683c01c883769df173e5e16672e0d4ca652f336"
+    }
+   ],
+   "finding": "The example uses a rectangle width of 12 cm without deriving it from the labelled radius of 6 cm.",
+   "breakdown": "Recognising that the cut face spans the diameter is an unwritten geometric decision preceding the multiplication.",
+   "checked": "p25-d introduces the cut rectangle symbolically, but no student-visible numerical connecting step derives the 12 used in p26-example-top-component. Earlier radius/diameter work does not supply this example's missing line.",
+   "assumptions": "The worked example must explicitly connect an unlabelled substituted dimension to the given measurement. Calculator availability is irrelevant.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before 15×12, add: “The top rectangle's width is the diameter: d = 2r = 2×6 = 12 cm.”"
+   },
+   "doneWhen": "The working derives 12 cm and identifies it as the cut rectangle's width.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "cylindrical-solids"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T11:03:27.142Z"
+    }
+   ],
+   "commentId": "2472110a-3500-46d9-9e0b-dc257b005be9",
+   "postedAt": "2026-10-15T11:03:27.291Z"
+  },
+  {
+   "id": "pf-c4c0c6d216",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p30-example-column-1",
+     "blockId": "p30-example-decomposition",
+     "hash": "dc1cd1e1685bceb43eda897a8cd572bb0aade5bcbbfbcc96eb03c4081e010b30"
+    },
+    {
+     "id": "p30-example-column-5",
+     "blockId": "p30-example-decomposition",
+     "hash": "dc1cd1e1685bceb43eda897a8cd572bb0aade5bcbbfbcc96eb03c4081e010b30"
+    }
+   ],
+   "finding": "The example substitutes radius 3 cm without connecting it to the labelled width of 6 cm.",
+   "breakdown": "Students must identify the roof diameter as the prism width and halve it before either circular calculation. Both calculations omit that decision.",
+   "checked": "p30-example-solid supplies width 6 cm; both circular components use 3. Earlier teaching supplies the radius–diameter relationship but does not state this example's numerical conversion.",
+   "assumptions": "The example must explicitly derive an unlabelled dimension used in its working. Calculator availability is irrelevant.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Before the component calculations, add: “The roof diameter is 6 cm, so r = 6÷2 = 3 cm.”"
+   },
+   "doneWhen": "One connecting line derives the radius used in both circular calculations.",
+   "from": [
+    "c15"
+   ],
+   "sequences": [
+    "composite-prisms"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T11:03:27.142Z"
+    }
+   ],
+   "commentId": "797ec91f-7930-4c04-80e2-5a3d60c40ff9",
+   "postedAt": "2026-10-15T11:03:27.293Z"
+  },
+  {
+   "id": "pf-f2f8f605ac",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p34-q7-response",
+     "blockId": "p34-q7",
+     "hash": "870398e39d3aa025e2ea70a0a4840f0bbe4144ac15021e6dd0e143ca09fd6daf"
+    }
+   ],
+   "finding": "Compare the original surface area with the combined surface area after a transverse cut.",
+   "breakdown": "The follow-up connects the increase directly to the two newly exposed pentagonal ends.",
+   "checked": "Cross-sectional area = 8 × 8 + ½ × 8 × 3 = 76 cm²; perimeter = 34 cm. Each length-4 cm piece has SA = 2 × 76 + 34 × 4 = 288 cm². Combined increase = 576 − 424 = 152 cm².",
+   "assumptions": "The cut has negligible thickness and is parallel to the pentagonal ends.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts: (b) The solid is cut halfway along its 8 cm length, parallel to its pentagonal ends. Find the surface area of each piece. Answer: 288 cm². (c) How much greater is the pieces' combined surface area than the original surface area? Answer: 152 cm². (d) Explain this increase. Answer: the cut exposes two additional pentagonal faces, each of area 76 cm²."
+   },
+   "doneWhen": "Each part asks one question and the explanation identifies the newly exposed ends.",
+   "from": [
+    "c11"
+   ],
+   "sequences": [
+    "composite-prisms"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:55:43.877Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-82f11d9248",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p38-part-e",
+     "blockId": "p37-q2",
+     "hash": "9d51d69dc5e12ca16056b40ceed2abff23f731e33d14e3f879a8b4e8f9a69267"
+    },
+    {
+     "id": "p38-part-f",
+     "blockId": "p37-q2",
+     "hash": "9d51d69dc5e12ca16056b40ceed2abff23f731e33d14e3f879a8b4e8f9a69267"
+    }
+   ],
+   "finding": "The through-tunnel questions introduce internal exposed walls without preceding teaching that identifies them as part of surface area.",
+   "breakdown": "Students can subtract the end openings using the taught covered-region method while omitting the tunnel walls. Previous examples show external cuts and attached components, rather than the surfaces inside a hole.",
+   "checked": "Reviewed p25-cylinder-guidance-block, p25-identify-block, p30-example-decomposition, p35-decomposition-block and p36-b. None models internal tunnel walls. The later log question explicitly mentions the inside, but follows both targeted tasks.",
+   "assumptions": "No additional classroom demonstration is assumed. Calculator availability does not affect the surface-identification decision.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p38-part-e, add: “A tunnel's inside walls are exposed surfaces too. For this solid, subtract a 15 × 14 rectangle from each circular end. Include two inside rectangles measuring 65 × 15 and two measuring 65 × 14, as well as the outside curved surface.”"
+   },
+   "doneWhen": "Students encounter an explicit identification of removed openings and exposed internal walls before transferring the method to p38-part-f.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "prism-combinations"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:55:43.877Z"
+    }
+   ]
+  },
+  {
    "id": "pf-509c41b413",
    "kind": "guided-practice",
    "severity": "high",
@@ -221,42 +488,6 @@
    "postedAt": "2026-10-15T11:03:27.289Z"
   },
   {
-   "id": "pf-a3492974c9",
-   "kind": "example-choice",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p26-example-top-component",
-     "blockId": "p26-example-components",
-     "hash": "cb86c49b0e7c2fafada7acaa0683c01c883769df173e5e16672e0d4ca652f336"
-    }
-   ],
-   "finding": "The example uses a rectangle width of 12 cm without deriving it from the labelled radius of 6 cm.",
-   "breakdown": "Recognising that the cut face spans the diameter is an unwritten geometric decision preceding the multiplication.",
-   "checked": "p25-d introduces the cut rectangle symbolically, but no student-visible numerical connecting step derives the 12 used in p26-example-top-component. Earlier radius/diameter work does not supply this example's missing line.",
-   "assumptions": "The worked example must explicitly connect an unlabelled substituted dimension to the given measurement. Calculator availability is irrelevant.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "Before 15×12, add: “The top rectangle's width is the diameter: d = 2r = 2×6 = 12 cm.”"
-   },
-   "doneWhen": "The working derives 12 cm and identifies it as the cut rectangle's width.",
-   "from": [
-    "c12"
-   ],
-   "sequences": [
-    "cylindrical-solids"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T11:03:27.142Z"
-    }
-   ],
-   "commentId": "2472110a-3500-46d9-9e0b-dc257b005be9",
-   "postedAt": "2026-10-15T11:03:27.291Z"
-  },
-  {
    "id": "pf-9c22264804",
    "kind": "extension",
    "severity": "suggestion",
@@ -291,47 +522,6 @@
    ],
    "commentId": "ae8d4ffd-bae4-4af3-bf02-8238b41f38b1",
    "postedAt": "2026-10-15T11:03:27.292Z"
-  },
-  {
-   "id": "pf-c4c0c6d216",
-   "kind": "example-choice",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p30-example-column-1",
-     "blockId": "p30-example-decomposition",
-     "hash": "dc1cd1e1685bceb43eda897a8cd572bb0aade5bcbbfbcc96eb03c4081e010b30"
-    },
-    {
-     "id": "p30-example-column-5",
-     "blockId": "p30-example-decomposition",
-     "hash": "dc1cd1e1685bceb43eda897a8cd572bb0aade5bcbbfbcc96eb03c4081e010b30"
-    }
-   ],
-   "finding": "The example substitutes radius 3 cm without connecting it to the labelled width of 6 cm.",
-   "breakdown": "Students must identify the roof diameter as the prism width and halve it before either circular calculation. Both calculations omit that decision.",
-   "checked": "p30-example-solid supplies width 6 cm; both circular components use 3. Earlier teaching supplies the radius–diameter relationship but does not state this example's numerical conversion.",
-   "assumptions": "The example must explicitly derive an unlabelled dimension used in its working. Calculator availability is irrelevant.",
-   "repair": {
-    "type": "add-cue",
-    "proposal": "Before the component calculations, add: “The roof diameter is 6 cm, so r = 6÷2 = 3 cm.”"
-   },
-   "doneWhen": "One connecting line derives the radius used in both circular calculations.",
-   "from": [
-    "c15"
-   ],
-   "sequences": [
-    "composite-prisms"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T11:03:27.142Z"
-    }
-   ],
-   "commentId": "797ec91f-7930-4c04-80e2-5a3d60c40ff9",
-   "postedAt": "2026-10-15T11:03:27.293Z"
   },
   {
    "id": "pf-8ae5ce3132",
@@ -419,39 +609,9 @@
     "p4-q1-b",
     "p4-q1-c"
    ],
-   "observation": "The same solid can have nets with its triangular ends attached to different rectangles.",
-   "varies": "The attachment position of the two triangular ends.",
-   "invariant": "The triangular end shapes, three rectangular lateral faces and resulting triangular prism."
-  },
-  {
-   "sequence": "nets",
-   "targets": [
-    "p3-identify-c",
-    "p3-identify-e"
-   ],
-   "observation": "Different triangle shapes and net arrangements still produce triangular prisms.",
-   "varies": "Triangle shape and arrangement of the rectangular faces.",
-   "invariant": "Two matching triangular ends joined by three rectangles."
-  },
-  {
-   "sequence": "rectangular-prisms",
-   "targets": [
-    "p9-q2",
-    "p9-q3-a"
-   ],
-   "observation": "The multiplication templates fade while students retain the same face-family organisation.",
-   "varies": "The amount of supplied working and the numerical dimensions.",
-   "invariant": "Three rectangular face pairs are calculated and added."
-  },
-  {
-   "sequence": "rectangular-prisms",
-   "targets": [
-    "p12-q12",
-    "p12-q12-a"
-   ],
-   "observation": "Students repeat the inverse surface-area method with the unknown dimension in a different orientation.",
-   "varies": "Dimensions, units and position of the unknown edge.",
-   "invariant": "Two known dimensions and one unknown dimension yield a linear equation."
+   "observation": "Different placements of the triangular ends can produce nets of the same triangular prism.",
+   "varies": "The rectangle to which the triangular ends attach.",
+   "invariant": "The face shapes, rectangular strip and resulting solid."
   },
   {
    "sequence": "triangular-prisms",
@@ -462,9 +622,9 @@
     "p16-q4-d",
     "p16-q4-e"
    ],
-   "observation": "The sequence distinguishes finding a hypotenuse from finding a shorter side before combining either with surface area.",
-   "varies": "Which right-triangle side is unknown, dimensions and orientation.",
-   "invariant": "A right-triangular cross-section and the sum of two triangular and three rectangular face areas."
+   "observation": "The unknown changes from the hypotenuse to a shorter side, requiring students to distinguish addition from subtraction in Pythagoras.",
+   "varies": "The unknown triangle side, dimensions and orientation.",
+   "invariant": "A right-triangular cross-section with one missing side, followed by summing five face areas."
   },
   {
    "sequence": "triangular-prisms",
@@ -474,31 +634,9 @@
     "p16-q4-h",
     "p16-q4-i"
    ],
-   "observation": "The sequence develops the half-base construction, changes the unknown from sloping side to altitude, then removes the drawn altitude.",
-   "varies": "The unknown length and the amount of construction support.",
-   "invariant": "An isosceles cross-section whose altitude bisects its base."
-  },
-  {
-   "sequence": "cylindrical-solids",
-   "targets": [
-    "p25-a",
-    "p25-b",
-    "p25-c"
-   ],
-   "observation": "Opening ends removes circular areas while leaving curved area unchanged.",
-   "varies": "Two, one or no circular ends.",
-   "invariant": "Radius r, height h and the full curved surface."
-  },
-  {
-   "sequence": "cylindrical-solids",
-   "targets": [
-    "p25-d",
-    "p25-e",
-    "p25-f"
-   ],
-   "observation": "Removing the cut-face rectangle and then one end changes only the corresponding surface components.",
-   "varies": "Presence of the top rectangle and number of semicircular ends.",
-   "invariant": "Radius r, height h and the half-cylinder curved surface."
+   "observation": "The same half-base construction finds either a sloping side or the triangle's perpendicular height, with support gradually removed.",
+   "varies": "The unknown length and the supplied altitude and response scaffolds.",
+   "invariant": "An isosceles triangular cross-section split into two right triangles."
   },
   {
    "sequence": "closed-cylinders",
@@ -507,9 +645,18 @@
     "p18-investigation-b",
     "p18-investigation-c"
    ],
-   "observation": "The same three-component area sum applies to a net and to cylinders in different orientations, including when only one end area is labelled.",
-   "varies": "Representation, orientation and whether both circular areas are explicitly labelled.",
-   "invariant": "Two equal circular areas plus one curved-surface area."
+   "observation": "The same three surface components must be counted whether shown as a net or as a solid with a hidden end.",
+   "varies": "Representation, orientation and which circular-end area is explicitly displayed.",
+   "invariant": "Two equal circular ends plus one curved surface."
+  },
+  {
+   "sequence": "closed-cylinders",
+   "targets": [
+    "p21-q4"
+   ],
+   "observation": "Exchanging radius and height preserves the curved area but changes the circular-end area and therefore the total.",
+   "varies": "Radius and height exchange the values 5 cm and 3 cm.",
+   "invariant": "The product rh and the curved surface area."
   },
   {
    "sequence": "closed-cylinders",
@@ -518,8 +665,8 @@
     "p21-q5-b",
     "p21-q5-c"
    ],
-   "observation": "A 10% increase in height produces a smaller percentage increase in total surface area.",
-   "varies": "Height and consequently curved surface area.",
+   "observation": "A percentage increase in height produces a smaller percentage increase in total surface area because the ends remain unchanged.",
+   "varies": "Height and the resulting total surface area.",
    "invariant": "Radius and the combined area of the circular ends."
   },
   {
@@ -529,9 +676,31 @@
     "p24-q14-b",
     "p24-q14-c"
    ],
-   "observation": "Recovering the diameter from an axial-section triangle uses the same method across orientations and numerical forms.",
-   "varies": "Orientation and integer, irrational or decimal-derived diameter.",
-   "invariant": "Pythagoras gives diameter, which must be halved before applying the surface-area formula."
+   "observation": "The axial-section diagonal determines the diameter through Pythagoras regardless of cylinder orientation.",
+   "varies": "Orientation and numerical complexity.",
+   "invariant": "Find diameter from the axial right triangle, halve it, then calculate surface area."
+  },
+  {
+   "sequence": "cylindrical-solids",
+   "targets": [
+    "p25-a",
+    "p25-b",
+    "p25-c"
+   ],
+   "observation": "Opening an end removes its circular area while leaving the curved surface unchanged.",
+   "varies": "The number of closed circular ends: two, one, zero.",
+   "invariant": "Radius r, height h and the full curved surface."
+  },
+  {
+   "sequence": "cylindrical-solids",
+   "targets": [
+    "p25-d",
+    "p25-e",
+    "p25-f"
+   ],
+   "observation": "Each removed face removes only its own area from the half-cylinder total.",
+   "varies": "First the rectangular top is removed, then one semicircular end.",
+   "invariant": "Radius r, height h and the half-cylinder curved surface."
   }
  ],
  "notReliablyReviewed": [
@@ -540,11 +709,11 @@
    "targets": [
     "p35-additional-highlight-block"
    ],
-   "reason": "The uncaptioned orange highlight has no stated mathematical purpose, so its intended teaching contribution cannot be reliably assessed; the five captioned components independently supply the worked method."
+   "reason": "The image shows the extra orange highlight, but no caption or calculation establishes what surface grouping it is intended to teach."
   }
  ],
- "reviewedRevision": 33,
- "reviewedAt": "2026-10-15T11:03:27.142Z",
+ "reviewedRevision": 50,
+ "reviewedAt": "2026-10-23T11:55:43.877Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -553,7 +722,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -568,13 +737,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 29534,
+     "input_tokens": 29802,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1789,
-     "reasoning_output_tokens": 115
+     "output_tokens": 1768,
+     "reasoning_output_tokens": 139
     },
-    "elapsedMs": 48408,
+    "elapsedMs": 56003,
     "candidates": 0,
     "discarded": [],
     "suggestions": 0
@@ -586,16 +755,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 34939,
-     "cached_input_tokens": 12544,
+     "input_tokens": 36055,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1994,
-     "reasoning_output_tokens": 209
+     "output_tokens": 2139,
+     "reasoning_output_tokens": 261
     },
-    "elapsedMs": 59188,
-    "candidates": 1,
+    "elapsedMs": 53953,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "rectangular-prisms",
@@ -604,16 +773,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47423,
-     "cached_input_tokens": 14592,
+     "input_tokens": 47690,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3330,
-     "reasoning_output_tokens": 129
+     "output_tokens": 3004,
+     "reasoning_output_tokens": 134
     },
-    "elapsedMs": 78695,
+    "elapsedMs": 73173,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "triangular-prisms",
@@ -622,16 +791,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 41398,
-     "cached_input_tokens": 14592,
+     "input_tokens": 41666,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3481,
-     "reasoning_output_tokens": 206
+     "output_tokens": 2847,
+     "reasoning_output_tokens": 205
     },
-    "elapsedMs": 82327,
-    "candidates": 1,
+    "elapsedMs": 86810,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "closed-cylinders",
@@ -640,16 +809,16 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 55671,
-     "cached_input_tokens": 14592,
+     "input_tokens": 55941,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5307,
-     "reasoning_output_tokens": 518
+     "output_tokens": 3872,
+     "reasoning_output_tokens": 364
     },
-    "elapsedMs": 125263,
-    "candidates": 1,
+    "elapsedMs": 100897,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "cylindrical-solids",
@@ -658,13 +827,13 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 48385,
-     "cached_input_tokens": 14592,
+     "input_tokens": 48654,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3530,
-     "reasoning_output_tokens": 300
+     "output_tokens": 3481,
+     "reasoning_output_tokens": 271
     },
-    "elapsedMs": 87032,
+    "elapsedMs": 96988,
     "candidates": 2,
     "discarded": [],
     "suggestions": 1
@@ -676,13 +845,13 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46635,
-     "cached_input_tokens": 14592,
+     "input_tokens": 47795,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3178,
-     "reasoning_output_tokens": 230
+     "output_tokens": 3172,
+     "reasoning_output_tokens": 128
     },
-    "elapsedMs": 75556,
+    "elapsedMs": 87420,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -694,13 +863,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 42625,
-     "cached_input_tokens": 12544,
+     "input_tokens": 42938,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2419,
-     "reasoning_output_tokens": 126
+     "output_tokens": 2591,
+     "reasoning_output_tokens": 231
     },
-    "elapsedMs": 64973,
+    "elapsedMs": 65099,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -709,18 +878,35 @@
   "dropped": [
    {
     "ids": [
+     "c1"
+    ],
+    "reason": "The mathematics is correct, but this sequence is less valuable than the four retained suggestions. Its first added task also repeats p6-q2-a's dimensions.",
+    "candidates": [
+     {
+      "id": "c1",
+      "sequence": "surface-area-nets",
+      "kind": "variation-sequence",
+      "targets": [
+       "p6-q2"
+      ],
+      "finding": "Vary one dimension while keeping the other two fixed."
+     }
+    ]
+   },
+   {
+    "ids": [
      "c2"
     ],
-    "reason": "The mathematics is correct and the follow-up qualifies, but it falls outside the four-suggestion limit. Its fixed-end versus changing-length relationship is represented by the retained cylinder variation sequence c10.",
+    "reason": "The answers 236 cm² and 268 cm² are correct and the follow-up is feasible, but it is not among the four strongest suggestions; existing p10-q6 already develops hidden joining faces.",
     "candidates": [
      {
       "id": "c2",
       "sequence": "surface-area-nets",
       "kind": "extension",
       "targets": [
-       "p7-d-root"
+       "p6-q2-a"
       ],
-      "finding": "Compare the original triangular prism with one whose length doubles."
+      "finding": "Join two copies of the prism along different faces and compare their exposed surface areas."
      }
     ]
    },
@@ -728,33 +914,16 @@
     "ids": [
      "c4"
     ],
-    "reason": "The proposed areas and equal volumes are correct, but this suggestion falls outside the four-suggestion limit. The retained suggestions more directly develop the booklet's exposed-surface and component-area decisions.",
+    "reason": "The answers 963 cm², 531 cm² and 432 cm² are correct, but the existing question already targets hidden joining faces. The four retained suggestions offer stronger additional relationships.",
     "candidates": [
      {
       "id": "c4",
       "sequence": "rectangular-prisms",
-      "kind": "variation-sequence",
+      "kind": "extension",
       "targets": [
-       "p11-q9"
+       "p10-q6"
       ],
-      "finding": "Compare the surface areas of equal-volume rectangular prisms with different proportions."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c7"
-    ],
-    "reason": "The proposed areas are correct, including the explicitly comparative repetition of part a. It falls outside the four-suggestion limit; c10 offers the same fixed-end versus changing-length relationship.",
-    "candidates": [
-     {
-      "id": "c7",
-      "sequence": "triangular-prisms",
-      "kind": "variation-sequence",
-      "targets": [
-       "p15-q2-a"
-      ],
-      "finding": "Hold the triangular cross-section fixed while varying prism length."
+      "finding": "Quantify how much surface area is lost when the three prisms are stacked."
      }
     ]
    },
@@ -762,33 +931,34 @@
     "ids": [
      "c8"
     ],
-    "reason": "The proposed answers are correct, but the suggestion falls outside the four-suggestion limit and repeats the fixed-end versus changing-length relationship represented by c10.",
+    "reason": "The whole tasks are not unchanged: p26-guided-b requires separate end, curved-surface, side-rectangle and total responses with specified intermediate rounding; p27-q1-g requires an independent total rounded to a whole number. Matching solids and measurements do not establish an identical whole task under the duplicate test.",
     "candidates": [
      {
       "id": "c8",
-      "sequence": "triangular-prisms",
-      "kind": "extension",
+      "sequence": "cylindrical-solids",
+      "kind": "duplicate-question",
       "targets": [
-       "p17-q6-root"
+       "p26-guided-b",
+       "p27-q1-g"
       ],
-      "finding": "Use Question 6's prism to investigate how increasing its length changes surface area."
+      "finding": "p27-q1-g repeats the same closed quarter-cylinder calculation, with radius 6 m and length 10 m, as p26-guided-b without an explicit retrieval or comparison purpose."
      }
     ]
    },
    {
     "ids": [
-     "c11"
+     "c9"
     ],
-    "reason": "The height, cost and curved-area comparison are correct, but this suggestion falls outside the four-suggestion limit. The retained suggestions expose central relationships with less packing and costing overhead.",
+    "reason": "The 144 cm² answer and explanation are correct, but the relationship overlaps the retained triangular-prism extension. It falls outside the four-suggestion limit.",
     "candidates": [
      {
-      "id": "c11",
-      "sequence": "closed-cylinders",
+      "id": "c9",
+      "sequence": "cylindrical-solids",
       "kind": "extension",
       "targets": [
-       "p24-q15-root"
+       "p28-q2"
       ],
-      "finding": "Compare the material cost when the same balls are packed four per can."
+      "finding": "Compare the cardboard saving when the package length doubles."
      }
     ]
    },
@@ -796,34 +966,16 @@
     "ids": [
      "c13"
     ],
-    "reason": "The unchanged-whole-task test defeats the duplicate claim. Although the geometry and measurements match, p26-guided-b requires four separate component responses and specified intermediate and final precision; p27-q1-g requests only the total to the nearest whole number. The complete stems and parts are not unchanged.",
+    "reason": "The proposed answers are correct, but the four retained suggestions provide stronger follow-ups. The existing p35 decomposition already juxtaposes the subtracted footprint and equal exposed top, reducing this sequence's additional value.",
     "candidates": [
      {
       "id": "c13",
-      "sequence": "cylindrical-solids",
-      "kind": "duplicate-question",
+      "sequence": "prism-combinations",
+      "kind": "variation-sequence",
       "targets": [
-       "p26-guided-b",
-       "p27-q1-g"
+       "p37-q2"
       ],
-      "finding": "The closed quarter-cylinder with radius 6 m and length 10 m is repeated without an explicit retrieval or comparison purpose."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c16"
-    ],
-    "reason": "The follow-up is mathematically correct: the joined area is 696 cm² and the reduction is 152 cm². It falls outside the four-suggestion limit; c5 and c18 already develop contact-face concealment.",
-    "candidates": [
-     {
-      "id": "c16",
-      "sequence": "composite-prisms",
-      "kind": "extension",
-      "targets": [
-       "p34-q7-response"
-      ],
-      "finding": "Join two copies of the house prism to investigate how joining changes exposed surface area."
+      "finding": "Vary the upper cube's height while keeping its square footprint fixed to expose why the covered region and upper top cancel."
      }
     ]
    }
@@ -831,7 +983,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/surface-area-prisms-cylinders-v1/candidates-low-1792062110329.json",
+  "candidateFile": ".booklet-work/full-imports/surface-area-import-20261006/polish/pedagogy-work/candidates-low-1792756482959.json",
   "errors": []
  },
  "postedRevision": 34

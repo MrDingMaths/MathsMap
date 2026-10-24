@@ -87,6 +87,74 @@
    "postedAt": "2026-10-15T10:12:57.076Z"
   },
   {
+   "id": "pf-2589351fee",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q1",
+     "blockId": "p11-q1",
+     "hash": "c27d660dcdcf12a328b38314de462755de3b08c2df1a359b95db67da0e47fc54"
+    }
+   ],
+   "finding": "Extend p11-q1-a with a short comparison holding the denominator and unknown coefficients fixed while varying the numerator constant.",
+   "breakdown": "The run exposes how changing the constant changes the solution's sign and size.",
+   "checked": "The proposed solutions follow by multiplying by 8 and collecting unknown terms. These methods are taught at p10. Existing parts (a) and (b) begin this comparison but do not provide a sustained run. The revised placement uses part (a) without duplicating it.",
+   "assumptions": "Insert the added parts immediately after p11-q1-a and relabel subsequent parts.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p11-q1-a, add the single instruction: 'Predict how the solution will change before solving each equation.' Add (4x−20)/8=3x [x=−1]; 4x/8=3x [x=0]; (4x+20)/8=3x [x=1]. Follow with (3x−14)/5=2x [x=−2]. Together with existing part (a), the run varies only the numerator constant."
+   },
+   "doneWhen": "The comparison follows existing part (a), with one prediction instruction and an unpatterned follow-up.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "fractions-both-sides"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:18:14.063Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-6b64ad85c5",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q4",
+     "blockId": "p12-q4-block",
+     "hash": "aff2efe257adc140fa4dfec9109224cac83eea68b173702617060b3f3a453e08"
+    }
+   ],
+   "finding": "Extend p12-q4 by constructing a related equation whose two addends exchange values.",
+   "breakdown": "The follow-up connects solving the equation with preserving its total when the addends are exchanged.",
+   "checked": "The original solution is x=19/3 and its fractional term is 8/3. Substituting x=8/3 into x+(x−c)/2=9 gives c=−10 and fractional term 19/3. The task uses substitution and linear equation solving available by the topic's end.",
+   "assumptions": "Retain the original question as part (a).",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append: (b) Using your solution to part (a), find (x−1)/2. [8/3] (c) Find c so that x+(x−c)/2=9 has solution x=8/3. [c=−10] (d) Explain why the two equations have the same total by comparing their addends at these solutions. [The addends are 19/3 and 8/3 in opposite orders; both sums equal 27/3=9.]"
+   },
+   "doneWhen": "The numerical follow-up appears as separate parts after p12-q4, with the expected answers supplied.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "fractions-both-sides"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:18:14.063Z"
+    }
+   ]
+  },
+  {
    "id": "pf-80e26c3a62",
    "kind": "extension",
    "severity": "suggestion",
@@ -167,24 +235,16 @@
  "contextQuestions": [],
  "protectedGroups": [
   {
-   "sequence": "fractions-both-sides",
+   "sequence": "fraction-equations",
    "targets": [
-    "p11-q1-a",
-    "p11-q1-b"
+    "p8-q8-a",
+    "p8-q8-b",
+    "p8-q8-c",
+    "p8-q8-notice"
    ],
-   "observation": "The same denominator and unknown coefficients allow comparison of how the numerator constant affects the solution.",
-   "varies": "The numerator constant changes from −40 to +84.",
-   "invariant": "The equation structure (4x+c)/8=3x and the steps used to solve it."
-  },
-  {
-   "sequence": "fractions-both-sides",
-   "targets": [
-    "p11-q2-c",
-    "p11-q2-d"
-   ],
-   "observation": "Repeated practice consolidates clearing a denominator before collecting a subtracted unknown term.",
-   "varies": "The coefficients, constants and denominator.",
-   "invariant": "A binomial numerator divided by a positive integer, minus a whole unknown term, equals a constant."
+   "observation": "Equivalent placements of a negative sign give the same equation and solution.",
+   "varies": "Negative sign before the fraction, inside its numerator, or represented by subtraction after the constant.",
+   "invariant": "Coefficient magnitude, denominator, constant, right-hand side and solution."
   },
   {
    "sequence": "fraction-equations",
@@ -196,21 +256,20 @@
     "p5-q2-e",
     "p5-q2-f"
    ],
-   "observation": "Grouping and operation order determine the expression, while successive multiplication and division can give equivalent forms.",
-   "varies": "The order of subtracting 3, multiplying by 5 and dividing by 4.",
-   "invariant": "The starting pronumeral and operation values."
+   "observation": "Grouping determines when subtraction acts; swapping successive multiplication and division can preserve the expression.",
+   "varies": "Order of the same three operations and the corresponding grouping.",
+   "invariant": "Variable n and numerical operations ×5, ÷4 and -3."
   },
   {
    "sequence": "fraction-equations",
    "targets": [
-    "p8-q8-a",
-    "p8-q8-b",
-    "p8-q8-c",
-    "p8-q8-notice"
+    "p8-q11-subtract",
+    "p8-q11-multiply",
+    "p8-q11-preference"
    ],
-   "observation": "The three placements of the negative fractional term represent the same equation and solution; the explicit comparison justifies the repetition.",
-   "varies": "Negative-sign placement and term order.",
-   "invariant": "The coefficient, denominator, constant and right side."
+   "observation": "Different valid first operations can lead to the same solution.",
+   "varies": "Subtracting the outside constant first or multiplying every term by the denominator first.",
+   "invariant": "The original equation and its solution."
   },
   {
    "sequence": "fraction-equations",
@@ -220,14 +279,14 @@
     "p8-q10-c",
     "p8-q10-d"
    ],
-   "observation": "Multiplying only the variable term differs from multiplying the entire bracket, and changing the inner constant's sign changes the inverse operation.",
-   "varies": "The presence and scope of the multiplier 3, then the sign of 7.",
-   "invariant": "Denominator 2, constant magnitude 7 and right side 19."
+   "observation": "The location of a multiplier and the sign inside brackets change the operations that must be undone.",
+   "varies": "Adding a variable multiplier, moving it outside brackets, then changing inner addition to subtraction.",
+   "invariant": "Variable y, denominator 2, constant magnitude 7 and right-hand side 19."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 12,
- "reviewedAt": "2026-10-15T10:12:56.021Z",
+ "reviewedRevision": 23,
+ "reviewedAt": "2026-10-23T08:18:14.063Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -236,7 +295,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -251,16 +310,16 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 29745,
-     "cached_input_tokens": 14592,
+     "input_tokens": 29988,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 5254,
-     "reasoning_output_tokens": 157
+     "output_tokens": 5078,
+     "reasoning_output_tokens": 173
     },
-    "elapsedMs": 119373,
+    "elapsedMs": 92484,
     "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "fractions-both-sides",
@@ -269,23 +328,23 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 24311,
-     "cached_input_tokens": 14592,
+     "input_tokens": 24576,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4362,
-     "reasoning_output_tokens": 367
+     "output_tokens": 3955,
+     "reasoning_output_tokens": 145
     },
-    "elapsedMs": 103651,
-    "candidates": 1,
+    "elapsedMs": 106260,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 0
+    "suggestions": 2
    }
   ],
   "dropped": [],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/linear-equations-with-fractions-v1/candidates-low-1792059132418.json",
+  "candidateFile": ".booklet-work/full-imports/linear-equations-with-fractions-v1-20261006/polish/pedagogy-work/candidates-low-1792743440082.json",
   "errors": []
  },
  "postedRevision": 13

@@ -46,6 +46,74 @@
    "postedAt": "2026-10-15T08:56:45.132Z"
   },
   {
+   "id": "pf-98d210aa88",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p5-q2",
+     "blockId": "p5-q2",
+     "hash": "3e720c0f052f0ffd6dc576bc67e0c82fb9f0399bcf7451d4006be7dde5f62d92"
+    }
+   ],
+   "finding": "A run with fixed numerators and one varying denominator would expose when one or both fractions need scaling.",
+   "breakdown": "The existing questions cover several denominator relationships but do not hold the other features fixed for comparison.",
+   "checked": "All proposed answers are correct. The sequence uses the supplied equivalence and addition methods, including the LCD instruction; no additional method is required.",
+   "assumptions": "The additional parts remain under the existing simplification instruction.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p5-q2-d, add the single instruction: ‘Predict the lowest common denominator before simplifying.’ Add parts: (i) (x+1)/6 + x/3, answer (3x+1)/6; (ii) (x+1)/6 + x/6, answer (2x+1)/6; (iii) (x+1)/6 + x/9, answer (5x+3)/18; (iv) (x+1)/6 + x/12, answer (3x+2)/12. Both numerators and the first denominator stay fixed; only the second denominator varies. Follow with the unpatterned part (2x−1)/8 + (x+2)/6, answer (10x+5)/24."
+   },
+   "doneWhen": "The run changes only the second denominator and is followed by the unpatterned question.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "adding"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:58:51.075Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-f7348e2d63",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p6-q4",
+     "blockId": "p6-q4",
+     "hash": "f279d41c8c2674fe0e47cc7d24864367e6c2192c452c32c8be66bbf74b948de2"
+    }
+   ],
+   "finding": "Extend the existing sum by asking students to supply a fraction that makes its value exactly x.",
+   "breakdown": "This connects the combined numerator 4x+1 with cancellation of its excess constant.",
+   "checked": "The existing sum is (4x+1)/4 = x+1/4, so adding −1/4 gives x for every real x. Only the topic's addition and simplification methods are needed.",
+   "assumptions": "Students may express the required fraction as −1/4.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p6-q4-c, add part (d): ‘What fraction with denominator 4 must you add to (x+1)/2 + (2x−1)/4 to make the result x?’ Answer: −1/4."
+   },
+   "doneWhen": "The numerical follow-up appears as the next part of p6-q4.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "adding"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:58:51.075Z"
+    }
+   ]
+  },
+  {
    "id": "pf-f8dca66d86",
    "kind": "duplicate-question",
    "severity": "high",
@@ -112,6 +180,40 @@
    ],
    "commentId": "16a9c1e8-84a4-453a-bbf2-8ac9cc07ee30",
    "postedAt": "2026-10-15T08:56:45.135Z"
+  },
+  {
+   "id": "pf-cba7212762",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p10-q3",
+     "blockId": "p10-q3",
+     "hash": "1e4e726382e3a5f805d45fa657d7ab388702c884eaa9609ffdf4dabcdf13a298"
+    }
+   ],
+   "finding": "Use the matched addition and subtraction expressions to identify when changing the operation leaves the value unchanged.",
+   "breakdown": "The follow-up connects equality of the two expressions with the second fraction being zero.",
+   "checked": "With the retained duplicate repair, equality gives 11y+20 = y+40, hence y=2. Both denominators are nonzero constants. This requires ordinary linear-equation solving, a separately taught prior algebra skill.",
+   "assumptions": "Students have prior experience solving simple linear equations.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p10-q3-r, add part (s): ‘For what value of y do the expressions in parts d and g have the same value?’ Answer after the retained duplicate repair: y=2."
+   },
+   "doneWhen": "The follow-up uses the final versions of parts d and g and gives y=2 as its answer.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "subtracting"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:58:51.075Z"
+    }
+   ]
   },
   {
    "id": "pf-6fdadd63fd",
@@ -192,23 +294,13 @@
    "targets": [
     "p11-q4-b",
     "p11-q4-c",
-    "p11-q4-g"
+    "p11-q4-g",
+    "p11-q4-j"
    ],
-   "question": "Have students already completed the relevant teaching from Algebraic Fractions with Algebraic Denominator, including common denominators with unequal variable powers and multiplying binomial numerators by a variable? These methods are absent from this booklet's teaching; prior instruction would determine whether the algebraic-denominator practice introduces unsupported content."
+   "question": "Before this booklet, have students learned to choose common denominators containing pronumerals and different powers, and to scale binomial numerators by variable factors? The supplied teaching does not cover these methods; whether the separate algebraic-denominator booklets precede this one determines whether these practice questions require untaught content."
   }
  ],
  "protectedGroups": [
-  {
-   "sequence": "adding",
-   "targets": [
-    "p6-q4-a",
-    "p6-q4-b",
-    "p6-q4-c"
-   ],
-   "observation": "Different common denominators give equivalent results, while the LCD reduces the arithmetic and subsequent simplification.",
-   "varies": "The chosen common denominator, 8 or 4.",
-   "invariant": "The original expression and its simplified value."
-  },
   {
    "sequence": "subtracting",
    "targets": [
@@ -217,24 +309,55 @@
     "p7-g",
     "p7-h"
    ],
-   "observation": "Negating a sum changes both signs, while negating a difference reverses its order.",
-   "varies": "The internal signs of the numerator and denominator binomials.",
-   "invariant": "The outside negative and the available choice of moving it into either numerator or denominator."
+   "observation": "An outside negative changes every term in either the numerator or the denominator, including turning a difference into its opposite.",
+   "varies": "Plus or minus between the numerator terms and between the denominator terms.",
+   "invariant": "The outside negative and the four letters."
   },
   {
    "sequence": "subtracting",
    "targets": [
-    "p11-q4-g",
-    "p11-q4-k"
+    "p10-q3-d",
+    "p10-q3-g"
    ],
-   "observation": "Moving the greater variable power between denominators changes which numerator receives a variable multiplier.",
-   "varies": "The first denominator changes from 5c to 5c³.",
-   "invariant": "Both numerators, the second denominator 6c², and addition."
+   "observation": "Subtracting the second fraction reverses both contributions from its numerator.",
+   "varies": "Addition versus subtraction.",
+   "invariant": "Both fractions and their order."
+  },
+  {
+   "sequence": "subtracting",
+   "targets": [
+    "p10-q3-e",
+    "p10-q3-h"
+   ],
+   "observation": "Compare addition and subtraction while keeping the fractions fixed.",
+   "varies": "Addition versus subtraction.",
+   "invariant": "Both fractions and their order."
+  },
+  {
+   "sequence": "subtracting",
+   "targets": [
+    "p10-q3-f",
+    "p10-q3-i"
+   ],
+   "observation": "Compare addition and subtraction with a shared-factor denominator pair.",
+   "varies": "Addition versus subtraction.",
+   "invariant": "Both fractions and their order."
+  },
+  {
+   "sequence": "adding",
+   "targets": [
+    "p6-q4-a",
+    "p6-q4-b",
+    "p6-q4-c"
+   ],
+   "observation": "Different common denominators produce equivalent results, while the LCD reduces intermediate arithmetic and simplification.",
+   "varies": "The chosen common denominator, 8 versus 4.",
+   "invariant": "The original expression and its simplified value."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 12,
- "reviewedAt": "2026-10-15T08:56:44.955Z",
+ "reviewedRevision": 25,
+ "reviewedAt": "2026-10-23T08:58:51.075Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -243,7 +366,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -258,16 +381,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 25146,
-     "cached_input_tokens": 12544,
+     "input_tokens": 26270,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4025,
-     "reasoning_output_tokens": 145
+     "output_tokens": 4381,
+     "reasoning_output_tokens": 175
     },
-    "elapsedMs": 95947,
+    "elapsedMs": 133202,
     "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "subtracting",
@@ -276,23 +399,42 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 28583,
-     "cached_input_tokens": 12544,
+     "input_tokens": 29723,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3898,
-     "reasoning_output_tokens": 120
+     "output_tokens": 3638,
+     "reasoning_output_tokens": 141
     },
-    "elapsedMs": 99178,
+    "elapsedMs": 90810,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
    }
   ],
-  "dropped": [],
+  "dropped": [
+   {
+    "ids": [
+     "c2"
+    ],
+    "reason": "The match is between a worked example and one practice task, rather than two whole practice tasks. Applying the demonstrated method to the same expression once does not establish an accidental duplicate practice question under the stated standard.",
+    "candidates": [
+     {
+      "id": "c2",
+      "sequence": "adding",
+      "kind": "duplicate-question",
+      "targets": [
+       "p4-example-left",
+       "p5-q2-e"
+      ],
+      "finding": "p5-q2-e repeats the complete expression from p4-example-left without an explicit retrieval or comparison purpose."
+     }
+    ]
+   }
+  ],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/algebraic-fractions-binomial-numerator-v1/candidates-low-1792054518013.json",
+  "candidateFile": ".booklet-work/full-imports/algebraic-fractions-binomial-numerator-v1-20261007/polish/pedagogy-work/candidates-low-1792745872194.json",
   "errors": []
  },
  "postedRevision": 13

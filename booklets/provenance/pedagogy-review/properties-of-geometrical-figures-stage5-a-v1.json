@@ -5,6 +5,40 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-086d979ee7",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p4-q1-c-node",
+     "blockId": "p4-q1-block",
+     "hash": "99b9f3a4a88b0480b37f7d825cc0c924f349c9182b01e40f3bb818fd649367fa"
+    }
+   ],
+   "finding": "Vary vertex order while preserving the correspondence between the existing triangles.",
+   "breakdown": "This makes corresponding order visible beyond one fixed spelling of a similarity statement.",
+   "checked": "The diagram gives D ↔ L, E ↔ K and F ↔ J. All proposed completions follow these correspondences.",
+   "assumptions": "No additional methods are required.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append under Question 1's existing instruction: “Predict each matching order before completing.” Using the diagrams in 1c: (i) DEF ∼ ___; (ii) EFD ∼ ___; (iii) FDE ∼ ___; (iv) DFE ∼ ___. Answers: LKJ, KJL, JLK, LJK. Follow with ___ ∼ KLJ. Answer: EDF. The triangle pair stays fixed; only the vertex order varies."
+   },
+   "doneWhen": "The short sequence and unpatterned follow-up appear after 1c.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "similarity-statements"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T22:19:42.178Z"
+    }
+   ]
+  },
+  {
    "id": "pf-d85496d561",
    "kind": "unsupported-transition",
    "severity": "high",
@@ -51,42 +85,6 @@
    "postedAt": "2026-10-15T10:40:30.351Z"
   },
   {
-   "id": "pf-b973350e62",
-   "kind": "variation-sequence",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p13-q1",
-     "blockId": "p13-q1",
-     "hash": "82acf0fec3839391b59e574784999f939e9f39228511d69a00f747c100d08689"
-    }
-   ],
-   "finding": "Compare reduction, congruence and enlargement while keeping the original rectangle fixed.",
-   "breakdown": "Only the multiplier changes, making the relationship between scale factor and image size visible.",
-   "checked": "The existing exercise changes figures as well as scale factors. All proposed dimensions follow by multiplying the original dimensions, and half-square dimensions already occur in the guided practice.",
-   "assumptions": "The further parts use the existing instruction to enlarge or reduce the diagram.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p14-h, add further parts using the same rectangle, 4 squares wide and 2 squares high. Add only this instruction: “Predict whether each image will be smaller, congruent or larger before drawing.” (i) Scale factor 0.5. Answer: 2 by 1 squares, smaller. (j) Scale factor 1. Answer: 4 by 2 squares, congruent. (k) Scale factor 1.5. Answer: 6 by 3 squares, larger. (l) Scale factor 2. Answer: 8 by 4 squares, larger. Follow with an unpatterned part (m), scale factor 0.75. Answer: 3 by 1.5 squares, smaller. The original shape stays fixed throughout."
-   },
-   "doneWhen": "The run varies only the multiplier and ends with the unpatterned question.",
-   "from": [
-    "c5"
-   ],
-   "sequences": [
-    "enlarge-reduce"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:40:30.181Z"
-    }
-   ],
-   "commentId": "3e739d8c-288a-4388-8e7c-ffde7e38d507",
-   "postedAt": "2026-10-15T10:40:30.354Z"
-  },
-  {
    "id": "pf-b3db3baafe",
    "kind": "extension",
    "severity": "suggestion",
@@ -121,6 +119,228 @@
    ],
    "commentId": "0729e228-2989-4c2e-a64d-4cf091c62f16",
    "postedAt": "2026-10-15T10:40:30.356Z"
+  },
+  {
+   "id": "pf-51cedf8e7a",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p33-q3-a",
+     "blockId": "p33-q3",
+     "hash": "90144be6681bb8d601fa35277a7cbc29166994cbac5fb323111185a6090cb7ac"
+    }
+   ],
+   "finding": "The first nested-triangle task simultaneously removes correspondence markers, requires recognition of similarity from parallel lines, and requires assembling a whole corresponding side.",
+   "breakdown": "Students must identify the top and whole triangles and compare 9 cm with 12 cm, rather than treating the adjacent 3 cm segment as the corresponding side.",
+   "checked": "p31 supplies ordinary corresponding-side problems. p32 progressively changes orientation and introduces shared vertices, but retains explicit correspondence markers and complete side lengths. Neither supplies the combination first required in p33-q3-a. The later scaffold in p37 occurs after this task.",
+   "assumptions": "Corresponding angles on parallel lines are prior knowledge from angle work. The difficulty is coordinating the representation and side selection.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add to p33-q3-a: “The parallel lines give equal corresponding angles, so the top triangle is similar to the whole triangle. Sketch these two triangles separately and label the whole left side 9 + 3 = 12 cm before forming your proportion.”"
+   },
+   "doneWhen": "The first nested task bridges triangle identification and whole-side assembly while leaving students to form and solve the proportion.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "algebraic-fractions-method"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T22:19:42.178Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-857ef845f3",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p30-theory",
+     "blockId": "p30-theory",
+     "hash": "994ef07c6bc3d3ca1f4bbb72dd5bce9c78659ec180f17114b87aebd8abfda7e7"
+    },
+    {
+     "id": "p34-q5-root",
+     "blockId": "p34-q5-block",
+     "hash": "e1800aa96c8f6ee5fb8b74af2a618e05ab1eca333cb89dabb9935793d4e06238"
+    }
+   ],
+   "finding": "The shared-side trapezia require a proportion that cannot follow the instruction to always place the unknown in the numerator.",
+   "breakdown": "The stated correspondence gives x/7 = 63/x, or its reciprocal. Either choice puts x in a denominator. The preceding models do not explain this exception or the resulting squared unknown, leaving students without a route consistent with the advertised method.",
+   "checked": "BC ↔ EF and EF ↔ AD give x/7 = 63/x. For a positive length, multiplying by 7x gives x² = 441 and x = 21 cm. Earlier teaching and practice do not model a shared length occupying both correspondence roles.",
+   "assumptions": "Basic equation solving and square roots may be prior knowledge from the separate algebra booklets. The finding concerns the conflicting instruction and this new similarity setup, not unsupported arithmetic.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Change the p30 instruction to “Where possible, put the unknown in the numerator to make the equation easier to solve.” Beside Q5, add: “BC ↔ EF and EF ↔ AD, so x/7 = 63/x. The shared length occurs in both ratios, so it cannot appear only in numerators. Multiplying both sides by 7x gives x² = 7 × 63 = 441. A length is positive, so x = 21 cm.”"
+   },
+   "doneWhen": "The instruction allows the necessary exception, and the shared-side proportion is explicitly connected to its positive solution.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "algebraic-fractions-method"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:40:30.181Z"
+    }
+   ],
+   "commentId": "1c865282-d892-492b-ab51-2940ee2e55d5",
+   "postedAt": "2026-10-15T10:40:30.360Z"
+  },
+  {
+   "id": "pf-15afceb116",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p34-q6a-part",
+     "blockId": "p34-q6-block",
+     "hash": "61e392b266f48ea9f3adbdb08034856f3a9117f3bf5671508ce38537538bfb72"
+    }
+   ],
+   "finding": "Use the existing rectangles to compare their length and area multipliers.",
+   "breakdown": "The numerical comparison exposes the effect of scaling both dimensions without requiring a general area-scaling rule.",
+   "checked": "A has area 4 × 2.5 = 10 cm². B has width 3.75 cm and area 22.5 cm². The length multiplier is 1.5 and the area multiplier is 2.25. Similarity and rectangle area suffice.",
+   "assumptions": "Rectangle area is prior knowledge, as required by the existing task.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After Question 6b, append optional parts referring to 6a: (i) Find the area of rectangle A. Answer: 10 cm². (ii) What number multiplies A's length to give B's length? Answer: 1.5. (iii) What number multiplies A's area to give B's area? Answer: 2.25. (iv) Explain why these multipliers differ. Answer: Both dimensions are multiplied by 1.5, so area is multiplied by 1.5 × 1.5 = 2.25."
+   },
+   "doneWhen": "The optional numerical follow-up compares the two multipliers using the existing rectangles.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "algebraic-fractions-method"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T22:19:42.178Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-ee69699c34",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p35-chris-example",
+     "blockId": "p35-example-block",
+     "hash": "8f2c36b5d8d85a7b7859871c95fff043ac44eb948a6b85a474581ceeb1177794"
+    },
+    {
+     "id": "p36-q1b",
+     "blockId": "p36-q1",
+     "hash": "2813214f4bed6b22be5d7b91f99be0f5adacff2692cd079d57bea6bae5e942f6"
+    }
+   ],
+   "finding": "The Chris practice question repeats the complete worked example without an explicit retrieval or comparison purpose.",
+   "breakdown": "The stem, shadow lengths, reference height and mathematical diagram givens are unchanged, so the later task can be answered by copying the demonstrated result.",
+   "checked": "Both tasks give Chris' shadow as 1.2 m and a 1 m stick's shadow as 0.8 m, with the same triangle arrangement and correspondence cues. No instructional purpose for repeating the task is stated.",
+   "assumptions": "The later exercise provides independent application of the demonstrated method.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Replace p36-q1b with: “Chris' shadow is 2.4 m long and a 1 m vertical stick has a shadow that is 1.5 m long. Determine Chris' height.” Change both shadow labels in its diagram accordingly. Answer: 1.6 m."
+   },
+   "doneWhen": "The later copy retains its structure with fresh values and consistent diagram labels and answer.",
+   "from": [
+    "c14"
+   ],
+   "sequences": [
+    "similar-figure-problems"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:40:30.181Z"
+    }
+   ],
+   "commentId": "e97518a7-390f-462e-910d-6e4b8e438e07",
+   "postedAt": "2026-10-15T10:40:30.363Z"
+  },
+  {
+   "id": "pf-8eebaffba7",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p53-q5-root",
+     "blockId": "p53-q5-block",
+     "hash": "65c3cf2f911a543039e6da995eb2d92454d804b7adec604bc7ca4f308dcb5e40"
+    }
+   ],
+   "finding": "Extend the existing map question by doubling every printed length.",
+   "breakdown": "Students connect an enlarged map with a smaller scale denominator while checking that actual distances remain unchanged.",
+   "checked": "The original scale is 1:300000. Doubling image lengths gives 1:150000; 9.2 cm becomes 18.4 cm, representing 27.6 km. All required methods are available by this topic's end.",
+   "assumptions": "Every printed map length is doubled uniformly.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to p53-q5: (c) The map is enlarged so that every printed length doubles. What is its new scale? Answer: 1:150000. (d) How far apart on the enlarged map are the towns that were 9.2 cm apart? Answer: 18.4 cm. (e) Use the enlarged map's scale to calculate the actual distance between these towns. Answer: 27.6 km."
+   },
+   "doneWhen": "The optional follow-up retains the original map context and has one question per part.",
+   "from": [
+    "c20"
+   ],
+   "sequences": [
+    "scale-from-drawing"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:40:30.181Z"
+    }
+   ],
+   "commentId": "f7e44660-b4e0-4e2c-9deb-9db6a4a592ad",
+   "postedAt": "2026-10-15T10:40:30.367Z"
+  },
+  {
+   "id": "pf-b973350e62",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p13-q1",
+     "blockId": "p13-q1",
+     "hash": "82acf0fec3839391b59e574784999f939e9f39228511d69a00f747c100d08689"
+    }
+   ],
+   "finding": "Compare reduction, congruence and enlargement while keeping the original rectangle fixed.",
+   "breakdown": "Only the multiplier changes, making the relationship between scale factor and image size visible.",
+   "checked": "The existing exercise changes figures as well as scale factors. All proposed dimensions follow by multiplying the original dimensions, and half-square dimensions already occur in the guided practice.",
+   "assumptions": "The further parts use the existing instruction to enlarge or reduce the diagram.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p14-h, add further parts using the same rectangle, 4 squares wide and 2 squares high. Add only this instruction: “Predict whether each image will be smaller, congruent or larger before drawing.” (i) Scale factor 0.5. Answer: 2 by 1 squares, smaller. (j) Scale factor 1. Answer: 4 by 2 squares, congruent. (k) Scale factor 1.5. Answer: 6 by 3 squares, larger. (l) Scale factor 2. Answer: 8 by 4 squares, larger. Follow with an unpatterned part (m), scale factor 0.75. Answer: 3 by 1.5 squares, smaller. The original shape stays fixed throughout."
+   },
+   "doneWhen": "The run varies only the multiplier and ends with the unpatterned question.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "enlarge-reduce"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:40:30.181Z"
+    }
+   ],
+   "commentId": "3e739d8c-288a-4388-8e7c-ffde7e38d507",
+   "postedAt": "2026-10-15T10:40:30.354Z"
   },
   {
    "id": "pf-9ee9474691",
@@ -167,88 +387,6 @@
    ],
    "commentId": "87149fee-b216-4946-b389-bf41ba15dc2b",
    "postedAt": "2026-10-15T10:40:30.359Z"
-  },
-  {
-   "id": "pf-857ef845f3",
-   "kind": "unsupported-transition",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p30-theory",
-     "blockId": "p30-theory",
-     "hash": "994ef07c6bc3d3ca1f4bbb72dd5bce9c78659ec180f17114b87aebd8abfda7e7"
-    },
-    {
-     "id": "p34-q5-root",
-     "blockId": "p34-q5-block",
-     "hash": "e1800aa96c8f6ee5fb8b74af2a618e05ab1eca333cb89dabb9935793d4e06238"
-    }
-   ],
-   "finding": "The shared-side trapezia require a proportion that cannot follow the instruction to always place the unknown in the numerator.",
-   "breakdown": "The stated correspondence gives x/7 = 63/x, or its reciprocal. Either choice puts x in a denominator. The preceding models do not explain this exception or the resulting squared unknown, leaving students without a route consistent with the advertised method.",
-   "checked": "BC ↔ EF and EF ↔ AD give x/7 = 63/x. For a positive length, multiplying by 7x gives x² = 441 and x = 21 cm. Earlier teaching and practice do not model a shared length occupying both correspondence roles.",
-   "assumptions": "Basic equation solving and square roots may be prior knowledge from the separate algebra booklets. The finding concerns the conflicting instruction and this new similarity setup, not unsupported arithmetic.",
-   "repair": {
-    "type": "add-teaching",
-    "proposal": "Change the p30 instruction to “Where possible, put the unknown in the numerator to make the equation easier to solve.” Beside Q5, add: “BC ↔ EF and EF ↔ AD, so x/7 = 63/x. The shared length occurs in both ratios, so it cannot appear only in numerators. Multiplying both sides by 7x gives x² = 7 × 63 = 441. A length is positive, so x = 21 cm.”"
-   },
-   "doneWhen": "The instruction allows the necessary exception, and the shared-side proportion is explicitly connected to its positive solution.",
-   "from": [
-    "c12"
-   ],
-   "sequences": [
-    "algebraic-fractions-method"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:40:30.181Z"
-    }
-   ],
-   "commentId": "1c865282-d892-492b-ab51-2940ee2e55d5",
-   "postedAt": "2026-10-15T10:40:30.360Z"
-  },
-  {
-   "id": "pf-ee69699c34",
-   "kind": "duplicate-question",
-   "severity": "high",
-   "targets": [
-    {
-     "id": "p35-chris-example",
-     "blockId": "p35-example-block",
-     "hash": "8f2c36b5d8d85a7b7859871c95fff043ac44eb948a6b85a474581ceeb1177794"
-    },
-    {
-     "id": "p36-q1b",
-     "blockId": "p36-q1",
-     "hash": "2813214f4bed6b22be5d7b91f99be0f5adacff2692cd079d57bea6bae5e942f6"
-    }
-   ],
-   "finding": "The Chris practice question repeats the complete worked example without an explicit retrieval or comparison purpose.",
-   "breakdown": "The stem, shadow lengths, reference height and mathematical diagram givens are unchanged, so the later task can be answered by copying the demonstrated result.",
-   "checked": "Both tasks give Chris' shadow as 1.2 m and a 1 m stick's shadow as 0.8 m, with the same triangle arrangement and correspondence cues. No instructional purpose for repeating the task is stated.",
-   "assumptions": "The later exercise provides independent application of the demonstrated method.",
-   "repair": {
-    "type": "change-values",
-    "proposal": "Replace p36-q1b with: “Chris' shadow is 2.4 m long and a 1 m vertical stick has a shadow that is 1.5 m long. Determine Chris' height.” Change both shadow labels in its diagram accordingly. Answer: 1.6 m."
-   },
-   "doneWhen": "The later copy retains its structure with fresh values and consistent diagram labels and answer.",
-   "from": [
-    "c14"
-   ],
-   "sequences": [
-    "similar-figure-problems"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:40:30.181Z"
-    }
-   ],
-   "commentId": "e97518a7-390f-462e-910d-6e4b8e438e07",
-   "postedAt": "2026-10-15T10:40:30.363Z"
   },
   {
    "id": "pf-56affad68b",
@@ -336,55 +474,52 @@
    ],
    "commentId": "9b315a58-714a-4c34-b68a-e46470c47b50",
    "postedAt": "2026-10-15T10:40:30.366Z"
-  },
-  {
-   "id": "pf-8eebaffba7",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p53-q5-root",
-     "blockId": "p53-q5-block",
-     "hash": "65c3cf2f911a543039e6da995eb2d92454d804b7adec604bc7ca4f308dcb5e40"
-    }
-   ],
-   "finding": "Extend the existing map question by doubling every printed length.",
-   "breakdown": "Students connect an enlarged map with a smaller scale denominator while checking that actual distances remain unchanged.",
-   "checked": "The original scale is 1:300000. Doubling image lengths gives 1:150000; 9.2 cm becomes 18.4 cm, representing 27.6 km. All required methods are available by this topic's end.",
-   "assumptions": "Every printed map length is doubled uniformly.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Append to p53-q5: (c) The map is enlarged so that every printed length doubles. What is its new scale? Answer: 1:150000. (d) How far apart on the enlarged map are the towns that were 9.2 cm apart? Answer: 18.4 cm. (e) Use the enlarged map's scale to calculate the actual distance between these towns. Answer: 27.6 km."
-   },
-   "doneWhen": "The optional follow-up retains the original map context and has one question per part.",
-   "from": [
-    "c20"
-   ],
-   "sequences": [
-    "scale-from-drawing"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:40:30.181Z"
-    }
-   ],
-   "commentId": "f7e44660-b4e0-4e2c-9deb-9db6a4a592ad",
-   "postedAt": "2026-10-15T10:40:30.367Z"
   }
  ],
  "contextQuestions": [],
  "protectedGroups": [
   {
+   "sequence": "similarity-statements",
+   "targets": [
+    "p5-q2-a",
+    "p5-q2-b"
+   ],
+   "observation": "Matching angle marks determine correspondence despite changes in orientation.",
+   "varies": "The orientation of the triangles and the symbols used for matching angles.",
+   "invariant": "Two separate triangles, two marked angle correspondences and the same side-angle-statement response structure."
+  },
+  {
+   "sequence": "similarity-statements",
+   "targets": [
+    "p5-q2-c",
+    "p5-q2-d"
+   ],
+   "observation": "Separating a combined diagram makes the same correspondence procedure available.",
+   "varies": "Intersecting triangles become nested triangles.",
+   "invariant": "A shared vertex, parallel sides, the redraw hint and the correspondence task."
+  },
+  {
    "sequence": "similar-figures",
    "targets": [
-    "p6-first-comparison",
-    "p6-pentagon-question"
+    "p8-q3-a",
+    "p8-q3-b",
+    "p8-q3-c",
+    "p8-q3-d",
+    "p8-q4"
    ],
-   "observation": "Equal corresponding angles do not by themselves establish polygon similarity.",
-   "varies": "Whether corresponding-side ratios agree.",
-   "invariant": "Corresponding angles are equal and side quotients are explicitly prompted."
+   "observation": "Equal rectangle angles do not establish similarity; corresponding dimensions must change by the same factor, which need not be an integer.",
+   "varies": "Whether width and height ratios agree, including equal heights and a non-integer enlargement.",
+   "invariant": "Both figures are rectangles with equal corresponding angles."
+  },
+  {
+   "sequence": "similar-figures",
+   "targets": [
+    "p9-c",
+    "p9-d"
+   ],
+   "observation": "Equal corresponding angles can accompany either proportional or non-proportional side lengths.",
+   "varies": "Whether all corresponding-side ratios agree.",
+   "invariant": "Each pair consists of pentagons with equal corresponding angles."
   },
   {
    "sequence": "similar-figures",
@@ -394,37 +529,7 @@
    ],
    "observation": "Rotation preserves similarity.",
    "varies": "The orientation of the larger rectangle.",
-   "invariant": "Its dimensions and its scale relationship to A."
-  },
-  {
-   "sequence": "similar-figures",
-   "targets": [
-    "p11-q10",
-    "p11-q11-response"
-   ],
-   "observation": "Doubling a base can accompany either unchanged or doubled height, so the base alone does not establish similarity.",
-   "varies": "The height relationship and triangle configuration.",
-   "invariant": "One triangle's base is twice the other's on a square grid."
-  },
-  {
-   "sequence": "similarity-statements",
-   "targets": [
-    "p4-q1-c-node",
-    "p4-q1-d-node"
-   ],
-   "observation": "Correspondence can be read from equal-angle information even when the figures have different orientations.",
-   "varies": "Numerical angle labels become matching angle arcs, and response support decreases.",
-   "invariant": "Two separate similar triangles require corresponding sides, angles and an ordered similarity statement."
-  },
-  {
-   "sequence": "similarity-statements",
-   "targets": [
-    "p5-q2-a",
-    "p5-q2-b"
-   ],
-   "observation": "Matching angle marks determine correspondence across differently oriented figures.",
-   "varies": "A right-angle marker and dot become dots and crosses; the figures' orientations change.",
-   "invariant": "Two angle matches determine the vertex correspondence, with the same response structure."
+   "invariant": "The larger rectangle's dimensions and its ratio to rectangle A."
   },
   {
    "sequence": "unknown-side-length",
@@ -432,9 +537,9 @@
     "p15-guided-b",
     "p15-guided-c"
    ],
-   "observation": "Halving the scale factor halves each corresponding image length.",
+   "observation": "Halving the enlargement factor halves each corresponding image length.",
    "varies": "The scale factor changes from 5 to 2.5.",
-   "invariant": "Original triangle lengths, correspondence, orientation and requested image sides."
+   "invariant": "The original triangle, its side lengths, its orientation relative to the image, and the required image sides."
   },
   {
    "sequence": "scale-factor",
@@ -442,20 +547,19 @@
     "p18-q1-b-node",
     "p18-q1-c-node"
    ],
-   "observation": "Reversing original and image produces reciprocal scale factors.",
-   "varies": "Which triangle is the original.",
-   "invariant": "The two triangles, their lengths and correspondence."
+   "observation": "Reversing original and image changes an enlargement factor into its reciprocal reduction factor.",
+   "varies": "Direction of the mapping.",
+   "invariant": "The same two triangles and their dimensions."
   },
   {
    "sequence": "scale-factor",
    "targets": [
     "p18-q1-d-node",
-    "p18-q1-e-node",
     "p18-q1-f-node"
    ],
-   "observation": "The factor depends on the selected original/image pairing within one family of similar triangles.",
-   "varies": "The pairing and direction among P, Q and R.",
-   "invariant": "Triangle shape, correspondence marks and the dimensions assigned to each named triangle."
+   "observation": "Reciprocal factors also occur for a non-integer enlargement.",
+   "varies": "Direction of the mapping.",
+   "invariant": "Triangles R and Q with the same dimensions."
   },
   {
    "sequence": "scale-factor",
@@ -465,9 +569,9 @@
     "p20-q5-a",
     "p20-q5-b"
    ],
-   "observation": "A complete image side includes the original segment and its extension; supplied redraws prepare students to calculate that total independently.",
-   "varies": "Rectangle versus triangle and whether separate redraws and totals are supplied.",
-   "invariant": "Nested similar figures sharing a vertex and requiring a ratio of complete corresponding lengths."
+   "observation": "Separate redraws demonstrate complete corresponding lengths before students construct those lengths independently.",
+   "varies": "Availability of supplied redraws and whole-side labels.",
+   "invariant": "Nested similar figures whose larger side includes the smaller side and an extension."
   },
   {
    "sequence": "sides-scale-factor",
@@ -475,19 +579,19 @@
     "p26-q3-a",
     "p26-q3-c"
    ],
-   "observation": "An enlargement factor need not be a whole number.",
-   "varies": "The smaller base changes from 1 cm to 2 cm, changing the factor from 3 to 1.5.",
-   "invariant": "The larger base is 3 cm, the smaller sloping side is 3 cm, and the unknown is the larger sloping side."
+   "observation": "The same original sloping length produces different image lengths when the base ratio changes.",
+   "varies": "Original base: 1 cm then 2 cm.",
+   "invariant": "Original sloping side 3 cm, image base 3 cm, orientation and unknown image sloping side."
   },
   {
    "sequence": "sides-scale-factor",
    "targets": [
-    "p26-q3-c",
-    "p26-q3-e"
+    "p26-q3-b",
+    "p26-q3-d"
    ],
-   "observation": "The same correspondence requires multiplication or division depending on which figure contains the unknown.",
-   "varies": "The unknown moves from the larger sloping side to the smaller sloping side.",
-   "invariant": "Corresponding bases are 2 cm and 3 cm, fixing the enlargement factor at 1.5."
+   "observation": "A known sloping-side pair supports finding either an image base or an original base.",
+   "varies": "Which base is known and which is unknown.",
+   "invariant": "Corresponding sloping lengths 4 cm and 15 cm, triangle orientation and correspondence."
   },
   {
    "sequence": "sides-scale-factor",
@@ -495,40 +599,21 @@
     "p26-q3-d",
     "p26-q3-f"
    ],
-   "observation": "Multiplying all given numerical lengths by ten preserves the scale factor and multiplies the unknown numerical length by ten.",
-   "varies": "Given numbers change from 4, 15 and 5 to 40, 150 and 50; units change from centimetres to millimetres.",
-   "invariant": "The correspondence, unknown position and factor 15/4 remain the same."
+   "observation": "Changing the measurement unit and numerical scale preserves the scaling procedure.",
+   "varies": "The sloping lengths and known base are ten times as large numerically and use millimetres.",
+   "invariant": "Scale factor 15/4, correspondence and unknown smaller base."
   },
   {
-   "sequence": "algebraic-fractions-method",
+   "sequence": "sides-scale-factor",
    "targets": [
-    "p30-example-z-working",
-    "p30-example-y-working"
+    "p25-i",
+    "p25-j",
+    "p25-k",
+    "p25-l"
    ],
-   "observation": "Either ratio direction is valid, and the unknown can be placed in the numerator by reversing both ratios together.",
-   "varies": "The target side and ratio direction.",
-   "invariant": "The triangle pair, vertex correspondence and known base pair."
-  },
-  {
-   "sequence": "algebraic-fractions-method",
-   "targets": [
-    "p30-guided-a",
-    "p30-guided-b-z",
-    "p30-guided-b-y"
-   ],
-   "observation": "Responsibility for constructing the proportion passes progressively to students.",
-   "varies": "A complete proportion, a supplied unknown-side fraction, then only the unknown numerator.",
-   "invariant": "The method of equating corresponding-side ratios and multiplying to isolate the unknown."
-  },
-  {
-   "sequence": "algebraic-fractions-method",
-   "targets": [
-    "p33-q3-b",
-    "p33-q3-c"
-   ],
-   "observation": "The whole base must be distinguished from its two component segments.",
-   "varies": "Whether both base segments are given or one segment is requested.",
-   "invariant": "A smaller right-hand triangle with its left side parallel to the outer left side."
+   "observation": "A split boundary must be assembled into the whole corresponding side before calculating a factor.",
+   "varies": "Orientation, polygon type and numerical lengths.",
+   "invariant": "Nested similar figures with a corresponding whole side given as two segments."
   },
   {
    "sequence": "similar-figure-problems",
@@ -536,20 +621,41 @@
     "p36-q1c",
     "p36-q1d"
    ],
-   "observation": "With the same reference triangle, changing the shadow length changes the giraffe height in the same proportion.",
-   "varies": "Giraffe shadow length: 22 m to 18 m.",
-   "invariant": "Reference height 0.5 m, reference shadow 2 m and the corresponding-side method."
+   "observation": "With the reference fixed, changing the target shadow changes the height proportionally.",
+   "varies": "The giraffe's shadow length.",
+   "invariant": "Reference height 0.5 m, reference shadow 2 m and the height-to-shadow relationship."
   },
   {
    "sequence": "similar-figure-problems",
    "targets": [
-    "p38-q4-root",
-    "p38-q5-root",
-    "p38-q6-root"
+    "p37-e",
+    "p37-f",
+    "p37-g",
+    "p37-h"
    ],
-   "observation": "Students must distinguish adjacent ground intervals from an already supplied full shadow length.",
-   "varies": "Whether the large base must be formed by addition or is given directly.",
-   "invariant": "Nested right triangles and corresponding height-to-base ratios."
+   "observation": "The large triangle uses the complete distance from the observation point, including both adjacent intervals.",
+   "varies": "Context, numerical lengths and, finally, measurement units.",
+   "invariant": "Nested triangles, a common sightline and the separate-triangle label scaffold."
+  },
+  {
+   "sequence": "algebraic-fractions-method",
+   "targets": [
+    "p30-example-z-working",
+    "p30-example-y-working"
+   ],
+   "observation": "The ratio direction must change when the unknown moves to the other figure, while corresponding sides stay paired.",
+   "varies": "Which figure contains the unknown and therefore which ratio direction is used.",
+   "invariant": "The same triangle pair and the same known corresponding bases."
+  },
+  {
+   "sequence": "algebraic-fractions-method",
+   "targets": [
+    "p33-q3-b",
+    "p33-q3-c"
+   ],
+   "observation": "An unknown base segment must be distinguished from the whole corresponding base.",
+   "varies": "Whether the unknown is a corresponding complete side or the remaining segment of that side.",
+   "invariant": "A smaller triangle on the right with its left side parallel to the outer left side, and a 6 cm right-hand base segment."
   },
   {
    "sequence": "scale-drawings",
@@ -563,9 +669,9 @@
     "s5-p33-q6-g",
     "s5-p33-q6-h"
    ],
-   "observation": "Adjacent pairs contrast finding an original length with finding an image length at the same scale.",
-   "varies": "The given quantity and requested quantity reverse within each pair.",
-   "invariant": "The scale and measurement context within each pair."
+   "observation": "Within each pair, students must distinguish finding an original length from finding an image length at the same scale.",
+   "varies": "The known quantity and requested direction, with corresponding changes in units.",
+   "invariant": "The scale and practical representation within each pair."
   },
   {
    "sequence": "scale-drawings",
@@ -573,30 +679,21 @@
     "s5-p34-q7-a",
     "s5-p34-q7-b"
    ],
-   "observation": "A scale ratio has the same numerical interpretation when both quantities use the same chosen unit.",
-   "varies": "Millimetres versus centimetres.",
-   "invariant": "The 1:500 ratio and one unit on the map."
+   "observation": "A ratio scale applies equally to millimetres and centimetres when both quantities use the same unit.",
+   "varies": "The unit.",
+   "invariant": "The 1:500 scale and one map unit."
   },
   {
    "sequence": "scale-from-drawing",
    "targets": [
     "p52-q4-r02",
-    "p52-q4-r03"
-   ],
-   "observation": "Doubling the original length doubles the image length at a fixed scale.",
-   "varies": "Original length.",
-   "invariant": "Scale and measurement units."
-  },
-  {
-   "sequence": "scale-from-drawing",
-   "targets": [
     "p52-q4-r03",
     "p52-q4-r04",
     "p52-q4-r05"
    ],
-   "observation": "Separates the effect of halving the scale denominator from doubling the original length.",
-   "varies": "First the scale denominator, then the original length; the equivalent units in the first comparison also require recognition.",
-   "invariant": "Original physical length in the first comparison; scale in the second."
+   "observation": "Doubling original length doubles image length at fixed scale; halving the scale denominator doubles image length for the same original distance.",
+   "varies": "Original length or scale denominator, one at a time; equivalent units also change between r03 and r04.",
+   "invariant": "The image length is the unknown throughout."
   },
   {
    "sequence": "scale-from-drawing",
@@ -606,20 +703,21 @@
     "p52-q4-r08",
     "p52-q4-r09"
    ],
-   "observation": "Shows separately how original length changes with image length and with the scale denominator.",
-   "varies": "Image length, then scale denominator, then image length.",
-   "invariant": "Scale or image length is held fixed in each adjacent comparison."
+   "observation": "Original length changes proportionally with image length or with the scale denominator.",
+   "varies": "Image length or scale denominator, one at a time.",
+   "invariant": "The original length is the unknown throughout."
   },
   {
    "sequence": "scale-from-drawing",
    "targets": [
     "p52-q4-r10",
     "p52-q4-r11",
-    "p52-q4-r12"
+    "p52-q4-r12",
+    "p52-q4-r13"
    ],
-   "observation": "Shows how the scale denominator responds to changing either original length or image length.",
-   "varies": "Original length, then image length.",
-   "invariant": "Image length in the first comparison; original length in the second."
+   "observation": "Changing one length changes the scale, while changing both lengths by the same factor preserves it.",
+   "varies": "Original length, then image length, then both lengths together with a unit change.",
+   "invariant": "The scale is the unknown throughout."
   }
  ],
  "notReliablyReviewed": [
@@ -630,11 +728,11 @@
     "p29-q10-diagram",
     "p29-q11-diagram"
    ],
-   "reason": "Page 29 is not among the attached images. The written specifications support review of the stated methods, but the actual diagram marks and label placement could not be inspected."
+   "reason": "No page 29 image was attached. The mathematical descriptions support the instructional review, but the visible placement and readability of its diagram labels and marks could not be checked."
   }
  ],
- "reviewedRevision": 15,
- "reviewedAt": "2026-10-15T10:40:30.181Z",
+ "reviewedRevision": 45,
+ "reviewedAt": "2026-10-23T22:19:42.178Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -643,7 +741,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -658,14 +756,14 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32855,
-     "cached_input_tokens": 14592,
+     "input_tokens": 33123,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2334,
-     "reasoning_output_tokens": 312
+     "output_tokens": 1716,
+     "reasoning_output_tokens": 97
     },
-    "elapsedMs": 69398,
-    "candidates": 1,
+    "elapsedMs": 34586,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
@@ -676,16 +774,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 47338,
-     "cached_input_tokens": 14592,
+     "input_tokens": 47604,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2549,
-     "reasoning_output_tokens": 139
+     "output_tokens": 2661,
+     "reasoning_output_tokens": 188
     },
-    "elapsedMs": 66124,
+    "elapsedMs": 60397,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "enlarge-reduce",
@@ -694,16 +792,16 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 35685,
-     "cached_input_tokens": 14592,
+     "input_tokens": 35953,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2224,
-     "reasoning_output_tokens": 183
+     "output_tokens": 1880,
+     "reasoning_output_tokens": 232
     },
-    "elapsedMs": 62079,
+    "elapsedMs": 48535,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "unknown-side-length",
@@ -712,13 +810,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32878,
-     "cached_input_tokens": 14592,
+     "input_tokens": 33146,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1946,
-     "reasoning_output_tokens": 141
+     "output_tokens": 1832,
+     "reasoning_output_tokens": 43
     },
-    "elapsedMs": 50834,
+    "elapsedMs": 43654,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -730,13 +828,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 42911,
-     "cached_input_tokens": 14592,
+     "input_tokens": 43176,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2956,
-     "reasoning_output_tokens": 136
+     "output_tokens": 2682,
+     "reasoning_output_tokens": 151
     },
-    "elapsedMs": 73061,
+    "elapsedMs": 57988,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -748,14 +846,14 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 60545,
+     "input_tokens": 60810,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3641,
-     "reasoning_output_tokens": 148
+     "output_tokens": 4212,
+     "reasoning_output_tokens": 112
     },
-    "elapsedMs": 91199,
-    "candidates": 1,
+    "elapsedMs": 94906,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
@@ -766,16 +864,16 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46760,
+     "input_tokens": 47029,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3427,
-     "reasoning_output_tokens": 105
+     "output_tokens": 4043,
+     "reasoning_output_tokens": 366
     },
-    "elapsedMs": 84690,
+    "elapsedMs": 93673,
     "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "similar-figure-problems",
@@ -784,16 +882,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 52058,
-     "cached_input_tokens": 14592,
+     "input_tokens": 52343,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3058,
-     "reasoning_output_tokens": 164
+     "output_tokens": 3211,
+     "reasoning_output_tokens": 206
     },
-    "elapsedMs": 76477,
-    "candidates": 1,
+    "elapsedMs": 65228,
+    "candidates": 2,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "scale-drawings",
@@ -802,16 +900,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46881,
-     "cached_input_tokens": 14592,
+     "input_tokens": 47081,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3300,
-     "reasoning_output_tokens": 183
+     "output_tokens": 2701,
+     "reasoning_output_tokens": 149
     },
-    "elapsedMs": 81666,
-    "candidates": 1,
+    "elapsedMs": 58476,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    },
    {
     "id": "scale-from-drawing",
@@ -820,13 +918,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 37461,
-     "cached_input_tokens": 12544,
+     "input_tokens": 38080,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3168,
-     "reasoning_output_tokens": 99
+     "output_tokens": 3190,
+     "reasoning_output_tokens": 52
     },
-    "elapsedMs": 74040,
+    "elapsedMs": 64386,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -835,54 +933,35 @@
   "dropped": [
    {
     "ids": [
-     "c1"
-    ],
-    "reason": "The wrong-rule test is defeated by the scaffold within p4-q1-c-node itself. Before students complete the turned-triangle task, it supplies ∠DEF = ∠LKJ, explicitly identifying the ordered correspondence D–L, E–K, F–J across the changed orientations. Methods supplied inside practice questions count as teaching under the standard.",
-    "candidates": [
-     {
-      "id": "c1",
-      "sequence": "similarity-statements",
-      "kind": "example-choice",
-      "targets": [
-       "p3-example-demonstration",
-       "p3-guided-a",
-       "p4-q1-c-node"
-      ],
-      "finding": "Both introductory pairs have matching orientations, so matching vertices by page position gives every correct answer without exposing why that rule fails for turned figures."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c2"
-    ],
-    "reason": "The proposed statements and answers are correct, but this optional notation extension was not selected among the four suggestions that best fit the booklet's content.",
-    "candidates": [
-     {
-      "id": "c2",
-      "sequence": "similarity-statements",
-      "kind": "extension",
-      "targets": [
-       "p4-q1-c-node"
-      ],
-      "finding": "Use the same triangles to write equivalent similarity statements with different starting vertices and directions."
-     }
-    ]
-   },
-   {
-    "ids": [
      "c3"
     ],
-    "reason": "The answers are correct, but this routine application of the existing side ratio offers a weaker extension than the four retained suggestions.",
+    "reason": "The mathematics is correct, but the four-suggestion booklet limit excludes this opening. c5 provides a more focused reciprocal-scale follow-up without depending on the grid-construction repair.",
     "candidates": [
      {
       "id": "c3",
-      "sequence": "similar-figures",
+      "sequence": "enlarge-reduce",
       "kind": "extension",
       "targets": [
-       "p10-q8"
+       "p13-q1-a"
       ],
-      "finding": "Use rectangle A's proportions to complete two new similar rectangles."
+      "finding": "Use the enlarged parallelogram to explore reversing and combining scale changes."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c4"
+    ],
+    "reason": "The proposed answers are correct, but the four-suggestion limit excludes this opening. The existing p28-q6 later develops perimeter scaling explicitly; the retained suggestions offer broader coverage.",
+    "candidates": [
+     {
+      "id": "c4",
+      "sequence": "unknown-side-length",
+      "kind": "extension",
+      "targets": [
+       "p16-q3"
+      ],
+      "finding": "Use the hexagon's existing dimensions to connect side-length scaling with perimeter scaling."
      }
     ]
    },
@@ -890,67 +969,50 @@
     "ids": [
      "c6"
     ],
-    "reason": "The mathematics is correct, but the reversing-and-combining relationship is explored more cleanly by the retained photograph extension c8. This suggestion was dropped under the whole-booklet limit of four.",
+    "reason": "The scale factor 1.5 and lengths 7.5, 18 and 19.5 cm are correct. It is eligible, but loses under the four-suggestion limit because the existing parts already explicitly explore perimeter scaling.",
     "candidates": [
      {
       "id": "c6",
-      "sequence": "enlarge-reduce",
-      "kind": "extension",
-      "targets": [
-       "p13-q1-a"
-      ],
-      "finding": "Use the existing parallelogram to explore reversing and combining enlargements."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c7"
-    ],
-    "reason": "The side length, perimeter and overall factor are correct, but this repeats the successive-scaling relationship of retained c8 and was not selected within the four-suggestion limit.",
-    "candidates": [
-     {
-      "id": "c7",
-      "sequence": "unknown-side-length",
-      "kind": "extension",
-      "targets": [
-       "p16-q3"
-      ],
-      "finding": "Reduce the enlarged hexagon and compare the resulting hexagon with the original."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c10"
-    ],
-    "reason": "The proposed lengths and factor are correct. However, p28-q6-c already explicitly compares perimeter and side ratios; this follow-up adds less than the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c10",
       "sequence": "sides-scale-factor",
       "kind": "extension",
       "targets": [
        "p28-q6"
       ],
-      "finding": "Extend the perimeter comparison by constructing a third similar triangle with a specified perimeter."
+      "finding": "Use perimeter to recover a scale factor and then find corresponding side lengths."
      }
     ]
    },
    {
     "ids": [
-     "c11"
+     "c9"
     ],
-    "reason": "The claim of an unsupported method is defeated by the preceding sequence and the stated assumption of routine linear-equation knowledge. Earlier nested tasks establish forming whole lengths from segments, and p33-q3-c already requires recovering an unknown segment from a corresponding whole. In part d, writing the whole as x + 6 combines those established decisions with an ordinary linear equation; it changes one feature rather than introducing an untaught similarity method.",
+    "reason": "All proposed heights are correct and the added prediction instruction is permissible. It loses under the four-suggestion limit: the relationship is already directly modelled by the corresponding-side rule and examples, while the retained suggestions expose more distinct connections.",
     "candidates": [
      {
-      "id": "c11",
+      "id": "c9",
       "sequence": "algebraic-fractions-method",
+      "kind": "variation-sequence",
+      "targets": [
+       "p31-q1"
+      ],
+      "finding": "Vary only the smaller rectangle's width to connect the known side ratio with the unknown height."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c12"
+    ],
+    "reason": "Earlier practice defeats the claim that this similarity variant has never been supplied. p33-q3-d requires x/(x+6) = 6/9, combining an algebraic whole side with an unknown denominator and an equation with the unknown on both sides. p37-e through p37-h then rehearse assembling whole lengths, and p38-q4 and p38-q6 apply that structure to shadows. Question 12 is a supported later challenge using these methods and assumed linear-equation knowledge.",
+    "candidates": [
+     {
+      "id": "c12",
+      "sequence": "similar-figure-problems",
       "kind": "unsupported-transition",
       "targets": [
-       "p33-q3-d"
+       "p40-q12-response"
       ],
-      "finding": "The first unknown that also forms part of its corresponding whole side appears without a model for constructing and solving the resulting equation."
+      "finding": "The question introduces two unknown corresponding lengths, d and d+3, without teaching how to form and solve that kind of similarity equation."
      }
     ]
    },
@@ -958,83 +1020,41 @@
     "ids": [
      "c13"
     ],
-    "reason": "The numerical answers are correct and rectangle-area methods suffice, but the area comparison was not selected among the four suggestions that best fit this booklet's length-and-scale focus.",
+    "reason": "Both answers are correct: the boy's height is 1 m, so shadow length is one fifth of his distance from the pole. The extension is eligible but excluded by the four-suggestion limit in favour of the retained openings.",
     "candidates": [
      {
       "id": "c13",
-      "sequence": "algebraic-fractions-method",
-      "kind": "extension",
-      "targets": [
-       "p34-q6a-part"
-      ],
-      "finding": "Use the existing rectangles to compare the multiplier for lengths with the multiplier for areas."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c15"
-    ],
-    "reason": "The proposed heights are correct and the prediction instruction is admissible. This sequence was not selected within the four-suggestion limit; the retained runs isolate scale factor and ratio orientation more directly.",
-    "candidates": [
-     {
-      "id": "c15",
-      "sequence": "similar-figure-problems",
-      "kind": "variation-sequence",
-      "targets": [
-       "p36-q1d"
-      ],
-      "finding": "Hold both shadow lengths fixed while varying the reference height."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c16"
-    ],
-    "reason": "The heights, third area and area ratio are correct, but this second area-scaling extension was not selected among the four retained suggestions.",
-    "candidates": [
-     {
-      "id": "c16",
       "sequence": "similar-figure-problems",
       "kind": "extension",
       "targets": [
-       "p40-q11"
+       "p38-q4"
       ],
-      "finding": "Use the two rectangles to connect length scaling with area scaling."
+      "finding": "Use the same boy and lamp to connect distance from the lamp with shadow length."
      }
     ]
    },
    {
     "ids": [
-     "c19"
+     "c14"
     ],
-    "reason": "The proposed map distances and factor are correct. Retained c20 explores the same map-resizing relationship where calculating the changed scale is the topic's explicit focus, so c19 was dropped under the four-suggestion limit.",
+    "reason": "The new distances 10.5 mm and 4 cm are correct, and both halve. It loses under the four-suggestion limit because c15 explores the same scale-denominator relationship while also using the final topic's reverse scale calculation.",
     "candidates": [
      {
-      "id": "c19",
+      "id": "c14",
       "sequence": "scale-drawings",
       "kind": "extension",
       "targets": [
-       "s5-p37-q15"
+       "s5-p34-q7"
       ],
-      "finding": "Redraw the same locations at a different map scale."
+      "finding": "Redraw the park at a second scale and compare two corresponding map distances."
      }
     ]
    }
   ],
   "unchecked": [],
   "suppressed": [],
-  "droppedQuestions": [
-   {
-    "question": "Have students already been taught to recognise the smaller and whole triangles as similar when an internal segment is parallel to a triangle's side, and to match their corresponding sides? The supplied earlier-topic digests do not establish this.",
-    "targets": [
-     "p33-q3-a"
-    ],
-    "reason": "The complete earlier material answers this question: p29-q9 states the equal-angle triangle similarity criterion and applies it to an internal parallel segment, and p29-q10 reinforces parallel-line correspondence. Both precede p33-q3-a, so no teacher clarification is needed."
-   }
-  ],
-  "candidateFile": ".booklet-work/pedagogy-review/properties-of-geometrical-figures-stage5-a-v1/candidates-low-1792060703426.json",
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/full-imports/properties-of-geometrical-figures-stage5-a-v1-20261006-low/polish/pedagogy-work/candidates-low-1792793919409.json",
   "errors": []
  },
  "postedRevision": 16

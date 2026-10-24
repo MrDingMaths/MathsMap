@@ -1,7 +1,7 @@
 {
  "version": 1,
  "projectId": "compound-interest-depreciation-v1",
- "title": "Compound Interest & Depreciation",
+ "title": "Financial Maths B: Compound Interest & Depreciation",
  "assumptions": {},
  "findings": [
   {
@@ -77,25 +77,86 @@
    "postedAt": "2026-10-15T09:11:33.308Z"
   },
   {
-   "id": "pf-666ce6966b",
+   "id": "pf-77b4e63da0",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p14-q17-root",
+     "blockId": "p14-q17",
+     "hash": "e320a70861daff52138a9df0eda476979155409df9581f38879882c8fbed91e6"
+    },
+    {
+     "id": "p14-q18-root",
+     "blockId": "p14-q18",
+     "hash": "c4b6a98268e6bc0912606a3156e3b03face7de09426bcc184a61ae54b3a564e5"
+    },
+    {
+     "id": "p25-q9",
+     "blockId": "p25-q9",
+     "hash": "82c7eaf210c4b923804140b36dc21e5c6b38bdf6c39bc6ff58efb83a54d1f83a"
+    },
+    {
+     "id": "p26-q11",
+     "blockId": "p26-q11-block",
+     "hash": "1b673ae812fb43e7e81480be2f4b5188fd6d262d6459ea26cc054de32940dec9"
+    },
+    {
+     "id": "p26-q14-response",
+     "blockId": "p26-q14",
+     "hash": "ce0253dfaf15926430b824bb990da794eadd74fc0e6854f361ecfe1b6a4263a9"
+    },
+    {
+     "id": "p29-q22-response",
+     "blockId": "p29-q22",
+     "hash": "37b1ac870c908b889e0610b156ccefc512ffe329394dd503526fb1f99b46cced"
+    }
+   ],
+   "finding": "Questions requiring an unknown duration appear without teaching a search method for an unknown exponent.",
+   "breakdown": "Calculating a balance or dividing by a known growth factor does not show students how to find the exponent. The same missing method affects both compound interest and depreciation, with different requirements for approximate time and a minimum whole-year target.",
+   "checked": "All supplied teaching was checked. p6 explains the meaning of the exponent; p7–p9 model future and present values; p16–p17 convert known durations into periods. None demonstrates finding an unknown duration. The earlier compound-interest questions therefore do not supply teaching that defeats the depreciation candidate.",
+   "assumptions": "A calculator is available. Logarithms are not assumed.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p14-q17-root, demonstrate calculator trials using its formula: FV = 800(1.125)^n. At n = 4, FV ≈ $1281.45; at n = 5, FV ≈ $1441.63, so the requested approximate duration is 5 years. State once that students vary n and refine trials to the accuracy requested. At p14-q18-root add: 'Find the first whole year reaching the target; check the previous year.' At p25-q9 add the local cue: 'Use the same trial method with S = 32000(0.85)^n. Refine the time sufficiently to round to the nearest year.'"
+   },
+   "doneWhen": "One shared search method is demonstrated before its first use, with local cues distinguishing minimum whole years from a duration rounded to the nearest year.",
+   "from": [
+    "c3",
+    "c7"
+   ],
+   "sequences": [
+    "compound-interest-formula",
+    "depreciation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:31:52.296Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-7c9ce094f5",
    "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "p12-q6",
-     "blockId": "p12-q6",
-     "hash": "3243dc9c11e42aad22e6442764b6c499cd147afabe9d09de401d360b297cbcca"
+     "id": "p13-q11",
+     "blockId": "p13-q11",
+     "hash": "1bdcf03c59c17bef25a8fd53639e014dee8ac89c718fb819f9249acc1039402d"
     }
    ],
-   "finding": "Compare fourth-year interest with first-year interest using the existing investment.",
-   "breakdown": "The follow-up makes interest on accumulated interest visible as a dollar difference.",
-   "checked": "The formula, annual percentage calculation and subtraction are available by this topic's end. Fourth-year interest is 8400(1.06)^3×0.06=$600.272064; first-year interest is $504.",
-   "assumptions": "Calculator use is assumed; retain unrounded intermediate values.",
+   "finding": "Compare the investment after one and two years to locate when interest on interest first changes the balance.",
+   "breakdown": "The follow-up connects the compound-interest formula with the reason the two methods diverge.",
+   "checked": "Both methods give $11,880 after one year. After two years, compound interest gives $12,830.40 and simple interest gives $12,760, a difference of $70.40. All required methods are available.",
+   "assumptions": "Annual compounding and calculator use.",
    "repair": {
     "type": "add-question",
-    "proposal": "Append optional parts after p12-q6-b: (c) If the investment continues for one more year at the same rate, how much interest is earned during the fourth year? Answer: $600.27. (d) How much more interest is earned in the fourth year than in the first year? Answer: $96.27. Give monetary answers to the nearest cent."
+    "proposal": "After p13-q11-c, add: (d) What is the balance after 1 year under each method? Answer: $11,880 under both. (e) How much greater is the compound-interest balance after 2 years? Answer: $70.40. (f) Explain why the balances agree after 1 year but differ after 2 years. Expected answer: both initially earn interest on $11,000; compound interest also earns interest on the first year's $880 during the second year."
    },
-   "doneWhen": "The follow-up distinguishes one year's interest from total accumulated interest using the existing investment.",
+   "doneWhen": "The optional parts expose when interest on earlier interest first affects the balance.",
    "from": [
     "c5"
    ],
@@ -106,11 +167,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T09:11:33.058Z"
+     "at": "2026-10-23T11:31:52.296Z"
     }
-   ],
-   "commentId": "df7aa803-c2a6-4f52-9f88-97e4ed614531",
-   "postedAt": "2026-10-15T09:11:33.310Z"
+   ]
   },
   {
    "id": "pf-eebffc6520",
@@ -149,6 +208,115 @@
    "postedAt": "2026-10-15T09:11:33.314Z"
   },
   {
+   "id": "pf-73caa47157",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p26-q10",
+     "blockId": "p26-q10-block",
+     "hash": "c3bae876c6fbef0fc52dd21674f8c1940b30b8f5fab5728689af8054d5f61fda"
+    },
+    {
+     "id": "p26-q13",
+     "blockId": "p26-q13-block",
+     "hash": "cf1c8bdbaf9129f04a49479be97525ffd2cc8cd9df55fd9662bbb3687500868e"
+    }
+   ],
+   "finding": "The practice requires recovering an annual depreciation rate without teaching how to recover the annual retained-value factor.",
+   "breakdown": "Students must divide final value by initial value, take the root corresponding to the number of years, and subtract the resulting annual factor from one. Earlier teaching neither models this sequence nor explains why the root is needed.",
+   "checked": "p23 models a given depreciation rate. p9 isolates an initial value, while p16 converts a given nominal rate between periods. Neither supplies the method required by p26-q10 and p26-q13. The proposed example is mathematically correct for declining-balance depreciation.",
+   "assumptions": "A calculator with numerical roots is available. Numerical root calculation may be prior knowledge; interpreting the root as the annual retained-value factor still needs teaching.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before p26-q10, add: 'An asset falls from $10,000 to $6400 in 2 years. Find its annual depreciation rate. 6400 = 10000(1 − r)^2; 0.64 = (1 − r)^2; 1 − r = √0.64 = 0.8; r = 1 − 0.8 = 0.2 = 20% p.a.' Explain beside the root step: 'The annual retained-value factor is multiplied twice, so take the square root. For n years, take the nth root.'"
+   },
+   "doneWhen": "Students see the connection between the multiyear value ratio, the annual retained-value factor and the annual depreciation percentage before finding an unknown rate.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "depreciation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:31:52.296Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-802bc371f1",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p27-q15",
+     "blockId": "p27-q15-block",
+     "hash": "192d9985157e96d7c5ee5c6327e2a3fa3effd82bc3a29f327dc5bd4a9149cdd9"
+    }
+   ],
+   "finding": "Use the rowing machine's annual dollar losses to quantify the changing steepness of its value graph.",
+   "breakdown": "The follow-up makes the explanation in part b numerical: the annual dollar loss itself decreases by 15%.",
+   "checked": "The first-year loss is $585. The second-year loss is $497.25. Their decrease is $87.75, which is 15% of $585. Percentage calculations and declining-balance depreciation are available by this point.",
+   "assumptions": "Calculator use.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p27-q15-b, add: (c) How much value does the machine lose during the first year? Answer: $585. (d) How much value does it lose during the second year? Answer: $497.25. (e) By what percentage has the annual dollar loss decreased from the first year to the second? Answer: 15%."
+   },
+   "doneWhen": "The optional parts connect the curved graph with annual dollar losses that decrease by the same percentage.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "depreciation"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:31:52.296Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-666ce6966b",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q6",
+     "blockId": "p12-q6",
+     "hash": "3243dc9c11e42aad22e6442764b6c499cd147afabe9d09de401d360b297cbcca"
+    }
+   ],
+   "finding": "Compare fourth-year interest with first-year interest using the existing investment.",
+   "breakdown": "The follow-up makes interest on accumulated interest visible as a dollar difference.",
+   "checked": "The formula, annual percentage calculation and subtraction are available by this topic's end. Fourth-year interest is 8400(1.06)^3×0.06=$600.272064; first-year interest is $504.",
+   "assumptions": "Calculator use is assumed; retain unrounded intermediate values.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts after p12-q6-b: (c) If the investment continues for one more year at the same rate, how much interest is earned during the fourth year? Answer: $600.27. (d) How much more interest is earned in the fourth year than in the first year? Answer: $96.27. Give monetary answers to the nearest cent."
+   },
+   "doneWhen": "The follow-up distinguishes one year's interest from total accumulated interest using the existing investment.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "compound-interest-formula"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:11:33.058Z"
+    }
+   ],
+   "commentId": "df7aa803-c2a6-4f52-9f88-97e4ed614531",
+   "postedAt": "2026-10-15T09:11:33.310Z"
+  },
+  {
    "id": "pf-b39bbe8632",
    "kind": "extension",
    "severity": "suggestion",
@@ -185,16 +353,7 @@
    "postedAt": "2026-10-15T09:11:33.316Z"
   }
  ],
- "contextQuestions": [
-  {
-   "sequence": "depreciation",
-   "targets": [
-    "p26-q10",
-    "p26-q13"
-   ],
-   "question": "Before depreciation, have students learned to recover an unknown percentage rate from a relationship such as S=V₀(1−r)^n by dividing, taking an nth root and subtracting from 1? The supplied teaching does not demonstrate this route. If it is new, p26-q10 needs a short worked demonstration before students attempt it."
-  }
- ],
+ "contextQuestions": [],
  "protectedGroups": [
   {
    "sequence": "investigation-compound-interest",
@@ -202,9 +361,9 @@
     "p3-simple-table-response",
     "p3-compound-table-response"
    ],
-   "observation": "The first-year balances agree, then the balances diverge because only compound interest earns interest on previous interest.",
-   "varies": "The interest calculation rule.",
-   "invariant": "Principal, annual rate, duration and table structure."
+   "observation": "The first-year results agree, then the balances diverge because only compound interest includes previous interest in its calculation base.",
+   "varies": "Simple versus compound interest.",
+   "invariant": "$1000 principal, 10% annual rate, four years and table structure."
   },
   {
    "sequence": "investigation-compound-interest",
@@ -213,9 +372,9 @@
     "p5-q4-b",
     "p5-q4-c"
    ],
-   "observation": "Equal annual additions produce a straight line, while increasing annual additions produce an upward-curving graph.",
-   "varies": "Simple versus compound interest.",
-   "invariant": "Principal, annual rate, five-year duration and shared graph axes."
+   "observation": "Students compare the same investment under both methods and connect their numerical differences with the two graph shapes.",
+   "varies": "Interest method and its resulting balance trajectory.",
+   "invariant": "$10,000 principal, 8.5% annual rate and five-year duration."
   },
   {
    "sequence": "compounding-frequency",
@@ -224,9 +383,9 @@
     "p16-q1-b",
     "p16-q1-c"
    ],
-   "observation": "Increasing compounding frequency increases the number of periods and decreases the rate per period.",
-   "varies": "Compounding frequency",
-   "invariant": "Principal, annual rate and investment duration"
+   "observation": "Increasing frequency increases the number of periods and decreases the rate per period.",
+   "varies": "Compounding frequency.",
+   "invariant": "Principal, annual rate and duration."
   },
   {
    "sequence": "compounding-frequency",
@@ -234,9 +393,9 @@
     "p17-example-annual",
     "p17-example-monthly"
    ],
-   "observation": "The same investment requires both a changed rate and a changed exponent when frequency changes.",
-   "varies": "Annual versus monthly compounding",
-   "invariant": "Principal, annual rate and investment duration"
+   "observation": "The same annual rate and duration require different periodic inputs, producing different future values.",
+   "varies": "Annual versus monthly compounding.",
+   "invariant": "Principal, annual rate and duration."
   },
   {
    "sequence": "compounding-frequency",
@@ -245,9 +404,31 @@
     "p17-guided-b",
     "p17-guided-c"
    ],
-   "observation": "More frequent compounding produces a larger future value at the same annual nominal rate.",
-   "varies": "Compounding frequency",
-   "invariant": "Principal, annual rate and investment duration"
+   "observation": "More frequent compounding produces a larger balance under otherwise identical conditions.",
+   "varies": "Biannual, quarterly and monthly frequency.",
+   "invariant": "Principal, annual rate and duration."
+  },
+  {
+   "sequence": "compounding-frequency",
+   "targets": [
+    "p18-q1a",
+    "p18-q1b",
+    "p18-q1c"
+   ],
+   "observation": "The calculation distinguishes annual, monthly and quarterly compounding.",
+   "varies": "Compounding frequency.",
+   "invariant": "Principal, annual rate and one-year duration."
+  },
+  {
+   "sequence": "compounding-frequency",
+   "targets": [
+    "p18-q2a",
+    "p18-q2b",
+    "p18-q2c"
+   ],
+   "observation": "The frequency comparison is repeated over several years.",
+   "varies": "Compounding frequency.",
+   "invariant": "Principal, annual rate and four-year duration."
   },
   {
    "sequence": "compounding-frequency",
@@ -258,9 +439,9 @@
     "p19-q7-d",
     "p19-q7-e"
    ],
-   "observation": "Students compare the effect of compounding frequency and then compare compound interest with simple interest.",
-   "varies": "Compounding frequency, followed by interest method",
-   "invariant": "Principal, annual rate and investment duration"
+   "observation": "Balances can be compared across compounding frequencies and against simple interest.",
+   "varies": "Frequency and then interest method.",
+   "invariant": "Principal, annual rate and duration."
   },
   {
    "sequence": "compounding-frequency",
@@ -272,20 +453,20 @@
     "p22-q19-e",
     "p22-q19-f"
    ],
-   "observation": "Increasing frequency gives progressively smaller gains and a balance approaching e.",
-   "varies": "Compounding frequency",
-   "invariant": "$1 principal, 100% nominal annual rate and one-year duration"
+   "observation": "Increasing compounding frequency produces balances approaching the calculator value of e.",
+   "varies": "Compounding frequency.",
+   "invariant": "Principal of $1, annual rate of 100% and one-year duration."
   },
   {
    "sequence": "compound-interest-formula",
    "targets": [
-    "p6-after-three-years",
-    "p6-after-six-years",
-    "p6-after-n-years"
+    "p10-q1-table-response",
+    "p10-q1-a",
+    "p10-q1-b"
    ],
-   "observation": "The number of repeated growth factors becomes the exponent.",
-   "varies": "Duration changes from three years to six years to n years.",
-   "invariant": "Initial investment $1000 and annual multiplier 1.1."
+   "observation": "Repeated annual calculations and the compound interest formula produce the same final balance.",
+   "varies": "Representation and calculation method.",
+   "invariant": "Principal, rate, duration and target balance."
   },
   {
    "sequence": "compound-interest-formula",
@@ -295,9 +476,9 @@
     "p13-q13-c",
     "p13-q13-d"
    ],
-   "observation": "The same percentage and amount play different roles in finding an increase, increasing an amount, reversing an increase and compounding.",
-   "varies": "The operation and the role of the given amount.",
-   "invariant": "$3920 and 40%."
+   "observation": "Finding a percentage, increasing an amount, reversing an increase and repeating an increase require different operations.",
+   "varies": "The requested relationship and direction of calculation.",
+   "invariant": "The stated amount $3920 and rate 40%."
   },
   {
    "sequence": "depreciation",
@@ -305,14 +486,14 @@
     "p27-q15-a",
     "p27-q15-b"
    ],
-   "observation": "Equal yearly intervals produce a constant retention ratio but decreasing dollar losses, explaining the curved graph.",
-   "varies": "Elapsed years.",
+   "observation": "The table and graph expose constant percentage decrease alongside decreasing dollar losses.",
+   "varies": "Elapsed time increases by one year per row.",
    "invariant": "Initial value $3900 and annual depreciation rate 15%."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 19,
- "reviewedAt": "2026-10-15T09:11:33.058Z",
+ "reviewedRevision": 36,
+ "reviewedAt": "2026-10-23T11:31:52.296Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -321,7 +502,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -336,13 +517,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 29800,
-     "cached_input_tokens": 14720,
+     "input_tokens": 29745,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1772,
-     "reasoning_output_tokens": 246
+     "output_tokens": 1892,
+     "reasoning_output_tokens": 92
     },
-    "elapsedMs": 56134,
+    "elapsedMs": 57256,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -354,13 +535,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 33518,
-     "cached_input_tokens": 12544,
+     "input_tokens": 32961,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4918,
-     "reasoning_output_tokens": 335
+     "output_tokens": 5063,
+     "reasoning_output_tokens": 399
     },
-    "elapsedMs": 122753,
+    "elapsedMs": 133036,
     "candidates": 2,
     "discarded": [],
     "suggestions": 2
@@ -372,13 +553,13 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 36138,
-     "cached_input_tokens": 14720,
+     "input_tokens": 35564,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2691,
-     "reasoning_output_tokens": 81
+     "output_tokens": 3409,
+     "reasoning_output_tokens": 157
     },
-    "elapsedMs": 67655,
+    "elapsedMs": 97069,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -390,14 +571,14 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 38646,
-     "cached_input_tokens": 12544,
+     "input_tokens": 38890,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3698,
-     "reasoning_output_tokens": 395
+     "output_tokens": 3934,
+     "reasoning_output_tokens": 142
     },
-    "elapsedMs": 97169,
-    "candidates": 0,
+    "elapsedMs": 107303,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    }
@@ -405,27 +586,9 @@
   "dropped": [
    {
     "ids": [
-     "c3"
-    ],
-    "reason": "The existing teaching supplies a usable route: p3-investigation-block and p6-investigation build balances year by year, and p5-q4 practises continuing that process. Students can extend a table or evaluate successive whole-year values until reaching the target. These final challenge questions require choosing when to stop the taught process, rather than a necessarily new logarithmic method. Five years gives approximately $1441.63 in p14-q17; p14-q18 requires ten years because nine gives $19,990.05. The claim that no preceding method supplies a route is defeated.",
-    "candidates": [
-     {
-      "id": "c3",
-      "sequence": "compound-interest-formula",
-      "kind": "unsupported-transition",
-      "targets": [
-       "p14-q17",
-       "p14-q18"
-      ],
-      "finding": "The final two questions require finding an unknown number of periods, but preceding teaching only models finding FV, interest and PV."
-     }
-    ]
-   },
-   {
-    "ids": [
      "c4"
     ],
-    "reason": "The practice already contains the proposed variation: p10-q1 holds principal and rate fixed while calculating successive annual balances, as does p5-q4. The suggestion therefore fails the requirement that practice lack such a run. Its proposed third- and fourth-year answers are also incorrect: they should be $774.16 and $820.61.",
+    "reason": "The requirement that the practice lack such a run defeats this suggestion: p10-q1 already holds principal and rate fixed while varying years across its table, and p6 explicitly connects consecutive years with repeated multiplication. The proposed run repeats an existing comparison.",
     "candidates": [
      {
       "id": "c4",
@@ -434,7 +597,7 @@
       "targets": [
        "p10-q2"
       ],
-      "finding": "Keep the investment and rate fixed while varying the duration."
+      "finding": "Hold principal and rate fixed while varying the number of years."
      }
     ]
    }
@@ -442,7 +605,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/compound-interest-depreciation-v1/candidates-low-1792055409716.json",
+  "candidateFile": ".booklet-work/full-imports/compound-interest-depreciation-20261005/polish/pedagogy-work/candidates-low-1792755038094.json",
   "errors": []
  },
  "postedRevision": 20

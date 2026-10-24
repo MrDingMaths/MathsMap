@@ -1,7 +1,7 @@
 {
  "version": 1,
  "projectId": "coordinate-geometry-v1",
- "title": "Coordinate Geometry",
+ "title": "Linear Relationships A: Coordinate Geometry",
  "assumptions": {},
  "findings": [
   {
@@ -44,6 +44,233 @@
    ],
    "commentId": "8cf0fbe5-3d6d-494c-81cf-5f575e39919f",
    "postedAt": "2026-10-15T09:20:00.225Z"
+  },
+  {
+   "id": "pf-6fb2873531",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p11-q5",
+     "blockId": "p11-q5",
+     "hash": "7b2cc4f56d59a066ae53dec4c25403f8be4c384f000b95e89abe6bbe5c9960f1"
+    },
+    {
+     "id": "p11-q5-a",
+     "blockId": "p11-q5",
+     "hash": "7b2cc4f56d59a066ae53dec4c25403f8be4c384f000b95e89abe6bbe5c9960f1"
+    },
+    {
+     "id": "p11-q5-b",
+     "blockId": "p11-q5",
+     "hash": "7b2cc4f56d59a066ae53dec4c25403f8be4c384f000b95e89abe6bbe5c9960f1"
+    },
+    {
+     "id": "p11-q5-d",
+     "blockId": "p11-q5",
+     "hash": "7b2cc4f56d59a066ae53dec4c25403f8be4c384f000b95e89abe6bbe5c9960f1"
+    },
+    {
+     "id": "p11-q5-e",
+     "blockId": "p11-q5",
+     "hash": "7b2cc4f56d59a066ae53dec4c25403f8be4c384f000b95e89abe6bbe5c9960f1"
+    },
+    {
+     "id": "p11-q5-f",
+     "blockId": "p11-q5",
+     "hash": "7b2cc4f56d59a066ae53dec4c25403f8be4c384f000b95e89abe6bbe5c9960f1"
+    },
+    {
+     "id": "p12-q7-a",
+     "blockId": "p12-q7",
+     "hash": "ddf2b1a2ec135c921a93ff27350d472957085ed60ba07b6a79efeacde6ba219f"
+    },
+    {
+     "id": "p12-q7-b",
+     "blockId": "p12-q7",
+     "hash": "ddf2b1a2ec135c921a93ff27350d472957085ed60ba07b6a79efeacde6ba219f"
+    },
+    {
+     "id": "p12-q7-c",
+     "blockId": "p12-q7",
+     "hash": "ddf2b1a2ec135c921a93ff27350d472957085ed60ba07b6a79efeacde6ba219f"
+    },
+    {
+     "id": "p12-q7-d",
+     "blockId": "p12-q7",
+     "hash": "ddf2b1a2ec135c921a93ff27350d472957085ed60ba07b6a79efeacde6ba219f"
+    },
+    {
+     "id": "p12-q7-e",
+     "blockId": "p12-q7",
+     "hash": "ddf2b1a2ec135c921a93ff27350d472957085ed60ba07b6a79efeacde6ba219f"
+    },
+    {
+     "id": "p12-q7-f",
+     "blockId": "p12-q7",
+     "hash": "ddf2b1a2ec135c921a93ff27350d472957085ed60ba07b6a79efeacde6ba219f"
+    }
+   ],
+   "finding": "The compulsory ungridded calculations require finding coordinate differences, but preceding teaching models only changes obtained from unit grids.",
+   "breakdown": "“There is no grid so you must use the coordinates” does not show how coordinate positions become signed changes. Students could use the endpoint ordinate 7 as the rise in p11-q5-a or mishandle the change between negative ordinates in p11-q5-e.",
+   "checked": "Searched the supplied teaching through gradient-from-coordinates. p4-gradient-method-block defines change and direction; p8-method and both examples obtain changes from unit grids. p10-q4 forbids counting squares but supplies no coordinate-difference demonstration. Later practice does not supply the missing instruction.",
+   "assumptions": "Ordinary signed arithmetic is prior knowledge; obtaining rise and run by subtracting endpoint coordinates is the unsupported variant. Calculator access does not affect this finding.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Immediately before p11-q5, add: “Starting with the point on the left, subtract its y-coordinate from the right point’s y-coordinate to find rise. Subtract its x-coordinate from the right point’s x-coordinate to find run.” Demonstrate with (-2,-3) and (4,-1): rise = -1-(-3)=2; run = 4-(-2)=6; m=2/6=1/3."
+   },
+   "doneWhen": "Before compulsory ungridded practice, a demonstration explicitly obtains both changes from coordinates, including negative coordinates.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "gradient-from-coordinates"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T10:33:36.022Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-256937e27e",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p12-q7",
+     "blockId": "p12-q7",
+     "hash": "ddf2b1a2ec135c921a93ff27350d472957085ed60ba07b6a79efeacde6ba219f"
+    }
+   ],
+   "finding": "Compare vertically translated intervals to distinguish a line’s height from its gradient.",
+   "breakdown": "The proposed run holds both coordinate changes fixed while changing vertical position.",
+   "checked": "Verified every gradient and checked the preceding rise/run teaching. Existing p12-q7 parts do not provide this controlled comparison.",
+   "assumptions": "Adopt after repairing the coordinate-difference transition.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p12-q7-i, under the existing instruction, add: “Predict each gradient before calculating.” j. (-4,0) and (4,6). k. (-4,2) and (4,8). l. (-4,-5) and (4,1). Answers: j–l each 3/4. Follow with m. (-2,3) and (4,0). Answer: -1/2. Across j–l, vertical position varies while run 8 and rise 6 stay fixed."
+   },
+   "doneWhen": "The three translated intervals and the unpatterned follow-up appear as further parts, with only the prediction line added.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "gradient-from-coordinates"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T10:33:36.022Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-5c8b13551d",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p16-q4",
+     "blockId": "p16-q4",
+     "hash": "685f3c1e03e7a2b5a55d21fb5abf25dcc31e835404ddad964891b1c8e43dca9a"
+    }
+   ],
+   "finding": "Vary one endpoint’s horizontal coordinate to expose how the midpoint moves.",
+   "breakdown": "Moving one endpoint two units horizontally moves the midpoint one unit horizontally while its y-coordinate remains fixed.",
+   "checked": "Verified all coordinate means against p14-formula-definition. The existing practice does not contain this controlled endpoint variation.",
+   "assumptions": "Uses only the midpoint method already taught.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p16-q4-i, add: “Predict how the midpoint will change before calculating.” j. (0,2) and (2,6). k. (0,2) and (4,6). l. (0,2) and (6,6). m. (0,2) and (8,6). Answers: (1,4), (2,4), (3,4), (4,4). Follow with n. (-3,5) and (4,-2). Answer: (0.5,1.5). The first endpoint and both y-coordinates stay fixed; only the second x-coordinate varies."
+   },
+   "doneWhen": "The controlled run and unpatterned follow-up appear as further parts with only the prediction line added.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "midpoint"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T10:33:36.022Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-3c0da5cd20",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p16-q4",
+     "blockId": "p16-q4",
+     "hash": "685f3c1e03e7a2b5a55d21fb5abf25dcc31e835404ddad964891b1c8e43dca9a"
+    }
+   ],
+   "finding": "Use the midpoint from part g to recover an endpoint.",
+   "breakdown": "This reverses the midpoint calculation through the taught meaning of halfway, using equal coordinate changes on either side.",
+   "checked": "For midpoint (0.5,-0.5), the missing endpoint coordinates are twice the midpoint coordinates minus the known endpoint coordinates. The proposed answers are (4,-2) and (-1,-4); averaging verifies both.",
+   "assumptions": "Students can use ordinary signed arithmetic and the taught halfway interpretation; no additional coordinate geometry formula is required.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts to p16-q4: j. 'Using the midpoint from part g, (0.5,-0.5), find the other endpoint when one endpoint is (-3,1).' Answer: (4,-2). k. 'Keep the same midpoint. Find the other endpoint when one endpoint is (2,3).' Answer: (-1,-4)."
+   },
+   "doneWhen": "The follow-up explicitly uses part g's midpoint and includes both expected endpoints.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "midpoint"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T09:19:59.950Z"
+    }
+   ],
+   "commentId": "cc9aa2ac-fc77-41cc-b07b-f0e57494f04c",
+   "postedAt": "2026-10-15T09:20:00.234Z"
+  },
+  {
+   "id": "pf-a5747eab4c",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p22-q8-a",
+     "blockId": "p22-q8",
+     "hash": "80481390147738da4aa8ea275a98946cf87be56162e133164c8790ac92ece4ce"
+    }
+   ],
+   "finding": "Calculate the distances from the midpoint to both endpoints.",
+   "breakdown": "This connects the coordinate-mean calculation with equal distances along the interval.",
+   "checked": "Using A=(2,3), M=(3.5,5), B=(5,7), both distances are sqrt(1.5²+2²)=2.5 units; their sum is AB=5 units. Midpoint and distance methods are available by this topic.",
+   "assumptions": "Calculator use is available, consistent with the distance topic’s square-root and rounding tasks.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p22-q8-a, add optional follow-up parts: (i) Calculate AM. Answer: 2.5 units. (ii) Calculate MB. Answer: 2.5 units. (iii) How does AM+MB compare with AB? Answer: 2.5+2.5=5 units, equal to AB."
+   },
+   "doneWhen": "The three follow-up parts refer to the existing diagram and connect the two half-lengths with the original length.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "distance"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T10:33:36.022Z"
+    }
+   ]
   },
   {
    "id": "pf-733419d2f7",
@@ -116,42 +343,6 @@
    ],
    "commentId": "8805f9c8-ba94-46f5-a2b5-83362a6fe699",
    "postedAt": "2026-10-15T09:20:00.231Z"
-  },
-  {
-   "id": "pf-3c0da5cd20",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p16-q4",
-     "blockId": "p16-q4",
-     "hash": "685f3c1e03e7a2b5a55d21fb5abf25dcc31e835404ddad964891b1c8e43dca9a"
-    }
-   ],
-   "finding": "Use the midpoint from part g to recover an endpoint.",
-   "breakdown": "This reverses the midpoint calculation through the taught meaning of halfway, using equal coordinate changes on either side.",
-   "checked": "For midpoint (0.5,-0.5), the missing endpoint coordinates are twice the midpoint coordinates minus the known endpoint coordinates. The proposed answers are (4,-2) and (-1,-4); averaging verifies both.",
-   "assumptions": "Students can use ordinary signed arithmetic and the taught halfway interpretation; no additional coordinate geometry formula is required.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Append optional parts to p16-q4: j. 'Using the midpoint from part g, (0.5,-0.5), find the other endpoint when one endpoint is (-3,1).' Answer: (4,-2). k. 'Keep the same midpoint. Find the other endpoint when one endpoint is (2,3).' Answer: (-1,-4)."
-   },
-   "doneWhen": "The follow-up explicitly uses part g's midpoint and includes both expected endpoints.",
-   "from": [
-    "c7"
-   ],
-   "sequences": [
-    "midpoint"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T09:19:59.950Z"
-    }
-   ],
-   "commentId": "cc9aa2ac-fc77-41cc-b07b-f0e57494f04c",
-   "postedAt": "2026-10-15T09:20:00.234Z"
   },
   {
    "id": "pf-8fcb38a145",
@@ -241,21 +432,9 @@
     "p13-q1-c",
     "p13-q1-d"
    ],
-   "observation": "Moving one endpoint changes the midpoint while the other endpoint stays fixed.",
+   "observation": "The midpoint changes as the right endpoint moves, including a midpoint between integers.",
    "varies": "The right endpoint.",
-   "invariant": "The left endpoint is 16 and the task is to find the halfway value."
-  },
-  {
-   "sequence": "midpoint",
-   "targets": [
-    "p13-q2-g",
-    "p13-q2-h",
-    "p13-q2-i",
-    "p13-q2-j"
-   ],
-   "observation": "With one endpoint fixed, changes in the other endpoint produce half as much change in the mean.",
-   "varies": "The second number, including a decimal value.",
-   "invariant": "The first number is 7."
+   "invariant": "The left endpoint is 16 and the task is to find the midpoint."
   },
   {
    "sequence": "midpoint",
@@ -264,42 +443,60 @@
     "p13-q2-o",
     "p13-q2-p"
    ],
-   "observation": "Changing endpoint signs changes the signed midpoint; negating both endpoints negates the midpoint.",
-   "varies": "The signs of the numbers.",
-   "invariant": "Endpoint magnitudes are 6 and 16."
+   "observation": "Changing endpoint signs changes the signed mean; reversing both signs reverses the mean's sign.",
+   "varies": "The signs of the endpoints, one at a time.",
+   "invariant": "Endpoint magnitudes 6 and 16 and the mean calculation."
   },
   {
-   "sequence": "gradient",
+   "sequence": "gradient-from-coordinates",
    "targets": [
-    "p3-identify-a",
-    "p3-identify-b",
-    "p3-identify-c"
+    "p9-q1-b",
+    "p9-q1-c",
+    "p9-q1-d"
    ],
-   "observation": "Positive sign persists despite changes in length and inclination.",
-   "varies": "Segment length and steepness.",
-   "invariant": "The segment rises from left to right."
+   "observation": "Keeping rise at -3 while changing run distinguishes vertical change from gradient.",
+   "varies": "Run is 3, 1 and 2; endpoint positions also vary.",
+   "invariant": "Rise is -3 and all intervals descend from left to right."
   },
   {
    "sequence": "gradient",
    "targets": [
     "p4-part-c",
+    "p4-part-d"
+   ],
+   "observation": "Doubling both rise and run preserves gradient.",
+   "varies": "Rise and run change from 1 and 2 to 2 and 4; the scaffold fades.",
+   "invariant": "Positive gradient of one half."
+  },
+  {
+   "sequence": "gradient",
+   "targets": [
     "p4-part-d",
     "p4-part-e"
    ],
-   "observation": "Scaling both changes preserves gradient, while reversing vertical direction changes its sign.",
-   "varies": "Rise/run scale, then sign of rise.",
-   "invariant": "Gradient magnitude is one half."
+   "observation": "Reversing the vertical direction changes the gradient's sign.",
+   "varies": "Rise changes from 2 to -2.",
+   "invariant": "Run of 4 and rise magnitude of 2."
   },
   {
    "sequence": "gradient",
    "targets": [
     "p4-part-f",
+    "p4-part-g"
+   ],
+   "observation": "A shorter interval can have the same gradient.",
+   "varies": "Rise and run magnitudes both halve.",
+   "invariant": "Gradient of -1."
+  },
+  {
+   "sequence": "gradient",
+   "targets": [
     "p4-part-g",
     "p4-part-h"
    ],
-   "observation": "Shortening an interval proportionally preserves gradient; reducing only run makes the negative slope steeper.",
-   "varies": "Both changes halve, then run alone halves.",
-   "invariant": "Negative direction; rise remains -2 in the final pair."
+   "observation": "For the same downward change, a smaller run produces a steeper negative gradient.",
+   "varies": "Run changes from 2 to 1.",
+   "invariant": "Rise of -2."
   },
   {
    "sequence": "gradient",
@@ -308,8 +505,8 @@
     "p6-q5-observation",
     "p6-q5-points"
    ],
-   "observation": "Different pairs of points on the same straight line give the same gradient.",
-   "varies": "Point pair, interval position and interval length.",
+   "observation": "Gradient is unchanged when different pairs of points on the same straight line are selected.",
+   "varies": "Endpoint pair, rise and run.",
    "invariant": "The line and its gradient of one half."
   },
   {
@@ -318,9 +515,9 @@
     "p21-q6-b",
     "p21-q6-c"
    ],
-   "observation": "A longer horizontal separation produces a longer interval when the vertical change remains fixed.",
-   "varies": "Run increases from 6 to 11 and the segment’s position changes.",
-   "invariant": "Signed rise is −1 and both tasks require plotting and finding distance to 1 d.p."
+   "observation": "With the same vertical change, increasing horizontal separation increases distance.",
+   "varies": "Horizontal change increases from 6 to 11; position also changes.",
+   "invariant": "Signed vertical change −1 and the plotting-and-Pythagoras method."
   },
   {
    "sequence": "distance",
@@ -328,14 +525,14 @@
     "p22-q8-b",
     "p22-q8-c"
    ],
-   "observation": "Translating a segment changes its midpoint coordinates while preserving gradient and length.",
-   "varies": "Both endpoints are translated by (−3,−5), moving the segment into different quadrants.",
-   "invariant": "Run 4, rise −4, gradient −1 and length √32."
+   "observation": "Translating an interval changes its midpoint coordinates while preserving gradient and length.",
+   "varies": "Both endpoints move by (−3,−5), placing the interval in different quadrants.",
+   "invariant": "Horizontal change 4, vertical change −4, gradient −1 and length √32."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 12,
- "reviewedAt": "2026-10-15T09:19:59.950Z",
+ "reviewedRevision": 28,
+ "reviewedAt": "2026-10-23T10:33:36.022Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -344,7 +541,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -359,13 +556,13 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 40068,
-     "cached_input_tokens": 14592,
+     "input_tokens": 40345,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3346,
-     "reasoning_output_tokens": 40
+     "output_tokens": 3632,
+     "reasoning_output_tokens": 129
     },
-    "elapsedMs": 83820,
+    "elapsedMs": 96661,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -377,13 +574,13 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 51222,
-     "cached_input_tokens": 12544,
+     "input_tokens": 52336,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3572,
-     "reasoning_output_tokens": 292
+     "output_tokens": 3987,
+     "reasoning_output_tokens": 456
     },
-    "elapsedMs": 96316,
+    "elapsedMs": 90255,
     "candidates": 1,
     "discarded": [],
     "suggestions": 2
@@ -395,16 +592,16 @@
     "images": 4,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 43782,
-     "cached_input_tokens": 14592,
+     "input_tokens": 44050,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2507,
-     "reasoning_output_tokens": 106
+     "output_tokens": 2793,
+     "reasoning_output_tokens": 165
     },
-    "elapsedMs": 56642,
-    "candidates": 1,
+    "elapsedMs": 77536,
+    "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    },
    {
     "id": "distance",
@@ -413,14 +610,14 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 51979,
-     "cached_input_tokens": 12544,
+     "input_tokens": 53095,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2935,
-     "reasoning_output_tokens": 385
+     "output_tokens": 3382,
+     "reasoning_output_tokens": 260
     },
-    "elapsedMs": 82607,
-    "candidates": 1,
+    "elapsedMs": 99767,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 2
    }
@@ -428,75 +625,60 @@
   "dropped": [
    {
     "ids": [
-     "c3"
+     "c2"
     ],
-    "reason": "The claim that no preceding method supplies numerical rise and run is defeated by p4-gradient-method-block's explicit definitions as vertical and horizontal change. With ordinary coordinate reading assumed, unequal scales introduce one representation feature, and p10-q4 explicitly warns against counting squares. Before p11-q6, p11-q5 also requires coordinate-based changes without a grid. This does not establish an unsupported method or a sharp jump meeting the high threshold.",
+    "reason": "The existing p4-part-c/d/e comparison already preserves gradient under proportional changes and then reverses its sign; p4-part-f/g/h also varies steepness with negative gradients. This addition overlaps existing comparisons and is less valuable than the four retained suggestions.",
     "candidates": [
      {
-      "id": "c3",
-      "sequence": "gradient-from-coordinates",
-      "kind": "unsupported-transition",
+      "id": "c2",
+      "sequence": "gradient",
+      "kind": "variation-sequence",
       "targets": [
-       "p10-q4-response",
-       "p11-q6-root"
+       "p4-calculate-gradient-block"
       ],
-      "finding": "The first unequal-scale graph tells students to stop counting squares without showing how to obtain rise and run from the numerical axis values."
+      "finding": "Follow the grid calculations with a fixed-run comparison of positive and negative gradients."
      }
     ]
    },
    {
     "ids": [
-     "c4"
+     "c5"
     ],
-    "reason": "Mathematically correct, but omitted under the four-suggestion booklet limit. Positive, negative and zero gradients already receive classification and calculation tasks; the retained suggestions add stronger connections to the existing questions.",
+    "reason": "The numerical answers are correct and rise/run can support the follow-up, but the four retained suggestions offer stronger controlled comparisons or more direct connections between the booklet’s central methods. Dropped under the whole-booklet limit of four suggestions.",
     "candidates": [
      {
-      "id": "c4",
+      "id": "c5",
       "sequence": "gradient-from-coordinates",
-      "kind": "variation-sequence",
+      "kind": "extension",
       "targets": [
        "p12-q7"
       ],
-      "finding": "Hold the starting point and horizontal change fixed while varying vertical change."
+      "finding": "Use the gradient in part a to locate further points on the same line."
      }
     ]
    },
    {
     "ids": [
-     "c10"
+     "c8"
     ],
-    "reason": "Mathematically correct: AM = MB = 2.5 units and the gradient of AM is 4/3. Omitted under the four-suggestion booklet limit in favour of the retained numerical extensions and distance variation sequence.",
+    "reason": "The mathematics is correct, but p18-example-right already demonstrates squaring a negative rise, alongside a positive-rise example. The four retained suggestions provide more valuable additions under the whole-booklet limit.",
     "candidates": [
      {
-      "id": "c10",
+      "id": "c8",
       "sequence": "distance",
-      "kind": "extension",
+      "kind": "variation-sequence",
       "targets": [
-       "p22-q8"
+       "p21-q6"
       ],
-      "finding": "Use the midpoint in part a to connect equal half-lengths with the original segment’s gradient."
+      "finding": "Add three reflected intervals to expose that direction changes need not change distance."
      }
     ]
    }
   ],
-  "unchecked": [
-   {
-    "id": "c6",
-    "reason": "The claimed error concerns an attached page that is not supplied here. The available p14-example-b theorySolution correctly gives M=(-0.5,-2), confirmed independently from the endpoint means. The alleged visible final line M=(3,2.5) cannot be verified without that page.",
-    "candidate": {
-     "id": "c6",
-     "sequence": "midpoint",
-     "kind": "worked-step-error",
-     "targets": [
-      "p14-example-b"
-     ],
-     "finding": "The final line of the worked example in the attached page gives M=(3,2.5), although its preceding lines calculate x̄=-0.5 and ȳ=-2."
-    }
-   }
-  ],
+  "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/coordinate-geometry-v1/candidates-low-1792055932167.json",
+  "candidateFile": ".booklet-work/full-imports/coordinate-geometry-import-20261006/polish/pedagogy-work/candidates-low-1792751567289.json",
   "errors": []
  },
  "postedRevision": 13

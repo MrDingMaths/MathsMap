@@ -41,6 +41,108 @@
    "postedAt": "2026-10-15T11:44:30.030Z"
   },
   {
+   "id": "pf-733419d2f7",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p6-q6",
+     "blockId": "p6-q6",
+     "hash": "457f42580e771f39d429e7777128a76928a59e06bf331278a9930fd35729ad99"
+    }
+   ],
+   "finding": "Extend the BMI question by comparing proportional changes in mass at a fixed height.",
+   "breakdown": "Doubling the numerator while keeping the denominator fixed exposes the relationship between mass and BMI.",
+   "checked": "136/(1.81)²=41.512774...; the original unrounded BMI is 68/(1.81)², exactly half this value. Only substitution and multiplication are required.",
+   "assumptions": "A calculator is available, as implied by the existing decimal calculations.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p6-q6-c, add optional parts: (d) 'What would Mr Ding’s BMI be if his mass were 136 kg and his height stayed 181 cm? Round to 2 decimal places.' Answer: 41.51. (e) 'Explain why this is twice his original BMI when unrounded values are compared.' Answer: his mass doubles while h² stays unchanged."
+   },
+   "doneWhen": "The optional follow-up uses the existing context and compares the two BMI values without rounding distortion.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "substitution-into-formulas"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:28:27.156Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-e6e20ac747",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q7-block",
+     "blockId": "p11-q7-block",
+     "hash": "1e4977d20fc29eb5b7c890ab5c9ef90d871ea167abd3b3763ea7dc961e1eee4b"
+    }
+   ],
+   "finding": "Extend the rectangle question to compare areas at a fixed perimeter.",
+   "breakdown": "Students combine the perimeter and area formulas to see that equal perimeter does not determine a unique area.",
+   "checked": "For perimeter 20, l+w=10. Widths 3, 4 and 5 give lengths 7, 6 and 5 and areas 21, 24 and 25. Both formulas are supplied in the booklet.",
+   "assumptions": "Use the same implicit length units as the existing question.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p11-q7-d, add optional parts: (e) 'Find the area of a rectangle with perimeter 20 and width 3.' Answer: 21, with length 7. (f) 'Find the area of a rectangle with perimeter 20 and width 5.' Answer: 25, with length 5. (g) 'Do rectangles with perimeter 20 always have the same area? Explain using parts d–f.' Answer: no; the areas are 24, 21 and 25."
+   },
+   "doneWhen": "The follow-up compares the three numerical areas using the existing formulas.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "unknown-after-substitution"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:28:27.156Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-91f1bb65df",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p21-q22",
+     "blockId": "p21-q22",
+     "hash": "1ca68bbb1294557b67106605098698dede8efb0cd177779f672614deb025e184"
+    }
+   ],
+   "finding": "Extend the age problem to compare a past age ratio and the unchanged age difference.",
+   "breakdown": "The follow-up reinforces that elapsed time changes both ages equally while their ratio changes.",
+   "checked": "46−t=3(18−t) gives t=4, with ages 42 and 14. In the original problem, ages after 10 years are 56 and 28. The age difference is 28 throughout.",
+   "assumptions": "The equation methods required are the same as those required by the existing age problem.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p21-q22, add optional parts: (b) 'How many years ago was Julian’s mother three times his age?' Answer: 4 years ago. (c) 'What is the difference between their ages now?' Answer: 28 years. (d) 'What will the difference be when his mother is twice his age? Explain why.' Answer: 28 years, because the same number of years is added to both ages."
+   },
+   "doneWhen": "Each follow-up part asks one question and retains the original ages and context.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "challenge"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T11:28:27.156Z"
+    }
+   ]
+  },
+  {
    "id": "pf-9a95cd2dd8",
    "kind": "missing-prerequisite",
    "severity": "high",
@@ -265,8 +367,8 @@
     "p5-q2-i",
     "p5-q2-j"
    ],
-   "observation": "Changing only the sign inside the bracket contrasts repeated growth with repeated reduction.",
-   "varies": "The sign between 1 and r.",
+   "observation": "Changing addition to subtraction inside the powered bracket changes growth into decrease.",
+   "varies": "The sign before r.",
    "invariant": "P=1000, r=0.1, n=5 and the surrounding formula structure."
   },
   {
@@ -275,9 +377,9 @@
     "p5-q2-k",
     "p5-q2-l"
    ],
-   "observation": "The adjacent questions require attention to addition versus subtraction inside a square root.",
-   "varies": "The operation, variable names and supplied values.",
-   "invariant": "A square root containing two squared supplied quantities."
+   "observation": "Students must retain the operation shown under the square root rather than treating every root-of-squares formula as a sum.",
+   "varies": "Addition versus subtraction, the subject and the supplied values.",
+   "invariant": "Substitute two lengths, square them, combine them under the root and evaluate."
   },
   {
    "sequence": "unknown-after-substitution",
@@ -285,9 +387,9 @@
     "p10-q3-a",
     "p10-q3-b"
    ],
-   "observation": "Either factor in at can be found using the same substitution-and-division method.",
-   "varies": "Which factor is unknown.",
-   "invariant": "The formula v=u+at and the additive-then-multiplicative equation structure."
+   "observation": "Either factor in the product at can be the unknown; substitution still produces a two-step linear equation.",
+   "varies": "The unknown factor and numerical givens.",
+   "invariant": "The formula v=u+at and the subtract-then-divide structure."
   },
   {
    "sequence": "unknown-after-substitution",
@@ -296,9 +398,9 @@
     "p11-q6-b",
     "p11-q6-c"
    ],
-   "observation": "The same area relationship supports finding the area or either dimension.",
-   "varies": "The unknown quantity.",
-   "invariant": "The rectangle area formula A=bh."
+   "observation": "The same area relationship can find the subject or either dimension.",
+   "varies": "The requested quantity and numerical givens.",
+   "invariant": "The rectangle-area relationship A=bh."
   },
   {
    "sequence": "unknown-after-substitution",
@@ -308,44 +410,13 @@
     "p14-q16-c"
    ],
    "observation": "The unknown's position determines which inverse operations are needed.",
-   "varies": "The unknown moves from the subject to a factor and then inside the bracket.",
-   "invariant": "The trapezium area formula."
-  },
-  {
-   "sequence": "unknown-after-substitution",
-   "targets": [
-    "p14-q18-a",
-    "p14-q18-b",
-    "p14-q18-c"
-   ],
-   "observation": "The same three formula uses remain available when some quantities are supplied diagrammatically.",
-   "varies": "The unknown and the representation of the givens.",
-   "invariant": "The trapezium area relationship and the order of unknown roles established in p14-q16."
-  },
-  {
-   "sequence": "challenge",
-   "targets": [
-    "p19-q12",
-    "p19-q13"
-   ],
-   "observation": "The same sum-and-multiple model works in both money and age contexts.",
-   "varies": "Context, total and multiplier.",
-   "invariant": "One quantity is a multiple of the other and their sum is known."
-  },
-  {
-   "sequence": "challenge",
-   "targets": [
-    "p25-q38-b",
-    "p25-q38-c"
-   ],
-   "observation": "One constructed expression can be used in different equations according to the stated comparison.",
-   "varies": "The relationship between the final result and the original number.",
-   "invariant": "The operation chain and its resulting expression."
+   "varies": "The unknown moves from A to the outside factor h to the bracketed term b.",
+   "invariant": "The formula A=½h(a+b) and explicit symbolic givens."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 14,
- "reviewedAt": "2026-10-15T11:37:22.090Z",
+ "reviewedRevision": 28,
+ "reviewedAt": "2026-10-23T11:28:27.156Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -354,7 +425,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -369,16 +440,16 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 24897,
-     "cached_input_tokens": 14720,
+     "input_tokens": 24399,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2948,
-     "reasoning_output_tokens": 199
+     "output_tokens": 2735,
+     "reasoning_output_tokens": 242
     },
-    "elapsedMs": 69749,
+    "elapsedMs": 79837,
     "candidates": 1,
     "discarded": [],
-    "suggestions": 0
+    "suggestions": 1
    },
    {
     "id": "unknown-after-substitution",
@@ -387,14 +458,14 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 40205,
-     "cached_input_tokens": 14592,
+     "input_tokens": 40471,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4129,
-     "reasoning_output_tokens": 100
+     "output_tokens": 4792,
+     "reasoning_output_tokens": 105
     },
-    "elapsedMs": 102968,
-    "candidates": 2,
+    "elapsedMs": 129088,
+    "candidates": 0,
     "discarded": [],
     "suggestions": 1
    },
@@ -405,50 +476,51 @@
     "images": 1,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 32684,
+     "input_tokens": 32951,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4631,
-     "reasoning_output_tokens": 245
+     "output_tokens": 4222,
+     "reasoning_output_tokens": 229
     },
-    "elapsedMs": 111285,
-    "candidates": 3,
+    "elapsedMs": 125762,
+    "candidates": 2,
     "discarded": [],
-    "suggestions": 2
+    "suggestions": 1
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c5"
+     "c4"
     ],
-    "reason": "Earlier practice defeats the claim that all preceding tasks supply a formula: p13-q14-a requires constructing W=800+150n from words, and p15-q22-d requires constructing C=50+18t. These already rehearse the translation needed for p17-q1; the challenge begins with a simpler verbal relationship.",
+    "reason": "The missing-prerequisite claim treats absence from this booklet as evidence that elementary equation modelling and collecting variable terms are new content. The course separately includes equation-solving and algebra booklets, and these questions open an explicitly designated challenge exercise. The supplied evidence does not establish that these prior algebra methods require new teaching here.",
     "candidates": [
      {
-      "id": "c5",
+      "id": "c4",
       "sequence": "challenge",
       "kind": "missing-prerequisite",
       "targets": [
-       "p17-q1"
+       "p17-q1",
+       "p17-q2"
       ],
-      "finding": "The sequence begins requiring students to construct equations from words, although all preceding instruction starts with an already supplied formula."
+      "finding": "“Five more than twice a certain number is 33” requires constructing an equation, and “Ten less than twice a number is equal to three more than the number” immediately adds solving with the unknown on both sides, but neither method is taught in the supplied booklet."
      }
     ]
    },
    {
     "ids": [
-     "c7"
+     "c5"
     ],
-    "reason": "The claimed missing algebraic justification is not required to use the established divisibility test for 9. Students can prove that the reversal difference is divisible by 9 using the place-value approach rehearsed in p24-q35, then apply that prior test to its digit sum. Requiring a fresh proof of the test would exceed the stated standard.",
+    "reason": "The intentional-challenge test defeats this candidate. Part b adds one requirement—finding all positive whole-number combinations—in a small search bounded directly by the total cost and item prices. Trying possible counts and checking the remaining cost uses elementary arithmetic; the absence of a supplied search algorithm does not establish a substantial unsupported transition.",
     "candidates": [
      {
-      "id": "c7",
+      "id": "c5",
       "sequence": "challenge",
       "kind": "unsupported-transition",
       "targets": [
-       "p24-q37"
+       "p22-q30-b"
       ],
-      "finding": "The requested proof about a digit sum needs a link between a number and its digit sum that neither p24-q35 nor the earlier teaching supplies."
+      "finding": "“Give all possible combinations with at least one pencil and one ruler” replaces a uniquely determined equation with an exhaustive positive-integer search without supplying a search method."
      }
     ]
    }
@@ -457,21 +529,15 @@
   "suppressed": [],
   "droppedQuestions": [
    {
-    "question": "Have students already been taught to solve linear equations with the unknown on both sides, including fractional coefficients? The supplied earlier teaching only models equations with the unknown on one side.",
+    "question": "Before this booklet, have students learned to solve equations such as 6.28r²=72 by division followed by a square root, including choosing the positive solution for a length, for example in Equations 2: Simple Quadratic Equations? This is the only task here that requires solving for a squared unknown, and neither the local examples nor the supplied earlier teaching teaches that step.",
     "targets": [
-     "p17-q2"
+     "p13-q15-j"
     ],
-    "reason": "Equations with the unknown on both sides and fractional equations are separately taught course content, represented by Multistep Linear Equations and Linear Equations with Fractions. Their absence from this booklet's worked examples does not establish new content in its challenge exercise, so this question does not justify retaining a finding."
+    "reason": "The intended outcomes explicitly include solving ax²=c, and the course separately includes Equations 2: Simple Quadratic Equations. Division followed by a square root belongs to that separately taught method; selecting the positive radius follows from its meaning as a length. This does not warrant a teacher context question."
    }
   ],
-  "candidateFile": ".booklet-work/pedagogy-review/formulas-v1/candidates-low-1792057356437.json",
-  "errors": [],
-  "recoveredFrom": {
-   "candidateFile": "D:\\WebApps\\MathsMap\\.booklet-work\\pedagogy-review\\formulas-v1\\candidates-low-1792057356437.json",
-   "challengeResultFile": "D:\\WebApps\\MathsMap\\.booklet-work\\pedagogy-review\\formulas-v1\\calls\\pedagogy-challenge-1792057356452-y0zila\\last-message.txt",
-   "at": "2026-10-15T11:37:22.090Z",
-   "newModelCalls": 0
-  }
+  "candidateFile": ".booklet-work/full-imports/formulas-v1-20261001/polish/pedagogy-work/candidates-low-1792754848658.json",
+  "errors": []
  },
  "postedRevision": 15
 }

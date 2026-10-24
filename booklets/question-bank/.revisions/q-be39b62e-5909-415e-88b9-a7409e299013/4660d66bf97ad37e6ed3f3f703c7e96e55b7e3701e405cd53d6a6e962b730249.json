@@ -1,0 +1,433 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-be39b62e-5909-415e-88b9-a7409e299013",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "surface-area-partial-cylinder",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish retained sector angles from removed wedges, scale both end areas and curved area by the retained fraction, and add two unscaled cut rectangles. The arc-length hint supplies the curved-surface route.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:56:16.199Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dfe17108655fa83b09dc89569a4110ca14b33d2f075ff66e39133630987088d2",
+      "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/786302251fc1dfe8b6e368b195ba40f2fbcea5a84bc7d80d80cebda5b5789b9e-1792562143319/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p29-q7-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the surface area of these closed partial cylinders. Answer in exact form.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p29-q7-hint",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "(hint: arc-length is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "l=\\frac{\\theta}{360}\\times2\\pi r",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ")",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q7-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q7-a-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,2.8);\\coordinate (P) at (1.061,3.277);\\coordinate (Q) at (1.061,2.323);\\coordinate (B) at (0,0);\\coordinate (Pb) at (1.061,0.477);\\coordinate (Qb) at (1.061,-0.477);\n\\draw plot[domain=45:315,samples=81] ({1.5*cos(\\x)},{2.8+0.675*sin(\\x)});\n\\draw (P)--(O)--(Q)--(Qb) (Pb)--(P);\n\\draw (-1.5,2.8)--(-1.5,0);\n\\draw plot[domain=180:315,samples=45] ({1.5*cos(\\x)},{0.675*sin(\\x)});\n\\draw (O)--(B)--(Pb);\n\\draw[dashed,line width=0.4pt] (B)--(Qb);\n\\draw[line width=0.4pt] (0.18,2.881)--(0.36,2.8)--(0.18,2.719);\n\\path (O)--(P) node[midway,left=6pt,above] {$4\\,\\mathrm{m}$};\n\\path (-1.5,2.8)--(-1.5,0) node[midway,left=3pt] {$6\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 46,
+            "align": "left",
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Question 7a",
+              "description": "Upright closed cylinder with a 90-degree sector removed; radius label on an upper cut radius, height on the left silhouette, and a projected right-angle cue at the upper centre.",
+              "mathematics": "Radius 4 m, height 6 m, retained sector 270 degrees; two sector ends, retained curved surface and two radial rectangles.",
+              "answerVisibility": "Givens only; supplied answer excluded from the question figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$(60\\pi+48)\\,\\mathrm{m}^2$",
+          "worked": "The remaining angle is $360^\\circ-90^\\circ=270^\\circ$.\n$$\\begin{aligned}\\text{Two ends}&=2\\times\\frac{270}{360}\\times\\pi(4)^2=24\\pi\\ \\mathrm{m}^2\\\\\\text{Curved surface}&=\\frac{270}{360}\\times2\\pi(4)(6)=36\\pi\\ \\mathrm{m}^2\\\\\\text{Cut rectangles}&=2(4)(6)=48\\ \\mathrm{m}^2\\\\\\text{Surface area}&=24\\pi+36\\pi+48\\\\&=(60\\pi+48)\\ \\mathrm{m}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q7-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 p29-q7-b-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,1.7);\\coordinate (A) at (-0.684,-0.179);\\coordinate (B) at (0.684,-0.179);\\coordinate (R) at (3.8,2.35);\\coordinate (Ar) at (3.116,0.471);\\coordinate (Br) at (4.484,0.471);\n\\pgfmathsetmacro{\\tangentAngle}{270+atan(0.65/3.8)}\n\\coordinate (T) at ({2*cos(\\tangentAngle)},{1.7+2*sin(\\tangentAngle)});\n\\coordinate (Tr) at ({3.8+2*cos(\\tangentAngle)},{2.35+2*sin(\\tangentAngle)});\n\\draw (A)--(O)--(B) (O)--(R) (A)--(Ar)--(R);\n\\draw (T)--(Tr);\n\\draw plot[domain=250:290,samples=35] ({2*cos(\\x)},{1.7+2*sin(\\x)});\n\\draw[dashed,line width=0.4pt] plot[domain=250:\\tangentAngle,samples=20] ({3.8+2*cos(\\x)},{2.35+2*sin(\\x)});\n\\draw[dashed,line width=0.4pt] (B)--(Br)--(R);\n\\draw plot[domain=\\tangentAngle:290,samples=20] ({3.8+2*cos(\\x)},{2.35+2*sin(\\x)});\n\\draw[line width=0.4pt] plot[domain=250:290,samples=20] ({0.43*cos(\\x)},{1.7+0.43*sin(\\x)});\n\\node[below] at (0,1.17) {$40^\\circ$};\n\\path (R)--(Br) node[midway,right=4pt] {$20\\,\\mathrm{cm}$};\n\\path (B)--(Br) node[midway,below=5pt] {$40\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 67,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Question 7b",
+              "description": "Horizontal 40-degree sector cylinder. Corresponding sector ends are translated along its longitudinal direction; two radial rectangular faces meet along the upper longitudinal edge. Hidden rear and longitudinal edges are dashed.",
+              "mathematics": "Sector angle 40 degrees, radius 20 cm, longitudinal length 40 cm.",
+              "answerVisibility": "Givens only; supplied answer excluded from the question figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\left(\\frac{800\\pi}{3}+1600\\right)\\,\\mathrm{cm}^2$",
+          "worked": "$$\\begin{aligned}\\text{Two ends}&=2\\times\\frac{40}{360}\\times\\pi(20)^2=\\frac{800\\pi}{9}\\ \\mathrm{cm}^2\\\\\\text{Curved surface}&=\\frac{40}{360}\\times2\\pi(20)(40)=\\frac{1600\\pi}{9}\\ \\mathrm{cm}^2\\\\\\text{Cut rectangles}&=2(20)(40)=1600\\ \\mathrm{cm}^2\\\\\\text{Surface area}&=\\frac{800\\pi}{9}+\\frac{1600\\pi}{9}+1600\\\\&=\\left(\\frac{800\\pi}{3}+1600\\right)\\ \\mathrm{cm}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q7-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"centreRed\",\"hex\":\"EF6068\",\"reason\":\"source highlights the sector centre\"}],\"reference\":\"source page 29 p29-q7-c-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{centreRed}{HTML}{EF6068}\n\\coordinate (O) at (0,1.1);\\coordinate (B) at (0,0);\\coordinate (R) at (1.848,0.717);\\coordinate (L) at (-1.848,0.717);\\coordinate (Rb) at (1.848,-0.383);\\coordinate (Lb) at (-1.848,-0.383);\n\\draw plot[domain=-22.5:202.5,samples=81] ({2*cos(\\x)},{1.1+sin(\\x)});\n\\draw (R)--(O)--(L)--(Lb)--(B)--(Rb)--(R) (O)--(B);\n\\draw (-2,1.1)--(-2,0) (2,1.1)--(2,0);\n\\draw plot[domain=180:202.5,samples=15] ({2*cos(\\x)},{sin(\\x)});\n\\draw plot[domain=-22.5:0,samples=15] ({2*cos(\\x)},{sin(\\x)});\n\\draw[line width=0.4pt] plot[domain=-22.5:202.5,samples=51] ({0.42*cos(\\x)},{1.1+0.42*sin(\\x)});\n\\node[above] at (0,1.61) {$225^\\circ$};\n\\fill[centreRed] (O) circle[radius=1.3pt];\n\\path (O)--(B) node[midway,right=3pt] {$3\\,\\mathrm{cm}$};\n\\path (Lb)--(B) node[midway,below=4pt] {$6\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Question 7c",
+              "description": "Upright major-sector cylinder with a 225-degree reflex-angle arc around the upper centre, a red centre point, two exposed radial rectangles and radius labelled on the lower left cut edge.",
+              "mathematics": "Retained sector 225 degrees, radius 6 cm, height 3 cm.",
+              "answerVisibility": "Givens only; supplied answer excluded from the question figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\left(\\frac{135\\pi}{2}+36\\right)\\,\\mathrm{cm}^2$",
+          "worked": "$$\\begin{aligned}\\text{Two ends}&=2\\times\\frac{225}{360}\\times\\pi(6)^2=45\\pi\\ \\mathrm{cm}^2\\\\\\text{Curved surface}&=\\frac{225}{360}\\times2\\pi(6)(3)=\\frac{45\\pi}{2}\\ \\mathrm{cm}^2\\\\\\text{Cut rectangles}&=2(6)(3)=36\\ \\mathrm{cm}^2\\\\\\text{Surface area}&=45\\pi+\\frac{45\\pi}{2}+36\\\\&=\\left(\\frac{135\\pi}{2}+36\\right)\\ \\mathrm{cm}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p29-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q7-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"centreRed\",\"hex\":\"EF6068\",\"reason\":\"source highlights the sector centre\"}],\"reference\":\"source page 29 p29-q7-d-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{centreRed}{HTML}{EF6068}\n\\coordinate (O) at (0,1.3);\\coordinate (B) at (0,0);\\coordinate (R) at (1.8,1.3);\\coordinate (P) at (0.313,2.098);\\coordinate (Rb) at (1.8,0);\\coordinate (Pb) at (0.313,0.798);\n\\draw plot[domain=80:360,samples=91] ({1.8*cos(\\x)},{1.3+0.81*sin(\\x)});\n\\draw (P)--(O)--(R)--(Rb);\n\\draw (-1.8,1.3)--(-1.8,0);\n\\draw plot[domain=180:360,samples=61] ({1.8*cos(\\x)},{0.81*sin(\\x)});\n\\draw[dashed,line width=0.4pt] (O)--(B)--(Pb)--(P);\n\\draw[dashed,line width=0.4pt] (B)--(Rb);\n\\draw[line width=0.4pt] plot[domain=0:80,samples=25] ({0.55*cos(\\x)},{1.3+0.2475*sin(\\x)});\n\\node[above right] at (0.5,1.55) {$80^\\circ$};\n\\fill[centreRed] (O) circle[radius=1.3pt];\n\\path (R)--(Rb) node[midway,right=4pt] {$2\\,\\mathrm{cm}$};\n\\path (B)--(Rb) node[midway,below=4pt] {$3\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Question 7d",
+              "description": "Upright cylinder with an 80-degree sector removed. The upper centre is marked red, the lower centre axis and lower radial edges are dashed, and the height is labelled on the right edge.",
+              "mathematics": "Radius 3 cm, height 2 cm, retained sector 280 degrees; two radial cut rectangles.",
+              "answerVisibility": "Givens only; supplied answer excluded from the question figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\left(\\frac{70\\pi}{3}+12\\right)\\,\\mathrm{cm}^2$",
+          "worked": "The remaining angle is $360^\\circ-80^\\circ=280^\\circ$.\n$$\\begin{aligned}\\text{Two ends}&=2\\times\\frac{280}{360}\\times\\pi(3)^2=14\\pi\\ \\mathrm{cm}^2\\\\\\text{Curved surface}&=\\frac{280}{360}\\times2\\pi(3)(2)=\\frac{28\\pi}{3}\\ \\mathrm{cm}^2\\\\\\text{Cut rectangles}&=2(3)(2)=12\\ \\mathrm{cm}^2\\\\\\text{Surface area}&=14\\pi+\\frac{28\\pi}{3}+12\\\\&=\\left(\\frac{70\\pi}{3}+12\\right)\\ \\mathrm{cm}^2\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p29-q7-root/label",
+                  "type": "item",
+                  "ref": "p29-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p29-q7-root/prompt#p29-q7-instruction",
+                  "type": "item",
+                  "ref": "p29-q7-root/prompt#p29-q7-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p29-q7-root/prompt#p29-q7-hint",
+                  "type": "item",
+                  "ref": "p29-q7-root/prompt#p29-q7-hint",
+                  "title": "Text"
+                },
+                {
+                  "id": "p29-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p29-q7-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p29-q7-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q7-a/label",
+                              "type": "item",
+                              "ref": "p29-q7-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p29-q7-a-diagram",
+                              "type": "item",
+                              "ref": "p29-q7-a-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p29-q7-a/space",
+                              "type": "item",
+                              "ref": "p29-q7-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p29-q7-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q7-b/label",
+                              "type": "item",
+                              "ref": "p29-q7-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p29-q7-b-diagram",
+                              "type": "item",
+                              "ref": "p29-q7-b-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p29-q7-b/space",
+                              "type": "item",
+                              "ref": "p29-q7-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p29-q7-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p29-q7-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q7-c/label",
+                              "type": "item",
+                              "ref": "p29-q7-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p29-q7-c-diagram",
+                              "type": "item",
+                              "ref": "p29-q7-c-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p29-q7-c/space",
+                              "type": "item",
+                              "ref": "p29-q7-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p29-q7-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p29-q7-d/label",
+                              "type": "item",
+                              "ref": "p29-q7-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p29-q7-d-diagram",
+                              "type": "item",
+                              "ref": "p29-q7-d-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p29-q7-d/space",
+                              "type": "item",
+                              "ref": "p29-q7-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        },
+        "p29-q7-a-diagram": {
+          "diagramWidthMm": 32
+        },
+        "p29-q7-b-diagram": {
+          "diagramWidthMm": 32
+        },
+        "p29-q7-c-diagram": {
+          "diagramWidthMm": 32
+        },
+        "p29-q7-d-diagram": {
+          "diagramWidthMm": 32
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:30:30.032Z",
+  "updatedAt": "2026-10-24T09:40:39.786Z"
+}

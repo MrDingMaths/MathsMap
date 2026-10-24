@@ -41,6 +41,55 @@
    "postedAt": "2026-10-15T10:18:07.221Z"
   },
   {
+   "id": "pf-3d45f7d0f9",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p9-q17",
+     "blockId": "p9-q17",
+     "hash": "11140d8d2921ee68a631244cd743eadd95a26658ebfd9ba9c988be6c8892b8a3"
+    },
+    {
+     "id": "p9-q14",
+     "blockId": "p9-q14",
+     "hash": "36404fa4e908473cdff0ef9703fb0aa680393878dadaa43484e11f8bb052be78"
+    },
+    {
+     "id": "p9-q15",
+     "blockId": "p9-q15",
+     "hash": "53678ee5401c54351b7cb40b4ba666a55ff65ff660020f15eeceb2a25ffadf3c"
+    },
+    {
+     "id": "p9-q16",
+     "blockId": "p9-q16",
+     "hash": "3af02ade4099a742aa1cb602bb8311654491ca29cb4a610265d2e8ca74868777"
+    }
+   ],
+   "finding": "The supplied practice order places the circle-area bounds task before the existing area-bounds bridge.",
+   "breakdown": "After p8-q13, p9-q17 simultaneously requires lower and upper area bounds, diameter-to-radius conversion and circle area. The earlier p5-e addresses only a rectangle’s lower area bound. The subsequent square question explicitly connects length bounds to both area bounds, followed by independent rectangle applications.",
+   "checked": "The practice order is p8-q13, p9-q17, p9-q14, p9-q15, p9-q16. Questions 14–16 supply the intermediate progression already needed before question 17.",
+   "assumptions": "Square, rectangle and circle area formulas and diameter-to-radius conversion are prior knowledge. Calculator use is assumed for the requested circle-area decimals; calculation itself is not the reported obstacle.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move p9-q17 immediately after p9-q16, retaining p9-q14, p9-q15 and p9-q16 in that order."
+   },
+   "doneWhen": "The scaffolded square task and independent rectangle tasks precede the circle-area bounds task.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "absolute-error"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T09:29:04.196Z"
+    }
+   ]
+  },
+  {
    "id": "pf-c9dec1e9bc",
    "kind": "extension",
    "severity": "suggestion",
@@ -75,6 +124,74 @@
    ],
    "commentId": "d5380ce0-21c9-4564-b462-fa3f2649f00b",
    "postedAt": "2026-10-15T10:18:07.224Z"
+  },
+  {
+   "id": "pf-b17c18c3ce",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q3",
+     "blockId": "p11-q3",
+     "hash": "e83d3aa388d78af32f6506a7a74fe1cd6925919eb8d498b7087324a6a2aa7c3a"
+    }
+   ],
+   "finding": "Keep precision fixed while successively doubling the measured mass.",
+   "breakdown": "The run exposes that doubling the measurement halves percentage error when absolute error stays fixed; a final unpatterned mass checks application.",
+   "checked": "With precision 0.01 kg, absolute error is 0.005 kg. Percentage errors for 5.42, 10.84, 21.68 and 7.36 kg round to 0.092%, 0.046%, 0.023% and 0.068%. Together with the existing 2.71 kg measurement, the first four masses form the doubling run.",
+   "assumptions": "Calculator use is assumed, consistent with the topic’s three-decimal-place calculations.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p11-q3-b, add the single instruction: “Predict how the percentage error will change before calculating.” Append:\n(c) Find the percentage error for 5.42 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.092%.\n(d) Find the percentage error for 10.84 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.046%.\n(e) Find the percentage error for 21.68 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.023%.\n(f) Find the percentage error for 7.36 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.068%."
+   },
+   "doneWhen": "The doubling run and unpatterned follow-up appear together after p11-q3-b.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "percentage-error"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T09:29:04.196Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-443c700c85",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p11-q4",
+     "blockId": "p11-q4",
+     "hash": "a6e537973c0c35d4ca951fccac46b6c68e9e64151888ed9ff9c2f8321510afc2"
+    }
+   ],
+   "finding": "Compare percentage errors for the same measured length at two precisions.",
+   "breakdown": "Holding the measured length fixed isolates the effect of instrument precision on percentage error.",
+   "checked": "The original absolute error is 0.25 cm and the new absolute error is 0.05 cm. The new percentage error is approximately 0.384615%, or 0.38%; the ratio of unrounded percentage errors is exactly 5.",
+   "assumptions": "Calculator use is assumed for percentage calculations. Both precision values are explicitly stated.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Label the existing task p11-q4-a and append:\n(b) The same object is measured as 13.0 cm to the nearest 0.1 cm. Find the percentage error to two decimal places. Answer: 0.38%.\n(c) Using unrounded values, how many times as large is the original percentage error as the new percentage error? Answer: 5 times."
+   },
+   "doneWhen": "The follow-up holds the measured length fixed and compares the unrounded percentage errors.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "percentage-error"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T09:29:04.196Z"
+    }
+   ]
   },
   {
    "id": "pf-b5a3c3d5e2",
@@ -157,9 +274,9 @@
     "p7-q5-a",
     "p7-q5-b"
    ],
-   "observation": "Finer subdivisions reduce precision units and absolute error.",
-   "varies": "The subdivision interval.",
-   "invariant": "The centimetre ruler context and labelled whole-centimetre marks."
+   "observation": "Finer ruler divisions give a smaller absolute error.",
+   "varies": "The smallest ruler division.",
+   "invariant": "Instrument type, centimetre units and the requested quantities."
   },
   {
    "sequence": "absolute-error",
@@ -167,9 +284,9 @@
     "p7-q6-a",
     "p7-q6-b"
    ],
-   "observation": "The same recorded value can represent different intervals when the stated rounding unit changes.",
+   "observation": "The same reported length can represent different intervals when its stated precision changes.",
    "varies": "Nearest metre versus nearest ten metres.",
-   "invariant": "The field length recorded as 90 m."
+   "invariant": "The reported field length of 90 m."
   },
   {
    "sequence": "absolute-error",
@@ -179,9 +296,9 @@
     "p7-q7-c",
     "p7-q7-d"
    ],
-   "observation": "Increasing the rounding unit increases the interval width while preserving its centre.",
-   "varies": "Rounding unit from one to one thousand.",
-   "invariant": "The recorded value 5000 and the interval template."
+   "observation": "Increasing the rounding unit increases the interval width in the same proportion.",
+   "varies": "Rounding to an integer, ten, hundred and thousand.",
+   "invariant": "The reported value 5000 and the inequality frame."
   },
   {
    "sequence": "absolute-error",
@@ -189,14 +306,14 @@
     "p7-q8-c",
     "p7-q8-d"
    ],
-   "observation": "A recorded trailing decimal zero conveys a finer precision.",
-   "varies": "85 to the nearest integer versus 85.0 to one decimal place.",
-   "invariant": "The numerical centre of the measurement."
+   "observation": "85 and 85.0 have the same numerical value but different stated precisions and error intervals.",
+   "varies": "The stated decimal place and rounding precision.",
+   "invariant": "The numerical centre of the interval."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 9,
- "reviewedAt": "2026-10-15T10:18:06.778Z",
+ "reviewedRevision": 17,
+ "reviewedAt": "2026-10-23T09:29:04.196Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -205,7 +322,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -220,14 +337,14 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 46973,
-     "cached_input_tokens": 12544,
+     "input_tokens": 47241,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3169,
-     "reasoning_output_tokens": 87
+     "output_tokens": 4094,
+     "reasoning_output_tokens": 369
     },
-    "elapsedMs": 80038,
-    "candidates": 1,
+    "elapsedMs": 123613,
+    "candidates": 2,
     "discarded": [],
     "suggestions": 1
    },
@@ -238,13 +355,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 25643,
-     "cached_input_tokens": 12544,
+     "input_tokens": 25911,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2180,
-     "reasoning_output_tokens": 347
+     "output_tokens": 2280,
+     "reasoning_output_tokens": 310
     },
-    "elapsedMs": 57458,
+    "elapsedMs": 60704,
     "candidates": 0,
     "discarded": [],
     "suggestions": 2
@@ -254,7 +371,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/measurement-error-v1/candidates-low-1792059442297.json",
+  "candidateFile": ".booklet-work/full-imports/measurement-error-v1-20261006/polish/pedagogy-work/candidates-low-1792747692715.json",
   "errors": []
  },
  "postedRevision": 10

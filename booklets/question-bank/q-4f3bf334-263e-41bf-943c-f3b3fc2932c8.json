@@ -9,15 +9,15 @@
     "secondarySkillIds": [
       "interquartile-range"
     ],
-    "reasoningScore": 74,
+    "reasoningScore": 71,
     "difficulty": "Mastery",
-    "difficultyReason": "Work backwards from the IQR: bound both quartiles using intact cumulative bars, show the bounds force quartiles of 16 and 18, then minimise the cumulative count at 16 while checking attainability.",
+    "difficultyReason": "Infer bounds on both quartiles from the intact cumulative bars, combine those bounds with the IQR to force their values, then use ordered positions to minimise the missing cumulative frequency and check attainability.",
     "assessment": {
       "model": "gpt-6.1-sol",
-      "assessedAt": "2026-10-21T05:44:03.269Z",
+      "assessedAt": "2026-10-24T09:46:05.981Z",
       "rubricVersion": "mathsmap-cognitive-demand-v1",
-      "taskHash": "19950b9bc62a8889b0ce9adddaf611b1e040c154d9e589905d4e05dc07d6ec42",
-      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/adac7b507ff7a6565236753a1544420c729ca548cd92ebd633c2e1b682564d58-1792561423024/last-message.txt"
+      "taskHash": "362836c2362d4e4baf3e88ac7b9beb604a1f1974cd2208a283547413ef2b9e7d",
+      "evidence": ".booklet-work/reasoning-ratings/calls/quartiles-and-box-plots-v1/4c2ceef2a6bcb1fca46a947a94e1e34536d257db76f6fb8d842721d662988e5d-1792835145593/last-message.txt"
     }
   },
   "content": {
@@ -53,7 +53,7 @@
     "children": [],
     "answer": {
       "short": "$y_{\\min}=13$.",
-      "worked": "There are 50 scores, so the quartile positions are\n$$\\begin{aligned}Q_1\\text{ position}&=0.25\\times50=12.5\\\\Q_3\\text{ position}&=0.75\\times50=37.5.\\end{aligned}$$\nOnly four scores are 15, so the 12th and 13th scores are at least 16: $Q_1\\ge16$. The cumulative frequency at 18 is 40, so the 37th and 38th scores are at most 18: $Q_3\\le18$.\nSince $Q_3-Q_1=2$, these bounds force $Q_1=16$ and $Q_3=18$.\nBoth the 12th and 13th scores must therefore be 16. Hence at least 13 scores must be at most 16, giving $y\\ge13$.\nThis is attainable with cumulative frequencies $y=13$ and $x=35$, for which the 37th and 38th scores are both 18. Therefore $y_{\\min}=13$.",
+      "worked": "There are 50 scores. Each half contains 25 observations, so $Q_1$ is the 13th score and $Q_3$ is the 38th score.\nOnly four scores are 15, so $Q_1\\ge16$. The cumulative frequency at 18 is 40, so $Q_3\\le18$.\nSince $Q_3-Q_1=2$, these bounds force $Q_1=16$ and $Q_3=18$.\nThe 13th score must be 16, so at least 13 scores must be at most 16. Hence $y\\ge13$.\nThis is attainable with cumulative frequencies $y=13$ and $x=35$: the 13th score is 16 and the 38th score is 18. Therefore $y_{\\min}=13$.",
       "solutionDiagrams": []
     },
     "answerSpaceMm": 48
@@ -113,5 +113,5 @@
     "history": []
   },
   "createdAt": "2026-10-21T09:36:21.586Z",
-  "updatedAt": "2026-10-21T09:36:21.586Z"
+  "updatedAt": "2026-10-24T09:46:06.162Z"
 }

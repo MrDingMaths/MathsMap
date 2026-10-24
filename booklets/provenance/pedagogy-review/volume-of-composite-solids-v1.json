@@ -5,6 +5,108 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-e3906025f7",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p9-q11-response",
+     "blockId": "p9-q11",
+     "hash": "100d553ec3982113bd43396b24fceb3f2b49ccf22b80a31ab5885adb614a7edb"
+    }
+   ],
+   "finding": "In the supplied practice order, the pool-filling question follows the formula-scaffolded p5-q1-b before the available intermediate pool practice.",
+   "breakdown": "Students must combine an independently interpreted pool cross-section, derived lengths, composite volume, capacity conversion and a rate calculation immediately after completing supplied component formulas. Several demands change together.",
+   "checked": "The supplied order places p9-q11 before p5-q2. Guided practice supplies composite-volume calculations but not this combined application. Later, p7-q6 stages side area, volume and capacity, and p8-q9 rehearses independent pool-volume calculation.",
+   "assumptions": "The supplied practice order is the teaching order. Rates and time conversion are prior knowledge; calculator use does not remove the combined decisions.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move p9-q11 immediately after p8-q9, so students first complete the staged area → volume → capacity work in p7-q6 and the independent pool-volume problem in p8-q9."
+   },
+   "doneWhen": "The staged capacity calculation and independent pool-volume problem precede p9-q11.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "volume-composite"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:51:08.789Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-e011fb4844",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p6-q3-block",
+     "blockId": "p6-q3-block",
+     "hash": "86ce29d34225816993d58668b2ee26043cf4f86caf381aecc85787ad359b9242"
+    }
+   ],
+   "finding": "Extend the hollow-cylinder question with a sequence showing how material volume changes as wall thickness increases.",
+   "breakdown": "Hold outer radius and length fixed while decreasing inner radius in equal steps. The resulting volume increases are unequal.",
+   "checked": "Using V = π(R² − r²)L, the existing inner radius 8 cm gives 1600π cm³. Inner radii 6, 4 and 2 cm give 2160π, 2560π and 2800π cm³ respectively. Subtracting cylinder volumes is available from the topic's teaching.",
+   "assumptions": "Calculator use is appropriate for the existing decimal-rounding instruction.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Immediately after p6-q3-a and before the square-prism hole, add: “Predict how the volume of material will change before calculating.” Under the existing question instruction, add three further parts, each with outer radius 12 cm and length 20 cm: inner radius 6 cm (6785.8 cm³), inner radius 4 cm (8042.5 cm³), and inner radius 2 cm (8796.5 cm³). Together with existing part a, these form the four-question run. Follow with an unpatterned part: outer diameter 18 cm, wall thickness 2 cm, length 15 cm (1508.0 cm³)."
+   },
+   "doneWhen": "The existing hollow cylinder begins a four-question run with fixed outer radius and length, followed by the unpatterned task; the only added instruction is the prediction line.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "volume-composite"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:51:08.789Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-5ea755777e",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p7-q6",
+     "blockId": "p7-q6",
+     "hash": "cc7ff0e8fd10e85d4ef0fbdcb09cf12ad6819e3a818f0e74ca06bb7bd14fb030"
+    }
+   ],
+   "finding": "Follow the existing pool calculation by moving the flat section from the deep end to the shallow end.",
+   "breakdown": "Students use the same dimensions and composite-area method to compare how floor configuration affects capacity.",
+   "checked": "The original longitudinal area is 15(1.5 + 2.5)/2 + 10 × 2.5 = 55 m², giving 825000 L. The redesigned area is 10 × 1.5 + 15(1.5 + 2.5)/2 = 45 m², giving 675000 L: a decrease of 150000 L. All required methods are available.",
+   "assumptions": "The pool retains its 15 m width and its stated end depths.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p7-q6-c, add (d): “The pool is redesigned with a flat shallow section 10 m long, followed by a slope over the remaining 15 m. Its length, width and end depths stay the same. What is its new capacity?” Answer: 675000 L. Add (e): “How many fewer litres does the redesigned pool hold?” Answer: 150000 L."
+   },
+   "doneWhen": "The two follow-up parts use the existing pool context and have expected answers of 675000 L and 150000 L.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "volume-composite"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T08:51:08.789Z"
+    }
+   ]
+  },
+  {
    "id": "pf-01add54f4b",
    "kind": "extension",
    "severity": "suggestion",
@@ -42,34 +144,10 @@
   }
  ],
  "contextQuestions": [],
- "protectedGroups": [
-  {
-   "sequence": "volume-composite",
-   "targets": [
-    "p7-q6-a",
-    "p7-q6-b",
-    "p7-q6-c"
-   ],
-   "observation": "Connects composite cross-sectional area, prism volume and capacity using one pool.",
-   "varies": "The requested quantity and its units.",
-   "invariant": "The pool dimensions and the results carried forward."
-  },
-  {
-   "sequence": "volume-composite",
-   "targets": [
-    "p8-q8-a",
-    "p8-q8-b",
-    "p8-q8-c",
-    "p8-q8-d"
-   ],
-   "observation": "Establishes sector-prism volume before incorporating a sector into a composite cross-section.",
-   "varies": "Sector angle, dimensions and orientation, followed by an added rectangular component.",
-   "invariant": "Sector area multiplied by the uniform prism length."
-  }
- ],
+ "protectedGroups": [],
  "notReliablyReviewed": [],
- "reviewedRevision": 6,
- "reviewedAt": "2026-10-15T11:00:06.350Z",
+ "reviewedRevision": 16,
+ "reviewedAt": "2026-10-23T08:51:08.789Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -78,7 +156,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -93,16 +171,16 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 51765,
-     "cached_input_tokens": 14592,
+     "input_tokens": 52034,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4556,
-     "reasoning_output_tokens": 353
+     "output_tokens": 4363,
+     "reasoning_output_tokens": 87
     },
-    "elapsedMs": 108039,
-    "candidates": 1,
+    "elapsedMs": 126182,
+    "candidates": 2,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 2
    }
   ],
   "dropped": [
@@ -110,7 +188,7 @@
     "ids": [
      "c1"
     ],
-    "reason": "The supplied question and solution diagram specifications for both examples explicitly give two component widths of 7 m. This defeats the claim that the working substitutes an unlabelled width: its origin is supplied directly by the diagrams, so a subtraction cue is not required under the stated standard.",
+    "reason": "The supplied diagram specifications for both examples explicitly give two component widths of 7 m. Thus the substituted width has its origin supplied directly; the candidate's claim that only one component width is labelled is not supported by the evidence provided. No source images were supplied for comparison.",
     "candidates": [
      {
       "id": "c1",
@@ -120,7 +198,7 @@
        "p4-example-left",
        "p4-example-right"
       ],
-      "finding": "Both introductory examples substitute 7 m for the shorter component's width without showing how it follows from the overall width and the labelled component width."
+      "finding": "Both examples substitute “V2 = (6 × 7) × 19” without showing how the second component's 7 m width comes from the total width of 14 m."
      }
     ]
    }
@@ -128,7 +206,7 @@
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [],
-  "candidateFile": ".booklet-work/pedagogy-review/volume-of-composite-solids-v1/candidates-low-1792061984667.json",
+  "candidateFile": ".booklet-work/full-imports/volume-composite-20261006/polish/pedagogy-work/candidates-low-1792745400526.json",
   "errors": []
  },
  "postedRevision": 7

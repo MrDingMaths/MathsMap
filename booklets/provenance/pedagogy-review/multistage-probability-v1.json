@@ -5,6 +5,243 @@
  "assumptions": {},
  "findings": [
   {
+   "id": "pf-2473120fe5",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p11-q11-c",
+     "blockId": "p11-q11",
+     "hash": "1c3659208f75713af7b046f243f3b30b3c1e059bb13a5bbe6ae48e3e03406a31"
+    }
+   ],
+   "finding": "Part c requires restricting the sample space after Spinner B's result is known, but preceding instruction models only probabilities over the full table.",
+   "breakdown": "Using all 12 cells gives 2/12. Knowing B=2 leaves three equally likely cells, two of which give a score of 3, so the required probability is 2/3.",
+   "checked": "The complete preceding teaching, including p6-example-b/c and p7-example-item, does not model restricting a table to an observed result. Excluding impossible selections without replacement does not explain this new decision.",
+   "assumptions": "Single-stage theoretical probability is prior knowledge. Calculator access is irrelevant.",
+   "repair": {
+    "type": "add-cue",
+    "proposal": "Add beside part c: “Since Spinner B shows 2, use only the column headed 2. How many equally likely cells remain, and how many give a total of 3?”"
+   },
+   "doneWhen": "Students are explicitly directed to count only outcomes consistent with the known result.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "listing-outcomes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:32:56.660Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-636f71cb13",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p18-rule-block",
+     "blockId": "p18-rule-block",
+     "hash": "c9013f4ab268128f4b16c297dad2520c882214a47a4e9a3c25c759e95c8931e2"
+    },
+    {
+     "id": "p21-q11-b",
+     "blockId": "p21-q11",
+     "hash": "cb6f540616239066a9a3b95a3f67f55763775c79290b7657c496bc3d72f93a1d"
+    },
+    {
+     "id": "p24-q22",
+     "blockId": "p24-q22",
+     "hash": "96cfe9f42b0c446968b1004d49a13412550bf3e14c6e821e124b8d72d973c452"
+    },
+    {
+     "id": "p37-q21",
+     "blockId": "p37-q21-block",
+     "hash": "d4bbdbde6ad107aa4c6612bd9779df2b652eec98d7ae5026a6478cd4b4fb4e86"
+    },
+    {
+     "id": "p40-example-demonstration",
+     "blockId": "p40-example",
+     "hash": "7874cc294bb6511043fa432bdea031cbf7e61fab0e28143d82434ef7d137e069"
+    },
+    {
+     "id": "p40-key-ideas",
+     "blockId": "p40-key-ideas",
+     "hash": "bc4b267d75f656e89a3b15987c482278bd57ea480072b9e4390850343648dae1"
+    }
+   ],
+   "finding": "The booklet requires dependent probability products before explaining how to update stage probabilities and multiply them along a specified sequence.",
+   "breakdown": "The rule at p18 explicitly applies to independent events. Later tasks require changing both the total and the selected category's count after a draw without replacement. The p40 example supplies the resulting fractions but leaves their origins unwritten. Students may retain the original fractions or think multiplication applies only to independent events.",
+   "checked": "Earlier teaching explains dependence and enumerates individual objects, but does not demonstrate a dependent probability product. The independent-tree teaching models unchanged second-stage probabilities. The dependent example's products are mathematically correct: RR=6/56, RB=15/56, BR=15/56 and BB=20/56. These candidates share one missing explanation.",
+   "assumptions": "Students know single-stage count-based probability and fraction multiplication. No calculator assumption is needed.",
+   "repair": {
+    "type": "add-teaching",
+    "proposal": "Before the first dependent-product practice, add: “A bag contains 3 red and 2 blue counters. Two are drawn without replacement. Find P(both red). First red: 3/5. After a red is removed, 2 red remain among 4 counters, so P(both red)=3/5×2/4=3/10. For a specified sequence, multiply the probability at each stage using what remains after the earlier outcomes.” At p40, connect the supplied branches to their counts with: “After a red: 2 red and 5 blue remain out of 7. After a blue: 3 red and 4 blue remain out of 7.”"
+   },
+   "doneWhen": "Dependent multiplication is demonstrated before its first use, and the p40 branch fractions are explicitly connected to the remaining contents.",
+   "from": [
+    "c3",
+    "c5",
+    "c7"
+   ],
+   "sequences": [
+    "multiplication-rule",
+    "independent-trees",
+    "dependent-trees"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:32:56.660Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-68f488bfc5",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p15-q18",
+     "blockId": "p15-q18-block",
+     "hash": "9d5ee429f4d12ecfefc84e48f258ad60a6a6e68dc8c33e58257ff8bc4c050618"
+    }
+   ],
+   "finding": "Connect exactly one red, at least one red and two reds using the existing paired experiments.",
+   "breakdown": "The comparison exposes the extra RR outcome permitted by replacement.",
+   "checked": "With replacement, 5/9−4/9=1/9, corresponding to RR. Without replacement, both probabilities are 2/3 because RR is impossible. Listing outcomes supplies every method required.",
+   "assumptions": "Use the existing experiments and their completed outcome lists.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to Question 18: d. In Question 17, subtract P(exactly one red) from P(at least one red). [1/9] e. Which outcome accounts for this difference? [RR] f. Why are P(exactly one red) and P(at least one red) equal in Question 18? [There is only one red marble and it is not replaced, so two reds cannot occur.]"
+   },
+   "doneWhen": "The follow-up links the numerical difference to RR and its impossibility without replacement.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "listing-outcomes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:32:56.660Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-a45cfaa896",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p23-q17",
+     "blockId": "p23-q17",
+     "hash": "8e0045801cb89330b5413eb843b14f673cdf3802dcdb1e5c4787c0ed914c1618"
+    }
+   ],
+   "finding": "Extend the three-coin question to distinguish exactly two heads from at least two heads.",
+   "breakdown": "Students combine the three paths containing exactly two heads, then include the all-heads path for at least two.",
+   "checked": "HHT, HTH and THH give 3/8; including HHH gives 4/8=1/2. Listing and counting these paths is taught at p12-example-followups.",
+   "assumptions": "The three fair coin flips are independent, as in the existing question.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p23-q17-b add: 'c. Before any coins are flipped, what is the probability of getting exactly two heads in the three flips?' Answer: 3/8. 'd. Before any coins are flipped, what is the probability of getting at least two heads in the three flips?' Answer: 1/2."
+   },
+   "doneWhen": "The optional parts separately ask for exactly two and at least two heads, with their expected answers.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "multiplication-rule"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T11:37:22.195Z"
+    }
+   ],
+   "commentId": "fda3d175-71b3-42f3-a14b-05b2b098aa4c",
+   "postedAt": "2026-10-15T11:44:30.065Z"
+  },
+  {
+   "id": "pf-41cf88bf75",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p33-q10",
+     "blockId": "p33-q10",
+     "hash": "01c90171cb4c111a5da45970b28eefbf795dc35567f8bb99933843fc4926b24b"
+    }
+   ],
+   "finding": "Reverse the bags to compare ordered colour probabilities with the probability of different colours.",
+   "breakdown": "Reversing the stages exchanges the mixed-path probabilities while preserving their sum.",
+   "checked": "In reverse order, P(RB)=2/5×2/5=4/25 and P(BR)=3/5×3/5=9/25. Their sum remains 13/25. Only the taught independent-tree method is required.",
+   "assumptions": "RB and BR record colours in the new draw order.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to Question 10: d. The bags are used in reverse order. Find P(RB), recording colours in the new draw order. [4/25] e. Find P(BR) in the new draw order. [9/25] f. Find the probability that the balls have different colours. [13/25] g. Explain why reversing the bags leaves the probability of different colours unchanged. [The RB and BR probabilities exchange values, so their sum stays the same.]"
+   },
+   "doneWhen": "The follow-up uses separate parts and makes the outcome order explicit.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "independent-trees"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T12:32:56.660Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-4d69ee9268",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p45-q7",
+     "blockId": "p45-q7",
+     "hash": "1081248a5ee2ac59fb3e377a42bfa6806dc5867452fd79831c293f9223c5bc64"
+    }
+   ],
+   "finding": "Compare how replacement changes the probability of selecting matching book types.",
+   "breakdown": "The follow-up combines the matching paths already available from the two trees and compares the complementary different-type probabilities.",
+   "checked": "With replacement, P(same)=144/441+81/441=25/49. Without replacement, P(same)=132/420+72/420=17/35. The increase in P(different) is 18/35−24/49=6/245.",
+   "assumptions": "Selections are random under the replacement conditions already specified in parts a and b.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p45-q7-b add: 'c. What is the probability of choosing two books of the same type with replacement?' Answer: 25/49. 'd. What is the probability of choosing two books of the same type without replacement?' Answer: 17/35. 'e. By how much does not replacing the first book increase the probability of choosing one book of each type?' Answer: 6/245."
+   },
+   "doneWhen": "The optional parts use the existing book counts and compare the two replacement conditions through the stated probabilities.",
+   "from": [
+    "c10"
+   ],
+   "sequences": [
+    "dependent-trees"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T11:37:22.195Z"
+    }
+   ],
+   "commentId": "ceb9f750-7654-478a-8642-be13fba16158",
+   "postedAt": "2026-10-15T11:44:30.069Z"
+  },
+  {
    "id": "pf-f5d4316675",
    "kind": "unsupported-transition",
    "severity": "high",
@@ -123,42 +360,6 @@
    "postedAt": "2026-10-15T11:44:30.063Z"
   },
   {
-   "id": "pf-a45cfaa896",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p23-q17",
-     "blockId": "p23-q17",
-     "hash": "8e0045801cb89330b5413eb843b14f673cdf3802dcdb1e5c4787c0ed914c1618"
-    }
-   ],
-   "finding": "Extend the three-coin question to distinguish exactly two heads from at least two heads.",
-   "breakdown": "Students combine the three paths containing exactly two heads, then include the all-heads path for at least two.",
-   "checked": "HHT, HTH and THH give 3/8; including HHH gives 4/8=1/2. Listing and counting these paths is taught at p12-example-followups.",
-   "assumptions": "The three fair coin flips are independent, as in the existing question.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p23-q17-b add: 'c. Before any coins are flipped, what is the probability of getting exactly two heads in the three flips?' Answer: 3/8. 'd. Before any coins are flipped, what is the probability of getting at least two heads in the three flips?' Answer: 1/2."
-   },
-   "doneWhen": "The optional parts separately ask for exactly two and at least two heads, with their expected answers.",
-   "from": [
-    "c6"
-   ],
-   "sequences": [
-    "multiplication-rule"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T11:37:22.195Z"
-    }
-   ],
-   "commentId": "fda3d175-71b3-42f3-a14b-05b2b098aa4c",
-   "postedAt": "2026-10-15T11:44:30.065Z"
-  },
-  {
    "id": "pf-8e8a6f6fed",
    "kind": "variation-sequence",
    "severity": "suggestion",
@@ -193,42 +394,6 @@
    ],
    "commentId": "61ca7924-f276-4aba-8c4a-c9ae9d12d3c9",
    "postedAt": "2026-10-15T11:44:30.067Z"
-  },
-  {
-   "id": "pf-4d69ee9268",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "p45-q7",
-     "blockId": "p45-q7",
-     "hash": "1081248a5ee2ac59fb3e377a42bfa6806dc5867452fd79831c293f9223c5bc64"
-    }
-   ],
-   "finding": "Compare how replacement changes the probability of selecting matching book types.",
-   "breakdown": "The follow-up combines the matching paths already available from the two trees and compares the complementary different-type probabilities.",
-   "checked": "With replacement, P(same)=144/441+81/441=25/49. Without replacement, P(same)=132/420+72/420=17/35. The increase in P(different) is 18/35−24/49=6/245.",
-   "assumptions": "Selections are random under the replacement conditions already specified in parts a and b.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "After p45-q7-b add: 'c. What is the probability of choosing two books of the same type with replacement?' Answer: 25/49. 'd. What is the probability of choosing two books of the same type without replacement?' Answer: 17/35. 'e. By how much does not replacing the first book increase the probability of choosing one book of each type?' Answer: 6/245."
-   },
-   "doneWhen": "The optional parts use the existing book counts and compare the two replacement conditions through the stated probabilities.",
-   "from": [
-    "c10"
-   ],
-   "sequences": [
-    "dependent-trees"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T11:37:22.195Z"
-    }
-   ],
-   "commentId": "ceb9f750-7654-478a-8642-be13fba16158",
-   "postedAt": "2026-10-15T11:44:30.069Z"
   }
  ],
  "contextQuestions": [],
@@ -239,9 +404,9 @@
     "p3-identify-c-node",
     "p3-identify-d-node"
    ],
-   "observation": "Replacing and shuffling the first card restores the selection probabilities, whereas retaining it changes them.",
-   "varies": "Whether the first card is replaced before the second draw.",
-   "invariant": "Two successive card selections from a deck."
+   "observation": "Replacing the first card restores the selection probabilities.",
+   "varies": "Whether the first card is replaced and the deck shuffled.",
+   "invariant": "Two successive selections from a deck of cards."
   },
   {
    "sequence": "independent-dependent",
@@ -250,9 +415,9 @@
     "p4-q3-b",
     "p4-q3-c"
    ],
-   "observation": "Replacement leaves the second-draw probability unchanged; removal makes the second colour depend on the first.",
+   "observation": "Replacement leaves the second-red probability unchanged; without replacement it depends on the first colour.",
    "varies": "Whether the first jellybean is returned or eaten.",
-   "invariant": "The initial bag contains one red and one blue jellybean, and two successive colours are observed."
+   "invariant": "The initial bag contains one red jellybean and one blue jellybean, with two successive draws."
   },
   {
    "sequence": "multiplication-rule",
@@ -261,9 +426,9 @@
     "p19-q1-b",
     "p19-q1-c"
    ],
-   "observation": "The joint probability is built directly from the two individual probabilities.",
-   "varies": "The requested event changes from each single stage to both stages together.",
-   "invariant": "The die and coin experiment."
+   "observation": "Connects the two individual probabilities with their joint probability.",
+   "varies": "Individual event versus both events.",
+   "invariant": "The same die and coin experiment."
   },
   {
    "sequence": "multiplication-rule",
@@ -271,9 +436,9 @@
     "p21-q11-a",
     "p21-q11-b"
    ],
-   "observation": "Replacement determines whether successive probabilities remain unchanged.",
+   "observation": "Isolates the effect of replacement on successive probabilities, once the missing method is taught.",
    "varies": "Whether each disc is replaced.",
-   "invariant": "The initial contents and the red–green–red sequence."
+   "invariant": "Initial contents and the ordered red-green-red event."
   },
   {
    "sequence": "multiplication-rule",
@@ -283,19 +448,9 @@
     "p22-q14-c",
     "p22-q14-d"
    ],
-   "observation": "Separate matching outcomes combine to make a larger event.",
-   "varies": "Which matching ordered outcomes are included.",
+   "observation": "Builds from individual matching outcomes to unions of matching outcomes.",
+   "varies": "Which matching pairs count as favourable.",
    "invariant": "The two spinners and their 15 elementary outcomes."
-  },
-  {
-   "sequence": "multiplication-rule",
-   "targets": [
-    "p23-q16-a",
-    "p23-q16-b"
-   ],
-   "observation": "Multiplying marginal probabilities depends on the independence assumption.",
-   "varies": "Whether independence is assumed or assessed in context.",
-   "invariant": "The rain and coat events and their marginal probabilities."
   },
   {
    "sequence": "multiplication-rule",
@@ -303,19 +458,9 @@
     "p23-q17-a",
     "p23-q17-b"
    ],
-   "observation": "A complete sequence probability differs from the next independent trial's probability after earlier results are known.",
-   "varies": "Whether the first two heads are required future outcomes or already known results.",
-   "invariant": "Three fair coin flips."
-  },
-  {
-   "sequence": "multiplication-rule",
-   "targets": [
-    "p24-q19",
-    "p24-q20"
-   ],
-   "observation": "At least one six includes the double six, whereas exactly one six excludes it.",
-   "varies": "At least one versus exactly one.",
-   "invariant": "Two standard dice and the target face six."
+   "observation": "Distinguishes the probability of a full sequence from the next independent outcome after known results.",
+   "varies": "Which flips are still uncertain.",
+   "invariant": "Fair independent coin flips."
   },
   {
    "sequence": "listing-outcomes",
@@ -325,19 +470,9 @@
     "p9-q4-c-i",
     "p9-q4-c-ii"
    ],
-   "observation": "Removing replacement changes the available outcomes and the probability of the same ordered selection.",
-   "varies": "Whether the selected letter is replaced.",
-   "invariant": "The letters MAT, table representation and target outcome (T,M)."
-  },
-  {
-   "sequence": "listing-outcomes",
-   "targets": [
-    "p12-example-b",
-    "p12-example-c"
-   ],
-   "observation": "A specified order selects one path, whereas any order can select several.",
-   "varies": "The order requirement.",
-   "invariant": "Three coin tosses and exactly two heads and one tail."
+   "observation": "Removing replacement excludes self-pairs and changes the probability of a retained ordered outcome.",
+   "varies": "Whether the first letter is replaced.",
+   "invariant": "The letters MAT and the target outcome (T,M)."
   },
   {
    "sequence": "listing-outcomes",
@@ -345,9 +480,9 @@
     "p15-q17-root",
     "p15-q18"
    ],
-   "observation": "Replacement changes the sample space and event probabilities, while some probabilities remain unchanged.",
+   "observation": "Replacement changes the sample space and several probabilities; without replacement, exactly one red and at least one red coincide.",
    "varies": "Replacement after the first draw.",
-   "invariant": "One marble of each of three colours, two draws and the eight event descriptions."
+   "invariant": "The three marbles, two draws and corresponding event questions."
   },
   {
    "sequence": "independent-trees",
@@ -356,29 +491,20 @@
     "p30-q2",
     "p30-q3"
    ],
-   "observation": "The unchanged tree exposes the difference between both, at least one and exactly one.",
-   "varies": "The event being selected.",
-   "invariant": "Context, outcomes and path numbering."
+   "observation": "Both, at least one and exactly one select different sets of terminal paths.",
+   "varies": "The event requested.",
+   "invariant": "The football/rugby setting, tree and path identities."
   },
   {
    "sequence": "independent-trees",
    "targets": [
     "p32-q8-c",
-    "p32-q8-d"
+    "p32-q8-d",
+    "p32-q8-e"
    ],
-   "observation": "Either order requires an additional ordered path.",
-   "varies": "Whether order is specified.",
-   "invariant": "Bags, branch probabilities and colour pair."
-  },
-  {
-   "sequence": "independent-trees",
-   "targets": [
-    "p33-q10-c-i",
-    "p33-q10-c-ii"
-   ],
-   "observation": "Matching and different colours partition all terminal outcomes.",
-   "varies": "Which complementary pair of paths is included.",
-   "invariant": "The probability tree and its four path probabilities."
+   "observation": "Specified order, either order and at least one require progressively different path selections.",
+   "varies": "The event condition.",
+   "invariant": "The bag contents, branch probabilities and supplied tree."
   },
   {
    "sequence": "dependent-trees",
@@ -386,29 +512,9 @@
     "p42-q1-a",
     "p42-q1-b"
    ],
-   "observation": "Replacement changes the second-stage probabilities and the probability of selecting the same type.",
-   "varies": "Whether the first book is replaced.",
-   "invariant": "Initial book counts, two draws, requested event and completion format."
-  },
-  {
-   "sequence": "dependent-trees",
-   "targets": [
-    "p43-q4-b-ii",
-    "p43-q4-b-iii"
-   ],
-   "observation": "An unordered mixed-colour event includes both ordered paths.",
-   "varies": "Specified order versus either order.",
-   "invariant": "Bag contents, sampling procedure and one marble of each colour."
-  },
-  {
-   "sequence": "dependent-trees",
-   "targets": [
-    "p44-q6-b",
-    "p44-q6-c"
-   ],
-   "observation": "With two counters and two colours, exactly one white and exactly one red describe the same event.",
-   "varies": "The colour named.",
-   "invariant": "Sample, draw count and mixed-colour outcomes."
+   "observation": "Replacing the first book keeps the second-draw composition unchanged; withholding it changes the remaining counts.",
+   "varies": "Replacement condition.",
+   "invariant": "Initial book counts, two draws and the same-type event."
   },
   {
    "sequence": "dependent-trees",
@@ -416,14 +522,34 @@
     "p45-q7-a",
     "p45-q7-b"
    ],
-   "observation": "The same requested events can be compared with and without replacement.",
-   "varies": "Replacement.",
-   "invariant": "Initial counts, tree construction and all three event questions."
+   "observation": "Students compare replacement effects across the same three requested events.",
+   "varies": "Replacement condition.",
+   "invariant": "Initial book counts, requested events and independent tree construction."
+  },
+  {
+   "sequence": "dependent-trees",
+   "targets": [
+    "p43-q4-b-ii",
+    "p43-q4-b-iii"
+   ],
+   "observation": "A specified order uses one path; one of each colour includes both orders.",
+   "varies": "Whether order is specified.",
+   "invariant": "The bag, two draws and the two colours selected."
+  },
+  {
+   "sequence": "dependent-trees",
+   "targets": [
+    "p44-q6-b",
+    "p44-q6-c"
+   ],
+   "observation": "With two draws and two colours, exactly one white and exactly one red describe the same mixed-colour event.",
+   "varies": "The colour named in the event.",
+   "invariant": "Counts, experiment and favourable paths."
   }
  ],
  "notReliablyReviewed": [],
- "reviewedRevision": 23,
- "reviewedAt": "2026-10-15T11:37:22.195Z",
+ "reviewedRevision": 41,
+ "reviewedAt": "2026-10-23T12:32:56.660Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -432,7 +558,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -447,13 +573,13 @@
     "images": 0,
     "imagesExpected": false,
     "usage": {
-     "input_tokens": 21405,
-     "cached_input_tokens": 14592,
+     "input_tokens": 21673,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1280,
-     "reasoning_output_tokens": 129
+     "output_tokens": 1508,
+     "reasoning_output_tokens": 142
     },
-    "elapsedMs": 39384,
+    "elapsedMs": 34996,
     "candidates": 0,
     "discarded": [],
     "suggestions": 0
@@ -465,14 +591,14 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 61506,
-     "cached_input_tokens": 14592,
+     "input_tokens": 61945,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3537,
-     "reasoning_output_tokens": 118
+     "output_tokens": 3680,
+     "reasoning_output_tokens": 93
     },
-    "elapsedMs": 94664,
-    "candidates": 2,
+    "elapsedMs": 105567,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -483,14 +609,14 @@
     "images": 3,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 41068,
-     "cached_input_tokens": 14592,
+     "input_tokens": 41305,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3917,
-     "reasoning_output_tokens": 173
+     "output_tokens": 3213,
+     "reasoning_output_tokens": 156
     },
-    "elapsedMs": 94150,
-    "candidates": 2,
+    "elapsedMs": 96598,
+    "candidates": 1,
     "discarded": [],
     "suggestions": 1
    },
@@ -501,13 +627,13 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 65029,
-     "cached_input_tokens": 14592,
+     "input_tokens": 65298,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4129,
-     "reasoning_output_tokens": 242
+     "output_tokens": 4150,
+     "reasoning_output_tokens": 289
     },
-    "elapsedMs": 106870,
+    "elapsedMs": 126988,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -519,108 +645,32 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 60629,
+     "input_tokens": 61073,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3080,
-     "reasoning_output_tokens": 68
+     "output_tokens": 3197,
+     "reasoning_output_tokens": 108
     },
-    "elapsedMs": 81501,
+    "elapsedMs": 89930,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
    }
   ],
-  "dropped": [
-   {
-    "ids": [
-     "c1"
-    ],
-    "reason": "The topic's guided teaching already addresses the claimed distinction. In p7-practice-d, the worked teaching response explicitly identifies the white rows and columns as different physical marbles, explains the diagonal exclusions, and allows two different white marbles. This defeats the claim that the repeated-label distinction remains unexplained.",
-    "candidates": [
-     {
-      "id": "c1",
-      "sequence": "listing-outcomes",
-      "kind": "example-choice",
-      "targets": [
-       "p7-example-item"
-      ],
-      "finding": "The dependent-selection example does not explain why some (E,E) cells are possible while others are crossed out."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c2"
-    ],
-    "reason": "The question itself fixes Spinner B at 2, leaving a single-stage question about which outcomes of Spinner A produce a total of 3. Its table exposes the relevant column directly. This is one contextual change using single-stage probability, and the proposed cue supplies that decision rather than repairing a substantial unsupported method.",
-    "candidates": [
-     {
-      "id": "c2",
-      "sequence": "listing-outcomes",
-      "kind": "unsupported-transition",
-      "targets": [
-       "p11-q11-c"
-      ],
-      "finding": "The first conditional-probability question requires a restricted sample space without preceding instruction showing that decision."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c7"
-    ],
-    "reason": "Earlier material already supplies the allegedly missing numerical decision: p21-q10 asks for all four second-selection probabilities after specified first draws without replacement. Those questions rehearse reducing the total and only the selected category's count. Using that decision on branches is a transfer of earlier practice; the distinct missing dependent-product connection is covered by c4.",
-    "candidates": [
-     {
-      "id": "c7",
-      "sequence": "independent-trees",
-      "kind": "unsupported-transition",
-      "targets": [
-       "p37-q21"
-      ],
-      "finding": "The DVD question requires dependent branch probabilities without preceding teaching of how to update probabilities after a draw without replacement."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c9"
-    ],
-    "reason": "The assumption that this is students' first calculation of probabilities after non-replacement is defeated by p21-q10 and the preceding dependent-selection practice. The second-stage fractions in p40 apply that already rehearsed remaining-count method, and the example explicitly models their products. The proposed explanation may help, but it does not meet the threshold for a new unsupported decision.",
-    "candidates": [
-     {
-      "id": "c9",
-      "sequence": "dependent-trees",
-      "kind": "example-choice",
-      "targets": [
-       "p40-example-demonstration",
-       "p40-example-tree"
-      ],
-      "finding": "The introductory dependent-tree example supplies every changed second-stage probability without stating how the remaining contents produce it."
-     }
-    ]
-   }
-  ],
+  "dropped": [],
   "unchecked": [],
   "suppressed": [],
   "droppedQuestions": [
    {
-    "question": "Have these students already solved equations with an unknown exponent using logarithms and selected the least integer satisfying a probability target? The library includes Logarithms, but its title does not establish this experience.",
+    "question": "Before this booklet, have these students learnt to use logarithms to solve an equation such as (5/9)^n = 0.1 and then choose the least whole number giving at least the required probability?",
     "targets": [
      "p38-q23-c"
     ],
-    "reason": "Prior logarithm experience would not change whether the probability target can be reached using available methods. Students can evaluate 1−(5/9)^n for successive integer game counts: three games give about 82.85% and four give about 90.47%, establishing the least integer as four. The logarithm suggestion is a hint rather than a necessary solution route."
+    "reason": "Logarithms is explicitly a separate booklet in the course library, and the question itself directs students to use logarithms. This is identifiable prior knowledge taught separately, rather than unresolved new content requiring a teacher context question."
    }
   ],
-  "candidateFile": ".booklet-work/pedagogy-review/multistage-probability-v1/candidates-low-1792060407740.json",
-  "errors": [],
-  "recoveredFrom": {
-   "candidateFile": "D:\\WebApps\\MathsMap\\.booklet-work\\pedagogy-review\\multistage-probability-v1\\candidates-low-1792060407740.json",
-   "challengeResultFile": "D:\\WebApps\\MathsMap\\.booklet-work\\pedagogy-review\\multistage-probability-v1\\calls\\pedagogy-challenge-1792060407766-z8boi9\\last-message.txt",
-   "at": "2026-10-15T11:37:22.196Z",
-   "newModelCalls": 0
-  }
+  "candidateFile": ".booklet-work/full-imports/multistage-probability-import-20261006/polish/pedagogy-work/candidates-low-1792758714859.json",
+  "errors": []
  },
  "postedRevision": 24
 }

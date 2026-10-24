@@ -5,42 +5,6 @@
  "assumptions": {},
  "findings": [
   {
-   "id": "pf-07fd20be36",
-   "kind": "extension",
-   "severity": "suggestion",
-   "targets": [
-    {
-     "id": "nr-p10-q5",
-     "blockId": "nr-p10-q5",
-     "hash": "8adbf12ddf211717dadba6dcfef29cc1e0abbedbd8a4df8fe57d7342bb6d1f31"
-    }
-   ],
-   "finding": "Extend the race-course question by scaling the course while keeping its angles fixed.",
-   "breakdown": "This connects the sine rule's fixed angle ratios with proportional changes in side lengths and perimeter.",
-   "checked": "The supplied side lengths and perimeter imply BC = 2 km. Doubling all lengths gives a perimeter of approximately 10.91 km. The sine-rule teaching supplies the required method.",
-   "assumptions": "A scientific calculator is available; the second course retains the original course's angles.",
-   "repair": {
-    "type": "add-question",
-    "proposal": "Append to nr-p10-q5: (a) A second triangular course has the same angles, but BC is 4 km. Find its total distance to 2 decimal places. Answer: 10.91 km. (b) Explain why doubling BC doubles both other sides. Answer: each side is BC multiplied by an unchanged ratio of sines."
-   },
-   "doneWhen": "The follow-up explicitly retains the original angles and gives the scaled perimeter as 10.91 km.",
-   "from": [
-    "c1"
-   ],
-   "sequences": [
-    "nr-topic-2"
-   ],
-   "state": "pending",
-   "history": [
-    {
-     "state": "pending",
-     "at": "2026-10-15T10:34:04.780Z"
-    }
-   ],
-   "commentId": "078a73e7-6f8f-494f-885a-64955fde663e",
-   "postedAt": "2026-10-15T10:34:04.989Z"
-  },
-  {
    "id": "pf-9a04796357",
    "kind": "variation-sequence",
    "severity": "suggestion",
@@ -77,27 +41,61 @@
    "postedAt": "2026-10-15T10:34:04.995Z"
   },
   {
-   "id": "pf-1ca7459c57",
+   "id": "pf-174a44acc1",
    "kind": "extension",
    "severity": "suggestion",
    "targets": [
     {
-     "id": "nr-p35-q4",
-     "blockId": "nr-p35-q4",
-     "hash": "2597fdeb7353211787cb0dadf06f2f41727a786b821a68f22709ccfd9553dfe3"
+     "id": "nr-p30-q7",
+     "blockId": "nr-p30-q7-block",
+     "hash": "05ade934ce02aa4c9120bb9b54d39c5614cfb95cc11db8e13138b16b10d74594"
     }
    ],
-   "finding": "Compare areas for supplementary included angles between the same two sides.",
-   "breakdown": "This connects the supplementary-angle sine relationship with equal triangle areas.",
-   "checked": "For sides 16 cm and 18 cm, both 30° and 150° give area 144 × 0.5 = 72 cm². The supplementary sine identity is explicitly taught in nr-p15-teaching-prose and the area rule in nr-p32-rule.",
-   "assumptions": "The follow-up refers to the acute triangle in part a.",
+   "finding": "Compare the original triangle with one whose three sides are doubled.",
+   "breakdown": "The follow-up connects the cosine-rule ratio with preservation of angles under scaling.",
+   "checked": "Both triangles satisfy the triangle inequality. The largest angle rounds to 106° and the smallest to 35°. Doubling every side multiplies both numerator and denominator of the cosine-rule ratio by four. All required methods are available by topic 5.",
+   "assumptions": "Scientific calculator available, in degree mode.",
    "repair": {
     "type": "add-question",
-    "proposal": "Append optional parts after the existing part b: (c) A second triangle has sides 16 cm and 18 cm with included angle 150°. Calculate its area. Answer: 72 cm². (d) Explain why this triangle and the triangle in part a have the same area. Answer: the side lengths are unchanged and sin150° = sin30° = 0.5."
+    "proposal": "Append: (c) A second triangle has sides 24, 26 and 40. Use cosine rule to find its largest angle to the nearest degree. Answer: 106°. (d) Find its smallest angle to the nearest degree. Answer: 35°. (e) Explain why doubling all three sides leaves the angles found in parts a and b unchanged. Answer: the numerator and denominator in each cosine-rule ratio are both multiplied by 4, leaving the ratio unchanged."
    },
-   "doneWhen": "Parts c and d follow the existing parts and explicitly compare the second triangle with part a.",
+   "doneWhen": "Parts c–e follow the existing question, with one question in each part and the stated answers.",
    "from": [
-    "c4"
+    "c2"
+   ],
+   "sequences": [
+    "nr-topic-5"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:24:11.418Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-2a718eb72e",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "nr-p34-q1",
+     "blockId": "nr-p34-q1",
+     "hash": "cdaae668c6ae7e7e361db2afb742873098c442f79c0114ad92e9fc89d52553c5"
+    }
+   ],
+   "finding": "Compare areas with fixed sides and acute or obtuse included angles.",
+   "breakdown": "The run exposes equal areas for supplementary included angles and shows that area need not increase with the angle.",
+   "checked": "The supplied practice has no fixed-side run. Using A=24 sin C gives 12.0, 20.8, 20.8, 12.0 and 23.6 cm². Supplementary sine values were taught in nr-p15-teaching-prose.",
+   "assumptions": "Scientific calculator available, in degree mode.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append parts g–k under the existing area instruction. Add only: 'Predict which triangles will have equal areas before calculating.' Each triangle has given sides 6 cm and 8 cm. Include those labels in each part, with included angles: (g) 30°, answer 12.0 cm²; (h) 60°, answer 20.8 cm²; (i) 120°, answer 20.8 cm²; (j) 150°, answer 12.0 cm²; (k) 80°, answer 23.6 cm². Parts g–j vary only the included angle; k is the unpatterned follow-up."
+   },
+   "doneWhen": "Parts g–k follow part f, with the fixed side labels, one prediction instruction and the stated answers.",
+   "from": [
+    "c3"
    ],
    "sequences": [
     "nr-topic-6"
@@ -106,11 +104,9 @@
    "history": [
     {
      "state": "pending",
-     "at": "2026-10-15T10:34:04.780Z"
+     "at": "2026-10-23T13:24:11.418Z"
     }
-   ],
-   "commentId": "94693dee-c6cc-49e7-8083-03d54c082a7e",
-   "postedAt": "2026-10-15T10:34:04.998Z"
+   ]
   },
   {
    "id": "pf-c5bd9fd9bb",
@@ -147,6 +143,112 @@
    ],
    "commentId": "141dd8df-3bc3-4926-94ca-a71162d4b79d",
    "postedAt": "2026-10-15T10:34:05.000Z"
+  },
+  {
+   "id": "pf-2dd015b55f",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "nr-p46-q9",
+     "blockId": "nr-p46-q9",
+     "hash": "3af8e4ca572c88854f6956be1194caeceebc9707fc06955237c19e9bace49046"
+    }
+   ],
+   "finding": "Use the supplementary interior angle to find the other diagonal.",
+   "breakdown": "The follow-up compares the diagonals formed by the same adjacent side lengths with supplementary included angles.",
+   "checked": "The original triangle gives cos ∠BCD=-275/1363. Its supplementary angle therefore gives AC²=47²+29²-550=2500, so AC=50 mm. Cosine rule and supplementary angles are already available.",
+   "assumptions": "Scientific calculator available; retain the unrounded angle from part b.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append: '(c) Find the length of diagonal AC in millimetres, using your unrounded angle from part b.' Answer: 50 mm. The unit instruction applies to this part independently of the stem's angle-rounding instruction."
+   },
+   "doneWhen": "Part c follows part b and asks for a length in millimetres, with answer 50 mm.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "nr-topic-8"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-23T13:24:11.418Z"
+    }
+   ]
+  },
+  {
+   "id": "pf-07fd20be36",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "nr-p10-q5",
+     "blockId": "nr-p10-q5",
+     "hash": "8adbf12ddf211717dadba6dcfef29cc1e0abbedbd8a4df8fe57d7342bb6d1f31"
+    }
+   ],
+   "finding": "Extend the race-course question by scaling the course while keeping its angles fixed.",
+   "breakdown": "This connects the sine rule's fixed angle ratios with proportional changes in side lengths and perimeter.",
+   "checked": "The supplied side lengths and perimeter imply BC = 2 km. Doubling all lengths gives a perimeter of approximately 10.91 km. The sine-rule teaching supplies the required method.",
+   "assumptions": "A scientific calculator is available; the second course retains the original course's angles.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to nr-p10-q5: (a) A second triangular course has the same angles, but BC is 4 km. Find its total distance to 2 decimal places. Answer: 10.91 km. (b) Explain why doubling BC doubles both other sides. Answer: each side is BC multiplied by an unchanged ratio of sines."
+   },
+   "doneWhen": "The follow-up explicitly retains the original angles and gives the scaled perimeter as 10.91 km.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "nr-topic-2"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:34:04.780Z"
+    }
+   ],
+   "commentId": "078a73e7-6f8f-494f-885a-64955fde663e",
+   "postedAt": "2026-10-15T10:34:04.989Z"
+  },
+  {
+   "id": "pf-1ca7459c57",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "nr-p35-q4",
+     "blockId": "nr-p35-q4",
+     "hash": "2597fdeb7353211787cb0dadf06f2f41727a786b821a68f22709ccfd9553dfe3"
+    }
+   ],
+   "finding": "Compare areas for supplementary included angles between the same two sides.",
+   "breakdown": "This connects the supplementary-angle sine relationship with equal triangle areas.",
+   "checked": "For sides 16 cm and 18 cm, both 30° and 150° give area 144 × 0.5 = 72 cm². The supplementary sine identity is explicitly taught in nr-p15-teaching-prose and the area rule in nr-p32-rule.",
+   "assumptions": "The follow-up refers to the acute triangle in part a.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append optional parts after the existing part b: (c) A second triangle has sides 16 cm and 18 cm with included angle 150°. Calculate its area. Answer: 72 cm². (d) Explain why this triangle and the triangle in part a have the same area. Answer: the side lengths are unchanged and sin150° = sin30° = 0.5."
+   },
+   "doneWhen": "Parts c and d follow the existing parts and explicitly compare the second triangle with part a.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "nr-topic-6"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-15T10:34:04.780Z"
+    }
+   ],
+   "commentId": "94693dee-c6cc-49e7-8083-03d54c082a7e",
+   "postedAt": "2026-10-15T10:34:04.998Z"
   },
   {
    "id": "pf-43d348597c",
@@ -193,21 +295,19 @@
     "nr-p3-identify-a",
     "nr-p3-identify-b"
    ],
-   "observation": "Opposite-pair naming depends on the vertices joined by a side, rather than its position on the page.",
-   "varies": "Triangle orientation and shape.",
-   "invariant": "Given vertex labels A, B and C; students supply all three corresponding side labels."
+   "observation": "Opposite-letter matching remains valid when the triangle's orientation changes.",
+   "varies": "The positions of the vertices and the triangle's shape.",
+   "invariant": "Given uppercase A, B and C; students label all three opposite sides."
   },
   {
    "sequence": "nr-topic-1",
    "targets": [
-    "nr-p4-q1c",
     "nr-p4-q1d",
-    "nr-p4-q1e",
     "nr-p4-q1f"
    ],
-   "observation": "The opposite relationship works in both directions when the given quantity is a numerical angle or side length.",
-   "varies": "Matching direction, orientation, given measurements and number of labelled sides.",
-   "invariant": "Locate the side or angle that does not touch the specified opposite feature."
+   "observation": "The required angle is opposite the specified side even when other lengths are present.",
+   "varies": "One given length becomes three given lengths, with a different orientation.",
+   "invariant": "Locate the angle opposite the named length and label it theta."
   },
   {
    "sequence": "nr-topic-3",
@@ -215,9 +315,9 @@
     "nr-p13-demo-example-1",
     "nr-p13-demo-example-2"
    ],
-   "observation": "A known opposite pair alone is insufficient; the side opposite the required angle must also be known.",
-   "varies": "Whether the 9 cm side opposite θ is supplied.",
-   "invariant": "The known 10 cm–40° pair and target angle."
+   "observation": "A complete known opposite pair alone is insufficient; the side opposite the target angle is also needed.",
+   "varies": "Whether the side opposite theta is supplied.",
+   "invariant": "The known 10 cm–40 degree opposite pair and target angle position."
   },
   {
    "sequence": "nr-topic-3",
@@ -225,9 +325,9 @@
     "nr-p13-demo-example-3",
     "nr-p13-demo-example-4"
    ],
-   "observation": "Two sides alone do not provide the known opposite pair needed for this method.",
-   "varies": "Whether the 20° angle is supplied.",
-   "invariant": "The 8 cm and 12 cm sides and the target opposite 12 cm."
+   "observation": "Two side lengths permit this use of sine rule only when a known angle supplies a complete opposite pair.",
+   "varies": "Whether the 20-degree angle is supplied.",
+   "invariant": "The two side lengths and target angle position."
   },
   {
    "sequence": "nr-topic-3",
@@ -235,9 +335,9 @@
     "nr-p15-teaching-acute",
     "nr-p15-teaching-obtuse"
    ],
-   "observation": "The same supplied opposite pair and target side can correspond to an acute or an obtuse angle.",
-   "varies": "The acute or obtuse configuration of θ.",
-   "invariant": "The 6 cm side opposite 30° and the 10 cm side opposite θ."
+   "observation": "The same given measurements can correspond to acute and obtuse target angles with equal sine.",
+   "varies": "Triangle configuration and target angle.",
+   "invariant": "Sides 6 cm and 10 cm, with 30 degrees opposite 6 cm."
   },
   {
    "sequence": "nr-topic-2",
@@ -245,9 +345,9 @@
     "nr-p6-demo-1",
     "nr-p6-demo-2"
    ],
-   "observation": "Adding the angle opposite the known side makes a direct side calculation possible.",
-   "varies": "Whether the 50° angle is supplied.",
-   "invariant": "The known side, unknown side and 65° angle."
+   "observation": "Adding the angle opposite the known side makes a direct sine-rule side calculation available.",
+   "varies": "Whether the apex angle is supplied.",
+   "invariant": "Triangle orientation, 8 cm known side, x side and 65° angle."
   },
   {
    "sequence": "nr-topic-2",
@@ -256,9 +356,9 @@
     "nr-p10-q4b",
     "nr-p10-q4c"
    ],
-   "observation": "The angle opposite the requested side determines its ratio; a missing opposite angle can first be calculated.",
-   "varies": "Which angle is opposite x and whether it is directly labelled.",
-   "invariant": "The triangle's angles and the known side 12 cm opposite 45°."
+   "observation": "The side opposite x determines the sine numerator; orientation and the location of the printed angle do not.",
+   "varies": "Position of x, orientation and which base angle is printed.",
+   "invariant": "Angle set 45°, 53°, 82° and a 12 cm side opposite 45°."
   },
   {
    "sequence": "nr-topic-2",
@@ -266,9 +366,9 @@
     "nr-p10-q4d",
     "nr-p10-q4e"
    ],
-   "observation": "Halving the known side halves the calculated corresponding side when the angles stay fixed.",
-   "varies": "Known length: 12 cm then 6 cm.",
-   "invariant": "Angles, corresponding sides and sine ratio."
+   "observation": "Halving the known side halves the corresponding unknown side when the angles remain unchanged.",
+   "varies": "Known side length, from 12 cm to 6 cm.",
+   "invariant": "Angle set and the opposite-angle roles of the known side and x."
   },
   {
    "sequence": "nr-topic-4",
@@ -276,9 +376,19 @@
     "nr-p18-included-example-1",
     "nr-p18-included-example-2"
    ],
-   "observation": "Moving the angle between the known sides changes whether it is included.",
-   "varies": "Position of the marked angle",
-   "invariant": "The two labelled side lengths and angle magnitude"
+   "observation": "An angle is included only when it lies between the two specified sides.",
+   "varies": "The position of the marked angle.",
+   "invariant": "The known side pair and triangle orientation."
+  },
+  {
+   "sequence": "nr-topic-4",
+   "targets": [
+    "nr-p18-included-example-3",
+    "nr-p18-included-example-4"
+   ],
+   "observation": "Whether an angle is included depends on which two sides are given.",
+   "varies": "Which second side is labelled as known.",
+   "invariant": "The marked 25-degree angle and the known 15 cm side."
   },
   {
    "sequence": "nr-topic-4",
@@ -286,49 +396,9 @@
     "nr-p19-demo-example-3",
     "nr-p19-demo-example-4"
    ],
-   "observation": "Two known sides and a known angle are insufficient for the taught direct substitution unless that angle lies between those sides.",
-   "varies": "Which side is unknown and whether the known angle is included",
-   "invariant": "The 12 cm side and 115° angle"
-  },
-  {
-   "sequence": "nr-topic-5",
-   "targets": [
-    "nr-p25-condition-example-3",
-    "nr-p25-condition-example-4"
-   ],
-   "observation": "The third side is necessary for direct use of the angle formula.",
-   "varies": "Whether the opposite side's length is supplied.",
-   "invariant": "Target angle, orientation and the two adjacent lengths."
-  },
-  {
-   "sequence": "nr-topic-5",
-   "targets": [
-    "nr-p29-q4a",
-    "nr-p29-q4b"
-   ],
-   "observation": "Increasing the opposite side while keeping adjacent sides fixed increases the included angle, crossing from acute to obtuse.",
-   "varies": "Opposite side length, from 4 cm to 8 cm.",
-   "invariant": "Adjacent lengths 6 cm and 5 cm and the target vertex."
-  },
-  {
-   "sequence": "nr-topic-5",
-   "targets": [
-    "nr-p29-q4b",
-    "nr-p29-q4c"
-   ],
-   "observation": "Moving the target angle changes which side is subtracted in the formula.",
-   "varies": "The target vertex and corresponding opposite side.",
-   "invariant": "The triangle's three side lengths."
-  },
-  {
-   "sequence": "nr-topic-5",
-   "targets": [
-    "nr-p29-q4d",
-    "nr-p29-q4e"
-   ],
-   "observation": "Moving the target vertex in an equilateral triangle preserves the angle, contrasting with parts b and c; this is purposeful comparison rather than an accidental duplicate.",
-   "varies": "The target vertex.",
-   "invariant": "All three side lengths are 8 cm."
+   "observation": "The taught direct substitution requires the known angle to lie between the two known sides.",
+   "varies": "The positions of the unknown side and the second known side.",
+   "invariant": "The 115-degree angle, the known 12 cm side and the triangle orientation."
   },
   {
    "sequence": "nr-topic-6",
@@ -336,9 +406,9 @@
     "nr-p32-demo-1-example",
     "nr-p32-demo-2-example"
    ],
-   "observation": "Two sides and an angle permit immediate SAS substitution only when the angle is included.",
-   "varies": "The position and value of the supplied angle.",
-   "invariant": "Known side lengths of 7 cm and 8 cm."
+   "observation": "Two known sides permit direct use only when the known angle lies between them.",
+   "varies": "The position and value of the given angle.",
+   "invariant": "The two given side lengths, 7 cm and 8 cm."
   },
   {
    "sequence": "nr-topic-6",
@@ -348,51 +418,49 @@
     "nr-p32-part-c",
     "nr-p32-part-d"
    ],
-   "observation": "Students distinguish directly usable information, a non-included angle, redundant information and an included angle obtainable by subtraction.",
-   "varies": "Which sides and angles are supplied.",
-   "invariant": "The decision is whether the SAS area rule has the required two sides and included angle."
+   "observation": "Students must identify a usable side-angle-side set, including when a side is redundant or the included angle must first be calculated.",
+   "varies": "Angle position and the availability of side and angle information.",
+   "invariant": "The applicability decision for the same area rule."
   },
   {
-   "sequence": "nr-topic-7",
+   "sequence": "nr-topic-5",
    "targets": [
-    "nr-p38-a",
-    "nr-p38-b",
-    "nr-p38-c",
-    "nr-p38-d",
-    "nr-p38-e",
-    "nr-p38-f",
-    "nr-p38-g",
-    "nr-p38-h",
-    "nr-p38-i",
-    "nr-p38-j",
-    "nr-p38-k",
-    "nr-p38-l"
+    "nr-p25-condition-example-3",
+    "nr-p25-condition-example-4"
    ],
-   "observation": "Students distinguish rule selection from calculation across a mixed identification set.",
-   "varies": "Known information, requested quantity, angle size and triangle orientation.",
-   "invariant": "Identify a suitable rule without evaluating the unknown."
+   "observation": "The opposite side's length is needed as well as the two adjacent lengths.",
+   "varies": "Whether the opposite side is labelled.",
+   "invariant": "The target angle, orientation and two adjacent lengths."
   },
   {
-   "sequence": "nr-topic-7",
+   "sequence": "nr-topic-5",
    "targets": [
-    "nr-p42-q10a",
-    "nr-p42-q10b",
-    "nr-p42-q10c",
-    "nr-p42-q10d"
+    "nr-p29-q4a",
+    "nr-p29-q4b"
    ],
-   "observation": "Similar triangle presentations require different choices when the givens and requested quantity change.",
-   "varies": "Whether the data are SAS, SSS or an opposite pair, and whether an intermediate side is needed.",
-   "invariant": "Closely related triangle presentations and recurring side lengths."
+   "observation": "Increasing the opposite side while keeping the adjacent sides fixed increases the angle, here from acute to obtuse.",
+   "varies": "Opposite side length: 4 cm to 8 cm.",
+   "invariant": "Adjacent lengths 6 cm and 5 cm and the target vertex."
   },
   {
-   "sequence": "nr-topic-7",
+   "sequence": "nr-topic-5",
    "targets": [
-    "nr-p43-q12e",
-    "nr-p43-q12f"
+    "nr-p29-q4b",
+    "nr-p29-q4c"
    ],
-   "observation": "Regular polygons can be treated as equal triangles meeting at the centre.",
-   "varies": "Number of triangles and whether the supplied length is a polygon side or a radius.",
-   "invariant": "Sum equal triangle areas using central angles."
+   "observation": "Changing the target angle changes which side is subtracted.",
+   "varies": "Target vertex.",
+   "invariant": "Side lengths 6 cm, 8 cm and 5 cm."
+  },
+  {
+   "sequence": "nr-topic-5",
+   "targets": [
+    "nr-p29-q4d",
+    "nr-p29-q4e"
+   ],
+   "observation": "Different target vertices give the same angle when all sides are equal; this provides an instructional reason for the repeated lengths.",
+   "varies": "Target vertex.",
+   "invariant": "All three lengths are 8 cm."
   }
  ],
  "notReliablyReviewed": [
@@ -402,11 +470,11 @@
     "nr-p58-q20-diagram",
     "nr-p59-q21-diagram1"
    ],
-   "reason": "Pages 58 and 59 were not attached. Their written specifications support a review of the stated mathematical demands, but the actual diagrams could not be inspected."
+   "reason": "Pages 58 and 59 were not attached. Their written diagram specifications support review of the mathematical demands, but the actual diagrams could not be inspected."
   }
  ],
- "reviewedRevision": 184,
- "reviewedAt": "2026-10-15T10:34:04.780Z",
+ "reviewedRevision": 203,
+ "reviewedAt": "2026-10-23T13:24:11.418Z",
  "passes": {
   "review": {
    "model": "gpt-6.1-sol",
@@ -415,7 +483,7 @@
   },
   "challenge": {
    "model": "gpt-6.1-sol",
-   "effort": "medium",
+   "effort": "low",
    "calls": 1
   }
  },
@@ -430,13 +498,13 @@
     "images": 2,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 29934,
+     "input_tokens": 30202,
      "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 1429,
-     "reasoning_output_tokens": 67
+     "output_tokens": 1585,
+     "reasoning_output_tokens": 57
     },
-    "elapsedMs": 37994,
+    "elapsedMs": 49219,
     "candidates": 0,
     "discarded": [],
     "suggestions": 0
@@ -448,16 +516,16 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 52719,
-     "cached_input_tokens": 14592,
+     "input_tokens": 52992,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3713,
-     "reasoning_output_tokens": 249
+     "output_tokens": 3558,
+     "reasoning_output_tokens": 219
     },
-    "elapsedMs": 89480,
+    "elapsedMs": 107648,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "nr-topic-3",
@@ -466,16 +534,16 @@
     "images": 5,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 44511,
-     "cached_input_tokens": 14592,
+     "input_tokens": 44780,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2820,
-     "reasoning_output_tokens": 91
+     "output_tokens": 3233,
+     "reasoning_output_tokens": 90
     },
-    "elapsedMs": 65368,
+    "elapsedMs": 98513,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    },
    {
     "id": "nr-topic-4",
@@ -484,13 +552,13 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 57101,
-     "cached_input_tokens": 14592,
+     "input_tokens": 58217,
+     "cached_input_tokens": 14720,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3753,
-     "reasoning_output_tokens": 163
+     "output_tokens": 4035,
+     "reasoning_output_tokens": 156
     },
-    "elapsedMs": 92047,
+    "elapsedMs": 106804,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -502,16 +570,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 55341,
-     "cached_input_tokens": 12544,
+     "input_tokens": 55656,
+     "cached_input_tokens": 14592,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3607,
-     "reasoning_output_tokens": 122
+     "output_tokens": 3904,
+     "reasoning_output_tokens": 190
     },
-    "elapsedMs": 81352,
+    "elapsedMs": 115576,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 0
+    "suggestions": 1
    },
    {
     "id": "nr-topic-6",
@@ -520,13 +588,13 @@
     "images": 7,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 60098,
-     "cached_input_tokens": 14592,
+     "input_tokens": 60366,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 4046,
-     "reasoning_output_tokens": 309
+     "output_tokens": 3987,
+     "reasoning_output_tokens": 196
     },
-    "elapsedMs": 100807,
+    "elapsedMs": 87268,
     "candidates": 0,
     "discarded": [],
     "suggestions": 1
@@ -538,13 +606,13 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 57562,
-     "cached_input_tokens": 12544,
+     "input_tokens": 57830,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 3752,
-     "reasoning_output_tokens": 125
+     "output_tokens": 3624,
+     "reasoning_output_tokens": 365
     },
-    "elapsedMs": 89297,
+    "elapsedMs": 116440,
     "candidates": 1,
     "discarded": [],
     "suggestions": 1
@@ -556,16 +624,16 @@
     "images": 6,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 61517,
-     "cached_input_tokens": 14592,
+     "input_tokens": 61785,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2234,
-     "reasoning_output_tokens": 211
+     "output_tokens": 2553,
+     "reasoning_output_tokens": 361
     },
-    "elapsedMs": 62529,
+    "elapsedMs": 87226,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 0
+    "suggestions": 1
    },
    {
     "id": "nr-topic-9",
@@ -574,68 +642,41 @@
     "images": 8,
     "imagesExpected": true,
     "usage": {
-     "input_tokens": 69602,
-     "cached_input_tokens": 14592,
+     "input_tokens": 69869,
+     "cached_input_tokens": 12416,
      "cache_write_input_tokens": 0,
-     "output_tokens": 2585,
-     "reasoning_output_tokens": 176
+     "output_tokens": 2430,
+     "reasoning_output_tokens": 245
     },
-    "elapsedMs": 69618,
+    "elapsedMs": 73355,
     "candidates": 0,
     "discarded": [],
-    "suggestions": 1
+    "suggestions": 0
    }
   ],
   "dropped": [
    {
     "ids": [
-     "c2"
+     "c5"
     ],
-    "reason": "The extension is a follow-up to teaching diagrams, not an existing practice question, so it fails the required placement test. Its proposed angle calculations are otherwise correct.",
+    "reason": "The whole-booklet limit permits four suggestions. This extension is mathematically correct, but repeats the supplementary-sine and equal-area relationship exposed more directly by the retained c3 variation sequence; the other retained suggestions cover distinct relationships.",
     "candidates": [
      {
-      "id": "c2",
-      "sequence": "nr-topic-3",
-      "kind": "extension",
-      "targets": [
-       "nr-p15-teaching-pair"
-      ],
-      "finding": "Calculate the angles in both triangles used to introduce the obtuse-angle method."
-     }
-    ]
-   },
-   {
-    "ids": [
-     "c6"
-    ],
-    "reason": "The mathematics is correct, but the booklet-wide limit is four suggestions. This repeats the supplementary-angle area relationship retained in c4; the other retained suggestions provide broader coverage.",
-    "candidates": [
-     {
-      "id": "c6",
+      "id": "c5",
       "sequence": "nr-topic-7",
       "kind": "extension",
       "targets": [
-       "nr-p42-q10a"
+       "nr-p41-q7"
       ],
-      "finding": "Compare triangles with the same two sides and supplementary included angles."
+      "finding": "Compare two isosceles triangles with supplementary apex angles."
      }
     ]
    }
   ],
   "unchecked": [],
   "suppressed": [],
-  "droppedQuestions": [
-   {
-    "question": "Before this exercise, including the omitted nr-topic-8, have students been taught to select vertical and ground triangles in perspective tower diagrams, construct right triangles inside a cube, and solve a tower problem with no given length by choosing a convenient height or cancelling a common height?",
-    "targets": [
-     "nr-p56-q17",
-     "nr-p58-q20",
-     "nr-p59-q21"
-    ],
-    "reason": "The question does not resolve an accompanying candidate finding. Perspective right-triangle work, Pythagoras and algebraic ratios also belong to separately taught course content identified in the library. The labelled harder tasks do not alone establish an unsupported transition requiring this broad prerequisite question."
-   }
-  ],
-  "candidateFile": ".booklet-work/pedagogy-review/non-right-angled-trigonometry-v1/candidates-low-1792060388575.json",
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/full-imports/non-right-angled-trigonometry-v1/polish/pedagogy-work/candidates-low-1792761815067.json",
   "errors": []
  },
  "postedRevision": 185
