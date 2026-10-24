@@ -510,12 +510,15 @@
     request={...request,value:editableTableFragment(fieldValue(project,request),request.value,tableId)};
     request={...request,renderMode:request.renderMode??request.origin?.closest('[data-page-mode]')?.dataset.pageMode};
     if(inlineSession?.rootId===request.rootId&&inlineSession?.pointer===request.pointer){
-      if(request.hostId===inlineSession.hostId&&!paginationSelection)return;
+      // A property-panel edit may have no text caret bookmark. Pagination still
+      // parks the editor, so the same host must reattach it before returning.
+      if(request.hostId===inlineSession.hostId&&!paginationSelection&&!inlineSession.redistributing)return;
+      const wasRedistributing=inlineSession.redistributing;
       const original=fieldValue(project,request),value=request.value??original,slice=value?._bookletSlice??null,bookmark=clone(paginationSelection);
       if(slice)for(const key of ['start','end'])if(bookmark?.[key]?.nodeId===slice.nodeId)bookmark[key].offset-=slice.start;
       inlineSession={...inlineSession,hostId:request.hostId,value,redistributing:false,hostNodeId:value?.blocks?.[0]?.id,fragmentIds:isDocument(value)?value.blocks.map(b=>b.id):null,paragraphSlice:slice,paragraphBase:original,bookmark,point:request.point};
       const c=activeEditor?.documentController;if(c){c.doc=isDocument(value)?normalizeDocument(value):fromSource(value);c.lastHostDocument=c.doc;c.render(null);}
-      tick().then(()=>{attachEditor();if(!panelHasFocus()){if(bookmark)restoreEditorSelection(activeEditor,bookmark);else placeEditorAtPoint(activeEditor,request.point);}});return;
+      tick().then(()=>{attachEditor();if(!panelHasFocus()){if(bookmark)restoreEditorSelection(activeEditor,bookmark);else if(!wasRedistributing)placeEditorAtPoint(activeEditor,request.point);}});return;
     }
     finishInline();groupSelection=[];
     const arrangement=request.origin?.closest('[data-arrangement-id]'),blockElement=arrangement?.closest('[data-arrangement-block]');

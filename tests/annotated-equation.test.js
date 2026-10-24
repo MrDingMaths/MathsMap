@@ -6,6 +6,26 @@ import {documentHtml} from '../src/lib/document-content.js';
 import {blockClozeAnswers,independentAnswerPages,teachingQuestionMode} from '../src/lib/booklet-answer-options.js';
 const fixture=()=>normalizeDocument({blocks:[{id:'eq',type:'annotated-equation',latex:'y=mx+c',anchors:[{id:'coefficient',start:2,end:3,text:'m'},{id:'constant',start:5,end:6,text:'c'}],annotations:[{id:'label',targetId:'coefficient',colour:'#268cff',blocks:[{id:'label-text',type:'paragraph',inlines:[{type:'text',text:'coefficient of '},{type:'math',latex:'x'}]}]}]}]});
 
+test('vertical annotation arrows are opt-in and survive normalization and rich copy',()=>{
+ const original=fixture();
+ assert.equal(original.blocks[0].arrowAlignment,undefined);
+ assert.doesNotMatch(documentHtml(original),/data-arrow-alignment/);
+ original.blocks[0].arrowAlignment='vertical';
+ const copied=freshDocument(normalizeDocument(original));
+ assert.equal(copied.blocks[0].arrowAlignment,'vertical');
+ assert.match(documentHtml(copied),/data-arrow-alignment="vertical"/);
+});
+
+test('below-term connections survive normalisation and copy, reserving space beneath the formula',()=>{
+ const doc=fixture();doc.blocks[0].connections=[{id:'above',fromId:'coefficient',toId:'constant',height:4},{id:'below',fromId:'coefficient',toId:'constant',height:8,side:'below'}];
+ const copy=freshDocument(normalizeDocument(doc)),connections=copy.blocks[0].connections;
+ assert.equal(connections[0].side,undefined);
+ assert.equal(connections[1].side,'below');
+ assert.equal(connections[1].fromId,copy.blocks[0].anchors[0].id);
+ assert.match(documentHtml(copy),/padding-bottom:8mm/);
+ assert.doesNotMatch(documentHtml(fixture()),/padding-bottom/);
+});
+
 test('term arrows survive rich copy and report removed equation targets',()=>{
  const doc=fixture();doc.blocks[0].fontSize=null;doc.blocks[0].connections=[{id:'arrow',fromId:'coefficient',toId:'constant',colour:'#ff616b',height:3}];
  const copy=freshDocument(doc),n=copy.blocks[0];

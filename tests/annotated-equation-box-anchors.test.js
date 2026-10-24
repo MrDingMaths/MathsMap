@@ -24,6 +24,7 @@ const first=fractionLatex.indexOf(numerator),second=fractionLatex.indexOf(denomi
 const scaffold={...base,id:'mean-scaffold',latex:fractionLatex,anchors:[{id:'numerator',start:first,end:first+numerator.length,text:numerator},{id:'denominator',start:second,end:second+denominator.length,text:denominator}],annotations:[label('add','numerator','above','Add scores'),label('count','denominator','below','No. of scores')]};
 const one=(id,latex)=>({...base,id,latex,anchors:[{id:'term',start:0,end:latex.length,text:latex}],annotations:[label(id+'-label','term','above','Term')]});
 const cases=[
+ {id:'vertical',node:{...scaffold,id:'vertical',arrowAlignment:'vertical'},boxOnly:true,vertical:true},
  {id:'scaffold',node:scaffold,boxOnly:true},
  {id:'boxed-symbol',node:one('boxed-symbol','\\boxed{x}'),boxOnly:true},
  {id:'plain',node:one('plain','m')},
@@ -72,7 +73,7 @@ test('equation arrows respect complete box borders without changing mixed/plain 
      const anchor=index=>figure.querySelector(`[id="ae-${figure.dataset.equationInstance}-${index}"]`);
      const arrows=[...figure.querySelectorAll('[data-equation-label]')].map(label=>{
       const target=anchor(label.dataset.targetIndex),values=numbers(paths[pathIndex++]);
-      return{side:label.dataset.side,target:rect(target),boxes:[...target.querySelectorAll('.fbox')].map(rect),tip:world(values[2],values[3])};
+      return{side:label.dataset.side,target:rect(target),boxes:[...target.querySelectorAll('.fbox')].map(rect),start:world(values[0],values[1]),tip:world(values[2],values[3])};
      });
      const connection=container.dataset.case==='connections'?(()=>{const v=numbers(paths[0]);return{from:rect(anchor(0)),to:rect(anchor(1)),start:world(v[0],v[1]),control1:world(v[2],v[3]),control2:world(v[4],v[5]),end:world(v[6],v[7]),scale:svg.getScreenCTM().d};})():null;
      return{id:container.dataset.case,before:before[caseIndex],after:dimensions(container),arrows,connection};
@@ -84,6 +85,7 @@ test('equation arrows respect complete box borders without changing mixed/plain 
     const fixture=cases.find(c=>c.id===row.id);
     assert.deepEqual(row.after,row.before,`${row.id}: drawing does not change writing-box dimensions at zoom ${zoom}`);
     for(const a of row.arrows){
+     if(fixture.vertical)close(a.start.x,a.tip.x,`${row.id}: vertical arrow remains over its term`);
      const bounds=fixture.boxOnly?a.boxes[0]:a.target;
      close(a.tip.x,bounds.left+bounds.width/2,`${row.id}: correct target centre`);
      close(a.tip.y,a.side==='above'?bounds.top-2:bounds.bottom+2,`${row.id}: two-pixel edge clearance`);
