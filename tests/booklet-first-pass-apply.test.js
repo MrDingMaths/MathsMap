@@ -5,10 +5,18 @@ import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {runReview,postFindings} from '../first-pass/review.mjs';
-import {patchAllowed,contentTokens,sameContent,trialApply,inversePatches,groupFindings,runApply,canonicalLayoutValue,verificationTasks,repairEvidence} from '../first-pass/apply.mjs';
+import {patchAllowed,contentTokens,sameContent,trialApply,inversePatches,groupFindings,runApply,canonicalLayoutValue,verificationTasks,repairEvidence,rendererCapabilities} from '../first-pass/apply.mjs';
 import {applyCorrections} from '../scripts/booklet/lean-review.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+test('repair capability packets expose native diagrams inside table cells',()=>{
+ const packet=rendererCapabilities(ROOT);
+ assert.match(packet.catalogue,/Native cells support a text paragraph containing one \[tikz\] block/);
+ const source=packet.sources.find(x=>x.file==='src/lib/document-tikz.js');
+ assert.ok(source);
+ assert.match(source.code,/including inside table cells/);
+ assert.match(source.code,/documentTikzEntries/);
+});
 const temp=t=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'first-pass-apply-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir;};
 const payloadOf=prompt=>JSON.parse(prompt.slice(prompt.indexOf('Input:\n')+7));
 const QUESTIONS=6;

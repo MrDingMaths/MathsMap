@@ -1,11 +1,42 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import path from 'node:path';
-import {boundaryPages,selectFeedbackPages,selectBlockPages,inspectionPlan,deriveCombinedSelection,answerSignature,overrideTouchesDiagramInputs,diagramInputUrls,tikzDelta,parseOverrides,selectDenseFeedbackPages} from '../scripts/booklet/check-feedback-pages.mjs';
+import {boundaryPages,selectFeedbackPages,selectBlockPages,inspectionPlan,deriveCombinedSelection,answerSignature,overrideTouchesDiagramInputs,diagramInputUrls,tikzDelta,parseOverrides,selectDenseFeedbackPages,finalizeFeedbackReport} from '../scripts/booklet/check-feedback-pages.mjs';
 import {diagramInputFiles} from '../scripts/booklet/render-cache-server.mjs';
 import {requireBoundedDevelopmentExport} from '../scripts/booklet/page-review.mjs';
+import {survivingRepairBlocks} from '../scripts/booklet/check-feedback-pages.mjs';
+
+test('scoped deletion keeps mutation ownership without rendering a removed duplicate',()=>{
+ const project=ids=>({sections:[{blocks:ids.map(id=>({id}))}]});
+ assert.deepEqual(survivingRepairBlocks(project(['table']),project(['table','detached']),['table','detached']),['table']);
+ assert.deepEqual(survivingRepairBlocks(project(['table']),project(['table','detached']),['table','typo']),['table','typo'],'unknown target must still fail structural checks');
+ assert.deepEqual(survivingRepairBlocks(project(['table']),null,['table','detached']),['table','detached'],'a deletion needs its before-snapshot');
+});
 
 const pages=(count,{answersFrom=Infinity,changed=[],mode='short'}={})=>Array.from({length:count},(_,i)=>({page:i+1,blocks:['b'+(i+1)],hash:changed.includes(i+1)?'new'+(i+1):'h'+(i+1),isAnswer:i+1>=answersFrom,isCover:i===0,answerSectionStart:i+1===answersFrom,mode:i+1>=answersFrom?mode:'student'}));
+test('export reports fail closed for empty, missing and interrupted editions',()=>{
+ const report=()=>({editions:['student'],checksOnly:['worked'],editionsReport:{},completedEditions:[],failures:[]});
+ const empty=finalizeFeedbackReport(report());
+ assert.equal(empty.passed,false);assert.deepEqual(empty.failures[0].missing,['student','worked']);
+ const none=report();none.editions=[];none.checksOnly=[];
+ assert.equal(finalizeFeedbackReport(none).passed,false);
+ const partial=report();partial.editionsReport.student={pageCount:2};partial.completedEditions=['student'];
+ assert.equal(finalizeFeedbackReport(partial).passed,false);assert.deepEqual(partial.failures[0].missing,['worked']);
+ const interrupted=report();interrupted.editionsReport={student:{pageCount:2},worked:{pageCount:1}};
+ interrupted.completedEditions=['student'];interrupted.failures.push({kind:'exception',message:'Pagination failed',stack:'retained diagnostic'});
+ assert.equal(finalizeFeedbackReport(interrupted).passed,false);assert.equal(interrupted.failures[0].stack,'retained diagnostic');
+ const absent=report();absent.completedEditions=['student','worked'];
+ assert.equal(finalizeFeedbackReport(absent).passed,false,'completion markers alone cannot replace edition evidence');
+});
+test('only completed successful edition checks or baseline captures pass',()=>{
+ const success={editions:['student'],checksOnly:['worked'],editionsReport:{student:{pageCount:2},worked:{pageCount:1}},completedEditions:['student','worked'],failures:[]};
+ assert.equal(finalizeFeedbackReport(structuredClone(success)).passed,true);
+ const error=structuredClone(success);error.failures.push({kind:'exception',message:'Export failed after printing'});
+ assert.equal(finalizeFeedbackReport(error).passed,false);
+ const baseline={editions:['student'],checksOnly:[],editionsReport:{},completedEditions:['student'],failures:[]};
+ assert.equal(finalizeFeedbackReport(baseline,{capture:true}).passed,true);
+ assert.equal(finalizeFeedbackReport({...baseline,completedEditions:[]},{capture:true}).passed,false);
+});
 test('explicit dense sampling ranks affected pages and keeps their selected neighbours',()=>{
  assert.deepEqual(selectDenseFeedbackPages([2,3,4,5,8],[0,10,50,20,40,0,0,100],2),{densePages:[8,3],selected:[2,3,4,8]});
  assert.deepEqual(selectDenseFeedbackPages([],[],2),{densePages:[],selected:[]});

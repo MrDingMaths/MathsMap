@@ -27,7 +27,7 @@ test('scaffold-anchor: a layout that stacks its slots (a caption above a working
  assert.equal(blockOf(kept).content.children[0].prompt.blocks[0].slots.length,2);
 });
 
-test('steps: aligned working or several lines of blue working in an example become red-gutter steps; a single answer is not numbered',()=>{
+test('steps: ordinary aligned or blue working stays unnumbered, including historical sweep flags',()=>{
  const ex=(id,prompt,theorySolution)=>({id,label:'',prompt,theorySolution});
  const aligned='$$\\begin{align*}\\frac{4x}{15}\\times\\frac{3x}{2}&=\\frac{4x\\times3x}{15\\times2}\\\\&=\\frac{12x^2}{30}\\\\&=\\frac{2x^2}{5}\\end{align*}$$';
  const line=(id,text,latex)=>({id,type:'paragraph',align:'left',inlines:[{type:'text',text,colour:BLUE},{type:'math',latex,display:false,colour:BLUE}]});
@@ -39,28 +39,18 @@ test('steps: aligned working or several lines of blue working in an example beco
   ex('e','Solve.',doc([math('e-w','\\begin{aligned}2^x&=7\\\\x&=\\log_2 7\\end{aligned}')])),
   ex('f','Explain.',doc([{id:'f1',type:'paragraph',inlines:[{type:'text',text:'Because the base is the same.'}]},{id:'f2',type:'paragraph',inlines:[{type:'text',text:'So we add.'}]}])),
  ])]);
- const result=sweep(before,['steps']),out=blockOf(result).examples,get=id=>out.find(e=>e.id===id);
- const rows=e=>e.theorySolution.blocks[0].rows;
- for(const id of ['a','b','c']){assert.equal(get(id).theorySolution.blocks[0].type,'table',id+' is a step table');assert.deepEqual(get(id).theorySolution.blocks[0].widths,[7,93]);}
- assert.equal(rows(get('a')).length,3);
- assert.deepEqual(rows(get('a')).map(r=>r[0].blocks[0].inlines[0].text),['1.','2.','3.']);
- assert.equal(rows(get('a'))[0][0].blocks[0].inlines[0].colour,RED);
- assert.deepEqual(rows(get('a')).map(r=>r[1].blocks[0].inlines[0].latex),['=\\frac{4x\\times3x}{15\\times2}','=\\frac{12x^2}{30}','=\\frac{2x^2}{5}'],'the left side that repeats the given is printed once');
- assert.equal(rows(get('a'))[0][1].blocks[0].inlines[0].colour,BLUE);
- assert.equal(rows(get('b')).length,2);assert.equal(rows(get('c')).length,2);
- for(const id of ['d','e','f'])assert.notEqual(get(id).theorySolution.blocks?.[0]?.type,'table',id+' is left alone (one line, a left side that is not the given, prose)');
- assert.deepEqual(verifyCandidate(before,result.project,result.changed),[],'no printed content changes');
- normalizeDocument(get('a').theorySolution);
- assert.equal(sweep(result.project,['steps']).changed.length,0,'idempotent');
- const held=sweep(project([example([ex('a','$\\frac{4x}{15}\\times\\frac{3x}{2}$',aligned)],{sourceReview:{intentionalDepartures:['Do not number the steps in this example (teacher)']}})]),['steps']);
- assert.equal(held.changed.length,0);
+ const result=sweep(before,['steps']);
+ assert.deepEqual(result.project,before);
+ assert.equal(result.changed.length,0);
+ const historical=structuredClone(before);historical.sections[0].blocks[0].presentation.numberSteps=true;
+ assert.deepEqual(sweep(historical,['steps']).project,historical,'an old sweep flag is not source evidence for numbering ordinary working');
 });
 
 test('steps: an example whose solution a saved arrangement names is left as it is (the arrangement would lose its reference)',()=>{
  const blue=BLUE,line=(id,text,latex)=>({id,type:'paragraph',align:'left',inlines:[{type:'text',text,colour:blue},{type:'math',latex,display:false,colour:blue}]});
  const solution=doc([line('c1','Magnitude 6: ','A=10^6'),line('c2','Magnitude 3: ','A=10^3')]);
  const blockWith=extra=>example([{id:'cmp',label:'',prompt:'Compare.',theorySolution:solution}],extra);
- assert.equal(sweep(project([blockWith({})]),['steps']).changed.length,1);
+ assert.equal(sweep(project([blockWith({})]),['steps']).changed.length,0,'ordinary blue working is not numbered');
  const arrangement={blockLayouts:{ex:{arrangement:{version:1,root:{id:'r',type:'group',direction:'stack',children:[{id:'i',type:'item',ref:'cmp/theorySolution#c1'}]}}}}};
  assert.equal(sweep(project([blockWith({presentation:{layout:'columns',columns:2,numberSteps:false,layoutOverrides:arrangement}})]),['steps']).changed.length,0,'block-level arrangement');
  const saved=project([blockWith({})]);saved.settings.layoutOverrides=arrangement;

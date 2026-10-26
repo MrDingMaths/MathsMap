@@ -20,6 +20,13 @@ import {accumulateTikzCompilation,expectedAnswerNodeIds,assertAnswerRenderCovera
 import {structuralPreflight,assertRepairScope} from './feedback-preflight.mjs';
 
 export const FEEDBACK_EDITIONS=['student','short','worked','with-short','with-worked'];
+// A scoped deletion still belongs to mutation scope, but has no surviving
+// document to render. Unknown IDs remain so structural preflight rejects them.
+export function survivingRepairBlocks(candidate,baseline,ids){
+ const present=new Set((candidate.sections??[]).flatMap(s=>s.blocks??[]).map(b=>b.id));
+ const previous=new Set((baseline?.sections??[]).flatMap(s=>s.blocks??[]).map(b=>b.id));
+ return ids.filter(id=>present.has(id)||!previous.has(id));
+}
 // Explicit global-spacing maintenance may inspect dense samples while retaining
 // complete page maps and full-DOM checks. Ordinary feedback selection is unchanged.
 export function selectDenseFeedbackPages(selected,scores,count){
@@ -98,6 +105,15 @@ export function parseOverrides(values){
  return values.map(value=>{const at=value.lastIndexOf('=');if(at<1||at===value.length-1)throw Error('--runtime-override requires URL_GLOB=FILE');const file=path.resolve(value.slice(at+1));if(!fs.existsSync(file))throw Error('Missing override file: '+file);return {glob:value.slice(0,at),file};});
 }
 
+export function finalizeFeedbackReport(report,{capture=false}={}){
+ const required=[...new Set([...(report.editions??[]),...(report.checksOnly??[])])];
+ const completed=new Set(report.completedEditions??[]);
+ const missing=required.filter(edition=>!completed.has(edition)||(!capture&&!report.editionsReport?.[edition]));
+ if(!required.length||missing.length)report.failures.push({kind:'incomplete-editions',required,missing});
+ report.passed=report.failures.length===0;
+ return report;
+}
+
 async function main(){
  const args=process.argv.slice(2),arg=(name,fallback)=>{const i=args.indexOf(name);return i<0?fallback:args[i+1];},all=name=>args.flatMap((value,i)=>value===name?[args[i+1]]:[]),flag=name=>args.includes(name);
  const out=path.resolve(arg('--out')??(()=>{throw Error('--out DIRECTORY is required');})()),base=arg('--base','http://127.0.0.1:5173').replace(/\/$/,'');
@@ -120,7 +136,7 @@ async function main(){
  if(!/^[a-zA-Z0-9._-]+$/.test(candidate.id)||(baselineProject&&baselineProject.id!==candidate.id))throw Error('Baseline and candidate must be the same valid project');
  fs.mkdirSync(out,{recursive:true});
  if(byBlocks){
-  const preflight=structuralPreflight(candidate,{blockIds});
+  const preflight=structuralPreflight(candidate,{blockIds:survivingRepairBlocks(candidate,baselineProject,blockIds)});
   // An explicit before-snapshot also enables scope enforcement before launching
   // the browser. Project-level exceptions must be named, never inferred.
   if(baselineProject)preflight.scope=assertRepairScope(baselineProject,candidate,{blockIds,allowedPaths:all('--allow-path')});
@@ -140,9 +156,12 @@ async function main(){
  if(answersDiffer&&!editions.some(edition=>edition!=='student'))console.warn('Practice answers changed; add the affected answer edition with --editions student,short or student,worked');
  if(!capture&&!baselineProject&&!byBlocks)for(const edition of editions)requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!readPageManifest(mapFile(edition)),reason:fullReason});
  const runDir=arg('--run-dir');trackProcessPhase(runDir,capture?'feedback-baseline-map':'feedback-pages',{artifact:reportFile,projectId:id,editions});
- const started=Date.now(),report={tool:'check-feedback-pages',startedAt:new Date(started).toISOString(),projectId:id,base,editions,checksOnly,blocks:blockIds,passes:[],editionsReport:{},failures:[],browserLaunches:1,
+ const started=Date.now(),report={tool:'check-feedback-pages',startedAt:new Date(started).toISOString(),projectId:id,base,editions,checksOnly,blocks:blockIds,passes:[],editionsReport:{},completedEditions:[],passed:false,failures:[],browserLaunches:1,
   note:'Automated evidence only. Selected pages still need final-size visual inspection; combined body pages marked inspectIn "student" reuse that inspection of the same flow blocks, with no pixel comparison performed or claimed. Partial PDFs carry no link annotations; navigation is checked in the print DOM.'};
  const write=()=>fs.writeFileSync(reportFile,JSON.stringify({...report,elapsedMs:Date.now()-started},null,2));
+ write();
+ let browser;
+ try{
  const inputUrls=diagramInputUrls(await diagramInputFiles()),cacheOff=overrideTouchesDiagramInputs(overrides.map(o=>o.glob),inputUrls);
  const cacheState=arg('--cache-state'),stateExists=cacheState&&fs.existsSync(cacheState);
  if(stateExists){
@@ -150,7 +169,7 @@ async function main(){
   report.cacheState={path:path.resolve(cacheState),hash:artifactHash(cacheState),origin,entriesForOrigin:count(origins.find(o=>o.origin===origin)??{}),otherOrigins:origins.filter(o=>o.origin!==origin&&count(o)).map(o=>({origin:o.origin,entries:count(o)}))};
   if(!report.cacheState.entriesForOrigin&&report.cacheState.otherOrigins.length)console.warn('Cache state has diagram entries only for other origins; IndexedDB reuse needs --base '+report.cacheState.otherOrigins[0].origin);
  }else report.cacheState=null;
- let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+ try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
  const context=await browser.newContext({viewport:{width:1600,height:1100},...(stateExists?{storageState:cacheState}:{})});
  const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
  // Pagination can occupy the page's main thread for longer than the default action timeout.
@@ -224,10 +243,10 @@ async function main(){
    if(publish){pass.cachePublished+=(await publishBrowserDiagrams(page)).published??0;await page.evaluate(async()=>{const {measurementStore}=await import('/src/lib/booklet-render-cache.js');await measurementStore.flush();}).catch(()=>{});}
    timings.totalMs=Date.now()-editionStarted;
    await page.emulateMedia({media:'screen'});
+   if(name==='candidate'||(capture&&name==='baseline'))report.completedEditions.push(edition);
   }
   return pass;
  };
- try{
   if(capture||(baselineProject&&!byBlocks)){
    const pass=await renderPass('baseline',baselineProject??candidate,{inspect:null,editions:baselineEditions,publish:true});
    for(const edition of baselineEditions)fs.writeFileSync(mapFile(edition),JSON.stringify({mode:'feedback-baseline',projectId:id,projectHash:pass.projectHash,revision:pass.revision,edition,capturedAt:new Date().toISOString(),diagramVersion:pass.editions[edition].diagramVersion,pages:pass.editions[edition].pages},null,2));
@@ -251,7 +270,7 @@ async function main(){
     }
     requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:true,selectedPages:selection.selected.length,totalPages:result.pages.length,reason:fullReason});
     if(edition==='student')Object.assign(student,{pages:result.pages,selected:selection.selected});
-    if(byBlocks&&edition==='student'){const present=new Set(result.pages.flatMap(p=>p.blocks??[])),unknown=blockIds.filter(id=>!present.has(id));if(unknown.length)report.failures.push({edition,kind:'unknown-block',blocks:unknown});}
+    if(byBlocks&&edition==='student'){const present=new Set(result.pages.flatMap(p=>p.blocks??[])),unknown=survivingRepairBlocks(candidate,baselineProject,blockIds).filter(id=>!present.has(id));if(unknown.length)report.failures.push({edition,kind:'unknown-block',blocks:unknown});}
     const plan=inspectionPlan({edition,selected:selection.selected,boundaries:selection.boundaries,pages:result.pages,studentPages:student.pages,studentSelected:student.selected});
     const issues=result.qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).concat(result.diagrams.issues);
     const entry={baseline:{pages:baseline.pages.length,revision:baseline.revision,projectHash:baseline.projectHash},pageCount:result.pages.length,pages:result.pages,...selection,inspection:plan,inspectHere:plan.filter(p=>p.inspectIn===edition).map(p=>p.page),
@@ -282,11 +301,14 @@ async function main(){
    if(!cacheOff){report.candidate.cachePublished=candidatePass.cachePublished;await saveState();}
   }
   if(errors.length)report.failures.push({kind:'browser-errors',errors});
+ }catch(error){
+  report.failures.push({kind:'exception',message:error.message??String(error),stack:error.stack??null});
  }finally{
   const totals=key=>Object.values(report.editionsReport).reduce((sum,entry)=>sum+(entry[key]?.length??0),0);
   report.counts={pagesHashedBaseline:report.passes.filter(p=>p.name==='baseline').flatMap(p=>Object.values(p.editions)).reduce((sum,e)=>sum+(e.pageCount??0),0),pagesHashedCandidate:Object.values(report.editionsReport).reduce((sum,e)=>sum+e.pageCount,0),pagesPrinted:totals('selected'),pagesRasterised:totals('images'),pagesToInspect:totals('inspectHere'),fullPdfs:0,
    tikz:Object.fromEntries(TIKZ_COUNTERS.map(name=>[name,[...report.passes.flatMap(p=>Object.values(p.editions).map(e=>e.tikz?.[name]??0)),...Object.values(report.editionsReport).map(e=>e.tikz?.[name]??0)].reduce((a,b)=>a+b,0)]))};
-  report.passed=!report.failures.length;write();await browser.close();
+  try{await browser?.close();}catch(error){report.failures.push({kind:'browser-close',message:error.message??String(error)});}
+  finalizeFeedbackReport(report,{capture});write();
  }
  console.log(JSON.stringify({report:reportFile,passed:report.passed,elapsedMs:Date.now()-started,counts:report.counts,failures:report.failures}));
  if(!report.passed)process.exitCode=1;

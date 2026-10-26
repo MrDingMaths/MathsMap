@@ -457,14 +457,9 @@ function forcedBreaks(project,block,index,{report}){
 }
 
 // ---------------------------------------------------------------- worked-example steps (23 October 2026)
-// A worked example's working is numbered in red in the gutter beside the working (teacher's rates-v1 p4 and
-// p11 examples). Two stored shapes reach it:
-//   - `examples[].steps[]`: numbering is `presentation.numberSteps`. The worked-rows renderer numbers unless
-//     it is false while the arrangement renderer numbers only when it is true, so the rule writes an explicit
-//     true (render-neutral for every booklet that has not been through the rule) and, where the block has no
-//     layout, the worked-rows layout; a `columns` layout is the source's side-by-side structure and stays;
-//   - an ordered list of maths-only items in an example's prompt: the list prints black numbers beside the
-//     working, so it becomes the teacher's borderless two-column table with the number as red text.
+// Preserve source/teacher numbering; never infer printed numbers from steps[],
+// aligned rows or blue working. Only an already ordered maths list is restyled
+// into the red gutter. Existing numbering flags and renderer defaults stay put.
 const STEP_RED=BOOKLET_HOUSE_STYLE.teaching.stepNumberColour;
 const mathParagraph=p=>p?.type==='paragraph'&&(p.inlines??[]).some(i=>i.type==='math')&&p.inlines.every(i=>i.type==='math'||i.type==='break'||i.type==='text'&&!String(i.text).trim());
 const workingList=list=>list?.type==='list'&&list.ordered===true&&list.items?.length>0&&list.items.every(item=>item?.type==='list-item'&&item.blocks?.length>0&&item.blocks.every(mathParagraph));
@@ -496,53 +491,9 @@ export function alignedRows(latex){
  if(rows.some(row=>row.split('&').length>2))return null;
  return rows.map(row=>{const at=row.indexOf('&');return at<0?{lhs:'',rhs:row}:{lhs:row.slice(0,at).trim(),rhs:row.slice(at+1).trim()};});
 }
-const sameMath=(a,b)=>{const n=x=>String(x??'').replace(/[$\s{}]/g,'').replace(/\\[dt]frac/g,'\\frac').replace(/\\(?:displaystyle|left|right)/g,'');return n(a)!==''&&n(a)===n(b);};
-const mathsIn=value=>typeof value==='string'?[value]:(value?.blocks??[]).flatMap(b=>b.type==='paragraph'?[(b.inlines??[]).filter(i=>i.type==='math').map(i=>i.latex??'').join(''),(b.inlines??[]).map(i=>i.latex??i.text??'').join('')]:[]);
-const stepList=(example,steps,colour)=>({id:example.id+'-steps',type:'list',ordered:true,start:1,indent:7,items:steps.map((step,i)=>({id:`${example.id}-step${i+1}`,type:'list-item',blocks:step.blocks??[{id:`${example.id}-step${i+1}-maths`,type:'paragraph',align:'left',inlines:[{type:'math',latex:step.latex,display:false,colour}],spaceAfter:1}]}))});
-const stepDoc=table=>({format:'maths-editor-document-v1',version:1,blocks:[table]});
-// The steps an example's solution holds, or null when it is not a sequence of steps.
-function workingSteps(example){
- const solution=example.theorySolution,colour=BOOKLET_HOUSE_STYLE.teaching.solutionColour;
- if(typeof solution==='string'||isDoc(solution)&&solution.blocks.filter(b=>!emptyParagraph(b)).length===1){
-  const paragraph=typeof solution==='string'?null:solution.blocks.find(b=>!emptyParagraph(b)),inline=paragraph?.type==='paragraph'&&paragraph.inlines?.length===1&&paragraph.inlines[0].type==='math'?paragraph.inlines[0]:null;
-  const latex=typeof solution==='string'?solution:inline?.latex,rows=alignedRows(latex);
-  if(typeof solution!=='string'&&!inline)return null;
-  if(!rows||rows.length<2)return null;
-  const given=mathsIn(example.prompt);
-  if(!rows.every((row,i)=>row.rhs&&startsWithRelation(row.rhs)&&(row.lhs===''||i===0&&given.some(g=>sameMath(g,row.lhs)))))return null;
-  return {steps:rows.map(row=>({latex:row.rhs})),colour:inline?.colour??colour};
- }
- if(isDoc(solution)){
-  const lines=solution.blocks.filter(b=>!emptyParagraph(b));
-  if(lines.length<2||!lines.every(b=>b.type==='paragraph'&&b.inlines?.length&&b.inlines.some(i=>i.type==='math')&&b.inlines.every(i=>['math','text'].includes(i.type)&&i.colour===colour)))return null;
-  return {steps:lines.map(line=>({blocks:[{...line,align:'left',spaceAfter:line.spaceAfter??1}]})),colour};
- }
- return null;
-}
-// A saved arrangement that names a node of the example's solution (an item ref such as `example/theorySolution#paragraph-id`)
-// would lose it when the solution becomes a table: the example stays as it is.
-const arranged=(block,project,example)=>[block.presentation?.layoutOverrides,project?.settings?.layoutOverrides].some(overrides=>JSON.stringify(overrides?.blockLayouts?.[block.id]??null).includes(example.id+'/'));
-function workingStepsRule(block,{fix,report,project},exception){
- const out=[];
- for(const example of block.examples??[]){
-  const found=workingSteps(example);
-  if(!found||arranged(block,project,example))continue;
-  if(exception){out.push(report('steps',block.id,'working of '+example.id+' is a sequence of steps; local exception: '+exception));continue;}
-  if(fix)example.theorySolution=stepDoc(stepTable(stepList(example,found.steps,found.colour)));
-  out.push({rule:'steps',target:block.id,action:'fix',detail:'working of '+example.id+' → red step numbers in the gutter ('+found.steps.length+' steps)'});
- }
- return out;
-}
 function stepsRule(block,{fix,report,project}){
  if(!isExample(block))return [];
  const out=[],exception=notes(block).find(n=>/step number|number(?:ing)? (?:the )?steps|step gutter/i.test(n));
- if((block.examples??[]).some(e=>e.steps?.length)&&block.presentation?.numberSteps!==true){
-  if(exception)out.push(report('steps',block.id,'steps are not numbered; local exception: '+exception));
-  else{
-   if(fix)block.presentation={...block.presentation,numberSteps:true,...(block.presentation?.layout?{}:{layout:'worked-rows'})};
-   out.push({rule:'steps',target:block.id,action:'fix',detail:'steps numbered in red in the gutter (numberSteps true'+(block.presentation?.layout?'':', worked-rows layout')+')'});
-  }
- }
  for(const {doc,owner} of documents(block)){
   doc.blocks.forEach((child,index)=>{
    if(!workingList(child))return;
@@ -552,7 +503,8 @@ function stepsRule(block,{fix,report,project}){
    out.push({rule:'steps',target,action:'fix',detail:'list '+child.id+' → red step numbers in the gutter ('+child.items.length+' steps)'});
   });
  }
- out.push(...workingStepsRule(block,{fix,report,project},exception));
+ // Ordinary working is not an ordered list. Historical numberSteps:true may
+ // itself come from an earlier sweep, so it cannot establish source intent.
  return out;
 }
 

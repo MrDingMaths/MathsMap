@@ -10,6 +10,8 @@ Distinguish navigation/topic metadata from visible source headings. Do not repea
 
 Record section.sourceHeading = {"text":"exact visible heading, or empty string","style":"none|difficulty|page-title","difficultyTitle":"additional printed difficulty heading, or empty string"}. Read this evidence from the source image before generating the reconstruction. Deterministic validation compares it with the rendered fields; the visual auditor must independently check it against the source image, including absent headings. Never infer visible headings from curriculum mapping or topic names.
 
+Native table cells also support editable text paragraphs containing one `[tikz]` block (src/lib/document-tikz.js). Keep the diagram ID as paragraph ID, original code and `% mathsmap-inline-width-mm N`; retain source/spec metadata in sourceReview.embeddedDiagramEvidence. Preserve its owning cell and remove detached duplicates only after rendered verification. Do not replace table relationships with separate cards.
+
 For Markdown tables inside a teaching block, explicitly record block.tableStyle as "borderless" or "grid" and block.sourceTableStyle from the source. Borderless alignment tables must not acquire cell outlines or header shading. Flag mixed or unsupported border treatments rather than inventing a full grid.
 
 Keep NAPLAN/HSC labels attached to their own question. Store the exact label in question.title, once; render it inside the prompt column beside the question number and above its wording. Preserve original sourceOrder values even when numbering is repeated or out of sequence. Record question.sourceExamLabel when a label is present. Never turn an exam label into a page heading or attach it to a neighbouring question.

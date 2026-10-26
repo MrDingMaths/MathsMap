@@ -5,6 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {contract,FRAMING,bookletIndex,blockHash,overridesFor,parsePages,selectPages,planBatches,batchPrompt,checkReport,runReview,postFindings,reconcile,commentNote,findingId,sourceImages,LIMITS,AREAS} from '../first-pass/review.mjs';
+import {DIAGRAM_SIZING_PROMPT} from '../src/lib/booklet-diagram-sizing.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const temp=t=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'first-pass-review-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir;};
@@ -49,6 +50,10 @@ function workspace(t,mutate){
 
 test('the contract comes from the doc and every prompt starts with it',()=>{
  const text=contract();
+ assert.ok(text.endsWith(DIAGRAM_SIZING_PROMPT));
+ assert.equal(contract(),text,'cached contract retains shared sizing guidance');
+ assert.ok(text.includes('steps arrays, aligned rows and blue working do not establish numbering'));
+ assert.ok(text.includes('Cells support editable `[tikz]` paragraphs'));
  for(const phrase of ['first review of a mathematics booklet','Pagination','Answer editions','Missing opening review','Extension','notReliablyReviewed','"reviewer":"first-pass"'])assert.ok(text.includes(phrase),phrase);
  // Polish pipeline additions (23 October 2026).
  for(const phrase of ['Teaching blocks match the source\'s structure','A scaffold blank matches the source','\\rule{0pt}{5mm}\\hspace{Nmm}','no empty interior','floating, centred or right-pushed scaffold','red step-number gutter','Palette colours never change','No display maths wraps','Unexplained vertical gaps','more than half empty','Content (`area` "content"','never applied'])assert.ok(text.includes(phrase),phrase);
@@ -56,6 +61,7 @@ test('the contract comes from the doc and every prompt starts with it',()=>{
  const project=booklet(),index=bookletIndex(project),map=pagemap(),selection=selectPages(index,map);
  const [first]=planBatches({project,index,selection,pagemap:map,record:{findings:[]}});
  const {prompt,payload}=batchPrompt({project,index,edition:first.edition,rows:first.rows,pagemap:map});
+ assert.equal(prompt.split(DIAGRAM_SIZING_PROMPT).length-1,1,'emitted worker prompt includes shared sizing guidance once');
  assert.ok(prompt.startsWith(text+'\n\n'+FRAMING));assert.deepEqual(payloadOf(prompt),payload);
  assert.equal(payload.booklet,'Area of Rectangles');assert.equal(payload.course,'Year 7');assert.equal(payload.edition,'student');
  assert.deepEqual(payload.pages[0],{edition:'student',page:2,blocks:[{id:'theory',type:'rich-text',role:'definition',label:null},{id:'example',type:'question',role:'example',label:null}],nodes:['example-root']});
@@ -67,7 +73,7 @@ test('the contract comes from the doc and every prompt starts with it',()=>{
  assert.ok(payload.similar.length>0&&payload.similar.every(block=>!payload.pages.some(page=>page.blocks.some(row=>row.id===block.id))));
  assert.deepEqual(payload.similar.filter(block=>block.role==='practice').map(block=>[block.id,block.page]),[['q6',8],['q7',9]]);
  const answer=batchPrompt({project,index,edition:'short',rows:[{edition:'short',page:1,blocks:[{id:'q1'},{id:'q2'}],nodes:[]}],pagemap:map}).payload;
- assert.deepEqual(answer.blocks.map(block=>Object.keys(block)),[['id','label','text'],['id','label','text']]);assert.deepEqual(answer.similar,[]);
+ assert.deepEqual(answer.blocks.map(block=>Object.keys(block)),[['id','label','text','partLabels','currentQuestionNumber'],['id','label','text','partLabels','currentQuestionNumber']]);assert.deepEqual(answer.similar,[]);
 });
 
 test('pages skip front matter; batches hold at most six pages of one edition',async t=>{
@@ -102,8 +108,9 @@ test('review sends rasters in page order at low effort, keeps only findings on i
  assert.ok(calls.every(call=>!path.resolve(call.cwd).startsWith(ROOT)));
  assert.equal(space.leases.length,8);assert.ok(space.leases.every(lease=>lease.runDir===runDir&&lease.details.tool==='first-pass-review'));
  const first=calls.find(call=>call.payload.edition==='student'&&call.payload.pages[0].page===2);
- assert.deepEqual(first.images,Array.from({length:6},(_,i)=>`student-${i+2}.png`));
- assert.deepEqual(calls.find(call=>call.payload.edition==='short'&&call.payload.pages[0].page===1).images,['short-1.png','short-2.png','short-3.png','short-4.png','short-5.png','short-6.png']);
+ assert.deepEqual(first.images,[...Array.from({length:6},(_,i)=>`student-${i+2}.png`),'student-1.png','student-8.png']);
+ assert.deepEqual(first.payload.contextPages,[{page:1,edition:'student'},{page:8,edition:'student'}]);
+ assert.deepEqual(calls.find(call=>call.payload.edition==='short'&&call.payload.pages[0].page===1).images,['short-1.png','short-2.png','short-3.png','short-4.png','short-5.png','short-6.png','short-7.png']);
  const record=space.record();
  assert.deepEqual(record.findings.map(row=>[row.edition,row.page,row.area,row.scope,row.targets.map(target=>target.id)]),[['student',3,'spacing','local',['q1-a']],['student',4,'pagination','all',['q2']],['student',null,'labels','local',['q4']],['short',1,'answers','local',['q1-b']]]);
  assert.ok(record.findings.every(row=>row.state==='pending'&&row.revision===3&&row.id===findingId(row.area,row.edition,row.targets.map(target=>target.id))));
@@ -193,4 +200,77 @@ test('overrides and hashes follow the block, and a raster report must match the 
  const map=pagemap(),report={editionsReport:{student:{pageCount:16,changed:[3,4]},short:{pageCount:7,changed:[1]}}};
  assert.deepEqual(checkReport(report,map,['q1','q2'],['student','short']),[]);
  assert.deepEqual(checkReport({editionsReport:{student:{pageCount:15,changed:[3,4]},short:{pageCount:7,changed:[2]}}},map,['q1','q2'],['student','short','worked']),['student: 15 pages rendered, 16 in the page map','short: the reviewed blocks fall on different pages from the page map','worked: no report']);
+});
+
+
+test('answer packets retain complete question text rather than 160-character snippets',()=>{
+ const p=booklet();p.sections[2].blocks[0].content.children[1].prompt='Long question '+'.'.repeat(400)+' final mathematical condition';
+ const index=bookletIndex(p),rows=[{edition:'short',page:1,blocks:[{id:'q1'}]}];
+ const {payload}=batchPrompt({project:p,index,edition:'short',rows,pagemap:pagemap(),record:{findings:[]}});
+ assert.match(payload.blocks[0].text,/final mathematical condition/);
+ assert.deepEqual(payload.blocks[0].partLabels,[{id:'q1-root',label:'1'},{id:'q1-a',label:'a'},{id:'q1-b',label:'b'}]);
+});
+
+test('answer packets retain numerical givens in native list items',()=>{
+ const p=booklet();p.sections[2].blocks[0].content.prompt={format:'maths-editor-document-v1',blocks:[
+  {type:'paragraph',inlines:[{type:'text',text:'Buy wafer and caramel bars.'}]},
+  {type:'list',items:['At least two caramel bars.','At least one wafer bar.','No more than five bars altogether.'].map(text=>({type:'list-item',blocks:[{type:'paragraph',inlines:[{type:'text',text}]}]}))},
+  {type:'paragraph',inlines:[{type:'text',text:'Graph the conditions above.'}]}
+ ]};
+ const {payload}=batchPrompt({project:p,index:bookletIndex(p),edition:'short',rows:[{edition:'short',page:1,blocks:[{id:'q1'}]}],pagemap:pagemap(),record:{findings:[]}});
+ assert.match(payload.blocks[0].text,/Buy wafer and caramel bars\. At least two caramel bars\. At least one wafer bar\. No more than five bars altogether\. Graph the conditions above\./);
+});
+
+test('answer packets retain equation banks in native layout slots',()=>{
+ const p=booklet(),equations=['y=4x^2','y=-4x^2','y=x^3-1'];
+ p.sections[2].blocks[0].content.prompt={format:'maths-editor-document-v1',blocks:[{type:'layout',arrangement:'parallel',columns:3,slots:equations.map(latex=>({blocks:[{type:'paragraph',inlines:[{type:'math',latex}]}]}))}]};
+ const {payload}=batchPrompt({project:p,index:bookletIndex(p),edition:'short',rows:[{edition:'short',page:1,blocks:[{id:'q1'}]}],pagemap:pagemap(),record:{findings:[]}});
+ for(const equation of equations)assert.ok(payload.blocks[0].text.includes(equation));
+});
+
+test('review packets distinguish current rendered numbers from stored source labels after reordering',()=>{
+ const p=booklet(),blocks=p.sections[2].blocks;[blocks[0],blocks[1]]=[blocks[1],blocks[0]];
+ for(const edition of ['student','worked']){
+  const {payload}=batchPrompt({project:p,index:bookletIndex(p),edition,rows:[{edition,page:1,blocks:[{id:'q2'},{id:'q1'}]}],pagemap:pagemap(),record:{findings:[]}});
+  assert.deepEqual(payload.blocks.map(b=>[b.id,b.label,b.currentQuestionNumber]),[['q2','2',1],['q1','1',2]]);
+ }
+});
+
+test('source packets locate reordered questions outside the current page window',()=>{
+ const p=booklet();p.source={runId:'main'};const q1=p.sections[2].blocks[0],q2=p.sections[2].blocks[1];q1.sourceRefs=[{runId:'merged',pageNumber:24}];q2.sourceRefs=[{runId:'merged',pageNumber:24}];
+ const index=bookletIndex(p),options={project:p,index,edition:'student',rows:[{page:4,edition:'student',blocks:[{id:'q2'}]}],pagemap:pagemap(),record:{findings:[]}};
+ const {payload}=batchPrompt({...options,source:[{runId:'merged',page:24}]});
+ assert.deepEqual(payload.sourceLocations,[{id:'q1',source:[{runId:'merged',page:24}],sourceLabel:'1',currentQuestionNumber:1,questionPages:[3]}]);
+ const otherRun=batchPrompt({...options,source:[{runId:'main',page:24}]}).payload;
+ assert.equal(otherRun.sourceLocations,undefined);
+});
+
+test('source evidence preserves merged-run page identities instead of substituting the main page',t=>{
+ const dir=temp(t),main=path.join(dir,'main'),merged=path.join(dir,'merged');
+ for(const d of [main,merged]){fs.mkdirSync(path.join(d,'evidence/pages'),{recursive:true});fs.writeFileSync(path.join(d,'evidence/pages/page-003.png'),'source');}
+ const p=booklet(),b=p.sections[2].blocks[0];b.sourcePageNumber=3;b.sourceRefs=[{pageNumber:3,runId:'merged'},{pageNumber:3,runId:'main'}];
+ const sources=sourceImages(bookletIndex(p),[{blocks:[{id:b.id}]}],main);
+ assert.deepEqual(sources.map(s=>[s.runId,s.page]),[['merged',3],['main',3]]);
+ assert.equal(sources[0].path,path.join(merged,'evidence/pages/page-003.png'));
+});
+
+test('answer reviews get source images and adjacent pages without expanding the reviewed target set',async t=>{
+ const space=workspace(t,p=>p.sections[2].blocks[0].sourcePageNumber=3),runDir=path.join(space.dir,'source');
+ fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});const source=path.join(runDir,'evidence/pages/page-003.png');fs.writeFileSync(source,'source');
+ const calls=[];await runReview({...space.options,runDir,source:true,pages:new Set([3]),editions:['short'],runner:stubRunner({calls})});
+ assert.equal(calls.length,1);assert.deepEqual(calls[0].payload.pages.map(p=>p.page),[1]);
+ assert.deepEqual(calls[0].images,['short-1.png',source,'short-2.png']);
+ assert.deepEqual(calls[0].payload.source,[{sourcePage:3,runId:'source'}]);
+});
+
+test('missing context outside the primary targets keeps those targets unreliable',async t=>{
+ const space=workspace(t);const result=await runReview({...space.options,pages:new Set([4]),editions:['student'],runner:stubRunner({review:{'student:4':{findings:[],notReliablyReviewed:[{page:3,note:'Previous page unavailable.'}]}}})});
+ assert.deepEqual(result.notReliablyReviewed,[{edition:'student',page:4,note:'Context page 3: Previous page unavailable.',revision:3}]);
+});
+
+test('only a full successful edition review retires an old gap beyond the current page extent',async t=>{
+ const space=workspace(t);await runReview({...space.options,runner:stubRunner()});
+ const file=path.join(space.dir,'provenance/first-pass-fixture.json'),record=space.record();record.notReliablyReviewed=[{edition:'worked',page:99,note:'Old page context missing',revision:1}];fs.writeFileSync(file,JSON.stringify(record));
+ const partial=await runReview({...space.options,pages:new Set([3]),editions:['worked'],runner:stubRunner()});assert.equal(partial.notReliablyReviewed.length,1);
+ const full=await runReview({...space.options,editions:['worked'],runner:stubRunner()});assert.deepEqual(full.notReliablyReviewed,[]);
 });

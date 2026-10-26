@@ -57,12 +57,12 @@ test('steps: only working is converted, only in example blocks, and a local exce
  assert.equal(result.changed.length,0);assert.match(result.findings[0].detail,/local exception/);
 });
 
-test('steps: examples with steps[] get numberSteps true, and the worked-rows layout only when the block has none',()=>{
+test('steps: arrays do not invent numbering or override explicit unnumbered/source layouts',()=>{
  const withSteps=extra=>({id:'ex',type:'worked-example',pedagogyRole:'example',examples:[{id:'e1',prompt:'Solve',steps:['x+2=5','x=3']}],...extra});
  const columns=blockOf(sweep(project([withSteps({presentation:{layout:'columns',columns:2,numberSteps:false}})]),['steps']));
- assert.equal(columns.presentation.numberSteps,true);assert.equal(columns.presentation.layout,'columns','the source\'s side-by-side layout stays');
+ assert.equal(columns.presentation.numberSteps,false);assert.equal(columns.presentation.layout,'columns','the source\'s side-by-side layout stays');
  const bare=blockOf(sweep(project([withSteps({})]),['steps']));
- assert.deepEqual(bare.presentation,{numberSteps:true,layout:'worked-rows'});
+ assert.equal(bare.presentation,undefined);
  const done=project([withSteps({presentation:{layout:'worked-rows',numberSteps:true}})]);
  assert.equal(sweep(done,['steps']).changed.length,0,'nothing to do once it is explicit');
  // The renderers are not changed: an unset numberSteps still renders as before, so existing booklets are untouched.
@@ -149,7 +149,7 @@ test('normaliseProject: the sweep and the working space apply, except on a block
  const B=boxLatex(24);
  const numerator=id=>part(id,[math(id+'-frac',`\\dfrac{\\$(\\rule{0pt}{4mm}${B})}{4\\text{ kg}}`)]);
  const open=question([numerator('q-a')]),decided={...question([numerator('r-a')]),id:'r'};decided.content.id='r-root';
- const before=project([open,decided]);before.studio.flags=[{id:'t',note:'keep',at:'2026-10-01T00:00:00Z',targetId:'r'}];
+ const before=project([open,decided]);before.studio.flags=[{id:'t',note:'keep',at:'2026-10-01T00:00:00Z',targetId:'r',resolved:true}];
  const {project:after,report}=normaliseProject(before);
  const latexOf=(p,id)=>p.sections[0].blocks.find(b=>b.id===id).content.children[0].prompt.blocks[0].inlines[0].latex;
  assert.match(latexOf(after,'q'),new RegExp(gapLatex(24).replace(/[\\{}()]/g,'\\$&')),'the unprotected block gets the bracketed gap');
@@ -160,13 +160,23 @@ test('normaliseProject: the sweep and the working space apply, except on a block
  assert.equal(JSON.stringify(after.studio.flags),JSON.stringify(before.studio.flags),'teacher comments are untouched');
 });
 import {restoreImportedZeroSpaces} from '../polish/normalise.mjs';
+
+test('normalise preserves ordinary blue working without manufacturing red numbered steps',async()=>{
+ const {normaliseProject}=await import('../polish/normalise.mjs');
+ const block=example([]);
+ block.examples[0].theorySolution=doc([math('reciprocal-first','=\\left(\\frac{y}{x}\\right)^3'),math('reciprocal-next','=\\frac{y^3}{x^3}')]);
+ const before=project([block]);
+ const result=normaliseProject(before,{workingSpace:false});
+ assert.deepEqual(result.project.sections,before.sections);
+ assert.equal(result.project.sections[0].blocks[0].presentation.numberSteps,false);
+});
 test('normalise restores a protected block\'s separately stored scaffold arrangement',async()=>{
  const {normaliseProject}=await import('../polish/normalise.mjs');
  const arrangement={root:{id:'q-root:layout',type:'group',direction:'row',children:[
   {id:'layout:q-a/prompt#q-a-scaffold',type:'item',ref:'q-a/prompt#q-a-scaffold',align:'right',before:10},
  ]}};
  const before=project([question([part('q-a',[math('q-a-scaffold','x=')])])],{layoutOverrides:{blockLayouts:{q:{arrangement}}}});
- before.studio.flags=[{id:'teacher',at:'2026-10-24T00:00:00Z',targetId:'q',note:'Keep this layout'}];
+ before.studio.flags=[{id:'teacher',at:'2026-10-24T00:00:00Z',targetId:'q',note:'Keep this layout',resolved:true}];
  const swept=sweep(before,['scaffold-anchor']);
  assert.equal(swept.project.settings.layoutOverrides.blockLayouts.q.arrangement.root.children[0].align,'left','the sweep attempts the confirmed change');
  const {project:after,report}=normaliseProject(before,{workingSpace:false});
