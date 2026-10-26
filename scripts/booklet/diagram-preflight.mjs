@@ -39,11 +39,16 @@ export async function inspectFinalSizeDiagrams(page) {
   const visible=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden';};
   const figures=[...root.querySelectorAll('.tikz-wrap svg')].filter(visible).map((svg,index)=>{
    const labels=measureDiagramLabels(svg),bounds=svg.getBoundingClientRect(),scale=graphPageScale(svg);
-   const issues=inspectDiagramLabelLayout(svg);
+   // Calibrated labels can extend beyond the original TeX view box. Include
+   // their actual ink containers and an owning caption in the final footprint.
+   const owner=svg.closest('figure'),caption=owner?.querySelectorAll('svg').length===1?owner.querySelector(':scope > figcaption'):null;
+   const extents=[bounds,...[...svg.querySelectorAll('g[data-diagram-label="1"]')].filter(visible).map(e=>e.getBoundingClientRect()),...(caption&&visible(caption)?[caption.getBoundingClientRect()]:[])];
+   const complete={width:Math.max(...extents.map(r=>r.right))-Math.min(...extents.map(r=>r.left)),height:Math.max(...extents.map(r=>r.bottom))-Math.min(...extents.map(r=>r.top))};
+   const issues=inspectDiagramLabelLayout(svg,{strokes:true});
    if(svg.querySelector('text')&&!labels.length)issues.push({kind:'diagram-label-calibration-missing'});
    for(const [label,m] of labels.entries())if(Math.abs(m.pt-m.targetPt)>.1)issues.push({kind:'diagram-label-size',label,...m});
    return {index,page:pages.indexOf(svg.closest('.print-page'))+1,id:svg.closest('[data-diagram-id]')?.dataset.diagramId??null,
-    widthMm:bounds.width/scale*25.4/96,heightMm:bounds.height/scale*25.4/96,viewBox:svg.getAttribute('viewBox'),labels,issues};
+    widthMm:complete.width/scale*25.4/96,heightMm:complete.height/scale*25.4/96,svgWidthMm:bounds.width/scale*25.4/96,svgHeightMm:bounds.height/scale*25.4/96,viewBox:svg.getAttribute('viewBox'),labels,issues};
   });
   const overlays=[...root.querySelectorAll('.diagram-composite')].filter(visible).map(el=>({
    page:pages.indexOf(el.closest('.print-page'))+1,id:el.closest('[data-diagram-id]')?.dataset.diagramId,
@@ -51,8 +56,8 @@ export async function inspectFinalSizeDiagrams(page) {
    reviewRequired:'Separate SVG layers require visual coordinate-frame and angle-region review.'
   }));
   return {figures,overlays,rasterOccurrences:[...root.querySelectorAll('img')].filter(visible).length,
-   issues:figures.flatMap(f=>f.issues.filter(i=>!['diagram-label-overlap','diagram-label-viewport'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
-   visualFindings:figures.flatMap(f=>f.issues.filter(i=>['diagram-label-overlap','diagram-label-viewport'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
+   issues:figures.flatMap(f=>f.issues.filter(i=>!['diagram-label-overlap','diagram-label-viewport','diagram-label-stroke'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
+   visualFindings:figures.flatMap(f=>f.issues.filter(i=>['diagram-label-overlap','diagram-label-viewport','diagram-label-stroke'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
    note:'Measurements detect bounds and label-size defects. Viewport spill, overlaps, overlays, raster labels and mathematical angle regions require source comparison and visual review.'};
  });
 }

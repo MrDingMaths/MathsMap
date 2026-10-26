@@ -34,11 +34,16 @@ test('candidate routing uses the open envelope, blocks writes, and inspects cali
   const visible=await inspectFinalSizeDiagrams(page);
   assert.deepEqual(visible.issues,[]);
   assert.ok(visible.visualFindings.some(i=>i.kind==='diagram-label-viewport'&&i.diagramId==='d'));
+  assert.ok(visible.figures[0].widthMm>visible.figures[0].svgWidthMm,'Footprint includes native label ink beyond the view box');
   await page.evaluate(()=>{document.querySelector('.tikz-wrap').style.overflow='hidden';});
   const clipped=await inspectFinalSizeDiagrams(page);
   assert.equal(clipped.figures.length,1);assert.ok(clipped.issues.some(i=>i.kind==='diagram-label-clipping'&&i.diagramId==='d'&&i.page===1));
   assert.ok(Math.abs(clipped.figures[0].labels[0].pt-10)<.1);
   await page.evaluate(async()=>{document.querySelector('text').setAttribute('x','20');const {calibrateDiagramTypography}=await import('/src/lib/diagram-typography.js');calibrateDiagramTypography(document);});
   assert.deepEqual((await inspectFinalSizeDiagrams(page)).issues,[]);
+  await page.evaluate(()=>{const svg=document.querySelector('svg'),path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','M 0 18 L 100 18');path.setAttribute('stroke','black');svg.append(path);});
+  const contact=await inspectFinalSizeDiagrams(page);
+  assert.deepEqual(contact.issues,[],'Stroke contact is a visual candidate, never an automatic failure');
+  assert.ok(contact.visualFindings.some(row=>row.kind==='diagram-label-stroke'&&row.diagramId==='d'));
  }finally{await browser.close();}
 });
