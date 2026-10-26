@@ -23,6 +23,16 @@ test('explicit native grid frames survive save, resize and question layout resol
 import {arrangementCatalog,arrangementQuestionBlock,resolveArrangement,replaceArrangementContent,shareUnchanged,applyArrangementContent,addArrangementText,removeArrangementText,liftQuestionStem} from '../src/lib/booklet-arrangement.js';
 import {fromSource,hasVisibleContent} from '../src/lib/document-content.js';
 
+test('an explicit introduction owner moves only the printed root number',()=>{
+ const block={id:'practice',type:'question',sourceOrder:2,content:{id:'root',type:'question',label:'2',prompt:'Solve.',children:[{id:'part-a',type:'part',label:'a',prompt:'x+1=2',answer:{short:'1',worked:'x=1'}}]}};
+ const original=structuredClone(block),baseline=arrangementCatalog(block);
+ for(const value of [null,false,0,'','   '])assert.deepEqual(arrangementCatalog({...block,presentation:{questionNumberOwnerId:value}}),baseline);
+ const moved=arrangementCatalog({...block,presentation:{questionNumberOwnerId:'introduction'}});
+ assert.equal(moved.entries.get('root/label').value,'');
+ assert.equal(moved.entries.get('part-a/label').value,'a');
+ assert.deepEqual(block,original,'logical number, answer owners and mathematics stay unchanged');
+});
+
 test('explicit stem repair keeps the number and stem above the unchanged graph/parts row',()=>{
  const block={id:'block',type:'question',content:{id:'q',label:'3',prompt:'Shared context.',diagramPlacement:'beside-prompt',questionDiagrams:[{id:'graph',widthMm:70}],children:[{id:'a',label:'a',prompt:'Find the gradient.',answerSpaceMm:24}]}};
  const tree=arrangementCatalog(block).initial,before=structuredClone(tree);

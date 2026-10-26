@@ -123,6 +123,8 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  const diagrams=(owner,key='questionDiagrams',role='content')=>(owner[key]??[]).map(d=>add(d.id,{kind:'diagram',ownerId:owner.id,field:key,diagramId:d.id,value:d,role,title:d.alt??'Diagram'}));
  function question(n,index=0,root=false){
    if(hasEmbeddedResponseLabel(n))labels[n.id]='';
+   // A separate introduction may own the printed number; answers retain their logical labels.
+   if(root&&typeof block.presentation?.questionNumberOwnerId==='string'&&block.presentation.questionNumberOwnerId.trim())labels[n.id]='';
    const continuation=root&&practiceContinuation(block);
    const hideStem=continuation&&!block.flow?.repeatSharedStem&&(block.flow?.hideRepeatedStem||(!block.flow?.continuationOf&&!block.continuationOf)||typeof n.prompt==='string'&&/^Question \d+ continued\.?$/i.test(n.prompt));
    if(continuation)labels[n.id]='';

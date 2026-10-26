@@ -11,6 +11,44 @@ import {createServer} from 'vite';
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {renderMath} from '../src/lib/render-math.js';
 
+test('shared worked diagrams opt into the actual child working edge only',async()=>{
+ const fixtureMiddleware=async(req,res,next)=>{
+  if(req.url!=='/__gutter-fixture.html')return next();
+  res.setHeader('Content-Type','text/html');
+  res.end(await server.transformIndexHtml(req.url,`<main style="width:170mm"></main><script type="module">
+   import {mount,unmount,tick} from 'svelte';
+   import Component from '/src/components/PracticeQuestionRenderer.svelte';
+   let instance;window.gutterFixture=async props=>{
+    if(instance)await unmount(instance);const target=document.querySelector('main');target.innerHTML='';
+    instance=mount(Component,{target,props});await tick();
+    const figure=target.querySelector('[style*="margin-left"]'),content=target.querySelector('.answer-content');
+    return {html:target.innerHTML,figure:figure?.getBoundingClientRect().left,content:content?.getBoundingClientRect().left};
+   };
+  </script>`));
+ };
+ const server=await createServer({logLevel:'error',plugins:[{name:'gutter-fixture',configureServer(server){server.middlewares.use(fixtureMiddleware);}}],server:{host:'127.0.0.1',port:0,open:false}});
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{
+  await server.listen();const page=await browser.newPage();const errors=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('http://127.0.0.1:'+server.httpServer.address().port+'/__gutter-fixture.html');
+  await page.waitForFunction(()=>typeof window.gutterFixture==='function',null,{timeout:15000}).catch(error=>{throw new Error(error.message+'; '+errors.join('; '));});
+  const question={id:'shared-fixture',type:'question',content:{id:'root',type:'question',prompt:'',sharedSolutionDiagrams:[{id:'figure',format:'tikz',widthMm:30,code:'\\begin{tikzpicture}\\draw(0,0)--(1,1);\\end{tikzpicture}'}],children:[{id:'a',type:'part',label:'a',prompt:'',answer:{short:'1',worked:'Marker'}}]}};
+  const props={question,number:23,showSpaces:false,showWorkedSolutions:true,compactAnswerSettings:{}};
+  const inspect=props=>page.evaluate(p=>window.gutterFixture(p),props);
+  for(const value of [undefined,false,'true']){
+   const result=await inspect({...props,question:{...question,presentation:{workedSharedDiagramsAtWorkingEdge:value}}});
+   assert.doesNotMatch(result.html,/margin-left\s*:\s*calc/);
+  }
+  const q={...question,presentation:{workedSharedDiagramsAtWorkingEdge:true}};
+  for(const gate of [{showWorkedSolutions:false,showShortAnswers:true},{compactAnswerSettings:null}])assert.doesNotMatch((await inspect({...props,question:q,...gate})).html,/margin-left\s*:\s*calc/);
+  for(const width of [8,12]){
+   const bounds=await inspect({...props,question:q,answerLabelWidthMm:width});
+   assert.ok(Number.isFinite(bounds.figure)&&Number.isFinite(bounds.content));
+   assert.ok(Math.abs(bounds.figure-bounds.content)<1,JSON.stringify({figure:bounds.figure,content:bounds.content}));
+  }
+ }finally{await browser.close();await server.close();}
+});
+
 test('compact answer labels keep their physical gutter in printed nested rows',async t=>{
  const probe=spawnSync('pdftotext',['-v'],{encoding:'utf8',windowsHide:true});
  if(probe.error?.code==='ENOENT'){t.skip('Poppler required for actual PDF word bounds');return;}

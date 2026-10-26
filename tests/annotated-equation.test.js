@@ -1,10 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {normalizeDocument,freshDocument,exportSource,renderDocument} from '../public/libs/maths-editor/document-model.mjs';
-import {changeEquation,anchorResolved,equationTargets} from '../public/libs/maths-editor/annotated-equation.mjs';
+import {changeEquation,anchorResolved,equationTargets,placeEquationLabels} from '../public/libs/maths-editor/annotated-equation.mjs';
 import {documentHtml} from '../src/lib/document-content.js';
 import {blockClozeAnswers,independentAnswerPages,teachingQuestionMode} from '../src/lib/booklet-answer-options.js';
 const fixture=()=>normalizeDocument({blocks:[{id:'eq',type:'annotated-equation',latex:'y=mx+c',anchors:[{id:'coefficient',start:2,end:3,text:'m'},{id:'constant',start:5,end:6,text:'c'}],annotations:[{id:'label',targetId:'coefficient',colour:'#268cff',blocks:[{id:'label-text',type:'paragraph',inlines:[{type:'text',text:'coefficient of '},{type:'math',latex:'x'}]}]}]}]});
+
+test('caption edges can attach to their own terms without changing ordinary packing',()=>{
+ const doc=fixture(),plain=documentHtml(doc);
+ assert.doesNotMatch(plain,/data-label-target-edge/);
+ doc.blocks[0].annotations[0].labelTargetEdge='right';
+ const copy=freshDocument(normalizeDocument(doc));
+ assert.equal(copy.blocks[0].annotations[0].labelTargetEdge,'right');
+ assert.match(documentHtml(copy),/data-label-target-edge="right"/);
+ const labels=[{center:317,width:210,labelTargetEdge:'right'},{center:350,width:236,labelTargetEdge:'left'}];
+ assert.deepEqual(placeEquationLabels(labels,586),[107,350]);
+ assert.deepEqual(placeEquationLabels([{center:30,width:20},{center:90,width:20}],140),[20,80]);
+ assert.equal(copy.blocks[0].latex,'y=mx+c');
+});
 
 test('vertical annotation arrows are opt-in and survive normalization and rich copy',()=>{
  const original=fixture();
@@ -52,4 +65,31 @@ test('stacked fractions reserve their full inline height and breathing room in p
   for(const [,style] of wrappers){assert.match(style,/display:inline-block/);assert.match(style,/vertical-align:baseline/);assert.match(style,/padding-block:\.15em/);}
   assert.match(html,/<br>/);
  }
+});
+
+
+test('shared annotation targets survive JSON saves and rich copy without changing single-target defaults',()=>{
+ const doc=fixture(),n=doc.blocks[0];
+ const before=documentHtml(doc);n.annotations[0].additionalTargetIds=[];
+ const stable=html=>html.replace(/ae-\d+-/g,'ae-N-').replace(/data-equation-instance="\d+"/g,'data-equation-instance="N"');
+ assert.equal(stable(documentHtml(normalizeDocument(doc))),stable(before));
+ n.annotations[0].additionalTargetIds=['constant','coefficient','constant',null,''];
+ const saved=normalizeDocument(JSON.parse(JSON.stringify(doc)));
+ assert.deepEqual(saved.blocks[0].annotations[0].additionalTargetIds,['constant']);
+ assert.deepEqual(normalizeDocument(saved),saved);
+ const copy=freshDocument(saved),eq=copy.blocks[0];
+ assert.deepEqual(eq.annotations[0].additionalTargetIds,[eq.anchors[1].id]);
+ assert.equal(eq.annotations[0].targetId,eq.anchors[0].id);
+ assert.doesNotMatch(documentHtml(copy),/data-equation-warning|katex-error/);
+ assert.match(documentHtml(copy),/data-target-indices="0,1"/);
+ assert.equal((documentHtml(copy).match(/data-equation-label="/g)||[]).length,1);
+});
+
+test('shared annotations warn for missing primary, additional, empty or invalidated targets',()=>{
+ for(const targets of [{targetId:'missing',additionalTargetIds:['constant']},{targetId:'coefficient',additionalTargetIds:['missing']},{targetId:'',additionalTargetIds:[]}]){
+  const doc=fixture();Object.assign(doc.blocks[0].annotations[0],targets);
+  assert.match(documentHtml(normalizeDocument(doc)),/data-equation-warning/);
+ }
+ const doc=fixture();doc.blocks[0].annotations[0].additionalTargetIds=['constant'];changeEquation(doc.blocks[0],'y=mx');
+ assert.match(documentHtml(doc),/data-equation-warning/);
 });

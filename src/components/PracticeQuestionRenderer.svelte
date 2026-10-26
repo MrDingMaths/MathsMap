@@ -182,7 +182,7 @@
 
 {#snippet sharedSolutionFigures(node)}
   {#if node.sharedSolutionDiagrams?.length}
-    <div class:paired-solution-figures={showWorkedSolutions && node.sharedSolutionDiagramLayout === 'row'}>
+    <div class:paired-solution-figures={showWorkedSolutions && node.sharedSolutionDiagramLayout === 'row'} style={compactAnswerSettings && showWorkedSolutions && question.presentation?.workedSharedDiagramsAtWorkingEdge === true ? 'margin-left:calc(var(--answer-label-width) + 2mm)' : undefined}>
       {#each node.sharedSolutionDiagrams as diagram}{@render diagramView(diagram, false)}{/each}
     </div>
   {/if}
