@@ -479,10 +479,8 @@ export function stepTable(list){
  const height=list.items.some(item=>item.blocks.some(b=>b.inlines.some(i=>/\\[dt]?frac(?![a-zA-Z])/.test(i.latex??''))))?12:8;
  return {id:list.id,type:'table',widths:[indent,100-indent],padding:0,border:false,marginBefore:0,marginAfter:0,rows,rowHeights:list.items.map(()=>height)};
 }
-// Working written as one aligned block, or as several lines of blue working in an example's solution, is a sequence of steps
-// (23 October 2026): each row becomes one step of the red-gutter table. An aligned row `lhs & = rhs` is a step `= rhs`; its
-// left side is dropped only where it repeats the example's own given (algebraic-fractions p13), so the given is not printed
-// twice. An example with one line of working (a single answer) is not numbered.
+// Parse aligned rows for callers inspecting mathematical structure. A parsed
+// row is not evidence that the source printed a step number.
 const ALIGNED_ENV=/\\begin\{(align\*?|aligned)\}([\s\S]*?)\\end\{\1\}/;
 export function alignedRows(latex){
  const text=String(latex??''),match=text.match(ALIGNED_ENV);
