@@ -1793,7 +1793,8 @@
                           "gap": 1
                         }
                       ],
-                      "gap": 1
+                      "gap": 1,
+                      "weight": 1.5187538831007457
                     },
                     {
                       "id": "p9-q14-root:diagrams",
@@ -1807,7 +1808,8 @@
                           "title": "Diagram"
                         }
                       ],
-                      "gap": 1
+                      "gap": 1,
+                      "weight": 0.48124611689925434
                     }
                   ],
                   "gap": 2
@@ -2410,6 +2412,12 @@
                               "type": "item",
                               "ref": "p3-a/label",
                               "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p3-a/prompt",
+                              "type": "item",
+                              "ref": "p3-a/prompt",
+                              "title": "Text"
                             },
                             {
                               "id": "layout:p3-a-ruler",
@@ -3178,6 +3186,52 @@
               "keepTogether": true
             }
           }
+        },
+        "p3-inaccuracy": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-inaccuracy:source-group",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p3-inaccuracy:intro-figure",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p3-inaccuracy:intro",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-inaccuracy-example/prompt#p3-inaccuracy-list",
+                          "type": "item",
+                          "ref": "p3-inaccuracy-example/prompt#p3-inaccuracy-list"
+                        }
+                      ],
+                      "weight": 100
+                    },
+                    {
+                      "id": "layout:p3-jellybean-ruler",
+                      "type": "item",
+                      "ref": "p3-jellybean-ruler",
+                      "width": 48,
+                      "weight": 48
+                    }
+                  ],
+                  "gap": 4
+                },
+                {
+                  "id": "layout:p3-inaccuracy-example/prompt#p3-inaccuracy-conclusion-list",
+                  "type": "item",
+                  "ref": "p3-inaccuracy-example/prompt#p3-inaccuracy-conclusion-list"
+                }
+              ],
+              "gap": 2
+            }
+          }
         }
       },
       "answerSpaces": {},
@@ -3397,7 +3451,7 @@
                             "inlines": [
                               {
                                 "type": "text",
-                                "text": "The ruler below is measuring the length of a jellybean."
+                                "text": "The ruler to the right is measuring the length of a jellybean."
                               }
                             ],
                             "spaceAfter": 1
@@ -3420,7 +3474,15 @@
                             "spaceAfter": 1
                           }
                         ]
-                      },
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p3-inaccuracy-conclusion-list",
+                    "type": "list",
+                    "ordered": false,
+                    "indent": 7,
+                    "items": [
                       {
                         "id": "p3-inaccuracy-item3",
                         "type": "list-item",
@@ -3662,8 +3724,7 @@
                 "id": "p3-a",
                 "type": "part",
                 "label": "a",
-                "prompt": "",
-                "diagramPlacement": "before-prompt",
+                "prompt": "This is a cm ruler with mm increments.",
                 "questionDiagrams": [
                   {
                     "id": "p3-a-ruler",
@@ -3671,13 +3732,13 @@
                     "widthMm": 48,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-a-ruler\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{scope}[rotate=15]\n\\draw[black,line width=0.8pt] (0,0) rectangle (6.2,1.3);\n\\foreach \\i in {0,...,62}{\\pgfmathsetmacro{\\xx}{\\i/10}\\draw[black,line width=0.4pt] (\\xx,0)--(\\xx,0.17);\\draw[black,line width=0.4pt] (\\xx,1.3)--(\\xx,1.13);}\n\\foreach \\x in {1,...,6}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,0.35);\\draw[black,line width=0.4pt] (\\x,1.3)--(\\x,0.95);\\node[font=\\fontsize{10}{12}\\selectfont] at (\\x,0.65){\\x};}\n\\node[font=\\fontsize{10}{12}\\selectfont,anchor=east] at (-0.15,0.80){cm};\n\\node[font=\\fontsize{10}{12}\\selectfont,anchor=east] at (-0.15,0.35){mm};\n\\end{scope}\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-a-ruler\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{scope}[rotate=15]\n\\draw[black,line width=0.8pt] (0,0) rectangle (6.2,1.3);\n\\foreach \\i in {0,...,62}{\\pgfmathsetmacro{\\xx}{\\i/10}\\draw[black,line width=0.4pt] (\\xx,0)--(\\xx,0.17);\\draw[black,line width=0.4pt] (\\xx,1.3)--(\\xx,1.13);}\n\\foreach \\x in {1,...,6}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,0.35);\\draw[black,line width=0.4pt] (\\x,1.3)--(\\x,0.95);\\node[font=\\fontsize{10}{12}\\selectfont] at (\\x,0.65){\\x};}\n\\end{scope}\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 3,
                       "sourceRegion": "Identify part a",
-                      "description": "Editable ruler replacing the photograph; ten millimetre intervals per centimetre and centimetre labels 1–6. A number-line template cannot express the double-edged physical ruler with unit labels.",
+                      "description": "Editable double-edged ruler with centimetre labels1–6 and ten millimetre intervals per centimetre; units are supplied in the editable prompt instead of separate diagram labels.",
                       "mathematics": "Smallest graduation is 1 mm.",
-                      "answerVisibility": "Graduations and unit labels are visible givens; precision answer is hidden."
+                      "answerVisibility": "Graduations and centimetre numbers are visible givens; prompt states units and increments. Precision answer is hidden."
                     }
                   }
                 ],
@@ -3704,7 +3765,7 @@
                     "widthMm": 46,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-b-balance\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.8pt,rounded corners=3mm] (0,0) rectangle (46,27);\n\\draw[black,line width=0.8pt] (4,22) ellipse (18mm and 3mm);\n\\draw[black,line width=0.8pt] (9,5) rectangle (39,17);\n\\node[font=\\fontsize{10}{12}\\selectfont] at (24,11){$0.00\\ \\mathrm{g}$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-b-balance\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.8pt,rounded corners=3mm] (0,0) rectangle (46,27);\n\\draw[black,line width=0.8pt] (23,22) ellipse (18mm and 3mm);\n\\draw[black,line width=0.8pt] (9,5) rectangle (39,17);\n\\node[font=\\fontsize{10}{12}\\selectfont] at (24,11){$0.00\\ \\mathrm{g}$};\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 3,
                       "sourceRegion": "Identify part b",
@@ -11421,8 +11482,8 @@
             "prompt": "A pizza tray was measured to be $28.6\\text{ m}$ in diameter.\nWhat is the lower and upper limit for the area of the pizza tray? Give your answers to 2 decimal places.",
             "answerSpaceMm": 43,
             "answer": {
-              "short": "Lower limit: $640.18\\text{ m}^2$; upper limit: $644.72\\text{ m}^2$. Use diameter limits $28.55\\text{ m}$ and $28.65\\text{ m}$ in $A=\\pi(d/2)^2$.",
-              "worked": "Precision: $0.1\\text{ m}$.\n$$\\begin{align*}\\text{Absolute error}&=\\tfrac12\\times0.1=0.05\\text{ m}\\\\d_{\\text{lower}}&=28.6-0.05=28.55\\text{ m}\\\\d_{\\text{upper}}&=28.6+0.05=28.65\\text{ m}\\end{align*}$$\nUsing $A=\\pi r^2$ and $r=d/2$:\n$$\\begin{align*}A_{\\text{lower}}&=\\pi\\left(\\frac{28.55}{2}\\right)^2\\\\A_{\\text{lower}}&\\approx640.18\\text{ m}^2\\\\A_{\\text{upper}}&=\\pi\\left(\\frac{28.65}{2}\\right)^2\\\\A_{\\text{upper}}&\\approx644.72\\text{ m}^2\\end{align*}$$",
+              "short": "Lower limit: $640.18\\text{ m}^2$; upper limit: $644.67\\text{ m}^2$. Use diameter limits $28.55\\text{ m}$ and $28.65\\text{ m}$ in $A=\\pi(d/2)^2$.",
+              "worked": "Precision: $0.1\\text{ m}$.\n$$\\begin{align*}\\text{Absolute error}&=\\tfrac12\\times0.1=0.05\\text{ m}\\\\d_{\\text{lower}}&=28.6-0.05=28.55\\text{ m}\\\\d_{\\text{upper}}&=28.6+0.05=28.65\\text{ m}\\end{align*}$$\nUsing $A=\\pi r^2$ and $r=d/2$:\n$$\\begin{align*}A_{\\text{lower}}&=\\pi\\left(\\frac{28.55}{2}\\right)^2\\\\A_{\\text{lower}}&\\approx640.18\\text{ m}^2\\\\A_{\\text{upper}}&=\\pi\\left(\\frac{28.65}{2}\\right)^2\\\\A_{\\text{upper}}&\\approx644.67\\text{ m}^2\\end{align*}$$",
               "provenance": {
                 "short": "authored",
                 "worked": "authored"
@@ -11473,7 +11534,13 @@
                 "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\measurement-error-v1-20261006\\semantic-packets\\page-009.author.json",
                 "hash": "c89428da5e6b6073a5614f07839dcba5e431df2679dc4849a53eef17afd16cae"
               }
-            }
+            },
+            "sourceCorrections": [
+              {
+                "pageNumber": 9,
+                "description": "Source upper pizza-tray area644.72m² is an arithmetic error. With upper diameter28.65m,π(28.65/2)²=644.6724839753019m², hence644.67m² to2decimal places. Preserve original source and all given units."
+              }
+            ]
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -11500,7 +11567,7 @@
                   "policyHash": "110ba81f55d400eca777e5e0514c953c40319f899f38214b13c7b951e652c751"
                 }
               },
-              "revision": "c4369d54c624f760d2002aedb6de7baf9db80cea6781674c97ecea4694307081"
+              "revision": "0413b670ea44fb283d68d700b26eb6e80eea414c7e361f5695b43227ee25a973"
             },
             "autoOrder": {
               "rank": 13,
@@ -11514,7 +11581,7 @@
           "snapshotKind": "bank",
           "bankRef": {
             "id": "q-05de2521-2e1d-44be-8000-baa8514e240b",
-            "revision": "c4369d54c624f760d2002aedb6de7baf9db80cea6781674c97ecea4694307081"
+            "revision": "0413b670ea44fb283d68d700b26eb6e80eea414c7e361f5695b43227ee25a973"
           },
           "presentation": {
             "ownerId": "p9-q17",
@@ -14888,7 +14955,7 @@
             "answerSpaceMm": 23,
             "answer": {
               "short": "$0.036\\%$",
-              "worked": "Precision: $0.1\\text{ m}$.\n\n$$\\begin{align*}\\text{Absolute error} &= \\frac{1}{2}\\times 0.1\\text{ m}\\\\&=0.05\\text{ m}\\\\\\text{Percentage error} &= \\frac{0.05}{138.4}\\times 100\\%\\\\&\\approx 0.036\\%\\end{align*}$$",
+              "worked": "Precision: $0.1\\text{ m}$.\n\n$$\\begin{aligned}\\text{Absolute error}&=\\tfrac12\\times0.1\\text{ m}=0.05\\text{ m}\\\\\\text{Percentage error}&=\\frac{0.05}{138.4}\\times100\\%\\approx0.036\\%\\end{aligned}$$",
               "provenance": {
                 "short": "source",
                 "worked": "authored"
@@ -14957,13 +15024,13 @@
                 "taskHash": "6c643bc5e631013c42b4a4aac63b66983eddc8878c0f0c43bb27571684b32c30",
                 "evidence": ".booklet-work/full-imports/measurement-error-v1-20261006/semantic-packets/assignments/assignment-4dc2cd4a3de9a7031a17/1/generation.json"
               },
-              "revision": "3e6bb765f4308436519a13e945f983bce58efb88bfc21e76b631b468df174e84"
+              "revision": "42b52582851b32d9fdc1e47428467515b686dda6c3335e1ea2888a76df0c6044"
             }
           },
           "snapshotKind": "bank",
           "bankRef": {
             "id": "q-a01e2a58-23c0-46f9-bed7-702c66676bf6",
-            "revision": "3e6bb765f4308436519a13e945f983bce58efb88bfc21e76b631b468df174e84"
+            "revision": "42b52582851b32d9fdc1e47428467515b686dda6c3335e1ea2888a76df0c6044"
           },
           "presentation": {
             "ownerId": "p12-q6",
@@ -15041,7 +15108,7 @@
             "answerSpaceMm": 25,
             "answer": {
               "short": "$0.4\\%$",
-              "worked": "Precision: $10\\text{ mL}$.\n\n$$\\begin{align*}\\text{Absolute error} &= \\frac{1}{2}\\times 10\\text{ mL}\\\\&=5\\text{ mL}\\\\\\text{Measurement} &=1.25\\text{ L}\\\\&=1250\\text{ mL}\\\\\\text{Percentage error} &=\\frac{5}{1250}\\times100\\%\\\\&=0.4\\%\\end{align*}$$",
+              "worked": "Precision: $10\\text{ mL}$.\n\n$$\\begin{aligned}\\text{Absolute error}&=\\tfrac12\\times10\\text{ mL}=5\\text{ mL}\\\\\\text{Measurement}&=1.25\\text{ L}=1250\\text{ mL}\\\\\\text{Percentage error}&=\\frac{5}{1250}\\times100\\%=0.4\\%\\end{aligned}$$",
               "provenance": {
                 "short": "source",
                 "worked": "authored"
@@ -15106,13 +15173,13 @@
                 "taskHash": "b2f31b285276863973348131fd769db8db7fa56f8ab971557412c32fec3643d5",
                 "evidence": ".booklet-work/full-imports/measurement-error-v1-20261006/semantic-packets/assignments/assignment-4dc2cd4a3de9a7031a17/1/generation.json"
               },
-              "revision": "c664416e707080ab8624589db3d2831b0fdfa8a6a5ee90e322cb67bb15be21d0"
+              "revision": "380f252660620555d2f3bf695521e47fcaf04ba29f16093a1a0df09f30788d26"
             }
           },
           "snapshotKind": "bank",
           "bankRef": {
             "id": "q-5d901be3-c383-40b1-b676-64c96eed350d",
-            "revision": "c664416e707080ab8624589db3d2831b0fdfa8a6a5ee90e322cb67bb15be21d0"
+            "revision": "380f252660620555d2f3bf695521e47fcaf04ba29f16093a1a0df09f30788d26"
           },
           "presentation": {
             "ownerId": "p12-q7",
@@ -15190,7 +15257,7 @@
             "answerSpaceMm": 23,
             "answer": {
               "short": "$30.495\\text{ m}$; subtract half the precision, $0.005\\text{ m}$.",
-              "worked": "$$\\begin{align*}\\text{Precision} &= 1\\text{ cm}=0.01\\text{ m}\\\\\\text{Absolute error} &= \\tfrac12\\times0.01\\text{ m}\\\\\\text{Absolute error} &= 0.005\\text{ m}\\\\\\text{Lower limit} &= 30.50\\text{ m}-0.005\\text{ m}\\\\\\text{Lower limit} &= 30.495\\text{ m}\\end{align*}$$",
+              "worked": "$$\\begin{aligned}\\text{Precision}&=1\\text{ cm}=0.01\\text{ m}\\\\\\text{Absolute error}&=\\tfrac12\\times0.01\\text{ m}=0.005\\text{ m}\\\\\\text{Lower limit}&=30.50\\text{ m}-0.005\\text{ m}=30.495\\text{ m}\\end{aligned}$$",
               "provenance": {
                 "short": "authored",
                 "worked": "authored"
@@ -15263,13 +15330,13 @@
                 "taskHash": "069fbbf0bb964226ec1576e310d8cf4a396e354673d13f739eb188fb74a3108a",
                 "evidence": ".booklet-work/full-imports/measurement-error-v1-20261006/semantic-packets/assignments/assignment-3eeb4aaae4538fe156ae/1/generation.json"
               },
-              "revision": "14a16293e35f7f757ad32827300d81faaa77b4dc7981006277d35d2c495163c7"
+              "revision": "54b38fc77ec385a79126691ef26cd2a6d5ae7943979f377340dfc964ae730c91"
             }
           },
           "snapshotKind": "bank",
           "bankRef": {
             "id": "q-ce54bc7b-642c-4c59-9114-31a87662ec1e",
-            "revision": "14a16293e35f7f757ad32827300d81faaa77b4dc7981006277d35d2c495163c7"
+            "revision": "54b38fc77ec385a79126691ef26cd2a6d5ae7943979f377340dfc964ae730c91"
           },
           "presentation": {
             "ownerId": "p12-q8",
@@ -16089,108 +16156,9 @@
         "resolution": "Applied by the repair worker: Constrain each scale-and-dot row to its 89 mm contents so surplus column width does not push the matching dot away from the scale.. Verified on the rendered pages."
       },
       {
-        "id": "345b8fe8-0333-4beb-8e16-5232e6a42242",
-        "targetId": "p5-e",
-        "note": "[Pedagogy review · High priority · unsupported-transition · pf-f68c1d9ed0]\nFinding: The garden question requires students to bound a calculated area before teaching how to combine measurement bounds.\nBreakdown: Students must choose the lower bound of both dimensions before multiplying. The preceding examples bound only individual measurements, leaving a plausible incorrect approach of subtracting 0.5 from the recorded area of 15 m².\nChecked: All supplied teaching before p5-e was checked. p4-limits-formulas-method and both p4 examples explain bounds of individual measurements; p5-a–d practise those bounds. None explains bounds of a product. p9-q14 later supplies a dimension-to-area scaffold, but cannot prepare students for p5-e.\nAssumes: Students know the rectangle area formula. Combining measurement bounds to bound an area is new within this booklet. Calculator availability does not affect the finding.\nProposed repair (add-teaching): Before p5-e add: “For a rectangle with positive dimensions, the smallest possible area uses the lower bound of each dimension. Find both lower bounds, then multiply them.”\nDone when: Before p5-e, students are explicitly taught to bound both dimensions before calculating the lower area bound.",
-        "resolved": false,
-        "at": "2026-10-23T09:29:04.210Z",
-        "scope": "local",
-        "anchor": {
-          "rootId": "p5-e",
-          "edition": "student",
-          "quote": "A rectangular garden was measured as $3\\text{ m}$ by $5\\text{ m}$, to the nearest metre.\nFind the lower limit of the area of the garden."
-        },
-        "edition": "student",
-        "quote": "A rectangular garden was measured as $3\\text{ m}$ by $5\\text{ m}$, to the nearest metre.\nFind the lower limit of the area of the garden.",
-        "signature": "27f6f248",
-        "sourceRefs": [
-          {
-            "pageNumber": 5
-          }
-        ],
-        "location": "Absolute error · Question",
-        "kind": "pedagogy-suggestion",
-        "findingId": "pf-f68c1d9ed0"
-      },
-      {
-        "id": "8cb8d14a-ab63-4b63-addc-ca2e46a21ced",
-        "targetId": "p9-q14",
-        "note": "[Pedagogy review · Suggestion · extension · pf-c9dec1e9bc]\nIdea: Compare the unequal area changes produced by equal changes in the measured side.\nWhy: The follow-up connects the calculated area bounds to the recorded area and exposes why area uncertainty is not symmetric about that area.\nProposed addition: Append optional parts after p9-q14-e: (f) “What area is calculated using the recorded side length of 15 cm?” Answer: 225 cm². (g) “How far below 225 cm² is the lower area bound?” Answer: 14.75 cm². (h) “How far above 225 cm² is the upper area bound?” Answer: 15.25 cm².",
-        "resolved": false,
-        "at": "2026-10-23T09:29:04.210Z",
-        "scope": "local",
-        "anchor": {
-          "rootId": "p9-q14",
-          "edition": "student",
-          "quote": "A square’s side length was measured to be $15\\text{ cm}$, to the nearest cm."
-        },
-        "edition": "student",
-        "quote": "A square’s side length was measured to be $15\\text{ cm}$, to the nearest cm.",
-        "signature": "9a520fae",
-        "sourceRefs": [
-          {
-            "pageNumber": 9
-          },
-          {
-            "pageNumber": 6
-          }
-        ],
-        "location": "Exercise · Question",
-        "kind": "pedagogy-suggestion",
-        "findingId": "pf-c9dec1e9bc"
-      },
-      {
-        "id": "f3c9c79f-a265-4b50-ac35-15410a41d0d7",
-        "targetId": "p11-q3",
-        "note": "[Pedagogy review · Suggestion · variation-sequence · pf-b17c18c3ce]\nIdea: Keep precision fixed while successively doubling the measured mass.\nWhy: The run exposes that doubling the measurement halves percentage error when absolute error stays fixed; a final unpatterned mass checks application.\nProposed addition: After p11-q3-b, add the single instruction: “Predict how the percentage error will change before calculating.” Append:\n(c) Find the percentage error for 5.42 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.092%.\n(d) Find the percentage error for 10.84 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.046%.\n(e) Find the percentage error for 21.68 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.023%.\n(f) Find the percentage error for 7.36 kg measured to the nearest 0.01 kg, correct to three decimal places. Answer: 0.068%.",
-        "resolved": false,
-        "at": "2026-10-23T09:29:04.213Z",
-        "scope": "local",
-        "anchor": {
-          "rootId": "p11-q3",
-          "edition": "student",
-          "quote": "Sally measured the mass of an LCD screen as 2.71 kg."
-        },
-        "edition": "student",
-        "quote": "Sally measured the mass of an LCD screen as 2.71 kg.",
-        "signature": "fe6e4d5",
-        "sourceRefs": [
-          {
-            "pageNumber": 11
-          }
-        ],
-        "location": "Exercise · Question",
-        "kind": "pedagogy-suggestion",
-        "findingId": "pf-b17c18c3ce"
-      },
-      {
-        "id": "6bcd0f75-7607-416b-ba3b-334eba77c657",
-        "targetId": "p11-q4",
-        "note": "[Pedagogy review · Suggestion · extension · pf-443c700c85]\nIdea: Compare percentage errors for the same measured length at two precisions.\nWhy: Holding the measured length fixed isolates the effect of instrument precision on percentage error.\nProposed addition: Label the existing task p11-q4-a and append:\n(b) The same object is measured as 13.0 cm to the nearest 0.1 cm. Find the percentage error to two decimal places. Answer: 0.38%.\n(c) Using unrounded values, how many times as large is the original percentage error as the new percentage error? Answer: 5 times.",
-        "resolved": false,
-        "at": "2026-10-23T09:29:04.214Z",
-        "scope": "local",
-        "anchor": {
-          "rootId": "p11-q4",
-          "edition": "student",
-          "quote": "Find the percentage error for an object measured as 13.0 cm, to the nearest 0.5 cm.\nAnswer to 2 d.p."
-        },
-        "edition": "student",
-        "quote": "Find the percentage error for an object measured as 13.0 cm, to the nearest 0.5 cm.\nAnswer to 2 d.p.",
-        "signature": "15eb12ae",
-        "sourceRefs": [
-          {
-            "pageNumber": 11
-          }
-        ],
-        "location": "Exercise · Question",
-        "kind": "pedagogy-suggestion",
-        "findingId": "pf-443c700c85"
-      },
-      {
         "id": "228e8922-bff0-40f5-b0c9-e7486065e6d7",
         "targetId": "p12-q6",
-        "note": "[Pedagogy review · Suggestion · variation-sequence · pf-b5a3c3d5e2]\nIdea: Hold measured magnitude constant while varying recorded precision.\nWhy: The run exposes that reducing precision by a factor of ten reduces the unrounded percentage error by the same factor when measured magnitude stays constant.\nProposed addition: Retain the existing Harbour Bridge task as part (a), then append further parts under its instruction to calculate percentage error to three decimal places. Add only this instruction: “Predict how the percentage error will change before calculating.” (b) 24 m; answer: 2.083%. (c) 24.0 m; answer: 0.208%. (d) 24.00 m; answer: 0.021%. (e) 37.2 m; answer: 0.134%. In (b)–(d), magnitude and units stay constant while precision varies; (e) is the unpatterned follow-up.",
+        "note": "[Pedagogy review · Suggestion · variation-sequence · pf-b5a3c3d5e2]\nIdea: Hold measured magnitude constant while varying recorded precision.\nWhy: The run exposes that reducing precision by a factor of ten reduces the unrounded percentage error by the same factor when measured magnitude stays constant.\nProposed addition: Create a new question. calculate percentage error to three decimal places. (a) 24 m; answer: 2.083%. (b) 24.0 m; answer: 0.208%. (c) 24.00 m; answer: 0.021%.",
         "resolved": false,
         "at": "2026-10-23T09:29:04.215Z",
         "scope": "local",
@@ -16212,7 +16180,9 @@
         ],
         "location": "Exercise · Question",
         "kind": "pedagogy-suggestion",
-        "findingId": "pf-b5a3c3d5e2"
+        "findingId": "pf-b5a3c3d5e2",
+        "editedAt": "2026-10-26T10:34:25.564Z",
+        "updatedAt": "2026-10-26T10:34:25.564Z"
       },
       {
         "id": "5ff6ae01-e1f6-4c2f-ab3c-b84cee9758ff",
@@ -16237,6 +16207,56 @@
         "location": "Exercise · Question",
         "kind": "pedagogy-suggestion",
         "findingId": "pf-4597143435"
+      },
+      {
+        "id": "dcb2cb44-cadf-4904-acd0-db5ddcad25e0",
+        "targetId": "p3-identify",
+        "note": "the ellipse in this diagram is not positioned correctly.",
+        "resolved": true,
+        "at": "2026-10-26T10:36:23.879Z",
+        "scope": "local",
+        "anchor": {
+          "rootId": "p3-identify",
+          "pointer": "/content/children/1/questionDiagrams/0",
+          "edition": "student",
+          "quote": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-b-balance\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw["
+        },
+        "edition": "student",
+        "quote": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-b-balance\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[",
+        "signature": "6dc5f658",
+        "sourceRefs": [
+          {
+            "pageNumber": 3
+          }
+        ],
+        "location": "Absolute error · Question",
+        "resolvedAt": "2026-10-26T11:01:24.341Z",
+        "resolution": "Balance pan centred within casing with symmetric insets; display remains0.00g. Ruler retains ticks/numerals without floating cm/mm labels; exact requested sentence follows part(a). All neighbouring content intact."
+      },
+      {
+        "id": "547e19bd-705e-43ca-b79a-f6d10008e62a",
+        "targetId": "p3-identify",
+        "note": "remove cm and mm labels from diagram. add text after part (a): This is a cm ruler with mm increments.",
+        "resolved": true,
+        "at": "2026-10-26T10:37:05.071Z",
+        "scope": "local",
+        "anchor": {
+          "rootId": "p3-identify",
+          "pointer": "/content/children/0/questionDiagrams/0",
+          "edition": "student",
+          "quote": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-a-ruler\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{s"
+        },
+        "edition": "student",
+        "quote": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 p3-a-ruler\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{s",
+        "signature": "184afe63",
+        "sourceRefs": [
+          {
+            "pageNumber": 3
+          }
+        ],
+        "location": "Absolute error · Question",
+        "resolvedAt": "2026-10-26T11:01:24.341Z",
+        "resolution": "Balance pan centred within casing with symmetric insets; display remains0.00g. Ruler retains ticks/numerals without floating cm/mm labels; exact requested sentence follows part(a). All neighbouring content intact."
       }
     ],
     "evidence": {
@@ -19059,10 +19079,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 19,
+  "revision": 30,
   "assets": [],
   "createdAt": "2026-10-06T12:14:29.842Z",
-  "updatedAt": "2026-10-23T23:31:17.065Z",
+  "updatedAt": "2026-10-26T11:01:48.929Z",
   "library": {
     "category": "master",
     "courseId": "s5-core",
