@@ -27,6 +27,27 @@ test('short answers and solution diagram width overrides use the same response s
  assert.equal(arrangementItems(cell).filter(n=>entries.get(n.ref).field==='answer/short').length,1);
  assert.equal(arrangementItems(cell).at(-1).width,48);
 });
+
+test('an explicit response diagram slot replaces the supplied diagram without duplicating its answer',()=>{
+ const {block,saved}=fixture(),before=structuredClone({block,saved});
+ block.sourceReview.responses[1].diagramSlotRef='given';
+ for(const mode of ['short','worked']){
+  const answer=teachingAnswerArrangement(block,saved,{},mode);assert.ok(answer);
+  const resolved=resolveArrangement(block,answer),refs=arrangementItems(answer.root).map(n=>n.ref);
+  assert.equal(refs.includes('given'),false);assert.equal(refs.filter(ref=>ref==='solution').length,1);
+  assert.ok([...resolved.entries.values()].some(e=>refs.includes(e.ref)&&e.field==='prompt'));
+  assert.ok([...resolved.entries.values()].some(e=>refs.includes(e.ref)&&e.field==='answer/'+mode));
+ }
+ delete block.sourceReview.responses[1].diagramSlotRef;assert.deepEqual({block,saved},before);
+});
+
+test('an explicit diagram slot rejects missing, foreign, duplicated or already placed answer diagrams',()=>{
+ for(const ref of ['missing','response/space']){const {block,saved}=fixture();block.sourceReview.responses[1].diagramSlotRef=ref;assert.equal(teachingAnswerArrangement(block,saved),null);}
+ {const {block,saved}=fixture();block.sourceReview.responses[1].diagramSlotRef='given';block.content.children[0].answer.solutionDiagrams=[];assert.equal(teachingAnswerArrangement(block,saved),null);}
+ {const {block,saved}=fixture();block.sourceReview.responses[1].diagramSlotRef='given';saved.root.children.push(item('solution'));assert.equal(teachingAnswerArrangement(block,saved),null);}
+ {const {block,saved}=fixture();block.sourceReview.responses[1].diagramSlotRef='given';saved.root.children.push({...item('given'),id:'duplicate'});assert.throws(()=>teachingAnswerArrangement(block,saved),/Duplicate content reference/);}
+ {const {block,saved}=fixture();block.sourceReview.responses[1].diagramSlotRef='foreign';block.content.questionDiagrams=[{id:'foreign',format:'tikz',code:'other'}];saved.root.children.push(item('foreign'));assert.equal(teachingAnswerArrangement(block,saved),null);}
+});
 test('omitted response slots fall back and invalid duplicate placements remain rejected',()=>{
  const {block,saved}=fixture();saved.root.children.pop();assert.equal(teachingAnswerArrangement(block,saved),null);
  const other=fixture();other.saved.root.children[1].children.push({...item('response/space'),id:'duplicate-placement'});assert.throws(()=>teachingAnswerArrangement(other.block,other.saved),/Duplicate content reference/);

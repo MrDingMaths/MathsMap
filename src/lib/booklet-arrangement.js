@@ -287,7 +287,13 @@ export function teachingAnswerArrangement(block,stored,overrides={},mode='worked
  for(const leaf of leaves){
   const fields=[...resolved.entries.values()].filter(e=>e.ownerId===leaf.id&&e.field==='answer/'+mode);
   const diagrams=(leaf.answer?.solutionDiagrams??[]).map(d=>resolved.entries.get(d.id)).filter(Boolean);
-  const entries=[...fields,...diagrams];
+  const diagramSlot=responseSpecs.get(leaf.id)?.diagramSlotRef;
+  const entries=diagramSlot?fields:[...fields,...diagrams];
+  if(diagramSlot){
+   const target=resolved.entries.get(diagramSlot);
+   if(target?.kind!=='diagram'||target.ownerId!==leaf.id||positions.filter(n=>n.ref===diagramSlot).length!==1||!diagrams.length||diagrams.some(e=>refs.has(e.ref)))return null;
+   responses.set(diagramSlot,diagrams);
+  }
   let slot=responseSpecs.get(leaf.id)?.answerSlotRef??leaf.id+'/space';
   if(!responseSpecs.get(leaf.id)?.answerSlotRef&&!refs.has(slot)){
    const method=leaf.answer?.worked?.blocks?.find(n=>n.type==='list'&&n.ordered);

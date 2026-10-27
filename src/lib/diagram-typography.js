@@ -138,7 +138,9 @@ export function inspectDiagramLabelLayout(svg,{strokes=false}={}) {
   if(strokes)for(const path of svg.querySelectorAll('path')){
     if(path.closest('[data-diagram-label],defs,clipPath,marker')||getComputedStyle(path).stroke==='none')continue;
     const m=path.getScreenCTM();if(!m)continue;
-    const length=path.getTotalLength(),step=.4*scale/Math.hypot(m.a,m.b),hit=new Set();
+    const length=path.getTotalLength();
+    if(!Number.isFinite(length)||length<=0)continue;
+    const step=.4*scale/Math.hypot(m.a,m.b),hit=new Set();
     const masks=[...svg.querySelectorAll('path,rect')].filter(mask=>mask!==path&&(path.compareDocumentPosition(mask)&Node.DOCUMENT_POSITION_FOLLOWING)&&['rgb(255, 255, 255)','#fff','white'].includes(getComputedStyle(mask).fill));
     for(let distance=0;distance<=length;distance+=step){
       const point=path.getPointAtLength(distance).matrixTransform(m);

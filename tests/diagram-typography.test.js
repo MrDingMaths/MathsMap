@@ -11,6 +11,22 @@ import {normaliseShortAnswer} from '../src/lib/short-answer-style.js';
 import {migrateShortAnswerColours} from '../scripts/booklet/normalise-short-answer-colours.mjs';
 import {updateProjectContent} from '../src/lib/editable-booklet-model.js';
 
+test('stroke inspection skips non-drawable SVG paths while still sampling drawable strokes',async()=>{
+ const browser=await chromium.launch({headless:true,channel:'chrome'});
+ try{
+  const page=await browser.newPage();
+  await page.setContent('<svg width="100" height="100"><path d="" stroke="black" fill="none"/><path d="M0 0" stroke="black" fill="none"/><path d="M0 0L20 0" stroke="black" fill="none"/></svg>');
+  const result=await page.evaluate(({inspect,scale,overlap})=>{
+   const check=new Function(`const graphPageScale=${scale},convexPolygonsOverlap=${overlap};return ${inspect}`)();
+   const svg=document.querySelector('svg'),paths=[...svg.querySelectorAll('path')];let sampled=0;
+   paths[0].getPointAtLength=()=>{throw Error('Empty path sampled');};paths[1].getPointAtLength=()=>{throw Error('Nonfinite path sampled');};
+   const original=paths[2].getPointAtLength.bind(paths[2]);paths[2].getPointAtLength=d=>{sampled++;return original(d);};
+   const rows=[];for(const length of [0,NaN,Infinity]){paths[1].getTotalLength=()=>length;rows.push(check(svg,{strokes:true}));}return {rows,sampled};
+  },{inspect:inspectDiagramLabelLayout.toString(),scale:graphPageScale.toString(),overlap:convexPolygonsOverlap.toString()});
+  assert.deepEqual(result.rows,[[],[],[]]);assert.ok(result.sampled>0);
+ }finally{await browser.close();}
+});
+
 test('complete TeX labels retain scripts, fraction rules, rotation and size after resizing, zoom and SVG reopen',async()=>{
   const compile=await loadTikzEngine();
   const {svg}=await compile(String.raw`\begin{tikzpicture}[scale=1.7]
