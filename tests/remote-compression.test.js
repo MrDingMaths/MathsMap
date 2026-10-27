@@ -45,6 +45,20 @@ test('remote JSON is compressed whether headers come from setHeader or writeHead
   }
 });
 
+test('large piped files (static serving) complete and arrive intact', async () => {
+  const big = 'const value = ' + JSON.stringify(Array.from({ length: 40000 }, (_, i) => 'item ' + i * 7919)) + ';\n';
+  const { Readable } = await import('node:stream');
+  const server = await serve((req, res) => {
+    res.writeHead(200, { 'Content-Type': 'text/javascript', 'Content-Length': Buffer.byteLength(big) });
+    Readable.from(Array.from({ length: Math.ceil(big.length / 4096) }, (_, i) => big.slice(i * 4096, (i + 1) * 4096))).pipe(res);
+  });
+  try {
+    const timeout = new Promise((_, reject) => setTimeout(() => reject(Error('piped response stalled')), 5000));
+    const remote = await Promise.race([get(server, { host: 'studio.example.com', 'accept-encoding': 'br' }), timeout]);
+    assert.equal(zlib.brotliDecompressSync(remote.raw).toString(), big);
+  } finally { server.close(); }
+});
+
 test('binary and already-encoded responses pass through', async () => {
   const png = Buffer.from([137, 80, 78, 71, 1, 2, 3]);
   const server = await serve((req, res) => {

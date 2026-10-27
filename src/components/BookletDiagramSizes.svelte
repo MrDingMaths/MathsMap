@@ -3,7 +3,7 @@
  // measure(id,mode) returns the rendered {widthMm,heightMm} or null.
  // layout: the current page map; rendered sizes are re-read whenever it changes.
  let {project,blockIds=[],edition='student',measure=()=>null,onchange,pageCount=0,layout=null}=$props();
- let mode=$state(sizeModeFor(edition)),action=$state('height'),value=$state(40),includeFixed=$state(false),message=$state(''),root=$state();
+ let mode=$state('question'),action=$state('height'),value=$state(40),includeFixed=$state(false),message=$state(''),root=$state();
  $effect(()=>{mode=sizeModeFor(edition);});
  export function focus(){root?.scrollIntoView({block:'nearest'});root?.querySelector('input,select')?.focus();}
  const rows=$derived(diagramSizeTargets(project,blockIds,mode));

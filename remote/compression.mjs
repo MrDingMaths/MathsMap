@@ -31,6 +31,9 @@ export function createRemoteCompression() {
       res.setHeader('Vary', 'Accept-Encoding');
       stream.on('data', chunk => write(chunk));
       stream.on('end', () => end());
+      // Piped static files wait for 'drain' once write() returns false; the
+      // compressor drains, not the response, so pass its signal on or they stall.
+      stream.on('drain', () => res.emit('drain'));
     };
     // Defer explicit headers until the first body write so the encoding can still be set.
     // Node's own implicit headers also call writeHead, after the decision.
