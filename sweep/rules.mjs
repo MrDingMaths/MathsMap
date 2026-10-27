@@ -736,6 +736,7 @@ function blockOwning(all,id){for(const block of all){if(block.id===id)return blo
 
 // What must not change: every word, number, expression and answer. Gutters,
 // cloze widths, labels and layout are presentation; this signature strips them.
+const sameMath=(left,right)=>String(left??'').replace(/[$\s]/g,'')===String(right??'').replace(/[$\s]/g,'');
 export function contentSignature(block){
  const parts=[],lhs=[];
  const walk=(node,key)=>{

@@ -16,6 +16,13 @@ const project=(blocks,settings={})=>({id:'p',revision:1,studio:{flags:[]},settin
 const sweep=(p,rules)=>sweepProject(p,{fix:true,rules});
 const blockOf=(result,id='ex')=>result.project.sections[0].blocks.find(b=>b.id===id);
 
+test('aligned working preserves its given expression in the normalisation safety check',()=>{
+ const make=lhs=>({id:'aligned',type:'worked-example',examples:[{id:'one',prompt:'$x + 2$',theorySolution:`\\begin{aligned}${lhs}&=5\\\\&=3\\end{aligned}`} ]});
+ const signature=contentSignature(make('x+2'));
+ assert.ok(!signature.some(value=>value.startsWith('lhs:')),'the separately printed given is counted once');
+ assert.notDeepEqual(contentSignature(make('x-2')),signature,'a changed left-hand expression is still detected');
+});
+
 test('the three rules are registered with the sweep and the corpus replay',async()=>{
  for(const rule of ['steps','scaffold-anchor','bracket-blank']){assert.ok(RULES[rule],rule+' is in RULES');assert.ok(SWEEP_RULE_CATEGORIES[rule]?.length,rule+' has comment categories');}
  await ensureDetectors();
