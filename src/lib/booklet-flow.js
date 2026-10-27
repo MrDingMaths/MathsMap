@@ -56,13 +56,32 @@ export function convertToFlexible(source, { linear = source.id === 'linear-relat
 
 // `atoms:false` leaves teaching-group members as separate units, so one block
 // can be removed from its group; continuations and pairs still stay together.
+export function resolveStudentRow(blocks, index, mode = 'student') {
+  if (mode !== 'student') return null;
+  const first = blocks[index], option = first?.flow?.studentRowGroup;
+  if (option?.columns !== 2 || !Array.isArray(option.members) || option.members.length !== 2
+    || new Set(option.members).size !== 2 || option.members[0] !== first.id) return null;
+  if (option.members.some(id => blocks.filter(block => block.id === id).length !== 1)) return null;
+  const row = blocks.slice(index, index + 2);
+  if (row.length !== 2 || row.some((block, i) => block.id !== option.members[i] || !isPractice(block))) return null;
+  const root = first.flow?.continuationOf ?? first.continuationOf ?? first.id;
+  const second = row[1], continuation = second.flow?.continuationOf ?? second.continuationOf;
+  if (continuation !== root || second.flow?.studentRowGroup
+    || first.flow?.sectionId !== second.flow?.sectionId
+    || second.flow?.pageBreakBefore || second.flow?.exerciseHeadingBefore
+    || second.flow?.sourcePageBreakBefore && second.flow?.pageBreakBefore !== false) return null;
+  return row;
+}
+
 export function logicalUnits(project, section = null, { atoms = true } = {}) {
   const sections = section ? [section] : project.sections;
   const units = [];
-  for (const s of sections) for (const block of s.blocks) {
+  for (const s of sections) for (let index = 0; index < s.blocks.length; index++) {
+    const block = s.blocks[index], row = resolveStudentRow(s.blocks, index, s.mode ?? 'student');
+    if (row) { units.push({id:block.id,sectionId:s.id,blocks:row,studentRowGroup:true}); index++; continue; }
     const continuation = block.flow?.continuationOf ?? block.continuationOf;
     const prior = units.at(-1);
-    if (prior && (continuation && prior.blocks.some(b => b.id === continuation || b.flow?.continuationOf === continuation) || atoms && block.sourceAtom?.id && prior.blocks.at(-1).sourceAtom?.id === block.sourceAtom.id || prior.blocks.at(-1).pairedBlockId === block.id)) prior.blocks.push(block);
+    if (prior && !prior.studentRowGroup && (continuation && prior.blocks.some(b => b.id === continuation || b.flow?.continuationOf === continuation) || atoms && block.sourceAtom?.id && prior.blocks.at(-1).sourceAtom?.id === block.sourceAtom.id || prior.blocks.at(-1).pairedBlockId === block.id)) prior.blocks.push(block);
     else units.push({id:block.id,sectionId:s.id,blocks:[block]});
   }
   return units;
@@ -240,12 +259,13 @@ export function flowEditionSections(project, edition='student') {
   const exerciseDestinations=new Map(exerciseStarts);
   for (const section of sections) if (section.blocks.some(b=>!b.presentation?.editorOnly) && exercises[section.topicId] && !exerciseDestinations.has(section.topicId)) exerciseDestinations.set(section.topicId,section);
   const startsExercise = section => exerciseStarts.get(section.topicId)===section;
+  const rowStarts = new Set(sections.flatMap(section => section.blocks.filter((block,index) => resolveStudentRow(section.blocks,index)).map(block => block.id)));
   const make = (section,mode) => ({...section,id:`${section.id}:${mode}`,sourceSectionId:section.id,mode,topicTitle:topics.get(section.topicId) ?? section.title,
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,
     pageBreakBefore:mode==='student'&&startsExercise(section)?section.blocks[0]?.flow?.exercisePageBreakBefore!==false:section.pageBreakBefore,
     exerciseNumber:section.phase==='front-matter'?undefined:exercises[section.topicId],
     ...(project.settings?.numberPracticeTopicsOnly&&section.phase!=='front-matter'&&!exercises[section.topicId]?{unnumberedTopic:true}:{}),
     difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)?exerciseHeading(exercises[section.topicId]):null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
-    blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),exerciseHeadingBefore:startsExercise(section)&&index===0?exercises[section.topicId]:undefined,exerciseAnchorBefore:mode==='student'&&exerciseDestinations.get(section.topicId)===section&&index===0?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
+    blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,...(mode==='student'&&rowStarts.has(b.id)?{keepTogether:true}:{}),sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),exerciseHeadingBefore:startsExercise(section)&&index===0?exercises[section.topicId]:undefined,exerciseAnchorBefore:mode==='student'&&exerciseDestinations.get(section.topicId)===section&&index===0?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
   return shareFlowProjection(project,edition,[...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])]);
 }

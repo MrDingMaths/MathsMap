@@ -40,7 +40,7 @@
   const frontMatterAnchor = $derived([...frontMatterDestinations(bookletPages),...unnumberedTopicDestinations(bookletPages)].find(destination => destination.page === page)?.id);
   let orderedPages = $derived([...bookletPages].sort((a, b) => Number(a.pageNumber) - Number(b.pageNumber)));
   let bookletPageNumber = $derived(Math.max(1, orderedPages.findIndex((item) => item.id === page.id) + 1));
-  let displayItems = $derived(groupBookletBlocks((page.blocks ?? []).filter(block=>!(page.blocks??[]).some(other=>other.pairedBlockId===block.id&&!(other.sourceAtom&&block.sourceAtom)))));
+  let displayItems = $derived(groupBookletBlocks((page.blocks ?? []).filter(block=>!(page.blocks??[]).some(other=>other.pairedBlockId===block.id&&!(other.sourceAtom&&block.sourceAtom))),{mode:page.mode??'student'}));
 
   const assetUrl = (src) => src?.startsWith('evidence/') ? `/__booklet/full-imports/${encodeURIComponent(runId)}/files/lanes/exact/${src}` : src;
   const previewQuestion = (question) => labelledTeachingQuestion(resolvePreviewAssets(question, assetUrl),labels);
@@ -247,7 +247,7 @@
   {:else}
   <section class="theory-section teaching-atom" class:key-ideas-body={item.atom.kind==='key-ideas'} data-atom-id={item.atom.id}>
     <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} headerFill={item.atom.headerFill} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />
-    <div class="body-box atom-body" class:review-body={item.atom.kind === "review"}>
+    <div class="body-box atom-body" class:without-body-border={item.blocks[0]?.flow?.teachingBodyBorder===false} class:review-body={item.atom.kind === "review"}>
       {#each item.blocks as block, blockIndex (block.id)}{@render blockBody(block, blockIndex, true)}{/each}
     </div>
   </section>
@@ -276,6 +276,8 @@
             </div>{/if}
             {#if item.type === 'teaching-pair'}
               <div class="teaching-pair">{#each item.groups as group (group.id)}{@render teachingAtom(group)}{/each}</div>
+            {:else if item.type === 'practice-row'}
+              <div class="practice-row">{#each item.blocks as block (block.id)}<div class="practice-cell" data-row-owner={block.id}>{@render blockBody(block, index, false)}</div>{/each}</div>
             {:else if item.type === 'teaching-atom'}
               {@render teachingAtom(item)}
             {:else}
@@ -323,6 +325,9 @@
   main { display:grid; align-content:start; gap:3mm; min-height:0; padding:0 0 11mm; flex:1; } h3 { margin:0 0 2mm; color:var(--booklet-blue); font-size:var(--type-subheading); }
   .theory-section { break-inside:avoid; }
   .body-box { padding:1.4mm 1.8mm 1.7mm; border:1px solid var(--booklet-border); border-top:0; background:var(--booklet-white); }
+  .practice-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4mm; align-items:start; }
+  .practice-cell { min-width:0; }
+  .atom-body.without-body-border { border:0; }
   .atom-body { display:grid; grid-template-columns:minmax(0,1fr); min-width:0; gap:1.8mm; }
   .teaching-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4mm; align-items:start; margin-bottom:3mm; }
   .teaching-pair > .teaching-atom { min-width:0; }

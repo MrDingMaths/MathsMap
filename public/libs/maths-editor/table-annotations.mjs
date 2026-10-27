@@ -98,7 +98,13 @@ export function tableArrowGeometry(from, to, annotation = {}, measured = {}) {
   };
 }
 
-export function tableCircleGeometry(cell, annotation = {}) {
+export function tableCircleGeometry(cell, annotation = {}, spanCell = null) {
+  if(annotation.spanToCellId){
+    if(!spanCell)return null;
+    const left=Math.min(cell.left,spanCell.left),top=Math.min(cell.top,spanCell.top);
+    const right=Math.max(cell.left+cell.width,spanCell.left+spanCell.width),bottom=Math.max(cell.top+cell.height,spanCell.top+spanCell.height);
+    return {cx:(left+right)/2,cy:(top+bottom)/2,...tableCircleGeometry({width:right-left,height:bottom-top},{...annotation,spanToCellId:undefined})};
+  }
   return {
     rx: annotation.widthMm == null ? Math.min(cell.width * .38, 12) : annotation.widthMm * 96 / 25.4 / 2,
     ry: annotation.heightMm == null ? Math.min(cell.height * .38, 12) : annotation.heightMm * 96 / 25.4 / 2,
@@ -169,7 +175,7 @@ export function mountTableAnnotations(root, options = {}) {
       const rect={width,height:screen.height/scale,left:0,top:0};
       wrap.querySelector(':scope > [data-table-annotations]')?.remove();
       if(!rect.width || !rect.height)continue;
-      const annotations=JSON.parse(table.dataset.annotations||'[]');const ids=new Set([...table.querySelectorAll('td[data-id],th[data-id]')].map(c=>c.dataset.id));const missing=annotations.filter(a=>!ids.has(a.cellId)||(a.type==='arrow'&&!ids.has(a.toCellId)));let warning=wrap.querySelector('[data-annotation-diagnostics]');if(missing.length){if(!warning){warning=document.createElement('output');warning.dataset.annotationDiagnostics='';warning.contentEditable='false';wrap.append(warning);}const text='Unresolved annotation anchors: '+missing.map(a=>a.id).join(', ');if(warning.textContent!==text)warning.textContent=text;}else warning?.remove();if(!annotations.length)continue;
+      const annotations=JSON.parse(table.dataset.annotations||'[]');const ids=new Set([...table.querySelectorAll('td[data-id],th[data-id]')].map(c=>c.dataset.id));const missing=annotations.filter(a=>!ids.has(a.cellId)||(a.type==='arrow'&&!ids.has(a.toCellId))||(a.type==='circle'&&a.spanToCellId&&!ids.has(a.spanToCellId)));let warning=wrap.querySelector('[data-annotation-diagnostics]');if(missing.length){if(!warning){warning=document.createElement('output');warning.dataset.annotationDiagnostics='';warning.contentEditable='false';wrap.append(warning);}const text='Unresolved annotation anchors: '+missing.map(a=>a.id).join(', ');if(warning.textContent!==text)warning.textContent=text;}else warning?.remove();if(!annotations.length)continue;
       const svg=document.createElementNS(ns,'svg'); svg.setAttribute('data-table-annotations','');if(!options?.onselect)svg.setAttribute('aria-hidden','true');svg.setAttribute('contenteditable','false');
       svg.setAttribute('viewBox',`0 0 ${rect.width} ${rect.height}`);
       svg.style.cssText='position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none';wrap.append(svg);
@@ -184,7 +190,7 @@ export function mountTableAnnotations(root, options = {}) {
 
         const c=cells.get(a.cellId);if(!c)continue;const x=c.left-rect.left+c.width/2,y=c.top-rect.top+c.height/2;
         const stroke=a.colour, common={fill:'none',stroke,'stroke-width':a.thicknessMm==null?1.7:a.thicknessMm*96/25.4};
-        if(a.type==='circle') add('ellipse',{...common,cx:x,cy:y,...tableCircleGeometry(c,a)});
+        if(a.type==='circle') {const geometry=tableCircleGeometry(c,a,cells.get(a.spanToCellId));if(geometry)add('ellipse',{...common,cx:x,cy:y,...geometry});}
         if(a.type==='box')add('rect',{...common,x:c.left-rect.left+2,y:c.top-rect.top+2,width:c.width-4,height:c.height-4});
         if(a.type==='arrow'){
           const d=cells.get(a.toCellId);if(!d)continue;

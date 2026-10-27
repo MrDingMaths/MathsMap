@@ -6,6 +6,7 @@ export function normalizeBlockLayouts(raw = {}) {
     if (!value || typeof value !== 'object') continue;
     const entry = {};
     if(value.arrangement)entry.arrangement=normalizeArrangement(value.arrangement);
+    if(value.shortAnswerLabelAlign==='first-baseline')entry.shortAnswerLabelAlign='first-baseline';
     for (const [key, min, max] of [['textWidthMm', 15, 175], ['gapMm', 0, 20], ['insetMm', 0, 40], ['diagramWidthMm', 5, 190]]) {
       if (value[key] != null && Number.isFinite(Number(value[key]))) entry[key] = Math.max(min, Math.min(max, Number(value[key])));
     }

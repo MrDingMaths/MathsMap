@@ -1,3 +1,4 @@
+import {resolveStudentRow} from './booklet-flow.js';
 import {contentSource} from './document-content.js';
 import {diagramColourPolicy, DIAGRAM_COLOUR_PREFIX} from './diagram-colours.js';
 
@@ -123,9 +124,11 @@ export function investigationDescription(value) {
   return String(value ?? '').replace(/^\s*Investigation\s+/i, '').trim();
 }
 
-export function groupBookletBlocks(blocks = []) {
+export function groupBookletBlocks(blocks = [], {mode = 'student'} = {}) {
   const result = [];
-  for (const block of blocks) {
+  for (let index = 0; index < blocks.length; index++) {
+    const block = blocks[index], row = resolveStudentRow(blocks,index,mode);
+    if (row) { result.push({type:'practice-row',id:block.id,blocks:row}); index++; continue; }
     const atom = block?.sourceAtom;
     if (!atom?.id) {
       result.push({ type: 'block', id: block.id, block });

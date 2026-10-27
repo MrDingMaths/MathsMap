@@ -27,6 +27,7 @@
   const diagramWidthOverrides = $derived({...question.presentation?.layoutOverrides?.diagramWidths, ...suppliedDiagramWidthOverrides});
   const diagramColourModes = $derived({...question.presentation?.layoutOverrides?.diagramColourModes, ...suppliedDiagramColourModes});
   const questionArrangement = $derived(blockLayouts[question.id]?.arrangement ?? blockLayouts[question.presentation?.ownerId]?.arrangement);
+  const shortAnswerLabelBaseline = $derived(!!compactAnswerSettings && showShortAnswers && (blockLayouts[question.id]?.shortAnswerLabelAlign ?? blockLayouts[question.presentation?.ownerId]?.shortAnswerLabelAlign) === 'first-baseline');
   const teachingResponses = $derived(!compactAnswerSettings&&(showShortAnswers||showWorkedSolutions)?teachingAnswerArrangement(arrangementQuestionBlock(question,number),questionArrangement,{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides},showShortAnswers?'short':'worked'):null);
   const letter = (index) => String.fromCharCode(97 + index);
   const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
@@ -217,7 +218,7 @@
     </div>
     {@render sharedSolutionFigures(node)}
   {:else}
-    <article class="answer-item" class:full-column-answer={compactAnswerSettings&&showShortAnswers&&question.presentation?.shortAnswerTableFullWidth===true&&node.answer?.short?.blocks?.some(block=>block.type==='table')} id={answerAnchorPrefix?answerAnchorPrefix+'part-'+node.id:undefined} data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath,node)}</a>{:else}{leafLabel(nextPath,node)}{/if}</div><div class="answer-content">
+    <article class="answer-item" class:short-answer-label-baseline={shortAnswerLabelBaseline} class:full-column-answer={compactAnswerSettings&&showShortAnswers&&question.presentation?.shortAnswerTableFullWidth===true&&node.answer?.short?.blocks?.some(block=>block.type==='table')} id={answerAnchorPrefix?answerAnchorPrefix+'part-'+node.id:undefined} data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath,node)}</a>{:else}{leafLabel(nextPath,node)}{/if}</div><div class="answer-content">
       {#if groupAnswer}{@render groupedAnswerAnchors(node)}{/if}
       {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else if !node.answer?.solutionDiagrams?.length&&!parent?.sharedSolutionDiagrams?.length}<span class="muted">No short answer supplied.</span>{/if}{/if}
@@ -267,6 +268,8 @@
   .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{display:flex!important;gap:2mm;padding:.8mm 0;border-bottom:.15mm solid var(--booklet-border)}
   .compact-answer .answer-label{flex:0 0 var(--answer-label-width);align-self:flex-start}
   .compact-answer .answer-content{flex:1;min-width:0}
+  .compact-answer .answer-item.short-answer-label-baseline{align-items:first baseline}
+  .compact-answer .short-answer-label-baseline > .answer-label{align-self:baseline}
   .compact-answer .answer-item.full-column-answer{display:block!important}
   .compact-answer .full-column-answer > .answer-label{margin-bottom:1mm}
   .compact-answer .answer-label a{color:inherit;text-decoration:none}
