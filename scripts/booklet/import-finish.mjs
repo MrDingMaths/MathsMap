@@ -14,6 +14,21 @@ const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
 const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n');};
 const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 
+// A persisted attempt is not a committed export. Readable report presence only
+// selects context; the ordinary PDF/hash/checker/visual gates still accept it.
+function hasFinishExportReport(entry,projectId){
+ try{const report=read(path.join(entry.dir,'report.json')).report?.[projectId];return !!report&&typeof report==='object'&&!Array.isArray(report);}catch{return false;}
+}
+export function selectFinishExport(exports,projectHash,{projectId,regenerationReason}={}){
+ const named=Boolean(regenerationReason?.trim());
+ let entry=exports.findLast(e=>e.projectHash===projectHash&&(!e.exportError||!named));
+ if(entry&&!hasFinishExportReport(entry,projectId)){
+  if(!named)return {blocker:'Interrupted export has no committed report: '+entry.dir+'. Preserve it and supply --regenerate-reason with the diagnosed cause for a fresh attempt.'};
+  entry=undefined;
+ }
+ return {entry,previousExportDir:exports.findLast(e=>hasFinishExportReport(e,projectId))?.dir};
+}
+
 export async function adoptCompletionProfile(runDir,{adopt=false,direct=false,hasActiveWork,projectId}={}){
  const file=path.join(runDir,'manifest.json'),manifest=read(file);
  if(adopt){
@@ -120,21 +135,26 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  let validation=(deps.validate??validateImport)(read(file));
  if(!validation.ok)return incomplete(assessCompletion({errors:validation.blockers}),{validation});
  stamp();
+ const initialExport=selectFinishExport(state.exports,completionHash(read(file)),{projectId,regenerationReason});
+ if(initialExport.blocker)return incomplete(assessCompletion({exportProblems:[initialExport.blocker]}));
  const images=await(deps.images??runImagePreflight)({runDir,projectFile:file,runner});errors.push(...(images.errors??[]));
  // At most final + one batched-repair export. A failed/unchanged finding stays visible on resume.
  for(let round=0;round<2;round++){
-  const currentHash=completionHash(read(file));let entry=state.exports.findLast(e=>e.projectHash===currentHash&&(!e.exportError||!regenerationReason));
+  const currentHash=completionHash(read(file)),selection=selectFinishExport(state.exports,currentHash,{projectId,regenerationReason});
+  if(selection.blocker)return incomplete(assessCompletion({exportProblems:[selection.blocker]}));
+  let entry=selection.entry;
   if(!entry){
    if(state.exports.length>=2&&!regenerationReason?.trim()){errors.push('Two finish exports used; diagnose remaining findings and supply a named regeneration cause');break;}
    const exportDir=path.resolve(out??path.join(workDir,'exports'),String(state.exports.length+1));
    entry={dir:exportDir,projectHash:currentHash,...(regenerationReason?{regenerationReason}:{})};state.exports.push(entry);persist();
-   try{await(deps.export??runLeanExport)({runDir,projectId,projectFile:file,out:exportDir,visibilityReviews,regenerationReason,previousExportDir:state.exports.at(-2)?.dir});}
+   try{await(deps.export??runLeanExport)({runDir,projectId,projectFile:file,out:exportDir,visibilityReviews,regenerationReason,previousExportDir:selection.previousExportDir});}
    catch(error){
     entry.exportError=error.message;persist();
-    try{await(deps.prepareVisual??prepareExportVisualPlan)({runDir,projectId,projectFile:file,out:exportDir,previousExportDir:state.exports.at(-2)?.dir});}
+    try{await(deps.prepareVisual??prepareExportVisualPlan)({runDir,projectId,projectFile:file,out:exportDir,previousExportDir:selection.previousExportDir});}
     catch{errors.push(error.message);break;}
    }
   }
+  if(!hasFinishExportReport(entry,projectId)){errors.push('Export did not commit a readable report: '+entry.dir);break;}
   if(!entry.exportError){const shading=await(deps.shading??runShadingReview)({runDir,projectFile:file,exportDir:entry.dir,concurrency,runner});errors.push(...(shading.errors??[]));}
   await(deps.visual??runVisualReview)({runDir,projectFile:file,exportDir:entry.dir,concurrency,runner});
   const status=await(deps.status??finishStatus)({runDir,projectFile:file,exportDir:entry.dir});
@@ -147,7 +167,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
    validation=(deps.validate??validateImport)(read(file));if(!validation.ok){errors.push(...validation.blockers);break;}stamp();
  }
  stamp();const entry=state.exports.at(-1);
- const status=entry?await(deps.status??finishStatus)({runDir,projectFile:file,exportDir:entry.dir}):{deliverable:false,completion:assessCompletion({exportProblems:['No checked final export'],errors})};
+ const status=entry&&hasFinishExportReport(entry,projectId)?await(deps.status??finishStatus)({runDir,projectFile:file,exportDir:entry.dir}):{deliverable:false,completion:assessCompletion({exportProblems:['No checked final export'],errors})};
  if(entry&&state.steps.sheets!==entry.projectHash){
   const reportFile=path.join(entry.dir,'report.json');
   const pdf=fs.existsSync(reportFile)?read(reportFile).report?.[projectId]?.student?.pdf?.path:null;
