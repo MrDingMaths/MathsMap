@@ -109,6 +109,15 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+The final 27 October 2026 non-exemplar checkpoint raises the total from 2204 to
+2206 MiB. The reviewed 68-file data batch adds 1,069,279 bytes: 796,899 bytes of
+current editable booklet content and 272,380 bytes of synchronised bank records.
+The index before this policy note contains 2,311,634,347 bytes. No generated
+exports, caches, automatic revision histories or new assets are included. The
+default individual-file limit, existing narrow exceptions and generated-file
+exclusions remain unchanged. This storage allowance does not grant content
+acceptance.
+
 The later 27 October 2026 checkpoint raises the total from 2202 to 2204 MiB.
 The reviewed index is 2,309,017,733 bytes after the verified Data, Estimating
 Change, Arithmetic Sequences, Fundamental Theorem, Further Areas, Rates of Change
