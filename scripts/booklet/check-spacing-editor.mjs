@@ -31,7 +31,7 @@ try{
  await update(()=>page.keyboard.type(' More.'));await saved();
  assert.match(toSource(record.sections[0].blocks[0].content.prompt),/More/);
  assert.ok(JSON.parse(await root().getAttribute('data-pagination-metrics')).scheduleMs>=200,'Typing keeps its debounce');checks.push('typing-debounce');
- await page.getByRole('button',{name:'Spacing',exact:true}).click();
+ await page.getByRole('button',{name:'Layout',exact:true}).click();
  const height=page.getByLabel('Whole question answer space height (mm)',{exact:true});
  await update(async()=>{await height.fill('12');await height.press('Tab');});await saved();
  assert.ok(JSON.parse(await root().getAttribute('data-pagination-metrics')).scheduleMs<100,'Spacing bypasses typing debounce');

@@ -44,7 +44,7 @@ try{
  await page.getByRole('button',{name:'Maths',exact:true}).click();await page.locator('.me-content math-field').last().waitFor({state:'attached'});await page.keyboard.type('x+1');await page.keyboard.press('Escape');await saved();
  assert.match(JSON.stringify(record.sections[0].blocks),/x\+1/);
  // Select across two independently structured fields and format them together.
- await page.getByRole('button',{name:'Spacing',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
+ await page.getByRole('button',{name:'Layout',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
  await page.evaluate(()=>{const a=document.querySelector('[data-edit-root="theory"] .clickable'),b=document.querySelector('[data-edit-root="next"] .clickable');const r=document.createRange();r.setStart(a,0);r.setEnd(b,b.childNodes.length);getSelection().removeAllRanges();getSelection().addRange(r);});
  await page.getByRole('button',{name:'Bold',exact:true}).click();await saved();assert.match(JSON.stringify(record.sections[0].blocks.find(b=>b.id==='next').content),/bold/);
  // Save failure must not export a stale revision or discard local comments.

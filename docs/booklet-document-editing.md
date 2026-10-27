@@ -28,7 +28,7 @@ In the outline, **Organise booklet** reveals destination-based moves/pastes, ban
 
 ## Diagrams
 
-Click a diagram to select it. Resize using its corner handle or toolbar width; alignment is beside that width. Edit TikZ opens the code/preview specialist directly, without first opening a question-arrangement editor. Applying a specialist draft is one document undo step. Invalid or still-compiling changed TikZ cannot replace the saved diagram. Size/alignment changes preserve its mathematical model; changing the code clears that model because its constraints may no longer be accurate.
+Click a diagram to select it. Resize using its corner handle (it keeps the aspect and shows a live “W × H mm” readout), the toolbar width, or the arrow keys on a focused diagram (1 mm; Shift 5 mm); alignment is beside that width. **Layout › Diagrams in question** (Alt+Shift+D) sets the height (width follows the rendered aspect), width, scale, matches the tallest or widest, or applies the recommended size to every diagram in the question or selection, per edition (Questions, Short answers, Worked solutions), as one undo step. Drawing grids and images are excluded unless included explicitly. Edit TikZ opens the code/preview specialist directly, without first opening a question-arrangement editor. Applying a specialist draft is one document undo step. Invalid or still-compiling changed TikZ cannot replace the saved diagram. Size/alignment changes preserve its mathematical model; changing the code clears that model because its constraints may no longer be accurate.
 
 Arbitrary TikZ remains code-based internally. Use a comment and feedback export when the desired construction change is easier to describe. This release does not add a graphical TikZ construction editor.
 

@@ -32,7 +32,7 @@ const rowCounts=()=>parts().direction==='row'?[parts().children.length]:parts().
 try{
  await page.goto(origin+'/#/booklet?stage=projects&project='+record.id);await ready();
  await page.locator('.flow-paper [data-arrangement-id="grid-root:question"]').first().dispatchEvent('click',{bubbles:true});
- await page.getByRole('button',{name:'Spacing',exact:true}).click();
+ await page.getByRole('button',{name:'Layout',exact:true}).click();
  assert.equal(await control.isEnabled(),true);assert.equal(await control.inputValue(),'grid:3');
  for(const count of [2,4]){
   await save(()=>control.selectOption('grid:'+count));

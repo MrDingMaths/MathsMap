@@ -37,7 +37,7 @@ test('arrow properties keep a multi-block editor visible through pagination, sav
   await page.locator('[data-edit-root="theory"] [data-id="equation"]').click();
   const height=page.getByLabel('Arrow height (mm)',{exact:true}).first();
   await height.waitFor({state:'attached',timeout:60000});
-  await page.getByRole('button',{name:'Spacing',exact:true}).click();
+  await page.getByRole('button',{name:'Layout',exact:true}).click();
   const initial=record.sections[0].blocks[0].content;
   for(const value of ['6','7','4']){
    const revision=record.revision;

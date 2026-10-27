@@ -32,7 +32,7 @@ const ready=()=>page.waitForFunction(()=>document.querySelector('.project-print'
 const label=()=>page.locator(`.flow-paper [data-arrangement-block="${block.id}"] .label-item`).first();
 const select=async()=>{
  await page.locator(`.flow-paper [data-edit-root="${block.content.id}"] .clickable`).first().click();
- await page.getByRole('button',{name:'Spacing',exact:true}).click();
+ await page.getByRole('button',{name:'Layout',exact:true}).click();
 };
 const save=async action=>{
  const saved=page.waitForResponse(r=>r.request().method()==='PUT'&&r.url().endsWith('/'+record.id)&&r.status()===200);

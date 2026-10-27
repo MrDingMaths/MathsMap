@@ -39,7 +39,7 @@ const spaces=tree=>{const out=[];const walk=n=>{if(/space/.test(n.ref??''))out.p
 try{
  await page.goto(origin+'/#/booklet?stage=projects&project='+record.id);await ready();
  await page.locator('.flow-paper [data-edit-root="r1"] .clickable').first().click();
- await page.getByRole('button',{name:'Spacing',exact:true}).click();
+ await page.getByRole('button',{name:'Layout',exact:true}).click();
  assert.equal(await panel.getByRole('tab',{name:'Spacing',exact:true}).getAttribute('aria-selected'),'true');
  await page.evaluate(()=>{window.panelFocus=[];document.addEventListener('focusin',e=>window.panelFocus.push({tag:e.target.tagName,id:e.target.id,label:e.target.getAttribute('aria-label')}));});
  await panel.getByRole('tab',{name:'Spacing',exact:true}).focus();
@@ -131,7 +131,7 @@ try{
  if(process.env.STUDIO_SCREENSHOTS){fs.mkdirSync(process.env.STUDIO_SCREENSHOTS,{recursive:true});await page.screenshot({path:process.env.STUDIO_SCREENSHOTS+'/tables.png'});}
  await panel.getByRole('tab',{name:'Spacing',exact:true}).click();await page.keyboard.press('Escape');
  await page.locator('.flow-paper [data-arrangement-id="r1:question"]').first().dispatchEvent('click',{bubbles:true});
- if(!await panel.isVisible())await page.getByRole('button',{name:'Spacing',exact:true}).click();
+ if(!await panel.isVisible())await page.getByRole('button',{name:'Layout',exact:true}).click();
  await fill('Selected group answer space height (mm)','8');
  await fill('Group minimum height (mm)','10');
  assert.equal(layout('q1').root.minHeight,10);
@@ -141,7 +141,7 @@ try{
  // Several blocks together.
  await page.locator('.flow-paper [data-arrangement-id="r1:question"]').first().dispatchEvent('click',{bubbles:true});
  await page.locator('.flow-paper [data-arrangement-id="r2:question"]').first().dispatchEvent('click',{bubbles:true,ctrlKey:true});
- if(!await panel.isVisible())await page.getByRole('button',{name:'Spacing',exact:true}).click();
+ if(!await panel.isVisible())await page.getByRole('button',{name:'Layout',exact:true}).click();
  assert.equal(await panel.locator('#whole-question-spacing-heading').innerText(),'2 selected blocks');
  await panel.getByRole('tab',{name:'Tables',exact:true}).click();
  await fill('Whole block tables: row height (mm)','7');

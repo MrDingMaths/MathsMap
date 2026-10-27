@@ -39,7 +39,7 @@ try{
  const section=record.sections.find(s=>s.blocks.some(b=>b.id===block.id)),topic=record.topics.find(t=>t.id===section.topicId);
  const topicButton=page.locator('.flow-outline .topic-toggle').filter({hasText:topic.title}).first();if(await topicButton.getAttribute('aria-expanded')!=='true')await topicButton.click();
  await page.locator(`.flow-outline [data-block-id="${block.id}"] button`).first().click();
- await page.getByRole('button',{name:'Spacing',exact:true}).click();
+ await page.getByRole('button',{name:'Layout',exact:true}).click();
  if(await page.getByLabel('Spacing scope',{exact:true}).count())await page.getByLabel('Spacing scope',{exact:true}).selectOption('question');
  const input=page.getByLabel('Whole question answer space height (mm)',{exact:true});await input.waitFor();
  // The listener starts at commit, excluding automation and field-entry delays.

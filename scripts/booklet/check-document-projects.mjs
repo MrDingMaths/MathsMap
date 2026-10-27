@@ -57,7 +57,7 @@ try{for(const [id,initial] of [...records]){
  // Panels never change the physical paper width.
  const width=await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width);
  await page.locator('.project-toolbar summary').filter({hasText:'Comments'}).click();await page.getByRole('button',{name:'Show comments',exact:true}).click();assert.equal(await page.locator('.flow-paper').evaluate(e=>e.getBoundingClientRect().width),width);await page.getByRole('button',{name:'Close comments',exact:true}).click();
- await page.getByRole('button',{name:'Spacing',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
+ await page.getByRole('button',{name:'Layout',exact:true}).click();await page.getByRole('button',{name:'Close panel',exact:true}).click();
  const editions=[];
  for(const edition of smoke?['student','short','worked','with-short','with-worked']:['student','short','worked']){
    await page.getByLabel('Booklet edition',{exact:true}).selectOption(edition);await page.locator(`.flow-document[data-pagination-state="ready"][data-paginated-edition="${edition}"]`).waitFor({timeout:240000});

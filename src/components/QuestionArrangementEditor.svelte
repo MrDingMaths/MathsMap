@@ -69,7 +69,8 @@
   <div class="arr-canvas"><div class="question-paper" style:width={(session.widthMm??180)+'mm'}><BookletArrangement block={livePreview.block} arrangement={livePreview.tree} {selected} onselect={select} onresize={resize} onmeasure={(id,patch)=>{selected=id;setProperties(patch);}} onmove={move} {assetUrl} {showSolutions}/></div>{#if showSource&&session.sourceUrl}<img class="source-page" src={session.sourceUrl} alt="Original source page"/>{/if}</div>
   {#if !editContent||!entry}<aside class="arr-properties" aria-label="Selection properties">
    <strong class="selection-breadcrumb">{entry?.title??node?.title??(node?.direction==='row'?'Row':'Group')}</strong>
-   <BookletInspectorTabs value={inspectorTab} onchange={value=>inspectorTab=value} id="arrangement-inspector"/>
+   <!-- No Tables tab here: it showed exactly the Spacing content. -->
+   <BookletInspectorTabs value={inspectorTab} onchange={value=>inspectorTab=value} id="arrangement-inspector" tabs={[['layout','Spacing'],['arrange','Arrange'],['page','Page']]}/>
    <div id="arrangement-inspector-content" role="tabpanel" aria-labelledby={'arrangement-inspector-'+inspectorTab}>
    {#if inspectorTab==='page'}
     {#if session.pageControls}<BookletPageControls {block} onboundary={action=>transact(()=>{pageActions=[...pageActions,action];})} onlayout={patch=>transact(()=>{block={...block,flow:{...block.flow,...patch}};})}/>{#if pageActions.length}<p class="hint">Page changes apply when you save.</p>{/if}{:else}<p class="hint">Page boundaries are managed in the booklet.</p>{/if}

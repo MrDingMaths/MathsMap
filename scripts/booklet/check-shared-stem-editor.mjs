@@ -41,7 +41,7 @@ try{
  assert.deepEqual(record.sections[0].blocks[0].content.children.map(n=>n.id),block.content.children.map(n=>n.id));
  if(await page.getByRole('button',{name:'Toggle page navigation'}).getAttribute('aria-expanded')!=='true')await page.getByRole('button',{name:'Toggle page navigation'}).click();
  await page.locator(`.flow-outline [data-block-id="${block.id}"] .content-select`).click();
- await page.locator('.project-toolbar').getByRole('button',{name:'Spacing',exact:true}).click();
+ await page.locator('.project-toolbar').getByRole('button',{name:'Layout',exact:true}).click();
  const height=page.getByLabel('Whole question answer space height (mm)',{exact:true});await height.fill('11');await height.press('Tab');await saved();await ready();
  await page.reload();await ready();
  assert.ok(writes>=2);assert.deepEqual(errors,[]);
