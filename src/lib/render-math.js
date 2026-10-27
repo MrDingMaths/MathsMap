@@ -13,8 +13,9 @@ export const escapeHtml = (s) =>
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
-// Cache renders — the same titles/blurbs recur across many cards.
-const cache = new Map();
+// Cache renders — the same titles/blurbs recur across many cards. Bounded
+// least-recently-used: large booklets otherwise kept every render (hundreds of MB).
+const cache = new Map(), CACHE_LIMIT = 20000;
 
 // Placeholders that stand in for a rendered maths run while the `**bold**` pass runs over
 // the prose. They must be characters that cannot occur in escaped prose or in markdown:
@@ -27,7 +28,7 @@ const PLACEHOLDER_RE = /\u0000(\d+)\u0000/g;
 export function renderMath(text) {
   if (text == null) return '';
   const str = String(text);
-  if (cache.has(str)) return cache.get(str);
+  if (cache.has(str)) { const hit = cache.get(str); cache.delete(str); cache.set(str, hit); return hit; }
 
   // Transcription lanes may preserve display delimiters. The shared renderer lays
   // expressions out itself, so reduce $$...$$ to the same single-delimiter form
@@ -80,5 +81,6 @@ export function renderMath(text) {
     .replace(PLACEHOLDER_RE, (whole, n) => mathHtml[Number(n)] ?? whole);
 
   cache.set(str, html);
+  if (cache.size > CACHE_LIMIT) cache.delete(cache.keys().next().value);
   return html;
 }

@@ -19,6 +19,7 @@ import {maintainProjectHistory} from './storage-archive.mjs';
 import {preserveSourceLineage} from './source-lineage.mjs';
 import {projectCheckpointEntries} from './project-checkpoints.mjs';
 import {applyCreationPreset} from '../../src/lib/booklet-creation.js';
+import {applySavePatch,canonicalJson,createSavePatch} from '../../src/lib/booklet-save-patch.js';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun,
 } from './transcription.mjs';
@@ -151,11 +152,29 @@ async function hydrateBankRevisions(project, bankRoot) {
 export async function saveBookletProject(raw, options = {}) {
   return withBankLock(()=>saveProjectUnlocked(raw,options));
 }
-async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, expectedRevision = null, create = false, checkpoint = false } = {}) {
+// A patch save sends only changed branches against the revision the client last
+// saved, and receives only the server's changes back. The server applies it to
+// its own file, then runs the ordinary save; a base that differs (hash mismatch)
+// asks the client for the whole project instead.
+export async function patchBookletProject(id, { patch, baseRevision, baseHash } = {}, options = {}) {
+  if (!Array.isArray(patch) || typeof baseHash !== 'string') throw Object.assign(new Error('A patch save needs a patch and base hash'), { statusCode: 400 });
+  return withBankLock(async () => {
+    const projectRoot = options.projectRoot ?? PROJECT_ROOT;
+    const previous = await readJson(fileFor(projectRoot, id));
+    if (!previous) throw Object.assign(new Error('Booklet project not found'), { statusCode: 404 });
+    if (Number(previous.revision) !== Number(baseRevision)) throw Object.assign(new Error('Project changed in another session; reload before saving'), { statusCode: 409 });
+    if (createHash('sha256').update(canonicalJson(previous)).digest('hex') !== baseHash) throw Object.assign(new Error('The save base differs from the stored project; send the whole project'), { statusCode: 412 });
+    const raw = applySavePatch(previous, patch);
+    if (raw?.id !== id) throw Object.assign(new Error('A patch save cannot change the project id'), { statusCode: 400 });
+    const saved = await saveProjectUnlocked(raw, { ...options, expectedRevision: baseRevision, previous });
+    return { id, revision: saved.revision, updatedAt: saved.updatedAt, serverPatch: createSavePatch(raw, saved) };
+  });
+}
+async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, expectedRevision = null, create = false, checkpoint = false, previous: known } = {}) {
   const checked = validateEditableProject(raw);
   if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), { statusCode: 400 });
   const file = fileFor(projectRoot, checked.project.id);
-  const previous = await readJson(file);
+  const previous = known ?? await readJson(file);
   if (create && previous) throw Object.assign(new Error('A project with this id already exists'), { statusCode: 409 });
   if (!create && !previous) throw Object.assign(new Error('Booklet project not found'), { statusCode: 404 });
   if (expectedRevision != null && previous && Number(previous.revision) !== Number(expectedRevision)) {
@@ -572,6 +591,7 @@ export function projectStudioPlugin() {
             const saved = await saveBookletProject(body.project ?? body, { expectedRevision: body.expectedRevision ?? body.project?.revision });
             return send(res, 200, saved);
           }
+          if (projectMatch && req.method === 'PATCH') return send(res, 200, await patchBookletProject(decodeURIComponent(projectMatch[1]), await readBody(req)));
           if (projectMatch && req.method === 'DELETE') {
             const body = await readBody(req);
             return send(res, 200, await deleteBookletProject(decodeURIComponent(projectMatch[1]), body.confirmId));

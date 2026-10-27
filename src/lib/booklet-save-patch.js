@@ -5,6 +5,13 @@ export function createSavePatch(before,after,path=[],patch=[]){
  for(const key of Object.keys(before))if(!Object.hasOwn(after,key))patch.push({path:[...path,key],remove:true});
  for(const key of Object.keys(after))createSavePatch(before[key],after[key],[...path,key],patch);return patch;
 }
+// Key-order-independent JSON, so the client's base and the server's file hash
+// equally whenever they hold the same project.
+export function canonicalJson(value){
+ if(value===null||typeof value!=='object')return JSON.stringify(value)??'null';
+ if(Array.isArray(value))return '['+value.map(v=>v===undefined?'null':canonicalJson(v)).join(',')+']';
+ return '{'+Object.keys(value).filter(k=>value[k]!==undefined).sort().map(k=>JSON.stringify(k)+':'+canonicalJson(value[k])).join(',')+'}';
+}
 export function applySavePatch(project,patch){
  const replace=(node,path,value,remove)=>{if(!path.length)return value;const [key,...tail]=path;if(['__proto__','prototype','constructor'].includes(key))throw Error('Invalid save patch path');const next=Array.isArray(node)?[...node]:{...node};if(remove&&!tail.length)delete next[key];else next[key]=replace(node?.[key],tail,value,remove);return next;};
  return patch.reduce((value,operation)=>replace(value,operation.path,operation.value,operation.remove),project);

@@ -28,17 +28,17 @@ export function createBankManifestReader(){
     const next={signature,files,manifest:makeBankManifest(records),body:null};caches.set(root,next);return next;
   }
   async function readManifest(root){return (await snapshot(root)).manifest;}
-  // Every manifest question as one compact JSON array in manifest order, read
-  // from the same files the per-question endpoint serves. Null when the bank has
-  // changed since the caller's manifest, so it can fall back to individual requests.
+  // Every manifest question as one compact JSON array in manifest order. These
+  // are the validated (normalised) records, so clients need not normalise them
+  // again; normalisation is idempotent. Null when the bank has changed since the
+  // caller's manifest, so it can fall back to individual requests.
   readManifest.snapshot=snapshot;
   readManifest.records=async(root,signature)=>{
     const current=await snapshot(root);if(signature&&signature!==current.signature)return null;
-    current.body??=(async()=>{
-      const ids=current.manifest.questions.map(q=>q.id),sources=new Array(ids.length);let cursor=0;
-      await Promise.all(Array.from({length:Math.min(32,ids.length)},async()=>{while(cursor<ids.length){const i=cursor++;sources[i]=JSON.stringify(JSON.parse(await fs.readFile(path.join(root,ids[i]+'.json'),'utf8')));}}));
-      return '['+sources.join(',')+']';
-    })().catch(error=>{current.body=null;throw error;});
+    if(current.body==null){
+      const byId=new Map([...current.files.values()].filter(f=>f.question).map(f=>[f.question.id,f.question]));
+      current.body='['+current.manifest.questions.map(q=>JSON.stringify(byId.get(q.id))).join(',')+']';
+    }
     return current.body;
   };
   return readManifest;

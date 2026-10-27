@@ -1,3 +1,9 @@
+<script module>
+  // Sizes are keyed by content and options within one validated context, so the
+  // main preview and probe previews (Fit) share them instead of re-measuring.
+  const sharedCaches=new Map();
+  function sharedCache(context){let map=sharedCaches.get(context);if(!map){map=new Map();sharedCaches.set(context,map);if(sharedCaches.size>3)sharedCaches.delete(sharedCaches.keys().next().value);}return map;}
+</script>
 <script>
   import {tick,onMount,getContext,untrack} from 'svelte';
   import {dimensionCacheContext,sessionCacheContext,measurementStore,digestKey,cacheMode} from '../lib/booklet-render-cache.js';
@@ -16,7 +22,7 @@
   let measurement=$state.raw(null),result=$state.raw({pages:[],issues:[]}),progress=$state('Preparing pages…'),ready=$state(false),error=$state(''),retry=$state(0);
   let metrics=$state.raw(null);
   let measureRoot,root=$state(),width=$state(794),active=$state(0),visible=$state(new Set()),generation=0,queue=Promise.resolve(),scrollRoot;
-  const cache=new Map();
+  let cache=new Map();
   const editionMaps=new Map();
   let paginationRuns=0;
   const loadTimings=[],workTimings=[];let memoryContext;
@@ -73,7 +79,7 @@
       // The validated environment owns persistent reuse. When validation fails,
       // sizes measured by this same code in this tab stay reusable in memory.
       const reuseContext=cacheContext??sessionCacheContext(snapshot);stats.layoutCache=cacheContext?'on':'off';
-      if(!reuseContext||reuseContext!==memoryContext){cache.clear();editionMaps.clear();memoryContext=reuseContext;}
+      if(!reuseContext||reuseContext!==memoryContext){cache=reuseContext?sharedCache(reuseContext):new Map();editionMaps.clear();memoryContext=reuseContext;}
       const keyFor=measurementKeyFor(snapshot,currentOptions),yieldWork=createWorkYield();
       const measure=async page=>{
         await yieldWork();if(token!==generation)throw Object.assign(Error('Pagination superseded'),{cancelled:true});
@@ -93,7 +99,7 @@
         if(!value){await nextPaginationPaint(controller.signal);if(token!==generation)throw Object.assign(Error('Pagination superseded'),{cancelled:true});value=measureBookletPage(measureRoot);}
         if(!value)throw Error('The page measurement surface is hidden. Show the booklet preview and retry layout.');
         stats.layoutMs+=performance.now()-timing;
-        cache.set(sourceKey,value);if(cache.size>1500)cache.delete(cache.keys().next().value);
+        cache.set(sourceKey,value);if(cache.size>5000)cache.delete(cache.keys().next().value);
         if(key){timing=performance.now();measurementStore.enqueue(key,value);stats.storageEnqueueMs+=performance.now()-timing;}
         return value;
       };
@@ -146,7 +152,9 @@
     tick().then(()=>{scrollToElement(root?.querySelector(`[data-flow-index="${index}"]`));updateVisible();});
   });
   $effect(()=>{scale;tick().then(updateVisible);});
-  onMount(()=>{scrollRoot=root.closest('.project-canvas');const observer=new ResizeObserver(()=>{width=root.parentElement.clientWidth;updateVisible();});observer.observe(root.parentElement);scrollRoot?.addEventListener('scroll',updateVisible,{passive:true});return()=>{generation++;observer.disconnect();scrollRoot?.removeEventListener('scroll',updateVisible);};});
+  // Scrolling reads every page's bounds; once per frame is enough.
+  let visibleFrame=0;const scheduleVisible=()=>{visibleFrame||=requestAnimationFrame(()=>{visibleFrame=0;updateVisible();});};
+  onMount(()=>{scrollRoot=root.closest('.project-canvas');const observer=new ResizeObserver(()=>{width=root.parentElement.clientWidth;scheduleVisible();});observer.observe(root.parentElement);scrollRoot?.addEventListener('scroll',scheduleVisible,{passive:true});return()=>{generation++;cancelAnimationFrame(visibleFrame);observer.disconnect();scrollRoot?.removeEventListener('scroll',scheduleVisible);};});
 </script>
 <div class="flow-document" bind:this={root} onclick={followReference} role="presentation" data-pagination-metrics={metrics?JSON.stringify(metrics):undefined} data-paginated-edition={result.edition} data-pagination-state={error?'error':ready&&result.edition===edition?'ready':'pending'} aria-busy={!ready&&!error}>
   <div class="flow-paper" class:multiple style:zoom={scale}>

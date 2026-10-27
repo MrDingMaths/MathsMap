@@ -37,7 +37,7 @@ test('graph-only amendments follow recorded ratings and preserve explicit result
  }
  assert.equal(next.sections[0].blocks[4].content.answer.short,'The range.');
  assert.equal(answerDiagramWidth(next.settings.compactAnswers,'worked',graph),90);
- assert.equal(next.settings.layoutOverrides.diagramWidths.given0,70);
+ assert.equal(next.settings.layoutOverrides.blockLayouts.given0.diagramWidthMm,70);
  assert.deepEqual(p.sections[0].blocks.slice(0,4),before.sections[0].blocks);
  assert.equal(repairFurtherTransformationsLayout(next).records.length,0);
 });

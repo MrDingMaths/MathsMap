@@ -53,5 +53,7 @@ export function syncDiagramPresentation(project,blockId,diagramId,patch){
     if(changed)blockLayouts={...blockLayouts,[blockId]:{...holder,arrangement:tree}};
   }
   if(patch.widthMm!=null)blockLayouts={...blockLayouts,[diagramId]:{...blockLayouts[diagramId],diagramWidthMm:patch.widthMm}};
-  return {...project,settings:{...project.settings,layoutOverrides:{...overrides,blockLayouts,...(patch.widthMm!=null?{diagramWidths:{...overrides.diagramWidths,[diagramId]:patch.widthMm}}:{})}}};
+  // Widths persist through blockLayouts; settings-level diagramWidths are dropped
+  // when settings normalise, so writing them would only differ until reopening.
+  return {...project,settings:{...project.settings,layoutOverrides:{...overrides,blockLayouts}}};
 }

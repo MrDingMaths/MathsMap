@@ -36,3 +36,7 @@ Cloudflare dashboard → Zero Trust → Access → Applications → the Studio a
 - The remote page reloads if source files change on this PC.
 - The guard covers HTTP requests. The dev server's live-reload socket relies on Cloudflare Access alone; it carries file-change notices, not booklet data.
 - Touch-screen editing is untested.
+
+## Compression (28 October 2026)
+
+[`remote/compression.mjs`](../remote/compression.mjs) compresses text responses (JSON, scripts, styles, SVG) with Brotli quality 4 or gzip, only for non-local requests that pass the Access guard. The tunnel carries every byte over this PC's upload link, so large project and bank responses shrink about four to five times. Local requests are byte-for-byte unchanged.

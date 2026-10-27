@@ -17,7 +17,7 @@ export async function loadPracticeBank(fetchImpl = globalThis.fetch) {
       const response = await fetchImpl(manifest.records);
       if (response?.ok) {
         const all = await response.json();
-        if (Array.isArray(all) && all.length === entries.length && all.every((q, i) => q?.id === entries[i].id)) return { manifest, records: all.map(normaliseQuestion) };
+        if (Array.isArray(all) && all.length === entries.length && all.every((q, i) => q?.id === entries[i].id)) return { manifest, records: manifest.recordsNormalised ? all : all.map(normaliseQuestion) };
       }
     } catch { /* Fall back to individual questions. */ }
   }

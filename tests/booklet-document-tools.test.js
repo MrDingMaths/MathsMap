@@ -47,7 +47,7 @@ test('direct diagram properties update saved arrangement geometry without changi
  const p=fixture(),block=p.sections[0].blocks[0];block.content.questionDiagrams=[{id:'diagram',format:'image',src:'test.png',widthMm:50,align:'left',originalDiagram:{src:'original.png'}}];
  const initial=questionSpacing(p,block);p.settings.layoutOverrides.blockLayouts.q={arrangement:initial.tree};const before=structuredClone(p);
  const next=syncDiagramPresentation(p,'q','diagram',{widthMm:73,align:'center'}),resolved=questionSpacing(next,block);
- const diagram=arrangementItems(resolved.tree.root).find(n=>resolved.entries.get(n.ref)?.diagramId==='diagram');assert.equal(diagram.width,73);assert.equal(diagram.align,'center');assert.equal(next.settings.layoutOverrides.diagramWidths.diagram,73);assert.deepEqual(next.sections,p.sections);assert.deepEqual(p,before);
+ const diagram=arrangementItems(resolved.tree.root).find(n=>resolved.entries.get(n.ref)?.diagramId==='diagram');assert.equal(diagram.width,73);assert.equal(diagram.align,'center');assert.equal(next.settings.layoutOverrides.blockLayouts.diagram.diagramWidthMm,73);assert.equal(next.settings.layoutOverrides.diagramWidths,undefined);assert.deepEqual(next.sections,p.sections);assert.deepEqual(p,before);
  assert.deepEqual(arrangementItems(resolved.tree.root).filter(n=>n.id!==diagram.id),arrangementItems(initial.tree.root).filter(n=>n.id!==diagram.id));
 });
 test('diagram widths survive normalized save and subsequent spacing edits without a stored arrangement',()=>{

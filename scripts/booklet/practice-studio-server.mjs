@@ -53,6 +53,9 @@ export function practiceStudioPlugin() {
   return {
     name: 'practice-studio',
     configureServer(server) {
+      // Validating every question takes 10–20 s; do it in the background on the
+      // interactive Studio server only. Export and check servers use other ports.
+      server.httpServer?.once('listening', () => { if (server.config.server.port === 5173) setTimeout(() => readBankManifest.snapshot(BANK_ROOT).catch(() => {}), 3000).unref?.(); });
       server.middlewares.use(async (req, res, next) => {
         const pathname = new URL(req.url ?? '/', 'http://localhost').pathname;
         const ownsPath = pathname.startsWith('/__booklet/bank/')
@@ -60,7 +63,7 @@ export function practiceStudioPlugin() {
           || pathname.startsWith('/__booklet/imports/');
         if (!ownsPath) return next();
         try {
-          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(async()=>{const current=await readBankManifest.snapshot(BANK_ROOT);return {...current.manifest,records:'/__booklet/bank/records?v='+current.signature};}));
+          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(async()=>{const current=await readBankManifest.snapshot(BANK_ROOT);return {...current.manifest,records:'/__booklet/bank/records?v='+current.signature,recordsNormalised:true};}));
           if (pathname === '/__booklet/bank/records' && req.method === 'GET') {
             const body = await withBankLock(()=>readBankManifest.records(BANK_ROOT,new URL(req.url,'http://localhost').searchParams.get('v')));
             if (body == null) return send(res, 409, { error: 'The question bank changed; reload the manifest.' });

@@ -1,3 +1,7 @@
+<script module>
+ // Bank records are replaced, never mutated, so summaries survive closing the picker.
+ const rows=new WeakMap();
+</script>
 <script>
  import { onMount } from 'svelte';
  import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
@@ -7,7 +11,7 @@
  let { bank = [], onrequestbank, oninsert, onclose, destination = 'End of section', title = 'Insert from question bank', actionLabel = 'Insert question' } = $props();
  let dialog, search, query = $state(''), filter = $state(''), selected = $state(''), loading = $state(false), error = $state(''), answers = $state('question'), limit = $state(40);
  // Build each question's search text once per bank, and filter after typing pauses.
- const records = $derived(bank.map(question=>{const summary=questionSummary(question,skills),row={question,...summary,search:questionSearchText(question)};row.haystack=[row.title,row.search,row.source,question.id,question.classification?.difficulty].join(' ').toLowerCase();return row;}));
+ const records = $derived(bank.map(question=>{let row=rows.get(question);if(!row){row={question,...questionSummary(question,skills),search:questionSearchText(question)};row.haystack=[row.title,row.search,row.source,question.id,question.classification?.difficulty].join(' ').toLowerCase();rows.set(question,row);}return row;}));
  $effect(()=>{const next=query.toLowerCase().trim();if(!next){filter='';return;}const timer=setTimeout(()=>filter=next,120);return()=>clearTimeout(timer);});
  const results = $derived(filter?records.filter(r=>r.haystack.includes(filter)):records);
  const current = $derived(results.find(r=>r.question.id===selected)??results[0]);

@@ -6,6 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {chromium} from 'playwright-core';
 import {questionSpacing} from '../../src/lib/booklet-document-tools.js';
+import {applySavePatch} from '../../src/lib/booklet-save-patch.js';
 const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
 const base=arg('--base','http://127.0.0.1:5173'),label=arg('--label',new Date().toISOString().replace(/[:.]/g,'-'));
 const ids=arg('--projects','angle-sums-of-polygons-v1,operations-fractions-decimals-v1,index-laws-complete-v1,linear-relationships-v1,angle-relationships-v1,concept-maths-adv11-ch02').split(',');
@@ -27,8 +28,9 @@ async function benchProject(id,repetition){
   await page.route('**/__booklet/**',route=>{
     const req=route.request(),url=new URL(req.url());
     if(url.pathname===`/__booklet/projects/${id}`&&['PUT','PATCH'].includes(req.method())){
-      const body=req.postDataJSON();saveBytes.push(req.postData()?.length??0);
-      record={...(body.project??record),revision:record.revision+1,updatedAt:new Date().toISOString()};return route.fulfill({json:record});
+      const body=req.postDataJSON(),revision=record.revision+1,updatedAt=new Date().toISOString();saveBytes.push(req.method()+' '+(req.postData()?.length??0));
+      if(req.method()==='PATCH'){record={...applySavePatch(record,body.patch),revision,updatedAt};return route.fulfill({json:{id,revision,updatedAt,serverPatch:[{path:['revision'],value:revision},{path:['updatedAt'],value:updatedAt}]}});}
+      record={...body.project,revision,updatedAt};return route.fulfill({json:record});
     }
     return req.method()==='GET'?route.fallback():route.abort('blockedbyclient');
   });
