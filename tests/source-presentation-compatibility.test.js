@@ -65,3 +65,16 @@ test('the compatibility exception never admits other file or run-file pin drift'
  fs.writeFileSync(manifestFile,JSON.stringify(manifest));
  assert.throws(()=>assertPinnedInputs(input.runDir),/Pinned input changed or disappeared: source-input.json/);
 });
+
+test('early runs use only the exact shared archived contract; corrupt local history still fails', t => {
+ const input=fixture(t),archive=JSON.parse(fs.readFileSync(new URL('../scripts/booklet/prompts/history/source-presentation-v2-20261015.json',import.meta.url)));
+ const archived={...input,expected:archive.sha256};
+ assert.equal(createHash('sha256').update(archive.text).digest('hex'),archive.sha256);
+ assert.equal(compatibleSourcePresentation(archived),true);
+ assert.equal(compatibleSourcePresentation({...archived,current:Buffer.concat([current,Buffer.from('\nunknown change')])}),false);
+ const local=path.join(input.runDir,'tooling-input-history',archive.sha256+'.source-presentation-v2.md');
+ fs.writeFileSync(local,archive.text+'corrupt');
+ assert.equal(compatibleSourcePresentation(archived),false);
+ fs.writeFileSync(local,archive.text);
+ assert.equal(compatibleSourcePresentation(archived),true);
+});
