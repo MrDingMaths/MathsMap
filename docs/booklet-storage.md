@@ -109,6 +109,14 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+The 27 October 2026 non-exemplar repair checkpoint raises the tracked-file budget
+from 2200 to 2202 MiB. The reviewed index contains 2,307,678,020 bytes, including
+the verified editable Further Parabolas, Right-Angled Trigonometry and Working
+with Functions 5 repairs and their synchronised question-bank records. The narrow
+increase accommodates this current content; generated exports, run evidence and
+automatic project histories remain excluded, and individual file limits and
+content acceptance checks are unchanged.
+
 The 24 October 2026 working-tree settlement raises the tracked-file budget from
 2.1 GiB to 2200 MiB for 34 Stage 6 Advanced booklet projects, 23 new ICE-EM
 chapter projects, Network Concepts and its original sources, referenced source
