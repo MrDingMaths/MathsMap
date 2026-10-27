@@ -209,7 +209,16 @@ export function practiceContentEvidence(project,batch,runDir){
  let teacherPdf;
  if(manifest.source?.teacherPdf){teacherPdf=pin('source/teacher.pdf','answer-pdf');if(sha(fs.readFileSync(teacherPdf))!==manifest.source.teacherPdfHash)throw Error('Original answer PDF hash differs from manifest');}
  for(const {block} of batch.rows){
-  const own=sourcePagesFor(block).own,teaching=block.sourceReview?.teachingContext?.pdfPages??[],external=externalTeachingSources(block,runDir),answerEvidence=block.sourceReview?.answerEvidence;
+  const own=sourcePagesFor(block).own;
+  if(block.type!=='question'){
+   if(!own.length)throw Error('Source block needs original source page references: '+block.id);
+   for(const page of own){
+    if(!Number.isInteger(page)||page<1||![...(manifest.selectedPages??[]),...(manifest.contextPages??[])].includes(page))throw Error('Unprepared original source page: '+page);
+    pin('evidence/pages/page-'+String(page).padStart(3,'0')+'.png','question',page);
+   }
+   continue;
+  }
+  const teaching=block.sourceReview?.teachingContext?.pdfPages??[],external=externalTeachingSources(block,runDir),answerEvidence=block.sourceReview?.answerEvidence;
   if(!own.length||!teaching.length&&!external.length)throw Error('Practice question needs original question and teaching page references: '+block.id);
   for(const ref of external)if(!artifacts.has(ref.path))artifacts.set(ref.path,ref);
   for(const page of [...own,...teaching]){

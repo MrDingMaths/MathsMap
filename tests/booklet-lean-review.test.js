@@ -515,3 +515,37 @@ test('unkeyed practice requires complete pinned answer-chapter absence evidence 
  const manifestFile=path.join(w.runDir,'manifest.json'),manifest=JSON.parse(fs.readFileSync(manifestFile));const pin=manifest.pins.runFiles['evidence/teacher/pages/page-031.png'];delete manifest.pins.runFiles['evidence/teacher/pages/page-031.png'];fs.writeFileSync(manifestFile,JSON.stringify(manifest));assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/missing or changed/);manifest.pins.runFiles['evidence/teacher/pages/page-031.png']=pin;fs.writeFileSync(manifestFile,JSON.stringify(manifest));
  fs.appendFileSync(path.join(w.runDir,'source/teacher.pdf'),'changed');assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/missing or changed/);
 });
+
+
+test('non-question practice context pins own originals without assessed-question evidence',t=>{
+ const w=practiceEvidenceFixture(t);
+ const contexts=['heading','rich-text','diagram'].map(type=>({id:'context-'+type,type,sourcePageNumber:6,sourceRefs:[{pageNumber:6}],content:'Source context'}));
+ const batch={section:w.batch.section,rows:contexts.map(block=>({block}))};
+ assert.deepEqual(practiceContentEvidence(w.project,batch,w.runDir).questions,[]);
+ assert.ok(practiceContentEvidence(w.project,batch,w.runDir).files.some(f=>f.pdfPage===6));
+ assert.deepEqual(practiceContentEvidence(w.project,{...batch,rows:[...batch.rows,{block:w.block}]},w.runDir).questions.map(q=>q.id),[w.block.id]);
+ for(const block of contexts){
+  assert.equal(block.sourceReview,undefined);
+  assert.throws(()=>practiceContentEvidence(w.project,{...batch,rows:[{block:{...block,sourcePageNumber:undefined,sourceRefs:[]}}]},w.runDir),/needs original source/);
+  assert.throws(()=>practiceContentEvidence(w.project,{...batch,rows:[{block:{...block,sourcePageNumber:99,sourceRefs:[{pageNumber:99}]}}]},w.runDir),/Unprepared original source/);
+ }
+ const q=structuredClone(w.block);delete q.sourceReview.teachingContext;
+ assert.throws(()=>practiceContentEvidence(w.project,{...batch,rows:[{block:q}]},w.runDir),/needs original question and teaching/);
+ q.sourceReview=structuredClone(w.block.sourceReview);delete q.sourceReview.answerEvidence;
+ assert.throws(()=>practiceContentEvidence(w.project,{...batch,rows:[{block:q}]},w.runDir),/lacks answer-book/);
+ assert.equal(PRACTICE_CONTENT_EVIDENCE_VERSION,1);
+});
+test('non-question changed or missing source pins launch no calls and preserve prior acceptance',async t=>{
+ const w=practiceEvidenceFixture(t),block={id:'context',type:'rich-text',sourcePageNumber:6,sourceRefs:[{pageNumber:6}],content:'Original source'};
+ w.project.sections[0].blocks=[block];fs.writeFileSync(w.file,JSON.stringify(w.project));
+ const accepted={hash:contentHash(block),outcome:'passed',practiceEvidenceVersion:1},state={questions:{context:structuredClone(accepted)},pages:{}};
+ assert.equal(pendingBlocks(w.project,state).length,0);practiceContentEvidence(w.project,{section:w.project.sections[0],rows:[{block}]},w.runDir);assert.deepEqual(state.questions.context,accepted);
+ for(const relative of ['evidence/pages/page-006.png','source/booklet.pdf','source/teacher.pdf']){
+  const file=path.join(w.runDir,relative),before=fs.readFileSync(file);fs.appendFileSync(file,'changed');let calls=0;
+  const result=await runContentReview({runDir:w.runDir,projectFile:w.file,skills:[],runner:async()=>{calls++;return {result:passAll(['context'])};}});
+  assert.equal(calls,0);assert.equal(result.remaining,1);assert.ok(result.errors.length);assert.equal(loadReviewed(w.dir).questions.context,undefined);fs.writeFileSync(file,before);
+ }
+ fs.unlinkSync(path.join(w.runDir,'evidence/pages/page-006.png'));let calls=0;
+ const result=await runContentReview({runDir:w.runDir,projectFile:w.file,skills:[],runner:async()=>{calls++;return {result:passAll(['context'])};}});
+ assert.equal(calls,0);assert.equal(result.remaining,1);
+});
