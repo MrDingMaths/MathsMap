@@ -25,7 +25,6 @@ import {COMPACT_IMPORT_PROMPT} from '../../src/lib/booklet-import-spacing.js';
 import {anchorResolved} from '../../public/libs/maths-editor/annotated-equation.mjs';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
 import {reviewIssueMatchesExercise} from './import-verification.mjs';
-import {discoverReuseContexts,findAuthorReuseCandidates,AUTHOR_REUSE_CONTRACT,materializeAutomaticReuse,assertCurrentAutomaticReuse} from './automatic-reuse.mjs';
 
 const read=file=>fs.readFileSync(file,'utf8').replace(/^\uFEFF/,'');
 const digest=value=>crypto.createHash('sha256').update(value).digest('hex');
@@ -74,11 +73,7 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
  const wordFile=path.join(runDir,'evidence/word/document.md');
  const word=stage==='author'&&fs.existsSync(wordFile)?read(wordFile):'';
  const textCache=new Map(),hashCache=new Map(),contextCache=new Map();
- const reuseEnabled=stage==='author'&&isLeanReview(manifest)&&(manifest.automaticReuse===true||config.automaticReuse===true)&&config.automaticReuse!==false;
- // Retrieval is advisory. Revalidation keeps the exact shortlist the worker saw,
- // while every nonadvisory source, teaching and workflow dependency is rebuilt.
- if(preparedTask&&preparedTask.reuseEnabled!==reuseEnabled)throw Error('Automatic reuse configuration changed during generation');
- const reuseCatalog=!preparedTask&&reuseEnabled?discoverReuseContexts({excludeRunDir:runDir}):{contexts:[]};
+ // Cross-booklet candidate discovery is retired; retained source evidence stays immutable.
  const pageText=p=>{if(!textCache.has(p))textCache.set(p,config.sourceEvidenceMode==='pixels'?'Read the referenced page image; OCR deliberately omitted.':read(pageFile(p,'txt')));return textCache.get(p);};
  const hash=file=>{if(!hashCache.has(file))hashCache.set(file,fileHash(file));return hashCache.get(file);};
  return pages.map(page=>{
@@ -95,8 +90,6 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
   const contextKey=JSON.stringify(contextPages);
   if(!contextCache.has(contextKey))contextCache.set(contextKey,contextPages.map(p=>`SOURCE CONTEXT PAGE ${p}\nImage: ${pageFile(p,'png')}\n${pageText(p)}`).join('\n\n'));
   const teaching=contextCache.get(contextKey),sourceText=pageText(page);
-  const isContinuation=(config.assignmentLimits?.continuations??manifest.continuations??[]).some(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).includes(page));
-  const reuseCandidates=preparedTask?.reuseCandidates??(isContinuation?[]:findAuthorReuseCandidates(config.sourceEvidenceMode==='pixels'?JSON.stringify(inventory?.entries??[]):sourceText,reuseCatalog));
   const previewPages=contextPages.slice(0,positive(config.teachingImageLimit??2,'Teaching image limit'));
   const images=[...new Set([...previewPages.map(p=>pageFile(p,'png')),pageFile(page,'png'),...(config.pageEvidence?.[page]?.images??[]).map(p=>path.resolve(runDir,p))])];
   const imagePages=[...new Set([...previewPages,page])];
@@ -104,8 +97,6 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
   while(expanded){expanded=false;for(const pair of manifest.continuations??[]){const values=Array.isArray(pair)?pair:[pair.from,pair.to];if(values.some(p=>related.has(p)))for(const p of values)if(!related.has(p)){related.add(p);expanded=true;}}}
   const blockers=reviewed&&stage==='author'?(manifest.pipelinePolicy?[...related].flatMap(p=>pageGate(workflow,p,{representative,authoring:true}).map(reason=>`Page ${p}: ${reason}`)):pageGate(workflow,page,{representative,authoring:true})):[];
   const sections=[],add=(name,text)=>{if(text)sections.push({name,text});};
-  if(preparedTask){const section=preparedTask.promptSections.find(s=>s.name==='automatic-reuse');if(section)add(section.name,section.text);}
-  else if(reuseCandidates.length)add('automatic-reuse',AUTHOR_REUSE_CONTRACT+'\n'+JSON.stringify({reuseCandidates:reuseCandidates.map(({context,score,weight,...c})=>({...c,projectFileHash:context.projectFileHash,acceptance:context.accepted.get(c.blockId)}))}));
   add('contract',stage==='author'?COMPACT_RECONSTRUCTION_PROMPT:SOURCE_CONTRACT+'\n'+(isLeanReview(manifest)?'Make a concise source coverage checklist: every question/part, teaching group, supplied answer, meaningful diagram/table and source identity. Preserve full text, given values, order and source references. Do not independently solve questions at this stage or create a pattern-approval register. Exclude renderer-owned decorations explicitly.':INVENTORY_CONTRACT));
   if(stage==='author')add('source-presentation',presentationContractForRun(manifest));
   if(isLeanReview(manifest))add('three-pass-precedence',LEAN_EDITORIAL_PROMPT+' Author questions, worked and short answers and classifications together. Check a small initial difficult-layout sample, repair shared problems, then continue. No pattern approval records. The independent content review follows authoring.');
@@ -192,7 +183,7 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
   const inputs={version:2,stage,page,configuration,executionHash,...(authoringContextScoped?{authoringContextSelections}:{}),...(continuationDependencies.length?{continuationDependencies}:{}),...(teacherHashes.length?{teacherHashes}:{}),...(sharedDiagrams?{sharedDiagramHash}:{}),...(houseAuthoring?{houseAuthoringHash}:{}),prompt,images:images.map(file=>[file,hash(file)]),teachingImages:contextPages.map(p=>hash(pageFile(p,'png'))),wordHash:stage==='author'&&fs.existsSync(wordFile)?hash(wordFile):null};
   const evidence=[...new Set([...images,...contextPages.map(p=>pageFile(p,'png')),...teacherPages.map(p=>path.join(runDir,'evidence/teacher/pages',`page-${String(p).padStart(3,'0')}.png`))])].map(file=>({id:'evidence-'+hash(file),path:path.resolve(file),hash:hash(file)}));
   const editorialHash=editorial?digest(JSON.stringify(editorial)):null,editorialFile=editorial?path.resolve(packetRoot,'evidence','editorial-'+editorialHash+'.json'):null;
-  return {stage,page,stem,inventory,practiceAncestorInventories:stage==='author'?[...new Set((config.assignmentLimits?.continuations??manifest.continuations??[]).filter(pair=>!Array.isArray(pair)&&pair.to===page&&pair.from<page).map(pair=>pair.from))].map(p=>({...((reviewed?effectiveInventory(runDir,p,workflow):JSON.parse(read(path.join(packetRoot,`page-${String(p).padStart(3,'0')}.inventory.json`))))),pageNumber:p})):[],topic,contextPages,teacherPages,reuseEnabled,reuseCandidates,runId:manifest.id,practiceContinuations:config.assignmentLimits?.continuations??manifest.continuations??[],...(authoringContextScoped?{authoringContextScoped,authoringContextSelections,sourceImage:pageFile(page,'png'),teachingImageLimit:config.teachingImageLimit??2,teachingSources:contextPages.map(p=>({page:p,image:pageFile(p,'png'),text:`SOURCE CONTEXT PAGE ${p}\nImage: ${pageFile(p,'png')}\n${pageText(p)}`}))}:{}),editorial,editorialDecisions,editorialHash,editorialFile,geometry,evidence,generationDependencies:{configuration,executionHash,...(sharedDiagrams?{sharedDiagramHash}:{})},promptSections:sections,contentScope:config.contentScope,reviewed,blockers,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify({...inputs,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,assignmentImplementation:assignmentImplementationHash}:{})})),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
+  return {stage,page,stem,inventory,practiceAncestorInventories:stage==='author'?[...new Set((config.assignmentLimits?.continuations??manifest.continuations??[]).filter(pair=>!Array.isArray(pair)&&pair.to===page&&pair.from<page).map(pair=>pair.from))].map(p=>({...((reviewed?effectiveInventory(runDir,p,workflow):JSON.parse(read(path.join(packetRoot,`page-${String(p).padStart(3,'0')}.inventory.json`))))),pageNumber:p})):[],topic,contextPages,teacherPages,runId:manifest.id,practiceContinuations:config.assignmentLimits?.continuations??manifest.continuations??[],...(authoringContextScoped?{authoringContextScoped,authoringContextSelections,sourceImage:pageFile(page,'png'),teachingImageLimit:config.teachingImageLimit??2,teachingSources:contextPages.map(p=>({page:p,image:pageFile(p,'png'),text:`SOURCE CONTEXT PAGE ${p}\nImage: ${pageFile(p,'png')}\n${pageText(p)}`}))}:{}),editorial,editorialDecisions,editorialHash,editorialFile,geometry,evidence,generationDependencies:{configuration,executionHash,...(sharedDiagrams?{sharedDiagramHash}:{})},promptSections:sections,contentScope:config.contentScope,reviewed,blockers,packetRoot,out:path.join(packetRoot,`${stem}.${stage}.${attempt}`),resultFile:path.join(packetRoot,`${stem}.${stage}.json`),prompt,images,inputHash:digest(JSON.stringify({...inputs,...(manifest.pipelinePolicy?{pipelinePolicy:manifest.pipelinePolicy,assignmentImplementation:assignmentImplementationHash}:{})})),promptStats:{characters:prompt.length,imageCount:images.length,sections:Object.fromEntries(sections.map(s=>[s.name,s.text.length]))}};
  });
 }
 
@@ -376,7 +367,6 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
   if(!task.reviewed)return;
   await updateWorkflow(runDir,`${stage} page ${task.page}`,state=>{
    const current=buildSemanticTasks({runDir,manifest,config,stage,pages:[task.page],attempt,representative},task)[0];
-   if(stage==='author')assertCurrentAutomaticReuse(effectiveAuthor(runDir,task.page,state),task.reuseCandidates);
    if(current.inputHash!==task.inputHash||current.blockers.length)throw Error('Cached dependencies changed; inspect before registration');
    const inventory=effectiveInventory(runDir,task.page,state);
    registerInventory(state,inventory,sourceEvidence(runDir,task.page));
@@ -410,7 +400,7 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
     events.phase('validation');
     fs.writeFileSync(path.join(task.out,task.repair?'repair.json':'generation.json'),JSON.stringify(reply.result,null,2)+'\n',{flag:'wx'});
     if(task.repair)restorePacketRatings(task.repair.packet,{runDir,out:task.repair.source});
-    const rawResult=task.repair?applyMappingRepair(task.repair.packet,task.inventory,reply.result):stage==='author'?materializeAutomaticReuse(reply.result,task.reuseCandidates,{runId:manifest.id,teachingPages:task.contextPages,requireReasoningRatings:true}):reply.result;
+    const rawResult=task.repair?applyMappingRepair(task.repair.packet,task.inventory,reply.result):reply.result;
     if(stage==='author')validatePacketRatings(rawResult);
     const result=stage==='author'?authorMaterializer(config)(rawResult):config.contentScope==='practice-only'?normalizePracticeInventory(rawResult):rawResult;
     if(stage==='author')stampPacketRatings(result,metrics,path.relative(process.cwd(),path.join(task.out,'generation.json')).replaceAll('\\','/'));
@@ -432,7 +422,6 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
      verifyPublication(task);
      if(state)Object.assign(state,liveWorkflow(runDir));
      const current=buildSemanticTasks({runDir,manifest,config,stage,pages:[task.page],attempt,representative,...(state?{workflowState:state}:{})},task)[0];
-     if(stage==='author')assertCurrentAutomaticReuse(result,task.reuseCandidates);
      if(current.inputHash!==task.inputHash||current.blockers.length)throw Error('Source, corrections or review gates changed during generation; preserved attempt needs reconciliation');
      if((fs.existsSync(task.resultFile)?fileHash(task.resultFile):null)!==originalHash)throw Error('Canonical result changed during transcription; reconcile the preserved attempt manually');
      const metaFile=path.join(task.out,'result.meta.json');if(fs.existsSync(metaFile))throw Error('Attempt metadata already exists');

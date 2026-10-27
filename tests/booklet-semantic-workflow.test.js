@@ -840,30 +840,24 @@ test('in-flight unrelated accepted-library addition publishes once, including as
   assert.equal(report.ok,true,JSON.stringify(report));assert.equal(calls,1);assert.ok(fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));
  }
 });
-test('materialized assigned reuse rechecks original proof, mathematics, origin and amendments at publication',async t=>{
- for(const change of ['revoke','math','origin','amendment']){
-  const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',pipelinePolicy:'bounded-three-pass-v1'};options.config.automaticReuse=true;
-  const f=publicationLibrary(t,options),candidate=createSemanticTasks(options)[0].reuseCandidates.find(c=>c.projectId===f.id);assert.ok(candidate);
-  const packet={pageNumber:4,sections:[{id:'s-4',title:'Equations',blocks:[{type:'reuse',classification:{...rating},reuseKey:candidate.key,id:'newcopy',sourceEquivalent:true,improvementsCompatible:true,sourceReview:{sourceIdentity:{questionLabel:'4',pdfPage:4}}}]}],inventoryMappings:[{inventoryId:'src-4',targetId:'q-4'}]};let calls=0;
-  const report=await runSemanticPackets(options,{...quiet,verifyPublication:task=>{
-   if(change==='revoke')fs.writeFileSync(f.table,JSON.stringify({questions:{}}));
-   if(change==='math'){f.project.sections[0].blocks[0].content.answer.short='2';fs.writeFileSync(f.projectFile,JSON.stringify(f.project));}
-   if(change==='origin')task.reuseCandidates.find(c=>c.projectId===f.id).origin.hash='changed-origin';
-   if(change==='amendment')task.reuseCandidates.find(c=>c.projectId===f.id).amendmentHash='changed-amendment';
-  },runner:async()=>{calls++;return {result:{packets:[packet]},metrics:{...testMetrics,}};}});
-  assert.equal(report.ok,false,change);assert.equal(calls,1);assert.ok(!fs.existsSync(path.join(options.runDir,'semantic-packets/page-004.author.json')));assert.match(report.pages[0].error,/reuse|acceptance/i);f.dispose();
- }
+test('retired cross-booklet discovery ignores old flags and never supplies library candidates',t=>{
+ const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1',automaticReuse:true};options.config.automaticReuse=true;
+ publicationLibrary(t,options);const task=createSemanticTasks(options)[0];
+ assert.equal(task.reuseCandidates,undefined);assert.equal(task.reuseEnabled,undefined);
+ assert.ok(!task.promptSections.some(s=>s.name==='automatic-reuse'));
+ assert.doesNotMatch(task.prompt,/AUTOMATIC ACCEPTED-CONTENT REUSE/);
 });
-test('frozen advisory retrieval still holds publication for source, teaching and current guidance edits',async t=>{
- for(const change of ['source','teaching','guidance','policy']){
+
+test('source, teaching and current guidance still hold publication after discovery retirement',async t=>{
+ for(const change of ['source','teaching','guidance']){
   const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1'};options.config.automaticReuse=true;let calls=0;
-  const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(change==='policy')options.config.automaticReuse=false;else if(change==='guidance')options.config.pageEvidence={4:{note:'New current workflow guidance'}};else fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-00'+(change==='source'?4:1)+'.png'),'changed');},runner:async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};}});
-  assert.equal(report.ok,false,change);assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed|Automatic reuse configuration changed/);
+  const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>{if(change==='guidance')options.config.pageEvidence={4:{note:'New current workflow guidance'}};else fs.appendFileSync(path.join(options.runDir,'evidence/pages/page-00'+(change==='source'?4:1)+'.png'),'changed');},runner:async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};}});
+  assert.equal(report.ok,false,change);assert.equal(calls,1);assert.match(report.pages[0].error,/Source, corrections or review gates changed/);
  }
 });
 
-test('unused prepared reuse candidate acceptance changes do not invalidate ordinary authored content',async t=>{
- const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1'};options.config.automaticReuse=true;const f=publicationLibrary(t,options);assert.ok(createSemanticTasks(options)[0].reuseCandidates.some(c=>c.projectId===f.id));let calls=0;
+test('other-booklet acceptance changes cannot affect source-only authoring',async t=>{
+ const options={...fixture(t),pages:[4]};options.manifest={...options.manifest,reviewProfile:'textbook-three-pass-v1'};options.config.automaticReuse=true;const f=publicationLibrary(t,options);assert.equal(createSemanticTasks(options)[0].reuseCandidates,undefined);let calls=0;
  const report=await runSemanticPackets(options,{...quiet,verifyPublication:()=>fs.writeFileSync(f.table,JSON.stringify({questions:{}})),runner:async()=>{calls++;return {result:author(4),metrics:{...testMetrics,}};}});assert.equal(report.ok,true,JSON.stringify(report));assert.equal(calls,1);
 });
 test('current workflow source correction holds an in-flight prepared generation',async t=>{

@@ -1,7 +1,6 @@
 // Deterministic ownership units; inventories remain independent and immutable.
 import fs from 'node:fs';
 import {FEEDBACK_CHECKS} from '../../polish/repair-routing.mjs';
-import {compactAuthorPrompt} from './author-prompt-view.mjs';
 import {retainedAssignmentReference,verifyRetainedAssignmentReference} from './author-recovery-reference.mjs';
 import {validatePacketRatings,stampPacketRatings,restorePacketRatings,normaliseAuthoredRatingBands} from './reasoning-ratings.mjs';
 import path from 'node:path';
@@ -12,7 +11,6 @@ import {runBoundedJobs,withWorkerSlot,workerConcurrency} from './worker-pool.mjs
 import {coalescePacketContinuations} from './packet-continuations.mjs';
 import {compactTikzPrompt} from './token-efficient-prompts.mjs';
 import {assignmentCategoryHeadings,categoryGroupAnchors} from './practice-category-headings.mjs';
-import {materializeAutomaticReuse} from './automatic-reuse.mjs';
 import {leanPreExportLint} from './import-pre-final.mjs';
 
 // Apply existing export text rules before accepting a newly generated
@@ -175,7 +173,7 @@ export function assignmentPayload(assignment,tasks){
  const relevant=tasks.filter(t=>assignment.pages.includes(t.page)).map(t=>scopedTeachingTask(t,assignment)),evidence=new Map();
  for(const task of relevant)for(const ref of task.evidence??[])evidence.set(ref.id,ref);
  const owned=new Set(assignment.inventoryIds),targets=new Set(assignment.entries.flatMap(e=>[e.id,e.targetId]).filter(Boolean));
- const resources=relevant.flatMap(t=>t.promptSections.filter(s=>['automatic-reuse','teaching','envelope','diagrams','decisions','supplement','source','word'].includes(s.name)||s.name.startsWith('answer-page-')).map(s=>{
+ const resources=relevant.flatMap(t=>t.promptSections.filter(s=>['teaching','envelope','diagrams','decisions','supplement','source','word'].includes(s.name)||s.name.startsWith('answer-page-')).map(s=>{
   // A page envelope describes one member of packets, with assignment-scoped
   // ownership. Retain its topic/header/source rules without importing siblings.
   const text=s.name==='envelope'?s.text.replace(/^Return /,'Each assigned PAGE_PACKET for this source page follows ').replace('Map EVERY non-excluded inventory item','Map EVERY assigned non-excluded inventory item').replaceAll('inventory.entries','assignment.inventory'):s.name==='diagrams'?compactTikzPrompt({inventory:{entries:assignment.entries.filter(e=>e.pageNumber===t.page)}}):s.text;
@@ -242,7 +240,7 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
    if(fs.existsSync(cacheFile)&&!regenerationReason?.includes(assignment.id)){const cache=read(cacheFile);if(cache.inputHash===payload.inputHash&&fs.existsSync(cache.result.path)&&bytes(cache.result.path)===cache.result.hash){log(JSON.stringify({assignment:assignment.id,cached:true}));const packets=read(cache.result.path).packets;for(const packet of packets)restorePacketRatings(packet,{runDir,out:path.dirname(cache.result.path)});if(bytes(cache.result.path)!==cache.result.hash)throw Error('Cached assignment changed during rating restoration');return packets;}}
    const out=path.join(dir,String(attempt));if(fs.existsSync(out))throw Error('Assignment attempt already exists; use a newer attempt or exact-field repair');
    if(fs.readdirSync(dir).some(n=>/^\d+$/.test(n))&&!regenerationReason)throw Error('Assignment retry needs a reason why targeted repair is insufficient');
-   const promptView=compactAuthorPrompt(payload.prompt,payload.resources);
+   const promptView={prompt:payload.prompt,savedCharacters:0};
    const recoveryFile=path.join(runDir,'author-recovery-guidance.json'),recovery=fs.existsSync(recoveryFile)?read(recoveryFile):null;
    const useRecovery=recovery?.pages?.some(page=>assignment.pages.includes(page));
    const recoveryRef=useRecovery?{path:recoveryFile,hash:bytes(recoveryFile)}:null;
@@ -258,8 +256,7 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
     verifyRetainedAssignmentReference(retained);
     fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(reply.result,null,2));events.phase('validation');
     const packets=reply.result?.packets?.map(packet=>{
-     const task=tasks.find(t=>t.page===packet.pageNumber);
-      const raw=materializeAutomaticReuse(packet,task?.reuseCandidates??[],{runId:task?.runId,teachingPages:task?.contextPages??[],requireReasoningRatings:true});
+      const raw=structuredClone(packet);
       normaliseAuthoredRatingBands(raw);validatePacketRatings(raw);
       return materialize(raw);
     });

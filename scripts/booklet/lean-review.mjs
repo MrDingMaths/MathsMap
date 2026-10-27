@@ -21,7 +21,6 @@ import {solidAcceptance,imageSourceHash} from '../audit-solid-visibility.mjs';
 import {importDiagramPreflight} from './import-diagram-preflight.mjs';
 import {loadReuseContext,reuseCandidate,reuseContentHash,changedReviewFields,REUSE_CONTRACT} from './review-reuse.mjs';
 import {originalSource} from './source-lineage.mjs';
-import {discoverReuseContexts} from './automatic-reuse.mjs';
 import {inventoryShading} from './check-diagram-shading.mjs';
 import {THEORY_TEXT_PROMPT} from './token-efficient-prompts.mjs';
 import {leanShadingIssues} from './lean-shading.mjs';
@@ -391,7 +390,7 @@ export async function runContentReview({runDir,projectFile,reuseProjectFile,reus
  if(!isLeanReview(handle.project))throw Error('The lean review route requires a three-pass project');
  skills??=fs.existsSync(path.join(root,'data/skills.json'))?read(path.join(root,'data/skills.json')):[];
  if(Boolean(reuseProjectFile)!==Boolean(reuseRunDir))throw Error('Reuse requires both --reuse-project and --reuse-run');
- const reuse=reuseProjectFile?loadReuseContext({projectFile:reuseProjectFile,runDir:reuseRunDir}):discoverReuseContexts({root,excludeRunDir:runDir,excludeProjectId:handle.project.id,reviewBlocks:reviewableBlocks(handle.project).map(row=>row.block)});
+ const reuse=reuseProjectFile?loadReuseContext({projectFile:reuseProjectFile,runDir:reuseRunDir}):null;
  const localIds=reviewableBlocks(handle.project).filter(({block})=>state.questions[block.id]?.acceptedVersion||fs.existsSync(path.join(runDir,'workflow/issues.json'))).map(({block})=>block.id);
  const localReuse=localIds.length?loadReuseContext({projectFile,runDir,blockIds:localIds}):null;
  const reuseReferencesRecorded=recordReuseFallbacks(handle.project,state,reuse);

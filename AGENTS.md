@@ -1,5 +1,9 @@
 # MathsMap working conventions
 
+## Cross-booklet duplicate tooling retired (27 October 2026, user requested)
+
+Do not discover, link, synchronise or manage duplicate content across booklets. The retired tools and registry are preserved in [the recoverable archive](retired/cross-booklet-duplicates-20261027/README.md). Keep duplicate identification within each booklet during review, and full duplicate matching during question-bank import/publication. Preserve historical acceptance, source lineage and explicit review reuse; none creates a live cross-booklet dependency. This supersedes earlier automatic cross-project discovery and shared-content propagation instructions.
+
 Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it. Put detail in `docs/` and link it from here. `npm run repo:check` enforces the limit.
 
 ## Streamlined imports (24 October 2026, user approved)
@@ -15,10 +19,6 @@ For imports and authorised repairs, label the parts of one practice question in 
 ## Sample answers for open-ended tables and box grids (11 October 2026, user requested)
 
 An open-ended question answered in the cells of one table or box grid gets one short-answer entry: “Sample answers” and the question’s layout filled with one example per cell, with no per-cell “e.g.” or restated headings. Follow [the convention](docs/booklet-cross-session-rules.md#sample-answers-for-open-ended-tables-and-box-grids-11-october-2026-user-requested).
-
-## Automatic reuse during imports (11 October 2026, user requested)
-
-Imports identify original source blocks separately from later audits; see [automatic discovery](docs/booklet-three-pass-import.md#automatic-discovery-before-transcription-11-october-2026-user-requested). Carry compatible saved clarifications, extra working and attached investigations. Reuse valid mathematical acceptance; review only amendments/new additions and always check new-source, skill and taught-method compatibility. Scores and saves never grant acceptance; changed tasks or missing proof require ordinary review. Preserve historical runs and never renew old acceptance merely by saving.
 
 ## Bank links and duplicate questions (9 October 2026, user approved)
 

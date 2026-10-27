@@ -24,13 +24,6 @@ export function resolveProjectBankSync(id,body,fetchImpl=globalThis.fetch){
   return request('/__booklet/projects/'+encodeURIComponent(id)+'/bank-sync',{method:'POST',body:JSON.stringify(body)},fetchImpl);
 }
 
-export function getProjectShared(id,fetchImpl=globalThis.fetch){
-  return request('/__booklet/projects/'+encodeURIComponent(id)+'/shared',{},fetchImpl);
-}
-export function resolveProjectShared(id,body,fetchImpl=globalThis.fetch){
-  return request('/__booklet/projects/'+encodeURIComponent(id)+'/shared',{method:'POST',body:JSON.stringify(body)},fetchImpl);
-}
-
 export async function openBookletProject(id,fetchImpl=globalThis.fetch){
   try{const value=await request('/__booklet/projects/'+encodeURIComponent(id)+'/open',{},fetchImpl);if(value?.project)return value;}
   catch(error){if(error.status!==404)throw error;}

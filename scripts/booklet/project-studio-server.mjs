@@ -19,7 +19,6 @@ import {maintainProjectHistory} from './storage-archive.mjs';
 import {preserveSourceLineage} from './source-lineage.mjs';
 import {projectCheckpointEntries} from './project-checkpoints.mjs';
 import {applyCreationPreset} from '../../src/lib/booklet-creation.js';
-import {sharedRootsFor,sharedSaveEntries,sharedStatus,resolveShared,startPageChecks,scheduleSharedRefresh,refreshIfStale} from './shared-content.mjs';
 import {
   WORK_ROOT, REPO_ROOT, applyContentOverrides, hashFile, hashValue, loadRun,
 } from './transcription.mjs';
@@ -134,7 +133,7 @@ async function hydrateBankRevisions(project, bankRoot) {
 export async function saveBookletProject(raw, options = {}) {
   return withBankLock(()=>saveProjectUnlocked(raw,options));
 }
-async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, sharedRoot = sharedRootsFor(projectRoot).sharedRoot, expectedRevision = null, create = false, checkpoint = false } = {}) {
+async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot = BANK_ROOT, expectedRevision = null, create = false, checkpoint = false } = {}) {
   const checked = validateEditableProject(raw);
   if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), { statusCode: 400 });
   const file = fileFor(projectRoot, checked.project.id);
@@ -145,15 +144,13 @@ async function saveProjectUnlocked(raw, { projectRoot = PROJECT_ROOT, bankRoot =
     throw Object.assign(new Error('Project changed in another session; reload before saving'), { statusCode: 409 });
   }
   const {project,entries,checkpoints}=await prepareProjectWrite(previous,checked.project,{projectRoot,bankRoot,checkpoint,validated:true});
-  entries.push(...await sharedSaveEntries(previous,project,{sharedRoot}));
   await writeTransaction(entries);
   if (checkpoints.length) await retainHistory(projectRoot, project.id);
   return project;
 }
 
 // The entries of one revision-checked booklet write: the next revision, source
-// lineage, bank sync, recovery checkpoint and the project file. Shared-content
-// catch-up writes other booklets through this too, so they sync to the bank.
+// lineage, bank sync, recovery checkpoint and the project file.
 export async function prepareProjectWrite(previous,raw,{projectRoot=PROJECT_ROOT,bankRoot=BANK_ROOT,checkpoint=true,validated=false}={}){
   const checked = validated ? {valid:true,project:raw} : validateEditableProject(raw);
   if (!checked.valid) throw Object.assign(new Error(checked.errors.join('; ')), { statusCode: 400 });
@@ -171,16 +168,6 @@ export async function prepareProjectWrite(previous,raw,{projectRoot=PROJECT_ROOT
   const checkpoints = await projectCheckpointEntries(projectRoot, previous, {force:checkpoint});
   entries.push(...checkpoints,[fileFor(projectRoot,project.id),project]);
   return {project,entries,checkpoints};
-}
-
-const sharedOptions=({projectRoot=PROJECT_ROOT,bankRoot=BANK_ROOT,base,busy,...roots}={})=>({projectRoot,...sharedRootsFor(projectRoot),...roots,...(busy?{busy}:{}),
-  prepareWrite:(previous,next)=>prepareProjectWrite(previous,next,{projectRoot,bankRoot}),
-  onQueued:ids=>{if(base&&ids.length)startPageChecks(ids,{base});}});
-export const getProjectShared=(id,options={})=>sharedStatus(id,sharedOptions(options));
-export async function resolveProjectShared(id,body,options={}){
-  const result=await resolveShared(id,body,sharedOptions(options));
-  if(result.project&&options.base)startPageChecks([id],{base:options.base});
-  return result;
 }
 
 async function retainHistory(projectRoot, id) {
@@ -561,16 +548,10 @@ export function projectStudioPlugin() {
           const syncMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/bank-sync$/);
           if(syncMatch&&req.method==='GET')return send(res,200,await getProjectBankSync(decodeURIComponent(syncMatch[1])));
           if(syncMatch&&req.method==='POST')return send(res,200,await resolveProjectBankSync(decodeURIComponent(syncMatch[1]),await readBody(req)));
-          const sharedMatch = pathname.match(/^\/__booklet\/projects\/([^/]+)\/shared$/);
-          // The shared-content registry follows the library by itself: shortly after
-          // each save or decision, and on a status check when a minute has passed.
-          if(sharedMatch&&req.method==='GET'){refreshIfStale();return send(res,200,await getProjectShared(decodeURIComponent(sharedMatch[1])));}
-          if(sharedMatch&&req.method==='POST'){const url=server.resolvedUrls?.local?.[0];const result=await resolveProjectShared(decodeURIComponent(sharedMatch[1]),await readBody(req),{base:url?url.replace(/\/$/,''):'http://127.0.0.1:'+(server.config.server.port??5173)});scheduleSharedRefresh();return send(res,200,result);}
           if (projectMatch && req.method === 'GET') return send(res, 200, await loadBookletProject(decodeURIComponent(projectMatch[1])));
           if (projectMatch && req.method === 'PUT') {
             const body = await readBody(req);
             const saved = await saveBookletProject(body.project ?? body, { expectedRevision: body.expectedRevision ?? body.project?.revision });
-            scheduleSharedRefresh();
             return send(res, 200, saved);
           }
           if (projectMatch && req.method === 'DELETE') {
