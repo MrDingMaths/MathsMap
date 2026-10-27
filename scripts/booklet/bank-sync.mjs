@@ -33,6 +33,8 @@ export async function bankManifestEntry(root,updates){const records=await bankRe
 export function registerOwner(links,project,block,bank,projection=links[bank.id]?.projection){links[bank.id]={projectId:project.id,blockId:block.id,sourceHash:sharedHash(block,projection),bankHash:sharedHash(bank),bankRevision:revisionHash(bank),...(projection?{projection}: {})};}
 export async function registerBankOwner(root,project,block,bank,projection,{refreshExisting=false}={}){const links=await syncLinks(root),old=links[bank.id];if(refreshExisting&&old&&(old.projectId!==project.id||old.blockId!==block.id))throw Object.assign(new Error('Projection updates require the existing bank owner'),{statusCode:409});if(!old||refreshExisting){registerOwner(links,project,block,bank,projection);await writeTransaction([[linksPath(root),links]]);}}
 const blocks=p=>p.sections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
+// One pass over the link registry per call instead of one scan per question.
+const ownedLinks=(links,projectId)=>{const owned=new Map();for(const entry of Object.entries(links))if(entry[1].projectId===projectId&&!owned.has(entry[1].blockId))owned.set(entry[1].blockId,entry);return owned;};
 export async function refreshBankRatings(project,bankRoot){
  for(const block of blocks(project)){
   if(!block.bankRef?.id)continue;
@@ -42,9 +44,9 @@ export async function refreshBankRatings(project,bankRoot){
  return project;
 }
 export async function prepareAutomaticSync(project,bankRoot){
- const links=await syncLinks(bankRoot),entries=[],updated=[];let changed=false;
+ const links=await syncLinks(bankRoot),owned=ownedLinks(links,project.id),entries=[],updated=[];let changed=false;
  for(const block of blocks(project)){
-  const pair=Object.entries(links).find(([,l])=>l.projectId===project.id&&l.blockId===block.id);if(!pair)continue;
+  const pair=owned.get(block.id);if(!pair)continue;
   const[id,link]=pair;segment(id);const current=await readSyncJson(path.join(bankRoot,id+'.json'));if(!current)continue;
   const localHash=sharedHash(block,link.projection),bankHash=sharedHash(current);
   if(localHash===bankHash){if(block.bankRef?.id===id)block.bankRef.revision=revisionHash(current);if(link.sourceHash!==localHash||link.bankHash!==bankHash||link.bankRevision!==revisionHash(current)){registerOwner(links,project,block,current);changed=true;}continue;}
@@ -61,9 +63,9 @@ export async function prepareAutomaticSync(project,bankRoot){
  return entries;
 }
 export async function projectSyncStatus(project,bankRoot){
- const links=await syncLinks(bankRoot),items=[];
+ const links=await syncLinks(bankRoot),owned=ownedLinks(links,project.id),items=[];
  for(const block of blocks(project)){
-  const ownerEntry=Object.entries(links).find(([,l])=>l.projectId===project.id&&l.blockId===block.id);
+  const ownerEntry=owned.get(block.id);
   const detached=!ownerEntry&&!block.bankRef?.id&&block.bankDecision?.decision==='distinct'&&block.bankDecision.of?.length===1;
   const id=ownerEntry?.[0]??block.bankRef?.id??(detached?block.bankDecision.of[0]:null);if(!id)continue;
   segment(id);if(block.bankRef?.revision)segment(block.bankRef.revision);

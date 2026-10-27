@@ -10,6 +10,17 @@ function jsonResponse(response) {
 export async function loadPracticeBank(fetchImpl = globalThis.fetch) {
   const manifest = await jsonResponse(await fetchImpl('/__booklet/bank/manifest'));
   const entries = manifest.questions ?? [];
+  // One response for the whole bank when the server offers it; thousands of
+  // per-question requests made the picker take seconds to minutes.
+  if (manifest.records) {
+    try {
+      const response = await fetchImpl(manifest.records);
+      if (response?.ok) {
+        const all = await response.json();
+        if (Array.isArray(all) && all.length === entries.length && all.every((q, i) => q?.id === entries[i].id)) return { manifest, records: all.map(normaliseQuestion) };
+      }
+    } catch { /* Fall back to individual questions. */ }
+  }
   const records = new Array(entries.length);
   let next = 0, failed = false, failure;
   // Bound requests through body parsing too, and drain active workers before retry.

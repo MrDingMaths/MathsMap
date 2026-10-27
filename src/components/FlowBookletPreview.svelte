@@ -1,6 +1,6 @@
 <script>
   import {tick,onMount,getContext,untrack} from 'svelte';
-  import {dimensionCacheContext,measurementStore,digestKey,cacheMode} from '../lib/booklet-render-cache.js';
+  import {dimensionCacheContext,sessionCacheContext,measurementStore,digestKey,cacheMode} from '../lib/booklet-render-cache.js';
   import {createPaginationKey,createWorkYield,paginationDelay,nextPaginationPaint} from '../lib/booklet-pagination-work.js';
   import FlowBookletPage from './FlowBookletPage.svelte';
   import {pageBoundaryKind} from '../lib/booklet-workspace.js';
@@ -67,12 +67,13 @@
       await preceding.catch(()=>{});
       if(token!==generation)return;
       const started=performance.now();stats.scheduleMs=started-requested;
-      const cacheStarted=performance.now(),cacheContext=await dimensionCacheContext(snapshot,{signal:controller.signal});
+      const cacheStarted=performance.now(),cacheContext=await dimensionCacheContext(snapshot,{fresh:prepareInitialPreview});
       stats.cacheSetupMs=performance.now()-cacheStarted;
       if(token!==generation)return;
-      // The validated environment owns both memory sizes and continuation reuse.
-      // Failed validation cannot accept dimensions from an earlier generation.
-      if(!cacheContext||cacheContext!==memoryContext){cache.clear();editionMaps.clear();memoryContext=cacheContext;}
+      // The validated environment owns persistent reuse. When validation fails,
+      // sizes measured by this same code in this tab stay reusable in memory.
+      const reuseContext=cacheContext??sessionCacheContext(snapshot);stats.layoutCache=cacheContext?'on':'off';
+      if(!reuseContext||reuseContext!==memoryContext){cache.clear();editionMaps.clear();memoryContext=reuseContext;}
       const keyFor=measurementKeyFor(snapshot,currentOptions),yieldWork=createWorkYield();
       const measure=async page=>{
         await yieldWork();if(token!==generation)throw Object.assign(Error('Pagination superseded'),{cancelled:true});
@@ -96,7 +97,7 @@
         if(key){timing=performance.now();measurementStore.enqueue(key,value);stats.storageEnqueueMs+=performance.now()-timing;}
         return value;
       };
-        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:cacheContext?result:null,editionMaps:cacheContext&&isLeanReview(snapshot)?editionMaps:null,context:JSON.stringify([cacheContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;reportProgress({stage,complete:p.complete,total:p.total,ready:false});}});
+        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:reuseContext?result:null,editionMaps:reuseContext&&isLeanReview(snapshot)?editionMaps:null,context:JSON.stringify([reuseContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;reportProgress({stage,complete:p.complete,total:p.total,ready:false});}});
         if(token!==generation)return;
         const paginationMs=performance.now()-started;
         metrics={...stats,paginationMs,totalMs:paginationMs};
@@ -121,7 +122,7 @@
         if(token!==generation)return;
         metrics={...stats,paginationMs,previewMs,paintMs:performance.now()-paintStarted,totalMs:performance.now()-requested};completed=true;
         loadTimings.push(metrics);if(loadTimings.length>50)loadTimings.shift();root.dataset.paginationRuns=JSON.stringify(loadTimings);
-        onstatus?.({pending:false,error:'',generation:revision,edition:currentEdition,ready:true});
+        onstatus?.({pending:false,error:'',generation:revision,edition:currentEdition,ready:true,layoutCache:stats.layoutCache});
       }catch(e){if(e.cancelled||token!==generation)return;error=e.message;progress='';measurement=null;onmap?.({...result,ready:false,error:e.message});onstatus?.({pending:false,error:e.message,generation:revision});reportProgress({stage:'Preparing pages',ready:false,error:e.message});}
       finally{workTimings.push({...stats,cancelled:token!==generation,completed,elapsedMs:performance.now()-requested});if(workTimings.length>50)workTimings.shift();if(root)root.dataset.paginationWork=JSON.stringify(workTimings);}
     })();

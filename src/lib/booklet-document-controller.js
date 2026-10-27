@@ -19,14 +19,24 @@ export function restoreDocumentFrame(project, frame, immutable=false) {
   const current = new Map();
   for (const section of project.sections) for (const block of section.blocks) current.set(block.id, block);
   const next = { ...project, ...(immutable?frame.content:copy(frame.content)) };
-  next.sections=next.sections.map(section=>({...section,blocks:section.blocks.map(original=>{
-    const block={...original};
-    const live = current.get(block.id);
-    if (!live) return block;
-    for (const key of ['bankRef','classification']) if (key in live) block[key] = copy(live[key]);
-    if (live.flow?.bankDifficulty) block.flow = { ...block.flow, bankDifficulty: copy(live.flow.bankDifficulty) };
-    return block;
-  })}));
+  // Immutable frames share unchanged objects with the live document; keep that
+  // identity so pagination reuses untouched pages after Undo and Redo.
+  const same=(a,b)=>a===b||JSON.stringify(a)===JSON.stringify(b);
+  let changed=!immutable;
+  const sections=next.sections.map(section=>{
+    let sectionChanged=!immutable;
+    const blocks=section.blocks.map(original=>{
+      const live = current.get(original.id);
+      if (!live || (immutable && (live===original || (['bankRef','classification'].every(key=>!(key in live)||same(live[key],original[key]))&&(!live.flow?.bankDifficulty||same(live.flow.bankDifficulty,original.flow?.bankDifficulty)))))) return immutable?original:{...original};
+      const block={...original};sectionChanged=true;
+      for (const key of ['bankRef','classification']) if (key in live) block[key] = copy(live[key]);
+      if (live.flow?.bankDifficulty) block.flow = { ...block.flow, bankDifficulty: copy(live.flow.bankDifficulty) };
+      return block;
+    });
+    if(!sectionChanged)return section;
+    changed=true;return {...section,blocks};
+  });
+  if(changed)next.sections=sections;
   return next;
 }
 export function createDocumentHistory({ limit = 100, typingPause = 750, immutable=false } = {}) {

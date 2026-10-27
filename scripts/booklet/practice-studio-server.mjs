@@ -60,7 +60,12 @@ export function practiceStudioPlugin() {
           || pathname.startsWith('/__booklet/imports/');
         if (!ownsPath) return next();
         try {
-          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(()=>readBankManifest(BANK_ROOT)));
+          if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(async()=>{const current=await readBankManifest.snapshot(BANK_ROOT);return {...current.manifest,records:'/__booklet/bank/records?v='+current.signature};}));
+          if (pathname === '/__booklet/bank/records' && req.method === 'GET') {
+            const body = await withBankLock(()=>readBankManifest.records(BANK_ROOT,new URL(req.url,'http://localhost').searchParams.get('v')));
+            if (body == null) return send(res, 409, { error: 'The question bank changed; reload the manifest.' });
+            res.statusCode = 200; res.setHeader('Content-Type', 'application/json; charset=utf-8'); return res.end(body);
+          }
 
           const questionMatch = pathname.match(/^\/__booklet\/bank\/questions\/([^/]+)$/);
           if (questionMatch && req.method === 'GET') {

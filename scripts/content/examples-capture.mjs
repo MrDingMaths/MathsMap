@@ -18,7 +18,7 @@ DEPENDENCIES.push(
   'scripts/content/examples-capture.mjs',
   'src/lib/math-writing-box.js','src/lib/graph-strokes.js','src/lib/diagram-label-space.js',
   'src/lib/diagram-typography.js','src/lib/diagram-label-geometry.js','src/lib/svg-paint-scope.js',
-  'src/lib/diagram-colours.js','src/lib/booklet-render-cache.js',
+  'src/lib/diagram-colours.js','src/lib/booklet-render-cache.js','src/lib/diagram-cache-client.js',
   ...['document-model','annotated-equation','cloze-leader','cloze-answer','house-style','table-model','table-part-label','table-borders','equation-spacing','booklet-palette'].map(name=>`public/libs/maths-editor/${name}.mjs`),
   'node_modules/katex/dist/katex.mjs','node_modules/katex/dist/katex.min.css',
   'public/libs/tikzjax/tikzjax.js','public/libs/tikzjax/fonts.css',

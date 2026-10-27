@@ -1,16 +1,9 @@
-import installedVersion,{diagramVersion as installedDiagramVersion,leanVersion as installedLeanVersion} from 'virtual:booklet-render-version';
+import installedVersion,{leanVersion as installedLeanVersion} from 'virtual:booklet-render-version';
 import {createMeasurementStore} from './booklet-cache-store.js';
 import {isLeanReview} from './booklet-review-profile.js';
+import {cacheMode} from './diagram-cache-client.js';
+export {cacheMode,renderEnvironment,digestKey,serverDiagram} from './diagram-cache-client.js';
 export const measurementStore=createMeasurementStore();
-export const cacheMode=()=>globalThis.__bookletCacheMode??'normal';
-let runtime;
-export async function renderEnvironment(){
-  if(cacheMode()==='off')return null;
-  return runtime??=(async()=>{try{
-    const r=await fetch('/__booklet/render-cache/version',{signal:AbortSignal.timeout(5000)}),v=await r.json();
-    return r.ok&&v.diagramVersion===installedDiagramVersion?{version:v.diagramVersion}:null;
-  }catch{return null;}})();
-}
 export function measurementAssets(project){
   const urls=new Set(),run=project.source?.runId??project.id;
   const visit=value=>{
@@ -22,22 +15,27 @@ export function measurementAssets(project){
     }
   };visit(project.sections);return [...urls];
 }
-export async function dimensionCacheContext(project,{signal}={}){
-  if(['measurements-off','off'].includes(cacheMode()))return null;
+// One validation per asset list per session: renderer changes replace this
+// module through HMR, and opening, changing edition or returning to the tab
+// revalidates. Re-hashing on every edit cost 260–425 ms per typing pause.
+const validated=new Map();
+if(typeof document!=='undefined')document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')validated.clear();});
+async function validateContext(lean,assets){
   try{
-    const timeout=AbortSignal.timeout(5000);
-    const lean=isLeanReview(project);
-    const r=await fetch('/__booklet/render-cache/version?assets='+encodeURIComponent(JSON.stringify(measurementAssets(project)))+(lean?'&lean=1':''),{signal:signal?AbortSignal.any([signal,timeout]):timeout}),v=await r.json();
+    const r=await fetch('/__booklet/render-cache/version?assets='+encodeURIComponent(assets)+(lean?'&lean=1':''),{signal:AbortSignal.timeout(5000)}),v=await r.json();
     if(!r.ok||!v.assets||v.version!==(lean?installedLeanVersion:installedVersion))return null;
     return JSON.stringify([v.version,v.assets,navigator.userAgent,devicePixelRatio]);
   }catch{return null;}
 }
-export async function digestKey(value){return [...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))].map(b=>b.toString(16).padStart(2,'0')).join('');}
-export async function serverDiagram(version,key){
-  if(!version||['server-off','off'].includes(cacheMode()))return null;
-  try{
-    const r=await fetch('/__booklet/render-cache/'+version+'/'+key,{signal:AbortSignal.timeout(1500)});if(!r.ok)return null;const row=await r.json();
-    if(row.version!==version||row.key!==key||typeof row.svg!=='string'||!row.svg.trim().startsWith('<svg')||await digestKey(row.svg)!==row.checksum)return null;
-    return row.svg;
-  }catch{return null;}
+export async function dimensionCacheContext(project,{fresh=false}={}){
+  if(['measurements-off','off'].includes(cacheMode()))return null;
+  const lean=isLeanReview(project),assets=JSON.stringify(measurementAssets(project)),id=(lean?'lean:':'')+assets;
+  if(fresh||!validated.has(id)){validated.set(id,validateContext(lean,assets));if(validated.size>20)validated.delete(validated.keys().next().value);}
+  return validated.get(id);
+}
+// Same code and same tab: in-memory sizes stay valid when persistent validation
+// fails, so a failed check disables IndexedDB reuse instead of every reuse.
+export function sessionCacheContext(project){
+  if(['measurements-off','off'].includes(cacheMode()))return null;
+  return JSON.stringify(['session',isLeanReview(project)?installedLeanVersion:installedVersion,measurementAssets(project),navigator.userAgent,devicePixelRatio]);
 }

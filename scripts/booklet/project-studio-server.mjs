@@ -89,9 +89,15 @@ async function projectLibraries({ bankRoot = BANK_ROOT, moduleRoot = MODULE_ROOT
   return { bank: await readRecords(bankRoot), modules: await readRecords(moduleRoot) };
 }
 
-export async function listBookletProjects({ projectRoot = PROJECT_ROOT, summary = false } = {}) {
-  const records = await readRecords(projectRoot);
-  return records.map((raw) => ({
+// Listing needs a few fields per project, but parsing every file (hundreds of MB)
+// took over 3 s on each Studio open. Reparse a file only when its size or
+// modification time changes; any writer, this server or another, changes both.
+const projectRows=new Map();
+async function projectRow(file){
+  const stat=await fs.stat(file).catch(()=>null);if(!stat)return null;
+  const known=projectRows.get(file);if(known&&known.size===stat.size&&known.mtimeMs===stat.mtimeMs)return known.row;
+  const raw=await readJson(file);
+  const row=raw&&{
     id: raw.id,
     title: raw.title ?? 'Untitled booklet',
     subtitle: raw.subtitle ?? '',
@@ -102,8 +108,20 @@ export async function listBookletProjects({ projectRoot = PROJECT_ROOT, summary 
     library: normalizeProjectLibrary(raw.library),
     sections: raw.sections?.length ?? 0,
     updatedAt: raw.updatedAt ?? null,
-    ...(!summary?{source:raw.source??null}:{}),
-  })).sort((left, right) => String(right.updatedAt ?? '').localeCompare(String(left.updatedAt ?? '')) || left.title.localeCompare(right.title));
+    source: raw.source ?? null,
+  };
+  projectRows.set(file,{size:stat.size,mtimeMs:stat.mtimeMs,row});return row;
+}
+
+export async function listBookletProjects({ projectRoot = PROJECT_ROOT, summary = false } = {}) {
+  const files=(await fs.readdir(projectRoot).catch(()=>[])).filter((item)=>item.endsWith('.json')&&item!=='manifest.json').map(item=>path.join(projectRoot,item)),rows=new Array(files.length);let cursor=0;
+  await Promise.all(Array.from({length:Math.min(32,files.length)},async()=>{
+    while(cursor<files.length){const index=cursor++;rows[index]=await projectRow(files[index]);}
+  }));
+  const present=new Set(files),prefix=path.resolve(projectRoot)+path.sep;
+  for(const file of projectRows.keys())if(path.resolve(file).startsWith(prefix)&&!present.has(file))projectRows.delete(file);
+  return rows.filter(Boolean).map(({source,...row})=>summary?row:{...row,source})
+    .sort((left, right) => String(right.updatedAt ?? '').localeCompare(String(left.updatedAt ?? '')) || left.title.localeCompare(right.title));
 }
 
 export async function loadBookletProject(id, options = {}) {

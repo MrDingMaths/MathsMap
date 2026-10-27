@@ -28,7 +28,8 @@
   let { initialBank = [], onrequestbank = null, initialDifficulty = 'all', initialError = '', initialStage = 'builder', initialOutput = null, initialProjectId = null } = $props();
 
   let stage = $state('builder');
-  let bank = $state([]);
+  // Thousands of large records, only ever replaced: deep proxies cost seconds.
+  let bank = $state.raw([]);
   let error = $state('');
   let status = $state('');
   let busy = $state(false);

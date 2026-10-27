@@ -5,9 +5,11 @@
  import { questionSummary, questionSearchText } from '../lib/booklet-workspace.js';
  import { skills } from '../lib/data.js';
  let { bank = [], onrequestbank, oninsert, onclose, destination = 'End of section', title = 'Insert from question bank', actionLabel = 'Insert question' } = $props();
- let dialog, search, query = $state(''), selected = $state(''), loading = $state(false), error = $state(''), answers = $state('question'), limit = $state(40);
- const records = $derived(bank.map(question=>({question,...questionSummary(question,skills),search:questionSearchText(question)})));
- const results = $derived(records.filter(r=>[r.title,r.search,r.source,r.question.id,r.question.classification?.difficulty].join(' ').toLowerCase().includes(query.toLowerCase().trim())));
+ let dialog, search, query = $state(''), filter = $state(''), selected = $state(''), loading = $state(false), error = $state(''), answers = $state('question'), limit = $state(40);
+ // Build each question's search text once per bank, and filter after typing pauses.
+ const records = $derived(bank.map(question=>{const summary=questionSummary(question,skills),row={question,...summary,search:questionSearchText(question)};row.haystack=[row.title,row.search,row.source,question.id,question.classification?.difficulty].join(' ').toLowerCase();return row;}));
+ $effect(()=>{const next=query.toLowerCase().trim();if(!next){filter='';return;}const timer=setTimeout(()=>filter=next,120);return()=>clearTimeout(timer);});
+ const results = $derived(filter?records.filter(r=>r.haystack.includes(filter)):records);
  const current = $derived(results.find(r=>r.question.id===selected)??results[0]);
  async function load(){loading=true;error='';try{const result=await onrequestbank?.();if(result?.error)error=result.error;}catch(e){error=e.message;}finally{loading=false;}}
  onMount(()=>{const origin=document.activeElement;dialog.showModal();search?.focus();load();return()=>{dialog?.close();origin?.focus?.({preventScroll:true});};});

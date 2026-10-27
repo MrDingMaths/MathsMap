@@ -1,4 +1,4 @@
-import {renderEnvironment,serverDiagram,cacheMode,digestKey} from './booklet-render-cache.js';
+import {renderEnvironment,serverDiagram,cacheMode,digestKey} from './diagram-cache-client.js';
 
 // TikZ rendering — content-addressed cache (memory + IndexedDB) + lazy viewport injection
 // with shared-reset watchdog. Full port of mathsdatabase/js/tikz.js (757-line version),
@@ -102,7 +102,7 @@ const _snapshot = (wrapper) => {
 // Store name is versioned — bump it whenever the cache-key format changes.
 const TIKZ_IDB_NAME = 'mathsmap-tikz';
 const TIKZ_IDB_STORE = 'svg-v1';
-const TIKZ_IDB_CAP = 2000;
+const TIKZ_IDB_CAP = 10000;
 // The upstream TikzJax database (populated by the previously-eager unpatched bundle) is
 // unrelated to svg-v1. Remove it opportunistically; blocked/failed deletion never
 // participates in rendering.

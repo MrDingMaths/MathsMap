@@ -467,9 +467,54 @@ independently of autosave. A first uncached layout can take longer.
 - Compact answer pagination ignores question-only spacing overrides, while retaining answer diagram-width and other relevant invalidation.
 - Incremental continuation cannot reuse a partial page containing a changed question. Repeated unchanged answer runs retain their checkpoint metadata.
 - Missing DOM measurements are retried after paint and rejected if still unavailable. They cannot become cached zero-height results.
-- Every validation request still hashes renderer and asset bytes. Bounded parallel reads and request-local sharing reduce validation time without time-based or file-stat-based acceptance. File-stat hash caching was tried and rejected after a same-size, same-timestamp regression.
+- Validation hashes renderer and asset bytes without time-based or file-stat-based acceptance. File-stat hash caching was tried and rejected after a same-size, same-timestamp regression. Since 28 October 2026 renderer hashes are memoised until the watcher reports a change, and the browser validates once per session (see the speed pass below).
 - Preview metrics include scheduling, validation, cache I/O, measurement, pagination, rendering, paint and cancelled work.
 
 Run `node scripts/booklet/check-spacing-performance.mjs --project linear-relationships-v1 --verify` (and repeat with `non-right-angled-trigonometry-v1`). Use `--out` for a new local evidence directory and `--capture` for affected-page PDFs. Run `node scripts/booklet/check-spacing-editor.mjs` for live typing/composition, cancellation and failure handling. That note also records that the older smooth-editing script has an obsolete layout selector.
 
 The measured before-and-after timings, the evidence folders and the export check from that change are in the [archived note](archive/booklet-spacing-performance.md).
+
+## Speed pass (28 October 2026)
+
+Measured with `node bench/studio/interactions.mjs` (writes stay in memory; list,
+open, render-cache and bank requests reach the real server). Reports go to
+`.booklet-work/studio-bench/`.
+
+- **Stale layout version (root cause of slow edits on non-lean books).** The
+  layout fingerprint hashes `data/`, but the dev server only invalidated the
+  installed version for `src/`, `public/libs`, fonts, `index.html` and the
+  lockfile. After any `data/` edit the browser's version never matched, so
+  persistent reuse was off and every edit re-measured the whole edition. The
+  virtual module and `/__booklet/render-cache/version` now share one memoised
+  answer that the watcher clears for every root either fingerprint reads,
+  including additions and deletions. Renderer bytes are still hashed, once per
+  change rather than once per request; asset bytes are still hashed per request.
+- **Validation once per session.** The browser validates the layout cache once
+  per asset list, revalidating on open, edition change and tab return, instead of
+  before every pagination (260–425 ms per typing pause).
+- **Failed validation keeps in-memory reuse.** Sizes measured by the same code in
+  the same tab stay reusable; only IndexedDB reuse is disabled, and the status bar
+  shows "Layout cache off — reload Studio".
+- **Undo keeps identity.** Restoring a history frame reuses unchanged section and
+  block objects, so pagination reuses untouched pages.
+- **Diagram fingerprint narrowed.** `tikz.js` imports the small
+  `diagram-cache-client.js` instead of the layout cache module, so layout-cache
+  changes no longer invalidate compiled diagrams (the browser's TikZ cache is
+  keyed by that version). The TikZ IndexedDB cap is 10,000 entries.
+- **Diagram warming.** `node scripts/booklet/warm-diagrams.mjs --recent 12`
+  (or `--projects a,b`) opens booklets read-only in headless Studio, three at a
+  time, and publishes their compiled SVGs to the server cache. Run it after a
+  diagram-version change.
+- **Project list.** Summaries are reparsed only for files whose size or
+  modification time changed (2.8 s to about 10 ms warm).
+- **Question bank.** The manifest reparses only changed files instead of reading
+  and hashing about 150 MB per request, and offers one compact `records` response
+  in manifest order; the picker falls back to per-question requests when the bank
+  changed in between or the server does not offer it. The first manifest after a
+  server restart still validates every question (about 10–20 s).
+- **Bank sync.** Link lookups use one index per call instead of scanning every
+  link for every question.
+
+The stat-keyed list and bank caches accept a file as unchanged when both its size
+and modification time match. Unlike measurement validity, a miss here only shows
+an older summary or bank entry until the next change.

@@ -19,7 +19,7 @@ async function hashRows(files,root,readHash=fileHash){
 export const DIAGRAM_RENDER_INPUTS=[
   'src/lib/tikz.js','src/lib/tikz-prepare.js','src/lib/diagram-colours.js',
   'src/lib/diagram-typography.js','src/lib/diagram-label-space.js','src/lib/graph-strokes.js','src/lib/svg-paint-scope.js',
-  'src/lib/booklet-render-cache.js','src/lib/booklet-cache-store.js','src/lib/booklet-review-profile.js',
+  'src/lib/diagram-cache-client.js',
   'src/lib/diagram-label-geometry.js',
 ];
 async function filesUnder(root){return (await Promise.all((await fs.readdir(root,{withFileTypes:true})).map(e=>e.isDirectory()?filesUnder(path.join(root,e.name)):path.join(root,e.name)))).flat().sort();}
@@ -82,27 +82,42 @@ export async function readRenderEntry(version,key,{cacheRoot=RENDER_CACHE_ROOT}=
   if(!/^[a-f0-9]{64}$/.test(version)||!validToken(key))return null;
   try{const row=JSON.parse(await fs.readFile(path.join(cacheRoot,version,key+'.json'),'utf8'));return row.key===key&&row.version===version&&hash(row.svg)===row.checksum?row:null;}catch{return null;}
 }
+// Every root rendererFingerprint or the lean signature reads. The virtual module
+// and /version share one memo that the watcher clears for any of them, so the
+// browser's installed version can never drift from the server's answer.
+const RENDER_INPUT=/\/(src|data|public\/libs|node_modules\/katex\/dist)\/|\/(index\.html|package-lock\.json)$/;
 export function renderCachePlugin(){
-  const install=server=>{server.middlewares.use(async(req,res,next)=>{
+  let versions=null;
+  const currentVersions=()=>versions??=(async()=>{
+    const reads=new Map(),readHash=file=>{if(!reads.has(file))reads.set(file,fileHash(file));return reads.get(file);};
+    const [version,diagramVersion]=await Promise.all([rendererFingerprint(process.cwd(),readHash),diagramFingerprint(process.cwd(),readHash)]);
+    return {version,diagramVersion,leanVersion:rendererSignature({lean:true})};
+  })().catch(error=>{versions=null;throw error;});
+  const invalidate=(file,server)=>{
+    if(!RENDER_INPUT.test(file.replaceAll('\\','/')))return null;
+    versions=null;const module=server.moduleGraph.getModuleById('\0booklet-render-version');
+    if(module)server.moduleGraph.invalidateModule(module);return module;
+  };
+  const install=server=>{
+    // handleHotUpdate sees changes only; additions and deletions also change the fingerprint.
+    if(server.watcher)for(const event of ['add','unlink'])server.watcher.on(event,file=>{const module=invalidate(file,server);if(module)server.ws?.send({type:'full-reload'});});
+    server.middlewares.use(async(req,res,next)=>{
     const url=new URL(req.url??'/','http://localhost');if(!url.pathname.startsWith('/__booklet/render-cache/'))return next();
     res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','application/json');
     try{
       if(req.method!=='GET'){res.statusCode=405;return res.end('{}');}
       if(url.pathname==='/__booklet/render-cache/version'){
         const assets=JSON.parse(url.searchParams.get('assets')??'[]');if(!Array.isArray(assets)||assets.length>1000||assets.some(v=>typeof v!=='string'))throw Error('Invalid assets');
-        // Both fingerprints include the runtime libraries. Share their reads
-        // only within this request, then discard them before the next edit.
-        const reads=new Map(),readHash=file=>{if(!reads.has(file))reads.set(file,fileHash(file));return reads.get(file);};
-        const [version,diagramVersion,assetVersion]=await Promise.all([url.searchParams.get('lean')==='1'?rendererSignature({lean:true}):rendererFingerprint(process.cwd(),readHash),diagramFingerprint(process.cwd(),readHash),assetFingerprint(assets)]);
-        return res.end(JSON.stringify({version,diagramVersion,assets:assetVersion}));
+        const [current,assetVersion]=await Promise.all([currentVersions(),assetFingerprint(assets)]);
+        return res.end(JSON.stringify({version:url.searchParams.get('lean')==='1'?current.leanVersion:current.version,diagramVersion:current.diagramVersion,assets:assetVersion}));
       }
       const match=/^\/__booklet\/render-cache\/([a-f0-9]{64})\/([a-z0-9-]+)$/.exec(url.pathname),entry=match&&await readRenderEntry(match[1],match[2]);
       res.statusCode=entry?200:404;res.end(JSON.stringify(entry??{}));
     }catch{res.statusCode=503;res.end('{}');}
   });};return {name:'booklet-render-cache',configureServer:install,configurePreviewServer:install,
     resolveId(id){if(id==='virtual:booklet-render-version')return '\0booklet-render-version';},
-    async load(id){if(id==='\0booklet-render-version')return 'export default '+JSON.stringify(await rendererFingerprint())+'; export const diagramVersion = '+JSON.stringify(await diagramFingerprint())+'; export const leanVersion = '+JSON.stringify(rendererSignature({lean:true}))+';';},
-    handleHotUpdate({file,server,modules}){if(!file.replaceAll('\\','/').match(/\/(src|public\/libs|node_modules\/katex\/dist\/fonts)\/|\/(index\.html|package-lock\.json)$/))return;const module=server.moduleGraph.getModuleById('\0booklet-render-version');if(module){server.moduleGraph.invalidateModule(module);return [...modules,module];}}
+    async load(id){if(id==='\0booklet-render-version'){const current=await currentVersions();return 'export default '+JSON.stringify(current.version)+'; export const diagramVersion = '+JSON.stringify(current.diagramVersion)+'; export const leanVersion = '+JSON.stringify(current.leanVersion)+';';}},
+    handleHotUpdate({file,server,modules}){const module=invalidate(file,server);if(module)return [...modules,module];}
   };
 }
 // Only trusted export/warming tools publish; HTTP cache clients are read-only.
