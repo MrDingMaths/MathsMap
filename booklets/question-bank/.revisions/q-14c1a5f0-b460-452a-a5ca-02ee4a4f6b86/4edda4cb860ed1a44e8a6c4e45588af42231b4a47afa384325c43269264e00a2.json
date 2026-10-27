@@ -1,0 +1,245 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-14c1a5f0-b460-452a-a5ca-02ee4a4f6b86",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "elevation-depression",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate a vertical climb, interpret it and compare it with the required increase in altitude.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-06T13:12:29.082Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7628766e87d8c0038a708daff42562d44db3bcd41aa03843f987dcffacf197aa",
+      "evidence": ".booklet-work/full-imports/elevation-depression-bearings-20261006/semantic-packets/assignments/assignment-c579baf92fd2ef153be8/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p10-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "An aeroplane flying at an altitude of $1500\\text{ m}$ starts to climb at an angle of $15^\\circ$ to the horizontal when the pilot sees a mountain peak $2120\\text{ m}$ high, $2400\\text{ m}$ away from him horizontally.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p10-q12-context",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q12-context\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Q) at (0,0);\\coordinate (N) at (3.6,0);\\coordinate (M) at (3.6,3.18);\\coordinate (P) at (0,2.25);\n\\draw[line width=0.4pt,dashed] (-1.2,0)--(5.25,0);\n\\draw[line width=0.8pt] (1,0)--(1.35,0.16)--(1.65,0.52)--(2,0.67)--(2.32,1.15)--(2.7,1.42)--(2.98,2.02)--(3.23,2.63)--(3.43,2.95)--(M)--(3.76,2.93)--(3.94,2.5)--(4.06,1.86)--(4.35,1.4)--(4.56,0.8)--(4.87,0.44)--(5.06,0);\n\\draw[line width=0.8pt] (-0.95,2.32)--(-0.55,2.35)--(-0.85,2.7)--(-0.69,2.7)--(-0.19,2.36)--(0.02,2.33)--(0.1,2.26)--(-0.08,2.22)--(-0.32,2.22)--(-0.65,1.98)--(-0.8,1.98)--(-0.61,2.22)--(-0.96,2.22)--cycle;\n\\draw[line width=0.5pt,<->] (Q)--(P) node[midway,left] {$1500\\text{ m}$};\n\\draw[line width=0.5pt,<->] (N)--(M) node[midway,right] {$2120\\text{ m}$};\n\\draw[line width=0.4pt] (0,-0.08)--(0,-0.42) (3.6,-0.08)--(3.6,-0.42);\n\\draw[line width=0.5pt,<->] (0,-0.3)--(3.6,-0.3) node[midway,fill=white,inner sep=2pt] {$2400\\text{ m}$};\n\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Question 12, left contextual diagram",
+          "description": "Unshaded mountain and schematic aeroplane, with the aeroplane vertically above Q and mountain peak M vertically above N. Both ground points lie on one horizontal baseline.",
+          "mathematics": "QN is 2400 m horizontally; the aeroplane altitude is 1500 m and MN is 2120 m. The mountain summit is above the plane's initial altitude.",
+          "answerVisibility": "Only source givens and point labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p10-q12-triangle",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q12-triangle\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.8,0);\\coordinate (C) at (4.8,{4.8*tan(15)});\n\\draw[line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[line width=0.4pt] (4.55,0)--(4.55,0.25)--(4.8,0.25);\n\\draw[line width=0.4pt] (0.95,0) arc[start angle=0,end angle=15,radius=0.95];\n\\node at (1.35,0.18) {$15^\\circ$};\n\\path (A)--(C) node[midway,above] {$(\\mathrm H)$};\n\\path (A)--(B) node[midway,below] {$(\\mathrm A)$};\n\\path (B)--(C) node[midway,right] {$x\\text{ m }(\\mathrm O)$};\n\\draw[line width=0.4pt,dashed] (A)--(0,-1.45)--(4.8,-1.45)--(B);\n\\draw[line width=0.5pt,<->] (-0.65,0)--(-0.65,-1.45) node[midway,left] {$1500\\text{ m}$};\n\\draw[line width=0.4pt] (-0.78,0)--(-0.52,0) (-0.78,-1.45)--(-0.52,-1.45) (0,-1.62)--(0,-1.98) (4.8,-1.62)--(4.8,-1.98);\n\\draw[line width=0.5pt,<->] (0,-1.8)--(4.8,-1.8) node[midway,fill=white,inner sep=2pt] {$2400\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Question 12, right triangle scaffold",
+          "description": "Right triangle with H/O/A labels and a lower dashed projection showing the initial altitude and horizontal distance. The left angle is 15 degrees and the opposite side is x metres.",
+          "mathematics": "The horizontal adjacent side is 2400 m; the opposite side is x m; the hypotenuse rises at 15 degrees. The lower baseline is 1500 m below the adjacent side.",
+          "answerVisibility": "The unknown x is retained; no calculated climb or clearance is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p10-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Calculate the value of $x$ to 2 decimal places. What does this represent?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x\\approx643.08\\text{ m}$. This is the vertical climb over a horizontal distance of $2400\\text{ m}$.",
+          "worked": "$$\\begin{align*}\\tan15^\\circ&=\\frac{x}{2400}\\\\x&=2400\\tan15^\\circ\\\\x&\\approx643.08\\text{ m}\\end{align*}$$\nThis is the increase in the aeroplane's altitude while it travels $2400\\text{ m}$ horizontally.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p10-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Will the aeroplane clear the mountain?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Yes. The required climb is $620\\text{ m}$, less than $2400\\tan15^\\circ\\text{ m}$.",
+          "worked": "$$\\begin{align*}\\text{Required climb}&=2120-1500\\\\&=620\\text{ m}\\end{align*}$$\nSince $2400\\tan15^\\circ>620$, the aeroplane will clear the mountain.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p10-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p10-q12-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p10-q12-stem-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p10-q12-number-item",
+                      "type": "item",
+                      "ref": "p10-q12-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p10-q12-stem-item",
+                      "type": "item",
+                      "ref": "p10-q12-root/prompt"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p10-q12-paired-figures",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p10-q12-context-item",
+                      "type": "item",
+                      "ref": "p10-q12-context",
+                      "width": 70,
+                      "align": "center"
+                    },
+                    {
+                      "id": "p10-q12-triangle-item",
+                      "type": "item",
+                      "ref": "p10-q12-triangle",
+                      "width": 70,
+                      "align": "center"
+                    }
+                  ],
+                  "gap": 2,
+                  "verticalAlign": "middle"
+                },
+                {
+                  "id": "p10-q12-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p10-q12-a-label-item",
+                      "type": "item",
+                      "ref": "p10-q12-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p10-q12-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p10-q12-a-prompt-item",
+                          "type": "item",
+                          "ref": "p10-q12-a/prompt"
+                        },
+                        {
+                          "id": "p10-q12-a-space-item",
+                          "type": "item",
+                          "ref": "p10-q12-a/space"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p10-q12-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p10-q12-b-label-item",
+                      "type": "item",
+                      "ref": "p10-q12-b/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p10-q12-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p10-q12-b-prompt-item",
+                          "type": "item",
+                          "ref": "p10-q12-b/prompt"
+                        },
+                        {
+                          "id": "p10-q12-b-space-item",
+                          "type": "item",
+                          "ref": "p10-q12-b/space"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p10-q12"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:39:45.119Z",
+  "updatedAt": "2026-10-25T03:41:10.448Z"
+}

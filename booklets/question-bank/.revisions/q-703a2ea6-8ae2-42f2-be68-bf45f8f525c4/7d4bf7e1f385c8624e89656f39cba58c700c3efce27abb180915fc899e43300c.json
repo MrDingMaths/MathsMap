@@ -1,0 +1,312 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-703a2ea6-8ae2-42f2-be68-bf45f8f525c4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-exponential-model",
+    "secondarySkillIds": [
+      "exponential-growth-decay-model"
+    ],
+    "reasoningScore": 20,
+    "difficulty": "Foundation",
+    "difficultyReason": "Identify decay and interpret the initial-value intercept, then read the supplied curve forwards and backwards to estimate value and threshold time.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:00:43.890Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2b62a3254002819dcf63eb3a3f2ffc92f99ced7a4a9accf888a93ea716fa26a9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/features-quadratics-exponentials-v1/dfe26093468ead068a47188286d6c46826acb6e7a7edfc8932b1a405e15e2a7c-1792558827815/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p44-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "A new motorcycle is purchased for $\\$20\\,000$ and depreciates in value at a rate of 25% per year. The salvage value of the motorcycle can be modelled using the equation $S=20\\,000(0.75)^n$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p44-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied exponential decay curve and its equation\"}],\"reference\":\"source page 44, p44-q5-graph\"}\n\\begin{tikzpicture}[x=0.72cm,y=0.72cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[gridGrey,line width=0.25pt,xstep=0.5,ystep=0.5] (0,0) grid (8,9);\n\\draw[black,->,line width=0.5pt] (0,0)--(8,0) node[right] {$n$};\n\\draw[black,->,line width=0.5pt] (0,0)--(0,9) node[above] {$S$};\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\foreach \\x in {1,2,3,4,5,6,7} {\n\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.13);\n\\node[below] at (\\x,-0.13) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\y/\\lab in {2/5000,4/10000,6/15000,8/20000} {\n\\draw[black,line width=0.4pt] (0,\\y)--(-0.13,\\y);\n\\node[left] at (-0.13,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};\n}\n\\draw[seriesBlue,line width=0.8pt,domain=0:6,samples=121] plot (\\x,{8*pow(0.75,\\x)});\n\\node[seriesBlue,anchor=west] at (2.8,4.4) {$S=20\\,000(0.75)^n$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 44,
+          "sourceRegion": "Question 5, upper-left graph",
+          "description": "Unshaded supplied decreasing exponential graph. Horizontal range 0 to 8 with grid spacing 0.5; vertical range 0 to 22500 with grid spacing 1250. Positive axis arrows, one origin label, horizontal labels 1–7 and vertical labels 5000, 10000, 15000 and 20000. Curve ends at n=6 without an arrow.",
+          "mathematics": "S=20000(0.75)^n; intercept (0,20000). TikZ vertical coordinates represent units of 2500.",
+          "answerVisibility": "The curve and equation are permanent question givens used for interpretation and graph reading."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p44-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Does this graph represent exponential growth or decay?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Decay.",
+          "worked": "Exponential decay: the curve decreases as $n$ increases, and the multiplier $0.75$ is less than 1.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p44-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What does the intercept of the curve with the vertical axis represent?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The initial value of the motorcycle, $\\$20\\,000$.",
+          "worked": "At $n=0$, the graph has $S=20\\,000$. This represents the motorcycle's initial value of $\\$20\\,000$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p44-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the graph to find the salvage value of the motorcycle after 2 years.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately $\\$11\\,250$.",
+          "worked": "Read upwards from $n=2$ to the curve, then across to the $S$-axis: $S\\approx11\\,250$. The salvage value is approximately $\\$11\\,250$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p44-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "From the graph, estimate the number of years it takes for the salvage value of the motorcycle to be less than $\\$6000$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "After about 4.2 years.",
+          "worked": "Read across from $S=6000$ to the curve, then down to the $n$-axis. The crossing is at about $n=4.2$, so the value is below $\\$6000$ after about 4.2 years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p44-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p44-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p44-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p44-q5-root/label",
+                  "type": "item",
+                  "ref": "p44-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p44-q5-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q5-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q5-graph",
+                          "type": "item",
+                          "ref": "p44-q5-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q5-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q5-root/prompt",
+                          "type": "item",
+                          "ref": "p44-q5-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p44-q5-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p44-q5-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q5-a/label",
+                                  "type": "item",
+                                  "ref": "p44-q5-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p44-q5-a/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q5-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q5-a/space",
+                                  "type": "item",
+                                  "ref": "p44-q5-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q5-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q5-b/label",
+                                  "type": "item",
+                                  "ref": "p44-q5-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p44-q5-b/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q5-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q5-b/space",
+                                  "type": "item",
+                                  "ref": "p44-q5-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q5-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q5-c/label",
+                                  "type": "item",
+                                  "ref": "p44-q5-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p44-q5-c/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q5-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q5-c/space",
+                                  "type": "item",
+                                  "ref": "p44-q5-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q5-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q5-d/label",
+                                  "type": "item",
+                                  "ref": "p44-q5-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p44-q5-d/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q5-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q5-d/space",
+                                  "type": "item",
+                                  "ref": "p44-q5-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:44:09.231Z",
+  "updatedAt": "2026-10-21T08:44:09.231Z"
+}

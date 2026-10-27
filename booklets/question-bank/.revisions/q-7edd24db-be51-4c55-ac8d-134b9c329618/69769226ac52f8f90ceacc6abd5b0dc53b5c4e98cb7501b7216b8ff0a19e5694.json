@@ -1,0 +1,355 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7edd24db-be51-4c55-ac8d-134b9c329618",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "equation-from-graph"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied reference points to obtain the intercept and gradient, assemble the conversion equation and use it in both directions, checking numerical results against the graph.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:56.985Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2768491fe4e5cce033b7308e59d3cc4e5ca70843f5f1ee10ee9261f75f753c2f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/3e04bc65e28ee803f073854c76c04141e3ad4b4ff13b194854f7830a7d2c8fe5-1792559188126/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p43-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "This graph shows the relationship between degrees Celsius and degrees Fahrenheit.\nThe freezing point of water is $0^\\circ\\mathrm{C}$ or $32^\\circ\\mathrm{F}$, while the boiling point is at $100^\\circ\\mathrm{C}$ or $212^\\circ\\mathrm{F}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p43-q12-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"temperatureBlue\",\"hex\":\"268CFF\",\"reason\":\"temperature conversion graph and its marked freezing point\"}],\"reference\":\"source page 43 p43-q12-graph\"}\n\\begin{tikzpicture}[x=0.043cm,y=0.045cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{temperatureBlue}{HTML}{268CFF}\n\\draw[black,line width=0.15pt,xstep=10,ystep=10] (-40,-20) grid (100,220);\n\\draw[black,line width=0.5pt,<->] (-47,0)--(108,0) node[right] {$^\\circ\\mathrm{C}$};\n\\draw[black,line width=0.5pt,<->] (0,-27)--(0,227) node[above] {$^\\circ\\mathrm{F}$};\n\\foreach \\x in {-40,-20,20,40,60,80,100}{\\draw[black,line width=0.4pt] (\\x,-1.5)--(\\x,1.5);\\node[below,inner sep=0.2pt] at (\\x,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {-20,20,40,60,80,100,120,140,160,180,200,220}{\\draw[black,line width=0.4pt] (-1.8,\\y)--(1.8,\\y);\\node[left,inner sep=0.2pt] at (-2,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[temperatureBlue,line width=0.8pt,<->] plot[domain=-32:108,samples=2] (\\x,{1.8*\\x+32});\n\\fill[temperatureBlue] (0,32) circle[radius=1.6pt];\n\\fill[black] (100,212) circle[radius=1.6pt];\n\\node[black,right] at (8,32) {$(0,32)$};\n\\node[black,left] at (96,212) {$(100,212)$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 43,
+          "sourceRegion": "Question 12, left-hand Celsius–Fahrenheit graph",
+          "description": "Portrait conversion graph with negative ranges, a 10-unit grid, double-ended axes and conversion line, both labelled coordinate points and an unlabelled origin.",
+          "mathematics": "F = 1.8C + 32; grid C from -40 to 100 and F from -20 to 220, at 10-unit intervals. Label horizontal ticks -40, -20, 20, 40, 60, 80, 100 and vertical ticks -20, 20 through 220 in steps of 20.",
+          "answerVisibility": "The conversion line and labelled points (0,32) and (100,212) are permanent student-visible givens. No responses are included."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p43-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the $y$-intercept of the line?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$32$",
+          "worked": "At $C=0$, the graph gives $F=32$. The $y$-intercept is $32$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p43-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the gradient of the line?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1.8$",
+          "worked": "$$\\begin{align*}m&=\\frac{\\text{rise}}{\\text{run}}\\\\m&=\\frac{212-32}{100-0}\\\\m&=1.8\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p43-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write an equation $y=mx+c$ to relate Celsius and Fahrenheit.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F=1.8C+32$",
+          "worked": "Using $m=1.8$ and $c=32$:\n$$\\begin{align*}F&=mC+c\\\\F&=1.8C+32\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p43-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use your equation to convert $48^\\circ\\mathrm{C}$ to Fahrenheit.\nDoes this match the graph?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$118.4^\\circ\\mathrm{F}$. Yes.",
+          "worked": "$$\\begin{align*}F&=1.8(48)+32\\\\F&=118.4\\end{align*}$$\nThe temperature is $118.4^\\circ\\mathrm{F}$. Yes; the graph gives approximately $118^\\circ\\mathrm{F}$ at $48^\\circ\\mathrm{C}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p43-q12-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Use your equation to convert $200^\\circ\\mathrm{F}$ to Celsius. Give your answer to 2 decimal places.\nDoes this match the graph?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$93.33^\\circ\\mathrm{C}$. Yes.",
+          "worked": "$$\\begin{align*}200&=1.8C+32\\\\168&=1.8C\\\\C&=\\frac{168}{1.8}\\\\C&=\\frac{280}{3}\\\\C&\\approx93.33\\end{align*}$$\nThe temperature is $93.33^\\circ\\mathrm{C}$ to 2 decimal places. Yes; the graph gives approximately $93^\\circ\\mathrm{C}$ at $200^\\circ\\mathrm{F}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p43-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p43-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p43-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p43-q12-root/label",
+                  "type": "item",
+                  "ref": "p43-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "p43-q12-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p43-q12-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p43-q12-graph",
+                          "type": "item",
+                          "ref": "p43-q12-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p43-q12-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p43-q12-root/prompt",
+                          "type": "item",
+                          "ref": "p43-q12-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p43-q12-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p43-q12-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p43-q12-a/label",
+                                  "type": "item",
+                                  "ref": "p43-q12-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p43-q12-a/prompt",
+                                  "type": "item",
+                                  "ref": "p43-q12-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p43-q12-a/space",
+                                  "type": "item",
+                                  "ref": "p43-q12-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p43-q12-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p43-q12-b/label",
+                                  "type": "item",
+                                  "ref": "p43-q12-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p43-q12-b/prompt",
+                                  "type": "item",
+                                  "ref": "p43-q12-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p43-q12-b/space",
+                                  "type": "item",
+                                  "ref": "p43-q12-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p43-q12-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p43-q12-c/label",
+                                  "type": "item",
+                                  "ref": "p43-q12-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p43-q12-c/prompt",
+                                  "type": "item",
+                                  "ref": "p43-q12-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p43-q12-c/space",
+                                  "type": "item",
+                                  "ref": "p43-q12-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p43-q12-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p43-q12-d/label",
+                                  "type": "item",
+                                  "ref": "p43-q12-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p43-q12-d/prompt",
+                                  "type": "item",
+                                  "ref": "p43-q12-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p43-q12-d/space",
+                                  "type": "item",
+                                  "ref": "p43-q12-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p43-q12-e:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p43-q12-e/label",
+                                  "type": "item",
+                                  "ref": "p43-q12-e/label",
+                                  "title": "Label e"
+                                },
+                                {
+                                  "id": "layout:p43-q12-e/prompt",
+                                  "type": "item",
+                                  "ref": "p43-q12-e/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p43-q12-e/space",
+                                  "type": "item",
+                                  "ref": "p43-q12-e/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part e",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:49.422Z",
+  "updatedAt": "2026-10-27T04:40:20.569Z"
+}

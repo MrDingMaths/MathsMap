@@ -1,0 +1,399 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-854f8c75-6669-4df6-91cb-0c0128acd501",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "equation-from-graph"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish height remaining from length used, read a graph with a broken height axis, derive the decreasing rate, and extend the resulting equation to zero height beyond the displayed interval.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:45.438Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "56c9121b7c2382a1be3d44a77179c10f0cc0986a899d2ccc01fbd49dc3123bd8",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/d6c4994230b01d119dc223b8e2c0ec8950a352c420ac83b6e204d6d4563566d8-1792559183057/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p39-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "This model shows the height of a burning candle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p39-q4-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"linear model series\"}],\"reference\":\"source page 39, p39-q4-graph\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.7cm]\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[housegrid,line width=0.15pt,xstep=0.5,ystep=0.5,shift={(0,0.55)}] (0,0) grid (6,5);\n\\draw[housegrid,line width=0.25pt] (0,0.55) rectangle (6,5.55);\n\\draw[black,line width=0.5pt,->] (0,0)--(6.3,0);\n\\draw[black,line width=0.5pt] (0,-0.1)--(0,0.18);\n\\draw[black,line width=0.5pt,->] (0,0.46)--(0,5.85);\n\\draw[black,line width=0.4pt] (-0.09,0.18)--(0.09,0.38) (-0.09,0.34)--(0.09,0.54);\n\\foreach \\x in {0.5,1,...,6} {\\draw[black,line width=0.4pt] (\\x,-0.07)--(\\x,0.07);}\n\\foreach \\x in {1,...,6} {\\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,-0.13) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\h in {120,160,200,240,280,320} {\\pgfmathsetmacro{\\yy}{0.55+(\\h-120)/40}\\draw[black,line width=0.4pt] (-0.07,\\yy)--(0.07,\\yy);\\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-0.12,\\yy) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\h$\\special{dvisvgm:raw </g>}};}\n\\node[font=\\fontsize{10}{12}\\selectfont,below] at (3,-0.62) {Time (h)};\n\\node[font=\\fontsize{10}{12}\\selectfont,rotate=90] at (-1.12,3.05) {Height (mm)};\n\\draw[seriesBlue,line width=0.8pt,domain=0:6,samples=2] plot (\\x,{0.55+(300-30*\\x-120)/40});\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "align": "center",
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 39,
+          "sourceRegion": "Question 4, candle-height graph",
+          "description": "Landscape graph with a broken vertical axis, half-hour grid spacing, 20 mm horizontal grid spacing and a descending blue model segment. The horizontal baseline lies below the displayed height range.",
+          "mathematics": "h = 300 - 30t for the displayed segment 0 ≤ t ≤ 6. Displayed height range 120–320 mm; labelled times 1–6 h and labelled heights 120, 160, 200, 240, 280, 320 mm. Both axes have arrowheads.",
+          "answerVisibility": "The supplied model is visible; no response answers or solution annotations appear in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p39-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the height of the candle initially?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "300 mm",
+          "worked": "At $t=0$, the graph shows a height of $300$ mm.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p39-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How long does it take for the height to decrease to 180 mm?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "4 hours",
+          "worked": "Read across from $180$ mm to the line, then down to the time axis: $t=4$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p39-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How long does it take for 180 mm of the candle to be used?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "6 hours",
+          "worked": "The remaining height is $300-180=120$ mm. Read across from $120$ mm to the line, then down to the time axis: $t=6$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p39-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "At what rate is the candle’s height decreasing per hour?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "30 mm per hour",
+          "worked": "$$\\begin{aligned}m&=\\frac{120-300}{6-0}\\\\m&=-30\\end{aligned}$$\nThe candle’s height decreases by $30$ mm per hour.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p39-q4-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Write an equation relating height $h$ and time $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$h=-30t+300$",
+          "worked": "The gradient is $-30$ and the initial height is $300$ mm.\n$$\\begin{aligned}h&=mt+c\\\\h&=-30t+300\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p39-q4-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Predict when the candle will be completely used up.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "10 hours",
+          "worked": "When the candle is completely used up, $h=0$.\n$$\\begin{aligned}0&=-30t+300\\\\30t&=300\\\\t&=10\\end{aligned}$$\nThe model predicts $10$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p39-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p39-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p39-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p39-q4-root/label",
+                  "type": "item",
+                  "ref": "p39-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p39-q4-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p39-q4-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q4-graph",
+                          "type": "item",
+                          "ref": "p39-q4-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p39-q4-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p39-q4-root/prompt",
+                          "type": "item",
+                          "ref": "p39-q4-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p39-q4-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p39-q4-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q4-a/label",
+                                  "type": "item",
+                                  "ref": "p39-q4-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p39-q4-a/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q4-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q4-a/space",
+                                  "type": "item",
+                                  "ref": "p39-q4-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q4-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q4-b/label",
+                                  "type": "item",
+                                  "ref": "p39-q4-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p39-q4-b/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q4-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q4-b/space",
+                                  "type": "item",
+                                  "ref": "p39-q4-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q4-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q4-c/label",
+                                  "type": "item",
+                                  "ref": "p39-q4-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p39-q4-c/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q4-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q4-c/space",
+                                  "type": "item",
+                                  "ref": "p39-q4-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q4-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q4-d/label",
+                                  "type": "item",
+                                  "ref": "p39-q4-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p39-q4-d/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q4-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q4-d/space",
+                                  "type": "item",
+                                  "ref": "p39-q4-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q4-e:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q4-e/label",
+                                  "type": "item",
+                                  "ref": "p39-q4-e/label",
+                                  "title": "Label e"
+                                },
+                                {
+                                  "id": "layout:p39-q4-e/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q4-e/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q4-e/space",
+                                  "type": "item",
+                                  "ref": "p39-q4-e/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part e",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p39-q4-f:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p39-q4-f/label",
+                                  "type": "item",
+                                  "ref": "p39-q4-f/label",
+                                  "title": "Label f"
+                                },
+                                {
+                                  "id": "layout:p39-q4-f/prompt",
+                                  "type": "item",
+                                  "ref": "p39-q4-f/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p39-q4-f/space",
+                                  "type": "item",
+                                  "ref": "p39-q4-f/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part f",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:38.968Z",
+  "updatedAt": "2026-10-27T10:31:22.990Z"
+}

@@ -1,0 +1,656 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ec0890e3-9d43-41a3-856d-1f880222c6bc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-dependent-events",
+    "secondarySkillIds": [
+      "probability-independent-events",
+      "multistage-outcomes",
+      "complementary-multistage"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Build trees for explicitly separated replacement conditions, adjust second-stage counts appropriately, and translate ordered, repeated-type and at-least-one events into path products or complements.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:21.308Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4999e14a8675d4662fba90efc3de0633ff9476608c38cb941ef58e6fc12a3a5c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/1eaaaefe62203cd5f68a3afd8566ab8e202f011c4142b5296e3a313f669df3f8-1792560721192/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p45-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "There are 12 novels and 9 science books on a bookshelf. Two books are selected at random from the bookshelf.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p45-q7-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "The first book is replaced before the second book is selected.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p45-q7-a-tree",
+            "type": "part",
+            "label": "",
+            "prompt": "Draw a tree diagram.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$N$ = novel, $S$ = science book. At both stages, each pair of branches has probabilities $P(N)=\\frac{12}{21}$ and $P(S)=\\frac{9}{21}$.",
+              "worked": "Let $N$ represent a novel and $S$ a science book. Replacement keeps 21 books available, so the second-stage probabilities are unchanged. Multiply along each path:\n$$\\begin{align*}P(NN)&=\\frac{12}{21}\\times\\frac{12}{21}=\\frac{16}{49}\\\\P(NS)&=\\frac{12}{21}\\times\\frac{9}{21}=\\frac{12}{49}\\\\P(SN)&=\\frac{9}{21}\\times\\frac{12}{21}=\\frac{12}{49}\\\\P(SS)&=\\frac{9}{21}\\times\\frac{9}{21}=\\frac{9}{49}.\\end{align*}$$",
+              "solutionDiagrams": [
+                {
+                  "id": "p45-q7-a-tree-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 45 p45-q7-a-tree-solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (N) at (3,1.5);\\coordinate (S) at (3,-1.5);\n\\node[above] at (3,2.7) {1st stage};\\node[above] at (6.3,2.7) {2nd stage};\n\\draw (O)--node[above,sloped] {$\\frac{12}{21}$}(N);\\draw (O)--node[below,sloped] {$\\frac{9}{21}$}(S);\n\n\\draw (3.45,1.5)--node[above,sloped] {$\\frac{12}{21}$}(6,2.3);\\draw (3.45,1.5)--node[below,sloped] {$\\frac{9}{21}$}(6,0.7);\n\\draw (3.45,-1.5)--node[above,sloped] {$\\frac{12}{21}$}(6,-0.7);\\draw (3.45,-1.5)--node[below,sloped] {$\\frac{9}{21}$}(6,-2.3);\n\\node[right] at (6,2.3) {$N\\ (NN)$};\\node[right] at (6,0.7) {$S\\ (NS)$};\\node[right] at (6,-0.7) {$N\\ (SN)$};\\node[right] at (6,-2.3) {$S\\ (SS)$};\n\\node[right,fill=white,inner sep=2pt] at (N) {$N$};\n\\node[right,fill=white,inner sep=2pt] at (S) {$S$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 95,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 45,
+                    "sourceRegion": "Question 7(a), blank tree-drawing region",
+                    "description": "Authored answer tree with replacement; no tree is supplied in the student question.",
+                    "mathematics": "First and second draws each have novel probability 12/21 and science probability 9/21; terminal outcomes NN, NS, SN and SS.",
+                    "answerVisibility": "Answer editions only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 55
+          },
+          {
+            "id": "p45-q7-a-probabilities",
+            "type": "group",
+            "label": "",
+            "prompt": "Find the probability of choosing:",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [
+              {
+                "id": "p45-q7-a-i",
+                "type": "part",
+                "label": "i",
+                "prompt": "novel and then a science book.",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{12}{49}$",
+                  "worked": "$$\\begin{align*}P(NS)&=\\frac{12}{21}\\times\\frac{9}{21}\\\\&=\\frac{108}{441}\\\\&=\\frac{12}{49}.\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 18
+              },
+              {
+                "id": "p45-q7-a-ii",
+                "type": "part",
+                "label": "ii",
+                "prompt": "2 novels.",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{16}{49}$",
+                  "worked": "$$\\begin{align*}P(NN)&=\\frac{12}{21}\\times\\frac{12}{21}\\\\&=\\frac{144}{441}\\\\&=\\frac{16}{49}.\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 18
+              },
+              {
+                "id": "p45-q7-a-iii",
+                "type": "part",
+                "label": "iii",
+                "prompt": "at least one science book.",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{33}{49}$",
+                  "worked": "The complement is choosing two novels.\n$$\\begin{align*}P(\\text{at least one science book})&=1-P(NN)\\\\&=1-\\frac{12}{21}\\times\\frac{12}{21}\\\\&=1-\\frac{16}{49}\\\\&=\\frac{33}{49}.\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 24
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "p45-q7-b",
+        "type": "group",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p45-q7-b-assumption",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The first book is ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "NOT",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " replaced before the second book is selected.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p45-q7-b-tree",
+            "type": "part",
+            "label": "",
+            "prompt": "Draw a tree diagram.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$N$ = novel, $S$ = science book. First draw: $P(N)=\\frac{12}{21}$, $P(S)=\\frac{9}{21}$. After $N$: $P(N)=\\frac{11}{20}$, $P(S)=\\frac{9}{20}$. After $S$: $P(N)=\\frac{12}{20}$, $P(S)=\\frac{8}{20}$.",
+              "worked": "Without replacement, 20 books remain for the second draw. Reduce the number of the type selected first by one. Multiply along each path:\n$$\\begin{align*}P(NN)&=\\frac{12}{21}\\times\\frac{11}{20}=\\frac{11}{35}\\\\P(NS)&=\\frac{12}{21}\\times\\frac{9}{20}=\\frac{9}{35}\\\\P(SN)&=\\frac{9}{21}\\times\\frac{12}{20}=\\frac{9}{35}\\\\P(SS)&=\\frac{9}{21}\\times\\frac{8}{20}=\\frac{6}{35}.\\end{align*}$$",
+              "solutionDiagrams": [
+                {
+                  "id": "p45-q7-b-tree-solution",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 45 p45-q7-b-tree-solution\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (N) at (3,1.5);\\coordinate (S) at (3,-1.5);\n\\node[above] at (3,2.7) {1st stage};\\node[above] at (6.3,2.7) {2nd stage};\n\\draw (O)--node[above,sloped] {$\\frac{12}{21}$}(N);\\draw (O)--node[below,sloped] {$\\frac{9}{21}$}(S);\n\n\\draw (3.45,1.5)--node[above,sloped] {$\\frac{11}{20}$}(6,2.3);\\draw (3.45,1.5)--node[below,sloped] {$\\frac{9}{20}$}(6,0.7);\n\\draw (3.45,-1.5)--node[above,sloped] {$\\frac{12}{20}$}(6,-0.7);\\draw (3.45,-1.5)--node[below,sloped] {$\\frac{8}{20}$}(6,-2.3);\n\\node[right] at (6,2.3) {$N\\ (NN)$};\\node[right] at (6,0.7) {$S\\ (NS)$};\\node[right] at (6,-0.7) {$N\\ (SN)$};\\node[right] at (6,-2.3) {$S\\ (SS)$};\n\\node[right,fill=white,inner sep=2pt] at (N) {$N$};\n\\node[right,fill=white,inner sep=2pt] at (S) {$S$};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 95,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 45,
+                    "sourceRegion": "Question 7(b), blank tree-drawing region",
+                    "description": "Authored answer tree without replacement; no tree is supplied in the student question.",
+                    "mathematics": "First draw probabilities 12/21 and 9/21. After N, second probabilities 11/20 and 9/20. After S, second probabilities 12/20 and 8/20. Terminal outcomes NN, NS, SN and SS.",
+                    "answerVisibility": "Answer editions only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 55
+          },
+          {
+            "id": "p45-q7-b-probabilities",
+            "type": "group",
+            "label": "",
+            "prompt": "Find the probability of choosing:",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [
+              {
+                "id": "p45-q7-b-i",
+                "type": "part",
+                "label": "i",
+                "prompt": "novel and then a science book.",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{9}{35}$",
+                  "worked": "$$\\begin{align*}P(NS)&=\\frac{12}{21}\\times\\frac{9}{20}\\\\&=\\frac{108}{420}\\\\&=\\frac{9}{35}.\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 18
+              },
+              {
+                "id": "p45-q7-b-ii",
+                "type": "part",
+                "label": "ii",
+                "prompt": "2 novels.",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{11}{35}$",
+                  "worked": "$$\\begin{align*}P(NN)&=\\frac{12}{21}\\times\\frac{11}{20}\\\\&=\\frac{132}{420}\\\\&=\\frac{11}{35}.\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 18
+              },
+              {
+                "id": "p45-q7-b-iii",
+                "type": "part",
+                "label": "iii",
+                "prompt": "at least one science book.",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\frac{24}{35}$",
+                  "worked": "The complement is choosing two novels.\n$$\\begin{align*}P(\\text{at least one science book})&=1-P(NN)\\\\&=1-\\frac{12}{21}\\times\\frac{11}{20}\\\\&=1-\\frac{11}{35}\\\\&=\\frac{24}{35}.\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 24
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "answerPartLabels": {
+      "short": {
+        "p45-q7-a-tree": "a",
+        "p45-q7-b-tree": "b"
+      },
+      "worked": {
+        "p45-q7-a-tree": "a",
+        "p45-q7-b-tree": "b"
+      }
+    },
+    "ownerId": "p45-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p45-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p45-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p45-q7-root/label",
+                  "type": "item",
+                  "ref": "p45-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p45-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p45-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p45-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p45-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p45-q7-a/label",
+                          "type": "item",
+                          "ref": "p45-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p45-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p45-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p45-q7-a:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p45-q7-a-tree:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p45-q7-a-tree/prompt",
+                                  "type": "item",
+                                  "ref": "p45-q7-a-tree/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p45-q7-a-tree/space",
+                                  "type": "item",
+                                  "ref": "p45-q7-a-tree/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Unlabelled part 1",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p45-q7-a-probabilities:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p45-q7-a-probabilities/prompt",
+                                  "type": "item",
+                                  "ref": "p45-q7-a-probabilities/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p45-q7-a-probabilities:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p45-q7-a-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p45-q7-a-i/label",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-a-i/prompt",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-i/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-a-i/space",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p45-q7-a-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p45-q7-a-ii/label",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-a-ii/prompt",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-ii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-a-ii/space",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p45-q7-a-iii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p45-q7-a-iii/label",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-iii/label",
+                                          "title": "Label iii"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-a-iii/prompt",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-iii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-a-iii/space",
+                                          "type": "item",
+                                          "ref": "p45-q7-a-iii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iii",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "title": "Unlabelled part 2",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p45-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p45-q7-b/label",
+                          "type": "item",
+                          "ref": "p45-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p45-q7-b/prompt#p45-q7-b-assumption",
+                          "type": "item",
+                          "ref": "p45-q7-b/prompt#p45-q7-b-assumption",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p45-q7-b:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p45-q7-b-tree:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p45-q7-b-tree/prompt",
+                                  "type": "item",
+                                  "ref": "p45-q7-b-tree/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p45-q7-b-tree/space",
+                                  "type": "item",
+                                  "ref": "p45-q7-b-tree/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Unlabelled part 1",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p45-q7-b-probabilities:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p45-q7-b-probabilities/prompt",
+                                  "type": "item",
+                                  "ref": "p45-q7-b-probabilities/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "p45-q7-b-probabilities:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p45-q7-b-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p45-q7-b-i/label",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-b-i/prompt",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-i/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-b-i/space",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p45-q7-b-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p45-q7-b-ii/label",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-b-ii/prompt",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-ii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-b-ii/space",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 1
+                                    },
+                                    {
+                                      "id": "p45-q7-b-iii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p45-q7-b-iii/label",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-iii/label",
+                                          "title": "Label iii"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-b-iii/prompt",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-iii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p45-q7-b-iii/space",
+                                          "type": "item",
+                                          "ref": "p45-q7-b-iii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iii",
+                                      "gap": 1
+                                    }
+                                  ],
+                                  "gap": 1
+                                }
+                              ],
+                              "title": "Unlabelled part 2",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:53.373Z",
+  "updatedAt": "2026-10-21T10:53:53.374Z"
+}

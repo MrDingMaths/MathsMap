@@ -1,0 +1,295 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b693f04c-23c0-4c4e-ad58-207a6cf4c1ea",
+  "status": "approved",
+  "title": "2017 HSC Standard 2 Band 5",
+  "classification": {
+    "primarySkillId": "graph-quadratic-features",
+    "secondarySkillIds": [],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish the price increase from the actual ticket price, determine attendance at maximum income, then combine fixed and per-ticket costs to calculate profit.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:00:46.539Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9a46fd2d0d4eb7d1d673d0d0120e3e0b7a9ee106606b92605b7a0ba8baae1e70",
+      "evidence": ".booklet-work/reasoning-ratings/calls/features-quadratics-exponentials-v1/4e58d6bea5a63581a27accdd79a9d5a39abb340f79219b32f9911309ea32cef4-1792558823714/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p37-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "A movie theatre has 200 seats. Each ticket currently costs $\\$8$.\n\nThe theatre owners are currently selling all 200 tickets for each session. They decide to increase the price of tickets to see if they can increase the income earned from each movie session.\n\nIt is assumed that for each one dollar increase in ticket price, there will be 10 fewer tickets sold.\n\nA graph showing the relationship between an increase in ticket price and the income is shown below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q9-response-group",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p37-q9-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q9-graph\"}\n\\begin{tikzpicture}[x=0.25cm,y=0.0025cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\draw[xstep=0.2,ystep=20,draw=graphGrid,line width=0.15pt,dotted] (0,0) grid (20,2000);\n\\foreach \\x in {0,2,4,6,8,10,12,14,16,18,20} {\\draw[draw=graphGrid,line width=0.25pt] (\\x,0)--(\\x,2000);}\n\\foreach \\y in {0,200,400,600,800,1000,1200,1400,1600,1800,2000} {\\draw[draw=graphGrid,line width=0.25pt] (0,\\y)--(20,\\y);}\n\\draw[draw=graphGrid,line width=0.25pt] (0,0) rectangle (20,2000);\n\\draw[->,black,line width=0.5pt] (0,0)--(22,0);\n\\draw[->,black,line width=0.5pt] (0,0)--(0,2200);\n\\foreach \\x in {0,2,4,6,8,10,12,14,16,18,20} {\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-40); \\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-45) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,200,400,600,800,1000,1200,1400,1600,1800,2000} {\\draw[black,line width=0.4pt] (0,\\y)--(-0.35,\\y); \\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.4,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt,domain=0:20,samples=121] plot (\\x,{-10*\\x*\\x+120*\\x+1600});\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (10,-210) {Increase in ticket price (\\$)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-3.2,1000) {Income (\\$)};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 80,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 37,
+              "sourceRegion": "Question 9, graph to the left of the response prompts",
+              "description": "Given black downward-opening income curve with positive-axis arrows, labelled major ticks and a rectangular grid. Dense dotted source subdivisions require final-size reconciliation.",
+              "mathematics": "For price increase x, income is I=(8+x)(200-10x)=-10x^2+120x+1600, on 0≤x≤20. The vertex is (6,1960); the displayed endpoints are (0,1600) and (20,0). Horizontal major ticks are 0,2,…,20; vertical major ticks are 0,200,…,2000.",
+              "answerVisibility": "The supplied curve remains visible because students interpret it; teacher response calculations are separate."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p37-q9-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "What ticket price should be charged to maximise the income from a movie session?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\$14$",
+              "worked": "The graph has its maximum at a ticket-price increase of $\\$6$.\n\n$$\\begin{aligned}\\text{Ticket price}&=\\$8+\\$6\\\\&=\\$14\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p37-q9-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "What is the number of tickets sold when the income is maximised?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "140 tickets",
+              "worked": "The maximum income read from the graph is $\\$1960$.\n\n$$\\begin{aligned}\\text{Tickets sold}&=1960\\div14\\\\&=140\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p37-q9-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "The cost to the theatre owners of running each session is $\\$500$ plus $\\$2$ per ticket sold.\n\nCalculate the profit earned by the theatre owners when the income earned from a session is maximised.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\$1180$",
+              "worked": "$$\\begin{aligned}\\text{Cost}&=500+2\\times140\\\\&=\\$780\\\\\\text{Profit}&=1960-780\\\\&=\\$1180\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 28
+          }
+        ],
+        "diagramPlacement": "beside-prompt"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p37-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p37-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p37-q9-root/label",
+                  "type": "item",
+                  "ref": "p37-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p37-q9-root/prompt",
+                  "type": "item",
+                  "ref": "p37-q9-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p37-q9-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p37-q9-response-group:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p37-q9-response-group:beside",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p37-q9-response-group:diagrams",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p37-q9-graph",
+                                  "type": "item",
+                                  "ref": "p37-q9-graph",
+                                  "title": "Diagram"
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p37-q9-response-group:text",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p37-q9-response-group:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p37-q9-a:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p37-q9-a/label",
+                                          "type": "item",
+                                          "ref": "p37-q9-a/label",
+                                          "title": "Label a"
+                                        },
+                                        {
+                                          "id": "layout:p37-q9-a/prompt",
+                                          "type": "item",
+                                          "ref": "p37-q9-a/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p37-q9-a/space",
+                                          "type": "item",
+                                          "ref": "p37-q9-a/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part a",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p37-q9-b:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p37-q9-b/label",
+                                          "type": "item",
+                                          "ref": "p37-q9-b/label",
+                                          "title": "Label b"
+                                        },
+                                        {
+                                          "id": "layout:p37-q9-b/prompt",
+                                          "type": "item",
+                                          "ref": "p37-q9-b/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p37-q9-b/space",
+                                          "type": "item",
+                                          "ref": "p37-q9-b/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part b",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p37-q9-c:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p37-q9-c/label",
+                                          "type": "item",
+                                          "ref": "p37-q9-c/label",
+                                          "title": "Label c"
+                                        },
+                                        {
+                                          "id": "layout:p37-q9-c/prompt",
+                                          "type": "item",
+                                          "ref": "p37-q9-c/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p37-q9-c/space",
+                                          "type": "item",
+                                          "ref": "p37-q9-c/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part c",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 9",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:43:56.500Z",
+  "updatedAt": "2026-10-21T08:43:56.500Z"
+}

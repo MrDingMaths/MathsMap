@@ -9,15 +9,15 @@
     "secondarySkillIds": [
       "equation-from-graph"
     ],
-    "reasoningScore": 36,
+    "reasoningScore": 43,
     "difficulty": "Development",
-    "difficultyReason": "Read sales and pay in both directions, identify the retainer as the intercept, and convert the calculated pay-per-sales gradient into a percentage commission before writing the equation.",
+    "difficultyReason": "Derive commission from the graph, form the pay model, then double a calculated pay and solve backwards for sales; explain how the fixed retainer prevents proportional doubling.",
     "assessment": {
       "model": "gpt-6.1-sol",
-      "assessedAt": "2026-10-21T05:06:45.438Z",
+      "assessedAt": "2026-10-27T09:41:07.276Z",
       "rubricVersion": "mathsmap-cognitive-demand-v1",
-      "taskHash": "9c5b9faa8656e234b838f1e86e794f5f0d26265675484a9792fb8e2a5e098b42",
-      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/d6c4994230b01d119dc223b8e2c0ec8950a352c420ac83b6e204d6d4563566d8-1792559183057/last-message.txt"
+      "taskHash": "75740c8afecd51995a74777c57aacb0ee976cbd65062f3c9aee38f5be9eceac7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/454d803c454b6729aa49ee15850ad7c4548e271bb9f7d1636910202f1285b585-1793094046219/last-message.txt"
     }
   },
   "content": {
@@ -35,6 +35,7 @@
         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"modelBlue\",\"hex\":\"268CFF\",\"reason\":\"linear-model graph series\"}],\"reference\":\"source page 40, p40-q6-graph\"}\n\\begin{tikzpicture}[x=0.001cm,y=0.01cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{modelBlue}{HTML}{268CFF}\n\\draw[black,opacity=0.22,line width=0.15pt,xstep=500,ystep=50] (0,0) grid (6000,600);\n\\draw[black,opacity=0.22,line width=0.25pt,xstep=1000,ystep=100] (0,0) grid (6000,600);\n\\draw[black,->,line width=0.5pt] (0,0)--(6350,0);\n\\draw[black,->,line width=0.5pt] (0,0)--(0,630);\n\\foreach \\x in {500,1000,...,6000}{\\draw[black,line width=0.4pt] (\\x,-7)--(\\x,7);}\n\\foreach \\y in {50,100,...,600}{\\draw[black,line width=0.4pt] (-70,\\y)--(70,\\y);}\n\\foreach \\x in {1000,2000,...,6000}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,-12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {100,200,...,600}{\\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-100,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (3000,-65) {Sales (\\$)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1000,300) {Pay (\\$)};\n\\draw[modelBlue,->,line width=0.8pt] plot[domain=0:6300,samples=2] (\\x,{0.05*\\x+200});\n\\end{tikzpicture}",
         "src": null,
         "widthMm": 80,
+        "align": "center",
         "alt": "Mathematical diagram",
         "overlayOf": null,
         "transparent": false,
@@ -127,6 +128,54 @@
         "answer": {
           "short": "$P=0.05S+200$",
           "worked": "The gradient is $0.05$ and the pay-axis intercept is $200$.\n$$\\begin{aligned}P&=mS+c\\\\P&=0.05S+200\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p40-q6-root-bank-p40-q6-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Find the pay for $\\$4000$ of sales.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$400$",
+          "worked": "Substitute $S=4000$ into the model.\n$$P=0.05(4000)+200=400$$\nThe pay is $\\$400$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p40-q6-root-bank-p40-q6-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "What sales are needed to earn twice the pay received for $\\$2000$ of sales?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$8000$ of sales gives $\\$600$ pay.",
+          "worked": "Sales of $\\$2000$ give $\\$300$ pay, so twice the pay is $\\$600$.\n$$\\begin{aligned}600&=0.05S+200\\\\400&=0.05S\\\\S&=8000\\end{aligned}$$\nSales of $\\$8000$ are needed.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p40-q6-root-bank-p40-q6-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "Explain why doubling sales from $\\$2000$ does not double total pay.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Only the commission doubles; the $\\$200$ retainer stays fixed.",
+          "worked": "Pay rises from $\\$300$ to $\\$400$ when sales double from $\\$2000$ to $\\$4000$. The commission doubles from $\\$100$ to $\\$200$, but the $\\$200$ retainer stays fixed.",
           "solutionDiagrams": []
         },
         "answerSpaceMm": 18
@@ -321,6 +370,87 @@
                               ],
                               "title": "Part e",
                               "gap": 1
+                            },
+                            {
+                              "id": "p40-q6-root-bank-p40-q6-f:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-f/label",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-f/label",
+                                  "title": "Label f"
+                                },
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-f/prompt",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-f/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-f/space",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-f/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part f"
+                            },
+                            {
+                              "id": "p40-q6-root-bank-p40-q6-g:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-g/label",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-g/label",
+                                  "title": "Label g"
+                                },
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-g/prompt",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-g/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-g/space",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-g/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part g"
+                            },
+                            {
+                              "id": "p40-q6-root-bank-p40-q6-h:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "gap": 2,
+                              "children": [
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-h/label",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-h/label",
+                                  "title": "Label h"
+                                },
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-h/prompt",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-h/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p40-q6-root-bank-p40-q6-h/space",
+                                  "type": "item",
+                                  "ref": "p40-q6-root-bank-p40-q6-h/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part h"
                             }
                           ],
                           "gap": 1
@@ -351,5 +481,5 @@
     "history": []
   },
   "createdAt": "2026-10-21T08:56:41.534Z",
-  "updatedAt": "2026-10-21T08:56:41.534Z"
+  "updatedAt": "2026-10-27T11:53:52.820Z"
 }

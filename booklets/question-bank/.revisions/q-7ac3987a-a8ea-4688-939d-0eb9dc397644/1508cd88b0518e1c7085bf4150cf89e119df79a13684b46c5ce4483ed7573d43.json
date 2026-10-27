@@ -1,0 +1,980 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7ac3987a-a8ea-4688-939d-0eb9dc397644",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "least-squares-regression",
+    "secondarySkillIds": [
+      "correlation-coefficient",
+      "equation-line-of-best-fit"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Use taught spreadsheet regression methods, then express the gradient as height change per calendar year and recognise that the negative height predicted at year zero makes the intercept unrealistic.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:19.912Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "51f6dcc343837af58c3fc6c424cb23c06856e542f81c746fc3d163cbb0a2129b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/bivariate-data-analysis-v1/de620e08a370a01d826c0fb64abcd6a6845885884056d736ec1034db321d4ca3-1792556219584/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p45-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p45-q1-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The data shows the average height of 17-year-old girls from 1850 to 1990.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p45-q1-table",
+          "type": "table",
+          "widthMm": 170,
+          "marginBefore": 2,
+          "marginAfter": 2,
+          "borderColour": "#cccccc",
+          "borderWidthMm": 0.26,
+          "rowHeights": [],
+          "annotations": [],
+          "border": true,
+          "padding": 1,
+          "widths": [
+            1.8,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "rows": [
+            [
+              {
+                "id": "p45-q1-table-year-label",
+                "type": "cell",
+                "header": false,
+                "align": "right",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-label-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Year",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1850",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1850-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1850",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1870",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1870-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1870",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1890",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1890-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1890",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1910",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1910-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1910",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1930",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1930-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1930",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1950",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1950-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1950",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1970",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1970-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1970",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-year-1990",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-year-1990-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "1990",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "id": "p45-q1-table-height-label",
+                "type": "cell",
+                "header": false,
+                "align": "right",
+                "verticalAlign": "middle",
+                "background": "#d3e8fc",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-label-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Height (cm)",
+                        "marks": [
+                          "bold"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-147",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-147-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "147",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-149",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-149-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "149",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-155",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-155-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "155",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-158",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-158-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "158",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-160",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-160-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "160",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-161",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-161-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "161",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-164",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-164-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "164",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "p45-q1-height-170",
+                "type": "cell",
+                "header": false,
+                "align": "center",
+                "verticalAlign": "middle",
+                "background": "transparent",
+                "colour": "inherit",
+                "bold": false,
+                "borderColour": null,
+                "borderWidthMm": null,
+                "border": null,
+                "rotation": 0,
+                "colspan": 1,
+                "rowspan": 1,
+                "blocks": [
+                  {
+                    "id": "p45-q1-height-170-text",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "170",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p45-q1-abc",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p45-q1-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Pearson’s correlation coefficient $r$ (to 5 decimal places)",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$r = 0.98264$",
+              "worked": "Enter years in A2:A9 and heights in B2:B9. Use the spreadsheet formula =CORREL(A2:A9,B2:B9).\n\n$r = 0.982640459\\ldots \\approx 0.98264$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p45-q1-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "Strength and direction",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Strong positive",
+              "worked": "$r$ is positive and lies between $0.75$ and $1$, so the association is strong positive.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p45-q1-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "Equation of the line of best fit $y = mx + c$ (gradient to 4 decimal places and intercept to 2 decimal places)",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y = 0.1524x - 134.57$",
+              "worked": "Create a scatter chart with year as $x$ and height in centimetres as $y$. Add a linear trendline and display its equation.\n\n$y = 0.152380952\\ldots x - 134.571428571\\ldots$\n\nTo the requested precision, $y = 0.1524x - 134.57$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      },
+      {
+        "id": "p45-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Interpret the gradient and $y$-intercept",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Average height tends to increase by approximately $0.1524$ cm per year. The intercept gives a formal model height of $-134.57$ cm at year $0$; this has no realistic interpretation.",
+          "worked": "The gradient is approximately $0.1524$ cm per year, so the model estimates that average height of 17-year-old girls increases by this amount each year over the observed period.\n\nAt $x = 0$, the model gives $y \\approx -134.57$ cm. Year $0$ is far outside 1850–1990 and a negative height is impossible, so the intercept is a formal model value with no realistic predictive meaning.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p45-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p45-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p45-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p45-q1-root/label",
+                  "type": "item",
+                  "ref": "p45-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p45-q1-root/prompt#p45-q1-stem",
+                  "type": "item",
+                  "ref": "p45-q1-root/prompt#p45-q1-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p45-q1-root/prompt#p45-q1-table",
+                  "type": "item",
+                  "ref": "p45-q1-root/prompt#p45-q1-table",
+                  "title": "table"
+                },
+                {
+                  "id": "p45-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p45-q1-abc:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p45-q1-abc:parts",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p45-q1-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p45-q1-a/label",
+                                  "type": "item",
+                                  "ref": "p45-q1-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p45-q1-a/prompt",
+                                  "type": "item",
+                                  "ref": "p45-q1-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p45-q1-a/space",
+                                  "type": "item",
+                                  "ref": "p45-q1-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p45-q1-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p45-q1-b/label",
+                                  "type": "item",
+                                  "ref": "p45-q1-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p45-q1-b/prompt",
+                                  "type": "item",
+                                  "ref": "p45-q1-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p45-q1-b/space",
+                                  "type": "item",
+                                  "ref": "p45-q1-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p45-q1-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p45-q1-c/label",
+                                  "type": "item",
+                                  "ref": "p45-q1-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p45-q1-c/prompt",
+                                  "type": "item",
+                                  "ref": "p45-q1-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p45-q1-c/space",
+                                  "type": "item",
+                                  "ref": "p45-q1-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p45-q1-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p45-q1-d/label",
+                          "type": "item",
+                          "ref": "p45-q1-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p45-q1-d/prompt",
+                          "type": "item",
+                          "ref": "p45-q1-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p45-q1-d/space",
+                          "type": "item",
+                          "ref": "p45-q1-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:42:33.655Z",
+  "updatedAt": "2026-10-21T07:42:33.658Z"
+}

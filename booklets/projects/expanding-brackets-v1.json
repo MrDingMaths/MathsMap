@@ -116,7 +116,7 @@
                         {
                           "id": "p4-example-starting-expression-item",
                           "type": "item",
-                          "ref": "p4-example-arrows",
+                          "ref": "p4-example-content/prompt#p4-example-arrows",
                           "width": 36,
                           "align": "left"
                         },
@@ -8256,7 +8256,7 @@
                             {
                               "id": "layout:p4-distributive-law",
                               "type": "item",
-                              "ref": "p4-distributive-law",
+                              "ref": "p4-information-entry/prompt#p4-distributive-law",
                               "title": "Diagram",
                               "align": "center"
                             }
@@ -8326,7 +8326,7 @@
                                 {
                                   "id": "layout:p4-guided-a-arrows",
                                   "type": "item",
-                                  "ref": "p4-guided-a-arrows",
+                                  "ref": "p4-guided-a/prompt#p4-guided-a-arrows",
                                   "width": 32
                                 }
                               ],
@@ -8380,7 +8380,7 @@
                                 {
                                   "id": "layout:p4-guided-b-arrows",
                                   "type": "item",
-                                  "ref": "p4-guided-b-arrows",
+                                  "ref": "p4-guided-b/prompt#p4-guided-b-arrows",
                                   "width": 32
                                 }
                               ],
@@ -8670,7 +8670,7 @@
                             {
                               "id": "layout:p11-distribution-arrows",
                               "type": "item",
-                              "ref": "p11-distribution-arrows",
+                              "ref": "p11-distributive-identity/prompt#p11-distribution-arrows",
                               "title": "Diagram",
                               "align": "center"
                             }
@@ -11671,26 +11671,58 @@
                         ]
                       }
                     ]
+                  },
+                  {
+                    "id": "p4-distributive-law",
+                    "type": "annotated-equation",
+                    "latex": "a(b+c)=ab+ac",
+                    "fontSize": 12,
+                    "width": 100,
+                    "gap": 7,
+                    "margin": 1,
+                    "arrowSpace": 5,
+                    "align": "center",
+                    "anchors": [
+                      {
+                        "id": "p4-distributive-law-factor",
+                        "start": 0,
+                        "end": 1,
+                        "text": "a"
+                      },
+                      {
+                        "id": "p4-distributive-law-one",
+                        "start": 2,
+                        "end": 3,
+                        "text": "b"
+                      },
+                      {
+                        "id": "p4-distributive-law-two",
+                        "start": 4,
+                        "end": 5,
+                        "text": "c"
+                      }
+                    ],
+                    "annotations": [],
+                    "connections": [
+                      {
+                        "id": "p4-distributive-law-connect-factor-one",
+                        "fromId": "p4-distributive-law-factor",
+                        "toId": "p4-distributive-law-one",
+                        "colour": "#ef6068",
+                        "height": 3
+                      },
+                      {
+                        "id": "p4-distributive-law-connect-factor-two",
+                        "fromId": "p4-distributive-law-factor",
+                        "toId": "p4-distributive-law-two",
+                        "colour": "#ef6068",
+                        "height": 5
+                      }
+                    ]
                   }
                 ]
               },
-              "questionDiagrams": [
-                {
-                  "id": "p4-distributive-law",
-                  "format": "tikz",
-                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"distributionRed\",\"hex\":\"EF6068\",\"reason\":\"Arrows identify multiplication of each inside term by the outside factor.\"}],\"reference\":\"source page 4 p4-distributive-law\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,inner sep=0pt,outer sep=0pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{distributionRed}{HTML}{EF6068}\n\\node[anchor=base west,text=black] (factor) at (0,0) {$a$};\n\\node[anchor=base west,text=black] (open) at ([xshift=0.3mm]factor.base east) {$($};\n\\node[anchor=base west,text=black] (termone) at ([xshift=0.3mm]open.base east) {$b$};\n\\node[anchor=base west,text=black] (plus) at ([xshift=0.8mm]termone.base east) {$+$};\n\\node[anchor=base west,text=black] (termtwo) at ([xshift=0.8mm]plus.base east) {$c$};\n\\node[anchor=base west,text=black] (close) at ([xshift=0.3mm]termtwo.base east) {$)$};\n\\node[anchor=base west,text=black] (result) at ([xshift=1.4mm]close.base east) {$=ab+ac$};\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=4.5mm]factor.north) and ([yshift=4.5mm]termone.north) .. (termone.north);\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=6mm]factor.north) and ([yshift=6mm]termtwo.north) .. (termtwo.north);\n\\end{tikzpicture}",
-                  "widthMm": 58,
-                  "role": "question",
-                  "reviewStatus": "needs-review",
-                  "spec": {
-                    "sourcePage": 4,
-                    "sourceRegion": "Upper information panel, centred equation beneath the explanation",
-                    "description": "The permanent distributive-law identity with two red curved multiplication arrows above its left-hand side.",
-                    "mathematics": "a(b+c)=ab+ac; arrows connect a to b and a to c.",
-                    "answerVisibility": "The complete identity and both arrows are permanent supplied teaching content."
-                  }
-                }
-              ]
+              "questionDiagrams": []
             }
           ],
           "sourceReview": {
@@ -11715,11 +11747,24 @@
             ],
             "intentionalDepartures": [
               "The multiplication arrows use standard semantic red #ef6068; ordinary diagram labels use black. The source evidence is unchanged.",
-              "Approved layout audit 4 October 2026 (earning-style-feedback): apply house layout while preserving mathematical content, response ownership and handwriting space; source appearance remains evidence."
+              "Approved layout audit 4 October 2026 (earning-style-feedback): apply house layout while preserving mathematical content, response ownership and handwriting space; source appearance remains evidence.",
+              {
+                "at": "2026-10-25",
+                "description": "User-authorised cross-book theory-formula spacing repair: p4-distributive-law is one native mathematical expression; source terms, explanatory labels and multiplication/annotation relationships retained independently of formula spacing."
+              }
             ],
             "sourcePagination": {
               "page": 4,
               "breakBefore": true
+            },
+            "origin": {
+              "projectId": "expanding-brackets-v1",
+              "blockId": "p4-information",
+              "runId": "expanding-brackets-v1-20260930",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\expanding-brackets-v1-20260930\\semantic-packets\\page-004.author.json",
+                "hash": "f7f43b232ddc924b100a956a73637b93b7f969caad74b7d47c4231c18aca9ade"
+              }
             }
           },
           "flow": {
@@ -11777,27 +11822,59 @@
                       "colour": "#268cff"
                     }
                   ]
+                },
+                {
+                  "id": "p4-example-arrows",
+                  "type": "annotated-equation",
+                  "latex": "3(2x+5)",
+                  "fontSize": 12,
+                  "width": 100,
+                  "gap": 7,
+                  "margin": 1,
+                  "arrowSpace": 5,
+                  "align": "center",
+                  "anchors": [
+                    {
+                      "id": "p4-example-arrows-factor",
+                      "start": 0,
+                      "end": 1,
+                      "text": "3"
+                    },
+                    {
+                      "id": "p4-example-arrows-one",
+                      "start": 2,
+                      "end": 4,
+                      "text": "2x"
+                    },
+                    {
+                      "id": "p4-example-arrows-two",
+                      "start": 5,
+                      "end": 6,
+                      "text": "5"
+                    }
+                  ],
+                  "annotations": [],
+                  "connections": [
+                    {
+                      "id": "p4-example-arrows-connect-factor-one",
+                      "fromId": "p4-example-arrows-factor",
+                      "toId": "p4-example-arrows-one",
+                      "colour": "#ef6068",
+                      "height": 3
+                    },
+                    {
+                      "id": "p4-example-arrows-connect-factor-two",
+                      "fromId": "p4-example-arrows-factor",
+                      "toId": "p4-example-arrows-two",
+                      "colour": "#ef6068",
+                      "height": 5
+                    }
+                  ]
                 }
               ]
             },
             "layout": "list",
-            "questionDiagrams": [
-              {
-                "id": "p4-example-arrows",
-                "format": "tikz",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"distributionRed\",\"hex\":\"EF6068\",\"reason\":\"Arrows identify multiplication of each inside term by 3.\"}],\"reference\":\"source page 4 p4-example-arrows\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,inner sep=0pt,outer sep=0pt,x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{distributionRed}{HTML}{EF6068}\n\\path[use as bounding box] (0,-2) rectangle (36,10);\n\\node[anchor=base west,text=black] (factor) at (5,0) {$3$};\n\\node[anchor=base west,text=black] (open) at ([xshift=0.3mm]factor.base east) {$($};\n\\node[anchor=base west,text=black] (termone) at ([xshift=0.3mm]open.base east) {$2x$};\n\\node[anchor=base west,text=black] (plus) at ([xshift=0.8mm]termone.base east) {$+$};\n\\node[anchor=base west,text=black] (termtwo) at ([xshift=0.8mm]plus.base east) {$5$};\n\\node[anchor=base west,text=black] (close) at ([xshift=0.3mm]termtwo.base east) {$)$};\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=3.5mm]factor.north) and ([yshift=3.5mm]termone.north) .. (termone.north);\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=5mm]factor.north) and ([yshift=5mm]termtwo.north) .. (termtwo.north);\n\\end{tikzpicture}",
-                "widthMm": 36,
-                "role": "question",
-                "reviewStatus": "needs-review",
-                "spec": {
-                  "sourcePage": 4,
-                  "sourceRegion": "Example panel, starting expression in the left column",
-                  "description": "The supplied expression 3(2x+5), with paired red arrows from 3 to 2x and to 5.",
-                  "mathematics": "3 multiplies both terms in 2x+5.",
-                  "answerVisibility": "The starting expression and arrows remain visible when teaching responses are hidden."
-                }
-              }
-            ],
+            "questionDiagrams": [],
             "children": [
               {
                 "id": "p4-example-cloze",
@@ -11892,7 +11969,7 @@
                                 {
                                   "id": "p4-example-starting-expression-item",
                                   "type": "item",
-                                  "ref": "p4-example-arrows",
+                                  "ref": "p4-example-content/prompt#p4-example-arrows",
                                   "align": "left",
                                   "width": 36
                                 },
@@ -11972,11 +12049,24 @@
               ]
             },
             "intentionalDepartures": [
-              "The supplied blue working uses standard mathematical blue #268cff and remains permanent demonstration content."
+              "The supplied blue working uses standard mathematical blue #268cff and remains permanent demonstration content.",
+              {
+                "at": "2026-10-25",
+                "description": "User-authorised cross-book theory-formula spacing repair: p4-example-arrows is one native mathematical expression; source terms, explanatory labels and multiplication/annotation relationships retained independently of formula spacing."
+              }
             ],
             "sourcePagination": {
               "page": 4,
               "breakBefore": false
+            },
+            "origin": {
+              "projectId": "expanding-brackets-v1",
+              "blockId": "p4-example",
+              "runId": "expanding-brackets-v1-20260930",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\expanding-brackets-v1-20260930\\semantic-packets\\page-004.author.json",
+                "hash": "f7f43b232ddc924b100a956a73637b93b7f969caad74b7d47c4231c18aca9ade"
+              }
             }
           },
           "flow": {
@@ -12013,25 +12103,73 @@
                 "id": "p4-guided-a",
                 "type": "part",
                 "label": "a",
-                "prompt": "",
-                "diagramPlacement": "before-prompt",
-                "questionDiagrams": [
-                  {
-                    "id": "p4-guided-a-arrows",
-                    "format": "tikz",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"distributionRed\",\"hex\":\"EF6068\",\"reason\":\"Arrows identify multiplication of both inside terms by 4.\"}],\"reference\":\"source page 4 p4-guided-a-arrows\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,inner sep=0pt,outer sep=0pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{distributionRed}{HTML}{EF6068}\n\\node[anchor=base west,text=black] (factor) at (0,0) {$4$};\n\\node[anchor=base west,text=black] (open) at ([xshift=0.3mm]factor.base east) {$($};\n\\node[anchor=base west,text=black] (termone) at ([xshift=0.3mm]open.base east) {$3a$};\n\\node[anchor=base west,text=black] (plus) at ([xshift=0.8mm]termone.base east) {$+$};\n\\node[anchor=base west,text=black] (termtwo) at ([xshift=0.8mm]plus.base east) {$2$};\n\\node[anchor=base west,text=black] (close) at ([xshift=0.3mm]termtwo.base east) {$)$};\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=3.5mm]factor.north) and ([yshift=3.5mm]termone.north) .. (termone.north);\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=5mm]factor.north) and ([yshift=5mm]termtwo.north) .. (termtwo.north);\n\\end{tikzpicture}",
-                    "widthMm": 32,
-                    "role": "question",
-                    "reviewStatus": "needs-review",
-                    "spec": {
-                      "sourcePage": 4,
-                      "sourceRegion": "Guided Practice, upper-left cell",
-                      "description": "4(3a+2), with two red curved multiplication arrows above the expression.",
-                      "mathematics": "The outside factor 4 multiplies 3a and 2.",
-                      "answerVisibility": "Expression and arrows are student-visible givens; no products or final answer are supplied."
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
+                    {
+                      "id": "9d77098d-9627-46d8-9d0b-a71e5c374b44",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": []
+                    },
+                    {
+                      "id": "p4-guided-a-arrows",
+                      "type": "annotated-equation",
+                      "latex": "4(3a+2)",
+                      "fontSize": 12,
+                      "width": 100,
+                      "gap": 7,
+                      "margin": 1,
+                      "arrowSpace": 5,
+                      "align": "center",
+                      "anchors": [
+                        {
+                          "id": "p4-guided-a-arrows-factor",
+                          "start": 0,
+                          "end": 1,
+                          "text": "4"
+                        },
+                        {
+                          "id": "p4-guided-a-arrows-one",
+                          "start": 2,
+                          "end": 4,
+                          "text": "3a"
+                        },
+                        {
+                          "id": "p4-guided-a-arrows-two",
+                          "start": 5,
+                          "end": 6,
+                          "text": "2"
+                        }
+                      ],
+                      "annotations": [],
+                      "connections": [
+                        {
+                          "id": "p4-guided-a-arrows-connect-factor-one",
+                          "fromId": "p4-guided-a-arrows-factor",
+                          "toId": "p4-guided-a-arrows-one",
+                          "colour": "#ef6068",
+                          "height": 3
+                        },
+                        {
+                          "id": "p4-guided-a-arrows-connect-factor-two",
+                          "fromId": "p4-guided-a-arrows-factor",
+                          "toId": "p4-guided-a-arrows-two",
+                          "colour": "#ef6068",
+                          "height": 5
+                        }
+                      ]
                     }
-                  }
-                ],
+                  ]
+                },
+                "diagramPlacement": "before-prompt",
+                "questionDiagrams": [],
                 "answerSpaceMm": 24,
                 "answer": {
                   "short": "$12a+8$",
@@ -12046,25 +12184,73 @@
                 "id": "p4-guided-b",
                 "type": "part",
                 "label": "b",
-                "prompt": "",
-                "diagramPlacement": "before-prompt",
-                "questionDiagrams": [
-                  {
-                    "id": "p4-guided-b-arrows",
-                    "format": "tikz",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"distributionRed\",\"hex\":\"EF6068\",\"reason\":\"Arrows identify multiplication of the two signed terms by 4.\"}],\"reference\":\"source page 4 p4-guided-b-arrows\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,inner sep=0pt,outer sep=0pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{distributionRed}{HTML}{EF6068}\n\\node[anchor=base west,text=black] (factor) at (0,0) {$4$};\n\\node[anchor=base west,text=black] (open) at ([xshift=0.3mm]factor.base east) {$($};\n\\node[anchor=base west,text=black] (termone) at ([xshift=0.3mm]open.base east) {$3a$};\n\\node[anchor=base west,text=black] (minus) at ([xshift=0.8mm]termone.base east) {$-$};\n\\node[anchor=base west,text=black] (termtwo) at ([xshift=0.8mm]minus.base east) {$2$};\n\\node[anchor=base west,text=black] (close) at ([xshift=0.3mm]termtwo.base east) {$)$};\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=3.5mm]factor.north) and ([yshift=3.5mm]termone.north) .. (termone.north);\n\\draw[distributionRed,line width=0.8pt,-{Stealth[length=1.8mm,width=1.2mm]}] (factor.north) .. controls ([yshift=5mm]factor.north) and ([yshift=5mm]termtwo.north) .. (termtwo.north);\n\\end{tikzpicture}",
-                    "widthMm": 32,
-                    "role": "question",
-                    "reviewStatus": "needs-review",
-                    "spec": {
-                      "sourcePage": 4,
-                      "sourceRegion": "Guided Practice, upper-middle cell",
-                      "description": "4(3a−2), retaining the subtraction sign and the paired red multiplication arrows.",
-                      "mathematics": "The two signed terms are 3a and -2; distribute 4 to both.",
-                      "answerVisibility": "Expression and arrows are student-visible givens; signed-term interpretation and products remain in controllable answers."
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
+                    {
+                      "id": "c988d8dd-76b7-456b-9d6c-795a239e1440",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": []
+                    },
+                    {
+                      "id": "p4-guided-b-arrows",
+                      "type": "annotated-equation",
+                      "latex": "4(3a-2)",
+                      "fontSize": 12,
+                      "width": 100,
+                      "gap": 7,
+                      "margin": 1,
+                      "arrowSpace": 5,
+                      "align": "center",
+                      "anchors": [
+                        {
+                          "id": "p4-guided-b-arrows-factor",
+                          "start": 0,
+                          "end": 1,
+                          "text": "4"
+                        },
+                        {
+                          "id": "p4-guided-b-arrows-one",
+                          "start": 2,
+                          "end": 4,
+                          "text": "3a"
+                        },
+                        {
+                          "id": "p4-guided-b-arrows-two",
+                          "start": 4,
+                          "end": 6,
+                          "text": "-2"
+                        }
+                      ],
+                      "annotations": [],
+                      "connections": [
+                        {
+                          "id": "p4-guided-b-arrows-connect-factor-one",
+                          "fromId": "p4-guided-b-arrows-factor",
+                          "toId": "p4-guided-b-arrows-one",
+                          "colour": "#ef6068",
+                          "height": 3
+                        },
+                        {
+                          "id": "p4-guided-b-arrows-connect-factor-two",
+                          "fromId": "p4-guided-b-arrows-factor",
+                          "toId": "p4-guided-b-arrows-two",
+                          "colour": "#ef6068",
+                          "height": 5
+                        }
+                      ]
                     }
-                  }
-                ],
+                  ]
+                },
+                "diagramPlacement": "before-prompt",
+                "questionDiagrams": [],
                 "answerSpaceMm": 24,
                 "answer": {
                   "short": "$12a-8$",
@@ -12233,8 +12419,25 @@
               "breakBefore": false
             },
             "intentionalDepartures": [
-              "Approved layout audit 4 October 2026 (earning-style-feedback): apply house layout while preserving mathematical content, response ownership and handwriting space; source appearance remains evidence."
-            ]
+              "Approved layout audit 4 October 2026 (earning-style-feedback): apply house layout while preserving mathematical content, response ownership and handwriting space; source appearance remains evidence.",
+              {
+                "at": "2026-10-25",
+                "description": "User-authorised cross-book theory-formula spacing repair: p4-guided-a-arrows is one native mathematical expression; source terms, explanatory labels and multiplication/annotation relationships retained independently of formula spacing."
+              },
+              {
+                "at": "2026-10-25",
+                "description": "User-authorised cross-book theory-formula spacing repair: p4-guided-b-arrows is one native mathematical expression; source terms, explanatory labels and multiplication/annotation relationships retained independently of formula spacing."
+              }
+            ],
+            "origin": {
+              "projectId": "expanding-brackets-v1",
+              "blockId": "p4-guided-practice",
+              "runId": "expanding-brackets-v1-20260930",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\expanding-brackets-v1-20260930\\semantic-packets\\page-004.author.json",
+                "hash": "f7f43b232ddc924b100a956a73637b93b7f969caad74b7d47c4231c18aca9ade"
+              }
+            }
           },
           "flow": {
             "sourcePageBreakBefore": false
@@ -23031,26 +23234,58 @@
                         "text": "To expand brackets, we multiply each term inside the brackets by the term outside."
                       }
                     ]
+                  },
+                  {
+                    "id": "p11-distribution-arrows",
+                    "type": "annotated-equation",
+                    "latex": "a(b+c)=ab+ac",
+                    "fontSize": 12,
+                    "width": 100,
+                    "gap": 7,
+                    "margin": 1,
+                    "arrowSpace": 5,
+                    "align": "center",
+                    "anchors": [
+                      {
+                        "id": "p11-distribution-arrows-factor",
+                        "start": 0,
+                        "end": 1,
+                        "text": "a"
+                      },
+                      {
+                        "id": "p11-distribution-arrows-one",
+                        "start": 2,
+                        "end": 3,
+                        "text": "b"
+                      },
+                      {
+                        "id": "p11-distribution-arrows-two",
+                        "start": 4,
+                        "end": 5,
+                        "text": "c"
+                      }
+                    ],
+                    "annotations": [],
+                    "connections": [
+                      {
+                        "id": "p11-distribution-arrows-connect-factor-one",
+                        "fromId": "p11-distribution-arrows-factor",
+                        "toId": "p11-distribution-arrows-one",
+                        "colour": "#ef6068",
+                        "height": 3
+                      },
+                      {
+                        "id": "p11-distribution-arrows-connect-factor-two",
+                        "fromId": "p11-distribution-arrows-factor",
+                        "toId": "p11-distribution-arrows-two",
+                        "colour": "#ef6068",
+                        "height": 5
+                      }
+                    ]
                   }
                 ]
               },
-              "questionDiagrams": [
-                {
-                  "id": "p11-distribution-arrows",
-                  "format": "tikz",
-                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"distributionRed\",\"hex\":\"EF6068\",\"reason\":\"Associates the outside multiplier with each term inside the brackets\"}],\"reference\":\"source page 11, p11-distribution-arrows\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,inner sep=0pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{distributionRed}{HTML}{EF6068}\n\\node[anchor=west,text=black] (outside) at (0,0) {$a$};\n\\node[anchor=west,text=black] (open) at (outside.east) {$($};\n\\node[anchor=west,text=black] (insideb) at (open.east) {$b$};\n\\node[anchor=west,text=black] (plus) at ([xshift=1mm]insideb.east) {$+$};\n\\node[anchor=west,text=black] (insidec) at ([xshift=1mm]plus.east) {$c$};\n\\node[anchor=west,text=black] (close) at (insidec.east) {$)$};\n\\node[anchor=west,text=black] (equals) at ([xshift=2mm]close.east) {$=$};\n\\node[anchor=west,text=black] (productb) at ([xshift=2mm]equals.east) {$ab$};\n\\node[anchor=west,text=black] (resultplus) at ([xshift=1mm]productb.east) {$+$};\n\\node[anchor=west,text=black] (productc) at ([xshift=1mm]resultplus.east) {$ac$};\n\\draw[distributionRed,line width=0.8pt,->] ([yshift=1mm]outside.north) .. controls ([yshift=8mm]outside.north) and ([yshift=8mm]insideb.north) .. ([yshift=1mm]insideb.north);\n\\draw[distributionRed,line width=0.8pt,->] ([yshift=1mm]outside.north) .. controls ([yshift=6mm]outside.north) and ([yshift=6mm]insidec.north) .. ([yshift=1mm]insidec.north);\n\\end{tikzpicture}",
-                  "widthMm": 58,
-                  "role": "question",
-                  "reviewStatus": "needs-review",
-                  "spec": {
-                    "sourcePage": 11,
-                    "sourceRegion": "Centred distributive identity beneath the definition",
-                    "description": "The complete identity a(b + c) = ab + ac, with two curved red distribution arrows above the left-hand side.",
-                    "mathematics": "Both arrows start above the outside factor a. The short arrow points down towards b and the longer arrow points down towards c.",
-                    "answerVisibility": "The identity and both arrows are permanent supplied teaching content."
-                  }
-                }
-              ]
+              "questionDiagrams": []
             }
           ],
           "sourceReview": {
@@ -23073,11 +23308,24 @@
                 "targetId": "p11-distribution-arrows",
                 "reason": "The meaningful distribution-arrow colour is mapped to standard red #ef6068; equation labels remain black."
               },
-              "Approved layout audit 4 October 2026 (earning-style-feedback): apply house layout while preserving mathematical content, response ownership and handwriting space; source appearance remains evidence."
+              "Approved layout audit 4 October 2026 (earning-style-feedback): apply house layout while preserving mathematical content, response ownership and handwriting space; source appearance remains evidence.",
+              {
+                "at": "2026-10-25",
+                "description": "User-authorised cross-book theory-formula spacing repair: p11-distribution-arrows is one native mathematical expression; source terms, explanatory labels and multiplication/annotation relationships retained independently of formula spacing."
+              }
             ],
             "sourcePagination": {
               "page": 11,
               "breakBefore": true
+            },
+            "origin": {
+              "projectId": "expanding-brackets-v1",
+              "blockId": "p11-information",
+              "runId": "expanding-brackets-v1-20260930",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\expanding-brackets-v1-20260930\\semantic-packets\\page-011.author.json",
+                "hash": "7ad1e54aa2b43d0ff230694cdec1555d7df150e868d200e239e4173ce05026bd"
+              }
             }
           },
           "flow": {
@@ -51703,13 +51951,13 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 78,
+  "revision": 79,
   "assets": [
     "/booklet-assets/projects/expanding-brackets-v1/35c718891a9d-image15.png",
     "/booklet-assets/projects/expanding-brackets-v1/11bb70a7e942-image16.png"
   ],
   "createdAt": "2026-09-30T21:33:07.907Z",
-  "updatedAt": "2026-10-21T10:32:32.546Z",
+  "updatedAt": "2026-10-25T01:09:54.481Z",
   "library": {
     "category": "master",
     "courseId": "s4",

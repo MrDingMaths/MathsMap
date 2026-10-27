@@ -1,0 +1,269 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6e6ccb9a-0260-422e-8d09-782aa664d620",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "equation-from-graph"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Select usable graph points to derive the gradient and intercept, form the population equation, then distinguish direct substitution from solving backwards for a specified population.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:56.985Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b67269020a197830713c6c2eb6aae7e7c782e4b7b6cdb2c7a96b3d49417365f1",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/3e04bc65e28ee803f073854c76c04141e3ad4b4ff13b194854f7830a7d2c8fe5-1792559188126/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p42-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "The number of people in a village has decreased over recent years according to the graph.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q10-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"populationBlue\",\"hex\":\"268CFF\",\"reason\":\"population model series\"}],\"reference\":\"source page 42, p42-q10-graph\"}\n\\begin{tikzpicture}[x=1cm,y=0.00065cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{populationBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[step={(1,450)},color=gridGrey,line width=0.25pt] (0,0) grid (4,1800);\n\\draw[->,black,line width=0.5pt] (-0.08,0)--(4.3,0);\n\\draw[->,black,line width=0.5pt] (0,-35)--(0,1890);\n\\foreach \\x in {1,2,3,4} {\n\\draw[black,line width=0.4pt] (\\x,-30)--(\\x,30);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (\\x,-35) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\y in {450,900,1350,1800} {\\draw[black,line width=0.4pt] (-0.05,\\y)--(0.05,\\y);}\n\\foreach \\y in {900,1800} {\\node[left,font=\\fontsize{8.5}{10}\\selectfont,inner sep=0.2pt] at (-0.07,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[populationBlue,line width=0.8pt,domain=0:4.3,samples=2] plot (\\x,{1800-337.5*\\x});\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (2,-235) {Time (years)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1.05,900) {Population};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 10, lower-left population graph",
+          "description": "Arrowed axes, yearly vertical gridlines and horizontal gridlines every 450 people. Only 900 and 1800 are labelled on the population axis. The descending blue model extends slightly beyond year 4.",
+          "mathematics": "p = 1800 - 337.5t; the line passes through (0,1800) and (4,450).",
+          "answerVisibility": "The supplied graph is visible in the question edition; equations and numerical responses belong only in answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write an equation relating number of people $p$ and time $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$p=-337.5t+1800$",
+          "worked": "The initial population is 1800. Using $(0,1800)$ and $(4,450)$:\n$$\\begin{align*}m&=\\frac{450-1800}{4-0}\\\\m&=-337.5\\\\p&=-337.5t+1800\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p42-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use your equation to determine the number of people in the village after 2 years.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "1125 people",
+          "worked": "$$\\begin{align*}p&=-337.5(2)+1800\\\\p&=1125\\end{align*}$$\nThere are 1125 people after 2 years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p42-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use your equation to determine when the population will first reach 180 people.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "4.8 years",
+          "worked": "$$\\begin{align*}180&=-337.5t+1800\\\\337.5t&=1620\\\\t&=\\frac{1620}{337.5}\\\\t&=4.8\\end{align*}$$\nThe population first reaches 180 people after 4.8 years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p42-q10-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p42-q10-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p42-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p42-q10-root/label",
+                  "type": "item",
+                  "ref": "p42-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "p42-q10-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p42-q10-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q10-graph",
+                          "type": "item",
+                          "ref": "p42-q10-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p42-q10-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p42-q10-root/prompt",
+                          "type": "item",
+                          "ref": "p42-q10-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p42-q10-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p42-q10-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q10-a/label",
+                                  "type": "item",
+                                  "ref": "p42-q10-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p42-q10-a/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q10-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q10-a/space",
+                                  "type": "item",
+                                  "ref": "p42-q10-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q10-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q10-b/label",
+                                  "type": "item",
+                                  "ref": "p42-q10-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p42-q10-b/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q10-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q10-b/space",
+                                  "type": "item",
+                                  "ref": "p42-q10-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p42-q10-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p42-q10-c/label",
+                                  "type": "item",
+                                  "ref": "p42-q10-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p42-q10-c/prompt",
+                                  "type": "item",
+                                  "ref": "p42-q10-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p42-q10-c/space",
+                                  "type": "item",
+                                  "ref": "p42-q10-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:46.692Z",
+  "updatedAt": "2026-10-21T08:56:46.693Z"
+}

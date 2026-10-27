@@ -1,0 +1,380 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-73c98e7b-110a-41c8-bc15-591679d3a526",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "multistage-outcomes",
+      "complementary-probability"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Build a two-birth tree, distinguish an ordered pair from either order, and identify two boys as the complement of at least one girl.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:32:30.383Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "072473fc8c98f44efe700bf52fbe3c7fec0cc939411c090700c2ad8f4159e072",
+      "evidence": ".booklet-work/reasoning-ratings/calls/multistage-probability-v1/9390f2a0b678cafbe8dee6137e968e3b5ac62363ec0a9fecdacf24913c9c83ae-1792560716297/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p36-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "When a child is born, the probability of a boy is 0.51 and the probability of a girl is 0.49.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p36-q19-tree-response",
+        "type": "part",
+        "label": "",
+        "prompt": "Draw a probability tree diagram for a family’s two children.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "See probability tree. $B$ denotes a boy and $G$ denotes a girl.",
+          "worked": "Birth order determines the stages. At each stage, $P(B)=0.51$ and $P(G)=0.49$. The outcomes are $BB$, $BG$, $GB$ and $GG$.",
+          "solutionDiagrams": [
+            {
+              "id": "p36-q19-tree-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 36, p36-q19-tree-solution\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=0.6mm}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[align=center] at (14,29) {First\\\\child};\\node[align=center] at (31,29) {Second\\\\child};\\node at (46,29) {Outcome};\n\\draw (0,0)--(14,12) (0,0)--(14,-12);\n\\draw (14,12)--(30,20) (14,12)--(30,4) (14,-12)--(30,-4) (14,-12)--(30,-20);\n\\node[above left,fill=white] at (7,6) {$0.51$};\\node[below left,fill=white] at (7,-6) {$0.49$};\n\\node[above,fill=white] at (23,16) {$0.51$};\\node[below,fill=white] at (23,8) {$0.49$};\\node[above,fill=white] at (23,-8) {$0.51$};\\node[below,fill=white] at (23,-16) {$0.49$};\n\\node[fill=white] at (14,12) {$B$};\\node[fill=white] at (14,-12) {$G$};\n\\foreach \\y/\\a/\\out in {20/B/BB,4/G/BG,-4/B/GB,-20/G/GG}{\\node[anchor=west,fill=white] at (30,\\y) {$\\a$};\\node at (46,\\y) {$\\out$};}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 120,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 36,
+                "sourceRegion": "Question 19 tree-drawing instruction",
+                "description": "Authored solution tree with two stages in birth order, four ordered outcomes and all six branch probabilities. No tree is supplied in the student prompt.",
+                "mathematics": "Each birth has branches B with probability 0.51 and G with probability 0.49; the second-stage probabilities are unchanged under the source's assumed independence.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p36-q19-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Calculate the probability, as a decimal:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p36-q19-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Two boys",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.2601$",
+              "worked": "$$\\begin{aligned}P(BB)&=0.51\\times0.51\\\\&=0.2601\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p36-q19-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "A boy then a girl, in that order.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.2499$",
+              "worked": "$$\\begin{aligned}P(BG)&=0.51\\times0.49\\\\&=0.2499\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p36-q19-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "A girl and a boy, in any order.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.4998$",
+              "worked": "$$\\begin{aligned}P(\\text{one girl and one boy})&=P(GB)+P(BG)\\\\&=0.49\\times0.51+0.51\\times0.49\\\\&=0.4998\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p36-q19-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "At least one girl.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0.7399$",
+              "worked": "The complement is two boys.\n$$\\begin{aligned}P(\\text{at least one girl})&=1-P(BB)\\\\&=1-0.2601\\\\&=0.7399\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p36-q19": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p36-q19-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p36-q19-opening",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p36-q19-label-item",
+                      "type": "item",
+                      "ref": "p36-q19-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p36-q19-prompt-item",
+                      "type": "item",
+                      "ref": "p36-q19-root/prompt"
+                    }
+                  ],
+                  "gap": 3
+                },
+                {
+                  "id": "p36-q19-tree-prompt-item",
+                  "type": "item",
+                  "ref": "p36-q19-tree-response/prompt"
+                },
+                {
+                  "id": "p36-q19-tree-space-item",
+                  "type": "item",
+                  "ref": "p36-q19-tree-response/space"
+                },
+                {
+                  "id": "p36-q19-a-opening",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p36-q19-a-label-item",
+                      "type": "item",
+                      "ref": "p36-q19-a/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p36-q19-a-prompt-item",
+                      "type": "item",
+                      "ref": "p36-q19-a/prompt"
+                    }
+                  ],
+                  "gap": 3
+                },
+                {
+                  "id": "p36-q19-first-pair",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p36-q19-i-cell",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p36-q19-i-opening",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p36-q19-i-label-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-i/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p36-q19-i-prompt-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-i/prompt"
+                            }
+                          ],
+                          "gap": 3
+                        },
+                        {
+                          "id": "p36-q19-i-space-item",
+                          "type": "item",
+                          "ref": "p36-q19-a-i/space"
+                        }
+                      ],
+                      "weight": 1
+                    },
+                    {
+                      "id": "p36-q19-ii-cell",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p36-q19-ii-opening",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p36-q19-ii-label-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-ii/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p36-q19-ii-prompt-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-ii/prompt"
+                            }
+                          ],
+                          "gap": 3
+                        },
+                        {
+                          "id": "p36-q19-ii-space-item",
+                          "type": "item",
+                          "ref": "p36-q19-a-ii/space"
+                        }
+                      ],
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 6
+                },
+                {
+                  "id": "p36-q19-second-pair",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p36-q19-iii-cell",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p36-q19-iii-opening",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p36-q19-iii-label-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-iii/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p36-q19-iii-prompt-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-iii/prompt"
+                            }
+                          ],
+                          "gap": 3
+                        },
+                        {
+                          "id": "p36-q19-iii-space-item",
+                          "type": "item",
+                          "ref": "p36-q19-a-iii/space"
+                        }
+                      ],
+                      "weight": 1
+                    },
+                    {
+                      "id": "p36-q19-iv-cell",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p36-q19-iv-opening",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p36-q19-iv-label-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-iv/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p36-q19-iv-prompt-item",
+                              "type": "item",
+                              "ref": "p36-q19-a-iv/prompt"
+                            }
+                          ],
+                          "gap": 3
+                        },
+                        {
+                          "id": "p36-q19-iv-space-item",
+                          "type": "item",
+                          "ref": "p36-q19-a-iv/space"
+                        }
+                      ],
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 6
+                }
+              ],
+              "gap": 4,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "answerPartLabels": {
+      "short": {
+        "p36-q19-tree-response": ""
+      },
+      "worked": {
+        "p36-q19-tree-response": ""
+      }
+    },
+    "ownerId": "p36-q19"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:53:27.633Z",
+  "updatedAt": "2026-10-21T10:53:27.633Z"
+}

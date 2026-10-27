@@ -1,0 +1,312 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7e12ebc8-679f-4e3d-b3a7-14df4e5c3dd1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "exponential-growth-decay-model",
+    "secondarySkillIds": [
+      "interpret-exponential-model"
+    ],
+    "reasoningScore": 23,
+    "difficulty": "Foundation",
+    "difficultyReason": "Extract the initial investment and percentage rate from the labelled equation, read graph estimates, and check one estimate by explicitly requested substitution.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:00:43.890Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ba3446f0df17769c7cba9723d48578e3b8bb4314fb3b64657d343e7a52997478",
+      "evidence": ".booklet-work/reasoning-ratings/calls/features-quadratics-exponentials-v1/dfe26093468ead068a47188286d6c46826acb6e7a7edfc8932b1a405e15e2a7c-1792558827815/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p44-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The compound interest formula is $FV = PV(1 + r)^n$. The graph of a compound interest investment is shown.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p44-q6-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"investment curve and its equation label\"}],\"reference\":\"source page 44 p44-q6-graph\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.26cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphGrid}{HTML}{CCCCCC}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[draw=graphGrid,line width=0.25pt,xstep=0.5,ystep=1] (0,0) grid (8,20);\n\\draw[black,->,line width=0.5pt] (0,0)--(8.25,0) node[right] {$n$};\n\\draw[black,->,line width=0.5pt] (0,0)--(0,20.25) node[above] {$FV$};\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\foreach \\x in {1,2,3,4,5,6,7} {\n\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.35);\n\\node[below] at (\\x,-0.35) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\y/\\lab in {2/2000,4/4000,6/6000,8/8000,10/{10\\,000},12/{12\\,000},14/{14\\,000},16/{16\\,000},18/{18\\,000}} {\n\\draw[black,line width=0.4pt] (0,\\y)--(-0.15,\\y);\n\\node[left] at (-0.15,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};\n}\n\\draw[seriesBlue,line width=0.8pt,->] plot[domain=0:8,samples=100] (\\x,{10*pow(1.09,\\x)});\n\\node[anchor=north east,text=seriesBlue] at (7.85,12.1) {$FV=10\\,000(1.09)^n$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 44,
+          "sourceRegion": "Lower question, graph to the left of parts a–c",
+          "description": "Unshaded investment graph with positive-axis arrows, half-unit horizontal grid, 1000-unit vertical grid, labelled integer horizontal ticks 1–7 and vertical ticks 2000–18000. The curve starts at FV = 10000 and has an upper-right continuation arrow.",
+          "mathematics": "FV = 10000(1.09)^n; horizontal range 0–8; vertical range 0–20000. TikZ vertical coordinates represent thousands.",
+          "answerVisibility": "The supplied curve and equation are permanent question givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p44-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Looking at the equation of the graph, what was the present value of the investment?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$10\\,000$",
+          "worked": "The initial value is the coefficient in $FV=10\\,000(1.09)^n$, so $PV=\\$10\\,000$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p44-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Looking at the equation of the graph, what is the percentage interest rate per period?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$9\\%$ per period",
+          "worked": "$$\\begin{align*}1+r&=1.09\\\\r&=0.09\\end{align*}$$\nThe interest rate is $9\\%$ per period.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p44-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Estimate the time it takes for the future value to grow to 14 000.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 4 years.",
+          "worked": "Read across from $FV=14\\,000$ to the curve, then down to the $n$-axis: approximately 4 years.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p44-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Estimate the future value after 7 years using the graph, then check using the equation. Give the calculated value to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Graph: approximately $\\$18\\,000$. Calculation: $\\$18\\,280.39$.",
+          "worked": "At $n=7$, read up to the curve and across to the vertical axis: approximately $\\$18\\,000$.\n$$\\begin{align*}FV&=10\\,000(1.09)^7\\\\FV&\\approx\\$18\\,280.39\\end{align*}$$\nThe calculated value agrees with the graph estimate.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p44-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p44-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p44-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p44-q6-root/label",
+                  "type": "item",
+                  "ref": "p44-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "p44-q6-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p44-q6-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q6-graph",
+                          "type": "item",
+                          "ref": "p44-q6-graph",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p44-q6-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p44-q6-root/prompt",
+                          "type": "item",
+                          "ref": "p44-q6-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p44-q6-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p44-q6-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q6-a/label",
+                                  "type": "item",
+                                  "ref": "p44-q6-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p44-q6-a/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q6-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q6-a/space",
+                                  "type": "item",
+                                  "ref": "p44-q6-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q6-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q6-b/label",
+                                  "type": "item",
+                                  "ref": "p44-q6-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p44-q6-b/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q6-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q6-b/space",
+                                  "type": "item",
+                                  "ref": "p44-q6-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q6-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q6-c/label",
+                                  "type": "item",
+                                  "ref": "p44-q6-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p44-q6-c/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q6-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q6-c/space",
+                                  "type": "item",
+                                  "ref": "p44-q6-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p44-q6-d:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p44-q6-d/label",
+                                  "type": "item",
+                                  "ref": "p44-q6-d/label",
+                                  "title": "Label d"
+                                },
+                                {
+                                  "id": "layout:p44-q6-d/prompt",
+                                  "type": "item",
+                                  "ref": "p44-q6-d/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p44-q6-d/space",
+                                  "type": "item",
+                                  "ref": "p44-q6-d/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part d",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:44:10.465Z",
+  "updatedAt": "2026-10-21T08:44:10.465Z"
+}

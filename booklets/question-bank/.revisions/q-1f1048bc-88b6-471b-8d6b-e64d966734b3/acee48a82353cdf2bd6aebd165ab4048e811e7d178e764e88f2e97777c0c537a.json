@@ -1,0 +1,339 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1f1048bc-88b6-471b-8d6b-e64d966734b3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-using-gradient-intercept",
+    "secondarySkillIds": [
+      "slope-intercept-interpret"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Read the drawn rise and run, diagnose their reversal relative to the equation's gradient, then specify the correct movement and construct the corrected line.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:06:31.593Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2cb1604523337a345b1df977b95a21dc0dc35403e1a1b3b6e9725a43ce7bbbae",
+      "evidence": ".booklet-work/reasoning-ratings/calls/gradient-intercept-form-v1/5e3fd41048f0a4908b8241207fca6fed9f395ca9dfe12b389f83174073882f03-1792559162060/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Mark graphed this equation:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"errorRed\",\"hex\":\"EF6068\",\"reason\":\"cross identifies the supplied graph as incorrect\"}],\"reference\":\"source page 15 p15-q2-diagram\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.45cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{errorRed}{HTML}{EF6068}\n\\path[use as bounding box] (-6.5,-6.5) rectangle (12,9);\n\\draw[black,line width=0.25pt,step=1] (-5,-5) grid (5,5);\n\\draw[black,<->,line width=0.5pt] (-6.2,0)--(6.2,0) node[right] {$x$};\n\\draw[black,<->,line width=0.5pt] (0,-6.2)--(0,6.2) node[above right] {$y$};\n\\node[anchor=west] at (-6.2,8) {$y=\\frac12x+3$};\n\\draw[black,<->,line width=0.8pt] (-3.75,-4.5)--(1.75,6.5);\n\\fill[black] (0,3) circle (2pt);\n\\fill[black] (1,5) circle (2pt);\n\\draw[errorRed,line width=0.8pt,line cap=round] (9,4.5)--(11,8.2);\n\\draw[errorRed,line width=0.8pt,line cap=round] (9.3,8)--(10.8,4.8);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 2, left-hand incorrect graph",
+          "description": "Editable Cartesian graph with unit grid, unnumbered axes, the supplied equation above it, an incorrect line through two marked points and a red cross. Axes extend beyond the grid. The decorative frame and origin numeral are omitted under house conventions.",
+          "mathematics": "The incorrect line passes through (0,3) and (1,5), so its gradient is 2. The requested equation has gradient 1/2 and y-intercept 3. Grid coordinates are reconstructed by counting unit cells.",
+          "answerVisibility": "The incorrect line, both marked points, equation and red cross remain visible in the question. The correct line is solution-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p15-q2-explain",
+        "type": "part",
+        "label": "a",
+        "prompt": "Mark incorrectly graphed the equation. What did he get wrong?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The gradient is $2$, not $\\frac12$.",
+          "worked": "Mark moved up $2$ units for every $1$ unit right, giving gradient $2$. The equation requires gradient $\\frac12$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p15-q2-movement",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p15-q2-movement-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "How many units up and to the right from point ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "(0,3)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " should Mark have moved when graphing this slope? up ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "1",
+                  "width": 9
+                },
+                {
+                  "type": "text",
+                  "text": " right ",
+                  "marks": []
+                },
+                {
+                  "type": "cloze",
+                  "answer": "2",
+                  "width": 9
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Up $1$, right $2$.",
+          "worked": "The gradient is $\\frac12$: move right $2$ units and up $1$ unit from $(0,3)$ to $(2,4)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p15-q2-correct",
+        "type": "part",
+        "label": "c",
+        "prompt": "Draw the correct graph of $y=\\frac12x+3$ on the axes on the left.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The straight line through $(0,3)$ and $(2,4)$.",
+          "worked": "Plot $(0,3)$. Move right $2$ units and up $1$ unit to $(2,4)$. Join the points and extend the line.",
+          "solutionDiagrams": [
+            {
+              "id": "p15-q2-correct-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"errorRed\",\"hex\":\"EF6068\",\"reason\":\"cross identifies the supplied incorrect graph\"},{\"name\":\"correctBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the correct line from Mark's supplied line\"}],\"reference\":\"source page 15 p15-q2-correct-solution\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.45cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{errorRed}{HTML}{EF6068}\n\\definecolor{correctBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-6.5,-6.5) rectangle (12,9);\n\\draw[black,line width=0.25pt,step=1] (-5,-5) grid (5,5);\n\\draw[black,<->,line width=0.5pt] (-6.2,0)--(6.2,0) node[right] {$x$};\n\\draw[black,<->,line width=0.5pt] (0,-6.2)--(0,6.2) node[above right] {$y$};\n\\node[anchor=west] at (-6.2,8) {$y=\\frac12x+3$};\n\\draw[black,<->,line width=0.8pt] (-3.75,-4.5)--(1.75,6.5);\n\\fill[black] (0,3) circle (2pt);\n\\fill[black] (1,5) circle (2pt);\n\\draw[errorRed,line width=0.8pt,line cap=round] (9,4.5)--(11,8.2);\n\\draw[errorRed,line width=0.8pt,line cap=round] (9.3,8)--(10.8,4.8);\n\\draw[correctBlue,<->,line width=0.8pt,domain=-6:6,samples=2] plot (\\x,{0.5*\\x+3});\n\\fill[correctBlue] (0,3) circle (2pt);\n\\fill[correctBlue] (2,4) circle (2pt);\n\\draw[correctBlue,dashed,line width=0.4pt] (0,3)--(2,3)--(2,4);\n\\node[correctBlue,below] at (1,3) {$2$};\n\\node[correctBlue,right] at (2,3.5) {$1$};\n\\node[correctBlue,anchor=west] at (3,9.8) {$y=\\frac12x+3$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 15,
+                "sourceRegion": "Question 2, correct graph response",
+                "description": "Complete solution figure retaining the supplied incorrect graph and adding the correct blue line, its second point and dashed rise/run guides.",
+                "mathematics": "Correct line y=x/2+3 passes through (0,3) and (2,4); run 2 and rise 1.",
+                "answerVisibility": "Solution-only complete graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      }
+    ],
+    "diagramPlacement": "beside-prompt"
+  },
+  "presentation": {
+    "ownerId": "p15-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p15-q2-root/label",
+                  "type": "item",
+                  "ref": "p15-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "p15-q2-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p15-q2-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q2-diagram",
+                          "type": "item",
+                          "ref": "p15-q2-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p15-q2-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q2-root/prompt",
+                          "type": "item",
+                          "ref": "p15-q2-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p15-q2-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p15-q2-explain:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p15-q2-explain/label",
+                                  "type": "item",
+                                  "ref": "p15-q2-explain/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p15-q2-explain/prompt",
+                                  "type": "item",
+                                  "ref": "p15-q2-explain/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p15-q2-explain/space",
+                                  "type": "item",
+                                  "ref": "p15-q2-explain/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p15-q2-movement:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p15-q2-movement/label",
+                                  "type": "item",
+                                  "ref": "p15-q2-movement/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p15-q2-movement/prompt#p15-q2-movement-prompt",
+                                  "type": "item",
+                                  "ref": "p15-q2-movement/prompt#p15-q2-movement-prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p15-q2-movement/space",
+                                  "type": "item",
+                                  "ref": "p15-q2-movement/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p15-q2-correct:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p15-q2-correct/label",
+                                  "type": "item",
+                                  "ref": "p15-q2-correct/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p15-q2-correct/prompt",
+                                  "type": "item",
+                                  "ref": "p15-q2-correct/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p15-q2-correct/space",
+                                  "type": "item",
+                                  "ref": "p15-q2-correct/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 2",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T08:56:00.312Z",
+  "updatedAt": "2026-10-21T08:56:00.312Z"
+}
