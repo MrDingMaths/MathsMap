@@ -114,8 +114,10 @@
     }catch(e){error=e.message;}finally{busy='';}
   }
   let bankSync = $state.raw({items:[]});
-  let showBankSync = $state(false), bankSyncError=$state(''), syncBusy=$state(false);
-  const bankUpdates=$derived(bankSync.items.filter(i=>['update','conflict','pending','missing'].includes(i.state)));
+  let reviewDock=$state('');
+  const showBankSync=$derived(reviewDock==='bank');
+  let bankSyncError=$state(''), syncBusy=$state(false);
+  const bankUpdates=$derived(bankSync.items.filter(i=>['update','conflict','pending','local','missing'].includes(i.state)));
   async function refreshBankSync(){
     if(!project||opening)return;const id=project.id,token=loadGeneration;
     try{const result=await getProjectBankSync(id);if(project?.id===id&&token===loadGeneration&&!opening){bankSync=result;project=applyBankRatings(project,result.items);bankSyncError='';}}
@@ -128,7 +130,7 @@
     try{
       const saved=await resolveProjectBankSync(project.id,{blockId:item.blockId,action,bankRevision:item.bankRevision,localHash:item.localHash,expectedRevision:project.revision});
       documentSession.dispatch(saved,{remember:false});savedBase=clone(saved);history.reset();undoStack=[];redoStack=[];
-      status=action==='use-bank'?'Bank version applied; local page layout retained.':action==='keep-local'?'Local version kept as a separate question.':'Booklet version saved to the bank.';
+      status=action==='use-bank'?'Bank version applied; local page layout retained.':action==='keep-local'?'Question disconnected from the bank; booklet content retained.':action==='reconnect'?'Bank link restored; neither version was changed.':'Bank replaced with this booklet version; the bank link is retained.';
       await refreshBankSync();await refreshProjects();
     }catch(e){error=e.message;await refreshBankSync();}finally{syncBusy=false;}
   }
@@ -175,7 +177,7 @@
   const findMatches=$derived(searchDocumentEntries(findEntries,findQuery));
   async function openFinder(mode){documentSelection=currentAnchor();finder=mode;findQuery='';goPageValue=String(flowActive);if(mode==='find')findEntries=documentSearchIndex(project);await tick();if(!finderDialog?.open)finderDialog?.showModal();finderInput?.focus();finderInput?.select();}
   function closeFinder(){finderDialog?.close();finder='';if(activeEditor&&inlineSession?.bookmark)restoreEditorSelection(activeEditor,inlineSession.bookmark);}
-  function command(action){closeFinder();if(action==='find'||action==='goto')openFinder(action);else if(action==='outline')navigation=!navigation;else if(action==='comment')addComment();else if(action==='compare')toggleComparison();else if(action==='bank'){showBankSync=!showBankSync;refreshBankSync();}else if(action==='theme')theme.toggle();else if(action==='assembly')tool='assembly';else if(action==='arrange')arrangeSelectedQuestion();else{panel=action==='page'?'layout':action;inspectorTab=action==='page'?'page':'layout';}}
+  function command(action){closeFinder();if(action==='find'||action==='goto')openFinder(action);else if(action==='outline')navigation=!navigation;else if(action==='comment')addComment();else if(action==='compare')toggleComparison();else if(action==='bank'){reviewDock=showBankSync?'':'bank';refreshBankSync();}else if(action==='theme')theme.toggle();else if(action==='assembly')tool='assembly';else if(action==='arrange')arrangeSelectedQuestion();else{panel=action==='page'?'layout':action;inspectorTab=action==='page'?'page':'layout';}}
   async function locateMatch(match){
     if(match.kind==='code'){
       closeFinder();selectCoverageTarget(match.rootId);
@@ -674,7 +676,7 @@
       const next=applyBankRatings(loaded.project,sync.items),base=clone(next);
       if(!projects.some(item=>item.id===id))projects=[...projects,{id,title:next.title}];
       project=next;savedBase=base;saveState='Saved';saveConflict=false;mergeReview=null;
-      bankSync=sync;bankSyncError=syncError;showBankSync=false;
+      bankSync=sync;bankSyncError=syncError;reviewDock='';
       selectDefaults(next);tool='';comparison=false;diagramSelection=null;layoutSelection=null;
       documentSession.reset();persistence.reset(project);documentGeneration=documentSession.generation;undoStack=[];redoStack=[];groupSelection=[];documentSelection=null;exportedFeedback='';
       previewAttempt=token;
@@ -1130,7 +1132,7 @@
    <div class="toolbar-actions" inert={!!opening||printing}><span class="tool-group"><button data-equation-control title="Undo (Ctrl+Z)" onclick={undo} disabled={!undoStack.length}>Undo</button><button data-equation-control title="Redo (Ctrl+Y)" onclick={redo} disabled={!redoStack.length}>Redo</button></span>
    <span class="tool-group"><button title="Find in document (Ctrl+F)" aria-label="Find in document" onclick={()=>openFinder('find')}>Find</button><button title="Commands (Ctrl+K)" aria-label="Search commands" onclick={()=>openFinder('commands')}>Commands</button></span>
    {#if project}<span class="tool-group panel-switch" role="group" aria-label="Panels" data-equation-control onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}><button bind:this={layoutPanelButton} class:on={panel==='layout'} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Spacing</button><details class="document-insert" class:on={commentsOpen}><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment} aria-keyshortcuts="Control+`" title="Add comment (Ctrl + backtick)">Add comment <kbd>Ctrl + `</kbd></button><button aria-expanded={commentsOpen} aria-controls="booklet-comments-pane" onclick={()=>commentsOpen=!commentsOpen}>{commentsOpen?'Hide comments':'Show comments'}</button></div></details><button class:on={panel==='review'} aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button class:on={panel==='pdf'} aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button></span>{/if}
-   <details class="menu"><summary>File</summary><div><small class="menu-heading">Booklet</small><button onclick={createNew}>New booklet</button><button disabled={!!editSession} onclick={()=>libraryManager=true}>Manage booklets…</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><small class="menu-heading">Check</small><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button><details class="submenu"><summary>Advanced{bankUpdates.length?` (${bankUpdates.length})`:''}</summary><button onclick={()=>{showBankSync=!showBankSync;refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Block properties</button></details><hr/><button class="danger" onclick={removeCurrent}>Delete booklet</button>{:else}<small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button>{/if}</div></details></div>
+   <details class="menu"><summary>File</summary><div><small class="menu-heading">Booklet</small><button onclick={createNew}>New booklet</button><button disabled={!!editSession} onclick={()=>libraryManager=true}>Manage booklets…</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><small class="menu-heading">Check</small><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button><details class="submenu"><summary>Advanced{bankUpdates.length?` (${bankUpdates.length})`:''}</summary><button onclick={()=>{reviewDock=showBankSync?'':'bank';refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Block properties</button></details><hr/><button class="danger" onclick={removeCurrent}>Delete booklet</button>{:else}<small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button>{/if}</div></details></div>
  </header>
  {#if opening}<div class="workspace-loading project-screen" aria-busy={!opening.error}>
    <div class="loading-card">
@@ -1155,13 +1157,13 @@
     <details class="move-to"><summary>Move to…</summary><label>Exercise or section<select aria-label="Move selection to section" value={moveSection?.id??''} onchange={e=>{moveSectionId=e.currentTarget.value;moveBeforeId='';}}>{#each moveTargets as topic}<optgroup label={topic.title}>{#each topic.sections as dest}<option value={dest.id}>{dest.title}</option>{/each}</optgroup>{/each}</select></label><label>Position<select aria-label="Move selection to position" bind:value={moveBeforeId}>{#each moveSection?.positions??[] as position}<option value={position.id}>Before {position.label}</option>{/each}<option value="">End of section</option></select></label><button disabled={!moveSection} onclick={()=>moveGroups(groupSelection,moveSection.id,moveSection.positions.some(p=>p.id===moveBeforeId)?moveBeforeId:null)}>Move {groupSelection.length>1?'selection':'item'} here</button></details>{/if}</div></details>{/if}
  </div>{/if}
   {#if error}<div class="project-notice error project-screen" role="alert">{error}</div>{:else if status}<div class="workspace-toast project-screen" role="status">{status}</div>{/if}
-  {#if bankUpdates.length&&!showBankSync}<div class="project-notice project-screen" role="status">{bankUpdates.some(i=>i.state==='conflict')?'Bank sync needs review.':'Question bank updates available.'} <button onclick={()=>showBankSync=true}>Review updates</button></div>{/if}
+  {#if bankUpdates.length&&!showBankSync}<div class="project-notice project-screen" role="status">{bankUpdates.some(i=>i.state==='conflict')?'Bank sync needs review.':'Question bank changes to review.'} <button onclick={()=>reviewDock='bank'}>Review updates</button></div>{/if}
   {#if saveConflict}<section class="project-screen project-notice" aria-label="Save recovery"><p>Your edits are retained. Another session saved a newer revision.</p><button onclick={downloadRecovery}>Download recovery</button><button onclick={loadLatestAndMerge}>Load latest and merge</button>
     {#if mergeReview}{#each mergeReview.conflicts as conflict}<fieldset><legend>{conflict.path}</legend><pre>Local: {JSON.stringify(conflict.local,null,2)}</pre><pre>Latest: {JSON.stringify(conflict.latest,null,2)}</pre><label>Keep<select aria-label={'Resolve '+conflict.path} value={mergeChoices[conflict.path]??''} onchange={e=>mergeChoices[conflict.path]=e.currentTarget.value}><option value="">Choose a version</option><option value="local">Local edit</option><option value="latest">Latest saved edit</option></select></label></fieldset>{/each}<button onclick={finishMerge} disabled={mergeReview.conflicts.some(c=>!mergeChoices[c.path])}>Save resolved merge</button>{/if}
   </section>{/if}
 
  {#if project}
-  <div class="project-editor project-screen" inert={!!opening} aria-busy={!!opening&&!opening.error} class:with-navigation={navigation&&!comparison&&!tool} class:with-review={!!panel&&!tool} class:with-comments={commentsOpen&&!tool} class:comparison>
+  <div class="project-editor project-screen" inert={!!opening} aria-busy={!!opening&&!opening.error} class:with-navigation={navigation&&!comparison&&!tool} class:with-review={!!panel&&!tool&&!reviewDock} class:content-review={!!reviewDock&&!tool} class:with-comments={commentsOpen&&!tool&&!reviewDock} class:comparison>
    <section class="tool-view" hidden={!tool}><header><h2>Assembly</h2><button onclick={()=>tool=''}>Back to booklet</button></header><div hidden={tool!=='assembly'}><BookletAssemblyPanel {project} active={tool==='assembly'} onchange={change} oncreated={openProject} expanded/></div></section>
    <aside class="project-outline" class:drawer={workspaceWidth<1100} hidden={!navigation||comparison||!!tool} aria-label="Page navigation">
     {#if flexible}<div class="navigation-views" role="group" aria-label="Navigation view"><button aria-pressed={navigationView==='outline'} onclick={()=>navigationView='outline'}>Outline</button><button aria-pressed={navigationView==='library'} title="Copy topics and questions from another booklet" onclick={()=>navigationView='library'}>Library</button></div>
@@ -1189,7 +1191,36 @@
      <section class="transcribed-evidence comparison-pane">{#if comparison}<header><strong>Booklet content</strong><select aria-label="Transcribed zoom" bind:value={zoom}><option value="width">Fit width</option><option value="page">Fit page</option><option value="1">100%</option><option value="1.5">150%</option><option value="2">200%</option>{#if !['width','page','1','1.5','2'].includes(zoom)}<option value={zoom}>{Math.round(Number(zoom)*100)}%</option>{/if}</select></header>{/if}<div class="paper-scroll">{#if previewPage&&(!flexible||comparison)}{#key project.id+':'+previewAttempt}{@const attempt=previewAttempt}<BookletPageGuide revision={[project,previewPage,answerView,exportSettings,zoom]} onready={()=>{if(!flexible)previewProgress({projectId:project.id,ready:true},attempt);}} onerror={error=>{if(!flexible)previewProgress({projectId:project.id,stage:'Preparing page preview',error},attempt);}}>{#if previewPage.compactAnswers}<FlowBookletPage {project} page={previewPage} pages={flowMap.pages} editMode={true} onContentEdit={editContent}/>{:else}<TranscribedBookletPage houseStyleVersion={project.settings.houseStyleVersion} blockLayouts={project.settings.layoutOverrides.blockLayouts} {zoom} page={previewPage} {bookletPages} runId={project.source?.runId??project.id} showKeyIdeasAnswers={exportSettings.showKeyIdeasAnswers} showTheorySolutions={exportSettings.showTheorySolutions} showReviewAnswers={exportSettings.showReviewAnswers} showIdentifyAnswers={exportSettings.showIdentifyAnswers} showGuidedPracticeAnswers={exportSettings.showGuidedPracticeAnswers} solutionMode={answerView} answerSpaceOverrides={effectiveSpaces} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} onSpaceResize={setAnswerSpace} editMode={true} onContentEdit={editContent} isEdited={()=>false}/>{/if}</BookletPageGuide>{/key}{/if}</div></section>
     </div>
    </main>
-   <aside class="workspace-panel project-inspector" class:docked={dockReview&&!comparison} hidden={!panel||!!tool} aria-label={panel==='layout'?'Spacing':panel==='review'?'Review':panel==='pdf'?'PDF configuration':panel==='metadata'?'Project details':'Block properties'}>
+   {#if reviewDock&&!tool}<aside class="content-review-dock" aria-label="Content review">
+
+  {#if showBankSync&&project}
+    <section class="bank-sync-panel project-screen" aria-label="Question bank sync">
+      <header class="sync-dock-header"><h2>Question bank sync</h2><button aria-label="Close question bank sync" onclick={()=>reviewDock=''}>Close</button></header>
+      <p>Original booklet questions sync on save. Linked copies can take the bank version, replace the bank explicitly, or disconnect. Replacing the bank makes an update available to other booklets; it does not transfer automatic publishing ownership. Layout and answer spaces stay local.</p>
+      {#if bankSyncError}<p role="alert">{bankSyncError}</p>{/if}
+      {#if !bankUpdates.length}<p>{bankSync.items.some(i=>i.owner)?'Original questions are synced.':'No bank updates available.'}</p>{/if}
+      <button onclick={refreshBankSync} disabled={syncBusy}>Check for updates</button>
+      {#each bankUpdates as item (item.blockId)}
+        <article class="bank-sync-item">
+          <h3>{questionNumbers[item.blockId]?'Question '+questionNumbers[item.blockId]:item.title??'Question'} — {item.state==='conflict'?'Both versions changed':item.state==='missing'?'Bank question removed':item.state==='pending'||item.state==='local'?'Changed in this booklet':'Update available'}</h3>
+          {#if item.state==='conflict'}<p>Automatic sync is paused for this question. Compare both versions before choosing which to keep.</p>{/if}
+          {#if item.local&&item.bank}<details><summary>Compare question and worked solution</summary><div class="sync-comparison">{#each [{label:'This booklet',question:item.local},{label:'Question bank',question:item.bank}] as side}<section><h4>{side.label}</h4><PracticeQuestionRenderer question={side.question} showSpaces={false}/><h4>Worked solution</h4><PracticeQuestionRenderer preserveDiagramWidths={true} question={side.question} showSpaces={false} showWorkedSolutions={true} answerColumnsLimit={1}/></section>{/each}</div></details>{/if}
+          {#if item.state!=='missing'}<div class="sync-actions"><button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'use-bank')}>Use bank version</button><button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'use-booklet')}>Replace bank with this booklet</button>{#if !item.owner}<button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'keep-local')}>Disconnect and keep booklet version</button>{/if}</div>{/if}
+        </article>
+      {/each}
+      {#if bankSync.items.some(i=>i.state==='detached')}<details class="detached-bank-questions"><summary>Questions disconnected from the bank</summary>
+        <p>These questions no longer receive bank updates. Reconnect keeps both versions unchanged. Replace bank reconnects and publishes this booklet's content.</p>
+        {#each bankSync.items.filter(i=>i.state==='detached') as item (item.blockId)}
+          <article class="bank-sync-item"><h3>{questionNumbers[item.blockId]?'Question '+questionNumbers[item.blockId]:item.title??'Question'}</h3>
+            {#if item.local&&item.bank}<details><summary>Compare before reconnecting</summary><div class="sync-comparison">{#each [{label:'This booklet',question:item.local},{label:'Question bank',question:item.bank}] as side}<section><h4>{side.label}</h4><PracticeQuestionRenderer question={side.question} showSpaces={false}/><h4>Worked solution</h4><PracticeQuestionRenderer preserveDiagramWidths={true} question={side.question} showSpaces={false} showWorkedSolutions={true} answerColumnsLimit={1}/></section>{/each}</div></details>{/if}
+            <div class="sync-actions"><button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'reconnect')}>Reconnect without changing content</button><button disabled={syncBusy||saveState!=='Saved'||!!editSession} onclick={()=>applyBankSync(item,'use-booklet')}>Replace bank with this booklet</button></div>
+          </article>
+        {/each}
+      </details>{/if}
+    </section>
+  {/if}
+   </aside>{/if}
+   <aside class="workspace-panel project-inspector" class:docked={dockReview&&!comparison} hidden={!panel||!!tool||!!reviewDock} aria-label={panel==='layout'?'Spacing':panel==='review'?'Review':panel==='pdf'?'PDF configuration':panel==='metadata'?'Project details':'Block properties'}>
     <header class="panel-header"><BookletInspectorTabs strip id="booklet-panel" label="Inspector" controls="booklet-panel-body" tabs={panelTabs} value={panel} onchange={value=>panel=value}/><button aria-label="Close panel" onclick={()=>panel==='layout'?closeLayoutPanel():panel=''}>×</button></header>
     <div id="booklet-panel-body" class="panel-context"><h2 class:sr-only={panelTabs.some(t=>t[0]===panel)}>{panel==='layout'?'Spacing':panel==='format'?'Selection options':panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2>{#if ['layout','properties','review'].includes(panel)}<div class="selection-breadcrumb" title={selectionPath}>{selectionPath}</div>{/if}</div>
     {#if panel==='layout'}
@@ -1280,7 +1311,7 @@
         {:else}<p>Select a block on the page or in the outline.</p>{/if}
 </div>
    </aside>
-   <aside id="booklet-comments-pane" class="workspace-panel comments-pane" hidden={!commentsOpen||!!tool} aria-label="Comments">
+   <aside id="booklet-comments-pane" class="workspace-panel comments-pane" hidden={!commentsOpen||!!tool||!!reviewDock} aria-label="Comments">
     <header class="panel-header"><h2>Comments {commentLocations.length||''}</h2><button aria-label="Close comments" onclick={()=>commentsOpen=false}>×</button></header>
     <BookletComments bind:this={commentsPanel} {project} onchange={change} oncopy={copyComments} onlocate={locateComment}/>
     {#if exportedFeedback}<label>Feedback prompt<textarea aria-label="Feedback prompt" readonly rows="12" value={exportedFeedback} onclick={e=>e.currentTarget.select()}></textarea></label>{/if}
@@ -1450,4 +1481,20 @@
  /* Phone widths: drop the visible captions (each select keeps its aria-label) and let the selects shrink so Pages and Zoom stay on screen. */
  @media screen and (max-width:700px){.document-status{overflow-x:auto;overflow-y:hidden}.document-status>button{flex:none}.document-status label{font-size:0;gap:0;flex:0 1 auto;min-width:44px}.document-status label>select{flex:1 1 auto;min-width:0}}
  @media screen and (pointer:coarse){.word-workspace .project-toolbar,.word-workspace .document-toolbar{height:52px;max-height:52px;min-height:52px}.word-workspace button,.word-workspace select{min-height:44px}.document-status{height:44px}}
+
+ /* Review occupies the inspector slot, never an overlay over the canvas. */
+ @media screen {
+ .project-editor.content-review,.word-workspace .project-editor.content-review{grid-template-columns:minmax(0,1fr) clamp(380px,42%,760px)}
+ .project-editor.content-review.with-navigation,.word-workspace .project-editor.content-review.with-navigation{grid-template-columns:240px minmax(0,1fr) clamp(380px,40%,760px)}
+ .content-review-dock{min-width:0;min-height:0;overflow:auto;border-left:1px solid var(--border);background:var(--surface);container-type:inline-size}
+ .content-review-dock .bank-sync-panel{max-height:none;overflow:visible;border:0;padding:0 12px 12px}
+ .sync-dock-header{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;background:var(--surface)}
+ .content-review-dock .sync-comparison{grid-template-columns:1fr}
+ }
+ @container (min-width:600px){.content-review-dock .sync-comparison{grid-template-columns:repeat(2,minmax(0,1fr))}}
+ @media screen and (max-width:1099px){
+ .project-editor.content-review,.project-editor.content-review.with-navigation,.word-workspace .project-editor.content-review,.word-workspace .project-editor.content-review.with-navigation{display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(160px,3fr) minmax(0,2fr)}
+ .content-review-dock{grid-column:1;grid-row:2;border-left:0;border-top:1px solid var(--border)}
+ .content-review .project-canvas{grid-column:1;grid-row:1}
+ }
 </style>

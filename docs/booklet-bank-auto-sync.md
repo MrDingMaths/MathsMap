@@ -77,8 +77,8 @@ Open **Bank sync** in the booklet toolbar. Pending bank updates also show a **Re
 
 - If only the original changed, saving publishes that question automatically.
 - If only the bank changed, the booklet offers **Use bank version**.
-- If both changed, automatic sync pauses for that question while the booklet itself still saves. Choose **Use bank version** or, in the original, **Use booklet version** after comparison.
-- Other booklets keep their pinned snapshots. **Use bank version** explicitly refreshes content while retaining local layout; **Keep local version** detaches the adapted question so subsequent bank edits cannot overwrite it.
+- If both changed, automatic sync pauses for that question while the booklet itself still saves. Choose **Use bank version** or **Replace bank with this booklet** after comparison. A linked copy can explicitly replace the existing bank record without becoming its automatic publishing owner. Other booklets remain pinned and are offered the update.
+- Other booklets keep their pinned snapshots. **Use bank version** explicitly refreshes content while retaining local layout; **Disconnect and keep booklet version** detaches the adapted question so subsequent bank edits cannot overwrite it. This does not publish its content. The **Questions disconnected from the bank** section lets a question with one former bank link reconnect without changing either version, or reconnect and replace that bank record with the booklet content.
 
 Checks run when opening/saving a booklet, when returning to the app, every 15 seconds while visible, and with **Check for updates**. Resolve updates only after saving or cancelling any current edit. Applying a version clears the local undo history to prevent an old undo from unexpectedly reapplying discarded content.
 

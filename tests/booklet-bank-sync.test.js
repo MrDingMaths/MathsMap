@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {createEditableProject,createProjectBlock,snapshotBankQuestion} from '../src/lib/editable-booklet-model.js';
 import {createBookletProject,saveBookletProject,promoteProjectQuestion,loadBookletProject,getProjectBankSync,resolveProjectBankSync,duplicateBookletProject,updateProjectLibrary} from '../scripts/booklet/project-studio-server.mjs';
-import {revisionHash,writeTransaction,bankManifestEntry,secondarySkillAmendment,assertNoBankDuplicate,resolveBankOutcomes} from '../scripts/booklet/bank-sync.mjs';
+import {revisionHash,writeTransaction,bankManifestEntry,secondarySkillAmendment,assertNoBankDuplicate,resolveBankOutcomes,sharedHash} from '../scripts/booklet/bank-sync.mjs';
 import {sharedQuestion,mergeQuestionContent,questionKey} from '../src/lib/question-sync.js';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {arrangementCatalog,resolveArrangement} from '../src/lib/booklet-arrangement.js';
@@ -412,4 +412,47 @@ test('detaching a consumer records the decision and the bank editor cannot creat
  await assert.rejects(assertNoBankDuplicate(f.bankRoot,{...bank,id:'q-another'}),/identical to bank question/);
  await assertNoBankDuplicate(f.bankRoot,bank);
  await assertNoBankDuplicate(f.bankRoot,{...bank,id:'q-another',content:{...bank.content,prompt:'Solve $x+1=4$'}});
+});
+
+
+test('a linked consumer can explicitly replace the bank without taking ownership or updating pinned peers',async t=>{
+ const f=await fixture(t),copy=await duplicateBookletProject(f.project.id,{...f.options,copyId:'publisher'}),peer=await duplicateBookletProject(f.project.id,{...f.options,copyId:'pinned'});
+ const peerBefore=await fs.readFile(path.join(f.projectRoot,peer.id+'.json'),'utf8');
+ const bankBefore=await f.readBank(),linksFile=path.join(f.bankRoot,'.sync','links.json'),linksBefore=JSON.parse(await fs.readFile(linksFile,'utf8'));
+ const block=copy.sections[0].blocks[0];block.content.id='independent-root';block.content.answer.short='3';block.content.answer.worked='$x=3$';
+ const saved=await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision}),item=(await getProjectBankSync(copy.id,f.options)).items[0];
+ assert.equal(item.state,'local');assert.ok(item.local&&item.bank);
+ await assert.rejects(resolveProjectBankSync(copy.id,{...item,action:'use-booklet',bankRevision:'stale',expectedRevision:saved.revision},f.options),/changed/);
+ const published=await resolveProjectBankSync(copy.id,{...item,action:'use-booklet',expectedRevision:saved.revision},f.options),bank=await f.readBank();
+ assert.equal(bank.id,bankBefore.id);assert.equal(bank.content.id,bankBefore.content.id);assert.equal(bank.content.answer.short,'3');
+ assert.deepEqual(bank.classification,bankBefore.classification);assert.deepEqual(bank.presentation,bankBefore.presentation);
+ assert.deepEqual(published.sections[0].blocks[0].content,saved.sections[0].blocks[0].content);
+ assert.deepEqual(published.settings.layoutOverrides,saved.settings.layoutOverrides);
+ assert.deepEqual(JSON.parse(await fs.readFile(linksFile,'utf8')),linksBefore,'automatic owner remains unchanged');
+ assert.equal(await fs.readFile(path.join(f.projectRoot,peer.id+'.json'),'utf8'),peerBefore,'peer stays pinned');
+ assert.equal((await getProjectBankSync(copy.id,f.options)).items[0].state,'synced');
+ assert.equal((await getProjectBankSync(f.project.id,f.options)).items[0].state,'update');
+ await saveBookletProject(await loadBookletProject(f.project.id,f.options),{...f.options,expectedRevision:f.project.revision});
+ assert.equal((await f.readBank()).content.answer.short,'3','an unchanged owner save cannot overwrite explicit publication');
+ assert.deepEqual(JSON.parse(await fs.readFile(path.join(f.bankRoot,'.revisions',bank.id,revisionHash(bankBefore)+'.json'),'utf8')),bankBefore);
+});
+
+test('accidental disconnection can be reconnected without changing content, or published directly',async t=>{
+ const f=await fixture(t),copy=await duplicateBookletProject(f.project.id,{...f.options,copyId:'recovery'});
+ copy.sections[0].blocks[0].content.answer.worked='Local working';
+ let saved=await saveBookletProject(copy,{...f.options,expectedRevision:copy.revision}),item=(await getProjectBankSync(copy.id,f.options)).items[0];
+ saved=await resolveProjectBankSync(copy.id,{...item,action:'keep-local',expectedRevision:saved.revision},f.options);
+ const bankBefore=await f.readBank();item=(await getProjectBankSync(copy.id,f.options)).items[0];
+ assert.equal(item.state,'detached');
+ const reconnect=await resolveProjectBankSync(copy.id,{...item,action:'reconnect',expectedRevision:saved.revision},f.options);
+ assert.deepEqual(reconnect.sections[0].blocks[0].content,saved.sections[0].blocks[0].content);
+ assert.deepEqual(await f.readBank(),bankBefore);assert.equal(reconnect.sections[0].blocks[0].bankDecision,undefined);
+ item=(await getProjectBankSync(copy.id,f.options)).items[0];assert.equal(item.state,'local');
+ saved=await resolveProjectBankSync(copy.id,{...item,action:'keep-local',expectedRevision:reconnect.revision},f.options);
+ item=(await getProjectBankSync(copy.id,f.options)).items[0];
+ const published=await resolveProjectBankSync(copy.id,{...item,action:'use-booklet',expectedRevision:saved.revision},f.options);
+ assert.equal(published.sections[0].blocks[0].bankRef.id,f.bank.id);
+ assert.equal(published.sections[0].blocks[0].bankDecision,undefined);
+ assert.equal(sharedHash(published.sections[0].blocks[0]),sharedHash(await f.readBank()));
+ assert.deepEqual(published.sections[0].blocks[0].content,saved.sections[0].blocks[0].content);
 });

@@ -64,13 +64,14 @@ export async function projectSyncStatus(project,bankRoot){
  const links=await syncLinks(bankRoot),items=[];
  for(const block of blocks(project)){
   const ownerEntry=Object.entries(links).find(([,l])=>l.projectId===project.id&&l.blockId===block.id);
-  const id=ownerEntry?.[0]??block.bankRef?.id;if(!id)continue;
+  const detached=!ownerEntry&&!block.bankRef?.id&&block.bankDecision?.decision==='distinct'&&block.bankDecision.of?.length===1;
+  const id=ownerEntry?.[0]??block.bankRef?.id??(detached?block.bankDecision.of[0]:null);if(!id)continue;
   segment(id);if(block.bankRef?.revision)segment(block.bankRef.revision);
   const bank=await readSyncJson(path.join(bankRoot,id+'.json')),link=ownerEntry?.[1];
   if(!bank){items.push({blockId:block.id,bankId:id,state:'missing',owner:!!link});continue;}
-  const localHash=sharedHash(block,link?.projection??block.bankRef?.projection),bankHash=sharedHash(bank),bankRevision=revisionHash(bank);
-  let state='synced';
-  if(localHash!==bankHash){
+  const localHash=sharedHash(block,link?.projection??block.bankRef?.projection??(detached?bankProjectionPolicy(block):null)),bankHash=sharedHash(bank),bankRevision=revisionHash(bank);
+  let state=detached?'detached':'synced';
+  if(!detached&&localHash!==bankHash){
    if(link)state=localHash!==link.sourceHash&&bankHash!==link.bankHash?'conflict':bankHash!==link.bankHash?'update':'pending';
    else if(block.bankRef.revision!==bankRevision){
     const base=await readSyncJson(path.join(bankRoot,'.revisions',id,block.bankRef.revision+'.json'));
@@ -78,30 +79,42 @@ export async function projectSyncStatus(project,bankRoot){
     state=base&&sharedHash(base)===bankHash?'local':base&&sharedHash(block)===sharedHash(base)?'update':'conflict';
    }else state='local';
   }
-  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',...(bank.classification.assessment?{assessment:structuredClone(bank.classification.assessment)}:{}),revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(state==='update'||state==='conflict'?{local:{...normaliseQuestion(block)},bank}: {})});
+  items.push({blockId:block.id,bankId:id,owner:!!link,state,bankRevision,localHash,...(Number.isFinite(bank.classification?.reasoningScore)?{bankDifficulty:{difficulty:bank.classification.difficulty,reasoningScore:bank.classification.reasoningScore,difficultyReason:bank.classification.difficultyReason??'',...(bank.classification.assessment?{assessment:structuredClone(bank.classification.assessment)}:{}),revision:bankRevision}}:{}),title:block.title||block.sourceOrder&&`Question ${block.sourceOrder}`||'Question',...(['update','conflict','pending','local','detached'].includes(state)?{local:{...normaliseQuestion(block)},bank}: {})});
  }
  return {projectRevision:project.revision,items};
 }
 export async function prepareSyncResolution(project,bankRoot,body){
  const status=await projectSyncStatus(project,bankRoot),item=status.items.find(i=>i.blockId===body.blockId);
  if(!item||item.bankRevision!==body.bankRevision||item.localHash!==body.localHash)throw Object.assign(new Error('Question changed; review the latest differences.'),{statusCode:409});
- if(!['update','conflict','pending'].includes(item.state))throw Object.assign(new Error('No pending question update'),{statusCode:409});
+ if(!['update','conflict','pending','local','detached'].includes(item.state))throw Object.assign(new Error('No pending question update'),{statusCode:409});
  const links=await syncLinks(bankRoot),block=blocks(project).find(b=>b.id===body.blockId),bank=await readSyncJson(path.join(bankRoot,item.bankId+'.json')),entries=[];
- if(body.action==='use-bank'){
+ const reconnect=revision=>{
+  const projection=block.bankRef?.projection??bankProjectionPolicy(block);
+  block.bankRef={id:item.bankId,revision,...(projection?{projection}:{})};block.canonicalId=item.bankId;block.snapshotKind='bank';delete block.bankDecision;
+ };
+ if(body.action==='reconnect'&&item.state==='detached'){
+  reconnect(item.bankRevision);
+ }else if(body.action==='use-bank'){
   const base=block.bankRef?.revision?await readSyncJson(path.join(bankRoot,'.revisions',item.bankId,block.bankRef.revision+'.json')):null;
   const before=structuredClone(block);
   block.content=mergeBankIntoBooklet(bank.content,block,base?.content,item.owner?links[item.bankId]?.projection:block.bankRef?.projection??null);block.title=bank.title;
   reconcileSyncLayout(before,block,block.presentation);
   reconcileSyncLayout(before,block,project.settings?.layoutOverrides?.blockLayouts?.[block.id]);
-  if(block.bankRef)block.bankRef.revision=item.bankRevision;
+  if(item.state==='detached')reconnect(item.bankRevision);else if(block.bankRef)block.bankRef.revision=item.bankRevision;
   if(item.owner)registerOwner(links,project,block,bank);
- }else if(body.action==='use-booklet'&&item.owner){
-  const next=normaliseQuestion({...bank,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(projectBankQuestion(block,{policy:links[item.bankId]?.projection??null})).content,bank.content),updatedAt:new Date().toISOString()});
+ }else if(body.action==='use-booklet'){
+  const incoming=normaliseQuestion(projectBankQuestion(block,{policy:item.owner?links[item.bankId]?.projection??null:block.bankRef?.projection??bankProjectionPolicy(block)}));
+  // Independently linked copies may have different IDs. Where the node structure
+  // is unchanged, map corresponding positions back to the bank's existing IDs.
+  const positions=value=>{const result=[];const walk=(v,p='')=>{if(!v||typeof v!=='object')return;if(typeof v.id==='string')result.push([p,v.type??null]);for(const [k,x]of Object.entries(v))walk(x,p+'/'+k);};walk(value);return JSON.stringify(result);};
+  const base=!item.owner&&positions(incoming.content)===positions(bank.content)?incoming.content:null;
+  const next=normaliseQuestion({...bank,title:block.title??'',content:mergeQuestionContent(incoming.content,bank.content,base),updatedAt:new Date().toISOString()});
   reconcileSyncLayout(bank,next,next.presentation);
   const check=validateQuestion(next);if(!check.valid)throw new Error(check.errors.join('; '));
   entries.push([path.join(bankRoot,'.revisions',bank.id,item.bankRevision+'.json'),bank],[path.join(bankRoot,bank.id+'.json'),next],await bankManifestEntry(bankRoot,[next]));
-  registerOwner(links,project,block,next);
- }else if(body.action==='keep-local'&&!item.owner){block.bankDecision={decision:'distinct',of:[...new Set([...(block.bankDecision?.of??[]),item.bankId])]};block.bankRef=null;block.snapshotKind='local';delete block.canonicalId;}
+  if(item.owner)registerOwner(links,project,block,next);
+  else reconnect(revisionHash(next));
+ }else if(body.action==='keep-local'&&!item.owner&&item.state!=='detached'){block.bankDecision={decision:'distinct',of:[...new Set([...(block.bankDecision?.of??[]),item.bankId])]};block.bankRef=null;block.snapshotKind='local';delete block.canonicalId;}
  else throw Object.assign(new Error('Invalid sync action'),{statusCode:400});
  entries.push([linksPath(bankRoot),links]);return entries;
 }
