@@ -7,8 +7,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {arrangesLabelledParts,firstAnswerNode} from '../../src/lib/booklet-exercises.js';
+import {arrangesLabelledParts,firstAnswerNode,isGivenFigureNode,answerNodePath,compactAnswerLabel} from '../../src/lib/booklet-exercises.js';
 import {isPractice} from '../../src/lib/booklet-flow.js';
+import {contentSource} from '../../src/lib/document-content.js';
 
 const text=node=>String(node.label??'').trim();
 const isWrapper=node=>node.label!=null&&!text(node)&&node.children?.length>0;
@@ -42,11 +43,75 @@ export function restartedPartLabels(project) {
       if(style==='alpha'&&labelled.length>26)manual.push('more than 26 parts');
       if(REFERENCE.test(JSON.stringify(block.content)))manual.push('wording refers to a part by label');
       const labels=Object.fromEntries(labelled.map((slot,index)=>[slot.id,[text(slot),style==='roman'?roman(index+1):String.fromCharCode(97+index)]]));
+      if(Object.values(labels).every(([current,next])=>current===next))return;
       findings.push({project:project.id,blockId:block.id,parentId:parent.id,groups:restarted.map(group=>group.id),current:slots.map(text),labels,manual,linked:!!block.bankRef});
     };
     visit(block.content);
   }
   return findings;
+}
+
+// Separate response stages need visible part labels, even when the source did
+// not letter them. Do not mistake native table cells, givens, field captions or
+// transparent column wrappers for separate questions. This is a review finding,
+// never an on-load migration or an automatic relabelling operation.
+export function missingPartLabels(project) {
+  const findings=[];
+  const task=source=>/\b(?:calculate|determine|find|explain|draw|sketch|plot|construct|make|copy|measure|record|represent|list|convert|express|check|compare|describe|justify|prove|evaluate|simplify|solve|estimate|state|show|write|complete|give|round|comment)\s+\S|\b(?:what|how|why|which|should|will|is|are|does|do)\b[^\n]*\?/i.test(source);
+  for(const section of project.sections??[])for(const block of section.blocks??[]){
+    if(!isPractice(block)||!block.content||block.presentation?.sourceResponseLabels===true)continue;
+    const responses=block.sourceReview?.responses??[];
+    const tables=new Set();
+    const scan=value=>{if(!value||typeof value!=='object')return;if(value.type==='table'&&value.id)tables.add(value.id);for(const child of Object.values(value))scan(child);};
+    scan(block.content);
+    const tableParts=new Set([...(block.flow?.tableOnlyPartIds??[]),...(block.flow?.tableContinuation?.rowPartIds??[]).flat(Infinity),...responses.filter(r=>tables.has(r.scaffoldTargetId)&&r.kind==='cloze').map(r=>r.targetId)]);
+    const hasTable=n=>{const found=[];const visit=v=>{if(!v||typeof v!=='object')return;if(v.type==='table')found.push(v);for(const c of Object.values(v))visit(c);};visit(n.prompt);return found.length>0;};
+    const response=n=>!isGivenFigureNode(n)&&!['given','solution-context'].includes(n.responseSpace)&&(!tableParts.has(n.id)||hasTable(n))&&!!(n.answer?.short||n.answer?.worked||!responses.some(r=>r.targetId===n.id&&r.kind==='none')&&!n.children?.length&&n.answerSpaceMm>0||n.children?.some(response));
+    const flatten=n=>!text(n)&&n.children?.length&&!n.answer?.short&&!n.answer?.worked?n.children.flatMap(flatten):[n];
+    const visit=(parent,depth)=>{
+      // An explicitly authored whole/group answer already associates a single
+      // task's scaffold or named response fields. Its child nodes are not
+      // independently numbered answer entries (and do not produce 11(1)).
+      if(parent.answer?.short||parent.answer?.worked)return;
+      // A lettered supplied example still occupies its place in the sequence.
+      const slots=(parent.children??[]).flatMap(flatten).filter(n=>text(n)||response(n));
+      const initialTable=n=>hasTable(n)&&slots.some(n=>text(n))&&/\b(?:complete|fill|construct|copy)\b[\s\S]*\btable\b|\btable\b[\s\S]*\b(?:complete|fill)\b/i.test(contentSource(parent.prompt));
+      const missing=slots.filter(n=>response(n)&&n.label!=null&&!text(n)&&(n.responseSpace!=='scaffold'||initialTable(n))&&!/^Method\s+\d+\s*:/i.test(contentSource(n.prompt).trim()));
+      const standalone=missing.some(n=>initialTable(n)||task(contentSource(n.prompt)))||depth===0&&task(contentSource(parent.prompt))&&slots.some(n=>text(n))&&missing.some(n=>!contentSource(n.prompt).trim());
+      // A whole table-only question already identifies its responses by cells.
+      if(slots.length>1&&missing.length&&standalone&&!(parent===block.content&&block.flow?.tableOnly&&!block.flow?.tableOnlyPartIds?.length)){
+        const manual=[];
+        if(block.flow?.continuationOf||block.continuationOf)manual.push('question continues across blocks');
+        if(REFERENCE.test(JSON.stringify(block.content)))manual.push('wording refers to a part by label');
+        if(slots.length>26)manual.push('more than 26 parts');
+        const style=depth>0||slots.some(n=>text(n)==='ii')?'roman':'alpha';
+        findings.push({project:project.id,blockId:block.id,parentId:parent.id,kind:'missing-part-labels',missing:missing.map(n=>n.id),labels:Object.fromEntries(slots.map((n,i)=>[n.id,[text(n),style==='roman'?roman(i+1):String.fromCharCode(97+i)]])),manual,linked:!!block.bankRef});
+      }
+      // Blank layout wrappers were flattened above; only real labelled levels
+      // introduce another sequence (a/i/ii, b/i/ii).
+      for(const child of slots)if(child.children?.length)visit(child,depth+1);
+    };
+    visit(block.content,0);
+  }
+  return findings;
+}
+
+// A saved answer caption must not conceal or contradict a visible part letter.
+// Numeric paths still need a structural/source review, not a caption rewrite.
+export function inconsistentPartLabelOverrides(project){
+ const findings=[];
+ for(const section of project.sections??[])for(const block of section.blocks??[]){
+  if(!isPractice(block)||!block.content||block.presentation?.sourceResponseLabels===true)continue;
+  const visit=(node,trail=[],index=0,parent=null)=>{
+   const parts=node===block.content?trail:answerNodePath(block.content,node,trail,index,parent);
+   if(node!==block.content&&text(node)&&parts.every(p=>/^[a-z]+$/i.test(p)))for(const mode of ['short','worked']){
+    const actual=block.presentation?.answerPartLabels?.[mode]?.[node.id],expected=compactAnswerLabel(null,parts);
+    if(typeof actual==='string'&&actual!==expected)findings.push({project:project.id,blockId:block.id,parentId:node.id,kind:'inconsistent-answer-part-label',mode,actual,expected,labels:{[node.id]:[actual,expected]},manual:[],linked:!!block.bankRef});
+   }
+   (node.children??[]).forEach((child,i)=>visit(child,parts,i,node));
+  };visit(block.content);
+ }
+ return findings;
 }
 
 async function main() {
@@ -55,15 +120,16 @@ async function main() {
   const files=ids.length?ids.map(id=>`${id}.json`):(await fs.readdir(root)).filter(file=>file.endsWith('.json')).sort();
   let total=0;
   for(const file of files){
-    const findings=restartedPartLabels(JSON.parse(await fs.readFile(path.join(root,file),'utf8')));
+    const project=JSON.parse(await fs.readFile(path.join(root,file),'utf8'));
+    const findings=[...restartedPartLabels(project),...missingPartLabels(project),...inconsistentPartLabelOverrides(project)];
     if(!findings.length)continue;
     total+=findings.length;
     console.log(`${file.replace(/\.json$/,'')}: ${findings.length}`);
     for(const finding of findings){
-      console.log(`  ${finding.blockId}${finding.parentId===finding.blockId?'':' > '+finding.parentId}  [${finding.current.map(label=>label||'·').join(' ')}] -> [${Object.values(finding.labels).map(([,next])=>next).join(' ')}]${finding.manual.length?'  (by hand: '+finding.manual.join('; ')+')':''}`);
+      console.log(`  ${finding.blockId}${finding.parentId===finding.blockId?'':' > '+finding.parentId}  [${(finding.current??Object.values(finding.labels).map(([old])=>old)).map(label=>label||'·').join(' ')}] -> [${Object.values(finding.labels).map(([,next])=>next).join(' ')}]${finding.kind?'  '+finding.kind:''}${finding.manual.length?'  (by hand: '+finding.manual.join('; ')+')':''}`);
     }
   }
-  console.log(total?`${total} question${total===1?'':'s'} restart part labels.`:'No question restarts its part labels.');
+  console.log(total?`${total} part-label finding${total===1?'':'s'}.`:'No missing or restarted question part labels.');
   if(strict&&total)process.exitCode=1;
 }
 

@@ -10,6 +10,24 @@ import {materializeHouseAuthoring,authorMaterializer,HOUSE_AUTHORING} from '../s
 
 const count=(code,pattern)=>(code.match(pattern)??[]).length;
 
+test('paired headings remain visible above a saved column layout without replacing its working',async()=>{
+ const {addPairedHeadings}=await import('../scripts/booklet/layout-repair-common-20261004.mjs');
+ const {resolveArrangement}=await import('../src/lib/booklet-arrangement.js');
+ const {arrangementItems}=await import('../public/libs/maths-editor/arrangement-model.mjs');
+ const b={id:'pair',type:'question',content:{id:'root',prompt:'',children:[{id:'demo',label:'',prompt:'Supplied working',answerSpaceMm:0},{id:'turn',label:'Your turn',prompt:'Solve a different question',answerSpaceMm:40,answer:{short:'7',worked:'The taught method'}}]},sourceReview:{responses:[{targetId:'turn',kind:'working',label:'Your turn'}]}};
+ const row={id:'columns',type:'group',direction:'row',gap:8,children:[{id:'left',type:'item',ref:'demo/prompt'},{id:'right',type:'item',ref:'turn/prompt'}]};
+ const p={settings:{layoutOverrides:{blockLayouts:{pair:{arrangement:{version:1,root:structuredClone(row)}}}}}};
+ const answer=structuredClone(b.content.children[1].answer);
+ addPairedHeadings(p,b);
+ const stored=p.settings.layoutOverrides.blockLayouts.pair.arrangement;
+ const resolved=resolveArrangement(b,stored);
+ assert.deepEqual(stored.root.children[1],row);
+ assert.equal(arrangementItems(resolved.tree.root)[0].ref,'root/prompt#pair-paired-headings');
+ assert.equal(b.content.children[1].answerSpaceMm,40);assert.deepEqual(b.content.children[1].answer,answer);
+ assert.equal(b.content.children[1].label,'');assert.equal(b.sourceReview.responses[0].label,'');
+ const once=structuredClone({p,b});assert.equal(addPairedHeadings(p,b),false);assert.deepEqual({p,b},once);
+});
+
 test('number line reproduces range, labelled ticks, points and jumps with house strokes',()=>{
  const d=templateDiagram('nl',{family:'number-line',min:0,max:1,step:1/6,labels:[{value:0,tex:'0'},{value:2/6,tex:'\\frac{2}{6}'},{value:1,tex:'1'}],points:[{value:5/6,style:'open',label:'A'}],jumps:[{from:2/6,to:5/6,label:'+\\frac{3}{6}'}]});
  assert.equal(d.format,'tikz');assert.equal(diagramColourPolicy(d.code).kind,'graph');

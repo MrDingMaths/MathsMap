@@ -10,9 +10,9 @@ import {teacherBlocks} from '../polish/guards.mjs';
 import {gateProblems} from '../polish/run.mjs';
 import {contentFindings} from '../polish/content.mjs';
 import {blockHash,bookletIndex} from '../first-pass/review.mjs';
-import {contentHash,visualPlan,reviewStatus,loadReviewed,saveReviewed,runVisualReview,recordVisualResult} from '../scripts/booklet/lean-review.mjs';
+import {contentHash,visualPlan,reviewStatus,loadReviewed,saveReviewed,runVisualReview,currentExportProblems,recordVisualResult} from '../scripts/booklet/lean-review.mjs';
 import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
-import {adoptCompletionProfile,finishImport,prepareFinishCandidate,selectFinishExport} from '../scripts/booklet/import-finish.mjs';
+import {adoptCompletionProfile,finishImport,prepareFinishCandidate,layoutFinishCandidate,selectFinishExport} from '../scripts/booklet/import-finish.mjs';
 import {sampleSourceKey,reviewImportSample} from '../scripts/booklet/import-sample-review.mjs';
 import {validateImport} from '../scripts/booklet/import-validation.mjs';
 
@@ -50,7 +50,8 @@ test('routing follows required structure/diagram/maths edits and retries layout 
  const w=fixture(t),index=bookletIndex(w.project),target={id:'theory',blockId:'theory',hash:blockHash(w.project,index,'theory')};
  const findings=['structure','diagram-code','mathematics'].map((repairKind,i)=>({id:'f'+i,state:'pending',area:'response',repairKind,targets:[target]}));
  findings.push({id:'declined',state:'pending',area:'diagram',applyOutcome:'comment',applyNote:'Adding a diagram is outside the permitted layout-only fields',targets:[target]});
- assert.equal(contentFindings({findings},w.project).length,4);
+ findings.push({id:'shared-label',state:'pending',area:'alignment',applyOutcome:'comment',applyNote:'One target per label; this requires annotation structure not documented for layout fields',targets:[target]});
+ assert.equal(contentFindings({findings},w.project).length,5);
  assert.equal(repairRoute({area:'extension',repairKind:'structure'}),'suggestion');
  assert.match(FEEDBACK_CHECKS,/corresponding cell, not alongside/);
 });
@@ -103,6 +104,20 @@ test('source review refuses missing source evidence and does not invent an accep
  assert.equal(result.errors.length,1);assert.equal(Object.keys(loadReviewed(path.join(w.runDir,'lean-review')).pages).length,0);
 });
 
+test('lean source coverage uses current independent acceptance and retains gaps, presentation findings and teacher decisions',t=>{
+ const w=fixture(t),{out,report,state}=passedExport(w),readiness=path.join(out,'p-readiness.json');
+ const covered={complete:false,total:1,counts:{verified:0,mapped:1,excluded:0,missing:0,duplicate:0,ambiguous:0,unchecked:0},rows:[{id:'original',targetId:'theory',state:'mapped'}],issues:[],presentation:{required:true,complete:false,issues:[]}};
+ write(readiness,covered);assert.equal(reviewStatus({runDir:w.runDir,projectFile:w.projectFile,exportDir:out}).deliverable,true);
+ assert.ok(currentExportProblems(out,w.project,report).some(note=>note.includes('coverage')),'a save/count alone grants no acceptance');
+ write(readiness,{...covered,counts:{...covered.counts,missing:1}});assert.ok(currentExportProblems(out,w.project,report,state).some(note=>note.includes('coverage')));
+ write(readiness,{...covered,issues:[{kind:'missing-prompt',targetId:'theory',note:'Response has no prompt'}]});assert.ok(currentExportProblems(out,w.project,report,state).some(note=>note.includes('missing-prompt')));
+ write(readiness,{...covered,presentation:{issues:[{kind:'missing-teaching-template',targetId:'theory',note:'Keep the source group'}]}});assert.ok(currentExportProblems(out,w.project,report,state).some(note=>note.includes('missing-teaching-template')));
+ write(readiness,{...covered,issues:[{kind:'review-finding',targetId:'theory',note:'Teacher decision remains'}]});
+ assert.ok(!currentExportProblems(out,w.project,report,state).length,'historical author uncertainty is superseded by actual independent acceptance');
+ w.project.studio={flags:[{targetId:'theory',at:'2026-10-24',resolved:false}]};assert.ok(currentExportProblems(out,w.project,report,state).some(note=>note.includes('Teacher decision remains')));
+ write(readiness,covered);state.questions.theory.hash='stale';assert.ok(currentExportProblems(out,w.project,report,state).some(note=>note.includes('coverage')));
+});
+
 test('adoption requires an idle boundary and preserves the explicitly selected direct route',async t=>{
  const w=fixture(t);write(path.join(w.runDir,'manifest.json'),{id:'old',reviewProfile:'textbook-three-pass-v1'});
  await assert.rejects(adoptCompletionProfile(w.runDir),/Historical run/);
@@ -113,7 +128,7 @@ test('adoption requires an idle boundary and preserves the explicitly selected d
 
 test('finish resumes without repeating preparation or exporting unchanged content; no live booklet is touched',async t=>{
  const w=fixture(t);passedExport(w);let prepares=0,exports=0,visuals=0;
- const deps={prepare:async()=>{prepares++;},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{[w.project.id]:{}}});exports++;},visual:async()=>{visuals++;},status:async()=>({deliverable:true,completion:assessCompletion()})};
+ const deps={prepare:async()=>{prepares++;},layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{[w.project.id]:{}}});exports++;},visual:async()=>{visuals++;},status:async()=>({deliverable:true,completion:assessCompletion()})};
  const first=await finishImport(w,deps);assert.equal(first.deliverable,true);assert.equal(first.saved,true);
  const again=await finishImport(w,deps);assert.equal(again.deliverable,true);assert.equal(prepares,1);assert.equal(exports,1);assert.equal(visuals,2,'the visual command resumes its existing accepted table');
  assert.equal(JSON.parse(fs.readFileSync(w.projectFile)).title,w.project.title);
@@ -121,7 +136,7 @@ test('finish resumes without repeating preparation or exporting unchanged conten
 
 test('finish saves explicit incomplete progress without reporting completion',async t=>{
  const w=fixture(t);passedExport(w);
- const result=await finishImport({...w,saveProgress:true},{prepare:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{[w.project.id]:{}}});},visual:async()=>{},repair:async()=>{},status:async()=>({deliverable:false,completion:assessCompletion({findings:[{id:'table',area:'table'}]})})});
+ const result=await finishImport({...w,saveProgress:true},{prepare:async()=>{},layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{[w.project.id]:{}}});},visual:async()=>{},repair:async()=>{},status:async()=>({deliverable:false,completion:assessCompletion({findings:[{id:'table',area:'table'}]})})});
  assert.equal(result.saved,true);assert.equal(result.deliverable,false);assert.equal(result.completion.ready,false);
 });
 
@@ -141,6 +156,64 @@ test('early sample inspection reuses its existing export and actual accepted ins
  assert.equal((await reviewImportSample(options)).sampleAccepted,true);
  assert.equal((await reviewImportSample(options)).reused,true);assert.equal(calls,1);
  fs.writeFileSync(image,'repaired raster');assert.equal((await reviewImportSample(options)).sampleAccepted,true);assert.equal(calls,2);
+});
+
+test('native bounded early samples keep their original PDF and raster evidence and require actual verdicts',async t=>{
+ const w=fixture(t),sampleDir=path.join(w.runDir,'bounded'),pdf=path.join(sampleDir,'student.pdf'),image=path.join(sampleDir,'page.png'),source=path.join(w.runDir,'evidence/pages/page-001.png');
+ fs.mkdirSync(sampleDir);fs.writeFileSync(pdf,'pdf');fs.writeFileSync(image,'raster');fs.mkdirSync(path.dirname(source),{recursive:true});fs.writeFileSync(source,'original');
+ const feedback={tool:'check-feedback-pages',projectId:'p',passed:true,failures:[],editions:['student'],editionsReport:{student:{pdf:{path:pdf,hash:digest('pdf')},pages:[{page:2,hash:'bounded-page',blocks:['theory']}],images:[{page:2,path:image,hash:digest('raster')}],issues:[],printed:[{page:2,issues:[]}]}}};
+ const file=path.join(sampleDir,'feedback-pages.json');write(file,feedback);let calls=0;
+ const options={...w,sampleDir,runner:async({images})=>{calls++;assert.deepEqual(images,[image,source]);return {result:{pages:[{page:2,outcome:'accepted'}]}};}};
+ assert.equal((await reviewImportSample(options)).sampleAccepted,true);assert.equal(calls,1);
+ assert.equal((await reviewImportSample(options)).reused,true);assert.equal(calls,1);
+ fs.writeFileSync(pdf,'changed PDF');await assert.rejects(reviewImportSample(options),/PDF/);fs.writeFileSync(pdf,'pdf');
+ fs.writeFileSync(image,'changed');await assert.rejects(reviewImportSample(options),/raster/);fs.writeFileSync(image,'raster');
+ feedback.projectId='other';write(file,feedback);await assert.rejects(reviewImportSample(options),/another project/);
+ feedback.projectId='p';feedback.passed=false;write(file,feedback);await assert.rejects(reviewImportSample(options),/failed/);
+ feedback.passed=true;feedback.editionsReport.student.images[0].page=99;write(file,feedback);await assert.rejects(reviewImportSample(options),/unmapped/);
+ assert.equal(calls,1,'invalid evidence never reaches a reviewer');
+});
+
+
+test('measured layout follows substantive repairs, repeats after a repair, and is reused on resume',async t=>{
+ const w=fixture(t);passedExport(w);const order=[];let repairs=0,layouts=0,exports=0;
+ const deps={prepare:async()=>order.push('prepare'),validate:()=>({ok:true,blockers:[]}),
+  content:async({projectFile})=>{order.push('content');const p=JSON.parse(fs.readFileSync(projectFile));
+   p.sections[0].blocks[0].content=repairs?'Corrected teaching group.':'Practice without redundant scaffolds.';write(projectFile,p);
+   const state=loadReviewed(path.join(w.runDir,'lean-review'));state.questions.theory={hash:contentHash(p.sections[0].blocks[0]),outcome:'passed'};saveReviewed(path.join(w.runDir,'lean-review'),state);return {};},
+  layout:async({file})=>{order.push('layout');layouts++;assert.match(JSON.parse(fs.readFileSync(file)).sections[0].blocks[0].content,/without redundant|Corrected/);},
+  images:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{[w.project.id]:{}}});order.push('export');exports++;},visual:async()=>{},
+  repair:async({file})=>{order.push('repair');repairs++;const p=JSON.parse(fs.readFileSync(file));p.sections[0].blocks[0].content='Pending substantive correction';write(file,p);},
+  status:async()=>({deliverable:exports>1,completion:assessCompletion()})};
+ assert.equal((await finishImport(w,deps)).deliverable,true);
+ assert.deepEqual(order,['prepare','content','layout','export','repair','content','layout','export']);
+ await finishImport(w,deps);assert.equal(layouts,2);assert.equal(exports,2);
+});
+
+test('direct final layout measures wrapping without invoking pagination',async t=>{
+ const w=fixture(t);let wraps=0;
+ await layoutFinishCandidate({file:w.projectFile,direct:true},{wrapped:async()=>{wraps++;return {report:{after:{wrapped:0}}};},paginate:()=>assert.fail('direct route does not paginate')});
+ assert.equal(wraps,1);
+ await assert.rejects(layoutFinishCandidate({file:w.projectFile,direct:true},{wrapped:async()=>({report:{after:{wrapped:2}}})}),/Wrapped mathematics remains/);
+});
+
+
+test('unaccepted content stops before measured layout or export',async t=>{
+ const w=fixture(t);passedExport(w);
+ const result=await finishImport(w,{prepare:async()=>{},content:async()=>({errors:['Unresolved answer']}),layout:()=>assert.fail('layout before content acceptance'),export:()=>assert.fail('export before content acceptance')});
+ assert.equal(result.deliverable,false);assert.match(result.completion.blockers.join(' '),/Unresolved answer/);
+});
+
+
+test('layout cannot export stale content acceptance; resume rechecks content and reuses settled layout',async t=>{
+ const w=fixture(t);passedExport(w);let layouts=0,exports=0,reviews=0;
+ const deps={prepare:async()=>{},validate:()=>({ok:true,blockers:[]}),
+  content:async({projectFile})=>{reviews++;const p=JSON.parse(fs.readFileSync(projectFile)),state=loadReviewed(path.join(w.runDir,'lean-review'));
+   state.questions.theory={hash:contentHash(p.sections[0].blocks[0]),outcome:'passed'};saveReviewed(path.join(w.runDir,'lean-review'),state);return {};},
+  layout:async({file})=>{layouts++;const p=JSON.parse(fs.readFileSync(file));p.sections[0].blocks[0].content='A changed mathematical statement';write(file,p);},
+  images:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{[w.project.id]:{}}});exports++;},visual:async()=>{},status:async()=>({deliverable:true,completion:assessCompletion()})};
+ const first=await finishImport(w,deps);assert.equal(first.deliverable,false);assert.equal(exports,0);assert.match(first.completion.blockers.join(' '),/stale reviews/);
+ assert.equal((await finishImport(w,deps)).deliverable,true);assert.equal(reviews,2);assert.equal(layouts,1);assert.equal(exports,1);
 });
 
 test('interrupted finish selection requires a named cause and uses only committed previous context',t=>{

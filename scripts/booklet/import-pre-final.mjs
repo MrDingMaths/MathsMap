@@ -2,6 +2,7 @@
 import crypto from 'node:crypto';
 import {renderMath} from '../../src/lib/render-math.js';
 import {contentSource} from '../../src/lib/document-content.js';
+import {missingPartLabels,inconsistentPartLabelOverrides} from './check-part-label-sequence.mjs';
 
 const excluded=new Set(['source','sourceRefs','sourceAtom','sourceReview','sourceLayoutEvidence','spec','provenance','originalDiagram','verification','confirmedCorrections','corrections','inventoryMappings']);
 const proseKeys=new Set(['prompt','short','worked','text','title','label','caption']);
@@ -77,5 +78,6 @@ export function importPreFinal(project,{reviews=[],extended=false}={}){
 export function leanPreExportLint(project){
  const result=importPreFinal(project,{extended:true}),blockId=pointer=>{const m=/^\/sections\/(\d+)\/blocks\/(\d+)/.exec(pointer);return m?project.sections?.[m[1]]?.blocks?.[m[2]]?.id??null:null;};
  const rows=result.issues.map(({rule,path,message})=>({rule,blockId:blockId(path),path,message}));
- return {blocking:rows.filter(row=>BLOCKING_LINT_RULES.includes(row.rule)),review:rows.filter(row=>!BLOCKING_LINT_RULES.includes(row.rule))};
+ const labels=[...missingPartLabels(project),...inconsistentPartLabelOverrides(project)].map(finding=>({rule:finding.kind,blockId:finding.blockId,path:finding.parentId,message:'Separate response stages need visible part labels in the question and matching answer labels; reconcile saved answer-label overrides, table/scaffold exceptions and references before relabelling.',finding}));
+ return {blocking:[...rows.filter(row=>BLOCKING_LINT_RULES.includes(row.rule)),...labels],review:rows.filter(row=>!BLOCKING_LINT_RULES.includes(row.rule))};
 }

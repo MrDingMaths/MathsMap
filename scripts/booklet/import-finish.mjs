@@ -2,17 +2,22 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
+import {isDeepStrictEqual} from 'node:util';
 import {COMPLETION_PROFILE,completionPolicy,assessCompletion,completionHash} from './import-completion.mjs';
 import {validateImport} from './import-validation.mjs';
-import {openProject,runContentReview,runLeanExport,runVisualReview,reviewStatus,loadReviewed,saveReviewed,runShadingReview,runImagePreflight,prepareExportVisualPlan,pendingBlocks,reviewableBlocks,contentHash} from './lean-review.mjs';
-import {teacherBlocks,polishSafetyIssues} from '../../polish/guards.mjs';
+import {openProject,runContentReview,runLeanExport,runVisualReview,reviewStatus,loadReviewed,saveReviewed,runShadingReview,runImagePreflight,prepareExportVisualPlan,pendingBlocks,reviewableBlocks,contentHash,visualPlan} from './lean-review.mjs';
+import {overlayVisualEvidence,visualOutcomeReader} from './lean-visual-evidence.mjs';
+import {teacherBlocks,polishSafetyIssues,layoutSafetyIssues} from '../../polish/guards.mjs';
+import {acceptedSnapshot} from './lean-review.mjs';
 import {repairRoute} from '../../polish/repair-routing.mjs';
+import {projectReviewHash} from './page-review.mjs';
 import {sampleSourceKey,reviewImportSample} from './import-sample-review.mjs';
 import {withRunLock,readRunEvents} from './run-observability.mjs';
 
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
 const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n');};
 const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+
 
 // A persisted attempt is not a committed export. Readable report presence only
 // selects context; the ordinary PDF/hash/checker/visual gates still accept it.
@@ -47,7 +52,7 @@ export async function adoptCompletionProfile(runDir,{adopt=false,direct=false,ha
  return manifest;
 }
 
-export async function prepareFinishCandidate({file,runDir,direct=false,log=()=>{}},{normalise,dependencies,paginate,wrapped}={}){
+export async function prepareFinishCandidate({file,runDir,direct=false,log=()=>{}},{normalise,dependencies}={}){
  const before=read(file),protectedIds=teacherBlocks(before);
  if(!direct){
   normalise??=(await import('../../polish/normalise.mjs')).normaliseProject;
@@ -60,6 +65,12 @@ export async function prepareFinishCandidate({file,runDir,direct=false,log=()=>{
  const links=await dependencies({project:read(file),runDir,model:false,log});
  const unsafe=polishSafetyIssues(before,links.project,{protectedIds});if(unsafe.length)throw Error(unsafe.join('; '));
  write(file,links.project);
+ return {prepared:true};
+}
+
+// Measure only after substantive content/scaffold corrections have settled.
+export async function layoutFinishCandidate({file,direct=false,log=()=>{}},{paginate,wrapped}={}){
+ const before=read(file),protectedIds=teacherBlocks(before);
  // Wrapped maths is measured and repaired before final rendering, using the existing bounded tool.
  wrapped??=(await import('../../checks/wrapped-math.mjs')).runWrappedMath;
  const wrap=await wrapped({project:read(file),file,apply:true,log});
@@ -69,16 +80,19 @@ export async function prepareFinishCandidate({file,runDir,direct=false,log=()=>{
   const trial=await paginate(read(file),{apply:true,named:true,log});
   if(trial.project){const unsafe=polishSafetyIssues(before,trial.project,{protectedIds});if(unsafe.length)throw Error(unsafe.join('; '));write(file,trial.project);}
  }
- return {prepared:true};
+ return {laidOut:true};
 }
 
-export async function repairFinishFindings({file,runDir,workDir,exportDir,log=()=>{}},{layoutRepair,contentRepair}={}){
+export async function repairFinishFindings({file,runDir,workDir,exportDir,concurrency=3,log=()=>{}},{layoutRepair,contentRepair}={}){
  const rv=await import('../../first-pass/review.mjs'),project=read(file),index=rv.bookletIndex(project),provenanceDir=path.join(workDir,'provenance');
  const record=rv.loadProvenance(rv.provenanceFile(project.id,{provenanceDir}),project);
  const report=read(path.join(exportDir,'report.json')).report[project.id],state=loadReviewed(path.join(runDir,'lean-review'));
- const findings=[];
- for(const [edition,entry] of Object.entries(report))for(const page of entry.pageHashes??[]){
-  const row=state.pages[edition+':'+page.hash];if(row?.outcome!=='needs-change')continue;
+ const manifestFile=path.join(runDir,'manifest.json'),manifest=fs.existsSync(manifestFile)?read(manifestFile):{},policy=completionPolicy(manifest);
+ const planFile=path.join(exportDir,'visual-plan.json');
+ const pages=policy.enabled?overlayVisualEvidence(visualPlan({project,report,state,manifest}),fs.existsSync(planFile)?read(planFile):null):report;
+ const outcome=visualOutcomeReader(state),findings=[];
+ for(const [edition,entry] of Object.entries(pages))for(const page of entry.pending??entry.pageHashes??[]){
+  const row=policy.enabled?outcome(edition,page):state.pages[edition+':'+page.hash];if(row?.outcome!=='needs-change')continue;
   const ids=(page.blocks??[]).map(id=>typeof id==='string'?id:id.id).filter(id=>index.blocks.has(id));
   const details=row.details?.length?row.details:[{area:'alignment',targets:ids,comment:row.finding}];
   for(const [n,detail]of details.entries()){
@@ -93,10 +107,25 @@ export async function repairFinishFindings({file,runDir,workDir,exportDir,log=()
  layoutRepair??=(await import('../../first-pass/apply.mjs')).runApply;
  const layoutIds=findings.filter(f=>repairRoute(f)==='layout').map(f=>f.id);
  const safe=next=>polishSafetyIssues(project,next,{protectedIds:teacherBlocks(project)});
- if(layoutIds.length)await layoutRepair({projectFile:file,provenanceDir,runDir:path.join(workDir,'apply'),findingIds:layoutIds,workDir,allowSubstantiveGrowth:true,retry:false,safetyGuard:safe,log});
+ if(layoutIds.length)await layoutRepair({projectFile:file,provenanceDir,runDir:path.join(workDir,'apply'),findingIds:layoutIds,workDir,allowSubstantiveGrowth:true,retry:false,safetyGuard:safe,concurrency,log});
  contentRepair??=(await import('../../polish/content.mjs')).runContentRepair;
- await contentRepair({projectFile:file,provenanceDir,polishDir:workDir,runDir,safetyGuard:safe,log});
+ await contentRepair({projectFile:file,provenanceDir,polishDir:workDir,runDir,exportDir,safetyGuard:safe,concurrency,log});
  return {file:rv.provenanceFile(project.id,{provenanceDir}),findings:findings.length};
+}
+
+// Only publication may reconcile a false layout edge after actual independent
+// content review. Layout trials keep their stricter immutable-input guards.
+export function finishPublishSafetyIssues(original,current,reviewed){
+ const reference=structuredClone(original),protectedIds=teacherBlocks(original),blocks=p=>(p.sections??[]).flatMap(s=>s.blocks??[]),next=new Map(blocks(current).map(b=>[b.id,b])),extra=[];
+ for(const old of blocks(reference)){
+  const block=next.get(old.id),prior=old.flow?.dependsOn,remaining=block?.flow?.dependsOn,row=reviewed?.questions?.[old.id],accepted=row?.acceptedVersion;
+  if(protectedIds.has(old.id)||!Array.isArray(prior)||!Array.isArray(remaining)||remaining.length>=prior.length||!isDeepStrictEqual(prior.filter(id=>remaining.includes(id)),remaining))continue;
+  if(row?.outcome!=='passed'||row.hash!==contentHash(block)||accepted?.outcome!=='passed'||accepted.revoked||accepted.hash!==row.hash||!accepted.snapshot||contentHash(accepted.snapshot)!==row.hash||!isDeepStrictEqual(accepted.snapshot,acceptedSnapshot(block)))continue;
+  // Change only the comparison copy, never the guarded input or review proof.
+  old.flow.dependsOn=structuredClone(remaining);
+  extra.push(...layoutSafetyIssues(old,block));
+ }
+ return [...new Set([...polishSafetyIssues(reference,current,{reference:original,protectedIds,spacing:false}),...extra])];
 }
 
 export async function finishImport(options,deps={}){
@@ -115,7 +144,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  if(!state){state={inputHash:hash(original),steps:{},exports:[]};write(file,original);write(stateFile,state);}
  const persist=()=>write(stateFile,state),errors=[];
  const publish=async()=>{
-  const next=read(file),unsafe=polishSafetyIssues(original,next,{spacing:false});if(unsafe.length)throw Error(unsafe.join('; '));
+  const next=read(file),unsafe=finishPublishSafetyIssues(original,next,loadReviewed(dir));if(unsafe.length)throw Error(unsafe.join('; '));
   Object.keys(handle.project).forEach(key=>delete handle.project[key]);Object.assign(handle.project,next);
   const saved=await handle.save();
   if(completionHash(saved)!==completionHash(next))throw Error('Saved project was normalised differently; its current content needs validation before completion');
@@ -128,11 +157,23 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  };
  const stamp=()=>{const reviewed=loadReviewed(dir);reviewed.workflow??={};reviewed.workflow[projectId]={...reviewed.workflow[projectId],profile:COMPLETION_PROFILE,preparedHash:completionHash(read(file)),projectHash:completionHash(read(file)),errors};saveReviewed(dir,reviewed);};
  if(!state.steps.prepared){await(deps.prepare??prepareFinishCandidate)({file,runDir,direct:policy.direct,log},deps.prepareDeps);state.steps.prepared=true;persist();}
+ const settleLayout=async()=>{
+  const current=projectReviewHash(read(file));
+  if(state.steps.layoutHash===current)return;
+  await(deps.layout??layoutFinishCandidate)({file,runDir,direct:policy.direct,log},deps.layoutDeps);
+  state.steps.layoutHash=projectReviewHash(read(file));persist();
+ };
+ const currentContentCompletion=(errors=[])=>{
+  const reviewed=loadReviewed(dir),candidate=read(file);
+  return assessCompletion({pending:pendingBlocks(candidate,reviewed).length,failed:reviewableBlocks(candidate).filter(({block})=>reviewed.questions[block.id]?.hash===contentHash(block)&&reviewed.questions[block.id]?.outcome==='failed').map(({block})=>block.id),errors});
+ };
  const content=await(deps.content??runContentReview)({runDir,projectFile:file,concurrency,runner});
- const reviewed=loadReviewed(dir),candidate=read(file);
- const contentCompletion=assessCompletion({pending:pendingBlocks(candidate,reviewed).length,failed:reviewableBlocks(candidate).filter(({block})=>reviewed.questions[block.id]?.hash===contentHash(block)&&reviewed.questions[block.id]?.outcome==='failed').map(({block})=>block.id),errors:content.errors??[]});
+ const contentCompletion=currentContentCompletion(content.errors??[]);
  if(!contentCompletion.ready)return incomplete(contentCompletion);
  let validation=(deps.validate??validateImport)(read(file));
+ if(!validation.ok)return incomplete(assessCompletion({errors:validation.blockers}),{validation});
+ await settleLayout();
+ validation=(deps.validate??validateImport)(read(file));
  if(!validation.ok)return incomplete(assessCompletion({errors:validation.blockers}),{validation});
  stamp();
  const initialExport=selectFinishExport(state.exports,completionHash(read(file)),{projectId,regenerationReason});
@@ -140,6 +181,8 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  const images=await(deps.images??runImagePreflight)({runDir,projectFile:file,runner});errors.push(...(images.errors??[]));
  // At most final + one batched-repair export. A failed/unchanged finding stays visible on resume.
  for(let round=0;round<2;round++){
+  // A measured tool must not accidentally export content whose acceptance it invalidated.
+  const accepted=currentContentCompletion();if(!accepted.ready)return incomplete(accepted);
   const currentHash=completionHash(read(file)),selection=selectFinishExport(state.exports,currentHash,{projectId,regenerationReason});
   if(selection.blocker)return incomplete(assessCompletion({exportProblems:[selection.blocker]}));
   let entry=selection.entry;
@@ -160,10 +203,14 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   const status=await(deps.status??finishStatus)({runDir,projectFile:file,exportDir:entry.dir});
   if(status.deliverable||round===1||state.steps.repaired)break;
   const before=hash(read(file));
-  await(deps.repair??repairFinishFindings)({file,runDir,workDir,exportDir:entry.dir,log});
+  await(deps.repair??repairFinishFindings)({file,runDir,workDir,exportDir:entry.dir,concurrency,log});
   state.steps.repaired=true;persist();
   if(before===hash(read(file)))break;
-   await(deps.content??runContentReview)({runDir,projectFile:file,concurrency,runner});
+   const repairedContent=await(deps.content??runContentReview)({runDir,projectFile:file,concurrency,runner});
+   const repairedCompletion=currentContentCompletion(repairedContent.errors??[]);
+   if(!repairedCompletion.ready)return incomplete(repairedCompletion);
+   validation=(deps.validate??validateImport)(read(file));if(!validation.ok){errors.push(...validation.blockers);break;}
+   await settleLayout();
    validation=(deps.validate??validateImport)(read(file));if(!validation.ok){errors.push(...validation.blockers);break;}stamp();
  }
  stamp();const entry=state.exports.at(-1);
@@ -181,4 +228,20 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  state.completion=status.completion;persist();
  return {...status,projectFile:file,exports:state.exports.map(e=>e.dir),saved:status.deliverable||saveProgress,validation};
 }
-async function finishStatus(options){return reviewStatus({...options,projectHash:(await import('./page-review.mjs')).projectReviewHash});}
+async function finishStatus(options){
+ // Content acceptance may finish after immutable PDFs were checked. Recompute
+ // only the deterministic coverage report against the exact exported project;
+ // later tool fixes do not require printing those same pages again.
+ const {runDir,projectFile,exportDir}=options,project=read(projectFile);
+ let artifactError;
+ try{(await import('./import-verification-runtime.mjs')).verifyCompletedFrozenExport({out:exportDir,projectId:project.id,projectFile,artifactReview:true});}catch(error){artifactError=error.message;}
+ if(!artifactError){
+  const {inspectContentCoverage}=await import('../../src/lib/booklet-content-verification.js');
+  const {contentAssetSignatures}=await import('./verification-cache.mjs');
+  const coverage=await inspectContentCoverage(project,{assetSignatures:await contentAssetSignatures(project),reviewedQuestions:loadReviewed(path.join(runDir,'lean-review')).questions});
+  write(path.join(exportDir,project.id+'-readiness.json'),coverage);
+ }
+ const status=reviewStatus({...options,projectHash:(await import('./page-review.mjs')).projectReviewHash});
+ if(artifactError){status.deliverable=false;status.completion=assessCompletion({errors:[...(status.completion?.blockers??[]),artifactError]});}
+ return status;
+}

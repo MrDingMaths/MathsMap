@@ -22,7 +22,7 @@ import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import {inspectPdfNavigation} from './pdf-navigation-qa.mjs';
 import {ensurePdfRasters,ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {LEAN_REVIEW_PROFILE,isLeanReview,selectLeanVisualPages} from './lean-profile.mjs';
-import {seedUnchangedFinalExports,finalExportOutput} from './seed-final-export-cache.mjs';
+import {seedUnchangedFinalExports,finalExportOutput,canonicalExportMode} from './seed-final-export-cache.mjs';
 export function collectExerciseHeadings(texts){
  return texts.map(text=>text.trim()).filter(text=>/^Exercises?$/.test(text)||/^Exercise \S+(?:\s+\S+)*$/.test(text));
 }
@@ -65,6 +65,11 @@ export function readSolidVisibilityReviews({file,defaultFile='booklets/provenanc
  const value=JSON.parse(fs.readFileSync(selected,'utf8').replace(/^\uFEFF/,''));
  if(!value?.reviews||typeof value.reviews!=='object'||Array.isArray(value.reviews))throw Error('Visibility review JSON requires an object named reviews: '+selected);
  return {reviews:value.reviews,artifact:{path:path.resolve(selected),hash:artifactHash(selected)}};
+}
+export function requireReviewOnlyLocalProject(record,{candidateFile,runDir,out}={}){
+ const relative=candidateFile&&runDir?path.relative(fs.realpathSync(runDir),fs.realpathSync(candidateFile)):null;
+ const runCandidate=relative&&relative!=='..'&&!relative.startsWith('..'+path.sep)&&!path.isAbsolute(relative)&&canonicalExportMode(runDir,out)==='review';
+ if((record.library?.category!=='import-review'&&!runCandidate)||record.sections.some(s=>s.blocks.some(b=>b.bankRef||b.canonicalId)))throw Error('--review-only requires local Import review content or an isolated run candidate without bank links');
 }
 export function requireLeanFinalEditions(project,editions,{development=false,preflight=false,draft=false,reviewOnly=false}={}){
  if(isLeanReview(project)&&!development&&!preflight&&(!draft||reviewOnly))assert.deepEqual([...editions].sort(),['short','student','with-short','with-worked','worked'],'Lean final/review exports require all five automated edition checks');
@@ -178,7 +183,7 @@ try{
   if(!rendererSignatures.has(lean))rendererSignatures.set(lean,rendererSignature(lean?{lean:true}:undefined));
   const runtime=rendererSignatures.get(lean),qaRuntime=lean?qaSignature():undefined;
   requireLeanFinalEditions(record,editions,{development,preflight,draft,reviewOnly});
-  if(reviewOnly&&(record.library?.category!=='import-review'||record.sections.some(s=>s.blocks.some(b=>b.bankRef||b.canonicalId))))throw Error('--review-only requires local Import review content');
+  if(reviewOnly)requireReviewOnlyLocalProject(record,{candidateFile,runDir,out});
   if(development)for(const edition of editions){
    const baseline=readPageManifest(`${out}/${id}-${edition}.development.pages.json`)??readPageManifest(`${out}/${id}-${edition}.full.pages.json`);
    requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!baseline,baselineRenderer:baseline?.renderer,currentRenderer:runtime,reason:fullDevelopmentReason});
@@ -198,9 +203,9 @@ try{
    fs.writeFileSync(`${out}/${id}-readiness.json`,JSON.stringify(coverage,null,2));
    if(!draft&&!development&&!preflight)assert.equal(coverage.complete,true,'Content and teaching/arrangement fidelity must pass independently of layout. Use --draft for review exports.');
   }
-  if(lean&&runDir&&!development&&!preflight&&!draft){
+  if(lean&&runDir&&!development&&!preflight&&(!draft||reviewOnly)){
    runMeasurements.exportSeeding??=[];
-   if(path.dirname(path.resolve(out))===path.resolve(runDir)&&path.basename(out).startsWith('final-exports-'))await seedUnchangedFinalExports({runDir,projectFile:candidateFile??projectFile,out,onDecision:decision=>runMeasurements.exportSeeding.push({projectId:id,...decision})});
+   if(canonicalExportMode(runDir,out)===(reviewOnly?'review':'full'))await seedUnchangedFinalExports({runDir,projectFile:candidateFile??projectFile,out,onDecision:decision=>runMeasurements.exportSeeding.push({projectId:id,...decision})});
    else runMeasurements.exportSeeding.push({projectId:id,reason:'explicit-output-outside-canonical-seeding-path',out:path.resolve(out)});
   }
   const loadStarted=Date.now();
@@ -245,7 +250,7 @@ try{
     const next={...fullManifest,version:2,projectHash,workflowKey,pdf,...(reviewOnly&&fullManifest.readiness?{readiness:{path:path.resolve(`${out}/${id}-readiness.json`),hash:artifactHash(`${out}/${id}-readiness.json`)}}:{}),...(lean?{reviewProfile,printableKey:key,qaSignature:qaRuntime,visualPages}:{}),images:rasters.images,rasterization:rasters.rasterization};
     if(JSON.stringify(next)!==JSON.stringify(fullManifest))fs.writeFileSync(manifestFile,JSON.stringify(next,null,2));
     await observeExport(edition,file,key,true);
-    report[kind][edition]={...cached,...(lean?{reviewProfile,projectHash,workflowKey,visualPages}:{}),timings,rasterMetrics:rasters.metrics};console.log(`Reusing unchanged ${kind} ${edition} layout verification`);continue;
+    report[kind][edition]={...cached,pdf,...(lean?{reviewProfile,projectHash,workflowKey,visualPages}:{}),timings,rasterMetrics:rasters.metrics};console.log(`Reusing unchanged ${kind} ${edition} layout verification`);continue;
    }
    console.log(`Checking ${kind} ${edition}`);
    const paginationStarted=Date.now();
@@ -367,7 +372,7 @@ try{
     assert.deepEqual(printed.flatMap(p=>p.issues),[],'Printed geometry');
    }
    assert.deepEqual(errors,[],'Browser errors');
-   if(!draft||reviewOnly){
+   if(!draft||(reviewOnly&&issues.length===0&&printed.every(page=>page.issues.length===0))){
     const pdf={path:path.resolve(file),hash:artifactHash(file)};
     const changedPages=fullManifest?.pages?hashes.filter((entry,i)=>entry.hash!==fullManifest.pages[i]?.hash).map(entry=>entry.page):[];
     if(fullManifest?.pages.length>hashes.length&&hashes.length)changedPages.push(hashes.length);

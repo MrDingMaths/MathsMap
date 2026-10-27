@@ -5,9 +5,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import {createSemanticTasks,runSemanticPackets,semanticCacheInfo,validateSemanticResult,wordExcerpts} from '../scripts/booklet/semantic-workflow.mjs';
-import {contentHash} from '../scripts/booklet/lean-review.mjs';
+import {contentHash,contentPrompt} from '../scripts/booklet/lean-review.mjs';
 import {TRANSCRIPTION_DEFAULT} from '../scripts/booklet/transcription-settings.mjs';
-import {compactTikzPrompt,hasTikzVisual} from '../scripts/booklet/token-efficient-prompts.mjs';
+import {compactTikzPrompt,hasTikzVisual,HEADER_DECORATION_SCOPE_PROMPT} from '../scripts/booklet/token-efficient-prompts.mjs';
 import {readAttemptReceipt,recordAttempt,summarizeAttemptEvents} from '../scripts/booklet/semantic-run-metrics.mjs';
 import {applyMappingRepair,mappingRepairContext} from '../scripts/booklet/semantic-mapping-repair.mjs';
 import {SHARED_DIAGRAM_FORMAT} from '../scripts/booklet/shared-diagram-authoring.mjs';
@@ -36,6 +36,16 @@ const testMetrics={model:'test-model',endedAt:'2026-10-21T00:00:00Z'};
 const author=page=>{const packet={pageNumber:page,sections:[{id:`s-${page}`,title:'Equations',blocks:[{id:`b-${page}`,type:'question',classification:{...rating},content:{id:`q-${page}`,type:'question',prompt:'Solve.',answer:{short:'1',worked:'x=1'}}}]}],inventoryMappings:[{inventoryId:`src-${page}`,targetId:`q-${page}`}]};return stampPacketRatings(packet,testMetrics,'test-fixture');};
 const pageFrom=prompt=>Number(prompt.match(/Target page (\d+)/)[1]);
 const quiet={log:()=>{}};
+
+test('inventory, author and independent content review share one decoration-body scope rule',t=>{
+ const options=fixture(t),section=author(4).sections[0];
+ const prompts=[
+  createSemanticTasks({...options,stage:'inventory',pages:[4]})[0].prompt,
+  createSemanticTasks({...options,pages:[4]})[0].prompt,
+  contentPrompt({project:{title:'Header decoration scope',sections:[section]},batch:{section,rows:section.blocks.map(block=>({block}))}})
+ ];
+ for(const prompt of prompts)assert.equal(prompt.split(HEADER_DECORATION_SCOPE_PROMPT).length-1,1);
+});
 
 test('initial authoring requires a reasoning assessment without an optional skill catalogue',async t=>{
  const options={...fixture(t),pages:[4]},task=createSemanticTasks(options)[0];
@@ -873,4 +883,18 @@ test('resumed authoring closes config-only continuations transitively without ex
  assert.deepEqual(result.pages.map(p=>p.page),[3],'only the requested page is published');
  assert.deepEqual([...new Set(result.assignmentPlan.assignments.flatMap(a=>a.pages))].sort(),[3,4,5]);
  assert.equal(result.assignmentPlan.assignments.length,1,'the continued question stays indivisible');
+});
+
+
+test('lean authoring receives current priorities after historical house defaults; legacy runs retain their route',t=>{
+ const options=fixture(t);options.config.authoringPreferences='house-presets-v2';
+ const legacy=createSemanticTasks(options)[0];assert.ok(!legacy.promptSections.some(s=>s.name==='lean-import-priorities'));
+ options.manifest.reviewProfile='textbook-three-pass-v1';
+ const task=createSemanticTasks(options)[0],names=task.promptSections.map(s=>s.name);
+ assert.ok(names.indexOf('lean-import-priorities')>names.indexOf('house-authoring'));
+ const priorities=task.promptSections.find(s=>s.name==='lean-import-priorities').text;
+ assert.match(priorities,/THEORY stays visually close/);assert.match(priorities,/removes cloze dots and full fraction scaffolds/);
+ assert.match(priorities,/before measured pagination/);
+ assert.match(priorities,/keep each prompt beside or immediately before its supplied working/);
+ assert.match(priorities,/examples\[\]\.label alone is metadata and does not print/);
 });

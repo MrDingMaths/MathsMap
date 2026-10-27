@@ -12,9 +12,11 @@ Follow [the current workflow](docs/booklet-three-pass-import.md#streamlined-comp
 
 Separately requested [pedagogy reviews](docs/booklet-pedagogy-review.md) retain their low review/medium challenge settings, named-user approval for repairs and [first-pass rules](docs/booklet-first-pass-review.md). Keep the tool outside `scripts/`.
 
+Imports: [omit redundant vertex labels, retain necessary labels and update solutions](docs/booklet-cross-session-rules.md#redundant-vertex-labels-25-october-2026-user-requested).
+
 ## Part labels run in one sequence (11 October 2026, user requested)
 
-For imports and authorised repairs, label the parts of one practice question in [one sequence](docs/booklet-transcription-feedback-checklist.md#part-labels-run-in-one-sequence-11-october-2026-user-requested): a second run of parts under its own instruction continues (`e`–`h`) and a lone response takes the next label, even where the source restarts at `a`. `node scripts/booklet/check-part-label-sequence.mjs [project-id]` should report none for a new import.
+For imports and authorised repairs, use [one continuous part-label sequence](docs/booklet-transcription-feedback-checklist.md#part-labels-run-in-one-sequence-11-october-2026-user-requested). Run `node scripts/booklet/check-part-label-sequence.mjs [project-id]`; new imports should report no missing/restarted labels.
 
 ## Sample answers for open-ended tables and box grids (11 October 2026, user requested)
 
@@ -111,11 +113,9 @@ For `worked-examples-2026-09`, new work uses the [lean route](docs/content-campa
 
 Moved word for word to [the campaign workflow](docs/content-campaign-efficient-workflow.md#campaign-efficiency-precedence-2-october-2026) on 15 October 2026.
 
-## Graph sizing and user-directed compact layouts (2 October 2026)
+## Diagram sizing (25 October 2026, user requested)
 
-Follow the full [graph sizing convention](docs/booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026): question graphs start around 70 mm, simple short answers around 50 mm, with reviewed exceptions. Preserve mathematical features, 10 pt labels, ticks, meaningful arrangements, drawing space and manual overrides; edit edition widths independently. Use existing selected reviews. Never resize accepted projects on load or duplication.
-
-Compact-layout tuning remains user-directed. The import-efficiency work must not introduce a new automatic compact-spacing policy or discretionary gap, padding and minimum-height reductions. Continue established house style, source fidelity and required handwriting space; preventing oversized graphs is an explicit convention.
+Follow [source-calibrated diagram sizing](docs/booklet-diagram-sizing.md) for Stage 5, Stage 5 Paths, Stage 6, textbook and future imports. The user's later 25 October scope clarification in that document supersedes the initial recent-edit hold for this maintenance pass; preserve its named exclusions. Measure final height as well as width, retain native 10 pt labels, drawing area and independent edition sizes, and review exceptions instead of enforcing hard caps. Never migrate on load. The [graph and compact-layout convention](docs/booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026) otherwise remains.
 
 ## Tighter unreviewed layouts (17 October 2026, user requested)
 

@@ -31,7 +31,19 @@ test('the author sees the findings, the blocks, the source pages and the rules; 
  const project=space.project(),index=bookletIndex(project),group=contentFindings(space.record(),project);
  const prompt=authorPrompt({project,index,group,pages:[{page:1,path:'p1.png'}]});
  for(const phrase of ['derive every answer you change yourself','"role"','"remove"','patch the parent\'s /children','The answer is 3.','"sourcePages"'])assert.ok(prompt.includes(phrase),phrase);
+ assert.match(prompt,/ONE normally spaced expression/);assert.match(prompt,/type:"annotated-equation"/);assert.match(prompt,/optional additionalTargetIds:/);assert.match(prompt,/alongside targetId to point to multiple anchored terms without duplicating its text/);
+ const withRendered=authorPrompt({project,index,group,pages:[{page:1,path:'p1.png'}],renderedPages:[{edition:'worked',page:4,path:'worked4.png'}]});
+ const evidence=JSON.parse(withRendered.split('Input:\n')[1]);
+ assert.deepEqual(evidence.currentRenderedPages,[{image:2,edition:'worked',page:4}]);
+ assert.equal(evidence.blocks[0].json,undefined,'do not send a second copy of the same block');
+ assert.ok(evidence.blocks[0].nodes.length);assert.ok(evidence.blocks[0].editionOverrides);
+ assert.match(withRendered,/presentation.showLabels/);assert.match(withRendered,/cloze.blankStyle is unsupported/);
+ assert.match(withRendered,/presentation.exampleLabels/);assert.match(withRendered,/Do not invent a "table-cell" response kind/);
+ assert.match(withRendered,/BEFORE this repair, not its corrected result/);
  const check=checkPrompt({changes:[{id:'x',before:[],after:[]}],pages:[{page:1}]});
+ assert.match(check,/BEFORE saving and rendering/);
+ assert.match(check,/Do not reject an otherwise correct content repair solely because corrected-page images are absent/);
+ assert.match(check,/remains visualVerified:false/);
  assert.match(check,/first derive, yourself, the correct answer/);assert.match(check,/"verdict":"accept\|reject"/);
 });
 
@@ -101,10 +113,60 @@ test('a patch whose original does not match, or that touches settings, never rea
 
 test('a role change and a removal are applied after the patches, through the same independent check',async t=>{
  const {space,by}=await seeded(t,[finding(2,['q1'],{area:'content',comment:'This is review material.'}),finding(3,['q2'],{area:'duplicate',comment:'Same as q3.'})]);
- const ask=stub({corrections:[{id:by.q1,reason:'review',role:'review',blockId:'q1'},{id:by.q2,reason:'duplicate',remove:'q6',blockId:'q2'}],verdicts:{}});
+ const delegate=stub({corrections:[{id:by.q1,reason:'review',role:'review',blockId:'q1'},{id:by.q2,reason:'duplicate',remove:'q6',blockId:'q2'}],verdicts:{}});
+ const ask=async options=>{
+  if(options.name==='content-check'){
+   const rows=JSON.parse(options.prompt.split('Input:\n')[1]).corrections;
+   const role=rows.find(row=>row.id===by.q1),removal=rows.find(row=>row.id===by.q2);
+   if(role){assert.equal(role.after.find(b=>b.id==='q1').pedagogyRole,'review');assert.ok(role.fieldsChanged.includes('/pedagogyRole'));}
+   if(removal){assert.ok(removal.before.some(b=>b.id==='q6'));assert.ok(!removal.after.some(b=>b.id==='q6'));}
+  }
+  return delegate(options);
+ };
  const result=await runContentRepair({projectFile:space.projectFile,provenanceDir:path.join(space.dir,'provenance'),polishDir:path.join(space.dir,'polish'),ask});
  assert.deepEqual(result.applied.sort(),[by.q1,by.q2].sort());assert.deepEqual(result.operations.sort(),[by.q1,by.q2].sort());
  const saved=space.project();
  assert.equal(saved.sections[1].blocks.find(b=>b.id==='q1').pedagogyRole,'review');
  assert.equal(saved.sections[1].blocks.some(b=>b.id==='q6'),false);
+});
+
+test('repair author and checker receive printed presentation fields while review metadata stays omitted',async t=>{
+ const {space,by}=await seeded(t,[wrong('q1-a')]);
+ const id=by['q1-a'];let checked=false;
+ const delegate=stub({corrections:[{id,reason:'Align the working',patches:[patch('q1-a','/align',null,'left')]}],verdicts:{}});
+ const ask=async options=>{
+  const payload=JSON.parse(options.prompt.split('Input:\n')[1]);
+  if(options.name==='content-author'){
+   assert.equal(payload.blocks[0].content.content.layout,'grid');
+   assert.equal(payload.blocks[0].content.content.children[0].answerSpaceMm,18);
+  }else{
+   const row=payload.corrections.find(row=>row.id===id);
+   assert.equal(row.after[0].content.children[0].align,'left');
+   assert.ok(row.fieldsChanged.includes('/content/children'));
+   assert.equal(row.after[0].sourceReview,undefined);checked=true;
+  }
+  return delegate(options);
+ };
+ const result=await runContentRepair({projectFile:space.projectFile,provenanceDir:path.join(space.dir,'provenance'),polishDir:path.join(space.dir,'polish'),ask});
+ assert.equal(checked,true);assert.deepEqual(result.applied,[id]);
+});
+
+test('the content author receives the exact existing rendered finding page beside source evidence',async t=>{
+ const {space,by}=await seeded(t,[wrong('q1-a')]);
+ const sourceDir=path.join(space.dir,'evidence','pages'),exportDir=path.join(space.dir,'export');
+ fs.mkdirSync(sourceDir,{recursive:true});fs.mkdirSync(exportDir);
+ const source=path.join(sourceDir,'page-001.png'),rendered=path.join(exportDir,'student2.png');
+ fs.writeFileSync(source,'source fixture');fs.writeFileSync(rendered,'rendered fixture');
+ fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify({student:{pending:[{page:2,image:rendered},{page:3,image:'absent.png'}]}}));
+ let checked=false;
+ const ask=async({prompt,images,name})=>{
+  assert.equal(name,'content-author');
+  assert.deepEqual(images,[source,rendered]);
+  const payload=JSON.parse(prompt.split('Input:\n')[1]);
+  assert.deepEqual(payload.sourcePages,[{image:1,sourcePage:1}]);
+  assert.deepEqual(payload.currentRenderedPages,[{image:2,edition:'student',page:2}]);
+  checked=true;return {result:{comments:[{findingId:by['q1-a'],why:'Fixture only'}]}};
+ };
+ await runContentRepair({projectFile:space.projectFile,provenanceDir:path.join(space.dir,'provenance'),polishDir:path.join(space.dir,'polish'),runDir:space.dir,exportDir,ask});
+ assert.equal(checked,true);
 });

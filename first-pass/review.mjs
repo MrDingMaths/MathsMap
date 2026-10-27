@@ -10,7 +10,10 @@ import {spawn} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {conflictsWithDecidedConvention} from '../src/lib/booklet-cloze-convention.js';
-import {flowEditionSections} from '../src/lib/booklet-flow.js';
+import {LEAN_IMPORT_PRINCIPLES} from '../scripts/booklet/token-efficient-prompts.mjs';
+import {sourcePageOptions} from '../src/lib/booklet-source-content.js';
+import {flowEditionSections,flowNumbers} from '../src/lib/booklet-flow.js';
+import {DIAGRAM_SIZING_PROMPT} from '../src/lib/booklet-diagram-sizing.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const BASE='http://127.0.0.1:5173';
@@ -34,11 +37,11 @@ export function contract({root=ROOT}={}){
  const doc=fs.readFileSync(path.join(root,'docs','booklet-first-pass-review.md'),'utf8');
  const match=doc.match(/<!-- contract:first-pass:start -->\r?\n([\s\S]*?)\r?\n<!-- contract:first-pass:end -->/);
  if(!match?.[1].trim())throw Error('Missing first-pass contract in docs/booklet-first-pass-review.md');
- contracts.set(root,match[1].trim());return contracts.get(root);
+ contracts.set(root,match[1].trim()+'\n\n'+DIAGRAM_SIZING_PROMPT);return contracts.get(root);
 }
 // Said after the contract: workers cannot open files, and the teacher's earlier
 // decisions on these blocks travel with the pages.
-export const FRAMING='Do not run commands or open files: everything you need is below and in the attached images, in the order of "pages" (then "source", when given).\n\n"decided" lists comments the teacher has already seen on these blocks. "rejected" means the teacher deleted it: do not raise that issue again in any wording. "kept" and "open" are already with the teacher: do not repeat them. A different problem on the same block is still reportable.';
+export const FRAMING='Do not run commands or open files: everything you need is below and in the attached images, in the order of "pages" (then "source", when given, then "contextPages"). Adjacent context pages inform transitions but are not extra review targets. Before proposing removal of a label or mark, check its axis, part or diagram ownership; altered placement alone does not make a necessary label extraneous. Use sourceLocations before claiming shown source material is missing: it may print on another current page after reordering. A local page window alone cannot establish a whole-book omission. Stored labels can retain source numbering after reordering; currentQuestionNumber is the current rendered question number. Check answer association against that number, not historical numbering. Before proposing a mathematical or answer correction, check the full current task and relevant source and calculate it independently; do not guess. An explicitly completed example is supplied teaching, not a missing student response. Answer-edition question text is complete; use it for label/answer association without repeating accepted mathematical derivations or demanding source evidence irrelevant to a presentation check.\n\n"decided" lists comments the teacher has already seen on these blocks. "rejected" means the teacher deleted it: do not raise that issue again in any wording. "kept" and "open" are already with the teacher: do not repeat them. A different problem on the same block is still reportable.';
 
 // ---- booklet index ----------------------------------------------------------------
 
@@ -89,7 +92,7 @@ export function textOf(node,limit=160){
   if(value.type==='text'&&value.text){parts.push(value.text);size+=value.text.length;}
   else if(value.type==='math'&&value.latex){parts.push('$'+value.latex+'$');size+=value.latex.length+2;}
   else if(value.type==='cloze')parts.push(`[cloze w=${value.width??'?'}]`);
-  for(const key of ['prompt','inlines','blocks','content','rows','cells','children'])if(value[key])walk(value[key]);
+  for(const key of ['prompt','inlines','blocks','content','rows','cells','children','items','slots'])if(value[key])walk(value[key]);
  })(node);
  return parts.join(' ').replace(/\s+/g,' ').trim().slice(0,limit);
 }
@@ -118,7 +121,27 @@ export function blockEntry(project,index,blockId,{characters=LIMITS.blockCharact
  if(JSON.stringify(entry).length>characters)entry.layout=JSON.parse(JSON.stringify(entry.layout,(key,value)=>key==='children'&&JSON.stringify(value).length>400?value.slice(0,6):value));
  return JSON.stringify(entry).length>characters*2?{...entry,layout:{id:block.id,type:block.type,text:textOf(block)}}:entry;
 }
-const textEntry=(index,id)=>{const found=index.blocks.get(id);return found?{id,label:labelOf(found.block),text:textOf(found.block)}:null;};
+const textEntry=(index,id)=>{
+ const found=index.blocks.get(id);if(!found)return null;
+ const partLabels=[];
+ const walk=node=>{if(!node||typeof node!=='object')return;if(node.id&&node.label!=null)partLabels.push({id:node.id,label:node.label});for(const child of node.children??[])walk(child);};
+ walk(found.block.content??found.block);
+ return {id,label:labelOf(found.block),text:textOf(found.block,Infinity),partLabels};
+};
+// Only material from the shown source pages, printed outside this batch.
+// A local source comparison must not mistake reordering for missing content.
+function sourceLocations(project,index,batchIds,studentPages,source,numbers){
+ const shown=new Set(source.map(row=>`${row.runId}:${row.page}`)),wanted=new Set(batchIds),pagesByBlock=new Map(),locations=[];
+ for(const page of studentPages??[])for(const id of page.blocks??[]){if(!pagesByBlock.has(id))pagesByBlock.set(id,new Set());pagesByBlock.get(id).add(page.page);}
+ for(const [id,{block,section}]of index.blocks){
+  if(wanted.has(id)||!pagesByBlock.has(id))continue;
+  const refs=[...(block.sourceRefs??[])],own=block.sourcePageNumber??section.sourcePageNumber;
+  if(Number.isInteger(own)&&!refs.some(ref=>ref.pageNumber===own))refs.unshift({pageNumber:own});
+  const matched=sourcePageOptions(project,refs).filter(ref=>shown.has(`${ref.runId}:${ref.pageNumber}`));
+  if(matched.length)locations.push({id,source:matched.map(({runId,pageNumber})=>({runId,page:pageNumber})),sourceLabel:labelOf(block),...(numbers[id]!=null?{currentQuestionNumber:numbers[id]}:{}),questionPages:[...pagesByBlock.get(id)]});
+ }
+ return locations;
+}
 // Comparable blocks outside the batch, nearest first, for consistency checks.
 export function similarBlocks(project,index,batchIds,studentMap=[],{perKind=LIMITS.similarPerKind,limit=LIMITS.similarBlocks,characters=LIMITS.similarCharacters}={}){
  const inBatch=new Set(batchIds),kinds=new Map(),pageOf=new Map();
@@ -167,13 +190,15 @@ export function decidedFor(record,blockIds){
  const wanted=new Set(blockIds),state=finding=>finding.state==='rejected'?'rejected':finding.state==='approved'?'kept':finding.commentId&&['pending','stale'].includes(finding.state)?'open':null;
  return (record.findings??[]).filter(finding=>state(finding)&&finding.targets.some(target=>wanted.has(target.blockId))).map(finding=>({state:state(finding),edition:finding.edition,area:finding.area,targets:finding.targets.map(target=>target.id),comment:finding.comment}));
 }
-export function batchPrompt({project,index,edition,rows,pagemap,record={findings:[]},source=[],root=ROOT,textbook=false,verificationFindings=[]}){
+export function batchPrompt({project,index,edition,rows,pagemap,record={findings:[]},source=[],root=ROOT,textbook=false,verificationFindings=[],context=[]}){
  const ids=[...new Set(rows.flatMap(row=>row.blocks.map(block=>block.id)))].filter(id=>index.blocks.has(id));
+ const numbers=flowNumbers(project);
  const payload={booklet:project.title??project.id,course:project.settings?.cover?.course??null,edition,pages:rows,
-  blocks:edition==='student'?ids.map(id=>blockEntry(project,index,id)).filter(Boolean):ids.map(id=>textEntry(index,id)).filter(Boolean),
+  blocks:(edition==='student'?ids.map(id=>blockEntry(project,index,id)):ids.map(id=>textEntry(index,id))).filter(Boolean).map(entry=>({...entry,...(numbers[entry.id]!=null?{currentQuestionNumber:numbers[entry.id]}:{})})),
   similar:edition==='student'?similarBlocks(project,index,ids,pagemap.student):[],
-  decided:decidedFor(record,ids),...(source.length?{source:source.map(row=>({sourcePage:row.page}))}:{})};
- const build=()=>contract({root})+'\n\n'+FRAMING+(textbook?'\n\nTextbook import override: do not assess pedagogy, opening reviews, extensions, bridging questions or teaching-sequence redesign. Return only source/content and presentation defects; never return review or extension findings.':'')+'\n\nInput:\n'+JSON.stringify(payload);
+  decided:decidedFor(record,ids),...(source.length?{source:source.map(row=>({sourcePage:row.page,runId:row.runId}))}:{}),...(context.length?{contextPages:context.map(({page,edition})=>({page,edition}))}:{})};
+ if(source.length){const locations=sourceLocations(project,index,ids,pagemap.student,source,numbers);if(locations.length)payload.sourceLocations=locations;}
+ const build=()=>contract({root})+'\n\n'+FRAMING+'\n\n'+LEAN_IMPORT_PRINCIPLES+(textbook?'\n\nTextbook import override: do not assess pedagogy, opening reviews, extensions, bridging questions or teaching-sequence redesign. Return only source/content and presentation defects; never return review or extension findings.':'')+'\n\nInput:\n'+JSON.stringify(payload);
  if(verificationFindings.length)payload.verificationRequests=verificationFindings.map(f=>({id:f.id,comment:f.comment,targets:f.targets}));
  let prompt=build();
  // Too large: drop the comparisons first, then cut block layouts to a line of text.
@@ -200,9 +225,17 @@ export function planBatches({project,index,selection,pagemap,record,root=ROOT}){
 // own blocks (sourcePageNumber, then sourceRefs), in the order the blocks print, at most `limit`.
 export function sourceImages(index,rows,runDir,{limit=LIMITS.sourceImages}={}){
  if(!runDir)return [];
- const pages=[];
- for(const row of rows)for(const {id} of row.blocks){const found=index.blocks.get(id);if(!found)continue;for(const page of [found.block.sourcePageNumber??found.section.sourcePageNumber,...(found.block.sourceRefs??[]).map(ref=>ref.pageNumber)])if(Number.isInteger(page)&&!pages.includes(page))pages.push(page);}
- return pages.map(page=>({page,path:path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png')})).filter(row=>fs.existsSync(row.path)).slice(0,limit);
+ const runId=path.basename(runDir),importsDir=path.dirname(runDir),refs=[];
+ for(const row of rows)for(const {id} of row.blocks){const found=index.blocks.get(id);if(!found)continue;const b=found.block;
+  const own=b.sourcePageNumber??found.section.sourcePageNumber,blockRefs=[...(b.sourceRefs??[])];
+  if(Number.isInteger(own)&&!blockRefs.some(ref=>ref.pageNumber===own))blockRefs.unshift({pageNumber:own});
+  refs.push(...blockRefs);
+ }
+ return sourcePageOptions({source:{runId}},refs).map(ref=>{
+  const folder=path.resolve(importsDir,ref.runId);
+  if(path.dirname(folder)!==path.resolve(importsDir))return null;
+  return {page:ref.pageNumber,runId:ref.runId,path:path.join(folder,'evidence','pages','page-'+String(ref.pageNumber).padStart(3,'0')+'.png')};
+ }).filter(row=>row&&fs.existsSync(row.path)).slice(0,limit);
 }
 
 // ---- rendering ---------------------------------------------------------------------------
@@ -442,14 +475,17 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
  const rendered=await renderImages({project,dir:renderDir,selection,pagemap,base,fresh,root,log});
  const found=[],unreliable=[],calls=[],errors=[],verifiedFindings=[],reviewed={student:new Set(),short:new Set(),worked:new Set()},reviewedPages={student:new Set(),short:new Set(),worked:new Set()};
  await pool(batches,concurrency,async(batch,i)=>{
-  const extra=source&&batch.edition==='student'?sourceImages(index,batch.rows,runDir):[];
+  const extra=source?sourceImages(index,batch.rows,runDir):[];
+  const currentPages=new Set(batch.rows.map(row=>row.page));
+  const context=[batch.rows[0].page-1,batch.rows.at(-1).page+1].filter(page=>!currentPages.has(page)&&rendered.images[batch.edition]?.[page]).map(page=>({page,edition:batch.edition,path:rendered.images[batch.edition][page]}));
   const verify=verificationFindings.filter(f=>f.edition===batch.edition&&f.targets.some(t=>batch.rows.some(row=>row.blocks.some(b=>b.id===t.blockId))));
-  const {prompt}=batchPrompt({project,index,edition:batch.edition,rows:batch.rows,pagemap,record,source:extra,root,textbook,verificationFindings:verify});
+  const {prompt}=batchPrompt({project,index,edition:batch.edition,rows:batch.rows,pagemap,record,source:extra,root,textbook,verificationFindings:verify,context});
   const blockIds=[...new Set(batch.rows.flatMap(row=>row.blocks.map(block=>block.id)))],pageNumbers=batch.rows.map(row=>row.page);
   const call={batch:i,...describeBatch(batch),findings:0,discarded:[]};calls.push(call);
   try{
-   const images=[...batch.rows.map(row=>rendered.images[batch.edition]?.[row.page]),...extra.map(row=>row.path)];
+   const images=[...batch.rows.map(row=>rendered.images[batch.edition]?.[row.page]),...extra.map(row=>row.path),...context.map(row=>row.path)];
    if(images.some(image=>!image))throw Error('Missing page raster');
+   if(prompt.length>LIMITS.payloadCharacters)throw Error('Review context exceeds the packet limit; split this page context rather than truncating its question text');
    log(`Reviewing ${EDITION_NAMES[batch.edition]} pages ${pageNumbers.join(',')}`);
    const {result,usage,elapsedMs,out}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,name:batch.edition+'-'+pageNumbers[0],prompt,images});
    Object.assign(call,{usage,elapsedMs,out:relative(root,out)});
@@ -460,7 +496,7 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
     if(error){call.discarded.push(error);continue;}
     found.push({id:findingId(value.area,value.edition,value.targets),...value,...(source&&extra.length?{sourceRepair:true}:{}),targets:targetRows(project,index,value.targets),revision:project.revision??null,batch:i});call.findings++;
    }
-   for(const row of Array.isArray(result?.notReliablyReviewed)?result.notReliablyReviewed:[])if(text(row?.note))unreliable.push({edition:batch.edition,page:Number.isInteger(row.page)?row.page:null,note:text(row.note),revision:project.revision??null});
+   for(const row of Array.isArray(result?.notReliablyReviewed)?result.notReliablyReviewed:[])if(text(row?.note))unreliable.push({edition:batch.edition,page:pageNumbers.includes(row.page)?row.page:pageNumbers[0],note:(Number.isInteger(row.page)&&!pageNumbers.includes(row.page)?'Context page '+row.page+': ':'')+text(row.note),revision:project.revision??null});
    blockIds.forEach(id=>reviewed[batch.edition].add(id));pageNumbers.forEach(page=>reviewedPages[batch.edition].add(page));
   }catch(error){call.error=error.message;errors.push(`${batch.edition} ${pageNumbers.join(',')}: ${error.message}`);}
  });
@@ -468,7 +504,7 @@ calls.sort((a,b)=>a.batch-b.batch);found.sort((a,b)=>a.batch-b.batch||EDITIONS.i
  const residual=found.map(({batch,...finding})=>({id:finding.id,edition:finding.edition,page:finding.page,area:finding.area,scope:finding.scope,targets:finding.targets.map(target=>target.id),comment:finding.comment,...(finding.proposal?{proposal:finding.proposal}:{})}));
  const merged=mergeFindings(record.findings??[],found.map(({batch,...finding})=>finding),{reviewed,project,index});
  Object.assign(record,{projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),model:'gpt-6.1-sol',effort:'low',findings:merged.findings,
-  notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!reviewedPages[row.edition]?.has(row.page)),...unreliable],
+  notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!reviewedPages[row.edition]?.has(row.page)&&!(!pages&&selection[row.edition]?.length&&selection[row.edition].every(p=>reviewedPages[row.edition]?.has(p.page))&&row.revision!==project.revision&&Number.isInteger(row.page)&&row.page>plan.pageCounts[row.edition])),...unreliable],
   lastRun:{contentHash:hash,pages:plan.reviewed,calls,suppressed:merged.suppressed,render:{report:rendered.report,reused:rendered.reused,automatedFailures:(rendered.failures??[]).map(row=>row.kind+(row.count?' ×'+row.count:''))},errors}});
  for(const finding of record.findings??[])if(verificationFindings.some(f=>f.id===finding.id)&&verifiedFindings.some(v=>v.id===finding.id&&v.fixed===true)&&!verifiedFindings.some(v=>v.id===finding.id&&v.fixed!==true)){finding.visualVerified=true;if(finding.contentVerified)setState(finding,'repaired','Independent content and affected-page verification passed');}
  if(!reportOnly||provenanceDir)saveProvenance(file,record);

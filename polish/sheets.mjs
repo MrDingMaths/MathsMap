@@ -10,6 +10,7 @@ import {spawnSync} from 'node:child_process';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 import {isMain,parseArgs,write} from '../checks/lib/common.mjs';
+import {pdfToolPath} from '../scripts/booklet/pdf-layout-qa.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const escapeHtml=text=>String(text).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -17,7 +18,7 @@ const escapeHtml=text=>String(text).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;
 // The numbered PNGs pdftoppm leaves for a PDF, in page order.
 export function rasterise(pdf,dir,{dpi=60}={}){
  fs.mkdirSync(dir,{recursive:true});
- const run=spawnSync('pdftoppm',['-r',String(dpi),'-png',pdf,path.join(dir,'page')],{windowsHide:true,encoding:'utf8',maxBuffer:1<<26});
+ const run=spawnSync('pdftoppm',['-r',String(dpi),'-png',pdfToolPath(pdf),path.join(dir,'page')],{windowsHide:true,encoding:'utf8',maxBuffer:1<<26});
  if(run.status!==0)throw Error('pdftoppm failed: '+(run.stderr||run.error?.message));
  return fs.readdirSync(dir).filter(name=>/^page-\d+\.png$/.test(name)).sort().map(name=>path.join(dir,name));
 }

@@ -212,6 +212,7 @@ export async function inspectContentCoverage(project,{assetSignatures={},reviewe
   for(const {node}of nodes.values())if(typeof node.src==='string'&&!assetSignatures[node.src])issue('unreadable-diagram',node.id,'Diagram bytes could not be checked; restore the referenced asset and verify it again.');
   for(const {node}of nodes.values())if(node.sourceRegion&&!validSourceRegion(node.sourceRegion))issue('invalid-source-crop',node.id,'Crop extends outside the original image. Correct its bounds and compare the displayed scaffold with the source; the whole-image fallback is not verified content.');
   const seen=new Set(),mapped=new Map();
+  const embeddedQuestion=entry=>['teaching','instruction'].includes(entry?.kind)&&entry.embeddedInQuestion&&entries.find(q=>q.kind==='question'&&q.id===entry.embeddedInQuestion&&q.targetId===entry.targetId);
   for(const entry of entries){
     let state='unchecked';
     if(seen.has(entry.id)){state='duplicate';issue(state,entry.targetId,`Duplicate source inventory identity: ${entry.id}`);}seen.add(entry.id);
@@ -223,7 +224,9 @@ export async function inspectContentCoverage(project,{assetSignatures={},reviewe
       const nestedAnswer=reviewed.has(owner)&&entry.kind==='answer'&&prior?.kind==='example'&&entry.parentId===prior.id;
       const figureParent=entry.parentId&&entries.find(e=>e.id===entry.parentId&&e.kind==='diagram'&&e.targetId===entry.targetId);
       const nestedFigure=reviewed.has(owner)&&entry.kind==='teaching'&&figureParent&&(prior?.id===figureParent.id||prior?.parentId===figureParent.id);
-      if(prior&&!entry.continuationOf&&!nestedAnswer&&!nestedFigure){state='duplicate';issue(state,entry.targetId,`Multiple inventory items map to the same target: ${entry.id}`);}mapped.set(mapping,entry);
+      const entryQuestion=embeddedQuestion(entry),priorQuestion=embeddedQuestion(prior);
+      const embeddedClause=reviewed.has(owner)&&((entryQuestion&&(prior?.id===entryQuestion.id||priorQuestion?.id===entryQuestion.id))||(priorQuestion&&entry.id===priorQuestion.id));
+      if(prior&&!entry.continuationOf&&!nestedAnswer&&!nestedFigure&&!embeddedClause){state='duplicate';issue(state,entry.targetId,`Multiple inventory items map to the same target: ${entry.id}`);}mapped.set(mapping,entry);
       if(entry.ambiguous&&!reviewed.has(owner)){state='ambiguous';issue(state,entry.targetId,entry.ambiguous);}
       else if(state!=='duplicate'){
         const key=await contentVerificationKey(project,entry,nodes,assetSignatures);
@@ -257,7 +260,21 @@ export async function inspectContentCoverage(project,{assetSignatures={},reviewe
     ancestors.some(parent=>['question','group','part','subpart'].includes(parent.type)&&
       entries.some(e=>!e.exclusionReason&&e.targetId===parent.id&&['question','part','subpart','example','answer'].includes(e.kind)&&
         (!e.field||e.field==='/children')));
-  for(const flag of project.studio?.flags??[])if(!flag.resolved&&!(flag.workflowIssue===true&&leanSourceReviewComplete))issue(flag.kind??'review-finding',flag.targetId,flag.note??'Unresolved review finding.');
+  // Old direct-import assembly emitted source-key/helper-access notes without
+  // workflowIssue. A current independent whole-block proof settles only those
+  // known processing hints; teacher flags and unknown findings remain open.
+  const historicalProcessingHint=flag=>!flag.kind&&!flag.at&&(
+    /^answer-match-\d+-\d+$/.test(flag.id??'')&&/^\S+: (?:unresolved answer match|answer reference must identify)/.test(flag.note??'')||
+    /^nr-p\d+-finding-\d+$/.test(flag.id??'')&&/^(?:Writing-space dimensions are provisional manual solution-step estimates\.|The required estimateWorkedWritingSpace helper could not be read or executed|Native diagrams require final-size rendering and visibility checks\.)/.test(flag.note??'')
+  );
+  for(const flag of project.studio?.flags??[]){
+    const owner=nodes.get(flag.targetId)?.block;
+    // These named proposals belong to the separate optional polish/pedagogy
+    // workflow. Keep them open in Studio without turning them into import
+    // source errors. Teacher, unknown and substantive findings still block.
+    const optionalLeanSuggestion=isLeanReview(project)&&['pedagogy-suggestion','polish-break-suggestion'].includes(flag.kind);
+    if(!flag.resolved&&!optionalLeanSuggestion&&!(flag.workflowIssue===true&&leanSourceReviewComplete)&&!(isLeanReview(project)&&reviewed.has(owner)&&historicalProcessingHint(flag)))issue(flag.kind??'review-finding',flag.targetId,flag.note??'Unresolved review finding.');
+  }
   for(const {node,block,ancestors}of nodes.values()){
     if((blocks.has(node)&&!mappedWrapper(node)||['part','subpart'].includes(node.type)&&!mappedScaffoldResponse(node,block,ancestors)&&!ownedPartResponse(node,block,ancestors)&&!ownedTeachingResponse(node,block,ancestors)||['tikz','svg','image'].includes(node.format))&&!targetIds.has(node.id)&&!(reviewed.has(block)&&inventoriedBlocks.has(block)))issue('unmapped-content',node.id,'Content has no source inventory mapping.');
     if(node!==block&&['question','part','subpart'].includes(node.type)&&!node.children?.length&&block.type==='question'){

@@ -212,10 +212,10 @@ test('a patch under missing objects creates the outermost one, canonicalised for
  assert.deepEqual(labels,{targetId:'q3',field:'/presentation',original:null,corrected:{answerPartLabels:{short:{'q3-a':'a'}}}});
 });
 
-test('a patch that leaves an empty entry in a list is refused before any save',()=>{
+test('a patch that nulls a labelled child is refused before any save',()=>{
  const project=booklet(),blocks=[project.sections[1].blocks[0]];
  const result=trialApply({blocks,settings:project.settings,corrections:[{id:'fp-hole',patches:[patch('q1-root','/children/1',structuredClone(blocks[0].content.children[1]),null)]}],applyCorrections});
- assert.deepEqual(result.accepted,[]);assert.match(result.comments[0].why,/empty entry in a list/);
+ assert.deepEqual(result.accepted,[]);assert.match(result.comments[0].why,/empty entry in a list|lost part label on q1-b/);
 });
 
 test('an arrangement whose ref names no content node is refused before any save',async()=>{

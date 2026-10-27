@@ -84,9 +84,12 @@ export function polishSafetyIssues(before,after,{reference=before,imported=null,
   }
  }
  // Preserve every existing exercise start, even when a content operation removes its first question.
- const starts=p=>{const seen=new Set(),out=[];for(const s of p.sections??[])if(s.phase==='practice'&&s.role!=='candidate-pool'&&s.blocks?.length&&!seen.has(s.topicId)){seen.add(s.topicId);out.push(s);}return out;};
- const afterStarts=new Map(starts(after).map(s=>[s.topicId,s]));
- for(const s of starts(before))if(s.blocks[0].flow?.exercisePageBreakBefore!==false){const n=afterStarts.get(s.topicId);if(!n||n.blocks[0].flow?.exercisePageBreakBefore===false)issues.push('removed exercise boundary '+s.id);}
+ const practices=p=>(p.sections??[]).filter(s=>s.phase==='practice'&&s.role!=='candidate-pool'&&s.blocks?.length);
+ const starts=p=>{const seen=new Set(),out=[];for(const s of practices(p))if(!seen.has(s.topicId)){seen.add(s.topicId);out.push(s);}return out;};
+ const nextStarts=starts(after),afterStarts=new Map(nextStarts.map(s=>[s.topicId,s])),afterStartsById=new Map(nextStarts.map(s=>[s.id,s])),afterPracticeById=new Map(practices(after).map(s=>[s.id,s]));
+ // A corrected topic identifier does not remove the same physical exercise start.
+ // A later section can retain that boundary through its explicit native page break.
+ for(const s of starts(before))if(s.blocks[0].flow?.exercisePageBreakBefore!==false){const same=afterPracticeById.get(s.id),retained=same?.blocks[0].id===s.blocks[0].id&&(afterStartsById.has(s.id)||same.blocks[0].flow?.pageBreakBefore===true),n=retained?same:afterStarts.get(s.topicId);if(!n||n.blocks[0].flow?.exercisePageBreakBefore===false)issues.push('removed exercise boundary '+s.id);}
  const oldOrder=new Map(oldBlocks.map((b,i)=>[b.id,i])),newOrder=new Map(newBlocks.map((b,i)=>[b.id,i]));
  for(let i=0;i<oldBlocks.length;i++)for(let j=i+1;j<oldBlocks.length;j++){
   const a=oldBlocks[i],b=oldBlocks[j];if(!isPractice(a)||!isPractice(b)||!newOrder.has(a.id)||!newOrder.has(b.id)||newOrder.get(a.id)<newOrder.get(b.id))continue;

@@ -32,7 +32,7 @@ const manifestFor=(edition,renderer,key,pdf)=>({passed:true,mode:'full',reviewPr
  });
 
  test('seeding copies verified bytes, preserves evidence and grants no visual credit',async t=>{
- const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'booklet-seeding-'));
+ const runDir=fs.mkdtempSync(path.join(process.env.TMP??os.tmpdir(),'booklet-seeding-'));
  t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
  const project=fixture(),projectFile=path.join(runDir,'project.json'),source=path.join(runDir,'final-exports-source'),out=path.join(runDir,'final-exports-target');
  fs.mkdirSync(source);fs.writeFileSync(projectFile,JSON.stringify(project));
@@ -88,3 +88,49 @@ const manifestFor=(edition,renderer,key,pdf)=>({passed:true,mode:'full',reviewPr
  await assert.rejects(seedUnchangedFinalExports({runDir,projectFile,out:path.join(runDir,'final-exports-unsafe-id')}),/Unsafe project/);
  assert.equal(fs.existsSync(path.join(runDir,'final-exports-unsafe-id')),false);
  });
+
+ test('nested review exports reuse only passed exact editions within the same run',async t=>{
+ const runDir=fs.mkdtempSync(path.join(process.env.TMP??os.tmpdir(),'booklet-review-seeding-'));
+ t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
+ const project=fixture(),projectFile=path.join(runDir,'project.json'),parent=path.join(runDir,'streamlined-exports'),source=path.join(parent,'1');
+ fs.mkdirSync(source,{recursive:true});fs.writeFileSync(projectFile,JSON.stringify(project));
+ const renderer=rendererSignature({lean:true}),stem=project.id+'-student',key=await layoutCacheKey(project,'student',renderer),bytes=Buffer.from('%PDF-review-fixture'),pdf=path.join(source,stem+'.pdf');
+ const manifestFile=path.join(source,stem+'.review.pages.json'),cacheFile=path.join(source,stem+'.review.verification.json');
+ const manifest={...manifestFor('student',renderer,key,{path:pdf,hash:hash(bytes)}),mode:'review'};
+ const reset=()=>{fs.writeFileSync(pdf,bytes);fs.writeFileSync(manifestFile,JSON.stringify(manifest));fs.writeFileSync(cacheFile,JSON.stringify({key,passed:true,pdfHash:hash(bytes),result:{issues:[],printed:[{issues:[]}]}}));};
+ reset();const original=fs.readFileSync(manifestFile);
+ const out=path.join(parent,'2'),seeded=await seedUnchangedFinalExports({runDir,projectFile,out});
+ assert.deepEqual(seeded.map(row=>row.edition),['student']);assert.equal(seeded[0].inspectionCredited,false);
+ assert.deepEqual(fs.readFileSync(manifestFile),original);assert.deepEqual(fs.readFileSync(path.join(out,stem+'.pdf')),bytes);
+ assert.ok(fs.existsSync(path.join(out,stem+'.review.verification.json')));
+ fs.renameSync(out,path.join(runDir,'preserved-review'));
+ for(const [name,change] of [['renderer',()=>fs.writeFileSync(manifestFile,JSON.stringify({...manifest,renderer:'wrong'}))],['failed',()=>fs.writeFileSync(manifestFile,JSON.stringify({...manifest,passed:false}))],['bytes',()=>fs.writeFileSync(pdf,'changed')],['mode',()=>fs.writeFileSync(manifestFile,JSON.stringify({...manifest,mode:'full'}))],['escape',()=>fs.writeFileSync(manifestFile,JSON.stringify({...manifest,pdf:{...manifest.pdf,path:path.join(runDir+'-sibling',stem+'.pdf')}}))]]){
+  reset();change();assert.deepEqual(await seedUnchangedFinalExports({runDir,projectFile,out:path.join(parent,String(3+['renderer','failed','bytes','mode','escape'].indexOf(name)))}),[],name);
+ }
+ reset();fs.writeFileSync(cacheFile,JSON.stringify({key,passed:true,pdfHash:hash(bytes),result:{issues:[{rule:'failed'}],printed:[{issues:[]}]}}));
+ assert.deepEqual(await seedUnchangedFinalExports({runDir,projectFile,out:path.join(parent,'10')}),[]);
+ reset();
+ await assert.rejects(seedUnchangedFinalExports({runDir,projectFile,out:path.join(runDir+'-sibling','streamlined-exports','1')}),/direct final-exports/);
+ await assert.rejects(seedUnchangedFinalExports({runDir,projectFile,out:path.join(parent,'0')}),/direct final-exports/);
+ // Directory junctions are symlinks on Windows and require no developer-mode privilege.
+ await t.test('symlink paths rejected',async st=>{
+ const linked=path.join(parent,'8');try{fs.symlinkSync(source,linked,process.platform==='win32'?'junction':'dir');}catch(error){if(error.code==='EPERM'){st.skip('Windows sandbox denies fixture junction creation');return;}throw error;}
+ await assert.rejects(seedUnchangedFinalExports({runDir,projectFile,out:linked}),/Symbolic filesystem path/);
+ fs.unlinkSync(linked);
+ fs.renameSync(source,path.join(runDir,'preserved-source'));
+ fs.symlinkSync(path.join(runDir,'preserved-source'),source,process.platform==='win32'?'junction':'dir');
+ assert.deepEqual(await seedUnchangedFinalExports({runDir,projectFile,out:path.join(parent,'9')}),[]);
+ fs.unlinkSync(source);
+ });
+ });
+
+test('master review exports require an isolated run candidate and reject bank links',async t=>{
+ const {requireReviewOnlyLocalProject}=await import('../scripts/booklet/check-compact-exercises.mjs');
+ const runDir=fs.mkdtempSync(path.join(process.env.TMP??os.tmpdir(),'booklet-review-isolation-'));t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
+ const candidateFile=path.join(runDir,'candidate.json');fs.writeFileSync(candidateFile,'{}');
+ const record={library:{category:'master'},sections:[{blocks:[]}]},options={candidateFile,runDir,out:path.join(runDir,'streamlined-exports','1')};
+ assert.doesNotThrow(()=>requireReviewOnlyLocalProject(record,options));
+ assert.throws(()=>requireReviewOnlyLocalProject(record,{}),/isolated run candidate/);
+ assert.throws(()=>requireReviewOnlyLocalProject(record,{...options,out:path.join(runDir,'elsewhere')}),/isolated run candidate/);
+ assert.throws(()=>requireReviewOnlyLocalProject({...record,sections:[{blocks:[{bankRef:'bank'}]}]},options),/without bank links/);
+});

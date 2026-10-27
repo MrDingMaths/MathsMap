@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { HOUSE_STYLE_PROMPT } from '../../src/lib/booklet-house-style.js';
 import { SOLUTION_CONVENTIONS } from './solution-conventions.mjs';
+import { DIAGRAM_SIZING_PROMPT } from '../../src/lib/booklet-diagram-sizing.js';
 import { normalizeDocument } from '../../public/libs/maths-editor/document-model.mjs';
 import {inspectSolid} from '../lib/solid-audit.mjs';
 import {isSolidCandidate,solidHash} from '../audit-solid-visibility.mjs';
@@ -11,7 +12,7 @@ const read=p=>fs.readFileSync(p,'utf8').replace(/^\uFEFF/,'');
 export function reconstructionPrompt(stage,promptVersion=4){
  const names={reconstruction:`scripts/booklet/prompts/reconstruction-v${promptVersion}.md`,diagrams:`scripts/booklet/prompts/diagram-reconstruction-v${promptVersion}.md`,tikz:'docs/tikz-prompt.md'};
  if(!names[stage])throw new Error('Unknown reconstruction stage');
- return read(path.join(root,names[stage]))+(['reconstruction','diagrams'].includes(stage)&&promptVersion>=4?'\n\n'+HOUSE_STYLE_PROMPT:'')+(stage==='reconstruction'&&promptVersion>=4?'\n\n'+SOLUTION_CONVENTIONS:'');
+ return read(path.join(root,names[stage]))+(['reconstruction','diagrams'].includes(stage)&&promptVersion>=4?'\n\n'+HOUSE_STYLE_PROMPT:'')+(stage==='reconstruction'&&promptVersion>=4?'\n\n'+SOLUTION_CONVENTIONS:'')+'\n\n'+DIAGRAM_SIZING_PROMPT;
 }
 export function diagramRecords(value){const found=[];const walk=v=>{if(!v||typeof v!=='object')return;if(v.format==='tikz'&&v.id)found.push(v);Object.values(v).forEach(walk);};walk(value);return found;}
 export function mergeDiagrams(candidate,reply){

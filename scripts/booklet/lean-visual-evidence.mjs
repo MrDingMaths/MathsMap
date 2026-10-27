@@ -39,8 +39,28 @@ export function retainPixelReviews(plan,state){
 export function visualOutcomeReader(state){
  const verify=rasterEvidenceReader();
  return (edition,row)=>{
-  const direct=state.pages?.[edition+':'+row.hash];if(direct)return direct;
+  const direct=state.pages?.[edition+':'+row.hash];
+  if(direct){
+   if(direct.raster||row.raster)return direct.edition===edition&&direct.raster&&row.raster&&direct.raster.image.hash===row.raster.image.hash&&verify(direct.raster)&&verify(row.raster)?direct:undefined;
+   if(!row.reviewProfile)return direct;
+  }
   const retained=row.retainedReviewKey&&state.pages?.[row.retainedReviewKey];
   if(retained?.edition===edition&&retained.raster?.image.hash===row.raster?.image.hash&&verify(retained.raster)&&verify(row.raster))return retained;
  };
+}
+
+// Rebuild required source coverage independently; a stored plan contributes only
+// byte-verifiable evidence for that exact current PDF page and current hash.
+export function overlayVisualEvidence(required,stored){
+ const result=structuredClone(required);
+ for(const [edition,entry]of Object.entries(result)){
+  const candidates=[...(stored?.[edition]?.pending??[]),...(stored?.[edition]?.reused??[])];
+  for(const row of entry.pending){
+   const proof=candidates.find(old=>old.page===row.page&&old.hash===row.hash&&old.raster?.page===row.page&&old.raster.pdf?.path===entry.pdf?.path&&old.raster.pdf?.hash===entry.pdf?.hash);
+   if(!proof)continue;
+   row.raster=proof.raster;row.image=proof.raster.image?.path;
+   if(proof.retainedReviewKey)row.retainedReviewKey=proof.retainedReviewKey;
+  }
+ }
+ return result;
 }

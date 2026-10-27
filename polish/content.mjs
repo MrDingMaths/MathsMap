@@ -8,10 +8,10 @@
 // and opening reviews are not here: they are suggestions for the teacher (polish/pedagogy.mjs, polish/flags.mjs).
 import fs from 'node:fs';
 import path from 'node:path';
-import {questionReviewContent} from '../src/lib/booklet-review-profile.js';
+import {printableProject} from '../src/lib/booklet-review-profile.js';
 import {changeBlockRole} from '../src/lib/booklet-layout-actions.js';
 import {bookletIndex,pool,targetsUnchanged,setState,loadProvenance,saveProvenance,provenanceFile} from '../first-pass/review.mjs';
-import {groupFindings,blockPayload} from '../first-pass/apply.mjs';
+import {groupFindings,blockPayload,RENDERER_FIELDS} from '../first-pass/apply.mjs';
 import {read,write,now} from '../checks/lib/common.mjs';
 import {nodesOf,polishSafetyIssues,teacherBlocks} from './guards.mjs';
 import {repairRoute,FEEDBACK_CHECKS} from './repair-routing.mjs';
@@ -21,29 +21,46 @@ export const CONTENT_AREAS=Object.freeze(['content','duplicate']);
 export const SUGGESTION_AREAS=Object.freeze(['extension','review']);
 export const ROLES=Object.freeze(['theory','definition','example','guided-practice','question','review','investigation','key-ideas']);
 
+// The repair check needs all printed fields, including response labels stored in
+// sourceReview. Other historical review/acceptance metadata is not evidence.
+const repairContent=block=>{
+ const printed=printableProject(block);
+ const restore=(source,target)=>{
+  if(!source||!target||typeof source!=='object'||typeof target!=='object')return;
+  if(source.sourceReview?.responses)target.sourceReview={responses:structuredClone(source.sourceReview.responses)};
+  for(const key of Object.keys(target))if(key!=='sourceReview')restore(source[key],target[key]);
+ };
+ restore(block,printed);return printed;
+};
+
 // The pending findings this step repairs, not on a block the teacher decided.
 export function contentFindings(record,project,protectedIds=new Set()){
  const index=bookletIndex(project);
  return (record.findings??[]).filter(finding=>finding.state==='pending'&&repairRoute(finding)==='content'&&!finding.groupedUnder&&targetsUnchanged(finding,project,index)&&!finding.targets.some(target=>protectedIds.has(target.blockId)));
 }
 
-export function authorPrompt({project,index,group,pages}){
+export function authorPrompt({project,index,group,pages,renderedPages=[]}){
  const ids=[...new Set(group.flatMap(finding=>finding.targets.map(target=>target.blockId)))];
  const targetsOf=id=>[...new Set(group.flatMap(finding=>finding.targets.filter(target=>target.blockId===id).map(target=>target.id)))];
  const payload={booklet:project.title,findings:group.map(finding=>({id:finding.id,edition:finding.edition,page:finding.page,area:finding.area,targets:finding.targets.map(target=>target.id),comment:finding.comment,...(finding.proposal?{proposal:finding.proposal}:{})})),
-  blocks:ids.map(id=>({...blockPayload(project,index,id,targetsOf(id)),content:questionReviewContent(index.blocks.get(id).block)})),sourcePages:pages.map((page,i)=>({image:i+1,sourcePage:page.page}))};
- return `You correct printed CONTENT in a MathsMap maths booklet. Do not run commands or open files: everything you need is below and in the attached images (the original document's pages, in the order of "sourcePages"). A reviewer looked at the rendered booklet beside the source and wrote the findings. Decide whether each is right; if it is, return the smallest exact-field patches that fix it.
+  blocks:ids.map(id=>{const {json,note,...layout}=blockPayload(project,index,id,targetsOf(id));return {...layout,content:repairContent(index.blocks.get(id).block)};}),sourcePages:pages.map((page,i)=>({image:i+1,sourcePage:page.page})),...(renderedPages.length?{currentRenderedPages:renderedPages.map((page,i)=>({image:pages.length+i+1,edition:page.edition,page:page.page}))}:{})};
+ return `You correct printed CONTENT in a MathsMap maths booklet. Do not run commands or open files: everything you need is below and in the attached images (the original document's pages in "sourcePages", followed by any existing booklet pages in "currentRenderedPages"). Those current pages show the reported defect BEFORE this repair, not its corrected result. A reviewer looked at the rendered booklet beside the source and wrote the findings. Decide whether each is right; if it is, return the smallest exact-field patches that fix it.
 
 Rules:
 - Structural and diagram-code repairs are allowed here, including moving diagrams into table cells and removing redundant scaffolds; retain all givens, response owners, answers and teacher exceptions. ${FEEDBACK_CHECKS}
 - A patch is {"targetId": id of the block or of a node inside it, "field": JSON pointer relative to that node, "original": exact current value (null if absent), "corrected": final value}. "original" must match exactly or the patch is rejected. Each block lists its nodes with their id path and pointer.
 - Answers: derive every answer you change yourself, from the question as printed and the source page; never copy an answer from a finding. Change answer.short and answer.worked (and any steps) together so they agree, using the method the booklet teaches.
 - Theory wording follows the source page. Keep the booklet's structure and house style; change as little as possible.
+- Use only supported renderer fields below. A descriptive or invented property is not a repair: for example cloze.blankStyle is unsupported and cannot suppress its dots. A correction requiring project-level arrangement/edition settings must be identified precisely in comments for the layout path, rather than pretending that a block-only field overrides them.
+- An annotated formula is ONE normally spaced expression, never symbols distributed across table cells. Use the supported native shape {id,type:"annotated-equation",latex:"y=k\\\\cdot a^{x}+c",fontSize:null,width:80,gap:5,align:"center",arrowAlignment:"vertical",anchors:[{id:"factor",start:2,end:3,text:"k"}],annotations:[{id:"factor-label",targetId:"factor",placement:"below",colour:"#000000",decoration:"arrow",blocks:[{id:"factor-text",type:"paragraph",inlines:[{type:"text",text:"Factor"}]}]}]}. Derive each anchor range from the actual latex string and group superscripts/subscripts with braces. Preserve all source explanations and target relationships. A shared label may use optional additionalTargetIds:["other-anchor"] alongside targetId to point to multiple anchored terms without duplicating its text. Keep one complete formula, derive every anchor range from its latex, and verify the exact printed arrow endpoints; final-size visual verification remains mandatory.
 - To add a part to a question, patch the parent's /children with the full new array: the next label in the sequence, its own unique id, and its answers. To merge a follow-up question into the question before it, do that and name the follow-up block in "remove".
 - A block in the wrong role: give "role" (one of ${ROLES.join(', ')}) and "blockId" instead of patches.
 - A duplicate task: change the later copy into a task with the same structure and different numbers, with its answers (patches). Only when no sensible change exists, or after a merge, "remove" names the block to take out.
 - A finding that is wrong, or that you cannot fix from the evidence, goes in "comments" with a reason. Never guess.
 - Return one JSON object and nothing else: {"corrections":[{"id":"FINDING_ID","reason":"...","patches":[...],"role":"...","blockId":"...","remove":"BLOCK_ID"}],"comments":[{"findingId":"FINDING_ID","why":"..."}]}. Every finding id appears in exactly one of the two lists. Omit the keys a correction does not use.
+
+Renderer fields (project-settings patches remain disallowed on this content path):
+${RENDERER_FIELDS}
 
 Input:
 ${JSON.stringify(payload)}`;
@@ -54,6 +71,8 @@ export function checkPrompt({changes,pages}){
  return `You are the independent checker of corrections made to a printed MathsMap maths booklet. Do not run commands or open files: everything is below and in the attached images (the original document's pages, in the order of "sourcePages"). Another worker wrote each correction; you have not seen its reasoning.
 
 For every correction: first derive, yourself, the correct answer to each question or part it touches (from the question as printed in "after" and the source page), and only then compare your answer with the "after" answer.short and answer.worked. Then check that the question still matches the source, that the short and worked answers agree, that the working uses the method the booklet teaches, and that nothing else was lost. Theory wording corrections must match the source page. A role change must put the block where the source puts it. Accept a correction only when every changed answer is yours. Verify the exact requested structural relationship in the finding against before/after data. ${FEEDBACK_CHECKS} A successful content check still needs affected-page visual verification before completion.
+
+This is the content check BEFORE saving and rendering the proposed repair. Corrected-page images are therefore not supplied yet. Check mathematical content, source fidelity, native structure and encoded diagram geometry from the before/after data; reject defects actually present there (including a formula still split across unrelated cells). Do not reject an otherwise correct content repair solely because corrected-page images are absent, and do not claim that visual clearance has passed. The saved repair remains visualVerified:false until the separate mandatory affected-page render and visual check establish the requested printed result.
 
 Return one JSON object and nothing else: {"checks":[{"id":"FINDING_ID","verdict":"accept|reject","derived":"your answer to each changed question, in short","note":"why, in under 25 words"}]} with exactly one entry per correction.
 
@@ -109,7 +128,7 @@ const changedFields=(before,after)=>{
 
 // ask({prompt, images, name}) -> {result}. The default is the one model path of the polish steps (Sol low, at most
 // three workers per booklet).
-export async function runContentRepair({projectFile,provenanceDir,polishDir,runDir=null,protectedIds=null,concurrency=3,ask=null,applyRepairFn=null,safetyGuard=null,log=()=>{}}={}){
+export async function runContentRepair({projectFile,provenanceDir,polishDir,runDir=null,exportDir=null,protectedIds=null,concurrency=3,ask=null,applyRepairFn=null,safetyGuard=null,log=()=>{}}={}){
  const started=Date.now(),project=read(projectFile),index=bookletIndex(project),file=provenanceFile(project.id,{provenanceDir}),record=loadProvenance(file,project);
  protectedIds??=teacherBlocks(project);
  const safe=safetyGuard??(next=>polishSafetyIssues(project,next,{protectedIds,spacing:false}));
@@ -119,6 +138,15 @@ export async function runContentRepair({projectFile,provenanceDir,polishDir,runD
  const dir=path.join(polishDir,'content');fs.mkdirSync(dir,{recursive:true});
  const askModel=ask??(async({prompt,images,name})=>(await import('../checks/lib/model.mjs')).askJson({prompt,project,workDir:path.join(dir,'calls'),name,images}));
  const pageFile=page=>runDir&&path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png');
+ const visualPlan=exportDir&&fs.existsSync(path.join(exportDir,'visual-plan.json'))?read(path.join(exportDir,'visual-plan.json')):{};
+ const renderedFor=group=>{
+  const pages=[];
+  for(const finding of group){
+   const row=visualPlan[finding.edition]?.pending?.find(row=>row.page===finding.page);
+   if(row?.image&&fs.existsSync(row.image)&&!pages.some(page=>page.edition===finding.edition&&page.page===finding.page))pages.push({edition:finding.edition,page:finding.page,path:row.image});
+  }
+  return pages;
+ };
  const sourceFor=ids=>{
   const pages=[];
   for(const id of ids){const block=index.blocks.get(id)?.block;if(!block)continue;for(const page of [block.sourcePageNumber,...(block.sourceRefs??[]).map(ref=>ref.pageNumber)])if(Number.isInteger(page)&&!pages.some(row=>row.page===page)&&pageFile(page)&&fs.existsSync(pageFile(page)))pages.push({page,path:pageFile(page)});}
@@ -127,10 +155,10 @@ export async function runContentRepair({projectFile,provenanceDir,polishDir,runD
  const byId=new Map(pending.map(finding=>[finding.id,finding])),corrections=[],comments=new Map();
  // 1. the author, one batch of findings per shared block
  await pool(groupFindings(pending),Math.max(1,Math.min(3,concurrency)),async group=>{
-  const ids=[...new Set(group.flatMap(finding=>finding.targets.map(target=>target.blockId)))],pages=sourceFor(ids);
+  const ids=[...new Set(group.flatMap(finding=>finding.targets.map(target=>target.blockId)))],pages=sourceFor(ids),renderedPages=renderedFor(group);
   try{
    result.calls++;
-   const {result:answer}=await askModel({prompt:authorPrompt({project,index,group,pages}),images:pages.map(page=>page.path),name:'content-author'});
+   const {result:answer}=await askModel({prompt:authorPrompt({project,index,group,pages,renderedPages}),images:[...pages,...renderedPages].map(page=>page.path),name:'content-author'});
    const seen=new Set();
    for(const row of Array.isArray(answer?.corrections)?answer.corrections:[])if(byId.has(row?.id)&&!seen.has(row.id)&&group.some(finding=>finding.id===row.id)){seen.add(row.id);corrections.push({...row,group:ids,pages});}
    for(const row of Array.isArray(answer?.comments)?answer.comments:[])if(byId.has(row?.findingId)&&!seen.has(row.findingId)){seen.add(row.findingId);comments.set(row.findingId,String(row.why??'Not fixable from the evidence.'));}
@@ -154,15 +182,18 @@ export async function runContentRepair({projectFile,provenanceDir,polishDir,runD
   const unsafe=safe(op.project);if(unsafe.length){comments.set(correction.id,'Unsafe content repair: '+unsafe.join('; '));continue;}
   operated=op.project;
   blocks.splice(0,blocks.length,...trial);
-  staged.push({...correction,patches,operation,touched:[...new Set([...outcome.applied.map(row=>row.blockId),...(operation?[operation.blockId]:[])])]});
+  staged.push({...correction,patches,operation,touched:[...new Set([...outcome.applied.map(row=>row.blockId),...(operation?[operation.blockId,operation.remove].filter(Boolean):[])])]});
  }
  // 3. the independent check of everything staged
- const verdicts=new Map(),afterIndex=bookletIndex({...project,sections:[{id:'after',phase:'practice',blocks}]});
+ // Structural operations and presentation fields are part of the proposed printed
+ // repair. The mathematical review projection intentionally omits those fields;
+ // using it here hides label-display/alignment patches and role/removal effects.
+ const verdicts=new Map(),afterIndex=bookletIndex(operated);
  const checkable=staged.map(row=>({row,before:row.touched.map(id=>index.blocks.get(id)?.block).filter(Boolean),after:row.touched.map(id=>afterIndex.blocks.get(id)?.block).filter(Boolean)}));
  const batches=[];for(const item of checkable){const last=batches.at(-1);if(last&&last.length<4&&last.reduce((n,x)=>n+JSON.stringify(x.after).length,0)<30000)last.push(item);else batches.push([item]);}
  await pool(batches,Math.max(1,Math.min(3,concurrency)),async batch=>{
   const pages=[...new Map(batch.flatMap(item=>sourceFor(item.row.group)).map(page=>[page.page,page])).values()].slice(0,8);
-  const changes=batch.map(({row,before,after})=>({id:row.id,reason:row.reason,requested:byId.get(row.id)?.comment,fieldsChanged:before.flatMap((block,i)=>changedFields(questionReviewContent(block),questionReviewContent(after[i]??block))),...(row.operation?.role?{newRole:row.operation.role}:{}),...(row.operation?.remove?{removedBlock:row.operation.remove}:{}),before:before.map(questionReviewContent),after:after.map(questionReviewContent)}));
+  const changes=batch.map(({row,before,after})=>({id:row.id,reason:row.reason,requested:byId.get(row.id)?.comment,fieldsChanged:before.flatMap(block=>changedFields(repairContent(block),after.find(next=>next.id===block.id)?repairContent(after.find(next=>next.id===block.id)):null)),...(row.operation?.role?{newRole:row.operation.role}:{}),...(row.operation?.remove?{removedBlock:row.operation.remove}:{}),before:before.map(repairContent),after:after.map(repairContent)}));
   try{
    result.calls++;
    const {result:answer}=await askModel({prompt:checkPrompt({changes,pages}),images:pages.map(page=>page.path),name:'content-check'});

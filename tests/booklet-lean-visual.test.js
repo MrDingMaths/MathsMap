@@ -52,8 +52,8 @@ test('a layout sample draft-renders the three standalone editions, rasterises on
  const result=await runLayoutSample({runDir:dir,projectId:'book',projectFile,out,limit:3},{exportRuntime,rasterize});
  assert.deepEqual(exportArgs.extraArgs,['--draft','--editions','student,short,worked']);
  assert.equal(result.ok,true);assert.equal(result.coversPracticeAnswers,true);assert.deepEqual(result.lint,{blocking:[],review:[]});
- assert.deepEqual(rasterCalls.map(c=>c.pages),[[2,3],[1]]);
- assert.deepEqual(result.pages.map(p=>p.edition+':'+p.page),['student:2','student:3','worked:1']);
+ assert.deepEqual(rasterCalls.map(c=>c.pages),[[2,3],[1],[1]],'include an answer page even when teaching layouts fill the selection');
+ assert.deepEqual(result.pages.map(p=>p.edition+':'+p.page),['student:2','student:3','short:1','worked:1']);
  assert.equal(result.visualAcceptance,false);
  assert.ok(fs.existsSync(result.file));
  await assert.rejects(runLayoutSample({runDir:dir,projectId:'book',projectFile:write(dir,'legacy.json',{id:'book',sections:[]}),out},{exportRuntime}),/three-pass/);

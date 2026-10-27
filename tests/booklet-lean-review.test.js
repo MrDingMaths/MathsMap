@@ -8,7 +8,110 @@ import {contentHash,pendingBlocks,batchBlocks,applyCorrections,recordContentResu
 import {contentPrompt,contentImages,supplementalSourceImages,practiceContentEvidence,PRACTICE_CONTENT_EVIDENCE_VERSION} from '../scripts/booklet/lean-review.mjs';
 import {createHash} from 'node:crypto';
 import {prepareExportVisualPlan} from '../scripts/booklet/lean-review.mjs';
+import {VISUAL_BREAK_POLICY,VISUAL_REVIEW_CONTRACT_HASH,VISUAL_CONTRACT,VISUAL_PIXEL_GUIDANCE,BLANK_STYLE_REVIEW_GUIDANCE,CONTENT_CONTRACT} from '../scripts/booklet/lean-review.mjs';
 import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
+
+test('visual policy changes allow one actual failed-page review, hold same-contract defects and retain accepted rows',async t=>{
+ const runDir=fs.mkdtempSync(path.join(path.resolve('.booklet-work'),'visual-contract-test-'));t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
+ const file=path.join(runDir,'candidate.json'),exportDir=path.join(runDir,'export');fs.mkdirSync(exportDir);fs.mkdirSync(path.join(runDir,'lean-review'));
+ fs.writeFileSync(file,JSON.stringify({id:'p',sections:[]}));
+ const pending=[1,2,3].map(page=>({page,hash:'page-'+page,blocks:[],image:'page-'+page+'.png'}));fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify({student:{pending}}));
+ const accepted={outcome:'accepted',at:'original',finding:'',reviewContractHash:'old-contract'},same={outcome:'needs-change',finding:'Real clipped table',reviewContractHash:VISUAL_REVIEW_CONTRACT_HASH};
+ fs.writeFileSync(path.join(runDir,'lean-review/reviewed.json'),JSON.stringify({pages:{'student:page-1':accepted,'student:page-2':{outcome:'needs-change',finding:'Remove forced exercise break',reviewContractHash:'old-contract'},'student:page-3':same}}));
+ let calls=0;const reviewed=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async({prompt,images})=>{
+  calls++;assert.deepEqual(images,['page-2.png']);assert.ok(prompt.includes(VISUAL_BREAK_POLICY));
+  return {result:{pages:[{page:2,outcome:'needs-change',finding:'A real collision remains.'}]}};
+ }});
+ assert.equal(reviewed.pagesInspected,1);assert.equal(calls,1);
+ const actual=loadReviewed(path.join(runDir,'lean-review'));assert.deepEqual(actual.pages['student:page-1'],accepted);assert.deepEqual(actual.pages['student:page-3'],same);assert.equal(actual.pages['student:page-2'].reviewContractHash,VISUAL_REVIEW_CONTRACT_HASH);
+ const held=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async()=>assert.fail('Same-contract known defects must be repaired before rereview')});assert.equal(held.pagesInspected,0);
+});
+
+test('visual contract provenance is stamped only on actual returned page reviews',()=>{
+ const state={pages:{'student:missing':{outcome:'needs-change',reviewContractHash:'old-contract'}}},before=structuredClone(state.pages['student:missing']);
+ recordVisualResult({batch:{edition:'student',reviewContractHash:VISUAL_REVIEW_CONTRACT_HASH,rows:[{page:1,hash:'returned'},{page:2,hash:'missing'}]},result:{pages:[{page:1,outcome:'accepted'}]},state});
+ assert.equal(state.pages['student:returned'].reviewContractHash,VISUAL_REVIEW_CONTRACT_HASH);assert.deepEqual(state.pages['student:missing'],before);
+});
+
+test('actual review prompts distinguish thin-stroke thumbnails and restrict the parenthesised exception to fractions',()=>{
+ assert.ok(VISUAL_CONTRACT.includes(VISUAL_PIXEL_GUIDANCE));
+ assert.match(VISUAL_PIXEL_GUIDANCE,/full-resolution listed PNG or its verified pixel crop/);
+ assert.match(VISUAL_PIXEL_GUIDANCE,/thumbnail omission is not a defect/);
+ assert.match(VISUAL_PIXEL_GUIDANCE,/genuinely absent or illegibly faint stroke remains a required defect/);
+ assert.match(VISUAL_PIXEL_GUIDANCE,/SVG path or claimed pixel test alone does not grant acceptance/);
+ assert.ok(VISUAL_CONTRACT.includes(BLANK_STYLE_REVIEW_GUIDANCE));
+ assert.ok(CONTENT_CONTRACT.includes(BLANK_STYLE_REVIEW_GUIDANCE));
+ assert.match(BLANK_STYLE_REVIEW_GUIDANCE,/only to fraction numerator or denominator blanks/);
+ assert.match(BLANK_STYLE_REVIEW_GUIDANCE,/Ordinary angle and equation blanks remain native dotted clozes unless an explicit local exception/);
+});
+
+test('clarified contracts attach supplemental details after full pages and allow one actual rereview without changing old raw findings',async t=>{
+ const runDir=fs.mkdtempSync(path.join(path.resolve('.booklet-work'),'visual-pixel-contract-test-'));t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
+ const file=path.join(runDir,'candidate.json'),exportDir=path.join(runDir,'export'),dir=path.join(runDir,'lean-review');fs.mkdirSync(exportDir);fs.mkdirSync(dir);
+ fs.writeFileSync(file,JSON.stringify({id:'p',sections:[]}));
+ const pending=[1,2,3,4].map(page=>({page,hash:'page-'+page,blocks:[],image:'page-'+page+'.png'}));
+ fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify({short:{pdf:{path:'original-checked.pdf',hash:'original-pdf-hash'},pending}}));
+ const accepted={outcome:'accepted',reviewContractHash:'earlier',at:'original'},real={outcome:'needs-change',finding:'An illegibly faint stroke remains.',reviewContractHash:VISUAL_REVIEW_CONTRACT_HASH};
+ const previous={pages:{'short:page-1':accepted,'short:page-2':{outcome:'needs-change',finding:'The thin axis appears missing in the thumbnail.',reviewContractHash:'before-clarification'},'short:page-3':real,'short:page-4':{outcome:'needs-change',finding:'Replace this ordinary angle blank with empty parentheses.',reviewContractHash:'before-clarification'}}};
+ const originalRaw=path.join(dir,'original-review.json');fs.writeFileSync(originalRaw,JSON.stringify(previous));const rawHash=createHash('sha256').update(fs.readFileSync(originalRaw)).digest('hex');
+ fs.writeFileSync(path.join(dir,'reviewed.json'),JSON.stringify(previous));let calls=0;
+ const result=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:(pdf,page)=>{assert.equal(pdf.hash,'original-pdf-hash');return [{page,imagePath:'detail-'+page+'.png',supplemental:true,sourceImageHash:'original-page-'+page,rectangle:[10,20,30,40],scale:3,method:'nearest-neighbour'}];},runner:async({prompt,images})=>{
+  calls++;assert.deepEqual(images,['page-2.png','page-4.png','detail-2.png','detail-4.png']);
+  assert.ok(prompt.includes(VISUAL_PIXEL_GUIDANCE));assert.ok(prompt.includes(BLANK_STYLE_REVIEW_GUIDANCE));
+  assert.match(prompt,/Details never replace or rebind the original full-page evidence/);
+  const payload=JSON.parse(prompt.slice(prompt.indexOf('\n\n{')+2));assert.deepEqual(payload.pages.map(p=>p.page),[2,4]);
+  assert.deepEqual(payload.details.map(d=>d.scale),[3,3]);
+  return {result:{pages:[{page:2,outcome:'accepted'},{page:4,outcome:'needs-change',finding:'A real clipped expression remains.'}]}};
+ }});
+ assert.equal(calls,1);assert.equal(result.pagesInspected,2);
+ const saved=loadReviewed(dir);assert.deepEqual(saved.pages['short:page-1'],accepted);assert.deepEqual(saved.pages['short:page-3'],real);
+ assert.equal(saved.pages['short:page-2'].reviewContractHash,VISUAL_REVIEW_CONTRACT_HASH);
+ assert.equal(createHash('sha256').update(fs.readFileSync(originalRaw)).digest('hex'),rawHash);
+ const held=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async()=>assert.fail('A same-contract required defect cannot be retried without repair')});
+ assert.equal(held.pagesInspected,0);
+});
+
+test('content packets request explicit completed-check fields and bind the reuse contract to assigned rows',()=>{
+ const block={id:'q',type:'question',content:{id:'root',prompt:'Find 2 + 3.',answer:{short:'5',worked:'2 + 3 = 5.'}}};
+ const section={id:'practice',phase:'practice',blocks:[block]},project={title:'Addition',sections:[section]};
+ const batch={section,rows:[{block}]};
+ const full=contentPrompt({project,batch,reuse:{contexts:[]}});
+ assert.match(full,/include mathematicsReviewed:true only if you actually completed/);
+ assert.match(full,/Do not claim a check merely to fill the response schema/);
+ assert.equal(JSON.parse(full.split('\n\n').at(-1)).reuseCandidates,undefined);
+ batch.rows[0].reuse={mode:'amendments',amendmentHash:'current-amendment',amendments:[{field:'/content/prompt'}]};
+ const local=contentPrompt({project,batch});
+ const payload=JSON.parse(local.split('\n\n').at(-1));
+ assert.equal(payload.reuseCandidates[0].id,'q');
+ assert.equal(payload.reuseCandidates[0].amendmentHash,'current-amendment');
+ assert.match(local,/sourceEquivalent/);assert.match(local,/taughtMethodEquivalent/);
+});
+
+test('answer visual batches attach every listed source page, including a dense single page',async t=>{
+ const runDir=fs.mkdtempSync(path.join(os.tmpdir(),'lean-answer-sources-'));t.after(()=>fs.rmSync(runDir,{recursive:true,force:true}));
+ const blocks=[['a',[1,2,3,4,5]],['b',[6,7,8,9,10]],['dense',[1,2,3,4,5,6,7,8,9,10]]].map(([id,pages])=>({id,type:'question',sourceRefs:pages.map(pageNumber=>({pageNumber})),content:{id:id+'-root',type:'question',prompt:'Read the graph.'}}));
+ const project={id:'p',sections:[{phase:'practice',blocks}]},file=path.join(runDir,'candidate.json'),exportDir=path.join(runDir,'export');
+ fs.mkdirSync(exportDir);fs.writeFileSync(file,JSON.stringify(project));fs.writeFileSync(path.join(runDir,'manifest.json'),JSON.stringify({completionProfile:'streamlined-import-v2'}));fs.mkdirSync(path.join(runDir,'evidence/pages'),{recursive:true});
+ for(let page=1;page<=10;page++)fs.writeFileSync(path.join(runDir,'evidence/pages','page-'+String(page).padStart(3,'0')+'.png'),'source');
+ const pending=blocks.map((block,i)=>({page:i+1,hash:'page-'+i,blocks:[block.id],image:'rendered-'+i+'.png'}));
+ fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify({worked:{pending}}));let calls=0;
+ const result=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async({prompt,images})=>{
+  calls++;const payload=JSON.parse(prompt.slice(prompt.indexOf('\n\n{')+2));
+  assert.equal(payload.pages.length,1,'answer batches split before truncating evidence');
+  assert.equal(payload.sourcePages.length,payload.pages[0].blocks[0]==='dense'?10:5);
+  assert.equal(images.length,1+payload.sourcePages.length);
+  assert.equal(payload.sourceImages,payload.sourcePages.length);
+  return {result:{pages:[{page:payload.pages[0].page,outcome:'accepted'}]}};
+ }});
+ assert.deepEqual(result.errors,[]);assert.equal(calls,3);assert.equal(result.pagesInspected,3);
+ const reviewed=loadReviewed(path.join(runDir,'lean-review'));reviewed.pages['worked:page-0']={...reviewed.pages['worked:page-0'],outcome:'needs-change',finding:'Source page 1 was not supplied',sourceEvidenceHash:'incomplete-evidence'};
+ fs.writeFileSync(path.join(runDir,'lean-review/reviewed.json'),JSON.stringify(reviewed));let retries=0;
+ const retryRunner=async({images})=>{retries++;assert.equal(images.length,6);return {result:{pages:[{page:1,outcome:'needs-change',finding:'Source page 1 was not supplied'}]}};};
+ const restored=await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:retryRunner});
+ assert.equal(restored.pagesInspected,1,'new complete source evidence permits the previously incomplete comparison');
+ await runVisualReview({runDir,projectFile:file,exportDir,nativeDetails:()=>[],runner:async()=>assert.fail('Do not reread unchanged pixels and evidence')});
+ assert.equal(retries,1);
+});
 
 test('failed automated exports can be inspected without granting acceptance or using stale project content',async()=>{
  const project=fixture(),{runDir,file}=workspace(project),out=path.join(runDir,'failed-export');fs.mkdirSync(out);
@@ -50,7 +153,7 @@ test('fallback reuse references record actual full review without renewing accep
  assert.equal(recordReuseFallbacks(project,{questions:{copy:{...prior,hash:'stale'}}},context),0);
 });
 
-test('scoped visual repairs keep neighbours, moved content and flags without rereading hash-only changes',()=>{
+test('scoped visual repairs retain unproven hash changes alongside neighbours and flags',()=>{
  const editions=['student','short','worked','with-short','with-worked'],project={sections:[{blocks:[{id:'fixed'},{id:'unchanged'}]}]},plan={},previousPlan={},report={},previousReport={},state={pages:{}};
  for(const edition of editions){
   const old=Array.from({length:7},(_,i)=>({page:i+1,hash:'old-'+edition+'-'+i,blocks:[i===2?'fixed':'unchanged']}));
@@ -60,8 +163,9 @@ test('scoped visual repairs keep neighbours, moved content and flags without rer
  }
  state.pages['student:old-student-2'].outcome='needs-change';
  const scoped=scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['fixed']});
- assert.deepEqual(scoped.student.pending.map(p=>p.page),[2,3,4,5,6,7]);
- assert.deepEqual(scoped['with-short'].pending.map(p=>p.page),[3,6]);
+ assert.deepEqual(scoped.student.pending.map(p=>p.page),[1,2,3,4,5,6,7]);
+ assert.deepEqual(scoped['with-short'].pending.map(p=>p.page),[1,2,3,4,5,6,7]);
+ assert.equal(scoped.student.reused.length,0,'hashes and scope alone cannot prove pixel acceptance');
  assert.equal(plan.student.pending.length,7,'the input plan is unchanged');
  assert.throws(()=>scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['unchanged']}),/outstanding finding/);
  delete state.pages['short:old-short-0'];
@@ -91,8 +195,8 @@ test('scoped visual repair consumes moved page sequences and retains new/reflowe
   previousPlan[edition]={pending:old};plan[edition]={pending:current};previousReport[edition]={pageHashes:old};report[edition]={pageHashes:current,issues:[]};for(const row of old)state.pages[edition+':'+row.hash]={outcome:'accepted'};
  }
  const snapshot=structuredClone(state),scoped=scopeRepairedVisualPlan({project,plan,report,previousPlan,previousReport,state,repairBlocks:['fixed']});
- assert.deepEqual(scoped.student.pending.map(p=>p.page),[1,2,3,4,9,10,11]);
- assert.ok(!scoped.student.pending.some(p=>[5,6,7,8].includes(p.page)),'unchanged shifted bodies are not inspected again');
+ assert.deepEqual(scoped.student.pending.map(p=>p.page),Array.from({length:11},(_,i)=>i+1));
+ assert.equal(scoped.student.reused.length,0,'matching shifted block sequences do not establish inspected pixels');
  assert.deepEqual(scoped['with-short'].pending.map(p=>p.page),Array.from({length:11},(_,i)=>i+1),'the existing combined composition selection remains current when page count changes');
  assert.deepEqual(state,snapshot,'scoping neither records nor rebinds acceptance');
 });
@@ -251,6 +355,29 @@ test('content review saves corrections, fills the table and resumes without repe
  await runContentReview({runDir,projectFile:file,runner,skills:[]});
  assert.deepEqual(calls.at(-1),['q5'],'only the edited block is reviewed again');
  assert.deepEqual(reviewStatus({runDir,projectFile:file}).failed,['q3']);
+});
+
+test('a layout-stale rating is reassessed through the existing review even when the mathematical hash is current',async()=>{
+ const p=fixture(),block=p.sections[2].blocks[0];
+ block.content.prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'aligned-prompt',type:'paragraph',align:'center',inlines:[{type:'text',text:'Find 2 + 2.'}]}]};
+ block.classification={...block.classification,...assessedRating(block,block.classification,{model:'gpt-6.1-sol',assessedAt:'2026-10-24T00:00:00Z',evidence:'original-call.txt'})};
+ const snapshot=structuredClone(block),{runDir,file,dir}=workspace(p);
+ const state={questions:Object.fromEntries(p.sections.flatMap(s=>s.blocks).map(b=>[b.id,{hash:contentHash(b),outcome:'passed',acceptedVersion:{snapshot:structuredClone(b)}}])),pages:{}};
+ block.content.prompt.blocks[0].align='left';fs.writeFileSync(file,JSON.stringify(p));
+ fs.mkdirSync(dir,{recursive:true});
+ fs.writeFileSync(path.join(dir,'reviewed.json'),JSON.stringify(state));
+ assert.equal(contentHash(block),contentHash(snapshot),'alignment does not invalidate accepted mathematics');
+ assert.equal(pendingBlocks(p,state).length,0,'ordinary content selection previously skipped this case');
+ let calls=0;
+ const result=await runContentReview({runDir,projectFile:file,skills:[],runner:async({prompt})=>{
+  calls++;assert.deepEqual(idsIn(prompt),[block.id]);
+  return {result:{records:[{id:block.id,outcome:'passed',note:'Independently assessed the unchanged task demand.',mathematicsReviewed:true}]},metrics:{model:'gpt-6.1-sol',endedAt:'2026-10-25T00:00:00Z',externalModelCalls:1}};
+ }});
+ assert.equal(result.batches,1);assert.equal(calls,1);
+ const saved=JSON.parse(fs.readFileSync(file));
+ assert.equal(saved.sections[2].blocks[0].classification.assessment.assessedAt,'2026-10-25T00:00:00Z');
+ const again=await runContentReview({runDir,projectFile:file,skills:[],runner:async()=>{throw Error('Current rating must not be reassessed');}});
+ assert.equal(again.batches,0);
 });
 
 test('a correction that does not match the content leaves the block pending, then failed',async()=>{
@@ -516,6 +643,42 @@ test('unkeyed practice requires complete pinned answer-chapter absence evidence 
  fs.appendFileSync(path.join(w.runDir,'source/teacher.pdf'),'changed');assert.throws(()=>practiceContentEvidence(w.project,w.batch,w.runDir),/missing or changed/);
 });
 
+test('measured size outliers select existing visual review pages and keep historical accepted pixels',()=>{
+ const project={sections:[]},pageHashes=Array.from({length:5},(_,i)=>({page:i+1,hash:'page-'+(i+1),blocks:[]}));
+ const diagram={id:'outlier',format:'tikz',code:'draw',spec:{description:'Supplied triangle'}};
+ project.sections=[{id:'s',blocks:[{id:'q',type:'question',content:{questionDiagrams:[diagram]}}]}];
+ const report=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,{pdf:{path:edition+'.pdf'},pageHashes,issues:[],diagrams:{figures:[{id:'outlier',page:3,widthMm:80,heightMm:50}]}}]));
+ const state={pages:{},questions:{}},plan=visualPlan({project,report,state});
+ assert.ok(plan.student.pending.some(row=>row.page===3));
+ assert.equal(plan.student.pending.find(row=>row.page===3).sizingReviews[0].diagramId,'outlier');
+ assert.deepEqual(plan.student.automatedIssues,[],'A numerical trigger is no automatic failure');
+ state.pages['student:page-3']={outcome:'accepted',at:'historical-reviewed-pixels'};
+ const accepted=structuredClone(state),resumed=visualPlan({project,report,state});
+ assert.equal(resumed.student.pending.some(row=>row.page===3),false);assert.deepEqual(state,accepted);
+});
+
+test('ordinary and direct ICEEM content prompts include complete shared sizing guidance',()=>{
+ const project={title:'Test',sections:[]},batch={section:{id:'s',blocks:[]},rows:[]},prompt=contentPrompt({project,batch});
+ assert.match(prompt,/Short-answer figures are usually 25–45 mm/);assert.match(prompt,/spec.sizing.exceptionReason/);
+ assert.match(prompt,/label-to-edge clearance/);assert.match(prompt,/never hard caps/);
+});
+
+test('advisory native label contacts select an unreviewed page without becoming automatic failures',()=>{
+ const pages=Array.from({length:5},(_,i)=>({page:i+1,hash:'p'+(i+1),blocks:[]}));
+ const report=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,{pdf:{path:edition+'.pdf'},pageHashes:pages,issues:[],diagrams:{visualFindings:[{page:3,diagramId:'d',kind:'diagram-label-stroke'}]}}]));
+ const plan=visualPlan({project:{sections:[]},report,state:{pages:{},questions:{}}});
+ const row=plan.student.pending.find(row=>row.page===3);assert.equal(row.diagramFindings[0].kind,'diagram-label-stroke');assert.deepEqual(plan.student.automatedIssues,[]);
+});
+
+test('new outlier-page acceptance requires actual per-diagram reasons and never infers them from an automated flag',()=>{
+ const batch={edition:'student',rows:[{page:2,hash:'h',sizingReviews:[{diagramId:'a'},{diagramId:'b'}]}]},state={pages:{}};
+ const accept=sizingDecisions=>recordVisualResult({batch,state,result:{pages:[{page:2,outcome:'accepted',sizingDecisions}]}});
+ assert.throws(()=>accept(undefined),/explicit reviewed size reason/);assert.deepEqual(state.pages,{});
+ assert.throws(()=>accept([{diagramId:'a',reason:'Dense dimensions need this width'},{diagramId:'a',reason:'Duplicate'}]),/explicit reviewed size reason/);
+ assert.throws(()=>accept([{diagramId:'a',reason:'Dense dimensions need this width'},{diagramId:'b',reason:' '}]),/explicit reviewed size reason/);
+ const decisions=[{diagramId:'a',reason:'Dense dimensions remain clear at the common source scale'},{diagramId:'b',reason:'Paired figures retain their common dimensions and readable labels'}];
+ assert.deepEqual(accept(decisions),[]);assert.deepEqual(state.pages['student:h'].sizingDecisions,decisions);
+});
 
 test('non-question practice context pins own originals without assessed-question evidence',t=>{
  const w=practiceEvidenceFixture(t);

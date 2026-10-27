@@ -39,7 +39,7 @@ test('native currency is literal while mathematical inlines and clozes retain no
  assert.ok(notationErrors(doc([{type:'math',latex:'\\(x'},{type:'math',latex:'x\\)'}])).some(e=>/maths delimiters/.test(e)));
 });
 
-test('a leading unlabelled shared sketch inherits its direct stem and keeps writing space',()=>{
+test('a leading shared sketch retains its inherited task after visible part labels are added',()=>{
  const content={id:'q',prompt:'Sketch the component functions and their sum.',sharedSolutionDiagrams:[{id:'sum',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,0)--(1,1);\\end{tikzpicture}'}],children:[leaf('sketch',{label:'',sharedSolutionDiagramId:'sum',answerSpaceMm:70}),leaf('a',{label:'a',prompt:'Explain the asymptote.'})]};
  assert.deepEqual(errors(content),[]);
  const normalized=normaliseQuestion({content}).content.children[0];
@@ -47,7 +47,8 @@ test('a leading unlabelled shared sketch inherits its direct stem and keeps writ
  const altered=change=>{const next=structuredClone(content);change(next);return errors(next);};
  assert.equal(altered(q=>q.children.reverse()).length,1);
  assert.equal(altered(q=>delete q.children[0].label).length,1);
- assert.equal(altered(q=>q.children[0].label='a').length,1);
+ assert.deepEqual(altered(q=>{q.children[0].label='a';q.children[1].label='b';}),[]);
+ assert.deepEqual(altered(q=>q.children[0].label='i'),[]);
  assert.equal(altered(q=>q.children[0].sharedSolutionDiagramId='missing').length,1);
  assert.equal(altered(q=>delete q.children[0].sharedSolutionDiagramId).length,1);
  const nested={id:'root',prompt:'Sketch the graphs.',children:[{...content,id:'nested',type:'group',prompt:''},leaf('other',{prompt:'Explain.'})]};

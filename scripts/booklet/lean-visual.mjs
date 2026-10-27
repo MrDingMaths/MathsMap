@@ -88,7 +88,14 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
  for(const edition of editions){
   const entry=report[edition];if(!entry?.pdf?.path||!Array.isArray(entry.map)){missingEditions.push(edition);continue;}
   if(entry.issues?.length)automatedIssues[edition]=entry.issues;
-  const wanted=[...new Set([...samplePages(entry.map,sample),...(entry.issues??[]).map(issue=>Number(issue.page)).filter(page=>Number.isInteger(page)&&page>=1&&page<=entry.map.length)])].sort((a,b)=>a-b);if(!wanted.length)continue;
+  const wanted=[...new Set([...samplePages(entry.map,sample),...(entry.issues??[]).map(issue=>Number(issue.page)).filter(page=>Number.isInteger(page)&&page>=1&&page<=entry.map.length)])].sort((a,b)=>a-b);
+  // Dense teaching layouts can occupy the whole sample selection. Still
+  // inspect an actual answer page when practice answers are advertised.
+  if(!wanted.length&&edition!=='student'&&coversPracticeAnswers){
+   const first=entry.map.find(row=>row.blocks?.length);
+   if(first)wanted.push(first.page);else missingEditions.push(edition);
+  }
+  if(!wanted.length)continue;
   const images=await rasterize(entry.pdf,entry.map.length,path.join(out,'sample-rasters'),{pages:wanted});
   for(const image of images.images)pages.push({edition,page:image.page,blocks:entry.map.find(p=>p.page===image.page)?.blocks??[],image:image.path});
  }

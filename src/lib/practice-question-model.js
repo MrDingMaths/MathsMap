@@ -401,7 +401,7 @@ function validateNode(node, path, errors, warnings, depth, diagramIds, inherited
   for (const [index, diagram] of (node.questionDiagrams ?? []).entries()) validateDiagram(diagram, path + '.questionDiagrams[' + index + ']', errors, warnings, diagramIds);
   for (const [index, diagram] of (node.answer?.solutionDiagrams ?? []).entries()) validateDiagram(diagram, path + '.answer.solutionDiagrams[' + index + ']', errors, warnings, diagramIds);
   // Table-bound responses and a sole answer child inherit the visible parent
-  // task. A leading unlabelled sketch can also use its direct stem when a
+  // task. A leading sketch (unlettered or the first part) can use its direct stem when a
   // shared solution diagram identifies that response, preserving writing space.
   const tableLabels = isDocument(node.prompt) ? new Set(node.prompt.blocks.filter(b=>b.type==='table').flatMap(b=>b.rows??[]).flatMap(row=> {
     const label = text({format:'maths-editor-document-v1',version:1,blocks:row[0]?.blocks??[]}).replace(/[*_]/g,'').trim();
@@ -413,7 +413,7 @@ function validateNode(node, path, errors, warnings, depth, diagramIds, inherited
   const answerChildren=children.filter(child=>{const hasAnswer=n=>Boolean(n.answer?.worked)||(n.children??[]).some(hasAnswer);return hasAnswer(child);});
   children.forEach((child, index) => validateNode(child, path + '.children[' + index + ']', errors, warnings, depth + 1, diagramIds,
     (ancestorTask || Boolean(text(node.prompt))) && (child.responseSpace === 'scaffold' || children.length === 1 || answerChildren.length===1&&answerChildren[0]===child || Boolean(child.label)&&tableLabels.has(child.label)
-      || index === 0 && child.label === '' && Boolean(text(node.prompt)) && Boolean(child.sharedSolutionDiagramId) && diagramIds.has(child.sharedSolutionDiagramId)),
+      || index === 0 && ['', 'a', 'i'].includes(child.label) && Boolean(text(node.prompt)) && Boolean(child.sharedSolutionDiagramId) && diagramIds.has(child.sharedSolutionDiagramId)),
     ancestorTask || Boolean(text(node.prompt))));
 }
 

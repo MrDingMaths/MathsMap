@@ -14,8 +14,8 @@ export function finalExportOutput({out,runDir,development=false,draft=false,pref
  return out??(runDir&&!development&&!draft&&!preflight?path.join(path.resolve(runDir),'final-exports-'+now):'.booklet-work/compact-exercises');
 }
 
-export function finalExportIneligibility({manifest,edition,renderer,printableKey,pdfHash}={}){
- if(manifest?.passed!==true||manifest.mode!=='full')return 'not-passed-full-export';
+export function finalExportIneligibility({manifest,edition,renderer,printableKey,pdfHash,mode='full'}={}){
+ if(manifest?.passed!==true||manifest.mode!==mode)return 'not-passed-'+mode+'-export';
  if(manifest.reviewProfile!==profile||manifest.edition!==edition)return 'edition-or-policy-changed';
  if(manifest.renderer!==renderer)return 'renderer-changed';
  if(!printableKey||manifest.printableKey!==printableKey)return 'printable-dependencies-changed';
@@ -23,11 +23,16 @@ export function finalExportIneligibility({manifest,edition,renderer,printableKey
  return null;
 }
 
-export function isEligibleFinalExport({manifest,edition,renderer,printableKey,pdfHash}={}){
- return editions.includes(edition)&&typeof renderer==='string'&&renderer.length>0&&typeof printableKey==='string'&&printableKey.length>0&&
-  manifest?.passed===true&&manifest.mode==='full'&&manifest.reviewProfile===profile&&manifest.edition===edition&&
-  manifest.renderer===renderer&&manifest.printableKey===printableKey&&typeof manifest.pdf?.hash==='string'&&
-  /^[a-f0-9]{64}$/i.test(manifest.pdf.hash)&&manifest.pdf.hash===pdfHash;
+export function isEligibleFinalExport(input={}){
+ return editions.includes(input.edition)&&['full','review'].includes(input.mode??'full')&&typeof input.renderer==='string'&&input.renderer.length>0&&
+  typeof input.printableKey==='string'&&input.printableKey.length>0&&finalExportIneligibility(input)===null;
+}
+
+export function canonicalExportMode(runDir,out){
+ runDir=path.resolve(runDir);out=path.resolve(out);
+ if(path.dirname(out)===runDir&&path.basename(out).startsWith('final-exports-'))return 'full';
+ if(path.dirname(out)===path.join(runDir,'streamlined-exports')&&/^[1-9][0-9]*$/.test(path.basename(out)))return 'review';
+ return null;
 }
 
 function checkedPath(file,{missing=false}={}){
@@ -72,7 +77,8 @@ function rollback(created){
 
 export async function seedUnchangedFinalExports({runDir,projectFile,out,onDecision=()=>{}}){
  runDir=checkedPath(runDir);projectFile=checkedPath(projectFile);out=checkedPath(out,{missing:true});
- if(!fs.statSync(runDir).isDirectory()||path.dirname(out)!==runDir||!path.basename(out).startsWith('final-exports-'))throw Error('Output must be a direct final-exports-* directory inside the run');
+ const mode=canonicalExportMode(runDir,out);
+ if(!fs.statSync(runDir).isDirectory()||!mode)throw Error('Output must be a direct final-exports-* directory or streamlined-exports/<positive integer> inside the run');
  const projectSource=snapshot(projectFile),project=JSON.parse(projectSource.bytes.toString('utf8'));
  if(!isLeanReview(project))throw Error('Final export seeding requires the recorded three-pass project profile');
  if(typeof project.id!=='string'||!/^[a-z0-9][a-z0-9._-]*$/i.test(project.id))throw Error('Unsafe project filename identity');
@@ -87,26 +93,28 @@ export async function seedUnchangedFinalExports({runDir,projectFile,out,onDecisi
   const prior=oldReceipt?JSON.parse(oldReceipt.bytes.toString('utf8')):{seeded:[]};
   if(!Array.isArray(prior.seeded))throw Error('Invalid existing seed receipt');
   const renderer=rendererSignature({lean:true});
-  const dirs=fs.readdirSync(runDir,{withFileTypes:true}).filter(entry=>entry.isDirectory()&&entry.name.startsWith('final-exports-')&&path.join(runDir,entry.name)!==out)
-   .map(entry=>path.join(runDir,entry.name)).filter(dir=>{try{checkedPath(dir);return true;}catch{return false;}})
+  const parent=mode==='review'?path.join(runDir,'streamlined-exports'):runDir;
+  const dirs=fs.readdirSync(parent,{withFileTypes:true}).filter(entry=>entry.isDirectory()&&(mode==='review'?/^[1-9][0-9]*$/.test(entry.name):entry.name.startsWith('final-exports-'))&&path.join(parent,entry.name)!==out)
+   .map(entry=>path.join(parent,entry.name)).filter(dir=>{try{checkedPath(dir);return true;}catch{return false;}})
    .sort((a,b)=>fs.statSync(b).mtimeMs-fs.statSync(a).mtimeMs||a.localeCompare(b));
   const plans=[],decisions=[];
   for(const edition of editions){
-   const stem=project.id+'-'+edition,target=path.join(out,stem+'.full.pages.json'),pdf=path.join(out,stem+'.pdf'),cache=path.join(out,stem+'.verification.json');
+   const stem=project.id+'-'+edition,target=path.join(out,stem+'.'+mode+'.pages.json'),pdf=path.join(out,stem+'.pdf'),cache=path.join(out,stem+(mode==='review'?'.review':'')+'.verification.json');
    if([target,pdf,cache].some(file=>{try{fs.lstatSync(file);return true;}catch(error){if(error.code==='ENOENT')return false;throw error;}})){decisions.push({edition,reason:'target-present'});continue;}
    const key=await layoutCacheKey(project,edition,renderer);if(!key){decisions.push({edition,reason:'unresolved-printable-dependencies'});continue;}
    const candidates=[];let selected=false;
    for(const dir of dirs)try{
-    const sourceManifest=snapshot(path.join(dir,stem+'.full.pages.json')),manifest=JSON.parse(sourceManifest.bytes.toString('utf8'));
+    const sourceManifest=snapshot(path.join(dir,stem+'.'+mode+'.pages.json')),manifest=JSON.parse(sourceManifest.bytes.toString('utf8'));
     const sourcePdf=path.join(dir,stem+'.pdf');
     if(typeof manifest.pdf?.path!=='string'||path.resolve(manifest.pdf.path)!==sourcePdf||!inside(dir,sourcePdf)){candidates.push({directory:dir,reason:'unsafe-pdf-path'});continue;}
     const pdfSource=snapshot(sourcePdf);
-    if(!isEligibleFinalExport({manifest,edition,renderer,printableKey:key,pdfHash:pdfSource.hash})){candidates.push({directory:dir,reason:finalExportIneligibility({manifest,edition,renderer,printableKey:key,pdfHash:pdfSource.hash})??'invalid-export'});continue;}
+    if(!isEligibleFinalExport({manifest,edition,renderer,printableKey:key,pdfHash:pdfSource.hash,mode})){candidates.push({directory:dir,reason:finalExportIneligibility({manifest,edition,renderer,printableKey:key,pdfHash:pdfSource.hash,mode})??'invalid-export'});continue;}
     let cacheSource=null;
     try{
-     const candidate=snapshot(path.join(dir,stem+'.verification.json')),value=JSON.parse(candidate.bytes.toString('utf8'));
-     if(value.key===key&&value.passed===true&&value.pdfHash===pdfSource.hash&&Object.hasOwn(value,'result'))cacheSource=candidate;
+     const candidate=snapshot(path.join(dir,stem+(mode==='review'?'.review':'')+'.verification.json')),value=JSON.parse(candidate.bytes.toString('utf8'));
+     if(value.key===key&&value.passed===true&&value.pdfHash===pdfSource.hash&&Object.hasOwn(value,'result')&&(mode!=='review'||(Array.isArray(value.result?.issues)&&value.result.issues.length===0&&Array.isArray(value.result?.printed)&&value.result.printed.every(page=>Array.isArray(page.issues)&&page.issues.length===0))))cacheSource=candidate;
     }catch{}
+    if(mode==='review'&&!cacheSource){candidates.push({directory:dir,reason:'missing-passed-review-cache'});continue;}
     plans.push({edition,key,target,pdf,cache,sourceManifest,pdfSource,cacheSource,manifest});selected=true;break;
    }catch(error){candidates.push({directory:dir,reason:error.code==='ENOENT'?'missing-artifact':'unreadable-or-invalid-artifact'});continue;}
    decisions.push({edition,reason:selected?'seeded':dirs.length?'no-compatible-export':'no-retained-export',candidates});
@@ -126,7 +134,7 @@ export async function seedUnchangedFinalExports({runDir,projectFile,out,onDecisi
    if(plan.cacheSource)createExclusive(plan.cache,plan.cacheSource.bytes,created);
    const manifest={...plan.manifest,pdf:{...plan.manifest.pdf,path:plan.pdf}};
    createExclusive(plan.target,Buffer.from(JSON.stringify(manifest,null,2)+'\n'),created);
-   seeded.push({edition:plan.edition,originalManifest:{path:plan.sourceManifest.file,hash:plan.sourceManifest.hash},seededManifest:{path:plan.target,hash:bytesHash(plan.target)},pdfHash:plan.pdfSource.hash,printableKey:plan.key,renderer,inspectionCredited:false,...(plan.cacheSource?{originalCache:{path:plan.cacheSource.file,hash:plan.cacheSource.hash}}:{}),note:'Exact current printable key, renderer, edition and retained PDF bytes match a passed full export. The checker determines actual reuse; no visual acceptance is created.'});
+   seeded.push({edition:plan.edition,originalManifest:{path:plan.sourceManifest.file,hash:plan.sourceManifest.hash},seededManifest:{path:plan.target,hash:bytesHash(plan.target)},pdfHash:plan.pdfSource.hash,printableKey:plan.key,renderer,inspectionCredited:false,...(plan.cacheSource?{originalCache:{path:plan.cacheSource.file,hash:plan.cacheSource.hash}}:{}),note:'Exact current printable key, renderer, edition and retained PDF bytes match a passed '+mode+' export. The checker determines actual reuse; no visual acceptance is created.'});
   }
   await validate();
   for(const entry of seeded){if(bytesHash(checkedPath(path.join(out,project.id+'-'+entry.edition+'.pdf')))!==entry.pdfHash||bytesHash(checkedPath(entry.seededManifest.path))!==entry.seededManifest.hash)throw Error('Seeded output changed before receipt');}

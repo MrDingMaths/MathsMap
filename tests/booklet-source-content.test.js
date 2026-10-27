@@ -13,6 +13,25 @@ const question=(id,score)=>({id,type:'question',sourceRefs:[{pageNumber:2}],flow
 const candidate=()=>({title:'New topic',topics:[{id:'t',title:'Powers'}],sections:[{id:'s',title:'Practice',role:'practice',phase:'practice',topicId:'t',blocks:[question('a',30),question('b',10)]}],sourceInventory:{version:1,pages:[{pageNumber:2,inventoried:true}],entries:[{id:'src-a',pageNumber:2,kind:'question',targetId:'a'},{id:'src-b',pageNumber:2,kind:'question',targetId:'b'}]}});
 const imported=()=>contentProject(candidate(),{runId:'run',projectId:'new',selectedPages:[2]});
 
+test('lean imports preserve optional proposal flags without making source coverage fatal',async()=>{
+ const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
+ p.studio={flags:[{id:'break',kind:'polish-break-suggestion',targetId:'a',at:'original',note:'Keep this optional proposal open.',resolved:false},{id:'pedagogy',kind:'pedagogy-suggestion',targetId:'b',at:'original',note:'Consider an opening review.',resolved:false}]};
+ const original=structuredClone(p.studio.flags),coverage=await inspectContentCoverage(p);
+ assert.equal(coverage.contentComplete,true);assert.deepEqual(p.studio.flags,original);
+ delete p.source.reviewProfile;
+ const legacy=await inspectContentCoverage(p);
+ assert.ok(legacy.issues.some(i=>i.kind==='polish-break-suggestion'));
+ assert.ok(legacy.issues.some(i=>i.kind==='pedagogy-suggestion'));
+});
+
+test('lean imports still block teacher, unknown, mathematics and source findings',async()=>{
+ const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
+ p.studio={flags:[{id:'teacher',targetId:'a',at:'original',note:'Teacher requested correction.',resolved:false},...['unknown-kind','mathematics-error','source-error'].map(kind=>({id:kind,kind,targetId:'b',note:'Required correction.',resolved:false}))]};
+ const coverage=await inspectContentCoverage(p);
+ assert.equal(coverage.contentComplete,false);
+ for(const kind of ['review-finding','unknown-kind','mathematics-error','source-error'])assert.ok(coverage.issues.some(i=>i.kind===kind));
+});
+
 test('reviewed selection figures are givens only with an inventoried selection and complete response',async()=>{
  const p=imported();p.source.reviewProfile='textbook-three-pass-v1';
  const block=p.sections[0].blocks[0],oldId=block.id;block.id='selection-block';

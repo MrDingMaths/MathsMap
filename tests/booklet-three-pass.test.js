@@ -1,7 +1,8 @@
 import {inspectContentCoverage} from '../src/lib/booklet-content-verification.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {LEAN_REVIEW_PROFILE,printableProject,selectLeanVisualPages} from '../scripts/booklet/lean-profile.mjs';
+import {LEAN_REVIEW_PROFILE,printableProject,selectLeanVisualPages,questionReviewContent} from '../scripts/booklet/lean-profile.mjs';
+import {createHash} from 'node:crypto';
 import {verificationDependencies,recordVerification,verificationStatus,PIPELINE_POLICY} from '../scripts/booklet/import-verification.mjs';
 import {pageGate,settlementKey} from '../scripts/booklet/workflow-review.mjs';
 import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
@@ -74,6 +75,31 @@ test('lean source coverage catches omissions and missing answers without requiri
  const report=await inspectContentCoverage(project);assert.equal(report.complete,true,JSON.stringify(report.issues));assert.equal(report.counts.verified,0);assert.equal(report.counts.mapped,4);assert.ok(report.reviewRequired);
  delete q.content.answer.worked;assert.ok((await inspectContentCoverage(project)).issues.some(i=>i.kind==='missing-answer'));
  project.sections[0].blocks=[];assert.ok((await inspectContentCoverage(project)).issues.some(i=>i.kind==='missing'));
+});
+
+test('explicit embedded instruction clauses share a reviewed question prompt without accepting unrelated duplicate mappings',async()=>{
+ const {project,q}=fixture();project.sections=[project.sections[1]];
+ const instruction={id:'shared-instruction',targetId:'node1',kind:'instruction',embeddedInQuestion:'source-q',pageNumber:1,field:'/prompt'};
+ project.source.inventory={selectedPages:[1],pages:[{pageNumber:1,inventoried:true}],entries:[instruction,{id:'source-q',targetId:'node1',kind:'question',pageNumber:1,field:'/prompt'},{id:'embedded-formula',targetId:'node1',kind:'teaching',embeddedInQuestion:'source-q',pageNumber:1,field:'/prompt'}]};
+ const reviewedQuestions={q1:{outcome:'passed',hash:createHash('sha256').update(JSON.stringify(questionReviewContent(q))).digest('hex')}};
+ assert.equal((await inspectContentCoverage(project,{reviewedQuestions})).complete,true);
+ assert.ok((await inspectContentCoverage(project)).issues.some(i=>i.kind==='duplicate'));
+ project.source.inventory.entries.push({id:'different-question',targetId:'node1',kind:'question',field:'/prompt',pageNumber:1});
+ assert.ok((await inspectContentCoverage(project,{reviewedQuestions})).issues.some(i=>i.kind==='duplicate'));
+ project.source.inventory.entries.pop();delete project.source.inventory.entries[2].embeddedInQuestion;
+ assert.ok((await inspectContentCoverage(project,{reviewedQuestions})).issues.some(i=>i.kind==='duplicate'));
+});
+
+test('only known historical source-processing hints are settled by exact current independent whole-block acceptance',async()=>{
+ const {project,q}=fixture();project.sections=[project.sections[1]];project.source.inventory={selectedPages:[1],pages:[{pageNumber:1,inventoried:true}],entries:[{id:'source-q',targetId:'node1',kind:'question',pageNumber:1}]};
+ const hint={id:'answer-match-1-0',targetId:'q1',note:'q1: unresolved answer match {source-key-error}',resolved:false};project.studio={flags:[hint]};
+ const reviewedQuestions={q1:{outcome:'passed',hash:createHash('sha256').update(JSON.stringify(questionReviewContent(q))).digest('hex')}};
+ assert.equal((await inspectContentCoverage(project,{reviewedQuestions})).complete,true);
+ assert.equal(hint.resolved,false,'historical findings are preserved');
+ for(const change of [{at:'teacher timestamp'},{kind:'teacher-feedback'},{id:'manual-question'},{id:'nr-p1-finding-0',note:'Wrong mathematical answer'}]){
+  project.studio.flags=[{...hint,...change}];assert.ok((await inspectContentCoverage(project,{reviewedQuestions})).issues.some(i=>i.kind==='review-finding'||i.kind==='teacher-feedback'));
+ }
+ project.studio.flags=[hint];q.content.answer.short='Changed answer';assert.ok((await inspectContentCoverage(project,{reviewedQuestions})).issues.some(i=>i.kind==='review-finding'));
 });
 
 test('teaching example answers outside content invalidate the example and its dependent exercise',()=>{
