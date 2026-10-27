@@ -109,6 +109,15 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+The Stage 6 delivery checkpoint on 27 October 2026 raises the total from 2206
+to 2226 MiB for eleven verified revision-1 live masters, adding 20,845,291 bytes
+of editable content. The reviewed index before this note is 2,332,480,200 bytes.
+Every master matches the retained delivery archive; no bank records, pilot
+outputs, generated exports or automatic histories are added. Individual-file
+limits and generated-file exclusions stay unchanged. This records historical
+acceptance and delivery only: the 309 later-added planner selections remain
+unperformed and are not granted acceptance by this checkpoint.
+
 The final 27 October 2026 non-exemplar checkpoint raises the total from 2204 to
 2206 MiB. The reviewed 68-file data batch adds 1,069,279 bytes: 796,899 bytes of
 current editable booklet content and 272,380 bytes of synchronised bank records.
