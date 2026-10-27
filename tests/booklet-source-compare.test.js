@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {reportUrl,pageImageUrl,runIdOf,sourcePagesOf,reviewQueue} from '../src/lib/booklet-source-compare.js';
+import {reportUrl,pageImageUrl,runIdOf,sourcePagesOf,sourceOptionsOf,reviewQueue} from '../src/lib/booklet-source-compare.js';
 
 test('the Source tab reads the polish report and page images through the import run endpoint',()=>{
  assert.equal(reportUrl('rates-v1-20261002-medium'),'/__booklet/full-imports/rates-v1-20261002-medium/files/polish/report.json');
@@ -25,4 +25,17 @@ test('the polish queue lists what the residual review left by page, then the bre
  assert.equal(rows[0].label,'labels · p3');
  assert.match(rows[2].detail,/Page 11 has 84 mm free.*about 1 page\./);assert.match(rows[3].detail,/about 2 pages\./);
  assert.deepEqual(reviewQueue(null),[]);assert.deepEqual(reviewQueue({}),[]);
+});
+
+
+test('merged source selection distinguishes equal page numbers and honours explicit run identities',()=>{
+ const project={source:{runId:'main',imports:[{runId:'merge run',title:'Added source'}]}};
+ const options=sourceOptionsOf(project,{sourcePageNumber:3,sourceRefs:[{pageNumber:3,runId:'merge run'},{pageNumber:3,runId:'main'},{pageNumber:3,runId:'merge run'}]});
+ assert.equal(options.length,2);
+ assert.equal(options[0].url,'/__booklet/full-imports/merge%20run/files/evidence/pages/page-003.png');
+ assert.equal(options[0].label,'Added source · p3');
+ assert.notEqual(options[0].key,options[1].key);
+ assert.deepEqual(sourceOptionsOf(project,{sourcePageNumber:3,sourceRefs:[{pageNumber:3,runId:'merge run'}]}).map(p=>p.runId),['merge run']);
+ assert.equal(sourceOptionsOf({runId:'legacy'},{sourcePageNumber:2})[0].runId,'legacy');
+ assert.deepEqual(sourceOptionsOf(project,null),[]);
 });

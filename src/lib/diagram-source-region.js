@@ -9,6 +9,6 @@ export function sourceRegionStyles(region) {
   if (!validSourceRegion(region)) return null;
   return {
     frame: `position:relative;overflow:hidden;aspect-ratio:${region.width}/${region.height}`,
-    image: `position:absolute;max-width:none;width:${100 * region.sourceWidth / region.width}%;height:${100 * region.sourceHeight / region.height}%;left:${-100 * region.x / region.width}%;top:${-100 * region.y / region.height}%;`,
+    image: `position:absolute;max-width:none;max-height:none;width:${100 * region.sourceWidth / region.width}%;height:${100 * region.sourceHeight / region.height}%;left:${-100 * region.x / region.width}%;top:${-100 * region.y / region.height}%;`,
   };
 }

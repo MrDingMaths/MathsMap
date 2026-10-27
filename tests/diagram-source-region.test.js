@@ -7,7 +7,7 @@ import {transcriptionHazards} from '../scripts/booklet/transcription.mjs';
 test('source image regions retain the original source and reject out-of-bounds crops',()=>{
  const region={x:600,y:20,width:400,height:480,sourceWidth:1000,sourceHeight:500};
  assert.ok(validSourceRegion(region));
- assert.equal(sourceRegionStyles(region).image,'position:absolute;max-width:none;width:250%;height:104.16666666666667%;left:-150%;top:-4.166666666666667%;');
+ assert.equal(sourceRegionStyles(region).image,'position:absolute;max-width:none;max-height:none;width:250%;height:104.16666666666667%;left:-150%;top:-4.166666666666667%;');
  for(const bad of [{...region,width:401},{...region,x:-1},{...region,height:0},{...region,x:NaN}])assert.equal(sourceRegionStyles(bad),null);
  const relationship={kind:'distinct-from-prompt',evidence:'A graph above a separate source response table.'};
  const q=normaliseQuestion({content:{id:'q',type:'question',prompt:'Graph',diagramPlacement:'before-prompt',questionDiagrams:[{id:'d',src:'original.png',sourceRegion:region,contentRelationship:relationship}],children:[]}});
