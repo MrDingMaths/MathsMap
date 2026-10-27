@@ -18,18 +18,23 @@ export function wrapProbe(page){
  for(const p of page.querySelectorAll('p')){
   if(!p.querySelector('.katex'))continue;
   // Text runs and whole formulas; a formula's hidden accessibility copy and inner spans are not lines.
-  const pieces=[];
+  const pieces=[],prose=[];
   const collect=node=>{
-   if(node.nodeType===3){const range=document.createRange();range.selectNodeContents(node);pieces.push(...range.getClientRects());return;}
+   if(node.nodeType===3){prose.push(node.textContent??'');const range=document.createRange();range.selectNodeContents(node);pieces.push(...range.getClientRects());return;}
    if(node.nodeType!==1||node.matches('.katex-mathml,annotation,[hidden]'))return;
    if(node.matches('.katex')){pieces.push(node.getBoundingClientRect());return;}
    for(const child of node.childNodes)collect(child);
   };
   collect(p);
+  // Explanatory prose may wrap while its inline formulas remain intact.
+  // Keep checking maths, blanks and short working connectors such as "For".
+  const words=prose.join(' ').match(/[A-Za-z]+/g)??[];
+  if(words.length>=3&&words.join('').length>=12)continue;
   const rects=pieces.filter(r=>r.width>0.5&&r.height>0.5).sort((a,b)=>a.top-b.top);
   let lines=0,bottom=-Infinity;
   for(const r of rects){if(r.top>=bottom-1){lines++;bottom=r.bottom;}else bottom=Math.max(bottom,r.bottom);}
-  if(lines<2||p.querySelector('br'))continue;
+  // Display nodes deliberately start new lines, just like an authored break.
+  if(lines<2||p.querySelector('br,[data-math][data-display="true"]'))continue;
   const latex=[...p.querySelectorAll('annotation')].map(a=>a.textContent).join(' ; '),text=p.textContent.replace(/\s+/g,' ').trim(),r=p.getBoundingClientRect();
   const host=p.closest('td,th')??p.parentElement,c=host.getBoundingClientRect();
   rows.push({block:owner(p),node:nodeOf(p),latex,text:text.slice(0,80),textLength:text.length,lines,x:mm(r.left-box.left),y:mm(r.top-box.top),widthMm:mm(r.width),containerMm:mm(c.width)});

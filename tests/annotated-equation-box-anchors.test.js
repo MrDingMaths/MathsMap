@@ -23,7 +23,10 @@ const fractionLatex=`\\frac{${numerator}}{${denominator}}\\approx${result}`;
 const first=fractionLatex.indexOf(numerator),second=fractionLatex.indexOf(denominator,first+numerator.length);
 const scaffold={...base,id:'mean-scaffold',latex:fractionLatex,anchors:[{id:'numerator',start:first,end:first+numerator.length,text:numerator},{id:'denominator',start:second,end:second+denominator.length,text:denominator}],annotations:[label('add','numerator','above','Add scores'),label('count','denominator','below','No. of scores')]};
 const one=(id,latex)=>({...base,id,latex,anchors:[{id:'term',start:0,end:latex.length,text:latex}],annotations:[label(id+'-label','term','above','Term')]});
+const shared={...base,id:'shared',latex:'f(x)=kx^{n}',anchors:[{id:'x',start:2,end:3,text:'x'},{id:'k',start:5,end:6,text:'k'},{id:'n',start:9,end:10,text:'n'}],annotations:[{...label('constants','k','below','Constants'),additionalTargetIds:['n']},label('variable','x','above','Variable')]};
 const cases=[
+ {id:'shared',node:shared},
+ {id:'shared-single',node:{...shared,id:'shared-single',annotations:shared.annotations.map(({additionalTargetIds,...a})=>a)}},
  {id:'vertical',node:{...scaffold,id:'vertical',arrowAlignment:'vertical'},boxOnly:true,vertical:true},
  {id:'scaffold',node:scaffold,boxOnly:true},
  {id:'boxed-symbol',node:one('boxed-symbol','\\boxed{x}'),boxOnly:true},
@@ -60,29 +63,36 @@ test('equation arrows respect complete box borders without changing mixed/plain 
    await page.evaluate(html=>{document.body.innerHTML=html;},cases.map(c=>`<div class="case ${c.id}" data-case="${c.id}" style="transform:scale(${zoom})">${render(c.node)}</div>`).join(''));
    const rows=await page.evaluate(async()=>{
     await document.fonts.ready;
-    const {mountEquationAnnotations}=await import('/renderer.mjs');
+    const {mountEquationAnnotations,layoutEquationAnnotations}=await import('/renderer.mjs');
     const rect=e=>{const r=e.getBoundingClientRect();return{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
     const containers=[...document.querySelectorAll('.case')];
     const dimensions=container=>[...container.querySelectorAll('[data-equation-formula] .fbox')].map(e=>{const r=rect(e);return{width:r.width,height:r.height};});
-    const before=containers.map(dimensions),mounts=containers.map(mountEquationAnnotations);
+    const before=containers.map(dimensions);
+    containers.forEach(layoutEquationAnnotations);
+    const measuredHeights=containers.map(c=>c.getBoundingClientRect().height),mounts=containers.map(mountEquationAnnotations);
     await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
     const rows=containers.map((container,caseIndex)=>{
      const figure=container.querySelector('figure'),svg=figure.querySelector(':scope > svg'),paths=[...svg.querySelectorAll('path')];let pathIndex=0;
      const world=(x,y)=>{const p=svg.createSVGPoint();p.x=x;p.y=y;const r=p.matrixTransform(svg.getScreenCTM());return{x:r.x,y:r.y};};
      const numbers=p=>p.getAttribute('d').match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi).map(Number);
      const anchor=index=>figure.querySelector(`[id="ae-${figure.dataset.equationInstance}-${index}"]`);
-     const arrows=[...figure.querySelectorAll('[data-equation-label]')].map(label=>{
-      const target=anchor(label.dataset.targetIndex),values=numbers(paths[pathIndex++]);
+     const arrows=[...figure.querySelectorAll('[data-equation-label]')].flatMap(label=>(label.dataset.targetIndices?.split(',')??[label.dataset.targetIndex]).map(index=>{
+      const target=anchor(index),values=numbers(paths[pathIndex++]);
       return{side:label.dataset.side,target:rect(target),boxes:[...target.querySelectorAll('.fbox')].map(rect),start:world(values[0],values[1]),tip:world(values[2],values[3])};
-     });
+     }));
      const connection=container.dataset.case==='connections'?(()=>{const v=numbers(paths[0]);return{from:rect(anchor(0)),to:rect(anchor(1)),start:world(v[0],v[1]),control1:world(v[2],v[3]),control2:world(v[4],v[5]),end:world(v[6],v[7]),scale:svg.getScreenCTM().d};})():null;
-     return{id:container.dataset.case,before:before[caseIndex],after:dimensions(container),arrows,connection};
+     return{id:container.dataset.case,measuredHeight:measuredHeights[caseIndex],finalHeight:container.getBoundingClientRect().height,before:before[caseIndex],after:dimensions(container),formula:[...figure.querySelectorAll('[data-equation-formula] .katex-html')].map(rect),arrows,connection};
     });
     mounts.forEach(m=>m.destroy());return rows;
    });
    const close=(actual,expected,note)=>assert.ok(Math.abs(actual-expected)<0.25,`${note} at zoom ${zoom}: ${actual} vs ${expected}`);
+   const multi=rows.find(r=>r.id==='shared'),single=rows.find(r=>r.id==='shared-single');
+   assert.equal(multi.arrows.length,3,'one shared label produces exactly two arrows and the variable label one');
+   assert.equal(single.arrows.length,2,'ordinary single targets still produce one arrow each');
+   close(multi.formula[0].width,single.formula[0].width,'multi-target annotation preserves formula spacing');
    for(const row of rows){
     const fixture=cases.find(c=>c.id===row.id);
+    close(row.measuredHeight,row.finalHeight,`${row.id}: synchronous pagination includes final annotation height`);
     assert.deepEqual(row.after,row.before,`${row.id}: drawing does not change writing-box dimensions at zoom ${zoom}`);
     for(const a of row.arrows){
      if(fixture.vertical)close(a.start.x,a.tip.x,`${row.id}: vertical arrow remains over its term`);

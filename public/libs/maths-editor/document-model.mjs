@@ -286,7 +286,7 @@ export function exportSource(raw) {
 export function freshDocument(raw) {
   const doc=normalizeDocument(raw),ids=new Map();
   visitDocument(doc,n=>{ids.set(n.id,uid());if(n.slots)for(const s of n.slots)ids.set(s.id,uid());});
-  visitDocument(doc,n=>{n.id=ids.get(n.id);if(n.type==='annotated-equation'){const anchors=new Map(n.anchors.map(a=>[a.id,uid()]));for(const a of n.anchors)a.id=anchors.get(a.id);for(const a of n.annotations)a.targetId=anchors.get(a.targetId)??a.targetId;for(const c of n.connections??[]){c.id=uid();c.fromId=anchors.get(c.fromId)??c.fromId;c.toId=anchors.get(c.toId)??c.toId;}}if(n.slots)for(const s of n.slots)s.id=ids.get(s.id);if(n.annotations)for(const a of n.annotations){a.id=uid();a.cellId=ids.get(a.cellId)??a.cellId;a.toCellId=ids.get(a.toCellId)??a.toCellId;if(a.spanToCellId)a.spanToCellId=ids.get(a.spanToCellId)??a.spanToCellId;}});
+  visitDocument(doc,n=>{n.id=ids.get(n.id);if(n.type==='annotated-equation'){const anchors=new Map(n.anchors.map(a=>[a.id,uid()]));for(const a of n.anchors)a.id=anchors.get(a.id);for(const a of n.annotations){a.targetId=anchors.get(a.targetId)??a.targetId;if(a.additionalTargetIds)a.additionalTargetIds=a.additionalTargetIds.map(target=>anchors.get(target)??target);}for(const c of n.connections??[]){c.id=uid();c.fromId=anchors.get(c.fromId)??c.fromId;c.toId=anchors.get(c.toId)??c.toId;}}if(n.slots)for(const s of n.slots)s.id=ids.get(s.id);if(n.annotations)for(const a of n.annotations){a.id=uid();a.cellId=ids.get(a.cellId)??a.cellId;a.toCellId=ids.get(a.toCellId)??a.toCellId;if(a.spanToCellId)a.spanToCellId=ids.get(a.spanToCellId)??a.spanToCellId;}});
   return doc;
 }
 export function mountImageFeedback(root) {

@@ -71,6 +71,15 @@ export function replaceDocumentFragment(canonical, ids, edited) {
 // Page fragments are presentation slices of one stored table. Open the whole
 // canonical table for editing so saving a slice cannot remove off-page rows.
 export function editableTableFragment(canonical,visible,tableId){
+  // Greedy native prose marks only generated, partial top-level lists. Open
+  // their complete canonical lists so a fragment save cannot drop other pages.
+  if(Array.isArray(visible?._bookletListFragments)&&visible._bookletListFragments.length){
+    const wanted=new Set(visible._bookletListFragments),lists=new Map((canonical?.blocks??[]).filter(block=>block.type==='list'&&wanted.has(block.id)).map(block=>[block.id,block]));
+    const shown=new Set((visible.blocks??[]).filter(block=>block.type==='list'&&wanted.has(block.id)).map(block=>block.id));
+    if(lists.size!==wanted.size||shown.size!==wanted.size)throw Error('The continued list moved or changed. Your draft is retained for recovery.');
+    const {_bookletListFragments,...document}=visible;
+    visible={...document,blocks:visible.blocks.map(block=>lists.has(block.id)?copy(lists.get(block.id)):block)};
+  }
   if(!tableId||!canonical?.blocks||!visible?.blocks)return visible;
   const table=canonical.blocks.find(block=>block.type==='table'&&block.id===tableId);
   if(!table)return visible;

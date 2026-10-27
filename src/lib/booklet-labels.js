@@ -99,7 +99,13 @@ export function teachingLabels(blocks=[]){
   // A source-labelled demonstration can precede response parts inside one
   // activity. Explicitly showing its label also consumes that activity's
   // sequence; routine worked examples keep their unlabelled presentation.
-  for(const example of block.examples??[])labels[example.id]=block.presentation?.showLabels===true?next():'';
+  for(const example of block.examples??[]){
+   const explicit=block.presentation?.exampleLabels?.[example.id];
+   if(typeof explicit==='string'){
+    labels[example.id]=explicit;
+    if(explicit)next();
+   }else labels[example.id]=block.presentation?.showLabels===true?next():'';
+  }
  }
  return labels;
 }

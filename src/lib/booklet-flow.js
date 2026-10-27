@@ -252,8 +252,10 @@ export function flowEditionSections(project, edition='student') {
   }
   // Source pages and teaching checkpoints can split one exercise into many
   // sections. Its heading belongs to the first non-empty practice section only.
+  // A rated warm-up may precede that heading without changing its practice
+  // phase, answers or assessment requirements. Absence keeps existing flow.
   const exerciseStarts = new Map();
-  for (const section of sections) if (section.phase==='practice' && section.blocks.some(b=>!b.presentation?.editorOnly) && exercises[section.topicId] && !exerciseStarts.has(section.topicId)) exerciseStarts.set(section.topicId,section);
+  for (const section of sections) if (section.phase==='practice' && section.exerciseStart!==false && section.blocks.some(b=>!b.presentation?.editorOnly) && exercises[section.topicId] && !exerciseStarts.has(section.topicId)) exerciseStarts.set(section.topicId,section);
   // Navigation still needs a destination for teaching-only topics and excerpts.
   // Owning a contents entry does not turn a teaching activity into an exercise.
   const exerciseDestinations=new Map(exerciseStarts);

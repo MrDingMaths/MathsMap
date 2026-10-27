@@ -38,13 +38,9 @@
 
 <div class="accent-header {tone}" data-header-kind={kind} style:background={'var(--booklet-'+tone+'Fill)'}>
   <svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true">
-    {#if kind === 'identify'}
+    {#if kind === 'identify' || kind === 'investigation'}
       <circle cx="10" cy="10" r="6.5" fill="none" stroke="currentColor" stroke-width="2" />
       <path d="M15 15 L21 21" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
-    {:else if kind === 'investigation'}
-      <circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8" />
-      <path d="M9 8.5 C9 4.8 15.5 4.8 15.5 8.5 C15.5 11 12 11 12 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-      <circle cx="12" cy="17.5" r="1" fill="currentColor" />
     {:else}
       <path d={path} fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" />
     {/if}

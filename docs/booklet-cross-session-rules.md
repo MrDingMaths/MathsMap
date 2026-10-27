@@ -1,5 +1,25 @@
 # Cross-session transcription and rendering rules
 
+## Graphs with long question columns (27 October 2026, user requested)
+
+In non-exemplar master booklets, when a question column extends significantly below its adjacent graph, place the existing questions in a two-column grid below the graph. Keep the shared introduction above it, reading order, graph dimensions, all content and per-part handwriting space. Preserve explicitly meaningful local arrangements and teacher exceptions. This applies to the current master-booklet cohort and future authoring; textbook imports, class copies and exemplars are outside this maintenance scope. Use printed measurements rather than part count alone: the current maintenance uses at least 20 mm of overhang and a question column at least 35% taller than the graph as its trigger. `graphQuestionsBelow` in `src/lib/booklet-graph-question-layout.js` performs the explicit arrangement edit; never migrate stored layouts on load. Inspect affected pages and neighbours through the ordinary repair workflow.
+
+## Added reviews use the Review box (27 October 2026, user requested)
+
+When adding prerequisite or opening review questions, place them in the standard green **Review** teaching box. Use the supported Review role (`changeBlockRole(project, blockId, 'review')`, or equivalent `sourceAtom` metadata with `kind: 'review'` and `label: 'Review'`); `pedagogyRole: 'review'` alone does not create the box. Give a new review its own teaching-group ID, or append it to the existing review group when appropriate. Preserve editable questions, answers, writing space and source evidence. Check the rendered header and enclosing box during the existing affected-page review; a heading containing “Review” is insufficient. This applies to future imports and authorised review additions, without automatically migrating accepted booklets.
+
+## Redundant vertex labels (25 October 2026, user requested)
+
+For future imports, omit vertex letters that add no information needed to read or answer the question. Keep labels needed for named angles or sides, similarity/congruence statements, proofs, construction instructions, correspondence tasks or unambiguous reference to overlapping figures. Preserve figure names, variables, axes, network nodes, event/set labels, numerical measurements and mathematical markers: these are not redundant vertices merely because they use letters. Source appearance alone is not a reason to retain an unnecessary vertex letter.
+
+Check the complete question, every nested part, teaching scaffold, short answer, worked solution and solution redraw together. When removing a label, replace any dependent solution reference with a clear measurement or side description while retaining the taught method, essential intermediate steps and final answer. If that would make the question or its reasoning ambiguous, keep the required label. Do not remove givens or correspondence markers. Keep original source evidence and record the intentional departure on the affected block.
+
+Apply this during existing authoring, content and rendered reviews; add no review stage and never strip letters automatically on load or export. Existing-booklet checks inspect actual question/solution context before identifying a label as redundant; a text-search miss or an unused-looking coordinate name is only a candidate. Repairs use the ordinary scoped, revision-safe project/bank workflow and affected-edition checks, preserving accepted content, local exceptions and pinned bank relationships.
+
+## Investigation header icon (25 October 2026, user requested)
+
+Investigation headers use the shared magnifying-glass icon in Studio and print across all booklets, including when the source uses a question mark. Preserve the investigation semantic kind, labels, teaching content and original source evidence; do not change a block to Identify merely to obtain the icon. `BookletSectionHeader.svelte` owns this decoration.
+
 ## Theory text: source fidelity and cognitive load (22 October 2026, user approved)
 
 Apply these principles to imported and newly authored theory, worked-example
@@ -70,6 +90,47 @@ border. This applies across current booklets and future authoring.
 ## Calculator screens and right-angle markers (19 October 2026, user requested)
 
 Retain original calculator-screen screenshots as instructional interface evidence, including status indicators, input notation and output precision. Do not replace screens with native typeset imitations. Keep surrounding instructions, mathematical explanations and ordinary equations editable, retain original source evidence, and record each screen as an authorised raster exception with a final-size inspection. This applies across booklets and future imports.
+
+### Calculator instruction panels (25 October 2026, user feedback)
+
+Use these principles in the existing import, content and source-side rendered
+reviews; they add no review stage or automatic migration of accepted books.
+
+- Start with the source procedure: model names, numbered actions, optional
+  setup substeps, mode indicators and the meaning of each result. Preserve
+  accepted corrections and clarifications, including the distinction between
+  frequencies and probabilities. Do not change a key sequence to fit a layout.
+- Keep one source procedure in one teaching panel. Use model subheadings within
+  that panel when the source does. Keep a model's heading with its instructions;
+  continue numbering across unavoidable page breaks. Never split a procedure
+  merely to place a small icon in a separate flow block.
+- Use native ordered lists and editable text for steps. Nest conditional setup
+  instructions under their owning step. Keep menus, screens and definitions
+  adjacent to the action that uses them. Preserve source side-by-side model
+  comparisons and input/result pairs where the relationship aids instruction.
+- Retain original screen and interface pixels, including application icons and
+  settings symbols that students must recognise. Use native boxed key labels
+  for ordinary named keys and native maths for surrounding equations. Do not
+  invent a calculator screen with a table, TikZ or typeset digits. Record the
+  source page and the raster exception; reuse an existing asset only after
+  checking it against that occurrence's source.
+- Use the shared outer teaching panel and compact, borderless internal layout.
+  Do not put each step or screenshot in a card or shade model headings as table
+  headers. Keep actual mathematical tables and meaningful screen borders.
+  Size an icon like an icon and a screen for legibility; preserve its aspect
+  ratio. Avoid fixed-height step rows and excessive padding that separate
+  related instructions or force one source panel onto several pages.
+- Compare the complete rendered procedure with the source at final size:
+  follow the actions in order, check every model/key/menu choice, screen status,
+  result precision, label/arrow relationship, wrapping and page continuation.
+  Reinspect repaired panels and neighbours only. A successful export is not
+  source fidelity acceptance.
+
+Check the scope of saved widths during layout review. A diagram width belongs
+to the diagram item; a width on the arrangement root constrains the whole
+question, including text and clozes. Inspect the rendered result and honour
+short-cloze findings rather than treating a preserved saved override as proof
+of an intentional exception.
 
 Check right-angle markers at their final printed size in questions and answer diagrams. Keep them small relative to the incident edges. A unitless TikZ interpolation such as `!0.4!` means forty percent of an edge, not a fixed marker length; use an appropriate fixed distance for ordinary 2D squares. Preserve the incident directions and projected geometry of solid diagrams rather than imposing an unprojected square.
 
@@ -250,6 +311,8 @@ rules without adding a review stage. This supersedes older blanket instructions
 to preserve outlined missing-value boxes.
 
 ### Graph sizing and user-directed compact layouts (2 October 2026)
+
+The [25 October source-calibrated diagram policy](booklet-diagram-sizing.md) adds height-aware sizing, purpose-specific ranges and explicitly authorised maintenance with recent manual edits protected in every category. Its review triggers supersede width-only sizing; readability, drawing space and local exceptions remain mandatory.
 
 The 17 October unreviewed-layout exception below supersedes the automatic-spacing
 restriction only within its named scope; all graph-readability requirements remain.
@@ -605,3 +668,9 @@ When an open-ended question is answered in the unlabelled cells of one table or 
 - Check every example against the question: cards used exist, and each result belongs in its cell.
 
 Ordinary labelled parts (a, b, c) that each have an example answer keep their one-line entries. Existing booklets were audited on 11 October 2026; the four questions named above were the only table or box-grid cases.
+
+
+Single examples and annotated formulas (25 October 2026, user feedback): an example without an illustration uses the full teaching-panel width; do not reserve an empty image column. Preserve meaningful question/diagram and explanation relationships. Keep annotated formulas as normally spaced native mathematical expressions, with labels close to their terms and short readable arrows. Do not spread individual symbols into distant TikZ nodes or oversized table columns to fill the panel. Compare definition/formula spacing with the source during the existing source-side rendered review; include saved arrangements and similar occurrences in a reported-defect audit. Preserve manual exceptions and handwriting space.
+
+
+Compact annotated theory formulas (25 October 2026, user correction): keep each formula as ONE native mathematical expression with normal TeX spacing, for example `FV=PV(1+r)^n`, `I=FV-PV` and `S=V_0(1-r)^n`. Use the native `annotated-equation` block with source-range anchors for explanatory arrows and labels. Group annotated superscripts/subscripts with braces (for example `^{n}`) so an inserted anchor remains a valid maths argument. Annotation width/gaps may spread out labels; they must never spread out formula symbols. Do not split the expression between individual TikZ nodes, table cells or separate maths runs to place annotations: independently calibrated diagram labels and wide cell tracks alter the formula spacing even when the original coordinates appear adjacent. If a formula must remain in TikZ for a mathematical reason, keep its complete expression in one node and verify final-size spacing after typography calibration. During existing source-side content/visual review, compare the formula body itself against both the source and a plain native rendering at the same font size; inspect symbol spacing, parentheses, superscripts and every arrow target separately. A passed overflow check or a compact overall diagram is not proof of normal formula spacing. Apply the existing scoped repair review, with no extra review stage.

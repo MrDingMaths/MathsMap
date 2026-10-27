@@ -1,8 +1,35 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {teachingQuestionMode} from '../src/lib/booklet-answer-options.js';
 import {
-  isRewriteTableQuestion, resolvePreviewAssets, splitBookletTables, visibleImportedQuestionTitle, groupBookletBlocks,
+  isRewriteTableQuestion, resolvePreviewAssets, splitBookletTables, visibleImportedQuestionTitle, groupBookletBlocks, resolveTeachingColumns,
 } from '../src/lib/booklet-preview.js';
+
+test('opt-in teaching columns preserve separate owners and reject incomplete arrangements', () => {
+  const blocks = ['intro','diagram','worked','guided','after'].map(id => ({id, sourceAtom:{id:'example',kind:'example'}}));
+  blocks[0].flow = {teachingColumns:[['diagram','worked'],['guided']]};
+  blocks[2].type='worked-example'; blocks[2].pedagogyRole='theory';
+  blocks[3].type='question'; blocks[3].pedagogyRole='guided-practice';
+  blocks[3].sourceReview={responses:[{targetId:'guided-part',kind:'working'}]};
+  const original=structuredClone(blocks),item=groupBookletBlocks(blocks)[0];
+  const result=resolveTeachingColumns(item);
+  assert.deepEqual(result.before,[blocks[0]]); assert.deepEqual(result.after,[blocks[4]]);
+  assert.equal(result.columns[0][1],blocks[2]); assert.equal(result.columns[1][0],blocks[3]);
+  assert.equal(result.columns[0][1].pedagogyRole,'theory');
+  assert.equal(result.columns[1][0].pedagogyRole,'guided-practice');
+  assert.equal(teachingQuestionMode(result.columns[0][1],{showGuidedPracticeAnswers:false}),'worked');
+  assert.equal(teachingQuestionMode(result.columns[1][0],{showGuidedPracticeAnswers:false}),'student');
+  assert.equal(teachingQuestionMode(result.columns[1][0],{showGuidedPracticeAnswers:true}),'worked');
+  assert.equal(teachingQuestionMode({type:'question',id:'separate-practice'},{showGuidedPracticeAnswers:true}),'student');
+  assert.deepEqual(blocks,original);
+  for (const columns of [undefined,[],[['diagram'],['missing']],[['diagram'],['diagram']],[['worked','diagram'],['guided']],[['diagram'],['after']]]) {
+    const invalid=structuredClone(item); invalid.blocks[0].flow.teachingColumns=columns;
+    assert.equal(resolveTeachingColumns(invalid),null);
+  }
+  assert.equal(resolveTeachingColumns({type:'block',blocks}),null);
+  const duplicate=structuredClone(item); duplicate.blocks.push({...duplicate.blocks[1]});
+  assert.equal(resolveTeachingColumns(duplicate),null);
+});
 
 test('investigation titles survive a missing optional subtitle without duplicating legacy headings',()=>{
  const group=sourceAtom=>groupBookletBlocks([{id:'activity',sourceAtom:{id:'header',kind:'investigation',...sourceAtom}}])[0].atom;

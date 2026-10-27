@@ -6,6 +6,17 @@ import {documentHtml} from '../src/lib/document-content.js';
 import {blockClozeAnswers,independentAnswerPages,teachingQuestionMode} from '../src/lib/booklet-answer-options.js';
 const fixture=()=>normalizeDocument({blocks:[{id:'eq',type:'annotated-equation',latex:'y=mx+c',anchors:[{id:'coefficient',start:2,end:3,text:'m'},{id:'constant',start:5,end:6,text:'c'}],annotations:[{id:'label',targetId:'coefficient',colour:'#268cff',blocks:[{id:'label-text',type:'paragraph',inlines:[{type:'text',text:'coefficient of '},{type:'math',latex:'x'}]}]}]}]});
 
+test('arrow colour is independent of the annotated term colour and survives copying',()=>{
+ const original=fixture();
+ assert.doesNotMatch(documentHtml(original),/data-arrow-colour/);
+ original.blocks[0].annotations[0].arrowColour='#ef6068';
+ const copy=freshDocument(normalizeDocument(original)),html=documentHtml(copy);
+ assert.equal(copy.blocks[0].annotations[0].arrowColour,'#ef6068');
+ assert.equal(copy.blocks[0].annotations[0].colour,'#268cff');
+ assert.match(html,/data-arrow-colour="#ef6068"/);
+ assert.match(html,/textcolor\{#268cff\}/);
+});
+
 test('caption edges can attach to their own terms without changing ordinary packing',()=>{
  const doc=fixture(),plain=documentHtml(doc);
  assert.doesNotMatch(plain,/data-label-target-edge/);

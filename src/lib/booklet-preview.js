@@ -124,6 +124,32 @@ export function investigationDescription(value) {
   return String(value ?? '').replace(/^\s*Investigation\s+/i, '').trim();
 }
 
+// An explicit arrangement within one teaching group must retain the original
+// owners: their answer switches and editable content remain independent.
+export function resolveTeachingColumns(item) {
+  const blocks = item?.blocks;
+  const columns = blocks?.[0]?.flow?.teachingColumns;
+  if (item?.type !== 'teaching-atom' || !Array.isArray(columns) || columns.length !== 2
+    || columns.some(column => !Array.isArray(column) || !column.length || column.some(id => typeof id !== 'string'))) return null;
+  const ids = columns.flat();
+  if (new Set(ids).size !== ids.length) return null;
+  const indexes = new Map();
+  for (let i = 0; i < blocks.length; i++) {
+    if (indexes.has(blocks[i].id)) return null;
+    indexes.set(blocks[i].id, i);
+  }
+  if (ids.some(id => !indexes.has(id))) return null;
+  if (columns.some(column => column.some((id, i) => i > 0 && indexes.get(id) <= indexes.get(column[i - 1])))) return null;
+  const first = Math.min(...ids.map(id => indexes.get(id)));
+  const last = Math.max(...ids.map(id => indexes.get(id)));
+  if (last - first + 1 !== ids.length) return null;
+  return {
+    before: blocks.slice(0, first),
+    columns: columns.map(column => column.map(id => blocks[indexes.get(id)])),
+    after: blocks.slice(last + 1),
+  };
+}
+
 export function groupBookletBlocks(blocks = [], {mode = 'student'} = {}) {
   const result = [];
   for (let index = 0; index < blocks.length; index++) {

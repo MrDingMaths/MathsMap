@@ -97,7 +97,9 @@ export function describeUnits(section, protectedIds = new Set()) {
 }
 
 // Moving `moving` from `from` to just before position `to` jumps over the units in
-// between. Every jumped unit must be movable and within +-1 band.
+// between. Every jumped unit must be movable and within +-1 band. Space filling
+// must not introduce a harder-before-easier band inversion; dependencies are
+// already grouped into one unit and retain their internal teaching sequence.
 export function bandAllows(units, from, to) {
   const moving = units[from];
   if (!moving || moving.barrier || moving.band == null) return false;
@@ -105,6 +107,7 @@ export function bandAllows(units, from, to) {
   for (let k = lo; k <= hi; k++) {
     const other = units[k];
     if (other.barrier || other.band == null || (moving.bands??[moving.band]).some(a=>(other.bands??[other.band]).some(b=>Math.abs(a-b)>MAX_BAND_DISTANCE))) return false;
+    if ((moving.bands??[moving.band]).some(a=>(other.bands??[other.band]).some(b=>from>to?a>b:a<b))) return false;
   }
   return true;
 }

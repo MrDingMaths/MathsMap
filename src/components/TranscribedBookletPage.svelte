@@ -17,7 +17,7 @@
   import { isDocument } from '../lib/document-content.js';
   import { teachingQuestionMode, blockClozeAnswers } from '../lib/booklet-answer-options.js';
   import { deriveBookletCover, frontMatterDestinations, unnumberedTopicDestinations } from '../lib/booklet-cover.js';
-  import { combinedExampleTikz, groupBookletBlocks, investigationDescription, resolvePreviewAssets, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
+  import { combinedExampleTikz, groupBookletBlocks, resolveTeachingColumns, investigationDescription, resolvePreviewAssets, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
 
   let {
     page, bookletPages = [], runId, zoom = null, showTheorySolutions = true, solutionMode = 'student', flow = false, houseStyleVersion = null,
@@ -172,9 +172,10 @@
           <BookletArrangement {block} arrangement={blockLayouts[block.id]?.arrangement} layoutOverrides={{blockLayouts, answerSpaces:answerSpaceOverrides}} showSolutions={showTheorySolutions} {assetUrl} {diagramColourModes} {editMode}/>
         {:else if block.examples?.length && block.presentation?.layout === 'worked-rows'}
           {#each block.examples as example, exampleIndex}
-            <div class="worked-example-row" data-example-id={example.id} style={exampleRowStyle(example)}>
+            {@const exampleLabel=block.presentation?.exampleLabels?.[example.id]??''}
+            <div class="worked-example-row" class:without-illustration={!(example.questionDiagrams?.length || example.diagrams?.length || example.solutionDiagrams?.length || example.diagramCaption)} data-example-id={example.id} style={exampleRowStyle(example)}>
               <div class="example-working">
-                {#if example.prompt}<div class="stacked-prompt" style:padding-left={blockLayouts[example.id]?.insetMm != null ? blockLayouts[example.id].insetMm+'mm' : undefined}><span class="example-prompt"><EditableBookletText value={example.prompt} rootId={example.id} pointer="/prompt" {...editProps()} edited={isEdited(example.id, '/prompt')} /></span></div>{/if}
+                {#if example.prompt}<div class="stacked-prompt" class:labelled-example={!!exampleLabel} style:padding-left={blockLayouts[example.id]?.insetMm != null ? blockLayouts[example.id].insetMm+'mm' : undefined}><span class="example-prompt">{#if exampleLabel}<b class="worked-example-label">{exampleLabel}</b>{/if}<EditableBookletText value={example.prompt} rootId={example.id} pointer="/prompt" {...editProps()} edited={isEdited(example.id, '/prompt')} /></span></div>{/if}
                 {@render exampleSolution(example, block.presentation?.numberSteps !== false)}
               </div>
               <div class="example-illustration">{@render exampleDiagramSet(example)}{#if example.diagramCaption}<EditableBookletText value={example.diagramCaption} rootId={example.id} pointer="/diagramCaption" {...editProps()}/>{/if}</div>
@@ -231,6 +232,7 @@
 {/snippet}
 
 {#snippet teachingAtom(item)}
+  {@const teachingColumns = resolveTeachingColumns(item)}
   {#if item.atom.kind === 'instruction'}
     <section class="teaching-atom" data-atom-id={item.atom.id}>
       {#each item.blocks as block, blockIndex (block.id)}{@render blockBody(block, blockIndex, true)}{/each}
@@ -239,7 +241,17 @@
   <section class="theory-section teaching-atom" class:key-ideas-body={item.atom.kind==='key-ideas'} data-atom-id={item.atom.id}>
     <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} headerFill={item.atom.headerFill} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />
     <div class="body-box atom-body" class:without-body-border={item.blocks[0]?.flow?.teachingBodyBorder===false} class:review-body={item.atom.kind === "review"}>
+      {#if teachingColumns}
+        {#each teachingColumns.before as block (block.id)}{@render blockBody(block, item.blocks.indexOf(block), true)}{/each}
+        <div class="atom-columns">
+          {#each teachingColumns.columns as column}
+            <div class="atom-column">{#each column as block (block.id)}{@render blockBody(block, item.blocks.indexOf(block), true)}{/each}</div>
+          {/each}
+        </div>
+        {#each teachingColumns.after as block (block.id)}{@render blockBody(block, item.blocks.indexOf(block), true)}{/each}
+      {:else}
       {#each item.blocks as block, blockIndex (block.id)}{@render blockBody(block, blockIndex, true)}{/each}
+      {/if}
     </div>
   </section>
   {/if}
@@ -320,6 +332,8 @@
   .practice-cell { min-width:0; }
   .atom-body.without-body-border { border:0; }
   .atom-body { display:grid; grid-template-columns:minmax(0,1fr); min-width:0; gap:1.8mm; }
+  .atom-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4mm; align-items:start; }
+  .atom-column { display:grid; grid-template-columns:minmax(0,1fr); min-width:0; gap:1.8mm; align-content:start; }
   .teaching-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4mm; align-items:start; margin-bottom:3mm; }
   .teaching-pair > .teaching-atom { min-width:0; }
   .inside-atom { margin:0; }
@@ -333,10 +347,14 @@
   .stacked-prompt { padding-left:5mm; margin-bottom:1.5mm; }
   .worked-example-row { display:grid; grid-template-columns:minmax(25mm,.7fr) minmax(38mm,1.15fr) minmax(0,1.85fr); gap:var(--example-gap,3mm); padding:var(--example-above,2mm) 0 var(--example-below,4mm); min-height:var(--example-min,29mm); align-items:start; }
   .worked-example-row:not(:has(.example-explanation)) { grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); }
+  .worked-example-row.without-illustration { grid-template-columns:minmax(0,1fr); }
+  .worked-example-row.without-illustration:has(.example-explanation) { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }
+  .worked-example-row.without-illustration > .example-illustration { display:none; }
   .worked-example-row + .worked-example-row { border-top:.2mm solid var(--booklet-border); }
   /* These prompts have no separate number cell: the legacy 6 mm label track
      otherwise receives the entire explanation and stretches the page. */
   .worked-example-row .example-prompt { display:block; }
+  .worked-example-row .labelled-example .example-prompt { display:grid;grid-template-columns:6mm minmax(0,1fr);gap:1mm;align-items:start; }
   .example-working .stacked-prompt { padding-left:0; }
   .booklet-page :global(.katex) { white-space:nowrap; }
   .example-working .theory-step { margin-bottom:2mm; }

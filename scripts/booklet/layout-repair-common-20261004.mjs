@@ -12,7 +12,33 @@ export function visit(n,fn){if(!n||typeof n!=='object')return;if(Array.isArray(n
 export function find(n,id){let found;visit(n,x=>{if(x.id===id)found=x;});if(!found)throw Error('Expected content '+id);return found;}
 export const doc=items=>({format:'maths-editor-document-v1',version:1,blocks:items});
 export const para=(id,text)=>({id,type:'paragraph',align:'center',inlines:[{type:'text',text,marks:['bold']}]});
-export function heading(id,left='Worked Example',right='Your Turn'){return {id,type:'table',widths:[1,1],padding:2,border:false,rows:[[{id:id+'-left',type:'cell',align:'center',verticalAlign:'top',blocks:[para(id+'-left-text',left)]},{id:id+'-right',type:'cell',align:'center',verticalAlign:'top',blocks:[para(id+'-right-text',right)]}]]};}
+export function heading(id,left='Worked Example',right='Your Turn'){return {id,type:'table',widths:[1,1],padding:2,border:false,marginBefore:0.5,marginAfter:0.5,rows:[[{id:id+'-left',type:'cell',align:'center',verticalAlign:'top',paddingTop:0.75,paddingBottom:0.75,blocks:[para(id+'-left-text',left)]},{id:id+'-right',type:'cell',align:'center',verticalAlign:'top',paddingTop:0.75,paddingBottom:0.75,blocks:[para(id+'-right-text',right)]}]]};}
+// Explicit maintenance only: callers establish that this is a demonstration /
+// independent pupil task pair. Never infer that from two columns on load.
+export function addPairedHeadings(project,b){
+ if(b.type!=='question'||!b.content?.id)throw Error('Expected a semantic question');
+ const root=b.content,id=b.id+'-paired-headings';
+ if(root.prompt?.blocks?.some(n=>n.id===id))return false;
+ if(root.prompt&&!(root.prompt.format==='maths-editor-document-v1'&&Array.isArray(root.prompt.blocks)))throw Error('Preserve and review the existing root prompt before adding headings: '+b.id);
+ root.prompt=doc([...(root.prompt?.blocks??[]),heading(id)]);
+ // A legacy column caption is now the heading, rather than a question label.
+ for(const child of root.children??[])if(/^(?:your turn|worked example)$/i.test(child.label??'')){
+  child.label='';
+  for(const response of b.sourceReview?.responses??[])if(response.targetId===child.id&&/^(?:your turn|worked example)$/i.test(response.label??''))response.label='';
+ }
+ const ref=root.id+'/prompt#'+id;
+ for(const layouts of [project.settings?.layoutOverrides?.blockLayouts,b.presentation?.layoutOverrides?.blockLayouts]){
+  const arrangement=layouts?.[b.id]?.arrangement;if(!arrangement)continue;
+  const contains=n=>n.ref===root.id+'/prompt'||n.ref===ref||(n.children??[]).some(contains);
+  if(contains(arrangement.root))continue;
+  const slot={id:'layout:'+ref,type:'item',ref,title:'Paired column headings'};
+  if(arrangement.root.direction==='stack')arrangement.root.children.unshift(slot);
+  else arrangement.root={id:b.id+'-headed-layout',type:'group',direction:'stack',children:[slot,arrangement.root]};
+ }
+ b.sourceReview??={};b.sourceReview.intentionalDepartures??=[];
+ b.sourceReview.intentionalDepartures.push('Feedback 25 October 2026: add editable Worked Example / Your Turn column headings above the paired tasks; preserve source evidence, working, answers and existing arrangements.');
+ return true;
+}
 export function unborder(t){t.border=false;delete t.borderColour;delete t.borderWidthMm;for(const c of t.rows.flat()){delete c.border;delete c.borderColour;delete c.borderWidthMm;}}
 export function clearArrangement(p,b,provenance=b){for(const layouts of [p.settings?.layoutOverrides?.blockLayouts,b.presentation?.layoutOverrides?.blockLayouts])if(layouts?.[b.id]){const ids=[];visit(layouts[b.id].arrangement,n=>{if(n.id)ids.push(n.id);});retire(provenance,ids);delete layouts[b.id].arrangement;if(!Object.keys(layouts[b.id]).length)delete layouts[b.id];}if(b.sourceReview)delete b.sourceReview.arrangementOverride;}
 export function retire(b,ids){b.sourceReview??={};b.sourceReview.layoutRepairProvenance??={};const v=b.sourceReview.layoutRepairProvenance;v.retainedWrapperIds=[...new Set([...(v.retainedWrapperIds??[]),...ids.filter(Boolean)])];}

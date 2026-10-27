@@ -10,6 +10,34 @@ const copy = v => JSON.parse(JSON.stringify(v));
 const descendants = node => [node.id,...(node.children ?? []).flatMap(descendants)];
 const refs = n => n.type === 'item' ? [n.ref] : (n.children ?? []).flatMap(refs);
 
+// Only explicitly opted-in native prose may pack across these boundaries.
+// Layout/table/equation blocks and each complete list item remain indivisible.
+function greedyDocumentUnits(block,layouts) {
+  const document=block.content;
+  if(block.type!=='rich-text'||block.flow?.greedyDocumentFragments!==true||block.flow.keepTogether||block.pairedBlockId||
+    layouts[block.id]?.arrangement||block.presentation?.layoutOverrides?.blockLayouts?.[block.id]?.arrangement||
+    document?.format!=='maths-editor-document-v1'||document._bookletSlice||document._bookletListFragments)return null;
+  const units=[];
+  for(const node of document.blocks??[]){
+    if(node.type==='list'&&node.items?.length>1&&node.id&&!node.keepTogether&&!node.flow?.keepTogether&&node.items.every(item=>item.id)){
+      let value=node.start??1;
+      node.items.forEach((item,offset)=>{value=item.value??value;units.push({node,item,offset,value});value++;});
+    }else units.push({node});
+  }
+  return units.length>1?units:null;
+}
+function greedyDocumentFragment(block,units,part) {
+  const blocks=[],lists=new Map();let previous=null;
+  for(const unit of units){
+    if(unit.item){
+      if(previous!==unit.node)blocks.push({...unit.node,...(unit.node.ordered&&unit.offset?{start:unit.value}:{}),items:[]});
+      blocks.at(-1).items.push(unit.item);lists.set(unit.node.id,unit.node);previous=unit.node;
+    }else{blocks.push(unit.node);previous=null;}
+  }
+  const partial=blocks.filter(node=>lists.has(node.id)&&node.items.length<lists.get(node.id).items.length).map(node=>node.id);
+  return {...block,content:{...block.content,blocks,...(partial.length?{_bookletListFragments:partial}:{})},flow:{...block.flow,fragment:part}};
+}
+
 // Explicit physical rows may cross semantic columns without reordering content.
 // This opt-in supports only a saved, rectangular grid of leaf response cells.
 function nestedGridSplitGroups(block, layouts) {
@@ -281,6 +309,28 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
       if(force||blocks[0]?.flow?.pageBreakBefore||section.mode==='student'&&blocks[0]?.flow?.sourcePageBreakBefore&&blocks[0]?.flow?.pageBreakBefore!==false){flush();reason='manual';}
       let size=await fits([...current,...blocks]);
       if(size.height<=size.capacity+.2){current.push(...blocks);return;}
+      const documentUnits=blocks.length===1?greedyDocumentUnits(blocks[0],layouts):null;
+      if(documentUnits){
+        const block=blocks[0];let offset=0,part=block.flow?.fragment??0;
+        while(offset<documentUnits.length){
+          let best=0,low=1,high=documentUnits.length-offset;
+          while(low<=high){
+            const count=Math.floor((low+high)/2),fragment=greedyDocumentFragment(block,documentUnits.slice(offset,offset+count),part);
+            const measured=await fits([...current,fragment]);
+            if(measured.height<=measured.capacity+.2){best=count;low=count+1;}else high=count-1;
+          }
+          if(!best&&current.length){flush();continue;}
+          if(!best){
+            // Do not split a heading wrapper, table, equation or the inside of
+            // a list item, nor reduce any associated response/working space.
+            issues.push({kind:'oversized-content',id:block.id,sectionId:section.sourceSectionId,message:'The rich-text document block or list item has no safe page break.'});
+            current=[greedyDocumentFragment(block,[documentUnits[offset]],part++)];offset++;flush();continue;
+          }
+          current.push(greedyDocumentFragment(block,documentUnits.slice(offset,offset+best),part++));offset+=best;
+          if(offset<documentUnits.length)flush();
+        }
+        return;
+      }
       // The trial may use a page's remaining space at an established safe part
       // boundary, rather than moving the entire next question to a fresh page.
       if(current.length&&project.settings.exerciseOrganisation==='topic'&&blocks.length===1&&blocks[0].type==='question'){

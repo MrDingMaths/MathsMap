@@ -1,6 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {wrappedFindings,estimateMathWidthMm,containerWidthMm,estimatedWraps,pathTo,wrapFix,WRAP_STEPS} from '../src/lib/booklet-wrap-check.js';
+import {wrapProbe,wrappedFindings,estimateMathWidthMm,containerWidthMm,estimatedWraps,pathTo,wrapFix,WRAP_STEPS} from '../src/lib/booklet-wrap-check.js';
+
+test('the rendered probe permits wrapped prose with intact inline maths, retaining wrapped working',()=>{
+ const rect=top=>({top,bottom:top+10,left:0,width:100,height:10});
+ const formula={nodeType:1,matches:s=>s==='.katex',getBoundingClientRect:()=>rect(20)};
+ const make=text=>({nodeType:1,matches:()=>false,querySelector:s=>s==='.katex'?formula:null,childNodes:[{nodeType:3,textContent:text},formula],querySelectorAll:()=>[{textContent:'x+1'}],textContent:text+'x+1',getBoundingClientRect:()=>rect(0),closest:s=>s==='td,th'?null:{dataset:{editRoot:'q1',nodeId:'p1'}},parentElement:{getBoundingClientRect:()=>rect(0)}});
+ const prior=globalThis.document;
+ globalThis.document={createRange:()=>({selectNodeContents(){},getClientRects:()=>[rect(0)]})};
+ try{
+  const page=p=>({querySelector:()=>null,getBoundingClientRect:()=>({width:210,left:0,top:0}),querySelectorAll:()=>[p]});
+  assert.equal(wrapProbe(page(make('Describe the changes in the values of '))).length,0);
+  assert.equal(wrapProbe(page(make('Common ratio of '))).length,0);
+  assert.equal(wrapProbe(page(make('For '))).length,1);
+  assert.equal(wrapProbe(page(make(''))).length,1);
+  const display=make('');const query=display.querySelector;display.querySelector=s=>s.startsWith('br,')?{}:query(s);
+  assert.equal(wrapProbe(page(display)).length,0,'authored display formulas start separate lines');
+ }finally{if(prior===undefined)delete globalThis.document;else globalThis.document=prior;}
+});
 
 const row=(over={})=>({block:'q1',node:'q1-a',latex:'x=\\frac{a}{b}',lines:2,widthMm:60,containerMm:55,page:3,...over});
 

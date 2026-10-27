@@ -9,6 +9,24 @@ import {paginateFlow} from '../src/lib/booklet-pagination.js';
 import {bookletComments,createFeedback,reconcileFeedback,feedbackPrompt,feedbackStatus} from '../src/lib/booklet-feedback.js';
 import {flowCommand} from '../src/lib/booklet-flow.js';
 const fixture=()=>createEditableProject({id:'document-test',title:'Document test',sections:[{id:'s',title:'Theory',blocks:[{id:'b',type:'rich-text',content:'Keep this equation.'},{id:'other',type:'rich-text',content:'Other paragraph.'}]}]});
+test('deleting a positioned paragraph removes its slots while preserving neighbouring custom layout',()=>{
+ const p=fixture(),doc=fromSource('Example\n\nKeep this equation.');p.sections[0].blocks[0].content=doc;
+ const slot=id=>({id:'slot-'+id,type:'item',ref:'b/content#'+id,width:57});
+ const tree={version:1,root:{id:'root',type:'group',direction:'stack',children:doc.blocks.map(n=>slot(n.id))}};
+ p.settings.layoutOverrides.blockLayouts.b={arrangement:structuredClone(tree)};
+ p.sections[0].blocks[0].presentation={layoutOverrides:{blockLayouts:{b:{arrangement:structuredClone(tree)}}}};
+ const next=updateProjectContent(p,'b','/content',{...doc,blocks:doc.blocks.slice(1)});
+ for(const layout of [next.settings.layoutOverrides.blockLayouts.b,next.sections[0].blocks[0].presentation.layoutOverrides.blockLayouts.b])assert.deepEqual(layout.arrangement.root.children,[slot(doc.blocks[1].id)]);
+ assert.equal(p.settings.layoutOverrides.blockLayouts.b.arrangement.root.children.length,2);
+ assert.equal(next.sections[0].blocks[1],p.sections[0].blocks[1]);
+});
+test('clearing a paragraph keeps its editable slot when the paragraph identity remains',()=>{
+ const p=fixture(),doc=fromSource('Example');p.sections[0].blocks[0].content=doc;
+ p.settings.layoutOverrides.blockLayouts.b={arrangement:{version:1,root:{id:'root',type:'group',direction:'stack',children:[{id:'slot',type:'item',ref:'b/content#'+doc.blocks[0].id}]}}};
+ const edited=structuredClone(doc);edited.blocks[0].inlines=[];
+ const next=updateProjectContent(p,'b','/content',edited);
+ assert.equal(next.settings,p.settings);
+});
 test('automatic review records never become comments or exported feedback',()=>{
  const p=fixture(),user=createFeedback(p,{rootId:'b'},'My feedback');
  const legacy={id:'legacy',note:'Older personal note',resolved:false};

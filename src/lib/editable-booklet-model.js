@@ -304,7 +304,28 @@ export function updateProjectContent(project, rootId, pointer, value) {
   const stored=pointer.endsWith('/answer/short')&&target.block&&!teachingAnswerCategory(target.block)&&!target.block.sourceAtom?normaliseShortAnswer(value):value;
   // Only the path to the edited value is copied. Source evidence, diagrams and
   // other questions retain their identity and do not enter the keystroke path.
-  return replaceAtPath(project,[...target.path,...parts],clone(stored));
+  let next=replaceAtPath(project,[...target.path,...parts],clone(stored));
+  const previous=parts.reduce((node,key)=>node?.[key],target.node);
+  if(isDocument(previous)&&isDocument(stored)&&target.block){
+    const retained=new Set(stored.blocks.map(node=>node.id));
+    const removed=new Set(previous.blocks.filter(node=>!retained.has(node.id)).map(node=>rootId+pointer+'#'+node.id));
+    if(removed.size){
+      // A paragraph deletion is also a deletion of its positioned slot. Keep
+      // unrelated custom placements and source evidence; never migrate on load.
+      const prune=layout=>{
+        if(!layout?.arrangement?.root)return layout;
+        const tree=clone(layout.arrangement);let changed=false;
+        const keep=node=>{if(node.type==='item'){if(removed.has(node.ref)){changed=true;return false;}return true;}const had=node.children?.length;node.children=node.children?.filter(keep)??[];return !had||node.children.length>0;};
+        keep(tree.root);return changed?{...layout,arrangement:tree}:layout;
+      };
+      const id=target.block.id,layout=next.settings?.layoutOverrides?.blockLayouts?.[id],clean=prune(layout);
+      if(clean!==layout)next=replaceAtPath(next,['settings','layoutOverrides','blockLayouts',id],clean);
+      const path=locateBookletContent(next,id)?.path,presentation=path?.reduce((node,key)=>node?.[key],next)?.presentation;
+      const local=presentation?.layoutOverrides?.blockLayouts?.[id],cleanLocal=prune(local);
+      if(cleanLocal!==local)next=replaceAtPath(next,[...path,'presentation','layoutOverrides','blockLayouts',id],cleanLocal);
+    }
+  }
+  return next;
 }
 
 export function updateProjectSettings(project, patch = {}) {

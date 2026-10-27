@@ -1,3 +1,4 @@
+import {layoutEquationAnnotations} from '../../public/libs/maths-editor/annotated-equation.mjs';
 import {calibrateGraphStrokes} from './graph-strokes.js';
 import {teachingLabels} from './booklet-labels.js';
 import {isLeanReview,printableProject} from './booklet-review-profile.js';
@@ -67,7 +68,9 @@ export async function settleBookletMeasurement(root,{signal,timeoutMs=300000,cal
   check();
   // Image/font waits can allow newly mounted diagrams to join the surface.
   if(!diagramsReady())await waitForDiagrams();
-  check();calibrate(root);
+  check();
+  if(root.querySelector('[data-type="annotated-equation"]'))layoutEquationAnnotations(root);
+  calibrate(root);
   if(root.querySelector('.tikz-error,.katex-error'))throw Error('Mathematics failed to render');
   if(!diagramsReady())throw Error('A diagram has not rendered');
 }

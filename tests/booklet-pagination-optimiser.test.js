@@ -35,15 +35,18 @@ function fakePaginator(heights,{split=null,leak=false}={}){
 }
 const ids=p=>p.sections[0].blocks.map(b=>b.id);
 
-test('bandAllows keeps a pull within +-1 band and refuses barriers',()=>{
+test('bandAllows preserves difficulty progression as well as band distance and barriers',()=>{
  const unit=(band,extra={})=>({band,barrier:false,...extra});
  const units=[unit(0),unit(1),unit(2),unit(3)];
- assert.equal(bandAllows(units,2,1),true,'Mastery over Development is one band');
+ assert.equal(bandAllows(units,2,1),false,'space filling cannot put Mastery before Development');
  assert.equal(bandAllows(units,2,0),false,'Mastery over Foundation is two bands');
  assert.equal(bandAllows(units,3,1),false);
  assert.equal(bandAllows([unit(1),unit(1,{barrier:true}),unit(1)],2,1),false,'cannot jump a barrier');
  assert.equal(bandAllows([unit(null),unit(1)],1,0),false,'an unrated unit is never jumped');
  assert.equal(bandAllows([unit(1),unit(null,{barrier:true})],1,0),false);
+ assert.equal(bandAllows([unit(1),unit(2)],0,2),false,'moving Development behind Mastery also creates an inversion');
+ assert.equal(bandAllows([unit(2),unit(1)],1,0),true,'an easier task can move before a harder one');
+ assert.equal(bandAllows([unit(1),unit(1)],1,0),true,'same-band gap filling remains available');
 });
 
 test('the optimiser fills a gap with a later unit within one band, and records the move',async()=>{
