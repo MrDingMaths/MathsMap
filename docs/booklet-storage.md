@@ -109,6 +109,16 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+On 27 October 2026 James explicitly authorised a total repository limit of
+**3000 MiB (3,145,728,000 bytes)**, superseding the proposed 2229 MiB allowance
+and the previous 2226 MiB limit. This permits later verified campaign
+checkpoints within that limit without another budget request; it does not
+authorise unrelated files or grant content acceptance. Individual-file limits,
+their existing exceptions and generated-file exclusions remain unchanged.
+The accompanying checkpoint adds only the verified revision-1 Y9 Chapter 3
+and Chapter 10 masters (1,480,829 and 2,159,479 bytes); their exact delivery
+hashes and local recovery snapshots are checked before staging.
+
 The Stage 6 delivery checkpoint on 27 October 2026 raises the total from 2206
 to 2226 MiB for eleven verified revision-1 live masters, adding 20,845,291 bytes
 of editable content. The reviewed index before this note is 2,332,480,200 bytes.
