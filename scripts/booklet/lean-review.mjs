@@ -505,6 +505,9 @@ export async function runShadingReview({runDir,projectFile,exportDir,teachingExp
 // ---- export and visual review -------------------------------------------------
 
 const pageKey=(edition,hash)=>edition+':'+hash;
+// Negative current-page evidence must survive a narrower inspection selection.
+// Matching hashes never grant acceptance; they only keep known failures open.
+const currentFailedPages=(state,edition,entry)=>(entry?.pageHashes??[]).filter(page=>state.pages?.[pageKey(edition,page.hash)]?.outcome==='needs-change');
 // From a draft five-edition export: the pages to look at that have no accepted
 // inspection of the same rendered page hash.
 export function visualPlan({project,report,state,previousReport,manifest={}}){
@@ -535,6 +538,7 @@ export function visualPlan({project,report,state,previousReport,manifest={}}){
    selected=['student','short','worked'].includes(edition)?[...repaired].sort((a,b)=>a-b):selected.filter(page=>repaired.has(page));
    if(policy.enabled)selected=[...new Set([...selected,...requiredSelection.filter(page=>{const review=state.pages[pageKey(edition,entry.pageHashes[page-1].hash)];return review?.outcome!=='accepted'||review.reviewProfile!==SOURCE_VISUAL_PROFILE;})])].sort((a,b)=>a-b);
   }
+  selected=[...new Set([...selected,...currentFailedPages(state,edition,entry).map(page=>page.page)])].sort((a,b)=>a-b);
   const pending=selected.filter(page=>{const row=state.pages[pageKey(edition,entry.pageHashes[page-1].hash)];return row?.outcome!=='accepted'||policy.enabled&&row.reviewProfile!==SOURCE_VISUAL_PROFILE;});
   plan[edition]={pdf:entry.pdf,total:entry.pageHashes.length,automatedIssues:entry.issues??[],selected:selected.length,pending:pending.map(page=>({...(policy.enabled?{reviewProfile:SOURCE_VISUAL_PROFILE}:{}),page,hash:entry.pageHashes[page-1].hash,blocks:entry.pageHashes[page-1].blocks??[]}))};
  }
@@ -771,7 +775,12 @@ export function reviewStatus({runDir,projectFile,exportDir,projectHash}){
   const visualPending=Object.entries(plan).reduce((sum,[edition,entry])=>sum+entry.pending.filter(row=>outcome(edition,row)?.outcome!=='accepted'||row.reviewProfile&&outcome(edition,row)?.reviewProfile!==row.reviewProfile).length,0);
   const retainedCount=kind=>Object.entries(plan).reduce((sum,[edition,entry])=>sum+entry.pending.filter(row=>!state.pages[pageKey(edition,row.hash)]&&outcome(edition,row)?.outcome===kind).length,0);
   const pending=pendingBlocks(project,state).length,failed=all.filter(({block})=>state.questions[block.id]?.outcome==='failed'&&state.questions[block.id].hash===contentHash(block)).map(({block})=>block.id),pagesNeedingChange=scopedCount('needs-change')+retainedCount('needs-change');
-  const findings=[...outstandingFindings(state,report),...outstandingFindings(state,plan).filter(row=>!state.pages[pageKey(row.edition,report[row.edition].pageHashes[row.page-1].hash)])];
+  const findings=outstandingFindings(state,plan);
+  // Completion checks the whole current report, even if a stored plan omits a
+  // failed page. Historical hashes remain historical and are never deleted.
+  for(const [edition,entry]of Object.entries(report))for(const page of currentFailedPages(state,edition,entry)){
+   if(!findings.some(row=>row.edition===edition&&row.page===page.page))findings.push({edition,page:page.page,blocks:page.blocks??[],finding:state.pages[pageKey(edition,page.hash)].finding||'Current page still needs changes'});
+  }
   const workflow=state.workflow?.[project.id],currentHash=completionHash(project);
   const polishFile=path.join(runDir,'polish','state.json'),polish=fs.existsSync(polishFile)?read(polishFile):null;
   const completion=assessCompletion({pending,failed,ratingsMissing:reasoningRatings.missing,shadingPending,visualPending,findings,exportProblems:problems,required:policy.enabled?['preparation','early layout sample']:[],completed:[...(workflow?.preparedHash===currentHash?['preparation']:[]),...(workflow?.sample?.accepted&&workflow.sample.sourceKey===sha(JSON.stringify(manifest.source??{}))?['early layout sample']:[])],errors:[...(workflow?.projectHash===currentHash?workflow.errors??[]:[]),...(polish?.completionBinding===currentHash?polish.completion?.blockers??[]:[]),...(policy.enabled?currentExportProblems(exportDir,project,report):[])]});

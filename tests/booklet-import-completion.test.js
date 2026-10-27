@@ -10,7 +10,7 @@ import {teacherBlocks} from '../polish/guards.mjs';
 import {gateProblems} from '../polish/run.mjs';
 import {contentFindings} from '../polish/content.mjs';
 import {blockHash,bookletIndex} from '../first-pass/review.mjs';
-import {contentHash,visualPlan,reviewStatus,loadReviewed,saveReviewed,runVisualReview} from '../scripts/booklet/lean-review.mjs';
+import {contentHash,visualPlan,reviewStatus,loadReviewed,saveReviewed,runVisualReview,recordVisualResult} from '../scripts/booklet/lean-review.mjs';
 import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
 import {adoptCompletionProfile,finishImport,prepareFinishCandidate,selectFinishExport} from '../scripts/booklet/import-finish.mjs';
 import {sampleSourceKey,reviewImportSample} from '../scripts/booklet/import-sample-review.mjs';
@@ -175,4 +175,41 @@ test('failed fresh export without a committed report stays incomplete and cannot
  const result=await finishImport(w,{prepare:async()=>{},layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),export:async()=>{throw Error('frozen runtime failed');},prepareVisual:async()=>{throw Error('no report');},visual:async()=>{visual++;},status:async()=>{status++;return {deliverable:true,completion:assessCompletion()};}});
  assert.equal(result.deliverable,false);assert.equal(result.saved,false);assert.equal(visual+status,0);assert.match(result.completion.blockers.join(' '),/No checked final export|frozen runtime failed/);assert.ok(fs.readFileSync(w.projectFile).equals(before));
  const state=JSON.parse(fs.readFileSync(path.join(w.runDir,'lean-review/finish/state.json')));assert.equal(state.exports.length,1);assert.equal(state.exports[0].exportError,'frozen runtime failed');
+});
+
+test('current failed pages remain required after targeted or changed-page selection',t=>{
+ const {project,manifest}=fixture(t),pages=Array.from({length:12},(_,i)=>({page:i+1,hash:'current-'+i,blocks:['theory']}));
+ const report=Object.fromEntries(['student','short','worked','with-short','with-worked'].map(edition=>[edition,{pdf:{path:edition},pageHashes:pages,issues:[]}]));
+ const direct={...manifest,completionRoute:'iceem-direct'},ordinary=visualPlan({project,report,state:{pages:{},questions:{}},manifest:direct});
+ const omitted=pages.find(page=>!ordinary.student.pending.some(row=>row.page===page.page));assert.ok(omitted,'fixture includes a genuinely unselected page');
+ for(const profile of [direct,manifest,{}]){
+  const state={questions:{},pages:Object.fromEntries(Object.keys(report).flatMap(edition=>pages.map(page=>[edition+':'+page.hash,{outcome:'accepted',reviewProfile:SOURCE_VISUAL_PROFILE}])))};
+  state.pages['student:'+omitted.hash]={outcome:'needs-change',reviewProfile:SOURCE_VISUAL_PROFILE,finding:'Readable centre marker required.'};const before=structuredClone(state);
+  for(const previousReport of [undefined,report]){
+   const plan=visualPlan({project,report,state,manifest:profile,previousReport});assert.ok(plan.student.pending.some(page=>page.hash===omitted.hash));
+  }
+  assert.deepEqual(state,before,'planning does not rewrite verdicts');
+ }
+});
+
+test('completion blocks current failures omitted by a valid stored plan, not stale historical hashes',t=>{
+ const w=fixture(t),{out,report,state}=passedExport(w);write(path.join(w.runDir,'manifest.json'),{...w.manifest,completionProfile:undefined});
+ write(path.join(out,'visual-plan.json'),Object.fromEntries(Object.entries(report).map(([edition,row])=>[edition,{pdf:row.pdf,pending:[]}])));
+ const status=()=>reviewStatus({runDir:w.runDir,projectFile:w.projectFile,exportDir:out,projectHash:projectReviewHash});assert.equal(status().deliverable,true);
+ const historical={outcome:'needs-change',finding:'Old layout failure',at:'historical'};state.pages['student:historical-hash']=historical;saveReviewed(path.join(w.runDir,'lean-review'),state);
+ assert.equal(status().deliverable,true);assert.deepEqual(loadReviewed(path.join(w.runDir,'lean-review')).pages['student:historical-hash'],historical);
+ state.pages['student:student']={outcome:'needs-change',finding:'Current label collision',reviewProfile:SOURCE_VISUAL_PROFILE};saveReviewed(path.join(w.runDir,'lean-review'),state);
+ const blocked=status();assert.equal(blocked.visualPending,0,'stored plan deliberately omits the page');assert.equal(blocked.pagesNeedingChange,1);assert.equal(blocked.deliverable,false);assert.equal(blocked.findings.length,1);assert.match(blocked.completion.blockers.join(' '),/Current label collision/);
+ const before=structuredClone(state.pages);status();assert.deepEqual(loadReviewed(path.join(w.runDir,'lean-review')).pages,before,'status is read-only');
+});
+
+test('a fresh current-page review resolves the blocker without clearing historical verdicts',t=>{
+ const w=fixture(t),{out,report,state}=passedExport(w);write(path.join(w.runDir,'manifest.json'),{...w.manifest,completionProfile:undefined});
+ write(path.join(out,'visual-plan.json'),Object.fromEntries(Object.entries(report).map(([edition,row])=>[edition,{pdf:row.pdf,pending:[]}])));
+ state.pages['student:student']={outcome:'needs-change',finding:'Current clipped label'};
+ state.pages['student:old-failure']={outcome:'needs-change',finding:'Preserved historical failure',at:'old'};const historical=structuredClone(state.pages['student:old-failure']);
+ const status=()=>reviewStatus({runDir:w.runDir,projectFile:w.projectFile,exportDir:out,projectHash:projectReviewHash});
+ recordVisualResult({batch:{edition:'student',rows:[{page:1,hash:'other-old-page',blocks:['theory']}]},result:{pages:[{page:1,outcome:'accepted'}]},state});saveReviewed(path.join(w.runDir,'lean-review'),state);assert.equal(status().deliverable,false,'another hash cannot resolve the current failure');
+ recordVisualResult({batch:{edition:'student',rows:[report.student.pageHashes[0]]},result:{pages:[{page:1,outcome:'accepted'}]},state});saveReviewed(path.join(w.runDir,'lean-review'),state);
+ assert.equal(status().deliverable,true);assert.deepEqual(loadReviewed(path.join(w.runDir,'lean-review')).pages['student:old-failure'],historical);
 });
