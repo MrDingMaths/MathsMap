@@ -109,6 +109,13 @@ Keep archive objects, manifests and receipts together. These archives provide lo
 
 ## Prevent future Git growth
 
+The later 27 October 2026 checkpoint raises the total from 2202 to 2204 MiB.
+The reviewed index is 2,309,017,733 bytes after the verified Data, Estimating
+Change, Arithmetic Sequences, Fundamental Theorem, Further Areas, Rates of Change
+and Acute Trigonometry repairs and synchronised bank updates. This is current
+editable content growth; generated artifacts and automatic histories remain
+excluded, with the same individual-file and content-acceptance safeguards.
+
 The 27 October 2026 non-exemplar repair checkpoint raises the tracked-file budget
 from 2200 to 2202 MiB. The reviewed index contains 2,307,678,020 bytes, including
 the verified editable Further Parabolas, Right-Angled Trigonometry and Working
