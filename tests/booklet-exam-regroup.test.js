@@ -31,6 +31,7 @@ test('explicit Exam topic retains all section instructions and undated sample at
 test('class copies, imports, exemplars, archives and unknown source providers are excluded',()=>{
  for(const patch of [{library:{category:'class',courseId:'s6-ext1-11'}},{library:{category:'import-review',courseId:'s6-ext1-11'}},{title:'Exam Exemplar'},{exemplar:true},{library:{category:'master',courseId:'s6-ext1-11',archivedAt:'2026-10-28'}}])assert.equal(existingExamCandidate({...project([]),...patch},options).report.status,'excluded');
  assert.equal(sourceFromBookletTitle({source:{provider:'CAIE',label:'CAIE 2020'}}),null);
- const ambiguous=existingExamCandidate(project([{id:'s',topicId:'t',phase:'practice',blocks:[question('q','HSC Sample Question Band 3')]}]),options);
+ assert.deepEqual(sourceFromBookletTitle({title:'HSC Sample Question Band 3'}),{provider:'HSC',label:'HSC Sample Question',origin:'booklet'});
+ const ambiguous=existingExamCandidate(project([{id:'s',topicId:'t',phase:'practice',blocks:[question('q','HSC Question')]}]),options);
  assert.equal(ambiguous.project,null);assert.equal(ambiguous.report.status,'held');assert.equal(ambiguous.report.held[0].id,'q');
 });

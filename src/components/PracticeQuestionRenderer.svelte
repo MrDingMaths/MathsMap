@@ -1,5 +1,5 @@
 <script>
-  import {printedQuestionSource} from '../lib/question-source.js';
+  import {printedQuestionSource,sourceAttributionPromptId} from '../lib/question-source.js';
   import {isKeyIdeaNumber,keyIdeaNumber} from '../lib/booklet-labels.js';
   import { onDestroy } from 'svelte';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
@@ -28,6 +28,7 @@
   const diagramWidthOverrides = $derived({...question.presentation?.layoutOverrides?.diagramWidths, ...suppliedDiagramWidthOverrides});
   const diagramColourModes = $derived({...question.presentation?.layoutOverrides?.diagramColourModes, ...suppliedDiagramColourModes});
   const questionArrangement = $derived(blockLayouts[question.id]?.arrangement ?? blockLayouts[question.presentation?.ownerId]?.arrangement);
+  const sourceInPrompt = $derived(!!printedQuestionSource(question)&&!!sourceAttributionPromptId(question));
   const shortAnswerLabelBaseline = $derived(!!compactAnswerSettings && showShortAnswers && (blockLayouts[question.id]?.shortAnswerLabelAlign ?? blockLayouts[question.presentation?.ownerId]?.shortAnswerLabelAlign) === 'first-baseline');
   const teachingResponses = $derived(!compactAnswerSettings&&(showShortAnswers||showWorkedSolutions)?teachingAnswerArrangement(arrangementQuestionBlock(question,number),questionArrangement,{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides},showShortAnswers?'short':'worked'):null);
   const letter = (index) => String.fromCharCode(97 + index);
@@ -247,11 +248,11 @@
 {/snippet}
 
 <div class:short-answer-key={showShortAnswers&&!teachingAnswerCategory(question)&&!question.sourceAtom} style:--short-answer-ink={SHORT_ANSWER_INK} class:answer-key={showShortAnswers || showWorkedSolutions} class:compact-answer={!!compactAnswerSettings} class="practice-question" data-question-id={question?.id ?? ''} style={compactAnswerSettings?`--type-body:${showShortAnswers?compactAnswerSettings.shortFontPt:compactAnswerSettings.workedFontPt}pt;--answer-label-width:${answerLabelWidthMm}mm`:''}>
-  {#if !showShortAnswers && !showWorkedSolutions && printedQuestionSource(question)}<div class="question-source">{printedQuestionSource(question)}</div>{/if}
+  {#if !showShortAnswers && !showWorkedSolutions && printedQuestionSource(question)&&!sourceInPrompt}<div class="question-source">{printedQuestionSource(question)}</div>{/if}
   {#if isRewriteTableQuestion(question)}
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions) || (!compactAnswerSettings && question.presentation?.permanentTeachingPrompt === true)}
-    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {answerHref} {answerPartHref} {answerMode} {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
+    {#if showTitle && question?.title && !/^(?:\d{4}\s+)?(?:NAPLAN|HSC)\b/i.test(question.title)}<h3>{question.title}</h3>{/if}{#if question?.content}<BookletArrangement {answerHref} {answerPartHref} {answerMode} showTitle={showTitle||sourceInPrompt} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} {showSpaces} {answerSpaceOverrides} {diagramColourModes} {editMode} {onSpaceResize}/>{/if}
   {:else if question?.content}{#if teachingResponses}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={teachingResponses} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{:else}{#if retainsTeachingPromptWithAnswers(question)&&!compactAnswerSettings}<BookletArrangement {showTitle} block={arrangementQuestionBlock(question,number)} arrangement={questionArrangement} layoutOverrides={{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides}} showSpaces={false} fillCloze={true} {answerSpaceOverrides} {diagramColourModes} {editMode}/>{/if}{@render renderAnswerNode(question.content)}{/if}{#if trailingQuestion}<PracticeQuestionRenderer {preserveDiagramWidths} answerHref={trailingAnswerHref} {answerPartHref} {answerMode} question={trailingQuestion} number={trailingQuestion.sourceOrder} {showSpaces} {showShortAnswers} {showWorkedSolutions} {blockLayouts} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} {editMode} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} eagerDiagrams={true}/>{/if}{/if}
 </div>
 

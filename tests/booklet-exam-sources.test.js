@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import {mathsBaseSource, normaliseQuestionSource} from '../src/lib/question-source.js';
+import {mathsBaseSource, normaliseQuestionSource,sourceAttributionPromptId} from '../src/lib/question-source.js';
 import {normaliseQuestion, containsSourceMetadata} from '../src/lib/practice-question-model.js';
 import {selectExamCandidates, readMathsBase} from '../scripts/booklet/export-mathsbase-exams.mjs';
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {flowEditionSections} from '../src/lib/booklet-flow.js';
 import {sectionShowsWorkingSpace} from '../src/lib/booklet-section-options.js';
 import {visibleImportedQuestionTitle} from '../src/lib/booklet-preview.js';
+import {arrangementExamTitle} from '../src/lib/booklet-arrangement.js';
 
 test('printed source round-trips without accepting extraction provenance',()=>{
   const source={provider:'HSC',paper:'Advanced',year:2011,label:'HSC Advanced 2011',origin:'MathsBase'};
@@ -21,6 +22,13 @@ test('printed source round-trips without accepting extraction provenance',()=>{
   assert.equal('source' in normaliseQuestion({id:'old'}),false);
   assert.equal(visibleImportedQuestionTitle({title:'2012 HSC Extension 1 Band 4',source:{label:'HSC Extension 1 2012'}}),'');
   assert.equal(visibleImportedQuestionTitle({title:'2012 HSC Extension 1 Band 4'}),'2012 HSC Extension 1');
+  const block={type:'question',source,content:{id:'root',prompt:'Stem.'}};
+  assert.equal(arrangementExamTitle(block,{ownerId:'root',editorKey:'root/prompt'}),'HSC Advanced 2011');
+  assert.equal(arrangementExamTitle(block,{ownerId:'root',editorKey:'root/prompt#table'}),'');
+  const multipart={...block,content:{id:'root',prompt:'',children:[{id:'part-a',prompt:'First task.'},{id:'part-b',prompt:'Next task.'}]}};
+  assert.equal(sourceAttributionPromptId(multipart),'part-a');
+  assert.equal(arrangementExamTitle(multipart,{ownerId:'part-a',editorKey:'part-a/prompt'}),'HSC Advanced 2011');
+  assert.equal(arrangementExamTitle(multipart,{ownerId:'part-b',editorKey:'part-b/prompt'}),'');
 });
 test('whitelist labels official/PLC sources and holds unknown trial names',()=>{
   assert.equal(mathsBaseSource('HSC.ADV.2011.Q2').label,'HSC Advanced 2011');

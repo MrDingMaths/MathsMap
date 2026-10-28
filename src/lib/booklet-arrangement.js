@@ -5,9 +5,12 @@ import {tableResponseDocument} from './booklet-table-responses.js';
 import {teachingLabels,hasEmbeddedResponseLabel} from './booklet-labels.js';
 import {estimateAnswerSpaceMm} from './practice-question-model.js';
 import {visibleImportedQuestionTitle} from './booklet-preview.js';
+import {printedQuestionSource,sourceAttributionPromptId} from './question-source.js';
 import {teachingEquationDisplays} from './booklet-teaching-alignment.js';
 
 export function arrangementExamTitle(block,entry){
+ const source=printedQuestionSource(block),owner=source&&sourceAttributionPromptId(block);
+ if(block.type==='question'&&source)return owner&&entry?.ownerId===owner&&entry?.editorKey===owner+'/prompt'?source:'';
  if(block.type!=='question'||entry?.ownerId!==block.content?.id||entry?.editorKey!==block.content.id+'/prompt')return '';
  return visibleImportedQuestionTitle(block);
 }

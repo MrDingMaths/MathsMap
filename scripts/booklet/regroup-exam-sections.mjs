@@ -10,8 +10,9 @@ export function sourceFromBookletTitle(block) {
   if(block.source?.label)return ['HSC','HSC-trial','PLC'].includes(block.source.provider)?structuredClone(block.source):null;
   const title=String(block.title??'').trim().replace(/\s+Band\s+\d+\s*$/i,'');
   const paper=title.match(/\b(Advanced|Extension\s+[12]|Standard(?:\s+[12])?)\b/i)?.[1];
-  if(!/^((?:19|20)\d{2}\s+)?HSC\b/i.test(title)||!paper)return null;
+  if(!/^((?:19|20)\d{2}\s+)?HSC\b/i.test(title))return null;
   const year=title.match(/\b((?:19|20)\d{2})\b/)?.[1];
+  if(!paper)return !year&&/^HSC Sample Question$/i.test(title)?{provider:'HSC',label:title,origin:'booklet'}:null;
   if(!year&&!/\bSample Question\b/i.test(title))return null;
   return {provider:'HSC',paper,...(year?{year}:{}),label:year?`HSC ${paper} ${year}`:title,origin:'booklet'};
 }

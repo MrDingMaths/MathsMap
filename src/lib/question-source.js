@@ -1,4 +1,5 @@
 // Printed attribution is optional; extraction evidence remains outside the question.
+import {hasVisibleContent} from './document-content.js';
 const fields = ['provider', 'paper', 'year', 'label', 'origin'];
 export function normaliseQuestionSource(value) {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
@@ -9,6 +10,12 @@ export function isQuestionSource(value) {
   return !!normaliseQuestionSource(value) && Object.keys(value).every(key => fields.includes(key) && ['string', 'number'].includes(typeof value[key]));
 }
 export const printedQuestionSource = question => normaliseQuestionSource(question?.source)?.label ?? '';
+// A multipart question can have no shared stem. Its first actual prompt is the
+// attribution's print slot, so native/custom arrangements keep it in their flow.
+export function sourceAttributionPromptId(question) {
+  const first=node=>!node?null:hasVisibleContent(node.prompt)?node.id??null:(node.children??[]).map(first).find(Boolean)??null;
+  return first(question?.content);
+}
 
 // Deliberately narrow whitelist. Unknown HSC/PLC codes are held for mapping.
 export function mathsBaseSource(code) {
