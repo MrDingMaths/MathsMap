@@ -14,6 +14,8 @@ For an oblique cylinder, derive generators where the projected rim derivative is
 
 Model open faces explicitly. For an open-top semicylinder with two end caps, the rear curved rim can have three intervals: visible interior, occluded middle and visible exterior silhouette. A blanket front/back arc swap loses the visible interior. Derive ray intersections against the actual curved wall and retained caps; the focused open-semicylinder regression covers this distinction.
 
+Compare the two projected end profiles of an extrusion after translation; independently guessed Bézier curves can disagree even when their endpoints match. Check every generator endpoint against its rim and derive tangency instead of joining convenient control points. A removed cone sector does not make all cut edges visible: retained front curved material may hide descending rear cut edges. The ICE-EM 10A Chapter 6 follow-up records three false negatives from the initial contact-sheet review. Aggregate inspected counts establish coverage, not geometric correctness of each drawing; a source-targeted question must be checked individually.
+
 ## Acceptance and current content
 
 Run `node scripts/audit-solid-visibility.mjs --strict` (or `--only id1,id2`). The generation gate and booklet candidate validation use the same geometric audit. Supported legacy solids are reconstructed from verified topology; arbitrary TeX is not automatically rewritten. Unsupported candidates need a reason and accepted review bound to the exact source hash. Changes invalidate that review. Reviews cannot waive a detected visibility defect. Candidate detection intentionally includes false positives such as planar nets and coordinate constructions; reviewers distinguish them explicitly.

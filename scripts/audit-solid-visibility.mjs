@@ -59,7 +59,7 @@ export function isSolidCandidate(code,context='') {
   code=code.replace(/(^|\n)([ \t]*% mathsmap-diagram-colours )([^\r\n]*)/g,(line,start,prefix,json)=>{
     try{const metadata=JSON.parse(json);if(typeof metadata.reference==='string')metadata.reference=metadata.reference.replace(/\b(question|part)\s+3d\b(?!\s+(?:diagram|solid|shape|object))/gi,'$1 3(d)');return start+prefix+JSON.stringify(metadata);}catch{return line;}
   });
-  if(/mathsmap-solid|tdplot|(?:prism|pyramid|cylinder|cone|sphere|cuboid|solid|\b3d\b|\b3-d\b)/i.test(context+' '+code))return true;
+  if(/mathsmap-solid|tdplot|(?:prism|pyramid|cylinder|cone|sphere|cuboid|solid|semicircular ends?|\b3d\b|\b3-d\b)/i.test(context+' '+code))return true;
   // Relation diagrams have upright set ovals joined only by arrows between
   // named nodes. Recognise that bounded planar structure before the ellipse
   // heuristic; an arbitrary ellipse or a solid cue still needs solid review.
