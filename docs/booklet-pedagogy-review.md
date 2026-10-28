@@ -34,6 +34,8 @@ Duplicate-question check (11 October 2026, user requested): each review also com
 
 28 October 2026, user approved: booklet-applicable worked-example and guided-practice principles are standing review criteria, reported as `example-principle`. The source documents mark each principle **booklet: yes/no**; website-only display, reveal and `theory.*` storage requirements are excluded. Report concrete learning or presentation defects, not optional wording or a wholesale method rewrite. Existing source methods and explicit local exceptions remain protected. Findings and generated drafts remain recommendations in Studio comments until James approves repairs.
 
+28 October 2026, James clarified: prior knowledge must not become a new worked example. Any proposed prerequisite retrieval belongs in the topic’s opening review block; James decides whether reviewing it is worthwhile. Basic substitution/function evaluation is prior knowledge in Year 11 Extension 1. Preserve the distinction between the opening review and the deferred Mixed review end section. Additional or substantially revised worked examples/guided practice, prerequisite-review additions, pedagogy bridges/teaching/cues, method/meaning changes, topic-coverage changes and instructional removals remain Studio comments pending individual approval; calibration never approves insertion. Routine-practice backfill for an already-taught archetype is the narrow automatic exception after exact Sonnet access, ratings and independent checks.
+
 Run the archetype-coverage pilot before Challenge restructuring. Genuinely different routine methods without an example are `missing`; a modest step up is `bridge` and calls for scaffolded questions before new teaching. Exclude Challenge and Exam sections. James reviews the pilot topic's coverage and principles findings before rollout. New content uses exactly `claude-sonnet-5-5`; unavailable access is a blocker, never a reason to substitute another model. Reviews and ratings retain their existing settings.
 
 The remaining chunk-structure and website rules in the pedagogy contract remain authoring guidance. Recorded precedents remain binding.
@@ -42,7 +44,7 @@ The remaining chunk-structure and website rules in the pedagogy contract remain 
 
 ```text
 node pedagogy/review.mjs principles --project ID [--topics a,b] [--provenance-dir DIR]
-node pedagogy/review.mjs archetypes --project ID [--topics a,b] [--output FILE]
+node pedagogy/review.mjs archetypes --project ID [--topics a,b] [--output FILE] [--concurrency 1-3]
 node pedagogy/review.mjs map    --project ID | --project-file FILE
 node pedagogy/review.mjs review --project ID | --project-file FILE [--topics a,b] [--review-effort low|medium] [--candidates-only]
 node pedagogy/review.mjs post   --project ID [--suggestions] [--findings ID,ID]
@@ -63,6 +65,12 @@ node pedagogy/review.mjs seeded [--review-effort low|medium]
 - `seeded` runs both passes on `tests/fixtures/pedagogy-seeded.json` and compares the result with its planted failures and non-failures.
 
 Run the tool only on a booklet with no import or feedback repair in flight. Each worker call takes a slot in the booklet's canonical run directory, so the three-worker limit is shared with any other session. Launch it outside the outer sandbox from the first attempt, as `AGENTS.md` requires for Codex workers.
+
+## Reusing archetype metadata after scope-external changes
+
+`node pedagogy/archetype-metadata.mjs --snapshot REVIEWED.json --project-file CURRENT_OR_CANDIDATE.json --map REVIEWED_MAP.json --out OUTPUT_DIR` writes `candidate.json`, `patch.json` and an explicitly rebound `map.json`; it never saves a live project. The reviewed snapshot file hash must match the map. Every mapped block must still match under `archetypeSourceHash`: canonical SHA-256 of the entire block, excluding only `classification.archetype` and `classification.archetypeReview`. Missing/changed blocks fail closed; teaching content and its order must also match because they supplied coverage context. Comments, new exam-only questions and section moves may change outside that scope. Preserve the original `reviewedRevision` and snapshot hash; map `revision` records the checked current target. This is evidence reuse, never a new review or acceptance. The coordinator applies only the patch’s two classification fields under its expected-revision transaction, preserving other current content and comments.
+
+For approved source-label additions only, pass `--approved-attributions FILE` containing `{ "approvedBy": "James", "reason": "the recorded approval", "sources": { "block-id": { "provider": "HSC", "paper": "Extension 1", "year": "2011", "label": "HSC Extension 1 2011", "origin": "MathsBase" } } }`. This is an exact block-ID/value whitelist; only the optional `source` attribution may differ. Other block fields, mathematics and teaching must still match. The rebound map records the exception and both reviewed/target hashes; it preserves pending decisions. Never construct a broad exception from changed content or treat the helper as approval.
 
 ## Finding states
 

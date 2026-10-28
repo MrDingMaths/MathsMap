@@ -15,8 +15,8 @@ export function nodesOf(value){
 export const teacherFlags=p=>(p.studio?.flags??[]).filter(f=>!f.kind&&f.at);
 export function teacherBlocks(project){
  const owners=new Map(blocksOf(project).flatMap(b=>nodesOf(b).map(n=>[n.id,b.id]))),found=new Set();
- // Open requests still need repair. Resolved decisions and authorised repairs stay protected.
- for(const flag of teacherFlags(project).filter(f=>f.resolved))for(const id of [flag.targetId,flag.anchor?.rootId])if(owners.has(id))found.add(owners.get(id));
+ // Any dated teacher comment marks review; automatic polish cannot alter its block.
+ for(const flag of teacherFlags(project))for(const id of [flag.targetId,flag.anchor?.rootId])if(owners.has(id))found.add(owners.get(id));
  for(const b of blocksOf(project))if(b.sourceReview?.authorisedFeedback||(b.sourceReview?.feedbackRepairs??[]).some(e=>!automatedRepair(e)))found.add(b.id);
  return found;
 }
@@ -49,7 +49,7 @@ export function layoutSafetyIssues(before,after){
 
 // Full-project guard, also used immediately before the revision-checked live save.
 // `reference` is the run's immutable input, so an earlier calibration never makes a teacher edit look imported.
-export function polishSafetyIssues(before,after,{reference=before,imported=null,protectedIds=teacherBlocks(reference),spacing=true}={}){
+export function polishSafetyIssues(before,after,{reference=before,imported=null,protectedIds=teacherBlocks(reference),spacing=true,challengeSplit=false}={}){
  const issues=[],oldBlocks=blocksOf(before),newBlocks=blocksOf(after),nextBlocks=new Map(newBlocks.map(b=>[b.id,b])),nextNodes=new Map(newBlocks.flatMap(b=>nodesOf(b).map(n=>[n.id,{node:n,block:b}]))),beforeIds=new Set(oldBlocks.flatMap(b=>nodesOf(b).map(n=>n.id)));
  const referenceBlocks=new Map(blocksOf(reference).map(b=>[b.id,b]));
  const oldFlags=new Map((after.studio?.flags??[]).map(f=>[f.id,f]));
@@ -77,7 +77,7 @@ export function polishSafetyIssues(before,after,{reference=before,imported=null,
    const protectedSpace=!stillImportAllowance(copies,estimate),afterCopies=n?allowanceCopies(after,now,n):[];
    if(n)for(const [key,value]of afterCopies){
     const previous=allowanceCopies(before,block,node).find(([k])=>k===key)?.[1];
-    if(Number.isFinite(previous)&&value<previous&&value+0.01<workingSpaceFloor(now,n,{reviewed:teacherFlags(reference).some(f=>f.resolved)}))issues.push('working space below its floor '+node.id);
+    if(Number.isFinite(previous)&&value<previous&&value+0.01<workingSpaceFloor(now,n,{reviewed:teacherFlags(reference).length>0}))issues.push('working space below its floor '+node.id);
    }
    if(protectedSpace&&!equal(copies,afterCopies))issues.push('changed teacher/unknown working space '+node.id);
    if(teacherFlags(reference).length&&afterCopies.some(([key,value])=>{const previous=allowanceCopies(before,block,node).find(([k])=>k===key)?.[1];return Number.isFinite(previous)&&value>previous+0.01;}))issues.push('increased reviewed working space '+node.id);
@@ -93,7 +93,10 @@ export function polishSafetyIssues(before,after,{reference=before,imported=null,
  const oldOrder=new Map(oldBlocks.map((b,i)=>[b.id,i])),newOrder=new Map(newBlocks.map((b,i)=>[b.id,i]));
  for(let i=0;i<oldBlocks.length;i++)for(let j=i+1;j<oldBlocks.length;j++){
   const a=oldBlocks[i],b=oldBlocks[j];if(!isPractice(a)||!isPractice(b)||!newOrder.has(a.id)||!newOrder.has(b.id)||newOrder.get(a.id)<newOrder.get(b.id))continue;
-  const x=bandIndex(reasoningScore(a)),y=bandIndex(reasoningScore(b));if(x==null||y==null||Math.abs(x-y)>1)issues.push('reordered outside one difficulty band '+a.id+'/'+b.id);
+  const movedIds=new Set(challengeSplit?.movedIds??[]),routineOrders=challengeSplit?.routineOrders??[];
+  const newlyMoved=id=>movedIds.has(id)&&!before.sections.some(s=>s.role==='challenge'&&s.blocks.some(n=>n.id===id))&&after.sections.some(s=>s.role==='challenge'&&s.blocks.some(n=>n.id===id));
+  const allowedChallengeMove=newlyMoved(a.id)||newlyMoved(b.id)||routineOrders.some(order=>order.includes(a.id)&&order.includes(b.id)&&order.indexOf(b.id)<order.indexOf(a.id));
+  const x=bandIndex(reasoningScore(a)),y=bandIndex(reasoningScore(b));if(!allowedChallengeMove&&(x==null||y==null||Math.abs(x-y)>1))issues.push('reordered outside one difficulty band '+a.id+'/'+b.id);
  }
  // Preserve relative order and adjacency of linked groups, including links added during this run.
  for(const b of [...oldBlocks,...newBlocks])for(const n of nodesOf(b))for(const ref of references(n)){
