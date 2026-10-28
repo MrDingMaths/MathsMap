@@ -1,4 +1,4 @@
-import { feedbackText } from './booklet-feedback.js';
+import { contentExcerpt, questionSummary, questionSearchText } from './bank-question-summary.js';
 import { logicalUnits, flowId, isPractice } from './booklet-flow.js';
 import { withProjectSections, ownProjectSection } from './editable-booklet-model.js';
 
@@ -13,23 +13,7 @@ export function outlineKind(block) {
   return {kind:block.type === 'question' ? 'teaching' : block.type,label:block.sourceAtom ? 'Teaching' : BLOCK_KINDS[block.type] ?? (block.type === 'question' ? 'Teaching' : 'Content'),group:'theory'};
 }
 
-export function contentExcerpt(content, limit = 100) {
-  const prompt = feedbackText(content?.prompt ?? content).replace(/\s+/g, ' ').trim();
-  const first = content?.children?.map(c => feedbackText(c.prompt)).find(Boolean);
-  return [prompt, prompt.length < 30 ? first : ''].filter(Boolean).join(' · ').slice(0, limit);
-}
-
-export function questionSummary(question, skills = []) {
-  const skill = skills.find(s => s.id === question.classification?.primarySkillId)?.title
-    ?? question.classification?.primarySkillId?.replaceAll('-', ' ') ?? 'Question';
-  return { title: question.title?.trim() || skill, excerpt: contentExcerpt(question.content),
-    source: [question.source?.file, question.source?.pageNumber ? `p${question.source.pageNumber}` : '', question.source?.questionNumber ? `Q${question.source.questionNumber}` : ''].filter(Boolean).join(' · ') };
-}
-
-export function questionSearchText(question) {
-  const visit = node => [feedbackText(node?.prompt), ...(node?.children??[]).map(visit)].join(' ');
-  return visit(question.content);
-}
+export { contentExcerpt, questionSummary, questionSearchText };
 
 export function pageBoundaryKind(project, blockId) {
   const entries=project.sections.flatMap(s=>s.blocks.map(block=>({section:s,block})));

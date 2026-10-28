@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { loadPracticeBank } from '../src/lib/practice-question-storage.js';
+import { loadPracticeBank, loadBankRecords } from '../src/lib/practice-question-storage.js';
 
 const response = (value) => ({ ok: true, json: async () => value });
 const manifest = (count) => ({ questions: Array.from({ length: count }, (_, i) => ({ id: `q-${i}` })) });
@@ -79,4 +79,14 @@ test('manifest failure does not request questions', async () => {
   let calls = 0;
   await assert.rejects(loadPracticeBank(async () => { calls++; return { ok: false, status: 500 }; }), /500/);
   assert.equal(calls, 1);
+});
+
+test('records by id are fetched 40 to a request and cached for the session', async () => {
+  const urls = [];
+  const fetchImpl = async url => { urls.push(url); const ids = new URL(url, 'http://x').searchParams.get('ids').split(','); return response(ids.map(id => id === 'gone' ? null : { id })); };
+  const ids = [...Array.from({ length: 45 }, (_, i) => 'r-' + i), 'gone'];
+  const first = await loadBankRecords(ids, fetchImpl);
+  assert.equal(urls.length, 2); assert.equal(first.at(-1), null); assert.deepEqual(first.slice(0, 45).map(q => q.id), ids.slice(0, 45));
+  const again = await loadBankRecords(['r-3', 'r-44'], fetchImpl);
+  assert.equal(urls.length, 2); assert.equal(again[0], first[3]);
 });

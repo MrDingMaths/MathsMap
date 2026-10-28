@@ -1,6 +1,7 @@
 import { contentTarget, fieldValue } from './booklet-document-controller.js';
 import { sourceReferences } from './booklet-source-content.js';
 import { toSource } from '../../public/libs/maths-editor/document-model.mjs';
+import { feedbackText } from './bank-question-summary.js';
 import { createCommentTargeting, formatFeedbackComment } from './booklet-comment-targeting.js';
 const copy = value => JSON.parse(JSON.stringify(value));
 export function isAutomaticReviewFlag(flag) {
@@ -9,16 +10,7 @@ export function isAutomaticReviewFlag(flag) {
 export function bookletComments(project) {
   return (project?.studio?.flags??[]).filter(flag=>!isAutomaticReviewFlag(flag));
 }
-export function feedbackText(value) {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  if (value.format && value.blocks) return toSource(value);
-  if (value.type === 'paragraph') return (value.inlines??[]).map(i=>i.text??i.latex??i.answer??'').join('');
-  if (value.code) return value.code;
-  if (value.prompt != null) return feedbackText(value.prompt);
-  if (value.content != null) return feedbackText(value.content);
-  return value.title ?? value.label ?? '';
-}
+export { feedbackText };
 export function feedbackSignature(value) {
   const text=JSON.stringify(value)??'';let h=2166136261;
   for(let i=0;i<text.length;i++)h=Math.imul(h^text.charCodeAt(i),16777619);

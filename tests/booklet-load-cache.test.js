@@ -51,6 +51,15 @@ test('manifest reads are non-writing and detect edits, approval changes and dele
  q.status='draft';await fs.writeFile(file,JSON.stringify(q));assert.equal((await read(root)).questions.length,0);
  await fs.unlink(file);assert.equal((await read(root)).questions.length,0);
 }));
+test('bank index lists every manifest question without bodies; records by id are the served records',()=>temporary(async root=>{
+ const read=createBankManifestReader(),make=(id,extra={})=>normaliseQuestion({id,status:'approved',classification:{primarySkillId:'arithmetic',reasoningScore:5,difficultyReason:'Direct calculation'},content:{id:'n-'+id,prompt:'Calculate '+id+' plus one.',answer:{short:'2',worked:'1+1=2'}},...extra});
+ for(const q of [make('b',{title:'Named'}),make('a')])await fs.writeFile(path.join(root,q.id+'.json'),JSON.stringify(q));
+ const index=JSON.parse(await read.index(root)),records=JSON.parse(await read.records(root));
+ assert.equal(index.version,(await read.snapshot(root)).signature);assert.deepEqual(index.questions.map(r=>r.id),records.map(q=>q.id));
+ assert.deepEqual(index.questions[1],{id:'b',title:'Named',skillId:'arithmetic',difficulty:records[1].classification.difficulty,excerpt:'Calculate b plus one.',source:'',search:'Calculate b plus one.'});assert.equal(index.questions[0].title,null);
+ assert.deepEqual(JSON.parse(JSON.stringify(await read.recordsById(root,['b','gone','a']))),[records[1],null,records[0]]);
+ assert.equal(read.latestIndex(root),await read.index(root));
+}));
 test('summary lists omit inventories and combined opening preserves the project revision without writing',()=>temporary(async root=>{
  const project=createEditableProject({id:'test',title:'Test'});project.source={inventory:['large evidence']};await fs.writeFile(path.join(root,'test.json'),JSON.stringify(project));
  const options={projectRoot:root,bankRoot:path.join(root,'bank')};

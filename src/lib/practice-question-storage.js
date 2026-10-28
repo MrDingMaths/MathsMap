@@ -40,6 +40,25 @@ export async function loadPracticeBank(fetchImpl = globalThis.fetch) {
   return { manifest, records };
 }
 
+// The picker's light index: one row per question with its title, skill,
+// difficulty, source, excerpt and search text, but no question body.
+export async function loadBankIndex(fetchImpl = globalThis.fetch) {
+  return jsonResponse(await fetchImpl('/__booklet/bank/index'));
+}
+
+// Full records by id, 40 to a request, kept for the session. A question that
+// is no longer in the bank resolves to null.
+const recordCache = new Map();
+export async function loadBankRecords(ids, fetchImpl = globalThis.fetch) {
+  const missing = [...new Set(ids)].filter(id => !recordCache.has(id));
+  for (let i = 0; i < missing.length; i += 40) {
+    const batch = missing.slice(i, i + 40);
+    const records = await jsonResponse(await fetchImpl('/__booklet/bank/records?ids=' + batch.map(encodeURIComponent).join(',')));
+    batch.forEach((id, j) => { if (records[j]) recordCache.set(id, records[j]); });
+  }
+  return ids.map(id => recordCache.get(id) ?? null);
+}
+
 export async function saveQuestion(question, fetchImpl = globalThis.fetch) {
   const response = await fetchImpl('/__booklet/bank/questions', {
     method: 'POST',

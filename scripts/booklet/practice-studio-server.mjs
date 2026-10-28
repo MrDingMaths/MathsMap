@@ -55,7 +55,7 @@ export function practiceStudioPlugin() {
     configureServer(server) {
       // Validating every question takes 10–20 s; do it in the background on the
       // interactive Studio server only. Export and check servers use other ports.
-      server.httpServer?.once('listening', () => { if (server.config.server.port === 5173) setTimeout(() => readBankManifest.snapshot(BANK_ROOT).catch(() => {}), 3000).unref?.(); });
+      server.httpServer?.once('listening', () => { if (server.config.server.port === 5173) setTimeout(() => readBankManifest.index(BANK_ROOT).catch(() => {}), 3000).unref?.(); });
       server.middlewares.use(async (req, res, next) => {
         const pathname = new URL(req.url ?? '/', 'http://localhost').pathname;
         const ownsPath = pathname.startsWith('/__booklet/bank/')
@@ -64,10 +64,22 @@ export function practiceStudioPlugin() {
         if (!ownsPath) return next();
         try {
           if (pathname === '/__booklet/bank/manifest' && req.method === 'GET') return send(res, 200, await withBankLock(async()=>{const current=await readBankManifest.snapshot(BANK_ROOT);return {...current.manifest,records:'/__booklet/bank/records?v='+current.signature,recordsNormalised:true};}));
-          if (pathname === '/__booklet/bank/records' && req.method === 'GET') {
+          if (pathname === '/__booklet/bank/records' && req.method === 'GET' && !new URL(req.url,'http://localhost').searchParams.has('ids')) {
             const body = await withBankLock(()=>readBankManifest.records(BANK_ROOT,new URL(req.url,'http://localhost').searchParams.get('v')));
             if (body == null) return send(res, 409, { error: 'The question bank changed; reload the manifest.' });
             res.statusCode = 200; res.setHeader('Content-Type', 'application/json; charset=utf-8'); return res.end(body);
+          }
+
+          // A long bank write holds the lock; the picker then lists the last index
+          // it built rather than waiting. Full records still come through the lock.
+          if (pathname === '/__booklet/bank/index' && req.method === 'GET') {
+            const fresh = withBankLock(()=>readBankManifest.index(BANK_ROOT));
+            const body = await Promise.race([fresh, new Promise(resolve=>setTimeout(()=>resolve(readBankManifest.latestIndex(BANK_ROOT)),300))]) ?? await fresh;
+            res.statusCode = 200; res.setHeader('Content-Type', 'application/json; charset=utf-8'); return res.end(body);
+          }
+          if (pathname === '/__booklet/bank/records' && req.method === 'GET' && new URL(req.url,'http://localhost').searchParams.has('ids')) {
+            const ids = new URL(req.url,'http://localhost').searchParams.get('ids').split(',').filter(Boolean).slice(0,100).map(safeId);
+            return send(res, 200, await withBankLock(()=>readBankManifest.recordsById(BANK_ROOT, ids)));
           }
 
           const questionMatch = pathname.match(/^\/__booklet\/bank\/questions\/([^/]+)$/);

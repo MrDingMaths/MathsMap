@@ -1,23 +1,34 @@
 <script module>
  // Bank records are replaced, never mutated, so summaries survive closing the picker.
  const rows=new WeakMap();
+ // The light index survives closing the picker too; it is refreshed on each open.
+ let indexRows=[];
 </script>
 <script>
- import { onMount } from 'svelte';
+ import { onMount, untrack } from 'svelte';
  import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
  import BookletRichText from './BookletRichText.svelte';
  import { questionSummary, questionSearchText } from '../lib/booklet-workspace.js';
+ import { loadBankIndex, loadBankRecords } from '../lib/practice-question-storage.js';
  import { skills } from '../lib/data.js';
  let { bank = [], onrequestbank, oninsert, onclose, destination = 'End of section', title = 'Insert from question bank', actionLabel = 'Insert question' } = $props();
  let dialog, search, query = $state(''), filter = $state(''), selected = $state(''), loading = $state(false), error = $state(''), answers = $state('question'), limit = $state(40);
+ // Without a loaded bank, the picker lists the light index and fetches the full
+ // record only for the question previewed or inserted.
+ const indexed = untrack(()=>!bank.length&&!!onrequestbank);
+ let index = $state.raw(indexed?indexRows:[]), full = $state.raw(null);
+ const haystack = row=>[row.title,row.search,row.source,row.id,row.difficulty].join(' ').toLowerCase();
  // Build each question's search text once per bank, and filter after typing pauses.
- const records = $derived(bank.map(question=>{let row=rows.get(question);if(!row){row={question,...questionSummary(question,skills),search:questionSearchText(question)};row.haystack=[row.title,row.search,row.source,question.id,question.classification?.difficulty].join(' ').toLowerCase();rows.set(question,row);}return row;}));
+ const records = $derived(bank.length?bank.map(question=>{let row=rows.get(question);if(!row){row={question,id:question.id,difficulty:question.classification?.difficulty,...questionSummary(question,skills),search:questionSearchText(question)};row.haystack=haystack(row);rows.set(question,row);}return row;})
+  :index.map(entry=>{let row=rows.get(entry);if(!row){row={...entry,title:questionSummary({title:entry.title,classification:{primarySkillId:entry.skillId}},skills).title};row.haystack=haystack(row);rows.set(entry,row);}return row;}));
  $effect(()=>{const next=query.toLowerCase().trim();if(!next){filter='';return;}const timer=setTimeout(()=>filter=next,120);return()=>clearTimeout(timer);});
  const results = $derived(filter?records.filter(r=>r.haystack.includes(filter)):records);
- const current = $derived(results.find(r=>r.question.id===selected)??results[0]);
- async function load(){loading=true;error='';try{const result=await onrequestbank?.();if(result?.error)error=result.error;}catch(e){error=e.message;}finally{loading=false;}}
+ const current = $derived(results.find(r=>r.id===selected)??results[0]);
+ const question = $derived(current?.question??(full?.id===current?.id?full:null));
+ $effect(()=>{const id=!current?.question&&current?.id;if(!id||full?.id===id)return;let live=true;loadBankRecords([id]).then(([record])=>{if(live)full=record??{id,missing:true};}).catch(e=>{if(live)error=e.message;});return()=>live=false;});
+ async function load(){loading=true;error='';try{if(indexed){try{index=indexRows=(await loadBankIndex()).questions;return;}catch(e){console.warn('Bank index unavailable; loading full records.',e);}}const result=await onrequestbank?.();if(result?.error)error=result.error;}catch(e){error=e.message;}finally{loading=false;}}
  onMount(()=>{const origin=document.activeElement;dialog.showModal();search?.focus();load();return()=>{dialog?.close();origin?.focus?.({preventScroll:true});};});
- async function insert(){if(!current)return;try{await oninsert(current.question);onclose();}catch(e){error=e.message;}}
+ async function insert(){if(!current)return;try{const record=current.question??(await loadBankRecords([current.id]))[0];if(!record)throw Error('This question is no longer in the bank.');await oninsert(record);onclose();}catch(e){error=e.message;}}
 </script>
 <dialog bind:this={dialog} class="bank-picker" aria-labelledby="bank-picker-title" oncancel={event=>{event.preventDefault();onclose();}}>
  <header><h2 id="bank-picker-title">{title}</h2><button aria-label="Close question picker" onclick={onclose}>×</button></header>
@@ -25,13 +36,13 @@
  <div class="picker-body">
   <section class="results" aria-label="Question results">
    {#if loading}<p role="status">Loading questions…</p>{:else if error}<p role="alert">{error}</p><button onclick={load}>Retry</button>{:else if !results.length}<p>No matching questions.</p>{/if}
-   {#each results.slice(0,limit) as result}<button class="result" class:active={current?.question.id===result.question.id} aria-pressed={current?.question.id===result.question.id} onclick={()=>{selected=result.question.id;answers='question';}}><strong>{result.title}</strong><span class="excerpt"><BookletRichText text={result.excerpt}/></span><small>{result.question.classification?.difficulty}{result.source?' · '+result.source:''}</small></button>{/each}
+   {#each results.slice(0,limit) as result}<button class="result" class:active={current?.id===result.id} aria-pressed={current?.id===result.id} onclick={()=>{selected=result.id;answers='question';}}><strong>{result.title}</strong><span class="excerpt"><BookletRichText text={result.excerpt}/></span><small>{result.difficulty}{result.source?' · '+result.source:''}</small></button>{/each}
    {#if results.length>limit}<button onclick={()=>limit+=40}>Show more questions</button>{/if}
   </section>
   <section class="preview" aria-label="Question preview">
    {#if current}<div class="preview-tools"><strong>{current.title}</strong><select aria-label="Preview question or answers" bind:value={answers}><option value="question">Question</option><option value="short">Short answers</option><option value="worked">Worked solution</option></select></div>
-    {#key current.question.id+answers}<div class="preview-paper"><PracticeQuestionRenderer preserveDiagramWidths={true} question={current.question} showTitle={false} showSpaces={answers==='question'} showShortAnswers={answers==='short'} showWorkedSolutions={answers==='worked'} answerColumnsLimit={1} blockLayouts={current.question.presentation?.layoutOverrides?.blockLayouts??{}} diagramWidthOverrides={current.question.presentation?.layoutOverrides?.diagramWidths??{}}/></div>{/key}
-    <details><summary>Question details</summary><p>{current.source}</p><code>{current.question.id}</code></details>
+    {#if question?.missing}<p role="alert">This question is no longer in the bank.</p>{:else if !question}<p role="status">Loading question…</p>{:else}{#key current.id+answers}<div class="preview-paper"><PracticeQuestionRenderer preserveDiagramWidths={true} {question} showTitle={false} showSpaces={answers==='question'} showShortAnswers={answers==='short'} showWorkedSolutions={answers==='worked'} answerColumnsLimit={1} blockLayouts={question.presentation?.layoutOverrides?.blockLayouts??{}} diagramWidthOverrides={question.presentation?.layoutOverrides?.diagramWidths??{}}/></div>{/key}{/if}
+    <details><summary>Question details</summary><p>{current.source}</p><code>{current.id}</code></details>
    {:else}<p>Select a question to preview it.</p>{/if}
   </section>
  </div>

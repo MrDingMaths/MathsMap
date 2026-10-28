@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {makeBankManifest,validateQuestion} from '../../src/lib/practice-question-model.js';
+import {bankIndexRow} from '../../src/lib/bank-question-summary.js';
 
 // Re-reading and hashing ~150 MB of questions on every request took seconds.
 // Each file is reparsed only when its size or modification time changes, which
@@ -25,7 +26,7 @@ export function createBankManifestReader(){
     const signature=createHash('sha256').update(JSON.stringify(rows)).digest('hex');
     if(previous?.signature===signature)return previous;
     const records=[...files.values()].map(f=>f.question).filter(Boolean).sort((a,b)=>a.id.localeCompare(b.id));
-    const next={signature,files,manifest:makeBankManifest(records),body:null};caches.set(root,next);return next;
+    const next={signature,files,manifest:makeBankManifest(records),body:null,index:null,byId:null};caches.set(root,next);return next;
   }
   async function readManifest(root){return (await snapshot(root)).manifest;}
   // Every manifest question as one compact JSON array in manifest order. These
@@ -41,6 +42,17 @@ export function createBankManifestReader(){
     }
     return current.body;
   };
+  // The bank picker lists and searches these rows (a few MB) instead of every
+  // full record (over 70 MB); it fetches full records by id when it needs them.
+  readManifest.index=async root=>{
+    const current=await snapshot(root);
+    if(current.index==null){const byId=questionsById(current);current.index=JSON.stringify({version:current.signature,questions:current.manifest.questions.map(q=>bankIndexRow(byId.get(q.id)))});}
+    return current.index;
+  };
+  // The last index built, without reading the bank (null before the first one).
+  readManifest.latestIndex=root=>caches.get(root)?.index??null;
+  readManifest.recordsById=async(root,ids)=>{const byId=questionsById(await snapshot(root));return ids.map(id=>byId.get(id)??null);};
+  function questionsById(current){return current.byId??=new Map([...current.files.values()].filter(f=>f.question).map(f=>[f.question.id,f.question]));}
   return readManifest;
 }
 export const readBankManifest=createBankManifestReader();
