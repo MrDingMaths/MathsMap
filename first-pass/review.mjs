@@ -4,6 +4,7 @@
 // This file lives outside scripts/ on purpose: exports freeze that tree, and a
 // new file there fails any export in flight.
 import fs from 'node:fs';
+import {launchChromium} from '../scripts/booklet/browser-launch.mjs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
@@ -16,7 +17,7 @@ import {flowEditionSections,flowNumbers} from '../src/lib/booklet-flow.js';
 import {DIAGRAM_SIZING_PROMPT} from '../src/lib/booklet-diagram-sizing.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-export const BASE='http://127.0.0.1:5173';
+export const BASE=process.env.MATHSMAP_BOOKLET_BASE||'http://127.0.0.1:5173';
 export const LIMITS=Object.freeze({concurrency:3,studentPages:6,answerPages:6,blockCharacters:1800,payloadCharacters:90000,nodes:60,similarPerKind:2,similarBlocks:12,similarCharacters:12000,sourceImages:8,blockArgument:24000});
 export const EDITIONS=Object.freeze(['student','short','worked']);
 export const EDITION_NAMES=Object.freeze({student:'Questions',short:'Short answers',worked:'Worked solutions'});
@@ -257,7 +258,7 @@ export const editionHasContent=(project,edition)=>flowEditionSections(project,ed
 async function renderPageMapInner(project,{base=BASE,editions=EDITIONS}={}){
  if(!await serverReady(base))throw Error(`No Studio server at ${base}. Start the port-5173 server with the mathsmap-dev launch configuration (AGENTS.md, Remote Studio access).`);
  const {chromium}=await import('playwright-core'),{routeCandidateProject}=await import('../scripts/booklet/diagram-preflight.mjs');
- let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+ const browser=await launchChromium(chromium,{headless:true});
  try{
   const page=await(await browser.newContext({viewport:{width:1600,height:1100}})).newPage(),record=structuredClone(project),result={};
   page.setDefaultTimeout(300000);

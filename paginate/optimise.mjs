@@ -13,6 +13,7 @@
 // Run from PowerShell. Reuses the Studio server on 5173 (default vite config or the
 // remote config both serve it); it is never restarted.
 import fs from 'node:fs';
+import {launchChromium} from '../scripts/booklet/browser-launch.mjs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {withRenderResource,BASE} from '../first-pass/review.mjs';
@@ -30,7 +31,7 @@ const write=(f,v)=>{fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileS
 export async function driveStudio(project,{base=BASE,apply=false,named=false,checkUndo=false,suggest=false,suggestOnly=false,timeoutMs=60*60*1000,log=()=>{}}={}){
  return withRenderResource(async()=>{
   const {chromium}=await import('playwright-core'),{routeCandidateProject}=await import('../scripts/booklet/diagram-preflight.mjs');
-  let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+  const browser=await launchChromium(chromium,{headless:true});
   try{
    const page=await(await browser.newContext({viewport:{width:1600,height:1100}})).newPage(),record=structuredClone(project);
    page.setDefaultTimeout(300000);

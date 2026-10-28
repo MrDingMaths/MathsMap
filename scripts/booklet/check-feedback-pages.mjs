@@ -9,6 +9,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {chromium} from 'playwright-core';
+import {launchChromium} from './browser-launch.mjs';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {contentAssetSignatures} from './verification-cache.mjs';
 import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPageManifest,requireBoundedDevelopmentExport} from './page-review.mjs';
@@ -169,7 +170,7 @@ async function main(){
   report.cacheState={path:path.resolve(cacheState),hash:artifactHash(cacheState),origin,entriesForOrigin:count(origins.find(o=>o.origin===origin)??{}),otherOrigins:origins.filter(o=>o.origin!==origin&&count(o)).map(o=>({origin:o.origin,entries:count(o)}))};
   if(!report.cacheState.entriesForOrigin&&report.cacheState.otherOrigins.length)console.warn('Cache state has diagram entries only for other origins; IndexedDB reuse needs --base '+report.cacheState.otherOrigins[0].origin);
  }else report.cacheState=null;
- try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+ browser=await launchChromium(chromium,{headless:true});
  const context=await browser.newContext({viewport:{width:1600,height:1100},...(stateExists?{storageState:cacheState}:{})});
  const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
  // Pagination can occupy the page's main thread for longer than the default action timeout.

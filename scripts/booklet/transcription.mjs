@@ -29,7 +29,7 @@ export const MAX_QUESTIONS_PER_TASK = 5;
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 export const REPO_ROOT = path.resolve(HERE, '../..');
-export const WORK_ROOT = path.join(REPO_ROOT, '.booklet-work', 'full-imports');
+export const WORK_ROOT = process.env.MATHSMAP_BOOKLET_WORK_ROOT ? path.resolve(process.env.MATHSMAP_BOOKLET_WORK_ROOT) : path.join(REPO_ROOT, '.booklet-work', 'full-imports');
 const PROMPT_ROOT = path.join(HERE, 'prompts');
 const PRESENTATION_CONTRACT = path.join(PROMPT_ROOT, 'source-presentation-v2.md');
 export function presentationContractForRun(manifest) {

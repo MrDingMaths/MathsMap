@@ -5,6 +5,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawn} from 'node:child_process';
 import {parseAst} from 'rollup/parseAst';
+import {readPinnedRuntime,verifyPinnedRuntime} from './frozen-runtime-pin.mjs';
 import {projectReviewHash} from './page-review.mjs';
 import {isLeanReview} from './lean-profile.mjs';
 import {visitFigures,isSolidCandidate} from '../audit-solid-visibility.mjs';
@@ -281,6 +282,7 @@ const scopedCampaignFile=(file,project,root,snapshot)=>unrelatedCampaignFile(fil
 export function verifyCompletedFrozenExport({out,projectId,projectFile,artifactReview=false}){
  if(typeof artifactReview!=='boolean')throw Error('Artifact review must be explicitly true or false');
  const manifest=JSON.parse(fs.readFileSync(path.join(out,'runtime-manifest.json'))),project=JSON.parse(fs.readFileSync(projectFile));
+ if(manifest.pin&&verifyPinnedRuntime(manifest.snapshot).manifestHash!==manifest.pin.manifestHash)throw Error('Pinned execution runtime differs from the export');
  if(!isLeanReview(project))throw Error('Scoped export reuse requires the lean profile');
  const receipts=fs.readdirSync(out).filter(name=>/^frozen-export-receipt-.*\.json$/.test(name)).sort();
  const attempt=receipts.length?JSON.parse(fs.readFileSync(path.join(out,receipts.at(-1)))):null;
@@ -310,6 +312,20 @@ function attachSharedRenderCache(root,snapshot){
 }
 export function prepareVerificationSnapshot({root=process.cwd(),out,project}){
  root=path.resolve(root);out=path.resolve(out);const snapshot=path.join(out,'runtime'),manifestFile=path.join(out,'runtime-manifest.json');
+ const executionPin=readPinnedRuntime(root);
+ if(executionPin){
+  const pin=verifyPinnedRuntime(root),relative=path.relative(path.join(pin.sourceRoot,'.booklet-work'),out);
+  if(!pin.engines?.node?.executable||!pin.engines?.browser?.executable)throw Error('Pinned export requires copied runtime engines');
+  if(!relative||relative.startsWith('..')||path.isAbsolute(relative))throw Error('Pinned export output must remain in the canonical .booklet-work');
+  const manifest={version:2,root,snapshot:root,files:snapshotFiles(root),createdAt:new Date().toISOString(),watch:false,hmr:false,pin:{root,manifestHash:pin.manifestHash,revision:pin.revision,workRoot:pin.workRoot,engines:{node:pin.engines.node,browser:pin.engines.browser}}};
+  if(fs.existsSync(manifestFile)){
+   const old=JSON.parse(fs.readFileSync(manifestFile));
+   if(old.pin?.manifestHash!==pin.manifestHash||old.snapshot!==root)throw Error('Export belongs to another runtime; preserve it and select a new output directory');
+   if(snapshotDifferences(root,old.files).length)throw Error('Pinned export runtime changed');
+   return old;
+  }
+  fs.mkdirSync(out,{recursive:true});fs.writeFileSync(manifestFile,JSON.stringify(manifest,null,2),{flag:'wx'});return manifest;
+ }
  const initialIndex=readCampaignManifest(root);
  const unrelated=file=>project&&isLeanReview(project)&&(unrelatedCampaignFile(file,project)||unrelatedProjectAssetFile(file,project,root)||(file==='public/content-manifest.json'&&unrelatedCampaignManifest(initialIndex,readCampaignManifest(root),project)&&unrelatedCampaignManifest(initialIndex,readCampaignManifest(snapshot),project)));
  const relative=path.relative(root,out);if(!relative||relative.startsWith('..')||path.isAbsolute(relative)||!relative.replaceAll('\\','/').startsWith('.booklet-work/'))throw Error('Verification output must be a separate local .booklet-work directory');
@@ -339,13 +355,24 @@ export async function startFrozenVerificationServer(manifest,out){
  // root. Passing Vite's root in the parent's process does not isolate those.
  // Vite ignores an inline null when the config file sets server.watch, so the
  // resolved config is loaded and its server block is overridden directly.
- const script=`import {createServer,loadConfigFromFile} from 'vite';import path from 'node:path';import fs from 'node:fs';
- const loaded=await loadConfigFromFile({command:'serve',mode:'development'},path.join(process.cwd(),'vite.config.js'),process.cwd());
- const config=loaded?.config??{},dependencies=fs.realpathSync(path.join(process.cwd(),'node_modules'));
- const server=await createServer({...config,configFile:false,root:process.cwd(),cacheDir:process.argv[1],server:{...config.server,fs:{...config.server?.fs,allow:[process.cwd(),dependencies]},host:'127.0.0.1',port:0,strictPort:false,open:false,hmr:false,watch:null}});
+ const script=`import {createServer} from 'vite';import {createServer as reservePort} from 'node:net';import path from 'node:path';import fs from 'node:fs';import {pathToFileURL} from 'node:url';
+ const {default:config}=await import(pathToFileURL(path.join(process.cwd(),'vite.config.js')).href);
+ const dependencies=fs.realpathSync(path.join(process.cwd(),'node_modules'));
+ const isolated=${Boolean(manifest.pin)};
+ const guard={name:'pinned-runtime-inputs',enforce:'pre',configureServer(server){server.middlewares.use((req,res,next)=>{
+  if(!isolated)return next();
+  const url=new URL(req.url??'/','http://localhost'),destination=String(req.headers['sec-fetch-dest']??'');
+  const source=url.pathname.startsWith('/__booklet/full-imports/');
+  const allowed=/^\\/__booklet\\/full-imports\\/[a-zA-Z0-9_.-]+\\/files\\/(?:source\\/|evidence\\/|lanes\\/exact\\/evidence\\/)[^?]+\\.(?:pdf|png|jpe?g|svg|webp|gif|docx)$/i.test(decodeURIComponent(url.pathname));
+  if(!['GET','HEAD'].includes(req.method??'GET')||source&&(!allowed||['script','style','worker','serviceworker'].includes(destination))||url.pathname.startsWith('/__booklet/practice-imports')){res.statusCode=403;res.setHeader('X-Content-Type-Options','nosniff');res.end('Pinned runtime: input route denied');return;}
+  next();
+ });}};
+ const reserved=reservePort();await new Promise((resolve,reject)=>{reserved.once('error',reject);reserved.listen(0,'127.0.0.1',resolve);});const port=reserved.address().port;await new Promise(resolve=>reserved.close(resolve));
+ const server=await createServer({...config,plugins:[guard,...(config.plugins??[])],configFile:false,root:process.cwd(),cacheDir:process.argv[1],server:{...config.server,fs:{...config.server?.fs,strict:true,allow:[process.cwd(),dependencies]},host:'127.0.0.1',port,strictPort:true,open:false,hmr:false,watch:null}});
  let closing=false;const close=async()=>{if(closing)return;closing=true;await server.close();process.exit(0);};process.on('message',m=>{if(m==='close')close();});process.on('disconnect',close);
  await server.listen();process.send({port:server.httpServer.address().port,cwd:process.cwd(),hmr:server.config.server.hmr,watch:server.config.server.watch});`;
- const child=spawn(process.execPath,['--input-type=module','-e',script,path.resolve(out,'vite-cache')],{cwd:manifest.snapshot,windowsHide:true,stdio:['ignore','pipe','pipe','ipc']});
+ const serverEnv={...process.env,...(manifest.pin?.workRoot?{MATHSMAP_BOOKLET_WORK_ROOT:manifest.pin.workRoot}:{})};if(manifest.pin){delete serverEnv.NODE_PATH;delete serverEnv.NODE_OPTIONS;serverEnv.NODE_ENV='development';}
+ const child=spawn(manifest.pin?.engines?.node?.executable??process.execPath,['--input-type=module','-e',script,path.resolve(out,'vite-cache')],{cwd:manifest.snapshot,env:serverEnv,windowsHide:true,stdio:['ignore','pipe','pipe','ipc']});
  const log=fs.createWriteStream(path.join(out,'frozen-server.log'),{flags:'a'});child.stdout.pipe(log,{end:false});child.stderr.pipe(log,{end:false});
  let exited=false;const ended=new Promise(resolve=>child.once('close',()=>{exited=true;log.end();resolve();}));
  let info;
@@ -374,7 +401,8 @@ export async function exportWithFrozenRuntime({root=process.cwd(),out,projectId,
   let project=null;try{project=JSON.parse(fs.readFileSync(inputs[0].file,'utf8').replace(/^\uFEFF/,''));}catch{}
   const live=snapshotDifferences(manifest.root,manifest.files),unrelated=project?live.filter(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot)):[];
   const changed=[...live.filter(file=>!unrelated.includes(file)),...snapshotDifferences(manifest.snapshot,manifest.files),...inputs.filter(i=>!fs.existsSync(i.file)||hash(i.file)!==i.hash).map(i=>i.file)];
-  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],unrelatedCampaignChanges:unrelated.filter(file=>!unrelatedProjectAssetFile(file,project,manifest.root)),unrelatedProjectAssetChanges:unrelated.filter(file=>unrelatedProjectAssetFile(file,project,manifest.root)),runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),freshEditionDocuments:true,visualAcceptance:false};
+  if(manifest.pin){try{if(verifyPinnedRuntime(manifest.snapshot).manifestHash!==manifest.pin.manifestHash)changed.push('Pinned execution manifest changed');}catch(e){changed.push(e.message);}}
+  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],unrelatedCampaignChanges:unrelated.filter(file=>!unrelatedProjectAssetFile(file,project,manifest.root)),unrelatedProjectAssetChanges:unrelated.filter(file=>unrelatedProjectAssetFile(file,project,manifest.root)),runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),...(manifest.pin?{pin:manifest.pin,executionRoot:manifest.root,privateOrigin:'http://127.0.0.1:'+server?.info?.port}:{}),freshEditionDocuments:true,visualAcceptance:false};
   fs.writeFileSync(path.join(out,'frozen-export-receipt-'+Date.now()+'.json'),JSON.stringify(receipt,null,2),{flag:'wx'});
   if(changed.length)throw Error('Export snapshot no longer matches live dependencies; passing artifacts remain preserved: '+changed.slice(0,12).join(', '));
   if(status!==0)throw Error('Export failed; resume the same output directory to reuse passed editions. Diagnose repeated failure before a third attempt.');

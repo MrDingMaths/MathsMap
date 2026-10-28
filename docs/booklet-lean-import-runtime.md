@@ -1,5 +1,29 @@
 # Lean import runtime
 
+## Pinned execution while live Studio changes (28 October 2026)
+
+For an import campaign that must remain independent of live renderer edits, create
+one ignored execution copy with `createPinnedRuntime` in
+`scripts/booklet/frozen-runtime-pin.mjs`. It retains the selected renderer bytes,
+host checker/layout helpers and Markdown contracts, copies the installed package
+closure and the exact Node/Chrome engines, and records their hashes. It copies no
+browser profile or credentials. Keep the selected pin unchanged for the campaign.
+
+Pass `--runtime-root ABSOLUTE_PIN_ROOT` to the existing `lean-import.mjs` or
+`lean-review.mjs` command. The launcher runs the copied CLI with copied Node,
+uses copied Chrome without a live-browser fallback, and provides a private
+loopback server for pagination and probes. Export checkers execute from the same
+pin. Live port 5173 is never used or restarted. Canonical source/run inputs remain
+explicit; browser source APIs permit source documents/images, not executable run
+files, and candidate requests retain the existing read-only routing.
+
+New export manifests and receipts identify the exact pin. Their QA applies to
+that snapshot, not later live renderer changes. Existing receipts remain under
+their recorded policy; do not relabel them as isolated. Retain failed outputs,
+use a named cause for replacement exports, and keep native revision-safe saves
+against the current live booklet. Runtime copies, engines, logs and caches stay
+ignored; commit only the reusable code and tests.
+
 Textbook work not yet started follows the [18 October 2026 streamlined policy](booklet-three-pass-import.md#streamlined-textbook-imports-18-october-2026-user-approved), including combined concise source indexing/organisation, reuse of proven ordinary early layouts and no pedagogy stage. Preserve running workers and completed evidence; adopt on the next launch or completed boundary.
 
 > Since 5 October 2026 new imports use the [lean review route](booklet-three-pass-import.md#lean-review-route-no-ledger-5-october-2026-user-approved) for review, export and visual inspection. `lean-import.mjs inventory|author|sample` below still apply; its `review`, `export` and `visual` commands remain for runs already using them.

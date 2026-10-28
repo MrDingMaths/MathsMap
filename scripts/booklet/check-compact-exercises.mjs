@@ -5,6 +5,7 @@ import {pathToFileURL} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
+import {launchChromium} from './browser-launch.mjs';
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {isPractice,flowEditionSections,exerciseNumbers} from '../../src/lib/booklet-flow.js';
 import {exerciseHeading} from '../../src/lib/booklet-exercise-heading.js';
@@ -150,7 +151,7 @@ const observeExport=async(edition,file,dependencyKey,reused)=>{
  if(runDir)await recordExportReuse(runDir,observation);
 };
 fs.mkdirSync(out,{recursive:true});
-let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+const browser=await launchChromium(chromium,{headless:true});
 const cache=fs.existsSync(out+'/cache.json')?out+'/cache.json':'.booklet-work/flexible-check/cache.json';
 const context=await browser.newContext({viewport:{width:1600,height:1100},...(fs.existsSync(cache)?{storageState:cache}:{})});
 const page=await context.newPage(),errors=[],report={};page.on('pageerror',e=>errors.push(e.message));

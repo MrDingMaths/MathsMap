@@ -1,5 +1,6 @@
 // One opt-in entry point; all review credit remains in the canonical APIs.
 import fs from 'node:fs';
+import {dispatchPinnedCli} from './frozen-runtime-pin.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {nextBoundedWork,runBoundedStage,recordBoundedStage,cancelBoundedStage} from './bounded-stages.mjs';
@@ -111,6 +112,7 @@ export async function runLeanImportPool(runs,{poolDir,concurrency=3,maxJobs=1000
  },{timeoutMs:180000});
 }
 export async function main(args=process.argv.slice(2)){
+ if(await dispatchPinnedCli(import.meta.url,args))return;
  const command=args[0],values={};for(let i=1;i<args.length;i++){const key=args[i];if(!['--runs','--pool','--concurrency','--run-id','--config','--pages','--attempt','--regenerate-reason','--retry-reason','--repair-from','--out','--project','--project-file','--visibility-reviews','--exports','--limit'].includes(key)||!args[i+1]||args[i+1].startsWith('--'))throw Error('Invalid option '+key);values[key]=args[++i];}
  const poolDir=path.resolve(values['--pool']??DEFAULT_POOL);let result;
  if(['plan','review'].includes(command)){

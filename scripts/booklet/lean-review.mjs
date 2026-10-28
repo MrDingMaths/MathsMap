@@ -9,6 +9,8 @@
 // again only when its own printable content changes; a page is inspected again
 // only when its rendered page hash changes.
 import fs from 'node:fs';
+import {launchChromium} from './browser-launch.mjs';
+import {dispatchPinnedCli} from './frozen-runtime-pin.mjs';
 import {difficultyBandForScore} from '../../src/lib/practice-question-model.js';
 import {REASONING_PROMPT,ratingCoverage,requireReasoningCoverage,practiceRatingBlocks,verifiedRating,stampPacketRatings} from './reasoning-ratings.mjs';
 import path from 'node:path';
@@ -930,7 +932,7 @@ export async function runImagePreflight({runDir,projectFile,runner,root=ROOT}){
    if(path.extname(asset).toLowerCase()==='.svg'){
     const {chromium}=await import('playwright-core');let browser;
     try{
-     try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+     browser=await launchChromium(chromium,{headless:true});
      const page=await browser.newPage({viewport:{width:1200,height:1600},deviceScaleFactor:1});
      await page.setContent('<img style="width:1000px;height:auto" src="data:image/svg+xml;base64,'+fs.readFileSync(asset).toString('base64')+'">');
      await page.locator('img').evaluate(image=>image.decode());
@@ -947,6 +949,7 @@ export async function runImagePreflight({runDir,projectFile,runner,root=ROOT}){
  return {images:rows.length,accepted,errors};
 }
 export async function main(args=process.argv.slice(2)){
+ if(await dispatchPinnedCli(import.meta.url,args))return;
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
   if(['--retry-failed','--resume-checked-export','--adopt-streamlined','--iceem-direct','--save-progress'].includes(args[i])){flags.add(args[i]);continue;}

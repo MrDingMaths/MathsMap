@@ -4,6 +4,7 @@ import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {inspectFinalSizeDiagrams} from './diagram-preflight.mjs';
 import {publishBrowserDiagrams} from './render-cache-server.mjs';
 import { chromium } from 'playwright-core';
+import {launchChromium} from './browser-launch.mjs';
 import { mkdirSync, readFileSync, writeFileSync, renameSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { materializeLegacyProject } from '../../src/lib/editable-booklet-model.js';
@@ -15,9 +16,7 @@ const draft=process.argv.includes('--draft');
 if (!['student', 'short', 'worked','with-short','with-worked'].includes(mode)) throw new Error('--mode must be student, short, worked, with-short or with-worked');
 const projectFile = arg('--project');
 let projectId = arg('--project-id');
-let browser;
-try { browser = await chromium.launch({ headless: true }); }
-catch { browser = await chromium.launch({ headless: true, channel: 'chrome' }); }
+const browser=await launchChromium(chromium,{headless:true});
 const context = await browser.newContext({ viewport: { width: 1600, height: 1200 }, ...(arg('--cache-state') ? {storageState:arg('--cache-state')} : {}) });
 const page = await context.newPage();
 const renderErrors = [];

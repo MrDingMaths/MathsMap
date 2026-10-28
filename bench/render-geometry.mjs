@@ -8,6 +8,7 @@
 // data-node-id / data-question-id / data-diagram-id, `.mrel` relation glyph boxes,
 // and line rectangles for text and maths inside teaching (non-practice) blocks.
 import fs from 'node:fs';
+import {launchChromium} from '../scripts/booklet/browser-launch.mjs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {withRenderResource,BASE} from '../first-pass/review.mjs';
@@ -69,7 +70,7 @@ function pageGeometry(element,{teaching,pageSpaceUrl},measure){
 export async function renderGeometry(project,{base=BASE,editions=GEOMETRY_EDITIONS,ink=false,probes=null,log=()=>{}}={}){
  return withRenderResource(async()=>{
   const {chromium}=await import('playwright-core'),{routeCandidateProject}=await import('../scripts/booklet/diagram-preflight.mjs');
-  let browser;try{browser=await chromium.launch({headless:true});}catch{browser=await chromium.launch({headless:true,channel:'chrome'});}
+  const browser=await launchChromium(chromium,{headless:true});
   try{
    const page=await(await browser.newContext({viewport:{width:1600,height:1100}})).newPage(),record=structuredClone(project),result={};
    page.setDefaultTimeout(300000);
