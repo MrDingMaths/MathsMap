@@ -35,3 +35,16 @@ test('class copies, imports, exemplars, archives and unknown source providers ar
  const ambiguous=existingExamCandidate(project([{id:'s',topicId:'t',phase:'practice',blocks:[question('q','HSC Question')]}]),options);
  assert.equal(ambiguous.project,null);assert.equal(ambiguous.report.status,'held');assert.equal(ambiguous.report.held[0].id,'q');
 });
+
+test('legacy Exam Practice is an existing end section; ambiguous attribution still holds it whole',()=>{
+ const original=project([{id:'legacy',title:'Exam Practice',phase:'practice',blocks:[question('sample','HSC Sample Question Band 4')]}]);
+ const result=existingExamCandidate(original,options);
+ assert.deepEqual(result.report.moved,[]);
+ assert.equal(result.project.sections[0].role,'exam');
+ assert.equal(result.project.sections[0].workingSpace,'none');
+ assert.equal(result.project.sections[0].blocks[0].source.label,'HSC Sample Question');
+ const ambiguous=structuredClone(original);ambiguous.sections[0].blocks.push(question('unknown','Unknown paper'));
+ assert.equal(existingExamCandidate(ambiguous,options).project,null);
+ const teaching=project([{...original.sections[0],title:'Worked examples',blocks:[question('plain','')]}]);
+ assert.equal(existingExamCandidate(teaching,options).project,null);
+});

@@ -22,7 +22,7 @@ export function existingExamCandidate(project,{courses=[],excludedIds=[]}={}) {
   const excluded=project.library?.category!=='master'||project.library?.archivedAt||![5,6].includes(stage)||excludedIds.includes(project.id)||project.library?.exemplar||project.exemplar||/\bexemplar\b/i.test(`${project.id} ${project.title}`);
   if(excluded)return {project:null,report:{projectId:project.id,status:'excluded'}};
   const candidate=structuredClone(project),topics=new Map((candidate.topics??[]).map(t=>[t.id,t.title]));
-  const isExam=s=>s.role==='exam'||/^exam questions$/i.test(topics.get(s.topicId)??s.title??'');
+  const isExam=s=>s.role==='exam'||/^exam (?:questions|practice)$/i.test(topics.get(s.topicId)??s.title??'');
   const isChallenge=s=>s.role==='challenge'||/^challenge(?: exercise| questions)?$/i.test(topics.get(s.topicId)??s.title??'');
   const isMixed=s=>s.role==='mixed-review'||/^mixed review$/i.test(topics.get(s.topicId)??s.title??'');
   const held=[],moved=[],labelled=[],newExamBlocks=[],examSections=candidate.sections.filter(isExam);
