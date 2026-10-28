@@ -518,3 +518,23 @@ open, render-cache and bank requests reach the real server). Reports go to
 The stat-keyed list and bank caches accept a file as unchanged when both its size
 and modification time match. Unlike measurement validity, a miss here only shows
 an older summary or bank entry until the next change.
+
+### Page keys and early pages (28 October 2026, later)
+
+- **Hashed page keys.** `measurementKeyFor` hashes each block signature and the
+  presentation context once per run, and a page key lists those hashes. Before,
+  every trial page re-escaped the full signature of each block and SHA-256'd the
+  result, which dominated reloads and held gigabytes of key strings. Reload:
+  Linear 4.3 → 1.8 s, Operations FDP 4.4 → 2.2 s, ch02 8.1 → 3.1 s; heap after
+  the benchmark 1.5 GB → 156 MB, 1.8 GB → 377 MB, 3.3 GB → 392 MB. The key
+  change re-measured each booklet once.
+- **Early pages.** On a first open (or edition change) the preview shows pages
+  1–3 as soon as pagination has placed them, with a progress line, while the rest
+  is laid out; the canvas stays inert until the whole map is ready. Combined
+  editions now paginate their questions before their answers (the two maps are
+  independent), so the default edition also shows early. Linear: first pages
+  about 2–3 s, ready about 15 s, as before. The cover's contents list fills in
+  when pagination finishes.
+- Both were checked with `warm-render-cache.mjs --compare` against a
+  `--measurements-off` baseline: identical placement, text and navigation in all
+  five editions of Index Laws and Linear.

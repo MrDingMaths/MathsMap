@@ -94,7 +94,8 @@
     if(attempt!==loadGeneration||!opening?.preview||opening.id!==info.projectId)return;
     if(info.error){opening={...opening,stage:info.stage,error:info.error};busy='';}
     else if(info.ready){opening=null;busy='';}
-    else opening={...opening,stage:info.stage,complete:info.complete,total:info.total};
+    // Early pages replace the loading card; the canvas stays inert until ready.
+    else opening={...opening,stage:info.stage,complete:info.complete,total:info.total,early:opening.early||!!info.early};
   }
   function returnToCurrent(){loadGeneration++;opening=null;busy='';onprojectchange?.(project.id);}
   async function initialiseProjects(){
@@ -1165,7 +1166,7 @@
  <div class="finder-results">{#if finder==='commands'}{#each commandMatches as [label,action]}<button onclick={()=>command(action)}>{label}</button>{/each}{:else}{#each findMatches as match}<button onclick={()=>locateMatch(match)}><small>{match.label}</small>{match.text.slice(Math.max(0,match.text.toLowerCase().indexOf(findQuery.toLowerCase())-35),Math.max(0,match.text.toLowerCase().indexOf(findQuery.toLowerCase())-35)+160)}</button>{/each}{#if findQuery&&!findMatches.length}<p>No matches</p>{/if}{/if}</div>{/if}
 </dialog>{/if}
 {#if bankPicker}<BookletBankPicker {bank} {onrequestbank} destination={bankDestination} oninsert={insertBank} onclose={()=>bankPicker=false}/>{/if}
- <section class="project-shell" class:is-opening={!!opening} class:word-workspace={wordWorkspace&&!!project} bind:this={workspace} style:--workspace-top={workspaceTop+'px'}>
+ <section class="project-shell" class:is-opening={!!opening&&!opening.early} class:word-workspace={wordWorkspace&&!!project} bind:this={workspace} style:--workspace-top={workspaceTop+'px'}>
  <div class="editor-parking" bind:this={editorParking}><div bind:this={editorPortal}>{#if inlineSession}{#key inlineSession.key}<MathsEditor value={inlineSession.value} inline session={inlineSession} documentHost={inlineEditing.host(inlineSession)} selectedNodeId={inlineSession.selectedNodeId} selectedType={inlineSession.selectedType} onchange={result=>inlineSession?.commit(result)}/>{/key}{/if}</div></div>
  <header class="project-toolbar project-screen">
   {#if project&&wordWorkspace}<button class="back-booklets" onclick={closeProject} aria-label="Back to booklets">← Booklets</button>{/if}
@@ -1178,7 +1179,7 @@
    {#if project}<span class="tool-group panel-switch" role="group" aria-label="Panels" data-equation-control onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}><button bind:this={layoutPanelButton} class:on={panel==='layout'} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Layout</button><details class="document-insert" class:on={commentsOpen}><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment} aria-keyshortcuts="Control+`" title="Add comment (Ctrl + backtick)">Add comment <kbd>Ctrl + `</kbd></button><button aria-expanded={commentsOpen} aria-controls="booklet-comments-pane" onclick={()=>commentsOpen=!commentsOpen}>{commentsOpen?'Hide comments':'Show comments'}</button></div></details><button class:on={panel==='review'} aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button class:on={panel==='pdf'} aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button></span>{/if}
    <details class="menu"><summary>File</summary><div><small class="menu-heading">Booklet</small><button onclick={createNew}>New booklet</button><button disabled={!!editSession} onclick={()=>libraryManager=true}>Manage booklets…</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><small class="menu-heading">Check</small><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button><details class="submenu"><summary>Advanced{bankUpdates.length?` (${bankUpdates.length})`:''}</summary><button onclick={()=>{reviewDock=showBankSync?'':'bank';refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Block properties</button></details><hr/><button class="danger" onclick={removeCurrent}>Delete booklet</button>{:else}<small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button>{/if}</div></details></div>
  </header>
- {#if opening}<div class="workspace-loading project-screen" aria-busy={!opening.error}>
+ {#if opening&&(!opening.early||opening.error)}<div class="workspace-loading project-screen" aria-busy={!opening.error}>
    <div class="loading-card">
      {#if !opening.error}<span class="loading-spinner" aria-hidden="true"></span>{/if}
      <h2>{opening.error?'Could not open booklet':opening.title?'Opening '+opening.title:'Loading booklets'}</h2>

@@ -251,9 +251,10 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
     const prior=combinedSnapshots.get(previous);
     const answerMode=edition.includes('short')?'short':'worked';
     const answerOptions={cancelled,previous:prior?.answers??previous,context,onprogress:p=>onprogress({...p,phase:answerMode==='short'?'short answers':'worked solutions'}),editionMaps};
-    const answers=edition.startsWith('with-')&&editionMaps&&isLeanReview(project)?await paginateFlow(project,answerMode,measure,answerOptions):await paginateCompactAnswers(project,edition,measure,answerOptions);
-    if(!edition.startsWith('with-'))return answers;
+    if(!edition.startsWith('with-'))return paginateCompactAnswers(project,edition,measure,answerOptions);
+    // The two maps are independent; questions go first so their pages can show early.
     const student=await paginateFlow(project,'student',measure,{cancelled,previous:prior?.student,context,editionMaps,onprogress:p=>onprogress({...p,phase:'questions'})});
+    const answers=editionMaps&&isLeanReview(project)?await paginateFlow(project,answerMode,measure,answerOptions):await paginateCompactAnswers(project,edition,measure,answerOptions);
     // Cross-edition links are derived after both maps are complete.
     const pages=[...student.pages,...answers.pages].map(p=>({...p,blocks:combinedPageBody(p,answerMode)}));
     pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;});
@@ -437,7 +438,8 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
       for(let j=0;j<blocks.length;j++)if(blocks[j].flow?.continuationOf||blocks[j].continuationOf){blocks[j]={...blocks[j],content:{...blocks[j].content,prompt:typeof blocks[j].content?.prompt==='string'&&/^Question \d+ continued\.?$/i.test(blocks[j].content.prompt)?blocks[j].flow?.sourceContinuationLabel?blocks[j].content.prompt.replace(/\d+/,blocks[j].flow.displayNumber??blocks[j].sourceOrder):'':blocks[j].content?.prompt},flow:{...blocks[j].flow,fragment:j||1}};}
       await add(blocks);
     }
-    flush();retain();onprogress({complete:sectionIndex+1,total:sections.length,pages:pages.length});
+    // partial: the pages placed so far, final except for their page totals.
+    flush();retain();onprogress({complete:sectionIndex+1,total:sections.length,pages:pages.length,partial:pages});
   }
   pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;p.section=sectionById.get(p.section.id)??p.section;});
   return reuse.finish({pages,issues,edition});

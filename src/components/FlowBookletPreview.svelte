@@ -19,7 +19,7 @@
   import {frontMatterDestinations,unnumberedTopicDestinations} from '../lib/booklet-cover.js';
   let {project,edition='student',options={},zoom='width',pageView='single',selectedBlockId='',editing=false,composing=false,selecting=false,immediateLayoutGeneration=-1,documentGeneration=0,onstatus=null,onmap=null,onprogress=null,onpage=null,onselect=null,onContentEdit=null,onSpaceResize=null,onmove=null,onremovebreak=null}=$props();
   let renderProject=$state.raw(null),renderOptions=$state.raw({});
-  let measurement=$state.raw(null),result=$state.raw({pages:[],issues:[]}),progress=$state('Preparing pages…'),ready=$state(false),error=$state(''),retry=$state(0);
+  let measurement=$state.raw(null),result=$state.raw({pages:[],issues:[]}),progress=$state('Preparing pages…'),ready=$state(false),early=$state(false),error=$state(''),retry=$state(0);
   let metrics=$state.raw(null);
   let measureRoot,root=$state(),width=$state(794),active=$state(0),visible=$state(new Set()),generation=0,queue=Promise.resolve(),scrollRoot;
   let cache=new Map();
@@ -58,8 +58,8 @@
     if(composing||selecting)return;
     const requested=performance.now(),snapshot=untrack(()=>project),currentEdition=untrack(()=>edition),currentOptions=untrack(()=>({...options})),revision=untrack(()=>documentGeneration),token=++generation,controller=new AbortController(),delay=paginationDelay(untrack(()=>editing),untrack(()=>immediateLayoutGeneration)===revision);
     const stats={generation:++paginationRuns,documentGeneration:revision,measurements:0,cacheHits:0,persistentHits:0,keyMs:0,renderMs:0,assetsMs:0,layoutMs:0,storageReadMs:0,storageEnqueueMs:0,requestedAt:requested};let completed=false;
-    const prepareInitialPreview=untrack(()=>!result.pages.length||result.edition!==currentEdition);
-    ready=false;error='';progress='Preparing pages…';onmap?.({...untrack(()=>result),ready:false});
+    const prepareInitialPreview=untrack(()=>!result.pages.length||result.partial||result.edition!==currentEdition);
+    ready=false;early=false;error='';progress='Preparing pages…';onmap?.({...untrack(()=>result),ready:false});
     onstatus?.({pending:true,error:'',generation:revision});
     const report=untrack(()=>onprogress);
     const reportProgress=value=>{if(token===generation)untrack(()=>report?.({projectId:snapshot.id,...value}));};
@@ -103,7 +103,10 @@
         if(key){timing=performance.now();measurementStore.enqueue(key,value);stats.storageEnqueueMs+=performance.now()-timing;}
         return value;
       };
-        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:reuseContext?result:null,editionMaps:reuseContext&&isLeanReview(snapshot)?editionMaps:null,context:JSON.stringify([reuseContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;reportProgress({stage,complete:p.complete,total:p.total,ready:false});}});
+        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:reuseContext&&!result.partial?result:null,editionMaps:reuseContext&&isLeanReview(snapshot)?editionMaps:null,context:JSON.stringify([reuseContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;
+          // A first open shows its first pages while the rest paginate; selection and editing wait for the whole map.
+          if(prepareInitialPreview&&!early&&(!currentEdition.startsWith('with-')||p.phase==='questions')&&p.partial?.length>=3){early=true;renderProject=snapshot;renderOptions=currentOptions;result={pages:p.partial.slice(0,3).map(page=>({...page,totalPages:'…'})),issues:[],edition:currentEdition,partial:true};visible=new Set([0,1,2]);}
+          reportProgress({stage,complete:p.complete,total:p.total,ready:false,early});}});
         if(token!==generation)return;
         const paginationMs=performance.now()-started;
         metrics={...stats,paginationMs,totalMs:paginationMs};
@@ -112,7 +115,7 @@
         const anchorIndex=resolveFlowPageAnchor(next.pages,viewport?.page);
         if(anchorIndex>=0)nextVisible.add(anchorIndex);
         const editingBookmark=documentEditor?.beforePagination(next.pages);
-        renderProject=snapshot;renderOptions=currentOptions;result=next;ready=!prepareInitialPreview;progress=prepareInitialPreview?'Preparing page preview…':'';measurement=null;visible=nextVisible;
+        renderProject=snapshot;renderOptions=currentOptions;result=next;early=false;ready=!prepareInitialPreview;progress=prepareInitialPreview?'Preparing page preview…':'';measurement=null;visible=nextVisible;
         if(editingBookmark){const editedPage=next.pages.findIndex(p=>(!editingBookmark.renderMode||p.mode===editingBookmark.renderMode)&&p.blocks.some(b=>b.id===selectedBlockId));if(editedPage>=0)visible.add(editedPage);}
         onmap?.({...next,ready});if(prepareInitialPreview)reportProgress({stage:'Preparing page preview',ready:false});await tick();
         if(prepareInitialPreview){
@@ -157,6 +160,7 @@
   onMount(()=>{scrollRoot=root.closest('.project-canvas');const observer=new ResizeObserver(()=>{width=root.parentElement.clientWidth;scheduleVisible();});observer.observe(root.parentElement);scrollRoot?.addEventListener('scroll',scheduleVisible,{passive:true});return()=>{generation++;cancelAnimationFrame(visibleFrame);observer.disconnect();scrollRoot?.removeEventListener('scroll',scheduleVisible);};});
 </script>
 <div class="flow-document" bind:this={root} onclick={followReference} role="presentation" data-pagination-metrics={metrics?JSON.stringify(metrics):undefined} data-paginated-edition={result.edition} data-pagination-state={error?'error':ready&&result.edition===edition?'ready':'pending'} aria-busy={!ready&&!error}>
+  {#if early&&!ready&&!error}<p class="early-progress" role="status">{progress} The rest of the booklet is still being laid out.</p>{/if}
   <div class="flow-paper" class:multiple style:zoom={scale}>
     {#each result.pages as page,index (page.id)}
       {@const boundary=page.blocks[0]?.flow?.fragment?'automatic':pageBoundaryKind(renderProject??project,page.blocks[0]?.id)}
@@ -174,4 +178,5 @@
 .page-boundary{display:flex;align-items:center;gap:10px}.remove-break{font:13px system-ui;border:1px solid #ccd5df;border-radius:4px;background:var(--panel,#fff);color:inherit;padding:4px 8px;cursor:pointer}
 .flow-document{min-width:0}.flow-paper{width:210mm;margin:auto;color:#24282d}.page-marker{display:flex;width:100%;justify-content:space-between;align-items:center;border:0;background:transparent;color:var(--text,#465f7b);padding:10px 0;cursor:pointer;font:14px system-ui}.page-marker small{color:inherit}.flow-page-group{scroll-margin-top:110px;margin-bottom:20px}.page-placeholder{background:white;height:297mm;box-shadow:0 2px 8px #182c4224}.placeholder-status{height:34px}.flow-measure{position:fixed;left:-20000px;top:0;width:210mm;visibility:hidden;pointer-events:none}.flow-page-content{display:flow-root}
 @media screen{.flow-paper.multiple{width:auto;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:0 20px}.flow-paper.multiple .flow-page-group{width:210mm;flex:none}}
+  .early-progress{position:sticky;top:0;z-index:5;margin:0 auto 8px;width:fit-content;max-width:100%;padding:6px 12px;border-radius:6px;background:#edf6ff;color:#183b58;font:13px system-ui}
 </style>
