@@ -296,7 +296,7 @@ function challengePrompt({project,all,candidates,questions,ids,stored,library,ro
  const payload={booklet:project.title,assumptions:assumptions(project,stored,library),candidates:candidates.map(({id,sequence,...rest})=>({id,topic:sequence,...rest})),contextQuestions:questions.map(({id,sequence,targets,question})=>({id,topic:sequence,targets,question})),teaching:[...teaching.entries()].sort((a,b)=>a[0]-b[0]).map(([,value])=>value),teachingComplete:complete,practice,topicOrder:all.slice(0,last+1).map(sequence=>sequence.id)};
  return contract('challenge',{root})+'\n\n'+bookletPrinciples({root})+'\n\n'+CHALLENGE_OUTPUT+'\n\nThe first reader\'s instructions, which are the standard:\n\n'+contract('review',{root})+'\n\n'+JSON.stringify(payload);
 }
-export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='low',challengeEffort='medium',candidatesOnly=false,concurrency=LIMITS.concurrency,runner=defaultRunner,lease=defaultLease,provenanceDir,workDir,skills,library,runDir,resumeFrom,principlesOnly=false}={}){
+export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='low',challengeEffort='medium',candidatesOnly=false,concurrency=LIMITS.concurrency,runner=defaultRunner,lease=defaultLease,provenanceDir,workDir,skills,library,runDir,resumeFrom,principlesOnly=false,reportOnly=false}={}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>LIMITS.concurrency)throw Error('Use one to three workers');
  const project=read(projectFile),all=sequences(project);
  if(!all.some(sequence=>sequence.sections.some(section=>section.phase==='teaching'&&section.blocks?.length)))throw Error('This project has no teaching content; the pedagogy review does not apply.');
@@ -379,7 +379,7 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
  const describe=id=>{const candidate=candidates.find(row=>row.id===id);return candidate?{id,sequence:candidate.sequence,kind:candidate.kind,targets:candidate.targets,finding:candidate.finding}:{id};};
  const reviewedBlocks=new Set(selected.flatMap(sequence=>sequence.sections.flatMap(section=>(section.blocks??[]).map(block=>block.id)))),inScope=row=>row.targets.some(id=>reviewedBlocks.has(ids.get(id)));
  const merged=challenge.error?{findings:record.findings??[],suppressed:[]}:mergeFindings(record.findings??[],found,{reviewedBlocks,blocks});
- Object.assign(record,{projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),passes:{review:{model:'gpt-6.1-sol',effort:reviewEffort,calls:rows.length},challenge:{model:'gpt-6.1-sol',effort:challengeEffort,calls:candidates.length||context.length?1:0}},importReview:importReviewStatus(runDir),questionOrder:project.settings?.questionOrder??null,findings:merged.findings,
+ Object.assign(record,{...(reportOnly?{reportOnly:true}:{}),projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),passes:{review:{model:'gpt-6.1-sol',effort:reviewEffort,calls:rows.length},challenge:{model:'gpt-6.1-sol',effort:challengeEffort,calls:candidates.length||context.length?1:0}},importReview:importReviewStatus(runDir),questionOrder:project.settings?.questionOrder??null,findings:merged.findings,
   contextQuestions:[...(record.contextQuestions??[]).filter(row=>!inScope(row)),...questions.map(({id,...question})=>question)],protectedGroups:[...(record.protectedGroups??[]).filter(row=>!inScope(row)),...groups],notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!inScope(row)),...unreliable],
   lastRun:{sequences:rows.map(({working,...row})=>row),dropped:dropped.map(row=>({...row,candidates:row.ids.map(describe)})),unchecked:unchecked.map(row=>({...row,candidate:describe(row.id)})),suppressed:merged.suppressed,droppedQuestions,candidateFile:path.relative(root,candidateFile).replaceAll('\\','/'),errors}});
  if(recovered)record.lastRun.recoveredFrom={candidateFile:resumeFrom.candidateFile,challengeResultFile:resumeFrom.challengeResultFile,at:now(),newModelCalls:0};
@@ -634,17 +634,18 @@ export function runMap({projectFile,root=ROOT,skills,runDir}){
 export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
-  if(['--candidates-only','--suggestions'].includes(args[i])){flags.add(args[i]);continue;}
+  if(['--candidates-only','--suggestions','--report-only'].includes(args[i])){flags.add(args[i]);continue;}
   if(!['--project','--project-file','--topics','--review-effort','--approve','--defer','--resolve','--reject','--assume','--exports','--concurrency','--provenance-dir','--findings','--output'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
+ if(flags.has('--report-only')&&!['review','principles'].includes(command))throw Error('--report-only is allowed only for review or principles; no action was taken.');
  const list=name=>values[name]?.split(',').map(item=>item.trim()).filter(Boolean)??[],live=values['--project']&&path.join(ROOT,'booklets','projects',values['--project']+'.json');
  const projectFile=values['--project-file']?path.resolve(values['--project-file']):live,provenanceDir=values['--provenance-dir']&&path.resolve(values['--provenance-dir']);
  if(command!=='seeded'&&!projectFile)throw Error('Name a booklet with --project ID or --project-file FILE');
  let result;
  if(command==='archetypes')result=await runArchetypes({projectFile,concurrency:Number(values['--concurrency']??1),topics:list('--topics'),output:values['--output']&&path.resolve(values['--output'])});
  else if(command==='map')result=runMap({projectFile});
- else if(command==='review'||command==='principles')result=await runReview({projectFile,principlesOnly:command==='principles',topics:list('--topics'),reviewEffort:values['--review-effort']??'low',candidatesOnly:flags.has('--candidates-only'),concurrency:Number(values['--concurrency']??LIMITS.concurrency),provenanceDir});
+ else if(command==='review'||command==='principles')result=await runReview({projectFile,principlesOnly:command==='principles',reportOnly:flags.has('--report-only'),topics:list('--topics'),reviewEffort:values['--review-effort']??'low',candidatesOnly:flags.has('--candidates-only'),concurrency:Number(values['--concurrency']??LIMITS.concurrency),provenanceDir});
  else if(command==='post'){if(!live||values['--project-file'])throw Error('Comments are posted only to a live project: use --project ID');result=await postFindings({projectFile,provenanceDir,suggestions:flags.has('--suggestions'),...(values['--findings']?{findingIds:list('--findings')}:{})});}
  else if(command==='status')result=await reconcile({projectFile,approve:list('--approve'),defer:list('--defer'),resolve:list('--resolve'),reject:list('--reject'),assume:values['--assume'],provenanceDir});
  else if(command==='withdraw'){if(!live||values['--project-file'])throw Error('Withdraw works on a live project: use --project ID');result=await withdraw({projectFile,provenanceDir});}

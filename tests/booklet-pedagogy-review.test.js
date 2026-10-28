@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
-import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates,routineQuestions,validateArchetypes,archetypePrompt,bookletPrinciples} from '../pedagogy/review.mjs';
+import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates,main as reviewMain,routineQuestions,validateArchetypes,archetypePrompt,bookletPrinciples} from '../pedagogy/review.mjs';
 import {runAstraTask} from '../scripts/booklet/codex-transcription.mjs';
 
 import {newTeachingPrompt,NEW_CONTENT_MODEL,validateNewTeachingCandidate} from '../pedagogy/new-content.mjs';
@@ -416,8 +416,15 @@ test('direct teaching and question-supplied scaffolds retain their actual eviden
 
 test('report-only reviewer provenance cannot post raw Sol-authored proposal text',async t=>{
  const w=workspace(t),before=fs.readFileSync(w.projectFile,'utf8');
- const result=await runReview({...w.options,runner:stubRunner({review:{'negative-index':{candidates:[candidate('example-principle',['t1-example-a'],{repair:{type:'add-question',proposal:'A raw reviewer-authored student question that must not be posted.'}})]}}})});
- const file=path.join(w.options.provenanceDir,'pedagogy-seeded.json'),record=JSON.parse(fs.readFileSync(file));assert.equal(record.findings.length,1);assert.match(record.findings[0].repair.proposal,/raw reviewer-authored/);record.reportOnly=true;fs.writeFileSync(file,JSON.stringify(record));
+ const result=await runReview({...w.options,reportOnly:true,runner:stubRunner({review:{'negative-index':{candidates:[candidate('example-principle',['t1-example-a'],{repair:{type:'add-question',proposal:'A raw reviewer-authored student question that must not be posted.'}})]}}})});
+ const file=path.join(w.options.provenanceDir,'pedagogy-seeded.json'),record=JSON.parse(fs.readFileSync(file));assert.equal(record.findings.length,1);assert.match(record.findings[0].repair.proposal,/raw reviewer-authored/);assert.equal(record.reportOnly,true);
  await assert.rejects(postFindings({...w.options}),/Report-only review evidence cannot be posted/);
+ assert.equal(fs.readFileSync(w.projectFile,'utf8'),before);
+});
+
+
+test('post --report-only fails at the CLI boundary before loading or posting a project',async t=>{
+ const w=workspace(t),before=fs.readFileSync(w.projectFile,'utf8');
+ await assert.rejects(reviewMain(['post','--report-only','--project','report-only-must-not-load']),/--report-only is allowed only for review or principles; no action was taken/);
  assert.equal(fs.readFileSync(w.projectFile,'utf8'),before);
 });
