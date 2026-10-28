@@ -1,0 +1,881 @@
+{
+  "version": 1,
+  "projectId": "s6ext1-4-differential-equations-v1",
+  "title": "Differential equations",
+  "assumptions": {},
+  "findings": [
+    {
+      "id": "pf-f3bcdd31a1",
+      "kind": "opening-review",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p3-review-q1-block",
+          "blockId": "p3-review-q1-block",
+          "hash": "08dbdda0de9eb96b4c9b9efa652ae14c1fd80c386e4a61bccbd35b192d8a9ed7"
+        },
+        {
+          "id": "p3-review-q2-block",
+          "blockId": "p3-review-q2-block",
+          "hash": "f798a869299adc3b16fc8ec3f71d6db2d0058542531cc25f69a5b5aaa603b9a7"
+        },
+        {
+          "id": "p5-example-item",
+          "blockId": "p5-example",
+          "hash": "9cdf16d2ffacb7462b6081539ef72745251cc0b76ba318c3f91b1c352de4eb24"
+        }
+      ],
+      "finding": "The opening review omits exponential differentiation with a linear exponent, which the first verification example uses directly.",
+      "breakdown": "Producing y'=-12e^(-3x) requires recalling the exponential derivative and its chain-rule factor; notation and numerical substitution do not rehearse that step.",
+      "checked": "The complete preceding teaching contains no differentiation rehearsal. p5-theory supplies the verification procedure but assumes students can differentiate the function.",
+      "assumptions": "Exponential differentiation is prior course knowledge. No calculator is required.",
+      "repair": {
+        "type": "add-review",
+        "proposal": "Append to the existing review: Differentiate (a) y=5e^x; (b) y=e^(-2x); (c) y=3e^(4x). Answers: (a) 5e^x; (b) -2e^(-2x); (c) 12e^(4x). Keep the complete review within one page."
+      },
+      "doneWhen": "The review rehearses exponential differentiation and the linear-exponent factor before p5-example-item.",
+      "from": [
+        "c1"
+      ],
+      "sequences": [
+        "identifying-des-and-verifying-solutions"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.854Z"
+        }
+      ],
+      "commentId": "dc7c9553-d6a9-4a9e-a4bc-c6357c2d9ab5",
+      "postedAt": "2026-10-28T11:01:54.516Z"
+    },
+    {
+      "id": "pf-7e042db7f7",
+      "kind": "opening-review",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p8-theory-block",
+          "blockId": "p8-theory-block",
+          "hash": "9d6797ed4ec1dfcd9137bfc893b69e9e0ed56eb711dd6ad397bd2751c3bf595c"
+        },
+        {
+          "id": "p8-example-demonstration",
+          "blockId": "p8-example-block",
+          "hash": "01a096f3eaab540094b89139fe18816d6fa1b2d95cf4b9ddd96140b2a89c38cf"
+        },
+        {
+          "id": "p9-example-demonstration",
+          "blockId": "p9-example-block",
+          "hash": "013d2e6387533def535dfb97dc17e5bed92d9c596c7804fe72b0548e453ea664"
+        }
+      ],
+      "finding": "The worked examples require polynomial integration without an opening review rehearsing it.",
+      "breakdown": "Students must recall power primitives, constant primitives and term-by-term integration to follow the new DE procedure.",
+      "checked": "The preceding topic teaches verification by differentiation. Neither its review nor its teaching rehearses integration.",
+      "assumptions": "Polynomial integration is prior course knowledge; evaluating arithmetic on a calculator does not supply the primitive.",
+      "repair": {
+        "type": "add-review",
+        "proposal": "Before p8-theory-block add: Find (a) ∫3x² dx; (b) ∫4 dx; (c) ∫(8x³-5) dx. Answers: (a) x³+C; (b) 4x+C; (c) 2x⁴-5x+C. Keep the review within one page."
+      },
+      "doneWhen": "Students rehearse the integration steps used by both worked examples.",
+      "from": [
+        "c2"
+      ],
+      "sequences": [
+        "solving-dydx-fx"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.854Z"
+        }
+      ],
+      "commentId": "f9a8d53e-d0a4-45a9-91ad-360b882a104e",
+      "postedAt": "2026-10-28T11:01:54.517Z"
+    },
+    {
+      "id": "pf-b0ab3b6933",
+      "kind": "variation-sequence",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p10-q3",
+          "blockId": "p10-q3",
+          "hash": "24e4ff129fc96c13a019fa65136b1c71f04e3f70fb47fb5d47b208043f34682f"
+        }
+      ],
+      "finding": "Vary the initial condition while holding the DE fixed to connect the arbitrary constant with vertical translations.",
+      "breakdown": "The run isolates the effect of the initial condition on the constant term.",
+      "checked": "Each proposed solution differentiates to 2x-3 and satisfies its initial condition. The supplied practice contains no equivalent consecutive run.",
+      "assumptions": "Only integration and substitution already taught in this topic are needed.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Immediately after p10-q3-b, add: “Predict how changing the initial condition changes the solution.” Under the existing instruction add (i) y'=2x-3, y(0)=-2; (ii) y'=2x-3, y(0)=0; (iii) y'=2x-3, y(0)=4. Answers: x²-3x-2; x²-3x; x²-3x+4. Follow with (iv) y'=2x-3, y(2)=1. Answer: y=x²-3x+3. The DE stays fixed; the initial condition varies."
+      },
+      "doneWhen": "Three patterned parts and one unpatterned part follow p10-q3-b with only the single prediction instruction added.",
+      "from": [
+        "c3"
+      ],
+      "sequences": [
+        "solving-dydx-fx"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.854Z"
+        }
+      ],
+      "commentId": "c196260e-7602-4ffd-b8ee-1f84548688d3",
+      "postedAt": "2026-10-28T11:01:54.519Z"
+    },
+    {
+      "id": "pf-c8a731945b",
+      "kind": "unsupported-transition",
+      "severity": "severe",
+      "targets": [
+        {
+          "id": "p26-q5-e",
+          "blockId": "p26-q5-block",
+          "hash": "23ddf808194562f9492ec902721128fdfe8c2ee4dc3b7777a1adb73ab813caa1"
+        }
+      ],
+      "finding": "The requested solution through (-2,0) cannot satisfy y'=x/y at its initial point.",
+      "breakdown": "The derivative is undefined there. Drawing the sideways hyperbola as a function solution would contradict the function meaning established earlier.",
+      "checked": "Integrating gives y²-x²=C. Through (-2,0), the implicit curve is x²-y²=4, whose vertex has a vertical tangent and no defined derivative. p16-example-graph-stage explicitly distinguishes implicit curves from function branches; p30-q14-b uses an explicit exception that p26-q5-e lacks.",
+      "assumptions": "The supplied field specification identifies directions consistent with x/y. No source-fidelity claim or calculator assumption is needed.",
+      "repair": {
+        "type": "change-values",
+        "proposal": "Change ii to (-2,1). The function solution is y=√(x²-3), x<-√3, through (-2,1)."
+      },
+      "doneWhen": "Both requested points admit function solutions with defined derivatives at their initial points.",
+      "from": [
+        "c4"
+      ],
+      "sequences": [
+        "slope-fields"
+      ],
+      "state": "deferred",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.854Z"
+        },
+        {
+          "state": "deferred",
+          "at": "2026-10-28T11:01:46.617Z",
+          "note": "Withdrawn at the user's request."
+        }
+      ]
+    },
+    {
+      "id": "pf-fd47a7feb6",
+      "kind": "opening-review",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p32-definition-block",
+          "blockId": "p32-definition-block",
+          "hash": "51221071f00552c87e0dfd0c511e9d2e4667d0b7af3695a83d6d7ea5e60a9913"
+        },
+        {
+          "id": "p32-example-demonstration",
+          "blockId": "p32-example-block",
+          "hash": "133bb9e75f30235de0ea4dd406a9d645f05b56065de5d8f07d6db110b1090406"
+        }
+      ],
+      "finding": "The opening example requires reciprocal integration without a review rehearsing that prerequisite.",
+      "breakdown": "The reciprocal method immediately requires ∫1/(3y) dy=(1/3)ln|y|+C.",
+      "checked": "p8-guided-c already practises reciprocal integration, so this is not missing teaching. However, it is absent from this topic's review and from the immediately preceding slope-fields topic and exercise.",
+      "assumptions": "Reciprocal integration is prior course knowledge. No calculator is required.",
+      "repair": {
+        "type": "add-review",
+        "proposal": "Before p32-definition-block add: Find (a) ∫1/y dy; (b) ∫1/(3y) dy; (c) ∫(-1/(3y)) dy. Answers: (a) ln|y|+C; (b) (1/3)ln|y|+C; (c) -(1/3)ln|y|+C. Keep the review within one page."
+      },
+      "doneWhen": "The review rehearses the reciprocal primitives used directly in the worked example and guided IVP.",
+      "from": [
+        "c6"
+      ],
+      "sequences": [
+        "solving-dydx-gy"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.854Z"
+        }
+      ],
+      "commentId": "d059927d-dede-413b-b781-db0701a54d95",
+      "postedAt": "2026-10-28T11:01:54.520Z"
+    },
+    {
+      "id": "pf-b35058c367",
+      "kind": "unsupported-transition",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p33-q1-b",
+          "blockId": "p33-q1",
+          "hash": "b0fe1c91e92e291457146800f079567d66f4697d890f20ad2ef54602f161ca71"
+        },
+        {
+          "id": "p33-q2-a",
+          "blockId": "p33-q2",
+          "hash": "94a254ec550cc47710ae4d15f91a8974ffefa7a498ce2db5251668d739b47ad4"
+        }
+      ],
+      "finding": "The square-root equations require retaining restrictions when inverting the integrated expression, a decision preceding instruction has not exposed.",
+      "breakdown": "Unrestricted squaring produces a parabola with a decreasing branch, and unrestricted inversion of arcsine produces sine intervals with negative derivative; neither satisfies a DE requiring a nonnegative derivative there.",
+      "checked": "For p33-q1-b, y≠0 makes y>0 and integration gives 2√y=x-C, hence x>C. For p33-q2-a, the reciprocal method on -1<y<1 gives arcsin(y)=x-C, hence -π/2<x-C<π/2. Earlier teaching handles logarithmic signs and undefined derivatives but does not model these inversion decisions.",
+      "assumptions": "Students already know the relevant primitives and inverse-function ranges from prior calculus. The finding concerns applying those ranges to DE solutions.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Before p33-q1-b insert: For y'=2√y with y>0, (a) take the reciprocal and integrate; (b) state the restriction implied by √y=x-C; (c) express y in terms of x with that restriction. Answers: (a) x=√y+C; (b) x>C; (c) y=(x-C)², x>C. Before p33-q2-a insert: If arcsin(y)=x-C and -1<y<1, state the range of x-C. Answer: -π/2<x-C<π/2."
+      },
+      "doneWhen": "Students retain the relevant range before squaring or taking sine.",
+      "from": [
+        "c7"
+      ],
+      "sequences": [
+        "solving-dydx-gy"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.854Z"
+        }
+      ],
+      "commentId": "165f70b4-9175-4d8c-9839-10d2a799e177",
+      "postedAt": "2026-10-28T11:01:54.523Z"
+    },
+    {
+      "id": "pf-46616da332",
+      "kind": "extension",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p34-q4",
+          "blockId": "p34-q4",
+          "hash": "97d1b3f642266c39b2b5264c0818e6c00279c45508e057635b1f65bdd7b6506f"
+        }
+      ],
+      "finding": "Compare how opposite coefficient signs change the distance from the equilibrium y=1.",
+      "breakdown": "The follow-up connects the two solution formulas with approaching or moving away from equilibrium.",
+      "checked": "The solutions are 1+2e^(-x) and 1-e^x. Their distances from 1 are 2e^(-x) and e^x, respectively, giving ln 2 for both requested times.",
+      "assumptions": "Exponential equations and logarithms are prior course knowledge.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "After p34-q4-d append: (e) For the solution in a, find the positive x-value when its distance from y=1 has halved. Answer: ln 2. (f) For the solution in b, find the positive x-value when its distance from y=1 has doubled. Answer: ln 2. (g) Which solution approaches y=1 as x increases? Answer: a."
+      },
+      "doneWhen": "The numerical follow-up uses the existing two IVPs and gives the expected answers.",
+      "from": [
+        "c8"
+      ],
+      "sequences": [
+        "solving-dydx-gy"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.854Z"
+        }
+      ],
+      "commentId": "3c2bcd27-7812-48e0-81ea-16aaa67da4d8",
+      "postedAt": "2026-10-28T11:01:54.526Z"
+    },
+    {
+      "id": "pf-bd47ebfb82",
+      "kind": "difficulty-jump",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p55-q6",
+          "blockId": "p55-q6",
+          "hash": "93e3baa0ce9dde682f9a691c40accbf6facfdc71ab785212f7ebd520c7ad2d7c"
+        },
+        {
+          "id": "p56-q7-a",
+          "blockId": "p56-q7",
+          "hash": "df93254b83d83259c08b5d416457a2f6f75b094a2214a845e7111d2f7a3a5d85"
+        },
+        {
+          "id": "p56-q7-b",
+          "blockId": "p56-q7",
+          "hash": "df93254b83d83259c08b5d416457a2f6f75b094a2214a845e7111d2f7a3a5d85"
+        }
+      ],
+      "finding": "p56-q7 abruptly combines similarity, a changing-volume formula and a chain-rule conversion after routine exponential models.",
+      "breakdown": "Before applying the named chain rule, students must recognise h=3r and reduce the cone volume to V=πr³. These geometric decisions arrive together without a bridge.",
+      "checked": "The preceding teaching and p53-q1 through p55-q6 do not rehearse geometric preparation for related rates. No later supplied question bridges it: p57-q8 gives dh/dt directly, while p58-q9 and q10 return to exponential models. The jump is therefore not repaired by reordering.",
+      "assumptions": "Similarity and the chain rule are prior course knowledge. The concern is their abrupt combined application, not their absence from the course.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Immediately before p56-q7 insert a preparatory question using its tank: For the conical tank of height 12 m and radius 4 m, let water depth be h metres and surface radius be r metres. (a) Use similar triangles to express h in terms of r. (b) Express water volume V in terms of r only. (c) Find dV/dr. Answers: h=3r; V=πr³; dV/dr=3πr². Retain p56-q7-b for students to choose and apply the chain-rule connection."
+      },
+      "doneWhen": "Students prepare the one-variable volume formula and derivative before combining them with the evaporation model.",
+      "from": [
+        "c10"
+      ],
+      "sequences": [
+        "review-of-exponential-growth-and-decay"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.855Z"
+        }
+      ],
+      "commentId": "a43bc23b-cae1-4f9f-8f48-f110eae926af",
+      "postedAt": "2026-10-28T11:01:54.528Z"
+    },
+    {
+      "id": "pf-1751816c30",
+      "kind": "extension",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p55-q6",
+          "blockId": "p55-q6",
+          "hash": "93e3baa0ce9dde682f9a691c40accbf6facfdc71ab785212f7ebd520c7ad2d7c"
+        }
+      ],
+      "finding": "Compare successive equal-time halvings of the temperature gap.",
+      "breakdown": "The follow-up distinguishes exponential decay of the gap from the increasing temperature itself.",
+      "checked": "H=25-20·2^(-t/10), so H(20)=20. The gap halves from 20 to 10 degrees in the first ten minutes and from 10 to 5 degrees in the next ten.",
+      "assumptions": "Uses only the model and constants found in p55-q6.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "After p55-q6-d append: (e) Find the temperature after 20 minutes. Answer: 20°C. (f) Explain why warming from 15°C to 20°C takes the same time as warming from 5°C to 15°C. Answer: each change halves the gap from 25°C, so each takes 10 minutes."
+      },
+      "doneWhen": "The two follow-up parts connect equal elapsed times with equal proportional changes in the temperature gap.",
+      "from": [
+        "c11"
+      ],
+      "sequences": [
+        "review-of-exponential-growth-and-decay"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.855Z"
+        }
+      ],
+      "commentId": "af1ca603-c909-4423-af87-dbea47cf8b2f",
+      "postedAt": "2026-10-28T11:01:54.530Z"
+    },
+    {
+      "id": "pf-d9d5215d06",
+      "kind": "opening-review",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p79-guided-block",
+          "blockId": "p79-guided-block",
+          "hash": "12ba9979e6cdc442034dcad46fd76e81fc88a6f3db1dca8fad01b88299252032"
+        },
+        {
+          "id": "p79-step2",
+          "blockId": "p79-guided-block",
+          "hash": "12ba9979e6cdc442034dcad46fd76e81fc88a6f3db1dca8fad01b88299252032"
+        }
+      ],
+      "finding": "The guided example requires eliminating one of two unknown constants and solving with an exponential coefficient without an opening algebra review.",
+      "breakdown": "Students must eliminate A, cross-multiply and collect C terms involving e². Earlier logistic examples determine one unknown constant with a known carrying capacity.",
+      "checked": "p59-rearrange rehearses factorisation with exponential coefficients but not eliminating an unknown constant from two equations. The preceding logistic teaching and supplied practice do not rehearse that elimination. The proposed review equations were solved independently.",
+      "assumptions": "Simultaneous equations are prior course knowledge. A calculator may evaluate the final numerical result; the review concerns the algebraic elimination.",
+      "repair": {
+        "type": "add-review",
+        "proposal": "Before p79-guided-block add: (a) Eliminate A from A=3/(x-3) and 2A=4/(x-4), then find x. Answer: x=6. (b) Solve 2(x-10)=e(x-20). Answer: x=20(e-1)/(e-2). (c) Eliminate A from A=10/(x-10) and Ae=20/(x-20), then find x. Answer: x=20(e-1)/(e-2). Keep the review within one page."
+      },
+      "doneWhen": "The opening review rehearses eliminating the shared unknown and solving the resulting equation with an exponential coefficient.",
+      "from": [
+        "c14"
+      ],
+      "sequences": [
+        "further-logistic-modelling"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.855Z"
+        }
+      ],
+      "commentId": "6ffc5f80-6ea0-4dee-a4ab-7f872caebc42",
+      "postedAt": "2026-10-28T11:01:54.531Z"
+    },
+    {
+      "id": "pf-c82c6411fc",
+      "kind": "extension",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p83-q4",
+          "blockId": "p83-q4",
+          "hash": "ee16a6a79e87887269e211a32aa85ff8e642fd5255d2dce652e677688c933354"
+        }
+      ],
+      "finding": "Compare equal logistic growth rates on opposite sides of the population giving maximum growth.",
+      "breakdown": "The follow-up connects the known maximum at 150 with the symmetry of the quadratic rate function.",
+      "checked": "The model satisfies y'=0.4y(1-y/300). At y=280 this is 112/15 yabbies per month; symmetry gives the same rate at y=20. Both populations occur for t≥0, with y=20 initially.",
+      "assumptions": "The logistic rate equation and its quadratic symmetry have been taught by the end of this topic.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "After p83-q4-c append: (d) Find the growth rate when there are 280 yabbies. Answer: 112/15 yabbies per month. (e) At what other population is the growth rate the same as in d? Answer: 20 yabbies."
+      },
+      "doneWhen": "The follow-up uses the existing population model to identify two populations with the same growth rate.",
+      "from": [
+        "c15"
+      ],
+      "sequences": [
+        "further-logistic-modelling"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:59:54.855Z"
+        }
+      ],
+      "commentId": "1ac84959-3672-437f-a5ac-9059a8f28d7a",
+      "postedAt": "2026-10-28T11:01:54.533Z"
+    }
+  ],
+  "contextQuestions": [],
+  "protectedGroups": [
+    {
+      "sequence": "identifying-des-and-verifying-solutions",
+      "targets": [
+        "p5-example-item",
+        "p5-a"
+      ],
+      "observation": "Changing the coefficient can preserve satisfaction of the same differential equation, preparing for the arbitrary constant in p5-d.",
+      "varies": "The coefficient of e^{-3x}, from 4 to 7.",
+      "invariant": "The exponential factor, differential equation and verification procedure."
+    },
+    {
+      "sequence": "identifying-des-and-verifying-solutions",
+      "targets": [
+        "p5-a",
+        "p5-b"
+      ],
+      "observation": "An exponential form alone does not guarantee a solution; its derivative must match the specified multiple of y.",
+      "varies": "The proposed exponential function.",
+      "invariant": "The differential equation y'=-3y and the verification procedure."
+    },
+    {
+      "sequence": "identifying-des-and-verifying-solutions",
+      "targets": [
+        "p7-q5a",
+        "p7-q5b"
+      ],
+      "observation": "Two verified exponential solutions lead to a family formed from constant multiples of their sum.",
+      "varies": "Separate functions become a combination with arbitrary coefficients.",
+      "invariant": "The differential equation and the two exponential components."
+    },
+    {
+      "sequence": "slope-fields",
+      "targets": [
+        "p17-identify-d",
+        "p17-identify-e",
+        "p17-identify-f"
+      ],
+      "observation": "Different field appearances can share radial isoclines; circular-looking solution curves are not themselves isoclines.",
+      "varies": "The ratio, sign and orientation of the field gradients.",
+      "invariant": "Equal inclinations lie along lines through the origin, away from undefined points."
+    },
+    {
+      "sequence": "slope-fields",
+      "targets": [
+        "p17-identify-g",
+        "p17-identify-h"
+      ],
+      "observation": "Horizontal isoclines persist when the number of zero-gradient rows and the sign pattern change.",
+      "varies": "Gradient dependence on y and the zero-gradient levels.",
+      "invariant": "Gradient is constant within each horizontal row."
+    },
+    {
+      "sequence": "slope-fields",
+      "targets": [
+        "p30-q14-a",
+        "p30-q14-b",
+        "p30-q14-d"
+      ],
+      "observation": "Negative reciprocal field gradients produce perpendicular tangents at intersections.",
+      "varies": "The two gradient expressions and their solution curves.",
+      "invariant": "Both gradients are evaluated at the same intersection point."
+    },
+    {
+      "sequence": "solving-dydx-gy",
+      "targets": [
+        "p35-q6-a",
+        "p35-q6-b"
+      ],
+      "observation": "The same initial point cannot support both increasing and decreasing solutions of this DE; the derivative at that point determines compatibility.",
+      "varies": "The required direction of change.",
+      "invariant": "The differential equation and initial point."
+    },
+    {
+      "sequence": "separation-of-variables",
+      "targets": [
+        "p39-q8",
+        "p39-q9",
+        "p40-q10"
+      ],
+      "observation": "Compare separation and reciprocation, then observe how shifting the equilibrium changes the solution family.",
+      "varies": "Solution method, coefficient and equilibrium value.",
+      "invariant": "A staged solve–isolate–check-equilibrium–apply-initial-condition structure."
+    },
+    {
+      "sequence": "separation-of-variables",
+      "targets": [
+        "p43-q17",
+        "p43-q18",
+        "p44-q19"
+      ],
+      "observation": "A separately identified constant solution can sometimes be included by allowing a parameter value in the nonconstant family, but not always.",
+      "varies": "The dependent-variable factor and resulting reciprocal, power or exponential family.",
+      "invariant": "Identify the constant solution before solving the remaining equation."
+    },
+    {
+      "sequence": "separation-of-variables",
+      "targets": [
+        "p46-q23-root",
+        "p46-q24-root"
+      ],
+      "observation": "Changing a condition on tangents to the same condition on normals changes the DE through perpendicular gradients.",
+      "varies": "Whether the tangent or normal passes through the origin.",
+      "invariant": "The origin, general point (x,y), and gradient-to-DE-to-solution structure."
+    },
+    {
+      "sequence": "review-of-exponential-growth-and-decay",
+      "targets": [
+        "p51-modified-above-example",
+        "p51-modified-below-example"
+      ],
+      "observation": "For negative k, solutions approach the same equilibrium from either side; increasing quantity does not imply positive k in a modified model.",
+      "varies": "The sign of A and the side of the equilibrium containing the initial value.",
+      "invariant": "The modified-model form, negative k and limiting value P."
+    }
+  ],
+  "notReliablyReviewed": [
+    {
+      "sequence": "slope-fields",
+      "targets": [
+        "p26-q4-root"
+      ],
+      "reason": "The linked Desmos application's controls and current operation were not supplied, so the practical route for entering and displaying the fields could not be assessed."
+    },
+    {
+      "sequence": "separation-of-variables",
+      "targets": [
+        "p38-direction-field-native"
+      ],
+      "reason": "No page image was attached. The written specification identifies the intended field, but its visible relationship to the constant solution could not be inspected; diagram construction is outside this review."
+    },
+    {
+      "sequence": "review-of-exponential-growth-and-decay",
+      "targets": [
+        "p51-exponential-decay-figure",
+        "p51-exponential-growth-figure",
+        "p51-modified-above-figure",
+        "p51-modified-below-figure"
+      ],
+      "reason": "Page images were expected but none were attached. The specifications support review of the intended comparisons, but the visible field segments and solution curves could not be inspected."
+    },
+    {
+      "sequence": "the-logistic-equation",
+      "targets": [
+        "p60-logistic-field",
+        "p60-logistic-curve"
+      ],
+      "reason": "No page images were attached. The mathematical specifications were available, but the visible diagrams could not be inspected."
+    }
+  ],
+  "reviewedRevision": 1,
+  "reviewedAt": "2026-10-28T10:59:54.855Z",
+  "passes": {
+    "review": {
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "calls": 8
+    },
+    "challenge": {
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "calls": 1
+    }
+  },
+  "importReview": "No lean review table found; this booklet's earlier acceptance route is not recorded here.",
+  "questionOrder": "source",
+  "lastRun": {
+    "sequences": [
+      {
+        "id": "identifying-des-and-verifying-solutions",
+        "title": "Identifying DEs and verifying solutions",
+        "blocks": 14,
+        "images": 0,
+        "imagesExpected": false,
+        "usage": {
+          "input_tokens": 25828,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3444,
+          "reasoning_output_tokens": 305
+        },
+        "elapsedMs": 79651,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 0
+      },
+      {
+        "id": "solving-dydx-fx",
+        "title": "Solving dy/dx = f(x)",
+        "blocks": 15,
+        "images": 0,
+        "imagesExpected": false,
+        "usage": {
+          "input_tokens": 28440,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3689,
+          "reasoning_output_tokens": 313
+        },
+        "elapsedMs": 84016,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "slope-fields",
+        "title": "Slope fields",
+        "blocks": 43,
+        "images": 0,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 59971,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5483,
+          "reasoning_output_tokens": 381
+        },
+        "elapsedMs": 124113,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "solving-dydx-gy",
+        "title": "Solving dy/dx = g(y)",
+        "blocks": 10,
+        "images": 0,
+        "imagesExpected": false,
+        "usage": {
+          "input_tokens": 28629,
+          "cached_input_tokens": 14848,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3390,
+          "reasoning_output_tokens": 164
+        },
+        "elapsedMs": 94066,
+        "candidates": 2,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "separation-of-variables",
+        "title": "Solving dy/dx = f(x)g(y)",
+        "blocks": 32,
+        "images": 0,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 36047,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4369,
+          "reasoning_output_tokens": 368
+        },
+        "elapsedMs": 101888,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "review-of-exponential-growth-and-decay",
+        "title": "Review of exponential growth and decay",
+        "blocks": 22,
+        "images": 0,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 36161,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3540,
+          "reasoning_output_tokens": 446
+        },
+        "elapsedMs": 98368,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "the-logistic-equation",
+        "title": "The logistic equation",
+        "blocks": 25,
+        "images": 0,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 44155,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4833,
+          "reasoning_output_tokens": 180
+        },
+        "elapsedMs": 98181,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 2
+      },
+      {
+        "id": "further-logistic-modelling",
+        "title": "Further logistic modelling",
+        "blocks": 6,
+        "images": 0,
+        "imagesExpected": false,
+        "usage": {
+          "input_tokens": 34897,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3060,
+          "reasoning_output_tokens": 819
+        },
+        "elapsedMs": 96130,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 1
+      }
+    ],
+    "dropped": [
+      {
+        "ids": [
+          "c5"
+        ],
+        "reason": "The arithmetic and proposed run are correct, but it falls outside the four strongest booklet suggestions. c3, c8, c11 and c15 more directly connect solution formulas with central DE relationships.",
+        "candidates": [
+          {
+            "id": "c5",
+            "sequence": "slope-fields",
+            "kind": "variation-sequence",
+            "targets": [
+              "p24-q1-root"
+            ],
+            "finding": "Add a short run evaluating the same y-only quadratic gradient at systematically changing y-values."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c9"
+        ],
+        "reason": "The mathematics is correct, but the four-suggestion limit defeats it. Its comparison of scaled solutions overlaps the role of the arbitrary constant already addressed by retained c3.",
+        "candidates": [
+          {
+            "id": "c9",
+            "sequence": "separation-of-variables",
+            "kind": "extension",
+            "targets": [
+              "p44-q19"
+            ],
+            "finding": "Compare two solutions of the same DE with different initial values."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c12"
+        ],
+        "reason": "The existing p67-q4 already contrasts growth from below carrying capacity with decline from above, and p60 explicitly teaches the equilibrium. The proposed part e also repeats the existing 6000-population part b. This is weaker than the four retained suggestions.",
+        "candidates": [
+          {
+            "id": "c12",
+            "sequence": "the-logistic-equation",
+            "kind": "variation-sequence",
+            "targets": [
+              "p67-q4-root"
+            ],
+            "finding": "Compare population behaviour as the initial population crosses the carrying capacity."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c13"
+        ],
+        "reason": "The numerical answers are correct, but existing p72-q10-c already asks students to explain the quadratic maximum at half carrying capacity. The follow-up repeats that result and is weaker than the four retained suggestions.",
+        "candidates": [
+          {
+            "id": "c13",
+            "sequence": "the-logistic-equation",
+            "kind": "extension",
+            "targets": [
+              "p72-q10-root"
+            ],
+            "finding": "Compare growth rates at populations equally spaced around half the carrying capacity."
+          }
+        ]
+      }
+    ],
+    "unchecked": [],
+    "suppressed": [],
+    "droppedQuestions": [],
+    "candidateFile": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-4-differential-equations-v1/work/candidates-low-1793185106797.json",
+    "errors": []
+  },
+  "postedRevision": 2,
+  "supplementalReviews": [
+    {
+      "at": "2026-10-28T11:03:25.608Z",
+      "type": "scoped-diagram-pedagogy",
+      "reviewedRevision": 1,
+      "record": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-4-differential-equations-v1/supplemental-diagram-review.json",
+      "closedTargets": [
+        [
+          "p38-direction-field-native"
+        ],
+        [
+          "p51-exponential-decay-figure",
+          "p51-exponential-growth-figure",
+          "p51-modified-above-figure",
+          "p51-modified-below-figure"
+        ],
+        [
+          "p60-logistic-field",
+          "p60-logistic-curve"
+        ]
+      ],
+      "importReviewEvidence": {
+        "path": ".booklet-work/full-imports/s6ext1-4-differential-equations-20261027/lean-review/reviewed.json",
+        "rows": 173,
+        "passed": 172,
+        "note": "Canonical table exists; original audit importReview wording is preserved as historical evidence of the missing runDir context."
+      },
+      "remaining": [
+        {
+          "targets": [
+            "p26-q4-root"
+          ],
+          "reason": "Task explicitly requires using the linked https://www.desmos.com/calculator/cwkp7gveor to plot six supplied DE slope fields before identifying isoclines. Static source instructions and current native task/answers reviewed. Whether the external calculator currently loads, exposes an editable slope function and displays all six entered fields was not exercised; this is external tool operation, not a missing native Studio control or a confirmed pedagogy defect."
+        }
+      ],
+      "originalAuditPreserved": true
+    }
+  ]
+}
