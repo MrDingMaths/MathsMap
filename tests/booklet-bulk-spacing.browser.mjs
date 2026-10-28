@@ -34,32 +34,36 @@ const find=id=>{let found;const visit=n=>{if(!n||typeof n!=='object'||found)retu
 const save=async action=>{await action();await page.keyboard.press('Control+s');await page.waitForTimeout(400);await page.waitForFunction(()=>document.querySelector('.save-state')?.textContent==='Saved');await ready();};
 const panel=page.locator('#booklet-layout-spacing');
 const fill=(name,value)=>save(async()=>{const input=panel.getByRole('spinbutton',{name,exact:true});await input.fill(value);await input.press('Tab');});
+const group=id=>panel.locator(`details[data-inspector-group="${id}"]`);
 const layout=id=>record.settings.layoutOverrides.blockLayouts?.[id]?.arrangement;
 const spaces=tree=>{const out=[];const walk=n=>{if(/space/.test(n.ref??''))out.push(n);n.children?.forEach(walk);};walk(tree.root);return out;};
 try{
  await page.goto(origin+'/#/booklet?stage=projects&project='+record.id);await ready();
  await page.locator('.flow-paper [data-edit-root="r1"] .clickable').first().click();
  await page.getByRole('button',{name:'Layout',exact:true}).click();
- assert.equal(await panel.getByRole('tab',{name:'Spacing',exact:true}).getAttribute('aria-selected'),'true');
+ // The inspector follows the selection: the question's level holds its own groups.
+ assert.equal(await panel.locator('.inspector-level > h3').first().innerText(),'QUESTION 1');
  await page.evaluate(()=>{window.panelFocus=[];document.addEventListener('focusin',e=>window.panelFocus.push({tag:e.target.tagName,id:e.target.id,label:e.target.getAttribute('aria-label')}));});
- await panel.getByRole('tab',{name:'Spacing',exact:true}).focus();
- await page.keyboard.press('ArrowRight');await page.waitForFunction(()=>document.activeElement?.id==='booklet-inspector-tables');assert.equal(await panel.getByRole('tab',{name:'Tables',exact:true}).getAttribute('aria-selected'),'true');
- await page.keyboard.press('ArrowLeft');await page.waitForFunction(()=>document.activeElement?.id==='booklet-inspector-layout');assert.equal(await panel.getByRole('tab',{name:'Spacing',exact:true}).getAttribute('aria-selected'),'true');
+ // Groups collapse from the keyboard, and the choice is remembered after a reload.
+ await group('block-table').locator('summary').focus();await page.keyboard.press('Enter');
+ assert.equal(await group('block-table').evaluate(d=>d.open),false);
+ await page.waitForFunction(()=>JSON.parse(localStorage.getItem('booklet-inspector-groups')??'{}')['block-table']===false);
+ await page.reload();await ready();await page.locator('.flow-paper [data-edit-root="r1"] .clickable').first().click();if(!await panel.isVisible())await page.getByRole('button',{name:'Layout',exact:true}).click();
+ assert.equal(await group('block-table').evaluate(d=>d.open),false);
+ await group('block-table').locator('summary').focus();await page.keyboard.press('Enter');await page.waitForFunction(()=>JSON.parse(localStorage.getItem('booklet-inspector-groups'))['block-table']===true);
 
- // Answer spaces come first; table settings live in their own keyboard-accessible tab.
+ // Answer spaces come first; table settings sit in the question's Table group.
  assert.equal(await panel.getByRole('spinbutton').first().getAttribute('aria-label'),'Whole question answer space height (mm)');
- assert.equal(await panel.getByRole('spinbutton',{name:'Whole block tables: row height (mm)',exact:true}).count(),0);
- await panel.getByRole('tab',{name:'Tables',exact:true}).click();
+ assert.equal(await group('block-table').getByRole('spinbutton',{name:'Whole block tables: row height (mm)',exact:true}).count(),1);
  await fill('Whole block tables: row height (mm)','6');
  assert.deepEqual(find('t1').rowHeights,[6,6,6]);assert.deepEqual(find('t2').rowHeights,[12,12,12]);
- await panel.getByRole('tab',{name:'Spacing',exact:true}).click();
  await fill('Whole question answer space height (mm)','8');
  assert.deepEqual(spaces(layout('q1')).map(n=>n.height),[8,8]);
 
  // Inside the table: the whole table at once, then one row.
  await page.locator('.flow-paper table[data-id="t1"] td').nth(1).click();
  await page.locator('maths-editor table td').nth(1).click();
- await panel.getByRole('tab',{name:'Tables',exact:true}).click();
+ {const levels=await panel.locator('.inspector-level > h3').allInnerTexts();assert.equal(levels.length,4,levels.join(' › '));assert.equal(levels[0],'QUESTION 1');assert.deepEqual(levels.slice(2),['TABLE','CELL']);}
  assert.equal(await panel.getByRole('spinbutton',{name:'Column width (mm)',exact:true}).isVisible(),true);
  assert.equal(await panel.getByRole('button',{name:'Merge right',exact:true}).isVisible(),true);
  await fill('All table rows height (mm)','5');
@@ -75,7 +79,6 @@ try{
  assert.equal(find('t1').marginBefore,0);
  await fill('Border width (mm)','0.4');
  assert.equal(find('t1').rows[1][0].borderWidthMm,0.4);
- await panel.getByRole('tab',{name:'Spacing',exact:true}).click();
  // The table's enclosing layout has independent spacing; editing its nested cell
  // must expose both controls, including zero, without changing table padding.
  await fill('Layout nested-layout outer spacing (mm)','0');
@@ -124,12 +127,11 @@ try{
  }
  // A whole-table selection offers direct settings and opens cell settings in place.
  await page.locator('.flow-paper [data-layout-handle="layout:r2/prompt#t2"]').first().dispatchEvent('click',{bubbles:true});
- await panel.getByRole('tab',{name:'Tables',exact:true}).click();
  assert.equal(await panel.getByRole('spinbutton',{name:'Container table width (mm)',exact:true}).isVisible(),true);
  await panel.getByRole('button',{name:'Edit cells, columns and borders',exact:true}).click();
  assert.equal(await panel.getByRole('spinbutton',{name:'Column width (mm)',exact:true}).isVisible(),true);
  if(process.env.STUDIO_SCREENSHOTS){fs.mkdirSync(process.env.STUDIO_SCREENSHOTS,{recursive:true});await page.screenshot({path:process.env.STUDIO_SCREENSHOTS+'/tables.png'});}
- await panel.getByRole('tab',{name:'Spacing',exact:true}).click();await page.keyboard.press('Escape');
+ await page.keyboard.press('Escape');
  await page.locator('.flow-paper [data-arrangement-id="r1:question"]').first().dispatchEvent('click',{bubbles:true});
  if(!await panel.isVisible())await page.getByRole('button',{name:'Layout',exact:true}).click();
  await fill('Selected group answer space height (mm)','8');
@@ -142,8 +144,7 @@ try{
  await page.locator('.flow-paper [data-arrangement-id="r1:question"]').first().dispatchEvent('click',{bubbles:true});
  await page.locator('.flow-paper [data-arrangement-id="r2:question"]').first().dispatchEvent('click',{bubbles:true,ctrlKey:true});
  if(!await panel.isVisible())await page.getByRole('button',{name:'Layout',exact:true}).click();
- assert.equal(await panel.locator('#whole-question-spacing-heading').innerText(),'2 selected blocks');
- await panel.getByRole('tab',{name:'Tables',exact:true}).click();
+ assert.equal(await panel.locator('.inspector-level > h3').first().innerText(),'2 SELECTED BLOCKS');
  await fill('Whole block tables: row height (mm)','7');
  assert.deepEqual(find('t1').rowHeights,[7,7,7]);assert.deepEqual(find('t2').rowHeights,[7,7,7]);
  await page.reload();await ready();

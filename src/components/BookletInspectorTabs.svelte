@@ -1,9 +1,7 @@
 <script>
  import {tick} from 'svelte';
- const LAYOUT_TABS = [['layout','Spacing'],['tables','Tables'],['arrange','Arrange'],['page','Page']];
- // `source` adds the Source tab (the source page beside the block, BookletSourceCompare); without it the strip is unchanged.
- let { value = 'layout', onchange, id = 'inspector', tabs: given = null, source = false, label = 'Properties', controls = `${id}-content`, strip = false } = $props();
- const tabs = $derived(given ?? (source ? [...LAYOUT_TABS, ['source','Source']] : LAYOUT_TABS));
+ // The Layout panel's inspector follows the selection (BookletInspectorLevel/Group); these tabs serve the panel strip and the arrangement editor.
+ let { value, onchange, id = 'inspector', tabs, label = 'Properties', controls = `${id}-content`, strip = false } = $props();
  async function key(event, index) {
   if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
   event.preventDefault(); const count = tabs.length, next = event.key === 'Home' ? 0 : event.key === 'End' ? count - 1 : (index + (event.key === 'ArrowRight' ? 1 : count - 1)) % count;

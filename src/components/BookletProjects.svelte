@@ -8,6 +8,8 @@
   import { normalizeProjectLibrary, groupLibraryProjects } from '../lib/booklet-library.js';
   import { menuGroup } from '../lib/booklet-menus.js';
   import BookletInspectorTabs from './BookletInspectorTabs.svelte';
+  import BookletInspectorLevel from './BookletInspectorLevel.svelte';
+  import BookletInspectorGroup,{openInspectorGroup} from './BookletInspectorGroup.svelte';
   import {createBookletPersistence} from '../lib/booklet-persistence.js';
   import {createBookletDocumentSession} from '../lib/booklet-document-session.js';
   import BookletPageControls from './BookletPageControls.svelte';
@@ -41,7 +43,7 @@
   import {BORDER_PRESETS,BORDER_SCOPES,setTableBorders,setTableBorderColour,setCellFill} from '../lib/booklet-table-style.js';
   import {visitDocument} from '../../public/libs/maths-editor/document-model.mjs';
   import {bookletColours,DOCUMENT_INSERT_TOOLS,applyQuestionSpacing,syncDiagramPresentation} from '../lib/booklet-document-tools.js';
-  import {applyBlockSpacing} from '../lib/booklet-bulk-spacing.js';
+  import {applyBlockSpacing,blockSpacing} from '../lib/booklet-bulk-spacing.js';
   import {captureBookletTextRange,applyBookletTextRange,copyBookletTextRange,replaceBookletTextRange,documentTextLength,joinDocumentParagraph,selectedBookletParagraphs,setBookletParagraphSpacing} from '../lib/booklet-text-selection.js';
   import {readClipboard,plainTextDocument} from '../../public/libs/maths-editor/document-clipboard.mjs';
   import {locateDocumentNode} from '../../public/libs/maths-editor/document-operations.mjs';
@@ -179,9 +181,8 @@
     c.transact(doc=>visitDocument(doc,t=>{if(t.id!==tableId||t.type!=='table')return;try{const ids=cellId?[cellId]:[],next=kind==='borders'?setTableBorders(t,value,tableScope,ids):kind==='border-colour'?setTableBorderColour(t,value,tableScope,ids):setCellFill(t,value,tableScope,ids);for(const key of Object.keys(t))if(!(key in next))delete t[key];Object.assign(t,next);}catch(e){failure=e.message;}}));
     if(failure)error=failure;
   }
-  let inspectorTab=$state('layout'), bankPicker=$state(false);
+  let bankPicker=$state(false);
   // The Source tab exists only for a project with an import run; switching to one without falls back to the default tab.
-  $effect(()=>{if(inspectorTab==='source'&&!project?.source?.runId)inspectorTab='layout';});
   let workspaceTop=$state(120),layoutStatus=$state.raw({pending:true}),finder=$state(''),findQuery=$state(''),findEntries=$state.raw([]),finderInput=$state(),finderDialog=$state(),goPageValue=$state('1');
   const wordWorkspace=typeof window==='undefined'||localStorage.getItem('booklet-word-workspace')!=='off';
   const commands=[
@@ -201,7 +202,7 @@
   const findMatches=$derived(searchDocumentEntries(findEntries,findQuery));
   async function openFinder(mode){documentSelection=currentAnchor();finder=mode;findQuery='';goPageValue=String(flowActive);if(mode==='find')findEntries=documentSearchIndex(project);await tick();if(!finderDialog?.open)finderDialog?.showModal();finderInput?.focus();finderInput?.select();}
   function closeFinder(){finderDialog?.close();finder='';if(activeEditor&&inlineSession?.bookmark)restoreEditorSelection(activeEditor,inlineSession.bookmark);}
-  function command(action){closeFinder();if(action==='fit')openFit();else if(action==='diagram-sizes')openDiagramSizes();else if(action.startsWith('borders:'))tableFormat('borders',action.slice(8));else if(action.startsWith('colour:'))formatDocument('colour',action.slice(7));else if(action==='find'||action==='goto')openFinder(action);else if(action==='outline')navigation=!navigation;else if(action==='comment')addComment();else if(action==='compare')toggleComparison();else if(action==='bank'){reviewDock=showBankSync?'':'bank';refreshBankSync();}else if(action==='theme')theme.toggle();else if(action==='assembly')tool='assembly';else if(action==='arrange')arrangeSelectedQuestion();else{panel=action==='page'?'layout':action;inspectorTab=action==='page'?'page':'layout';}}
+  function command(action){closeFinder();if(action==='fit')openFit();else if(action==='diagram-sizes')openDiagramSizes();else if(action.startsWith('borders:'))tableFormat('borders',action.slice(8));else if(action.startsWith('colour:'))formatDocument('colour',action.slice(7));else if(action==='find'||action==='goto')openFinder(action);else if(action==='outline')navigation=!navigation;else if(action==='comment')addComment();else if(action==='compare')toggleComparison();else if(action==='bank'){reviewDock=showBankSync?'':'bank';refreshBankSync();}else if(action==='theme')theme.toggle();else if(action==='assembly')tool='assembly';else if(action==='arrange')arrangeSelectedQuestion();else{panel=action==='page'?'layout':action;if(action==='page')openInspectorGroup('block-page');}}
   async function locateMatch(match){
     if(match.kind==='code'){
       closeFinder();selectCoverageTarget(match.rootId);
@@ -364,9 +365,10 @@
   function formatDocument(name,value){history.boundary();if((textSelection?.crossSurface||textSelection?.ranges.length>1)&&['bold','italic','underline','colour'].includes(name)){const next=applyBookletTextRange(project,textSelection,name,value);finishInline();change(next);textSelection=null;return;}if(activeEditor&&inlineSession?.bookmark&&!activeEditor.contains(document.activeElement))restoreEditorSelection(activeEditor,inlineSession.bookmark);runEditorCommand(activeEditor,name,value);history.boundary();}
   async function replaceSelection(doc){const selection=textSelection;if(!selection)return;const first=selection.ranges[0],next=replaceBookletTextRange(project,selection,doc);finishInline();history.boundary();change(next);history.boundary();textSelection=null;window.getSelection()?.removeAllRanges();await tick();try{await flowPreview?.waitUntilReady();}catch{}const field=canvas?.querySelector('[data-edit-root="'+CSS.escape(first.rootId)+'"][data-edit-path="'+CSS.escape(first.pointer)+'"]');field?.querySelector('.clickable')?.click();if(inlineSession)inlineSession.point={offset:first.start+documentTextLength(doc)};}
   const spacingBlockIds=$derived(groupSelection.length?selectedFlowIds(project,groupSelection):selectedBlock?[selectedBlock.id]:[]);
+  const blockHasTables=$derived.by(()=>{if(!spacingBlockIds.length)return false;const {counts}=blockSpacing(project,spacingBlockIds);return !!(counts.rows||counts.tables);});
   function applyQuickLayout(next){finishInline();history.boundary();change(next);history.boundary();}
-  async function openFit(){panel='layout';inspectorTab='layout';await tick();layoutActions?.fitNow();}
-  async function openDiagramSizes(){panel='layout';inspectorTab='layout';await tick();diagramSizes?.focus();}
+  async function openFit(){panel='layout';openInspectorGroup('block-fit');await tick();layoutActions?.fitNow();}
+  async function openDiagramSizes(){panel='layout';openInspectorGroup('block-diagrams');await tick();diagramSizes?.focus();}
   // Rendered size of a diagram on the visible pages (never the hidden measure surface).
   function measureDiagram(id,mode){const el=[...(canvas?.querySelectorAll(`[data-diagram-id="${CSS.escape(id)}"]`)??[])].find(e=>!e.closest('.flow-measure')&&(mode==='question'?!e.dataset.answerMode:e.dataset.answerMode===mode));return el?.offsetWidth?{widthMm:el.offsetWidth*25.4/96,heightMm:el.offsetHeight*25.4/96}:null;}
   // Arrangement values leave the open text editor alone; document values are
@@ -1176,7 +1178,7 @@
   {#if project&&!flexible}<button disabled={!!editSession||!!busy} onclick={createFlexibleCopy}>Create flexible copy</button>{/if}
    <div class="toolbar-actions" inert={!!opening||printing}><span class="tool-group"><button data-equation-control title="Undo (Ctrl+Z)" onclick={undo} disabled={!undoStack.length}>Undo</button><button data-equation-control title="Redo (Ctrl+Y)" onclick={redo} disabled={!redoStack.length}>Redo</button></span>
    <span class="tool-group"><button title="Find in document (Ctrl+F)" aria-label="Find in document" onclick={()=>openFinder('find')}>Find</button><button title="Commands (Ctrl+K)" aria-label="Search commands" onclick={()=>openFinder('commands')}>Commands</button></span>
-   {#if project}<span class="tool-group panel-switch" role="group" aria-label="Panels" data-equation-control onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}><button bind:this={layoutPanelButton} class:on={panel==='layout'} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{inspectorTab='layout';panel='layout';}}>Layout</button><details class="document-insert" class:on={commentsOpen}><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment} aria-keyshortcuts="Control+`" title="Add comment (Ctrl + backtick)">Add comment <kbd>Ctrl + `</kbd></button><button aria-expanded={commentsOpen} aria-controls="booklet-comments-pane" onclick={()=>commentsOpen=!commentsOpen}>{commentsOpen?'Hide comments':'Show comments'}</button></div></details><button class:on={panel==='review'} aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button class:on={panel==='pdf'} aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button></span>{/if}
+   {#if project}<span class="tool-group panel-switch" role="group" aria-label="Panels" data-equation-control onpointerdown={e=>{if(e.target.closest('button'))e.preventDefault();}}><button bind:this={layoutPanelButton} class:on={panel==='layout'} aria-expanded={panel==='layout'} aria-controls="booklet-layout-spacing" onclick={()=>{panel='layout';}}>Layout</button><details class="document-insert" class:on={commentsOpen}><summary>Comments {commentLocations.length||''}</summary><div><button onclick={addComment} aria-keyshortcuts="Control+`" title="Add comment (Ctrl + backtick)">Add comment <kbd>Ctrl + `</kbd></button><button aria-expanded={commentsOpen} aria-controls="booklet-comments-pane" onclick={()=>commentsOpen=!commentsOpen}>{commentsOpen?'Hide comments':'Show comments'}</button></div></details><button class:on={panel==='review'} aria-expanded={panel==='review'} onclick={()=>togglePanel('review')}>Review {flagCount?`(${flagCount})`:''}</button><button class:on={panel==='pdf'} aria-expanded={panel==='pdf'} onclick={()=>togglePanel('pdf')}>Export</button></span>{/if}
    <details class="menu"><summary>File</summary><div><small class="menu-heading">Booklet</small><button onclick={createNew}>New booklet</button><button disabled={!!editSession} onclick={()=>libraryManager=true}>Manage booklets…</button>{#if project}<button onclick={()=>panel='metadata'}>Project details</button>{#if project.library?.category==='master'}<button disabled={!!editSession||!!busy} onclick={()=>creation={source:project}}>Create class booklet</button>{/if}<button onclick={duplicateCurrent}>Duplicate booklet</button><button disabled={!!editSession||!!busy||librarySaveInFlight} onclick={toggleArchived}>{project.library?.archivedAt?'Restore booklet':'Archive booklet'}</button><small class="menu-heading">Check</small><button disabled={!sourceUrl} aria-pressed={comparison} onclick={toggleComparison}>{comparison?'Exit comparison':'Compare source'}</button><button onclick={checkCurrentPage}>Check page</button><small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button><details class="submenu"><summary>Advanced{bankUpdates.length?` (${bankUpdates.length})`:''}</summary><button onclick={()=>{reviewDock=showBankSync?'':'bank';refreshBankSync();}}>Bank sync{bankUpdates.length?` (${bankUpdates.length})`:''}</button><button onclick={()=>tool='assembly'}>Assembly</button><button onclick={()=>panel='properties'}>Block properties</button></details><hr/><button class="danger" onclick={removeCurrent}>Delete booklet</button>{:else}<small class="menu-heading">View</small><button onclick={()=>theme.toggle()}>Toggle theme</button>{/if}</div></details></div>
  </header>
  {#if opening&&(!opening.early||opening.error)}<div class="workspace-loading project-screen" aria-busy={!opening.error}>
@@ -1268,19 +1270,15 @@
    <aside class="workspace-panel project-inspector" class:docked={dockReview&&!comparison} hidden={!panel||!!tool||!!reviewDock} aria-label={panel==='layout'?'Layout':panel==='review'?'Review':panel==='pdf'?'PDF configuration':panel==='metadata'?'Project details':'Block properties'}>
     <header class="panel-header"><BookletInspectorTabs strip id="booklet-panel" label="Inspector" controls="booklet-panel-body" tabs={panelTabs} value={panel} onchange={value=>panel=value}/><button aria-label="Close panel" onclick={()=>panel==='layout'?closeLayoutPanel():panel=''}>×</button></header>
     <div id="booklet-panel-body" class="panel-context"><h2 class:sr-only={panelTabs.some(t=>t[0]===panel)}>{panel==='layout'?'Layout':panel==='format'?'Selection options':panel==='review'?'Review':panel==='pdf'?'PDF':panel==='metadata'?'Project details':'Block properties'}</h2>{#if ['layout','properties','review'].includes(panel)}<div class="selection-breadcrumb" title={selectionPath}>{selectionPath}</div>{/if}</div>
+    {#snippet pageControls()}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout} project={flexible?project:null} options={exportSettings} onoptimise={applyQuickLayout} onfinish={finishInline}/>{/snippet}
     {#if panel==='layout'}
     <div id="booklet-layout-spacing" class="layout-spacing-panel" data-equation-control>
-     <BookletInspectorTabs value={inspectorTab} onchange={value=>inspectorTab=value} id="booklet-inspector" source={!!project?.source?.runId}/>
-     <div id="booklet-inspector-content" role="tabpanel" aria-labelledby={'booklet-inspector-'+inspectorTab}>
-      {#if inspectorTab==='source'}<BookletSourceCompare {project} block={selectedBlock} onselect={selectCoverageTarget}/>
-      {:else if inspectorTab==='page'}<BookletPageControls block={selectedBlock} onboundary={pageBoundary} onlayout={pageLayout} project={flexible?project:null} options={exportSettings} onoptimise={applyQuickLayout} onfinish={finishInline}/>
-      {:else}
-       {#if inspectorTab==='layout'||inspectorTab==='tables'}
-        {#if spacingBlockIds.length}<section class="spacing-scope-section" aria-labelledby="whole-question-spacing-heading"><h3 id="whole-question-spacing-heading">{spacingBlockIds.length>1?spacingBlockIds.length+' selected blocks':selectedBlock?.type==='question'?'Whole question '+(questionNumbers[selectedBlock.id]??''):'Whole block'}</h3>
-         <BookletQuestionSpacing {project} blockIds={spacingBlockIds} category={inspectorTab} onchange={spaceBlocks}/>
-         {#if flexible&&selectedBlock&&inspectorTab==='layout'}<BookletLayoutActions bind:this={layoutActions} {project} blockId={selectedBlock.id} selection={layoutSelection?{...layoutSelection,nativeId:activeEditor?.documentController?.selectedId}:null} pageMap={flowMap.edition===flowEdition||flowMap.edition==null?flowMap:{pages:[],ready:false}} edition={flowEdition} options={exportSettings} onfinish={finishInline} onchange={applyQuickLayout}/>{/if}
-         {#if flexible&&(selectedBlock||groupSelection.length)&&inspectorTab==='layout'}<BookletDiagramSizes bind:this={diagramSizes} {project} blockIds={groupSelection.length?groupSelection:[selectedBlock.id]} edition={flowEdition} options={exportSettings} measure={measureDiagram} pageCount={flowMap.pages.length} layout={flowMap.ready?flowMap:null} onchange={applyQuickLayout}/>{/if}
-         {#if inspectorTab==='layout'&&spacingBlockIds.length===1&&selectedBlock?.type==='question'}
+     <!-- Inspector by selection: one level per breadcrumb step (Question › Part › Table › Cell), each holding only its own groups. -->
+     <div id="booklet-inspector-content">
+      {#if spacingBlockIds.length}<BookletInspectorLevel title={spacingBlockIds.length>1?spacingBlockIds.length+' selected blocks':selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Block'}>
+       <BookletInspectorGroup id="block-spacing" title="Spacing">
+        <BookletQuestionSpacing {project} blockIds={spacingBlockIds} onchange={spaceBlocks}/>
+         {#if spacingBlockIds.length===1&&selectedBlock?.type==='question'}
           {#each partLayoutNodes(selectedBlock).filter(node=>node.children?.length) as node (node.id)}
            {@const custom=!!savedArrangement(selectedBlock.id)&&!regridParts(savedArrangement(selectedBlock.id),node,2)}
            {@const current=node.layout==='grid'?'grid:'+(node.columns??2):'list'}
@@ -1288,14 +1286,23 @@
            {#if custom}<small>These parts have a custom arrangement. Use Detailed arrangement… to move them.</small>{/if}
           {/each}
          {/if}
-         </section>{/if}
-        <section class="spacing-scope-section" aria-labelledby="selected-item-spacing-heading"><h3 id="selected-item-spacing-heading">Selected item</h3>
-         {#if inspectorTab==='layout'&&rangeParagraphs.length}<BookletRangeSpacing targets={rangeParagraphs} {canvas} oncommit={spaceSelectedParagraphs}/>{:else if activeEditor}{#key activeEditor}<BookletSelectionSpacing editor={activeEditor} category={inspectorTab} questionLabel={selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Content'} onboundary={()=>history.boundary()} row={editorRow} onrow={applyEditorRow} example={editorExample} onexample={applyExampleRow}/>{/key}
-         {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={itemCommand} onedit={editSelectedDocument}/>{#if selectedDiagram}{#if !directLayout}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label>{/if}{#if selectedDiagram.inline}<label>Space above diagram (mm)<input type="number" min="0" max="80" step="0.5" value={selectedDiagram.spaceBefore} onchange={e=>changeDiagram({spaceBefore:Number(e.currentTarget.value)})}/></label><label>Space below diagram (mm)<input type="number" min="0" max="80" step="0.5" value={selectedDiagram.spaceAfter} onchange={e=>changeDiagram({spaceAfter:Number(e.currentTarget.value)})}/></label>{/if}<button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}{/if}
-        </section>
-       {:else if activeEditor}{#key activeEditor}{#key inspectorTab}<div class="native-layout-fields" use:nativeLayoutPanel={{editor:activeEditor,category:inspectorTab}}></div>{/key}{/key}
-       {:else}<BookletDirectLayout info={directLayout} selection={layoutSelection} category={inspectorTab} oncommand={layoutCommand}/>
-       {/if}
+       </BookletInspectorGroup>
+       {#if blockHasTables}<BookletInspectorGroup id="block-table" title="Table"><BookletQuestionSpacing {project} blockIds={spacingBlockIds} category="tables" onchange={spaceBlocks}/></BookletInspectorGroup>{/if}
+       {#if flexible}<BookletInspectorGroup id="block-diagrams" title="Diagrams"><BookletDiagramSizes bind:this={diagramSizes} {project} blockIds={groupSelection.length?groupSelection:[selectedBlock.id]} edition={flowEdition} options={exportSettings} measure={measureDiagram} pageCount={flowMap.pages.length} layout={flowMap.ready?flowMap:null} onchange={applyQuickLayout}/></BookletInspectorGroup>{/if}
+       {#if flexible&&selectedBlock}<BookletInspectorGroup id="block-fit" title="Fit"><BookletLayoutActions bind:this={layoutActions} {project} blockId={selectedBlock.id} selection={layoutSelection?{...layoutSelection,nativeId:activeEditor?.documentController?.selectedId}:null} pageMap={flowMap.edition===flowEdition||flowMap.edition==null?flowMap:{pages:[],ready:false}} edition={flowEdition} options={exportSettings} onfinish={finishInline} onchange={applyQuickLayout}/></BookletInspectorGroup>{/if}
+       <BookletInspectorGroup id="block-page" title="Page">{@render pageControls()}</BookletInspectorGroup>
+       {#if project?.source?.runId}<BookletInspectorGroup id="block-source" title="Source" open={false}><BookletSourceCompare {project} block={selectedBlock} onselect={selectCoverageTarget}/></BookletInspectorGroup>{/if}
+      </BookletInspectorLevel>
+      {:else}<BookletInspectorLevel title="Booklet"><p class="inspector-hint">Select a question or block on the page or in the outline.</p><BookletInspectorGroup id="block-page" title="Page">{@render pageControls()}</BookletInspectorGroup></BookletInspectorLevel>{/if}
+      {#if rangeParagraphs.length}<BookletInspectorLevel title="Selected text"><BookletInspectorGroup id="part-spacing" title="Spacing"><BookletRangeSpacing targets={rangeParagraphs} {canvas} oncommit={spaceSelectedParagraphs}/></BookletInspectorGroup></BookletInspectorLevel>
+      {:else if activeEditor}{#key activeEditor}<BookletSelectionSpacing editor={activeEditor} questionLabel={selectedBlock?.type==='question'?'Question '+(questionNumbers[selectedBlock.id]??''):'Content'} partTitle={directLayout?.entry?.title??'Selected part'} onboundary={()=>history.boundary()} row={editorRow} onrow={applyEditorRow} example={editorExample} onexample={applyExampleRow}>{#snippet arrange()}<div class="native-layout-fields" use:nativeLayoutPanel={{editor:activeEditor,category:'arrange'}}></div>{/snippet}</BookletSelectionSpacing>{/key}
+      {:else if directLayout||selectedDiagram}
+       {@const content=directLayout?.entry?.value?.blocks?.length===1?directLayout.entry.value.blocks[0]:null}
+       <BookletInspectorLevel title={directLayout?.entry?.title??directLayout?.node?.title??(selectedDiagram?'Diagram':'Selected item')}>
+        <BookletInspectorGroup id="part-spacing" title="Spacing">{#if directLayout}<BookletDirectLayout info={directLayout} selection={layoutSelection} category="layout" oncommand={itemCommand} onedit={editSelectedDocument}/>{/if}{#if selectedDiagram}{#if !directLayout}<label>Diagram width (mm)<input type="number" min="5" max="190" value={selectedDiagram.widthMm??78} onchange={e=>changeDiagram({widthMm:Number(e.currentTarget.value)})}/></label>{/if}{#if selectedDiagram.inline}<label>Space above diagram (mm)<input type="number" min="0" max="80" step="0.5" value={selectedDiagram.spaceBefore} onchange={e=>changeDiagram({spaceBefore:Number(e.currentTarget.value)})}/></label><label>Space below diagram (mm)<input type="number" min="0" max="80" step="0.5" value={selectedDiagram.spaceAfter} onchange={e=>changeDiagram({spaceAfter:Number(e.currentTarget.value)})}/></label>{/if}<button onclick={editSelectedDiagram}>{selectedDiagram.format==='tikz'?'Edit TikZ':'Edit image'}</button>{/if}</BookletInspectorGroup>
+        {#if directLayout}<BookletInspectorGroup id="part-arrangement" title="Arrangement" open={false}><BookletDirectLayout info={directLayout} selection={layoutSelection} category="arrange" oncommand={itemCommand}/></BookletInspectorGroup>{/if}
+       </BookletInspectorLevel>
+       {#if content?.type==='table'}<BookletInspectorLevel title="Table"><BookletInspectorGroup id="table" title="Table"><BookletDirectLayout info={directLayout} selection={layoutSelection} category="tables" oncommand={itemCommand} onedit={editSelectedDocument}/></BookletInspectorGroup></BookletInspectorLevel>{/if}
       {/if}
      </div>
      <button class="detail-arrangement" disabled={!selectedBlock} onclick={arrangeSelectedQuestion}>Detailed arrangement…</button>
@@ -1387,7 +1394,7 @@
 <style>
  .editor-parking{position:fixed;left:-20000px;top:0;width:180mm;visibility:hidden;pointer-events:none}
  .document-toolbar :global(.equation-menu:not([open])>.me-math-tools){display:none!important}.document-toolbar :global(.equation-menu>.me-math-tools){top:100%;right:0;width:280px;display:grid;gap:6px;padding:10px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools>label:not([hidden])){display:flex;align-items:center;justify-content:space-between;gap:6px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools button){text-align:left}.document-toolbar :global(.tool-label){font-size:12px;color:var(--text-muted,#687482);padding:0 2px}.table-format{flex-wrap:nowrap;white-space:nowrap}.table-format .colour-rows{display:grid;gap:6px;padding:8px}
- .layout-spacing-panel{display:grid;gap:0}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}.spacing-scope-section{display:grid;gap:8px}.spacing-scope-section+ .spacing-scope-section{border-top:1px solid var(--border,#cbd5e1);margin-top:16px;padding-top:16px}.spacing-scope-section>h3{margin:0;font-size:14px}
+ .layout-spacing-panel{display:grid;gap:0}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}.inspector-hint{margin:4px 0;font-size:13px;color:var(--text-muted,#617086)}
 
 .project-shell{position:relative}.is-opening{min-height:calc(100dvh - 100px)}
 .is-opening>.project-toolbar{z-index:31}

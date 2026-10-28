@@ -291,17 +291,21 @@ test('Booklets workspace exposes projects, structural editing, promotion and exp
   assert.doesNotMatch(projects, /solutionMode="student"[^\n]*practiceAnswers/);
 });
 
-test('spacing inspector keeps whole-question and selected-item controls visible in order', () => {
+test('layout inspector follows the selection: question level above the selected item', () => {
   const projects = fs.readFileSync('src/components/BookletProjects.svelte', 'utf8');
   assert.doesNotMatch(projects, /aria-label="Spacing scope"/);
-  assert.doesNotMatch(projects, /spacingScope/);
-  const whole = projects.indexOf('>Whole question</h3>');
-  const selected = projects.indexOf('>Selected item</h3>');
-  assert.ok(whole >= 0, 'whole-question heading is present');
-  assert.ok(selected > whole, 'selected-item heading follows whole-question controls');
-  assert.ok(projects.indexOf('<BookletQuestionSpacing', whole) < selected, 'whole-question editor is above selected-item controls');
+  assert.doesNotMatch(projects, /spacingScope|inspectorTab/);
+  const question = projects.indexOf('<BookletInspectorLevel title={spacingBlockIds.length>1');
+  const selected = projects.indexOf('{#if rangeParagraphs.length}<BookletInspectorLevel');
+  assert.ok(question >= 0, 'question level is present');
+  assert.ok(selected > question, 'selected-item level follows the question level');
+  for (const group of ['block-spacing', 'block-table', 'block-diagrams', 'block-fit', 'block-page']) assert.ok(projects.indexOf(`id="${group}"`, question) < selected, group + ' sits in the question level');
+  assert.ok(projects.indexOf('<BookletQuestionSpacing', question) < selected, 'whole-question editor is above selected-item controls');
   assert.ok(projects.indexOf('<BookletSelectionSpacing', selected) >= 0, 'selected-item editor remains wired');
   assert.ok(projects.indexOf('<BookletRangeSpacing', selected) >= 0, 'selected-range editor remains wired');
+  const selection = fs.readFileSync('src/components/BookletSelectionSpacing.svelte', 'utf8');
+  const levels = ['title={context.table', 'title="Table"', 'title="Cell"'].map(title => selection.indexOf('<BookletInspectorLevel ' + title));
+  assert.ok(levels.every((at, index) => at > 0 && (index === 0 || at > levels[index - 1])), 'part, table and cell levels follow the breadcrumb order');
 });
 import { normalizeBlockLayouts, questionLayoutStyle } from '../src/lib/booklet-layout.js';
 

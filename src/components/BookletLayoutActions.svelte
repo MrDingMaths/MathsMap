@@ -113,7 +113,7 @@
 {#if block}
 <section aria-label="Quick layout actions" class="layout-actions">
  <label>Block role<select aria-label="Block role" value={blockRole(block)} onchange={e=>attempt(()=>changeBlockRole(project,blockId,e.currentTarget.value))}>{#each BLOCK_ROLES as [role,label]}<option value={role}>{label}</option>{/each}</select></label>
- <details open><summary>Fit</summary>
+ <div class="fit">
   <fieldset><legend>Goal</legend>
    <label class="property-choice"><input type="radio" name="fit-goal" value="block" bind:group={fitGoal}/>Fit this block on its page</label>
    <label class="property-choice"><input type="radio" name="fit-goal" value="next" bind:group={fitGoal}/>Bring a following block onto this page</label>
@@ -131,7 +131,7 @@
   {#if fitGoal!=='exercise'}<button disabled={running||(fitGoal!=='page'&&!pageMap.ready)} onclick={fit} title="Alt+Shift+F">{running?'Measuring…':fitGoal==='page'?'Start on next page':'Preview fit'}</button>{/if}
   {#if !pageMap.ready&&!running&&fitGoal!=='page'}<small>Wait for pagination to preview a fit.</small>{/if}
   {#if accepted}<button onclick={applyPreview}>Apply preview</button><button onclick={()=>{candidate=null;accepted=false;message='Preview cancelled. Nothing changed.';}}>Cancel preview</button>{/if}
- </details>
+ </div>
  <details><summary>Match siblings</summary>
   {#if parts.length}<label>Copy layout from part<select aria-label="Match sibling source" bind:value={source}><option value="">Choose part</option>{#each parts.filter(p=>siblingParts(project,blockId,p.id).length>1) as p}<option value={p.id}>{p.label??p.id}</option>{/each}</select></label><fieldset><legend>Properties to copy</legend>{#each propertyChoices as [value,label]}<label class="property-choice"><input type="checkbox" bind:group={matchProperties} {value}/>{label}</label>{/each}</fieldset><button disabled={!source||!matchProperties.length} onclick={()=>attempt(()=>matchSiblingLayout(project,blockId,source,matchProperties))}>Match sibling parts</button>{/if}
   {#if tables.length}<label>Table<select aria-label="Match table" bind:value={tableId}><option value="">Choose table</option>{#each tables as t}<option value={t.id}>{t.id} ({t.rows.length} rows)</option>{/each}</select></label><label>Source rows<input aria-label="Source rows" bind:value={fromRows}/></label><label>Target rows<input aria-label="Target rows" bind:value={toRows}/></label><fieldset><legend>Row properties to copy</legend>{#each [["alignment","Row alignment"],["padding","Cell padding"],["rowHeight","Row height"]] as [value,label]}<label class="property-choice"><input type="checkbox" bind:group={rowProperties} {value}/>{label}</label>{/each}</fieldset><button disabled={!tableId||!rowProperties.length} onclick={()=>attempt(()=>matchTableRows(project,blockId,tableId,rows(fromRows),rows(toRows),rowProperties))}>Match table rows</button>{/if}
@@ -149,7 +149,7 @@
 {/if}
 {#if candidate}<div class:probe-only={!accepted} class="fit-preview" aria-label="Tighter layout preview"><FlowBookletPreview bind:this={preview} project={candidate} edition={probeEdition??edition} {options} zoom={1} selectedBlockId={blockId}/></div>{/if}
 <style>
- .layout-actions{border-block:1px solid var(--border,#ccd5df);padding:8px 0;margin:8px 0;font:13px system-ui}details{margin:8px 0}summary{cursor:pointer;font-weight:600}label{display:grid;gap:4px;margin:6px 0}select,input,button{font:inherit;min-height:32px;box-sizing:border-box;max-width:100%;padding:4px;border:1px solid #aab5c2;border-radius:4px;color:inherit;background:var(--panel,#fff)}button{cursor:pointer;margin:3px}button:disabled{opacity:.5}fieldset{margin:8px 0;border:1px solid #ccd5df}legend{font-weight:600}.fit-preview{position:fixed;z-index:40;inset:8vh 380px 8vh 10vw;overflow:auto;background:#e9eef4;border:2px solid #52769a;width:830px;max-width:calc(100vw - 400px);padding:12px}.fit-preview.probe-only{left:-20000px;top:0;right:auto;bottom:auto;width:830px;max-width:none;height:600px;visibility:hidden;pointer-events:none}@media print{.layout-actions,.fit-preview{display:none}}
+ .layout-actions{padding:0;margin:0;font:13px system-ui}details{margin:8px 0}summary{cursor:pointer;font-weight:600}label{display:grid;gap:4px;margin:6px 0}select,input,button{font:inherit;min-height:32px;box-sizing:border-box;max-width:100%;padding:4px;border:1px solid #aab5c2;border-radius:4px;color:inherit;background:var(--panel,#fff)}button{cursor:pointer;margin:3px}button:disabled{opacity:.5}fieldset{margin:8px 0;border:1px solid #ccd5df}legend{font-weight:600}.fit-preview{position:fixed;z-index:40;inset:8vh 380px 8vh 10vw;overflow:auto;background:#e9eef4;border:2px solid #52769a;width:830px;max-width:calc(100vw - 400px);padding:12px}.fit-preview.probe-only{left:-20000px;top:0;right:auto;bottom:auto;width:830px;max-width:none;height:600px;visibility:hidden;pointer-events:none}@media print{.layout-actions,.fit-preview{display:none}}
  .property-choice{display:flex;align-items:center;gap:6px}.property-choice input{min-height:0}
 </style>
 

@@ -24,6 +24,8 @@ await page.route('**/__booklet/**',async route=>{
 });
 const ready=()=>page.waitForFunction(()=>document.querySelector('.flow-document')?.dataset.paginationState==='ready',null,{timeout:60000});
 const settle=async()=>{await ready();await page.waitForTimeout(100);await page.waitForFunction(()=>document.querySelector('.save-state')?.textContent==='Saved',null,{timeout:20000});};
+// The Layout inspector shows groups per selection level; open every group before measuring.
+const openGroups=()=>page.locator('.layout-spacing-panel details.inspector-group').evaluateAll(groups=>groups.forEach(d=>{d.open=true;}));
 const fit=async selector=>page.locator(selector).evaluate(el=>({height:el.clientHeight,scroll:el.scrollHeight,bottom:el.getBoundingClientRect().bottom,viewport:innerHeight}));
 try{
  await page.goto((process.env.BOOKLET_TEST_BASE??'http://127.0.0.1:5173')+'/#/booklet?stage=projects&project='+record.id,{waitUntil:'domcontentloaded'});console.log('loaded document');await settle();console.log('booklet ready');
@@ -39,11 +41,11 @@ try{
  await page.locator('.focused-editor').getByRole('button',{name:'Cancel',exact:true}).click();await settle();assert.deepEqual(record.sections,original.sections);checks.push('Cancel preserves content');
  for(const size of [{width:1366,height:768},{width:1920,height:1080},{width:3386,height:1219}]){
   await page.setViewportSize(size);await settle();
-  for(const name of ['Layout','Arrange','Page']){await page.locator('.layout-spacing-panel').getByRole('tab',{name,exact:true}).click();const bounds=await fit('.project-inspector');assert.ok(bounds.scroll<=bounds.height+1,`${name} inspector overflow at ${size.width}: ${JSON.stringify(bounds)}`);}
+  {await openGroups();const bounds=await fit('.project-inspector');assert.ok(bounds.scroll<=bounds.height+1,`Inspector overflow at ${size.width}: ${JSON.stringify(bounds)}`);}
   const body=await page.evaluate(()=>({scroll:document.documentElement.scrollHeight,height:innerHeight}));assert.ok(body.scroll<=body.height+1,'Outer page should not scroll: '+JSON.stringify(body));
   await page.screenshot({path:out+`/workspace-${size.width}.png`});
  }
- checks.push('all desktop inspector tabs fit');
+ checks.push('all desktop inspector groups fit');
  await page.setViewportSize({width:1366,height:768});
  await page.locator('.layout-spacing-panel').getByRole('button',{name:'Page break after',exact:true}).click();await settle();assert.equal(record.sections.find(s=>s.id==='practice').blocks[1].type,'page-break');
  await page.getByRole('button',{name:/Remove manual break before page/}).last().click();await settle();assert.equal(record.sections.find(s=>s.id==='practice').blocks.length,2);checks.push('page break add/remove');
@@ -53,13 +55,12 @@ try{
  assert.equal(await picker.locator('.result').count(),1);assert.ok(await picker.locator('.preview-paper').innerText());assert.ok(!(await picker.locator('.result').innerText()).includes('opaque-bank-question'));
  await picker.getByRole('button',{name:'Insert question',exact:true}).click();await settle();assert.ok(record.sections.some(s=>s.blocks.some(b=>b.bankRef?.id==='opaque-bank-question')));checks.push('search, preview and bank insertion');
  await page.reload();await settle();assert.ok(record.sections.some(s=>s.blocks.some(b=>b.bankRef?.id==='opaque-bank-question')));checks.push('save/reopen');
- // Native text selection remains active across inspector tabs and commands.
+ // Native text selection remains active across inspector groups and commands.
  await page.locator('.flow-outline [data-block-id="q1"] .content-select').click();
  await page.locator('.flow-paper [data-edit-root="q1-root"] .clickable').first().click();
- await page.locator('.layout-spacing-panel').getByRole('tab',{name:'Layout',exact:true}).click();
  await page.locator('.layout-spacing-panel').getByRole('spinbutton',{name:'Paragraph Above',exact:true}).fill('1');
  await page.locator('.layout-spacing-panel').getByRole('spinbutton',{name:'Paragraph Above',exact:true}).press('Tab');await settle();
- for(const name of ['Arrange','Layout','Page']){await page.locator('.layout-spacing-panel').getByRole('tab',{name,exact:true}).click();const bounds=await fit('.project-inspector');assert.ok(bounds.scroll<=bounds.height+1,'Native '+name+' overflow');}
+ {await openGroups();const bounds=await fit('.project-inspector');assert.ok(bounds.scroll<=bounds.height+1,'Native inspector overflow');}
  checks.push('native text selection and paragraph controls');
  // A long native table uses one row selector, keeping the inspector bounded.
  record.sections[0].blocks[0].content=fromSource('| Value | Angle |\n|---|---|\n'+Array.from({length:16},(_,i)=>'| '+(i+1)+' | '+(30+i)+' |').join('\n'));
@@ -67,13 +68,12 @@ try{
  await page.locator('.flow-outline [data-block-id="theory"] .content-select').click();
  await page.locator('.flow-paper [data-edit-root="theory"] .clickable').first().click();
  await page.locator('.flow-paper .me-content td').nth(10).click();
- await page.locator('.layout-spacing-panel').getByRole('tab',{name:'Layout',exact:true}).click();
  await page.locator('.native-layout-fields').getByRole('combobox',{name:'Table row',exact:true}).selectOption('10');
  assert.equal(await page.locator('.native-layout-fields').getByRole('spinbutton',{name:/Table row .* minimum height/}).count(),1);
  const tableBounds=await fit('.project-inspector');assert.ok(tableBounds.scroll<=tableBounds.height+1,'Native table overflow: '+JSON.stringify(tableBounds));
  await page.locator('.native-layout-fields').getByRole('spinbutton',{name:'Table row 11 minimum height (mm)',exact:true}).fill('6');await page.keyboard.press('Tab');await settle();
  assert.equal(record.sections[0].blocks[0].content.blocks[0].rowHeights[10],6);checks.push('native table row selection and bounded controls');
- await page.locator('.layout-spacing-panel').getByRole('tab',{name:'Page',exact:true}).click();
+ await openGroups();
  // Text enlargement permits scrolling while retaining reachable controls.
  await page.addStyleTag({content:'.project-screen button,.project-screen label,.project-screen input,.project-screen select{font-size:28px!important}'});
  await page.screenshot({path:out+'/text-enlargement.png'});assert.ok(await page.locator('.layout-spacing-panel').getByRole('button',{name:'Page break before',exact:true}).isVisible());

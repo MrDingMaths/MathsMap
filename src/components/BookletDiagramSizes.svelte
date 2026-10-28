@@ -67,7 +67,7 @@
 </section>
 {#if probeProject}<div class="diagram-probe" aria-hidden="true"><FlowBookletPreview bind:this={probe} project={probeProject} edition={probeEdition} {options} zoom={1}/></div>{/if}
 <style>
- .diagram-sizes{border-block:1px solid var(--border,#ccd5df);padding:8px 0;margin:8px 0;font:13px system-ui}h3{font-size:13px;margin:0 0 6px}
+ .diagram-sizes{padding:0;margin:0;font:13px system-ui}h3{font-size:13px;margin:0 0 6px}
  .pages:empty{display:none}.pages{margin:6px 0;font-weight:600}
  .diagram-probe{position:fixed;left:-20000px;top:0;width:830px;height:600px;overflow:hidden;visibility:hidden;pointer-events:none}
  @media print{.diagram-probe{display:none}}

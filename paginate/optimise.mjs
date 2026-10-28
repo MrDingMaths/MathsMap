@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Optimise pagination headlessly (22 October 2026, user approved). Drives the same
-// Studio action a person uses ("Optimise pagination" in the Page tab of the Layout
+// Studio action a person uses ("Optimise pagination" in the Page group of the Layout
 // panel, src/components/BookletPaginationOptimiser.svelte), so there is one
 // implementation. Nothing here reimplements the optimiser.
 //   node paginate/optimise.mjs --candidate FILE [--apply] [--out FILE] [--named] [--suggest-breaks]
@@ -24,7 +24,7 @@ const WORK=path.join(ROOT,'.booklet-work','bench-20261022');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^﻿/,''));
 const write=(f,v)=>{fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,typeof v==='string'?v:JSON.stringify(v,null,1)+'\n');};
 
-// Open the project in Studio, open Layout > Page and run the action. Returns the
+// Open the project in Studio, open Layout and its Page group, and run the action. Returns the
 // result object the component publishes on window.__bookletOptimiseResult.
 // suggest: after the run (and Apply), also list the exercise breaks worth removing (suggestBreakRemovals);
 // suggestOnly: that and nothing else (the booklet is not optimised).
@@ -47,7 +47,10 @@ export async function driveStudio(project,{base=BASE,apply=false,named=false,che
     await page.waitForTimeout(250);
    }
    await page.getByRole('button',{name:'Layout',exact:true}).click();
-   await page.getByRole('tab',{name:'Page',exact:true}).click();
+   // The inspector groups follow the selection; open the Page group if it was left collapsed.
+   const pageGroup=page.locator('#booklet-layout-spacing details[data-inspector-group="block-page"]').first();
+   await pageGroup.waitFor({state:'attached'});
+   if(!await pageGroup.evaluate(d=>d.open))await pageGroup.locator('summary').click();
    const action=page.getByRole('button',{name:'Optimise pagination',exact:true});
    await action.waitFor({state:'visible'});
    if(named||hasTeacherReview(project)){const box=page.getByLabel(/teacher comments; change it on request/);if(await box.count())await box.check();}
