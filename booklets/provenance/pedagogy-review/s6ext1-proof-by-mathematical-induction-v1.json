@@ -1,0 +1,359 @@
+{
+ "version": 1,
+ "projectId": "s6ext1-proof-by-mathematical-induction-v1",
+ "title": "Proof by Mathematical Induction",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-8fe20bdf6a",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p5-induction-working",
+     "blockId": "p5-induction-demonstration",
+     "hash": "6d258394a97b1922f6cdb7dff4a923c38415538a4a199ee539d3cf506bafb03d"
+    }
+   ],
+   "finding": "The first induction demonstration uses algebraic fractions and extraction of a shared binomial factor without rehearsing either prerequisite.",
+   "breakdown": "Following the inductive step requires combining k(k+1)/2+(k+1) into one fraction and factorising its numerator. The preceding numerical investigations do not rehearse these transformations.",
+   "checked": "Checked p3-investigation-block, p3-key-ideas-block and p4-investigation. None rehearses combining algebraic fractions or extracting a shared binomial factor. The odd-n working in p4-d is an answer to an investigation, rather than a prerequisite review.",
+   "assumptions": "These are previously learned Stage 6 algebra skills. Calculator use does not affect the finding.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Add three short review items before p3-investigation-block: (a) Write x/2+3 as one fraction. Answer: (x+6)/2. (b) Write a(a+2)/2+(a+2) as one fraction. Answer: [a(a+2)+2(a+2)]/2. (c) Factorise t(t+3)+2(t+3). Answer: (t+3)(t+2). Keep the review within one page."
+   },
+   "doneWhen": "Students rehearse combining algebraic fractions and extracting a shared binomial factor before p5-induction-working.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "proofs-of-sums"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:59:32.829Z"
+    }
+   ],
+   "commentId": "cb201a4b-81cc-4f87-9359-25bd9fc2bd5a",
+   "postedAt": "2026-10-28T11:00:16.555Z"
+  },
+  {
+   "id": "pf-0a13c3c8fd",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p8-q2-root",
+     "blockId": "p8-q2-block",
+     "hash": "1fb62632a6cf306747b49971c104ef39c6d02ffd8d9fdcfba22b0c2343f97517"
+    },
+    {
+     "id": "p19-part-d",
+     "blockId": "p19-worked-proof-block",
+     "hash": "f3a50c1f7fa36aa1e0d984fe3f31786d62ba5382a39012de2b77e1826bb3c893"
+    }
+   ],
+   "finding": "p19-part-d repeats the complete sum-of-squares induction task in p8-q2-root without an explicit retrieval or comparison purpose.",
+   "breakdown": "The summands, formula and integer domain are unchanged, so the later task repeats the earlier proof.",
+   "checked": "Compared both complete supplied tasks: each asks for the sum of the first n squares, with right-hand side n(n+1)(2n+1)/6 and positive-integer domain. No explicit instructional purpose for repeating the task is supplied.",
+   "assumptions": "Both tasks are assigned in booklet order; the positive-integer domain carries through the induction exercise.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Replace p19-part-d with: “Prove by mathematical induction that 2(1²)+2(2²)+⋯+2n²=n(n+1)(2n+1)/3 for every integer n≥1.” Expected proof: at n=1 both sides equal 2. Assuming the k case, the next sum is k(k+1)(2k+1)/3+2(k+1)²=(k+1)[k(2k+1)+6(k+1)]/3=(k+1)(k+2)(2k+3)/3, the required k+1 case. Conclude by induction."
+   },
+   "doneWhen": "The later copy has different numerical coefficients and a correct corresponding identity and proof.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "proof-by-mathematical-induction"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:59:32.829Z"
+    }
+   ],
+   "commentId": "3d518d8b-fc80-4a4a-b958-575d03542816",
+   "postedAt": "2026-10-28T11:00:16.558Z"
+  },
+  {
+   "id": "pf-9541175623",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p16-k",
+     "blockId": "p16-k-block",
+     "hash": "886919d279053a292c1893e867bfc8a763dfa11c9247b26106944fd003073ec0"
+    },
+    {
+     "id": "p16-k-explanation",
+     "blockId": "p16-k-block",
+     "hash": "886919d279053a292c1893e867bfc8a763dfa11c9247b26106944fd003073ec0"
+    }
+   ],
+   "finding": "Extend the false-proof question to distinguish the inductive implication from the base case.",
+   "breakdown": "Changing the constant shows that a successful inductive implication does not determine whether the proposed identity is true.",
+   "checked": "For the offset −3, the assumed k case gives k²−3+2k+1=(k+1)²−3. For offset c, the n=1 case is 1=1+c, so c=0. These use the existing odd-number sum and the induction reasoning already taught. The short generalisation fits this Stage 6 course.",
+   "assumptions": "The extension follows the existing parts of p16-k.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Append to p16-k: (iii) “Replace +2 by −3 in the proposed identity. Assuming it holds for n=k, prove it holds for n=k+1.” Expected: k²−3+(2k+1)=(k+1)²−3. (iv) “For 1+3+⋯+(2n−1)=n²+c, what value of c makes the base case n=1 true?” Answer: c=0."
+   },
+   "doneWhen": "The two follow-up parts are appended with the stated expected answers.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "proof-by-mathematical-induction"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:59:32.829Z"
+    }
+   ],
+   "commentId": "d99be7ba-caa3-42d3-a26d-b6bbac384278",
+   "postedAt": "2026-10-28T11:00:16.562Z"
+  },
+  {
+   "id": "pf-6020dac12e",
+   "kind": "opening-review",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p30-method-block",
+     "blockId": "p30-method-block",
+     "hash": "91b075b91e71c3d299f48ff41d082f65491f549b47d88d069e6ea95c9bf2c558"
+    },
+    {
+     "id": "p30-example-demonstration",
+     "blockId": "p30-example-block",
+     "hash": "fa902477f62b2724766d5c6ea93f1710a3302dbd807bea37162983ef4e3ab1f9"
+    }
+   ],
+   "finding": "The divisibility topic does not rehearse the index law used to expose the preceding power in its worked example.",
+   "breakdown": "The substitution of the induction hypothesis depends on recognising 4^{k+1}=4·4^k. Earlier supplied induction teaching and practice do not rehearse this power transformation.",
+   "checked": "Searched all supplied teaching and practice. Earlier sum proofs already use substitution, expansion and common-factor extraction, so those do not need another review here. No preceding supplied task rehearses rewriting a successor power. The index-law transformation is a substantial symbolic step, rather than a numerical calculation performed by a calculator.",
+   "assumptions": "Index laws are prior knowledge, consistent with the course library. Calculator use does not affect this symbolic step.",
+   "repair": {
+    "type": "add-review",
+    "proposal": "Insert three short items before p30-method-block: “Write each expression as a multiple of the preceding power: (a) 5^{k+1}; (b) 3^{k+1}; (c) 2^{k+1}.” Answers: (a) 5·5^k; (b) 3·3^k; (c) 2·2^k. Keep the review within one page."
+   },
+   "doneWhen": "Students rehearse exposing the preceding power before the divisibility example.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "proofs-of-divisibility"
+   ],
+   "state": "deferred",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:59:32.829Z"
+    },
+    {
+     "state": "deferred",
+     "at": "2026-10-28T11:00:15.623Z",
+     "note": "Withdrawn at the user's request."
+    }
+   ]
+  }
+ ],
+ "contextQuestions": [],
+ "protectedGroups": [
+  {
+   "sequence": "proofs-of-sums",
+   "targets": [
+    "p3-check-1-node",
+    "p3-check-2-node",
+    "p3-check-3-node",
+    "p3-check-4-node",
+    "p3-check-5-node",
+    "p3-check-6-node",
+    "p3-counterexample-node"
+   ],
+   "observation": "Several successful checks do not prove a universal proposition; one counterexample disproves it.",
+   "varies": "The natural number substituted into the expression, culminating in a counterexample.",
+   "invariant": "The expression n²−n+11 and the claim that its value is prime."
+  },
+  {
+   "sequence": "proofs-of-sums",
+   "targets": [
+    "p4-a",
+    "p4-b",
+    "p4-c",
+    "p4-d"
+   ],
+   "observation": "Pairing the first and last terms scales from numerical sums to a formula for even n.",
+   "varies": "The upper limit, progressing from 10 to 100 to 1000 to an even natural number n.",
+   "invariant": "Consecutive positive integers starting at 1 and equal-sum outside-in pairs."
+  },
+  {
+   "sequence": "proof-by-mathematical-induction",
+   "targets": [
+    "p9-q1-a",
+    "p9-q1-b"
+   ],
+   "observation": "Multiplying every term by 2 changes the sum by the same factor.",
+   "varies": "First term and corresponding final exponent.",
+   "invariant": "Ratio 2, number of terms, domain and induction structure."
+  },
+  {
+   "sequence": "proof-by-mathematical-induction",
+   "targets": [
+    "p10-part-c-response",
+    "p11-example-d"
+   ],
+   "observation": "The same induction structure applies when reciprocal-product denominators advance differently.",
+   "varies": "Consecutive integer factors become consecutive odd factors.",
+   "invariant": "Reciprocal-product summands, positive integer domain and addition of one next term."
+  },
+  {
+   "sequence": "proof-by-mathematical-induction",
+   "targets": [
+    "p16-k-proof",
+    "p16-k-explanation"
+   ],
+   "observation": "A valid inductive implication does not compensate for a false base case.",
+   "varies": "Proving the implication versus evaluating whether the whole proof establishes the claim.",
+   "invariant": "The same proposed identity."
+  },
+  {
+   "sequence": "proofs-of-divisibility",
+   "targets": [
+    "p32-q1-a",
+    "p32-q1-b"
+   ],
+   "observation": "The same induction structure works when the exponential base and its corresponding divisor change.",
+   "varies": "The base changes from 7 to 5 and the divisor from 6 to 4.",
+   "invariant": "The expression is a^n-1, the divisor is a-1, and the domain is the positive integers."
+  },
+  {
+   "sequence": "proofs-of-divisibility",
+   "targets": [
+    "p33-c",
+    "p33-d"
+   ],
+   "observation": "Students first attempt the proof independently, then identify the logical stages and justifications in a completion version of that proof.",
+   "varies": "The response changes from constructing the proof to completing its logical language.",
+   "invariant": "The proposition, base case, hypothesis and required inductive implication."
+  },
+  {
+   "sequence": "proofs-of-divisibility",
+   "targets": [
+    "p36-question-i-root"
+   ],
+   "observation": "The same hypothesis can be used by grouping its full expression or by rearranging it to isolate one term.",
+   "varies": "The algebraic route to applying the hypothesis.",
+   "invariant": "The proposition, base case, hypothesis and required integer-multiple conclusion."
+  }
+ ],
+ "notReliablyReviewed": [],
+ "reviewedRevision": 1,
+ "reviewedAt": "2026-10-28T10:59:32.829Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 4
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 1
+  }
+ },
+ "importReview": "Lean content review table: 80 of 80 blocks passed.",
+ "questionOrder": "source",
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "proofs-of-sums",
+    "title": "Proofs of Sums",
+    "blocks": 4,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 23607,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 1641,
+     "reasoning_output_tokens": 212
+    },
+    "elapsedMs": 33054,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 0
+   },
+   {
+    "id": "proof-by-mathematical-induction",
+    "title": "Proof by Mathematical Induction",
+    "blocks": 43,
+    "images": 1,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 33735,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3258,
+     "reasoning_output_tokens": 131
+    },
+    "elapsedMs": 76979,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "proofs-of-divisibility",
+    "title": "Proofs of Divisibility",
+    "blocks": 18,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 30634,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3948,
+     "reasoning_output_tokens": 799
+    },
+    "elapsedMs": 112813,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 0
+   },
+   {
+    "id": "exam-questions",
+    "title": "Exam Questions",
+    "blocks": 11,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 29267,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 1533,
+     "reasoning_output_tokens": 197
+    },
+    "elapsedMs": 53527,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 0
+   }
+  ],
+  "dropped": [],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-proof-by-mathematical-induction-v1/work/candidates-low-1793185134594.json",
+  "errors": []
+ },
+ "postedRevision": 2
+}
