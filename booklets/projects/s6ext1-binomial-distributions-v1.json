@@ -28,6 +28,10 @@
     {
       "id": "mean-variance-expected-frequency-of-binomial-distributions",
       "title": "Mean, Variance, Expected Frequency of Binomial Distributions"
+    },
+    {
+      "id": "s6ext1-binomial-distributions-v1-exam-questions",
+      "title": "Exam questions"
     }
   ],
   "settings": {
@@ -35591,6 +35595,114 @@
           ]
         }
       ]
+    },
+    {
+      "id": "s6ext1-binomial-distributions-v1-exam-questions",
+      "topicId": "s6ext1-binomial-distributions-v1-exam-questions",
+      "title": "Exam questions",
+      "role": "exam",
+      "phase": "practice",
+      "workingSpace": "none",
+      "pageBreakBefore": true,
+      "blocks": [
+        {
+          "id": "exam-mb-65d44c40-a27e-4eea-9c00-e2dc01e5297d",
+          "type": "question",
+          "title": "",
+          "content": {
+            "id": "exam-mb-65d44c40-a27e-4eea-9c00-e2dc01e5297d-root",
+            "type": "question",
+            "prompt": "$\\textbf{(i)}$ Explain why the probability of getting a sum of 5 when one pair of fair dice is tossed is $\\frac{1}{9}$.\n[1]\n$\\textbf{(ii)}$ Find the probability of getting a sum of 5 at least twice when a pair of dice is tossed 7 times.\n[2]",
+            "answer": {
+              "short": "(i) $\\frac19$.\n(ii) $1-\\left(\\frac89\\right)^7-7\\left(\\frac19\\right)\\left(\\frac89\\right)^6\\approx0.1779$.",
+              "worked": "$\\textbf{(i)}$\nWhen a pair of fair dice is tossed, the total number of possible outcomes is $6 \\times 6 = 36$.\nThe outcomes that yield a sum of 5 are $(1, 4), (2, 3), (3, 2), (4, 1)$.\nThere are 4 favourable outcomes.\n$$\\begin{align*}\n\\text{Probability} &= \\frac{4}{36} \\\\\n&= \\frac{1}{9}\n\\end{align*}$$\n\n$\\textbf{(ii)}$\nLet $X$ be the number of times a sum of 5 occurs in 7 tosses. This follows a binomial distribution with $n=7$ and $p = \\frac{1}{9}$.\nWe need to find $P(X \\ge 2)$, which is the complement of $P(X < 2)$.\n$$\\begin{align*}\nP(X \\ge 2) &= 1 - P(X < 2) \\\\\n&= 1 - (P(X=0) + P(X=1)) \\\\\nP(X = 0) &= \\binom{7}{0} \\left(\\frac{1}{9}\\right)^0 \\left(\\frac{8}{9}\\right)^7 = \\left(\\frac{8}{9}\\right)^7 \\\\\nP(X = 1) &= \\binom{7}{1} \\left(\\frac{1}{9}\\right)^1 \\left(\\frac{8}{9}\\right)^6 = 7 \\times \\frac{8^6}{9^7} \\\\\nP(X \\ge 2) &= 1 - \\left( \\frac{8^7}{9^7} + \\frac{7 \\times 8^6}{9^7} \\right) \\\\\n&= 1 - \\frac{8^7 + 7 \\times 8^6}{9^7} \\\\\n&\\approx 0.1779 \\quad \\text{(to 4 d.p.)}\n\\end{align*}$$",
+              "provenance": {
+                "short": "source-derived-extract",
+                "worked": "MathsBase-source-exact"
+              }
+            }
+          },
+          "classification": {
+            "primarySkillId": "binomial-cumulative-probability",
+            "secondarySkillIds": [
+              "binomial-probability-formula"
+            ],
+            "archetype": "binomial-at-least-via-complement",
+            "reasoningScore": 32,
+            "difficulty": "Development",
+            "difficultyReason": "Enumerate four favourable ordered dice outcomes, then model seven repetitions and translate 'at least twice' into the complement of zero or one success. Part (i) supplies the success probability, and the complement calculation directly follows the taught example; the task requires routine linked procedures.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "assessedAt": "2026-10-28T22:20:19.139Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "40951689e01ab2ba205464a172c59d87d85de68cfadc0c205e4eb631db9c6d64",
+              "evidence": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/remaining-five-local/s6ext1-binomial-distributions-v1/result.json"
+            }
+          },
+          "source": {
+            "provider": "HSC",
+            "paper": "Extension 1",
+            "year": "2003",
+            "label": "HSC Extension 1 2003",
+            "origin": "MathsBase"
+          },
+          "snapshotKind": "local",
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "65d44c40-a27e-4eea-9c00-e2dc01e5297d",
+              "sourceCode": "HSC.X1.2003 Q3c",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/remaining-five-local/s6ext1-binomial-distributions-v1/input.json",
+              "sourceQuestionSha256": "ddd957515dac504cf4b220809270d6f0bc838af215f022b606c17e88d9800644",
+              "sourceSolutionSha256": "a39dbfe7dcfe576876681dbf73a778d0c0910fcfe16bce574c76736755fc7889"
+            },
+            "teachingContext": [
+              {
+                "blockId": "p14-q3-c",
+                "method": "binomial-at-least-via-complement"
+              },
+              {
+                "blockId": "p25-definition",
+                "method": "binomial-at-least-via-complement"
+              },
+              {
+                "blockId": "p31-complement-b",
+                "method": "binomial-at-least-via-complement"
+              },
+              {
+                "blockId": "p31-complement-e",
+                "method": "binomial-at-least-via-complement"
+              },
+              {
+                "blockId": "p32-example-block",
+                "method": "binomial-at-least-via-complement"
+              }
+            ],
+            "localAssessment": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/remaining-five-local/s6ext1-binomial-distributions-v1.json",
+            "independentReviewStatus": "accepted",
+            "numericRatingStatus": "verified-new-whole-question-rating",
+            "sourceNativeStatus": "raw-question-and-worked-source-copied-exactly; independently-reviewed",
+            "nativeConversionStatus": "reviewed-editable-source-fields; integrated-actual-page-checks-pending",
+            "pageVerificationStatus": "pending-root-serial-export-and-actual-inspection",
+            "independentReview": {
+              "proof": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/remaining-five-local/s6ext1-binomial-distributions-v1/consolidated-proof.json",
+              "proofSha256": "ef5ba42fbdd48153554f2a87036e8688c8c8bb118157f9a53aa709a2db330d4f",
+              "rawReview": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/remaining-five-local/s6ext1-binomial-distributions-v1/result.json",
+              "rawReviewSha256": "9723a179336db3537ac44d54564a3a44442501823bb01e08b26f7ee89a90ab6c",
+              "sourceProof": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/remaining-five-local/s6ext1-binomial-distributions-v1/proof.json",
+              "sourceProofSha256": "cbe868f4a5c0d2ae7066610f4521bb2b00b4149f5f1bbbee17f15b2bfbc51222",
+              "taskHash": "40951689e01ab2ba205464a172c59d87d85de68cfadc0c205e4eb631db9c6d64",
+              "input": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/remaining-five-local/s6ext1-binomial-distributions-v1/input.json",
+              "inputSha256": "325073d9429397063af9f355fce5828b471fdde998886eef7110e8c28a26907a",
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "baselineRevision": 2,
+              "baselineSha256": "f46254b19e87602aebcd8efc529db3aedd9943151943512dea5761b00e6cfda2"
+            }
+          },
+          "bankRef": null
+        }
+      ]
     }
   ],
   "studio": {
@@ -45167,10 +45279,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 2,
+  "revision": 3,
   "assets": [],
   "createdAt": "2026-10-28T08:46:52.015Z",
-  "updatedAt": "2026-10-28T11:00:41.977Z",
+  "updatedAt": "2026-10-28T22:31:31.813Z",
   "library": {
     "category": "master",
     "courseId": "s6-ext1-12",
