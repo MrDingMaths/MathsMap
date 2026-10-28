@@ -77,7 +77,7 @@ export function deriveBookletCover(pages = [], overrides = {}) {
     const seen = new Set();
     contents = ordered.slice(1).flatMap((page, index) => {
       const title = String(page.section?.title ?? '').trim();
-      if (!title || seen.has(title)) return [];
+      if (page.isBlank || !title || seen.has(title)) return [];
       seen.add(title);
       return [{ title, pageNumber: index + 2 }];
     });

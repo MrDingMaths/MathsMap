@@ -1,0 +1,216 @@
+{
+ "version": 1,
+ "projectId": "s6ext1-1-multiplicity-of-zeroes-of-polynomial-functions-v1",
+ "title": "1_Multiplicity of zeroes of polynomial functions",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-992baf029b",
+   "kind": "missing-prerequisite",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p5-teaching",
+     "blockId": "p5-teaching",
+     "hash": "7745c327ad68972555bb8b3c585c755818b812cda57ac9d8e6e1d724bc28c0b7"
+    },
+    {
+     "id": "p5-e",
+     "blockId": "p5-question",
+     "hash": "0a2b593bd8f1bb7f575f9c3d2f7b68b64e1607b019983475bb8a5c1747cb5d0f"
+    },
+    {
+     "id": "p5-f",
+     "blockId": "p5-question",
+     "hash": "0a2b593bd8f1bb7f575f9c3d2f7b68b64e1607b019983475bb8a5c1747cb5d0f"
+    },
+    {
+     "id": "p5-g",
+     "blockId": "p5-question",
+     "hash": "0a2b593bd8f1bb7f575f9c3d2f7b68b64e1607b019983475bb8a5c1747cb5d0f"
+    }
+   ],
+   "finding": "The teaching states divisibility tests but does not establish the exact-multiplicity derivative relationship needed in p5-e–g.",
+   "breakdown": "In p5-e, students must conclude that P''(α) is nonzero from Q(α)≠0. Neither the definition of multiplicity nor the preceding one-way divisibility statements supplies that connection.",
+   "checked": "Searched all supplied teaching. p4 defines exact multiplicity; p5-a–d repeat divisibility consequences. p6 and p7 subsequently apply derivative tests without deriving the relationship. Product-rule differentiation gives P'(x)=(x−α)^(m−1)[mQ(x)+(x−α)Q'(x)], whose bracket is nonzero at α.",
+   "assumptions": "The product rule is prior calculus knowledge, consistent with the stated course outcomes. Practice answer working is not preceding instruction. Calculator use is immaterial.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Before p5-e, add: (a) For P(x)=(x−α)^mQ(x), m>1 and Q(α)≠0, differentiate and factor out (x−α)^(m−1). Answer: P'(x)=(x−α)^(m−1)[mQ(x)+(x−α)Q'(x)]. (b) Evaluate the bracket at α. Answer: mQ(α)≠0. (c) State the multiplicity of α in P'. Answer: m−1. (d) For m=1, evaluate P'(α). Answer: Q(α)≠0. (e) Apply these results repeatedly to identify the first nonzero derivative at α. Answer: P^(m)(α)=m!Q(α)≠0; all lower-order derivatives vanish there."
+   },
+   "doneWhen": "Students derive the multiplicity reduction and the first-nonzero-derivative test before applying them in p5-e–g.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "roots-of-multiplicity"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:50:42.551Z"
+    }
+   ],
+   "commentId": "a52f5d7b-4b63-421c-9260-7d8872ed6554",
+   "postedAt": "2026-10-28T10:50:59.799Z"
+  },
+  {
+   "id": "pf-5e4f2717a1",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p7-supplied-working",
+     "blockId": "p7-example-activity",
+     "hash": "ccca83aeaffd2417050934ba109521f186d5b15899f3371f48e9c4312b547636"
+    },
+    {
+     "id": "p11-q8",
+     "blockId": "p11-q8-block",
+     "hash": "d1c7b730004ef9c03954f9aee7baa82ecf0aab4794a4dfc7f45c2f15361a9e7d"
+    }
+   ],
+   "finding": "The final factorisation in p7 leaves the choice of polynomial multiplier unmodelled.",
+   "breakdown": "Changing the zero −1/2 into the factor 2x+1 happens to supply the required leading coefficient. This allows the wrong rule that clearing root denominators determines the polynomial's scale to succeed throughout the example; p11-q8 requires choosing that scale independently.",
+   "checked": "p4 defines multiplicity and includes nonmonic factors, but does not reconstruct a polynomial's multiplier from its zeroes. The supplied review factorisation is monic. No supplied teaching contrasts identical zeroes with different polynomial scales. Comparing leading coefficients gives k=2 in p7; the y-intercept gives k=1/2 in p11-q8.",
+   "assumptions": "Students know substitution and linear equations. No reliance is placed on unsupplied practice or its solutions. Calculator use is immaterial.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Before the final factorisation in p7-supplied-working, add: (a) Write P(x)=k(x−1)^2(x−2)(x+1/2). Compare leading coefficients to find k. Answer: k=2. (b) Rewrite this factorisation using integer coefficients inside the factors. Answer: P(x)=(x−1)^2(x−2)(2x+1)."
+   },
+   "doneWhen": "The example determines the multiplier independently of the zeroes before rewriting the fractional factor.",
+   "from": [
+    "c2"
+   ],
+   "sequences": [
+    "roots-of-multiplicity"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:50:42.551Z"
+    }
+   ],
+   "commentId": "09abf039-19af-49ef-b3b0-68d74429ab30",
+   "postedAt": "2026-10-28T10:50:59.802Z"
+  },
+  {
+   "id": "pf-241f25089d",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p9-q2",
+     "blockId": "p9-q2",
+     "hash": "92c590d79387023d2b42aedc2af91dd12f3f15b413b3e1e43ad8b78ad399e186"
+    }
+   ],
+   "finding": "Follow the triple zero through successive derivatives.",
+   "breakdown": "The follow-up connects the factorisation obtained in part d with the derivative interpretation of multiplicity.",
+   "checked": "P(x)=(x+1)^3(x+5), so −1 has multiplicity 2 in P' and 1 in P''. Direct differentiation gives P'''(x)=24x+48, hence P'''(−1)=24. These tasks use the topic's derivative tests and polynomial differentiation.",
+   "assumptions": "Polynomial differentiation is prior knowledge. The extension follows an existing numerical practice question.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p9-q2-d, add: (e) Find the multiplicity of −1 as a zero of P'. Answer: 2. (f) Find the multiplicity of −1 as a zero of P''. Answer: 1. (g) Evaluate P'''(−1). Answer: 24."
+   },
+   "doneWhen": "The three follow-up parts and their expected answers are added after p9-q2-d.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "roots-of-multiplicity"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:50:42.551Z"
+    }
+   ],
+   "commentId": "a3b4b400-baa4-470e-a03e-845312dd344f",
+   "postedAt": "2026-10-28T10:50:59.804Z"
+  }
+ ],
+ "contextQuestions": [],
+ "protectedGroups": [
+  {
+   "sequence": "roots-of-multiplicity",
+   "targets": [
+    "p5-a",
+    "p5-b",
+    "p5-c"
+   ],
+   "observation": "Each additional vanishing derivative guarantees another copy of the root factor.",
+   "varies": "The number of consecutive zero derivative values.",
+   "invariant": "The symbolic root α and the factorised representation."
+  },
+  {
+   "sequence": "roots-of-multiplicity",
+   "targets": [
+    "p6-a",
+    "p6-b"
+   ],
+   "observation": "A zero of P is repeated only when the first derivative also vanishes.",
+   "varies": "The first derivative at 3 and the multiplicity.",
+   "invariant": "Quadratic degree, the known zero 3 and the completion scaffold."
+  },
+  {
+   "sequence": "roots-of-multiplicity",
+   "targets": [
+    "p9-q3",
+    "p10-q4"
+   ],
+   "observation": "Derivative zeroes are candidates for a repeated polynomial zero and must be checked in P.",
+   "varies": "Coefficients and the amount of supplied guidance.",
+   "invariant": "A cubic with a double zero and one remaining simple zero."
+  }
+ ],
+ "notReliablyReviewed": [],
+ "reviewedRevision": 1,
+ "reviewedAt": "2026-10-28T10:50:42.551Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 1
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 1
+  }
+ },
+ "importReview": "Lean content review table: 29 of 29 blocks passed.",
+ "questionOrder": "source",
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "roots-of-multiplicity",
+    "title": "Roots of Multiplicity",
+    "blocks": 29,
+    "images": 3,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 41777,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4186,
+     "reasoning_output_tokens": 170
+    },
+    "elapsedMs": 99229,
+    "candidates": 2,
+    "discarded": [],
+    "suggestions": 1
+   }
+  ],
+  "dropped": [],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-1-multiplicity-of-zeroes-of-polynomial-functions-v1/work/candidates-low-1793184606915.json",
+  "errors": []
+ },
+ "postedRevision": 2
+}

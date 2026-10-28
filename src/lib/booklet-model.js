@@ -13,7 +13,7 @@ const RESPONSE_SPACE_MM = Object.freeze({
   full: 84,
 });
 
-const SECTION_ROLES = Object.freeze(['front-matter', 'teaching', 'mixed-practice', 'challenge']);
+const SECTION_ROLES = Object.freeze(['front-matter', 'teaching', 'mixed-practice', 'exam', 'challenge']);
 
 function hasTikz(value) {
   return richTextToPlainText(value).includes('[tikz]');

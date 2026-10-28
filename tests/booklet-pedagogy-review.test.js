@@ -5,8 +5,12 @@ import os from 'node:os';
 import path from 'node:path';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
-import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates} from '../pedagogy/review.mjs';
+import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates,main as reviewMain,routineQuestions,validateArchetypes,archetypePrompt,bookletPrinciples} from '../pedagogy/review.mjs';
 import {runAstraTask} from '../scripts/booklet/codex-transcription.mjs';
+
+import {newTeachingPrompt,NEW_CONTENT_MODEL,validateNewTeachingCandidate} from '../pedagogy/new-content.mjs';
+import {draftHash} from '../pedagogy/routine-backfill-proof.mjs';
+import {assessedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const FIXTURE=path.join(ROOT,'tests','fixtures','pedagogy-seeded.json');
@@ -187,7 +191,7 @@ test('posting adds one local comment per finding, is repeatable and skips a stal
  const flags=space.project().studio.flags,finding=space.record().findings.find(row=>row.kind==='example-choice');
  assert.equal(flags.length,1);
  assert.deepEqual({kind:flags[0].kind,findingId:flags[0].findingId,severity:flags[0].severity,scope:flags[0].scope,resolved:flags[0].resolved,targetId:flags[0].targetId,edition:flags[0].edition},{kind:'pedagogy-review',findingId:finding.id,severity:'severe',scope:'local',resolved:false,targetId:'t1-example-a',edition:'student'});
- assert.equal(flags[0].note,commentNote(finding));assert.match(flags[0].note,/^\[Pedagogy review · Severe · example-choice · pf-/);assert.match(flags[0].note,/Also affects: t1-example-b/);assert.match(flags[0].note,/Proposed repair \(change-values\)/);assert.match(flags[0].note,/Done when:/);
+ assert.equal(flags[0].note,commentNote(finding));assert.match(flags[0].note,/^\[Pedagogy review · Severe · example-choice · pf-/);assert.match(flags[0].note,/Also affects: t1-example-b/);assert.match(flags[0].note,/Proposed repair \(change-values\)/);assert.doesNotMatch(flags[0].note,/Checked:|Assumes:|Breakdown:|Done when:/);assert.equal(finding.doneWhen,'A general example is shown.','Full audit evidence remains in provenance');
  assert.equal(finding.commentId,flags[0].id);assert.equal(space.record().findings.find(row=>row.kind==='guided-practice').state,'stale');
  const again=await postFindings(space.options);
  assert.deepEqual(again.posted,[]);assert.deepEqual(again.alreadyPresent,[finding.id]);assert.equal(space.project().studio.flags.length,1);
@@ -327,4 +331,135 @@ test('a completed review can recover a failed provenance save without repeating 
  assert.equal(calls,0);assert.deepEqual(result.errors,[]);assert.equal(space.record().lastRun.recoveredFrom.newModelCalls,0);
  const project=space.project();project.revision=(project.revision??0)+1;fs.writeFileSync(space.projectFile,JSON.stringify(project));
  await assert.rejects(runReview({...space.options,resumeFrom:{candidateFile,challengeResultFile},runner}),/do not match the current project revision/);
+});
+
+
+test('archetype pilot excludes nonroutine/end sections and requires complete unique coverage',()=>{
+ const q=(id,score)=>({id,type:'question',classification:{reasoningScore:score},content:{stem:'Calculate.'}});
+ const project={id:'pilot',revision:1,title:'Pilot'};
+ const seq={id:'topic',topicId:'topic',title:'Topic',sections:[{phase:'teaching',blocks:[{id:'example',pedagogyRole:'example',type:'question'}]},{phase:'practice',blocks:[q('routine',20),q('hard',65),q('unrated',undefined)]},{phase:'practice',role:'challenge',blocks:[q('challenge',10)]},{phase:'practice',role:'exam',blocks:[q('exam',20)]}]};
+ assert.deepEqual(routineQuestions(seq).questions.map(q=>q.id),['routine']);
+ assert.deepEqual(routineQuestions(seq).unrated,['unrated']);
+ const cluster={id:'calculate',questionIds:['routine'],exampleIds:['example'],guidedPracticeIds:[],coverage:'covered',rationale:'Example shows the same method.'};
+ assert.equal(validateArchetypes(project,seq,{clusters:[cluster]}).questions.routine.archetype,'calculate');
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[]}),/Unmapped/);
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[cluster,cluster]}),/repeated|duplicate/);
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[{...cluster,exampleIds:['routine']}]}),/Not a example/);
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[{...cluster,exampleIds:[]}]}),/lacks teaching\/example/);
+ assert.match(archetypePrompt(project,seq),/Do not generate new content/);
+});
+
+test('booklet principles are sourced from tagged documents and enter review prompts',()=>{
+ assert.ok(KINDS.includes('example-principle'));
+ assert.match(bookletPrinciples(),/booklet: yes/);
+ assert.match(bookletPrinciples(),/booklet: no/);
+ const p=load();assert.match(reviewPrompt({project:p,all:sequences(p),index:0,skills:[]}),/example-principle/);
+});
+
+
+test('new teaching drafts require exact Sonnet and embed source style and independent checks',()=>{
+ assert.throws(()=>newTeachingPrompt({kind:'bridge',styleExamples:[]}),/style examples/);
+ const draft=newTeachingPrompt({kind:'guided-practice',topic:'Polynomial evaluation',styleExamples:[{stem:'Evaluate P(2).'}],archetype:'evaluate-polynomial-functions'});
+ assert.equal(draft.model,'claude-sonnet-5-5');assert.equal(NEW_CONTENT_MODEL,draft.model);
+ assert.match(draft.prompt,/booklet: yes/);assert.match(draft.prompt,/independently derive every answer/);
+ assert.match(draft.prompt,/Evaluate P\(2\)/);assert.equal(draft.status,'draft-only');
+});
+
+
+test('prior-knowledge archetypes require evidence and preserve the teacher review decision',()=>{
+ const p={id:'pilot'},q={id:'q',type:'question',classification:{reasoningScore:20},content:{id:'q-root',prompt:'Evaluate.'}},sequence={id:'t',topicId:'t',sections:[{phase:'practice',blocks:[q]}]};
+ const c={id:'substitution',questionIds:['q'],exampleIds:[],guidedPracticeIds:[],coverage:'prior-knowledge',rationale:'Previously taught.',prerequisiteIds:['substitute-into-expressions'],evidence:'Stage 4 prerequisite.',reviewStatus:'pending-user-decision'};
+ assert.equal(validateArchetypes(p,sequence,{clusters:[c],practiceItems:{q:[{nodeIds:['q-root']}]}}).questions.q.practiceItems.length,1);
+ assert.throws(()=>validateArchetypes(p,sequence,{clusters:[{...c,evidence:''}]}),/Prior knowledge needs evidence/);
+ assert.throws(()=>validateArchetypes(p,sequence,{clusters:[c],practiceItems:{q:[{nodeIds:['another-question']}]}}),/outside question/);
+});
+
+test('new worked-example candidates can only become individually pending Studio comments',()=>{
+ const c={model:NEW_CONTENT_MODEL,kind:'worked-example',destination:'studio-comment',status:'pending-user-review',independentReview:{answersVerified:true,principlesVerified:true}};
+ assert.equal(validateNewTeachingCandidate(c),c);
+ assert.throws(()=>validateNewTeachingCandidate({...c,destination:'booklet'}),/pending Studio comment/);
+ assert.throws(()=>validateNewTeachingCandidate({...c,status:'calibration-approved'}),/pending Studio comment/);
+ assert.throws(()=>validateNewTeachingCandidate({...c,autoApply:true}),/pending Studio comment/);
+ assert.throws(()=>validateNewTeachingCandidate({...c,independentReview:{}}),/Independent answer/);
+});
+
+
+test('only verified routine backfill of a taught archetype has an automatic path',()=>{
+ const block={id:'verified-backfill',type:'question',pedagogyRole:'practice',content:{id:'verified-backfill-root',type:'question',prompt:'Calculate $2+3$.',answer:{short:'$5$',worked:'$2+3=5$'}}};
+ block.classification=assessedRating(block,{reasoningScore:20,difficulty:'Foundation',difficultyReason:'One direct addition.'},{model:'gpt-6.1-sol',assessedAt:new Date().toISOString(),evidence:'independent-test-review'});
+ const result={items:[{id:block.id,archetype:'addition',content:block.content}],instructionalChange:false},draft={model:NEW_CONTENT_MODEL,kind:'backfill',result,draftHash:draftHash(result),metrics:{modelUsage:{[NEW_CONTENT_MODEL]:{}}}};
+ const review={draftHash:draft.draftHash,model:'gpt-6.1-sol',accepted:true,answersVerified:true,principlesVerified:true,archetypeTaught:true,inScope:true,instructionalChange:false};
+ const c={model:NEW_CONTENT_MODEL,kind:'backfill',destination:'booklet',status:'verified-routine-backfill',archetypeTaught:true,instructionalChange:false,reasoningScore:20,independentReview:review,block,backfillProof:{draft,blocks:[block],review}};
+ assert.equal(validateNewTeachingCandidate(c),c);
+ for(const change of [{archetypeTaught:false},{instructionalChange:true},{reasoningScore:65},{kind:'bridge'}])assert.throws(()=>validateNewTeachingCandidate({...c,...change}),/pending Studio comment/);
+ assert.throws(()=>validateNewTeachingCandidate({...c,backfillProof:undefined}),/Independent Sol/);
+});
+
+
+test('archetypes may cite earlier teaching, never future teaching, and cannot double-count one attempt',()=>{
+ const p={id:'p',sections:[{id:'s1',topicId:'early',phase:'teaching',blocks:[{id:'early-example',type:'question',pedagogyRole:'example'}]},{id:'s2',topicId:'now',phase:'practice',blocks:[{id:'q',type:'question',classification:{reasoningScore:30},content:{id:'q-part'}}]},{id:'s3',topicId:'future',phase:'teaching',blocks:[{id:'future-example',type:'question',pedagogyRole:'example'}]}]};
+ const seq=sequences(p)[1],c={id:'a',questionIds:['q'],exampleIds:['early-example'],coverage:'covered',rationale:'Already taught.'};
+ assert.equal(validateArchetypes(p,seq,{clusters:[c]}).clusters.length,1);
+ assert.throws(()=>validateArchetypes(p,seq,{clusters:[{...c,exampleIds:['future-example']}]}),/Not a example/);
+ assert.throws(()=>validateArchetypes(p,seq,{clusters:[c],practiceItems:{q:[{nodeIds:['q-part']},{nodeIds:['q-part']}]}}),/Repeated practice item/);
+});
+
+
+test('direct teaching and question-supplied scaffolds retain their actual evidence roles',()=>{
+ const p={id:'p',sections:[{id:'teach',topicId:'t',phase:'teaching',blocks:[{id:'rule',type:'rich-text',pedagogyRole:'definition'}]},{id:'practice',topicId:'t',phase:'practice',blocks:[{id:'scaffold',type:'question',classification:{reasoningScore:30},content:{id:'scaffold-root'}},{id:'q',type:'question',classification:{reasoningScore:40},content:{id:'q-root'}}]}]};
+ const seq=sequences(p)[0],c={id:'rule-use',questionIds:['scaffold','q'],exampleIds:[],teachingIds:['rule'],coverage:'covered',rationale:'Direct use of stated rule.'};
+ assert.equal(validateArchetypes(p,seq,{clusters:[c]}).clusters[0].exampleIds.length,0);
+ assert.equal(validateArchetypes(p,seq,{clusters:[{...c,teachingIds:[],practiceEvidenceIds:['scaffold-root']}]}).clusters.length,1);
+ assert.throws(()=>validateArchetypes(p,seq,{clusters:[{...c,teachingIds:[],practiceEvidenceIds:['not-real']}]}),/Unknown current/);
+});
+
+
+test('report-only reviewer provenance cannot post raw Sol-authored proposal text',async t=>{
+ const w=workspace(t),before=fs.readFileSync(w.projectFile,'utf8');
+ const result=await runReview({...w.options,reportOnly:true,runner:stubRunner({review:{'negative-index':{candidates:[candidate('example-principle',['t1-example-a'],{repair:{type:'add-question',proposal:'A raw reviewer-authored student question that must not be posted.'}})]}}})});
+ const file=path.join(w.options.provenanceDir,'pedagogy-seeded.json'),record=JSON.parse(fs.readFileSync(file));assert.equal(record.findings.length,1,JSON.stringify({errors:result.errors,lastRun:record.lastRun}));assert.match(record.findings[0].repair.proposal,/raw reviewer-authored/);assert.equal(record.reportOnly,true);
+ await assert.rejects(postFindings({...w.options}),/Report-only review evidence cannot be posted/);
+ assert.equal(fs.readFileSync(w.projectFile,'utf8'),before);
+});
+
+
+test('post --report-only fails at the CLI boundary before loading or posting a project',async t=>{
+ const w=workspace(t),before=fs.readFileSync(w.projectFile,'utf8');
+ await assert.rejects(reviewMain(['post','--report-only','--project','report-only-must-not-load']),/--report-only is allowed only for review or principles; no action was taken/);
+ assert.equal(fs.readFileSync(w.projectFile,'utf8'),before);
+});
+
+
+test('principles-only creates a worker only for teaching topics and never sends an Exam-only task',async t=>{
+ const w=workspace(t,p=>{p.sections=p.sections.filter(s=>s.topicId==='negative-index');p.sections.push({id:'exam-only-section',topicId:'exam-only',phase:'practice',role:'exam',title:'Exam questions',blocks:[{id:'exam-only-question',type:'question',content:{id:'exam-only-root',type:'question',prompt:'EXAM_ONLY_SENTINEL_MUST_NOT_REACH_PRINCIPLES_WORKER',answer:{short:'not reviewed'}}}]});});
+ const calls=[];const result=await runReview({...w.options,principlesOnly:true,reportOnly:true,runner:stubRunner({calls})});
+ assert.deepEqual(result.errors,[]);assert.equal(result.scope.sequencesReviewed,1);assert.equal(calls.length,1);assert.equal(calls[0].payload.sequence.id,'negative-index');
+ assert.equal(JSON.stringify(calls).includes('EXAM_ONLY_SENTINEL'),false);
+ const general=[];await runReview({...w.options,runner:stubRunner({calls:general})});
+ assert.deepEqual(general.filter(c=>c.stage==='pedagogy-review').map(c=>c.payload.sequence.id),['negative-index','exam-only']);
+});
+
+test('explicit worked examples inside practice retain solutions and earlier teaching order',()=>{
+ const example={id:'inline-example',type:'worked-example',pedagogyRole:'example',answer:{short:'quotient',worked:'EXPLICIT_WORKED_SOLUTION'}};
+ const sequence={id:'inline-topic',topicId:'inline-topic',title:'Division',sections:[{id:'inline-practice',phase:'practice',blocks:[example,{id:'routine',type:'question',classification:{reasoningScore:20},content:{id:'routine-root',type:'question',prompt:'Divide'}}]}]};
+ assert.equal(compactBlock(example,sequence.sections[0]).answer.worked,'EXPLICIT_WORKED_SOLUTION');
+ assert.equal(earlierTeaching([sequence,{id:'later',sections:[]}],1).full[0].sections[0].blocks[0].id,'inline-example');
+ const project={title:'Test',sections:sequence.sections};
+ const payload=payloadOf(archetypePrompt(project,sequence,{all:[sequence],skills:[]}));
+ assert.equal(payload.teaching.sections[0].blocks[0].id,'inline-example');
+ assert.equal(payload.teaching.sections[0].blocks.length,1);
+});
+
+test('principles-only dispatch includes explicit teaching in a practice section',async t=>{
+ const w=workspace(t,p=>{p.sections=[{id:'inline-practice',topicId:'inline-topic',phase:'practice',blocks:[{id:'inline-example',type:'worked-example',pedagogyRole:'example',examples:[{id:'inline-example-part',prompt:'Known divisor',theorySolution:'Existing working'}]}]}];});
+ const calls=[];const result=await runReview({...w.options,principlesOnly:true,reportOnly:true,runner:stubRunner({calls})});
+ assert.deepEqual(result.errors,[]);assert.equal(calls.length,1);assert.equal(calls[0].payload.sequence.id,'inline-topic');
+});
+
+test('heterogeneous independent items may override only to existing same-topic archetypes',()=>{
+ const p={id:'p',sections:[{id:'practice',topicId:'t',phase:'practice',blocks:[{id:'q',type:'question',classification:{reasoningScore:30},content:{id:'q-root',children:[{id:'q-a'},{id:'q-b'}]}},{id:'linear-q',type:'question',classification:{reasoningScore:20},content:{id:'linear-root'}}]}]};
+ const seq=sequences(p)[0],clusters=[{id:'quadratic',questionIds:['q'],coverage:'bridge',rationale:'Mixed whole question primary method.'},{id:'linear',questionIds:['linear-q'],coverage:'bridge',rationale:'Existing same-topic method.'}];
+ const result={clusters,practiceItems:{q:[{nodeIds:['q-a']},{nodeIds:['q-b'],archetype:'linear'}],'linear-q':[{nodeIds:['linear-root']}]}};
+ const map=validateArchetypes(p,seq,result);assert.equal(map.questions.q.archetype,'quadratic');assert.equal(map.questions.q.practiceItems[0].archetype,undefined);assert.equal(map.questions.q.practiceItems[1].archetype,'linear');
+ for(const archetype of ['future-topic-only','',null])assert.throws(()=>validateArchetypes(p,seq,{...result,practiceItems:{...result.practiceItems,q:[{nodeIds:['q-a'],archetype}]}}),/Unknown same-topic practice item archetype/);
 });

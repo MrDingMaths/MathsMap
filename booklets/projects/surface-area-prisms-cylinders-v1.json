@@ -36,6 +36,10 @@
     {
       "id": "front-matter",
       "title": "Surface area of prisms and cylinders"
+    },
+    {
+      "id": "surface-area-prisms-cylinders-v1-exam-questions",
+      "title": "Exam questions"
     }
   ],
   "settings": {
@@ -34413,7 +34417,7 @@
                   {
                     "id": "p25-e-diagram",
                     "format": "tikz",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 25 p25-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=.8pt] (-.75,0)--(1.35,1)--(2.85,1)--(.75,0)--cycle;\n\\draw[line width=.8pt] (-.75,0) arc[start angle=180,end angle=360,radius=.75];\n\\draw[line width=.8pt] (1.35,1) arc[start angle=180,end angle=270,radius=.75];\n\\draw[dashed,line width=.4pt] (2.1,.25) arc[start angle=270,end angle=297,radius=.75];\n\\draw[line width=.8pt] (2.44,.332) arc[start angle=297,end angle=360,radius=.75];\n\\draw[line width=.8pt] (.34,-.668)--(2.44,.332);\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 25 p25-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=.8pt] (-.75,0)--(1.35,1)--(2.85,1)--(.75,0)--cycle;\n\\draw[line width=.8pt] (-.75,0) arc[start angle=180,end angle=360,radius=.75];\n\\pgfmathsetmacro{\\openDepthAngle}{atan(1/2.1)}\n\\pgfmathsetmacro{\\interiorLimit}{180+2*\\openDepthAngle}\n\\pgfmathsetmacro{\\silhouetteAngle}{270+\\openDepthAngle}\n\\draw[line width=.8pt] (1.35,1) arc[start angle=180,end angle=\\interiorLimit,radius=.75];\n\\draw[dashed,line width=.4pt] ({2.1+.75*cos(\\interiorLimit)},{1+.75*sin(\\interiorLimit)}) arc[start angle=\\interiorLimit,end angle=\\silhouetteAngle,radius=.75];\n\\draw[line width=.8pt] ({2.1+.75*cos(\\silhouetteAngle)},{1+.75*sin(\\silhouetteAngle)}) arc[start angle=\\silhouetteAngle,end angle=360,radius=.75];\n\\draw[line width=.8pt] ({.75*cos(\\silhouetteAngle)},{.75*sin(\\silhouetteAngle)})--({2.1+.75*cos(\\silhouetteAngle)},{1+.75*sin(\\silhouetteAngle)});\n\\end{tikzpicture}",
                     "widthMm": 25,
                     "role": "question",
                     "reviewStatus": "needs-review",
@@ -34423,6 +34427,12 @@
                       "description": "Half cylinder receding to the upper right, with the top open, both semicircular ends retained and a partly hidden rear semicircular boundary.",
                       "mathematics": "Two half-discs and half the full curved surface; no top rectangle.",
                       "answerVisibility": "Given solid only."
+                    },
+                    "solidReview": {
+                      "status": "accepted",
+                      "sourceHash": "cbfbb255e8e95499004c050b15db74200e9b8efb1b4a7e77d6eda40edcb1c6ef",
+                      "reason": "Source explicitly retains an open top. Exact open-face ray model (curved wall, stated end caps, omitted top) preserves visible interior rear rim, hides only wall-occluded middle, and retains exposed exterior rim as solid. No supplied values/labels, dimensions or pedagogy changed.",
+                      "evidence": ".booklet-work/solid-quality-20261028/batch/surface-area-prisms-cylinders-v1/pages2/feedback-pages.json; actual student PDF pages 25,26,27,28,29 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                     }
                   }
                 ],
@@ -34468,7 +34478,7 @@
                   {
                     "id": "p25-f-diagram",
                     "format": "tikz",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 25 p25-f-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=.8pt] (-.75,0)--(1.35,1)--(2.85,1)--(.75,0);\n\\draw[line width=.8pt] (-.75,0) arc[start angle=180,end angle=360,radius=.75];\n\\draw[line width=.8pt] (1.35,1) arc[start angle=180,end angle=270,radius=.75];\n\\draw[dashed,line width=.4pt] (2.1,.25) arc[start angle=270,end angle=297,radius=.75];\n\\draw[line width=.8pt] (2.44,.332) arc[start angle=297,end angle=360,radius=.75];\n\\draw[line width=.8pt] (.34,-.668)--(2.44,.332);\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 25 p25-f-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=.8pt] (-.75,0)--(1.35,1)--(2.85,1)--(.75,0);\n\\draw[line width=.8pt] (-.75,0) arc[start angle=180,end angle=360,radius=.75];\n\\pgfmathsetmacro{\\openDepthAngle}{atan(1/2.1)}\n\\pgfmathsetmacro{\\interiorLimit}{180+2*\\openDepthAngle}\n\\pgfmathsetmacro{\\silhouetteAngle}{270+\\openDepthAngle}\n\\draw[line width=.8pt] (1.35,1) arc[start angle=180,end angle=\\interiorLimit,radius=.75];\n\\draw[dashed,line width=.4pt] ({2.1+.75*cos(\\interiorLimit)},{1+.75*sin(\\interiorLimit)}) arc[start angle=\\interiorLimit,end angle=\\silhouetteAngle,radius=.75];\n\\draw[line width=.8pt] ({2.1+.75*cos(\\silhouetteAngle)},{1+.75*sin(\\silhouetteAngle)}) arc[start angle=\\silhouetteAngle,end angle=360,radius=.75];\n\\draw[line width=.8pt] ({.75*cos(\\silhouetteAngle)},{.75*sin(\\silhouetteAngle)})--({2.1+.75*cos(\\silhouetteAngle)},{1+.75*sin(\\silhouetteAngle)});\n\\end{tikzpicture}",
                     "widthMm": 25,
                     "role": "question",
                     "reviewStatus": "needs-review",
@@ -34478,6 +34488,12 @@
                       "description": "Half cylinder with an open top and open near semicircular end; the near diameter is omitted as in the source, while the far semicircular end remains.",
                       "mathematics": "One half-disc and half the full curved surface; no top rectangle.",
                       "answerVisibility": "Given solid only."
+                    },
+                    "solidReview": {
+                      "status": "accepted",
+                      "sourceHash": "8037cc7b68e408ca454753a5502f63a317a04de396f2248427aee21fddc1fef5",
+                      "reason": "Source explicitly retains an open top. Exact open-face ray model (curved wall, stated end caps, omitted top) preserves visible interior rear rim, hides only wall-occluded middle, and retains exposed exterior rim as solid. No supplied values/labels, dimensions or pedagogy changed.",
+                      "evidence": ".booklet-work/solid-quality-20261028/batch/surface-area-prisms-cylinders-v1/pages2/feedback-pages.json; actual student PDF pages 25,26,27,28,29 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                     }
                   }
                 ],
@@ -35139,7 +35155,7 @@
                     "widthMm": 62,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-guided-a-solid\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (F) at (0,0);\n\\coordinate (B) at (2.2,1.55);\n\\coordinate (FL) at (-1,0);\n\\coordinate (FR) at (1,0);\n\\coordinate (BL) at (1.2,1.55);\n\\coordinate (BR) at (3.2,1.55);\n\\pgfmathsetmacro{\\rearVisibilityAngle}{270+atan(1.55/2.2)}\n\\draw (BL) arc[start angle=180,end angle=\\rearVisibilityAngle,radius=1];\n\\draw[dashed] (BL) ++(1,0) ++(\\rearVisibilityAngle:1) arc[start angle=\\rearVisibilityAngle,end angle=360,radius=1];\n\\draw (FL)--(BL)--(BR)--(FR);\n\\draw (FL)--(FR);\n% Exposed lower generator: tangent to both semicircular ends.\n\\coordinate (T) at ({cos(\\rearVisibilityAngle)},{sin(\\rearVisibilityAngle)});\n\\coordinate (Tb) at ({2.2+cos(\\rearVisibilityAngle)},{1.55+sin(\\rearVisibilityAngle)});\n\\draw (T)--(Tb);\n\\draw (FL) arc[start angle=180,end angle=360,radius=1];\n\\fill (F) circle[radius=0.035];\n\\fill (B) circle[radius=0.035];\n\\path (FL)--(BL) node[midway,above left] {$2.4\\,\\mathrm{m}$};\n\\draw[line width=0.4pt] (0,0.1)--(0,0.45) (1,0.1)--(1,0.45);\n\\draw[<->,line width=0.5pt] (0,0.32)--(1,0.32) node[midway,above] {$0.65\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 26 p26-guided-a-solid\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (F) at (0,0);\n\\coordinate (B) at (2.2,1.55);\n\\coordinate (FL) at (-1,0);\n\\coordinate (FR) at (1,0);\n\\coordinate (BL) at (1.2,1.55);\n\\coordinate (BR) at (3.2,1.55);\n\\pgfmathsetmacro{\\rearVisibilityAngle}{270+atan(1.55/2.2)}\n\\pgfmathsetmacro{\\rearInteriorLimit}{180+2*atan(1.55/2.2)}\n% The open top reveals the inner rear-cap rim until a sightline meets the right curved wall.\n\\draw (BL) arc[start angle=180,end angle=\\rearInteriorLimit,radius=1];\n\\draw[dashed] (BL) ++(1,0) ++(\\rearInteriorLimit:1) arc[start angle=\\rearInteriorLimit,end angle=\\rearVisibilityAngle,radius=1];\n\\draw (BL) ++(1,0) ++(\\rearVisibilityAngle:1) arc[start angle=\\rearVisibilityAngle,end angle=360,radius=1];\n\\draw (FL)--(BL)--(BR)--(FR);\n\\draw (FL)--(FR);\n% Exposed lower generator: tangent to both semicircular ends.\n\\coordinate (T) at ({cos(\\rearVisibilityAngle)},{sin(\\rearVisibilityAngle)});\n\\coordinate (Tb) at ({2.2+cos(\\rearVisibilityAngle)},{1.55+sin(\\rearVisibilityAngle)});\n\\draw (T)--(Tb);\n\\draw (FL) arc[start angle=180,end angle=360,radius=1];\n\\fill (F) circle[radius=0.035];\n\\fill (B) circle[radius=0.035];\n\\path (FL)--(BL) node[midway,above left] {$2.4\\,\\mathrm{m}$};\n\\draw[line width=0.4pt] (0,0.1)--(0,0.45) (1,0.1)--(1,0.45);\n\\draw[<->,line width=0.5pt] (0,0.32)--(1,0.32) node[midway,above] {$0.65\\,\\mathrm{m}$};\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 26,
                       "sourceRegion": "Guided Practice, left column",
@@ -35148,11 +35164,10 @@
                       "answerVisibility": "Only source givens are visible."
                     },
                     "solidReview": {
-                      "sourceHash": "5fb899497b499f5079e141ea097ec0be60ef1ef9e817b584a07d060bb8d4ce9d",
                       "status": "accepted",
-                      "reason": "Open-top half-cylinder: front lower semicircle and open rim remain solid. Dot product of radial normal with depth (2.2,1.55) changes sign at 270+atan(1.55/2.2); the rear arc 180 to tangent is exposed and the remaining arc is hidden. Added the solid common tangent generator at that angle. Radius and length remain 0.65 m and 2.4 m.",
-                      "reviewedAt": "2026-10-24T09:40:39.272Z",
-                      "evidence": "Final-size Questions pages 16,25,28,31,34 inspected against source pages 16,24,26,29,32."
+                      "sourceHash": "cb1572089449906718e30af26a96f7584dc6e8bbcf4fcf976056296b2c46e274",
+                      "reason": "Open-top half-cylinder has front/rear semicircular caps and no top face. Rear rim180..250.334 degrees is visible through opening;250.334..305.167 is occluded by near curved wall;305.167..360 is exposed outer contour. Confirmed analytically by ray exit through open top and shared edgeVisibility on explicit181-strip open-face model. Keep first visible interior arc, dash only middle, make outer arc solid. Geometry,labels and all dimensions untouched.",
+                      "evidence": ".booklet-work/solid-quality-20261028/batch/surface-area-prisms-cylinders-v1/pages2/feedback-pages.json; actual student PDF pages 25,26,27,28,29 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                     }
                   }
                 ],
@@ -35500,13 +35515,19 @@
                     "widthMm": 48,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-atan(0.72*1.45/(0.8*1.1))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{1.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (-0.8,0)--(0.8,0) arc[start angle=0,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0)--(0.65,1.1)--(2.25,1.1)--(0.8,0);\n\\draw[line width=0.8pt] (2.25,1.1) arc[start angle=0,end angle=\\t,x radius=0.8,y radius=0.72];\n\\draw[line width=0.4pt,dashed] (U) arc[start angle=\\t,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (T)--(U);\n\\fill (0,0) circle (1.1pt);\\fill (1.45,1.1) circle (1.1pt);\n\\draw[<->,line width=0.5pt] (-1.12,0.04)--(0.33,1.14) node[midway,above left] {$2.4\\text{ m}$};\n\\path (-0.8,0)--(0.8,0) node[midway,below] {$1.5\\text{ m}$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-atan(0.72*1.45/(0.8*1.1))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{1.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (-0.8,0)--(0.8,0) arc[start angle=0,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0)--(0.65,1.1)--(2.25,1.1)--(0.8,0);\n\\draw[line width=0.8pt] (2.25,1.1) arc[start angle=0,end angle=\\t,x radius=0.8,y radius=0.72];\n\\pgfmathsetmacro{\\interiorLimit}{-180+2*atan(1.1*0.8/(1.45*0.72))}\n\\draw[line width=0.4pt,dashed] (U) arc[start angle=\\t,end angle=\\interiorLimit,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] ({1.45+0.8*cos(\\interiorLimit)},{1.1+0.72*sin(\\interiorLimit)}) arc[start angle=\\interiorLimit,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (T)--(U);\n\\fill (0,0) circle (1.1pt);\\fill (1.45,1.1) circle (1.1pt);\n\\draw[<->,line width=0.5pt] (-1.12,0.04)--(0.33,1.14) node[midway,above left] {$2.4\\text{ m}$};\n\\path (-0.8,0)--(0.8,0) node[midway,below] {$1.5\\text{ m}$};\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 27,
                       "sourceRegion": "question 1b",
                       "description": "Open-top trough with two closed semicircular ends, centre dots and dashed hidden rear rim.",
                       "mathematics": "Length 2.4 m; diameter 1.5 m.",
                       "answerVisibility": "No answers in question diagram."
+                    },
+                    "solidReview": {
+                      "status": "accepted",
+                      "sourceHash": "d3ae816e36df179d7d2efb594eb49efc3c48bceef71c860e521371aa6810e2ff",
+                      "reason": "Source explicitly retains an open top. Exact open-face ray model (curved wall, stated end caps, omitted top) preserves visible interior rear rim, hides only wall-occluded middle, and retains exposed exterior rim as solid. No supplied values/labels, dimensions or pedagogy changed.",
+                      "evidence": ".booklet-work/solid-quality-20261028/batch/surface-area-prisms-cylinders-v1/pages2/feedback-pages.json; actual student PDF pages 25,26,27,28,29 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                     }
                   }
                 ],
@@ -35596,13 +35617,19 @@
                     "widthMm": 48,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-atan(0.72*1.45/(0.8*1.1))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{1.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (0.8,0) arc[start angle=0,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0)--(0.65,1.1)--(2.25,1.1)--(0.8,0);\n\\draw[line width=0.8pt] (2.25,1.1) arc[start angle=0,end angle=\\t,x radius=0.8,y radius=0.72];\n\\draw[line width=0.4pt,dashed] (U) arc[start angle=\\t,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (T)--(U);\n\\fill (1.45,1.1) circle (1.1pt);\n\\draw[<->,line width=0.5pt] (-1.12,0.04)--(0.33,1.14) node[midway,above left,sloped] {$4.5\\text{ m}$};\n\\path (0.65,1.1)--(2.25,1.1) node[midway,above] {$2.2\\text{ m}$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-atan(0.72*1.45/(0.8*1.1))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{1.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (0.8,0) arc[start angle=0,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0)--(0.65,1.1)--(2.25,1.1)--(0.8,0);\n\\draw[line width=0.8pt] (2.25,1.1) arc[start angle=0,end angle=\\t,x radius=0.8,y radius=0.72];\n\\pgfmathsetmacro{\\interiorLimit}{-180+2*atan(1.1*0.8/(1.45*0.72))}\n\\draw[line width=0.4pt,dashed] (U) arc[start angle=\\t,end angle=\\interiorLimit,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] ({1.45+0.8*cos(\\interiorLimit)},{1.1+0.72*sin(\\interiorLimit)}) arc[start angle=\\interiorLimit,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (T)--(U);\n\\fill (1.45,1.1) circle (1.1pt);\n\\draw[<->,line width=0.5pt] (-1.12,0.04)--(0.33,1.14) node[midway,above left,sloped] {$4.5\\text{ m}$};\n\\path (0.65,1.1)--(2.25,1.1) node[midway,above] {$2.2\\text{ m}$};\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 27,
                       "sourceRegion": "question 1e",
                       "description": "Open-top trough, open near end and closed far semicircular end; no diameter line across the open near end.",
                       "mathematics": "Length 4.5 m; diameter 2.2 m; far diameter centre marked.",
                       "answerVisibility": "No answers in question diagram."
+                    },
+                    "solidReview": {
+                      "status": "accepted",
+                      "sourceHash": "dff448ef929f40951d99df33623b23d863759cc03d3ffe883c6ce3e8409bb685",
+                      "reason": "Source explicitly retains an open top. Exact open-face ray model (curved wall, stated end caps, omitted top) preserves visible interior rear rim, hides only wall-occluded middle, and retains exposed exterior rim as solid. No supplied values/labels, dimensions or pedagogy changed.",
+                      "evidence": ".booklet-work/solid-quality-20261028/batch/surface-area-prisms-cylinders-v1/pages2/feedback-pages.json; actual student PDF pages 25,26,27,28,29 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                     }
                   }
                 ],
@@ -35628,13 +35655,19 @@
                     "widthMm": 48,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-f-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-180+atan(0.72*1.45/(0.8*1.0))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.9+0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{-0.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (-0.8,0.9) arc[start angle=-180,end angle=\\t,x radius=0.8,y radius=0.72];\n\\draw[line width=0.4pt,dashed] (T) arc[start angle=\\t,end angle=0,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (2.25,-0.1) arc[start angle=0,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0.9)--(0.65,-0.1) (0.8,0.9)--(2.25,-0.1) (T)--(U);\n\\draw[<->,line width=0.5pt] (-0.8,1.13)--(0.8,1.13) node[midway,above] {$19\\text{ cm}$};\n\\draw[<->,line width=0.5pt] (1.04,0.99)--(2.49,-0.01) node[midway,above,sloped] {$42\\text{ cm}$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-f-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-180+atan(0.72*1.45/(0.8*1.0))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.9+0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{-0.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (-0.8,0.9) arc[start angle=-180,end angle=\\t,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (T) arc[start angle=\\t,end angle=0,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (2.25,-0.1) arc[start angle=0,end angle=\\t,x radius=0.8,y radius=0.72];\n\\draw[line width=0.4pt,dashed] (U) arc[start angle=\\t,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0.9)--(0.65,-0.1) (0.8,0.9)--(2.25,-0.1) (T)--(U);\n\\draw[<->,line width=0.5pt] (-0.8,1.13)--(0.8,1.13) node[midway,above] {$19\\text{ cm}$};\n\\draw[<->,line width=0.5pt] (1.04,0.99)--(2.49,-0.01) node[midway,above,sloped] {$42\\text{ cm}$};\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 27,
                       "sourceRegion": "question 1f",
                       "description": "Half-cylinder shell with open top and both ends open; open rim slits retained.",
                       "mathematics": "Diameter 19 cm; length 42 cm.",
                       "answerVisibility": "No answers in question diagram."
+                    },
+                    "solidReview": {
+                      "status": "accepted",
+                      "sourceHash": "8075e27958d05b1d373aba751a42c2f086e13cd5cd06765f39894feb5b690f09",
+                      "reason": "Source states both end caps and top are absent. Looking from below/front: entire near free rim is visible; only rear arc facing into curved-wall occlusion is hidden. Preserve all end openings and native labels. Verified by open-wall-only ray casting.",
+                      "evidence": ".booklet-work/solid-quality-20261028/batch/surface-area-prisms-cylinders-v1/pages2/feedback-pages.json; actual student PDF pages 25,26,27,28,29 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                     }
                   }
                 ],
@@ -35692,13 +35725,19 @@
                     "widthMm": 48,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-h-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-atan(0.72*1.45/(0.8*1.1))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{1.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (-0.8,0)--(0.8,0) arc[start angle=0,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0)--(0.65,1.1)--(2.25,1.1)--(0.8,0);\n\\draw[line width=0.8pt] (2.25,1.1) arc[start angle=0,end angle=\\t,x radius=0.8,y radius=0.72];\n\\draw[line width=0.4pt,dashed] (U) arc[start angle=\\t,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (T)--(U);\n\\path (0.65,1.1)--(2.25,1.1) node[midway,above] {$1.6\\text{ m}$};\n\\path (T)--(U) node[midway,below right] {$2\\text{ m}$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 27 p27-q1-h-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\t}{-atan(0.72*1.45/(0.8*1.1))}\n\\coordinate (T) at ({0.8*cos(\\t)},{0.72*sin(\\t)});\n\\coordinate (U) at ({1.45+0.8*cos(\\t)},{1.1+0.72*sin(\\t)});\n\\draw[line width=0.8pt] (-0.8,0)--(0.8,0) arc[start angle=0,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (-0.8,0)--(0.65,1.1)--(2.25,1.1)--(0.8,0);\n\\draw[line width=0.8pt] (2.25,1.1) arc[start angle=0,end angle=\\t,x radius=0.8,y radius=0.72];\n\\pgfmathsetmacro{\\interiorLimit}{-180+2*atan(1.1*0.8/(1.45*0.72))}\n\\draw[line width=0.4pt,dashed] (U) arc[start angle=\\t,end angle=\\interiorLimit,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] ({1.45+0.8*cos(\\interiorLimit)},{1.1+0.72*sin(\\interiorLimit)}) arc[start angle=\\interiorLimit,end angle=-180,x radius=0.8,y radius=0.72];\n\\draw[line width=0.8pt] (T)--(U);\n\\path (0.65,1.1)--(2.25,1.1) node[midway,above] {$1.6\\text{ m}$};\n\\path (T)--(U) node[midway,below right] {$2\\text{ m}$};\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 27,
                       "sourceRegion": "question 1h",
                       "description": "Open-top half-cylinder with two closed semicircular ends and dashed hidden far semicircular edge.",
                       "mathematics": "Diameter 1.6 m; length 2 m.",
                       "answerVisibility": "No answers in question diagram."
+                    },
+                    "solidReview": {
+                      "status": "accepted",
+                      "sourceHash": "a75be28931dfb52de5813ca625c0dbade3a5461b5bb48941762f1805db85b383",
+                      "reason": "Source explicitly retains an open top. Exact open-face ray model (curved wall, stated end caps, omitted top) preserves visible interior rear rim, hides only wall-occluded middle, and retains exposed exterior rim as solid. No supplied values/labels, dimensions or pedagogy changed.",
+                      "evidence": ".booklet-work/solid-quality-20261028/batch/surface-area-prisms-cylinders-v1/pages2/feedback-pages.json; actual student PDF pages 25,26,27,28,29 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                     }
                   }
                 ],
@@ -35894,13 +35933,13 @@
                 "taskHash": "506f369aaad600093140a1a1e47238c46fef75f145bd810da8abf212c913cf40",
                 "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/786302251fc1dfe8b6e368b195ba40f2fbcea5a84bc7d80d80cebda5b5789b9e-1792562143319/last-message.txt"
               },
-              "revision": "57299a7bdcaf59753cb18c2caa1ad14727a0fa1e3161f901c1ed6161ea58c30a"
+              "revision": "f1948cc8e36b12466e3b9cb1c7406c4c12a6c93d8b1e31a22d14292aa3b7105a"
             }
           },
           "snapshotKind": "bank",
           "bankRef": {
             "id": "q-7f2e7f50-90a0-4511-a37d-fb71f903381e",
-            "revision": "57299a7bdcaf59753cb18c2caa1ad14727a0fa1e3161f901c1ed6161ea58c30a"
+            "revision": "f1948cc8e36b12466e3b9cb1c7406c4c12a6c93d8b1e31a22d14292aa3b7105a"
           },
           "sourceLayoutEvidence": {
             "pageBreakBefore": true
@@ -36537,147 +36576,6 @@
             }
           },
           "canonicalId": "q-2b85fc78-d706-4b03-bbf4-a2e927595895"
-        },
-        {
-          "id": "p28-q3",
-          "type": "question",
-          "sourceOrder": 3,
-          "title": "2018 HSC Standard 2 Band 4",
-          "sourcePageNumber": 28,
-          "sourceRefs": [
-            {
-              "pageNumber": 28
-            }
-          ],
-          "classification": {
-            "primarySkillId": "surface-area-partial-cylinder",
-            "secondarySkillIds": [],
-            "reasoningScore": 40,
-            "difficulty": "Development",
-            "difficultyReason": "Identify the exposed curved half-cylinder surface, convert diameter to radius and round the area to the nearest square metre.",
-            "assessment": {
-              "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-05T23:46:57.343Z",
-              "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "190c137d8523d3ecf7f6c5a72ca63a9c95661b95ff6891088e2456683ccc82f7",
-              "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-78cb756b26ac32ffde32/1/generation.json"
-            }
-          },
-          "content": {
-            "id": "p28-q3-answer",
-            "type": "question",
-            "label": "3",
-            "prompt": "A shade shelter is to be constructed in the shape of half a cylinder with open ends.\nThe diameter is $3.8\\text{ m}$ and the length is $10\\text{ m}$.\nThe curved roof is to be made of plastic sheeting.\nWhat area of plastic sheeting is required, to the nearest $\\text{m}^2$?",
-            "questionDiagrams": [
-              {
-                "id": "p28-q3-diagram",
-                "format": "tikz",
-                "widthMm": 74.4,
-                "role": "question",
-                "reviewStatus": "needs-review",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q3-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (FL) at (0,0);\n\\coordinate (FR) at (2.8,0);\n\\coordinate (BL) at (4,2);\n\\coordinate (BR) at (6.8,2);\n\\coordinate (T) at ({1.4-1.4*cos(63.43495)},{1.4*sin(63.43495)});\n\\coordinate (U) at ({5.4-1.4*cos(63.43495)},{2+1.4*sin(63.43495)});\n\\draw[black,line width=0.8pt] plot[domain=0:180,samples=61,variable=\\t] ({1.4-1.4*cos(\\t)},{1.4*sin(\\t)});\n\\draw[black,line width=0.8pt] (T)--(U);\n\\draw[black,line width=0.8pt] plot[domain=63.43495:180,samples=41,variable=\\t] ({5.4-1.4*cos(\\t)},{2+1.4*sin(\\t)});\n\\draw[black,line width=0.4pt,dashed] plot[domain=0:63.43495,samples=25,variable=\\t] ({5.4-1.4*cos(\\t)},{2+1.4*sin(\\t)});\n\\draw[black,line width=0.8pt] (FR)--(BR);\n\\draw[black,line width=0.4pt,dashed] (FL)--(BL);\n\\draw[black,line width=0.4pt] (FL)--(0,-0.5) (FR)--(2.8,-0.5);\n\\draw[black,line width=0.4pt,<->] (0,-0.38)--node[below,fill=white,inner sep=1pt] {$3.8\\text{ m}$} (2.8,-0.38);\n\\draw[black,line width=0.4pt] (FR)--(3.12,-0.46) (BR)--(7.12,1.54);\n\\draw[black,line width=0.4pt,dashed,<->] (3.12,-0.46)--node[midway,below right,fill=white,inner sep=1pt] {$10\\text{ m}$} (7.12,1.54);\n\\node[align=center,anchor=north] at (6.35,-0.35) {NOT TO\\\\SCALE};\n\\end{tikzpicture}",
-                "spec": {
-                  "sourcePage": 28,
-                  "sourceRegion": "Question 3 shelter diagram",
-                  "description": "Open-ended half-cylinder shelter, with an unfilled front semicircular opening, hidden rear curve and longitudinal edge dashed, external diameter and length dimensions, and NOT TO SCALE.",
-                  "mathematics": "The diameter is 3.8 m, the longitudinal length is 10 m, and only the curved semicylindrical roof contributes to the required area.",
-                  "answerVisibility": "All diagram givens remain visible; no calculated radius or area is included."
-                }
-              }
-            ],
-            "answerSpaceMm": 32,
-            "answer": {
-              "short": "$60\\text{ m}^2$",
-              "worked": "$\\begin{align*}r&=\\frac{3.8}{2}=1.9\\text{ m}\\\\A&=\\frac12(2\\pi rh)\\\\A&=\\frac12\\bigl(2\\pi(1.9)(10)\\bigr)\\\\A&=19\\pi\\text{ m}^2\\\\A&\\approx60\\text{ m}^2\\end{align*}$\nOnly the curved roof is required. The area is rounded to the nearest square metre.",
-              "provenance": {
-                "short": "source",
-                "worked": "authored"
-              }
-            }
-          },
-          "sourceReview": {
-            "teachingContext": [
-              {
-                "pageNumber": 25,
-                "method": "Adjust the closed-cylinder formula according to the circular bases and curved surface remaining."
-              },
-              {
-                "pageNumber": 26,
-                "method": "Calculate a half-cylinder's curved surface as one half of 2πrh."
-              }
-            ],
-            "responses": [
-              {
-                "targetId": "p28-q3-answer",
-                "kind": "working"
-              }
-            ],
-            "workingSpaceEstimate": {
-              "method": "solution-steps",
-              "estimates": [
-                {
-                  "targetId": "p28-q3-answer",
-                  "widthMm": 173,
-                  "mathematicalRows": 5,
-                  "answerSpaceMm": 32
-                }
-              ]
-            },
-            "intentionalDepartures": [
-              "Omit front-opening stippling so it cannot imply a closed semicircular end. Use black outlines and labels with no decorative shading.",
-              "Correct the teacher substitution to retain the one-half factor."
-            ],
-            "sourcePagination": {
-              "page": 28,
-              "breakBefore": false
-            },
-            "origin": {
-              "projectId": "surface-area-prisms-cylinders-v1",
-              "blockId": "p28-q3",
-              "runId": "surface-area-import-20261006",
-              "artifact": {
-                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-028.author.json",
-                "hash": "61d7fec61a9ff64e9e3cb1684706fdb7c9884f6d8940ee5707c45f1abe0930dc"
-              }
-            }
-          },
-          "flow": {
-            "sourcePageBreakBefore": false,
-            "localDifficulty": {
-              "primarySkillId": "surface-area-partial-cylinder",
-              "secondarySkillIds": [],
-              "reasoningScore": 40,
-              "difficulty": "Development",
-              "difficultyReason": "Identify the exposed curved half-cylinder surface, convert diameter to radius and round the area to the nearest square metre."
-            },
-            "bankDifficulty": {
-              "difficulty": "Development",
-              "reasoningScore": 40,
-              "difficultyReason": "Identify the exposed curved half-cylinder surface, convert diameter to radius and round the area to the nearest square metre.",
-              "assessment": {
-                "model": "gpt-6.1-sol",
-                "assessedAt": "2026-10-05T23:46:57.343Z",
-                "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "190c137d8523d3ecf7f6c5a72ca63a9c95661b95ff6891088e2456683ccc82f7",
-                "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-78cb756b26ac32ffde32/1/generation.json"
-              },
-              "revision": "4e9e87fde2dac7da3e5d3c367edbd3d49e6819a977fa185a79a447d67e9928aa"
-            }
-          },
-          "snapshotKind": "bank",
-          "bankRef": {
-            "id": "q-64d654fc-54d9-4088-94cd-7e80a7aa2320",
-            "revision": "4e9e87fde2dac7da3e5d3c367edbd3d49e6819a977fa185a79a447d67e9928aa"
-          },
-          "presentation": {
-            "ownerId": "p28-q3",
-            "layoutOverrides": {
-              "blockLayouts": {},
-              "answerSpaces": {},
-              "diagramColourModes": {}
-            }
-          },
-          "canonicalId": "q-64d654fc-54d9-4088-94cd-7e80a7aa2320"
         },
         {
           "id": "p28-q4",
@@ -41681,153 +41579,6 @@
           "canonicalId": "q-a6dcc186-fd0c-4978-a59f-8c1774f72990"
         },
         {
-          "id": "p34-q7",
-          "type": "question",
-          "sourceOrder": 7,
-          "title": "2020 HSC Standard 2 Band 4",
-          "sourcePageNumber": 34,
-          "sourceRefs": [
-            {
-              "pageNumber": 34
-            }
-          ],
-          "classification": {
-            "primarySkillId": "surface-area-composite-solids",
-            "secondarySkillIds": [],
-            "reasoningScore": 45,
-            "difficulty": "Development",
-            "difficultyReason": "Calculate the roof height from two given heights, then combine the areas of all exposed faces.",
-            "assessment": {
-              "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-06T10:25:01.018Z",
-              "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "e8b0f481647f928a25524516c44d6b860e57e8bdc00036fd37d8f8207b74a68b",
-              "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-88316318df14af53e68b/2/generation.json"
-            }
-          },
-          "content": {
-            "id": "p34-q7-response",
-            "type": "question",
-            "label": "7",
-            "prompt": "Calculate the surface area of the composite solid.",
-            "questionDiagrams": [
-              {
-                "id": "p34-q7-diagram",
-                "format": "tikz",
-                "widthMm": 64.3,
-                "role": "question",
-                "reviewStatus": "needs-review",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt,dashed},dimension/.style={draw=black,line width=0.4pt,dashed,<->,>=stealth}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.6,0);\n\\coordinate (C) at (3.6,3.6);\n\\coordinate (D) at (1.8,4.95);\n\\coordinate (E) at (0,3.6);\n\\coordinate (Bb) at (5.7,1.2);\n\\coordinate (Cb) at (5.7,4.8);\n\\coordinate (Db) at (3.9,6.15);\n\\coordinate (M) at (1.8,3.6);\n\\coordinate (N) at (1.8,0);\n% Explicit visible faces: front A-B-C-D-E; wall B-Bb-Cb-C; roof C-Cb-Db-D.\n% The prism extends behind the front face in direction (2.1,1.2).\n\\draw[geometry] (A)--(B)--(C)--(D)--(E)--cycle;\n\\draw[geometry] (B)--(Bb)--(Cb)--(C);\n\\draw[geometry] (Cb)--(Db)--(D);\n\\draw[geometry] (E)--(C);\n% Source construction altitude and right-angle marks are separate from solid edges.\n\\draw[guide,->,>=stealth] (D)--(N);\n\\draw[black,line width=0.4pt] (M)--++(0.28,0)--++(0,0.28)--++(-0.28,0);\n\\draw[black,line width=0.4pt] (N)--++(0.28,0)--++(0,0.28)--++(-0.28,0);\n\\node[fill=white,inner sep=1pt] at (1.8,1.8) {$11\\,\\mathrm{cm}$};\n% Wall-height dimension.\n\\draw[black,line width=0.4pt] (-0.55,0)--(-0.3,0);\n\\draw[black,line width=0.4pt] (-0.55,3.6)--(-0.3,3.6);\n\\draw[dimension] (-0.43,0)--node[midway,left,fill=white,inner sep=1pt] {$8\\,\\mathrm{cm}$} (-0.43,3.6);\n% Front-width dimension.\n\\draw[black,line width=0.4pt] (0,-0.15)--(0,-0.55);\n\\draw[black,line width=0.4pt] (3.6,-0.15)--(3.6,-0.55);\n\\draw[dimension] (0,-0.4)--node[midway,below,fill=white,inner sep=1pt] {$8\\,\\mathrm{cm}$} (3.6,-0.4);\n% Prism-length dimension, parallel to B-Bb.\n\\draw[black,line width=0.4pt] (3.6,-0.15)--(3.6,-0.55);\n\\draw[black,line width=0.4pt] (5.7,1.05)--(5.7,0.65);\n\\draw[dimension] (3.6,-0.4)--node[midway,below right,fill=white,inner sep=1pt] {$8\\,\\mathrm{cm}$} (5.7,0.8);\n% Both roof-slope dimensions, parallel to the corresponding front edges.\n\\draw[black,line width=0.4pt] (-0.4,3.7)--(-0.16,3.88);\n\\draw[black,line width=0.4pt] (1.4,5.05)--(1.64,5.23);\n\\draw[dimension] (-0.28,3.79)--node[midway,above left,fill=white,inner sep=1pt] {$5\\,\\mathrm{cm}$} (1.52,5.14);\n\\draw[black,line width=0.4pt] (1.96,5.23)--(2.2,5.05);\n\\draw[black,line width=0.4pt] (3.76,3.88)--(4,3.7);\n\\draw[dimension] (2.08,5.14)--node[midway,above right,fill=white,inner sep=1pt] {$5\\,\\mathrm{cm}$} (3.88,3.79);\n\\end{tikzpicture}",
-                "spec": {
-                  "sourcePage": 34,
-                  "sourceRegion": "Question 7, upper section",
-                  "description": "Unshaded house-shaped pentagonal prism. The front cross-section is on the left and depth extends upwards and rightwards. Retains both roof-slope dimensions, three separate 8 cm dimensions, the 11 cm central height, the roof baseline and both right-angle markers.",
-                  "mathematics": "Front cross-section: width 8 cm, rectangular height 8 cm, total height 11 cm, two roof slopes of 5 cm. Prism length 8 cm. Roof triangle height is 3 cm.",
-                  "answerVisibility": "All displayed dimensions and construction marks are permanent student givens; no calculated measurements or answers appear."
-                }
-              }
-            ],
-            "answerSpaceMm": 56,
-            "answer": {
-              "short": "$424\\text{ cm}^2$",
-              "worked": "Roof triangle height: $11-8=3\\text{ cm}$.\n\n$$\\begin{align*}\n\\text{Base triangles} &= 2\\left(\\frac12\\times8\\times3\\right)=24\\text{ cm}^2\\\\\n\\text{Base rectangles} &= 2(8\\times8)=128\\text{ cm}^2\\\\\n\\text{Side rectangles} &= 2(8\\times8)=128\\text{ cm}^2\\\\\n\\text{Top rectangles} &= 2(5\\times8)=80\\text{ cm}^2\\\\\n\\text{Bottom rectangle} &= 8\\times8=64\\text{ cm}^2\\\\\n\\text{Total surface area} &= 24+128+128+80+64\\\\\n&=424\\text{ cm}^2\n\\end{align*}$$",
-              "provenance": {
-                "short": "source",
-                "worked": "authored"
-              }
-            }
-          },
-          "sourceReview": {
-            "responses": [
-              {
-                "targetId": "p34-q7-response",
-                "kind": "working"
-              }
-            ],
-            "teachingContext": [
-              {
-                "pageNumber": 30,
-                "method": "Calculate base triangles, base rectangles, side rectangles, top rectangles and the bottom rectangle separately, then add their exposed areas."
-              }
-            ],
-            "workingSpaceEstimate": {
-              "method": "solution-steps",
-              "estimates": [
-                {
-                  "targetId": "p34-q7-response",
-                  "widthMm": 166,
-                  "mathematicalRows": 8,
-                  "answerSpaceMm": 56
-                }
-              ]
-            },
-            "intentionalDepartures": [
-              "Ordinary source diagram outlines, construction marks and labels use house black; the source diagram is unshaded."
-            ],
-            "sourcePagination": {
-              "page": 34,
-              "breakBefore": true
-            },
-            "origin": {
-              "projectId": "surface-area-prisms-cylinders-v1",
-              "blockId": "p34-q7",
-              "runId": "surface-area-import-20261006",
-              "artifact": {
-                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-034.author.json",
-                "hash": "c81bcf077bf733134eda4d1dd83f79445b01cbf3611e63bf05aaab25d6de5514"
-              }
-            }
-          },
-          "flow": {
-            "sourcePageBreakBefore": false,
-            "localDifficulty": {
-              "primarySkillId": "surface-area-composite-solids",
-              "secondarySkillIds": [],
-              "reasoningScore": 45,
-              "difficulty": "Development",
-              "difficultyReason": "Calculate the roof height from two given heights, then combine the areas of all exposed faces."
-            },
-            "bankDifficulty": {
-              "difficulty": "Development",
-              "reasoningScore": 45,
-              "difficultyReason": "Calculate the roof height from two given heights, then combine the areas of all exposed faces.",
-              "assessment": {
-                "model": "gpt-6.1-sol",
-                "assessedAt": "2026-10-06T10:25:01.018Z",
-                "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "e8b0f481647f928a25524516c44d6b860e57e8bdc00036fd37d8f8207b74a68b",
-                "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-88316318df14af53e68b/2/generation.json"
-              },
-              "revision": "f59793636bb47c0a485e01fe93bc36da3db7b1cd89e81ede3ffca0deca01458d"
-            },
-            "autoOrder": {
-              "rank": 7,
-              "from": 6,
-              "band": "Development",
-              "reason": "order-kept",
-              "at": "2026-10-23T11:29:55.737Z",
-              "ratingHash": "8ce38d62"
-            }
-          },
-          "snapshotKind": "bank",
-          "bankRef": {
-            "id": "q-d12ae11b-a9e0-43d9-93f8-9eec472fd6de",
-            "revision": "f59793636bb47c0a485e01fe93bc36da3db7b1cd89e81ede3ffca0deca01458d"
-          },
-          "sourceLayoutEvidence": {
-            "pageBreakBefore": true
-          },
-          "presentation": {
-            "ownerId": "p34-q7",
-            "layoutOverrides": {
-              "blockLayouts": {},
-              "answerSpaces": {},
-              "diagramColourModes": {}
-            }
-          },
-          "canonicalId": "q-d12ae11b-a9e0-43d9-93f8-9eec472fd6de"
-        },
-        {
           "id": "p34-q9",
           "type": "question",
           "sourceOrder": 9,
@@ -44353,6 +44104,427 @@
             "p38-continuation-block",
             "p38-q3-block"
           ]
+        }
+      ]
+    },
+    {
+      "id": "surface-area-prisms-cylinders-v1-exam-questions",
+      "topicId": "surface-area-prisms-cylinders-v1-exam-questions",
+      "title": "Exam questions",
+      "role": "exam",
+      "phase": "practice",
+      "workingSpace": "none",
+      "pageBreakBefore": true,
+      "blocks": [
+        {
+          "id": "p28-q3",
+          "type": "question",
+          "sourceOrder": 3,
+          "title": "2018 HSC Standard 2 Band 4",
+          "sourcePageNumber": 28,
+          "sourceRefs": [
+            {
+              "pageNumber": 28
+            }
+          ],
+          "classification": {
+            "primarySkillId": "surface-area-partial-cylinder",
+            "secondarySkillIds": [],
+            "reasoningScore": 40,
+            "difficulty": "Development",
+            "difficultyReason": "Identify the exposed curved half-cylinder surface, convert diameter to radius and round the area to the nearest square metre.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "assessedAt": "2026-10-05T23:46:57.343Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "190c137d8523d3ecf7f6c5a72ca63a9c95661b95ff6891088e2456683ccc82f7",
+              "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-78cb756b26ac32ffde32/1/generation.json"
+            }
+          },
+          "content": {
+            "id": "p28-q3-answer",
+            "type": "question",
+            "label": "3",
+            "prompt": "A shade shelter is to be constructed in the shape of half a cylinder with open ends.\nThe diameter is $3.8\\text{ m}$ and the length is $10\\text{ m}$.\nThe curved roof is to be made of plastic sheeting.\nWhat area of plastic sheeting is required, to the nearest $\\text{m}^2$?",
+            "questionDiagrams": [
+              {
+                "id": "p28-q3-diagram",
+                "format": "tikz",
+                "widthMm": 74.4,
+                "role": "question",
+                "reviewStatus": "needs-review",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q3-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (FL) at (0,0);\n\\coordinate (FR) at (2.8,0);\n\\coordinate (BL) at (4,2);\n\\coordinate (BR) at (6.8,2);\n\\coordinate (T) at ({1.4-1.4*cos(63.43495)},{1.4*sin(63.43495)});\n\\coordinate (U) at ({5.4-1.4*cos(63.43495)},{2+1.4*sin(63.43495)});\n\\draw[black,line width=0.8pt] plot[domain=0:180,samples=61,variable=\\t] ({1.4-1.4*cos(\\t)},{1.4*sin(\\t)});\n\\draw[black,line width=0.8pt] (T)--(U);\n\\draw[black,line width=0.8pt] plot[domain=63.43495:180,samples=41,variable=\\t] ({5.4-1.4*cos(\\t)},{2+1.4*sin(\\t)});\n\\draw[black,line width=0.4pt,dashed] plot[domain=0:63.43495,samples=25,variable=\\t] ({5.4-1.4*cos(\\t)},{2+1.4*sin(\\t)});\n\\draw[black,line width=0.8pt] (FR)--(BR);\n\\draw[black,line width=0.4pt,dashed] (FL)--(BL);\n\\draw[black,line width=0.4pt] (FL)--(0,-0.5) (FR)--(2.8,-0.5);\n\\draw[black,line width=0.4pt,<->] (0,-0.38)--node[below,fill=white,inner sep=1pt] {$3.8\\text{ m}$} (2.8,-0.38);\n\\draw[black,line width=0.4pt] (FR)--(3.12,-0.46) (BR)--(7.12,1.54);\n\\draw[black,line width=0.4pt,dashed,<->] (3.12,-0.46)--node[midway,below right,fill=white,inner sep=1pt] {$10\\text{ m}$} (7.12,1.54);\n\\node[align=center,anchor=north] at (6.35,-0.35) {NOT TO\\\\SCALE};\n\\end{tikzpicture}",
+                "spec": {
+                  "sourcePage": 28,
+                  "sourceRegion": "Question 3 shelter diagram",
+                  "description": "Open-ended half-cylinder shelter, with an unfilled front semicircular opening, hidden rear curve and longitudinal edge dashed, external diameter and length dimensions, and NOT TO SCALE.",
+                  "mathematics": "The diameter is 3.8 m, the longitudinal length is 10 m, and only the curved semicylindrical roof contributes to the required area.",
+                  "answerVisibility": "All diagram givens remain visible; no calculated radius or area is included."
+                }
+              }
+            ],
+            "answerSpaceMm": 32,
+            "answer": {
+              "short": "$60\\text{ m}^2$",
+              "worked": "$\\begin{align*}r&=\\frac{3.8}{2}=1.9\\text{ m}\\\\A&=\\frac12(2\\pi rh)\\\\A&=\\frac12\\bigl(2\\pi(1.9)(10)\\bigr)\\\\A&=19\\pi\\text{ m}^2\\\\A&\\approx60\\text{ m}^2\\end{align*}$\nOnly the curved roof is required. The area is rounded to the nearest square metre.",
+              "provenance": {
+                "short": "source",
+                "worked": "authored"
+              }
+            }
+          },
+          "sourceReview": {
+            "teachingContext": [
+              {
+                "pageNumber": 25,
+                "method": "Adjust the closed-cylinder formula according to the circular bases and curved surface remaining."
+              },
+              {
+                "pageNumber": 26,
+                "method": "Calculate a half-cylinder's curved surface as one half of 2πrh."
+              }
+            ],
+            "responses": [
+              {
+                "targetId": "p28-q3-answer",
+                "kind": "working"
+              }
+            ],
+            "workingSpaceEstimate": {
+              "method": "solution-steps",
+              "estimates": [
+                {
+                  "targetId": "p28-q3-answer",
+                  "widthMm": 173,
+                  "mathematicalRows": 5,
+                  "answerSpaceMm": 32
+                }
+              ]
+            },
+            "intentionalDepartures": [
+              "Omit front-opening stippling so it cannot imply a closed semicircular end. Use black outlines and labels with no decorative shading.",
+              "Correct the teacher substitution to retain the one-half factor."
+            ],
+            "sourcePagination": {
+              "page": 28,
+              "breakBefore": false
+            },
+            "origin": {
+              "projectId": "surface-area-prisms-cylinders-v1",
+              "blockId": "p28-q3",
+              "runId": "surface-area-import-20261006",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-028.author.json",
+                "hash": "61d7fec61a9ff64e9e3cb1684706fdb7c9884f6d8940ee5707c45f1abe0930dc"
+              }
+            }
+          },
+          "flow": {
+            "sourcePageBreakBefore": false,
+            "localDifficulty": {
+              "primarySkillId": "surface-area-partial-cylinder",
+              "secondarySkillIds": [],
+              "reasoningScore": 40,
+              "difficulty": "Development",
+              "difficultyReason": "Identify the exposed curved half-cylinder surface, convert diameter to radius and round the area to the nearest square metre."
+            },
+            "bankDifficulty": {
+              "difficulty": "Development",
+              "reasoningScore": 40,
+              "difficultyReason": "Identify the exposed curved half-cylinder surface, convert diameter to radius and round the area to the nearest square metre.",
+              "assessment": {
+                "model": "gpt-6.1-sol",
+                "assessedAt": "2026-10-05T23:46:57.343Z",
+                "rubricVersion": "mathsmap-cognitive-demand-v1",
+                "taskHash": "190c137d8523d3ecf7f6c5a72ca63a9c95661b95ff6891088e2456683ccc82f7",
+                "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-78cb756b26ac32ffde32/1/generation.json"
+              },
+              "revision": "4e9e87fde2dac7da3e5d3c367edbd3d49e6819a977fa185a79a447d67e9928aa"
+            }
+          },
+          "snapshotKind": "bank",
+          "bankRef": {
+            "id": "q-64d654fc-54d9-4088-94cd-7e80a7aa2320",
+            "revision": "4e9e87fde2dac7da3e5d3c367edbd3d49e6819a977fa185a79a447d67e9928aa"
+          },
+          "presentation": {
+            "ownerId": "p28-q3",
+            "layoutOverrides": {
+              "blockLayouts": {},
+              "answerSpaces": {},
+              "diagramColourModes": {}
+            }
+          },
+          "canonicalId": "q-64d654fc-54d9-4088-94cd-7e80a7aa2320",
+          "source": {
+            "provider": "HSC",
+            "paper": "Standard 2",
+            "year": "2018",
+            "label": "HSC Standard 2 2018",
+            "origin": "booklet"
+          }
+        },
+        {
+          "id": "p34-q7",
+          "type": "question",
+          "sourceOrder": 7,
+          "title": "2020 HSC Standard 2 Band 4",
+          "sourcePageNumber": 34,
+          "sourceRefs": [
+            {
+              "pageNumber": 34
+            }
+          ],
+          "classification": {
+            "primarySkillId": "surface-area-composite-solids",
+            "secondarySkillIds": [],
+            "reasoningScore": 45,
+            "difficulty": "Development",
+            "difficultyReason": "Calculate the roof height from two given heights, then combine the areas of all exposed faces.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "assessedAt": "2026-10-06T10:25:01.018Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "e8b0f481647f928a25524516c44d6b860e57e8bdc00036fd37d8f8207b74a68b",
+              "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-88316318df14af53e68b/2/generation.json"
+            }
+          },
+          "content": {
+            "id": "p34-q7-response",
+            "type": "question",
+            "label": "7",
+            "prompt": "Calculate the surface area of the composite solid.",
+            "questionDiagrams": [
+              {
+                "id": "p34-q7-diagram",
+                "format": "tikz",
+                "widthMm": 64.3,
+                "role": "question",
+                "reviewStatus": "needs-review",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 34 p34-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt,dashed},dimension/.style={draw=black,line width=0.4pt,dashed,<->,>=stealth}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.6,0);\n\\coordinate (C) at (3.6,3.6);\n\\coordinate (D) at (1.8,4.95);\n\\coordinate (E) at (0,3.6);\n\\coordinate (Bb) at (5.7,1.2);\n\\coordinate (Cb) at (5.7,4.8);\n\\coordinate (Db) at (3.9,6.15);\n\\coordinate (M) at (1.8,3.6);\n\\coordinate (N) at (1.8,0);\n% Explicit visible faces: front A-B-C-D-E; wall B-Bb-Cb-C; roof C-Cb-Db-D.\n% The prism extends behind the front face in direction (2.1,1.2).\n\\draw[geometry] (A)--(B)--(C)--(D)--(E)--cycle;\n\\draw[geometry] (B)--(Bb)--(Cb)--(C);\n\\draw[geometry] (Cb)--(Db)--(D);\n\\draw[geometry] (E)--(C);\n% Source construction altitude and right-angle marks are separate from solid edges.\n\\draw[guide,->,>=stealth] (D)--(N);\n\\draw[black,line width=0.4pt] (M)--++(0.28,0)--++(0,0.28)--++(-0.28,0);\n\\draw[black,line width=0.4pt] (N)--++(0.28,0)--++(0,0.28)--++(-0.28,0);\n\\node[fill=white,inner sep=1pt] at (1.8,1.8) {$11\\,\\mathrm{cm}$};\n% Wall-height dimension.\n\\draw[black,line width=0.4pt] (-0.55,0)--(-0.3,0);\n\\draw[black,line width=0.4pt] (-0.55,3.6)--(-0.3,3.6);\n\\draw[dimension] (-0.43,0)--node[midway,left,fill=white,inner sep=1pt] {$8\\,\\mathrm{cm}$} (-0.43,3.6);\n% Front-width dimension.\n\\draw[black,line width=0.4pt] (0,-0.15)--(0,-0.55);\n\\draw[black,line width=0.4pt] (3.6,-0.15)--(3.6,-0.55);\n\\draw[dimension] (0,-0.4)--node[midway,below,fill=white,inner sep=1pt] {$8\\,\\mathrm{cm}$} (3.6,-0.4);\n% Prism-length dimension, parallel to B-Bb.\n\\draw[black,line width=0.4pt] (3.6,-0.15)--(3.6,-0.55);\n\\draw[black,line width=0.4pt] (5.7,1.05)--(5.7,0.65);\n\\draw[dimension] (3.6,-0.4)--node[midway,below right,fill=white,inner sep=1pt] {$8\\,\\mathrm{cm}$} (5.7,0.8);\n% Both roof-slope dimensions, parallel to the corresponding front edges.\n\\draw[black,line width=0.4pt] (-0.4,3.7)--(-0.16,3.88);\n\\draw[black,line width=0.4pt] (1.4,5.05)--(1.64,5.23);\n\\draw[dimension] (-0.28,3.79)--node[midway,above left,fill=white,inner sep=1pt] {$5\\,\\mathrm{cm}$} (1.52,5.14);\n\\draw[black,line width=0.4pt] (1.96,5.23)--(2.2,5.05);\n\\draw[black,line width=0.4pt] (3.76,3.88)--(4,3.7);\n\\draw[dimension] (2.08,5.14)--node[midway,above right,fill=white,inner sep=1pt] {$5\\,\\mathrm{cm}$} (3.88,3.79);\n\\end{tikzpicture}",
+                "spec": {
+                  "sourcePage": 34,
+                  "sourceRegion": "Question 7, upper section",
+                  "description": "Unshaded house-shaped pentagonal prism. The front cross-section is on the left and depth extends upwards and rightwards. Retains both roof-slope dimensions, three separate 8 cm dimensions, the 11 cm central height, the roof baseline and both right-angle markers.",
+                  "mathematics": "Front cross-section: width 8 cm, rectangular height 8 cm, total height 11 cm, two roof slopes of 5 cm. Prism length 8 cm. Roof triangle height is 3 cm.",
+                  "answerVisibility": "All displayed dimensions and construction marks are permanent student givens; no calculated measurements or answers appear."
+                }
+              }
+            ],
+            "answerSpaceMm": 56,
+            "answer": {
+              "short": "$424\\text{ cm}^2$",
+              "worked": "Roof triangle height: $11-8=3\\text{ cm}$.\n\n$$\\begin{align*}\n\\text{Base triangles} &= 2\\left(\\frac12\\times8\\times3\\right)=24\\text{ cm}^2\\\\\n\\text{Base rectangles} &= 2(8\\times8)=128\\text{ cm}^2\\\\\n\\text{Side rectangles} &= 2(8\\times8)=128\\text{ cm}^2\\\\\n\\text{Top rectangles} &= 2(5\\times8)=80\\text{ cm}^2\\\\\n\\text{Bottom rectangle} &= 8\\times8=64\\text{ cm}^2\\\\\n\\text{Total surface area} &= 24+128+128+80+64\\\\\n&=424\\text{ cm}^2\n\\end{align*}$$",
+              "provenance": {
+                "short": "source",
+                "worked": "authored"
+              }
+            }
+          },
+          "sourceReview": {
+            "responses": [
+              {
+                "targetId": "p34-q7-response",
+                "kind": "working"
+              }
+            ],
+            "teachingContext": [
+              {
+                "pageNumber": 30,
+                "method": "Calculate base triangles, base rectangles, side rectangles, top rectangles and the bottom rectangle separately, then add their exposed areas."
+              }
+            ],
+            "workingSpaceEstimate": {
+              "method": "solution-steps",
+              "estimates": [
+                {
+                  "targetId": "p34-q7-response",
+                  "widthMm": 166,
+                  "mathematicalRows": 8,
+                  "answerSpaceMm": 56
+                }
+              ]
+            },
+            "intentionalDepartures": [
+              "Ordinary source diagram outlines, construction marks and labels use house black; the source diagram is unshaded."
+            ],
+            "sourcePagination": {
+              "page": 34,
+              "breakBefore": true
+            },
+            "origin": {
+              "projectId": "surface-area-prisms-cylinders-v1",
+              "blockId": "p34-q7",
+              "runId": "surface-area-import-20261006",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-034.author.json",
+                "hash": "c81bcf077bf733134eda4d1dd83f79445b01cbf3611e63bf05aaab25d6de5514"
+              }
+            }
+          },
+          "flow": {
+            "sourcePageBreakBefore": false,
+            "localDifficulty": {
+              "primarySkillId": "surface-area-composite-solids",
+              "secondarySkillIds": [],
+              "reasoningScore": 45,
+              "difficulty": "Development",
+              "difficultyReason": "Calculate the roof height from two given heights, then combine the areas of all exposed faces."
+            },
+            "bankDifficulty": {
+              "difficulty": "Development",
+              "reasoningScore": 45,
+              "difficultyReason": "Calculate the roof height from two given heights, then combine the areas of all exposed faces.",
+              "assessment": {
+                "model": "gpt-6.1-sol",
+                "assessedAt": "2026-10-06T10:25:01.018Z",
+                "rubricVersion": "mathsmap-cognitive-demand-v1",
+                "taskHash": "e8b0f481647f928a25524516c44d6b860e57e8bdc00036fd37d8f8207b74a68b",
+                "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-88316318df14af53e68b/2/generation.json"
+              },
+              "revision": "f59793636bb47c0a485e01fe93bc36da3db7b1cd89e81ede3ffca0deca01458d"
+            },
+            "autoOrder": {
+              "rank": 7,
+              "from": 6,
+              "band": "Development",
+              "reason": "order-kept",
+              "at": "2026-10-23T11:29:55.737Z",
+              "ratingHash": "8ce38d62"
+            }
+          },
+          "snapshotKind": "bank",
+          "bankRef": {
+            "id": "q-d12ae11b-a9e0-43d9-93f8-9eec472fd6de",
+            "revision": "f59793636bb47c0a485e01fe93bc36da3db7b1cd89e81ede3ffca0deca01458d"
+          },
+          "sourceLayoutEvidence": {
+            "pageBreakBefore": true
+          },
+          "presentation": {
+            "ownerId": "p34-q7",
+            "layoutOverrides": {
+              "blockLayouts": {},
+              "answerSpaces": {},
+              "diagramColourModes": {}
+            }
+          },
+          "canonicalId": "q-d12ae11b-a9e0-43d9-93f8-9eec472fd6de",
+          "source": {
+            "provider": "HSC",
+            "paper": "Standard 2",
+            "year": "2020",
+            "label": "HSC Standard 2 2020",
+            "origin": "booklet"
+          }
+        },
+        {
+          "id": "mathsbase-07ad1363-d0e2-42f9-b411-c640dd2c9c1c",
+          "type": "question",
+          "snapshotKind": "local",
+          "title": "",
+          "source": {
+            "provider": "HSC",
+            "paper": "Standard",
+            "year": "2008",
+            "label": "HSC Standard 2008",
+            "origin": "MathsBase"
+          },
+          "classification": {
+            "primarySkillId": "surface-area-prism",
+            "archetype": "surface-area-open-rectangular-box",
+            "reasoningScore": 27,
+            "difficulty": "Development",
+            "difficultyReason": "Students interpret the open top, select five rectangular faces rather than six, pair equal walls and sum their areas. The face-counting method and open-box interpretation are already practised.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "assessedAt": "2026-10-28T20:38:16.894Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "f634f586c4c00aca5723eaf297e45f4e1b4cbc7f10745522e1b2160f9ce8cf15",
+              "evidence": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/four-final-review/review.json"
+            }
+          },
+          "content": {
+            "id": "mathsbase-07ad1363-d0e2-42f9-b411-c640dd2c9c1c-root",
+            "type": "question",
+            "label": null,
+            "prompt": "What is the surface area of the open box?\nA. $10 \\text{ cm}^2$\nB. $30 \\text{ cm}^2$\nC. $52 \\text{ cm}^2$\nD. $62 \\text{ cm}^2$\n[1]",
+            "questionDiagrams": [
+              {
+                "id": "mathsbase-07ad1363-d0e2-42f9-b411-c640dd2c9c1c-native-diagram",
+                "format": "tikz",
+                "role": "question",
+                "widthMm": 90,
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"HSC.STN.2008 Q2 open rectangular box, five explicit faces, no top\"}\n% mathsmap-solid {\"version\":1,\"kind\":\"polyhedron\",\"model\":{\"version\":1,\"vertices\":{\"A\":[0,0,0],\"B\":[5,0,0],\"C\":[5,0,2],\"D\":[0,0,2],\"E\":[0,3,0],\"F\":[5,3,0],\"G\":[5,3,2],\"H\":[0,3,2]},\"faces\":[[\"A\",\"B\",\"C\",\"D\"],[\"A\",\"E\",\"F\",\"B\"],[\"B\",\"F\",\"G\",\"C\"],[\"C\",\"G\",\"H\",\"D\"],[\"D\",\"H\",\"E\",\"A\"]],\"view\":{\"right\":[1,0,0.65],\"up\":[0,1,0.38],\"toward\":[0.5192693827021364,0.30357286988740284,-0.7988759733879022]}}}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},scale=1]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (6.3,0.76);\n\\coordinate (D) at (1.3,0.76);\n\\coordinate (E) at (0,3);\n\\coordinate (F) at (5,3);\n\\coordinate (G) at (6.3,3.76);\n\\coordinate (H) at (1.3,3.76);\n\\draw (A)--(B);\n\\draw (B)--(C);\n\\draw[dashed] (C)--(D);\n\\draw[dashed] (D)--(A);\n\\draw (A)--(E);\n\\draw (E)--(F);\n\\draw (F)--(B);\n\\draw (F)--(G);\n\\draw (G)--(C);\n\\draw (G)--(H);\n\\draw (H)--(1.3,3);\n\\draw[dashed] (1.3,3)--(D);\n\\draw (H)--(E);\n\\path (A)--(B) node[pos=0.5,below,inner sep=1pt] {$5\\,\\mathrm{cm}$};\n\\path (B)--(C) node[pos=0.5,below right,inner sep=1pt] {$2\\,\\mathrm{cm}$};\n\\path (B)--(F) node[pos=0.5,right,inner sep=1pt] {$3\\,\\mathrm{cm}$};\n\\node[align=center] at (7.8,2.8) {Not to scale};\n\\end{tikzpicture}",
+                "spec": {
+                  "meaning": "Open top rectangular box with length5cm,width2cm,height3cm. All five physical faces modelled; topface absent. Hidden edges derived by shared ray occlusion.",
+                  "sourceImageSha256": "ac62ce55e911fe2be18739bfdb805366b889d157d1a5f7e783c2c2ffb85ee2db"
+                }
+              }
+            ],
+            "answerSpaceMm": 0,
+            "answer": {
+              "short": "Correct answer: C.",
+              "worked": "$$\\begin{align*}\n\\text{Surface Area} &= \\text{Base} + 2 \\times \\text{Front} + 2 \\times \\text{Side} \\\\\n&= (5 \\times 2) + 2(5 \\times 3) + 2(2 \\times 3) \\\\\n&= 10 + 30 + 12 \\\\\n&= 52 \\text{ cm}^2\n\\end{align*}$$\nCorrect answer: C."
+            }
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "07ad1363-d0e2-42f9-b411-c640dd2c9c1c",
+              "sourceCode": "HSC.STN.2008 Q2",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/four-final-review/input.json",
+              "sourceQuestionSha256": "cf4ec3435f25c1d485b73ee4e698c3d96d189f1f7eea20f0dbd1a1076c330c45",
+              "sourceSolutionSha256": "66cbd87849a05771222a0d421b155084ff739b6eeaf503747c762e755e9a2788"
+            },
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/four-final-review/proof.json",
+              "proofSha256": "8acc2dda9823f0e8797f0357c05bf95def7a41fad88b47106d75588729368554",
+              "rawReview": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/four-final-review/review.json",
+              "rawReviewSha256": "eadfd281bc9b2eda5c210cebe494380827b91381ceb4f8dc2ddf13042194c8f7",
+              "input": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/four-final-review/input.json",
+              "inputSha256": "0944c831c185e688c4446fc0b64359be0f22858e4363569ed7bfb93da0b01c89",
+              "imageIndex": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/four-final-review/image-index.json",
+              "attachedImageEvidence": [
+                {
+                  "attachment": 9,
+                  "item": "open-box",
+                  "kind": "original-source-question-or-worked-image",
+                  "sha256": "ac62ce55e911fe2be18739bfdb805366b889d157d1a5f7e783c2c2ffb85ee2db"
+                },
+                {
+                  "attachment": 10,
+                  "item": "open-box",
+                  "kind": "actual-native-student-page",
+                  "sha256": "0169f8f0a3c5fd95a1fdd54b5a2a3abead550f47a1d48451b0c9ab7f9adff4a6"
+                },
+                {
+                  "attachment": 11,
+                  "item": "open-box",
+                  "kind": "actual-native-worked-page",
+                  "sha256": "c70049716a139d27627c6974d7ea961f4dbf5c37856c0c10cf4676a741f3818d"
+                }
+              ],
+              "taskHash": "f634f586c4c00aca5723eaf297e45f4e1b4cbc7f10745522e1b2160f9ce8cf15",
+              "baselineRevision": 365,
+              "baselineSha256": "2083bc5df74c95eca5858e856191b5853b75aa1558d550b98a3049e2f92fdf7f",
+              "draftFile": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/local-conversions/open-box-house-native.json",
+              "draftSha256": "e13859cd5fd7e2069f11acf9ce0e25f8bc98dfc2bb010c0a2f87c1603d895267",
+              "localHouseDiagramCheck": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/local-conversions/house-native-independent-check.json",
+              "localHouseDiagramCheckSha256": "ea6c327471c56308a8a8ec5b52ac216619f5f0b48b1850d6f09918faf3289ae4",
+              "nativeDiagnosticCheckpoint": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/seven-native-drafts-render-checkpoint.json",
+              "nativeDiagnosticCheckpointSha256": "9538147c14e601971e60fe2e0173f659ca2477a711f98a666c0376e8a7207fce",
+              "nativeDiagnosticReport": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/shortlisted-native-drafts/local-conversions/diagnostic-projects-v4/open-box-render/feedback-pages.json",
+              "nativeDiagnosticReportSha256": "bf55396724f63659c8e80e9a6781085b03f3e41b71706679947b38244fb94f7b",
+              "actualNativePagesInspected": true
+            },
+            "publicationStatus": "integrated-render-pending; no live save",
+            "additionTo": {
+              "projectId": "surface-area-prisms-cylinders-v1",
+              "blockId": "p34-q7"
+            }
+          },
+          "bankRef": null
         }
       ]
     }
@@ -57986,10 +58158,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 363,
+  "revision": 366,
   "assets": [],
   "createdAt": "2026-10-06T10:42:47.479Z",
-  "updatedAt": "2026-10-24T09:57:18.817Z",
+  "updatedAt": "2026-10-28T20:50:35.127Z",
   "library": {
     "category": "master",
     "courseId": "s5-core",

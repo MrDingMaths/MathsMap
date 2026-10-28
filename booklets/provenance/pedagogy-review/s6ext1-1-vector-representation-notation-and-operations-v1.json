@@ -1,0 +1,1152 @@
+{
+  "version": 1,
+  "projectId": "s6ext1-1-vector-representation-notation-and-operations-v1",
+  "title": "Vector Representation and Operations",
+  "assumptions": {},
+  "findings": [
+    {
+      "id": "pf-d56c927625",
+      "kind": "unsupported-transition",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p6-interpret-b",
+          "blockId": "p6-interpret-block",
+          "hash": "9e835b47b8874aeee36d5d9749f2af81253f4e0acd13958afd22c098ad7d1ff6"
+        },
+        {
+          "id": "p6-interpret-d",
+          "blockId": "p6-interpret-block",
+          "hash": "9e835b47b8874aeee36d5d9749f2af81253f4e0acd13958afd22c098ad7d1ff6"
+        },
+        {
+          "id": "p6-notation-rules",
+          "blockId": "p6-notation-rules",
+          "hash": "1db1393b876ac010770158514f28fc4b172042b18f2c25a75ee68681e0ed24a4"
+        }
+      ],
+      "finding": "Students must classify sums of vectors before being told that adding vectors produces a vector.",
+      "breakdown": "The rules permit scalar multiplication and prohibit scalar–vector addition, but do not establish whether vector–vector addition is valid.",
+      "checked": "No preceding teaching supplies this rule. Geometric vector addition is introduced in the next topic, after these classification tasks.",
+      "assumptions": "Vector notation is new to these students; no calculator is needed.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Before p6-interpret-b, insert: “Adding two vectors gives a vector. In 5a+b, where a and b are vectors, 5a is a ___, so adding b gives a ___.” Answers: vector; vector. Retain the booklet’s vector typography."
+      },
+      "doneWhen": "The vector-addition rule is supplied before students independently classify vector sums.",
+      "from": [
+        "c1"
+      ],
+      "sequences": [
+        "introduction-to-vectors"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "21fb3eae-31e3-468a-8752-c5b611d74e64",
+      "postedAt": "2026-10-28T10:56:14.854Z"
+    },
+    {
+      "id": "pf-affca9a3ff",
+      "kind": "extension",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p14-q4-root",
+          "blockId": "p14-q4-block",
+          "hash": "b659812fba8823bbad8ee29ba9f7f37f18ef30706e298562974305ad70ac0c38"
+        }
+      ],
+      "finding": "Connect the constructed sum and difference through cancellation.",
+      "breakdown": "Adding the two resultants exposes cancellation of b and −b.",
+      "checked": "The resultants are (3,0) and (1,2); their sum is (4,2)=2a. Addition, negative vectors and scalar multiplication have been taught.",
+      "assumptions": "Grid displacements use right and up as positive directions.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Append (d) “Draw the sum of your resultant vectors from parts a and b.” Answer: 4 squares right and 2 squares up. (e) “Explain why this result is twice a.” Answer: b and −b cancel, leaving a+a=2a."
+      },
+      "doneWhen": "The follow-up uses the existing constructions to identify 2a.",
+      "from": [
+        "c2"
+      ],
+      "sequences": [
+        "geometric-vector-addition-and-multiplication"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "57c22358-5051-485c-af8f-3a889244ac77",
+      "postedAt": "2026-10-28T10:56:14.856Z"
+    },
+    {
+      "id": "pf-c6a21e0761",
+      "kind": "worked-step-error",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p22-example-right",
+          "blockId": "p22-example-block",
+          "hash": "4753cba1b03a6fc3dbd75f92b366e1a2b6dd01f573a0694e1b93c073ea57db00"
+        },
+        {
+          "id": "p22-b",
+          "blockId": "p22-guided-practice-block",
+          "hash": "564813e46c4ce816fec9f3b7d2874a62b5d52ced60e6d211451e1bd20d5513a5"
+        },
+        {
+          "id": "p22-e",
+          "blockId": "p22-guided-practice-block",
+          "hash": "564813e46c4ce816fec9f3b7d2874a62b5d52ced60e6d211451e1bd20d5513a5"
+        },
+        {
+          "id": "p22-h",
+          "blockId": "p22-guided-practice-block",
+          "hash": "564813e46c4ce816fec9f3b7d2874a62b5d52ced60e6d211451e1bd20d5513a5"
+        },
+        {
+          "id": "p25-q1-k",
+          "blockId": "p25-q1-block",
+          "hash": "85b61b41eb33972b6e46841f422088555135620381072d2a726f45a23ac83213"
+        }
+      ],
+      "finding": "The conclusion “The two vectors are not scalar multiples of each other; they are not parallel” relies on an unstated relationship between the named vectors.",
+      "breakdown": "Unequal coefficient ratios establish nonparallelism only when the two underlying directions are nonparallel. Three named vectors in two dimensions cannot be treated as independent directions.",
+      "checked": "For a=b≠0, p22-example-right gives 10a and 20a, which are parallel. In p22-h, taking nonparallel a,b and c=−3b gives 2a and 4a. p21-component-j explicitly treats the relationship between different vector letters as unspecified.",
+      "assumptions": "These are two-dimensional vectors; distinct letters alone do not establish nonparallel directions.",
+      "repair": {
+        "type": "fix-step",
+        "proposal": "Before p22-example-block, state: “For comparisons involving combinations of two named vectors here and in Exercise 1, assume those two named vectors are nonparallel.” Replace p22-h with the pair 2a−3b and 4a+6b, using vector typography. Their coefficient multipliers disagree, so they are not parallel under the stated assumption."
+      },
+      "doneWhen": "The negative conclusions compare coefficients of two explicitly nonparallel directions, including the revised p22-h.",
+      "from": [
+        "c4"
+      ],
+      "sequences": [
+        "parallel-and-perpendicular-vectors"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "5895f8da-42d3-4589-b7da-8b324c91025f",
+      "postedAt": "2026-10-28T10:56:14.858Z"
+    },
+    {
+      "id": "pf-7f38c992da",
+      "kind": "example-choice",
+      "severity": "severe",
+      "targets": [
+        {
+          "id": "p30-q4-root",
+          "blockId": "p30-q4",
+          "hash": "3f864f0058db8143b49a3aa6f8be3888d39335344bfb7d3fe5b4a96a50c20e59"
+        }
+      ],
+      "finding": "The instruction to find r:s requests a defined ratio that the given vectors cannot produce.",
+      "breakdown": "The component equations imply s=3r and r=4s, hence r=s=0. The resulting 0:0 is undefined.",
+      "checked": "Calculated ra+sb=(6r−2s)i+(−r+4s)j. Its only zero is r=s=0. Earlier arithmetic and parallelism teaching cannot yield a defined ratio for these nonparallel vectors.",
+      "assumptions": "The task requests a ratio rather than asking whether one exists; calculator access is irrelevant.",
+      "repair": {
+        "type": "change-values",
+        "proposal": "Keep a=6i−j and change b to −12i+2j. Keep the instruction. Answer: r:s=2:1."
+      },
+      "doneWhen": "Both component equations yield the same defined ratio from a nonzero cancelling combination.",
+      "from": [
+        "c6"
+      ],
+      "sequences": [
+        "component-form"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "54ed2222-db73-4dfe-8261-045708b6c358",
+      "postedAt": "2026-10-28T10:56:14.859Z"
+    },
+    {
+      "id": "pf-28a4c6837b",
+      "kind": "variation-sequence",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p34-q2",
+          "blockId": "p34-q2",
+          "hash": "7600696c424792fe2441bcff68240c105a0076e8e6ff261d1bc55345b8e66fed"
+        }
+      ],
+      "finding": "Vary component signs while holding their magnitudes fixed to expose quadrant adjustments.",
+      "breakdown": "The reference angle stays fixed while inclination changes.",
+      "checked": "For (3,4), (−3,4), (−3,−4), (3,−4), inclinations round to 53°, 127°, 233°, 307°. For (−5,2), inclination rounds to 158°. The preceding teaching supplies the reference-angle method; existing practice has no complete fixed-magnitude sign run.",
+      "assumptions": "Use a scientific calculator in degree mode and column notation.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "After p34-q2-f, add one instruction: “Predict how each sign change affects the direction before calculating.” Append g (3,4), h (−3,4), i (−3,−4), j (3,−4), then unpatterned k (−5,2), all as columns. Answers: 53°, 127°, 233°, 307°, 158°. Only signs vary during g–j."
+      },
+      "doneWhen": "The run compares all four quadrants using one reference angle, followed by an unpatterned item.",
+      "from": [
+        "c8"
+      ],
+      "sequences": [
+        "calculating-magnitude-and-direction"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "f10c879b-510d-44cf-a233-d58eb5fe7d30",
+      "postedAt": "2026-10-28T10:56:14.861Z"
+    },
+    {
+      "id": "pf-f1e02fa4d9",
+      "kind": "variation-sequence",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p39-q1",
+          "blockId": "p39-q1",
+          "hash": "18da7db0c0e5b17215961e003bbd23aef6049483228fee3a85030293717bfdab"
+        }
+      ],
+      "finding": "Compare normalisation of vectors with magnitudes greater than, equal to and less than one.",
+      "breakdown": "The run exposes that normalisation may shorten, preserve or lengthen a vector while preserving its direction.",
+      "checked": "The proposed vectors have magnitudes 10, 1 and 1/2; each normalises to (3/5)i+(4/5)j. The unpatterned vector normalises to (2i−j)/√5. All required operations are taught by p38.",
+      "assumptions": "Exact fractional and surd answers are used.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Append: “Predict which vectors will have the same unit vector.” Add (d) a=6i+8j; (e) a=(3/5)i+(4/5)j; (f) a=(3/10)i+(2/5)j. Answer for each: â=(3/5)i+(4/5)j. Follow with unpatterned (g) a=2i−j; answer: â=(2i−j)/√5. Direction stays fixed during d–f while magnitude varies."
+      },
+      "doneWhen": "The sequence includes shortening, unchanged length and lengthening, followed by an unpatterned vector.",
+      "from": [
+        "c10"
+      ],
+      "sequences": [
+        "unit-vectors-in-a-particular-direction"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "f7670b68-322e-4275-b23e-2c192ba770e2",
+      "postedAt": "2026-10-28T10:56:14.864Z"
+    },
+    {
+      "id": "pf-c01d5e5316",
+      "kind": "duplicate-question",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p43-guided-part-a",
+          "blockId": "p43-guided-block",
+          "hash": "163a0b47a6e7afcfb204ac7cebf106ef21d0628b9df548e65451082b90e3db45"
+        },
+        {
+          "id": "p47-q12-b",
+          "blockId": "p47-q12",
+          "hash": "105326099590ef03109b2693233db8de46fb3bc4b9aa8847b2bd32a6fd9aeb85"
+        },
+        {
+          "id": "p43-worked-left",
+          "blockId": "p43-worked",
+          "hash": "6f7b70555b29d5225b422a9348db6e7f619f2ec26c2f5b7bc14c7d35252882b8"
+        },
+        {
+          "id": "p47-q12-d",
+          "blockId": "p47-q12",
+          "hash": "105326099590ef03109b2693233db8de46fb3bc4b9aa8847b2bd32a6fd9aeb85"
+        },
+        {
+          "id": "p43-worked-right",
+          "blockId": "p43-worked",
+          "hash": "6f7b70555b29d5225b422a9348db6e7f619f2ec26c2f5b7bc14c7d35252882b8"
+        },
+        {
+          "id": "p47-q12-e",
+          "blockId": "p47-q12",
+          "hash": "105326099590ef03109b2693233db8de46fb3bc4b9aa8847b2bd32a6fd9aeb85"
+        },
+        {
+          "id": "p43-guided-part-b",
+          "blockId": "p43-guided-block",
+          "hash": "163a0b47a6e7afcfb204ac7cebf106ef21d0628b9df548e65451082b90e3db45"
+        },
+        {
+          "id": "p47-q12-f",
+          "blockId": "p47-q12",
+          "hash": "105326099590ef03109b2693233db8de46fb3bc4b9aa8847b2bd32a6fd9aeb85"
+        }
+      ],
+      "finding": "Four proof tasks in p47-q12 repeat earlier complete identities without an explicit retrieval or comparison purpose.",
+      "breakdown": "Parts b, d, e and f reproduce the respective earlier tasks with unchanged endpoints, signs and coefficients.",
+      "checked": "Compared all four later identities with their worked or guided predecessors. There are no additional givens or diagrams distinguishing them. Asking students to show steps and name laws does not state a specific repetition purpose.",
+      "assumptions": "The supplied material contains the purposes attached to these tasks.",
+      "repair": {
+        "type": "change-values",
+        "proposal": "Replace later copies, retaining arrows over every endpoint pair: b, prove 2AB−2CB+2CD=2AD; d, prove 3PR−3QR+3QS=3PS; e, prove 2EG−2EF−2GF=4FG; f, prove 3PT−3PR−3TR=6RT. Expected simplified left sides: 2AD, 3PS, 4FG and 6RT respectively. Retain the instruction to show steps and state laws."
+      },
+      "doneWhen": "Each later copy has changed coefficients and a correct corresponding identity.",
+      "from": [
+        "c11"
+      ],
+      "sequences": [
+        "point-to-point-notation"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "bba06f89-791b-4a35-bbcc-07c4e7856654",
+      "postedAt": "2026-10-28T10:56:14.865Z"
+    },
+    {
+      "id": "pf-bd5796d045",
+      "kind": "opening-review",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p48-definition-text",
+          "blockId": "p48-definition-text",
+          "hash": "3922ca18935c8a9eb4889c00cf338ffcff204c9aa44f534f41d3ba3a8f87dab8"
+        },
+        {
+          "id": "p51-example-content",
+          "blockId": "p51-example-block",
+          "hash": "3b37306681b08dbf70b9323e5de00361e12897d505f6465fcd713d19e8a962c0"
+        }
+      ],
+      "finding": "The topic lacks review of magnitude calculation and quadrant-based inclination before combining them with point-to-point subtraction.",
+      "breakdown": "p51-example-content requires recalling both earlier methods while applying the new position-vector formula.",
+      "checked": "Magnitude and inclination are taught on p31–33. The immediately preceding point-to-point topic and its supplied exercise do not rehearse them. p48–50 rehearses representations and subtraction, but neither missing method.",
+      "assumptions": "A scientific calculator in degree mode is available. The missing rehearsal concerns formula selection and quadrant decisions, not calculator evaluation.",
+      "repair": {
+        "type": "add-review",
+        "proposal": "Before p48-definition-text, add: (a) Find the exact magnitude of 3i−4j. Answer: 5. (b) Using a sketch, find the inclination of 5i−3j to 1 d.p. Answer: 329.0°. (c) Using a sketch, find the inclination of −3i+j to 1 d.p. Answer: 161.6°. Keep the review within one page."
+      },
+      "doneWhen": "Students rehearse magnitude and quadrant decisions before combining them with point-to-point subtraction.",
+      "from": [
+        "c12"
+      ],
+      "sequences": [
+        "position-vectors"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "e0dd5d9d-046a-4cd2-b3a1-9717a166bba4",
+      "postedAt": "2026-10-28T10:56:14.867Z"
+    },
+    {
+      "id": "pf-add76d76ff",
+      "kind": "extension",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p54-q10-root",
+          "blockId": "p54-q10-block",
+          "hash": "6c1984d29489a9ee574dc11e091972eb1efd62486b47cc0021afba9ab0596a0a"
+        }
+      ],
+      "finding": "Connect equal consecutive displacements with the complete displacement and its magnitude.",
+      "breakdown": "The existing parallelism calculation yields equal vectors AB and BC, allowing students to connect addition with doubling.",
+      "checked": "Parallelism gives k=11, AB=BC=(3,4), AC=(6,8), |AB|=5 and |AC|=10. All required methods are available by the end of the topic.",
+      "assumptions": "Use the value of k obtained in the existing question.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Append (b) “Write AC as a column vector.” Answer: (6,8). (c) “Find |AB|.” Answer: 5. (d) “Find |AC|.” Answer: 10. (e) “Explain why AC=2AB for these points.” Answer: AB=BC=(3,4), so AC=AB+BC=2AB. Use arrows over endpoint pairs."
+      },
+      "doneWhen": "The follow-up connects the existing parallelism result with equal displacements and doubled magnitude.",
+      "from": [
+        "c13"
+      ],
+      "sequences": [
+        "position-vectors"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "35794743-1f07-4fed-b1a5-653172ab0841",
+      "postedAt": "2026-10-28T10:56:14.870Z"
+    },
+    {
+      "id": "pf-003daa436c",
+      "kind": "difficulty-jump",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p56-guided-1",
+          "blockId": "p56-guided-1",
+          "hash": "d90310f3cdd1f9c1ac71e86483dfd9ccb76980fd2e1edf889322221403daae5b"
+        },
+        {
+          "id": "p56-guided-2",
+          "blockId": "p56-guided-2",
+          "hash": "9bc37625830de64d0769608c656de5a7f82dd938c7c117260305e2cf191f89b1"
+        }
+      ],
+      "finding": "The first guided task combines non-midpoint division, parallelogram side transfers and route selection immediately after a staged midpoint example.",
+      "breakdown": "Several decisions change together, and the three intermediate prompts used in the example disappear.",
+      "checked": "p41 supplies parallelogram transfers, but no preceding teaching combines them with non-midpoint division. p56-guided-2 already bridges ratio division through whole-side, divided-side and connecting-vector parts. Its results are BC=4a−3b, BP=(4/3)a−b and AP=(1/3)a+3b.",
+      "assumptions": "Ordinary ratios and parallelogram properties are prior knowledge.",
+      "repair": {
+        "type": "reorder",
+        "proposal": "Place p56-guided-2 before p56-guided-1, retaining all three parts."
+      },
+      "doneWhen": "Students practise non-midpoint division in the existing staged structure before the combined parallelogram task.",
+      "from": [
+        "c14"
+      ],
+      "sequences": [
+        "solving-geometric-problems-with-vectors"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:55:29.910Z"
+        }
+      ],
+      "commentId": "46f27f2c-43aa-4e54-a994-7f65361efbba",
+      "postedAt": "2026-10-28T10:56:14.871Z"
+    }
+  ],
+  "contextQuestions": [],
+  "protectedGroups": [
+    {
+      "sequence": "introduction-to-vectors",
+      "targets": [
+        "p5-largest",
+        "p5-same-magnitude",
+        "p5-same-quantity"
+      ],
+      "observation": "The sequence distinguishes magnitude from vector equality and tests whether students disregard thickness and position appropriately.",
+      "varies": "Length, direction, thickness, position and the requested comparison.",
+      "invariant": "Magnitude is encoded by length; equality requires the same magnitude and direction."
+    },
+    {
+      "sequence": "geometric-vector-addition-and-multiplication",
+      "targets": [
+        "p7-investigation-a",
+        "p7-investigation-b"
+      ],
+      "observation": "Changing the second direction changes reinforcement into cancellation.",
+      "varies": "Direction of the second walk.",
+      "invariant": "Walking magnitudes and first direction."
+    },
+    {
+      "sequence": "geometric-vector-addition-and-multiplication",
+      "targets": [
+        "p11-addition-a",
+        "p11-addition-b"
+      ],
+      "observation": "Addition order does not change the resultant.",
+      "varies": "Order of the two addends.",
+      "invariant": "The two vectors."
+    },
+    {
+      "sequence": "geometric-vector-addition-and-multiplication",
+      "targets": [
+        "p12-response-a",
+        "p12-response-b"
+      ],
+      "observation": "Reversing subtraction order reverses the resultant.",
+      "varies": "Which vector is subtracted.",
+      "invariant": "The two supplied vectors."
+    },
+    {
+      "sequence": "geometric-vector-addition-and-multiplication",
+      "targets": [
+        "p14-q4-b",
+        "p14-q4-c"
+      ],
+      "observation": "Opposite subtraction orders give opposite vectors.",
+      "varies": "Subtraction order.",
+      "invariant": "The supplied vectors."
+    },
+    {
+      "sequence": "geometric-vector-addition-and-multiplication",
+      "targets": [
+        "p14-q6-b",
+        "p14-q6-c"
+      ],
+      "observation": "The subtraction-order relationship persists with different directions.",
+      "varies": "Subtraction order.",
+      "invariant": "The supplied vectors."
+    },
+    {
+      "sequence": "geometric-vector-addition-and-multiplication",
+      "targets": [
+        "p15-q7-b",
+        "p15-q7-c"
+      ],
+      "observation": "Reversing the connecting side reverses the order of the difference.",
+      "varies": "Direction of c.",
+      "invariant": "The triangle and vectors a and b, according to the supplied descriptions."
+    },
+    {
+      "sequence": "column-vector-notation",
+      "targets": [
+        "p16-response-b",
+        "p16-response-d"
+      ],
+      "observation": "Equal vectors can occupy different positions.",
+      "varies": "The position of the directed segment.",
+      "invariant": "Its displacement, magnitude and direction."
+    },
+    {
+      "sequence": "column-vector-notation",
+      "targets": [
+        "p17-b",
+        "p17-c",
+        "p17-d"
+      ],
+      "observation": "Changing one component's sign reverses movement in that direction only.",
+      "varies": "One component sign at each step.",
+      "invariant": "The absolute component values."
+    },
+    {
+      "sequence": "column-vector-notation",
+      "targets": [
+        "p17-f",
+        "p17-g"
+      ],
+      "observation": "Changing the horizontal sign reverses a horizontal vector.",
+      "varies": "The horizontal component's sign.",
+      "invariant": "Zero vertical displacement and magnitude."
+    },
+    {
+      "sequence": "column-vector-notation",
+      "targets": [
+        "p19-a-1",
+        "p19-a-2",
+        "p19-a-3"
+      ],
+      "observation": "The scalar acts on both components, including their signs.",
+      "varies": "The scalar, then its sign.",
+      "invariant": "The original vector."
+    },
+    {
+      "sequence": "column-vector-notation",
+      "targets": [
+        "p19-b-1",
+        "p19-b-2",
+        "p19-b-3"
+      ],
+      "observation": "Changing one input component affects only the corresponding resultant component.",
+      "varies": "One component value, then one component sign.",
+      "invariant": "All other entries and the addition operation."
+    },
+    {
+      "sequence": "column-vector-notation",
+      "targets": [
+        "p19-c-1",
+        "p19-c-2"
+      ],
+      "observation": "Subtracting a negative horizontal component increases the resultant's horizontal component.",
+      "varies": "The operation before the final vector.",
+      "invariant": "All three vectors."
+    },
+    {
+      "sequence": "column-vector-notation",
+      "targets": [
+        "p19-f-1",
+        "p19-f-2"
+      ],
+      "observation": "A sign change inside a subtracted scalar multiple changes the corresponding component calculation.",
+      "varies": "The second vector's vertical sign.",
+      "invariant": "Both scalars, the first vector and the horizontal components."
+    },
+    {
+      "sequence": "calculating-magnitude-and-direction",
+      "targets": [
+        "p31-calculate-a",
+        "p31-calculate-b"
+      ],
+      "observation": "Reversing one component leaves magnitude unchanged.",
+      "varies": "The sign of the horizontal component.",
+      "invariant": "Absolute component values and vector magnitude."
+    },
+    {
+      "sequence": "calculating-magnitude-and-direction",
+      "targets": [
+        "p34-q3-a",
+        "p34-q3-b",
+        "p34-q3-c",
+        "p34-q3-d",
+        "p34-q3-e"
+      ],
+      "observation": "A scalar changes components with its sign, while magnitude scales by its absolute value.",
+      "varies": "The scalar and whether the requested object is a vector or its magnitude.",
+      "invariant": "The original vector 8i+6j."
+    },
+    {
+      "sequence": "calculating-magnitude-and-direction",
+      "targets": [
+        "p35-q5-a",
+        "p35-q5-b",
+        "p35-q5-c",
+        "p35-q5-d",
+        "p35-q5-e",
+        "p35-q5-f"
+      ],
+      "observation": "Calculate the resultant vector before calculating its magnitude.",
+      "varies": "The vector operation.",
+      "invariant": "The given vectors and the paired vector-then-magnitude structure."
+    },
+    {
+      "sequence": "parallel-and-perpendicular-vectors",
+      "targets": [
+        "p21-component-demo-1",
+        "p21-component-demo-2",
+        "p21-component-demo-3",
+        "p21-component-demo-4",
+        "p21-component-demo-5"
+      ],
+      "observation": "Parallelism requires one multiplier for both components, allows a negative multiplier and is sensitive to a one-unit mismatch.",
+      "varies": "The second vector's multiplier, sign and final component.",
+      "invariant": "The first vector is (3,5)."
+    },
+    {
+      "sequence": "parallel-and-perpendicular-vectors",
+      "targets": [
+        "p22-example-left",
+        "p22-example-right"
+      ],
+      "observation": "After supplying the nonparallel-direction assumption, changing one coefficient breaks the common multiplier.",
+      "varies": "The second expression's a coefficient changes from 10 to 5.",
+      "invariant": "The first expression and the second expression's b coefficient."
+    },
+    {
+      "sequence": "parallel-and-perpendicular-vectors",
+      "targets": [
+        "p23-demonstration-1",
+        "p23-demonstration-2",
+        "p23-demonstration-3",
+        "p23-demonstration-4"
+      ],
+      "observation": "Swapping components requires exactly one sign change in these examples.",
+      "varies": "The signs of the swapped components.",
+      "invariant": "The first vector and the absolute component values of the second."
+    },
+    {
+      "sequence": "parallel-and-perpendicular-vectors",
+      "targets": [
+        "p24-example-left",
+        "p24-example-right"
+      ],
+      "observation": "A perpendicular direction can be lengthened, shortened or reversed.",
+      "varies": "The multiplier of the perpendicular direction.",
+      "invariant": "The vector (4,7) and perpendicularity."
+    },
+    {
+      "sequence": "position-vectors",
+      "targets": [
+        "p48-part-e",
+        "p48-part-f"
+      ],
+      "observation": "Passing through the origin is different from having the tail at the origin.",
+      "varies": "The starting position of similarly directed arrows.",
+      "invariant": "The direction and the coordinate-axis context."
+    },
+    {
+      "sequence": "position-vectors",
+      "targets": [
+        "p50-pq-qp-task"
+      ],
+      "observation": "Reversing the endpoints negates both displacement components.",
+      "varies": "The order of the same endpoints.",
+      "invariant": "The two points."
+    },
+    {
+      "sequence": "position-vectors",
+      "targets": [
+        "p52-q3-b",
+        "p52-q3-c"
+      ],
+      "observation": "Reversing subtraction order produces opposite vectors.",
+      "varies": "Subtraction order.",
+      "invariant": "The two position vectors."
+    },
+    {
+      "sequence": "position-vectors",
+      "targets": [
+        "p53-q5-a",
+        "p53-q5-b"
+      ],
+      "observation": "Opposite vectors have equal magnitudes and inclinations differing by 180 degrees.",
+      "varies": "Direction of travel between A and B.",
+      "invariant": "Endpoints and displacement length."
+    },
+    {
+      "sequence": "position-vectors",
+      "targets": [
+        "p53-q6-a",
+        "p53-q6-c"
+      ],
+      "observation": "A point-to-point displacement and the reversed position-vector difference are opposites.",
+      "varies": "Subtraction order and notation.",
+      "invariant": "The two position vectors and resultant magnitude."
+    },
+    {
+      "sequence": "position-vectors",
+      "targets": [
+        "p54-q8-c",
+        "p54-q8-d"
+      ],
+      "observation": "Changing PQ to QP reverses both component signs.",
+      "varies": "Endpoint order.",
+      "invariant": "The supplied coordinates."
+    },
+    {
+      "sequence": "point-to-point-notation",
+      "targets": [
+        "p40-label-part-a",
+        "p40-label-part-b"
+      ],
+      "observation": "Reversing the arrow reverses the order of the endpoint letters.",
+      "varies": "Arrow direction.",
+      "invariant": "Endpoints and segment."
+    },
+    {
+      "sequence": "point-to-point-notation",
+      "targets": [
+        "p40-sketch-part-a",
+        "p40-sketch-part-b"
+      ],
+      "observation": "AB and BA have the same magnitude and opposite directions.",
+      "varies": "Order of endpoint letters.",
+      "invariant": "The two points and their separation."
+    },
+    {
+      "sequence": "point-to-point-notation",
+      "targets": [
+        "p41-example-c",
+        "p41-example-f"
+      ],
+      "observation": "Reversing a resultant negates both vector contributions.",
+      "varies": "Direction along the same diagonal.",
+      "invariant": "Parallelogram and given vectors."
+    },
+    {
+      "sequence": "point-to-point-notation",
+      "targets": [
+        "p41-triangle-part-a",
+        "p41-triangle-part-b",
+        "p41-triangle-part-c",
+        "p41-triangle-part-d"
+      ],
+      "observation": "Reversal negates an entire vector expression, including a combined resultant.",
+      "varies": "Requested side or resultant and its direction.",
+      "invariant": "Triangle and the two given vector expressions."
+    },
+    {
+      "sequence": "point-to-point-notation",
+      "targets": [
+        "p46-q11-a",
+        "p46-q11-b",
+        "p46-q11-c",
+        "p46-q11-d",
+        "p46-q11-e",
+        "p46-q11-f",
+        "p46-q11-g",
+        "p46-q11-h"
+      ],
+      "observation": "Equal grid steps build multiples and sums of the given vectors; changing the tail requires directed differences.",
+      "varies": "Number and direction of steps, followed by starting point.",
+      "invariant": "Congruent parallelogram grid and basis vectors a and b."
+    },
+    {
+      "sequence": "solving-geometric-problems-with-vectors",
+      "targets": [
+        "p59-q2-a",
+        "p59-q2-b",
+        "p59-q2-c"
+      ],
+      "observation": "Reversing a supplied side changes the sign of its contribution to the same resultant.",
+      "varies": "The direction of one supplied side at each step.",
+      "invariant": "Triangle ABC, vector names a and b, and requested vector AC."
+    },
+    {
+      "sequence": "solving-geometric-problems-with-vectors",
+      "targets": [
+        "p57-guided-first",
+        "p57-guided-second"
+      ],
+      "observation": "Parallelism can be established with a positive or negative scalar multiple.",
+      "varies": "The supplied side direction and the sign of the multiplier of the target.",
+      "invariant": "Find a connecting vector and express it as a scalar multiple of a specified vector."
+    }
+  ],
+  "notReliablyReviewed": [
+    {
+      "sequence": "geometric-vector-addition-and-multiplication",
+      "targets": [
+        "p15-q7-root",
+        "p15-q8-root"
+      ],
+      "reason": "No page 15 image was attached. The written diagram descriptions support reviewing the intended mathematical demands, but the visible geometric relationships and candidate vectors could not be independently inspected."
+    },
+    {
+      "sequence": "component-form",
+      "targets": [
+        "p28-question"
+      ],
+      "reason": "Only page 27 is attached. Page 28's mathematical task can be read from its supplied text and TikZ, but its rendered geometric representations were not visually reviewed."
+    }
+  ],
+  "reviewedRevision": 1,
+  "reviewedAt": "2026-10-28T10:55:29.910Z",
+  "passes": {
+    "review": {
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "calls": 10
+    },
+    "challenge": {
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "calls": 1
+    }
+  },
+  "importReview": "Lean content review table: 229 of 229 blocks passed.",
+  "questionOrder": "source",
+  "lastRun": {
+    "sequences": [
+      {
+        "id": "introduction-to-vectors",
+        "title": "Introduction to Vectors",
+        "blocks": 12,
+        "images": 3,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 33818,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2254,
+          "reasoning_output_tokens": 152
+        },
+        "elapsedMs": 54899,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 0
+      },
+      {
+        "id": "geometric-vector-addition-and-multiplication",
+        "title": "Geometric Vector Addition and Multiplication",
+        "blocks": 30,
+        "images": 8,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 64895,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4544,
+          "reasoning_output_tokens": 97
+        },
+        "elapsedMs": 83037,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "column-vector-notation",
+        "title": "Column Vector Notation",
+        "blocks": 21,
+        "images": 4,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 46700,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4121,
+          "reasoning_output_tokens": 148
+        },
+        "elapsedMs": 90781,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "parallel-and-perpendicular-vectors",
+        "title": "Parallel and Perpendicular Vectors",
+        "blocks": 24,
+        "images": 4,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 47093,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4705,
+          "reasoning_output_tokens": 285
+        },
+        "elapsedMs": 108301,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "component-form",
+        "title": "Component Form",
+        "blocks": 14,
+        "images": 1,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 38543,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3327,
+          "reasoning_output_tokens": 198
+        },
+        "elapsedMs": 74855,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "calculating-magnitude-and-direction",
+        "title": "Calculating Magnitude and Direction",
+        "blocks": 24,
+        "images": 4,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 55197,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3807,
+          "reasoning_output_tokens": 285
+        },
+        "elapsedMs": 63761,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 2
+      },
+      {
+        "id": "unit-vectors-in-a-particular-direction",
+        "title": "Unit Vectors in a Particular Direction",
+        "blocks": 9,
+        "images": 2,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 43412,
+          "cached_input_tokens": 14848,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2163,
+          "reasoning_output_tokens": 131
+        },
+        "elapsedMs": 53521,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "point-to-point-notation",
+        "title": "Point to Point Notation",
+        "blocks": 25,
+        "images": 6,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 62291,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4217,
+          "reasoning_output_tokens": 327
+        },
+        "elapsedMs": 89407,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 0
+      },
+      {
+        "id": "position-vectors",
+        "title": "Position Vectors",
+        "blocks": 21,
+        "images": 6,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 64392,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3518,
+          "reasoning_output_tokens": 138
+        },
+        "elapsedMs": 76477,
+        "candidates": 1,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "solving-geometric-problems-with-vectors",
+        "title": "Solving Geometric Problems with Vectors",
+        "blocks": 49,
+        "images": 8,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 77383,
+          "cached_input_tokens": 14592,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4874,
+          "reasoning_output_tokens": 299
+        },
+        "elapsedMs": 120959,
+        "candidates": 2,
+        "discarded": [],
+        "suggestions": 1
+      }
+    ],
+    "dropped": [
+      {
+        "ids": [
+          "c3"
+        ],
+        "reason": "The mathematics is correct and available, but this extension is less closely connected to a central geometric relationship than the four retained suggestions; the booklet-wide limit defeats it.",
+        "candidates": [
+          {
+            "id": "c3",
+            "sequence": "column-vector-notation",
+            "kind": "extension",
+            "targets": [
+              "p19-part-f"
+            ],
+            "finding": "Compare scaling a difference with subtracting differently scaled vectors."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c5"
+        ],
+        "reason": "The proposed mathematics is correct, including the nonzero condition, but the nonzero-multiple relationship is already explicitly taught on p24. It is a weaker extension than the four retained suggestions.",
+        "candidates": [
+          {
+            "id": "c5",
+            "sequence": "parallel-and-perpendicular-vectors",
+            "kind": "extension",
+            "targets": [
+              "p25-q2-g"
+            ],
+            "finding": "Connect the perpendicular pair to other vectors along the same perpendicular direction."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c7"
+        ],
+        "reason": "The sign conversions are correct, but their directional relationship is already established by p17-signs-and-caution and revisited in p27–28. The four retained suggestions offer stronger comparisons.",
+        "candidates": [
+          {
+            "id": "c7",
+            "sequence": "component-form",
+            "kind": "variation-sequence",
+            "targets": [
+              "p27-q1-group"
+            ],
+            "finding": "Add a short sign-variation run under the existing component-notation instruction."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c9"
+        ],
+        "reason": "The directions are correct, but positive scaling preserving direction and negative scaling reversing it are already explicitly taught on p10. The four retained suggestions offer stronger additions.",
+        "candidates": [
+          {
+            "id": "c9",
+            "sequence": "calculating-magnitude-and-direction",
+            "kind": "extension",
+            "targets": [
+              "p34-q3"
+            ],
+            "finding": "Connect the existing scalar multiples to their directions."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c15"
+        ],
+        "reason": "The intentional closing challenge test defeats the claimed unsupported transition. p62-q14 practises comparing coefficients of nonparallel directions, p66-q27 introduces an unknown scalar for a point on a line, and q30–33 build multi-route ratio and collinearity reasoning. Q34 combines these taught methods at the end of the exercise; a second scalar is a reasonable independent application. Solving gives QO=(3/10)x−(7/10)y=t(kx−y), hence t=7/10 and k=3/7.",
+        "candidates": [
+          {
+            "id": "c15",
+            "sequence": "solving-geometric-problems-with-vectors",
+            "kind": "unsupported-transition",
+            "targets": [
+              "p70-q34-root"
+            ],
+            "finding": "'Work out the value of k' requires solving an intersection using two unknown scalar coefficients, a decision sequence not supplied by the preceding vector proofs."
+          }
+        ]
+      },
+      {
+        "ids": [
+          "c16"
+        ],
+        "reason": "The numerical answers are correct, but the proposed follow-up is routine scalar magnitude calculation and offers less mathematical development than the four retained suggestions.",
+        "candidates": [
+          {
+            "id": "c16",
+            "sequence": "solving-geometric-problems-with-vectors",
+            "kind": "extension",
+            "targets": [
+              "p64-q22"
+            ],
+            "finding": "Use the established vector equality to connect parallelism with the midpoint segment's length."
+          }
+        ]
+      }
+    ],
+    "unchecked": [],
+    "suppressed": [],
+    "droppedQuestions": [],
+    "candidateFile": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-1-vector-representation-notation-and-operations-v1/work/candidates-low-1793184857164.json",
+    "errors": []
+  },
+  "postedRevision": 2,
+  "supplementalReviews": [
+    {
+      "reviewer": "Codex GPT-6.1 Sol low",
+      "revision": 1,
+      "basis": "Viewed retained source page-015.png and page-028.png; compared current target text, diagram specifications and TikZ.",
+      "targets": [
+        "p15-q7-root",
+        "p15-q8-root",
+        "p28-question"
+      ],
+      "result": "No additional pedagogical obstacle found. Page15 Q7 varies sum, reversed subtraction and parallelogram route; Q8 uses supplied grid displacements for taught operations. Page28 varies component signs and representations, including vertical and horizontal cases and reversed resultant. These tasks require methods already supplied by their sequences.",
+      "limitation": "Original model packets omitted these images; original notReliablyReviewed records preserved. This supplement reviews source pixels against current semantic diagrams, not final rendered layout.",
+      "record": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-1-vector-representation-notation-and-operations-v1/supplemental-diagram-review.json"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import {DIAGRAM_COLOUR_PROMPT,STANDARD_PALETTE_PROMPT} from '../../public/libs/maths-editor/house-style.mjs';
+export const CURVED_SOLID_PROMPT='For curved solids, derive silhouette generators from tangency to the projected ellipse or arc, including sheared and oblique views; ellipse extrema are not generally tangent points. For every extrusion, construct both ends from the same projected cross-section and connect corresponding points; independently guessed Bézier ends are insufficient. On a cut cone, the retained curved wall can hide descending cut edges even when the removed sector is visible at the top. Split visible and hidden rim arcs at the actual tangencies and occlusion boundaries. For composites, check the union: suppress covered surfaces and clip obscured edges while retaining exposed joins, cut rims and meaningful construction lines. Model open faces explicitly: a rear rim can contain a visible interior interval, an occluded interval and a visible exterior silhouette. Check the complete rendered silhouette for corners, spurs, crossings and gaps, then labels and clipping at the saved final width and height; compilation alone is insufficient. Preserve dimensions, openings and mathematical meaning; a stylistic variation or imperceptible tangent difference alone is not a defect. Record a clean judgment only after checking the actual end-profile pair, generator junctions and cut-edge occlusion; coverage counts record inclusion only.';
 export const HEADER_DECORATION_SCOPE_PROMPT='An icon/header-decoration exclusion covers only the icon, never its mathematical rule, definition, explanation or worked body. Inventory the icon separately from the teaching group, keep the body\'s required mapping, and verify the body during content review even if the icon is excluded. Preserve explicit approved local content omissions and simplifications; their authorisation must be independent of a decorative-icon reason.';
 // Shared by import authoring and independent content review. Full rationale:
 // docs/booklet-cross-session-rules.md, Theory text (22 October 2026).
@@ -86,7 +87,8 @@ const TYPE_RULES={
 - Derive right angles and equal-length ticks from the actual geometry; do not hand-place marks by guessed coordinates.`,
  solid:`## 3D-solid rules
 - Preserve visible faces, hidden/visible edges, depth direction, dimensions, curved-surface silhouettes and labels. Do not join the apexes of curved surfaces.
-- Use a consistent coordinate model and keep dimension labels outside the solid with outward anchors.`,
+- Use a consistent coordinate model and keep dimension labels outside the solid with outward anchors.
+- ${CURVED_SOLID_PROMPT}`,
  network:`## Network/graph-theory rules
 - Preserve every vertex, edge, arrow direction, weight, route and highlighted step. Network edge arrows are mid-line markers, not endpoint arrows.
 - Keep labels and weights legible and do not replace the network by an adjacency list or prose.`,
@@ -105,7 +107,7 @@ export function visualKinds(inventory,sourceText=''){
  if(/\b(angle|triangle|polygon|parallel|perpendicular|quadrilateral|trapez|geometry)\b/.test(text))kinds.push('angle');
  if(/\b(bearing|north arrow|true bearing)\b/.test(text))kinds.push('bearing');
  if(/\b(circle|tangent|radius|diameter|chord|cyclic)\b/.test(text))kinds.push('circle');
- if(/\b(cylinder|cone|prism|pyramid|cuboid|solid|3d|three-dimensional)\b/.test(text))kinds.push('solid');
+ if(/\b(cylinder|cone|prism|pyramid|cuboid|sphere|hemisphere|semicylinder|semicircular ends?|frustum|composite|solid|3d|three-dimensional)\b/.test(text))kinds.push('solid');
  if(/\b(network|vertex|vertices|directed edge|dijkstra|tree diagram)\b/.test(text))kinds.push('network');
  if(/\b(spreadsheet|bank statement|schedule|visual table)\b/.test(text))kinds.push('table');
  if(/\b(pattern|stage \d|growing pattern|matchstick)\b/.test(text))kinds.push('pattern');

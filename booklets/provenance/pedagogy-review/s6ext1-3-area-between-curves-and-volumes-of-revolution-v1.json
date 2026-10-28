@@ -1,0 +1,401 @@
+{
+  "version": 1,
+  "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+  "title": "Volumes of Rotation",
+  "assumptions": {},
+  "findings": [
+    {
+      "id": "pf-b6cd31ed02",
+      "kind": "opening-review",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p3-review-question",
+          "blockId": "p3-review-question",
+          "hash": "48c12468675c019a33540c00e874cf54f5281daf8ec83adc4b243bfc448315f5"
+        },
+        {
+          "id": "p4-example-item",
+          "blockId": "p4-example-block",
+          "hash": "4e24c4032aeda9efcea942e8651f5468d2ebf3b8717367ee913e145d5d788400"
+        },
+        {
+          "id": "p5-example-body",
+          "blockId": "p5-example-block",
+          "hash": "c3bde409424b769933cd8f51e90255513068d9e2bdabd362829e4e27d6cb069d"
+        }
+      ],
+      "finding": "The opening review rehearses intersections and sketching but omits polynomial antiderivatives and definite-integral evaluation, which both worked examples use directly.",
+      "breakdown": "Students must recall how to integrate polynomial expressions and subtract the lower-limit value, including negative values, before following the new area methods.",
+      "checked": "All six p3 review parts concern intersections and sketches. Neither p4 nor p5 teaches the prerequisite integration method. The supplied teaching is complete and contains no preceding topic that rehearses it. The proposed answers are correct.",
+      "assumptions": "Integration is prior course knowledge, consistent with the separate Integral Calculus booklets. This is prerequisite rehearsal, not first teaching; no calculator assumption is needed.",
+      "repair": {
+        "type": "add-review",
+        "proposal": "Append three short items to p3-review-question, keeping the complete review within one page: (g) Find an antiderivative of x². Answer: x³/3+C. (h) Evaluate ∫₀²(x−4)² dx. Answer: 56/3. (i) Evaluate ∫₋₁²(x+2−x²) dx. Answer: 9/2."
+      },
+      "doneWhen": "The opening review rehearses polynomial antiderivatives and definite-integral evaluation, including subtraction of a negative lower-limit value.",
+      "from": [
+        "c1"
+      ],
+      "sequences": [
+        "area-between-two-curves"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:53:39.435Z"
+        }
+      ],
+      "commentId": "bae4f96b-4968-45f9-b10a-a46d82312c00",
+      "postedAt": "2026-10-28T10:53:58.570Z"
+    },
+    {
+      "id": "pf-6027de01bc",
+      "kind": "unsupported-transition",
+      "severity": "high",
+      "targets": [
+        {
+          "id": "p8-q2",
+          "blockId": "p8-q2",
+          "hash": "b2b9bcadd6562ab171d7ccd5795d2ff950ad5052069e1810ce277921f0ca6b59"
+        },
+        {
+          "id": "p8-q2-a",
+          "blockId": "p8-q2",
+          "hash": "b2b9bcadd6562ab171d7ccd5795d2ff950ad5052069e1810ce277921f0ca6b59"
+        }
+      ],
+      "finding": "p8-q2 requires horizontal integration without first connecting horizontal width to right-minus-left and the limits to y-coordinates.",
+      "breakdown": "The preceding instruction models upper-minus-lower with dx only. Students must independently change the width expression, integration variable and coordinate used for the limits.",
+      "checked": "p4–p6 teach vertical integration. p7-q1 supplies further vertical practice; no preceding question bridges to horizontal integration. The instruction about regions adjoining the y-axis suggests a route but does not establish these decisions. At y=1 the x-coordinates are 1 and 2, and ∫₀²(2y−y²)dy=4/3.",
+      "assumptions": "Definite integration is prior knowledge; horizontal integration is a new variant of this booklet's area method. Later y-axis volume teaching cannot prepare students for p8.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Scaffold p8-q2-a using its existing diagram: (i) At y=1, find the x-coordinate on each curve and identify which curve is farther right. Answers: 1 on x=y² and 2 on x=2y; x=2y is farther right. (ii) Complete the horizontal width: right x−left x=____. Answer: 2y−y². (iii) Write the lower and upper y-coordinates of the intersections. Answers: 0 and 2. (iv) Complete and evaluate A=∫____^____(____)dy. Answer: ∫₀²(2y−y²)dy=4/3 u². Keep p8-q2-b onward unscaffolded."
+      },
+      "doneWhen": "p8-q2-a bridges explicitly from horizontal width and y-limits to the area integral before the remaining independent questions.",
+      "from": [
+        "c2"
+      ],
+      "sequences": [
+        "area-between-two-curves"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:53:39.435Z"
+        }
+      ],
+      "commentId": "a40a2a4f-4346-48ca-aa36-b339b19ca067",
+      "postedAt": "2026-10-28T10:53:58.572Z"
+    },
+    {
+      "id": "pf-93a88b6ae1",
+      "kind": "extension",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p9-q5",
+          "blockId": "p9-q5",
+          "hash": "e5f55f4b92d8c276d7ad85944ed665906e83e1d12263a256689d16d2854f0d0c"
+        }
+      ],
+      "finding": "Extend p9-q5 to expose why translating both curves vertically preserves their enclosed area.",
+      "breakdown": "The common vertical translation cancels when students subtract the lower curve from the upper curve.",
+      "checked": "The translated equations are y=x²+14 and y=x+16. Their difference is x−x²+2, their intersection x-coordinates remain −1 and 2, and their enclosed area is 9/2 u². Only methods taught by the end of this topic are needed.",
+      "assumptions": "Students use the same coordinate axes and area units as in p9-q5.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Append to p9-q5: (d) Both curves are moved up 10 units. Write their new equations. Answer: y=x²+14 and y=x+16. (e) Find the area enclosed by the new curves. Answer: 9/2 u². (f) Explain why this area equals the area in part (c). Answer: subtracting the new equations gives the same difference x−x²+2 over the same x-limits −1 and 2."
+      },
+      "doneWhen": "The follow-up asks students to calculate and explain area preservation for this concrete translation.",
+      "from": [
+        "c3"
+      ],
+      "sequences": [
+        "area-between-two-curves"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:53:39.435Z"
+        }
+      ],
+      "commentId": "7f4628b7-e301-48a4-be33-7b0a361bfad2",
+      "postedAt": "2026-10-28T10:53:58.572Z"
+    },
+    {
+      "id": "pf-39ae7aa06b",
+      "kind": "variation-sequence",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p20-q3",
+          "blockId": "p20-q3",
+          "hash": "c088be0b2e889b0614b2d2dc2d1cc02ebd9b7eccbfb39822c1db1567f685711f"
+        }
+      ],
+      "finding": "Extend p20-q3c with a coefficient variation that exposes the effect of squaring the radius.",
+      "breakdown": "With bounds and rotation axis fixed, changing the coefficient of x² isolates radial scaling; a negative coefficient also tests reflection across the rotation axis.",
+      "checked": "For y=kx² on 0≤x≤2, the volume is 32k²π/5. Thus coefficients 2, 3 and −2 give 128π/5, 288π/5 and 128π/5. The unpatterned curve y=x²+1 gives π(32/5+16/3+2)=206π/15. The existing supplied practice contains no comparable coefficient run.",
+      "assumptions": "Each added diagram shades the region between its curve and the x-axis on 0≤x≤2; the existing instruction supplies rotation about the x-axis.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Immediately after p20-q3c, add four further diagram parts under the existing instruction, all bounded by x=0, x=2, the curve and the x-axis. Add only this instruction: 'Predict how each volume compares with part c before calculating.' Use (i) y=2x², answer 128π/5 u³; (ii) y=3x², answer 288π/5 u³; (iii) y=−2x², answer 128π/5 u³; followed by the unpatterned (iv) y=x²+1, answer 206π/15 u³. Only the coefficient varies in the first three additions; bounds, quadratic form and rotation axis stay fixed."
+      },
+      "doneWhen": "The added run isolates the coefficient's effect on volume and is followed by an unpatterned question.",
+      "from": [
+        "c4"
+      ],
+      "sequences": [
+        "volumes-of-rotation"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:53:39.435Z"
+        }
+      ],
+      "commentId": "5b13144f-d8a6-4bfa-9c92-ae5e3dd3c805",
+      "postedAt": "2026-10-28T10:53:58.574Z"
+    },
+    {
+      "id": "pf-d2c0753e96",
+      "kind": "extension",
+      "severity": "suggestion",
+      "targets": [
+        {
+          "id": "p33-q3",
+          "blockId": "p33-q3",
+          "hash": "74632f1bdec64b7fe24d56aaf2ce155fb54f7a1848e1c407f717c3f5b9d97893"
+        }
+      ],
+      "finding": "Extend p33-q3 by doubling the curves' y-values and comparing the effects on rotation about each axis.",
+      "breakdown": "The same vertical stretch doubles x-axis radii but doubles the y-range while preserving corresponding y-axis radii, producing different volume multipliers.",
+      "checked": "The stretched curves meet at (0,0) and (1,2). About the x-axis, π∫₀¹(4x⁴−4x⁶)dx=8π/35. About the y-axis, π∫₀²((y/2)^(2/3)−y/2)dy=π/5. These are respectively four and two times the original volumes. Both calculations use methods available by this topic's end.",
+      "assumptions": "The new region is the bounded region between y=2x² and y=2x³ for 0≤x≤1.",
+      "repair": {
+        "type": "add-question",
+        "proposal": "Append to p33-q3: (c) The region bounded by y=2x² and y=2x³ is rotated about the x-axis. Find its volume. Answer: 8π/35 u³. (d) Rotate this new region about the y-axis. Find its volume. Answer: π/5 u³. (e) Compare each new volume with its corresponding answer in part b. Answer: four times as large about the x-axis and twice as large about the y-axis. (f) Explain why these multipliers differ. Answer: x-axis radii double, so their squared values quadruple; about the y-axis, corresponding radii stay the same while the vertical extent doubles."
+      },
+      "doneWhen": "The follow-up calculates both new volumes and connects their different multipliers to the geometry of the stretch.",
+      "from": [
+        "c5"
+      ],
+      "sequences": [
+        "rotating-area-between-two-curves"
+      ],
+      "state": "pending",
+      "history": [
+        {
+          "state": "pending",
+          "at": "2026-10-28T10:53:39.435Z"
+        }
+      ],
+      "commentId": "48247140-b257-499b-90f7-73e672d50ecb",
+      "postedAt": "2026-10-28T10:53:58.574Z"
+    }
+  ],
+  "contextQuestions": [],
+  "protectedGroups": [
+    {
+      "sequence": "rotating-area-between-two-curves",
+      "targets": [
+        "p31-q1-a",
+        "p31-q1-b",
+        "p31-q1-c",
+        "p31-q1-d"
+      ],
+      "observation": "Subtracting complete volumes and integrating the difference of squared radii describe the same solid.",
+      "varies": "Decomposition and integral representation.",
+      "invariant": "Region, rotation axis and resulting volume."
+    },
+    {
+      "sequence": "rotating-area-between-two-curves",
+      "targets": [
+        "p32-q2-a-i",
+        "p32-q2-a-ii"
+      ],
+      "observation": "Changing the rotation axis changes the radius functions and integration variable.",
+      "varies": "Rotation axis.",
+      "invariant": "Generating region."
+    },
+    {
+      "sequence": "rotating-area-between-two-curves",
+      "targets": [
+        "p32-q2-b-i",
+        "p32-q2-b-ii"
+      ],
+      "observation": "The same triangle produces a washer description about one axis and a disc description about the other.",
+      "varies": "Rotation axis.",
+      "invariant": "Generating region."
+    },
+    {
+      "sequence": "rotating-area-between-two-curves",
+      "targets": [
+        "p32-q2-c-i",
+        "p32-q2-c-ii"
+      ],
+      "observation": "The boundary equation must be used in the form appropriate to the rotation axis.",
+      "varies": "Rotation axis and integration variable.",
+      "invariant": "Generating region."
+    },
+    {
+      "sequence": "rotating-area-between-two-curves",
+      "targets": [
+        "p32-q2-d-i",
+        "p32-q2-d-ii"
+      ],
+      "observation": "The same capped region requires washers about x and discs about y.",
+      "varies": "Rotation axis.",
+      "invariant": "Generating region."
+    },
+    {
+      "sequence": "rotating-area-between-two-curves",
+      "targets": [
+        "p33-q3-b-i",
+        "p33-q3-b-ii"
+      ],
+      "observation": "Outer and inner boundaries must be reconsidered as horizontal rather than vertical distances.",
+      "varies": "Rotation axis.",
+      "invariant": "Region and intersection points."
+    },
+    {
+      "sequence": "area-between-two-curves",
+      "targets": [
+        "p7-q1-a",
+        "p7-q1-b",
+        "p7-q1-c"
+      ],
+      "observation": "For 0<x<1, increasing the exponent lowers the power curve and increases the area between it and y=x.",
+      "varies": "The lower curve changes from x² to x³ to x⁴.",
+      "invariant": "Upper curve y=x, shaded interval [0,1], and area-between-curves instruction."
+    }
+  ],
+  "notReliablyReviewed": [
+    {
+      "sequence": "rotating-area-between-two-curves",
+      "targets": [
+        "p27-diagram-region",
+        "p27-diagram-solid",
+        "p27-diagram-annulus",
+        "p28-diagram-x",
+        "p28-diagram-y",
+        "p30-revolution-figure"
+      ],
+      "reason": "Expected page images were not attached. The specifications support checking the intended mathematical relationships, but the visual communication of slices, radii and cavities could not be inspected."
+    },
+    {
+      "sequence": "area-between-two-curves",
+      "targets": [
+        "p4-example-item",
+        "p4-guided-a",
+        "p4-guided-b",
+        "p5-example-body",
+        "p5-guided-a",
+        "p6-part-b",
+        "p6-part-c",
+        "p7-q1",
+        "p8-q2",
+        "p8-q3",
+        "p9-q4",
+        "p15-q15-b"
+      ],
+      "reason": "Expected page images were not attached. Mathematical region descriptions were available in the diagram specs, but the actual visibility and distinguishability of boundaries, labels and shading could not be checked."
+    }
+  ],
+  "reviewedRevision": 1,
+  "reviewedAt": "2026-10-28T10:53:39.435Z",
+  "passes": {
+    "review": {
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "calls": 3
+    },
+    "challenge": {
+      "model": "gpt-6.1-sol",
+      "effort": "low",
+      "calls": 1
+    }
+  },
+  "importReview": "No lean review table found; this booklet's earlier acceptance route is not recorded here.",
+  "questionOrder": "source",
+  "lastRun": {
+    "sequences": [
+      {
+        "id": "area-between-two-curves",
+        "title": "Area Between Two Curves",
+        "blocks": 24,
+        "images": 0,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 34655,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4034,
+          "reasoning_output_tokens": 186
+        },
+        "elapsedMs": 105592,
+        "candidates": 2,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "volumes-of-rotation",
+        "title": "Volumes of Rotation",
+        "blocks": 29,
+        "images": 0,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 39613,
+          "cached_input_tokens": 14848,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4847,
+          "reasoning_output_tokens": 518
+        },
+        "elapsedMs": 79778,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 1
+      },
+      {
+        "id": "rotating-area-between-two-curves",
+        "title": "Rotating Area between Two Curves",
+        "blocks": 18,
+        "images": 0,
+        "imagesExpected": true,
+        "usage": {
+          "input_tokens": 37138,
+          "cached_input_tokens": 12416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2625,
+          "reasoning_output_tokens": 472
+        },
+        "elapsedMs": 79022,
+        "candidates": 0,
+        "discarded": [],
+        "suggestions": 1
+      }
+    ],
+    "dropped": [],
+    "unchecked": [],
+    "suppressed": [],
+    "droppedQuestions": [],
+    "candidateFile": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-3-area-between-curves-and-volumes-of-revolution-v1/work/candidates-low-1793184779787.json",
+    "errors": []
+  },
+  "postedRevision": 2,
+  "supplementalReviews": [
+    {
+      "at": "2026-10-28T10:59:24.234Z",
+      "reviewer": "Codex scoped visual inspection",
+      "evidence": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-3-area-between-curves-and-volumes-of-revolution-v1/scoped-image-supplement.json",
+      "scope": "All targets in both original notReliablyReviewed entries",
+      "outcome": "Actual authorised source PNGs and retained final student PDF inspected; no additional pedagogical obstacle found. Five posted recommendations retained. Original missing-image statements preserved as call history."
+    }
+  ]
+}

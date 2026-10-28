@@ -379,10 +379,25 @@ export async function savePolished({state,work,id,root=ROOT,deps={}}){
 }
 
 async function main(){
- const opts=parseArgs(process.argv.slice(2),{values:['--project','--candidate','--out','--work-dir','--skip','--only'],flags:['--save','--no-model','--fresh','--fresh-import','--allow-live','--list','--textbook']});
+ const opts=parseArgs(process.argv.slice(2),{values:['--project','--candidate','--out','--work-dir','--skip','--only','--archetypes'],flags:['--save','--no-model','--fresh','--fresh-import','--allow-live','--list','--textbook','--challenge-split-report','--challenge-split-candidate','--approved-calibration']});
  if(opts['--list']){console.log(STEPS.join('\n'));return;}
  const source=opts['--candidate']?path.resolve(opts['--candidate']):opts['--project']?path.join(ROOT,'booklets','projects',opts['--project']+'.json'):null;
  if(!source)throw Error('Name a booklet with --project ID or --candidate FILE');
+ if(opts['--challenge-split-candidate']){
+  if(opts['--save'])throw Error('Challenge split produces a candidate only; live save is prohibited');
+  if(!opts['--approved-calibration']||!opts['--archetypes']||!opts['--out'])throw Error('Candidate requires --approved-calibration, --archetypes and --out');
+  const {challengeSplitCandidate}=await import('./challenge-split.mjs'),before=read(source);
+  const output=path.resolve(opts['--out']);if(output===path.resolve(source)||path.dirname(output)===path.resolve(ROOT,'booklets','projects'))throw Error('Candidate output must not overwrite a live/input project');
+  const result=challengeSplitCandidate(before,{archetypes:read(path.resolve(opts['--archetypes'])),approvedCalibration:true});
+  const issues=(await import('./guards.mjs')).polishSafetyIssues(before,result.project,{challengeSplit:{movedIds:result.report.moves.map(m=>m.id),routineOrders:result.report.packOrders}});
+  if(issues.length)throw Error('Challenge split safety guard: '+issues.join('; '));
+  write(output,result.project);write(output+'.report.json',result.report);console.log(JSON.stringify({candidate:output,publicationBlocked:true,backfillBlocked:result.report.backfillBlocked}));return;
+ }
+ if(opts['--challenge-split-report']){
+  if(opts['--save']||opts['--out'])throw Error('Challenge split calibration is report-only; --save and --out are not allowed');
+  const {challengeSplitReport}=await import('./challenge-split.mjs');
+  console.log(JSON.stringify(challengeSplitReport(read(source),{archetypes:opts['--archetypes']?read(path.resolve(opts['--archetypes'])):{}}),null,2));return;
+ }
  const live=path.dirname(source)===path.resolve(ROOT,'booklets','projects');
  if(live&&!opts['--allow-live'])throw Error('A live booklet is processed on a copy but read from booklets/projects: pass --allow-live to confirm. Use --candidate for a copy you made.');
  if(opts['--save']&&!live)throw Error('--save writes to a live booklet; this is a candidate file (use --out)');

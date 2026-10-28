@@ -1,9 +1,10 @@
 import {readGraphModel} from './graph-model.js';
 import { contentSource, contentValue, isDocument } from './document-content.js';
+import {normaliseQuestionSource, isQuestionSource} from './question-source.js';
 import { validSourceRegion } from './diagram-source-region.js';
 import { isTheoryReview, isSelectableBankQuestion } from './question-bank-eligibility.js';
 // MathsMap Booklet Studio v3 question-first contract.
-// Canonical questions deliberately contain no source/provenance fields.
+// Canonical questions may carry a printed attribution; extraction provenance stays external.
 // Source files, page renders, and question-to-page mapping live in the import job.
 
 export const PRACTICE_QUESTION_FORMAT = 'mathsmap-practice-question-v3';
@@ -251,6 +252,7 @@ export function normaliseQuestion(raw = {}, { index = 0, source = null } = {}) {
     status: value.status ?? 'draft',
     ...(isTheoryReview(value) ? { libraryRole: 'theory-review' } : {}),
     title: text(value.title),
+    ...(normaliseQuestionSource(value.source) ? {source:normaliseQuestionSource(value.source)} : {}),
     classification: {
       primarySkillId: text(primary),
       secondarySkillIds: secondary,
@@ -307,7 +309,8 @@ export function containsParentAnswers(value) {
 export function containsSourceMetadata(value) {
   let found = false;
   walkRaw(value, (node) => {
-    if (['source', 'provenance', 'sourceRef', 'sourceCrop', 'sourceImage'].some((key) => hasOwn(node, key))) found = true;
+    if (hasOwn(node, 'source') && (node !== value || !isQuestionSource(node.source))) found = true;
+    if (['provenance', 'sourceRef', 'sourceCrop', 'sourceImage'].some((key) => hasOwn(node, key))) found = true;
   });
   return found;
 }

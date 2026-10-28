@@ -51,7 +51,7 @@ export function difficultyInversions(scores){
 // Fewest pages that could hold the units if they packed perfectly.
 export const lowerBoundPages=(heightsMm,capacityMm)=>heightsMm.length&&capacityMm>0?Math.max(1,Math.ceil(sum(heightsMm)/capacityMm-1e-9)):0;
 
-const isBodyPage=page=>!page.isAnswer&&!page.isCover&&!!page.space;
+const isBodyPage=page=>!page.isBlank&&!page.isAnswer&&!page.isCover&&!!page.space;
 
 // Metrics of one body edition (student, with-short, with-worked).
 export function bodyMetrics(project,pages){

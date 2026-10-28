@@ -1,0 +1,867 @@
+{
+ "version": 1,
+ "projectId": "s6ext1-binomial-distributions-v1",
+ "title": "Binomial Distributions",
+ "assumptions": {},
+ "findings": [
+  {
+   "id": "pf-81690da320",
+   "kind": "unsupported-transition",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p6-q7",
+     "blockId": "p6-q7",
+     "hash": "16ac0facd3b8b4efd9050298beea5a019c2b48e0bd91112b9fe1d0cd00ebe857"
+    }
+   ],
+   "finding": "Counting arrangements with no adjacent successes requires a gap construction that preceding instruction does not supply.",
+   "breakdown": "Choosing arbitrary success positions does not enforce separation. Students must instead choose gaps around the failures; p6-q6 only fixes one position.",
+   "checked": "The review, slot investigation and p6-q1–q6 cover unrestricted arrangements and a fixed first trial. None constructs gaps. The restriction introduces a new representation, rather than merely harder arithmetic.",
+   "assumptions": "Reviewed permutations and combinations are available; an unshown non-adjacency method is not assumed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Before p6-q7, add: ‘Five failures are placed as _ F _ F _ F _ F _ F _. (a) How many gaps are shown? [6] (b) If three successes occupy different gaps, can two successes be adjacent? [No] (c) How many choices of three gaps are possible? [C(6,3)=20].’ Retain p6-q7."
+   },
+   "doneWhen": "Students construct and count eligible gaps before independently solving p6-q7.",
+   "from": [
+    "c1"
+   ],
+   "sequences": [
+    "counting-arrangements-of-two-elements"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "a14b9d6f-f640-42ba-9fd8-f3ff203beff2",
+   "postedAt": "2026-10-28T11:00:41.904Z"
+  },
+  {
+   "id": "pf-331b154011",
+   "kind": "variation-sequence",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p15-q6-root",
+     "blockId": "p15-q6-block",
+     "hash": "89bf5b5e9f0e451a33b86f326f74297f871bde9df7fcd7e826c825bf95996ff2"
+    }
+   ],
+   "finding": "Compare Bernoulli means and variances for complementary success probabilities.",
+   "breakdown": "The run exposes increasing means alongside variances that increase and then decrease.",
+   "checked": "Using E(X)=p and Var(X)=p(1-p), all proposed answers are correct. These formulas are established in p12. The supplied practice has no comparable consecutive run.",
+   "assumptions": "Only methods taught by the end of the Bernoulli topic are required.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p15-q6-e, continue the existing instruction with: ‘Before calculating, predict how the mean and variance will change.’ Add (f) Bernoulli(0.2): mean 0.2, variance 0.16; (g) Bernoulli(0.5): mean 0.5, variance 0.25; (h) Bernoulli(0.8): mean 0.8, variance 0.16. Follow with (i) Bernoulli(0.35): mean 0.35, variance 0.2275. Only p varies; the family and calculations stay fixed."
+   },
+   "doneWhen": "Three patterned parts and one unpatterned follow-up appear under the existing instruction.",
+   "from": [
+    "c3"
+   ],
+   "sequences": [
+    "bernoulli-random-variables"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "708620f8-2287-4b5f-8735-675e090ad9ba",
+   "postedAt": "2026-10-28T11:00:41.908Z"
+  },
+  {
+   "id": "pf-8882f4b1a2",
+   "kind": "example-choice",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p21-example-body",
+     "blockId": "p21-example-block",
+     "hash": "2dded8dec165b2488938273e56a7e2173122bf4686ebef4fa64d25215122f6a1"
+    }
+   ],
+   "finding": "The first worked binomial model substitutes 0.25 without explicitly connecting it to one correct answer among four options.",
+   "breakdown": "The example leaves the selection of its success-probability parameter unwritten.",
+   "checked": "Earlier Bernoulli teaching establishes success events and probabilities, including equally likely outcomes, but does not write this example's parameter calculation. A separate bridge would not supply the missing connection within the worked model.",
+   "assumptions": "Elementary equally likely probability is prior knowledge; no calculator is needed.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Before the displayed model in p21-example-body, add short scaffolded questions: (a) What counts as a success? [A correct answer.] (b) How many trials are there? [20.] (c) What is the probability of success on one trial? [1/4=0.25.] Hence write the distribution of X. [X~Bin(20,0.25).]"
+   },
+   "doneWhen": "The worked model explicitly identifies success and derives its probability before substituting the parameters.",
+   "from": [
+    "c4"
+   ],
+   "sequences": [
+    "binomial-random-variables"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "b3b3b3e3-2458-470a-b65b-e6979a833564",
+   "postedAt": "2026-10-28T11:00:41.909Z"
+  },
+  {
+   "id": "pf-9081f8f8f5",
+   "kind": "duplicate-question",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p25-f",
+     "blockId": "p25-interpret",
+     "hash": "5c8e500fcabcd7c1701b307844d21930c4ab7a58ee6aca77b2d0c503f8f934d6"
+    },
+    {
+     "id": "p28-q1",
+     "blockId": "p28-q1-block",
+     "hash": "9a830608fb17053a06edf414c3935a8a2b1d4ff1b69cbabf3af8d4b3cc1c9823"
+    }
+   ],
+   "finding": "p28-q1 repeats the unchanged whole task in p25-f without an explicit retrieval or comparison purpose.",
+   "breakdown": "Both ask for P(X=2) when X~Bin(5,0.2).",
+   "checked": "Compared the complete stems, parameters and requested events. Neither task has additional parts, givens or diagrams that distinguish it. No explicit purpose justifies the repeated copy.",
+   "assumptions": "Immediate demonstration-and-response repetition elsewhere does not establish a purpose for this later copy.",
+   "repair": {
+    "type": "change-values",
+    "proposal": "Replace p28-q1 with: ‘X~Bin(5,0.4). Find P(X=2).’ Answer: C(5,2)(0.4)^2(0.6)^3=0.3456."
+   },
+   "doneWhen": "The later copy retains its structure with different values and the corresponding answer.",
+   "from": [
+    "c5"
+   ],
+   "sequences": [
+    "probability-of-r-successes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "1efa089c-bb85-4ea4-a7f7-70096060a066",
+   "postedAt": "2026-10-28T11:00:41.911Z"
+  },
+  {
+   "id": "pf-6a9c54a02c",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p30-q14-b",
+     "blockId": "p30-q14-block",
+     "hash": "25ad328d1ca9daeae801fab4b70af4027391d9460fe82c1d5d54156c89bc0781"
+    }
+   ],
+   "finding": "p30-q14-b moves from one prescribed allocation to identifying and summing five unequal joint probabilities without a smaller case.",
+   "breakdown": "Students must partition four starting cars across two groups, calculate each joint probability and combine the disjoint cases. ‘Consider five cases’ supplies their number but does not bridge their construction and combination.",
+   "checked": "p29-q13 and p30-q14-a prepare multiplication for a prescribed allocation. p24 combines equal-probability sequences, rather than unequal joint binomial events. No supplied practice question provides the smaller allocation bridge.",
+   "assumptions": "A scientific calculator is available. The obstacle is organising events, not numerical evaluation.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "Between p30-q14-a and b, add: ‘(i) If exactly one car starts, list the possible pairs (number of 1955 models, number of 1962 models). [(1,0), (0,1)] (ii) Find the probability of each pair. [6(0.65)(0.35)^5(0.2)^4=0.00003277365; (0.35)^6·4(0.8)(0.2)^3=0.0000470596] (iii) Find the probability that exactly one car starts. [0.00007983325].’"
+   },
+   "doneWhen": "Students identify and combine two disjoint allocations before handling five.",
+   "from": [
+    "c6"
+   ],
+   "sequences": [
+    "probability-of-r-successes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "9ea5686d-2b64-4782-a5b7-e882b08ba05d",
+   "postedAt": "2026-10-28T11:00:41.912Z"
+  },
+  {
+   "id": "pf-e5b90470d9",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p30-q15-root",
+     "blockId": "p30-q15-block",
+     "hash": "e49a693868207c6c505aed07af2d1f1253b39a49748944d95d6d6ddc94d5fdbb"
+    }
+   ],
+   "finding": "Follow the unequal complementary-count probabilities with an equal-probability comparison.",
+   "breakdown": "Changing p to 0.5 isolates the role of the success and failure probabilities.",
+   "checked": "For Y~Bin(6,0.5), both probabilities equal C(6,2)/64=15/64. The existing question already compares counts 2 and 4, and all required methods precede it.",
+   "assumptions": "The follow-up uses the existing six-trial context.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p30-q15-c, add: ‘(d) Let Y~Bin(6,0.5). Find P(Y=2). [15/64=0.234375] (e) Find P(Y=4). [15/64=0.234375] (f) Explain why these probabilities are equal. [The arrangement counts are equal, and every six-trial sequence has probability (0.5)^6].’"
+   },
+   "doneWhen": "The numerical comparison follows the existing unequal-probability comparison.",
+   "from": [
+    "c7"
+   ],
+   "sequences": [
+    "probability-of-r-successes"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "abaf6ff7-35d4-408e-b3eb-b17350a635b1",
+   "postedAt": "2026-10-28T11:00:41.915Z"
+  },
+  {
+   "id": "pf-76871e1d46",
+   "kind": "difficulty-jump",
+   "severity": "high",
+   "targets": [
+    {
+     "id": "p37-q13-b",
+     "blockId": "p37-q13-block",
+     "hash": "e9c7b68c037681bcf9a4398f238df484449242d79695db4022bd914852a4f856"
+    },
+    {
+     "id": "p38-q15-block",
+     "blockId": "p38-q15-block",
+     "hash": "e4b3361f9f595dbc70312f59ef7674a64b7969c6a763945e58341789464c891c"
+    }
+   ],
+   "finding": "The first family question requires students to derive a success probability and change the trial unit to a whole family simultaneously.",
+   "breakdown": "Using n=15 and p=0.5 counts individual boys, rather than families containing three boys. Preceding practice supplies the per-trial probability directly.",
+   "checked": "p38-q15 already provides a bridge: part a derives the probability of one compound operation, and part b repeats that operation as binomial trials. Moving the whole question preserves its shared stem and supplies preparation without adding a redundant question.",
+   "assumptions": "Independent births and equally likely boys and girls are the model assumptions students identify in p37-q13's final part.",
+   "repair": {
+    "type": "reorder",
+    "proposal": "Move the whole p38-q15 question before p37-q13, so students first derive a probability for one operation and then use it for repeated trials."
+   },
+   "doneWhen": "The scaffolded compound-operation question precedes the unscaffolded family model.",
+   "from": [
+    "c8"
+   ],
+   "sequences": [
+    "at-least-at-most-more-than"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "f76f0981-a396-4343-8b02-fefa81ceb9fb",
+   "postedAt": "2026-10-28T11:00:41.917Z"
+  },
+  {
+   "id": "pf-f11be1d9b8",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p35-q7",
+     "blockId": "p35-q7",
+     "hash": "181ad80c158dabb340e5929c4a7ebcfe00e58a39bb155dabb7a6a32606c7b46e"
+    }
+   ],
+   "finding": "Use the two inclusive tails to recover their overlapping exact-count probability.",
+   "breakdown": "The follow-up exposes that both tails include exactly two defectives.",
+   "checked": "For X~Bin(10,0.09), P(X≤2)+P(X≥2)-1=P(X=2)=C(10,2)(0.09)^2(0.91)^8≈0.17141. Summing exact-count probabilities is already taught.",
+   "assumptions": "Students retain unrounded probabilities from parts a and b.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p35-q7-b, add: ‘(c) Use your unrounded answers to parts a and b to find the probability that exactly two bulbs are defective. [P(X=2)=P(X≤2)+P(X≥2)-1≈0.17141].’"
+   },
+   "doneWhen": "The follow-up explicitly uses the existing two tail calculations.",
+   "from": [
+    "c9"
+   ],
+   "sequences": [
+    "at-least-at-most-more-than"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "a461455d-5590-4726-9eae-99227556c186",
+   "postedAt": "2026-10-28T11:00:41.919Z"
+  },
+  {
+   "id": "pf-2afd4ff185",
+   "kind": "extension",
+   "severity": "suggestion",
+   "targets": [
+    {
+     "id": "p45-q13",
+     "blockId": "p45-q13",
+     "hash": "646393e83ce957fa8b24590b0d203f06b956056a03affe938815182c88f703cc"
+    }
+   ],
+   "finding": "Compare how the mean and standard deviation change when the number of dice is quadrupled.",
+   "breakdown": "The existing six-dice and twenty-four-dice cases support a direct numerical comparison of their different scaling.",
+   "checked": "With p=1/6, quadrupling n multiplies the mean by 4 and the standard deviation by 2. For 96 dice, the mean is 16 and the variance is 40/3, giving standard deviation approximately 3.65. All formulas are taught in this topic.",
+   "assumptions": "Dice are fair and independent, consistently with the existing question.",
+   "repair": {
+    "type": "add-question",
+    "proposal": "After p45-q13-b, add: ‘(c) What is the ratio of the mean for 24 dice to that for 6 dice? [4:1] (d) What is the ratio of their standard deviations, using unrounded values? [2:1] (e) For 96 dice, find the expected number of sixes. [16] (f) Find its standard deviation. [sqrt(40/3)≈3.65].’"
+   },
+   "doneWhen": "Each comparison or calculation appears as a separate follow-up part.",
+   "from": [
+    "c12"
+   ],
+   "sequences": [
+    "mean-variance-expected-frequency-of-binomial-distributions"
+   ],
+   "state": "pending",
+   "history": [
+    {
+     "state": "pending",
+     "at": "2026-10-28T10:58:14.095Z"
+    }
+   ],
+   "commentId": "0633420d-0ba9-4608-91d2-688616945e10",
+   "postedAt": "2026-10-28T11:00:41.921Z"
+  }
+ ],
+ "contextQuestions": [],
+ "protectedGroups": [
+  {
+   "sequence": "counting-arrangements-of-two-elements",
+   "targets": [
+    "p4-arrangements-5-2-response",
+    "p4-arrangements-5-3-response"
+   ],
+   "observation": "Swapping the numbers of green and red marbles preserves the number of arrangements.",
+   "varies": "The green count changes from 2 to 3, exchanging the two colour counts.",
+   "invariant": "Five positions, two colours and ten possible arrangements."
+  },
+  {
+   "sequence": "counting-arrangements-of-two-elements",
+   "targets": [
+    "p3-combinations-a",
+    "p3-combinations-c"
+   ],
+   "observation": "Choosing people and choosing positions use the same unordered-selection structure.",
+   "varies": "The selected objects are committee members or chairs to paint.",
+   "invariant": "Choose four distinct objects from ten."
+  },
+  {
+   "sequence": "bernoulli-random-variables",
+   "targets": [
+    "p9-response-c",
+    "p9-response-d"
+   ],
+   "observation": "A physical situation can yield a binary record or a record with more than two outcomes.",
+   "varies": "Recording green versus not green, or recording the actual colour.",
+   "invariant": "One observation of a traffic light."
+  },
+  {
+   "sequence": "bernoulli-random-variables",
+   "targets": [
+    "p10-demo-green",
+    "p10-demo-not-green"
+   ],
+   "observation": "Success is determined by the assignment X=1, rather than by the event whose probability is stated.",
+   "varies": "Which outcome is assigned X=1.",
+   "invariant": "The light context and probability of green, 0.6."
+  },
+  {
+   "sequence": "bernoulli-random-variables",
+   "targets": [
+    "p10-response-b",
+    "p10-response-c"
+   ],
+   "observation": "Reversing success replaces its probability with the complement.",
+   "varies": "Germination or failure to germinate is assigned X=1.",
+   "invariant": "The seed context and germination probability 0.85."
+  },
+  {
+   "sequence": "bernoulli-random-variables",
+   "targets": [
+    "p10-response-e",
+    "p10-response-f"
+   ],
+   "observation": "The success reversal also applies to fractional probabilities.",
+   "varies": "A six or not a six is assigned X=1.",
+   "invariant": "The die context and probability of six, 1/5."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p17-response-a",
+    "p17-response-b",
+    "p17-response-c"
+   ],
+   "observation": "A maximum number of trials does not make the actual number fixed.",
+   "varies": "The stopping rule: fixed count, first success, then first success with a cap.",
+   "invariant": "Coin tossing."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p18-two-outcomes-part-a",
+    "p18-two-outcomes-part-b",
+    "p18-two-outcomes-part-c"
+   ],
+   "observation": "The recorded feature determines whether a trial has two outcomes; a measurement can be reduced to a binary threshold event.",
+   "varies": "The recorded feature.",
+   "invariant": "Twenty globes."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p18-two-outcomes-part-d",
+    "p18-two-outcomes-part-e"
+   ],
+   "observation": "Recording a suit has four outcomes, whereas recording whether it is a heart has two.",
+   "varies": "The recorded event.",
+   "invariant": "Ten card draws."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p18-independent-b",
+    "p18-independent-c"
+   ],
+   "observation": "Replacement preserves independence between random card draws.",
+   "varies": "Whether cards are replaced.",
+   "invariant": "Ten card draws."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p19-response-a",
+    "p19-response-b"
+   ],
+   "observation": "Changing the coin can change the success probability between trials.",
+   "varies": "Using the same fair coin throughout or switching to a biased coin.",
+   "invariant": "Twenty coin tosses."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p19-response-c",
+    "p19-response-d"
+   ],
+   "observation": "Without replacement, the probability on the next draw depends on earlier cards.",
+   "varies": "Replacement.",
+   "invariant": "Twenty draws recording hearts."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p21-example-body",
+    "p21-guided-a",
+    "p21-guided-b"
+   ],
+   "observation": "Changing the number of options changes p; changing the number of questions changes n.",
+   "varies": "First the option count, then the question count.",
+   "invariant": "Independent random guesses, with correct answers counted."
+  },
+  {
+   "sequence": "probability-of-r-successes",
+   "targets": [
+    "p24-part-c",
+    "p24-part-d",
+    "p24-part-e"
+   ],
+   "observation": "Reordering the same outcomes preserves a sequence probability; allowing any order requires counting arrangements.",
+   "varies": "Order, followed by whether order is specified.",
+   "invariant": "Four trials, three successes, one failure and success probability 1/6."
+  },
+  {
+   "sequence": "probability-of-r-successes",
+   "targets": [
+    "p24-part-f",
+    "p24-part-g",
+    "p24-part-h"
+   ],
+   "observation": "An any-order probability combines the probability of one sequence with its arrangement count.",
+   "varies": "The requested quantity: sequence probability, arrangement count, then total probability.",
+   "invariant": "Two successes and two failures in four die rolls."
+  },
+  {
+   "sequence": "probability-of-r-successes",
+   "targets": [
+    "p26-a-node",
+    "p26-b-node",
+    "p26-c-node"
+   ],
+   "observation": "Formula substitution responds separately to changes in success probability and trial count.",
+   "varies": "First p, then n.",
+   "invariant": "Four successes in the basketball context."
+  },
+  {
+   "sequence": "probability-of-r-successes",
+   "targets": [
+    "p30-q15-a",
+    "p30-q15-b",
+    "p30-q15-c"
+   ],
+   "observation": "Equal combination factors do not imply equal binomial probabilities.",
+   "varies": "Two versus four successes.",
+   "invariant": "n=6, p=0.3 and equal arrangement counts."
+  },
+  {
+   "sequence": "at-least-at-most-more-than",
+   "targets": [
+    "p31-language-a",
+    "p31-language-b",
+    "p31-language-c",
+    "p31-language-d",
+    "p31-language-e",
+    "p31-language-f",
+    "p31-language-g"
+   ],
+   "observation": "Distinguishes strict boundaries from inclusive boundaries and recognises equivalent phrases.",
+   "varies": "The boundary phrase.",
+   "invariant": "The set {0,1,2,3,4,5,6} and cutoff 2."
+  },
+  {
+   "sequence": "at-least-at-most-more-than",
+   "targets": [
+    "p31-binomial-a",
+    "p31-binomial-b",
+    "p31-binomial-c"
+   ],
+   "observation": "Separates the effect of the support endpoint from the direction of the requested event.",
+   "varies": "First n, then the boundary phrase.",
+   "invariant": "p=0.3 and cutoff 2."
+  },
+  {
+   "sequence": "at-least-at-most-more-than",
+   "targets": [
+    "p32-guided-a",
+    "p32-guided-b"
+   ],
+   "observation": "The strict upper tail and inclusive lower tail partition the possible outcomes.",
+   "varies": "The event X>2 versus X≤2.",
+   "invariant": "X~Bin(6,0.3)."
+  },
+  {
+   "sequence": "at-least-at-most-more-than",
+   "targets": [
+    "p33-interpret-a",
+    "p33-interpret-b",
+    "p33-interpret-c"
+   ],
+   "observation": "Shows how the inequality determines whether to read a cumulative entry, shift the cutoff or take a complement.",
+   "varies": "The inequality symbol.",
+   "invariant": "The distribution, table and boundary 3."
+  },
+  {
+   "sequence": "at-least-at-most-more-than",
+   "targets": [
+    "p35-q7-a",
+    "p35-q7-b"
+   ],
+   "observation": "Both inclusive tails contain the boundary outcome and therefore are not complementary.",
+   "varies": "No more than versus at least.",
+   "invariant": "Ten torches, defective probability 0.09 and boundary 2."
+  },
+  {
+   "sequence": "mean-variance-expected-frequency-of-binomial-distributions",
+   "targets": [
+    "p45-q13-a",
+    "p45-q13-b"
+   ],
+   "observation": "Changing the number of dice allows comparison of the mean, standard deviation and probability of reaching the same threshold.",
+   "varies": "The number of trials increases from 6 to 24.",
+   "invariant": "The success event, success probability, at-least-two threshold and requested statistics."
+  },
+  {
+   "sequence": "mean-variance-expected-frequency-of-binomial-distributions",
+   "targets": [
+    "p47-q15-a",
+    "p47-q15-b",
+    "p47-q15-c"
+   ],
+   "observation": "Distributions with the same trial count can have different shapes, modes and moments as success probability changes.",
+   "varies": "The context and success probability.",
+   "invariant": "Five independent trials and the requirement to construct the distribution and find its mode, mean and standard deviation."
+  }
+ ],
+ "notReliablyReviewed": [
+  {
+   "sequence": "counting-arrangements-of-two-elements",
+   "targets": [
+    "p4-marble-key-diagram"
+   ],
+   "reason": "The expected page image was not attached. The written specification identifies the two categories, but the rendered diagram could not be inspected."
+  },
+  {
+   "sequence": "binomial-random-variables",
+   "targets": [
+    "p21-notation-diagram"
+   ],
+   "reason": "Images were expected but none were attached. The spec identifies the intended parameter labels, but the rendered notation and label connections could not be inspected."
+  },
+  {
+   "sequence": "probability-of-r-successes",
+   "targets": [
+    "p24-outcome-tree",
+    "p25-formula-annotations"
+   ],
+   "reason": "No page images were attached despite imagesExpected=true. The written specifications support the mathematical sequence review, but the visible tree and formula annotations could not be inspected."
+  },
+  {
+   "sequence": "at-least-at-most-more-than",
+   "targets": [
+    "p33-calculator-instructions"
+   ],
+   "reason": "No page image was attached, so the calculator icons and visual screen presentation could not be inspected; the supplied text and table were reviewed."
+  },
+  {
+   "sequence": "mean-variance-expected-frequency-of-binomial-distributions",
+   "targets": [
+    "p48-q17-graph",
+    "p48-q17-a",
+    "p48-q17-c",
+    "p48-q17-d",
+    "p48-q17-e"
+   ],
+   "reason": "Images were expected but none were attached. The specification identifies the intended distribution, but the graph's visible range, readable probabilities and suitability for shading or reflection could not be checked."
+  }
+ ],
+ "reviewedRevision": 1,
+ "reviewedAt": "2026-10-28T10:58:14.095Z",
+ "passes": {
+  "review": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 6
+  },
+  "challenge": {
+   "model": "gpt-6.1-sol",
+   "effort": "low",
+   "calls": 1
+  }
+ },
+ "importReview": "No lean review table found; this booklet's earlier acceptance route is not recorded here.",
+ "questionOrder": "source",
+ "lastRun": {
+  "sequences": [
+   {
+    "id": "counting-arrangements-of-two-elements",
+    "title": "Counting Arrangements of Two Elements",
+    "blocks": 14,
+    "images": 0,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 25711,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3136,
+     "reasoning_output_tokens": 424
+    },
+    "elapsedMs": 86264,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "bernoulli-random-variables",
+    "title": "Bernoulli Random Variables",
+    "blocks": 21,
+    "images": 0,
+    "imagesExpected": false,
+    "usage": {
+     "input_tokens": 32750,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3580,
+     "reasoning_output_tokens": 445
+    },
+    "elapsedMs": 89007,
+    "candidates": 0,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "binomial-random-variables",
+    "title": "Binomial Random Variables",
+    "blocks": 13,
+    "images": 0,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 32819,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4588,
+     "reasoning_output_tokens": 246
+    },
+    "elapsedMs": 100744,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 0
+   },
+   {
+    "id": "probability-of-r-successes",
+    "title": "Probability of r successes",
+    "blocks": 28,
+    "images": 0,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 36414,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 4274,
+     "reasoning_output_tokens": 225
+    },
+    "elapsedMs": 90012,
+    "candidates": 2,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "at-least-at-most-more-than",
+    "title": "At Least, At Most, More Than",
+    "blocks": 25,
+    "images": 0,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 38722,
+     "cached_input_tokens": 12416,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3592,
+     "reasoning_output_tokens": 313
+    },
+    "elapsedMs": 95533,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 1
+   },
+   {
+    "id": "mean-variance-expected-frequency-of-binomial-distributions",
+    "title": "Mean, Variance, Expected Frequency of Binomial Distributions",
+    "blocks": 28,
+    "images": 0,
+    "imagesExpected": true,
+    "usage": {
+     "input_tokens": 38832,
+     "cached_input_tokens": 14848,
+     "cache_write_input_tokens": 0,
+     "output_tokens": 3868,
+     "reasoning_output_tokens": 244
+    },
+    "elapsedMs": 89461,
+    "candidates": 1,
+    "discarded": [],
+    "suggestions": 2
+   }
+  ],
+  "dropped": [
+   {
+    "ids": [
+     "c2"
+    ],
+    "reason": "The mathematics is correct, but the four-suggestion booklet limit defeats this candidate. The retained suggestions expose more central probability and moment relationships; this one substantially revisits the complementary counting relationship already rehearsed in p3-combinations-d and p6-q2.",
+    "candidates": [
+     {
+      "id": "c2",
+      "sequence": "counting-arrangements-of-two-elements",
+      "kind": "extension",
+      "targets": [
+       "p6-q4"
+      ],
+      "finding": "Split the arrangements into those beginning with a success and those beginning with a failure."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c10"
+    ],
+    "reason": "The immediately preceding topic defeats the missing-review claim: p32's worked example explicitly substitutes into the exact-count binomial formula, its guided practice repeats this, and its exercise repeatedly practises exact-count probabilities. This prerequisite therefore qualifies for the immediately preceding topic/exercise exception.",
+    "candidates": [
+     {
+      "id": "c10",
+      "sequence": "mean-variance-expected-frequency-of-binomial-distributions",
+      "kind": "opening-review",
+      "targets": [
+       "p40-investigation-block",
+       "p42-example-part-b"
+      ],
+      "finding": "The opening work does not rehearse the binomial probability calculation that p42-example-part-b uses directly in “200·binom(40,2)(0.15)^2(0.85)^38”."
+     }
+    ]
+   },
+   {
+    "ids": [
+     "c11"
+    ],
+    "reason": "The mathematics is correct, but the four-suggestion booklet limit defeats this candidate. The retained Bernoulli run already exposes the additional variance factor, while the retained dice extension connects directly to an existing comparison and the topic's standard-deviation teaching.",
+    "candidates": [
+     {
+      "id": "c11",
+      "sequence": "mean-variance-expected-frequency-of-binomial-distributions",
+      "kind": "variation-sequence",
+      "targets": [
+       "p43-q5"
+      ],
+      "finding": "Compare binomial distributions with the same mean but different variances."
+     }
+    ]
+   }
+  ],
+  "unchecked": [],
+  "suppressed": [],
+  "droppedQuestions": [],
+  "candidateFile": ".booklet-work/stage6-extension1-20261027/pedagogy-audits-20261028/s6ext1-binomial-distributions-v1/work/candidates-low-1793185040687.json",
+  "errors": []
+ },
+ "commentRefinements": [
+  {
+   "id": "pf-8882f4b1a2",
+   "at": "2026-10-28T10:59:33.914Z",
+   "beforeRepair": {
+    "type": "add-cue",
+    "proposal": "Before X~Bin(20,0.25), add: ‘Success is a correct answer. n=20 and p=1/4=0.25.’"
+   },
+   "afterRepair": {
+    "type": "add-question",
+    "proposal": "Before the displayed model in p21-example-body, add short scaffolded questions: (a) What counts as a success? [A correct answer.] (b) How many trials are there? [20.] (c) What is the probability of success on one trial? [1/4=0.25.] Hence write the distribution of X. [X~Bin(20,0.25).]"
+   },
+   "reason": "James requested bridging questions rather than cues; same concern and mathematics."
+  },
+  {
+   "id": "pf-6a9c54a02c",
+   "at": "2026-10-28T11:00:41.718Z",
+   "beforeRepair": {
+    "type": "add-question",
+    "proposal": "Between p30-q14-a and b, add: ‘(i) If exactly one car starts, list the possible pairs (number of 1955 models, number of 1962 models). [(1,0), (0,1)] (ii) Find the probability of each pair. [6(0.65)(0.35)^5(0.2)^4=0.000032774625; (0.35)^6·4(0.8)(0.2)^3=0.0000470596] (iii) Find the probability that exactly one car starts. [0.000079834225].’"
+   },
+   "afterRepair": {
+    "type": "add-question",
+    "proposal": "Between p30-q14-a and b, add: ‘(i) If exactly one car starts, list the possible pairs (number of 1955 models, number of 1962 models). [(1,0), (0,1)] (ii) Find the probability of each pair. [6(0.65)(0.35)^5(0.2)^4=0.00003277365; (0.35)^6·4(0.8)(0.2)^3=0.0000470596] (iii) Find the probability that exactly one car starts. [0.00007983325].’"
+   },
+   "reason": "Independent arithmetic check corrected the first joint probability and its sum; proposed question unchanged."
+  }
+ ],
+ "supplementalReviews": [
+  {
+   "at": "2026-10-28T11:00:41.720Z",
+   "reviewer": "Codex scoped visual inspection",
+   "evidence": "D:\\WebApps\\MathsMap\\.booklet-work\\stage6-extension1-20261027\\pedagogy-audits-20261028\\s6ext1-binomial-distributions-v1\\scoped-image-supplement.json",
+   "scope": "All targets in five original notReliablyReviewed entries",
+   "outcome": "All five original missing-image groups inspected; no additional pedagogical obstacle found. Nine recommendations retained, with scaffolded quiz-parameter proposal and corrected car-probability arithmetic."
+  }
+ ],
+ "postedRevision": 2
+}
