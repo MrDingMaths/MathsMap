@@ -19083,13 +19083,19 @@
                 "widthMm": 58,
                 "role": "question",
                 "reviewStatus": "needs-review",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 41 p41-question-33-figure\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (T) at (0,1.4);\n\\coordinate (B) at (0,-1.4);\n\\coordinate (P) at ({sqrt(4-1.4*1.4)},1.4);\n\\draw[line width=0.8pt] (O) circle[radius=2];\n\\draw[line width=0.8pt] (T) ellipse[x radius={sqrt(4-1.4*1.4)},y radius=0.3];\n\\draw[line width=0.8pt] ({-sqrt(4-1.4*1.4)},1.4)--({-sqrt(4-1.4*1.4)},-1.4);\n\\draw[line width=0.8pt] ({sqrt(4-1.4*1.4)},1.4)--({sqrt(4-1.4*1.4)},-1.4);\n\\draw[dashed,line width=0.4pt] ({sqrt(4-1.4*1.4)},-1.4) arc[start angle=0,end angle=180,x radius={sqrt(4-1.4*1.4)},y radius=0.3];\n\\draw[line width=0.8pt] ({-sqrt(4-1.4*1.4)},-1.4) arc[start angle=180,end angle=360,x radius={sqrt(4-1.4*1.4)},y radius=0.3];\n\\draw[line width=0.4pt] (T)--(B);\n\\draw[line width=0.4pt] (T)--node[midway,above] {$r$}(P);\n\\draw[line width=0.4pt] (O)--node[midway,below right] {$R$}(P);\n\\draw[line width=0.4pt] (B)--({-sqrt(4-1.4*1.4)*0.72},-1.61);\n\\draw[line width=0.4pt] (B)--({sqrt(4-1.4*1.4)*0.72},-1.19);\n\\draw[line width=0.4pt] (B)--({-sqrt(4-1.4*1.4)*0.72},-1.19);\n\\draw[line width=0.4pt] (B)--({sqrt(4-1.4*1.4)*0.72},-1.61);\n\\path ({-sqrt(4-1.4*1.4)},1.4)--node[midway,right] {$h$}({-sqrt(4-1.4*1.4)},-1.4);\n\\end{tikzpicture}",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 41 p41-question-33-figure\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\rimheight}{1.4*sqrt(1-(.3/sqrt(4-1.4*1.4))^2)}\n\\coordinate (O) at (0,0);\n\\coordinate (T) at (0,\\rimheight);\n\\coordinate (B) at (0,-\\rimheight);\n\\coordinate (P) at ({sqrt(4-1.4*1.4)},\\rimheight);\n\\draw[line width=0.8pt] (O) circle[radius=2];\n\\draw[line width=0.8pt] (T) ellipse[x radius={sqrt(4-1.4*1.4)},y radius=0.3];\n\\draw[line width=0.8pt] ({-sqrt(4-1.4*1.4)},\\rimheight)--({-sqrt(4-1.4*1.4)},-\\rimheight);\n\\draw[line width=0.8pt] ({sqrt(4-1.4*1.4)},\\rimheight)--({sqrt(4-1.4*1.4)},-\\rimheight);\n\\draw[dashed,line width=0.4pt] ({sqrt(4-1.4*1.4)},-\\rimheight) arc[start angle=0,end angle=180,x radius={sqrt(4-1.4*1.4)},y radius=0.3];\n\\draw[line width=0.8pt] ({-sqrt(4-1.4*1.4)},-\\rimheight) arc[start angle=180,end angle=360,x radius={sqrt(4-1.4*1.4)},y radius=0.3];\n\\draw[line width=0.4pt] (T)--(B);\n\\draw[line width=0.4pt] (T)--node[midway,above] {$r$}(P);\n\\draw[line width=0.4pt] (O)--node[midway,below right] {$R$}(P);\n\\draw[line width=0.4pt] (B)--({-sqrt(4-1.4*1.4)*0.72},{-\\rimheight-0.21});\n\\draw[line width=0.4pt] (B)--({sqrt(4-1.4*1.4)*0.72},{-\\rimheight+0.21});\n\\draw[line width=0.4pt] (B)--({-sqrt(4-1.4*1.4)*0.72},{-\\rimheight+0.21});\n\\draw[line width=0.4pt] (B)--({sqrt(4-1.4*1.4)*0.72},{-\\rimheight-0.21});\n\\path ({-sqrt(4-1.4*1.4)},\\rimheight)--node[midway,right] {$h$}({-sqrt(4-1.4*1.4)},-\\rimheight);\n\\end{tikzpicture}",
                 "spec": {
                   "sourcePage": 41,
                   "sourceRegion": "Diagram below question 33 at the left",
                   "description": "Transparent sphere containing a vertical cylinder, with elliptical ends, a central vertical construction line, top radius r, full height h and sphere radius R from the sphere centre to the upper-right rim. Lower-face radial construction lines are retained. Nonsemantic source face shading is omitted under house style.",
                   "mathematics": "The sphere centre lies halfway between the cylinder end centres. The right triangle has perpendicular lengths r and h/2 and hypotenuse R.",
                   "answerVisibility": "Permanent question diagram; no calculated answers are shown."
+                },
+                "solidReview": {
+                  "status": "accepted",
+                  "sourceHash": "7109ee842d8b4fc2f913e0e97fd2fc169b4e238b1c096810641625547dddfe1e",
+                  "reason": "Project axial half-height consistently with existing ellipse flattening. y0=h*sqrt(1-(b/r)^2) makes each elliptical rim tangent inside the sphere. Preserve cross-section radius expression, labels, widths and numerical givens.",
+                  "evidence": ".booklet-work/solid-quality-20261028/batch/s6adv-applications-of-calculus-2-optimisation-v1/pages/feedback-pages.json; actual student PDF pages 53,54,55,63,64,65 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                 }
               }
             ],
@@ -19222,6 +19228,15 @@
             "sourcePagination": {
               "page": 41,
               "breakBefore": true
+            },
+            "origin": {
+              "projectId": "s6adv-applications-of-calculus-2-optimisation-v1",
+              "blockId": "p41-question-33",
+              "runId": "s6adv-applications-of-calculus-2-optimisation-20261024",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\s6adv-applications-of-calculus-2-optimisation-20261024\\semantic-packets\\page-041.author.json",
+                "hash": "3c2a59ac7384cc0a3d1b3562d44911a9c3907e9797296b2b0d1e7e511dc51894"
+              }
             }
           },
           "flow": {
@@ -22457,13 +22472,19 @@
                 "widthMm": 65,
                 "role": "question",
                 "reviewStatus": "needs-review",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 52 p52-q9-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (T) at (0,1.4);\n\\coordinate (P) at ({sqrt(2.5*2.5-1.4*1.4)},1.4);\n\\coordinate (L) at ({-sqrt(2.5*2.5-1.4*1.4)},1.4);\n\\coordinate (B) at (0,-1.4);\n\\draw[line width=0.8pt] (O) circle[radius=2.5];\n\\draw[line width=0.8pt] (L)--({-sqrt(2.5*2.5-1.4*1.4)},-1.4);\n\\draw[line width=0.8pt] (P)--({sqrt(2.5*2.5-1.4*1.4)},-1.4);\n\\draw[line width=0.8pt,densely dotted] (P) arc[start angle=0,end angle=180,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.8pt] (L) arc[start angle=180,end angle=360,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.8pt,densely dotted] ({sqrt(2.5*2.5-1.4*1.4)},-1.4) arc[start angle=0,end angle=180,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.8pt] ({-sqrt(2.5*2.5-1.4*1.4)},-1.4) arc[start angle=180,end angle=360,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.4pt] (O)--node[midway,left] {$h$} (T)--node[midway,above] {$x$} (P);\n\\draw[line width=0.4pt] (O)--node[midway,below right] {$R$} (P);\n\\draw[line width=0.4pt] ($(T)+(0,-0.14)$)--($(T)+(0.14,-0.14)$)--($(T)+(0.14,0)$);\n\\fill (O) circle[radius=1.2pt];\n\\fill (T) circle[radius=1.2pt];\n\\fill (P) circle[radius=1.2pt];\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 52 p52-q9-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\rimheight}{1.4*sqrt(1-(.21/sqrt(2.5*2.5-1.4*1.4))^2)}\n\\coordinate (O) at (0,0);\n\\coordinate (T) at (0,\\rimheight);\n\\coordinate (P) at ({sqrt(2.5*2.5-1.4*1.4)},\\rimheight);\n\\coordinate (L) at ({-sqrt(2.5*2.5-1.4*1.4)},\\rimheight);\n\\coordinate (B) at (0,-\\rimheight);\n\\draw[line width=0.8pt] (O) circle[radius=2.5];\n\\draw[line width=0.8pt] (L)--({-sqrt(2.5*2.5-1.4*1.4)},-\\rimheight);\n\\draw[line width=0.8pt] (P)--({sqrt(2.5*2.5-1.4*1.4)},-\\rimheight);\n\\draw[line width=0.8pt,densely dotted] (P) arc[start angle=0,end angle=180,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.8pt] (L) arc[start angle=180,end angle=360,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.8pt,densely dotted] ({sqrt(2.5*2.5-1.4*1.4)},-\\rimheight) arc[start angle=0,end angle=180,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.8pt] ({-sqrt(2.5*2.5-1.4*1.4)},-\\rimheight) arc[start angle=180,end angle=360,x radius={sqrt(2.5*2.5-1.4*1.4)},y radius=0.21];\n\\draw[line width=0.4pt] (O)--node[midway,left] {$h$} (T)--node[midway,above,yshift=2mm] {$x$} (P);\n\\draw[line width=0.4pt] (O)--node[midway,below right] {$R$} (P);\n\\draw[line width=0.4pt] ($(T)+(0,-0.14)$)--($(T)+(0.14,-0.14)$)--($(T)+(0.14,0)$);\n\\fill (O) circle[radius=1.2pt];\n\\fill (T) circle[radius=1.2pt];\n\\fill (P) circle[radius=1.2pt];\n\\node[below left] at (O) {$O$};\n\\end{tikzpicture}",
                 "spec": {
                   "sourcePage": 52,
                   "sourceRegion": "Upper right",
                   "description": "Unshaded sphere outline enclosing a cylinder. Both rims have dotted rear halves and solid front halves. The labelled right triangle joins the sphere centre, top-rim centre and right rim point; its perpendicular legs are h and x and its hypotenuse is R.",
                   "mathematics": "The cylinder has radius x and full height 2h; x²+h²=R². The drawing uses illustrative coordinates only, with no numerical dimensions printed.",
                   "answerVisibility": "Permanent question diagram; no solution annotations."
+                },
+                "solidReview": {
+                  "status": "accepted",
+                  "sourceHash": "f99c16645270aa806148e8182c983fc32c77d1a4d97ef5a67d91cc31d89a8cb6",
+                  "reason": "Project axial half-height consistently with existing ellipse flattening. y0=h*sqrt(1-(b/r)^2) makes each elliptical rim tangent inside the sphere. Preserve cross-section radius expression, labels, widths and numerical givens. Move the x radius label 2 mm above the dotted rim; verified label-pages PDF pages 63–65.",
+                  "evidence": ".booklet-work/solid-quality-20261028/batch/s6adv-applications-of-calculus-2-optimisation-v1/pages/feedback-pages.json; actual student PDF pages 53,54,55,63,64,65 and source geometry visually inspected; unchanged dimensions, labels and edition widths."
                 }
               }
             ],
@@ -22546,6 +22567,15 @@
             "sourcePagination": {
               "page": 52,
               "breakBefore": true
+            },
+            "origin": {
+              "projectId": "s6adv-applications-of-calculus-2-optimisation-v1",
+              "blockId": "p52-q9-block",
+              "runId": "s6adv-applications-of-calculus-2-optimisation-20261024",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\s6adv-applications-of-calculus-2-optimisation-20261024\\semantic-packets\\page-052.author.json",
+                "hash": "0e8abf4801c0fdf9b230397f9d985c25229179c9c21ab108ba23821c757c3335"
+              }
             }
           },
           "flow": {
@@ -30878,10 +30908,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 2,
+  "revision": 3,
   "assets": [],
   "createdAt": "2026-10-27T05:45:17.212Z",
-  "updatedAt": "2026-10-27T11:25:33.240Z",
+  "updatedAt": "2026-10-28T11:48:26.927Z",
   "library": {
     "category": "master",
     "courseId": "s6-adv12",
