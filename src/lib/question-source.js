@@ -27,7 +27,7 @@ export function mathsBaseSource(code) {
   let label, provider, paper;
   if (parts[0] === 'PLC') {
     provider = 'PLC'; paper = [...parts.slice(1,yearIndex),...parts.slice(yearIndex+1).filter(part=>!/^Q\d/i.test(part))].join(' ');
-    if (!/^Y\d{1,2}(?: (?:S[12]|X[12]|ADV|STN|T[1-4]))*$/.test(paper)) return null;
+    if (!/^Y\d{1,2}(?: (?:S[12]|X[12]|ADV|STN|COM|T[1-4]))*$/.test(paper)) return null;
     label = `PLC ${paper} ${year}`;
   } else if (['ADV', 'X1', 'X2', 'EXT1', 'EXT2', 'STN', 'STD', 'STD1', 'STD2'].includes(parts[1])) {
     provider = 'HSC';

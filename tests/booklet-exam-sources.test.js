@@ -86,3 +86,23 @@ test('no-working projection removes reserved ancestor minima only and preserves 
  const original=structuredClone(tree),entries=new Map([['prompt',{kind:'document'}],['cell',{kind:'document'}],['diagram',{kind:'diagram'}],['space',{kind:'space'}],['label',{kind:'document'}]]),out=withoutWorkingSpace(tree,entries);
  assert.deepEqual(tree,original);assert.equal(out.minHeight,undefined);assert.equal(out.children[1].minHeight,undefined);assert.equal(out.children[1].children.length,2);assert.deepEqual(out.children[1].children[0],tree.children[1].children[0]);assert.deepEqual(out.children[1].children[1],tree.children[1].children[1]);assert.deepEqual(out.children[2],tree.children[2]);
 });
+
+test('PLC COM course marker is retained literally without broadening provider whitelist',()=>{
+  for(const [code,label] of [
+    ['PLC.Y9.COM.2022.S2 S1Q22','PLC Y9 COM S2 2022'],
+    ['PLC.Y9.COM.2023.S2 S1Q10b','PLC Y9 COM S2 2023'],
+    ['PLC.Y9.COM.2023.T1 S1Q5a','PLC Y9 COM T1 2023'],
+    ['PLC.Y9.COM.2023.T1 S1Q5b','PLC Y9 COM T1 2023'],
+    ['PLC.Y9.COM.2023.T1 S2Q8a','PLC Y9 COM T1 2023'],
+    ['PLC.Y9.COM.2023.T1 S2Q8b','PLC Y9 COM T1 2023'],
+    ['PLC.Y10.COM.2022.S2 S1Q8','PLC Y10 COM S2 2022'],
+    ['PLC.Y10.COM.2024.T3 S2Q7b','PLC Y10 COM T3 2024'],
+  ]) {
+    const source=mathsBaseSource(code);
+    assert.equal(source.label,label);
+    assert.equal(source.provider,'PLC');
+    assert.equal(source.origin,'MathsBase');
+    assert.equal(source.paper,label.slice(4,-5));
+  }
+  for(const code of ['PLC.Y9.UNKNOWN.2022.S2','PLC.COM.2022','MB.Y9.COM.2022','CAIE.Y9.COM.2022','PLC.Y9.COM.SM.2022'])assert.equal(mathsBaseSource(code),null);
+});
