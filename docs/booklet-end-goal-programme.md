@@ -1,5 +1,13 @@
 # Booklet end-goal programme (28 October 2026)
 
+## Current verified checkpoint — 28 October 2026, 22:15 UTC
+
+Saved Exam work covers **70 of 130 masters**. The latest four guarded saves are Expanding Expressions r116, Further Algebraic Fractions r54, Graphing Lines r68 and Calculations with the Derivative r3; each has five-edition checks and actual affected-page inspection. Graphing includes a verified presentation-only tick-label repair. Commit `16448bd6` also saves 77 reviewed archetype tags across Binomial, Algebraic Denominator and Negative Index Laws, preserving current ratings, mathematics, order, settings and comments. Together with Polynomial, 172 question blocks across four masters have persisted archetype metadata. `repo:check` passed.
+
+Current-runtime Polynomial measurement confirms 75 questions pages versus 77 for the two-topic practice/Challenge candidate. The increase comprises one extra Quotient/Remainder practice page and one Challenge page; a candidate question formerly split across pages is now whole. Necessary practice may legitimately add pages: assess avoidable whitespace and bounded ordering while preserving adequate writing space, dependencies and mathematics. Do not force ratings or reduce handwriting space to meet the old page-count target. No practice/Challenge candidate is published yet. The current all-master reconciliation retains 31 completed existing-exam passes, 60 clean existing-exam passes and 39 existing-content holds; full external-source suitability is unfinished, including in masters with saved additions.
+
+Recovery checked actual process/evidence state: the further Negative HCF p5-q4 rating had not been prepared or dispatched, and Estimating Change's fresh task rating was only prepared. Neither was running. Continue these serially without repeating the completed q3/q7 proofs. Teaching changes remain comments-first and phase 7 remains deferred.
+
 Scope: Stage 5/6 teaching masters, not class copies, exemplars or textbook review chapters. Implement phases 1–6 against actual repository state. Phase 7 and source-dependent textbook imports wait for James to finalise the imports. Never import question-bank content into booklets during this programme.
 
 ## Approval boundaries
