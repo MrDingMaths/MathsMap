@@ -409,6 +409,7 @@ const flagsOf=project=>project.studio?.flags??[];
 export async function postFindings({projectFile,root=ROOT,provenanceDir,suggestions=false,findingIds}={}){
  const {createFeedback}=await import('../src/lib/booklet-feedback.js');
  const handle=await projectHandle(projectFile,root),project=handle.project,file=provenanceFile(project.id,{root,provenanceDir}),record=loadProvenance(file,project),blocks=blocksById(project);
+ if(record.reportOnly===true)throw Error('Report-only review evidence cannot be posted. Author any new student-facing draft with exact Sonnet 5.5 and independently check it before using the comments-only draft route.');
  const posted=[],stale=[],present=[];
  const selected=findingIds&&new Set(findingIds);
  if(selected)for(const id of selected)if(!record.findings.some(finding=>finding.id===id))throw Error('Unknown finding '+id);

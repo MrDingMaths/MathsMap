@@ -412,3 +412,12 @@ test('direct teaching and question-supplied scaffolds retain their actual eviden
  assert.equal(validateArchetypes(p,seq,{clusters:[{...c,teachingIds:[],practiceEvidenceIds:['scaffold-root']}]}).clusters.length,1);
  assert.throws(()=>validateArchetypes(p,seq,{clusters:[{...c,teachingIds:[],practiceEvidenceIds:['not-real']}]}),/Unknown current/);
 });
+
+
+test('report-only reviewer provenance cannot post raw Sol-authored proposal text',async t=>{
+ const w=workspace(t),before=fs.readFileSync(w.projectFile,'utf8');
+ const result=await runReview({...w.options,runner:stubRunner({review:{'negative-index':{candidates:[candidate('example-principle',['t1-example-a'],{repair:{type:'add-question',proposal:'A raw reviewer-authored student question that must not be posted.'}})]}}})});
+ const file=path.join(w.options.provenanceDir,'pedagogy-seeded.json'),record=JSON.parse(fs.readFileSync(file));assert.equal(record.findings.length,1);assert.match(record.findings[0].repair.proposal,/raw reviewer-authored/);record.reportOnly=true;fs.writeFileSync(file,JSON.stringify(record));
+ await assert.rejects(postFindings({...w.options}),/Report-only review evidence cannot be posted/);
+ assert.equal(fs.readFileSync(w.projectFile,'utf8'),before);
+});

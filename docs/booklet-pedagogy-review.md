@@ -72,6 +72,8 @@ Run the tool only on a booklet with no import or feedback repair in flight. Each
 
 For approved source-label additions only, pass `--approved-attributions FILE` containing `{ "approvedBy": "James", "reason": "the recorded approval", "sources": { "block-id": { "provider": "HSC", "paper": "Extension 1", "year": "2011", "label": "HSC Extension 1 2011", "origin": "MathsBase" } } }`. This is an exact block-ID/value whitelist; only the optional `source` attribution may differ. Other block fields, mathematics and teaching must still match. The rebound map records the exception and both reviewed/target hashes; it preserves pending decisions. Never construct a broad exception from changed content or treat the helper as approval.
 
+Report-only reviewer outputs are marked `reportOnly: true`; `postFindings` refuses to post them. Keep raw Sol text as evidence, not usable student-facing drafts. Usable reports contain the finding, targets and source evidence only; discard any reviewer-authored questions, worked examples, guided practice or bridges from the usable proposal. New concrete student content must come from exact Sonnet 5.5, pass independent checking and remain comments-only pending James where required.
+
 ## Finding states
 
 | State | Meaning |
