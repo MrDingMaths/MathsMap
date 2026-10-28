@@ -4,14 +4,25 @@ import {teachingLabels} from './booklet-labels.js';
 import {isLeanReview,printableProject} from './booklet-review-profile.js';
 import {settleBookletFonts} from './booklet-fonts.js';
 
+// Two independent 53-bit lanes (cyrb53): collisions are negligible at booklet
+// scale, and page keys stay short however large their blocks are.
+function hashText(text){
+  let a=0xdeadbeef,b=0x41c6ce57,c=0x9e3779b9,d=0x85ebca6b;
+  for(let i=0;i<text.length;i++){const ch=text.charCodeAt(i);a=Math.imul(a^ch,2654435761);b=Math.imul(b^ch,1597334677);c=Math.imul(c^ch,2246822507);d=Math.imul(d^ch,3266489909);}
+  a=Math.imul(a^(a>>>16),2246822507)^Math.imul(b^(b>>>13),3266489909);b=Math.imul(b^(b>>>16),2246822507)^Math.imul(a^(a>>>13),3266489909);
+  c=Math.imul(c^(c>>>16),2246822507)^Math.imul(d^(d>>>13),3266489909);d=Math.imul(d^(d>>>16),2246822507)^Math.imul(c^(c>>>13),3266489909);
+  return (4294967296*(2097151&b)+(a>>>0)).toString(36)+'.'+(4294967296*(2097151&d)+(c>>>0)).toString(36)+'.'+text.length.toString(36);
+}
+
 // Only presentation settings used by these blocks invalidate their dimensions.
-// Build each block signature once per calculation, including calculated labels.
+// Build each block signature once per calculation, including calculated labels;
+// a page key holds signature hashes, not the signatures themselves.
 export function measurementKeyFor(project,options={}) {
   const lean=isLeanReview(project);
   const signatures=new WeakMap(),overrides=project.settings.layoutOverrides??{};
   const labels=teachingLabels(project.sections.flatMap(s=>s.blocks));
   const {layoutOverrides,cover,...settings}=lean?printableProject({settings:project.settings}).settings:project.settings;
-  const context=JSON.stringify([project.id,project.source?.runId,settings,options]);
+  const context=hashText(JSON.stringify([project.id,project.source?.runId,settings,options]));
   const signature=(block,mode,phase)=>{
     const variant=mode+':'+phase;
     const cached=signatures.get(block);
@@ -21,7 +32,7 @@ export function measurementKeyFor(project,options={}) {
     visit(block);
     const pick=map=>[...ids].filter(id=>Object.hasOwn(map??{},id)).map(id=>[id,map[id]]);
     const printable=lean?printableProject({sections:[{phase,blocks:[block]}]},mode).sections[0].blocks[0]:block;
-    const value=JSON.stringify([printable,pick(overrides.blockLayouts),pick(overrides.answerSpaces),pick(overrides.diagramColourModes),pick(labels)]);
+    const value=hashText(JSON.stringify([printable,pick(overrides.blockLayouts),pick(overrides.answerSpaces),pick(overrides.diagramColourModes),pick(labels)]));
     const modes=cached??new Map();modes.set(variant,value);signatures.set(block,modes);return value;
   };
   return page=>{
