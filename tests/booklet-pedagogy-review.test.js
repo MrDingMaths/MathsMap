@@ -417,7 +417,7 @@ test('direct teaching and question-supplied scaffolds retain their actual eviden
 test('report-only reviewer provenance cannot post raw Sol-authored proposal text',async t=>{
  const w=workspace(t),before=fs.readFileSync(w.projectFile,'utf8');
  const result=await runReview({...w.options,reportOnly:true,runner:stubRunner({review:{'negative-index':{candidates:[candidate('example-principle',['t1-example-a'],{repair:{type:'add-question',proposal:'A raw reviewer-authored student question that must not be posted.'}})]}}})});
- const file=path.join(w.options.provenanceDir,'pedagogy-seeded.json'),record=JSON.parse(fs.readFileSync(file));assert.equal(record.findings.length,1);assert.match(record.findings[0].repair.proposal,/raw reviewer-authored/);assert.equal(record.reportOnly,true);
+ const file=path.join(w.options.provenanceDir,'pedagogy-seeded.json'),record=JSON.parse(fs.readFileSync(file));assert.equal(record.findings.length,1,JSON.stringify({errors:result.errors,lastRun:record.lastRun}));assert.match(record.findings[0].repair.proposal,/raw reviewer-authored/);assert.equal(record.reportOnly,true);
  await assert.rejects(postFindings({...w.options}),/Report-only review evidence cannot be posted/);
  assert.equal(fs.readFileSync(w.projectFile,'utf8'),before);
 });
@@ -427,4 +427,31 @@ test('post --report-only fails at the CLI boundary before loading or posting a p
  const w=workspace(t),before=fs.readFileSync(w.projectFile,'utf8');
  await assert.rejects(reviewMain(['post','--report-only','--project','report-only-must-not-load']),/--report-only is allowed only for review or principles; no action was taken/);
  assert.equal(fs.readFileSync(w.projectFile,'utf8'),before);
+});
+
+
+test('principles-only creates a worker only for teaching topics and never sends an Exam-only task',async t=>{
+ const w=workspace(t,p=>{p.sections=p.sections.filter(s=>s.topicId==='negative-index');p.sections.push({id:'exam-only-section',topicId:'exam-only',phase:'practice',role:'exam',title:'Exam questions',blocks:[{id:'exam-only-question',type:'question',content:{id:'exam-only-root',type:'question',prompt:'EXAM_ONLY_SENTINEL_MUST_NOT_REACH_PRINCIPLES_WORKER',answer:{short:'not reviewed'}}}]});});
+ const calls=[];const result=await runReview({...w.options,principlesOnly:true,reportOnly:true,runner:stubRunner({calls})});
+ assert.deepEqual(result.errors,[]);assert.equal(result.scope.sequencesReviewed,1);assert.equal(calls.length,1);assert.equal(calls[0].payload.sequence.id,'negative-index');
+ assert.equal(JSON.stringify(calls).includes('EXAM_ONLY_SENTINEL'),false);
+ const general=[];await runReview({...w.options,runner:stubRunner({calls:general})});
+ assert.deepEqual(general.filter(c=>c.stage==='pedagogy-review').map(c=>c.payload.sequence.id),['negative-index','exam-only']);
+});
+
+test('explicit worked examples inside practice retain solutions and earlier teaching order',()=>{
+ const example={id:'inline-example',type:'worked-example',pedagogyRole:'example',answer:{short:'quotient',worked:'EXPLICIT_WORKED_SOLUTION'}};
+ const sequence={id:'inline-topic',topicId:'inline-topic',title:'Division',sections:[{id:'inline-practice',phase:'practice',blocks:[example,{id:'routine',type:'question',classification:{reasoningScore:20},content:{id:'routine-root',type:'question',prompt:'Divide'}}]}]};
+ assert.equal(compactBlock(example,sequence.sections[0]).answer.worked,'EXPLICIT_WORKED_SOLUTION');
+ assert.equal(earlierTeaching([sequence,{id:'later',sections:[]}],1).full[0].sections[0].blocks[0].id,'inline-example');
+ const project={title:'Test',sections:sequence.sections};
+ const payload=payloadOf(archetypePrompt(project,sequence,{all:[sequence],skills:[]}));
+ assert.equal(payload.teaching.sections[0].blocks[0].id,'inline-example');
+ assert.equal(payload.teaching.sections[0].blocks.length,1);
+});
+
+test('principles-only dispatch includes explicit teaching in a practice section',async t=>{
+ const w=workspace(t,p=>{p.sections=[{id:'inline-practice',topicId:'inline-topic',phase:'practice',blocks:[{id:'inline-example',type:'worked-example',pedagogyRole:'example',examples:[{id:'inline-example-part',prompt:'Known divisor',theorySolution:'Existing working'}]}]}];});
+ const calls=[];const result=await runReview({...w.options,principlesOnly:true,reportOnly:true,runner:stubRunner({calls})});
+ assert.deepEqual(result.errors,[]);assert.equal(calls.length,1);assert.equal(calls[0].payload.sequence.id,'inline-topic');
 });

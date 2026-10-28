@@ -4,7 +4,7 @@ import {challengeSplitReport as report} from '../polish/challenge-split.mjs';
 const q=(id,score,dependsOn=[])=>({id,type:'question',classification:{reasoningScore:score},flow:{dependsOn}});
 const section=(id,blocks,role='mixed-practice')=>({id,topicId:id,phase:'practice',role,blocks});
 test('dependency closure spans exercises, includes backward links, and preserves input',()=>{
- const p={sections:[section('a',[q('a',65,['b'])]),section('b',[q('b',20,['c']),q('c',30),q('d',40,['a'])])]};
+ const p={sections:[section('a',[q('a',65,['b']),q('spare-a',20)]),section('b',[q('b',20,['c']),q('c',30),q('d',40,['a']),q('spare-b',20)])]};
  const before=structuredClone(p); assert.deepEqual(report(p).moves.map(x=>x.id),['a','b','c','d']);assert.deepEqual(p,before);
 });
 test('source count and minimum set sufficiency targets; gradient and upper end remain visible',()=>{
@@ -60,7 +60,7 @@ test('gradient-only and routine upper-range gaps hold publication even with enou
 });
 test('candidate adds Challenge topic and recognises an existing Challenge exercise alias',async()=>{
  const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');
- const p={id:'p',topics:[],sections:[section('a',[q('a',70)]),{...section('old',[q('old',80)]),title:'Challenge exercise'}]};
+ const p={id:'p',topics:[],sections:[section('a',[q('low',20),q('a',70)]),{...section('old',[q('old',80)]),title:'Challenge exercise'}]};
  const r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}}).project;
  assert.equal(r.sections.filter(s=>s.role==='challenge').length,1);const c=r.sections.at(-1);assert.equal(c.id,'old');assert.ok(r.topics.some(t=>t.id===c.topicId));assert.deepEqual(c.blocks.map(b=>b.id),['old','a']);
 });
@@ -85,4 +85,28 @@ test('routine linked units sort by max member rating without changing their inte
  const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');
  const p={id:'p',sections:[section('a',[q('next',55),q('first',50),q('follow',10,['first']),q('early',20)])]};
  const t=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}}).report.topics[0];assert.deepEqual(t.actualOrder,['early','first','follow','next']);assert.deepEqual(t.gradientUnits.map(u=>u.score),[20,50,55]);
+});
+test('owned Exam high questions and their followups move; external high source is held',async()=>{
+ const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');
+ const a=q('owned65',65),b=q('owned76',76),follow=q('follow',25,['owned65']),external=q('external',70);for(const x of[a,b,follow])x.source={origin:'booklet',label:'HSC 2016'};external.source={origin:'MathsBase'};a.bankRef={id:'bank-original'};
+ const p={id:'p',sections:[section('routine',[q('routine',20)]),section('exam',[a,follow,b,external],'exam')]};
+ const r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}});assert.deepEqual(r.report.moves.map(m=>m.id),['owned65','follow','owned76']);assert.deepEqual(r.report.highOwnedExamRemaining,[]);assert.ok(r.report.scopeHolds.some(h=>h.kind==='external-source-eligibility'));assert.deepEqual(r.project.sections.at(-1).blocks.map(b=>b.id),['owned65','follow','owned76']);assert.deepEqual(r.project.sections.at(-1).blocks[0].bankRef,a.bankRef);assert.equal(r.project.sections.find(s=>s.id==='exam').blocks[0].id,'external');assert.equal(r.report.topics.length,1);
+});
+test('uncertain Exam ownership holds and external-linked units cannot feed Challenge',()=>{
+ const own=q('owned',65);own.source={origin:'booklet'};const ext=q('external',20,['owned']);ext.source={origin:'MathsBase'};
+ const r=report({id:'p',sections:[section('exam',[own,ext,q('unknown',76)],'exam')]});assert.equal(r.moves.length,0);assert.deepEqual(r.highOwnedExamRemaining.map(x=>x.id),['owned']);assert.ok(r.scopeHolds.some(h=>h.kind==='uncertain-owned-move-unit'));assert.ok(r.scopeHolds.some(h=>h.kind==='uncertain-owned-end-question'));
+});
+test('continuation source stem and nested dependency owners remain a single ordered move unit',async()=>{
+ const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');
+ const stem=q('stem',30),part=q('part',70),last=q('last',20);stem.content={id:'stem-root',children:[{id:'shared-given',type:'part'}]};part.flow={continuationOf:'stem'};last.content={id:'last-root',dependsOn:['shared-given']};
+ const p={id:'p',sections:[section('a',[stem,part,last,q('retained',20)])]},r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{questions:Object.fromEntries(['stem','part','last'].map(id=>[id,{continuationUnitReviewed:true}]))}});
+ assert.deepEqual(r.report.moves.map(m=>m.id),['stem','part','last']);assert.deepEqual(r.project.sections.at(-1).blocks.map(b=>b.id),['stem','part','last']);
+});
+test('continuation whole unit is held when moving it would erase an exercise boundary',async()=>{
+ const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');const stem=q('stem',30),part=q('part',70);part.flow={continuationOf:'stem'};
+ const p={id:'p',sections:[section('a',[stem,part])]},r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}});assert.equal(r.report.moves.length,0);assert.ok(r.report.scopeHolds.some(h=>h.reason.includes('exercise boundary')||h.reason.includes('Semantic-unit review')));assert.deepEqual(r.project.sections[0].blocks.map(b=>b.id),['stem','part']);
+});
+test('unreviewed mixed-score continuation is held in original placement and unchanged',async()=>{
+ const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs'),stem=q('stem',40),part=q('part',70),later=q('later',10);part.flow={continuationOf:'stem'};
+ const p={id:'p',sections:[section('a',[stem,part,later])]},r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}});assert.deepEqual(r.project.sections[0].blocks.slice(0,2),[stem,part]);assert.equal(r.report.moves.length,0);assert.ok(r.report.scopeHolds.some(h=>h.reason.startsWith('Semantic-unit review')));
 });

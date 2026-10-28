@@ -267,8 +267,21 @@ export function resolveArrangement(block,stored,overrides={},widthMm=180){
   };
   reconcile(catalog.initial.root);
  }
+ if(overrides.omitWorkingSpace)tree.root=withoutWorkingSpace(tree.root,catalog.entries)??group(tree.root.id,[]);
  const missing=arrangementItems(tree.root).filter(n=>!catalog.entries.has(n.ref));
  return {...catalog,tree,missing,labelIndents:questionLabelIndents(block,tree,catalog.entries)};
+}
+
+// Print-only projection: remove dedicated space slots and their ancestor reserved
+// minima. Native response cells, diagram dimensions and unrelated groups survive.
+export function withoutWorkingSpace(root,entries){
+ const visit=n=>{
+  if(n.type==='item')return {node:entries.get(n.ref)?.kind==='space'?null:{...n},removed:entries.get(n.ref)?.kind==='space'};
+  const children=(n.children??[]).map(visit),removed=children.some(c=>c.removed),node={...n,children:children.map(c=>c.node).filter(Boolean)};
+  if(removed)delete node.minHeight;
+  return {node:removed&&!node.children.length?null:node,removed};
+ };
+ return visit(root).node;
 }
 
 // Mixed teaching activities place demonstrations and responses in one source

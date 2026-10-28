@@ -10,7 +10,7 @@ import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {flowEditionSections} from '../src/lib/booklet-flow.js';
 import {sectionShowsWorkingSpace} from '../src/lib/booklet-section-options.js';
 import {visibleImportedQuestionTitle} from '../src/lib/booklet-preview.js';
-import {arrangementExamTitle} from '../src/lib/booklet-arrangement.js';
+import {withoutWorkingSpace,arrangementExamTitle} from '../src/lib/booklet-arrangement.js';
 
 test('printed source round-trips without accepting extraction provenance',()=>{
   const source={provider:'HSC',paper:'Advanced',year:2011,label:'HSC Advanced 2011',origin:'MathsBase'};
@@ -78,4 +78,11 @@ test('exam/no-working-space survives all five edition projections without changi
       assert.deepEqual(section.blocks[0].content,content);
     }
   }
+});
+
+
+test('no-working projection removes reserved ancestor minima only and preserves native cells/diagrams',()=>{
+ const tree={id:'root',type:'group',minHeight:48,children:[{id:'prompt',type:'item',ref:'prompt'},{id:'part',type:'group',minHeight:36,children:[{id:'cell',type:'item',ref:'cell',minHeight:12},{id:'diagram',type:'item',ref:'diagram',width:60,height:40},{id:'space',type:'item',ref:'space',height:24}]},{id:'meaningful',type:'group',minHeight:22,children:[{id:'label',type:'item',ref:'label'}]}]};
+ const original=structuredClone(tree),entries=new Map([['prompt',{kind:'document'}],['cell',{kind:'document'}],['diagram',{kind:'diagram'}],['space',{kind:'space'}],['label',{kind:'document'}]]),out=withoutWorkingSpace(tree,entries);
+ assert.deepEqual(tree,original);assert.equal(out.minHeight,undefined);assert.equal(out.children[1].minHeight,undefined);assert.equal(out.children[1].children.length,2);assert.deepEqual(out.children[1].children[0],tree.children[1].children[0]);assert.deepEqual(out.children[1].children[1],tree.children[1].children[1]);assert.deepEqual(out.children[2],tree.children[2]);
 });
