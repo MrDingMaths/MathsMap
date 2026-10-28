@@ -27,3 +27,14 @@ test('score order reversing a retained dependency is held',()=>{
  const t=report({sections:[section('a',[q('a',40),q('b',10,['a'])])]}).topics[0];
  assert.equal(t.order,null);assert.equal(t.orderHolds[0].id,'b');
 });
+test('reviewed independent attempts count separately, grouped scaffold steps once, invalid evidence rejected',()=>{
+ const b=q('a',20);b.content={id:'root',children:[{id:'first'},{id:'second'},{id:'step1'},{id:'step2'}]};
+ const p={sections:[section('a',[b])]},archetypes={questions:{a:{archetype:'routine',practiceItems:[{nodeIds:['first']},{nodeIds:['second']},{nodeIds:['step1','step2']}]}},topics:[{topicId:'a',archetypes:[{id:'routine',coverage:'covered'}]}]};
+ const t=report(p,{archetypes}).topics[0];assert.equal(t.coverage[0].count,3);assert.equal(t.coverage[0].gap,0);
+ archetypes.questions.a.practiceItems.push({nodeIds:['first']});assert.throws(()=>report(p,{archetypes}),/reused practice node/);
+});
+test('unreviewed multipart content holds sufficiency instead of inventing a block deficit',()=>{
+ const b=q('a',20);b.content={id:'root',children:[{id:'one',type:'part'},{id:'two',type:'part'}]};
+ const archetypes={questions:{a:{archetype:'routine'}},topics:[{topicId:'a',archetypes:[{id:'routine',coverage:'covered'}]}]};
+ const t=report({sections:[section('a',[b])]},{archetypes}).topics[0];assert.equal(t.sufficiencyStatus,'unassessable');assert.deepEqual(t.missingItemReview,['a']);assert.equal(t.coverage[0].gap,null);
+});
