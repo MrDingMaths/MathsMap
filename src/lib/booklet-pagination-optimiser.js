@@ -305,7 +305,7 @@ function stampAutoOrder(project, sectionIndex, units, order, moves, at) {
 
 // ---- optimiser ---------------------------------------------------------------------
 
-export async function optimisePagination(source, {paginate, guard = null, named = false, trials = OPTIMISER_LIMITS.trials, gapMm = OPTIMISER_LIMITS.gapMm, now = () => new Date().toISOString(), onprogress = null, shouldStop = () => false} = {}) {
+export async function optimisePagination(source, {paginate, guard = null, named = false, trials = OPTIMISER_LIMITS.trials, gapMm = OPTIMISER_LIMITS.gapMm, now = () => new Date().toISOString(), onprogress = null, shouldStop = () => false, sectionIds = null} = {}) {
   if (typeof paginate !== 'function') throw Error('optimisePagination needs a paginate callback');
   if (hasTeacherReview(source) && !named) throw Error(`${source.id ?? 'This booklet'} has teacher comments; it changes only when named explicitly.`);
   const baseline = await paginate(source, {});
@@ -316,12 +316,14 @@ export async function optimisePagination(source, {paginate, guard = null, named 
   let project = source, totalTrials = 0, map = baseline;
   const reject = (sectionId, reason, detail = {}) => rejected.push({sectionId, reason, ...detail});
 
-  const targets = optimisableSections(source);
+  // sectionIds limits the run to those exercises (Fit whole exercise); null is the whole booklet.
+  const scope = sectionIds ? new Set(sectionIds) : null, inScope = id => !scope || scope.has(id);
+  const targets = optimisableSections(source).filter(t => inScope(t.section.id));
   const optimised = new Set(targets.map(t => t.section.id));
-  for (const skipped of source.sections.filter(s => s.phase === 'practice' && s.role !== 'candidate-pool' && !optimised.has(s.id) && s.blocks.some(b => isPractice(b)))) exercises.push({sectionId: skipped.id, skipped: 'continues its topic after teaching content; no page boundary'});
+  for (const skipped of source.sections.filter(s => s.phase === 'practice' && s.role !== 'candidate-pool' && !optimised.has(s.id) && inScope(s.id) && s.blocks.some(b => isPractice(b)))) exercises.push({sectionId: skipped.id, skipped: 'continues its topic after teaching content; no page boundary'});
 
   // Short tails of teaching blocks come first: the page they free is the exercise's neighbour, not its content.
-  for (const split of shortTailSplits(baseline, project)) {
+  for (const split of shortTailSplits(baseline, project).filter(split => inScope(split.sectionId))) {
     if (shouldStop()) break;
     const index = project.sections.findIndex(section => section.id === split.sectionId), block = project.sections[index]?.blocks.find(b => b.id === split.id);
     if (!block||protectedIds.has(block.id)) continue;

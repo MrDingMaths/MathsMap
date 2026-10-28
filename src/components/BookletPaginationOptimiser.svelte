@@ -2,7 +2,7 @@
  import {tick, onMount} from 'svelte';
  import FlowBookletPreview from './FlowBookletPreview.svelte';
  import {optimisePagination, suggestBreakRemovals, summariseMoves, summariseRejections} from '../lib/booklet-pagination-optimiser.js';
- import {measureBookletPage} from '../lib/booklet-page-space.js';
+ import {probePagination, describeMove} from '../lib/booklet-probe-pagination.js';
  import {hasTeacherReview} from '../lib/booklet-import-spacing.js';
  import {flowNumbers} from '../lib/booklet-flow.js';
  // Optimise pagination (22 October 2026, user approved): reorders practice questions
@@ -16,32 +16,7 @@
  const reviewed = $derived(project ? hasTeacherReview(project) : false);
 
  const publish = value => { if (typeof window !== 'undefined') window.__bookletOptimiseResult = value; };
- // Pages as the optimiser reads them. Only the pages holding the focus blocks are
- // measured: their space left and the heights of their questions.
- async function paginate(next, focus) {
-  candidate = next; probeEdition = 'student'; await tick();
-  const map = await probe.waitUntilReady({allowIssues: true});
-  const wanted = new Set(focus?.blockIds ?? []);
-  const identity = b => b.flow?.continuationOf ?? b.continuationOf ?? b.id;
-  const pages = map.pages.map(p => ({blocks: p.blocks.map(b => ({id: b.id, flow: {continuationOf: b.flow?.continuationOf, fragment: b.flow?.fragment}, continuationOf: b.continuationOf, parts: b.content?.children?.length ?? null})), mode: p.mode}));
-  for (const [i, page] of map.pages.entries()) {
-   if (!page.blocks.some(b => wanted.has(b.id) || wanted.has(identity(b)))) continue;
-   const root = await probe.revealPage(i), space = root && measureBookletPage(root);
-   if (!space) continue;
-   const paper = root.querySelector('.booklet-page'), k = 210 / paper.getBoundingClientRect().width;
-   const outer = [...root.querySelectorAll('[data-question-id]')].filter(el => !el.parentElement?.closest('[data-question-id]'));
-   pages[i].space = {capacityMm: space.capacity / (96 / 25.4), usedMm: space.height / (96 / 25.4), remainingMm: space.remainingMm};
-   pages[i].elements = outer.map(el => ({id: el.dataset.questionId, kind: 'question', h: el.getBoundingClientRect().height * k}));
-  }
-  return {pages, issues: map.issues};
- }
- // The short and worked editions may not gain pages.
- async function guard(next) {
-  candidate = next; const out = {};
-  for (const edition of ['short', 'worked']) { probeEdition = edition; await tick(); out[edition] = (await probe.waitUntilReady({allowIssues: true})).pages.length; }
-  probeEdition = 'student'; await tick();
-  return out;
- }
+ const {paginate, guard} = probePagination({show: async (next, edition) => { candidate = next; probeEdition = edition; await tick(); }, probe: () => probe});
 
  export async function run() {
   if (running || !project) return result;
@@ -74,8 +49,7 @@
   const next = result.project; result = null; message = 'Applied as one undo step.'; publish({...window.__bookletOptimiseResult, state: 'applied'}); onchange(next);
  }
  function discard() { result = null; message = 'Discarded. Nothing changed.'; publish({state: 'discarded'}); }
- const describe = m => m.type === 'reorder' ? `${m.blockIds.map(id => result.label[id] ?? id).join(', ')} moved before ${m.jumped.length ? (result.label[m.jumped[0]] ?? m.jumped[0]) : 'the next question'} (${m.reason})`
-  : m.type === 'tighten' ? `${result.label[m.blockId] ?? m.blockId} working space ${m.before} → ${m.after} mm` : m.type === 'keep-together' ? `${result.label[m.blockId] ?? m.blockId} kept on one page (${m.reason})` : `${result.label[m.blockId] ?? m.blockId} parts in two columns`;
+ const describe = m => describeMove(m, result.label);
  onMount(() => { window.__bookletOptimise = run; window.__bookletOptimiseApply = apply; window.__bookletSuggestBreaks = suggestBreaks; window.__bookletPaginate = paginate; return () => { delete window.__bookletPaginate; delete window.__bookletOptimise; delete window.__bookletOptimiseApply; delete window.__bookletSuggestBreaks; }; });
 </script>
 <section class="optimiser" aria-label="Optimise pagination">

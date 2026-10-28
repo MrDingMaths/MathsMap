@@ -348,3 +348,16 @@ test('in a topic booklet only the first practice section of a topic starts a pag
   {id:'p3',phase:'practice',topicId:'b',blocks:[question('C',10)]}]});
  assert.deepEqual(optimisableSections(p).map(x=>x.section.id),['p1','p3']);
 });
+
+test('sectionIds limits the optimiser to the named exercises (Fit whole exercise)',async()=>{
+ const blocks=prefix=>[question(prefix+'A',10),question(prefix+'B',30),question(prefix+'C',32)];
+ const heights={xA:60,xB:50,xC:30,yA:60,yB:50,yC:30};
+ const two=()=>project(null,{sections:[{id:'s1',phase:'practice',topicId:'t1',blocks:blocks('x')},{id:'s2',phase:'practice',topicId:'t2',blocks:blocks('y')}]});
+ const order=(p,i)=>p.sections[i].blocks.map(b=>b.id);
+ const whole=await optimisePagination(two(),{paginate:fakePaginator(heights),gapMm:15});
+ assert.deepEqual([order(whole.project,0),order(whole.project,1)],[['xA','xC','xB'],['yA','yC','yB']]);
+ const scoped=await optimisePagination(two(),{paginate:fakePaginator(heights),gapMm:15,sectionIds:['s2']});
+ assert.deepEqual([order(scoped.project,0),order(scoped.project,1)],[['xA','xB','xC'],['yA','yC','yB']]);
+ assert.ok(scoped.moves.every(m=>(m.blockIds??[m.blockId]).every(id=>id.startsWith('y'))));
+ assert.ok(scoped.exercises.every(e=>e.sectionId==='s2'));
+});
