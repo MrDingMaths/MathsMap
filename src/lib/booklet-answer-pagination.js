@@ -16,8 +16,33 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
   let columns=Array.from({length:count},()=>[]),column=0;
   const check=()=>{if(cancelled())throw Object.assign(Error('Pagination superseded'),{cancelled:true});};
   const make=()=>({id:`compact-${mode}-${pages.length}`,pageNumber:pages.length+1,mode,flexible:true,compactAnswers:true,showAnswerHeading:pages.length===0,columns:columns.map(c=>[...c]),blocks:columns.flat().map(e=>e.block),section:columns.flat()[0]?.section,breakReason:'overflow'});
-  const flush=()=>{if(columns.some(c=>c.length))pages.push(make());columns=Array.from({length:count},()=>[]);column=0;};
+  const flush=()=>{if(columns.some(c=>c.length)){pages.push(make());perPage=Math.max(2,columns[0].length);}columns=Array.from({length:count},()=>[]);column=0;known=0;};
   let completed=0,begin=0;
+  // Fragments per unit, shared by the loop and the look-ahead below.
+  const fragmentLists=new Map(),fragmentsOf=j=>{if(!fragmentLists.has(j))fragmentLists.set(j,units[j].fragments??answerFragments(units[j].blocks[0],mode));return fragmentLists.get(j);};
+  const fitsColumn=size=>size.height<=size.capacity-footerReserve+.2;
+  // Look-ahead (single-column worked pages): measure a batch of the upcoming fragments
+  // instead of the page after each one. The batch grows from about the previous page's
+  // count; a binary search then finds the largest prefix that fits, and those fragments
+  // are added without measuring again. Fitting is monotonic in the prefix, so this
+  // places exactly what adding them one at a time would; the fragment that overflows
+  // goes through the normal path, whose measurement the search has already cached.
+  // It stops before a forced worked page break.
+  let known=0,perPage=8;
+  async function lookahead(i,f){
+    const upcoming=[];
+    for(let j=i;j<units.length&&upcoming.length<64;j++){
+      if(j>i&&units[j].blocks[0].flow?.workedPageBreakBefore===true)break;
+      const list=fragmentsOf(j);
+      for(let g=j===i?f:0;g<list.length&&upcoming.length<64;g++)upcoming.push({block:list[g],section:units[j].section,labelWidthMm:widths.get(units[j].section.topicId)});
+    }
+    const base=columns[column].length,trial=async n=>{columns[column].push(...upcoming.slice(0,n));const size=await measure(make());check();columns[column].length=base;return fitsColumn(size);};
+    let low=0,high=upcoming.length,n=Math.min(high,Math.max(2,perPage-base));
+    if(n<2)return 0;
+    while(true){if(await trial(n)){low=n;if(n===high)return low;n=Math.min(high,n*2);}else{high=n-1;break;}}
+    while(low<high){const mid=Math.ceil((low+high)/2);if(await trial(mid))low=mid;else high=mid-1;}
+    return low;
+  }
   const resume=cached.prior?.checkpoints[cached.first];
   if(resume){begin=cached.first;pages.push(...cached.prior.pages.slice(0,resume.pageCount).map(p=>({...p})));issues.push(...cached.prior.issues.slice(0,resume.issueCount));columns=resume.columns.map(c=>[...c]);column=resume.column;cached.entry.checkpoints=cached.prior.checkpoints.slice(0,begin);}
   for(let i=begin;i<units.length;i++){
@@ -29,11 +54,13 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
     // A local worked-answer break leaves Questions and short answers untouched.
     // Flush once per owning block, before any of its answer fragments.
     if(block.flow?.workedPageBreakBefore===true)flush();
-      const fragments=units[i].fragments??answerFragments(block,mode);
+      const fragments=fragmentsOf(i);
       for(let f=0;f<fragments.length;f++){
         const fragment=fragments[f];
         check();
         const entry={block:fragment,section,labelWidthMm:widths.get(section.topicId)};
+        if(!known&&count===1)known=await lookahead(i,f);
+        if(known){columns[column].push(entry);known--;continue;}
         while(true){
           columns[column].push(entry);
           const size=await measure(make());check();
