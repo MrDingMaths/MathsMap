@@ -20,7 +20,8 @@ page.on('pageerror',e=>errors.push(e.message));
 await page.route('**/*',route=>{const request=route.request();if(!['GET','HEAD','OPTIONS'].includes(request.method())){blocked.push({method:request.method(),url:request.url()});return route.abort();}return route.continue();});
 const value=()=>page.evaluate(()=>document.querySelector('maths-editor').document);
 const ready=()=>page.waitForFunction(()=>document.querySelector('maths-editor')?.document?.blocks?.length>0);
-const selectCell=async id=>{await page.locator('.me-content td[data-id="'+id+'"] > p').first().click();};
+// Covered table fields sit under the native inspector's More…, which stays open once opened.
+const selectCell=async id=>{await page.locator('.me-content td[data-id="'+id+'"] > p').first().click();const more=page.locator('.me-more-properties').first();if(await more.count()&&!await more.evaluate(d=>d.open))await more.locator('summary').click();};
 const alignmentMap=doc=>Object.fromEntries(doc.blocks.flatMap(t=>t.rows.flat()).map(c=>[c.id,c.verticalAlign]));
 try{
  await page.goto(base+'/libs/maths-editor/studio.html');await ready();

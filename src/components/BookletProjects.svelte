@@ -1393,7 +1393,7 @@
 
 <style>
  .editor-parking{position:fixed;left:-20000px;top:0;width:180mm;visibility:hidden;pointer-events:none}
- .document-toolbar :global(.equation-menu:not([open])>.me-math-tools){display:none!important}.document-toolbar :global(.equation-menu>.me-math-tools){top:100%;right:0;width:280px;display:grid;gap:6px;padding:10px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools>label:not([hidden])){display:flex;align-items:center;justify-content:space-between;gap:6px;white-space:normal}.document-toolbar :global(.equation-menu .me-math-tools button){text-align:left}.document-toolbar :global(.tool-label){font-size:12px;color:var(--text-muted,#687482);padding:0 2px}.table-format{flex-wrap:nowrap;white-space:nowrap}.table-format .colour-rows{display:grid;gap:6px;padding:8px}
+ .document-toolbar :global(.tool-label){font-size:12px;color:var(--text-muted,#687482);padding:0 2px}.table-format{flex-wrap:nowrap;white-space:nowrap}.table-format .colour-rows{display:grid;gap:6px;padding:8px}
  .layout-spacing-panel{display:grid;gap:0}.layout-spacing-panel label{display:flex;justify-content:space-between;gap:8px;margin:6px 0}.layout-spacing-panel input{width:80px}.inspector-hint{margin:4px 0;font-size:13px;color:var(--text-muted,#617086)}
 
 .project-shell{position:relative}.is-opening{min-height:calc(100dvh - 100px)}
@@ -1454,8 +1454,8 @@
  :global(.booklet-document-field.me-document-editor){border:0!important;padding:0!important;margin:0!important;background:transparent!important;color:inherit!important;font:inherit!important;box-shadow:none!important}
  :global(.booklet-document-field>.me-toolbar),:global(.booklet-document-field>.me-properties){display:none!important}
  :global(.booklet-document-field>.me-content){min-height:0!important;padding:0!important;border:0!important;outline:none!important;background:transparent!important;color:inherit!important;font:inherit!important}
- .document-toolbar :global(.me-math-tools){position:absolute;z-index:25;top:calc(100% + 4px);right:16px;width:min(850px,calc(100vw - 32px));max-height:50vh;overflow:auto;box-sizing:border-box;background:#edf5fc;color:#24364b;box-shadow:0 6px 18px #0002}
- .document-toolbar :global(.me-math-tools button){background:#fff;color:#24364b}
+ .document-toolbar :global(.me-math-tools.equation-row){position:absolute;z-index:25;top:100%;left:0;right:0;display:flex;flex-wrap:nowrap;align-items:center;gap:6px;padding:5px 12px;overflow-x:auto;box-sizing:border-box;border:0;border-bottom:1px solid #b7c9d6;border-radius:0;background:#edf5fc;color:#24364b;box-shadow:0 4px 10px #0002;white-space:nowrap}.document-toolbar :global(.equation-row button){min-height:30px;padding:4px 8px}.document-toolbar :global(.equation-row input[type=number]){width:64px}.document-toolbar :global(.equation-row .me-math-hint){flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;color:#536273}
+ .document-toolbar :global(.me-math-tools button){background:#fff;color:#24364b}.document-toolbar :global(.me-math-tools .me-swatch){background:var(--swatch)}.document-toolbar :global(.me-math-tools [aria-pressed=true]){background:#cfe3f5;border-color:#438ccc}
  :global(.booklet-document-field .me-content [data-math]){max-width:100%}
  :global(.booklet-document-field .me-content [data-math] math-field){max-width:100%;box-sizing:border-box}
  :global(.editable-booklet-text.edit-mode .clickable:empty){min-height:1em}:global(.editable-booklet-text.edit-mode .clickable:empty::before){content:'Write here';color:#90a0ad;pointer-events:none}

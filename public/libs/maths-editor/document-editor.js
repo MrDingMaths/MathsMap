@@ -304,10 +304,10 @@ export class DocumentEditor {
   field(label,value,action,type='number',options=null) {
     const wrap=document.createElement('label'); wrap.textContent=label+' '; const input=document.createElement(options?'select':'input'); input.setAttribute('aria-label',label); input.disabled=this.host.readonly;
     if(options) options.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;input.append(o);}); else input.type=type;
-    input.value=value??''; input.onchange=()=>action(type==='number'&&!options?Number(input.value):input.value); wrap.append(input); this.inspector.append(wrap);
+    input.value=value??''; input.onchange=()=>action(type==='number'&&!options?Number(input.value):input.value); wrap.append(input); this.inspector.append(wrap); return wrap;
   }
   properties() {
-    this.propertiesOpen=this.inspector.querySelector('.me-selection-menu')?.open;this.finishEquationEdit?.();this.inspector.replaceChildren(); const n=this.selected; if(!n)return;
+    this.propertiesOpen=this.inspector.querySelector('.me-selection-menu')?.open;this.moreOpen=this.inspector.querySelector('.me-more-properties')?.open??this.moreOpen;this.finishEquationEdit?.();this.inspector.replaceChildren(); const n=this.selected; if(!n)return;
     const f=(label,key,type='number',options=null)=>this.field(label,n[key],v=>this.modify(node=>node[key]=v),type,options);
     if(n.type==='annotated-equation')this.equationProperties(n);
     if(n.type==='paragraph') { f('Font size (pt)','fontSize'); f('Align','align','text',['left','center','right','justify']); f('Before (mm)','spaceBefore'); f('After (mm)','spaceAfter'); f('Line spacing','lineHeight'); f('Indent (mm)','indent');this.tabProperties(n); }
@@ -320,18 +320,20 @@ export class DocumentEditor {
       const edit=fn=>this.transact(doc=>visitDocument(doc,t=>{if(t.id===table.id)fn(t);}));
       const selectedEl=this.surface.querySelector(`[data-id="${CSS.escape(n.id)}"]`),cellId=selectedEl?.closest('td,th')?.dataset.id;
       const map=tableGrid(table),logical=map.byId.get(cellId??n.id)??map.entries[0],cell=logical.cell,ri=logical.row,ci=table.rows[ri].indexOf(cell);
-      this.field('Table margin before (mm)',table.marginBefore,v=>edit(t=>t.marginBefore=Number(v)));
-      this.field('Table margin after (mm)',table.marginAfter,v=>edit(t=>t.marginAfter=Number(v)));
+      // Spacing, size and alignment fields the host's table controls and format bar
+      // already cover, and the raw annotation data, are collected under More….
+      const more=[this.field('Table margin before (mm)',table.marginBefore,v=>edit(t=>t.marginBefore=Number(v))),
+       this.field('Table margin after (mm)',table.marginAfter,v=>edit(t=>t.marginAfter=Number(v)))];
       this.tableStyleProperties(table,logical,edit);
 
-      this.field('Table width (mm)',table.widthMm??80,v=>edit(t=>t.widthMm=Number(v)));
-      this.field('Cell horizontal alignment',table.rows[ri][ci].align,v=>edit(t=>t.rows[ri][ci].align=v),'text',['left','center','right']);
-      this.field('Cell vertical alignment',table.rows[ri][ci].verticalAlign,v=>edit(t=>t.rows[ri][ci].verticalAlign=v),'text',['top','middle','bottom','baseline']);
-      this.field('Cell top padding (mm)',cell.paddingTop??table.padding,v=>edit(t=>t.rows[ri][ci].paddingTop=Number(v)));
+      more.push(this.field('Table width (mm)',table.widthMm??80,v=>edit(t=>t.widthMm=Number(v))),
+       this.field('Cell horizontal alignment',table.rows[ri][ci].align,v=>edit(t=>t.rows[ri][ci].align=v),'text',['left','center','right']),
+       this.field('Cell vertical alignment',table.rows[ri][ci].verticalAlign,v=>edit(t=>t.rows[ri][ci].verticalAlign=v),'text',['top','middle','bottom','baseline']),
+       this.field('Cell top padding (mm)',cell.paddingTop??table.padding,v=>edit(t=>t.rows[ri][ci].paddingTop=Number(v))));
 
       this.annotationProperties(table,logical,edit);
-      this.field('Row height (mm)',table.rowHeights[ri]??10,v=>edit(t=>t.rowHeights[ri]=Number(v)));
-      this.field('Annotations (JSON)',JSON.stringify(table.annotations),v=>edit(t=>t.annotations=JSON.parse(v)),'text');
+      more.push(this.field('Row height (mm)',table.rowHeights[ri]??10,v=>edit(t=>t.rowHeights[ri]=Number(v))),
+       this.field('Annotations (JSON)',JSON.stringify(table.annotations),v=>edit(t=>t.annotations=JSON.parse(v)),'text'));
       this.button(this.inspector,'Toggle cell bold',()=>edit(t=>t.rows[ri][ci].bold=!t.rows[ri][ci].bold));
       this.field('Cell rotation',table.rows[ri][ci].rotation,v=>edit(t=>t.rows[ri][ci].rotation=Number(v)),'text',['0','-90','90']);
       this.button(this.inspector,'Toggle cell border',()=>edit(t=>{const c=t.rows[ri][ci];c.border=!(c.border??t.border);delete c.borders;}));
@@ -344,13 +346,14 @@ export class DocumentEditor {
       this.button(this.inspector,'Merge down',()=>edit(t=>mergeCells(t,cell.id,'down')));
       this.button(this.inspector,'Split cell',()=>edit(t=>splitCell(t,cell.id)));
       this.button(this.inspector,table.border?'Hide borders':'Show borders',()=>edit(t=>t.border=!t.border));
-      this.field('Cell padding (mm)',table.padding,v=>edit(t=>t.padding=v));
+      more.push(this.field('Cell padding (mm)',table.padding,v=>edit(t=>t.padding=v)));
       const tracks=trackWidths(table,this.tableTotal(table)),columns=Array.from({length:logical.cols},(_,i)=>String(logical.col+i+1));
       let column=logical.col;
       this.field('Selected column',String(column+1),v=>{column=Number(v)-1;widthInput.value=trackWidths(table,this.tableTotal(table))[column].toFixed(2);},'text',columns);
       const widthInput=this.liveField('Column width (mm)',tracks[column].toFixed(2),(doc,v)=>{let t;visitDocument(doc,n=>{if(n.id===table.id)t=n;});setColumnWidth(t,column,v,this.tableTotal(t),this.tableLimit(t));});
       if(logical.cols>1){const hint=document.createElement('p');hint.textContent='Merged width is the sum of columns '+columns.join(', ')+'.';this.inspector.append(hint);}
       const unresolved=unresolvedAnnotations(table);if(unresolved.length){const warning=document.createElement('p');warning.setAttribute('role','status');warning.textContent='Unresolved annotation anchors: '+unresolved.map(a=>a.id).join(', ');this.inspector.append(warning);}
+      const details=document.createElement('details'),summary=document.createElement('summary');details.className='me-more-properties';details.open=!!this.moreOpen;summary.textContent='More…';details.append(summary,...more);this.inspector.append(details);
 
     }
     const location=locateDocumentNode(this.doc,n.id),listItem=n.type==='list-item'?n:[...(location?.ancestors??[])].reverse().find(node=>node.type==='list-item');

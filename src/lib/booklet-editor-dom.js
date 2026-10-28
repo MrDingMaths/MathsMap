@@ -80,7 +80,9 @@ export function installBookletEditorHost(editor, host) {
   c.properties();
   // Keep equation controls outside scaled paper and narrow question columns.
   const equationTools=editor.querySelector('.me-math-tools'),toolbar=editor.closest('.project-shell')?.querySelector('.document-toolbar');
-  let equationMenu,equationObserver;if(equationTools&&toolbar){equationTools.dataset.equationControl='';equationMenu=document.createElement('details');equationMenu.className='document-insert equation-menu';const summary=document.createElement('summary');summary.textContent='Equation';equationMenu.append(summary,equationTools);toolbar.append(equationMenu);const update=()=>{equationMenu.hidden=equationTools.hidden;};equationObserver=new MutationObserver(update);equationObserver.observe(equationTools,{attributes:true,attributeFilter:['hidden']});update();}
+  // While an equation is active its tools show as a second row under the document toolbar
+  // (math-editing.mjs hides the bar otherwise).
+  const equationRow=equationTools&&toolbar?equationTools:null;if(equationRow){equationRow.dataset.equationControl='';equationRow.classList.add('equation-row');toolbar.append(equationRow);}
   c.undo=direction=>host.undo(direction??-1);
   // One structural command per history entry; changing between typing and deletion
   // also starts a new word-processing undo group.
@@ -111,7 +113,7 @@ export function installBookletEditorHost(editor, host) {
   const ownRender=Object.hasOwn(c,'render'),originalRender=c.render;let surfaceDiagrams=null;
   if(host.surfaceDiagrams){c.render=function(...args){const result=originalRender.apply(c,args);surfaceDiagrams?.update();return result;};surfaceDiagrams=host.surfaceDiagrams(c);}
   host.ready(editor);
-  return ()=>{surfaceDiagrams?.destroy();if(surfaceDiagrams){if(ownRender)c.render=originalRender;else delete c.render;}host.detached(captureEditorSelection(editor));equationObserver?.disconnect();equationMenu?.remove();for(const [name,original]of transactions)c[name]=original;editor.removeEventListener('beforeinput',beforeInput,true);editor.removeEventListener('pointerdown',boundary,true);editor.removeEventListener('paste',boundary,true);editor.removeEventListener('cut',boundary,true);c.undo=originalUndo;c.tabProperties=originalTabs;if(originalCopiedTabs)Object.defineProperty(c,'copiedTabs',originalCopiedTabs);else delete c.copiedTabs;editor.removeEventListener('keydown',key,true);editor.removeEventListener('keyup',select);editor.removeEventListener('mouseup',select);editor.removeEventListener('click',select);editor.removeEventListener('focusin',select);editor.removeEventListener('compositionstart',composition);editor.removeEventListener('compositionend',composition);};
+  return ()=>{surfaceDiagrams?.destroy();if(surfaceDiagrams){if(ownRender)c.render=originalRender;else delete c.render;}host.detached(captureEditorSelection(editor));equationRow?.remove();for(const [name,original]of transactions)c[name]=original;editor.removeEventListener('beforeinput',beforeInput,true);editor.removeEventListener('pointerdown',boundary,true);editor.removeEventListener('paste',boundary,true);editor.removeEventListener('cut',boundary,true);c.undo=originalUndo;c.tabProperties=originalTabs;if(originalCopiedTabs)Object.defineProperty(c,'copiedTabs',originalCopiedTabs);else delete c.copiedTabs;editor.removeEventListener('keydown',key,true);editor.removeEventListener('keyup',select);editor.removeEventListener('mouseup',select);editor.removeEventListener('click',select);editor.removeEventListener('focusin',select);editor.removeEventListener('compositionstart',composition);editor.removeEventListener('compositionend',composition);};
 }
 
 export function runEditorCommand(editor, name, value) {

@@ -45,7 +45,7 @@ try{
  await page.locator('.document-toolbar button[aria-label="Bold"]').click();await saved();
  assert.match(await page.locator('maths-editor .me-content math-field').first().evaluate(m=>m.value),/mathbf\{q\}/,'external formatting acts on the selected term');
  assert.equal(await page.locator('maths-editor .me-equation-selected').count(),1);
- await page.locator('.document-toolbar .equation-menu > summary').click();const tools=page.locator('.document-toolbar .me-math-tools');await tools.waitFor();
+ const tools=page.locator('.document-toolbar .me-math-tools.equation-row:not([hidden])');await tools.waitFor();
  const bounds=await tools.boundingBox();assert.ok(bounds.x>=0&&bounds.y>=0&&bounds.x+bounds.width<=1700&&bounds.y+bounds.height<=1100,'equation tools remain in the viewport');
  assert.equal(await tools.getByRole('button',{name:'Edit LaTeX',exact:true}).evaluate(e=>getComputedStyle(e).color),'rgb(36, 54, 75)');
  await tools.getByRole('button',{name:'Edit LaTeX',exact:true}).click();await page.getByRole('dialog',{name:'Edit equation LaTeX',exact:true}).waitFor();
