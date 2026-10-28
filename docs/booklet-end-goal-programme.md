@@ -1,6 +1,12 @@
 # Booklet end-goal programme (28 October 2026)
 
-## Current verified checkpoint — 28 October 2026, 22:36 UTC
+## Current verified checkpoint — 28 October 2026, 23:43 UTC
+
+Saved Exam work now covers **79/130 masters**. Earning Money r867 adds its independently checked HSC Standard 2016 question after five-edition checks and six actual affected-page inspections; no routine practice was removed. Standard Deviation r42 and Rates of Change r5 save reviewed archetype metadata and one pending teaching-decision comment each, preserving mathematics, ratings, existing comments and settings. Commit `f25c45a5` contains these three saves.
+
+Polynomial r85 moves four original Remainder questions rated 74/65/68/79 to existing Challenge, preserving all 20 routine items and the unresolved method suggestion. The routine maximum absolute score step is nine and its appropriate upper demand remains 47. All five editions and 21 actual affected-page inspections passed. Questions decrease from76 to75; Worked increases from48 to49 because of substantial transferred solutions. Combined worked is125 pages, including the required blank before odd-page answers; no handwriting space was reduced. Commit `1bcb50ac` preserves this bounded structural change, not whole-book completion.
+
+The narrow PLC source parser now retains literal COM; eight focused tests and the application build passed (`c09307b9`). HCF's cached70-row screen correctly recognises15 PLC rows and55 exclusions. Two independently reviewed HCF additions and five other accepted native candidates remain unpublished pending integration rendering on a new explicit v4 baseline. Older frozen snapshots remain immutable. Full source/archetype assessment and phases5–6 remain unfinished across the collection; saved Exam work is not programme completion.
 
 Later verified saves bring Exam coverage to **78/130 masters**: Algebraic Fraction Equations r49, Index Laws r391, Surds r53 and Vector Representation r3. Their five-edition checks and 23 actual affected-page inspections passed. Polynomial r84 additionally moves its existing score-65 Exam question to Challenge; Questions remain 76 pages, with all ordinary practice retained. The 18 remaining count-only Polynomial deficits and the existing Remainder-method suggestion remain separate from these completed structural saves.
 
