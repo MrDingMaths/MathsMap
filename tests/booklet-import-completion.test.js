@@ -225,8 +225,39 @@ test('interrupted finish selection requires a named cause and uses only committe
  assert.equal(selected.entry,undefined);assert.equal(selected.previousExportDir,entries[2].dir);assert.equal(JSON.stringify(entries),before);assert.ok(fs.readFileSync(path.join(entries[3].dir,'retained.json')).equals(retained));
  write(path.join(entries[3].dir,'report.json'),{report:{other:{}}});assert.match(selectFinishExport(entries,'current',{projectId:'p'}).blocker,/Interrupted export/);
  write(path.join(entries[3].dir,'report.json'),{report:{p:{student:{issues:['not accepted']}}}});
+ entries[3].regenerationReason='named';
  assert.equal(selectFinishExport(entries,'current',{projectId:'p',regenerationReason:'named'}).entry,entries[3],'report selection never grants acceptance');
  fs.writeFileSync(path.join(entries[3].dir,'report.json'),'partial JSON');assert.equal(selectFinishExport(entries,'current',{projectId:'p',regenerationReason:'named'}).previousExportDir,entries[2].dir);
+});
+
+test('a new named regeneration cause selects one fresh finish export and preserves reuse and failed gates',t=>{
+ const w=fixture(t),entry={dir:path.join(w.runDir,'retained'),projectHash:'current',regenerationReason:'previous cause'};
+ write(path.join(entry.dir,'report.json'),{report:{p:{student:{issues:[]}}}});
+ const entries=[entry],before=JSON.stringify(entries),report=fs.readFileSync(path.join(entry.dir,'report.json'));
+ const fresh=selectFinishExport(entries,'current',{projectId:'p',regenerationReason:'Correct explicit source-atom splitting'});
+ assert.equal(fresh.entry,undefined);assert.equal(fresh.previousExportDir,entry.dir);
+ assert.equal(selectFinishExport(entries,'current',{projectId:'p'}).entry,entry);
+ assert.equal(selectFinishExport(entries,'current',{projectId:'p',regenerationReason:' previous cause '}).entry,entry);
+ assert.equal(JSON.stringify(entries),before);assert.ok(fs.readFileSync(path.join(entry.dir,'report.json')).equals(report));
+ const next={dir:path.join(w.runDir,'fresh'),projectHash:'current',regenerationReason:'Correct explicit source-atom splitting'};
+ write(path.join(next.dir,'report.json'),{report:{p:{student:{issues:['retained failure']}}}});entries.push(next);
+ assert.equal(selectFinishExport(entries,'current',{projectId:'p',regenerationReason:next.regenerationReason}).entry,next,'same cause resumes the existing attempt, including its unresolved findings');
+ assert.equal(selectFinishExport(entries,'current',{projectId:'p'}).entry,next,'no cause keeps failed findings available to ordinary acceptance gates');
+ next.exportError='printed check failed';
+ assert.equal(selectFinishExport(entries,'current',{projectId:'p'}).entry,next,'an export error is not discarded without an explicit cause');
+});
+
+test('native finish appends once for a changed cause and reuses that attempt on same-cause resume',async t=>{
+ const w=fixture(t);passedExport(w);let exports=0;
+ const deps={prepare:async()=>{},layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{exports++;write(path.join(out,'report.json'),{report:{p:{}}});},visual:async()=>{},status:async()=>({deliverable:true,completion:assessCompletion()})};
+ assert.equal((await finishImport(w,deps)).deliverable,true);assert.equal(exports,1);
+ const file=path.join(w.runDir,'lean-review/finish/state.json'),before=JSON.parse(fs.readFileSync(file)).exports;
+ const named={...w,regenerationReason:'Correct source-atom pagination without content churn'};
+ assert.equal((await finishImport(named,deps)).deliverable,true);assert.equal(exports,2);
+ const after=JSON.parse(fs.readFileSync(file)).exports;
+ assert.deepEqual(after.slice(0,1),before);assert.equal(after.length,2);assert.equal(after[1].regenerationReason,named.regenerationReason);
+ assert.equal((await finishImport(named,deps)).deliverable,true);assert.equal(exports,2);
+ assert.equal((await finishImport(w,deps)).deliverable,true);assert.equal(exports,2);
 });
 
 test('native finish retains interrupted records and appends fresh5 only with an explicit cause',async t=>{

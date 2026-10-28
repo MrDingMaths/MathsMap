@@ -27,6 +27,38 @@ test('oversized shared teaching activity breaks between complete rule/practice p
  assert.deepEqual(result.issues,[]);
 });
 
+test('only wholly opted-in source atoms use the preceding page at complete block boundaries',async()=>{
+ const atom={id:'identities',kind:'theory',label:'Identities',order:1};
+ const run=async(flows,extra={})=>{
+  const blocks=[{id:'intro',type:'rich-text',content:'Intro',height:40},...['rule','practice'].map((id,i)=>({id,type:'rich-text',content:id,height:i?60:30,sourceAtom:atom,flow:flows[i],...(extra[id]??{})}))];
+  const project={id:'atom-carry',title:'Book',topics:[{id:'t',title:'Topic'}],settings:{paginationMode:'flexible',exerciseOrganisation:'topic',questionOrder:'source',generatedCover:false,layoutOverrides:{blockLayouts:{}}},sections:[{id:'s',topicId:'t',phase:'teaching',blocks}]};
+  const result=await paginateFlow(project,'student',async page=>({height:page.blocks.reduce((n,b)=>n+b.height,0),capacity:100}));
+  assert.deepEqual(result.issues,[]);
+  return result.pages.map(p=>p.blocks.map(b=>b.id));
+ };
+ assert.deepEqual(await run([{keepTogether:false},{keepTogether:false}]),[['intro','rule'],['practice']]);
+ for(const flows of [[{},{}],[{keepTogether:false},{}],[{}, {keepTogether:false}],[{keepTogether:false},{keepTogether:true}],[{keepTogether:false,keepWithNext:true},{keepTogether:false}]]){
+  assert.deepEqual(await run(flows),[['intro'],['rule','practice']]);
+ }
+ assert.deepEqual(await run([{keepTogether:false},{keepTogether:false}],{rule:{pairedBlockId:'practice'}}),[['intro'],['rule','practice']]);
+ assert.deepEqual(await run([{keepTogether:false},{keepTogether:false}],{practice:{sourceAtom:{...atom,id:'another-atom'}}}),[['intro','rule'],['practice']]);
+});
+
+test('explicitly splittable source atoms retain local keep-with-next chains and page boundaries',async()=>{
+ const atom={id:'local-pairs',kind:'theory',label:'Rules',order:1};
+ const run=async(boundary={})=>{
+  const blocks=[{id:'intro',type:'rich-text',content:'Intro',height:50},...['rule','practice','next'].map((id,i)=>({id,type:'rich-text',content:id,height:i===2?60:20,sourceAtom:atom,flow:{keepTogether:false,...(i===0?{keepWithNext:true}:{}),...(i===1?boundary:{})}}))];
+  const project={id:'atom-pairs-carry',title:'Book',topics:[{id:'t',title:'Topic'}],settings:{paginationMode:'flexible',exerciseOrganisation:'topic',questionOrder:'source',generatedCover:false,layoutOverrides:{blockLayouts:{}}},sections:[{id:'s',topicId:'t',phase:'teaching',blocks}]};
+  const result=await paginateFlow(project,'student',async page=>({height:page.blocks.reduce((n,b)=>n+b.height,0),capacity:100}));
+  assert.deepEqual(result.issues,[]);
+  return result.pages.map(p=>p.blocks.map(b=>b.id));
+ };
+ assert.deepEqual(await run(),[['intro','rule','practice'],['next']]);
+ assert.deepEqual(await run({pageBreakBefore:true}),[['intro','rule'],['practice','next']]);
+ assert.deepEqual(await run({sourcePageBreakBefore:true}),[['intro','rule'],['practice','next']]);
+ assert.deepEqual(await run({sourcePageBreakBefore:true,pageBreakBefore:false}),[['intro','rule','practice'],['next']]);
+});
+
 const question=(id,parts=[])=>({id,type:'question',bankRef:{id:'bank-'+id,revision:'r1'},snapshotKind:'bank',content:{id:id+'-root',type:'question',prompt:'Find $x$.',children:parts.map((height,i)=>({id:id+'-'+i,type:'part',label:String.fromCharCode(97+i),prompt:'Part',height,answer:{short:'1',worked:'$x=1$'}})),answer:{short:'1',worked:'$x=1$'}},height:20});
 export const fixture=()=>normalizeEditableProject({format:'mathsmap-booklet-project-v4',version:4,id:'flow-test',title:'Flexible fixture',settings:{paginationMode:'flexible'},topics:[{id:'topic-a',title:'First topic'},{id:'topic-b',title:'Second topic'}],sections:[{id:'a',topicId:'topic-a',title:'Foundation',phase:'practice',role:'practice',blocks:[question('q1'),question('q2')]},{id:'b',topicId:'topic-b',title:'Development',phase:'practice',role:'practice',blocks:[question('q3')]}]});
 const measure=async page=>({capacity:100,height:page.blocks.reduce((h,b)=>h+(b.content?.children?.length?b.content.children.reduce((s,c)=>s+c.height,0):b.height??10),0)});

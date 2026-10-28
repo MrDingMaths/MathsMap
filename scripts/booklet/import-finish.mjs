@@ -31,6 +31,9 @@ export function selectFinishExport(exports,projectHash,{projectId,regenerationRe
   if(!named)return {blocker:'Interrupted export has no committed report: '+entry.dir+'. Preserve it and supply --regenerate-reason with the diagnosed cause for a fresh attempt.'};
   entry=undefined;
  }
+ // A diagnosed cause requests one fresh attempt even when content is unchanged.
+ // Its recorded cause then permits ordinary reuse within the round and on resume.
+ if(entry&&named&&entry.regenerationReason?.trim()!==regenerationReason.trim())entry=undefined;
  return {entry,previousExportDir:exports.findLast(e=>hasFinishExportReport(e,projectId))?.dir};
 }
 

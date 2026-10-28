@@ -339,20 +339,27 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
         while(low<=high){const count=Math.floor((low+high)/2),fragment=fragmentQuestion(block,groups.slice(0,count),block.flow?.fragment??0);const measured=await fits([...current,fragment]);if(measured.height<=measured.capacity+.2){best=count;low=count+1;}else high=count-1;}
         if(best){current.push(fragmentQuestion(block,groups.slice(0,best),block.flow?.fragment??0));flush();await add([fragmentQuestion(block,groups.slice(best),(block.flow?.fragment??0)+1)]);return;}
       }
-      if(current.length){flush();size=await fits(blocks);}
-      if(size.height<=size.capacity+.2){current=blocks;return;}
       // Teaching atoms and pre-existing source continuation chains can break
       // between their complete blocks, retaining the shared atom heading.
+      const chunks=[];
       if(blocks.length>1&&!blocks.some(b=>b.flow?.keepTogether||b.pairedBlockId)){
-        const chunks=[];
         for(const b of blocks){
           if(!chunks.length||!chunks.at(-1).at(-1).flow?.keepWithNext)chunks.push([]);
           chunks.at(-1).push(b);
         }
+      }
+      // Explicitly splittable source atoms may use the preceding page's space.
+      // Unspecified atoms still try a fresh page whole before splitting.
+      if(current.length&&chunks.length>1&&blocks[0].sourceAtom?.id&&blocks.every(b=>b.sourceAtom?.id===blocks[0].sourceAtom.id&&b.flow?.keepTogether===false)){
+        for(const chunk of chunks)await add(chunk);return;
+      }
+      if(current.length){flush();size=await fits(blocks);}
+      if(size.height<=size.capacity+.2){current=blocks;return;}
+      if(chunks.length>1){
         // A shared teaching activity can span pages between complete local
         // rule/practice pairs. One keep-with-next link does not bind the whole
         // activity; an indivisible chain still reaches the overflow check.
-        if(chunks.length>1){for(const chunk of chunks)await add(chunk);return;}
+        for(const chunk of chunks)await add(chunk);return;
       }
       const block=blocks[0];
       const groups=blocks.length===1&&block.type==='question'?questionSplitGroups(block,layouts):[];

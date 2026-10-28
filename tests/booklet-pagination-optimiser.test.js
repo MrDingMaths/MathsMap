@@ -155,6 +155,34 @@ test('tightening that removes a page is kept, and never goes below the floor',as
  assert.ok(result.moves.every(m=>m.type!=='tighten'||m.after>=floor));
 });
 
+test('teaching short-tail trials preserve explicit splitting while retaining default keep-together and tightening',async()=>{
+ const run=async({explicit=false,tightenable=false}={})=>{
+  const block=question('T',10,{sourceAtom:{id:'teaching',kind:'guided-practice'},flow:explicit?{keepTogether:false}:{},content:tightenable?{children:[{id:'T-a',type:'part',prompt:'x',answerSpaceMm:80,answer:{short:'1',worked:'$$x=1\\\\x=2\\\\x=3$$'}}]}:{}});
+  if(tightenable)block.sourceReview={responses:[{targetId:'T-a',kind:'working'}],workingSpaceEstimate:{estimates:[{targetId:'T-a',answerSpaceMm:80}]}};
+  const p=project(null,{sections:[{id:'teaching',phase:'teaching',topicId:'t',blocks:[block]}]}),calls=[];
+  const paginate=async candidate=>{
+   const b=candidate.sections[0].blocks[0];calls.push(structuredClone(b));
+   const whole=b.flow.keepTogether===true||(tightenable&&b.content.children[0].answerSpaceMm<80);
+   const page=(fragment,parts)=>({blocks:[{...b,flow:{...b.flow,fragment},parts}],space:{capacityMm:100,usedMm:50,remainingMm:50},elements:[]});
+   return {pages:whole?[page(0,3)]:[page(0,2),page(1,1)],issues:[]};
+  };
+  return {result:await optimisePagination(p,{paginate}),calls,block};
+ };
+ const explicit=await run({explicit:true});
+ assert.ok(explicit.calls.every(b=>b.flow.keepTogether===false),'no trial overrides the saved false');
+ assert.equal(explicit.result.after.pages,2);
+ assert.equal(explicit.result.moves.length,0);
+ const defaulted=await run();
+ assert.ok(defaulted.calls.some(b=>b.flow.keepTogether===true));
+ assert.equal(defaulted.result.after.pages,1);
+ assert.ok(defaulted.result.moves.some(m=>m.type==='keep-together'));
+ const tightened=await run({explicit:true,tightenable:true});
+ assert.ok(tightened.calls.every(b=>b.flow.keepTogether===false));
+ assert.equal(tightened.result.after.pages,1);
+ assert.ok(tightened.result.moves.some(m=>m.type==='tighten'));
+ assert.equal(tightened.result.project.sections[0].blocks[0].content.children[0].answerSpaceMm,calibratedWorkingSpace(tightened.block.content.children[0],{responseKind:'working',importMm:80}));
+});
+
 test('the short and worked guard reverts an exercise whose answers got longer',async()=>{
  const blocks=[question('A',10),question('B',30),question('C',32)];
  const heights={A:60,B:50,C:30};

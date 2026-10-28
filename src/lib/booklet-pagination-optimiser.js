@@ -329,7 +329,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     const tightened = tightenToFloor(project, index, {blockIds: [split.id]});
     if (tightened.changes.length) attempts.push({label: 'tighten ' + split.id, project: tightened.project, changes: tightened.changes});
     const kept = (tightened.changes.length ? tightened.project : project);
-    attempts.push({label: 'keep together ' + split.id, project: withSectionBlocks(kept, index, kept.sections[index].blocks.map(b => b.id === split.id ? {...b, flow: {...b.flow, keepTogether: true}} : b)),
+    if (block.flow?.keepTogether !== false) attempts.push({label: 'keep together ' + split.id, project: withSectionBlocks(kept, index, kept.sections[index].blocks.map(b => b.id === split.id ? {...b, flow: {...b.flow, keepTogether: true}} : b)),
       changes: [...(tightened.changes), {type: 'keep-together', sectionId: split.sectionId, blockId: split.id, tailParts: split.tailParts}]});
     for (const attempt of attempts) {
       if(polishSafetyIssues(source,attempt.project,{protectedIds,spacing:false}).length)continue;
