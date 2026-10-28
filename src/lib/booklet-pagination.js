@@ -226,6 +226,15 @@ function combinedPageBody(page,answerMode){
  let modes=combinedBodies.get(page.blocks);if(!modes){modes=new Map();combinedBodies.set(page.blocks,modes);}
  if(!modes.has(answerMode))modes.set(answerMode,page.blocks.map(block=>block.flow?.exerciseNumber?{...block,flow:{...block.flow,answerMode}}:block));return modes.get(answerMode);
 }
+// Covers count as physical page 1. Tear-out answers therefore start on an
+// odd page, with a completely blank verso when the questions end on a recto.
+function answerRectoPages(pages,edition){
+ if(!edition.startsWith('with-'))return pages;
+ const start=pages.findIndex(page=>page.mode!=='student'&&!page.isBlank);
+ if(start<1||start%2===0)return pages;
+ const blank={id:`answer-verso-${edition}`,mode:'student',flexible:true,isBlank:true,blocks:[],section:{id:`answer-verso-${edition}`,headingStyle:'none'},breakReason:'answer-recto'};
+ return [...pages.slice(0,start),blank,...pages.slice(start)];
+}
 export async function paginateFlow(project,edition,measure,options={}) {
   const {editionMaps,context='',cancelled=()=>false}=options;
   const standalone=!edition.startsWith('with-');
@@ -256,7 +265,7 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
     const student=await paginateFlow(project,'student',measure,{cancelled,previous:prior?.student,context,editionMaps,onprogress:p=>onprogress({...p,phase:'questions'})});
     const answers=editionMaps&&isLeanReview(project)?await paginateFlow(project,answerMode,measure,answerOptions):await paginateCompactAnswers(project,edition,measure,answerOptions);
     // Cross-edition links are derived after both maps are complete.
-    const pages=[...student.pages,...answers.pages].map(p=>({...p,blocks:combinedPageBody(p,answerMode)}));
+    const pages=answerRectoPages([...student.pages,...answers.pages].map(p=>({...p,blocks:combinedPageBody(p,answerMode)})),edition);
     pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;});
     const result={pages,issues:[...student.issues,...answers.issues],edition};combinedSnapshots.set(result,{student,answers});return result;
   }
@@ -441,6 +450,8 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
     // partial: the pages placed so far, final except for their page totals.
     flush();retain();onprogress({complete:sectionIndex+1,total:sections.length,pages:pages.length,partial:pages});
   }
+  const rectoPages=answerRectoPages(pages,edition);
+  if(rectoPages!==pages)pages.splice(0,pages.length,...rectoPages);
   pages.forEach((p,i)=>{p.pageNumber=i+1;p.totalPages=pages.length;p.section=sectionById.get(p.section.id)??p.section;});
   return reuse.finish({pages,issues,edition});
 }

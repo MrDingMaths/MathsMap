@@ -138,7 +138,7 @@
     <PracticeQuestionRenderer answerColumnsLimit={answerSheet ? 2 : null} {blockLayouts} compact={block.compact ?? false} question={previewQuestion(block)} number={visibleNumber} showTitle={false} showSpaces={false} eagerDiagrams={true} {...editProps()} />
   {/if}
   <div class="theory-question-space" class:copy-space={block.pedagogyRole==='worked-example'&&!showTheorySolutions} aria-hidden={block.pedagogyRole==='worked-example'&&!showTheorySolutions} inert={block.pedagogyRole==='worked-example'&&!showTheorySolutions}>
-  <PracticeQuestionRenderer {answerHref} answerMode={block.flow?.answerMode} answerPartHref={answerHref?`#${anchorPrefix}answer-${block.flow.answerMode}-part-`:null} trailingAnswerHref={answerHref&&trailing?answerHrefFor(trailing):null} trailingQuestion={trailing?previewQuestion(trailing):null} answerColumnsLimit={answerSheet ? 2 : null} {blockLayouts} compact={block.compact ?? false} question={previewQuestion(block)} number={visibleNumber} showTitle={Boolean(visibleImportedQuestionTitle(block))} showSpaces={questionMode === 'student'&&block.pedagogyRole!=='worked-example'} showShortAnswers={questionMode === 'short'} showWorkedSolutions={questionMode === 'worked'} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} eagerDiagrams={true} {...editProps()} />
+  <PracticeQuestionRenderer {answerHref} answerMode={block.flow?.answerMode} answerPartHref={answerHref?`#${anchorPrefix}answer-${block.flow.answerMode}-part-`:null} trailingAnswerHref={answerHref&&trailing?answerHrefFor(trailing):null} trailingQuestion={trailing?previewQuestion(trailing):null} answerColumnsLimit={answerSheet ? 2 : null} {blockLayouts} compact={block.compact ?? false} question={previewQuestion(block)} number={visibleNumber} showTitle={Boolean(visibleImportedQuestionTitle(block))} showSpaces={questionMode === 'student'&&block.pedagogyRole!=='worked-example'&&page.section?.workingSpace!=='none'} showShortAnswers={questionMode === 'short'} showWorkedSolutions={questionMode === 'worked'} {answerSpaceOverrides} {diagramColourModes} {onSpaceResize} eagerDiagrams={true} {...editProps()} />
   </div>
 {/snippet}
 
@@ -259,7 +259,9 @@
 
 <div class="preview-frame" class:compact-pages={compactPages} class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
   <div class="preview-page" style={houseStyleVariables(houseStyleVersion)} data-house-style={houseStyleVersion}>
-    {#if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
+    {#if page.isBlank}
+      <article class="booklet-page blank-page" data-blank-page="true" data-page-number={page.pageNumber} aria-label="Blank page"></article>
+    {:else if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
       <BookletCover pages={bookletPages} {anchorPrefix} {editMode} settings={presentation?.()?.cover}/>
     {:else}
       <article class="booklet-page" id={frontMatterAnchor?anchorPrefix+frontMatterAnchor:undefined} data-page-number={page.pageNumber} data-house-style={houseStyleVersion}>
