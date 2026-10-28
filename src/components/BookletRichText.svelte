@@ -24,7 +24,7 @@
 </script>
 
 {#if isDocument(text)}
-  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={{math:latex=>renderMath('$'+latex+'$')}} use:mountEquationAnnotations={text} use:mountImageFeedback={text} use:nativeTikz={text}>{@html documentHtml(text, { fillCloze, mathsStyle:presentation?.()?.mathsStyle })}</div>
+  <div class="document-content {className}" use:mountTabs={text} use:mountTableAnnotations={{math:latex=>renderMath('$'+latex+'$')}} use:mountEquationAnnotations={text} use:mountImageFeedback={text} use:nativeTikz={{document:text,fillCloze,mathsStyle:presentation?.()?.mathsStyle}}>{@html documentHtml(text, { fillCloze, mathsStyle:presentation?.()?.mathsStyle })}</div>
 {:else if rules}
   <ol class="theory-rules">
     {#each rules as rule}

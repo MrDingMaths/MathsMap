@@ -1,4 +1,5 @@
 import { contentSource, isDocument, normalizeDocument } from './document-content.js';
+import { documentTikzEntries, setInlineTikzWidth } from './document-tikz.js';
 const copy = value => value === undefined ? undefined : JSON.parse(JSON.stringify(value));
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
 const id = () => globalThis.crypto?.randomUUID?.() ?? `edit-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -17,10 +18,23 @@ export function reviewTargets(project) {
   }
   return result;
 }
+// A native paragraph holding one [tikz] block (e.g. inside a table cell) is a
+// diagram too; it keeps its width as a comment in that source.
+export function inlineTikzDiagram(node){
+  const entry=node?.type==='paragraph'?documentTikzEntries(node)[0]:null;
+  return entry?{id:node.id,format:'tikz',code:entry.code,widthMm:entry.widthMm,inline:true}:null;
+}
+export function patchDiagram(node,patch){
+  if(!inlineTikzDiagram(node))return {...node,...patch};
+  if(patch.widthMm==null)return node;
+  const text=node.inlines.map(run=>run.text??'').join('');
+  return {...node,inlines:[{...node.inlines[0],text:setInlineTikzWidth(text,patch.widthMm)}]};
+}
 export const targetById=(project,targetId)=>reviewTargets(project).find(t=>t.id===targetId);
 export function findEditableDiagram(node, diagramId, path='') {
   if (!node || typeof node !== 'object') return null;
   if (node.id===diagramId && (node.format || node.type==='image')) return {diagram:node,path};
+  if (node.id===diagramId && node.type==='paragraph' && documentTikzEntries(node).length) return {diagram:node,path,inline:true};
   for (const [key,value] of Object.entries(node)) {
     if (['source','sourceAtom','sourceReview','sourceLayoutEvidence','originalDiagram','originalGraph','mathematicalModel','spec'].includes(key)) continue;
     const found=findEditableDiagram(value,diagramId,path+'/'+key.replace(/~/g,'~0').replace(/\//g,'~1'));

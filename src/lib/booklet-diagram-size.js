@@ -3,7 +3,7 @@
 // diagram's width; answer editions use their compact-answer width. Heights are
 // never stored: a height target becomes width = height × the rendered aspect,
 // so a diagram is never distorted. All writes reuse existing fields.
-import {findEditableDiagram} from './booklet-review-model.js';
+import {findEditableDiagram,inlineTikzDiagram,patchDiagram} from './booklet-review-model.js';
 import {updateProjectContent,updateProjectSettings} from './editable-booklet-model.js';
 import {syncDiagramPresentation} from './booklet-document-tools.js';
 import {answerDiagramWidth,withAnswerDiagramWidth} from './booklet-exercises.js';
@@ -19,6 +19,7 @@ const round=value=>Math.round(value*2)/2;
 function diagramsIn(node,inAnswer=false,out=[]){
  if(!node||typeof node!=='object')return out;
  if(node.id&&(node.format||node.type==='image')&&(node.code||node.src)){out.push({diagram:node,inAnswer});return out;}
+ const inline=inlineTikzDiagram(node);if(inline){out.push({diagram:inline,inAnswer});return out;}
  for(const [key,value] of Object.entries(node))if(!SKIP.has(key))diagramsIn(value,inAnswer||key==='answer',out);
  return out;
 }
@@ -34,7 +35,7 @@ export function diagramSizeTargets(project,blockIds,mode='question'){
   for(const {diagram,inAnswer} of diagramsIn(block.content??block)){
    if((mode==='question')===inAnswer)continue;
    const role=mode==='question'?'question':mode,kind=diagramSizingKind(diagram,{role});
-   const widthMm=mode==='question'?items.get(diagram.id)??overrides.blockLayouts?.[diagram.id]?.diagramWidthMm??diagram.widthMm??null:answerDiagramWidth(project.settings.compactAnswers,mode,diagram);
+   const widthMm=mode==='question'||diagram.inline?items.get(diagram.id)??overrides.blockLayouts?.[diagram.id]?.diagramWidthMm??diagram.widthMm??null:answerDiagramWidth(project.settings.compactAnswers,mode,diagram);
    rows.push({blockId:block.id,id:diagram.id,kind,role,widthMm,adjustable:!!DIAGRAM_SIZE_LIMITS[kind],diagram});
   }
  }
@@ -62,11 +63,12 @@ export function setDiagramWidths(project,entries,mode='question'){
  for(const {blockId,id,targetMm} of entries){
   if(!Number.isFinite(targetMm))continue;
   if(targetMm<5||targetMm>190)throw Error('Choose diagram widths between 5 and 190 mm.');
-  if(mode==='question'){
-   const block=next.sections.flatMap(s=>s.blocks).find(b=>b.id===blockId),found=block&&findEditableDiagram(block,id);
+  const block=next.sections.flatMap(s=>s.blocks).find(b=>b.id===blockId),found=block&&findEditableDiagram(block,id);
+  // Inline [tikz] carries one width in its source for every edition.
+  if(mode==='question'||found?.inline){
    if(!found)throw Error('A diagram moved or was removed; reselect the question.');
-   next=updateProjectContent(next,blockId,found.path,{...found.diagram,widthMm:targetMm});
-   next=syncDiagramPresentation(next,blockId,id,{widthMm:targetMm});
+   next=updateProjectContent(next,blockId,found.path,patchDiagram(found.diagram,{widthMm:targetMm}));
+   if(!found.inline)next=syncDiagramPresentation(next,blockId,id,{widthMm:targetMm});
   }else next=updateProjectSettings(next,{compactAnswers:withAnswerDiagramWidth(next.settings.compactAnswers,mode,id,targetMm)});
  }
  return next;

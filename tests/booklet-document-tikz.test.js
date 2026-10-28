@@ -37,3 +37,28 @@ test('an explicit table-owned part list lets appended follow-ups print after a n
  assert(items.includes('root/prompt#table'));assert(items.includes('follow/label'));assert(items.includes('follow/prompt'));assert(!items.includes('row/label'));assert.equal(catalog.entries.get('row/answer/short').value,'0.5');
  const legacy=arrangementItems(arrangementCatalog({...block,flow:{tableOnly:true}}).initial.root).map(item=>item.ref);assert(!legacy.includes('follow/label'));
 });
+test('table-cell TikZ is a resizable diagram whose width lives in its source',async()=>{
+ const {setInlineTikzWidth}=await import('../src/lib/document-tikz.js');
+ const {findEditableDiagram,inlineTikzDiagram,patchDiagram}=await import('../src/lib/booklet-review-model.js');
+ const {diagramSizeTargets,setDiagramWidths}=await import('../src/lib/booklet-diagram-size.js');
+ const text=paragraph.inlines[0].text;
+ assert.match(setInlineTikzWidth(text,48),/^\[tikz\]% mathsmap-inline-width-mm 48\n\\begin\{tikzpicture\}/);
+ assert.equal(setInlineTikzWidth(setInlineTikzWidth(text,48),52).match(/mathsmap-inline-width-mm/g).length,1);
+ assert.match(setInlineTikzWidth('[tikz]\\draw (0,0);[/tikz]',30),/^\[tikz\]% mathsmap-inline-width-mm 30\n\\draw/);
+ const prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'table',type:'table',rows:[[{id:'cell',type:'cell',blocks:[paragraph]}]]}]};
+ const project={id:'p',settings:{layoutOverrides:{blockLayouts:{}},compactAnswers:{}},sections:[{id:'s',blocks:[{id:'q',type:'question',content:{id:'root',prompt,children:[]}}]}]};
+ const found=findEditableDiagram(project.sections[0].blocks[0],'interval-graph');
+ assert.ok(found?.inline);
+ assert.equal(inlineTikzDiagram(found.diagram).widthMm,65);
+ assert.equal(inlineTikzDiagram(patchDiagram(found.diagram,{widthMm:40})).widthMm,40);
+ const rows=diagramSizeTargets(project,['q']);
+ assert.deepEqual(rows.map(r=>[r.id,r.widthMm]),[['interval-graph',65]]);
+ const next=setDiagramWidths(project,[{blockId:'q',id:'interval-graph',targetMm:44}]);
+ assert.deepEqual(diagramSizeTargets(next,['q']).map(r=>r.widthMm),[44]);
+ assert.equal(next.settings.layoutOverrides.blockLayouts['interval-graph'],undefined);
+});
+test('an existing inline width line is replaced where it is',async()=>{
+ const {setInlineTikzWidth}=await import('../src/lib/document-tikz.js');
+ assert.equal(setInlineTikzWidth('[tikz]\n% mathsmap-inline-width-mm 65\n% other\nX[/tikz]',40),'[tikz]\n% mathsmap-inline-width-mm 40\n% other\nX[/tikz]');
+ assert.equal(setInlineTikzWidth('[tikz]\nX[/tikz]',40),'[tikz]\n% mathsmap-inline-width-mm 40\nX[/tikz]');
+});
