@@ -5,8 +5,10 @@ import os from 'node:os';
 import path from 'node:path';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
-import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates} from '../pedagogy/review.mjs';
+import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates,routineQuestions,validateArchetypes,archetypePrompt,bookletPrinciples} from '../pedagogy/review.mjs';
 import {runAstraTask} from '../scripts/booklet/codex-transcription.mjs';
+
+import {newTeachingPrompt,NEW_CONTENT_MODEL} from '../pedagogy/new-content.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const FIXTURE=path.join(ROOT,'tests','fixtures','pedagogy-seeded.json');
@@ -327,4 +329,36 @@ test('a completed review can recover a failed provenance save without repeating 
  assert.equal(calls,0);assert.deepEqual(result.errors,[]);assert.equal(space.record().lastRun.recoveredFrom.newModelCalls,0);
  const project=space.project();project.revision=(project.revision??0)+1;fs.writeFileSync(space.projectFile,JSON.stringify(project));
  await assert.rejects(runReview({...space.options,resumeFrom:{candidateFile,challengeResultFile},runner}),/do not match the current project revision/);
+});
+
+
+test('archetype pilot excludes nonroutine/end sections and requires complete unique coverage',()=>{
+ const q=(id,score)=>({id,type:'question',classification:{reasoningScore:score},content:{stem:'Calculate.'}});
+ const project={id:'pilot',revision:1,title:'Pilot'};
+ const seq={id:'topic',topicId:'topic',title:'Topic',sections:[{phase:'teaching',blocks:[{id:'example',pedagogyRole:'example',type:'question'}]},{phase:'practice',blocks:[q('routine',20),q('hard',65),q('unrated',undefined)]},{phase:'practice',role:'challenge',blocks:[q('challenge',10)]},{phase:'practice',role:'exam',blocks:[q('exam',20)]}]};
+ assert.deepEqual(routineQuestions(seq).questions.map(q=>q.id),['routine']);
+ assert.deepEqual(routineQuestions(seq).unrated,['unrated']);
+ const cluster={id:'calculate',questionIds:['routine'],exampleIds:['example'],guidedPracticeIds:[],coverage:'covered',rationale:'Example shows the same method.'};
+ assert.equal(validateArchetypes(project,seq,{clusters:[cluster]}).questions.routine.archetype,'calculate');
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[]}),/Unmapped/);
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[cluster,cluster]}),/repeated|duplicate/);
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[{...cluster,exampleIds:['routine']}]}),/Not a example/);
+ assert.throws(()=>validateArchetypes(project,seq,{clusters:[{...cluster,exampleIds:[]}]}),/lacks example/);
+ assert.match(archetypePrompt(project,seq),/Do not generate new content/);
+});
+
+test('booklet principles are sourced from tagged documents and enter review prompts',()=>{
+ assert.ok(KINDS.includes('example-principle'));
+ assert.match(bookletPrinciples(),/booklet: yes/);
+ assert.match(bookletPrinciples(),/booklet: no/);
+ const p=load();assert.match(reviewPrompt({project:p,all:sequences(p),index:0,skills:[]}),/example-principle/);
+});
+
+
+test('new teaching drafts require exact Sonnet and embed source style and independent checks',()=>{
+ assert.throws(()=>newTeachingPrompt({kind:'bridge',styleExamples:[]}),/style examples/);
+ const draft=newTeachingPrompt({kind:'guided-practice',topic:'Polynomial evaluation',styleExamples:[{stem:'Evaluate P(2).'}],archetype:'evaluate-polynomial-functions'});
+ assert.equal(draft.model,'claude-sonnet-5-5');assert.equal(NEW_CONTENT_MODEL,draft.model);
+ assert.match(draft.prompt,/booklet: yes/);assert.match(draft.prompt,/independently derive every answer/);
+ assert.match(draft.prompt,/Evaluate P\(2\)/);assert.equal(draft.status,'draft-only');
 });

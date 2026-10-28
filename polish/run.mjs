@@ -379,10 +379,15 @@ export async function savePolished({state,work,id,root=ROOT,deps={}}){
 }
 
 async function main(){
- const opts=parseArgs(process.argv.slice(2),{values:['--project','--candidate','--out','--work-dir','--skip','--only'],flags:['--save','--no-model','--fresh','--fresh-import','--allow-live','--list','--textbook']});
+ const opts=parseArgs(process.argv.slice(2),{values:['--project','--candidate','--out','--work-dir','--skip','--only','--archetypes'],flags:['--save','--no-model','--fresh','--fresh-import','--allow-live','--list','--textbook','--challenge-split-report']});
  if(opts['--list']){console.log(STEPS.join('\n'));return;}
  const source=opts['--candidate']?path.resolve(opts['--candidate']):opts['--project']?path.join(ROOT,'booklets','projects',opts['--project']+'.json'):null;
  if(!source)throw Error('Name a booklet with --project ID or --candidate FILE');
+ if(opts['--challenge-split-report']){
+  if(opts['--save']||opts['--out'])throw Error('Challenge split calibration is report-only; --save and --out are not allowed');
+  const {challengeSplitReport}=await import('./challenge-split.mjs');
+  console.log(JSON.stringify(challengeSplitReport(read(source),{archetypes:opts['--archetypes']?read(path.resolve(opts['--archetypes'])):{}}),null,2));return;
+ }
  const live=path.dirname(source)===path.resolve(ROOT,'booklets','projects');
  if(live&&!opts['--allow-live'])throw Error('A live booklet is processed on a copy but read from booklets/projects: pass --allow-live to confirm. Use --candidate for a copy you made.');
  if(opts['--save']&&!live)throw Error('--save writes to a live booklet; this is a candidate file (use --out)');

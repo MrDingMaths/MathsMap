@@ -53,9 +53,9 @@ On this machine, launch authorised child Codex CLI workers and scripts that spaw
 
 Do not first launch these runners in the outer sandbox, consume attempts on the known failure, or retry unchanged permissions. If the permitted launch is rejected, stop the affected dispatch and report the approval-review reason. Do not broaden Windows ACLs, disable the sandbox, change `CODEX_HOME`, or clear runtime/session directories as a workaround. Existing chats must follow this rule when next launching workers; preserve completed work and resume only incomplete tasks.
 
-## Future model preference (5 October 2026, user approved)
+## Model preferences (5 and 28 October 2026, user approved)
 
-Use GPT-6.1 Sol (`gpt-6.1-sol`) at **low reasoning** for future MathsMap model workers, including campaign audits, repairs and independent reviews. This supersedes earlier medium/high reasoning instructions for future work. Preserve historical usage records and completed acceptance; do not rerun work to change its model label. Keep existing worker limits and the audit-first scope.
+New content uses exactly `claude-sonnet-5-5` (28 October): backfill, bridges, worked examples and guided practice; verify availability, never silently substitute. Reviews/ratings retain their settings. Otherwise use `gpt-6.1-sol` at low reasoning (5 October), superseding earlier effort rules. Preserve historical acceptance/usage, worker limits and audit-first scope. The [end-goal programme](docs/booklet-end-goal-programme.md) records pilot approval gates; no automatic rollout or bank-fed sections.
 
 ## Lean imports (5 October 2026)
 

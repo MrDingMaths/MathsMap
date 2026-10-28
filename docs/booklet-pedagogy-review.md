@@ -32,11 +32,17 @@ Duplicate-question check (11 October 2026, user requested): each review also com
 
 ## Precedence
 
-When an existing booklet is reviewed, the thresholds in the reviewer contract below decide what is reported. The coverage, chunk-structure and example-sequence rules in [the pedagogy contract](booklet-pedagogy-contract.md), and the website principles in `worked-example-principles.md`, `guided-practice-principles.md` and `atomisation-teaching.md`, remain authoring guidance for new material, including teaching added by an approved repair. A booklet is not reported for lacking a structure those documents prescribe. Recorded precedents in the pedagogy contract stay binding.
+28 October 2026, user approved: booklet-applicable worked-example and guided-practice principles are standing review criteria, reported as `example-principle`. The source documents mark each principle **booklet: yes/no**; website-only display, reveal and `theory.*` storage requirements are excluded. Report concrete learning or presentation defects, not optional wording or a wholesale method rewrite. Existing source methods and explicit local exceptions remain protected. Findings and generated drafts remain recommendations in Studio comments until James approves repairs.
+
+Run the archetype-coverage pilot before Challenge restructuring. Genuinely different routine methods without an example are `missing`; a modest step up is `bridge` and calls for scaffolded questions before new teaching. Exclude Challenge and Exam sections. James reviews the pilot topic's coverage and principles findings before rollout. New content uses exactly `claude-sonnet-5-5`; unavailable access is a blocker, never a reason to substitute another model. Reviews and ratings retain their existing settings.
+
+The remaining chunk-structure and website rules in the pedagogy contract remain authoring guidance. Recorded precedents remain binding.
 
 ## Commands
 
 ```text
+node pedagogy/review.mjs principles --project ID [--topics a,b] [--provenance-dir DIR]
+node pedagogy/review.mjs archetypes --project ID [--topics a,b] [--output FILE]
 node pedagogy/review.mjs map    --project ID | --project-file FILE
 node pedagogy/review.mjs review --project ID | --project-file FILE [--topics a,b] [--review-effort low|medium] [--candidates-only]
 node pedagogy/review.mjs post   --project ID [--suggestions] [--findings ID,ID]
@@ -45,6 +51,8 @@ node pedagogy/review.mjs format --project ID --exports DIR
 node pedagogy/review.mjs seeded [--review-effort low|medium]
 ```
 
+- `principles` restricts the existing low-review/medium-challenge route to `example-principle`; it does not repeat other pedagogy findings. Use a pilot provenance directory to preserve existing audits.
+- `archetypes` performs a read-only low-effort coverage pass and writes a revision-bound sidecar, never booklet metadata. Missing ratings are reported, never guessed. Its pending map is input to the Phase 5 pilot report, not rollout approval.
 - `map` prints the topic sequences and prompt sizes. No model call.
 - `review` never writes the project. It sends one call per topic to Sol 6.1 at low reasoning, then one challenge call per booklet at medium reasoning (user decision, 9 October 2026; this differs on purpose from the low default in `AGENTS.md`). Findings go to `booklets/provenance/pedagogy-review/PROJECT.json`. `--candidates-only` stops after the first pass and writes nothing to provenance; with `--review-effort medium` it measures what the low pass misses.
 - `withdraw --project ID` (15 October 2026, user requested) removes the open comments of still-pending findings through the revision-checked save and moves those findings to `booklets/provenance/pedagogy-review/archive/ID-YYYYMMDD.json` as `withdrawn`, so a fresh review is not suppressed as if rejected. Rejected, repaired and approved findings and resolved comments stay.
