@@ -1,8 +1,9 @@
 # Exam-section pilot (28 October 2026)
 
-Phase 4 of the booklet end-goal programme is a pilot. James must confirm the
-source-label mapping before live questions are added or regrouped. No question
-bank questions are imported into booklets by this workflow.
+Phase 4 of the booklet end-goal programme uses a validated pilot before rollout.
+James approved the actual HSC/BHHS/PLC and undated-sample label table; sources
+outside that mapping remain held. No question bank questions are imported into
+booklets by this workflow.
 
 Sections may use `role: "exam"`, `phase: "practice"` and
 `workingSpace: "none"`. The last setting suppresses dedicated handwriting
@@ -53,16 +54,16 @@ reviewed skill/archetype pair is selected. Unassessed questions are held.
 The script writes candidate files only, never a project, question bank or
 external database. Every output remains `pilot-approval-required`.
 
-Proposed labels (pending pilot confirmation):
+Label style used by the approved pilot:
 
 | Code | Label |
 | --- | --- |
 | `HSC.ADV.2011` | HSC Advanced 2011 |
 | `HSC.EXT1.2023` | HSC Extension 1 2023 |
 | `PLC.Y9.S2.2020` | PLC Y9 S2 2020 |
-| `HSC.<school>.2020` | Approved school name Y12 2020 |
+| `HSC.<school>.Y12.X1.2020` | Approved school name Y12 2020 |
 
-School display names are held until approved. Explicit Y11/Y12 in the source
+Other school display names are held until approved. Explicit Y11/Y12 in the source
 must be preserved; a trial without a year-level token needs an explicit approved
 `yearLevel` in its school mapping. A `schools` entry may be a name string when
 the code contains its year level, or `{ "name": "School", "yearLevel": "Y12" }`.
@@ -118,6 +119,43 @@ it must not be applied. `X1`/`X2` are recognized as official Extension 1/2 alias
 | HSC.X1.2022 Q3 | Divisor degree from remainder degree | Degree could be 2 (D) |
 
 Local full candidate data and assessed mapping remain under
-`.booklet-work/end-goal-20261028/phase4/`. Label confirmation is approval for this
-pilot only; every live insertion still needs source-format conversion and its
-normal independent content/render checks. No live insertion has occurred.
+`.booklet-work/end-goal-20261028/phase4/`. Every live insertion still needs
+source-format conversion and its normal independent content/render checks.
+At the candidate checkpoint described here, no live insertion had occurred.
+
+## Approved progression and existing-question regrouping
+
+James subsequently approved the actual label table and validated pilot/rollout
+for phases 4–6. This does not approve pedagogy repairs or new teaching: existing
+worked-example, guided-practice, opening-review and bridging recommendations
+remain comments pending his review. Phase 7 stays deferred.
+
+The polynomial candidate reuses existing `p56-q14` for HSC.X1.2012 Q8 and
+`p46-q9` for HSC.X1.2022 Q3: they are the same questions within this booklet,
+including the accepted open-response adaptation of the first. Only the 2004
+and 2007 questions are new external imports. A separate Sol 6.1 low worker
+independently accepted their source fidelity, answers, taught routine scope and
+within-booklet duplicate checks, and rated them 27 and 32 with task-bound
+assessment evidence. Five existing HSC questions retain content, IDs, bank
+references, flags and comments when moved to the candidate Exam section.
+
+Existing Exam topics and individually attributed questions can be staged with:
+
+```text
+node scripts/booklet/regroup-exam-sections.mjs --out .booklet-work/RUN/exam-candidates --exclude polynomials-v1
+```
+
+This writes candidates and before-snapshots only; it has no apply/publish mode.
+Only active Stage 5/6 masters are eligible. Class copies, import reviews,
+exemplars and archives are excluded. Whole explicit Exam sections preserve all
+instructions. Individual questions move only as safe logical units; ambiguous
+shared instructions, unlabelled linked follow-ups, cross-section dependencies
+or source lineage needing a manual merge are held in the report. Existing
+Mixed review, Exam and Challenge sections are ordered in that sequence; no
+Mixed review content is created. Exam and existing Challenge sections omit
+dedicated working space. Exam-role questions remain in Exam even at 65 or
+above; the Challenge threshold applies to the routine exercise sections.
+
+Review and render the pilot first, then validate and revision-check every saved
+rollout candidate against its before-snapshot. Do not overwrite concurrent edits
+or promote any questions to the bank through this operation.

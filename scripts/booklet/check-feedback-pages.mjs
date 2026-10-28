@@ -3,6 +3,7 @@
 // affected pages and their pagination neighbours as PDF). Read-only: no project,
 // bank or comment is written. No report here is a visual inspection.
 // --blocks selects pages by the blocks a repair changed and needs no baseline;
+// --selection-blocks supplies a separate print selection without widening --blocks mutation scope.
 // --checks-only editions run the automated checks without printing.
 // --editions none completes checks without reprinting already inspected pages.
 import fs from 'node:fs';
@@ -123,7 +124,8 @@ async function main(){
  const sampleDense=Number(arg('--sample-dense','0'));
  if(!Number.isInteger(sampleDense)||sampleDense<0||sampleDense>10)throw Error('--sample-dense takes an integer from 1 to 10');
  if(editions.some(edition=>!FEEDBACK_EDITIONS.includes(edition))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');
- const blockIds=arg('--blocks','').split(',').filter(Boolean),byBlocks=blockIds.length>0;
+ const blockIds=arg('--blocks','').split(',').filter(Boolean),selectionBlockIds=arg('--selection-blocks','').split(',').filter(Boolean),byBlocks=blockIds.length>0;
+ if(selectionBlockIds.length&&!byBlocks)throw Error('--selection-blocks requires --blocks to declare mutation scope');
  const capture=flag('--capture-baseline'),candidateFile=arg('--project-file'),baselineFile=arg('--baseline-project-file'),projectId=arg('--project');
  const overrides=parseOverrides(all('--runtime-override')),candidateCss=arg('--candidate-css'),extra=(arg('--pages','')).split(',').filter(Boolean).map(Number),fullReason=arg('--full-reason');
  if(capture&&(overrides.length||candidateCss||baselineFile||byBlocks))throw Error('--capture-baseline records the current project and runtime only');
@@ -158,7 +160,7 @@ async function main(){
  if(!capture&&!baselineProject&&!byBlocks)for(const edition of editions)requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!readPageManifest(mapFile(edition)),reason:fullReason});
  const runDir=arg('--run-dir');trackProcessPhase(runDir,capture?'feedback-baseline-map':'feedback-pages',{artifact:reportFile,projectId:id,editions});
  const started=Date.now(),report={tool:'check-feedback-pages',startedAt:new Date(started).toISOString(),projectId:id,base,editions,checksOnly,blocks:blockIds,passes:[],editionsReport:{},completedEditions:[],passed:false,failures:[],browserLaunches:1,
-  note:'Automated evidence only. Selected pages still need final-size visual inspection; combined body pages marked inspectIn "student" reuse that inspection of the same flow blocks, with no pixel comparison performed or claimed. Partial PDFs carry no link annotations; navigation is checked in the print DOM.'};
+  selectionBlocks:selectionBlockIds,note:'Automated evidence only. Selected pages still need final-size visual inspection; combined body pages marked inspectIn "student" reuse that inspection of the same flow blocks, with no pixel comparison performed or claimed. Partial PDFs carry no link annotations; navigation is checked in the print DOM.'};
  const write=()=>fs.writeFileSync(reportFile,JSON.stringify({...report,elapsedMs:Date.now()-started},null,2));
  write();
  let browser;
@@ -264,7 +266,7 @@ async function main(){
    const candidatePass=await renderPass('candidate',candidate,{editions:[...editions,...checksOnly],publish:!cacheOff,inspect:async(edition,result,record)=>{
     const onlyChecks=checksOnly.includes(edition),isDerived=derived.includes(edition);
     const baseline=onlyChecks||byBlocks?{pages:[],revision:null,projectHash:null}:isDerived?{pages:[],revision:baselineProject.revision??null,projectHash:null,derivedFrom:'student'}:readPageManifest(mapFile(edition));
-    const selection=onlyChecks?{changed:null,checksOnly:true,boundaries:[],selected:[]}:byBlocks?selectBlockPages({pages:result.pages,blockIds,edition,extra}):isDerived?deriveCombinedSelection({pages:result.pages,studentPages:student.pages,studentSelected:student.selected,extra}):selectFeedbackPages({before:baseline.pages,after:result.pages,edition,extra});
+    const selection=onlyChecks?{changed:null,checksOnly:true,boundaries:[],selected:[]}:byBlocks?selectBlockPages({pages:result.pages,blockIds:selectionBlockIds.length?selectionBlockIds:blockIds,edition,extra}):isDerived?deriveCombinedSelection({pages:result.pages,studentPages:student.pages,studentSelected:student.selected,extra}):selectFeedbackPages({before:baseline.pages,after:result.pages,edition,extra});
     if(sampleDense&&!onlyChecks){
      const scores=await page.locator('.project-print .print-page').evaluateAll(pages=>pages.map(p=>(p.textContent?.length??0)+p.querySelectorAll('svg').length*120+p.querySelectorAll('tr').length*40));
      Object.assign(selection,selectDenseFeedbackPages(selection.selected,scores,sampleDense),{selectionPolicy:'dense-spacing-sample'});

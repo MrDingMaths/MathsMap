@@ -77,6 +77,7 @@ export function shortAnswerDisplay(value) {
 }
 
 export function visibleImportedQuestionTitle(question) {
+  if (typeof question?.source?.label === 'string' && question.source.label.trim()) return '';
   const title = String(question?.title ?? '').trim();
   const prompt = contentSource(question?.content?.prompt).trim().replace(/\*\*/g, '');
   if (!title || title === prompt || prompt.startsWith(title + '\n') || prompt.startsWith(title + ':')) return '';

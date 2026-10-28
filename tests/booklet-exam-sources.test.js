@@ -9,6 +9,7 @@ import {selectExamCandidates, readMathsBase} from '../scripts/booklet/export-mat
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {flowEditionSections} from '../src/lib/booklet-flow.js';
 import {sectionShowsWorkingSpace} from '../src/lib/booklet-section-options.js';
+import {visibleImportedQuestionTitle} from '../src/lib/booklet-preview.js';
 
 test('printed source round-trips without accepting extraction provenance',()=>{
   const source={provider:'HSC',paper:'Advanced',year:2011,label:'HSC Advanced 2011',origin:'MathsBase'};
@@ -18,6 +19,8 @@ test('printed source round-trips without accepting extraction provenance',()=>{
   assert.equal(containsSourceMetadata({...question,source:{...source,file:'evidence.pdf'}}),true);
   assert.equal(containsSourceMetadata({...question,content:{...question.content,source}}),true);
   assert.equal('source' in normaliseQuestion({id:'old'}),false);
+  assert.equal(visibleImportedQuestionTitle({title:'2012 HSC Extension 1 Band 4',source:{label:'HSC Extension 1 2012'}}),'');
+  assert.equal(visibleImportedQuestionTitle({title:'2012 HSC Extension 1 Band 4'}),'2012 HSC Extension 1');
 });
 test('whitelist labels official/PLC sources and holds unknown trial names',()=>{
   assert.equal(mathsBaseSource('HSC.ADV.2011.Q2').label,'HSC Advanced 2011');
