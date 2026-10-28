@@ -114,4 +114,3 @@ export function groupRoutineBackfillDraft(draft,{idPrefix='routine-backfill-grou
  const result={items,instructionalChange:false};
  return {...draft,result,draftHash:draftHash(result),status:'candidate-only-awaiting-group-context-review',grouping:{kind:'same-archetype-native-multipart',sourceDraftHash:draft.draftHash,sourceItemCount:draft.result.items.length,itemGroups,mathematicsChanged:false,ratingReusable:false}};
 }
-
