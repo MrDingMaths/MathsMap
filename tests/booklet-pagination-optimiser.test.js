@@ -9,7 +9,9 @@ import {applyCalibratedWorkingSpace} from '../paginate/lib/working-space-apply.m
 
 const CAPACITY=100;
 const question=(id,score,extra={})=>({id,type:'question',content:{id:id+'-root',type:'question',prompt:'Q '+id,...(extra.content??{})},flow:{localDifficulty:{reasoningScore:score},...(extra.flow??{})},...Object.fromEntries(Object.entries(extra).filter(([k])=>!['content','flow'].includes(k)))});
-const project=(blocks,{sections=null,settings={}}={})=>({id:'fake',settings:{layoutOverrides:{},...settings},studio:{flags:[]},sections:sections??[{id:'s1',phase:'practice',topicId:'t',blocks}]});
+const deepFreezeAll=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.freeze(value);Object.values(value).forEach(deepFreezeAll);}return value;};
+// Frozen: the optimiser must never write to its input (trial layouts share its blocks).
+const project=(blocks,{sections=null,settings={}}={})=>deepFreezeAll({id:'fake',settings:{layoutOverrides:{},...settings},studio:{flags:[]},sections:sections??[{id:'s1',phase:'practice',topicId:'t',blocks}]});
 // A fake paginator: first fit per section, each section on a fresh page, heights by block id.
 function fakePaginator(heights,{split=null,leak=false}={}){
  const calls=[];
@@ -194,7 +196,7 @@ test('the short and worked guard reverts an exercise whose answers got longer',a
 });
 
 test('a teacher-reviewed booklet is refused unless named',async()=>{
- const p=project([question('A',10)]);p.studio.flags=[{id:'f',note:'x',at:'2026-10-18T00:00:00Z'}];
+ const p=deepFreezeAll({...project([question('A',10)]),studio:{flags:[{id:'f',note:'x',at:'2026-10-18T00:00:00Z'}]}});
  await assert.rejects(optimisePagination(p,{paginate:fakePaginator({})}),/named explicitly/);
  const named=await optimisePagination(p,{paginate:fakePaginator({}),named:true});
  assert.equal(named.moves.length,0);

@@ -42,7 +42,7 @@
  const {paginate,guard}=probePagination({show:async(next,ed)=>{candidate=next;probeEdition=ed;await tick();},probe:()=>preview});
  async function fitExercise(){
    onfinish();candidate=null;accepted=false;exercise=null;message='';running=true;progress='Measuring the current layout…';
-   const original=structuredClone($state.snapshot(project)),selectedId=blockId,section=exerciseSection;exerciseBaseline=JSON.stringify(original);
+   const original=project,selectedId=blockId,section=exerciseSection;exerciseBaseline=JSON.stringify(original);
    try{
      const outcome=await optimisePagination(original,{paginate,guard,named:reviewed&&confirmed,sectionIds:[section.id],onprogress:p=>{progress=`${p.trials} trials`;}});
      if(selectedId!==blockId||JSON.stringify($state.snapshot(project))!==exerciseBaseline)throw Error('The booklet changed during the check. Please try again.');
@@ -77,7 +77,7 @@
    onfinish();candidate=null;accepted=false;
    if(fitGoal==='page'){attempt(()=>setPageBoundary(project,blockId,'before'));return;}
    message='Checking page fit…';running=true;
-   baseline=JSON.stringify(project);const selectedId=blockId,generation=++fitGeneration,original=structuredClone($state.snapshot(project)),before=side(pageMap),destination=target||nextBlock?.id;previewBlock=selectedId;
+   baseline=JSON.stringify(project);const selectedId=blockId,generation=++fitGeneration,original=project,before=side(pageMap),destination=target||nextBlock?.id;previewBlock=selectedId;
    try{
      if(!pageMap.ready)throw Error('Wait for pagination to finish.');
      // A question stored as a continuation pair is one unit: fit all of it.

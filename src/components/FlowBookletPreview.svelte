@@ -2,6 +2,11 @@
   // Sizes are keyed by content and options within one validated context, so the
   // main preview and probe previews (Fit) share them instead of re-measuring.
   const sharedCaches=new Map();
+  // The newest complete layout per context, options and edition. A trial preview (Fit,
+  // diagram sizes, the optimiser) starts from it, so pagination resumes at the first
+  // changed block and copies the rest once a checkpoint matches, instead of walking
+  // the whole booklet. Reuse is still validated block by block in paginationReuse.
+  const latestResults=new Map();
   function sharedCache(context){let map=sharedCaches.get(context);if(!map){map=new Map();sharedCaches.set(context,map);if(sharedCaches.size>3)sharedCaches.delete(sharedCaches.keys().next().value);}return map;}
 </script>
 <script>
@@ -103,11 +108,13 @@
         if(key){timing=performance.now();measurementStore.enqueue(key,value);stats.storageEnqueueMs+=performance.now()-timing;}
         return value;
       };
-        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:reuseContext&&!result.partial?result:null,editionMaps:reuseContext&&isLeanReview(snapshot)?editionMaps:null,context:JSON.stringify([reuseContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;
+        const latestKey=JSON.stringify([reuseContext,currentOptions,currentEdition]),own=!result.partial&&result.edition===currentEdition?result:null;
+        const next=await paginateFlow(snapshot,currentEdition,measure,{previous:reuseContext?own??latestResults.get(latestKey)??(result.partial?null:result):null,editionMaps:reuseContext&&isLeanReview(snapshot)?editionMaps:null,context:JSON.stringify([reuseContext,currentOptions]),cancelled:()=>token!==generation,onprogress:p=>{if(token!==generation)return;stats.reusedPages=(stats.reusedPages??0)+(p.reused??0);const stage=`Paginating ${p.phase??'sections'}`;progress=`${stage} · section ${p.complete} of ${p.total}…`;
           // A first open shows its first pages while the rest paginate; selection and editing wait for the whole map.
           if(prepareInitialPreview&&!early&&(!currentEdition.startsWith('with-')||p.phase==='questions')&&p.partial?.length>=3){early=true;renderProject=snapshot;renderOptions=currentOptions;result={pages:p.partial.slice(0,3).map(page=>({...page,totalPages:'…'})),issues:[],edition:currentEdition,partial:true};visible=new Set([0,1,2]);}
           reportProgress({stage,complete:p.complete,total:p.total,ready:false,early});}});
         if(token!==generation)return;
+        if(reuseContext){latestResults.delete(latestKey);latestResults.set(latestKey,next);if(latestResults.size>8)latestResults.delete(latestResults.keys().next().value);}
         const paginationMs=performance.now()-started;
         metrics={...stats,paginationMs,totalMs:paginationMs};
         const nextVisible=prepareInitialPreview?new Set([0,1,2]):new Set([...visible].map(i=>next.pages.findIndex(p=>p.id===result.pages[i]?.id)).filter(i=>i>=0));

@@ -21,7 +21,9 @@
  export async function run() {
   if (running || !project) return result;
   onfinish(); running = true; result = null; message = ''; progress = 'Measuring the current layout…'; publish({state: 'running'});
-  const original = structuredClone($state.snapshot(project)), baseline = JSON.stringify(original);
+  // Trials share the live project's untouched blocks so they lay out only from the first change;
+  // the optimiser never writes to its input (frozen-input tests).
+  const original = project, baseline = JSON.stringify(original);
   lastBaseline = baseline;
   try {
    const outcome = await optimisePagination(original, {paginate, guard, named: reviewed && confirmed, onprogress: p => { progress = `Exercise ${p.exercise} of ${p.exercises} · ${p.trials} trials`; }});

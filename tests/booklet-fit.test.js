@@ -48,3 +48,16 @@ test('search finds the smallest fitting reduction and reports impossible fits af
  const none=await searchFit(p,['q'],FIT_DEFAULTS,async()=>false);
  assert.equal(none.project,null);assert.deepEqual(none.probes,[1]);
 });
+
+// Trial layouts reuse the live project's untouched blocks by identity, so Fit must
+// never change its input: a frozen project makes any in-place write throw.
+const deepFreeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.freeze(value);Object.values(value).forEach(deepFreeze);}return value;};
+test('fit candidates are built copy-on-write from a frozen project and share untouched blocks',async()=>{
+ const p=deepFreeze(fixture());
+ for(const options of [FIT_DEFAULTS,{...FIT_DEFAULTS,belowMinimum:true}])for(const t of [0,.5,1]){
+  const next=fitCandidate(p,['q'],t,options);
+  assert.equal(next.sections[0].blocks[1],p.sections[0].blocks[1],'the untouched block keeps its identity');
+ }
+ const result=await searchFit(p,['q','r'],FIT_DEFAULTS,async()=>true);
+ assert.ok(result.project);
+});
