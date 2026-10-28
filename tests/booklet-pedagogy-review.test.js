@@ -187,7 +187,7 @@ test('posting adds one local comment per finding, is repeatable and skips a stal
  const flags=space.project().studio.flags,finding=space.record().findings.find(row=>row.kind==='example-choice');
  assert.equal(flags.length,1);
  assert.deepEqual({kind:flags[0].kind,findingId:flags[0].findingId,severity:flags[0].severity,scope:flags[0].scope,resolved:flags[0].resolved,targetId:flags[0].targetId,edition:flags[0].edition},{kind:'pedagogy-review',findingId:finding.id,severity:'severe',scope:'local',resolved:false,targetId:'t1-example-a',edition:'student'});
- assert.equal(flags[0].note,commentNote(finding));assert.match(flags[0].note,/^\[Pedagogy review · Severe · example-choice · pf-/);assert.match(flags[0].note,/Also affects: t1-example-b/);assert.match(flags[0].note,/Proposed repair \(change-values\)/);assert.match(flags[0].note,/Done when:/);
+ assert.equal(flags[0].note,commentNote(finding));assert.match(flags[0].note,/^\[Pedagogy review · Severe · example-choice · pf-/);assert.match(flags[0].note,/Also affects: t1-example-b/);assert.match(flags[0].note,/Proposed repair \(change-values\)/);assert.doesNotMatch(flags[0].note,/Checked:|Assumes:|Breakdown:|Done when:/);assert.equal(finding.doneWhen,'A general example is shown.','Full audit evidence remains in provenance');
  assert.equal(finding.commentId,flags[0].id);assert.equal(space.record().findings.find(row=>row.kind==='guided-practice').state,'stale');
  const again=await postFindings(space.options);
  assert.deepEqual(again.posted,[]);assert.deepEqual(again.alreadyPresent,[finding.id]);assert.equal(space.project().studio.flags.length,1);

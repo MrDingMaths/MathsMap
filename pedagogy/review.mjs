@@ -392,8 +392,10 @@ export function summary(record,project){
 
 export function commentNote(finding){
  const others=finding.targets.slice(1).map(target=>target.id);
- if(isSuggestion(finding))return [`[Pedagogy review · Suggestion · ${finding.kind} · ${finding.id}]`,'Idea: '+finding.finding,finding.breakdown&&'Why: '+finding.breakdown,others.length&&'Also relates to: '+others.join(', '),'Proposed addition: '+finding.repair.proposal].filter(Boolean).join('\n');
- return [`[Pedagogy review · ${finding.severity==='severe'?'Severe':'High priority'} · ${finding.kind} · ${finding.id}]`,'Finding: '+finding.finding,'Breakdown: '+finding.breakdown,finding.checked&&'Checked: '+finding.checked,finding.assumptions&&'Assumes: '+finding.assumptions,others.length&&'Also affects: '+others.join(', '),`Proposed repair (${finding.repair.type}): ${finding.repair.proposal}`,finding.doneWhen&&'Done when: '+finding.doneWhen].filter(Boolean).join('\n');
+ // The audit retains derivations, assumptions and acceptance conditions. Studio
+ // needs the specific concern and proposed action, without repeating that record.
+ if(isSuggestion(finding))return [`[Pedagogy review · Suggestion · ${finding.kind} · ${finding.id}]`,finding.finding,others.length&&'Also relates to: '+others.join(', '),'Proposed addition: '+finding.repair.proposal].filter(Boolean).join('\n');
+ return [`[Pedagogy review · ${finding.severity==='severe'?'Severe':'High priority'} · ${finding.kind} · ${finding.id}]`,finding.finding,others.length&&'Also affects: '+others.join(', '),`Proposed repair (${finding.repair.type}): ${finding.repair.proposal}`,finding.repair.type==='add-teaching'&&finding.breakdown&&'Why teaching is needed: '+finding.breakdown].filter(Boolean).join('\n');
 }
 async function projectHandle(projectFile,root){return (await import('../scripts/booklet/lean-review.mjs')).openProject(projectFile,{root});}
 const flagsOf=project=>project.studio?.flags??[];
