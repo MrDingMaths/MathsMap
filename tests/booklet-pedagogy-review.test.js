@@ -455,3 +455,11 @@ test('principles-only dispatch includes explicit teaching in a practice section'
  const calls=[];const result=await runReview({...w.options,principlesOnly:true,reportOnly:true,runner:stubRunner({calls})});
  assert.deepEqual(result.errors,[]);assert.equal(calls.length,1);assert.equal(calls[0].payload.sequence.id,'inline-topic');
 });
+
+test('heterogeneous independent items may override only to existing same-topic archetypes',()=>{
+ const p={id:'p',sections:[{id:'practice',topicId:'t',phase:'practice',blocks:[{id:'q',type:'question',classification:{reasoningScore:30},content:{id:'q-root',children:[{id:'q-a'},{id:'q-b'}]}},{id:'linear-q',type:'question',classification:{reasoningScore:20},content:{id:'linear-root'}}]}]};
+ const seq=sequences(p)[0],clusters=[{id:'quadratic',questionIds:['q'],coverage:'bridge',rationale:'Mixed whole question primary method.'},{id:'linear',questionIds:['linear-q'],coverage:'bridge',rationale:'Existing same-topic method.'}];
+ const result={clusters,practiceItems:{q:[{nodeIds:['q-a']},{nodeIds:['q-b'],archetype:'linear'}],'linear-q':[{nodeIds:['linear-root']}]}};
+ const map=validateArchetypes(p,seq,result);assert.equal(map.questions.q.archetype,'quadratic');assert.equal(map.questions.q.practiceItems[0].archetype,undefined);assert.equal(map.questions.q.practiceItems[1].archetype,'linear');
+ for(const archetype of ['future-topic-only','',null])assert.throws(()=>validateArchetypes(p,seq,{...result,practiceItems:{...result.practiceItems,q:[{nodeIds:['q-a'],archetype}]}}),/Unknown same-topic practice item archetype/);
+});

@@ -38,6 +38,8 @@ Duplicate-question check (11 October 2026, user requested): each review also com
 
 Run the archetype-coverage pilot before Challenge restructuring. Genuinely different routine methods without an example are `missing`; a modest step up is `bridge` and calls for scaffolded questions before new teaching. Exclude Challenge and Exam sections. James reviews the pilot topic's coverage and principles findings before rollout. New content uses exactly `claude-sonnet-5-5`; unavailable access is a blocker, never a reason to substitute another model. Reviews and ratings retain their existing settings.
 
+Independent `practiceItems` may optionally set `archetype` to an existing cluster ID in the same topic when a whole question mixes methods. Without the override an item inherits its question’s primary archetype. Map each question once to a primary cluster; count independent item memberships separately. This metadata does not create skills or approve content changes.
+
 The remaining chunk-structure and website rules in the pedagogy contract remain authoring guidance. Recorded precedents remain binding.
 
 ## Commands

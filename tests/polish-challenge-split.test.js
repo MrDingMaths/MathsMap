@@ -10,7 +10,7 @@ test('dependency closure spans exercises, includes backward links, and preserves
 test('source count and minimum set sufficiency targets; gradient and upper end remain visible',()=>{
  const p={sections:[section('a',[q('a',10),q('b',40),q('c',50),q('d',60),q('e',65)])]};
  const archetypes={topics:[{topicId:'a',archetypes:[{id:'routine',coverage:'covered'}]}],questions:Object.fromEntries(['a','b','c','d','e'].map(id=>[id,{archetype:'routine'}]))};
- const r=report(p,{archetypes}),t=r.topics[0];assert.equal(t.coverage[0].target,5);assert.equal(t.coverage[0].gap,1);assert.equal(t.gradientGaps[0].step,30);assert.equal(t.upperRoutineGap,4);assert.equal(r.publicationBlocked,true);
+ const r=report(p,{archetypes}),t=r.topics[0];assert.equal(t.coverage[0].target,5);assert.equal(t.coverage[0].gap,1);assert.equal(t.gradientGaps[0].step,30);assert.equal(t.upperRoutineGap,0);assert.equal(r.publicationBlocked,true);
 });
 test('excluded end sections stay untouched and unrated/unmapped questions block calibration',()=>{
  const r=report({sections:[section('exam',[q('exam',99)],'exam'),section('a',[q('a',undefined,['exam'])])]});
@@ -56,7 +56,7 @@ test('gradient-only and routine upper-range gaps hold publication even with enou
  const r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes}).report;
  assert.equal(r.topics[0].coverage[0].gap,0);assert.equal(r.backfillBlocked,true);assert.ok(r.publicationHolds.some(h=>h.kind==='gradient-gap'));assert.equal(r.publicationBlocked,true);
  p.sections[0].blocks.forEach((b,i)=>b.classification.reasoningScore=10+i*5);
- const upper=challengeSplitCandidate(p,{approvedCalibration:true,archetypes}).report;assert.equal(upper.topics[0].gradientGaps.length,0);assert.ok(upper.publicationHolds.some(h=>h.kind==='upper-routine-gap'));assert.equal(upper.backfillBlocked,true);
+ archetypes.topics[0].routineUpperScore=60;const upper=challengeSplitCandidate(p,{approvedCalibration:true,archetypes}).report;assert.equal(upper.topics[0].gradientGaps.length,0);assert.ok(upper.publicationHolds.some(h=>h.kind==='upper-routine-gap'));assert.equal(upper.backfillBlocked,true);
 });
 test('candidate adds Challenge topic and recognises an existing Challenge exercise alias',async()=>{
  const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');
@@ -109,4 +109,22 @@ test('continuation whole unit is held when moving it would erase an exercise bou
 test('unreviewed mixed-score continuation is held in original placement and unchanged',async()=>{
  const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs'),stem=q('stem',40),part=q('part',70),later=q('later',10);part.flow={continuationOf:'stem'};
  const p={id:'p',sections:[section('a',[stem,part,later])]},r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}});assert.deepEqual(r.project.sections[0].blocks.slice(0,2),[stem,part]);assert.equal(r.report.moves.length,0);assert.ok(r.report.scopeHolds.some(h=>h.reason.startsWith('Semantic-unit review')));
+});
+test('basic exercise reaching its original30 demand has no artificial64 target',async()=>{
+ const{challengeSplitCandidate}=await import('../polish/challenge-split.mjs');const p={id:'p',sections:[section('a',[q('one',10),q('two',20),q('three',30)])]},archetypes={questions:Object.fromEntries(['one','two','three'].map(id=>[id,{archetype:'routine'}])),topics:[{topicId:'a',clusters:[{id:'routine',coverage:'covered',originalPracticeCount:3}]}]};
+ const r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes}).report;assert.equal(r.topics[0].upperRoutineTarget,30);assert.equal(r.topics[0].upperRoutineGap,0);assert.equal(r.backfillBlocked,false);assert.ok(!r.publicationHolds.some(h=>['gradient-gap','upper-routine-gap','practice-deficit'].includes(h.kind)));
+ p.sections[0].blocks[1].classification.reasoningScore=22;const gap=challengeSplitCandidate(p,{approvedCalibration:true,archetypes}).report;assert.ok(gap.publicationHolds.some(h=>h.kind==='gradient-gap'));assert.equal(gap.backfillBlocked,true);
+});
+test('mixed independent item archetypes count5quadratic/1linear and frozen replacements do not inflate needs',()=>{
+ const mixed=q('mixed',20);mixed.content={id:'root',children:Array.from({length:6},(_,i)=>({id:'part'+i,type:'part'}))};
+ const items=mixed.content.children.map((n,i)=>({nodeIds:[n.id],...(i===5?{archetype:'linear'}:{})}));
+ const map={questions:{mixed:{archetype:'quadratic',practiceItems:items}},topics:[{topicId:'a',clusters:[{id:'quadratic',coverage:'covered',originalPracticeCount:5},{id:'linear',coverage:'covered',originalPracticeCount:3}]}]};
+ let p={sections:[section('a',[mixed])]},c=report(p,{archetypes:map}).topics[0].coverage;assert.deepEqual(c.map(x=>x.count),[5,1]);
+ mixed.classification.reasoningScore=70;const existing=[q('old-linear1',20),q('old-linear2',20)],backfill=[...Array.from({length:5},(_,i)=>q('new-q'+i,20)),q('new-linear',20)];p.sections[0].blocks.push(...existing,...backfill);
+ for(const b of existing)map.questions[b.id]={archetype:'linear'};for(const b of backfill)map.questions[b.id]={archetype:b.id==='new-linear'?'linear':'quadratic'};
+ c=report(p,{archetypes:map}).topics[0].coverage;assert.deepEqual(c.map(x=>x.currentBeforeCount),[10,4]);assert.deepEqual(c.map(x=>x.count),[5,3]);assert.deepEqual(c.map(x=>x.target),[5,3]);assert.deepEqual(c.map(x=>x.gap),[0,0]);
+});
+test('unknown or malformed explicit item archetype holds sufficiency within same topic',()=>{
+ const b=q('b',20);b.content={id:'root'};const map={questions:{b:{archetype:'known',practiceItems:[{nodeIds:['root'],archetype:'elsewhere'}]}},topics:[{topicId:'a',clusters:[{id:'known',coverage:'covered'}]},{topicId:'other',clusters:[{id:'elsewhere',coverage:'covered'}]}]};
+ const check=()=>report({sections:[section('a',[b])]},{archetypes:map}).topics[0];assert.equal(check().sufficiencyStatus,'unassessable');assert.equal(check().invalidItemArchetypes.length,1);assert.equal(check().coverage[0].gap,null);map.questions.b.practiceItems[0].archetype=null;assert.equal(check().invalidItemArchetypes.length,1);
 });

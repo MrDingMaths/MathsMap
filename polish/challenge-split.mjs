@@ -42,23 +42,29 @@ export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3
   const topicMap=archetypes.topics?.find(t=>t.topicId===topicId);
   const taught=(topicMap?.archetypes??topicMap?.clusters??[]).filter(a=>a.routine!==false&&a.taught!==false&&a.challengeOnly!==true&&a.newOnly!==true&&(['covered','bridge','prior-knowledge'].includes(a.coverage)||a.taught===true));
   const missingItemReview=original.filter(({b})=>!(b.classification?.reasoningScore>=65)&&multipart(b)&&!archetypes.questions?.[b.id]?.practiceItems).map(({b})=>b.id);
-  const assessable=!!topicMap&&!missingArchetypes.length&&!missingRatings.length&&!missingItemReview.length;
-  const units=b=>{const assignment=archetypes.questions?.[b.id];return Array.isArray(assignment?.practiceItems)?assignment.practiceItems.length:1;};
-  const itemBasis=original.map(({b})=>({id:b.id,basis:archetypes.questions?.[b.id]?.practiceItems?'reviewed-independent-attempts':multipart(b)?'unreviewed-multipart':'whole-question',items:archetypes.questions?.[b.id]?.practiceItems??[{nodeIds:[b.content?.id??b.id]}]}));
+  const clusterIds=new Set((topicMap?.archetypes??topicMap?.clusters??[]).map(c=>c.archetype??c.id));
+  const itemsOf=b=>(archetypes.questions?.[b.id]?.practiceItems??[{nodeIds:[b.content?.id??b.id]}]).map(item=>({...item,archetype:Object.hasOwn(item,'archetype')?item.archetype:key(b)}));
+  const invalidItemArchetypes=original.flatMap(({b})=>(archetypes.questions?.[b.id]?.practiceItems??[]).filter(item=>Object.hasOwn(item,'archetype')&&(typeof item.archetype!=='string'||!item.archetype.trim()||!clusterIds.has(item.archetype))).map(item=>({id:b.id,nodeIds:item.nodeIds,archetype:item.archetype,reason:'Explicit item archetype must name an existing cluster in the same topic'})));
+  const assessable=!!topicMap&&!missingArchetypes.length&&!missingRatings.length&&!missingItemReview.length&&!invalidItemArchetypes.length;
+  const countItems=(rows,archetype)=>rows.reduce((n,{b})=>n+itemsOf(b).filter(item=>item.archetype===archetype).length,0);
+  const itemBasis=original.map(({b})=>({id:b.id,basis:archetypes.questions?.[b.id]?.practiceItems?'reviewed-independent-attempts':multipart(b)?'unreviewed-multipart':'whole-question',items:itemsOf(b)}));
   const coverage=taught.map(a=>{
-   const archetype=a.archetype??a.id,currentBeforeCount=original.filter(e=>key(e.b)===archetype).reduce((n,e)=>n+units(e.b),0);
+   const archetype=a.archetype??a.id,currentBeforeCount=countItems(original,archetype);
    if(a.originalPracticeCount!==undefined&&(!Number.isSafeInteger(a.originalPracticeCount)||a.originalPracticeCount<0))throw Error('Invalid originalPracticeCount for '+archetype);
-   const sourceCount=a.originalPracticeCount??currentBeforeCount,count=retained.filter(e=>key(e.b)===archetype).reduce((n,e)=>n+units(e.b),0),override=targetOverrides[topicId]?.[archetype]??a.practiceTarget??minimum,target=Math.max(minimum,sourceCount,override);
+   const sourceCount=a.originalPracticeCount??currentBeforeCount,count=countItems(retained,archetype),override=targetOverrides[topicId]?.[archetype]??a.practiceTarget??minimum,target=Math.max(minimum,sourceCount,override);
    return {archetype,sourceCount,currentBeforeCount,sourceCountBasis:a.originalPracticeCount===undefined?'current-project-provisional':'reviewed-original-baseline',count,target,gap:assessable?Math.max(0,target-count):null};
   });
   // A score sort is a proposal only: hold it whenever a retained dependency would be reversed or cross topics.
   const positions=new Map(retained.map((e,i)=>[e.b.id,i]));
   const orderHolds=retained.flatMap(({b})=>(b.flow?.dependsOn??[]).filter(id=>!positions.has(id)||positions.get(id)>=positions.get(b.id)).map(id=>({id:b.id,dependsOn:id,reason:'dependency order requires review'})));
   const gradientGaps=retained.slice(1).flatMap((e,i)=>{const previous=retained[i].b,step=e.b.classification?.reasoningScore-previous.classification?.reasoningScore;return step>maxStep?[{before:previous.id,after:e.b.id,step}]:[];});
-  const highest=retained.length?retained.at(-1).b.classification?.reasoningScore:null;
-  topics.push({topicId,order:orderHolds.length?null:retained.map(e=>e.b.id),proposedScoreOrder:retained.map(e=>e.b.id),orderHolds,itemBasis,sufficiencyStatus:assessable?'pending-calibration':'unassessable',coverage,missingArchetypes,missingRatings,missingItemReview,gradientGaps,upperRoutineGap:highest===null||!Number.isFinite(highest)?null:Math.max(0,routineCeiling-highest)});
+  const originalRoutineScores=original.map(e=>e.b.classification?.reasoningScore).filter(score=>Number.isFinite(score)&&score<65);
+  const upperRoutineTarget=topicMap?.routineUpperScore??(originalRoutineScores.length?Math.max(...originalRoutineScores):null);
+  if(upperRoutineTarget!==null&&(!Number.isFinite(upperRoutineTarget)||upperRoutineTarget<0||upperRoutineTarget>=65))throw Error('Routine upper target must be below65');
+  const highest=retained.length?Math.max(...retained.map(e=>e.b.classification?.reasoningScore).filter(Number.isFinite)):null;
+  topics.push({topicId,order:orderHolds.length?null:retained.map(e=>e.b.id),proposedScoreOrder:retained.map(e=>e.b.id),orderHolds,itemBasis,sufficiencyStatus:assessable?'pending-calibration':'unassessable',coverage,missingArchetypes,missingRatings,missingItemReview,invalidItemArchetypes,gradientGaps,upperRoutineTarget,upperRoutineTargetBasis:topicMap?.routineUpperScore===undefined?'original-routine-exercise-demand':'reviewed-original-demand',upperRoutineGap:upperRoutineTarget===null||highest===null||!Number.isFinite(highest)?null:Math.max(0,upperRoutineTarget-highest)});
  }
- return {version:1,project:project.id,revision:project.revision,mode:'proposal-only',approvalRequired:['archetype coverage','practice sufficiency including multipart practice units','gradient calibration'],calibration:{challengeThreshold:65,maxStep,minimum,routineCeiling,countUnit:'reviewed-independent-attempts',countLimit:'Single-attempt questions use one unit; multipart questions require explicit reviewed groups. Missing review holds sufficiency; independence does not prove variation.'},moves,scopeHolds,highOwnedExamRemaining,topics,unresolvedDependencies:entries.flatMap(({b})=>(b.flow?.dependsOn??[]).filter(id=>!byId.has(id)).map(id=>({id:b.id,dependsOn:id}))),publicationBlocked:true};
+ return {version:1,project:project.id,revision:project.revision,mode:'proposal-only',approvalRequired:['archetype coverage','practice sufficiency including multipart practice units','gradient calibration'],calibration:{challengeThreshold:65,maxStep,minimum,routineCeiling,upperDemandRule:'Below65 is a ceiling; retain appropriate original/taught demand, never target64 universally',countUnit:'reviewed-independent-attempts',countLimit:'Single-attempt questions use one unit; multipart questions require explicit reviewed groups. Missing review holds sufficiency; independence does not prove variation.'},moves,scopeHolds,highOwnedExamRemaining,topics,unresolvedDependencies:entries.flatMap(({b})=>(b.flow?.dependsOn??[]).filter(id=>!byId.has(id)).map(id=>({id:b.id,dependsOn:id}))),publicationBlocked:true};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const [file,mapFile]=process.argv.slice(2);if(!file)throw Error('Usage: node polish/challenge-split.mjs PROJECT.json [ARCHETYPES.json]');console.log(JSON.stringify(challengeSplitReport(JSON.parse(fs.readFileSync(file,'utf8')), {archetypes:mapFile?JSON.parse(fs.readFileSync(mapFile,'utf8')):{}}),null,2));}
 
