@@ -77,7 +77,7 @@ export function inspectionPlan({edition,selected,boundaries=[],pages,studentPage
 // its body and adds its composition boundaries. That is only sound while its
 // body paginates exactly like the Questions edition and no answer changed.
 export function deriveCombinedSelection({pages,studentPages,studentSelected,extra=[]}){
- const key=page=>JSON.stringify(page.blocks),body=pages.filter(page=>!page.isAnswer);
+ const key=page=>JSON.stringify(page.blocks),body=pages.filter(page=>!page.isAnswer&&!page.isBlank);
  if(body.length!==studentPages.length||body.some((page,i)=>key(page)!==key(studentPages[i])))throw Error('Combined body pagination differs from the Questions edition; render this edition\'s baseline with --baseline-editions all');
  const wanted=new Set(studentSelected),mapped=body.filter((page,i)=>wanted.has(studentPages[i].page)).map(page=>page.page);
  const boundaries=mapped.length||extra.length?boundaryPages(pages):[];
@@ -221,7 +221,7 @@ async function main(){
     // Geometry makes the map sensitive to style-only shifts that leave markup unchanged.
     const layout=[...e.querySelectorAll('[data-question-id],[data-node-id],[data-edit-root],[data-diagram-id],table,.tikz-wrap,footer')].map(el=>{const r=el.getBoundingClientRect();return [el.tagName,round(r.left-origin.left),round(r.top-origin.top),round(r.width),round(r.height)];});
     const isAnswer=!!e.querySelector('.compact-answer,.answer-columns,[id*="answer-section-"]');
-    return {html:e.outerHTML+'\n'+JSON.stringify(layout),blocks:e.dataset.flowBlocks?.split(',')??[],isAnswer,mode:edition.startsWith('with-')?(isAnswer?(edition.endsWith('worked')?'worked':'short'):'student'):edition,isCover:!!e.querySelector('.booklet-cover,.project-cover'),answerSectionStart:!!e.querySelector('[id*="answer-section-"]')};
+    return {html:e.outerHTML+'\n'+JSON.stringify(layout),blocks:e.dataset.flowBlocks?.split(',').filter(Boolean)??[],isAnswer,isBlank:!!e.querySelector('[data-blank-page="true"]'),mode:edition.startsWith('with-')?(isAnswer?(edition.endsWith('worked')?'worked':'short'):'student'):edition,isCover:!!e.querySelector('.booklet-cover,.project-cover'),answerSectionStart:!!e.querySelector('[id*="answer-section-"]')};
    }),edition);
    // Both maps are compared within this tool, so the hash binds rendered markup,
    // geometry and assets. A local layout override in settings then selects only

@@ -117,6 +117,12 @@ test('combined editions without their own baseline follow the question selection
  assert.throws(()=>deriveCombinedSelection({pages:moved,studentPages:student,studentSelected:[4]}),/--baseline-editions all/);
 });
 
+test('a clean answer verso is a boundary, not an extra Questions body page',()=>{
+ const student=pages(3),combined=[...student,{page:4,blocks:[],mode:'student',isBlank:true},{page:5,blocks:['answer'],mode:'short',isAnswer:true,answerSectionStart:true}];
+ const derived=deriveCombinedSelection({pages:combined,studentPages:student,studentSelected:[3]});
+ assert.deepEqual(derived.selected,[3,4,5]);assert.deepEqual(derived.boundaries,[4,5]);
+});
+
 test('answer changes are detected separately from question-side edits',()=>{
  const project={settings:{compactAnswers:{columns:2}},sections:[{blocks:[{id:'q',content:{id:'q',prompt:'Find x.',answer:{short:'3',worked:'x=3'},children:[{id:'q-a',prompt:'Part',answer:{short:'4'}}]}}]}]};
  const prompt=structuredClone(project);prompt.sections[0].blocks[0].content.prompt='Solve for x.';

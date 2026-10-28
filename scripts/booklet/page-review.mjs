@@ -45,7 +45,7 @@ function normaliseEditorHostIds(html){
 }
 export function renderedPageHashes(pages,{renderer,settings,assets}){
  const global=structuredClone(settings);delete global.flowEdition;
- return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:normaliseEditorHostIds(normaliseSvgPaintScopes(p.html)),renderer,settings:global,assets}),...(p.mode?{mode:p.mode,isAnswer:p.isAnswer,isCover:p.isCover,answerSectionStart:p.answerSectionStart}:{})}));
+ return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:normaliseEditorHostIds(normaliseSvgPaintScopes(p.html)),renderer,settings:global,assets}),...(p.isBlank?{isBlank:true}:{}),...(p.mode?{mode:p.mode,isAnswer:p.isAnswer,isCover:p.isCover,answerSectionStart:p.answerSectionStart}:{})}));
 }
 // Compare physical positions, not source-page IDs: pagination may shift a tail.
 export function affectedPages(previous,current){
