@@ -11,6 +11,7 @@ import {runAstraTask} from '../scripts/booklet/codex-transcription.mjs';
 import {newTeachingPrompt,NEW_CONTENT_MODEL,validateNewTeachingCandidate} from '../pedagogy/new-content.mjs';
 import {draftHash} from '../pedagogy/routine-backfill-proof.mjs';
 import {assessedRating} from '../scripts/booklet/reasoning-ratings.mjs';
+import {challengeSplitReport} from '../polish/challenge-split.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const FIXTURE=path.join(ROOT,'tests','fixtures','pedagogy-seeded.json');
@@ -462,4 +463,38 @@ test('heterogeneous independent items may override only to existing same-topic a
  const result={clusters,practiceItems:{q:[{nodeIds:['q-a']},{nodeIds:['q-b'],archetype:'linear'}],'linear-q':[{nodeIds:['linear-root']}]}};
  const map=validateArchetypes(p,seq,result);assert.equal(map.questions.q.archetype,'quadratic');assert.equal(map.questions.q.practiceItems[0].archetype,undefined);assert.equal(map.questions.q.practiceItems[1].archetype,'linear');
  for(const archetype of ['future-topic-only','',null])assert.throws(()=>validateArchetypes(p,seq,{...result,practiceItems:{...result.practiceItems,q:[{nodeIds:['q-a'],archetype}]}}),/Unknown same-topic practice item archetype/);
+});
+
+const splitItemArchetypeFixture=()=>{
+ const project={id:'item-split',revision:1,sections:[{id:'teaching',topicId:'t',phase:'teaching',blocks:[{id:'rule',type:'rich-text',pedagogyRole:'definition',content:'The taught routine method.'}]},{id:'practice',topicId:'t',phase:'practice',blocks:[{id:'q2',type:'question',classification:{reasoningScore:26},content:{id:'q2-root',type:'group',children:[{id:'formula',type:'part',prompt:'Retrieve the familiar formula.'},{id:'model',type:'part',prompt:'Apply the taught method to a model.'}]}}]}]};
+ const clusters=[{id:'cubic-model',questionIds:['q2'],coverage:'covered',teachingIds:['rule'],rationale:'The routine method is explicitly taught.'},{id:'volume-formula',itemOnly:true,questionIds:[],routine:false,coverage:'prior-knowledge',prerequisiteIds:['volume-rectangular-prism'],evidence:'Earlier-stage formula retrieval, not another model.',reviewStatus:'pending-user-decision',rationale:'James decides whether prerequisite retrieval belongs in Review.'}];
+ const result={clusters,practiceItems:{q2:[{nodeIds:['formula'],archetype:'volume-formula'},{nodeIds:['model']}]}};
+ return {project,sequence:sequences(project)[0],result};
+};
+
+test('referenced item-only prerequisite stays separate from complete routine-model practice',()=>{
+ const {project,sequence,result}=splitItemArchetypeFixture(),map=validateArchetypes(project,sequence,result);
+ assert.equal(map.questions.q2.archetype,'cubic-model');assert.equal(map.questions.q2.practiceItems.length,2);assert.equal(map.clusters[1].itemOnly,true);
+ const counts=archetype=>map.questions.q2.practiceItems.filter(item=>(item.archetype??map.questions.q2.archetype)===archetype).length;
+ assert.equal(counts('volume-formula'),1);assert.equal(counts('cubic-model'),1);
+ const report=challengeSplitReport(project,{archetypes:{projectId:project.id,revision:1,questions:map.questions,topics:[map]}}),coverage=report.topics[0].coverage;
+ assert.equal(coverage.length,1);assert.equal(coverage[0].archetype,'cubic-model');assert.equal(coverage[0].count,1);assert.equal(coverage[0].gap,2);
+ const block=project.sections[1].blocks[0];block.content.children.push({id:'model2',type:'part'},{id:'model3',type:'part'});result.practiceItems.q2.push({nodeIds:['model2']},{nodeIds:['model3']});
+ const expanded=validateArchetypes(project,sequences(project)[0],result),ready=challengeSplitReport(project,{archetypes:{questions:expanded.questions,topics:[expanded]}}).topics[0].coverage[0];
+ assert.equal(ready.count,3);assert.equal(ready.gap,0);assert.equal(expanded.questions.q2.practiceItems.length,4,'Three routine attempts may live in one whole block beside a separate retrieval ask');
+ assert.match(archetypePrompt(project,sequences(project)[0],{skills:[]}),/itemOnly:true/);
+});
+
+test('item-only clusters cannot hide unmapped questions, unknown memberships or duplicate attempts',()=>{
+ const empty=splitItemArchetypeFixture();delete empty.result.clusters[1].itemOnly;assert.throws(()=>validateArchetypes(empty.project,empty.sequence,empty.result),/Empty archetype/);
+ const dangling=splitItemArchetypeFixture();delete dangling.result.practiceItems.q2[0].archetype;assert.throws(()=>validateArchetypes(dangling.project,dangling.sequence,dangling.result),/Unreferenced item-only/);
+ const nonempty=splitItemArchetypeFixture();nonempty.result.clusters[1].questionIds=['q2'];assert.throws(()=>validateArchetypes(nonempty.project,nonempty.sequence,nonempty.result),/Item-only archetype must have empty questionIds/);
+ const unknown=splitItemArchetypeFixture();unknown.result.practiceItems.q2[0].archetype='unknown';assert.throws(()=>validateArchetypes(unknown.project,unknown.sequence,unknown.result),/Unknown same-topic practice item archetype/);
+ const repeated=splitItemArchetypeFixture();repeated.result.practiceItems.q2.push({nodeIds:['formula']});assert.throws(()=>validateArchetypes(repeated.project,repeated.sequence,repeated.result),/Repeated practice item/);
+ const overlapping=splitItemArchetypeFixture();overlapping.result.practiceItems.q2.push({nodeIds:['q2-root']});assert.throws(()=>validateArchetypes(overlapping.project,overlapping.sequence,overlapping.result),/Overlapping practice item/);
+ const grouped=splitItemArchetypeFixture();grouped.result.practiceItems.q2=[{nodeIds:['q2-root','formula','model'],archetype:'volume-formula'}];const groupedMap=validateArchetypes(grouped.project,grouped.sequence,grouped.result);assert.equal(groupedMap.questions.q2.practiceItems.length,1,'A dependent parent/child group is one attempt, not cross-item double counting');
+ const repeatedWithin=splitItemArchetypeFixture();repeatedWithin.result.practiceItems.q2=[{nodeIds:['formula','formula'],archetype:'volume-formula'},{nodeIds:['model']}];assert.throws(()=>validateArchetypes(repeatedWithin.project,repeatedWithin.sequence,repeatedWithin.result),/Repeated practice item/);
+ const outside=splitItemArchetypeFixture();outside.result.practiceItems.q2[0].nodeIds=['foreign-part'];assert.throws(()=>validateArchetypes(outside.project,outside.sequence,outside.result),/outside question|Unreferenced item-only/);
+ const unmapped=splitItemArchetypeFixture();unmapped.result.clusters.shift();assert.throws(()=>validateArchetypes(unmapped.project,unmapped.sequence,unmapped.result),/Unmapped routine question/);
+ const doublePrimary=splitItemArchetypeFixture();doublePrimary.result.clusters.push({...doublePrimary.result.clusters[0],id:'second-primary'});assert.throws(()=>validateArchetypes(doublePrimary.project,doublePrimary.sequence,doublePrimary.result),/repeated routine question/);
 });

@@ -33,6 +33,16 @@ test('reviewed independent attempts count separately, grouped scaffold steps onc
  const t=report(p,{archetypes}).topics[0];assert.equal(t.coverage[0].count,3);assert.equal(t.coverage[0].gap,0);
  archetypes.questions.a.practiceItems.push({nodeIds:['first']});assert.throws(()=>report(p,{archetypes}),/reused practice node/);
 });
+
+test('parent and child targets count once inside a dependent item but cannot span independent items',()=>{
+ const block=q('a',20);block.content={id:'root',children:[{id:'first'},{id:'second'}]};
+ const project={sections:[section('a',[block])]},archetypes={questions:{a:{archetype:'routine',practiceItems:[{nodeIds:['root','first']}]}},topics:[{topicId:'a',archetypes:[{id:'routine',coverage:'covered'}]}]};
+ const coverage=report(project,{archetypes}).topics[0].coverage[0];assert.equal(coverage.count,1);assert.equal(coverage.target,3);assert.equal(coverage.gap,2);
+ archetypes.questions.a.practiceItems=[{nodeIds:['root']},{nodeIds:['first']}];assert.throws(()=>report(project,{archetypes}),/Invalid or reused practice node/);
+ archetypes.questions.a.practiceItems=[{nodeIds:['first']},{nodeIds:['root']}];assert.throws(()=>report(project,{archetypes}),/Invalid or reused practice node/);
+ archetypes.questions.a.practiceItems=[{nodeIds:['root','first','first']}];assert.throws(()=>report(project,{archetypes}),/Invalid or reused practice node/);
+ archetypes.questions.a.practiceItems=[{nodeIds:['root','not-a-node']}];assert.throws(()=>report(project,{archetypes}),/Invalid or reused practice node/);
+});
 test('unreviewed multipart content holds sufficiency instead of inventing a block deficit',()=>{
  const b=q('a',20);b.content={id:'root',children:[{id:'one',type:'part'},{id:'two',type:'part'}]};
  const archetypes={questions:{a:{archetype:'routine'}},topics:[{topicId:'a',archetypes:[{id:'routine',coverage:'covered'}]}]};

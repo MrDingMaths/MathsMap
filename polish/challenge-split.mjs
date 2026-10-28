@@ -15,7 +15,15 @@ export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3
  for(const {b} of entries){const items=archetypes.questions?.[b.id]?.practiceItems;if(items===undefined)continue;
   const ids=new Set(),ancestors=new Map();const visit=(n,parents=[])=>{if(n?.id){ids.add(n.id);ancestors.set(n.id,parents);}for(const c of n?.children??[])visit(c,[...parents,n.id]);};visit(b.content);
   const seen=new Set();if(!Array.isArray(items)||!items.length)throw Error('Invalid practice items for '+b.id);
-  for(const item of items){if(!Array.isArray(item.nodeIds)||!item.nodeIds.length)throw Error('Practice item needs nodeIds: '+b.id);for(const id of item.nodeIds){if(!ids.has(id)||seen.has(id)||[...seen].some(other=>ancestors.get(id)?.includes(other)||ancestors.get(other)?.includes(id)))throw Error('Invalid or reused practice node '+id);seen.add(id);}}
+  for(const item of items){
+   if(!Array.isArray(item.nodeIds)||!item.nodeIds.length)throw Error('Practice item needs nodeIds: '+b.id);
+   const itemNodes=new Set();
+   for(const id of item.nodeIds){
+    if(!ids.has(id)||seen.has(id)||itemNodes.has(id)||[...seen].some(other=>ancestors.get(id)?.includes(other)||ancestors.get(other)?.includes(id)))throw Error('Invalid or reused practice node '+id);
+    itemNodes.add(id);
+   }
+   for(const id of itemNodes)seen.add(id);
+  }
  }
  const multipart=b=>{let responses=0;const walk=n=>{if(n?.type==='part')responses++;for(const c of n?.children??[])walk(c);};walk(b.content);return responses>1;};
  const moveSections=(project.sections??[]).filter(s=>s.phase==='practice'&&!['challenge','candidate-pool'].includes(endSectionRole(s,project)));
