@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Optimise pagination headlessly (22 October 2026, user approved). Drives the same
-// Studio action a person uses ("Optimise pagination" in the Page tab of the Spacing
+// Studio action a person uses ("Optimise pagination" in the Page tab of the Layout
 // panel, src/components/BookletPaginationOptimiser.svelte), so there is one
 // implementation. Nothing here reimplements the optimiser.
 //   node paginate/optimise.mjs --candidate FILE [--apply] [--out FILE] [--named] [--suggest-breaks]
@@ -23,7 +23,7 @@ const WORK=path.join(ROOT,'.booklet-work','bench-20261022');
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^﻿/,''));
 const write=(f,v)=>{fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,typeof v==='string'?v:JSON.stringify(v,null,1)+'\n');};
 
-// Open the project in Studio, open Spacing > Page and run the action. Returns the
+// Open the project in Studio, open Layout > Page and run the action. Returns the
 // result object the component publishes on window.__bookletOptimiseResult.
 // suggest: after the run (and Apply), also list the exercise breaks worth removing (suggestBreakRemovals);
 // suggestOnly: that and nothing else (the booklet is not optimised).
@@ -45,7 +45,7 @@ export async function driveStudio(project,{base=BASE,apply=false,named=false,che
     if(Date.now()>deadline)throw Error('Studio pagination did not become ready');
     await page.waitForTimeout(250);
    }
-   await page.getByRole('button',{name:'Spacing',exact:true}).click();
+   await page.getByRole('button',{name:'Layout',exact:true}).click();
    await page.getByRole('tab',{name:'Page',exact:true}).click();
    const action=page.getByRole('button',{name:'Optimise pagination',exact:true});
    await action.waitFor({state:'visible'});
