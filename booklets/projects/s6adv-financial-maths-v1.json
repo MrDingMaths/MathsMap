@@ -49626,6 +49626,101 @@
             "label": "HSC Standard 2 2022",
             "origin": "booklet"
           }
+        },
+        {
+          "id": "exam-mb-ccdf8154-9f0a-4aea-b3da-abf164954aa5",
+          "type": "question",
+          "source": {
+            "provider": "HSC",
+            "paper": "Advanced",
+            "year": "2013",
+            "label": "HSC Advanced 2013",
+            "origin": "MathsBase"
+          },
+          "classification": {
+            "primarySkillId": "loan-term-logarithms",
+            "secondarySkillIds": [
+              "reducing-balance-loan-calculations",
+              "loan-repayment-geometric-series"
+            ],
+            "reasoningScore": 44,
+            "difficulty": "Development",
+            "difficultyReason": "The supplied balance formula scaffolds three familiar procedures: solve for repayment, substitute elapsed months, then reset the explicitly stated principal and collect exponential terms before taking logarithms. The hardest demand is interpreting the fractional repayment count as a whole number of monthly payments; no unsignposted method or substantial reframing is required.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "assessedAt": "2026-10-28T20:55:29.462Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "288096d403a38f7ff4654ab932718bc7ecc5f1f6e533254e9f4a52fcb63be0d5",
+              "evidence": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/local-stage6-early-assessment/configured-review/s6adv-financial-maths-v1/result.json"
+            },
+            "archetype": "loan-repayment-balance-and-refinancing-time"
+          },
+          "content": {
+            "id": "exam-mb-ccdf8154-9f0a-4aea-b3da-abf164954aa5-root",
+            "type": "question",
+            "label": "",
+            "prompt": "A family borrows $\\$500\\,000$ to buy a house.\nThe loan is to be repaid in equal monthly instalments.\nThe interest, which is charged at $6\\%$ per annum, is reducible and calculated monthly.\nThe amount owing after $n$ months, $\\$A_n$, is given by\n$$A_n = Pr^n - M(1 + r + r^2 + \\dots + r^{n-1})$$ (Do NOT prove this)\nwhere $\\$P$ is the amount borrowed, $r = 1.005$ and $\\$M$ is the monthly repayment.\n$\\textbf{(i)}$ The loan is to be repaid over 30 years.\nShow that the monthly repayment is $\\$2998$ to the nearest dollar.\n[2]\n$\\textbf{(ii)}$ Show that the balance owing after 20 years is $\\$270\\,000$ to the nearest thousand dollars.\n[1]\n$\\textbf{(iii)}$ After 20 years the family borrows an extra amount, so that the family then owes a total of $\\$370\\,000$.\nThe monthly repayment remains $\\$2998$, and the interest rate remains the same.\nHow long will it take to repay the $\\$370\\,000$?\n[2]",
+            "answer": {
+              "short": "(i) $\\$2998$ per month.\n(ii) $\\$270\\,000$.\n(iii) 193 months (16 years and 1 month).",
+              "worked": "$\\textbf{(i)}$\nFor 30 years, $n = 360$ months. When the loan is repaid, $A_{360} = 0$.\n$$\\begin{align*}\n0 &= 500000(1.005)^{360} \\\\\n&\\quad - M(1 + 1.005 + \\dots + (1.005)^{359}) \\\\\n&= 500000(1.005)^{360} - M \\left( \\frac{1.005^{360} - 1}{1.005 - 1} \\right) \\\\\n&= 500000(1.005)^{360} - M \\left( \\frac{1.005^{360} - 1}{0.005} \\right) \\\\\n&= 500000(1.005)^{360} - 1004.515M \\\\\n& \\quad \\\\\nM &= \\frac{500000(1.005)^{360}}{1004.515} \\\\\n&= 2997.75\n\\end{align*}$$\nThe monthly repayment is $\\$2998$ to the nearest dollar.\n\n$\\textbf{(ii)}$\nAfter 20 years, $n = 240$ months.\n$$\\begin{align*}\nA_{240} &= 500000(1.005)^{240} \\\\\n&\\quad - 2998(1 + 1.005 + \\dots + (1.005)^{239}) \\\\\n&= 500000(1.005)^{240} - 2998 \\left( \\frac{1.005^{240} - 1}{1.005 - 1} \\right) \\\\\n&= 1655102.24 - 2998(462.0409) \\\\\n&= 1655102.24 - 1385198.61 \\\\\n&= 269903.63\n\\end{align*}$$\nThe balance owing is $\\$270\\,000$ to the nearest thousand.\n\n$\\textbf{(iii)}$\nNeed to find $n$ so that the loan of $\\$370\\,000$ is repaid, meaning $A_n = 0$.\n$$\\begin{align*}\n370000(1.005)^n \\\\\n&\\quad - 2998(1 + 1.005 + \\dots + (1.005)^{n-1}) = 0 \\\\\n370000(1.005)^n &= 2998 \\left( \\frac{1.005^n - 1}{1.005 - 1} \\right) \\\\\n370000(1.005)^n &= 599600(1.005^n - 1) \\\\\n599600 &= 599600(1.005)^n - 370000(1.005)^n \\\\\n599600 &= 229600(1.005)^n \\\\\n1.005^n &= \\frac{599600}{229600} \\\\\n1.005^n &= 2.6115 \\\\\n\\ln(1.005^n) &= \\ln(2.6115) \\\\\nn \\ln(1.005) &= \\ln(2.6115) \\\\\nn &= \\frac{\\ln(2.6115)}{\\ln(1.005)} \\\\\n&= 192.46\n\\end{align*}$$\nHence 193 months (that is, 16 years and 1 month) are required to repay the $\\$370\\,000$.",
+              "provenance": {
+                "short": "source-extracted",
+                "worked": "source"
+              }
+            }
+          },
+          "snapshotKind": "local",
+          "title": "",
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "ccdf8154-9f0a-4aea-b3da-abf164954aa5",
+              "sourceCode": "HSC.ADV.2013 Q13d",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/local-stage6-early-assessment/configured-review/s6adv-financial-maths-v1/input.json",
+              "sourceQuestionSha256": "21a21505bab069540cf3531ba873aa2ff8731ea320c67bd6da1be213345abbdb",
+              "sourceSolutionSha256": "60abfad8863b4aed66b6e359bea40d3f75ae60b889534d778ead45d1119e05e8"
+            },
+            "teachingContext": [
+              {
+                "blockId": "p41-example",
+                "method": "loan-repayment-balance-and-refinancing-time"
+              },
+              {
+                "blockId": "p42-repayment-example",
+                "method": "loan-repayment-balance-and-refinancing-time"
+              },
+              {
+                "blockId": "p44-example",
+                "method": "loan-repayment-balance-and-refinancing-time"
+              }
+            ],
+            "localAssessment": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/local-stage6-early-assessment/s6adv-financial-maths-v1.json",
+            "independentReviewStatus": "accepted",
+            "numericRatingStatus": "verified-new-whole-question-rating",
+            "sourceNativeStatus": "raw-question-and-worked-source-copied-exactly; independently-reviewed",
+            "nativeConversionStatus": "reviewed-editable-source-fields; integrated-actual-page-checks-pending",
+            "pageVerificationStatus": "pending-root-serial-export-and-actual-inspection",
+            "independentReview": {
+              "proof": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/local-stage6-early-assessment/configured-review/s6adv-financial-maths-v1/consolidated-proof.json",
+              "proofSha256": "e439817dde90e912b0647bb152a542331740235995c54634aca8d5d5d05b11cf",
+              "rawReview": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/local-stage6-early-assessment/configured-review/s6adv-financial-maths-v1/result.json",
+              "rawReviewSha256": "60952db043daf063f6132b912e196a5d9507373f3d3f26cb34656b8f6022b0bb",
+              "sourceProof": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/local-stage6-early-assessment/configured-review/s6adv-financial-maths-v1/proof.json",
+              "sourceProofSha256": "afc2c9e918f9a2384fab892426638841c04b3ae2090b0157e207e13229cea839",
+              "taskHash": "288096d403a38f7ff4654ab932718bc7ecc5f1f6e533254e9f4a52fcb63be0d5",
+              "input": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/local-stage6-early-assessment/configured-review/s6adv-financial-maths-v1/input.json",
+              "inputSha256": "b97b426570ea13bb0977cc5a935756c8a7608a8c8660faf4a636489af79b97a4",
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "baselineRevision": 2,
+              "baselineSha256": "872f1c1febfe01d8262afe3d8f6c02ec17202290311254b9422dc1a8ddf82e91"
+            },
+            "additionTo": {
+              "projectId": "s6adv-financial-maths-v1",
+              "blockId": "p18-q14"
+            }
+          },
+          "bankRef": null
         }
       ]
     }
@@ -58685,10 +58780,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 2,
+  "revision": 3,
   "assets": [],
   "createdAt": "2026-10-27T05:45:27.795Z",
-  "updatedAt": "2026-10-28T17:40:21.196Z",
+  "updatedAt": "2026-10-28T21:09:37.960Z",
   "library": {
     "category": "master",
     "courseId": "s6-adv12",
