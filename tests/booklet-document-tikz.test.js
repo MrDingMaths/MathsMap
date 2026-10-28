@@ -62,3 +62,11 @@ test('an existing inline width line is replaced where it is',async()=>{
  assert.equal(setInlineTikzWidth('[tikz]\n% mathsmap-inline-width-mm 65\n% other\nX[/tikz]',40),'[tikz]\n% mathsmap-inline-width-mm 40\n% other\nX[/tikz]');
  assert.equal(setInlineTikzWidth('[tikz]\nX[/tikz]',40),'[tikz]\n% mathsmap-inline-width-mm 40\nX[/tikz]');
 });
+test('table-cell diagram spacing is its paragraph spacing, clamped to 0-80 mm',async()=>{
+ const {inlineTikzDiagram,patchDiagram}=await import('../src/lib/booklet-review-model.js');
+ const node={...paragraph,spaceBefore:0,spaceAfter:0};
+ const spaced=patchDiagram(node,{spaceBefore:6,spaceAfter:120});
+ assert.deepEqual([spaced.spaceBefore,spaced.spaceAfter,spaced.inlines],[6,80,node.inlines]);
+ assert.deepEqual(inlineTikzDiagram(spaced).spaceBefore,6);
+ assert.equal(inlineTikzDiagram(patchDiagram(node,{widthMm:50,spaceAfter:3})).widthMm,50);
+});

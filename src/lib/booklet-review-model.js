@@ -22,13 +22,15 @@ export function reviewTargets(project) {
 // diagram too; it keeps its width as a comment in that source.
 export function inlineTikzDiagram(node){
   const entry=node?.type==='paragraph'?documentTikzEntries(node)[0]:null;
-  return entry?{id:node.id,format:'tikz',code:entry.code,widthMm:entry.widthMm,inline:true}:null;
+  return entry?{id:node.id,format:'tikz',code:entry.code,widthMm:entry.widthMm,spaceBefore:node.spaceBefore??0,spaceAfter:node.spaceAfter??2,inline:true}:null;
 }
 export function patchDiagram(node,patch){
   if(!inlineTikzDiagram(node))return {...node,...patch};
-  if(patch.widthMm==null)return node;
-  const text=node.inlines.map(run=>run.text??'').join('');
-  return {...node,inlines:[{...node.inlines[0],text:setInlineTikzWidth(text,patch.widthMm)}]};
+  // Space above and below the diagram is its paragraph's own spacing (mm).
+  let next=node;
+  for(const key of ['spaceBefore','spaceAfter'])if(patch[key]!=null)next={...next,[key]:Math.max(0,Math.min(80,Number(patch[key])||0))};
+  if(patch.widthMm!=null)next={...next,inlines:[{...node.inlines[0],text:setInlineTikzWidth(node.inlines.map(run=>run.text??'').join(''),patch.widthMm)}]};
+  return next;
 }
 export const targetById=(project,targetId)=>reviewTargets(project).find(t=>t.id===targetId);
 export function findEditableDiagram(node, diagramId, path='') {

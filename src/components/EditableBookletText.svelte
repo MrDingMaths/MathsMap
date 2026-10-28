@@ -38,6 +38,8 @@
 
   function cancel() { active = ''; }
   function activate(event) {
+    // A diagram is selected (and resized) by the canvas, not opened as text.
+    if(event.target.closest?.('[data-diagram-id]'))return;
     if(event.target.closest?.('a')){if(event.ctrlKey||event.metaKey)return;event.preventDefault();}
     if(event.type==='click'&&window.getSelection()?.toString())return;
     if (event.type === 'keydown' && event.key !== 'Enter' && event.key !== ' ') return;
