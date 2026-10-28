@@ -2,6 +2,22 @@ export const BOOKLET_PX_PER_MM = 96 / 25.4;
 // Preserve the paginator's existing 12 px (3.175 mm) footer clearance.
 export const BOOKLET_FOOTER_CLEARANCE = 12;
 
+// Where each rendered question part ends (keyed by part id), in the same units as
+// measureBookletPage's height and capacity. The paginator predicts a question's split
+// point from one overflowing measurement instead of searching for it.
+export function measurePartBottoms(root) {
+  const paper = root.querySelector('.booklet-page'), main = paper?.querySelector('main');
+  if (!main) return null;
+  const scale = paper.getBoundingClientRect().width / (210 * BOOKLET_PX_PER_MM);
+  if (!scale) return null;
+  const top = main.getBoundingClientRect().top, bottoms = {};
+  for (const element of main.querySelectorAll('[data-arrangement-id$=":question"]')) {
+    const id = element.dataset.arrangementId.slice(0, -':question'.length), bottom = Math.round((element.getBoundingClientRect().bottom - top) / scale * 100) / 100;
+    if (!(bottoms[id] >= bottom)) bottoms[id] = bottom;
+  }
+  return bottoms;
+}
+
 export function measureBookletPage(root) {
   const paper = root.querySelector('.booklet-page');
   const main = paper?.querySelector('main');

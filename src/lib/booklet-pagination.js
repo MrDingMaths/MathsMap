@@ -177,6 +177,29 @@ export function fragmentQuestion(block, groups, continuation=0) {
   return next;
 }
 
+// The largest count in [1, high] whose trial fits, assuming (as the binary search
+// always has) that fitting is monotonic in the count. `overflowed` is a measurement
+// of more of the question that did not fit; where it reports part bottoms
+// (measurePartBottoms) it predicts the count, which two trials confirm: k fits and
+// k + 1 does not. A wrong prediction narrows the binary search instead of replacing it.
+const fitsPage=m=>m.height<=m.capacity+.2;
+export function predictFit(overflowed,groups,high){
+  const bottoms=overflowed?.partBottoms;if(!bottoms)return 0;
+  let count=0;
+  for(const group of groups.slice(0,high)){const bottom=Math.max(...group.ids.map(id=>bottoms[id]??NaN));if(!(bottom<=overflowed.capacity+.2))break;count++;}
+  return count;
+}
+export async function largestFit(high,trial,{overflowed=null,groups=[]}={}){
+  let best=0,low=1;
+  const predicted=predictFit(overflowed,groups,high);
+  if(predicted){
+    if(fitsPage(await trial(predicted))){best=predicted;low=predicted+1;if(low<=high){if(fitsPage(await trial(low))){best=low;low++;}else high=predicted;}}
+    else high=predicted-1;
+  }
+  while(low<=high){const count=Math.floor((low+high)/2);if(fitsPage(await trial(count))){best=count;low=count+1;}else high=count-1;}
+  return best;
+}
+
 const fragmentLayoutCache=new WeakMap();
 export function fragmentLayouts(blocks, layouts={}) {
   let byBlocks=fragmentLayoutCache.get(layouts);if(!byBlocks){byBlocks=new WeakMap();fragmentLayoutCache.set(layouts,byBlocks);}
@@ -336,8 +359,7 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
       // boundary, rather than moving the entire next question to a fresh page.
       if(current.length&&project.settings.exerciseOrganisation==='topic'&&blocks.length===1&&blocks[0].type==='question'){
         const block=blocks[0],groups=questionSplitGroups(block,layouts);
-        let best=0,low=1,high=groups.length-1;
-        while(low<=high){const count=Math.floor((low+high)/2),fragment=fragmentQuestion(block,groups.slice(0,count),block.flow?.fragment??0);const measured=await fits([...current,fragment]);if(measured.height<=measured.capacity+.2){best=count;low=count+1;}else high=count-1;}
+        const best=await largestFit(groups.length-1,count=>fits([...current,fragmentQuestion(block,groups.slice(0,count),block.flow?.fragment??0)]),{overflowed:size,groups});
         if(best){current.push(fragmentQuestion(block,groups.slice(0,best),block.flow?.fragment??0));flush();await add([fragmentQuestion(block,groups.slice(best),(block.flow?.fragment??0)+1)]);return;}
       }
       // Teaching atoms and pre-existing source continuation chains can break
@@ -366,9 +388,14 @@ async function paginateFlowLayout(project,edition,measure,{cancelled=()=>false,o
       const groups=blocks.length===1&&block.type==='question'?questionSplitGroups(block,layouts):[];
       if(groups.length){
         let offset=0,part=block.flow?.fragment??0;
+        // `size` measured the whole question on a fresh page and overflowed. A later
+        // page first tries everything that remains, which usually fits.
+        let overflowed=size;
         while(offset<groups.length){
-          let best=0,low=1,high=groups.length-offset;
-          while(low<=high){const count=Math.floor((low+high)/2),fragment=fragmentQuestion(block,groups.slice(offset,offset+count),part);const measured=await fits([fragment]);if(measured.height<=measured.capacity+.2){best=count;low=count+1;}else high=count-1;}
+          const remaining=groups.length-offset,trial=count=>fits([fragmentQuestion(block,groups.slice(offset,offset+count),part)]);
+          let best=0;
+          if(offset){const whole=await trial(remaining);if(fitsPage(whole))best=remaining;else overflowed=whole;}
+          if(!best)best=await largestFit(offset?remaining-1:remaining,trial,{overflowed,groups:groups.slice(offset)});
           if(!best){const fragment=fragmentQuestion(block,[groups[offset]],part);await add([fragment]);best=1;}
           else current=[fragmentQuestion(block,groups.slice(offset,offset+best),part)];
           offset+=best;part++;if(offset<groups.length)flush();

@@ -16,7 +16,7 @@
   import FlowBookletPage from './FlowBookletPage.svelte';
   import {pageBoundaryKind} from '../lib/booklet-workspace.js';
   import BookletPageGuide from './BookletPageGuide.svelte';
-  import {measureBookletPage} from '../lib/booklet-page-space.js';
+  import {measureBookletPage,measurePartBottoms} from '../lib/booklet-page-space.js';
   import {paginateFlow} from '../lib/booklet-pagination.js';
   import {settleBookletMeasurement,measurementKeyFor} from '../lib/booklet-measurement.js';
   import {isLeanReview} from '../lib/booklet-review-profile.js';
@@ -103,6 +103,7 @@
         // measurement into a cached zero-height page that appears to fit.
         if(!value){await nextPaginationPaint(controller.signal);if(token!==generation)throw Object.assign(Error('Pagination superseded'),{cancelled:true});value=measureBookletPage(measureRoot);}
         if(!value)throw Error('The page measurement surface is hidden. Show the booklet preview and retry layout.');
+        value={...value,partBottoms:measurePartBottoms(measureRoot)};
         stats.layoutMs+=performance.now()-timing;
         cache.set(sourceKey,value);if(cache.size>5000)cache.delete(cache.keys().next().value);
         if(key){timing=performance.now();measurementStore.enqueue(key,value);stats.storageEnqueueMs+=performance.now()-timing;}
