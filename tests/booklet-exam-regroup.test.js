@@ -48,3 +48,11 @@ test('legacy Exam Practice is an existing end section; ambiguous attribution sti
  const teaching=project([{...original.sections[0],title:'Worked examples',blocks:[question('plain','')]}]);
  assert.equal(existingExamCandidate(teaching,options).project,null);
 });
+
+test('matching native source heading stays printed once; mismatched lineage remains held',()=>{
+ const q=question('q','2011 HSC Advanced',{source:{provider:'HSC',paper:'Advanced',year:'2011',origin:'booklet'},content:{id:'root',type:'question',prompt:'**2011 HSC Advanced**'}});
+ const original=project([{id:'s',topicId:'exam',role:'exam',workingSpace:'none',phase:'practice',blocks:[q]}]);
+ assert.equal(existingExamCandidate(original,options).report.status,'unchanged');
+ const mismatch=structuredClone(original);mismatch.sections[0].blocks[0].source.year='2012';
+ assert.equal(existingExamCandidate(mismatch,options).report.status,'held');
+});

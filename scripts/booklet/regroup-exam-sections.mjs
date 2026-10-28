@@ -26,9 +26,18 @@ export function existingExamCandidate(project,{courses=[],excludedIds=[]}={}) {
   const isChallenge=s=>s.role==='challenge'||/^challenge(?: exercise| questions)?$/i.test(topics.get(s.topicId)??s.title??'');
   const isMixed=s=>s.role==='mixed-review'||/^mixed review$/i.test(topics.get(s.topicId)??s.title??'');
   const held=[],moved=[],labelled=[],newExamBlocks=[],examSections=candidate.sections.filter(isExam);
-  const hasUnsupportedSource=block=>block.source&&!block.source.label&&Object.keys(block.source).length;
+  // A retained native attribution needs no second printed label. Accept only
+  // matching booklet lineage and the exact existing, standalone bold heading.
+  const nativePrintedSource=block=>{
+    const source=block.source,derived=sourceFromBookletTitle(block);
+    return !!source&&!source.label&&derived&&source.origin==='booklet'
+      &&Object.keys(source).every(key=>['provider','paper','year','origin'].includes(key)&&String(source[key])===String(derived[key]))
+      &&typeof block.content?.prompt==='string'&&block.content.prompt.trim()===`**${String(block.title??'').trim()}**`;
+  };
+  const hasUnsupportedSource=block=>block.source&&!block.source.label&&Object.keys(block.source).length&&!nativePrintedSource(block);
   const label=block=>{
     if(block.type!=='question')return true;
+    if(nativePrintedSource(block))return true;
     if(hasUnsupportedSource(block)){held.push({id:block.id,reason:'existing source lineage needs explicit label merge'});return false;}
     const source=sourceFromBookletTitle(block);
     if(!source){held.push({id:block.id,reason:'exam attribution is ambiguous or missing'});return false;}
