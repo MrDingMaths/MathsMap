@@ -151,7 +151,26 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
     const projected=bands.length?answerBands.flat():columns.map(c=>[...c]);
     return {id:`compact-short-${pages.length}`,pageNumber:pages.length+1,mode:'short',flexible:true,compactAnswers:true,showAnswerHeading:pages.length===0,columns:projected,...(bands.length?{answerBands}:{}),blocks:projected.flat().map(e=>e.block),section:projected.flat()[0]?.section,breakReason:'overflow'};
   };
-  const flush=()=>{if(bands.length||columns.some(c=>c.length))pages.push(make());columns=[[],[]];bands=[];column=0;};
+  // Look-ahead: measure a batch of the upcoming rows for the current column instead of
+  // the page after every row (see booklet-answer-pagination.js). The batch grows from
+  // about the previous column's row count; a binary search finds the largest prefix that
+  // fits, and those rows are added without measuring again. Fitting is monotonic in the
+  // prefix, so placement is what adding rows one at a time gives. It stops before a
+  // full-width answer table.
+  const fitsShort=size=>size.height<=size.capacity-(96/25.4*0.5);
+  let known=0,columnRows=0,perColumn=16;
+  const nextColumn=()=>{perColumn=Math.max(2,columnRows);columnRows=0;known=0;};
+  async function lookahead(i){
+    const upcoming=[];
+    for(let j=i;j<rows.length&&upcoming.length<128;j++){if(rows[j].length===1&&needsFullPageShortTable(rows[j][0].block,columnWidthMm))break;upcoming.push(rows[j]);}
+    const base=columns[column].length,trial=async n=>{columns[column].push(...upcoming.slice(0,n).flat());const size=await measure(make());check();columns[column].length=base;return fitsShort(size);};
+    let low=0,high=upcoming.length,n=Math.min(high,Math.max(2,perColumn-columnRows));
+    if(n<2)return 0;
+    while(true){if(await trial(n)){low=n;if(n===high)return low;n=Math.min(high,n*2);}else{high=n-1;break;}}
+    while(low<high){const mid=Math.ceil((low+high)/2);if(await trial(mid))low=mid;else high=mid-1;}
+    return low;
+  }
+  const flush=()=>{if(bands.length||columns.some(c=>c.length))pages.push(make());if(columns.some(c=>c.length))nextColumn();else{columnRows=0;known=0;}columns=[[],[]];bands=[];column=0;};
   const resume=cached.prior?.checkpoints[cached.first];
   if(resume){begin=cached.first;pages.push(...cached.prior.pages.slice(0,resume.pageCount));issues.push(...cached.prior.issues.slice(0,resume.issueCount));columns=resume.columns.map(c=>[...c]);bands=copyBands(resume.bands??[]);column=resume.column;cached.entry.checkpoints=cached.prior.checkpoints.slice(0,begin);}
   for(let i=begin;i<rows.length;i++){
@@ -161,7 +180,7 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
     }
     cached.entry.checkpoints.push({pageCount:pages.length,issueCount:issues.length,columns:columns.map(c=>[...c]),bands:copyBands(bands),column});
     if(row.length===1&&needsFullPageShortTable(row[0].block,columnWidthMm)){
-      if(columns.some(c=>c.length)){bands.push(columns.map(c=>[...c]));columns=[[],[]];column=0;}
+      if(columns.some(c=>c.length)){bands.push(columns.map(c=>[...c]));columns=[[],[]];column=0;columnRows=0;known=0;}
       bands.push([[...row]]);
       let size=await measure(make());check();
       if(size.height>size.capacity-(96/25.4*0.5)){
@@ -172,18 +191,20 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
       onprogress({complete:i+1,total:rows.length,pages:pages.length});
       continue;
     }
+    if(!known)known=await lookahead(i);
+    if(known){columns[column].push(...row);known--;columnRows++;onprogress({complete:i+1,total:rows.length,pages:pages.length});continue;}
     while(true){
       columns[column].push(...row);const size=await measure(make());check();
       // Inline fractions can paint below the measured row box. Retain half a
       // millimetre beyond the shared footer reserve instead of fitting past it.
-      if(size.height<=size.capacity-(96/25.4*0.5))break;
+      if(size.height<=size.capacity-(96/25.4*0.5)){columnRows++;break;}
       columns[column].splice(-row.length);
       if(!columns[column].length&&bands.length){flush();continue;}
       if(!columns[column].length){
         issues.push({kind:'oversized-content',id:row[0].block.id,sectionId:row[0].section.sourceSectionId,message:'An answer row cannot fit safely. Adjust its answer diagram or working layout.'});
-        columns[column].push(...row);break;
+        columns[column].push(...row);columnRows++;break;
       }
-      if(column===0)column=1;else flush();
+      if(column===0){column=1;nextColumn();}else flush();
     }
     onprogress({complete:i+1,total:rows.length,pages:pages.length});
   }
