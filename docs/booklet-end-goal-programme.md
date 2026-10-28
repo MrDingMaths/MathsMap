@@ -1,6 +1,10 @@
 # Booklet end-goal programme (28 October 2026)
 
-## Current verified checkpoint — 28 October 2026, 22:15 UTC
+## Current verified checkpoint — 28 October 2026, 22:36 UTC
+
+Saved Exam coverage is now **74/130 masters**: the six-question follow-up adds Roots r5, Parametric r4, Binomial Distributions r3, Further Differentiation/Integration r3, Estimating Change r5 and Arithmetic Series r5. Roots and Parametric already counted as saved masters; they do not inflate the total. Each final integration has five-edition checks and six actual affected-page inspections. Arithmetic first received two exact teaching-grid palette repairs, separately checked on Questions pages 6–8; no mathematical or answer changes were made. The tracker distinguishes 27 partial saved masters, 47 saved masters without a known existing-exam hold and 12 unsaved masters with existing-content work. Full external-source/archetype suitability is unfinished across the collection.
+
+Studio's absent 5173 listener was restored with the existing remote-safe config; the idle old launch terminal, tunnel and security settings were left untouched. A fresh isolated browser loaded the current Negative HCF flow document and edition control without errors or project writes. Both original imports' frozen runtime and subsequent explicit verification snapshots remain unchanged.
 
 Polynomial r83 now saves the bounded Quotient/Remainder and Factor Theorem pilot: seven original questions move to end Challenge, eight routine-practice blocks supply 13 independently checked Sonnet items, and all original mathematics, teaching, comments and handwriting capacities remain. Bounded ordering removes the avoidable extra practice page; the verified result is 75→76 Questions pages, with the sole extra page required for Challenge. All five editions and 39 actual affected-page inspections passed; four apparent answer omissions were resolved by checking retained PDF text/high-resolution native-pixel crops, with no content or renderer workaround. Other Polynomial topics remain unfinished and teaching proposals remain comments-first. Evidence: `.booklet-work/end-goal-20261028/phase5-recalibration-20261028/bounded-order-publication.json`.
 
