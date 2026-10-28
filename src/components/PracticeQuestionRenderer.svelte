@@ -1,4 +1,5 @@
 <script>
+  import {printedQuestionSource} from '../lib/question-source.js';
   import {isKeyIdeaNumber,keyIdeaNumber} from '../lib/booklet-labels.js';
   import { onDestroy } from 'svelte';
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
@@ -246,6 +247,7 @@
 {/snippet}
 
 <div class:short-answer-key={showShortAnswers&&!teachingAnswerCategory(question)&&!question.sourceAtom} style:--short-answer-ink={SHORT_ANSWER_INK} class:answer-key={showShortAnswers || showWorkedSolutions} class:compact-answer={!!compactAnswerSettings} class="practice-question" data-question-id={question?.id ?? ''} style={compactAnswerSettings?`--type-body:${showShortAnswers?compactAnswerSettings.shortFontPt:compactAnswerSettings.workedFontPt}pt;--answer-label-width:${answerLabelWidthMm}mm`:''}>
+  {#if !showShortAnswers && !showWorkedSolutions && printedQuestionSource(question)}<div class="question-source">{printedQuestionSource(question)}</div>{/if}
   {#if isRewriteTableQuestion(question)}
     {@render renderRewriteTables()}
   {:else if !(showShortAnswers || showWorkedSolutions) || (!compactAnswerSettings && question.presentation?.permanentTeachingPrompt === true)}
@@ -254,6 +256,7 @@
 </div>
 
 <style>
+  .question-source{font-weight:600;margin:0 0 1mm;font-size:inherit}
   .key-idea-number{font-weight:400}
   .practice-question :global(.tikz-wrap){margin:0;min-height:0;overflow:visible}
   .practice-question.short-answer-key,.short-answer-key .answer-label,.short-answer-key .answer-label a{color:var(--short-answer-ink)}

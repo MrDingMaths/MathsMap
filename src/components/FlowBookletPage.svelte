@@ -1,4 +1,5 @@
 <script>
+  import {sectionShowsWorkingSpace} from '../lib/booklet-section-options.js';
   import {setContext} from 'svelte';
   import TranscribedBookletPage from './TranscribedBookletPage.svelte';
   import CompactAnswerPage from './CompactAnswerPage.svelte';
@@ -8,7 +9,7 @@
   setContext('booklet-revision',()=>project.revision);
   const anchorPrefix=$derived(editMode?'screen-':'print-');
   const layouts=$derived(fragmentLayouts(page.blocks,project.settings.layoutOverrides.blockLayouts));
-  const spaces=$derived(options.showResponseSpaces===false ? Object.fromEntries(page.blocks.flatMap(b=>{const ids=[];const visit=n=>{if(!n)return;if(n.id)ids.push([n.id,0]);n.children?.forEach(visit);};visit(b.content);return ids;})) : {...project.settings.layoutOverrides.answerSpaces,...Object.fromEntries(page.blocks.filter(b=>b.flow?.workingSpaceSlice).map(b=>[b.flow.workingSpaceSlice.ownerId,b.flow.workingSpaceSlice.heightMm]))});
+  const spaces=$derived(!sectionShowsWorkingSpace(page.section,options) ? Object.fromEntries(page.blocks.flatMap(b=>{const ids=[];const visit=n=>{if(!n)return;if(n.id)ids.push([n.id,0]);n.children?.forEach(visit);};visit(b.content);return ids;})) : {...project.settings.layoutOverrides.answerSpaces,...Object.fromEntries(page.blocks.filter(b=>b.flow?.workingSpaceSlice).map(b=>[b.flow.workingSpaceSlice.ownerId,b.flow.workingSpaceSlice.heightMm]))});
   function resizeSpace(id,value){const slice=page.blocks.find(b=>b.flow?.workingSpaceSlice?.ownerId===id)?.flow.workingSpaceSlice;onSpaceResize?.(id,slice?Math.max(0,slice.totalMm+value-slice.heightMm):value);}
 </script>
 {#if page.compactAnswers}
