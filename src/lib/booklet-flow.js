@@ -1,6 +1,6 @@
 // Flexible document structure. Page boundaries and display numbers are derived,
 // never written back into source questions or bank records.
-import { normalizeEditableProject } from './editable-booklet-model.js';
+import { normalizeEditableProject, withProjectSections, ownProjectSection, normalizeProjectBlock, adoptBlockPresentation } from './editable-booklet-model.js';
 import { teachingAnswerCategory } from './booklet-answer-options.js';
 import { captureQuestionPresentation, remapQuestionPresentation } from './question-presentation.js';
 import {shareFlowProjection} from './booklet-pagination-cache.js';
@@ -193,15 +193,16 @@ function duplicateBlocks(blocks) {
 }
 
 export function flowCommand(project, command) {
-  const next = copy(project);
+  // Only the sections and blocks a command changes are copied.
+  const next = withProjectSections(project);
   const ids = new Set(selectedFlowIds(project,command.ids ?? [],{atoms:!command.single}));
-  const section = next.sections.find(s => s.id === command.sectionId);
+  const holding = test => next.sections.filter(s => s.blocks.some(test)).map(s => ownProjectSection(next,s.id));
   if (command.type === 'layout') {
-    for (const s of next.sections) for (const b of s.blocks) if (ids.has(b.id)) b.flow = {...b.flow,...command.patch};
+    for (const s of holding(b => ids.has(b.id))) s.blocks = s.blocks.map(b => ids.has(b.id) ? {...b,flow:{...b.flow,...command.patch}} : b);
   } else if (command.type === 'delete') {
-    for (const s of next.sections) s.blocks = s.blocks.filter(b => !ids.has(b.id));
+    for (const s of holding(b => ids.has(b.id))) s.blocks = s.blocks.filter(b => !ids.has(b.id));
   } else if (['move','paste','duplicate'].includes(command.type)) {
-    if (!section) throw Error('Choose a destination section.');
+    if (!project.sections.some(s => s.id === command.sectionId)) throw Error('Choose a destination section.');
     const clip = command.clipboard ?? captureFlowClipboard(project,[...ids],command.type === 'move' ? 'cut':'copy');
     if (clip.projectId !== project.id&&clip.mode==='cut') throw Error('Moving between booklets needs both documents saved together. Copy this question to the other booklet instead.');
     const moving = clip.mode === 'cut';
@@ -209,7 +210,8 @@ export function flowCommand(project, command) {
     if (moving && clip.ids.some(id => !currentIds.has(id))) throw Error('Cut content changed or was deleted. Select it again.');
     if (moving && clip.ids.includes(command.beforeId)) return project;
     const duplicated=moving?null:duplicateBlocks(clip.blocks);
-    const blocks = moving ? project.sections.flatMap(s => s.blocks).filter(b => clip.ids.includes(b.id)).map(copy) : duplicated.blocks;
+    // Moved blocks keep their identity unless their numbering exceptions are dropped below.
+    const blocks = moving ? project.sections.flatMap(s => s.blocks).filter(b => clip.ids.includes(b.id)).map(b => b.flow && ('numberGapBefore' in b.flow || 'numberResetBefore' in b.flow) ? {...b,flow:{...b.flow}} : b) : duplicated.blocks.map((b,i) => normalizeProjectBlock(b,i));
     if(clip.projectId!==project.id){
       // Keep the source asset owner when a copied question enters another book.
       const rebase=node=>{if(!node||typeof node!=='object')return;for(const [key,value] of Object.entries(node)){if(['source','sourceAtom','sourceReview','originalDiagram','originalGraph'].includes(key))continue;if(key==='src'&&typeof value==='string'&&value.startsWith('evidence/'))node[key]='/__booklet/full-imports/'+encodeURIComponent(clip.sourceRunId??clip.projectId)+'/files/lanes/exact/'+value;else if(Array.isArray(value))value.forEach(rebase);else if(value&&typeof value==='object')rebase(value);}};blocks.forEach(rebase);
@@ -219,16 +221,19 @@ export function flowCommand(project, command) {
     for(const block of blocks)if(block.flow){delete block.flow.numberGapBefore;delete block.flow.numberResetBefore;}
     if(duplicated){
       next.studio={version:1,atoms:{},lineage:{},flags:[],...next.studio};
+      next.studio.atoms={...next.studio.atoms};next.studio.lineage={...next.studio.lineage};
       // A copy from another booklet records where it came from.
       const origin=clip.projectId!==project.id?{projectId:clip.projectId,...(clip.revision!=null?{revision:clip.revision}:{})}:{};
       for(const [oldId,newId] of duplicated.ids){if(clip.mappings?.[oldId])next.studio.atoms[newId]=copy(clip.mappings[oldId]);next.studio.lineage[newId]={sourceIds:[oldId],...origin};}
     }
-    if (moving) for (const s of next.sections) s.blocks = s.blocks.filter(b => !clip.ids.includes(b.id));
+    if (moving) for (const s of holding(b => clip.ids.includes(b.id))) s.blocks = s.blocks.filter(b => !clip.ids.includes(b.id));
+    const section = ownProjectSection(next, command.sectionId);
     const at = command.beforeId == null ? section.blocks.length : section.blocks.findIndex(b => b.id === command.beforeId);
     if (at < 0) throw Error('The insertion point changed. Choose it again.');
     section.blocks.splice(at,0,...blocks);
+    return adoptBlockPresentation(next, blocks);
   } else throw Error('Unknown booklet command.');
-  return normalizeEditableProject(next);
+  return next;
 }
 
 export function flowEditionSections(project, edition='student') {

@@ -1,5 +1,6 @@
 import { feedbackText } from './booklet-feedback.js';
 import { logicalUnits, flowId, isPractice } from './booklet-flow.js';
+import { withProjectSections, ownProjectSection } from './editable-booklet-model.js';
 
 const ATOM_KINDS = {definition:['Definition','theory'],'key-ideas':['Key Ideas','theory'],investigation:['Investigation','theory'],review:['Review','theory'],identify:['Identify','theory'],example:['Example','examples'],'guided-practice':['Guided','examples']};
 const BLOCK_KINDS = {'rich-text':'Text','worked-example':'Example',callout:'Theory','page-break':'Page break',image:'Image',diagram:'Diagram'};
@@ -41,41 +42,42 @@ export function pageBoundaryKind(project, blockId) {
 
 // Operate on logical teaching/question groups, never split a paired source activity.
 export function setPageBoundary(project, blockId, action) {
-  const next = structuredClone(project);
-  const unit = logicalUnits(next).find(u => u.blocks.some(b => b.id === blockId));
-  if (!unit) return next;
+  const unit = logicalUnits(project).find(u => u.blocks.some(b => b.id === blockId));
+  if (!unit) return project;
   const first = unit.blocks[0], last = unit.blocks.at(-1);
-  const entries = next.sections.flatMap(s => s.blocks.map(b => ({ section: s, block: b })));
+  const entries = project.sections.flatMap(s => s.blocks.map(b => ({ section: s, block: b })));
   const at = entries.findIndex(e => e.block.id === first.id);
+  // Only the sections and blocks this boundary changes are copied.
+  const next = withProjectSections(project), owned = new Set();
+  const own = section => { if (!owned.has(section.id)) { ownProjectSection(next, section.id); owned.add(section.id); } return next.sections.find(s => s.id === section.id); };
+  const patchFlow = (section, id, patch) => { const s = own(section), i = s.blocks.findIndex(b => b.id === id); s.blocks[i] = { ...s.blocks[i], flow: { ...s.blocks[i].flow, ...patch } }; return s; };
   if (action === 'before') {
-    first.flow = { ...first.flow, pageBreakBefore: true, exercisePageBreakBefore: true };
+    const section = patchFlow(entries[at].section, first.id, { pageBreakBefore: true, exercisePageBreakBefore: true });
     // An explicit separator takes precedence over an earlier keep-with-next,
     // without discarding that preference if this break is later removed.
-    if(entries[at-1]?.block.flow?.keepWithNext){
-      const section=entries[at].section,index=section.blocks.indexOf(first);
-      section.blocks.splice(index,0,{id:flowId(),type:'page-break',label:'Manual page break'});
-    }
+    if(entries[at-1]?.block.flow?.keepWithNext)
+      section.blocks.splice(section.blocks.findIndex(b=>b.id===first.id),0,{id:flowId(),type:'page-break',label:'Manual page break'});
   }
   else if (action === 'after') {
     const end = entries.findIndex(e => e.block.id === last.id), following = entries[end + 1];
-    if (following?.block.type === 'page-break' || following?.block.flow?.pageBreakBefore) return next;
-    const section = entries[end].section, index = section.blocks.indexOf(last);
+    if (following?.block.type === 'page-break' || following?.block.flow?.pageBreakBefore) return project;
+    const section = own(entries[end].section), index = section.blocks.findIndex(b => b.id === last.id);
     section.blocks.splice(index + 1, 0, { id: flowId(), type: 'page-break', label: 'Manual page break' });
   } else if (action === 'remove') {
-    first.flow = { ...first.flow, pageBreakBefore: false, continueBefore: null };
-    const section=entries[at].section;
-    if(section.blocks[0]?.id===first.id){section.pageBreakBefore=false;if(section.phase==='practice')first.flow.exercisePageBreakBefore=false;}
+    const section = patchFlow(entries[at].section, first.id, { pageBreakBefore: false, continueBefore: null });
+    if(section.blocks[0]?.id===first.id){section.pageBreakBefore=false;if(section.phase==='practice')section.blocks[0].flow.exercisePageBreakBefore=false;}
     for (let i = at - 1; i >= 0 && entries[i].block.type === 'page-break'; i--) {
-      const { section, block } = entries[i]; section.blocks = section.blocks.filter(b => b.id !== block.id);
+      const target = own(entries[i].section), id = entries[i].block.id; target.blocks = target.blocks.filter(b => b.id !== id);
     }
-    if (first.type === 'page-break') for (const section of next.sections) section.blocks = section.blocks.filter(b => b.id !== first.id);
-  }
+    if (first.type === 'page-break') for (const section of next.sections.filter(s => s.blocks.some(b => b.id === first.id))) { const target = own(section); target.blocks = target.blocks.filter(b => b.id !== first.id); }
+  } else return project;
   return next;
 }
 
 export function startExerciseOnNewPage(project, topicId) {
-  const next = structuredClone(project);
-  const section = next.sections.find(s => s.topicId === topicId && s.phase === 'practice' && s.blocks.length);
-  if (section) { section.pageBreakBefore = true; section.blocks[0].flow = { ...section.blocks[0].flow, pageBreakBefore: true, exercisePageBreakBefore: true }; }
+  const found = project.sections.find(s => s.topicId === topicId && s.phase === 'practice' && s.blocks.length);
+  if (!found) return project;
+  const next = withProjectSections(project), section = ownProjectSection(next, found.id);
+  section.pageBreakBefore = true; section.blocks[0] = { ...section.blocks[0], flow: { ...section.blocks[0].flow, pageBreakBefore: true, exercisePageBreakBefore: true } };
   return next;
 }

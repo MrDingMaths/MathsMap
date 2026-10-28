@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {replaceAtPath} from '../src/lib/booklet-content-index.js';
+import {locateBookletContent,replaceAtPath} from '../src/lib/booklet-content-index.js';
 import {updateProjectContent} from '../src/lib/editable-booklet-model.js';
 
 test('list parts without columns can switch to a grid and back immutably',()=>{
@@ -19,4 +19,29 @@ test('optional terminal fields never create missing ancestors or array entries',
  for(const path of [['missing','columns'],['a','missing','columns'],['items',1],['items','bad'],['items','length'],['items',-1],['items','01'],['a','__proto__']])
   assert.throws(()=>replaceAtPath({a:{},items:[{}]},path,2));
  assert.throws(()=>replaceAtPath({a:null},['a','columns'],2));
+});
+test('content lookups take the first pre-order match and skip source evidence',()=>{
+ const project={id:'index-order',sections:[{id:'s1',blocks:[
+  {id:'q1',type:'question',source:{id:'hidden'},content:{id:'q1-root',children:[{id:'dup',prompt:'first'},{id:'a'}]}},
+  {id:'q2',type:'question',content:{id:'dup',prompt:'second'}}]},{id:'s2',blocks:[{id:'t',type:'rich-text'}]}]};
+ assert.deepEqual(locateBookletContent(project,'dup').path,['sections',0,'blocks',0,'content','children',0]);
+ assert.deepEqual(locateBookletContent(project,'t').path,['sections',1,'blocks',0]);
+ assert.equal(locateBookletContent(project,'t').block.id,'t');
+ assert.equal(locateBookletContent(project,'s2').block,null);
+ assert.equal(locateBookletContent(project,'hidden'),null);
+ assert.equal(locateBookletContent(project,'absent'),null);
+});
+test('content lookups follow moves and in-place changes after indexing',()=>{
+ const block=id=>({id,type:'question',content:{id:id+'-root',children:[{id:id+'-a'}]}});
+ const project={id:'index-moves',sections:[{id:'s',blocks:[block('x'),block('y')]}]};
+ assert.equal(locateBookletContent(project,'y-a').block.id,'y');
+ const moved={...project,sections:[{id:'s',blocks:[project.sections[0].blocks[1],project.sections[0].blocks[0]]}]};
+ assert.deepEqual(locateBookletContent(moved,'y-a').path,['sections',0,'blocks',0,'content','children',0]);
+ assert.equal(locateBookletContent(moved,'x-root').block.id,'x');
+ // The same sections array changed in place: the stale index must not hide new content.
+ moved.sections[0].blocks.push(block('z'));
+ assert.equal(locateBookletContent(moved,'z-a').block.id,'z');
+ moved.sections[0].blocks.shift();
+ assert.equal(locateBookletContent(moved,'x-root').block.id,'x');
+ assert.equal(locateBookletContent(moved,'y-a'),null);
 });

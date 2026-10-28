@@ -69,3 +69,32 @@ test('an explicit break overrides keep-with-next and removal restores the origin
  assert.deepEqual(setPageBoundary(split,'d','before'),split);
  const joined=setPageBoundary(split,'d','remove');assert.equal((await paginateFlow(joined,'student',measure)).pages.length,1);assert.equal(joined.sections[0].blocks[0].flow.keepWithNext,true);
 });
+test('structural edits copy only the sections they change and never the input',async()=>{
+ const {moveProjectBlock,deleteProjectBlock,duplicateProjectBlock,addProjectBlock,createProjectBlock}=await import('../src/lib/editable-booklet-model.js');
+ const {flowCommand}=await import('../src/lib/booklet-flow.js');
+ const project=normalizeEditableProject({id:'identity',title:'Identity',settings:{paginationMode:'flexible',generatedCover:false},topics:[{id:'t',title:'T'}],sections:[
+  {id:'s1',topicId:'t',phase:'teaching',title:'One',blocks:[block('a'),block('b')]},
+  {id:'s2',topicId:'t',phase:'practice',title:'Two',blocks:[block('c'),block('d')]},
+  {id:'s3',topicId:'t',phase:'practice',title:'Three',blocks:[block('e')]}]});
+ const before=JSON.stringify(project);
+ const edits=[
+  [setPageBoundary(project,'d','before'),['s2']],[setPageBoundary(project,'c','after'),['s2']],
+  [moveProjectBlock(project,'s2','c',1),['s2']],[deleteProjectBlock(project,'s1','b'),['s1']],
+  [duplicateProjectBlock(project,'s3','e'),['s3']],[addProjectBlock(project,'s1',createProjectBlock('question')),['s1']],
+  [flowCommand(project,{type:'delete',ids:['e']}),['s3']],[flowCommand(project,{type:'layout',ids:['a'],patch:{keepTogether:true}}),['s1']],
+  [flowCommand(project,{type:'move',ids:['a'],sectionId:'s3',beforeId:null}),['s1','s3']],
+ ];
+ for(const [next,changed] of edits){
+  assert.notEqual(next,project);
+  for(const [i,section] of project.sections.entries())
+   if(changed.includes(section.id))assert.notEqual(next.sections[i],section,section.id);
+   else assert.equal(next.sections[i],section,section.id);
+  // Blocks outside the edit keep their identity inside changed sections too.
+  const kept=new Set(project.sections.flatMap(s=>s.blocks));
+  assert.ok(next.sections.flatMap(s=>s.blocks).filter(b=>kept.has(b)).length>=3);
+ }
+ assert.equal(JSON.stringify(project),before);
+ // No-op edits return the same project, so they add no undo step.
+ assert.equal(moveProjectBlock(project,'s1','a',-1),project);
+ assert.equal(setPageBoundary(project,'missing','before'),project);
+});

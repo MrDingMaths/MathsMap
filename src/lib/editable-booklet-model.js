@@ -334,16 +334,38 @@ export function updateProjectSettings(project, patch = {}) {
   return next;
 }
 
-function sectionOf(project, sectionId) {
-  return project.sections.find((section) => section.id === sectionId) ?? null;
+// Structural edits copy the project, its section list and the sections they
+// change. Untouched sections and blocks keep their identity, so history frames,
+// layout reconciliation and content lookups skip them. Projects are normalised
+// when the server reads them; only blocks entering the project are normalised.
+export function withProjectSections(project) {
+  return { ...project, sections: [...project.sections] };
+}
+export function ownProjectSection(next, sectionId) {
+  const index = next.sections.findIndex((section) => section.id === sectionId);
+  if (index < 0) return null;
+  return next.sections[index] = { ...next.sections[index], blocks: [...next.sections[index].blocks] };
+}
+export const normalizeProjectBlock = (block, index = 0) => normalizeV4Block(block, index);
+// Blocks entering the project bring their saved presentation. Merge it as
+// normalizeEditableProject does, in block order with project overrides winning.
+export function adoptBlockPresentation(project, blocks) {
+  if (!blocks.some((block) => block?.presentation?.layoutOverrides)) return project;
+  const current = project.settings.layoutOverrides, layoutOverrides = { ...current };
+  for (const key of ['blockLayouts', 'answerSpaces', 'diagramColourModes']) {
+    const merged = {};
+    for (const section of project.sections) for (const block of section.blocks) Object.assign(merged, block.presentation?.layoutOverrides?.[key] ?? {});
+    layoutOverrides[key] = Object.assign(merged, current[key]);
+  }
+  return { ...project, settings: normalizeSettings({ ...project.settings, layoutOverrides }) };
 }
 
 export function addProjectSection(project, { afterIndex = null, title = 'New section' } = {}) {
-  const next = normalizeEditableProject(project);
+  const next = withProjectSections(project);
   const section = { id: uniqueId('section', title), title, role: 'teaching', blocks: [] };
   if(next.settings.paginationMode==='flexible'){
     section.phase='teaching';section.topicId=`topic-${section.id}`;
-    next.topics.push({id:section.topicId,title});
+    next.topics=[...next.topics,{id:section.topicId,title}];
   }
   const index = afterIndex == null ? next.sections.length : Math.max(0, Math.min(next.sections.length, Number(afterIndex) + 1));
   next.sections.splice(index, 0, section);
@@ -351,29 +373,28 @@ export function addProjectSection(project, { afterIndex = null, title = 'New sec
 }
 
 export function moveProjectSection(project, sectionId, delta) {
-  const next = normalizeEditableProject(project);
-  const from = next.sections.findIndex((section) => section.id === sectionId);
-  const to = Math.max(0, Math.min(next.sections.length - 1, from + Number(delta)));
-  if (from >= 0 && from !== to) next.sections.splice(to, 0, ...next.sections.splice(from, 1));
+  const from = project.sections.findIndex((section) => section.id === sectionId);
+  const to = Math.max(0, Math.min(project.sections.length - 1, from + Number(delta)));
+  if (from < 0 || from === to) return project;
+  const next = withProjectSections(project);
+  next.sections.splice(to, 0, ...next.sections.splice(from, 1));
   return next;
 }
 
 export function deleteProjectSection(project, sectionId) {
-  const next = normalizeEditableProject(project);
-  if (next.sections.length <= 1) throw new Error('A booklet needs at least one section');
-  next.sections = next.sections.filter((section) => section.id !== sectionId);
-  return next;
+  if (project.sections.length <= 1) throw new Error('A booklet needs at least one section');
+  return { ...project, sections: project.sections.filter((section) => section.id !== sectionId) };
 }
 
 export function duplicateProjectSection(project, sectionId) {
-  const next = normalizeEditableProject(project);
-  const index = next.sections.findIndex((section) => section.id === sectionId);
-  if (index < 0) return next;
+  const index = project.sections.findIndex((section) => section.id === sectionId);
+  if (index < 0) return project;
+  const next = withProjectSections(project);
   const duplicate = rekeyTree(next.sections[index], uniqueId('section-copy', sectionId));
   duplicate.title = `${next.sections[index].title} copy`;
   duplicate.sourcePageNumber = null;
   next.sections.splice(index + 1, 0, duplicate);
-  return next;
+  return adoptBlockPresentation(next, duplicate.blocks);
 }
 
 function blankQuestion() {
@@ -411,44 +432,47 @@ export function createProjectBlock(type = 'rich-text') {
 }
 
 export function addProjectBlock(project, sectionId, block, { afterIndex = null } = {}) {
-  const next = normalizeEditableProject(project);
-  const section = sectionOf(next, sectionId);
+  const next = withProjectSections(project);
+  const section = ownProjectSection(next, sectionId);
   if (!section) throw new Error(`Project section is missing: ${sectionId}`);
   const value = normalizeV4Block(block ?? createProjectBlock(), section.blocks.length);
   const index = afterIndex == null ? section.blocks.length : Math.max(0, Math.min(section.blocks.length, Number(afterIndex) + 1));
   section.blocks.splice(index, 0, value);
-  return next;
+  return adoptBlockPresentation(next, [value]);
 }
 
 export function moveProjectBlock(project, sectionId, blockId, delta) {
-  const next = normalizeEditableProject(project);
-  const section = sectionOf(next, sectionId);
-  const from = section?.blocks.findIndex((block) => block.id === blockId) ?? -1;
-  if(!section||from<0||!delta)return next;
+  const current = project.sections.find((section) => section.id === sectionId);
+  const from = current?.blocks.findIndex((block) => block.id === blockId) ?? -1;
+  if(!current||from<0||!delta)return project;
   const units=[];
-  for(const block of section.blocks){const previous=units.at(-1);if(block.sourceAtom?.id&&previous?.[0].sourceAtom?.id===block.sourceAtom.id)previous.push(block);else units.push([block]);}
+  for(const block of current.blocks){const previous=units.at(-1);if(block.sourceAtom?.id&&previous?.[0].sourceAtom?.id===block.sourceAtom.id)previous.push(block);else units.push([block]);}
   const index=units.findIndex(unit=>unit.some(block=>block.id===blockId)),to=Math.max(0,Math.min(units.length-1,index+Math.sign(delta)));
-  if(index!==to)units.splice(to,0,...units.splice(index,1));
-  section.blocks=units.flat();
+  if(index===to)return project;
+  units.splice(to,0,...units.splice(index,1));
+  const next=withProjectSections(project);
+  ownProjectSection(next,sectionId).blocks=units.flat();
   return next;
 }
 
 export function deleteProjectBlock(project, sectionId, blockId) {
-  const next = normalizeEditableProject(project);
-  const section = sectionOf(next, sectionId);
-  if (section) section.blocks = section.blocks.filter((block) => block.id !== blockId);
+  const current = project.sections.find((section) => section.id === sectionId);
+  if (!current?.blocks.some((block) => block.id === blockId)) return project;
+  const next = withProjectSections(project);
+  const section = ownProjectSection(next, sectionId);
+  section.blocks = section.blocks.filter((block) => block.id !== blockId);
   return next;
 }
 
 export function duplicateProjectBlock(project, sectionId, blockId) {
-  const next = normalizeEditableProject(project);
-  const section = sectionOf(next, sectionId);
-  const index = section?.blocks.findIndex((block) => block.id === blockId) ?? -1;
-  if (!section || index < 0) return next;
+  const current = project.sections.find((section) => section.id === sectionId);
+  const index = current?.blocks.findIndex((block) => block.id === blockId) ?? -1;
+  if (!current || index < 0) return project;
+  const next = withProjectSections(project), section = ownProjectSection(next, sectionId);
   const duplicate = rekeyTree(section.blocks[index], uniqueId('copy', blockId));
   duplicate.bankRef = clone(section.blocks[index].bankRef ?? null);
   section.blocks.splice(index + 1, 0, duplicate);
-  return next;
+  return adoptBlockPresentation(next, [duplicate]);
 }
 
 function tableLines(value) {

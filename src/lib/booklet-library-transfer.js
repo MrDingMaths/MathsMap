@@ -46,7 +46,8 @@ export function insertFromBooklet(dest, source, blockIds, at={}, {asTopics=true}
   const stagingId=flowId(),clip=captureFlowClipboard(source,picks.ids);
   const staged=flowCommand({...dest,sections:[...dest.sections,{id:stagingId,title:'Library',role:'teaching',phase:'teaching',blocks:[]}]},{type:'paste',clipboard:clip,sectionId:stagingId,beforeId:null});
   const fresh=staged.sections.find(s=>s.id===stagingId).blocks;
-  const next={...staged,topics:copy(staged.topics??[]),sections:staged.sections.filter(s=>s.id!==stagingId)};
+  // Sections below receive spliced blocks; untouched ones are still the destination's.
+  const next={...staged,topics:copy(staged.topics??[]),sections:staged.sections.filter(s=>s.id!==stagingId).map(s=>({...s,blocks:[...s.blocks]}))};
   const copied=new Map(clip.blocks.map((b,i)=>[b.id,fresh[i]]));
   for(const block of fresh)if(block.flow)delete block.flow.sourcePageBreakBefore;
   const take=section=>section.blocks.filter(b=>copied.has(b.id)).map(b=>copied.get(b.id));

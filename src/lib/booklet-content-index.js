@@ -2,11 +2,38 @@
 // and therefore remain safe after moves, undo, bank updates and project switches.
 const locations = new Map();
 const excluded = new Set(['source','sourceAtom','sourceReview','sourceLayoutEvidence','originalDiagram','originalGraph','mathematicalModel','bankRef','classification']);
+const indexes = new Map();
+// The same pre-order walk as the exact search below, so the first occurrence wins.
+function indexContent(project) {
+  const paths = new Map(), path = ['sections', 0];
+  const visit = node => {
+    if (!node || typeof node !== 'object') return;
+    if (node.id && !paths.has(node.id)) paths.set(node.id, [...path]);
+    for (const [key,value] of Object.entries(node)) if (!excluded.has(key)) {
+      if (Array.isArray(value)) { path.push(key, 0); value.forEach((child,i)=>{path[path.length-1]=i;visit(child);}); path.length -= 2; }
+      else if (value && typeof value === 'object') { path.push(key); visit(value); path.length -= 1; }
+    }
+  };
+  project.sections.forEach((section,i)=>{path[1]=i;visit(section);});
+  return {sections:project.sections, paths};
+}
+const located = (project, path) => ({node:path.reduce((value, part) => value?.[part], project),path,section:project.sections[path[1]],block:path[2]==='blocks'?project.sections[path[1]].blocks[path[3]]:null});
 export function locateBookletContent(project, id) {
   if (!project?.sections || !id) return null;
   const key = project.id + ':' + id, cached = locations.get(key);
   const at = path => path.reduce((value, part) => value?.[part], project);
-  if (cached && at(cached)?.id === id) return {node:at(cached),path:cached,section:project.sections[cached[1]],block:cached[2]==='blocks'?project.sections[cached[1]].blocks[cached[3]]:null};
+  if (cached && at(cached)?.id === id) return located(project,cached);
+  // A booklet's first edit resolves dozens of uncached comment anchors; one walk
+  // records every id. An index built in this call is exact for an absent id;
+  // an older one may predate an in-place change, so the exact search decides.
+  let index = indexes.get(project.id), fresh = false;
+  if (index?.sections !== project.sections) {
+    index = indexContent(project); fresh = true;
+    indexes.delete(project.id); indexes.set(project.id, index); if (indexes.size > 4) indexes.delete(indexes.keys().next().value);
+  }
+  const indexed = index.paths.get(id);
+  if (indexed && at(indexed)?.id === id) { locations.set(key,indexed); if(locations.size>10000)locations.delete(locations.keys().next().value); return located(project,indexed); }
+  if (fresh) return null;
   let found;
   const visit = (node, path) => {
     if (!node || typeof node !== 'object' || found) return;
@@ -19,7 +46,7 @@ export function locateBookletContent(project, id) {
   project.sections.forEach((section,i)=>visit(section,['sections',i]));
   if (!found) return null;
   locations.set(key,found);if(locations.size>10000)locations.delete(locations.keys().next().value);
-  return {node:at(found),path:found,section:project.sections[found[1]],block:found[2]==='blocks'?project.sections[found[1]].blocks[found[3]]:null};
+  return located(project,found);
 }
 
 export function replaceAtPath(root, path, value) {
