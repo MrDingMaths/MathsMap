@@ -27,7 +27,7 @@
  const chosen=$derived(rows.filter(r=>includeFixed||r.adjustable));
  const measured=$derived.by(()=>{layout;return Object.fromEntries(rows.map(r=>[r.id,measure(r.id,mode)]).filter(([,m])=>m));});
  const preview=$derived(targetWidths(chosen,action,Number(value),measured));
- const needsValue=$derived(['width','height','scale'].includes(action));
+ const needsValue=$derived(['width','height','min-height','scale'].includes(action));
  const pending=$derived(preview.filter(r=>r.targetMm!=null&&r.targetMm!==r.widthMm));
  const pendingKey=$derived(JSON.stringify([mode,pending.map(r=>[r.id,r.targetMm])]));
  // Debounced: a typed value is previewed once it settles.
@@ -37,12 +37,14 @@
   const timer=setTimeout(()=>previewPages(changes,token,key),600);
   return ()=>clearTimeout(timer);
  });
+ // A diagram rendered narrower than its stored width is held back by its column, not by its own size.
+ const limited=row=>{const m=measured[row.id];return !!(m&&row.widthMm&&m.widthMm<row.widthMm-1);};
  const size=row=>{const m=measured[row.id];return m?Math.round(m.widthMm)+' × '+Math.round(m.heightMm)+' mm':(row.widthMm?row.widthMm+' mm wide':'auto');};
  function apply(){
   try{
    if(needsValue&&!(Number(value)>0))throw Error('Enter a positive value.');
    const changes=pending;
-   if(!changes.length){message=action==='recommended'?'Every diagram is already within its recommended size.':'Nothing to change (diagrams without a rendered size cannot take a height).';return;}
+   if(!changes.length){message=action==='recommended'?'Every diagram is already within its recommended size.':action==='min-height'?'Every diagram with a rendered size is already at least that tall.':'Nothing to change (diagrams without a rendered size cannot take a height).';return;}
    const previewed=pages?.key===pendingKey?pages:null;run++;counting=false;probeProject=null;pages=null;
    onchange(setDiagramWidths(project,changes,mode));
    message=`Resized ${changes.length} diagram${changes.length>1?'s':''} as one undo step.`+(previewed?' '+pageText(previewed):pageCount?` The booklet had ${pageCount} pages; the page count updates when layout finishes.`:'');
@@ -53,10 +55,10 @@
  <h3>Diagrams in {blockIds.length>1?'selection':'question'}</h3>
   <label>Edition<select aria-label="Diagram size edition" bind:value={mode}>{#each SIZE_MODES as [v,l]}<option value={v}>{l}</option>{/each}</select></label>
  {#if rows.length}
-  <ul>{#each rows as row (row.id)}<li class:fixed={!row.adjustable}><span>{row.id}</span><small>{row.kind} · {size(row)}</small>{#if preview.find(p=>p.id===row.id)?.targetMm!=null}<small class="target">→ {preview.find(p=>p.id===row.id).targetMm} mm wide</small>{/if}</li>{/each}</ul>
+  <ul>{#each rows as row (row.id)}<li class:fixed={!row.adjustable}><span>{row.id}</span><small>{row.kind} · {size(row)}</small>{#if limited(row)}<small class="limited" title="The stored width is {row.widthMm} mm; the space it sits in is narrower, so it cannot grow taller here.">Limited by its column</small>{/if}{#if preview.find(p=>p.id===row.id)?.targetMm!=null}<small class="target">→ {preview.find(p=>p.id===row.id).targetMm} mm wide</small>{/if}</li>{/each}</ul>
   <label class="check"><input type="checkbox" bind:checked={includeFixed}/>Include drawing grids and images</label>
   <label>Change<select aria-label="Diagram size action" bind:value={action}>
-   <option value="height">Set height (mm)</option><option value="width">Set width (mm)</option><option value="scale">Scale (%)</option>
+   <option value="height">Set height (mm)</option><option value="min-height">Minimum height (mm)</option><option value="width">Set width (mm)</option><option value="scale">Scale (%)</option>
    <option value="match-tallest">Match the tallest</option><option value="match-widest">Match the widest</option><option value="recommended">Recommended size</option>
   </select></label>
   {#if needsValue}<label>{action==='scale'?'Percent':'Millimetres'}<input aria-label="Diagram size value" type="number" min="1" max={action==='scale'?400:190} step=".5" bind:value/></label>{/if}
@@ -71,6 +73,6 @@
  .pages:empty{display:none}.pages{margin:6px 0;font-weight:600}
  .diagram-probe{position:fixed;left:-20000px;top:0;width:830px;height:600px;overflow:hidden;visibility:hidden;pointer-events:none}
  @media print{.diagram-probe{display:none}}
- ul{list-style:none;margin:6px 0;padding:0;display:grid;gap:4px}li{display:grid;gap:1px}li.fixed{opacity:.65}li small{color:var(--text-muted,#687482)}.target{color:#1f6f43!important}
+ ul{list-style:none;margin:6px 0;padding:0;display:grid;gap:4px}li{display:grid;gap:1px}li.fixed{opacity:.65}li small{color:var(--text-muted,#687482)}.target{color:#1f6f43!important}.limited{color:#9a5b00!important}
  label{display:grid;gap:4px;margin:6px 0}.check{display:flex;align-items:center;gap:6px}select,input,button{font:inherit;min-height:32px;box-sizing:border-box;max-width:100%;padding:4px;border:1px solid #aab5c2;border-radius:4px;color:inherit;background:var(--panel,#fff)}.check input{min-height:0}button{cursor:pointer}
 </style>

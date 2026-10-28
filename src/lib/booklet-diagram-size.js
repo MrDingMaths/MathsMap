@@ -50,6 +50,8 @@ export function targetWidths(rows,action,value,measured={}){
   const current=row.widthMm??measured[row.id]?.widthMm;let width=null;
   if(action==='width')width=value;
   else if(action==='height')width=aspect(row)?value*aspect(row):null;
+  // Minimum height enlarges only diagrams shorter than the value; taller ones are left alone.
+  else if(action==='min-height')width=aspect(row)&&measured[row.id].heightMm<value?value*aspect(row):null;
   else if(action==='scale')width=current?current*value/100:null;
   else if(action==='match-tallest')width=aspect(row)&&tallest?tallest*aspect(row):null;
   else if(action==='match-widest')width=widest||null;

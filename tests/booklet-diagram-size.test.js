@@ -25,6 +25,9 @@ test('height targets keep the rendered aspect; scale, match and clamping',()=>{
  assert.deepEqual(targetWidths(rows,'match-tallest',0,measured).map(r=>r.targetMm),[180,90]);
  assert.equal(targetWidths(rows,'width',400,measured)[0].targetMm,190);
  assert.equal(targetWidths(rows,'height',30,{})[0].targetMm,null,'no aspect, no guess');
+ assert.deepEqual(targetWidths(rows,'min-height',60,measured).map(r=>r.targetMm),[120,null],'only shorter diagrams grow');
+ assert.deepEqual(targetWidths(rows,'min-height',30,measured).map(r=>r.targetMm),[null,null]);
+ assert.equal(targetWidths(rows,'min-height',60,{})[0].targetMm,null);
 });
 
 test('writes keep the diagram, its stored layout width and the arrangement in step; answers write their edition',()=>{
