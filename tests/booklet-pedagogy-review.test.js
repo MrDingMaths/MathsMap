@@ -503,6 +503,19 @@ test('referenced item-only prerequisite stays separate from complete routine-mod
  assert.match(archetypePrompt(project,sequences(project)[0],{skills:[]}),/itemOnly:true/);
 });
 
+test('source-atom activities remain teaching while untagged identify questions remain routine',()=>{
+ const activity={id:'activity',type:'question',sourceAtom:{id:'special-lines',kind:'identify'},pedagogyRole:'identify',classification:{reasoningScore:30},content:{id:'activity-root',type:'question',prompt:'Sketch the special line.',answer:{short:'Line',worked:'Retained teaching solution.'}}};
+ const routine={id:'ordinary',type:'question',pedagogyRole:'identify',classification:{reasoningScore:30},content:{id:'ordinary-root',type:'question',prompt:'Identify this line.',answer:{short:'Line',worked:'Ordinary solution.'}}};
+ const unrated={...structuredClone(activity),id:'unrated-activity',classification:{}};
+ const sequence={id:'lines',sections:[{id:'practice',phase:'practice',role:'mixed-practice',blocks:[activity,routine,unrated]}]};
+ assert.deepEqual(routineQuestions(sequence).questions.map(q=>q.id),['ordinary']);
+ assert.deepEqual(routineQuestions(sequence).unrated,[],'Unrated teaching activities do not become missing routine ratings');
+ assert.deepEqual(instructionalSections(sequence)[0].blocks.map(b=>b.id),['activity','unrated-activity']);
+ assert.match(JSON.stringify(compactBlock(activity,sequence.sections[0])),/Retained teaching solution/);
+ assert.doesNotMatch(JSON.stringify(compactBlock(routine,sequence.sections[0])),/Ordinary solution/);
+ for(const role of ['exam','challenge'])assert.deepEqual(routineQuestions({sections:[{...sequence.sections[0],role}]}).questions,[]);
+});
+
 test('item-only clusters cannot hide unmapped questions, unknown memberships or duplicate attempts',()=>{
  const empty=splitItemArchetypeFixture();delete empty.result.clusters[1].itemOnly;assert.throws(()=>validateArchetypes(empty.project,empty.sequence,empty.result),/Empty archetype/);
  const dangling=splitItemArchetypeFixture();delete dangling.result.practiceItems.q2[0].archetype;assert.throws(()=>validateArchetypes(dangling.project,dangling.sequence,dangling.result),/Unreferenced item-only/);

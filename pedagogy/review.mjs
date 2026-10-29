@@ -81,7 +81,7 @@ function compact(value,practice){
  }
  return result;
 }
-export const isExplicitTeachingBlock=block=>block.type==='worked-example'||['example','worked-example','guided-practice'].includes(block.pedagogyRole);
+export const isExplicitTeachingBlock=block=>!!block.sourceAtom||block.type==='worked-example'||['example','worked-example','guided-practice'].includes(block.pedagogyRole);
 export const instructionalSections=sequence=>sequence.sections.map(section=>({...section,blocks:(section.blocks??[]).filter(block=>section.phase==='teaching'||isExplicitTeachingBlock(block))})).filter(section=>section.blocks.length);
 export function compactBlock(block,section){
  const practice=section.phase==='practice'&&!isExplicitTeachingBlock(block),{id,type,pedagogyRole,sourcePageNumber,sourceAtom,sourceOrder,...rest}=compact(questionReviewContent(block),practice);
