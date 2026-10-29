@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {validatePracticeItems} from './practice-item-targets.mjs';
 // Booklet pedagogy review (user approved 9 October 2026). Policy, commands and
 // both worker contracts are in docs/booklet-pedagogy-review.md.
 // This file lives outside scripts/ on purpose: exports freeze that tree, and a
@@ -585,7 +586,7 @@ export function archetypePrompt(project,sequence,{root=ROOT,all=sequences(projec
  const approvedPriorKnowledge=project.library?.courseId==='s6-ext1-11'?['substitute-into-expressions','function-notation']:[];
  return 'Read-only routine-archetype and independent-practice-item audit. Cluster by mathematical decision/method, never wording or numbers alone. Map every listed routine question exactly once. coverage covered = example or explicit teaching supplies the method; preserve empty exampleIds when no worked example exists and do not invent one for direct application of a stated rule; bridge = modest step up best served by scaffolded questions; missing = genuinely different new untaught archetype, not a familiar prerequisite; prior-knowledge = prerequisite justified by skill/context evidence. Prior knowledge is never a missing worked example: any worthwhile retrieval belongs in the opening review block, and James decides whether to add it. Do not generate new content, questions, examples or wording. Additional worked-example drafts remain Studio comments pending individual James approval; calibration never approves insertion. Examine teaching earlier in this booklet before claiming a gap. Apply the substitution/function-evaluation prior-knowledge approval ONLY when courseId is s6-ext1-11 and approvedPriorKnowledge lists it; never transfer it to Stage5 or other courses. Each prerequisite verdict cites prerequisiteIds and evidence; its reviewStatus is pending-user-decision. Only exact example-role IDs go in exampleIds; identification/definitions belong in teachingIds; a method or scaffold supplied inside an earlier practice question belongs in practiceEvidenceIds, not teachingIds. A mere unsolved exercise is not supplied teaching. Exclude Challenge/Exam. For each question, enumerate practiceItems as independent complete attempts, grouping dependent steps together. Count independently answerable labelled asks separately even when they share a given polynomial: term count, each requested coefficient and constant-term identification are separate attempts. Shared givens alone are not dependency. A dedicated complete feature-grid row for one polynomial is ONE attempt, not five cells; three unknowns solved jointly is ONE attempt; separately posed evaluations/independent polynomials may be separate. Every practiceItems nodeId must belong to that question. For heterogeneous independent parts, an item may carry optional archetype naming an existing cluster id in THIS topic; omitted means inherit the question primary archetype. Keep each question mapped to exactly one primary cluster, and count independent parts for their own archetypes. When a part has its own method but no whole question belongs primarily to it, use an explicit itemOnly:true cluster with questionIds:[] and at least one valid practiceItems.archetype reference. An unreferenced empty cluster is invalid. For example, prior-knowledge volume-formula retrieval is not another complete cubic-model attempt; its item-only cluster can set routine:false to keep an opening-Review decision separate from routine-practice targets. Dependent scaffold steps count together, and three independent items never means three whole blocks. Never invent a new skill or use an item-only cluster to leave a whole question unmapped. Return JSON only: {"clusters":[{"id":"short stable slug","questionIds":["id"],"exampleIds":[],"guidedPracticeIds":[],"teachingIds":[],"practiceEvidenceIds":[],"coverage":"covered|bridge|missing|prior-knowledge","prerequisiteIds":[],"evidence":"specific teaching/prerequisite evidence","reviewStatus":"pending-user-decision","rationale":"specific reasoning"}],"practiceItems":{"each-question-id":[{"nodeIds":["question/part id"],"rationale":"why this is one independent attempt","archetype":"optional existing same-topic cluster id"}]}}.\n\n'+JSON.stringify({booklet:project.title,courseId:project.library?.courseId,topicId:sequence.topicId,skills:facts,approvedPriorKnowledge,earlierTeaching:earlierTeaching(all,index<0?0:index),teaching:sequencePayload({...sequence,sections:instructionalSections(sequence)}),routineQuestions:questions});
 }
-export function validateArchetypes(project,sequence,result){
+export function validateArchetypes(project,sequence,result,{responseAnchors}={}){
  const {questions,unrated}=routineQuestions(sequence),eligible=new Map(questions.map(q=>[q.id,q])),seen=new Set(),ids=visibleIds(sequence),errors=[];
  const clusters=Array.isArray(result?.clusters)?result.clusters:[];
  const clusterIds=new Set();
@@ -607,29 +608,15 @@ export function validateArchetypes(project,sequence,result){
  const itemReferences=new Set();
  for(const [id,items] of Object.entries(result.practiceItems??{})){
   if(!eligible.has(id)||!Array.isArray(items)||!items.length){errors.push('Invalid practice items for '+id);continue;}
-  const counted=new Set(),ancestors=new Map();
-  const visit=(value,parents=[])=>{if(Array.isArray(value))value.forEach(child=>visit(child,parents));else if(value&&typeof value==='object'){const next=typeof value.id==='string'?[...parents,value.id]:parents;if(typeof value.id==='string')ancestors.set(value.id,new Set(parents));Object.values(value).forEach(child=>visit(child,next));}};
-  visit(eligible.get(id).block);
-  for(const item of items){
-   const explicit=Object.hasOwn(item,'archetype'),known=!explicit||text(item.archetype)&&clusterIds.has(item.archetype);
-   if(!known)errors.push('Unknown same-topic practice item archetype '+item.archetype+' for '+id);
-   const validNodes=Array.isArray(item.nodeIds)&&item.nodeIds.length&&item.nodeIds.every(node=>ids.get(node)===id);
-   if(!validNodes)errors.push('Practice item target outside question '+id);
-   let unique=true;const itemNodes=new Set();
-   for(const node of Array.isArray(item.nodeIds)?item.nodeIds:[]){
-    if(counted.has(node)||itemNodes.has(node)){errors.push('Repeated practice item target '+node);unique=false;}
-    else if([...counted].some(other=>ancestors.get(node)?.has(other)||ancestors.get(other)?.has(node))){errors.push('Overlapping practice item target '+node);unique=false;}
-    itemNodes.add(node);
-   }
-   for(const node of itemNodes)counted.add(node);
-   if(explicit&&known&&validNodes&&unique)itemReferences.add(item.archetype);
-  }
+  const block=sequence.sections.flatMap(section=>section.blocks??[]).find(block=>block.id===id);
+  let valid=true;try{validatePracticeItems(block,items,{responseAnchors});}catch(error){errors.push(error.message);valid=false;}
+  for(const item of items){const explicit=Object.hasOwn(item,'archetype'),known=!explicit||text(item.archetype)&&clusterIds.has(item.archetype);if(!known)errors.push('Unknown same-topic practice item archetype '+item.archetype+' for '+id);if(explicit&&known&&valid)itemReferences.add(item.archetype);}
  }
  for(const c of clusters)if(c.itemOnly===true&&!itemReferences.has(c.id))errors.push('Unreferenced item-only archetype: '+c.id);
  if(errors.length)throw Error(errors.join('; '));
  return {topicId:sequence.topicId,sequenceId:sequence.id,clusters,unrated,questions:Object.fromEntries(clusters.flatMap(c=>(c.questionIds??[]).map(id=>[id,{archetype:c.id,topicId:sequence.topicId,reasoningScore:eligible.get(id).reasoningScore,...(result.practiceItems?.[id]?{practiceItems:result.practiceItems[id]}:{})}])))};
 }
-export async function runArchetypes({projectFile,root=ROOT,topics=[],runner=defaultRunner,lease=defaultLease,output,workDir,runDir,concurrency=1}={}){
+export async function runArchetypes({projectFile,root=ROOT,topics=[],runner=defaultRunner,lease=defaultLease,output,workDir,runDir,concurrency=1,responseAnchors}={}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>3)throw Error('Use one to three workers');
  const project=read(projectFile),all=sequences(project),selected=topics.length?all.filter(s=>topics.includes(s.id)||topics.includes(s.topicId)):all;
  if(!selected.length)throw Error('No sequence matches --topics');
@@ -638,7 +625,7 @@ export async function runArchetypes({projectFile,root=ROOT,topics=[],runner=defa
  await pool(selected.filter(sequence=>routineQuestions(sequence).questions.length),concurrency,async sequence=>{
   const {result,usage,elapsedMs}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-archetypes',prompt:archetypePrompt(project,sequence,{root}),effort:'low'});
   for(const q of routineQuestions(sequence).questions)if(!result.practiceItems?.[q.id]?.length)throw Error('Missing independent practice-item review for '+q.id);
-  rows.push({...validateArchetypes(project,sequence,result),usage,elapsedMs});
+  rows.push({...validateArchetypes(project,sequence,result,{responseAnchors}),usage,elapsedMs});
  });
  rows.sort((a,b)=>all.findIndex(s=>s.id===a.sequenceId)-all.findIndex(s=>s.id===b.sequenceId));
  const record={version:1,projectId:project.id,revision:project.revision,status:'pending-user-review',createdAt:now(),questions:Object.assign({},...rows.map(r=>r.questions)),topics:rows.map(({questions,...row})=>row)};

@@ -1,3 +1,4 @@
+import {validatePracticeItems} from '../pedagogy/practice-item-targets.mjs';
 // Read-only calibration: no live save or generation is permitted by this entry point.
 import fs from 'node:fs';
 import {pathToFileURL} from 'node:url';
@@ -7,23 +8,14 @@ import {endSectionRole} from './end-section-role.mjs';
 const rawLinks=b=>nodesOf(b).flatMap(n=>[...(n.dependsOn??[]),...(n.flow?.dependsOn??[]),n.continuationOf,n.flow?.continuationOf,n.pairedBlockId].filter(Boolean));
 const ownersOf=entries=>new Map(entries.flatMap(({b})=>nodesOf(b).map(n=>[n.id,b.id])));
 const blockLinks=(b,owners)=>[...new Set(rawLinks(b).map(id=>owners.get(id)??id).filter(id=>id!==b.id))];
-export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3,routineCeiling=64,targetOverrides={}}={}){
+export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3,routineCeiling=64,targetOverrides={},responseAnchors}={}){
  if(archetypes.projectId&&archetypes.projectId!==project.id)throw Error('Archetype map belongs to another project');
  if(archetypes.revision!==undefined&&archetypes.revision!==project.revision)throw Error('Archetype map revision is stale');
  const sections=(project.sections??[]).filter(s=>s.phase==='practice'&&!['challenge','exam','mixed-review','candidate-pool'].includes(endSectionRole(s,project)));
  const entries=sections.flatMap(s=>(s.blocks??[]).map(b=>({b,s}))),byId=new Map(entries.map(e=>[e.b.id,e]));
+ const responseAnchorHolds=[];
  for(const {b} of entries){const items=archetypes.questions?.[b.id]?.practiceItems;if(items===undefined)continue;
-  const ids=new Set(),ancestors=new Map();const visit=(n,parents=[])=>{if(n?.id){ids.add(n.id);ancestors.set(n.id,parents);}for(const c of n?.children??[])visit(c,[...parents,n.id]);};visit(b.content);
-  const seen=new Set();if(!Array.isArray(items)||!items.length)throw Error('Invalid practice items for '+b.id);
-  for(const item of items){
-   if(!Array.isArray(item.nodeIds)||!item.nodeIds.length)throw Error('Practice item needs nodeIds: '+b.id);
-   const itemNodes=new Set();
-   for(const id of item.nodeIds){
-    if(!ids.has(id)||seen.has(id)||itemNodes.has(id)||[...seen].some(other=>ancestors.get(id)?.includes(other)||ancestors.get(other)?.includes(id)))throw Error('Invalid or reused practice node '+id);
-    itemNodes.add(id);
-   }
-   for(const id of itemNodes)seen.add(id);
-  }
+  try{validatePracticeItems(b,items,{responseAnchors});}catch(error){if(!items.some(item=>Object.hasOwn(item??{},'responseAnchor')))throw error;responseAnchorHolds.push({id:b.id,reason:error.message});}
  }
  const multipart=b=>{let responses=0;const walk=n=>{if(n?.type==='part')responses++;for(const c of n?.children??[])walk(c);};walk(b.content);return responses>1;};
  const moveSections=(project.sections??[]).filter(s=>s.phase==='practice'&&!['challenge','candidate-pool'].includes(endSectionRole(s,project)));
@@ -53,7 +45,8 @@ export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3
   const clusterIds=new Set((topicMap?.archetypes??topicMap?.clusters??[]).map(c=>c.archetype??c.id));
   const itemsOf=b=>(archetypes.questions?.[b.id]?.practiceItems??[{nodeIds:[b.content?.id??b.id]}]).map(item=>({...item,archetype:Object.hasOwn(item,'archetype')?item.archetype:key(b)}));
   const invalidItemArchetypes=original.flatMap(({b})=>(archetypes.questions?.[b.id]?.practiceItems??[]).filter(item=>Object.hasOwn(item,'archetype')&&(typeof item.archetype!=='string'||!item.archetype.trim()||!clusterIds.has(item.archetype))).map(item=>({id:b.id,nodeIds:item.nodeIds,archetype:item.archetype,reason:'Explicit item archetype must name an existing cluster in the same topic'})));
-  const assessable=!!topicMap&&!missingArchetypes.length&&!missingRatings.length&&!missingItemReview.length&&!invalidItemArchetypes.length;
+  const topicResponseAnchorHolds=responseAnchorHolds.filter(hold=>original.some(({b})=>b.id===hold.id));
+  const assessable=!topicResponseAnchorHolds.length&&!!topicMap&&!missingArchetypes.length&&!missingRatings.length&&!missingItemReview.length&&!invalidItemArchetypes.length;
   const countItems=(rows,archetype)=>rows.reduce((n,{b})=>n+itemsOf(b).filter(item=>item.archetype===archetype).length,0);
   const itemBasis=original.map(({b})=>({id:b.id,basis:archetypes.questions?.[b.id]?.practiceItems?'reviewed-independent-attempts':multipart(b)?'unreviewed-multipart':'whole-question',items:itemsOf(b)}));
   const coverage=taught.map(a=>{
@@ -70,7 +63,7 @@ export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3
   const upperRoutineTarget=topicMap?.routineUpperScore??(originalRoutineScores.length?Math.max(...originalRoutineScores):null);
   if(upperRoutineTarget!==null&&(!Number.isFinite(upperRoutineTarget)||upperRoutineTarget<0||upperRoutineTarget>=65))throw Error('Routine upper target must be below65');
   const highest=retained.length?Math.max(...retained.map(e=>e.b.classification?.reasoningScore).filter(Number.isFinite)):null;
-  topics.push({topicId,order:orderHolds.length?null:retained.map(e=>e.b.id),proposedScoreOrder:retained.map(e=>e.b.id),orderHolds,itemBasis,sufficiencyStatus:assessable?'pending-calibration':'unassessable',coverage,missingArchetypes,missingRatings,missingItemReview,invalidItemArchetypes,gradientGaps,upperRoutineTarget,upperRoutineTargetBasis:topicMap?.routineUpperScore===undefined?'original-routine-exercise-demand':'reviewed-original-demand',upperRoutineGap:upperRoutineTarget===null||highest===null||!Number.isFinite(highest)?null:Math.max(0,upperRoutineTarget-highest)});
+  topics.push({topicId,order:orderHolds.length?null:retained.map(e=>e.b.id),proposedScoreOrder:retained.map(e=>e.b.id),orderHolds,itemBasis,sufficiencyStatus:assessable?'pending-calibration':'unassessable',coverage,missingArchetypes,missingRatings,missingItemReview,invalidItemArchetypes,responseAnchorHolds:topicResponseAnchorHolds,gradientGaps,upperRoutineTarget,upperRoutineTargetBasis:topicMap?.routineUpperScore===undefined?'original-routine-exercise-demand':'reviewed-original-demand',upperRoutineGap:upperRoutineTarget===null||highest===null||!Number.isFinite(highest)?null:Math.max(0,upperRoutineTarget-highest)});
  }
  return {version:1,project:project.id,revision:project.revision,mode:'proposal-only',approvalRequired:['archetype coverage','practice sufficiency including multipart practice units','gradient calibration'],calibration:{challengeThreshold:65,maxStep,minimum,routineCeiling,upperDemandRule:'Below65 is a ceiling; retain appropriate original/taught demand, never target64 universally',countUnit:'reviewed-independent-attempts',countLimit:'Single-attempt questions use one unit; multipart questions require explicit reviewed groups. Missing review holds sufficiency; independence does not prove variation.'},moves,scopeHolds,highOwnedExamRemaining,topics,unresolvedDependencies:entries.flatMap(({b})=>(b.flow?.dependsOn??[]).filter(id=>!byId.has(id)).map(id=>({id:b.id,dependsOn:id}))),publicationBlocked:true};
 }
@@ -81,6 +74,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const
 export function challengeSplitCandidate(project,{archetypes,approvedCalibration=false,...options}={}){
  if(!approvedCalibration)throw Error('Challenge split requires approved calibration');
  const report=challengeSplitReport(project,{archetypes,...options}),candidate=structuredClone(project),moved=new Set(report.moves.map(m=>m.id));
+ if(report.topics.some(topic=>topic.responseAnchorHolds.length))throw Error('Unverified response anchors hold candidate transformation');
  const semanticHeldIds=new Set(report.scopeHolds.filter(h=>h.reason?.startsWith('Semantic-unit review')).flatMap(h=>h.ids??[]));
  const challengeBlocks=[],candidateOwners=ownersOf(project.sections.flatMap(s=>s.blocks.map(b=>({b,s}))));
  for(const section of candidate.sections){

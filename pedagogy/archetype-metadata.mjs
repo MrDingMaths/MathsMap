@@ -1,3 +1,4 @@
+import {validatePracticeItems} from './practice-item-targets.mjs';
 // Reuse a recorded archetype review only after checking every mapped block.
 // This module never saves a live project, publishes content or accepts findings.
 import fs from 'node:fs';
@@ -16,7 +17,7 @@ const byId=project=>{
  for(const section of project.sections??[])for(const block of section.blocks??[]){if(result.has(block.id))throw Error('Duplicate block ID '+block.id);result.set(block.id,block);}
  return result;
 };
-export function reuseArchetypeMap({reviewedProject,currentProject,map,snapshotSha256,mapFile,approvedAttributions}={}){
+export function reuseArchetypeMap({reviewedProject,currentProject,map,snapshotSha256,mapFile,approvedAttributions,responseAnchors}={}){
  const reviewedRevision=map.reviewedRevision??map.revision;
  if(map.projectId!==reviewedProject.id||currentProject.id!==reviewedProject.id)throw Error('Project identity mismatch');
  if(reviewedRevision!==reviewedProject.revision)throw Error('Reviewed revision does not match snapshot');
@@ -41,6 +42,8 @@ export function reuseArchetypeMap({reviewedProject,currentProject,map,snapshotSh
   if(!row.archetype||!row.practiceItems?.length)throw Error('Missing reviewed archetype/items: '+id);
   const topic=map.topics.find(t=>t.topicId===row.topicId),cluster=topic?.clusters.find(c=>c.id===row.archetype);
   if(!cluster)throw Error('Missing reviewed cluster: '+id);
+  validatePracticeItems(source.get(id),row.practiceItems,{responseAnchors});
+  validatePracticeItems(current.get(id),row.practiceItems,{responseAnchors});
   hashes[id]=expected;
   const review={reviewedRevision,snapshotSha256,mapFile:mapFile??null,sourceHash:expected,...(attributionMatches[id]?{approvedAttributionReuse:attributionMatches[id]}:{}),model:'gpt-6.1-sol',effort:'low',coverage:cluster.coverage,practiceItems:structuredClone(row.practiceItems),reviewStatus:cluster.coverage==='prior-knowledge'?'pending-James-opening-review-decision':map.status};
   changes.push({blockId:id,expectedSourceHash:actual,classification:{archetype:row.archetype,archetypeReview:review}});
