@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import {validatePracticeItems} from './practice-item-targets.mjs';
+import {endSectionRole} from '../polish/end-section-role.mjs';
 // Booklet pedagogy review (user approved 9 October 2026). Policy, commands and
 // both worker contracts are in docs/booklet-pedagogy-review.md.
 // This file lives outside scripts/ on purpose: exports freeze that tree, and a
@@ -569,7 +570,8 @@ export async function runSeeded({root=ROOT,reviewEffort='low',runner,lease,fixtu
 export function routineQuestions(sequence){
  const questions=[],unrated=[];
  for(const section of sequence.sections){
-  if(section.phase!=='practice'||['challenge','exam'].includes(section.role))continue;
+  const role=endSectionRole(section,{topics:[{id:section.topicId,title:sequence.title}]});
+  if(section.phase!=='practice'||['challenge','exam'].includes(role))continue;
   for(const block of section.blocks??[]){
    if(block.type!=='question'||isExplicitTeachingBlock(block)||isTheoryReview(block,section))continue;
    const score=block.classification?.reasoningScore;
