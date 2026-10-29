@@ -106,3 +106,34 @@ test('PLC COM course marker is retained literally without broadening provider wh
   }
   for(const code of ['PLC.Y9.UNKNOWN.2022.S2','PLC.COM.2022','MB.Y9.COM.2022','CAIE.Y9.COM.2022','PLC.Y9.COM.SM.2022'])assert.equal(mathsBaseSource(code),null);
 });
+
+
+test('literal PLC ADD/FUN and verified official STN1 labels retain all15 observed base codes',()=>{
+ const cases=[
+  ["PLC.Y10.ADD.2025.S2",{"provider":"PLC","paper":"Y10 ADD S2","year":"2025","label":"PLC Y10 ADD S2 2025","origin":"MathsBase"}],
+  ["PLC.Y10.ADD.2022.S2",{"provider":"PLC","paper":"Y10 ADD S2","year":"2022","label":"PLC Y10 ADD S2 2022","origin":"MathsBase"}],
+  ["PLC.Y10.ADD.2023.S2",{"provider":"PLC","paper":"Y10 ADD S2","year":"2023","label":"PLC Y10 ADD S2 2023","origin":"MathsBase"}],
+  ["PLC.Y10.ADD.2024.S2",{"provider":"PLC","paper":"Y10 ADD S2","year":"2024","label":"PLC Y10 ADD S2 2024","origin":"MathsBase"}],
+  ["PLC.Y10.FUN.2023.S2",{"provider":"PLC","paper":"Y10 FUN S2","year":"2023","label":"PLC Y10 FUN S2 2023","origin":"MathsBase"}],
+  ["PLC.Y10.FUN.2024.S2",{"provider":"PLC","paper":"Y10 FUN S2","year":"2024","label":"PLC Y10 FUN S2 2024","origin":"MathsBase"}],
+  ["HSC.STN1.2021",{"provider":"HSC","paper":"Standard 1","year":"2021","label":"HSC Standard 1 2021","origin":"MathsBase"}],
+  ["PLC.Y10.FUN.2022.S2",{"provider":"PLC","paper":"Y10 FUN S2","year":"2022","label":"PLC Y10 FUN S2 2022","origin":"MathsBase"}],
+  ["PLC.Y10.ADD.2025.T1",{"provider":"PLC","paper":"Y10 ADD T1","year":"2025","label":"PLC Y10 ADD T1 2025","origin":"MathsBase"}],
+  ["HSC.STN1.2022",{"provider":"HSC","paper":"Standard 1","year":"2022","label":"HSC Standard 1 2022","origin":"MathsBase"}],
+  ["HSC.STN1.2020",{"provider":"HSC","paper":"Standard 1","year":"2020","label":"HSC Standard 1 2020","origin":"MathsBase"}],
+  ["HSC.STN1.2025",{"provider":"HSC","paper":"Standard 1","year":"2025","label":"HSC Standard 1 2025","origin":"MathsBase"}],
+  ["HSC.STN1.2019",{"provider":"HSC","paper":"Standard 1","year":"2019","label":"HSC Standard 1 2019","origin":"MathsBase"}],
+  ["HSC.STN1.2023",{"provider":"HSC","paper":"Standard 1","year":"2023","label":"HSC Standard 1 2023","origin":"MathsBase"}],
+  ["HSC.STN1.2024",{"provider":"HSC","paper":"Standard 1","year":"2024","label":"HSC Standard 1 2024","origin":"MathsBase"}],
+ ];
+ for(const [code,expected]of cases){assert.deepEqual(mathsBaseSource(code),expected);assert.deepEqual(mathsBaseSource(code+' Q1a'),expected);assert.deepEqual(Object.keys(mathsBaseSource(code)).sort(),['label','origin','paper','provider','year']);}
+});
+
+test('ADD/FUN and STN1 recognition preserves unknown-school holds and excluded providers',()=>{
+ for(const code of ["PLC.Y10.UNKNOWN.2025.S2","PLC.Y10.ADDITION.2025.S2","PLC.Y10.FUNCTION.2025.S2","PLC.Y10.STN1.2025.S2","PLC.ADD.2025","PLC.FUN.2025"])assert.equal(mathsBaseSource(code),null);
+ for(const code of ["HSC.UNKNOWN.Y12.2025","HSC.BHHS.Y11.X1.2022 Q13b","HSC.STN10.2025","HSC.STN2.2025"]){const source=mathsBaseSource(code);assert.equal(source.needsSchoolMapping,true);assert.equal(source.provider,'HSC-trial');assert.equal(source.label,undefined);}
+ for(const code of ["CAIE.2025","MB.2025","GEN.2025","LBNZ.2025","AU.AMC.2025","SmarterMaths.2025","HSC.SmarterMaths.2025","HSC.SM.2025","PLC.Y10.ADD.MB.2025.S2","PLC.Y10.FUN.CAIE.2025.S2","PLC.Y10.ADD.SmarterMaths.2025.S2","OTHER.Y10.ADD.2025.S2"])assert.equal(mathsBaseSource(code),null);
+ const printed=normaliseQuestionSource({...mathsBaseSource('HSC.STN1.2025'),sourceCode:'HSC.STN1.2025',eligible:true,needsSchoolMapping:false});
+ assert.deepEqual(Object.keys(printed).sort(),['label','origin','paper','provider','year']);
+ assert.deepEqual(printed,mathsBaseSource('HSC.STN1.2025'));
+});

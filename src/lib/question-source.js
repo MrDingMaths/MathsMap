@@ -27,11 +27,11 @@ export function mathsBaseSource(code) {
   let label, provider, paper;
   if (parts[0] === 'PLC') {
     provider = 'PLC'; paper = [...parts.slice(1,yearIndex),...parts.slice(yearIndex+1).filter(part=>!/^Q\d/i.test(part))].join(' ');
-    if (!/^Y\d{1,2}(?: (?:S[12]|X[12]|ADV|STN|COM|T[1-4]))*$/.test(paper)) return null;
+    if (!/^Y\d{1,2}(?: (?:S[12]|X[12]|ADV|STN|COM|ADD|FUN|T[1-4]))*$/.test(paper)) return null;
     label = `PLC ${paper} ${year}`;
-  } else if (['ADV', 'X1', 'X2', 'EXT1', 'EXT2', 'STN', 'STD', 'STD1', 'STD2'].includes(parts[1])) {
+  } else if (['ADV', 'X1', 'X2', 'EXT1', 'EXT2', 'STN', 'STN1', 'STD', 'STD1', 'STD2'].includes(parts[1])) {
     provider = 'HSC';
-    paper = {ADV:'Advanced', X1:'Extension 1',X2:'Extension 2',EXT1:'Extension 1', EXT2:'Extension 2', STN:'Standard',STD:'Standard', STD1:'Standard 1', STD2:'Standard 2'}[parts[1]];
+    paper = {ADV:'Advanced', X1:'Extension 1',X2:'Extension 2',EXT1:'Extension 1', EXT2:'Extension 2', STN:'Standard',STN1:'Standard 1',STD:'Standard', STD1:'Standard 1', STD2:'Standard 2'}[parts[1]];
     label = `HSC ${paper} ${year}`;
   } else {
     // School names require explicit approval in the export mapping, including BHHS.
