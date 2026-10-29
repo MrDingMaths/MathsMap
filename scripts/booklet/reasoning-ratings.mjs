@@ -35,7 +35,64 @@ export function validRawRating(rating){
 }
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
- return validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0;
+ if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.diagramPresentationAdaptations?.length){const key=a.diagramPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validDiagramPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
+ return true;
+}
+const checkingDiagramProofs=new Set();
+const objectHash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
+function pinnedJson(artifact){
+ if(typeof artifact?.path!=='string'||!/^[a-f0-9]{64}$/.test(artifact.sha256??''))throw Error('Missing pinned diagram evidence');
+ const bytes=fs.readFileSync(artifact.path);if(createHash('sha256').update(bytes).digest('hex')!==artifact.sha256)throw Error('Diagram evidence changed');return JSON.parse(bytes);
+}
+const valueAt=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
+function diagramReuseProof(target,artifact){
+ const proof=pinnedJson(artifact);
+ if(proof.kind!=='diagram-presentation-only-v1'||!Array.isArray(proof.sourceArtifact?.blockPath)||!Array.isArray(proof.changes)||!proof.changes.length)throw Error('Invalid diagram-only proof');
+ const source=valueAt(pinnedJson(proof.sourceArtifact),proof.sourceArtifact.blockPath);
+ if(!source||proof.sourceTaskHash!==reasoningTaskHash(source)||proof.targetTaskHash!==reasoningTaskHash(target)||!verifiedRating(source))throw Error('Unverified original diagram task');
+ const semantic=pinnedJson(proof.semanticEvidence),visual=pinnedJson(proof.visualEvidence);
+ for(const evidence of [semantic,visual])if(evidence.sourceTaskHash!==proof.sourceTaskHash||evidence.targetTaskHash!==proof.targetTaskHash)throw Error('Foreign diagram review');
+ if(!semantic.mathematicsBefore||!Object.keys(semantic.mathematicsBefore).length||!isDeepStrictEqual(semantic.mathematicsBefore,semantic.mathematicsAfter))throw Error('Diagram mathematics changed');
+ if(visual.accepted!==true||!Array.isArray(visual.images)||!visual.images.length)throw Error('Missing actual diagram visual review');
+ for(const image of visual.images){if(typeof image.path!=='string'||!/^[a-f0-9]{64}$/.test(image.sha256??'')||fileHash(image.path)!==image.sha256)throw Error('Diagram visual image changed');}
+ const inverse=structuredClone(target),seen=[];
+ for(const change of proof.changes){
+  const parts=change.path;
+  if(!Array.isArray(parts)||parts[0]!=='content'||parts.length<2||parts.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)))throw Error('Invalid diagram path');
+  if(seen.some(p=>p.every((k,i)=>parts[i]===k)||parts.every((k,i)=>p[i]===k)))throw Error('Overlapping diagram paths');seen.push(parts);
+  const before=valueAt(source,parts),after=valueAt(target,parts);
+  if(!before||!after||typeof before.id!=='string'||!before.id.trim()||before.id!==after.id||!['tikz','svg'].includes(before.format)||before.format!==after.format||typeof before.code!=='string'||!before.code.trim()||typeof after.code!=='string'||!after.code.trim()||objectHash(before)!==change.beforeSha256||objectHash(after)!==change.afterSha256)throw Error('Changed or unsupported diagram identity');
+  if(!isDeepStrictEqual(before.mathematicalModel,after.mathematicalModel))throw Error('Diagram mathematical model changed');
+  valueAt(inverse,parts.slice(0,-1))[parts.at(-1)]=structuredClone(before);
+ }
+ // Recheck posed task, answers and supplied scaffolding even on bank copies,
+ // whose placement metadata and native IDs can legitimately differ.
+ if(reasoningTaskHash(inverse)!==proof.sourceTaskHash)throw Error('Non-diagram task changed');
+ return{proof,source,inverse,semantic,visual};
+}
+function reusedDiagramAssessment(source,target,artifact){
+ const original=source.classification.assessment,assessment=structuredClone(original);
+ assessment.originalTaskHash??=original.taskHash;assessment.taskHash=reasoningTaskHash(target);
+ assessment.diagramPresentationAdaptations=[...(assessment.diagramPresentationAdaptations??[]),{kind:'diagram-presentation-only-v1',previousTaskHash:original.taskHash,currentTaskHash:assessment.taskHash,proofFile:artifact.path,proofSha256:artifact.sha256,originalAssessment:structuredClone(original),assessmentReused:true,newAssessmentPerformed:false}];
+ return assessment;
+}
+function validDiagramPresentationReuse(block,rating){
+ const row=rating.assessment.diagramPresentationAdaptations.at(-1);
+ if(row.kind!=='diagram-presentation-only-v1'||row.newAssessmentPerformed!==false||row.assessmentReused!==true)throw Error('Invalid diagram rating history');
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=diagramReuseProof(block,artifact);
+ if(!isDeepStrictEqual(row.originalAssessment,source.classification.assessment)||row.previousTaskHash!==reasoningTaskHash(source)||row.currentTaskHash!==reasoningTaskHash(block))return false;
+ return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,reusedDiagramAssessment(source,block,artifact));
+}
+// Explicit authoring/repair opt-in. A model response or a saved boolean cannot
+// approve semantic equivalence; the coordinator must inspect the pinned source,
+// relationship/multiplicity invariants and actual visual evidence at creation.
+export function reuseDiagramPresentationRating(source,target,{proofArtifact,confirmEquivalent}={}){
+ if(typeof confirmEquivalent!=='function')throw Error('Coordinator diagram-equivalence review required');
+ const checked=diagramReuseProof(target,proofArtifact);
+ if(!isDeepStrictEqual(checked.source,source)||source.id!==target.id||!isDeepStrictEqual(checked.inverse,source))throw Error('Diagram-only whole-block inverse failed');
+ if(confirmEquivalent(structuredClone({source,target,proof:checked.proof,semanticEvidence:checked.semantic,visualEvidence:checked.visual}))!==true)throw Error('Diagram equivalence not confirmed');
+ return{reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedDiagramAssessment(source,target,proofArtifact)};
 }
 export function assessedRating(block,rating,{model,assessedAt,evidence}){
  if(!validRawRating(rating)||!model||!Number.isFinite(Date.parse(assessedAt))||!evidence)throw Error('Incomplete LLM reasoning assessment for '+block.id);
