@@ -2,6 +2,8 @@
 
 James requested these rules for current booklets and future imports. They apply to ordinary practice, mixed practice, Exam questions and Challenge. Phase 7 remains deferred.
 
+Exam questions remain in Exam questions regardless of reasoning score. The practice-to-Challenge threshold of 65 never reclassifies an Exam question, and a score of 65 or above is not an exclusion criterion for otherwise eligible Exam sources. Preserve source/syllabus eligibility and semantic dependencies.
+
 Remove genuine exam mark allocations, including multipart allocations such as `[3]`, from displayed questions. Preserve mathematical brackets, intervals, indices, references, source labels and all meaningful notation. Retain the original source unchanged. Removal requires source evidence identifying the token as a mark allocation, an exact inverse transformation and a retained adaptation proof. Ambiguous tokens remain held for source inspection; a blanket bracket-removal regular expression is prohibited.
 
 A verified mark-only adaptation does not change assessed demand. Preserve the original score, model, assessment date, evidence and history, and record the exact old/new task hashes and adaptation proof separately. Do not represent reuse as a new independent assessment. Changed mathematics or uncertain original assessments require independent review. Existing bank ownership and revision guards still apply; this rule does not authorise bank publication.

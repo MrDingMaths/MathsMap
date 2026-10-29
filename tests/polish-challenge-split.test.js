@@ -96,15 +96,15 @@ test('routine linked units sort by max member rating without changing their inte
  const p={id:'p',sections:[section('a',[q('next',55),q('first',50),q('follow',10,['first']),q('early',20)])]};
  const t=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}}).report.topics[0];assert.deepEqual(t.actualOrder,['early','first','follow','next']);assert.deepEqual(t.gradientUnits.map(u=>u.score),[20,50,55]);
 });
-test('owned Exam high questions and their followups move; external high source is held',async()=>{
+test('Exam identity overrides practice Challenge threshold for owned and external papers',async()=>{
  const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');
- const a=q('owned65',65),b=q('owned76',76),follow=q('follow',25,['owned65']),external=q('external',70);for(const x of[a,b,follow])x.source={origin:'booklet',label:'HSC 2016'};external.source={origin:'MathsBase'};a.bankRef={id:'bank-original'};
- const p={id:'p',sections:[section('routine',[q('routine',20)]),section('exam',[a,follow,b,external],'exam')]};
- const r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}});assert.deepEqual(r.report.moves.map(m=>m.id),['owned65','follow','owned76']);assert.deepEqual(r.report.highOwnedExamRemaining,[]);assert.ok(r.report.scopeHolds.some(h=>h.kind==='external-source-eligibility'));assert.deepEqual(r.project.sections.at(-1).blocks.map(b=>b.id),['owned65','follow','owned76']);assert.deepEqual(r.project.sections.at(-1).blocks[0].bankRef,a.bankRef);assert.equal(r.project.sections.find(s=>s.id==='exam').blocks[0].id,'external');assert.equal(r.report.topics.length,1);
+ const a=q('owned65',65),b=q('owned76',76),follow=q('follow',25,['owned65']),external=q('external',90);a.source={origin:'booklet',label:'HSC 2016'};external.source={origin:'MathsBase'};
+ const exam=section('exam',[a,follow,b,external],'exam'),p={id:'p',sections:[section('routine',[q('routine',20)]),exam]},r=challengeSplitCandidate(p,{approvedCalibration:true,archetypes:{}});
+ assert.deepEqual(r.report.moves,[]);assert.deepEqual(r.report.highOwnedExamRemaining,[]);assert.deepEqual(r.project.sections.find(s=>s.id==='exam').blocks.map(b=>b.id),['owned65','follow','owned76','external']);assert.ok(!r.report.scopeHolds.some(h=>h.kind==='external-source-eligibility'));assert.ok(!r.report.publicationHolds.some(h=>h.kind==='high-owned-end-question-remaining'));
 });
-test('uncertain Exam ownership holds and external-linked units cannot feed Challenge',()=>{
- const own=q('owned',65);own.source={origin:'booklet'};const ext=q('external',20,['owned']);ext.source={origin:'MathsBase'};
- const r=report({id:'p',sections:[section('exam',[own,ext,q('unknown',76)],'exam')]});assert.equal(r.moves.length,0);assert.deepEqual(r.highOwnedExamRemaining.map(x=>x.id),['owned']);assert.ok(r.scopeHolds.some(h=>h.kind==='uncertain-owned-move-unit'));assert.ok(r.scopeHolds.some(h=>h.kind==='uncertain-owned-end-question'));
+test('Exam title aliases and labelled paper questions cannot move via dependency closure',()=>{
+ const labelled=q('paper',75);labelled.source={provider:'HSC',label:'HSC Extension 1 2014'};const linked=q('linked',70,['paper']);
+ const p={id:'p',topics:[{id:'alias',title:'Exam questions'}],sections:[section('routine',[q('spare',20),labelled,linked]),{...section('alias',[q('exam-alias',80)]),title:'Exam questions'}]},r=report(p);assert.deepEqual(r.moves,[]);assert.ok(r.scopeHolds.some(h=>h.ids?.includes('paper')));assert.equal(r.preservedExamQuestions.length,2);
 });
 test('continuation source stem and nested dependency owners remain a single ordered move unit',async()=>{
  const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');
