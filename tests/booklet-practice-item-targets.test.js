@@ -64,3 +64,15 @@ test('distinct sibling response owners may share exact ancestor instruction span
 test('native text prompt context rejects unrelated or descendant prompts and stale ancestor evidence',()=>{for(const mutate of[r=>r.responses[0].promptNodeId='text-b',r=>r.responses[0].promptNodeId='invented',r=>r.responses[0].promptContentHash='0'.repeat(64)]){const r=structuredClone(sharedReview);mutate(r);assert.throws(()=>validatePracticeItems(sharedText,sharedItems,{responseAnchors:textCapability(r,sharedText)}));}const r=structuredClone(sharedReview),i=structuredClone(sharedItems);r.responses[0].nodeId='text-root';r.responses[0].promptNodeId='text-a';i[0].nodeIds=['text-root'];i[0].responseAnchor.nodeId='text-root';assert.throws(()=>validatePracticeItems(sharedText,i,{responseAnchors:textCapability(r,sharedText)}),/ancestor/);});
 test('ancestor text responses still reject root/descendant owners and whole/scoped mixtures',()=>{for(const list of[[sharedItems[0],{nodeIds:['text-root']}],[{nodeIds:['text-root']},sharedItems[0]],[sharedItems[0],{nodeIds:['text-a']}],[sharedItems[0],sharedItems[0]]])assert.throws(()=>validatePracticeItems(sharedText,list,{responseAnchors:textCapability(sharedReview,sharedText)}));});
 
+
+
+test('native table row arrays expose independent cell responses and preserve owner ancestry',()=>{
+ const b={id:'table-block',content:{id:'table-question',prompt:{format:'maths-editor-document-v1',blocks:[{id:'table',type:'table',rows:[[{id:'cell-a',blocks:[{id:'response-a',type:'paragraph',inlines:[{type:'text',text:'Round 1.24.'}]}]},{id:'cell-b',blocks:[{id:'response-b',type:'paragraph',inlines:[{type:'text',text:'Round 3.57.'}]}]}]]}]},answer:{short:{id:'answer-only'}},questionDiagrams:[{id:'diagram-only'}]},classification:{id:'metadata-only'}};
+ const index=practiceNodeIndex(b);
+ assert.deepEqual([...index.get('response-a').parents],['table-question','table','cell-a']);
+ assert.deepEqual([...index.get('response-b').parents],['table-question','table','cell-b']);
+ assert.equal(validatePracticeItems(b,[{nodeIds:['response-a']},{nodeIds:['response-b']}]).independentItems,2);
+ for(const id of ['answer-only','diagram-only','metadata-only'])assert.equal(index.has(id),false);
+ assert.throws(()=>validatePracticeItems(b,[{nodeIds:['table']},{nodeIds:['response-a']}]),/overlap|reused/i);
+ const duplicate=structuredClone(b);duplicate.content.prompt.blocks[0].rows[0][1].blocks[0].id='response-a';assert.throws(()=>practiceNodeIndex(duplicate),/Duplicate native practice node/);
+});
