@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import {createHash} from 'node:crypto';
 import {NEW_CONTENT_MODEL,validateNewTeachingCandidate} from '../pedagogy/new-content.mjs';
 import {assertExactSonnetVerification,sonnetArguments,parseSonnetDraft,routineBackfillPrompt,routineBackfillBatchPrompt,generateSonnetDraft,validateRoutineBackfillDraft,groupRoutineBackfillDraft,assertIndependentBackfillReview,draftHash} from '../pedagogy/sonnet-generation.mjs';
 import {assessedRating} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -67,4 +68,52 @@ test('native multipart grouping preserves every task/answer and invalidates indi
  const grouped=groupRoutineBackfillDraft(draft,{idPrefix:'group'});assert.equal(grouped.result.items.length,1);assert.equal(grouped.grouping.itemGroups[0].practiceItems.length,2);assert.equal(grouped.grouping.ratingReusable,false);
  assert.equal(grouped.result.items[0].content.children[0].prompt,item.content.prompt);assert.deepEqual(grouped.result.items[0].content.children[1].answer,second.content.answer);assert.notEqual(grouped.draftHash,draft.draftHash);
  assert.throws(()=>assertIndependentBackfillReview({draft:grouped,blocks:[],review:{draftHash:draft.draftHash}}),/Independent Sol/);
+});
+
+const retainedRequest={model:NEW_CONTENT_MODEL,kind:'backfill',prompt:'Synthetic software-contract fixture; no booklet source.'};
+const retainedTemp=()=>fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-sonnet-retention-test-'));
+const retainedLease=async(_run,_details,action)=>action();
+
+test('raw stdout exists before parsing and preserves healthy legacy results and current controls',async()=>{
+ for(const streamed of ['all','prefix']){
+  const workDir=retainedTemp(),stdout=envelope()+'\n',beforeRetry=process.env.MAX_STRUCTURED_OUTPUT_RETRIES;
+  const draft=await generateSonnetDraft({request:retainedRequest,verification,runDir:'canonical',workDir,lease:retainedLease,executor:async options=>{
+   const args=options.args;assert.equal(args.includes('--json-schema'),false);assert.equal(Object.hasOwn(options,'env'),false);assert.equal(args[args.indexOf('--tools')+1],'');assert.equal(args[args.indexOf('--disallowedTools')+1],'*');
+   assert.equal(args[args.indexOf('--permission-mode')+1],'default');assert.equal(args[args.indexOf('--max-turns')+1],'1');assert.equal(args[args.indexOf('--settings')+1],'{"fallbackModel":[]}');assert.ok(args.includes('--safe-mode')&&args.includes('--strict-mcp-config')&&args.includes('--no-session-persistence'));assert.equal(args.some(a=>/bypass|skip-permission/i.test(a)),false);
+   assert.equal(path.dirname(options.cwd),os.tmpdir());assert.equal(fs.existsSync(path.join(workDir,'raw-stdout.txt')),true);options.onStdout(Buffer.from(stdout.slice(0,19)));assert.equal(fs.readFileSync(path.join(workDir,'raw-stdout.txt'),'utf8'),stdout.slice(0,19));if(streamed==='all')options.onStdout(Buffer.from(stdout.slice(19)));return{code:0,stdout};
+  }});
+  assert.deepEqual(draft.result,result);assert.equal(draft.draftHash,draftHash(result));assert.equal(fs.readFileSync(path.join(workDir,'raw-stdout.txt'),'utf8'),stdout);assert.equal(draft.metrics.rawStdoutComplete,true);assert.equal(draft.metrics.rawStdoutSha256,createHash('sha256').update(stdout).digest('hex'));assert.equal(process.env.MAX_STRUCTURED_OUTPUT_RETRIES,beforeRetry);
+ }
+});
+
+test('malformed envelope, malformed inner JSON and nonzero exit retain exact raw data without a draft',async()=>{
+ for(const [stdout,code,expected]of [
+  ['not-json\n\u03b8',0,/valid JSON envelope/],
+  [envelope({result:'{"items":[{"id":"test-1"},"instructionalChange":false}]}'}),0,/draft is not valid JSON/],
+  ['synthetic provider failure after output\n',7,/exit code 7/],
+ ]){
+  const workDir=retainedTemp();await assert.rejects(generateSonnetDraft({request:retainedRequest,verification,runDir:'canonical',workDir,lease:retainedLease,executor:async()=>({code,stdout})}),expected);
+  assert.equal(fs.readFileSync(path.join(workDir,'raw-stdout.txt'),'utf8'),stdout);assert.equal(fs.existsSync(path.join(workDir,'draft.json')),false);const metrics=JSON.parse(fs.readFileSync(path.join(workDir,'generation-metrics.json')));assert.equal(metrics.rawStdoutComplete,true);assert.equal(metrics.rawStdoutBytes,Buffer.byteLength(stdout));assert.equal(metrics.rawStdoutSha256,createHash('sha256').update(stdout).digest('hex'));assert.equal(metrics.externalModelCalls,1);
+ }
+});
+
+test('partial timeout and abort output is retained before failure, including zero-call lease errors',async()=>{
+ for(const failure of ['timed out','aborted']){
+  const workDir=retainedTemp(),partial='{"synthetic":"partial output"',controller=new AbortController();
+  await assert.rejects(generateSonnetDraft({request:retainedRequest,verification,runDir:'canonical',workDir,lease:retainedLease,signal:controller.signal,executor:async options=>{assert.equal(options.signal,controller.signal);options.onStdout(Buffer.from(partial));if(failure==='aborted')controller.abort();throw Error('Sonnet draft generation '+failure);}}),new RegExp(failure));
+  assert.equal(fs.readFileSync(path.join(workDir,'raw-stdout.txt'),'utf8'),partial);assert.equal(fs.existsSync(path.join(workDir,'draft.json')),false);const metrics=JSON.parse(fs.readFileSync(path.join(workDir,'generation-metrics.json')));assert.equal(metrics.rawStdoutComplete,false);assert.equal(metrics.rawStdoutBytes,Buffer.byteLength(partial));assert.equal(metrics.rawStdoutSha256,createHash('sha256').update(partial).digest('hex'));
+ }
+ const queued=retainedTemp();let invoked=false;await assert.rejects(generateSonnetDraft({request:retainedRequest,verification,runDir:'canonical',workDir:queued,lease:async()=>{throw Error('Queue aborted');},executor:async()=>{invoked=true;}}),/Queue aborted/);assert.equal(invoked,false);const metrics=JSON.parse(fs.readFileSync(path.join(queued,'generation-metrics.json')));assert.equal(metrics.externalModelCalls,0);assert.equal(metrics.rawStdoutBytes,0);
+});
+
+test('raw-only crashed attempts are preserved and cannot silently dispatch again',async()=>{
+ for(const retained of ['raw-stdout.txt','raw-envelope.json']){
+  const workDir=retainedTemp();fs.writeFileSync(path.join(workDir,retained),'preserved prior attempt');let calls=0;
+  await assert.rejects(generateSonnetDraft({request:retainedRequest,verification,runDir:'canonical',workDir,lease:retainedLease,executor:async()=>{calls++;}}),/retained attempt/);assert.equal(calls,0);assert.equal(fs.readFileSync(path.join(workDir,retained),'utf8'),'preserved prior attempt');
+ }
+});
+
+test('the existing stdout size cap retains a marked truncated prefix without accepting a draft',async()=>{
+ const workDir=retainedTemp();await assert.rejects(generateSonnetDraft({request:retainedRequest,verification,runDir:'canonical',workDir,lease:retainedLease,executor:async options=>{options.onStdout(Buffer.alloc(8000001,120));return{code:0,stdout:''};}}),/exceeds output limit/);
+ assert.equal(fs.statSync(path.join(workDir,'raw-stdout.txt')).size,8000000);assert.equal(fs.existsSync(path.join(workDir,'draft.json')),false);const metrics=JSON.parse(fs.readFileSync(path.join(workDir,'generation-metrics.json')));assert.equal(metrics.rawStdoutTruncated,true);assert.equal(metrics.rawStdoutComplete,false);assert.equal(metrics.rawStdoutBytes,8000000);
 });
