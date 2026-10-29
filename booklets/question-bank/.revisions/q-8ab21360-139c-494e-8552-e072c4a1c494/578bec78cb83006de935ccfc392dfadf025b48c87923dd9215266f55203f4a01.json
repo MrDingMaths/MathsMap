@@ -1,0 +1,403 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8ab21360-139c-494e-8552-e072c4a1c494",
+  "status": "approved",
+  "title": "2018 HSC Extension 1 Band 4",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "find-sides-similar"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Prove similarity in a tangent-circle construction and use corresponding sides to derive an algebraic radius formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T11:49:06.693Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "23b80d69d0bfe62180f59aa856755729bebe2be61be6a3887e1158eeebd9b98a",
+      "evidence": ".booklet-work/full-imports/similar-triangles-v1-2026-10-08/semantic-packets/assignments/assignment-6551cf83d7f758344551/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p10-q14-root",
+    "type": "question",
+    "label": "",
+    "prompt": "In triangle $ABC$, $BC$ is perpendicular to $AC$.\n\nSide $BC$ has length $a$, side $AC$ has length $b$ and side $AB$ has length $c$.\n\nA quadrant of a circle of radius $x$, centred at $C$, is constructed. The arc meets side $BC$ at $E$. It touches the side $AB$ at $D$, and meets side $AC$ at $F$. The interval $CD$ is perpendicular to $AB$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p10-q14-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q14-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (C) at (0,0);\n\\coordinate (B) at (0,3);\n\\coordinate (A) at (6,0);\n\\coordinate (D) at ($(A)!(C)!(B)$);\n\\pgfmathsetmacro{\\quadrantradius}{6/sqrt(5)}\n\\coordinate (E) at (0,\\quadrantradius);\n\\coordinate (F) at (\\quadrantradius,0);\n\\draw (C)--(B)--(A)--cycle;\n\\draw (C)--(D);\n\\draw (F) arc[start angle=0,end angle=90,radius=\\quadrantradius];\n\\coordinate (rightA) at ($(D)!0.18cm!(A)$);\n\\coordinate (rightC) at ($(D)!0.18cm!(C)$);\n\\coordinate (rightCorner) at ($(rightA)+(rightC)-(D)$);\n\\draw[line width=0.4pt] (rightA)--(rightCorner)--(rightC);\n\\node[above left] at (B) {$B$};\n\\node[below left] at (C) {$C$};\n\\node[right] at (A) {$A$};\n\\node[above] at (D) {$D$};\n\\node[left] at (E) {$E$};\n\\node[below] at (F) {$F$};\n\\path (B)--(C) node[midway,left] {$a$};\n\\path (C)--(A) node[midway,below=5mm] {$b$};\n\\path (B)--(A) node[midway,above right] {$c$};\n\\path (C)--(D) node[midway,right] {$x$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Question 14 shared construction, upper right",
+          "description": "Unshaded right triangle with a quadrant centred at C, tangent to AB at D, and perpendicular radius CD. Paired side and radius labels remain attached to their segments.",
+          "mathematics": "C=(0,0), B=(0,3), A=(6,0) are illustrative drawing coordinates, not additional givens. D is the perpendicular projection of C onto AB, giving D=(1.2,2.4). The quadrant radius is 6/sqrt(5); E=(0,6/sqrt(5)) and F=(6/sqrt(5),0). Thus D lies on both AB and the quadrant, and CD is perpendicular to AB.",
+          "answerVisibility": "All construction lines, point labels and symbolic lengths are permanent question givens; no answer annotations appear."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p10-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\triangle ABC$ is similar to $\\triangle ACD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ABC\\sim\\triangle ACD$: $\\angle ACB=\\angle ADC=90^\\circ$ and $\\angle BAC=\\angle CAD$ (common), so the triangles are equiangular.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p10-q14-a-worked-intro",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "In ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\triangle ABC",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\triangle ACD",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ":",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p10-q14-a-worked-right-angles",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\angle ACB=\\angle ADC=90^\\circ",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " (",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "BC\\perp AC",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "CD\\perp AB",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ").",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p10-q14-a-worked-common-angle",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\angle BAC=\\angle CAD",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " (common angle).",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p10-q14-a-worked-conclusion",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\therefore\\triangle ABC\\sim\\triangle ACD",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " (equiangular).",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p10-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $x=\\dfrac{ab}{c}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{x}{a}=\\dfrac{b}{c}$ (corresponding sides), so $x=\\dfrac{ab}{c}$.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p10-q14-b-worked-reason",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Corresponding sides of ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\triangle ABC\\sim\\triangle ACD",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " give:",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p10-q14-b-worked-equations",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "right",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}\\frac{x}{a}&=\\frac{b}{c}\\\\x&=\\frac{ab}{c}\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p10-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p10-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p10-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p10-q14-root/label",
+                  "type": "item",
+                  "ref": "p10-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "p10-q14-root:beside",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p10-q14-root:text",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p10-q14-root/prompt",
+                          "type": "item",
+                          "ref": "p10-q14-root/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p10-q14-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p10-q14-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p10-q14-a/label",
+                                  "type": "item",
+                                  "ref": "p10-q14-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p10-q14-a/prompt",
+                                  "type": "item",
+                                  "ref": "p10-q14-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p10-q14-a/space",
+                                  "type": "item",
+                                  "ref": "p10-q14-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p10-q14-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p10-q14-b/label",
+                                  "type": "item",
+                                  "ref": "p10-q14-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p10-q14-b/prompt",
+                                  "type": "item",
+                                  "ref": "p10-q14-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p10-q14-b/space",
+                                  "type": "item",
+                                  "ref": "p10-q14-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 1
+                    },
+                    {
+                      "id": "p10-q14-root:diagrams",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p10-q14-diagram",
+                          "type": "item",
+                          "ref": "p10-q14-diagram",
+                          "title": "Diagram"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:01:07.938Z",
+  "updatedAt": "2026-10-21T10:01:07.939Z"
+}
