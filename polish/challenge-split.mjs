@@ -1,3 +1,4 @@
+import{unresolvedPrintedQuestionReferences}from'./exercise-references.mjs';
 import {validatePracticeItems} from '../pedagogy/practice-item-targets.mjs';
 // Read-only calibration: no live save or generation is permitted by this entry point.
 import fs from 'node:fs';
@@ -73,6 +74,7 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){const
 // Candidate-only transformation. Publication remains blocked until coverage/backfill and render gates pass.
 export function challengeSplitCandidate(project,{archetypes,approvedCalibration=false,...options}={}){
  if(!approvedCalibration)throw Error('Challenge split requires approved calibration');
+ const referenceHolds=project.sections.flatMap(s=>s.blocks.flatMap(b=>unresolvedPrintedQuestionReferences(b).map(text=>({id:b.id,text}))));if(referenceHolds.length)throw Object.assign(Error('Resolve whole-exercise printed reference groups before Challenge moves/order'),{referenceHolds});
  const report=challengeSplitReport(project,{archetypes,...options}),candidate=structuredClone(project),moved=new Set(report.moves.map(m=>m.id));
  if(report.topics.some(topic=>topic.responseAnchorHolds.length))throw Error('Unverified response anchors hold candidate transformation');
  const semanticHeldIds=new Set(report.scopeHolds.filter(h=>h.reason?.startsWith('Semantic-unit review')).flatMap(h=>h.ids??[]));

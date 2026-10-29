@@ -10,6 +10,8 @@ A verified mark-only adaptation does not change assessed demand. Preserve the or
 
 Order whole questions by increasing independently verified difficulty within each exercise. Keep dependent follow-ups and mathematical or instructional dependencies together. Use the maximum existing member score to order an inseparable dependent group; never change its individual scores. Teaching and deliberate contrast activities remain fixed barriers. Explicit printed references, unresolved dependencies and uncertain rating evidence require inspection before movement.
 
+Follow [source-bound question-reference ordering](booklet-question-reference-order.md): resolve before-state targets, retain cohesive groups, update question/answer/worked reference digits, and persist order plus pagination protection. Full exercise review distinguishes cohesive scaffolds from order-only prerequisites. Unresolved incoming or visible teaching references hold the affected ordering workflow; current co-location alone is not a persistent guarantee.
+
 Small departures for efficient pagination or preventing question splits require recorded, source-bound page evidence. Layout pins alone do not establish an instructional dependency or justify an inversion. Preserve usable writing space and all mathematical content. Never adjust ratings to produce an order.
 
 Apply these checks to the candidate before independent source/native review and rating where possible, then before pagination and guarded publication. Retrospective changes require current revision checks, actual affected-page and neighbour inspection, and readback. Production tooling must report unassessed and held cases separately from verified changes. No automatic migration on load.
