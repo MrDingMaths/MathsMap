@@ -119,6 +119,24 @@ test('fraction validation retains textual units without allowing arithmetic slas
   }
 });
 
+test('fraction validation permits per-time textual units while retaining arithmetic checks', () => {
+  const short=String.raw`$C'(10)\approx-0.893\text{ mg/L per hour}$.
+
+The concentration is decreasing at $0.893\text{ mg/L per hour}$.`;
+  for (const value of [short, String.raw`$8\text{ m/s}$`, String.raw`$8\mathrm{mg/L}$`, String.raw`$8\mathrm{m/s per second}$`, String.raw`$\frac{8}{2}\text{mg/L per minute}$`]) {
+    assert.equal(invalidFractionSpans(value).length, 0, value);
+  }
+  for (const value of [String.raw`$8/2\text{mg/L per hour}$`, String.raw`$x/y\mathrm{m/s per second}$`, String.raw`$\text{8/2 per hour}$`, String.raw`$\text{x/2 per hour}$`, String.raw`$\text{mg/L per hour + x/2}$`, String.raw`$\text{mg/L per 2 hours}$`, String.raw`$\text{mg/L per x}$`]) {
+    assert.equal(invalidFractionSpans(value).length, 1, value);
+  }
+  const question=normaliseQuestion({id:'textual-rate-units',classification:{primarySkillId:'model-exponential-growth-decay-calculus'},content:{prompt:'Find the rate of change.',answer:{short,worked:'Differentiate the supplied exponential model and evaluate at the requested time.'}}});
+  const before=structuredClone(question);
+  assert.equal(validateQuestion(question).valid,true);
+  assert.deepEqual(question,before);
+  question.content.answer.short=String.raw`$1/2\text{mg/L per hour}$`;
+  assert.equal(validateQuestion(question).valid,false);
+});
+
 test('v3 format is required and parent spacing or source metadata block validation', () => {
   const missingFormat = { ...nested, format: undefined };
   assert.equal(validateQuestion(missingFormat).valid, false);

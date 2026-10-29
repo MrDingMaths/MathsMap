@@ -355,10 +355,10 @@ export function mathSpans(value) {
 
 export function invalidFractionSpans(value) {
   if (isDocument(value)) return nativeMathSources(value).flatMap(invalidFractionSpans);
-  // A slash inside a plain textual unit is not an arithmetic fraction. Keep
-  // checking everything else, including arithmetic alongside that unit.
+  // A slash inside a plain textual unit, optionally followed by a per-time
+  // phrase, is not an arithmetic fraction. Keep checking all other arithmetic.
   return mathSpans(value).filter((span) => /(?<!\\)\/(?!\/)/.test(
-    span.body.replace(/\\(?:text|mathrm)\{\s*[A-Za-z]+\s*\/\s*[A-Za-z]+\s*\}/g, ''),
+    span.body.replace(/\\(?:text|mathrm)\{\s*[A-Za-z]+\s*\/\s*[A-Za-z]+(?:\s+per\s+(?:second|minute|hour|day|week|month|year)s?)?\s*\}/g, ''),
   ));
 }
 
