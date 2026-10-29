@@ -128,3 +128,12 @@ test('fixed teacher and visible atom references hold all ordering; provenance an
  }
  const p=fixture();p.sections[0].blocks[11].content.prompt='Calculate.';p.sections[0].blocks[11].content.answer={short:'13',worked:'13'};p.sections[0].blocks.unshift({id:'teacher',type:'rich-text',content:'Teaching.',sourceAtom:{kind:'review',description:'Question 11'},sourceReview:{sourceQuestion:'Question 11'}});assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.ok(!planScoreOrder(p).holds.some(h=>h.kind.includes("reference")));
 });
+
+test('only exact nonprinting diagram-colour header is excluded from reference detection',()=>{
+ const p=fixture();p.sections[0].blocks[11].content.prompt='Calculate.';p.sections[0].blocks[11].content.answer={short:'13',worked:'13'};
+ const q=p.sections[0].blocks[0],header='% mathsmap-diagram-colours {"version":1,"reference":"Question 11"}\n';
+ q.content.questionDiagrams=[{code:header+'\\draw (0,0)--(1,1);'}];const raw=q.content.questionDiagrams[0].code;
+ assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.equal(q.content.questionDiagrams[0].code,raw);
+ q.content.questionDiagrams[0].code+='\n\\node at (0,0) {Question 11};';assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-native-code-reference'));
+ q.content.questionDiagrams[0].code='% another metadata Question 11\n\\draw (0,0)--(1,1);';assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-native-code-reference'));
+});

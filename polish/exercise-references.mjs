@@ -5,6 +5,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
+import {DIAGRAM_COLOUR_PREFIX} from '../src/lib/diagram-colours.js';
 import {flowNumbers,isPractice} from '../src/lib/booklet-flow.js';
 import {reasoningTaskHash,verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 const hash=x=>createHash('sha256').update(typeof x==='string'?x:JSON.stringify(x)).digest('hex');
@@ -43,7 +44,8 @@ export function printedReferenceFields(block){
   for(const[k,x]of Object.entries(v)){
    if(OMIT.has(k)||k==='inlines')continue;
    if(k==='code'){
-    if(typeof x==='string'&&/\b(?:Question|Q)\s*\.?\s*\d|\bas above\b/i.test(x))fields.push({key:JSON.stringify([...path,k]),text:x,parts:[],unsupportedCode:true});
+    const printedCode=typeof x==='string'?x.split('\n').filter(line=>!line.startsWith(DIAGRAM_COLOUR_PREFIX)).join('\n'):x;
+    if(typeof printedCode==='string'&&/\b(?:Question|Q)\s*\.?\s*\d|\bas above\b/i.test(printedCode))fields.push({key:JSON.stringify([...path,k]),text:x,parts:[],unsupportedCode:true});
     continue;
    }
    visit(x,[...path,k],k,v);
