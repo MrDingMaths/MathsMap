@@ -270,9 +270,13 @@ async function callWorker({runner,lease,canonicalRunDir,workDir,stage,prompt,ima
  const {result,metrics}=await(canonicalRunDir?lease(canonicalRunDir,{stage,tool:'pedagogy-review'},invoke):invoke());
  return {result,usage:metrics?.usage??null,elapsedMs:metrics?.elapsedMs??null};
 }
-async function pool(items,concurrency,work){
- const queue=[...items.entries()];
- await Promise.all(Array.from({length:Math.max(1,Math.min(concurrency,queue.length))},async()=>{while(queue.length){const [index,item]=queue.shift();await work(item,index);}}));
+export async function pool(items,concurrency,work){
+ const queue=[...items.entries()];let failed=false,failure;
+ await Promise.all(Array.from({length:Math.max(1,Math.min(concurrency,queue.length))},async()=>{
+  while(queue.length&&!failed){const [index,item]=queue.shift();try{await work(item,index);}catch(error){if(!failed){failed=true;failure=error;}}}
+ }));
+ // Keep the owning runner alive until its already-started calls release leases.
+ if(failed)throw failure;
 }
 export function canonicalRunDir(project,{root=ROOT}={}){
  const runId=project.source?.runId??project.runId,dir=runId&&path.join(root,'.booklet-work','full-imports',String(runId).replace(/[^\w.-]/g,'_'));
