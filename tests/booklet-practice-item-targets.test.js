@@ -76,3 +76,14 @@ test('native table row arrays expose independent cell responses and preserve own
  assert.throws(()=>validatePracticeItems(b,[{nodeIds:['table']},{nodeIds:['response-a']}]),/overlap|reused/i);
  const duplicate=structuredClone(b);duplicate.content.prompt.blocks[0].rows[0][1].blocks[0].id='response-a';assert.throws(()=>practiceNodeIndex(duplicate),/Duplicate native practice node/);
 });
+
+
+test('separate given diagrams have independent local response bounds',()=>{
+ const b=structuredClone(block);b.content.questionDiagrams=[{id:'left-given',format:'tikz',code:'synthetic left'},{id:'right-given',format:'tikz',code:'synthetic right'}];
+ const snapshotPath=path.join(dir,'two-given-snapshot.json');fs.writeFileSync(snapshotPath,JSON.stringify({sections:[{blocks:[b]}]}));
+ const records=b.content.questionDiagrams.map((diagram,i)=>{const review={blockId:b.id,questionTaskHash:reasoningTaskHash(b),diagramId:diagram.id,diagramMeaningHash:diagramMeaningHash(diagram),regions:[{id:'response',bounds:[0,0,3,2],nativeAnswerQuote:i?'Right: the association is curved, not linear.':'Left: no clear linear association.',independentResponse:true}]},file=path.join(dir,diagram.id+'-review.json');fs.writeFileSync(file,JSON.stringify(review));return{evidenceId:diagram.id,reviewArtifact:{path:file,sha256:sha(fs.readFileSync(file))},review};});
+ const responseAnchors=coordinatorVerifiedResponseAnchors({snapshot:{path:snapshotPath,sha256:sha(fs.readFileSync(snapshotPath))},records,confirmIndependentReview:()=>true});
+ const items=records.map(r=>({nodeIds:[b.content.id],responseAnchor:{type:'verified-diagram-region-response-v1',diagramId:r.review.diagramId,regionId:'response',evidenceId:r.evidenceId}}));
+ assert.equal(validatePracticeItems(b,items,{responseAnchors}).independentItems,2);
+ assert.throws(()=>validatePracticeItems(b,[items[0],items[0]],{responseAnchors}),/overlapping|Repeated/);
+});

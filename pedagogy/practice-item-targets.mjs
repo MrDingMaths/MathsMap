@@ -94,8 +94,8 @@ export function validatePracticeItems(block,items,{responseAnchors}={}){
    if(!region||region.independentResponse!==true||typeof region.nativeAnswerQuote!=='string'||!region.nativeAnswerQuote.trim())fail('No verified complete native response');
    if(![contentSource(block.content.answer?.short),contentSource(block.content.answer?.worked)].some(s=>s.includes(region.nativeAnswerQuote)))fail('Native response quote changed');
    const b=region.bounds;if(!Array.isArray(b)||b.length!==4||!b.every(Number.isFinite)||b[0]>=b[2]||b[1]>=b[3])fail('Invalid response region bounds');
-   if(scoped.some(previous=>previous.kind!=='diagram'||previous.evidenceId===anchor.evidenceId&&previous.region.id===region.id||overlaps(previous.region.bounds,b)))fail('Repeated or overlapping response regions');
-   scoped.push({kind:'diagram',nodeId:block.content.id,evidenceId:anchor.evidenceId,region});
+   if(scoped.some(previous=>previous.kind!=='diagram'||previous.diagramId===diagram.id&&(previous.evidenceId===anchor.evidenceId&&previous.region.id===region.id||overlaps(previous.region.bounds,b))))fail('Repeated or overlapping response regions');
+   scoped.push({kind:'diagram',nodeId:block.content.id,diagramId:diagram.id,evidenceId:anchor.evidenceId,region});
   }else{
    if(scoped.length)fail('Whole/descendant response overlaps scoped root');
    for(const id of own){if(seen.has(id))fail('Repeated practice item target; Invalid or reused practice node '+id);if([...seen].some(other=>index.get(id).parents.has(other)||index.get(other).parents.has(id)))fail('Overlapping practice item target; Invalid or reused practice node '+id);}
