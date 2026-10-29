@@ -10,6 +10,8 @@ Similar Areas and Volumes r30 is also saved/read back: two additional Exam quest
 
 ## Verified checkpoint — 29 October 2026
 
+ICE-EM 7 Ch13 r11 adds one confirmed equality-tick repair after independent six-part answer review, all-five-edition QA and actual Questions pages 18–20 inspection. Published marker repairs total 31 unique diagrams. IC10 Ch6 midpoint candidates remain unpublished because exact-centre ticks collide with unrelated projected edges. Source-only inspections now cover 344 unique occurrences; the updated live enumeration is 24,826 after new practice diagrams, separately reconciled from relocations and historical copies. These totals do not certify the remaining inventory.
+
 Rounding Decimals r84 saves 21 reviewed question maps/150 independent responses/12 archetypes and three pending Review-context comments, preserving all 109 previous flags. Twelve exact source-packet identities are lineage only. Two native-review visual limitations remain explicit. Four raw deficits concern prior knowledge or discovery and are held; no student teaching or backfill is added. Parametric r6 saves six independently verified rating corrections, including 68→36; its proposed Challenge move is cancelled and prior evidence retained.
 
 Bivariate r250 now saves 26 independently checked routine additions and bounded dependency-aware ordering after all five editions and 41 actual page views passed. It retains all 497 flags, the six-question teacher-order hold and all writing floors; 83 routine questions are whole, with 207 independent attempts. Eleven count deficits and six absolute gradient gaps remain held, so this is partial phase 5 progress, not a sixth completed pass. Existing linked local rating pins are synchronized without new bank writes.
