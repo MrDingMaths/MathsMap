@@ -53,7 +53,9 @@ export function preserveSourceLineage(previous,project,{runDir}={}){
  for(const section of project.sections??[]){let anchor;
   for(const block of section.blocks??[]){
    const prior=old.get(block.id);
-   if(block.sourceReview?.additionTo&&!block.sourceReview.additionTo.projectId)block.sourceReview.additionTo.projectId=project.id;
+   // Historical imports also stored an opaque string here. Preserve that
+   // lineage verbatim rather than mutating or guessing an object relation.
+   if(block.sourceReview?.additionTo&&typeof block.sourceReview.additionTo==='object'&&!block.sourceReview.additionTo.projectId)block.sourceReview.additionTo.projectId=project.id;
    if(prior){
     // Preserve lineage when an editor reconstructs sourceReview on save.
     if(prior.sourceReview?.origin){block.sourceReview??={};block.sourceReview.origin=structuredClone(prior.sourceReview.origin);}

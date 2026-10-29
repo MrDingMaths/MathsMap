@@ -9,6 +9,17 @@ const options={renderer:'same',settings:{font:9,flowEdition:'short'},assets:{fig
 const host=(id=first)=>`<span class="editable-booklet-text answer" data-host-id="${id}" data-edit-root="q1" data-edit-path="/answer/short" data-fragment-start="0" data-fragment-end="2"><p>Find x.</p><math><mi>x</mi><mo>=</mo><mn>2</mn></math><a id="answer-1" href="#question-1">Question 1</a><svg viewBox="0 0 100 100"><path d="M 0 0 L 10 20" style="stroke: #000000;"></path></svg></span>`;
 const hashes=(html,dependencies=options)=>renderedPageHashes([{html,blocks:['q1']}],dependencies);
 
+test('asset completion order does not change page hashes, while asset content still does',()=>{
+ const assets=Object.freeze({'/images/b.png':'second-hash','/images/a.png':'first-hash'});
+ const reordered={'/images/a.png':'first-hash','/images/b.png':'second-hash'};
+ const before=structuredClone(assets);
+ assert.deepEqual(hashes(host(),{...options,assets}),hashes(host(),{...options,assets:reordered}));
+ assert.notDeepEqual(hashes(host(),{...options,assets}),hashes(host(),{...options,assets:{...reordered,'/images/b.png':'changed-hash'}}));
+ assert.deepEqual(assets,before);
+ // Lists remain ordered; only the unordered path-to-signature map is canonicalised.
+ assert.notDeepEqual(hashes(host(),{...options,assets:['a','b']}),hashes(host(),{...options,assets:['b','a']}));
+});
+
 test('page hashes ignore fresh editor host UUIDs without mutating captured HTML',()=>{
  const pages=[{html:host()+host(second),blocks:['q1']}],before=structuredClone(pages);
  assert.deepEqual(renderedPageHashes(pages,options),hashes(host(second)+host(first)));

@@ -11,5 +11,5 @@ test('geometry guidance reaches compact TikZ and ordinary review without losing 
  assert.ok(prompt.includes(GEOMETRY_EDGE_MARKER_PROMPT));
  assert.ok(prompt.includes(CURVED_SOLID_PROMPT));
  assert.ok(LEAN_IMPORT_PRINCIPLES.includes(GEOMETRY_EDGE_MARKER_PROMPT));
- for(const phrase of ['perpendicular','tangent','midpoint','multiplicities','anisotropic','Graph/number-line'])assert.ok(GEOMETRY_EDGE_MARKER_PROMPT.includes(phrase));
+ for(const phrase of ['perpendicular','tangent','midpoint','multiplicities','anisotropic','label nodes','nested mini-TikZ','parent-edge decorations','non-painting','Graph/number-line'])assert.ok(GEOMETRY_EDGE_MARKER_PROMPT.includes(phrase));
 });
