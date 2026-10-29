@@ -77831,7 +77831,7 @@
                     "mathematics": "AB parallel CD; AC parallel BD. All four rectangle corners are right angles. The square at A refers to AB and AC, independently of AE.",
                     "answerVisibility": "Permanent supplied demonstration diagram."
                   },
-                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 41 p41-example-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},geometryMark/.style={line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.4);\\coordinate (B) at (2,3.4);\\coordinate (C) at (0,0);\\coordinate (D) at (2,0);\\coordinate (E) at (2,1.8);\n\\draw (A)--(B)--(D)--(C)--cycle;\\draw (A)--(E);\n\\foreach \\v/\\u/\\w in {A/B/C,B/A/D,C/A/D,D/B/C}{\\draw[geometryMark] ($ (\\v)!0.23cm!(\\u) $)--($ (\\v)!0.23cm!(\\u)+(\\v)!0.23cm!(\\w)-(\\v) $)--($ (\\v)!0.23cm!(\\w) $);}\n\\foreach \\u/\\v in {A/B,C/D}{\\coordinate (T) at ($ (\\u)!0.5!(\\v) $);\\draw[geometryMark] ($ (T)+(-0.14,0.11) $)--(T)--($ (T)+(-0.14,-0.11) $);}\n\\foreach \\u/\\v in {C/A,D/B}{\\coordinate (T) at ($ (\\u)!0.34!(\\v) $);\\foreach \\h in {0,0.18}{\\draw[geometryMark] ($ (T)+(-0.11,\\h-0.14) $)--($ (T)+(0,\\h) $)--($ (T)+(0.11,\\h-0.14) $);}}\n\\foreach \\v in {A,B,C,D,E}{\\filldraw[black,line width=0.4pt] (\\v) circle (0.045);}\n\\node[above left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[below left] at (C) {$C$};\\node[below right] at (D) {$D$};\\node[right] at (E) {$E$};\n\\end{tikzpicture}"
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 41 p41-example-diagram\"}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{mmAngleDoubleParallel/.style={postaction={decorate,decoration={markings,mark=at position .5 with {\\draw[geometryMark] (-.16cm,-.11cm)--(-.02cm,0pt)--(-.16cm,.11cm);\\draw[geometryMark] (.02cm,-.11cm)--(.16cm,0pt)--(.02cm,.11cm);}}}}}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},geometryMark/.style={line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.4);\\coordinate (B) at (2,3.4);\\coordinate (C) at (0,0);\\coordinate (D) at (2,0);\\coordinate (E) at (2,1.8);\n\\draw (A)--(B)--(D)--(C)--cycle;\\draw (A)--(E);\n\\foreach \\v/\\u/\\w in {A/B/C,B/A/D,C/A/D,D/B/C}{\\draw[geometryMark] ($ (\\v)!0.23cm!(\\u) $)--($ (\\v)!0.23cm!(\\u)+(\\v)!0.23cm!(\\w)-(\\v) $)--($ (\\v)!0.23cm!(\\w) $);}\n\\foreach \\u/\\v in {A/B,C/D}{\\coordinate (T) at ($ (\\u)!0.5!(\\v) $);\\draw[geometryMark] ($ (T)+(-0.14,0.11) $)--(T)--($ (T)+(-0.14,-0.11) $);}\n\\foreach \\u/\\v in {C/A,D/E}{\\path[mmAngleDoubleParallel] (\\u)--(\\v);}\n\\foreach \\v in {A,B,C,D,E}{\\filldraw[black,line width=0.4pt] (\\v) circle (0.045);}\n\\node[above left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[below left] at (C) {$C$};\\node[below right] at (D) {$D$};\\node[right] at (E) {$E$};\n\\end{tikzpicture}"
                 }
               ],
               "theorySolution": {
@@ -77992,6 +77992,15 @@
               "checked": true,
               "scope": "Changed content, table semantics and applicable arrangements; unchanged source acceptance retained separately.",
               "evidence": "booklets/provenance/data-feedback-r264.json"
+            },
+            "origin": {
+              "projectId": "angle-relationships-v1",
+              "blockId": "p41-example",
+              "runId": "angle-relationships-v1-20260912",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\angle-relationships-v1-20260912\\semantic-packets\\page-041.author.json",
+                "hash": "3a47551a4773ad86924c3b8b47b198dab2ba230bae65b00a4df128c5fbe5c8e0"
+              }
             }
           },
           "sourceLayoutEvidence": {
@@ -198156,10 +198165,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 610,
+  "revision": 611,
   "assets": [],
   "createdAt": "2026-09-12T09:47:30.760Z",
-  "updatedAt": "2026-10-24T12:12:26.382Z",
+  "updatedAt": "2026-10-29T11:16:57.785Z",
   "library": {
     "category": "master",
     "courseId": "s4",
