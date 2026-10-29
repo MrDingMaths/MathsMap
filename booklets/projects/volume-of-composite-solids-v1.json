@@ -5990,15 +5990,15 @@
               "volume-composite-prisms",
               "volume-prism-curved-cross-section"
             ],
-            "reasoningScore": 40,
+            "reasoningScore": 38,
             "difficulty": "Development",
-            "difficultyReason": "Students identify removed cross-sections, reconstruct dimensions using shoulders and diameters, and subtract component volumes; the mixed-unit tube also requires consistent units before calculation.",
+            "difficultyReason": "Students identify and subtract extruded voids, interpret semicircular cross-sections, reconstruct the width in (e) using equal shoulders and a diameter, and convert the inner diameter in (f) to metres and then radius. These are routine linked procedures with the necessary dimensions and relations supplied.",
             "assessment": {
               "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-21T05:56:41.958Z",
+              "assessedAt": "2026-10-29T08:36:33.677Z",
               "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "ed7e86d556726a1df76f018cc091829315d32f3d77c2493f16ce9436b022ef52",
-              "evidence": ".booklet-work/reasoning-ratings/calls/volume-of-composite-solids-v1/4bed7fa1d5e0fb1b643ad1990537e1c0b24fd1beb6e6681685deb689e677b34f-1792562176361/last-message.txt"
+              "taskHash": "e282c039906466724e6170a4b051433610390d3c6d4c8179e0f382f1b8aa91aa",
+              "evidence": ".booklet-work/geometry-markers-20261029/volume-of-composite-solids-v1-corrected-whole-review-v9.json"
             }
           },
           "content": {
@@ -6033,8 +6033,8 @@
                 ],
                 "answerSpaceMm": 25,
                 "answer": {
-                  "short": "$5026.6\\text{ cm}^3$",
-                  "worked": "$$\\begin{align*}A&=\\pi(12^2-8^2)\\\\A&=80\\pi\\text{ cm}^2\\\\V&=80\\pi\\times20\\\\V&=1600\\pi\\\\V&\\approx5026.6\\text{ cm}^3\\end{align*}$$",
+                  "short": "$5026.5\\text{ cm}^3$",
+                  "worked": "$$\\begin{align*}A&=\\pi(12^2-8^2)\\\\A&=80\\pi\\text{ cm}^2\\\\V&=80\\pi\\times20\\\\V&=1600\\pi\\\\V&\\approx5026.5\\text{ cm}^3\\end{align*}$$",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -6060,7 +6060,7 @@
                       "mathematics": "Square side 10 cm, height 40 cm, cylindrical hole radius 4 cm.",
                       "answerVisibility": "Givens only."
                     },
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 6 p6-q3-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2.45);\\coordinate (B) at (1.4,3.2);\\coordinate (C) at (2.8,2.45);\\coordinate (D) at (1.4,1.7);\n\\coordinate (E) at (0,.75);\\coordinate (F) at (1.4,1.5);\\coordinate (G) at (2.8,.75);\\coordinate (H) at (1.4,0);\n\\draw (A)--(B)--(C)--(D)--cycle (A)--(E)--(H)--(G)--(C) (D)--(H);\n\\draw[dashed] (B)--(F) (E)--(F)--(G);\n\\draw (1.4,2.45) ellipse[x radius=.62,y radius=.29];\n\\draw[dashed] (.78,2.45)--(.78,.75) (2.02,2.45)--(2.02,.75) (1.4,.75) ellipse[x radius=.62,y radius=.29];\n\\foreach \\P/\\Q in {A/B,B/C,C/D,D/A}{\\draw[line width=.4pt] ($ (\\P)!.5!(\\Q)+(-.06,-.11) $)--($ (\\P)!.5!(\\Q)+(.06,.11) $);}\n\\path (A)--(B) node[midway,above left] {$10$};\\path (B)--(C) node[midway,above right] {$10$};\n\\path (A)--(E) node[midway,right] {$40$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 6 p6-q3-b-diagram\"}\n\\usetikzlibrary{decorations.markings}\n\\tikzset{mmVolumeEqSingle/.style={postaction={decorate,decoration={markings,mark=at position .5 with {\\draw[line width=.4pt] (0pt,-0.12529964086141668cm)--(0pt,0.12529964086141668cm);}}}}}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2.45);\\coordinate (B) at (1.4,3.2);\\coordinate (C) at (2.8,2.45);\\coordinate (D) at (1.4,1.7);\n\\coordinate (E) at (0,.75);\\coordinate (F) at (1.4,1.5);\\coordinate (G) at (2.8,.75);\\coordinate (H) at (1.4,0);\n\\draw (A)--(B)--(C)--(D)--cycle (A)--(E)--(H)--(G)--(C) (D)--(H);\n\\draw[dashed] (B)--(F) (E)--(F)--(G);\n\\draw (1.4,2.45) ellipse[x radius=.62,y radius=.29];\n\\draw[dashed] (.78,2.45)--(.78,.75) (2.02,2.45)--(2.02,.75) (1.4,.75) ellipse[x radius=.62,y radius=.29];\n\\foreach \\P/\\Q in {A/B,C/D}{\\path[mmVolumeEqSingle] (\\P)--(\\Q);}\n\\foreach \\P/\\Q in {B/C,D/A}{\\draw[line width=.4pt] ($ (\\P)!.5!(\\Q)+(-.06,-.11) $)--($ (\\P)!.5!(\\Q)+(.06,.11) $);}\n\\path (A)--(B) node[midway,above left] {$10$};\\path (B)--(C) node[midway,above right] {$10$};\n\\path (A)--(E) node[midway,right] {$40$};\n\\end{tikzpicture}",
                     "solidReview": {
                       "status": "accepted",
                       "sourceHash": "15e94b74be26dd11bfd9aff0fac9c138977f8b6e490e613e5ee3352c882376db",
@@ -6315,22 +6315,29 @@
                 "volume-composite-prisms",
                 "volume-prism-curved-cross-section"
               ],
-              "reasoningScore": 58,
+              "reasoningScore": 38,
               "difficulty": "Development",
-              "difficultyReason": "Subtract removed volumes, infer cross-section dimensions and convert mixed units."
+              "difficultyReason": "Students identify and subtract extruded voids, interpret semicircular cross-sections, reconstruct the width in (e) using equal shoulders and a diameter, and convert the inner diameter in (f) to metres and then radius. These are routine linked procedures with the necessary dimensions and relations supplied.",
+              "assessment": {
+                "model": "gpt-6.1-sol",
+                "assessedAt": "2026-10-29T08:36:33.677Z",
+                "rubricVersion": "mathsmap-cognitive-demand-v1",
+                "taskHash": "e282c039906466724e6170a4b051433610390d3c6d4c8179e0f382f1b8aa91aa",
+                "evidence": ".booklet-work/geometry-markers-20261029/volume-of-composite-solids-v1-corrected-whole-review-v9.json"
+              }
             },
             "bankDifficulty": {
               "difficulty": "Development",
-              "reasoningScore": 40,
-              "difficultyReason": "Students identify removed cross-sections, reconstruct dimensions using shoulders and diameters, and subtract component volumes; the mixed-unit tube also requires consistent units before calculation.",
+              "reasoningScore": 38,
+              "difficultyReason": "Students identify and subtract extruded voids, interpret semicircular cross-sections, reconstruct the width in (e) using equal shoulders and a diameter, and convert the inner diameter in (f) to metres and then radius. These are routine linked procedures with the necessary dimensions and relations supplied.",
               "assessment": {
                 "model": "gpt-6.1-sol",
-                "assessedAt": "2026-10-21T05:56:41.958Z",
+                "assessedAt": "2026-10-29T08:36:33.677Z",
                 "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "ed7e86d556726a1df76f018cc091829315d32f3d77c2493f16ce9436b022ef52",
-                "evidence": ".booklet-work/reasoning-ratings/calls/volume-of-composite-solids-v1/4bed7fa1d5e0fb1b643ad1990537e1c0b24fd1beb6e6681685deb689e677b34f-1792562176361/last-message.txt"
+                "taskHash": "e282c039906466724e6170a4b051433610390d3c6d4c8179e0f382f1b8aa91aa",
+                "evidence": ".booklet-work/geometry-markers-20261029/volume-of-composite-solids-v1-corrected-whole-review-v9.json"
               },
-              "revision": "064dfe5ffbef7b3733f67aa407e7cffb16997bf64e1368ad6cc594df48109a92"
+              "revision": "e65ccae79828cc5b63ceaf99dcf1bd0cbc19cca8579d9b1f7270c2f0ef06dc78"
             },
             "autoOrder": {
               "rank": 3,
@@ -6344,7 +6351,7 @@
           "snapshotKind": "bank",
           "bankRef": {
             "id": "q-cbbb7ad1-7c40-45f9-b5ee-ea2398a78887",
-            "revision": "247e7f8191c6f2da28929f371f7a1cad5afd2f9a0d60bde3cae0773dcc917242"
+            "revision": "e65ccae79828cc5b63ceaf99dcf1bd0cbc19cca8579d9b1f7270c2f0ef06dc78"
           },
           "sourceLayoutEvidence": {
             "pageBreakBefore": true
@@ -11945,10 +11952,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 36,
+  "revision": 59,
   "assets": [],
   "createdAt": "2026-10-06T12:43:56.268Z",
-  "updatedAt": "2026-10-26T12:54:47.095Z",
+  "updatedAt": "2026-10-29T09:56:19.977Z",
   "library": {
     "category": "master",
     "courseId": "s5-core",
