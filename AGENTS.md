@@ -1,5 +1,7 @@
 # MathsMap working conventions
 
+29 October: [lean acceptance](docs/booklet-lean-acceptance.md) supersedes blanket exports and whole-tree blockers for programme/geometry/order work; retain revision, maths, dependency, visual and teaching safeguards.
+
 ## Cross-booklet duplicate tooling retired (27 October 2026, user requested)
 
 Do not discover, link, synchronise or manage duplicates across booklets. Tools and registry remain in [the recoverable archive](retired/cross-booklet-duplicates-20261027/README.md). Review duplicates within each booklet; use full matching during bank publication. Preserve historical acceptance, lineage and explicit review reuse without live cross-booklet dependencies. This supersedes automatic cross-project discovery and propagation.

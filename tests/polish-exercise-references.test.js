@@ -137,3 +137,11 @@ test('only exact nonprinting diagram-colour header is excluded from reference de
  q.content.questionDiagrams[0].code+='\n\\node at (0,0) {Question 11};';assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-native-code-reference'));
  q.content.questionDiagrams[0].code='% another metadata Question 11\n\\draw (0,0)--(1,1);';assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-native-code-reference'));
 });
+
+test('algebraic and coordinate Q followed by closing math delimiter is not navigation',()=>{
+ for(const text of ['$q\\ge18$ (equivalently $18\\le q$).','Find $Q$ of $BC$.','Since $P$, $Q$ and $R$ are collinear.']){
+  const p=fixture();p.sections[0].blocks[11].content.prompt=text;p.sections[0].blocks[11].content.answer={short:text,worked:text};const before=JSON.stringify(p);
+  assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.ok(!planScoreOrder(p).holds.some(h=>h.kind.includes('reference')));assert.equal(JSON.stringify(p),before);
+ }
+ for(const text of ['Use Question $11$.','Use Q\\(11\\).']){const p=fixture();p.sections[0].blocks[11].content.prompt=text;assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-math-token-reference'));}
+});

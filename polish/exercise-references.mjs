@@ -15,11 +15,13 @@ const set=(x,p,v)=>{const parent=get(x,p.slice(0,-1));parent[p.at(-1)]=v;};
 const OMIT=new Set(['id','source','sourceRefs','sourceReview','sourceAtom','sourceLayoutEvidence','classification','flow','bankRef','provenance','spec','originalDiagram','originalGraph','presentation','studio']);
 const TEXT=new Set(['content','prompt','text','latex','html','short','worked','title','caption','explanation','solution','theorySolution','instructions']);
 const ROOTS=new Set(['content','prompt','answer','examples','theorySolution','explanation','instructions']);
-const MATH_TOKEN_REFERENCE=/\b(?:questions?|Q)\s*(?:\$\$?|\\\()/i;
+const MATH_TOKEN_REFERENCE=/\b(?:questions?|Q)\s*(?:\$\$?|\\\()\s*\d+/gi;
 const NUMBERED=/\b(?:Question|Q)\s*\.?\s*(\d{1,3})\b/gi;
 const AMBIGUOUS_NUMBERED=/\b(?:Questions?|Q)\s*\.?\s*\d{1,3}(?:\s*(?:[–—-]|,\s*(?:(?:and|or)\s*)?|and\s*|or\s*|&\s*)\d|\.\d|\s+(?:on|from|of)\s+page\s*\d)/gi;
 const UNSUPPORTED=/\b(?:questions\s*\d|exercises?\s*\d|examples?\s*\d)|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/gi;
 const inDollarMath=(text,position)=>{let delimiter=null;for(let i=0;i<position;i++){if(text[i]!=='$'||i&&text[i-1]==='\\')continue;const d=text[i+1]==='$'?'$$':'$';if(delimiter===d)delimiter=null;else if(!delimiter)delimiter=d;i+=d.length-1;}return delimiter!==null;};
+
+const hasNumericMathReference=text=>[...text.matchAll(MATH_TOKEN_REFERENCE)].some(m=>!inDollarMath(text,m.index));
 
 // Known printable roots only; provenance/IDs/diagram code are never rewritten.
 // Compose native inline runs so `Question ` + `11` resolves across text nodes.
@@ -67,7 +69,7 @@ export function unresolvedPrintedQuestionReferences(block){
  return printedReferenceFields(block).filter(field=>{
   const p=JSON.parse(field.key),ownIntro=block.content?.children?.length&&p[0]==='content'&&p[1]==='prompt';
   const text=ownIntro?field.text.replace(/^\s*Answer\s+the\s+following\s+questions\b/i,''):field.text;
-  return MATH_TOKEN_REFERENCE.test(text)||/\b(?:questions?|Q|exercises?|examples?)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/i.test(text);
+  return hasNumericMathReference(text)||/\b(?:questions?|Q|exercises?|examples?)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/i.test(text);
  }).map(field=>field.text);
 }
 function exerciseIndex(project){
@@ -85,7 +87,7 @@ export function resolveExerciseReferences(project){
    const unsupported=ownChildIntro?field.text.replace(/^\s*Answer\s+the\s+following\s+questions\b/i,''):field.text;
    if(field.unsupportedVisibleAtom&&unresolvedPrintedQuestionReferences(block).includes(field.text)){holds.push({id:block.id,kind:'unsupported-visible-atom-reference',field:field.key});continue;}
    if(field.unsupportedCode){holds.push({id:block.id,kind:'unsupported-native-code-reference',field:field.key});continue;}
-   if(MATH_TOKEN_REFERENCE.test(field.text)){holds.push({id:block.id,kind:'unsupported-math-token-reference',field:field.key});continue;}
+   if(hasNumericMathReference(field.text)){holds.push({id:block.id,kind:'unsupported-math-token-reference',field:field.key});continue;}
    if((fieldPath.at(-1)==='html'||/<\/?[a-z][^>]*>/i.test(field.text))&&/\b(?:Questions?|Q)\s*\.?\s*\d/i.test(field.text)){holds.push({id:block.id,kind:'unsupported-html-reference',field:field.key});continue;}
    const ambiguous=[...field.text.matchAll(AMBIGUOUS_NUMBERED)];
    if(ambiguous.length){for(const m of ambiguous)holds.push({id:block.id,kind:'ambiguous-range-list-decimal-or-page-reference',field:field.key,quote:m[0]});continue;}
