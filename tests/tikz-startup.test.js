@@ -4,24 +4,27 @@ import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 
 function harness() {
+  const observed = [];
   const timers = new Map();
   const listeners = new Map();
   const elements = [];
-  const element = () => ({ dataset: {}, addEventListener() {}, removeEventListener() {}, querySelector: () => null });
+  const element = () => ({ dataset: {}, isConnected:true, addEventListener() {}, removeEventListener() {}, querySelector: () => null });
   const context = vm.createContext({
     window: { addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name) },
     document: { baseURI: 'http://localhost/', addEventListener() {}, querySelectorAll: () => [], createElement: element, head: { appendChild: el => elements.push(el) } },
     localStorage: { getItem: () => '1' },
     indexedDB: { open: () => ({}) },
     URL, performance, console,
+    prepareTikz: code=>({cleanCode:code,pkgJson:null,extraPreamble:[],key:'fixture-key'}),watchGraphStrokes:()=>()=>{},
+    IntersectionObserver: class {observe(el){observed.push(el)} unobserve(){}},
     renderEnvironment:()=>new Promise(()=>{}),cacheMode:()=> 'normal',serverDiagram:async()=>null,digestKey:async value=>'checksum:'+value,
     setTimeout: (fn, ms) => { const id = {}; timers.set(id, { fn, ms }); return id; },
     clearTimeout: id => timers.delete(id),
   });
   const source = readFileSync(new URL('../src/lib/tikz.js', import.meta.url), 'utf8')
     .replace(/^import .*;$/gm, '').replace(/export function/g, 'function');
-  vm.runInContext(source + '\n globalThis.api = { _loadEngineScript, _ensureTikzFonts, _startJob, _resetAndReinjectAll, tikzActiveJobs, _idbOpen, _idbGet };', context);
-  return { ...context, timers, listeners, elements, fire(ms) { for (const [id, timer] of timers) if (timer.ms === ms) { timers.delete(id); timer.fn(); } } };
+  vm.runInContext(source + '\n globalThis.api = { _loadEngineScript, _ensureTikzFonts, _startJob, _resetAndReinjectAll, tikzActiveJobs, _idbOpen, _idbGet, renderTikzCode, cancelTikzJob };', context);
+  return { ...context, timers, listeners, elements, observed, fire(ms) { for (const [id, timer] of timers) if (timer.ms === ms) { timers.delete(id); timer.fn(); } } };
 }
 
 test('engine startup rejects when the worker never becomes ready', async () => {
@@ -72,4 +75,22 @@ test('persisted SVG checksum rejects corruption and accepts intact diagrams',asy
   h.indexedDB.open=()=>request({transaction:()=>({objectStore:()=>({get:()=>request(row)})})});
   assert.equal(await h.api._idbGet('a'.repeat(64)+'-diagram'),checksum==='broken'?null:'<svg/>');
  }
+});
+
+
+test('off-screen booklet measurement starts inline TikZ without viewport intersection',()=>{
+ for(const measured of [false,true]){
+  const h=harness(),host={innerHTML:'',appendChild(el){this.child=el;},closest:selector=>measured&&selector==='.flow-measure'?{}:null};
+  h.api.renderTikzCode(host,'synthetic diagram');
+  assert.equal(host._tikzJob.started,measured);
+  assert.equal(h.observed.length,measured?0:1);
+  h.api.cancelTikzJob(host);assert.equal(h.api.tikzActiveJobs.size,0);
+ }
+});
+
+test('explicit eager TikZ still starts outside booklet measurement',()=>{
+ const h=harness(),host={innerHTML:'',appendChild(el){this.child=el;},closest:()=>null};
+ h.api.renderTikzCode(host,'synthetic diagram',{eager:true});
+ assert.equal(host._tikzJob.started,true);assert.equal(h.observed.length,0);
+ h.api.cancelTikzJob(host);
 });

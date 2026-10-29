@@ -709,7 +709,9 @@ export function renderTikzCode(outerEl, code, { eager = false, onSuccess=null, o
   outerEl._stopGraphStrokes=watchGraphStrokes(outerEl);
   tikzActiveJobs.add(job);
   tikzStats.pending = tikzActiveJobs.size;
-  if (eager || job.cacheHtml) _startJob(job);
+  // Off-screen booklet measurement must settle before pages can enter the viewport.
+  // Inline diagrams use the same path as native diagrams and cannot wait on IO here.
+  if (eager || outerEl.closest?.('.flow-measure') || job.cacheHtml) _startJob(job);
   else _getIO().observe(wrapper);
   TLOG('queued job#' + seq, 'key:', key, 'codeLen:', cleanCode.length, 'extraPreamble:', extraPreamble.length);
 }
