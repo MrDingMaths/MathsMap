@@ -2,9 +2,11 @@
 
 ## Cross-booklet duplicate tooling retired (27 October 2026, user requested)
 
-Do not discover, link, synchronise or manage duplicate content across booklets. The retired tools and registry are preserved in [the recoverable archive](retired/cross-booklet-duplicates-20261027/README.md). Keep duplicate identification within each booklet during review, and full duplicate matching during question-bank import/publication. Preserve historical acceptance, source lineage and explicit review reuse; none creates a live cross-booklet dependency. This supersedes earlier automatic cross-project discovery and shared-content propagation instructions.
+Do not discover, link, synchronise or manage duplicates across booklets. Tools and registry remain in [the recoverable archive](retired/cross-booklet-duplicates-20261027/README.md). Review duplicates within each booklet; use full matching during bank publication. Preserve historical acceptance, lineage and explicit review reuse without live cross-booklet dependencies. This supersedes automatic cross-project discovery and propagation.
 
-Keep this file under 32,000 bytes: Codex loads only the first 32,768 bytes of it. Put detail in `docs/` and link it from here. `npm run repo:check` enforces the limit.
+29 October: [remove exam marks and sort exercises by verified difficulty](docs/booklet-exam-marks-and-order.md), including existing booklets; preserve mathematical notation and dependencies.
+
+Keep this file under 32,000 bytes; link detail in `docs/`. `npm run repo:check` enforces the limit.
 
 ## Streamlined imports (24 October 2026, user approved)
 

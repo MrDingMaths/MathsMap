@@ -1,5 +1,7 @@
 # Three-pass imports
 
+29 October user rule: apply [exam mark removal and exercise difficulty order](booklet-exam-marks-and-order.md) before candidate review/rating and pagination. Preserve immutable source evidence and meaningful notation; do not infer mark allocations from brackets alone.
+
 ## Streamlined completion (24 October 2026)
 
 This is the current default and supersedes repeated review/export and residual-count rules below. New manifests add `completionProfile: "streamlined-import-v2"` alongside `reviewProfile: "textbook-three-pass-v1"`. Historical records and active workers are not migrated. An existing run adopts only at an idle completed boundary with `--adopt-streamlined`; explicitly retain ICE-EM with `--iceem-direct` on that adoption. Its manifest records `completionRoute: "iceem-direct"`: keep its direct route and targeted pages, without mandatory polish or a full-book review.

@@ -1,5 +1,7 @@
 # Booklet first-pass review
 
+29 October user rule: check [exam mark removal and exercise difficulty order](booklet-exam-marks-and-order.md), including existing content. Mathematical brackets are preserved; dependency and pagination exceptions need evidence.
+
 ## Import integration (24 October 2026)
 
 For imports the [streamlined workflow](booklet-three-pass-import.md#streamlined-completion-24-october-2026) supersedes the older proposal-only and separate-final-review wording below. One source-side rendered review owns presentation acceptance. Repairs are autonomous within the authorised import, routed by required edit; content/diagram-code changes use the content-capable path and independent checking. Reinspect only affected/reflowed pages, neighbours and unreliable pages. Do not add a second full residual pass. Missing verdicts and unresolved substantive findings block the shared completion decision; saving progress remains possible. ICE-EM retains its targeted direct route.

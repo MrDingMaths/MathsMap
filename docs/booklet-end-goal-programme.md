@@ -1,5 +1,7 @@
 # Booklet end-goal programme (28 October 2026)
 
+29 October additions: [source-backed exam mark removal and independently verified exercise ordering](booklet-exam-marks-and-order.md), plus the separate [all-project geometry marker audit](geometry-edge-markers.md). The mark inventory covers130 masters/8,889 question blocks:51 source-backed allocations identified after retained-source inspection,8 ambiguous tokens held and158 mathematical/reference tokens preserved. This is inventory coverage, not retrospective publication. The geometry inventory covers298 current projects/24,810 current-content TikZ occurrences; the first component has actual before/after SVG and image verification, with full affected-booklet checks still pending. Neither a candidate scan nor a prepared repair counts as a completed phase.
+
 ## Verified checkpoint — 29 October 2026
 
 Saved Exam work covers **87 of 130 masters**; this is saved work, not exhaustive external-source or programme completion. The current per-master ledger is `.booklet-work/end-goal-20261028/coverage-status.json`. Archetype metadata has been saved in 20 masters; Reciprocal, Advanced Linear Functions and Direct/Inverse Variation are separately assessed as having no canonical ordinary exercises; source-atom teaching activities retain their roles. Existing formula-supported coverage is distinguished from actual worked-example coverage. Teaching recommendations remain pending Studio comments.

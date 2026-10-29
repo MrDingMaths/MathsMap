@@ -1,5 +1,7 @@
 # Standing booklet conventions
 
+29 October: follow [edge-marker placement and audit requirements](geometry-edge-markers.md) and [exam-mark removal and exercise ordering](booklet-exam-marks-and-order.md). These apply to current content within their stated scope, preserving source evidence, mathematical meaning and review boundaries.
+
 For theory imports, authoring and authorised audits or repairs, follow the [theory-text principles](booklet-cross-session-rules.md#theory-text-source-fidelity-and-cognitive-load-22-october-2026-user-approved) (22 October 2026): preserve source teaching, use simple language, remove unnecessary load and retain essential support. Apply them within existing review stages and preserve explicit local exceptions.
 
 Moved word for word from `AGENTS.md` on 9 October 2026, so that file stays under the 32,768 bytes Codex loads. `AGENTS.md` tells every agent to read this page before booklet or question-bank work. The paragraphs keep their original order and wording; only link paths changed. Newer dated rules in `AGENTS.md` take precedence where they say so.

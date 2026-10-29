@@ -1,0 +1,15 @@
+# Exam marks and exercise order — 29 October 2026
+
+James requested these rules for current booklets and future imports. They apply to ordinary practice, mixed practice, Exam questions and Challenge. Phase 7 remains deferred.
+
+Remove genuine exam mark allocations, including multipart allocations such as `[3]`, from displayed questions. Preserve mathematical brackets, intervals, indices, references, source labels and all meaningful notation. Retain the original source unchanged. Removal requires source evidence identifying the token as a mark allocation, an exact inverse transformation and a retained adaptation proof. Ambiguous tokens remain held for source inspection; a blanket bracket-removal regular expression is prohibited.
+
+A verified mark-only adaptation does not change assessed demand. Preserve the original score, model, assessment date, evidence and history, and record the exact old/new task hashes and adaptation proof separately. Do not represent reuse as a new independent assessment. Changed mathematics or uncertain original assessments require independent review. Existing bank ownership and revision guards still apply; this rule does not authorise bank publication.
+
+Order whole questions by increasing independently verified difficulty within each exercise. Keep dependent follow-ups and mathematical or instructional dependencies together. Use the maximum existing member score to order an inseparable dependent group; never change its individual scores. Teaching and deliberate contrast activities remain fixed barriers. Explicit printed references, unresolved dependencies and uncertain rating evidence require inspection before movement.
+
+Small departures for efficient pagination or preventing question splits require recorded, source-bound page evidence. Layout pins alone do not establish an instructional dependency or justify an inversion. Preserve usable writing space and all mathematical content. Never adjust ratings to produce an order.
+
+Apply these checks to the candidate before independent source/native review and rating where possible, then before pagination and guarded publication. Retrospective changes require current revision checks, actual affected-page and neighbour inspection, and readback. Production tooling must report unassessed and held cases separately from verified changes. No automatic migration on load.
+
+Additional worked examples, guided practice, prerequisite Review additions and teaching changes remain proposals in Studio comments for James. Source eligibility and all existing import/review gates remain in force.
