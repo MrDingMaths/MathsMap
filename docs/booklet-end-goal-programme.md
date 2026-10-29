@@ -1,6 +1,12 @@
 # Booklet end-goal programme (28 October 2026)
 
-## Current verified checkpoint — 28 October 2026, 23:43 UTC
+## Current verified checkpoint — 29 October 2026, 00:06 UTC
+
+Saved Exam work now covers **85/130 masters**. Linear Fractions r31, Advanced Linear Functions r5, Further Trigonometric Equations r3, Advanced Equations r5, Simple Cubic r23 and Data r4 have guarded saves/readbacks and five-edition plus actual affected-page verification. Data additionally repairs palette defects and five native-confirmed label collisions; its final acceptance retains 25 inspected warnings rather than claiming zero warnings. Four unrated teaching investigations retain absent classifications; only the existing temperature assessment changes32→30. No ordinary practice was removed. Commits include `5ea8a6f3`, `761cea8d`, `7a4e6dd4`, `8a2ee5ee`.
+
+Further coverage metadata is saved for Exponential Functions r2, Binomial Numerator r33, Modelling r7 and Graph Regions r36. Independently supported Binomial Numerator ratings25/28/23 replace stale48/28/25 task assessments, preserving prior local linked records and unrelated bank edits (`415d2925`). The coverage comments are pending James's decisions; no teaching was inserted (`aac0ae6d`, `6e00c922`, `4572f241`). Reciprocal r6 has zero ordinary practice; its one-topic principles review finds no issue and leaves investigations and existing flags unchanged. Graph Regions Q13 remains in practice because it supplies context before Q15; the independent Q16 Challenge move is still a candidate.
+
+New Claude author dispatch remains paused after automatic approval review rejected the unexecuted four-item Rates request for missing accepted Claude-specific disclosure authorization. OpenAI reviews and local work continue. The previously missing Simple Cubic 2005 source image is now available through its exact existing public source URL; new image-backed review is underway, with the earlier cache-only hold retained as historical evidence. Phase7 remains deferred and external MathsDatabase remains read-only.
 
 Saved Exam work now covers **79/130 masters**. Earning Money r867 adds its independently checked HSC Standard 2016 question after five-edition checks and six actual affected-page inspections; no routine practice was removed. Standard Deviation r42 and Rates of Change r5 save reviewed archetype metadata and one pending teaching-decision comment each, preserving mathematics, ratings, existing comments and settings. Commit `f25c45a5` contains these three saves.
 
