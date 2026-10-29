@@ -570,7 +570,7 @@ export function routineQuestions(sequence){
  for(const section of sequence.sections){
   if(section.phase!=='practice'||['challenge','exam'].includes(section.role))continue;
   for(const block of section.blocks??[]){
-   if(block.type!=='question'||isTheoryReview(block,section))continue;
+   if(block.type!=='question'||isExplicitTeachingBlock(block)||isTheoryReview(block,section))continue;
    const score=block.classification?.reasoningScore;
    if(!Number.isFinite(score)){unrated.push(block.id);continue;}
    if(score<65)questions.push({id:block.id,reasoningScore:score,block:compactBlock(block,section)});

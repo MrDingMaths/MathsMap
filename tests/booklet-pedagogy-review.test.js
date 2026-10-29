@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {EventEmitter} from 'node:events';
 import {fileURLToPath} from 'node:url';
-import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates,main as reviewMain,routineQuestions,validateArchetypes,archetypePrompt,bookletPrinciples} from '../pedagogy/review.mjs';
+import {sequences,compactBlock,visibleIds,earlierTeaching,skillFacts,sequenceImages,reviewPrompt,contract,findingId,blockHash,runReview,postFindings,reconcile,withdraw,mergeFindings,formatResults,scoreSeeded,commentNote,isStructural,runMap,KINDS,duplicateQuestionCandidates,main as reviewMain,routineQuestions,validateArchetypes,archetypePrompt,bookletPrinciples,instructionalSections} from '../pedagogy/review.mjs';
 import {runAstraTask} from '../scripts/booklet/codex-transcription.mjs';
 
 import {newTeachingPrompt,NEW_CONTENT_MODEL,validateNewTeachingCandidate} from '../pedagogy/new-content.mjs';
@@ -334,6 +334,24 @@ test('a completed review can recover a failed provenance save without repeating 
  await assert.rejects(runReview({...space.options,resumeFrom:{candidateFile,challengeResultFile},runner}),/do not match the current project revision/);
 });
 
+
+test('inline guided practice remains teaching rather than ordinary or unrated practice',()=>{
+ const project={id:'inline-teaching',title:'Inline teaching',topics:[{id:'factorise',title:'Factorise'}],sections:[{id:'exercise',topicId:'factorise',phase:'practice',role:'mixed-practice',blocks:[
+  {id:'inline-guided',type:'question',pedagogyRole:'guided-practice',classification:{reasoningScore:44},content:{id:'guided-body',type:'question',prompt:'Use the supplied three-stage method.'}},
+  {id:'inline-guided-unrated',type:'question',pedagogyRole:'guided-practice',content:{id:'unrated-guided-body',type:'question',prompt:'Complete the model with support.'}},
+  {id:'inline-example',type:'question',pedagogyRole:'example',classification:{reasoningScore:20},content:{id:'example-body',type:'question',prompt:'A supplied example.'}},
+  {id:'ordinary',type:'question',classification:{reasoningScore:18},content:{id:'ordinary-body',type:'question',prompt:'Factorise independently.'}},
+  {id:'ordinary-unrated',type:'question',content:{id:'ordinary-unrated-body',type:'question',prompt:'Another independent question.'}},
+ ]}]};
+ const before=structuredClone(project),seq=sequences(project)[0];
+ assert.deepEqual(routineQuestions(seq).questions.map(q=>q.id),['ordinary']);
+ assert.deepEqual(routineQuestions(seq).unrated,['ordinary-unrated']);
+ assert.deepEqual(instructionalSections(seq).flatMap(s=>s.blocks.map(b=>b.id)),['inline-guided','inline-guided-unrated','inline-example']);
+ const payload=payloadOf(archetypePrompt(project,seq,{skills:[]}));
+ assert.deepEqual(payload.routineQuestions.map(q=>q.id),['ordinary']);
+ assert.deepEqual(payload.teaching.sections.flatMap(s=>s.blocks.map(b=>b.id)),['inline-guided','inline-guided-unrated','inline-example']);
+ assert.deepEqual(project,before);
+});
 
 test('archetype pilot excludes nonroutine/end sections and requires complete unique coverage',()=>{
  const q=(id,score)=>({id,type:'question',classification:{reasoningScore:score},content:{stem:'Calculate.'}});
