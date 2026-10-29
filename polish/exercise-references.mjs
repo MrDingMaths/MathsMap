@@ -16,6 +16,8 @@ const OMIT=new Set(['id','source','sourceRefs','sourceReview','sourceAtom','sour
 const TEXT=new Set(['content','prompt','text','latex','html','short','worked','title','caption','explanation','solution','theorySolution','instructions']);
 const ROOTS=new Set(['content','prompt','answer','examples','theorySolution','explanation','instructions']);
 const MATH_TOKEN_REFERENCE=/\b(?:questions?|Q)\s*(?:\$\$?|\\\()\s*\d+/gi;
+// Exact nonprinting whole-line marker emitted by applyDiagramColourPolicy.
+const GENERATED_COLOUR_METADATA=/^\s*\\special\{dvisvgm:raw <metadata data-diagram-colours="1" data-diagram-kind="(?:geometry|graph)" data-diagram-base="[^"<>\r\n]*" data-diagram-semantic-palette="[^"<>\r\n]*" data-diagram-semantic-reference="[^"<>\r\n]*" data-diagram-semantic-reasons="[^"<>\r\n]*"\/>\}\s*$/;
 const NUMBERED=/\b(?:Question|Q)\s*\.?\s*(\d{1,3})\b/gi;
 const AMBIGUOUS_NUMBERED=/\b(?:Questions?|Q)\s*\.?\s*\d{1,3}(?:\s*(?:[–—-]|,\s*(?:(?:and|or)\s*)?|and\s*|or\s*|&\s*)\d|\.\d|\s+(?:on|from|of)\s+page\s*\d)/gi;
 const UNSUPPORTED=/\b(?:questions\s*\d|exercises?\s*\d|examples?\s*\d)|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/gi;
@@ -46,7 +48,7 @@ export function printedReferenceFields(block){
   for(const[k,x]of Object.entries(v)){
    if(OMIT.has(k)||k==='inlines')continue;
    if(k==='code'){
-    const printedCode=typeof x==='string'?x.split('\n').filter(line=>!line.startsWith(DIAGRAM_COLOUR_PREFIX)).join('\n'):x;
+    const printedCode=typeof x==='string'?x.split('\n').filter(line=>!line.startsWith(DIAGRAM_COLOUR_PREFIX)&&!GENERATED_COLOUR_METADATA.test(line)).join('\n'):x;
     if(typeof printedCode==='string'&&/\b(?:Question|Q)\s*\.?\s*\d|\bas above\b/i.test(printedCode))fields.push({key:JSON.stringify([...path,k]),text:x,parts:[],unsupportedCode:true});
     continue;
    }

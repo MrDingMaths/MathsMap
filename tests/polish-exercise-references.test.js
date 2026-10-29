@@ -145,3 +145,11 @@ test('algebraic and coordinate Q followed by closing math delimiter is not navig
  }
  for(const text of ['Use Question $11$.','Use Q\\(11\\).']){const p=fixture();p.sections[0].blocks[11].content.prompt=text;assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-math-token-reference'));}
 });
+
+test('only exact generated nonprinting colour metadata whole lines are ignored',()=>{
+ const p=fixture();p.sections[0].blocks[11].content.prompt='Calculate.';p.sections[0].blocks[11].content.answer={short:'13',worked:'13'};
+ const metadata='\\special{dvisvgm:raw <metadata data-diagram-colours="1" data-diagram-kind="geometry" data-diagram-base="" data-diagram-semantic-palette="" data-diagram-semantic-reference="Question 11" data-diagram-semantic-reasons=""/>}';
+ const q=p.sections[0].blocks[0];q.content.questionDiagrams=[{code:metadata+'\n\\draw (0,0)--(1,1);'}];const raw=q.content.questionDiagrams[0].code;
+ assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.equal(q.content.questionDiagrams[0].code,raw);
+ for(const code of [metadata+'\n\\node at (0,0) {Question 11};',metadata+'\\node at (0,0) {Question 11};','\\special{dvisvgm:raw <text>Question 11</text>}','\\special{dvisvgm:raw <metadata data-diagram-colours="1" other="Question 11"/>}']){q.content.questionDiagrams[0].code=code;assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-native-code-reference'));assert.equal(q.content.questionDiagrams[0].code,code);}
+});
