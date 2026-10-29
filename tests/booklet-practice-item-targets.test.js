@@ -4,6 +4,19 @@ import{validateArchetypes}from'../pedagogy/review.mjs';
 import{reuseArchetypeMap}from'../pedagogy/archetype-metadata.mjs';
 import{challengeSplitReport,challengeSplitCandidate}from'../polish/challenge-split.mjs';
 import{reasoningTaskHash}from'../scripts/booklet/reasoning-ratings.mjs';
+test('native prompt layout slots index six cards and ancestors without indexing answer or metadata slots',()=>{
+ const cards=Array.from({length:6},(_,i)=>({id:`card-${i}`,blocks:[{id:`card-math-${i}`,type:'paragraph',inlines:[{type:'math',latex:`${i+2}^{-1}`}]}]}));
+ const q={id:'cards-block',content:{
+  id:'cards-question',type:'question',
+  prompt:{format:'maths-editor-document-v1',blocks:[{id:'rows',type:'layout',slots:[{id:'top-row',blocks:[{id:'cards',type:'layout',slots:cards}]}]},{id:'plain-paragraph',type:'paragraph',slots:[{id:'not-a-layout-slot'}]}]},
+  answer:{short:{format:'maths-editor-document-v1',blocks:[{id:'answer-layout',type:'layout',slots:[{id:'answer-slot'}]}]}}
+ },metadata:{type:'layout',slots:[{id:'metadata-slot'}]}};
+ const index=practiceNodeIndex(q);
+ for(let i=0;i<6;i++){assert.ok(index.has(`card-${i}`));assert.ok(index.has(`card-math-${i}`));for(const ancestor of ['cards-question','rows','top-row','cards',`card-${i}`])assert.ok(index.get(`card-math-${i}`).parents.has(ancestor));}
+ for(const id of ['answer-layout','answer-slot','metadata-slot','not-a-layout-slot'])assert.equal(index.has(id),false);
+ assert.equal(validatePracticeItems(q,cards.map(c=>({nodeIds:[c.id]}))).independentItems,6);
+ assert.throws(()=>validatePracticeItems(q,[{nodeIds:['card-0']},{nodeIds:['card-math-0']}]),/overlap|Repeated|reused/);
+});
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'practice-targets-'));after(()=>fs.rmSync(dir,{recursive:true,force:true}));const sha=b=>createHash('sha256').update(b).digest('hex');
 const block={id:'p18-q8-block',type:'question',classification:{reasoningScore:30},content:{id:'p18-q8',type:'question',prompt:'Explain each synthetic plot independently.',questionDiagrams:[{id:'p18-q8-diagrams',format:'tikz',code:'synthetic left and right plots'}],answer:{short:'Left: no clear linear association. Right: the association is curved, not linear.'}}};
 const native={id:'p23-q10-block',type:'question',classification:{reasoningScore:30},content:{id:'native-root',type:'question',prompt:{format:'maths-editor-document-v1',blocks:[{id:'7616b923-1c43-4fc4-9fcc-5b860854af5f',type:'paragraph',inlines:[{type:'text',text:'Draw the synthetic line.'}]}]},children:[{id:'native-a',type:'part',prompt:'Estimate the synthetic value.'}]}};

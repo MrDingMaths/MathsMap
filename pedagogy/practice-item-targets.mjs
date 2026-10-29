@@ -16,7 +16,7 @@ export function practiceNodeIndex(block){
  const add=(node,parents)=>{if(typeof node?.id!=='string')return parents;if(index.has(node.id))fail('Duplicate native practice node '+node.id);index.set(node.id,{parents:new Set(parents),node});return [...parents,node.id];};
  // Only actual question/part nodes and native prompt document containers. Never
  // answers, diagrams, source/flow/classification metadata, or arbitrary object IDs.
- const documentNode=(node,parents)=>{if(!node||typeof node!=='object')return;if(Array.isArray(node)){for(const child of node)documentNode(child,parents);return;}const next=add(node,parents);for(const key of ['blocks','rows','cells','inlines','parts','children'])for(const child of node[key]??[])documentNode(child,next);};
+ const documentNode=(node,parents)=>{if(!node||typeof node!=='object')return;if(Array.isArray(node)){for(const child of node)documentNode(child,parents);return;}const next=add(node,parents);for(const key of ['blocks','rows','cells','inlines','parts','children'])for(const child of node[key]??[])documentNode(child,next);if(node.type==='layout')for(const slot of node.slots??[])documentNode(slot,next);};
  const structural=(node,parents=[])=>{if(!node||typeof node!=='object')return;const next=add(node,parents);if(node.prompt?.format==='maths-editor-document-v1')for(const child of node.prompt.blocks??[])documentNode(child,next);for(const child of node.children??[])structural(child,next);};
  structural(block.content);return index;
 }
