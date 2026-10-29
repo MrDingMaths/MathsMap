@@ -10,10 +10,21 @@ const at=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
 // A legacy origin may point at a metadata-only screen. Resolve only an actual
 // retained raw question with exact ID/code/independently pinned question hash.
 // Whole-cache hashes recorded here are current read hashes, never backdated.
-export function resolveExamMarkSourceEvidence(block,{cacheArtifacts=[],trialApproval}={}){
+export function resolveExamMarkSourceEvidence(block,{cacheArtifacts=[],trialApproval,approvedMapping}={}){
  const origin=block.sourceReview?.origin,reviewHash=block.sourceReview?.independentReview?.sourceQuestionSha256,originalHash=origin?.sourceQuestionSha256??reviewHash;
  if(!origin?.externalId||!origin.sourceCode||!/^[a-f0-9]{64}$/.test(originalHash??'')||origin.sourceQuestionSha256&&reviewHash&&origin.sourceQuestionSha256!==reviewHash)return null;
- let approvedTrialSource=false;
+ let approvedTrialSource=false,approvedPLCInternalMapping;
+ const parsed=mathsBaseSource(origin.sourceCode);
+ // A literal HSC.PLC code can be an already approved PLC internal paper. This
+ // bounded disposition does not rewrite its code/provider or admit other schools.
+ if(block.source?.provider==='PLC'&&parsed?.provider==='HSC-trial'){
+  if(parsed.schoolCode!=='PLC'||approvedMapping?.kind!=='existing-approved-HSC.PLC-internal-mapping-v1'||typeof approvedMapping.path!=='string'||!/^[a-f0-9]{64}$/.test(approvedMapping.sha256??'')||!Array.isArray(approvedMapping.recordPath)||!approvedMapping.recordPath.length)return null;
+  const bytes=fs.readFileSync(approvedMapping.path);if(sha(bytes)!==approvedMapping.sha256)return null;
+  const record=at(JSON.parse(bytes),approvedMapping.recordPath),source=block.source;
+  if(record?.id!==origin.externalId||record.sourceCode!==origin.sourceCode||record.questionSha256!==originalHash||!/^Approved\b/.test(record.sourceLabelStatus??'')||!same(record.approvedSource,source))return null;
+  if(source.origin!=='MathsBase'||source.paper!=='PLC '+parsed.paper||source.label!==source.paper+' '+parsed.year||String(source.year)!==String(parsed.year)||!/^\d{4}$/.test(String(parsed.year)))return null;
+  approvedPLCInternalMapping=Object.freeze({...structuredClone(approvedMapping),recordPath:Object.freeze([...approvedMapping.recordPath])});
+ }
  if(block.source?.provider==='HSC-trial'){
   if(!trialApproval||!/^[a-f0-9]{64}$/.test(trialApproval.sha256??''))return null;
   const bytes=fs.readFileSync(trialApproval.path);if(sha(bytes)!==trialApproval.sha256)return null;
@@ -21,8 +32,10 @@ export function resolveExamMarkSourceEvidence(block,{cacheArtifacts=[],trialAppr
   if(record?.id!==origin.externalId||record.sourceCode!==origin.sourceCode||!/^Approved\b/.test(record.sourceLabelStatus??'')||!same(record.approvedSource,block.source))return null;
   approvedTrialSource=true;
  }
- const find=value=>{if(!value||typeof value!=='object')return null;const id=value.id??value.externalId,code=value.source??value.sourceCode,text=value.question_text??value.sourceQuestion;if(id===origin.externalId&&code===origin.sourceCode&&typeof text==='string'&&sha(text)===originalHash)return{text};for(const child of Object.values(value)){const row=child&&typeof child==='object'&&find(child);if(row)return row;}return null;};
- for(const artifact of cacheArtifacts){if(!artifact?.path||!/^[a-f0-9]{64}$/.test(artifact.sha256??''))continue;const bytes=fs.readFileSync(artifact.path);if(sha(bytes)!==artifact.sha256)continue;const row=find(JSON.parse(bytes));if(!row)continue;const evidence=Object.freeze({externalId:origin.externalId,sourceCode:origin.sourceCode,questionText:row.text,questionSha256:originalHash,snapshotFile:artifact.path,snapshotSha256:artifact.sha256,questionHashBinding:origin.sourceQuestionSha256?'sourceReview.origin.sourceQuestionSha256':'sourceReview.independentReview.sourceQuestionSha256',cacheHashBinding:'new-current-read-hash-of-retained-raw-cache',approvedTrialSource,...(trialApproval?{trialApproval:structuredClone(trialApproval)}:{})});resolvedEvidence.add(evidence);return evidence;}
+ const find=value=>{if(!value||typeof value!=='object')return null;const id=value.id??value.externalId,code=value.source??value.sourceCode,text=value.question_text??value.sourceQuestion;if(id===origin.externalId&&code===origin.sourceCode&&typeof text==='string'&&sha(text)===originalHash)return{text,marks:value.marks};for(const child of Object.values(value)){const row=child&&typeof child==='object'&&find(child);if(row)return row;}return null;};
+ for(const artifact of cacheArtifacts){if(!artifact?.path||!/^[a-f0-9]{64}$/.test(artifact.sha256??''))continue;const bytes=fs.readFileSync(artifact.path);if(sha(bytes)!==artifact.sha256)continue;const row=find(JSON.parse(bytes));if(!row)continue;
+  if(approvedPLCInternalMapping){const tokens=markTokens(row.text).filter(t=>t.standalone&&!t.inMath&&!t.referenceContext&&!t.escaped);if(row.marks!==1||tokens.length!==1||tokens[0].token!=='[1]'||tokens[0].end!==row.text.trimEnd().length||typeof block.content?.prompt!=='string'||block.content.prompt!==row.text)continue;}
+  const evidence=Object.freeze({externalId:origin.externalId,sourceCode:origin.sourceCode,questionText:row.text,questionSha256:originalHash,snapshotFile:artifact.path,snapshotSha256:artifact.sha256,questionHashBinding:origin.sourceQuestionSha256?'sourceReview.origin.sourceQuestionSha256':'sourceReview.independentReview.sourceQuestionSha256',cacheHashBinding:'new-current-read-hash-of-retained-raw-cache',approvedTrialSource,...(trialApproval?{trialApproval:structuredClone(trialApproval)}:{}),...(approvedPLCInternalMapping?{approvedPLCInternalMapping,sourceAllocationMarks:row.marks}:{})});resolvedEvidence.add(evidence);return evidence;}
  return null;
 }
 const escaped=(s,at)=>{let n=0;while(at>0&&s[--at]==='\\')n++;return n%2===1;};
@@ -45,7 +58,10 @@ export function stripExamMarksCandidate(block,{sourceEvidence}={}){
  const instructional=['example','worked-example','guided-practice','teaching','definition'].includes(block.pedagogyRole);
  const resolved=sourceEvidence&&resolvedEvidence.has(sourceEvidence),originalQuestionHash=origin?.sourceQuestionSha256??(resolved?block.sourceReview?.independentReview?.sourceQuestionSha256:null),parsed=mathsBaseSource(origin?.sourceCode);
  if(resolved&&(sha(fs.readFileSync(sourceEvidence.snapshotFile))!==sourceEvidence.snapshotSha256||sourceEvidence.trialApproval&&sha(fs.readFileSync(sourceEvidence.trialApproval.path))!==sourceEvidence.trialApproval.sha256))throw Error('Resolved exam-mark source artifact changed');
- const eligible=parsed&&(['HSC','PLC'].includes(provider)&&parsed.provider===provider||provider==='HSC-trial'&&parsed.provider==='HSC-trial'&&resolved&&sourceEvidence.approvedTrialSource===true);
+ if(resolved&&sourceEvidence.approvedPLCInternalMapping&&sha(fs.readFileSync(sourceEvidence.approvedPLCInternalMapping.path))!==sourceEvidence.approvedPLCInternalMapping.sha256)throw Error('Resolved exam-mark approved mapping artifact changed');
+ let currentPLCMappingMatches=false;
+ if(resolved&&sourceEvidence.approvedPLCInternalMapping){const mapping=sourceEvidence.approvedPLCInternalMapping,record=at(JSON.parse(fs.readFileSync(mapping.path)),mapping.recordPath);currentPLCMappingMatches=same(record?.approvedSource,block.source)&&typeof block.content?.prompt==='string'&&block.content.prompt===sourceEvidence.questionText;}
+ const eligible=parsed&&(['HSC','PLC'].includes(provider)&&parsed.provider===provider||provider==='HSC-trial'&&parsed.provider==='HSC-trial'&&resolved&&sourceEvidence.approvedTrialSource===true||provider==='PLC'&&parsed.provider==='HSC-trial'&&parsed.schoolCode==='PLC'&&resolved&&currentPLCMappingMatches&&sourceEvidence.approvedPLCInternalMapping?.kind==='existing-approved-HSC.PLC-internal-mapping-v1');
  const snapshotBound=resolved|| (origin?.sourceSnapshotSha256?sourceEvidence?.snapshotSha256===origin.sourceSnapshotSha256:typeof origin?.readSnapshot==='string'&&sourceEvidence?.snapshotFile===origin.readSnapshot&&/^[a-f0-9]{64}$/.test(sourceEvidence?.snapshotSha256??''));
  const evidenceValid=!instructional&&sourceEvidence&&eligible&&origin?.provider==='MathsBase'&&sourceEvidence.externalId===origin.externalId&&sourceEvidence.sourceCode===origin.sourceCode&&sha(sourceEvidence.questionText)===originalQuestionHash&&sourceEvidence.questionSha256===originalQuestionHash&&snapshotBound;
  const sourceTokens=evidenceValid?markTokens(sourceEvidence.questionText).filter(t=>t.standalone&&!t.inMath&&!t.referenceContext&&!t.escaped&&plausibleAllocation(t)):[];
@@ -61,7 +77,7 @@ export function stripExamMarksCandidate(block,{sourceEvidence}={}){
   }
   if(remove.length){let value=field.value;for(const token of remove.toReversed())value=value.slice(0,token.start)+value.slice(token.end);let target=candidate;for(const part of field.path.slice(0,-1))target=target[part];target[field.path.at(-1)]=value;edits.push({path:field.path,field:pathKey(field.path),before:field.value,after:value,removed:remove.map(({start,end,token,marks})=>({start,end,token,marks}))});}
  }
- const proof={kind:'exam-mark-allocation-only-v1',blockId:block.id,originalBlockSha256:sha(JSON.stringify(block)),adaptedBlockSha256:sha(JSON.stringify(candidate)),sourceEvidence:evidenceValid?{externalId:sourceEvidence.externalId,sourceCode:sourceEvidence.sourceCode,questionSha256:sourceEvidence.questionSha256,snapshotSha256:sourceEvidence.snapshotSha256,snapshotFile:sourceEvidence.snapshotFile??null,snapshotBinding:resolved?sourceEvidence.cacheHashBinding:origin.sourceSnapshotSha256?'original-pinned-cache-hash':'current-read-hash-of-original-cache-path-with-original-question-hash',...(resolved?{questionHashBinding:sourceEvidence.questionHashBinding,...(sourceEvidence.trialApproval?{trialApproval:sourceEvidence.trialApproval}:{})}:{})}:null,edits,removedAllocations:edits.reduce((n,e)=>n+e.removed.length,0),ambiguous,preserved,mathematicalDemandChanged:false,assessmentReused:false};
+ const proof={kind:'exam-mark-allocation-only-v1',blockId:block.id,originalBlockSha256:sha(JSON.stringify(block)),adaptedBlockSha256:sha(JSON.stringify(candidate)),sourceEvidence:evidenceValid?{externalId:sourceEvidence.externalId,sourceCode:sourceEvidence.sourceCode,questionSha256:sourceEvidence.questionSha256,snapshotSha256:sourceEvidence.snapshotSha256,snapshotFile:sourceEvidence.snapshotFile??null,snapshotBinding:resolved?sourceEvidence.cacheHashBinding:origin.sourceSnapshotSha256?'original-pinned-cache-hash':'current-read-hash-of-original-cache-path-with-original-question-hash',...(resolved?{questionHashBinding:sourceEvidence.questionHashBinding,...(sourceEvidence.trialApproval?{trialApproval:sourceEvidence.trialApproval}:{}),...(sourceEvidence.approvedPLCInternalMapping?{approvedPLCInternalMapping:structuredClone(sourceEvidence.approvedPLCInternalMapping),sourceAllocationMarks:sourceEvidence.sourceAllocationMarks}:{})}:{})}:null,edits,removedAllocations:edits.reduce((n,e)=>n+e.removed.length,0),ambiguous,preserved,mathematicalDemandChanged:false,assessmentReused:false};
  return{candidate,proof};
 }
 export function verifyMarkOnlyAdaptation(original,candidate,proof,{sourceEvidence}={}){
