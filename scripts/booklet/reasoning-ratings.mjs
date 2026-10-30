@@ -6,6 +6,7 @@ import {isPractice} from '../../src/lib/booklet-flow.js';
 import {isTheoryReview} from '../../src/lib/question-bank-eligibility.js';
 import {normaliseQuestion,difficultyBandForScore} from '../../src/lib/practice-question-model.js';
 import {sharedQuestion} from '../../src/lib/question-sync.js';
+import {GRADIENT_TABLE_KIND,checkedGradientTableProof} from './gradient-table-lineage.mjs';
 import {CONSTRUCT_BLANK_KIND,checkedConstructBlankProof} from './construct-blank-lineage.mjs';
 
 export const REASONING_RUBRIC='mathsmap-cognitive-demand-v1';
@@ -37,11 +38,31 @@ export function validRawRating(rating){
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
  if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.gradientTablePresentationAdaptations?.length){const key='table:'+a.gradientTablePresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validGradientTableReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.constructBlankPresentationAdaptations?.length){const key='blank:'+a.constructBlankPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validConstructBlankReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.diagramPresentationAdaptations?.length){const key=a.diagramPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validDiagramPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  return true;
 }
 const checkingDiagramProofs=new Set();
+const gradientTableHooks={verifiedRating,reasoningTaskHash};
+function reusedGradientTableAssessment(source,target,artifact){
+ const original=source.classification.assessment,assessment=structuredClone(original);
+ assessment.originalTaskHash??=original.taskHash;assessment.taskHash=reasoningTaskHash(target);
+ assessment.gradientTablePresentationAdaptations=[{kind:GRADIENT_TABLE_KIND,previousTaskHash:original.taskHash,currentTaskHash:assessment.taskHash,proofFile:artifact.path,proofSha256:artifact.sha256,originalAssessment:structuredClone(original),assessmentReused:true,newAssessmentPerformed:false}];
+ return assessment;
+}
+function validGradientTableReuse(block,rating){
+ const row=rating.assessment.gradientTablePresentationAdaptations.at(-1);
+ if(rating.assessment.gradientTablePresentationAdaptations.length!==1||row.kind!==GRADIENT_TABLE_KIND||row.assessmentReused!==true||row.newAssessmentPerformed!==false)return false;
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=checkedGradientTableProof(block,artifact,gradientTableHooks);
+ return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,reusedGradientTableAssessment(source,block,artifact));
+}
+export function reuseGradientTablePresentationRating(source,target,{proofArtifact,confirmEquivalent}={}){
+ if(typeof confirmEquivalent!=='function')throw Error('Coordinator exact decorative-table review required');
+ const checked=checkedGradientTableProof(target,proofArtifact,gradientTableHooks);
+ if(!isDeepStrictEqual(checked.source,source)||confirmEquivalent(structuredClone(checked))!==true)throw Error('Decorative-table equivalence not confirmed');
+ return {reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedGradientTableAssessment(source,target,proofArtifact)};
+}
 const constructBlankHooks={verifiedRating,reasoningTaskHash,reuseReasoningRating};
 function reusedConstructBlankAssessment(source,target,artifact){
  const original=source.classification.assessment,assessment=structuredClone(original);
