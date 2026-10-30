@@ -57,7 +57,7 @@ export function projectReviewReferences({project,payload,purpose,proposedOrder,c
   if((identityFields.has(key)||referenceField.test(key))&&forward.has(value))return replace(value);
   return reviewerProse.has(key)?replaceProse(value,replace):value;
  };
- const taskLists=new Set(['candidates','contextQuestions','findings','suggestions','dropped','clusters']);
+ const taskLists=new Set(['candidates','contextQuestions','findings','suggestions','dropped','clusters','claims']);
  const taskReferenceFields=new Set(['from','candidateId','candidateIds','contextQuestionId','contextQuestionIds']);
  const nativeLists=new Set(['examples','practice','hints','moves']);
  const nativeMaps=new Set(['practiceItems','examples','practice','hints','byTarget','questions']);

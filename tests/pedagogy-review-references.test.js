@@ -159,6 +159,16 @@ function expandTargetRows(context){
  });
 }
 
+test('coverage claim IDs remain task identities when they equal a native topic ID',()=>{
+ const project=fixture(),claims=[{topicId:'similar-triangles',id:'similar-triangles',coverage:'bridge',questionIds:['p7-q6'],teachingIds:[],rationale:'Check the method.'}];
+ const [packet]=coverageChallengePackets({project,claims,skills:[]});
+ const payload=JSON.parse(packet.prompt.slice(packet.prompt.indexOf('\n\n{')+2));
+ assert.equal(payload.claims[0].id,'similar-triangles');
+ assert.match(payload.claims[0].topicId,/^ref\d+$/);
+ const verdict={verdicts:[{topicId:payload.claims[0].topicId,clusterId:'similar-triangles',verdict:'DROP',reason:'Covered.'}],newStudentContent:0};
+ assert.equal(packet.taskReferences.decode(verdict).verdicts[0].clusterId,'similar-triangles');
+});
+
 test('compact target schemas round-trip every field, label and traversal row without changing evidence',()=>{
  const project=fixture(),payload={practice:structuredClone(project.sections[0].blocks)},before=structuredClone({project,payload});
  const options={project,payload,purpose:'pedagogy-order',proposedOrder:['p7-q5','p7-q6']};
