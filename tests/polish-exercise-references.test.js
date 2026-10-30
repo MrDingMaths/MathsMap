@@ -355,3 +355,33 @@ test('answer sibling external ambiguous and following graphs never satisfy an an
  const b=ancestorGraphQuestion();b.content.children[1].prompt+=' Then use the next question and result above.';
  const holds=resolveExerciseReferences(localReferenceProject(b)).holds;assert(holds.some(h=>h.quote==='next question'));assert(holds.some(h=>h.quote==='result above'));assert(!holds.some(h=>h.quote==='graph as above'));
 });
+const ownDiagramCollection=()=>({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Find the area in each diagram below:',layout:'grid',columns:2,children:['a','b'].map(id=>({id,type:'part',prompt:'',questionDiagrams:[{id:id+'-figure',format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'}]}))}});
+test('exact each-diagram-below stem resolves its complete visible direct-part diagram collection only',()=>{
+ const b=ownDiagramCollection(),p=localReferenceProject(b),original=JSON.stringify(p);
+ assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.deepEqual(unresolvedPrintedQuestionReferences(b,p),[]);assert.equal(JSON.stringify(p),original);
+ const custom=localReferenceProject(ownDiagramCollection());custom.settings.layoutOverrides.blockLayouts.own={arrangement:{version:1,root:{id:'all',type:'group',direction:'stack',children:[localRefItem('root/prompt'),{id:'figures',type:'group',direction:'row',children:['a-figure','b-figure'].map(localRefItem)}]}}};assert.deepEqual(resolveExerciseReferences(custom).holds,[]);
+ custom.settings.layoutOverrides.blockLayouts.a={arrangement:localRefTree('stack',['a-figure'])};assert.deepEqual(resolveExerciseReferences(custom).holds,[]);
+ const document=ownDiagramCollection();document.content.prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'intro',type:'paragraph',inlines:[{type:'text',text:'Find the area in each diagram below:'}]}]};assert.deepEqual(resolveExerciseReferences(localReferenceProject(document)).holds,[]);
+ const external=ownDiagramCollection();external.content.prompt+=' Then use the next question and result above.';const holds=resolveExerciseReferences(localReferenceProject(external)).holds;assert(holds.some(h=>h.quote==='next question'));assert(holds.some(h=>h.quote==='result above'));assert(!holds.some(h=>h.quote==='diagram below'));
+});
+test('each-diagram collection holds hidden reversed same-row answer missing multiple foreign and narrower layouts',()=>{
+ for(const mode of ['hidden','reversed','row','answer','missingpart','multiple','foreign','duplicate','rootextra','childgroup','unknown','localhidden','narrowroot','narrowchild','narrowforeign','narrowduplicate','partstem','malformed','noncollective']){
+  const b=ownDiagramCollection(),p=localReferenceProject(b),refs=['root/prompt','a-figure','b-figure'];
+  if(['hidden','reversed','row','duplicate','unknown','localhidden'].includes(mode))p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree(mode==='row'?'row':'stack',mode==='hidden'?refs.slice(0,2):mode==='reversed'?[...refs].reverse():mode==='duplicate'?[...refs,'a-figure']:mode==='unknown'?[...refs,'other-figure']:refs)};
+  if(mode==='answer'){b.content.children[0].answer={solutionDiagrams:b.content.children[0].questionDiagrams};delete b.content.children[0].questionDiagrams;}
+  if(mode==='missingpart')delete b.content.children[1].questionDiagrams;
+  if(mode==='multiple')b.content.children[0].questionDiagrams.push({...b.content.children[0].questionDiagrams[0],id:'extra'});
+  if(mode==='foreign'){const diagram=b.content.children[0].questionDiagrams[0];delete b.content.children[0].questionDiagrams;p.sections[0].blocks.push({id:'other',type:'question',content:{id:'other-root',type:'question',prompt:'Foreign diagram.',questionDiagrams:[diagram]}});}
+  if(mode==='rootextra')b.content.questionDiagrams=[{...b.content.children[0].questionDiagrams[0],id:'root-figure'}];
+  if(mode==='childgroup')b.content.children[0]={id:'group',type:'group',children:[b.content.children[0]]};
+  if(mode==='localhidden')b.presentation={layoutOverrides:{blockLayouts:{own:{arrangement:localRefTree('stack',refs.slice(0,2))}}}};
+  if(mode==='narrowroot')p.settings.layoutOverrides.blockLayouts.root={arrangement:localRefTree('stack',refs.slice(0,2))};
+  if(mode==='narrowchild')p.settings.layoutOverrides.blockLayouts.a={arrangement:localRefTree('stack',['a/label'])};
+  if(mode==='narrowforeign')p.settings.layoutOverrides.blockLayouts.a={arrangement:localRefTree('stack',['a-figure','b-figure'])};
+  if(mode==='narrowduplicate')p.settings.layoutOverrides.blockLayouts.a={arrangement:localRefTree('stack',['a-figure','a-figure'])};
+  if(mode==='partstem'){b.content.children[0].prompt=b.content.prompt;b.content.prompt='Calculate the areas.';}
+  if(mode==='malformed')p.settings.layoutOverrides.blockLayouts.own={arrangement:{root:null}};
+  if(mode==='noncollective')b.content.prompt='Use the other diagram below.';
+  assert(resolveExerciseReferences(p).holds.length,mode);assert(unresolvedPrintedQuestionReferences(b,p).length,mode+' direct');
+ }
+});

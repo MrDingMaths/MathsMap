@@ -110,6 +110,36 @@ function ownFollowingDiagram(block,field,project){
   return resolved.entries.get(diagram.id)?.kind==='diagram';
  }catch{return false;}
 }
+// Exact collective stem: every direct part supplies its own question diagram.
+// Do not infer an external figure, a descendant collection or omitted slots.
+function ownChildDiagramsBelow(block,field,project){
+ const path=JSON.parse(field.key),node=block.content,parts=node?.children;
+ if(path[0]!=='content'||path[1]!=='prompt'||path.lastIndexOf('prompt')!==1||node?.type!=='question'||node.questionDiagrams?.length||!Array.isArray(parts)||parts.length<2)return false;
+ if(parts.some(n=>n.type!=='part'||!n.id||n.children?.length||n.questionDiagrams?.length!==1))return false;
+ const diagrams=parts.map(n=>n.questionDiagrams[0]),ids=diagrams.map(d=>d?.id);
+ if(ids.some(id=>!id)||new Set(ids).size!==ids.length||new Set(parts.map(n=>n.id)).size!==parts.length||diagrams.some(d=>d.role!=null&&d.role!=='question'))return false;
+ const layouts=effectiveLayouts(block,project),overrides={...project?.settings?.layoutOverrides,...block.presentation?.layoutOverrides,blockLayouts:layouts};
+ try{
+  const stored=layouts[block.id]?.arrangement;if(stored&&!normalizeArrangement(stored))return false;
+  const resolved=resolveArrangement(block,stored,overrides);if(resolved.missing.length)return false;
+  const paragraph=path[2]==='blocks'?node.prompt?.blocks?.[path[3]]:null,intro=node.id+'/prompt'+(paragraph?'#'+paragraph.id:'');
+  const entries=[...resolved.entries.values()].filter(e=>e.kind==='diagram');
+  if(entries.length!==ids.length||entries.some(e=>!ids.includes(e.ref)))return false;
+  if(!ids.every(id=>belowInStack(resolved.tree.root,intro,id)))return false;
+  // A root/content/prompt layout must preserve the entire collective relation.
+  for(const ownerId of new Set([node.id,node.prompt?.id,paragraph?.id])){
+   const saved=layouts[ownerId]?.arrangement;
+   if(saved&&ownerId!==block.id&&(!normalizeArrangement(saved)||!ids.every(id=>belowInStack(saved.root,intro,id))))return false;
+  }
+  for(let i=0;i<parts.length;i++)for(const ownerId of [parts[i].id,ids[i]]){
+   const saved=layouts[ownerId]?.arrangement;if(!saved)continue;
+   const normalized=normalizeArrangement(saved);if(!normalized)return false;
+   const refs=[];const visit=n=>{if(n.type==='item')refs.push(n.ref);for(const child of n.children??[])visit(child);};visit(normalized.root);
+   if(refs.filter(ref=>ref===ids[i]).length!==1||refs.some(ref=>resolved.entries.get(ref)?.ownerId!==parts[i].id))return false;
+  }
+  return true;
+ }catch{return false;}
+}
 // A child may refer back to its own ancestor's unique supplied graph. Ownership
 // alone is insufficient: both slots must be visible in that vertical order.
 function ownAncestorGraphAbove(block,field,project){
@@ -179,7 +209,8 @@ function ownFollowingParts(block,field,project){
 }
 function referenceScanText(block,field,fields,project){
  let text=ownFollowingTable(block,field,project)?field.text.replace(/\btable below\b/gi,m=>' '.repeat(m.length)):field.text;
- if(/\bdiagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
+ if(/\bdiagram below\b/i.test(text)&&!/\beach diagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
+ if([...text.matchAll(/\beach diagram below\b/gi)].length===1&&ownChildDiagramsBelow(block,field,project))text=text.replace(/\beach diagram below\b/gi,m=>' '.repeat(m.length));
  if(/\b(?:the same graph as above|the graph above)\b/i.test(text)&&ownAncestorGraphAbove(block,field,project))text=text.replace(/\b(?:the same graph as above|the graph above)\b/gi,m=>' '.repeat(m.length));
  const nativeQuestions=children=>Array.isArray(children)&&children.some(child=>['question','part'].includes(child?.type)||child?.type==='group'&&nativeQuestions(child.children));
  const isPrompt=row=>{const path=JSON.parse(row.key);return path[0]==='content'&&path[1]==='prompt';};
