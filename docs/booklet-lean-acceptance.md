@@ -1,5 +1,7 @@
 # Lean programme acceptance — 29 October 2026
 
+30 October: [approved verification cuts](booklet-verification-cuts-20261030.md) supersede conflicting steps below, including routine visual checks for strictly mark-only changes. Comment-only saves remain nonprinting; additions, diagrams, pagination and writing space retain affected-output inspection.
+
 James approved immediate adoption, without a pilot. This governs the active phases 1–6 programme and its geometry, exam-mark and difficulty-ordering maintenance. It supersedes conflicting blanket acceptance requirements for that scope; phase 7 remains deferred.
 
 - **Metadata/rating only:** validate schema, identity, assessment binding and target/linked-record revisions; save and read back. No PDF unless displayed output changes.

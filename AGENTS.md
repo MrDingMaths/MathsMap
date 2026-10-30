@@ -1,6 +1,6 @@
 # MathsMap working conventions
 
-29 October: [lean acceptance](docs/booklet-lean-acceptance.md) supersedes blanket exports and whole-tree blockers for programme/geometry/order work; retain revision, maths, dependency, visual and teaching safeguards.
+30 October: [verification cuts](docs/booklet-verification-cuts-20261030.md) govern local/programme checks; otherwise use [lean acceptance](docs/booklet-lean-acceptance.md).
 
 ## Cross-booklet duplicate tooling retired (27 October 2026, user requested)
 

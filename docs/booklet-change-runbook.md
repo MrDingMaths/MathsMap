@@ -1,5 +1,7 @@
 # Booklet change runbook
 
+30 October: [approved verification cuts](booklet-verification-cuts-20261030.md) take precedence for programme work and bounded maintenance. Strictly mark-only and comment-only changes require scoped diff and guarded save/readback, without routine visual rendering; substantive content and output changes keep their focused checks.
+
 ## Import completion and repair routing (24 October 2026)
 
 New imports follow [streamlined completion](booklet-three-pass-import.md#streamlined-completion-24-october-2026). Saving a revision is progress, not acceptance. The shared gate blocks missing/stale reviews, unreliable inspections, unresolved substantive findings, unverified content repairs and failed/stale exports; there is no residual finding-count allowance. Route scaffold/content structure and diagram-code changes to the existing content-capable path even when the finding's area says layout or response. Independently check changed mathematics and visually verify the exact requested relationship before resolving it. Preserve teacher decisions and local exceptions; an open request does not approve its whole block. Verified substantive repairs may justify page growth; discretionary pagination trials retain no-growth and working-space floors. Use one final export and scoped repair checks, not a second full residual review. ICE-EM keeps its direct-route exception; historical evidence and active workers are preserved. This does not initiate any existing-booklet repair campaign or alter the local-maintenance matrix below.
