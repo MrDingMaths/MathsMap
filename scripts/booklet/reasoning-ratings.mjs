@@ -6,6 +6,7 @@ import {isPractice} from '../../src/lib/booklet-flow.js';
 import {isTheoryReview} from '../../src/lib/question-bank-eligibility.js';
 import {normaliseQuestion,difficultyBandForScore} from '../../src/lib/practice-question-model.js';
 import {sharedQuestion} from '../../src/lib/question-sync.js';
+import {CONSTRUCT_BLANK_KIND,checkedConstructBlankProof} from './construct-blank-lineage.mjs';
 
 export const REASONING_RUBRIC='mathsmap-cognitive-demand-v1';
 export const REASONING_PROMPT=`Assess every whole practice question individually on the MathsMap 0–100 cognitive-demand scale for a prepared student taught the relevant methods. Foundation 0–24: direct application; Development 25–49: routine linked procedures; Mastery 50–79: non-trivial connections or reframing; Challenge 80–100: decisive unsignposted insight. No quota or distribution. Read the student task first, then use the solution to detect hidden demand. Count decisions, representation changes and interpretation, not repeated parts, arithmetic bulk or solution length. Account for scaffolding actually supplied. Rate a multipart task by its hardest essential demand, not its average. Fractional numbers alone do not raise the band. Return an integer reasoningScore and a concise, task-specific difficultyReason explaining the decisions required. Never infer a score from an old band, title, page number or default. Do not change skills, content, answers or layout. If essential diagram/task evidence is unavailable, return a blocker rather than guessing.`;
@@ -36,10 +37,30 @@ export function validRawRating(rating){
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
  if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.constructBlankPresentationAdaptations?.length){const key='blank:'+a.constructBlankPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validConstructBlankReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.diagramPresentationAdaptations?.length){const key=a.diagramPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validDiagramPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  return true;
 }
 const checkingDiagramProofs=new Set();
+const constructBlankHooks={verifiedRating,reasoningTaskHash,reuseReasoningRating};
+function reusedConstructBlankAssessment(source,target,artifact){
+ const original=source.classification.assessment,assessment=structuredClone(original);
+ assessment.originalTaskHash??=original.taskHash;assessment.taskHash=reasoningTaskHash(target);
+ assessment.constructBlankPresentationAdaptations=[{kind:CONSTRUCT_BLANK_KIND,previousTaskHash:original.taskHash,currentTaskHash:assessment.taskHash,proofFile:artifact.path,proofSha256:artifact.sha256,originalAssessment:structuredClone(original),assessmentReused:true,newAssessmentPerformed:false}];
+ return assessment;
+}
+function validConstructBlankReuse(block,rating){
+ const row=rating.assessment.constructBlankPresentationAdaptations.at(-1);
+ if(rating.assessment.constructBlankPresentationAdaptations.length!==1||row.kind!==CONSTRUCT_BLANK_KIND||row.assessmentReused!==true||row.newAssessmentPerformed!==false)return false;
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=checkedConstructBlankProof(block,artifact,constructBlankHooks);
+ return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,reusedConstructBlankAssessment(source,block,artifact));
+}
+export function reuseConstructBlankPresentationRating(source,target,{proofArtifact,confirmEquivalent}={}){
+ if(typeof confirmEquivalent!=='function')throw Error('Coordinator exact blank-equivalence review required');
+ const checked=checkedConstructBlankProof(target,proofArtifact,constructBlankHooks);
+ if(!isDeepStrictEqual(checked.source,source)||confirmEquivalent(structuredClone(checked))!==true)throw Error('Exact blank equivalence not confirmed');
+ return {reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedConstructBlankAssessment(source,target,proofArtifact)};
+}
 const objectHash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 function pinnedJson(artifact){
  if(typeof artifact?.path!=='string'||!/^[a-f0-9]{64}$/.test(artifact.sha256??''))throw Error('Missing pinned diagram evidence');
