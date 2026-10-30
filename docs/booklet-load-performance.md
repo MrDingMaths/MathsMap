@@ -15,10 +15,11 @@ Project and bank save/conflict semantics are unchanged.
 ## Cache ownership and invalidation
 
 Compiled diagrams use memory, IndexedDB, then a read-only local server cache before
-falling back to the existing TikZ compiler. Cache keys bind prepared diagram
-source to a dedicated diagram-runtime fingerprint, including preparation, SVG
-calibration, cache code, bundled libraries/fonts and the dependency lockfile.
-Catalog-derived diagram changes participate through the prepared source key.
+falling back to the existing TikZ compiler. Each key covers prepared TeX, including
+colour, typography, packages and extra preamble. The diagram-runtime fingerprint
+covers the TikZ engine and the output-marked regions of `tikz.js` and
+`tikz-prepare.js`; unrelated modules and the dependency lockfile do not reset it.
+The full dependency closure is still checked for candidate diagram-code overrides.
 Page measurements retain the broader renderer fingerprint. Checksums reject corrupt persisted SVGs;
 bounded storage/network waits cannot hold up compilation indefinitely.
 
