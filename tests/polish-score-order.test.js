@@ -25,7 +25,7 @@ test('own-child introduction cannot hide childless or external references anywhe
 test('real method-support edge holds a score sort that would reverse supplied support',()=>{const p=project([q('support',40),q('use',20)]),plan=planScoreOrder(p,{supportEdges:[{before:'support',after:'use',kind:'reviewed-method-support'}]});assert.ok(plan.holds.some(h=>h.kind==='method-support-order'));assert.deepEqual(ids(scoreOrderCandidate(p,plan)),['support','use']);});
 test('additionTo records lineage, not an instructional dependency',()=>{const p=project([q('a',40),q('b',10,{sourceReview:{additionTo:{projectId:'p',blockId:'a'}}})]);assert.deepEqual(planScoreOrder(p).sections[0].plannedIds,['b','a']);});
 test('node-level dependencies resolve to the whole source question; unresolved links hold',()=>{const a=q('a',20),b=q('b',40,{flow:{dependsOn:['a-root']}}),p=project([a,b,q('c',10)]);assert.deepEqual(planScoreOrder(p).sections[0].plannedIds,['c','a','b']);b.flow.dependsOn=['absent'];assert.ok(planScoreOrder(p).holds.some(h=>h.kind==='unresolved-dependency'));});
-test('reviewed support is reused only against matching question and method contents',()=>{const intro={id:'intro',type:'callout',content:'Supplied method.'},a=q('a',40),b=q('b',10);a.classification.archetypeReview={mapFile:'map'};const p=project([intro,a,b]),snapshot=structuredClone(p),map={projectId:'p',snapshot:'snapshot',questions:{a:{topicId:'t',archetype:'x',practiceItems:[{archetype:'sub'}]}},topics:[{topicId:'t',clusters:[{id:'x',teachingIds:[]},{id:'sub',practiceEvidenceIds:['intro']}]}]},readJson=f=>f==='map'?map:snapshot;assert.deepEqual(reviewedMethodSupport(p,{readJson}).edges.map(e=>[e.before,e.after]),[['intro','a']]);p.sections[0].blocks[0].content='Changed method.';assert.equal(reviewedMethodSupport(p,{readJson}).holds[0].kind,'review-context-unverified');});
+test('reviewed support is reused only against matching question and method contents',()=>{const intro={id:'intro',type:'callout',content:'Supplied method.'},a=q('a',40),b=q('b',10);a.classification.archetypeReview={mapFile:'map'};const p=project([intro,a,b]),snapshot=structuredClone(p),map={projectId:'p',snapshot:'snapshot',questions:{a:{topicId:'t',archetype:'x',practiceItems:[{archetype:'sub'}]}},topics:[{topicId:'t',clusters:[{id:'x',teachingIds:[]},{id:'sub',practiceEvidenceIds:['intro']}]}]},readJson=f=>f==='map'?map:snapshot,practiceSupportDecision=()=>({relation:'prerequisite',reason:'The earlier supplied relation is required by this recipient.'});assert.deepEqual(reviewedMethodSupport(p,{readJson,practiceSupportDecision}).edges.map(e=>[e.before,e.after]),[['intro','a']]);p.sections[0].blocks[0].content='Changed method.';assert.equal(reviewedMethodSupport(p,{readJson,practiceSupportDecision}).holds[0].kind,'review-context-unverified');});
 
 function referenceMethodFixture(){
  const a=q('a',20),b=q('b',25),c=q('c',30);b.content.prompt='Use Question 1 to calculate the result.';b.content.answer={short:'8, agreeing with Question 1.',worked:'Use Question 1: $3+5=8$.'};
@@ -35,10 +35,41 @@ function referenceMethodFixture(){
  const {candidate,proof}=renumberExerciseReferences(before,ordered,resolveExerciseReferences(before));
  return{snapshot,readJson,adaptation:{before,ordered,candidate,proof},current:structuredClone(candidate)};
 }
+
+function practiceSupportFixture(){
+ const a=q('a',40),b=q('b',20);a.content.children=[{id:'a-part',type:'part',label:'a',prompt:'Show the supplied identity.'}];b.content.children=[{id:'b-part',type:'part',label:'a',prompt:'Show a different supplied identity.'}];
+ for(const block of[a,b]){block.classification.archetypeReview={mapFile:'map'};block.classification.assessment.taskHash=reasoningTaskHash(block);}
+ const p=project([a,b]),snapshot=structuredClone(p),map={projectId:'p',snapshot:'snapshot',questions:{a:{topicId:'t',archetype:'x'},b:{topicId:'t',archetype:'x'}},topics:[{topicId:'t',clusters:[{id:'x',practiceEvidenceIds:['a-part','b-part']}]}]},readJson=file=>file==='map'?map:snapshot;
+ return{p,snapshot,map,readJson};
+}
+
+test('practice coverage does not automatically force reciprocal self-scaffold prerequisites',()=>{
+ const f=practiceSupportFixture(),before=structuredClone({p:f.p,map:f.map,snapshot:f.snapshot}),calls=[];
+ const support=reviewedMethodSupport(f.p,{readJson:f.readJson,practiceSupportDecision:request=>{calls.push(structuredClone(request));request.after='unrelated';return{relation:'coverage-only',reason:'Each identity scaffolds its own complete Hence sketch; neither uses the other question.'};}});
+ assert.deepEqual(support.edges,[]);assert.deepEqual(support.holds,[]);assert.equal(calls.length,2);assert.deepEqual(support.practiceSupportCandidates.map(c=>[c.before,c.after,c.relation]),[['b','a','coverage-only'],['a','b','coverage-only']]);
+ assert.deepEqual(planScoreOrder(f.p,{contextHolds:support.holds,supportEdges:support.edges}).sections[0].plannedIds,['b','a']);assert.deepEqual({p:f.p,map:f.map,snapshot:f.snapshot},before);
+});
+
+test('unresolved practice coverage holds and a boolean or unexplained decision cannot bypass it',()=>{
+ for(const decision of[undefined,()=>true,()=>false,()=>({relation:'coverage-only'}),()=>({relation:'prerequisite',reason:' '}),()=>({relation:'ignore',reason:'Skip'})]){
+  const f=practiceSupportFixture(),support=reviewedMethodSupport(f.p,{readJson:f.readJson,practiceSupportDecision:decision});assert.deepEqual(support.edges,[]);assert.equal(support.holds.length,2);assert(support.holds.every(h=>h.kind==='practice-support-unresolved'));assert(support.practiceSupportCandidates.every(c=>c.relation==='unresolved'));assert.equal(planScoreOrder(f.p,{contextHolds:support.holds}).sections[0].status,'held');
+ }
+});
+
+test('recipient-specific reviewed practice prerequisite still blocks reversal of real supplied support',()=>{
+ const f=practiceSupportFixture(),support=reviewedMethodSupport(f.p,{readJson:f.readJson,practiceSupportDecision:({before,after})=>before==='a'&&after==='b'?{relation:'prerequisite',reason:'Question a supplies negation-and-addition; this later subtraction task requires that method.'}:{relation:'coverage-only',reason:'The later question supplies no method needed by the earlier task.'}});
+ assert.equal(support.holds.length,0);assert.deepEqual(support.edges.map(e=>[e.before,e.after]),[['a','b']]);const plan=planScoreOrder(f.p,{supportEdges:support.edges,contextHolds:support.holds});assert(plan.holds.some(h=>h.kind==='method-support-order'));assert.deepEqual(plan.sections[0].plannedIds,['a','b']);
+});
+
+test('practice decisions cannot bypass stale or missing own or cross-question anchors',()=>{
+ for(const change of[f=>{f.p.sections[0].blocks[1].content.children[0].prompt='Changed supplied relation.';},f=>{f.p.sections[0].blocks[1].content.children=[];},f=>{f.map.topics[0].clusters[0].practiceEvidenceIds.push('missing');}]){
+  const f=practiceSupportFixture();change(f);let calls=0;const support=reviewedMethodSupport(f.p,{readJson:f.readJson,practiceSupportDecision:()=>{calls++;return{relation:'coverage-only',reason:'This decision must not hide missing reviewed source.'};}});assert(support.holds.every(h=>h.kind==='review-context-unverified'));assert.equal(support.holds.length,2);assert.equal(calls,0);assert.deepEqual(support.edges,[]);
+ }
+});
 test('reviewed question and method anchor retain context through explicit reference-only replay',()=>{
  const {snapshot,readJson,adaptation,current}=referenceMethodFixture(),unchanged=structuredClone({snapshot,adaptation,current});
  assert.equal(reviewedMethodSupport(current,{readJson}).holds.length,2);
- const result=reviewedMethodSupport(current,{readJson,referenceAdaptations:[adaptation]});assert.deepEqual(result.holds,[]);assert.deepEqual(result.edges.map(e=>[e.before,e.after]),[['a','b'],['b','c']]);assert.equal(adaptation.proof.edits.length,3);
+ const result=reviewedMethodSupport(current,{readJson,referenceAdaptations:[adaptation],practiceSupportDecision:()=>({relation:'prerequisite',reason:'The recipient uses the preceding question supplied method.'})});assert.deepEqual(result.holds,[]);assert.deepEqual(result.edges.map(e=>[e.before,e.after]),[['a','b'],['b','c']]);assert.equal(adaptation.proof.edits.length,3);
  assert.deepEqual({snapshot,adaptation,current},unchanged);
 });
 test('reference context replay rejects missing proof and serialized acceptance assertions',()=>{

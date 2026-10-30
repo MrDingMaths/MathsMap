@@ -52,8 +52,8 @@ function recordedMethodSnapshot(map,file,projectId,readJson){
  for(const name of fs.readdirSync(directory)){if(!name.endsWith('.json'))continue;const snapshot=matching(path.join(directory,name));if(snapshot)return snapshot;}
  throw Error('review snapshot hash not found in map directory');
 }
-export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFileSync(f,'utf8')),referenceAdaptations=[]}={}){
- const cache=new Map(),edges=[],holds=[],currentBlocks=new Map((project.sections??[]).flatMap(s=>(s.blocks??[]).map(b=>[b.id,b]))),currentOwners=owners(project);
+export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFileSync(f,'utf8')),referenceAdaptations=[],practiceSupportDecision=null}={}){
+ const cache=new Map(),edges=[],holds=[],practiceSupportCandidates=[],currentBlocks=new Map((project.sections??[]).flatMap(s=>(s.blocks??[]).map(b=>[b.id,b]))),currentOwners=owners(project);
  // Only an explicit replay of the reference-number transformer can establish
  // reference-only equivalence; the current references must retain its targets.
  const adaptationCache=new Map();let currentReferences;
@@ -81,13 +81,30 @@ export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFil
    let record=cache.get(file);if(!record){try{const map=readJson(file);if(map.projectId!==project.id)throw Error('review project differs');const snapshot=recordedMethodSnapshot(map,file,project.id,readJson);if(snapshot.id!==project.id)throw Error('snapshot project differs');record={map,snapshot,blocks:new Map(snapshot.sections.flatMap(s=>s.blocks.map(b=>[b.id,b]))),owners:owners(snapshot)};}catch(error){record={error};}cache.set(file,record);}if(record.error)throw record.error;
    const q=record.map.questions?.[b.id],cluster=record.map.topics?.find(t=>t.topicId===q?.topicId)?.clusters?.find(c=>c.id===q?.archetype);if(!q||!cluster||!record.blocks.has(b.id)||!matchesReviewed(b,record.blocks.get(b.id)))throw Error('reviewed question changed or absent');
    const clusters=record.map.topics.find(t=>t.topicId===q.topicId).clusters.filter(c=>new Set([q.archetype,...(q.practiceItems??[]).map(i=>i.archetype).filter(Boolean)]).has(c.id));
-   for(const anchor of [...new Set(clusters.flatMap(c=>[...(c.teachingIds??[]),...(c.exampleIds??[]),...(c.guidedPracticeIds??[]),...(c.practiceEvidenceIds??[])]))]){
+   const automatic=new Set(clusters.flatMap(c=>[...(c.teachingIds??[]),...(c.exampleIds??[]),...(c.guidedPracticeIds??[])])),practice=new Set(clusters.flatMap(c=>c.practiceEvidenceIds??[])),validated=[];
+   for(const anchor of new Set([...automatic,...practice])){
     const owner=currentOwners.result.get(anchor),priorOwner=record.owners.result.get(anchor);if(!owner||owner!==priorOwner||currentOwners.ambiguous.has(anchor)||!record.blocks.has(owner)||!matchesReviewed(currentBlocks.get(owner),record.blocks.get(owner)))throw Error('reviewed method anchor changed or absent: '+anchor);
-    if(owner!==b.id)edges.push({before:owner,after:b.id,kind:'reviewed-method-support',evidence:file,anchor});
+    validated.push({anchor,owner});
+   }
+   for(const {anchor,owner}of validated){
+    if(owner===b.id)continue; // The complete owner already retains its own scaffold.
+    const edge={before:owner,after:b.id,kind:'reviewed-method-support',evidence:file,anchor};
+    if(automatic.has(anchor)){edges.push(edge);continue;}
+    // Cluster coverage is not a recipient-specific ordering prerequisite.
+    // The coordinator's existing holistic review must distinguish a reusable
+    // coverage example from a method this particular recipient needs first.
+    const candidate={before:owner,after:b.id,anchor,evidence:file,clusterIds:clusters.filter(c=>(c.practiceEvidenceIds??[]).includes(anchor)).map(c=>c.id)};
+    let decision;try{decision=typeof practiceSupportDecision==='function'?practiceSupportDecision(structuredClone(candidate)):null;}catch(error){decision={error:error.message};}
+    if(!decision||!['coverage-only','prerequisite'].includes(decision.relation)||typeof decision.reason!=='string'||!decision.reason.trim()){
+     practiceSupportCandidates.push({...candidate,relation:'unresolved'});
+     holds.push({id:b.id,kind:'practice-support-unresolved',before:owner,anchor,evidence:file,reason:decision?.error??'Holistic recipient-specific coverage/prerequisite decision with a reason is required.'});continue;
+    }
+    practiceSupportCandidates.push({...candidate,relation:decision.relation,reason:decision.reason.trim()});
+    if(decision.relation==='prerequisite')edges.push({...edge,reason:decision.reason.trim()});
    }
   }catch(error){holds.push({id:b.id,kind:'review-context-unverified',reason:error.message,evidence:file});}
  }
- return{edges,holds};
+ return{edges,holds,practiceSupportCandidates};
 }
 
 const fileSha=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex');
