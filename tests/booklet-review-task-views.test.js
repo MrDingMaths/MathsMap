@@ -31,6 +31,8 @@ test('a coverage verdict must cite evidence seen in full, once per claim',()=>{
  assert.throws(()=>validateCoverageChallenge(packet,reply({practiceEvidenceIds:['a-q1']})),/locator-only a-q1/);
  assert.throws(()=>validateCoverageChallenge(packet,reply({practiceEvidenceIds:['missing']})),/unseen missing/);
  assert.throws(()=>validateCoverageChallenge(packet,reply({prerequisiteIds:['missing']})),/unseen missing/);
+ assert.equal(validateCoverageChallenge({...packet,prerequisites:new Set(['known-skill'])},reply({prerequisiteIds:['known-skill']})).length,1);
+ assert.throws(()=>validateCoverageChallenge({...packet,prerequisites:new Set(['known-skill'])},reply({exampleIds:['known-skill']})),/unseen known-skill/);
  assert.throws(()=>validateCoverageChallenge(packet,{verdicts:[],newStudentContent:0}),/exactly one verdict/);
  assert.throws(()=>validateCoverageChallenge(packet,reply({verdict:'UNCHECKED'})),/needsTopics/);
  assert.equal(validateCoverageChallenge(packet,reply({verdict:'UNCHECKED',needsTopics:['a'],practiceEvidenceIds:['a-q1']})).length,1);

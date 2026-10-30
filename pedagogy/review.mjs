@@ -683,12 +683,12 @@ export function coverageChallengeView({project,all=sequences(project),claims,ski
  const owners=new Map(all.flatMap(sequence=>[...visibleIds(sequence)])),named=new Set(claims.flatMap(claim=>['questionIds',...COVERAGE_CITATIONS].flatMap(field=>(claim[field]??[]).map(id=>owners.get(id)??id))));
  const payload={booklet:project.title,courseId:project.library?.courseId??null,claims,comments:openComments(project,named),teaching,earlierTeaching:surrounding.full,digests:surrounding.digests,practice,outline,skills:[...claimed].flatMap(i=>skillFacts(all,i,skills))};
  const evidence=idsIn([teaching,surrounding.full,practice]),locators=new Set([...idsIn([surrounding.digests,outline])].filter(id=>!evidence.has(id)));
- return {payload,evidence,locators};
+ return {payload,evidence,locators,prerequisites:idsIn(payload.skills)};
 }
 // Never cut to fit: over the limit the claims split between topics, and one topic
 // that cannot fit alone is refused.
 export function coverageChallengePackets({project,all=sequences(project),claims,skills=[],limit=LIMITS.coverageCharacters}){
- const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,prompt:COVERAGE_CHALLENGE+'\n\n'+JSON.stringify(payload),evidence,locators};};
+ const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators,prerequisites}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,prompt:COVERAGE_CHALLENGE+'\n\n'+JSON.stringify(payload),evidence,locators,prerequisites};};
  const packets=[];let current=[];
  for(const topicId of [...new Set(all.map(sequence=>sequence.topicId))].filter(id=>claims.some(claim=>claim.topicId===id))){
   const next=[...current,topicId];
@@ -712,7 +712,7 @@ export function validateCoverageChallenge(packet,result){
   if(!['covered','bridge','missing','prior-knowledge'].includes(row.coverage))errors.push('Invalid coverage for '+name);
   for(const field of COVERAGE_CITATIONS)for(const id of row[field]??[]){
    if(packet.locators.has(id))errors.push(`${name} rests on locator-only ${id}; return UNCHECKED`);
-   else if(!packet.evidence.has(id))errors.push(`${name} cites unseen ${id}`);
+   else if(!packet.evidence.has(id)&&!(field==='prerequisiteIds'&&packet.prerequisites?.has(id)))errors.push(`${name} cites unseen ${id}`);
   }
  }
  if(errors.length)throw Error(errors.join('; '));
