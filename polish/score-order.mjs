@@ -15,7 +15,7 @@ import {verifiedRating,reasoningTaskHash} from '../scripts/booklet/reasoning-rat
 import {reuseContentHash} from '../scripts/booklet/reuse-content.mjs';
 
 export const scoreOrderFingerprint=project=>createHash('sha256').update(JSON.stringify(project)).digest('hex');
-const walk=(value,visit)=>{if(Array.isArray(value))value.forEach(v=>walk(v,visit));else if(value&&typeof value==='object'){visit(value);for(const [key,v]of Object.entries(value))if(!['sourceReview','classification','spec','code','sourceAtom'].includes(key))walk(v,visit);}};
+const walk=(value,visit)=>{if(Array.isArray(value))value.forEach(v=>walk(v,visit));else if(value&&typeof value==='object'){visit(value);for(const [key,v]of Object.entries(value))if(!['sourceReview','classification','spec','code','sourceAtom','sourceLayoutEvidence'].includes(key))walk(v,visit);}};
 const nodes=block=>{const rows=[];walk(block,n=>{if(typeof n.id==='string')rows.push(n);});return rows;};
 const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;
 const sameContent=(a,b)=>JSON.stringify(canonical(questionReviewContent(a)))===JSON.stringify(canonical(questionReviewContent(b)));

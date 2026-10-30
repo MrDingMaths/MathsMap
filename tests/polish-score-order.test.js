@@ -24,6 +24,41 @@ test('real method-support edge holds a score sort that would reverse supplied su
 test('additionTo records lineage, not an instructional dependency',()=>{const p=project([q('a',40),q('b',10,{sourceReview:{additionTo:{projectId:'p',blockId:'a'}}})]);assert.deepEqual(planScoreOrder(p).sections[0].plannedIds,['b','a']);});
 test('node-level dependencies resolve to the whole source question; unresolved links hold',()=>{const a=q('a',20),b=q('b',40,{flow:{dependsOn:['a-root']}}),p=project([a,b,q('c',10)]);assert.deepEqual(planScoreOrder(p).sections[0].plannedIds,['c','a','b']);b.flow.dependsOn=['absent'];assert.ok(planScoreOrder(p).holds.some(h=>h.kind==='unresolved-dependency'));});
 test('reviewed support is reused only against matching question and method contents',()=>{const intro={id:'intro',type:'callout',content:'Supplied method.'},a=q('a',40),b=q('b',10);a.classification.archetypeReview={mapFile:'map'};const p=project([intro,a,b]),snapshot=structuredClone(p),map={projectId:'p',snapshot:'snapshot',questions:{a:{topicId:'t',archetype:'x',practiceItems:[{archetype:'sub'}]}},topics:[{topicId:'t',clusters:[{id:'x',teachingIds:[]},{id:'sub',practiceEvidenceIds:['intro']}]}]},readJson=f=>f==='map'?map:snapshot;assert.deepEqual(reviewedMethodSupport(p,{readJson}).edges.map(e=>[e.before,e.after]),[['intro','a']]);p.sections[0].blocks[0].content='Changed method.';assert.equal(reviewedMethodSupport(p,{readJson}).holds[0].kind,'review-context-unverified');});
+
+function archivedMethodFixture(){
+ const header={id:'header',type:'callout',content:'Methods',sourceLayoutEvidence:{originalContent:{blocks:[{id:'method',type:'layout',blocks:[]}]}}};
+ const method={id:'method',type:'worked-example',content:{id:'method-root',type:'paragraph',prompt:'Use the supplied relation.'}},a=q('a',40);
+ a.classification.archetypeReview={mapFile:'map'};
+ const p=project([header,method,a]),snapshot=structuredClone(p),map={projectId:'p',snapshot:'snapshot',questions:{a:{topicId:'t',archetype:'x'}},topics:[{topicId:'t',clusters:[{id:'x',teachingIds:['method']}]}]};
+ return {p,snapshot,readJson:file=>file==='map'?map:snapshot};
+}
+
+test('archived layout IDs cannot shadow the unchanged live method owner',()=>{
+ const {p,snapshot,readJson}=archivedMethodFixture(),before=structuredClone({p,snapshot});
+ const support=reviewedMethodSupport(p,{readJson});
+ assert.deepEqual(support.holds,[]);
+ assert.deepEqual(support.edges.map(e=>[e.before,e.after,e.anchor]),[['method','a','method']]);
+ assert.deepEqual({p,snapshot},before);
+});
+
+test('genuine duplicate live method IDs remain ambiguous despite an archived copy',()=>{
+ const {p,readJson}=archivedMethodFixture();
+ p.sections[0].blocks.push({id:'other',type:'callout',content:{id:'method',type:'paragraph',prompt:'Another live node.'}});
+ const support=reviewedMethodSupport(p,{readJson});
+ assert.deepEqual(support.edges,[]);
+ assert.equal(support.holds.length,1);assert.match(support.holds[0].reason,/method anchor changed or absent: method/);
+});
+
+test('real method drift or a missing live anchor cannot fall back to archived evidence',()=>{
+ for(const mutation of ['change','remove']){
+  const {p,readJson}=archivedMethodFixture();
+  if(mutation==='change')p.sections[0].blocks[1].content.prompt='A different mathematical relation.';
+  else p.sections[0].blocks.splice(1,1);
+  const support=reviewedMethodSupport(p,{readJson});
+  assert.deepEqual(support.edges,[]);
+  assert.equal(support.holds.length,1);assert.match(support.holds[0].reason,/method anchor changed or absent: method/);
+ }
+});
 test('all requested exercise roles are recognised but teaching/candidate pools are excluded',()=>{for(const role of['exam','challenge','mixed-review','practice'])assert.ok(exerciseRole({phase:'practice',role}));assert.equal(exerciseRole({phase:'teaching',role:'practice'}),null);assert.equal(exerciseRole({phase:'practice',role:'candidate-pool'}),null);});
 test('revision or content changes make an otherwise valid plan stale',()=>{const p=project([q('a',40),q('b',10)]),plan=planScoreOrder(p);p.revision++;assert.throws(()=>scoreOrderCandidate(p,plan),/Stale/);p.revision--;p.studio.flags.push({id:'edit'});assert.throws(()=>scoreOrderCandidate(p,plan),/Stale/);});
 test('source contrast groups never enter ordinary sorting',()=>{const p=project([q('a',40),q('contrast',10,{contrastGroup:'compare'}),q('b',5)]),plan=planScoreOrder(p);assert.deepEqual(plan.sections[0].barriers,['contrast']);assert.deepEqual(ids(scoreOrderCandidate(p,plan)),['a','contrast','b']);});
