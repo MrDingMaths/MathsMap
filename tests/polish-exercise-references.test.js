@@ -203,3 +203,28 @@ test('visible or unknown native-code references remain held beside known SVG sou
   assert.equal(q.content.questionDiagrams[0].code,code);
  }
 });
+
+const inlineColourLine='% mathsmap-diagram-colours '+JSON.stringify({version:1,kind:'graph',base:[],semantic:[],reference:'source page 5 p5-q1-solution'});
+const inlineGraph=extra=>'[tikz]% mathsmap-inline-width-mm 44\n'+inlineColourLine+'\n\\special{dvisvgm:raw <metadata data-graph-strokes="1"/>}\n'+extra+'\n[/tikz]';
+test('inline TikZ masks only known colour metadata during scan, preserving source bytes',()=>{
+ const p=fixture();p.sections[0].blocks[11].content.prompt='Calculate.';p.sections[0].blocks[11].content.answer={short:{format:'maths-editor-document-v1',blocks:[{type:'paragraph',inlines:[{type:'text',text:inlineGraph('\\node{$x$};')}]}]}};
+ const raw=JSON.stringify(p),r=resolveExerciseReferences(p);assert.deepEqual(r.holds,[]);assert.deepEqual(r.records,[]);assert.equal(JSON.stringify(p),raw);
+});
+test('visible inline TikZ reference adjacent to masked metadata remains held',()=>{
+ const p=fixture();p.sections[0].blocks[11].content.answer.worked=inlineGraph('\\node{Question 11};');
+ assert(resolveExerciseReferences(p).holds.some(h=>h.id==='stable-q12'&&h.kind==='unsupported-native-code-reference'));
+});
+test('unknown malformed and unclosed inline TikZ metadata remain held',()=>{
+ for(const text of [inlineGraph('').replace('mathsmap-diagram-colours','unknown-colour'),inlineGraph('').replace('"version":1','"version":2'),inlineGraph('').replace('"kind":"graph"','"kind":"unknown"'),inlineGraph('').replace('"reference":','BROKEN:'),inlineGraph('').replace('[/tikz]',''),inlineGraph('').replace('[tikz]','[tikz][tikz]')]){const p=fixture();p.sections[0].blocks[11].content.answer.worked=text;assert(resolveExerciseReferences(p).holds.some(h=>h.id==='stable-q12'),text);}
+});
+test('inline metadata masking retains adjacent actual prose and unknown HTML references',()=>{
+ const p=fixture();p.sections[0].blocks[11].content.answer.worked=inlineGraph('')+' Use Question 11.';const r=resolveExerciseReferences(p);assert(r.records.some(x=>x.ownerId==='stable-q12'||x.targetId==='stable-q11'));
+ const q=fixture();q.sections[0].blocks[11].content.answer.worked=inlineGraph('')+'<span>Question 11</span>';assert(resolveExerciseReferences(q).holds.some(h=>h.id==='stable-q12'));
+});
+
+test('renumber after inline TikZ keeps exact span bytes and correct original offsets',()=>{
+ const p=fixture(),span=inlineGraph('\\node{$x$};').replace('\\special{dvisvgm:raw <metadata data-graph-strokes="1"/>}\n','');p.sections[0].blocks[11].content.prompt='Calculate.';p.sections[0].blocks[11].content.answer={short:span+' Use Question 11.'};
+ const r=resolveExerciseReferences(p);assert.deepEqual(r.holds,[]);const ordered=structuredClone(p),blocks=ordered.sections[0].blocks;ordered.sections[0].blocks=[blocks[12],...blocks.slice(0,12)];
+ const {candidate,proof}=renumberExerciseReferences(p,ordered,r),answer=candidate.sections[0].blocks.find(b=>b.id==='stable-q12').content.answer.short;
+ assert.equal(answer,span+' Use Question 12.');assert.equal(p.sections[0].blocks[11].content.answer.short,span+' Use Question 11.');assert.equal(proof.edits.length,1);
+});

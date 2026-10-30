@@ -28,11 +28,26 @@ const hasNumericMathReference=text=>[...text.matchAll(MATH_TOKEN_REFERENCE)].som
 
 // Known printable roots only; provenance/IDs/diagram code are never rewritten.
 // Compose native inline runs so `Question ` + `11` resolves across text nodes.
+// Inline TikZ is printed through the native text renderer. Mask only its exact
+// known nonprinting colour JSON line; retain length/newlines for rewrite offsets.
+function inlineTikzReferenceText(text){
+ const tokens=[...text.matchAll(/\[(\/?tikz)\]/g)];
+ if(!tokens.length||tokens.length%2||tokens.some((m,i)=>m[1]!==((i%2)?'/tikz':'tikz')))return text;
+ return text.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/g,(span,code)=>span.replace(/^% mathsmap-diagram-colours ([^\r\n]*)/gm,(line,json)=>{
+  try{const v=JSON.parse(json);if(v?.version!==1||!['graph','geometry'].includes(v.kind)||!Array.isArray(v.base)||!Array.isArray(v.semantic)||typeof v.reference!=='string')return line;}catch{return line;}
+  return ' '.repeat(line.length);
+ }));
+}
+function scanField(field){
+ field.text=inlineTikzReferenceText(field.text);
+ if([...field.text.matchAll(/\[tikz\][\s\S]*?(?:\[\/tikz\]|$)/g)].some(m=>/\b(?:Question|Q)\s*\.?\s*\d|\bas above\b/i.test(m[0])))field.unsupportedCode=true;
+ return field;
+}
 export function printedReferenceFields(block){
  const fields=[];
  const visit=(v,path,key,parent)=>{
   if(typeof v==='string'){
-   if(TEXT.has(key))fields.push({key:JSON.stringify(path),text:v,parts:[{path,start:0,end:v.length}]});
+   if(TEXT.has(key))fields.push(scanField({key:JSON.stringify(path),text:v,parts:[{path,start:0,end:v.length}]}));
    return;
   }
   if(!v||typeof v!=='object')return;
@@ -44,7 +59,7 @@ export function printedReferenceFields(block){
     if(!k){text+=' ';continue;}
     const start=text.length;text+=n[k];parts.push({path:[...path,'inlines',i,k],start,end:text.length});
    }
-   if(parts.length)fields.push({key:JSON.stringify([...path,'inlines']),text,parts});
+   if(parts.length)fields.push(scanField({key:JSON.stringify([...path,'inlines']),text,parts}));
   }
   for(const[k,x]of Object.entries(v)){
    if(OMIT.has(k)||k==='inlines')continue;
