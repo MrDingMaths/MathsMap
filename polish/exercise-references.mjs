@@ -282,13 +282,16 @@ export function renumberExerciseReferences(before,ordered,resolution){
  return {candidate,proof};
 }
 export function verifyReferenceNumberAdaptation(before,ordered,candidate,proof){const replay=renumberExerciseReferences(before,ordered,proof.resolution);same(replay.candidate,candidate);same(replay.proof,proof);return true;}
-// Explicit coordinator acceptance callback, never a serialized `verified` flag.
-export function reuseReferenceNumberRating(original,rewritten,proof,{before,ordered,evidenceFile,evidenceSha256,confirmIndependentRating}={}){
- assert.equal(typeof confirmIndependentRating,'function');assert(verifiedRating(original));
+// Explicit coordinator confirmation of the existing assessment, never a
+// serialized flag or a demand for a second numeric review of unchanged maths.
+// Keep the former capability name as a compatibility alias for retained runs.
+export function reuseReferenceNumberRating(original,rewritten,proof,{before,ordered,evidenceFile,evidenceSha256,confirmExistingRating,confirmIndependentRating}={}){
+ const confirm=confirmExistingRating===undefined?confirmIndependentRating:confirmExistingRating;
+ assert.equal(typeof confirm,'function');assert(verifiedRating(original));
  assert.equal(hash(fs.readFileSync(evidenceFile,'utf8')),evidenceSha256);same(JSON.parse(fs.readFileSync(evidenceFile,'utf8')),proof);
  const replay=renumberExerciseReferences(before,ordered,proof.resolution);same(replay.proof,proof);same(replay.candidate.sections.flatMap(s=>s.blocks).find(b=>b.id===rewritten.id),rewritten);
  const source=before.sections.flatMap(s=>s.blocks).find(b=>b.id===original.id);same(source,original);
- assert.equal(confirmIndependentRating({block:structuredClone(original),assessment:structuredClone(original.classification.assessment)}),true,'Independent original numeric verdict required');
+ assert.equal(confirm({block:structuredClone(original),assessment:structuredClone(original.classification.assessment)}),true,'Valid existing assessment confirmation required');
  const result=structuredClone(original.classification),old=structuredClone(result.assessment);result.assessment.originalTaskHash??=old.taskHash;result.assessment.taskHash=reasoningTaskHash(rewritten);
  result.assessment.referenceNumberAdaptations=[...(old.referenceNumberAdaptations??[]),{kind:proof.kind,previousTaskHash:old.taskHash,currentTaskHash:result.assessment.taskHash,stableTargets:[...new Set(proof.edits.filter(e=>e.ownerId===original.id).map(e=>e.targetId))],originalAssessmentSha256:hash(old),proofFile:evidenceFile,proofSha256:evidenceSha256,assessmentReused:true,newAssessmentPerformed:false}];
  return result;

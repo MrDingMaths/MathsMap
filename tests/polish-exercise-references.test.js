@@ -48,13 +48,27 @@ test('binding target tampering and remapped order/proof tampering are rejected',
  const ordered=structuredClone(p),by=new Map(ordered.sections[0].blocks.map(b=>[b.id,b]));ordered.sections[0].blocks=plan.sections[0].plannedIds.map(id=>by.get(id));assert.throws(()=>verifyReferenceNumberAdaptation(p,ordered,badCandidate,referenceProof));
  const separated=structuredClone(ordered);[separated.sections[0].blocks[2],separated.sections[0].blocks[3]]=[separated.sections[0].blocks[3],separated.sections[0].blocks[2]];assert.throws(()=>renumberExerciseReferences(p,separated,r),/group separated/);
 });
-test('typed rating reuse requires independent acceptance; preserves old numeric/model/date/history and bank link',()=>{
+test('legacy confirmation alias preserves old numeric/model/date/history and bank link',()=>{
  const p=fixture();p.sections[0].blocks[11].bankRef={id:'fixture-linked-bank',revision:'fixed'};
  // Bank linkage is unchanged by local authoring; actual SDK publication gate remains caller-owned.
  const r=resolveExerciseReferences(p),plan=planScoreOrder(p,{referenceResolution:r}),{candidate,referenceProof}=scoreOrderCandidate(p,plan,{includeReferenceProof:true}),ordered=structuredClone(p),by=new Map(ordered.sections[0].blocks.map(b=>[b.id,b]));ordered.sections[0].blocks=plan.sections[0].plannedIds.map(id=>by.get(id));
  const original=p.sections[0].blocks[11],changed=candidate.sections[0].blocks.find(b=>b.id===original.id),file=path.join(dir,'typed-proof.json');fs.writeFileSync(file,JSON.stringify(referenceProof));const options={before:p,ordered,evidenceFile:file,evidenceSha256:sha(fs.readFileSync(file)),confirmIndependentRating:()=>false};assert.throws(()=>reuseReferenceNumberRating(original,changed,referenceProof,options));
  const rating=reuseReferenceNumberRating(original,changed,referenceProof,{...options,confirmIndependentRating:()=>true});assert.equal(rating.reasoningScore,40);assert.equal(rating.assessment.model,original.classification.assessment.model);assert.equal(rating.assessment.assessedAt,original.classification.assessment.assessedAt);assert.equal(rating.assessment.originalTaskHash,original.classification.assessment.taskHash);assert.equal(rating.assessment.referenceNumberAdaptations[0].newAssessmentPerformed,false);sameBank();function sameBank(){assert.deepEqual(changed.bankRef,original.bankRef);}
  assert(verifiedRating(changed,rating));
+});
+function existingRatingRenumberFixture(){
+ const before=fixture();for(const b of before.sections[0].blocks)b.classification.assessment.evidence='retained/semantic-packets/assignment/generation.json';
+ const resolution=resolveExerciseReferences(before),plan=planScoreOrder(before,{referenceResolution:resolution}),{candidate,referenceProof:proof}=scoreOrderCandidate(before,plan,{includeReferenceProof:true}),ordered=structuredClone(before),by=new Map(ordered.sections[0].blocks.map(b=>[b.id,b]));ordered.sections[0].blocks=plan.sections[0].plannedIds.map(id=>by.get(id));
+ const original=before.sections[0].blocks[11],rewritten=candidate.sections[0].blocks.find(b=>b.id===original.id),file=path.join(dir,'existing-rating-proof-'+Math.random().toString(16).slice(2)+'.json');fs.writeFileSync(file,JSON.stringify(proof));return{original,rewritten,proof,options:{before,ordered,evidenceFile:file,evidenceSha256:sha(fs.readFileSync(file)),confirmExistingRating:()=>true}};
+}
+test('existing author assessment supports exact reference-only reuse without a second numeric receipt',()=>{
+ const {original,rewritten,proof,options}=existingRatingRenumberFixture(),before=structuredClone(original),rating=reuseReferenceNumberRating(original,rewritten,proof,options);
+ assert.equal(rating.reasoningScore,original.classification.reasoningScore);assert.equal(rating.assessment.model,original.classification.assessment.model);assert.equal(rating.assessment.assessedAt,original.classification.assessment.assessedAt);assert.equal(rating.assessment.evidence,original.classification.assessment.evidence);assert.equal(rating.assessment.referenceNumberAdaptations.at(-1).newAssessmentPerformed,false);assert(verifiedRating(rewritten,rating));assert.deepEqual(original,before);
+});
+test('existing assessment confirmation cannot bypass stale maths false approval or changed targets',()=>{
+ for(const change of [f=>{f.original.content.prompt='Calculate $19+4$.';},f=>{f.original.classification.assessment.taskHash='0'.repeat(64);},f=>{f.rewritten.content.answer.short='A different mathematical answer.';},f=>{f.options.confirmExistingRating=()=>false;f.options.confirmIndependentRating=()=>true;},f=>{f.proof.edits[0].targetId='stable-q10';},f=>{f.options.ordered.sections[0].blocks.find(b=>b.id==='stable-q11').content.prompt='Calculate $19+4$.';}]){
+  const f=existingRatingRenumberFixture();change(f);assert.throws(()=>reuseReferenceNumberRating(f.original,f.rewritten,f.proof,f.options));
+ }
 });
 test('relative, opaque native-code and plural unsupported references hold instead of guessing',()=>{
  for(const text of['Use the previous question.','Use Questions 11 and 12.','Apply Example 2.']){const p=fixture();p.sections[0].blocks[11].content.answer.worked=text;assert(resolveExerciseReferences(p).holds.length>0);}
