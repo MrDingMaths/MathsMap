@@ -228,3 +228,32 @@ test('renumber after inline TikZ keeps exact span bytes and correct original off
  const {candidate,proof}=renumberExerciseReferences(p,ordered,r),answer=candidate.sections[0].blocks.find(b=>b.id==='stable-q12').content.answer.short;
  assert.equal(answer,span+' Use Question 12.');assert.equal(p.sections[0].blocks[11].content.answer.short,span+' Use Question 11.');assert.equal(proof.edits.length,1);
 });
+
+test('table below resolves only a later visible native table in the same prompt document',()=>{
+ const para=(id,text)=>({id,type:'paragraph',inlines:[{type:'text',text}]}),table=id=>({id,type:'table',rows:[[{blocks:[para(id+'-cell','Given data')]}]]}),doc=(...blocks)=>({format:'maths-editor-document-v1',version:1,blocks});
+ const make=()=>({id:'own',type:'question',pedagogyRole:'practice',content:{id:'root',type:'question',prompt:doc(para('intro','Use the table below.'),table('given'))}});
+ const held=b=>unresolvedPrintedQuestionReferences(b).length>0;
+ const root=make();assert.equal(held(root),false);
+ const child=make();child.content={id:'root',type:'question',children:[{id:'part',type:'part',prompt:root.content.prompt}]};assert.equal(held(child),false);
+ const arranged=make();arranged.presentation={layoutOverrides:{blockLayouts:{own:{arrangement:{root:{type:'group',direction:'stack',children:[{type:'item',ref:'root/prompt#intro'},{type:'item',ref:'root/prompt#given'}]}}}}}};assert.equal(held(arranged),false);
+ for(const rootMode of ['none','whole-child'])for(const mode of ['hidden','reversed','row']){
+  const b=structuredClone(child),children=[{type:'item',ref:'part/prompt#intro'},{type:'item',ref:'part/prompt#given'}];
+  if(mode==='hidden')children.pop();if(mode==='reversed')children.reverse();
+  b.presentation={layoutOverrides:{blockLayouts:{part:{arrangement:{root:{type:'group',direction:mode==='row'?'row':'stack',children}}}}}};
+  if(rootMode==='whole-child')b.presentation.layoutOverrides.blockLayouts.own={arrangement:{root:{type:'group',direction:'stack',children:[{type:'item',ref:'part/prompt'}]}}};
+  assert.equal(held(b),true,rootMode+' root must not hide '+mode+' child arrangement');
+ }
+ const validChild=structuredClone(child);validChild.presentation={layoutOverrides:{blockLayouts:{part:{arrangement:{root:{type:'group',direction:'stack',children:[{type:'item',ref:'part/prompt#intro'},{type:'item',ref:'part/prompt#given'}]}}}}}};assert.equal(held(validChild),false);
+ const answer=make();answer.content.prompt=doc(para('intro','Use the table below.'));answer.content.answer={short:doc(table('answer-only'))};assert.equal(held(answer),true);
+ const earlier=make();earlier.content.prompt.blocks.reverse();assert.equal(held(earlier),true);
+ const sibling=structuredClone(child);sibling.content.children[0].prompt=doc(para('intro','Use the table below.'));sibling.content.children.push({id:'other',type:'part',prompt:doc(table('different-child'))});assert.equal(held(sibling),true);
+ const different=make();different.content.prompt=doc(para('intro','Use the table below.'));different.prompt=doc(table('different-prompt'));assert.equal(held(different),true);
+ const owner=make();owner.content.prompt=doc(para('intro','Use the table below.'));const project={id:'fixture',settings:{exerciseOrganisation:'topic'},sections:[{id:'s',topicId:'t',phase:'practice',blocks:[owner,{...make(),id:'other-owner'}]}]};assert(resolveExerciseReferences(project).holds.some(h=>h.id==='own'));
+ const reversed=structuredClone(arranged);reversed.presentation.layoutOverrides.blockLayouts.own.arrangement.root.children.reverse();assert.equal(held(reversed),true);
+ const omitted=structuredClone(arranged);omitted.presentation.layoutOverrides.blockLayouts.own.arrangement.root.children.pop();assert.equal(held(omitted),true);
+ const beside=structuredClone(arranged);beside.presentation.layoutOverrides.blockLayouts.own.arrangement.root.direction='row';assert.equal(held(beside),true);
+ const empty=make();empty.content.prompt.blocks[1].rows=[];assert.equal(held(empty),true);
+ const cross=make();cross.content.prompt.blocks[0].inlines[0].text='Use the table below and the next question. Question 2 gives the result above.';assert.equal(held(cross),true);
+ const numeric={id:'fixture',settings:{exerciseOrganisation:'topic'},sections:[{id:'s',topicId:'t',phase:'practice',blocks:[{...cross,sourceOrder:1},{...make(),id:'two',sourceOrder:2}]}]};const result=resolveExerciseReferences(numeric);assert(result.holds.some(h=>h.quote==='next question'));assert(result.holds.some(h=>h.quote==='result above'));assert(!result.holds.some(h=>h.quote==='table below'));assert.equal(result.records[0].oldNumber,2);const slice=result.records[0].slices[0];const original=slice.path.reduce((v,k)=>v[k],cross);assert.equal(original.slice(slice.start,slice.end),'2','numeric rewrite offsets remain on original text');
+ for(const phrase of ['table as below','table above','diagram below','result below']){const b=make();b.content.prompt.blocks[0].inlines[0].text=phrase;assert.equal(held(b),true,phrase);}
+});

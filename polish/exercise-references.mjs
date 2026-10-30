@@ -81,17 +81,43 @@ export function printedReferenceFields(block){
  }
  return fields;
 }
+// Resolve only a following native table in this exact student prompt document.
+// Answer/provenance tables, sibling prompts and other owners cannot satisfy it.
+function ownFollowingTable(block,field){
+ const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
+ if(path[0]!=='content'||pi<0||path.slice(0,pi).includes('answer')||path[pi+1]!=='blocks'||!Number.isInteger(path[pi+2]))return false;
+ const document=get(block,path.slice(0,pi+1)),index=path[pi+2],paragraph=document?.blocks?.[index];
+ if(document?.format!=='maths-editor-document-v1'||paragraph?.type!=='paragraph')return false;
+ const table=document.blocks.slice(index+1).find(n=>n.type==='table'&&Array.isArray(n.rows)&&n.rows.length&&n.rows.every(row=>Array.isArray(row)&&row.length&&row.every(cell=>Array.isArray(cell.blocks)&&cell.blocks.length)));
+ if(!table)return false;
+ const node=get(block,path.slice(0,pi)),layouts=block.presentation?.layoutOverrides?.blockLayouts;
+ // Any applicable saved ancestor/child/prompt layout must independently prove
+ // visibility and order. A root default cannot overrule a narrower saved layout.
+ const ids=new Set([block.id,node.id,document.id,paragraph.id,table.id]);
+ for(let i=1;i<=pi;i++){const ancestor=get(block,path.slice(0,i));if(ancestor?.id)ids.add(ancestor.id);}
+ const arrangements=[...ids].filter(id=>id&&layouts?.[id]?.arrangement!=null).map(id=>layouts[id].arrangement?.root);
+ return arrangements.every(arrangement=>{
+  if(!arrangement)return false;
+  const refs=[];let stacked=true;
+  const visit=n=>{if(n.type==='item')refs.push(n.ref);else{if(n.direction!=='stack')stacked=false;for(const child of n.children??[])visit(child);}};visit(arrangement);
+  if(!stacked)return false;
+  const whole=node.id+'/prompt',intro=node.id+'/prompt#'+paragraph.id,target=node.id+'/prompt#'+table.id;
+  if(refs.filter(r=>r===whole).length===1&&!refs.includes(intro)&&!refs.includes(target))return true;
+  return refs.filter(r=>r===intro).length===1&&refs.filter(r=>r===target).length===1&&refs.indexOf(intro)<refs.indexOf(target);
+ }); // With no saved arrangement, native prompt blocks render in stored order.
+}
 // A terminal introduction to actual native parts refers to this owner's asks.
 // Only its own span is ignored for scanning; all other prose/digit offsets stay.
 function referenceScanText(block,field,fields){
+ const text=ownFollowingTable(block,field)?field.text.replace(/\btable below\b/gi,m=>' '.repeat(m.length)):field.text;
  const nativeQuestions=children=>Array.isArray(children)&&children.some(child=>['question','part'].includes(child?.type)||child?.type==='group'&&nativeQuestions(child.children));
  const isPrompt=row=>{const path=JSON.parse(row.key);return path[0]==='content'&&path[1]==='prompt';};
- if(!isPrompt(field)||!nativeQuestions(block.content?.children)||fields.filter(isPrompt).at(-1)?.key!==field.key)return field.text;
- const intro=[...field.text.matchAll(/\banswer\s+the\s+following\s+questions\b/gi)].at(-1);
- if(!intro)return field.text;
- const tail=field.text.slice(intro.index+intro[0].length);
- if(!/^\s*[.:]?\s*$/.test(tail)&&!/^\s+(?:for|using|to|correct\s+to)\b/i.test(tail))return field.text;
- return field.text.slice(0,intro.index)+field.text.slice(intro.index+intro[0].length);
+ if(!isPrompt(field)||!nativeQuestions(block.content?.children)||fields.filter(isPrompt).at(-1)?.key!==field.key)return text;
+ const intro=[...text.matchAll(/\banswer\s+the\s+following\s+questions\b/gi)].at(-1);
+ if(!intro)return text;
+ const tail=text.slice(intro.index+intro[0].length);
+ if(!/^\s*[.:]?\s*$/.test(tail)&&!/^\s+(?:for|using|to|correct\s+to)\b/i.test(tail))return text;
+ return text.slice(0,intro.index)+text.slice(intro.index+intro[0].length);
 }
 // Direct callers without a pinned resolution remain held-safe for every known
 // printed field, including shorthand Qn, native inline runs and answer prose.
