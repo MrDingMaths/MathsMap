@@ -10,8 +10,9 @@ import {paginateFlow} from '../src/lib/booklet-pagination.js';
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {assessedRating,verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 import {difficultyBandForScore} from '../src/lib/practice-question-model.js';
-import {resolveExerciseReferences,renumberExerciseReferences,verifyReferenceNumberAdaptation,reuseReferenceNumberRating,unresolvedPrintedQuestionReferences} from '../polish/exercise-references.mjs';
+import {resolveExerciseReferences,verifyExerciseReferenceResolution,renumberExerciseReferences,verifyReferenceNumberAdaptation,reuseReferenceNumberRating,unresolvedPrintedQuestionReferences} from '../polish/exercise-references.mjs';
 import {planScoreOrder,scoreOrderCandidate} from '../polish/score-order.mjs';
+import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'reference-fixture-'));
 after(()=>fs.rmSync(dir,{recursive:true,force:true}));
 const sha=x=>createHash('sha256').update(x).digest('hex');
@@ -384,4 +385,33 @@ test('each-diagram collection holds hidden reversed same-row answer missing mult
   if(mode==='noncollective')b.content.prompt='Use the other diagram below.';
   assert(resolveExerciseReferences(p).holds.length,mode);assert(unresolvedPrintedQuestionReferences(b,p).length,mode+' direct');
  }
+});
+
+function fixedTeachingFixture(){
+ const folder=fs.mkdtempSync(path.join(dir,'fixed-table-')),write=(name,value)=>{const file=path.join(folder,name);fs.writeFileSync(file,JSON.stringify(value));return{path:file,sha256:sha(fs.readFileSync(file))};},objectHash=x=>sha(JSON.stringify(x));
+ const p=fixture();p.sections.unshift({id:'teaching',phase:'teaching',blocks:[{id:'intro',type:'rich-text',sourcePageNumber:10,sourceAtom:{id:'investigation',kind:'investigation'},content:{format:'maths-editor-document-v1',blocks:[{id:'instruction',type:'paragraph',inlines:[{type:'text',text:'Construct the table below on the spreadsheet.'}]}]}},{id:'table',type:'diagram',format:'tikz',code:'\\draw (0,0) rectangle (2,2); % spreadsheet table',sourcePageNumber:10,sourceAtom:{id:'investigation',kind:'investigation'},spec:{sourcePage:10,sourceRegion:'Spreadsheet table',description:'Spreadsheet rows with payment and value columns.',mathematics:'Rows0–10; B2=0; B3=B2*1.085+5000.'}}]});
+ const imageFile=path.join(folder,'actual.png');fs.writeFileSync(imageFile,'synthetic raster fixture');const image={path:imageFile,sha256:sha(fs.readFileSync(imageFile))},page={page:2,blocks:['intro','table']},report={projectId:p.id,passed:true,editions:['student'],passes:[{name:'candidate',projectHash:projectReviewHash(p)}],editionsReport:{student:{pages:[page],images:[{page:2,path:image.path,hash:image.sha256}]}}};
+ const e={kind:'fixed-adjacent-teaching-table-visual-evidence-v1',projectId:p.id,sourceArtifact:write('source.json',p),sectionId:'teaching',sourceId:'intro',targetId:'table',sourceOwnerSha256:objectHash(p.sections[0].blocks[0]),targetSha256:objectHash(p.sections[0].blocks[1]),targetCodeSha256:sha(p.sections[0].blocks[1].code),sourceField:['content','blocks',0,'inlines'],quote:'Construct the table below on the spreadsheet.',quoteOccurrenceCount:1,protectedPrefix:{throughSectionInclusive:0,sha256:objectHash({sections:p.sections.slice(0,1),settings:p.settings})},sameSourceAtom:'investigation',sameSourcePage:10,actualQuestionsPage:2,actualPageMap:structuredClone(page),report:write('report.json',report),image,accepted:true,inspection:'SYNTHETIC TEST: both exact supplied blocks inspected in order on one Questions page.'};
+ return{p,e,report,imageFile,write,pin:()=>write('proof.json',e)};
+}
+test('explicit pinned fixed teaching reference resolves one source→target and preserves other references',()=>{
+ const f=fixedTeachingFixture();assert(resolveExerciseReferences(f.p).holds.some(h=>h.id==='intro'));const r=resolveExerciseReferences(f.p,{fixedTeachingReferences:[f.pin()]});assert.deepEqual(r.holds,[]);assert.deepEqual(r.fixedTeachingBindings.map(b=>[b.ownerId,b.targetId]),[['intro','table']]);assert(r.records.length>0);assert(verifyExerciseReferenceResolution(f.p,r));const plan=planScoreOrder(f.p,{referenceResolution:r});assert.deepEqual(plan.holds,[]);const {candidate,referenceProof}=scoreOrderCandidate(f.p,plan,{includeReferenceProof:true});assert.deepEqual(candidate.sections[0],f.p.sections[0]);const ordered=structuredClone(f.p),by=new Map(f.p.sections[1].blocks.map(b=>[b.id,b]));ordered.sections[1].blocks=plan.sections[0].plannedIds.map(id=>structuredClone(by.get(id)));assert(verifyReferenceNumberAdaptation(f.p,ordered,candidate,referenceProof));
+});
+test('fixed reference rejects changed source/target/prefix/settings, practice and nonadjacent targets',()=>{
+ for(const change of [f=>{f.p.sections[0].blocks[0].content.blocks[0].inlines[0].text+=' Q11';},f=>{f.p.sections[0].blocks[1].code+=' changed';},f=>{f.p.settings.showResponseSpace=false;},f=>{f.p.sections[0].blocks.reverse();},f=>{f.p.sections[0].blocks.splice(1,0,{id:'intervening',type:'rich-text',content:'Other'});},f=>{f.p.sections[0].phase='practice';},f=>{f.p.sections[0].blocks[1].sourceAtom.id='foreign';}]){const f=fixedTeachingFixture(),artifact=f.pin();change(f);assert.throws(()=>resolveExerciseReferences(f.p,{fixedTeachingReferences:[artifact]}));}
+});
+test('fixed reference rejects duplicate, foreign, unused, unaccepted and missing visual bindings',()=>{
+ for(const mode of ['duplicate','foreign','unused','unaccepted','missingimage','missingreport','differentpage']){
+  const f=fixedTeachingFixture();if(mode==='foreign')f.e.projectId='foreign';if(mode==='unused')f.e.sourceField=['content','blocks',1,'inlines'];if(mode==='unaccepted')f.e.accepted=false;if(mode==='missingimage')fs.unlinkSync(f.imageFile);if(mode==='missingreport')f.e.report={path:'missing',sha256:'0'.repeat(64)};if(mode==='differentpage'){f.report.editionsReport.student.pages=[{page:2,blocks:['intro']},{page:3,blocks:['table']}];f.e.report=f.write('report.json',f.report);}
+  const artifact=f.pin();assert.throws(()=>resolveExerciseReferences(f.p,{fixedTeachingReferences:mode==='duplicate'?[artifact,artifact]:[artifact]}),mode);
+ }
+});
+test('accepted fixed-reference replay retains immutable visual record while raster cache may be pruned',()=>{
+ const f=fixedTeachingFixture(),artifact=f.pin(),r=resolveExerciseReferences(f.p,{fixedTeachingReferences:[artifact]});fs.unlinkSync(f.imageFile);assert(verifyExerciseReferenceResolution(f.p,r));assert.throws(()=>resolveExerciseReferences(f.p,{fixedTeachingReferences:[artifact]}));fs.appendFileSync(f.e.report.path,' ');assert.throws(()=>verifyExerciseReferenceResolution(f.p,r));
+});
+test('a fixed teaching binding does not waive other unresolved teacher references',()=>{
+ const f=fixedTeachingFixture(),artifact=f.pin();f.p.sections.push({id:'other-teaching',phase:'teaching',blocks:[{id:'other-intro',type:'rich-text',content:'Use the previous question.'}]});const r=resolveExerciseReferences(f.p,{fixedTeachingReferences:[artifact]});assert.equal(r.fixedTeachingBindings.length,1);assert(r.holds.some(h=>h.id==='other-intro'));
+});
+test('direct reference scanner ignores forged raw fixed-teaching suppression arguments',()=>{
+ const f=fixedTeachingFixture(),owner=f.p.sections[0].blocks[0];const forged={fixedTeachingBindings:[{ownerId:'intro',targetId:'table',field:JSON.stringify(f.e.sourceField),start:14,end:25,quote:'table below'}]};assert(unresolvedPrintedQuestionReferences(owner,f.p,forged).includes(f.e.quote));
 });

@@ -10,6 +10,7 @@ import {normalizeArrangement} from '../public/libs/maths-editor/arrangement-mode
 import {resolveArrangement} from '../src/lib/booklet-arrangement.js';
 import {flowNumbers,isPractice} from '../src/lib/booklet-flow.js';
 import {reasoningTaskHash,verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
+import {projectReviewHash} from '../scripts/booklet/page-review.mjs';
 const hash=x=>createHash('sha256').update(typeof x==='string'?x:JSON.stringify(x)).digest('hex');
 const same=(a,b)=>assert.deepEqual(a,b);
 const get=(x,p)=>p.reduce((v,k)=>v[k],x);
@@ -207,8 +208,32 @@ function ownFollowingParts(block,field,project){
   });
  }catch{return false;}
 }
-function referenceScanText(block,field,fields,project){
+function checkedFixedTeachingReferences(project,artifacts,{checkImages=true}={}){
+ assert(Array.isArray(artifacts));const seen=new Set();
+ const pinned=a=>{assert(typeof a?.path==='string'&&/^[a-f0-9]{64}$/.test(a.sha256??''),'Missing pinned fixed-teaching evidence');const bytes=fs.readFileSync(a.path);assert.equal(createHash('sha256').update(bytes).digest('hex'),a.sha256,'Fixed-teaching evidence changed');return JSON.parse(bytes);};
+ return artifacts.map(artifact=>{
+  const e=pinned(artifact);assert.equal(e.kind,'fixed-adjacent-teaching-table-visual-evidence-v1');assert.equal(e.projectId,project.id);assert(e.accepted===true&&typeof e.inspection==='string'&&e.inspection.trim(),'Missing accepted fixed-teaching inspection');
+  const source=pinned(e.sourceArtifact),sections=project.sections.filter(s=>s.id===e.sectionId);assert.equal(source.id,project.id);assert.equal(sections.length,1);const section=sections[0],si=project.sections.indexOf(section),a=section.blocks.findIndex(b=>b.id===e.sourceId),b=section.blocks.findIndex(b=>b.id===e.targetId);
+  assert(a>=0&&b===a+1,'Fixed-teaching pair not adjacent');const owner=section.blocks[a],target=section.blocks[b];
+  for(const id of [owner.id,target.id])assert.equal(project.sections.flatMap(s=>s.blocks).filter(x=>x.id===id).length,1,'Ambiguous fixed-teaching owner');
+  assert(section.phase==='teaching'&&!isPractice(owner)&&!isPractice(target),'Fixed reference must remain teaching');
+  assert(owner.type==='rich-text'&&target.type==='diagram'&&target.format==='tikz'&&target.code?.trim(),'Unsupported fixed table types');
+  assert(owner.sourceAtom?.id&&owner.sourceAtom.id===target.sourceAtom?.id&&owner.sourceAtom.id===e.sameSourceAtom&&owner.sourceAtom.kind==='investigation'&&target.sourceAtom.kind==='investigation','Foreign teaching atom');
+  assert(owner.sourcePageNumber===target.sourcePageNumber&&owner.sourcePageNumber===e.sameSourcePage&&target.spec?.sourcePage===e.sameSourcePage,'Foreign table source page');
+  assert(typeof target.spec?.mathematics==='string'&&target.spec.mathematics.trim()&&/spreadsheet/i.test(target.spec.description??'')&&/table|spreadsheet/i.test(target.spec.sourceRegion??''),'Untyped spreadsheet table');
+  assert.equal(hash(owner),e.sourceOwnerSha256);assert.equal(hash(target),e.targetSha256);assert.equal(hash(target.code),e.targetCodeSha256);
+  const prefix=p=>({sections:p.sections.slice(0,si+1),settings:p.settings});assert.equal(e.protectedPrefix?.throughSectionInclusive,si);assert.equal(hash(prefix(project)),e.protectedPrefix.sha256,'Fixed teaching prefix/settings changed');assert.equal(hash(prefix(source)),e.protectedPrefix.sha256,'Foreign source prefix');
+  const fields=printedReferenceFields(owner),field=fields.find(f=>f.key===JSON.stringify(e.sourceField));assert(field&&field.text===e.quote&&fields.filter(f=>f.text===e.quote).length===1,'Unused or ambiguous fixed reference');
+  const matches=[...field.text.matchAll(/\btable below\b/gi)];assert.equal(matches.length,1);assert.equal(e.quoteOccurrenceCount,1);const key=owner.id+'|'+field.key;assert(!seen.has(key),'Duplicate fixed reference');seen.add(key);
+  const report=pinned(e.report),pages=report.editionsReport?.student?.pages??[],page=pages.find(p=>p.page===e.actualQuestionsPage),image=report.editionsReport?.student?.images?.find(i=>i.page===e.actualQuestionsPage);
+  assert(report.projectId===project.id&&report.passed===true&&report.editions?.includes('student')&&report.passes?.some(p=>p.name==='candidate'&&p.projectHash===projectReviewHash(source))&&page&&image,'Missing actual source Questions page');same(page,e.actualPageMap);assert(page.blocks.filter(id=>id===owner.id).length===1&&page.blocks.filter(id=>id===target.id).length===1&&page.blocks.indexOf(target.id)>page.blocks.indexOf(owner.id),'Fixed teaching pair not on same ordered page');
+  assert(image.path===e.image?.path&&image.hash===e.image?.sha256&&/^[a-f0-9]{64}$/.test(e.image.sha256),'Foreign fixed-teaching image');if(checkImages)assert.equal(createHash('sha256').update(fs.readFileSync(e.image.path)).digest('hex'),e.image.sha256,'Fixed-teaching image changed');
+  return {kind:'resolved-fixed-teaching-table-reference',ownerId:owner.id,targetId:target.id,sectionId:section.id,field:field.key,start:matches[0].index,end:matches[0].index+matches[0][0].length,quote:matches[0][0],actualQuestionsPage:e.actualQuestionsPage,evidence:structuredClone(artifact)};
+ });
+}
+function referenceScanText(block,field,fields,project,fixedTeachingBindings=[]){
  let text=ownFollowingTable(block,field,project)?field.text.replace(/\btable below\b/gi,m=>' '.repeat(m.length)):field.text;
+ for(const binding of fixedTeachingBindings.filter(b=>b.ownerId===block.id&&b.field===field.key)){assert.equal(field.text.slice(binding.start,binding.end),binding.quote);text=text.slice(0,binding.start)+' '.repeat(binding.end-binding.start)+text.slice(binding.end);}
  if(/\bdiagram below\b/i.test(text)&&!/\beach diagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
  if([...text.matchAll(/\beach diagram below\b/gi)].length===1&&ownChildDiagramsBelow(block,field,project))text=text.replace(/\beach diagram below\b/gi,m=>' '.repeat(m.length));
  if(/\b(?:the same graph as above|the graph above)\b/i.test(text)&&ownAncestorGraphAbove(block,field,project))text=text.replace(/\b(?:the same graph as above|the graph above)\b/gi,m=>' '.repeat(m.length));
@@ -223,22 +248,24 @@ function referenceScanText(block,field,fields,project){
 }
 // Direct callers without a pinned resolution remain held-safe for every known
 // printed field, including shorthand Qn, native inline runs and answer prose.
-export function unresolvedPrintedQuestionReferences(block,project){
+function scannedPrintedQuestionReferences(block,project,{fixedTeachingBindings=[]}={}){
  const fields=printedReferenceFields(block);
  return fields.filter(field=>{
-  const text=referenceScanText(block,field,fields,project);
+  const text=referenceScanText(block,field,fields,project,fixedTeachingBindings);
   return hasNumericMathReference(text)||/\b(?:questions?|Q|exercises?|examples?)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/i.test(text);
  }).map(field=>field.text);
 }
+export function unresolvedPrintedQuestionReferences(block,project){return scannedPrintedQuestionReferences(block,project);}
 function exerciseIndex(project){
  const numbers=flowNumbers(project),rows=[];
  for(const section of project.sections??[])for(const block of section.blocks??[])if(isPractice(block))rows.push({block,section,number:numbers[block.id]});
  return {numbers,rows};
 }
-export function resolveExerciseReferences(project){
+function exerciseReferenceResolution(project,{fixedTeachingReferences=[],checkImages=true}={}){
+ const fixedTeachingBindings=checkedFixedTeachingReferences(project,fixedTeachingReferences,{checkImages});
  const {rows}=exerciseIndex(project),records=[],holds=[];
  // Unsupported teacher references can still address sortable practice targets.
- for(const section of project.sections??[])for(const block of section.blocks??[])if(!isPractice(block))for(const text of unresolvedPrintedQuestionReferences(block,project))holds.push({id:block.id,kind:'unsupported-nonpractice-printed-reference',text});
+ for(const section of project.sections??[])for(const block of section.blocks??[])if(!isPractice(block))for(const text of scannedPrintedQuestionReferences(block,project,{fixedTeachingBindings}))holds.push({id:block.id,kind:'unsupported-nonpractice-printed-reference',text});
  for(const {block,section}of rows){
   const fields=printedReferenceFields(block);
   for(const field of fields){
@@ -284,11 +311,13 @@ export function resolveExerciseReferences(project){
    groups.push({ids:members,reason:'Resolved printed question references; original internal order retained',evidence:'exercise-reference-bindings-v1:'+hash(project)});
   }
  }
- return {kind:'exercise-reference-bindings-v1',projectId:project.id,revision:project.revision,sourceFingerprint:hash(project),records,groups,holds};
+ return {kind:'exercise-reference-bindings-v1',projectId:project.id,revision:project.revision,sourceFingerprint:hash(project),records,groups,holds,...(fixedTeachingReferences.length?{fixedTeachingReferences:structuredClone(fixedTeachingReferences),fixedTeachingBindings}: {})};
 }
-export function verifyExerciseReferenceResolution(project,resolution){same(resolveExerciseReferences(project),resolution);return true;}
+export function resolveExerciseReferences(project,{fixedTeachingReferences=[]}={}){return exerciseReferenceResolution(project,{fixedTeachingReferences});}
+export function verifyExerciseReferenceResolution(project,resolution){same(exerciseReferenceResolution(project,{fixedTeachingReferences:resolution.fixedTeachingReferences??[],checkImages:false}),resolution);return true;}
 export function renumberExerciseReferences(before,ordered,resolution){
  verifyExerciseReferenceResolution(before,resolution);assert.equal(resolution.holds.length,0,'Reference holds must be settled before applying');
+ checkedFixedTeachingReferences(ordered,resolution.fixedTeachingReferences??[],{checkImages:false});
  const old=new Map((before.sections??[]).flatMap(s=>s.blocks.map(b=>[b.id,b]))),candidate=structuredClone(ordered),now=new Map(candidate.sections.flatMap(s=>s.blocks.map(b=>[b.id,b])));
  // Input may differ only by whole-owner permutation within the same sections.
  const inverse=structuredClone(ordered);for(const section of inverse.sections){const original=before.sections.find(s=>s.id===section.id);assert(original);const by=new Map(section.blocks.map(b=>[b.id,b]));assert.equal(by.size,original.blocks.length);section.blocks=original.blocks.map(b=>{same(by.get(b.id),b);return by.get(b.id);});}same(inverse,before);
