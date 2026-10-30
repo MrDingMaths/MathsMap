@@ -14,6 +14,7 @@ import {questionReviewContent} from '../src/lib/booklet-review-profile.js';
 import {toSource} from '../public/libs/maths-editor/document-model.mjs';
 import {questionKey} from '../src/lib/question-sync.js';
 import {isTheoryReview} from '../src/lib/question-bank-eligibility.js';
+import {flowNumbers,exerciseNumbers} from '../src/lib/booklet-flow.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const LIMITS=Object.freeze({concurrency:3,images:8,earlierCharacters:24000,practiceOnlyEarlierCharacters:48000,challengeCharacters:160000,digestCharacters:220,outcomeCharacters:2500,coverageCharacters:180000,insertionCharacters:180000,outlineCharacters:300});
@@ -85,12 +86,16 @@ function compact(value,practice){
 }
 export const isExplicitTeachingBlock=block=>!!block.sourceAtom||block.type==='worked-example'||['example','worked-example','guided-practice'].includes(block.pedagogyRole);
 export const instructionalSections=sequence=>sequence.sections.map(section=>({...section,blocks:(section.blocks??[]).filter(block=>section.phase==='teaching'||isExplicitTeachingBlock(block))})).filter(section=>section.blocks.length);
-export function compactBlock(block,section){
+// IDs and stored labels can keep source numbers after whole questions move.
+// Reuse the print counters without sorting or mutating the saved booklet.
+const numberingFor=project=>Array.isArray(project.sections)?{questions:flowNumbers(project),exercises:exerciseNumbers(project)}:{questions:{},exercises:{}};
+const NUMBERING_NOTE='displayNumber and exerciseNumber use the current printed counters. Stable IDs and content.label may retain original source numbers; do not infer order or printed numbering from them. Arrays retain booklet traversal order.';
+export function compactBlock(block,section,numbering){
  const practice=section.phase==='practice'&&!isExplicitTeachingBlock(block),{id,type,pedagogyRole,sourcePageNumber,sourceAtom,sourceOrder,...rest}=compact(questionReviewContent(block),practice);
  const heading=text(block.sourceAtom?.visibleSubtitle)||text(block.sourceAtom?.label),classification=block.classification??{};
- return {id:block.id,type:block.type,role:block.pedagogyRole??(practice?'practice':'unlabelled'),...(heading?{heading}:{}),...(classification.primarySkillId?{skill:classification.primarySkillId}:{}),...(classification.difficulty?{difficulty:classification.difficulty}:{}),...rest};
+ return {id:block.id,type:block.type,role:block.pedagogyRole??(practice?'practice':'unlabelled'),...(heading?{heading}:{}),...(classification.primarySkillId?{skill:classification.primarySkillId}:{}),...(classification.difficulty?{difficulty:classification.difficulty}:{}),...rest,...(numbering?.questions[block.id]!=null?{displayNumber:numbering.questions[block.id]}:{}),...(numbering?.exercises[section.topicId]!=null?{exerciseNumber:numbering.exercises[section.topicId]}:{})};
 }
-const sequencePayload=sequence=>({id:sequence.id,title:sequence.title,sections:sequence.sections.map(section=>({id:section.id,title:section.title??null,phase:section.phase,blocks:(section.blocks??[]).map(block=>compactBlock(block,section))}))});
+const sequencePayload=(sequence,numbering)=>({id:sequence.id,title:sequence.title,sections:sequence.sections.map(section=>({id:section.id,title:section.title??null,phase:section.phase,blocks:(section.blocks??[]).map(block=>compactBlock(block,section,numbering))}))});
 function strings(value,found=[]){
  if(typeof value==='string'){if(value.trim())found.push(value.trim());}
  else if(Array.isArray(value))value.forEach(child=>strings(child,found));
@@ -130,12 +135,12 @@ export function duplicateQuestionCandidates(all,{topics=[]}={}){
 
 // Earlier teaching in full, nearest topic first, until the budget is spent; the
 // rest as one line per block.
-export function earlierTeaching(all,index,{characters=LIMITS.earlierCharacters}={}){
+export function earlierTeaching(all,index,{characters=LIMITS.earlierCharacters,numbering}={}){
  const full=[],digests=[];let used=0,open=true;
  for(let i=index-1;i>=0;i--){
   const teaching=instructionalSections(all[i]);
   if(!teaching.length)continue;
-  const value={topic:all[i].id,title:all[i].title,sections:teaching.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section))}))},size=JSON.stringify(value).length;
+  const value={topic:all[i].id,title:all[i].title,sections:teaching.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section,numbering))}))},size=JSON.stringify(value).length;
   if(open&&used+size<=characters){full.unshift(value);used+=size;continue;}
   open=false;
   digests.unshift({topic:all[i].id,title:all[i].title,blocks:teaching.flatMap(section=>section.blocks.map(block=>({id:block.id,role:block.pedagogyRole??'unlabelled',text:headline(compactBlock(block,section))})))});
@@ -180,9 +185,10 @@ export function sequenceImages(sequence,runDir,{limit=LIMITS.images}={}){
  return {expected,files};
 }
 export function reviewPrompt({project,all,index,skills,decided=[],images={expected:false,files:[]},stored,library=[],root=ROOT}){
+ const numbering=numberingFor(project);
  const sequence=all[index],practiceOnly=!sequence.sections.some(section=>section.phase==='teaching');
- const earlier=earlierTeaching(all,index,{characters:practiceOnly?LIMITS.practiceOnlyEarlierCharacters:LIMITS.earlierCharacters});
- const payload={booklet:project.title,assumptions:assumptions(project,stored,library),sequence:sequencePayload(sequence),earlierTeaching:earlier.full,earlierTeachingDigests:earlier.digests,earlierTeachingComplete:earlier.complete,skills:skillFacts(all,index,skills),decided,imagesExpected:images.expected,imagesAttached:images.files.length};
+ const earlier=earlierTeaching(all,index,{characters:practiceOnly?LIMITS.practiceOnlyEarlierCharacters:LIMITS.earlierCharacters,numbering});
+ const payload={booklet:project.title,numbering:NUMBERING_NOTE,assumptions:assumptions(project,stored,library),sequence:sequencePayload(sequence,numbering),earlierTeaching:earlier.full,earlierTeachingDigests:earlier.digests,earlierTeachingComplete:earlier.complete,skills:skillFacts(all,index,skills),decided,imagesExpected:images.expected,imagesAttached:images.files.length};
  return contract('review',{root})+'\n\n'+bookletPrinciples({root})+'\n\n'+REVIEW_OUTPUT+'\n\n'+JSON.stringify(payload);
 }
 
@@ -292,16 +298,17 @@ export function importReviewStatus(runDir){
 // ---- review ----------------------------------------------------------------------
 
 function challengePrompt({project,all,candidates,questions,ids,stored,library,root}){
+ const numbering=numberingFor(project);
  const owners=new Set([...candidates,...questions].flatMap(row=>row.targets.map(id=>ids.get(id)))),position=new Map(all.flatMap((sequence,i)=>sequence.sections.flatMap(section=>(section.blocks??[]).map(block=>[block.id,i]))));
  const last=Math.max(...[...owners].map(id=>position.get(id)??0)),concerned=new Set([...owners].map(id=>position.get(id)));
- const teachingOf=i=>({topic:all[i].id,title:all[i].title,sections:all[i].sections.filter(section=>section.phase==='teaching').map(section=>({title:section.title??null,blocks:(section.blocks??[]).map(block=>compactBlock(block,section))}))});
+ const teachingOf=i=>({topic:all[i].id,title:all[i].title,sections:all[i].sections.filter(section=>section.phase==='teaching').map(section=>({title:section.title??null,blocks:(section.blocks??[]).map(block=>compactBlock(block,section,numbering))}))});
  // Topics with candidates always go in full; others nearest first while they fit.
  const teaching=new Map([...concerned].map(i=>[i,teachingOf(i)]));let used=JSON.stringify([...teaching.values()]).length,complete=true;
  for(let i=last;i>=0;i--){if(teaching.has(i))continue;const value=teachingOf(i);if(!value.sections.some(section=>section.blocks.length))continue;const size=JSON.stringify(value).length;if(used+size>LIMITS.challengeCharacters){complete=false;continue;}teaching.set(i,value);used+=size;}
  // A claim about how the practice rises can only be checked against the whole exercise.
  const whole=new Set(candidates.filter(candidate=>['difficulty-jump','unsupported-transition'].includes(candidate.kind)).map(candidate=>candidate.sequence));
- const practice=all.flatMap(sequence=>sequence.sections.filter(section=>section.phase==='practice').flatMap(section=>(section.blocks??[]).filter(block=>whole.has(sequence.id)||owners.has(block.id)).map(block=>({topic:sequence.id,...compactBlock(block,section)}))));
- const payload={booklet:project.title,assumptions:assumptions(project,stored,library),candidates:candidates.map(({id,sequence,...rest})=>({id,topic:sequence,...rest})),contextQuestions:questions.map(({id,sequence,targets,question})=>({id,topic:sequence,targets,question})),teaching:[...teaching.entries()].sort((a,b)=>a[0]-b[0]).map(([,value])=>value),teachingComplete:complete,practice,topicOrder:all.slice(0,last+1).map(sequence=>sequence.id)};
+ const practice=all.flatMap(sequence=>sequence.sections.filter(section=>section.phase==='practice').flatMap(section=>(section.blocks??[]).filter(block=>whole.has(sequence.id)||owners.has(block.id)).map(block=>({topic:sequence.id,...compactBlock(block,section,numbering)}))));
+ const payload={booklet:project.title,numbering:NUMBERING_NOTE,assumptions:assumptions(project,stored,library),candidates:candidates.map(({id,sequence,...rest})=>({id,topic:sequence,...rest})),contextQuestions:questions.map(({id,sequence,targets,question})=>({id,topic:sequence,targets,question})),teaching:[...teaching.entries()].sort((a,b)=>a[0]-b[0]).map(([,value])=>value),teachingComplete:complete,practice,topicOrder:all.slice(0,last+1).map(sequence=>sequence.id)};
  return contract('challenge',{root})+'\n\n'+bookletPrinciples({root})+'\n\n'+CHALLENGE_OUTPUT+'\n\nThe first reader\'s instructions, which are the standard:\n\n'+contract('review',{root})+'\n\n'+JSON.stringify(payload);
 }
 export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='low',challengeEffort='medium',candidatesOnly=false,concurrency=LIMITS.concurrency,runner=defaultRunner,lease=defaultLease,provenanceDir,workDir,skills,library,runDir,resumeFrom,principlesOnly=false,reportOnly=false}={}){
@@ -571,7 +578,7 @@ export async function runSeeded({root=ROOT,reviewEffort='low',runner,lease,fixtu
 }
 
 // ---- routine archetype pilot (no project mutation) -----------------------------
-export function routineQuestions(sequence){
+export function routineQuestions(sequence,{numbering}={}){
  const questions=[],unrated=[];
  for(const section of sequence.sections){
   const role=endSectionRole(section,{topics:[{id:section.topicId,title:sequence.title}]});
@@ -580,17 +587,17 @@ export function routineQuestions(sequence){
    if(block.type!=='question'||isExplicitTeachingBlock(block)||isTheoryReview(block,section))continue;
    const score=block.classification?.reasoningScore;
    if(!Number.isFinite(score)){unrated.push(block.id);continue;}
-   if(score<65)questions.push({id:block.id,reasoningScore:score,block:compactBlock(block,section)});
+   if(score<65)questions.push({id:block.id,reasoningScore:score,block:compactBlock(block,section,numbering)});
   }
  }
  return {questions,unrated};
 }
 export function archetypePrompt(project,sequence,{root=ROOT,all=sequences(project),skills}={}){
- const {questions}=routineQuestions(sequence);
+ const numbering=numberingFor(project),{questions}=routineQuestions(sequence,{numbering});
  skills??=fs.existsSync(path.join(root,'data','skills.json'))?read(path.join(root,'data','skills.json')):[];
  const index=all.findIndex(s=>s.id===sequence.id),facts=skillFacts(index<0?[sequence]:all,index<0?0:index,skills);
  const approvedPriorKnowledge=project.library?.courseId==='s6-ext1-11'?['substitute-into-expressions','function-notation']:[];
- return 'Read-only routine-archetype and independent-practice-item audit. Cluster by mathematical decision/method, never wording or numbers alone. Map every listed routine question exactly once. coverage covered = example or explicit teaching supplies the method; preserve empty exampleIds when no worked example exists and do not invent one for direct application of a stated rule; bridge = modest step up best served by scaffolded questions; missing = genuinely different new untaught archetype, not a familiar prerequisite; prior-knowledge = prerequisite justified by skill/context evidence. Prior knowledge is never a missing worked example: any worthwhile retrieval belongs in the opening review block, and James decides whether to add it. Do not generate new content, questions, examples or wording. Additional worked-example drafts remain Studio comments pending individual James approval; calibration never approves insertion. Examine teaching earlier in this booklet before claiming a gap. Apply the substitution/function-evaluation prior-knowledge approval ONLY when courseId is s6-ext1-11 and approvedPriorKnowledge lists it; never transfer it to Stage5 or other courses. Each prerequisite verdict cites prerequisiteIds and evidence; its reviewStatus is pending-user-decision. Only exact example-role IDs go in exampleIds; identification/definitions belong in teachingIds; a method or scaffold supplied inside an earlier practice question belongs in practiceEvidenceIds, not teachingIds. A mere unsolved exercise is not supplied teaching. Exclude Challenge/Exam. For each question, enumerate practiceItems as independent complete attempts, grouping dependent steps together. Count independently answerable labelled asks separately even when they share a given polynomial: term count, each requested coefficient and constant-term identification are separate attempts. Shared givens alone are not dependency. A dedicated complete feature-grid row for one polynomial is ONE attempt, not five cells; three unknowns solved jointly is ONE attempt; separately posed evaluations/independent polynomials may be separate. Every practiceItems nodeId must belong to that question. For heterogeneous independent parts, an item may carry optional archetype naming an existing cluster id in THIS topic; omitted means inherit the question primary archetype. Keep each question mapped to exactly one primary cluster, and count independent parts for their own archetypes. When a part has its own method but no whole question belongs primarily to it, use an explicit itemOnly:true cluster with questionIds:[] and at least one valid practiceItems.archetype reference. An unreferenced empty cluster is invalid. For example, prior-knowledge volume-formula retrieval is not another complete cubic-model attempt; its item-only cluster can set routine:false to keep an opening-Review decision separate from routine-practice targets. Dependent scaffold steps count together, and three independent items never means three whole blocks. Never invent a new skill or use an item-only cluster to leave a whole question unmapped. Return JSON only: {"clusters":[{"id":"short stable slug","questionIds":["id"],"exampleIds":[],"guidedPracticeIds":[],"teachingIds":[],"practiceEvidenceIds":[],"coverage":"covered|bridge|missing|prior-knowledge","prerequisiteIds":[],"evidence":"specific teaching/prerequisite evidence","reviewStatus":"pending-user-decision","rationale":"specific reasoning"}],"practiceItems":{"each-question-id":[{"nodeIds":["question/part id"],"rationale":"why this is one independent attempt","archetype":"optional existing same-topic cluster id"}]}}.\n\n'+JSON.stringify({booklet:project.title,courseId:project.library?.courseId,topicId:sequence.topicId,skills:facts,approvedPriorKnowledge,earlierTeaching:earlierTeaching(all,index<0?0:index),teaching:sequencePayload({...sequence,sections:instructionalSections(sequence)}),routineQuestions:questions});
+ return 'Read-only routine-archetype and independent-practice-item audit. Cluster by mathematical decision/method, never wording or numbers alone. Map every listed routine question exactly once. coverage covered = example or explicit teaching supplies the method; preserve empty exampleIds when no worked example exists and do not invent one for direct application of a stated rule; bridge = modest step up best served by scaffolded questions; missing = genuinely different new untaught archetype, not a familiar prerequisite; prior-knowledge = prerequisite justified by skill/context evidence. Prior knowledge is never a missing worked example: any worthwhile retrieval belongs in the opening review block, and James decides whether to add it. Do not generate new content, questions, examples or wording. Additional worked-example drafts remain Studio comments pending individual James approval; calibration never approves insertion. Examine teaching earlier in this booklet before claiming a gap. Apply the substitution/function-evaluation prior-knowledge approval ONLY when courseId is s6-ext1-11 and approvedPriorKnowledge lists it; never transfer it to Stage5 or other courses. Each prerequisite verdict cites prerequisiteIds and evidence; its reviewStatus is pending-user-decision. Only exact example-role IDs go in exampleIds; identification/definitions belong in teachingIds; a method or scaffold supplied inside an earlier practice question belongs in practiceEvidenceIds, not teachingIds. A mere unsolved exercise is not supplied teaching. Exclude Challenge/Exam. For each question, enumerate practiceItems as independent complete attempts, grouping dependent steps together. Count independently answerable labelled asks separately even when they share a given polynomial: term count, each requested coefficient and constant-term identification are separate attempts. Shared givens alone are not dependency. A dedicated complete feature-grid row for one polynomial is ONE attempt, not five cells; three unknowns solved jointly is ONE attempt; separately posed evaluations/independent polynomials may be separate. Every practiceItems nodeId must belong to that question. For heterogeneous independent parts, an item may carry optional archetype naming an existing cluster id in THIS topic; omitted means inherit the question primary archetype. Keep each question mapped to exactly one primary cluster, and count independent parts for their own archetypes. When a part has its own method but no whole question belongs primarily to it, use an explicit itemOnly:true cluster with questionIds:[] and at least one valid practiceItems.archetype reference. An unreferenced empty cluster is invalid. For example, prior-knowledge volume-formula retrieval is not another complete cubic-model attempt; its item-only cluster can set routine:false to keep an opening-Review decision separate from routine-practice targets. Dependent scaffold steps count together, and three independent items never means three whole blocks. Never invent a new skill or use an item-only cluster to leave a whole question unmapped. Return JSON only: {"clusters":[{"id":"short stable slug","questionIds":["id"],"exampleIds":[],"guidedPracticeIds":[],"teachingIds":[],"practiceEvidenceIds":[],"coverage":"covered|bridge|missing|prior-knowledge","prerequisiteIds":[],"evidence":"specific teaching/prerequisite evidence","reviewStatus":"pending-user-decision","rationale":"specific reasoning"}],"practiceItems":{"each-question-id":[{"nodeIds":["question/part id"],"rationale":"why this is one independent attempt","archetype":"optional existing same-topic cluster id"}]}}.\n\n'+JSON.stringify({booklet:project.title,numbering:NUMBERING_NOTE,courseId:project.library?.courseId,topicId:sequence.topicId,skills:facts,approvedPriorKnowledge,earlierTeaching:earlierTeaching(all,index<0?0:index,{numbering}),teaching:sequencePayload({...sequence,sections:instructionalSections(sequence)},numbering),routineQuestions:questions});
 }
 export function validateArchetypes(project,sequence,result,{responseAnchors}={}){
  const {questions,unrated}=routineQuestions(sequence),eligible=new Map(questions.map(q=>[q.id,q])),seen=new Set(),ids=visibleIds(sequence),errors=[];
@@ -653,12 +660,12 @@ function idsIn(value,found=new Set()){
 }
 const openComments=(project,blockIds)=>flagsOf(project).filter(flag=>!flag.resolved&&blockIds.has(flag.targetId)).map(({id,targetId,kind,note})=>({id,targetId,kind,note}));
 // Teaching of the topics not claimed, nearest the last claim first, then locators.
-function surroundingTeaching(all,claimed,last,characters){
+function surroundingTeaching(all,claimed,last,characters,numbering){
  const full=[],digests=[];let used=0;
  for(let i=last;i>=0;i--){
   if(claimed.has(i))continue;
   const sections=instructionalSections(all[i]);if(!sections.length)continue;
-  const value={topic:all[i].id,title:all[i].title,sections:sections.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section))}))},size=JSON.stringify(value).length;
+  const value={topic:all[i].id,title:all[i].title,sections:sections.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section,numbering))}))},size=JSON.stringify(value).length;
   if(used+size<=characters){full.unshift(value);used+=size;}
   else digests.unshift({topic:all[i].id,title:all[i].title,blocks:sections.flatMap(section=>section.blocks.map(block=>locator(block,section)))});
  }
@@ -669,19 +676,20 @@ export const coverageClaims=map=>(map.topics??[]).flatMap(topic=>(topic.clusters
 // practice: replay of retained verdicts lost cited evidence when it was narrowed to
 // the blocks a claim names. Every block travels once.
 export function coverageChallengeView({project,all=sequences(project),claims,skills=[]}){
+ const numbering=numberingFor(project);
  const claimed=new Set(all.flatMap((sequence,i)=>claims.some(claim=>claim.topicId===sequence.topicId)?[i]:[]));
  if(!claimed.size)throw Error('No claim belongs to a topic of this booklet');
  const last=Math.max(...claimed),seen=new Set(),once=block=>!seen.has(block.id)&&seen.add(block.id);
- const teaching=[...claimed].map(i=>({topic:all[i].id,title:all[i].title,sections:instructionalSections(all[i]).map(section=>({title:section.title??null,blocks:section.blocks.filter(once).map(block=>compactBlock(block,section))}))}));
- const surrounding=surroundingTeaching(all,claimed,last,LIMITS.practiceOnlyEarlierCharacters),practice=[],outline=[];
+ const teaching=[...claimed].map(i=>({topic:all[i].id,title:all[i].title,sections:instructionalSections(all[i]).map(section=>({title:section.title??null,blocks:section.blocks.filter(once).map(block=>compactBlock(block,section,numbering))}))}));
+ const surrounding=surroundingTeaching(all,claimed,last,LIMITS.practiceOnlyEarlierCharacters,numbering),practice=[],outline=[];
  all.forEach((sequence,i)=>{
   for(const section of sequence.sections.filter(section=>section.phase==='practice'))for(const block of (section.blocks??[]).filter(once)){
-   if(claimed.has(i))practice.push({topic:sequence.id,...compactBlock(block,section)});
+   if(claimed.has(i))practice.push({topic:sequence.id,...compactBlock(block,section,numbering)});
    else if(i<=last)outline.push({topic:sequence.id,...locator(block,section)});
   }
  });
  const owners=new Map(all.flatMap(sequence=>[...visibleIds(sequence)])),named=new Set(claims.flatMap(claim=>['questionIds',...COVERAGE_CITATIONS].flatMap(field=>(claim[field]??[]).map(id=>owners.get(id)??id))));
- const payload={booklet:project.title,courseId:project.library?.courseId??null,claims,comments:openComments(project,named),teaching,earlierTeaching:surrounding.full,digests:surrounding.digests,practice,outline,skills:[...claimed].flatMap(i=>skillFacts(all,i,skills))};
+ const payload={booklet:project.title,numbering:NUMBERING_NOTE,courseId:project.library?.courseId??null,claims,comments:openComments(project,named),teaching,earlierTeaching:surrounding.full,digests:surrounding.digests,practice,outline,skills:[...claimed].flatMap(i=>skillFacts(all,i,skills))};
  const evidence=idsIn([teaching,surrounding.full,practice]),locators=new Set([...idsIn([surrounding.digests,outline])].filter(id=>!evidence.has(id)));
  return {payload,evidence,locators,prerequisites:idsIn(payload.skills)};
 }
@@ -742,18 +750,19 @@ export async function runCoverageChallenge({projectFile,mapFile,root=ROOT,output
 // narrows teaching; other topics stay as locators, so duplicates and order can still
 // be located. Over the limit, name fewer topics: nothing is cut to fit.
 export function insertionReviewView({project,all=sequences(project),newBlocks,sectionId=null,topics=null,references=null,sourceEvidence=null,limit=LIMITS.insertionCharacters}){
+ const numbering=numberingFor(project);
  if(!newBlocks?.length)throw Error('Name the new blocks under review');
  const wanted=topics&&new Set(topics),target=sectionId&&(project.sections??[]).find(section=>section.id===sectionId);
  if(sectionId&&!target)throw Error('Unknown section '+sectionId);
  const teaching=[],digests=[],outline=[];
  for(const sequence of all){
   const sections=instructionalSections(sequence);
-  if(sections.length&&(!wanted||wanted.has(sequence.id)||wanted.has(sequence.topicId)))teaching.push({topic:sequence.id,title:sequence.title,sections:sections.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section))}))});
+  if(sections.length&&(!wanted||wanted.has(sequence.id)||wanted.has(sequence.topicId)))teaching.push({topic:sequence.id,title:sequence.title,sections:sections.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section,numbering))}))});
   else if(sections.length)digests.push({topic:sequence.id,title:sequence.title,blocks:sections.flatMap(section=>section.blocks.map(block=>locator(block,section)))});
   for(const section of sequence.sections.filter(section=>section.phase==='practice'&&section!==target))for(const block of (section.blocks??[]).filter(block=>!isExplicitTeachingBlock(block)))outline.push({topic:sequence.id,...locator(block,section)});
  }
- const exercise=target?(target.blocks??[]).map(block=>compactBlock(block,target)):[];
- const payload={booklet:project.title,revision:project.revision??null,newBlocks:newBlocks.map(questionReviewContent),...(sourceEvidence?{sourceEvidence}:{}),targetExercise:target?{id:target.id,title:target.title??null,blocks:exercise}:null,comments:openComments(project,new Set(target?.blocks?.map(block=>block.id)??[])),...(references?{references}:{}),teaching,digests,outline};
+ const exercise=target?(target.blocks??[]).map(block=>compactBlock(block,target,numbering)):[];
+ const payload={booklet:project.title,numbering:NUMBERING_NOTE,revision:project.revision??null,newBlocks:newBlocks.map(questionReviewContent),...(sourceEvidence?{sourceEvidence}:{}),targetExercise:target?{id:target.id,title:target.title??null,blocks:exercise}:null,comments:openComments(project,new Set(target?.blocks?.map(block=>block.id)??[])),...(references?{references}:{}),teaching,digests,outline};
  const characters=JSON.stringify(payload).length;
  if(characters>limit)throw Error(`Insertion review is ${characters} characters, over ${limit}; name the topics the new questions rely on`);
  return {payload,characters};

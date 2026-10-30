@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {coverageClaims,coverageChallengeView,coverageChallengePackets,validateCoverageChallenge,runCoverageChallenge,insertionReviewView} from '../pedagogy/review.mjs';
+import {coverageClaims,coverageChallengeView,coverageChallengePackets,validateCoverageChallenge,runCoverageChallenge,insertionReviewView,sequences,reviewPrompt,archetypePrompt,runReview} from '../pedagogy/review.mjs';
 import {runAstraTask,REVIEW_PROMPT_LIMIT} from '../scripts/booklet/codex-transcription.mjs';
 import {ratingBatches} from '../scripts/booklet/rating-input.mjs';
 import {reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -91,4 +91,36 @@ test('a rating input shows the questions a task depends on without changing its 
  assert.ok(!JSON.stringify(rows[0].input.linkedQuestions).includes('worked p1'),'parent answers are not supplied');
  assert.equal(rows[0].input.taskHash,hash);
  assert.ok(!('linkedQuestions' in rows[2].input),'independent questions are unchanged');
+});
+
+
+test('review views preserve renderer traversal and disambiguate original source labels',async()=>{
+ const names=['p4-q1','p4-q2','p7-q6','p9-q11','p5-q3','p6-q4','p7-q5'];
+ const blocks=names.map(id=>({...question(id,'Calculate.'),classification:{reasoningScore:id==='p9-q11'?72:18}}));
+ blocks[2].content.label='6';blocks[6].content.label='5';
+ const project={id:'ordered-demo',title:'Ordered demo',revision:3,settings:{exerciseOrganisation:'topic',questionOrder:'source'},topics:[{id:'t',title:'Triangles'}],sections:[{id:'teaching',topicId:'t',phase:'teaching',title:'Teaching',blocks:[example('supplied-example')]},{id:'practice',topicId:'t',phase:'practice',title:'Exercise',blocks}]};
+ const original=JSON.stringify(project),all=sequences(project),claims=[{topicId:'t',id:'hourglass',coverage:'bridge',questionIds:['p7-q6']}];
+ const check=rows=>{
+  assert.deepEqual(rows.map(row=>row.id),names);
+  assert.equal(rows[2].displayNumber,3);assert.equal(rows[6].displayNumber,7);
+  assert.equal(rows[2].exerciseNumber,1);assert.equal(rows[6].exerciseNumber,1);
+  assert.equal(rows[2].content.label,'6');assert.equal(rows[6].content.label,'5');
+ };
+ check(coverageChallengeView({project,claims}).payload.practice);
+ check(insertionReviewView({project,newBlocks:[question('new','New')],sectionId:'practice',topics:['t']}).payload.targetExercise.blocks);
+ const payload=prompt=>JSON.parse(prompt.slice(prompt.lastIndexOf('\n')+1));
+ check(payload(reviewPrompt({project,all,index:0,skills:[]})).sequence.sections.find(section=>section.phase==='practice').blocks);
+ const routine=payload(archetypePrompt(project,all[0],{all,skills:[]})).routineQuestions;
+ assert.equal(routine.find(row=>row.id==='p7-q5').block.displayNumber,7,'omitted Challenge-score items still count in printed numbering');
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'review-numbering-'));let challenged=false;
+ try{
+  const projectFile=path.join(dir,'project.json');fs.writeFileSync(projectFile,JSON.stringify(project));
+  await runReview({projectFile,skills:[],library:[],runDir:null,workDir:dir,provenanceDir:dir,runner:async options=>{
+   if(options.stage==='pedagogy-review')return {result:{candidates:[{kind:'difficulty-jump',severity:'high',targets:['p7-q6','p7-q5'],finding:'Check the actual order.',breakdown:'Source labels differ from printed numbers.',repair:{type:'reorder',proposal:'Inspect the displayed order.'}}]}};
+   assert.equal(options.stage,'pedagogy-challenge');check(payload(options.prompt).practice);challenged=true;
+   return {result:{findings:[],dropped:[{id:'c1',reason:'Verified printed order.'}]}};
+  }});
+  assert.equal(challenged,true);
+ }finally{fs.rmSync(dir,{recursive:true,force:true});}
+ assert.equal(JSON.stringify(project),original,'review numbering never mutates booklet content or order');
 });
