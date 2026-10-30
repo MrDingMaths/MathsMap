@@ -38,8 +38,17 @@ export function astraCommandArgs({cwd,images=[],raw,profile='transcription',conf
  for(const image of images)args.push('--image',image);args.push('-');return args;
 }
 
-export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile='review',configuration,stage=profile,timeoutMs=900000,onProgress=()=>{},signal},{spawnProcess=spawn}={}){
+export const PEDAGOGY_PROMPT_LIMIT=300000;
+export const REVIEW_PROMPT_LIMIT=200000;
+export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile='review',configuration,stage=profile,timeoutMs=900000,onProgress=()=>{},signal,oversizeReason},{spawnProcess=spawn}={}){
  if(!ASTRA_PROFILES[profile])throw Error('Unknown booklet worker profile');
+ // Pedagogy prompts are one topic plus budgeted earlier teaching (LIMITS in
+ // pedagogy/review.mjs, at most ~170k characters). Wrapping them in the whole
+ // booklet repeats ~270k tokens per call; refuse before a slot or model call.
+ if(/^pedagogy-/.test(stage)&&typeof prompt==='string'&&prompt.length>PEDAGOGY_PROMPT_LIMIT)throw Error(`Pedagogy prompt of ${prompt.length} characters exceeds ${PEDAGOGY_PROMPT_LIMIT}; send the topic prompt as built, not the whole booklet`);
+ // Any other review wrapped around a whole booklet is refused by size, whatever its
+ // stage is called. A deliberate exception names its reason, which the metrics record.
+ if(profile==='review'&&typeof prompt==='string'&&prompt.length>REVIEW_PROMPT_LIMIT&&!oversizeReason?.trim())throw Error(`Review prompt of ${prompt.length} characters exceeds ${REVIEW_PROMPT_LIMIT}; send a task view or split at a topic boundary, or pass a named oversizeReason`);
  const manifestFile=path.join(runDir,'manifest.json');
  if(fs.existsSync(manifestFile)){
   const manifest=JSON.parse(fs.readFileSync(manifestFile,'utf8'));requireCurrentTranscription(manifest);
@@ -49,17 +58,17 @@ export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile=
  }else configuration??=transcriptionConfiguration();
  requireCurrentTranscription(configuration);if(configuration.provider!==TRANSCRIPTION_DEFAULT.provider)throw Error('A benchmark arm cannot use the Codex runner; supply its explicit relay runner');
  const callId=randomUUID();
- return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs},spawnProcess),{signal});
+ return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs,oversizeReason},spawnProcess),{signal});
 }
 export async function runCodexTranscription(options){return runAstraTask({...options,profile:'transcription'},options.execution);}
 
-async function invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs},spawnProcess){
+async function invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs,oversizeReason},spawnProcess){
  fs.mkdirSync(out,{recursive:true});
  const raw=path.join(out,'last-message.txt'),start=Date.now();let usage=null,observedModel=null,sessionId=null,completedCapture=false;const toolIds=new Set(),toolDiagnostics=toolDiagnosticCounter();
  const args=astraCommandArgs({cwd,images,raw,profile,configuration});
  // Exclusive creation makes a failed attempt visible and prevents silent retries.
  const eventFd=fs.openSync(path.join(out,'events.jsonl'),'wx'),errorFd=fs.openSync(path.join(out,'stderr.txt'),'wx');
- const metrics=()=>({provider:'codex',...configuration,requestedModel:configuration.model,profile,role:profile,stage,serviceTier:'default',observedModel,sessionId,callId,usage,toolCalls:toolIds.size,completedToolCalls:completedCapture||toolIds.size?toolIds.size:null,missingCompletedToolCounts:completedCapture?0:1,...toolDiagnostics.snapshot(),toolCountingNote:'toolCalls retains observed completion events. Completed events and recognized stderr rejection diagnostics are separate observations and may overlap; neither establishes all attempted calls.',queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
+ const metrics=()=>({provider:'codex',...configuration,requestedModel:configuration.model,profile,role:profile,stage,serviceTier:'default',observedModel,sessionId,callId,usage,promptCharacters:prompt.length,...(oversizeReason?{oversizeReason}:{}),toolCalls:toolIds.size,completedToolCalls:completedCapture||toolIds.size?toolIds.size:null,missingCompletedToolCounts:completedCapture?0:1,...toolDiagnostics.snapshot(),toolCountingNote:'toolCalls retains observed completion events. Completed events and recognized stderr rejection diagnostics are separate observations and may overlap; neither establishes all attempted calls.',queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
  try {
   await new Promise((resolve,reject)=>{
    const child=spawnProcess(process.env.BOOKLET_CODEX_BIN??'codex',args,{cwd,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let buffer='',failure=null;

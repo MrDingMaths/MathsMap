@@ -20,10 +20,19 @@ export function canonicalRun(project,root){
 export function supplementalRatingEvidence(block,evidence){
  const task=JSON.stringify(block.content);return (evidence?.sources??[]).filter(source=>typeof source.url==='string'&&task.includes(source.url));
 }
+// Earlier questions this one builds on, as students see them. They are context
+// only: the task hash and the task rated do not include them.
+function linkedQuestions(block,section){
+ const byId=new Map((section.blocks??[]).map(b=>[b.id,b])),seen=new Set(),found=[];
+ const visit=id=>{if(seen.has(id))return;seen.add(id);const parent=byId.get(id);if(!parent)return;(parent.flow?.dependsOn??[]).forEach(visit);found.push({id,task:JSON.parse(JSON.stringify(sharedQuestion({...normaliseQuestion(parent),title:''}).content,(key,value)=>key==='answer'?undefined:value))});};
+ (block.flow?.dependsOn??[]).forEach(visit);
+ return found;
+}
 function inputQuestion({block,section,projectTitle,topicTitle,supplementalEvidence}){
  const before=(section.blocks??[]).slice(0,(section.blocks??[]).findIndex(b=>b.id===block.id));
  const instructions=before.filter(b=>['heading','rich-text','narrative'].includes(b.type)).map(b=>({title:b.title,content:b.content??b.text}));
- return {id:block.id,taskHash:reasoningTaskHash(block),booklet:projectTitle,topic:topicTitle,section:section.title,instructions,teachingContext:block.sourceReview?.teachingContext??null,...(supplementalEvidence?.length?{supplementalEvidence}:{}),task:sharedQuestion({...normaliseQuestion(block),title:''}).content};
+ const linked=linkedQuestions(block,section);
+ return {id:block.id,taskHash:reasoningTaskHash(block),booklet:projectTitle,topic:topicTitle,section:section.title,instructions,teachingContext:block.sourceReview?.teachingContext??null,...(supplementalEvidence?.length?{supplementalEvidence}:{}),...(linked.length?{linkedQuestions:linked}:{}),task:sharedQuestion({...normaliseQuestion(block),title:''}).content};
 }
 export function ratingBatches(rows,{characters=100000,questions=60,images=8}={}){
  const batches=[];let batch=[],size=0,imageRefs=new Set();

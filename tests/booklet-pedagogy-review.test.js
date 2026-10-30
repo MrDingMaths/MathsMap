@@ -529,3 +529,10 @@ test('item-only clusters cannot hide unmapped questions, unknown memberships or 
  const unmapped=splitItemArchetypeFixture();unmapped.result.clusters.shift();assert.throws(()=>validateArchetypes(unmapped.project,unmapped.sequence,unmapped.result),/Unmapped routine question/);
  const doublePrimary=splitItemArchetypeFixture();doublePrimary.result.clusters.push({...doublePrimary.result.clusters[0],id:'second-primary'});assert.throws(()=>validateArchetypes(doublePrimary.project,doublePrimary.sequence,doublePrimary.result),/repeated routine question/);
 });
+
+test('a pedagogy prompt wrapped in the whole booklet is refused before any worker slot or model call',async()=>{
+ const {runAstraTask,PEDAGOGY_PROMPT_LIMIT}=await import('../scripts/booklet/codex-transcription.mjs');
+ let spawned=false;const spawnProcess=()=>{spawned=true;throw Error('must not spawn');};
+ await assert.rejects(runAstraTask({cwd:'.',prompt:'x'.repeat(PEDAGOGY_PROMPT_LIMIT+1),stage:'pedagogy-archetypes'},{spawnProcess}),/send the topic prompt as built/);
+ assert.equal(spawned,false);
+});

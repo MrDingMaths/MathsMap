@@ -16,7 +16,7 @@ import {questionKey} from '../src/lib/question-sync.js';
 import {isTheoryReview} from '../src/lib/question-bank-eligibility.js';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-export const LIMITS=Object.freeze({concurrency:3,images:8,earlierCharacters:24000,practiceOnlyEarlierCharacters:48000,challengeCharacters:160000,digestCharacters:220,outcomeCharacters:2500});
+export const LIMITS=Object.freeze({concurrency:3,images:8,earlierCharacters:24000,practiceOnlyEarlierCharacters:48000,challengeCharacters:160000,digestCharacters:220,outcomeCharacters:2500,coverageCharacters:180000,insertionCharacters:180000,outlineCharacters:300});
 export const KINDS=Object.freeze(['example-principle','example-choice','worked-step-error','guided-practice','missing-prerequisite','opening-review','unsupported-transition','difficulty-jump','untested-distinction','duplicate-question']);
 // Optional ideas, never counted as findings and never a reason to hold an import.
 export const SUGGESTION_KINDS=Object.freeze(['extension','variation-sequence']);
@@ -639,6 +639,126 @@ export async function runArchetypes({projectFile,root=ROOT,topics=[],runner=defa
  return {...record,output};
 }
 
+// ---- claim challenge and question insertion views (no project mutation) ----------
+
+const COVERAGE_VERDICTS=new Set(['KEEP','DROP','UNCHECKED']);
+const COVERAGE_CHALLENGE='Independent standing Medium challenge of Low archetype-coverage claims. Judge only the listed claims. No new student content, questions, diagrams, solutions or ratings; no source, mathematics, rating or visual re-audit. Challenge false positives: exact example clones are unnecessary for modest direct applications, deliberate guided discovery is not missing teaching, and explicitly supplied scaffolds count. Unsolved practice is not teaching. Genuine prerequisite retrieval belongs to pending James opening-Review decisions, not missing worked examples. Comments only; concise learning-support proposals, no drafted tasks.\n\nYou are given `claims`; `teaching`, `earlierTeaching` and `practice` in full; and `digests` and `outline`, which are locators only. Cite only ids shown in full. If a verdict would rest on a digest or outline entry, or on a topic not supplied, return UNCHECKED and name it in needsTopics rather than guessing. Hidden diagram detail is a limitation to state, not evidence.\n\nReturn JSON only: {"verdicts":[{"topicId":"","clusterId":"","verdict":"KEEP|DROP|UNCHECKED","coverage":"covered|bridge|missing|prior-knowledge","reason":"","teachingIds":[],"exampleIds":[],"guidedPracticeIds":[],"practiceEvidenceIds":[],"prerequisiteIds":[],"needsTopics":[],"comment":null}],"uncertainties":[],"newStudentContent":0}. Exactly one verdict per claim.';
+const COVERAGE_CITATIONS=['teachingIds','exampleIds','guidedPracticeIds','practiceEvidenceIds','prerequisiteIds'];
+const withoutAnswers=value=>JSON.parse(JSON.stringify(value,(key,child)=>key==='answer'?undefined:child));
+const locator=(block,section)=>({id:block.id,text:headline(withoutAnswers(compactBlock(block,section)),LIMITS.outlineCharacters)});
+function idsIn(value,found=new Set()){
+ if(Array.isArray(value))value.forEach(child=>idsIn(child,found));
+ else if(value&&typeof value==='object'){if(typeof value.id==='string')found.add(value.id);Object.values(value).forEach(child=>idsIn(child,found));}
+ return found;
+}
+const openComments=(project,blockIds)=>flagsOf(project).filter(flag=>!flag.resolved&&blockIds.has(flag.targetId)).map(({id,targetId,kind,note})=>({id,targetId,kind,note}));
+// Teaching of the topics not claimed, nearest the last claim first, then locators.
+function surroundingTeaching(all,claimed,last,characters){
+ const full=[],digests=[];let used=0;
+ for(let i=last;i>=0;i--){
+  if(claimed.has(i))continue;
+  const sections=instructionalSections(all[i]);if(!sections.length)continue;
+  const value={topic:all[i].id,title:all[i].title,sections:sections.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section))}))},size=JSON.stringify(value).length;
+  if(used+size<=characters){full.unshift(value);used+=size;}
+  else digests.unshift({topic:all[i].id,title:all[i].title,blocks:sections.flatMap(section=>section.blocks.map(block=>locator(block,section)))});
+ }
+ return {full,digests};
+}
+export const coverageClaims=map=>(map.topics??[]).flatMap(topic=>(topic.clusters??[]).filter(cluster=>cluster.coverage!=='covered').map(cluster=>({topicId:topic.topicId,...cluster})));
+// A challenger must be able to disprove a claim, so claimed topics keep their whole
+// practice: replay of retained verdicts lost cited evidence when it was narrowed to
+// the blocks a claim names. Every block travels once.
+export function coverageChallengeView({project,all=sequences(project),claims,skills=[]}){
+ const claimed=new Set(all.flatMap((sequence,i)=>claims.some(claim=>claim.topicId===sequence.topicId)?[i]:[]));
+ if(!claimed.size)throw Error('No claim belongs to a topic of this booklet');
+ const last=Math.max(...claimed),seen=new Set(),once=block=>!seen.has(block.id)&&seen.add(block.id);
+ const teaching=[...claimed].map(i=>({topic:all[i].id,title:all[i].title,sections:instructionalSections(all[i]).map(section=>({title:section.title??null,blocks:section.blocks.filter(once).map(block=>compactBlock(block,section))}))}));
+ const surrounding=surroundingTeaching(all,claimed,last,LIMITS.practiceOnlyEarlierCharacters),practice=[],outline=[];
+ all.forEach((sequence,i)=>{
+  for(const section of sequence.sections.filter(section=>section.phase==='practice'))for(const block of (section.blocks??[]).filter(once)){
+   if(claimed.has(i))practice.push({topic:sequence.id,...compactBlock(block,section)});
+   else if(i<=last)outline.push({topic:sequence.id,...locator(block,section)});
+  }
+ });
+ const owners=new Map(all.flatMap(sequence=>[...visibleIds(sequence)])),named=new Set(claims.flatMap(claim=>['questionIds',...COVERAGE_CITATIONS].flatMap(field=>(claim[field]??[]).map(id=>owners.get(id)??id))));
+ const payload={booklet:project.title,courseId:project.library?.courseId??null,claims,comments:openComments(project,named),teaching,earlierTeaching:surrounding.full,digests:surrounding.digests,practice,outline,skills:[...claimed].flatMap(i=>skillFacts(all,i,skills))};
+ const evidence=idsIn([teaching,surrounding.full,practice]),locators=new Set([...idsIn([surrounding.digests,outline])].filter(id=>!evidence.has(id)));
+ return {payload,evidence,locators};
+}
+// Never cut to fit: over the limit the claims split between topics, and one topic
+// that cannot fit alone is refused.
+export function coverageChallengePackets({project,all=sequences(project),claims,skills=[],limit=LIMITS.coverageCharacters}){
+ const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,prompt:COVERAGE_CHALLENGE+'\n\n'+JSON.stringify(payload),evidence,locators};};
+ const packets=[];let current=[];
+ for(const topicId of [...new Set(all.map(sequence=>sequence.topicId))].filter(id=>claims.some(claim=>claim.topicId===id))){
+  const next=[...current,topicId];
+  if(current.length&&build(next).prompt.length>limit){packets.push(build(current));current=[topicId];}else current=next;
+ }
+ if(current.length)packets.push(build(current));
+ const over=packets.find(packet=>packet.prompt.length>limit);
+ if(over)throw Error(`Coverage challenge for ${[...new Set(over.claims.map(claim=>claim.topicId))].join(', ')} is ${over.prompt.length} characters, over ${limit}; it cannot be split further and is not truncated`);
+ return packets;
+}
+export function validateCoverageChallenge(packet,result){
+ const verdicts=Array.isArray(result?.verdicts)?result.verdicts:[],errors=[];
+ if(result?.newStudentContent!==0)errors.push('The challenge must return newStudentContent 0');
+ for(const claim of packet.claims)if(verdicts.filter(row=>row.topicId===claim.topicId&&row.clusterId===claim.id).length!==1)errors.push(`Claim ${claim.topicId}/${claim.id} needs exactly one verdict`);
+ if(verdicts.length!==packet.claims.length)errors.push(`Expected ${packet.claims.length} verdicts, received ${verdicts.length}`);
+ for(const row of verdicts){
+  const name=row.topicId+'/'+row.clusterId;
+  if(!COVERAGE_VERDICTS.has(row.verdict))errors.push('Invalid verdict for '+name);
+  if(!text(row.reason))errors.push('No reason for '+name);
+  if(row.verdict==='UNCHECKED'){if(!row.needsTopics?.length)errors.push('UNCHECKED without needsTopics: '+name);continue;}
+  if(!['covered','bridge','missing','prior-knowledge'].includes(row.coverage))errors.push('Invalid coverage for '+name);
+  for(const field of COVERAGE_CITATIONS)for(const id of row[field]??[]){
+   if(packet.locators.has(id))errors.push(`${name} rests on locator-only ${id}; return UNCHECKED`);
+   else if(!packet.evidence.has(id))errors.push(`${name} cites unseen ${id}`);
+  }
+ }
+ if(errors.length)throw Error(errors.join('; '));
+ return verdicts;
+}
+export async function runCoverageChallenge({projectFile,mapFile,root=ROOT,output,dryRun=false,runner=defaultRunner,lease=defaultLease,workDir,runDir,skills}={}){
+ const project=read(projectFile),map=read(mapFile),claims=coverageClaims(map);
+ if(map.projectId!==project.id||map.revision!==project.revision)throw Error('The archetype map does not match this project and revision');
+ if(!claims.length)return {projectId:project.id,revision:project.revision,packets:[],verdicts:[]};
+ skills??=read(path.join(root,'data','skills.json'));
+ const packets=coverageChallengePackets({project,claims,skills}),sizes=packets.map(packet=>({claims:packet.claims.length,characters:packet.prompt.length}));
+ if(dryRun)return {projectId:project.id,revision:project.revision,packets:sizes};
+ if(!output)throw Error('Name an --output file');
+ workDir??=path.join(root,'.booklet-work','pedagogy-review',project.id,'coverage-challenge');runDir??=canonicalRunDir(project,{root});
+ const replies=[];
+ // One at a time: a refusal stops the batch before another payload is sent.
+ for(const packet of packets){
+  const {result,usage,elapsedMs}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-coverage-challenge',prompt:packet.prompt,effort:'medium'});
+  validateCoverageChallenge(packet,result);replies.push({result,usage,elapsedMs,characters:packet.prompt.length});
+ }
+ const report={projectId:project.id,revision:project.revision,result:{verdicts:replies.flatMap(reply=>reply.result.verdicts),uncertainties:replies.flatMap(reply=>reply.result.uncertainties??[]),newStudentContent:0},calls:replies.map(({usage,elapsedMs,characters})=>({usage,elapsedMs,characters}))};
+ fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
+ return {...report,output};
+}
+// New questions need the exercise they join, the teaching they rely on and comments
+// on those blocks, not the whole booklet's native content or every comment. `topics`
+// narrows teaching; other topics stay as locators, so duplicates and order can still
+// be located. Over the limit, name fewer topics: nothing is cut to fit.
+export function insertionReviewView({project,all=sequences(project),newBlocks,sectionId=null,topics=null,references=null,sourceEvidence=null,limit=LIMITS.insertionCharacters}){
+ if(!newBlocks?.length)throw Error('Name the new blocks under review');
+ const wanted=topics&&new Set(topics),target=sectionId&&(project.sections??[]).find(section=>section.id===sectionId);
+ if(sectionId&&!target)throw Error('Unknown section '+sectionId);
+ const teaching=[],digests=[],outline=[];
+ for(const sequence of all){
+  const sections=instructionalSections(sequence);
+  if(sections.length&&(!wanted||wanted.has(sequence.id)||wanted.has(sequence.topicId)))teaching.push({topic:sequence.id,title:sequence.title,sections:sections.map(section=>({title:section.title??null,blocks:section.blocks.map(block=>compactBlock(block,section))}))});
+  else if(sections.length)digests.push({topic:sequence.id,title:sequence.title,blocks:sections.flatMap(section=>section.blocks.map(block=>locator(block,section)))});
+  for(const section of sequence.sections.filter(section=>section.phase==='practice'&&section!==target))for(const block of (section.blocks??[]).filter(block=>!isExplicitTeachingBlock(block)))outline.push({topic:sequence.id,...locator(block,section)});
+ }
+ const exercise=target?(target.blocks??[]).map(block=>compactBlock(block,target)):[];
+ const payload={booklet:project.title,revision:project.revision??null,newBlocks:newBlocks.map(questionReviewContent),...(sourceEvidence?{sourceEvidence}:{}),targetExercise:target?{id:target.id,title:target.title??null,blocks:exercise}:null,comments:openComments(project,new Set(target?.blocks?.map(block=>block.id)??[])),...(references?{references}:{}),teaching,digests,outline};
+ const characters=JSON.stringify(payload).length;
+ if(characters>limit)throw Error(`Insertion review is ${characters} characters, over ${limit}; name the topics the new questions rely on`);
+ return {payload,characters};
+}
+
 // ---- command line -------------------------------------------------------------------
 
 // Sizes only: what each call would send. No model call and no write.
@@ -652,8 +772,8 @@ export function runMap({projectFile,root=ROOT,skills,runDir}){
 export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
-  if(['--candidates-only','--suggestions','--report-only'].includes(args[i])){flags.add(args[i]);continue;}
-  if(!['--project','--project-file','--topics','--review-effort','--approve','--defer','--resolve','--reject','--assume','--exports','--concurrency','--provenance-dir','--findings','--output'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
+  if(['--candidates-only','--suggestions','--report-only','--dry-run'].includes(args[i])){flags.add(args[i]);continue;}
+  if(!['--project','--project-file','--topics','--review-effort','--approve','--defer','--resolve','--reject','--assume','--exports','--concurrency','--provenance-dir','--findings','--output','--map'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
  if(flags.has('--report-only')&&!['review','principles'].includes(command))throw Error('--report-only is allowed only for review or principles; no action was taken.');
@@ -662,6 +782,7 @@ export async function main(args=process.argv.slice(2)){
  if(command!=='seeded'&&!projectFile)throw Error('Name a booklet with --project ID or --project-file FILE');
  let result;
  if(command==='archetypes')result=await runArchetypes({projectFile,concurrency:Number(values['--concurrency']??1),topics:list('--topics'),output:values['--output']&&path.resolve(values['--output'])});
+ else if(command==='coverage-challenge'){if(!values['--map'])throw Error('coverage-challenge needs --map FILE');result=await runCoverageChallenge({projectFile,mapFile:path.resolve(values['--map']),output:values['--output']&&path.resolve(values['--output']),dryRun:flags.has('--dry-run')});}
  else if(command==='map')result=runMap({projectFile});
  else if(command==='review'||command==='principles')result=await runReview({projectFile,principlesOnly:command==='principles',reportOnly:flags.has('--report-only'),topics:list('--topics'),reviewEffort:values['--review-effort']??'low',candidatesOnly:flags.has('--candidates-only'),concurrency:Number(values['--concurrency']??LIMITS.concurrency),provenanceDir});
  else if(command==='post'){if(!live||values['--project-file'])throw Error('Comments are posted only to a live project: use --project ID');result=await postFindings({projectFile,provenanceDir,suggestions:flags.has('--suggestions'),...(values['--findings']?{findingIds:list('--findings')}:{})});}
