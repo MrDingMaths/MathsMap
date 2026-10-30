@@ -8,6 +8,8 @@
 // pass misses only compiles in the check as before; nothing here is evidence.
 // node scripts/booklet/prewarm-diagrams.mjs (--project ID | --project-file FILE)
 //   [--base URL] [--editions student,short,worked] [--pages 3] [--out REPORT]
+// --all (every live booklet) or --projects a,b warms a whole library for Studio;
+// progress prints per booklet and per batch, the report goes to --out.
 // Run it against the --base the check will use. --cold ignores the server cache
 // when looking up (measurement only; it recompiles cached diagrams).
 import fs from 'node:fs';
@@ -45,6 +47,8 @@ async function ready(page,edition){
 export async function collectSources(browser,{base,project,editions}){
   const context=await browser.newContext({viewport:{width:1600,height:1100}}),page=await context.newPage(),sources=new Set();
   try{
+    // Pagination can occupy the page's main thread for longer than the default action timeout.
+    page.setDefaultTimeout(300000);
     await page.addInitScript(()=>{window.__tikzSources=new Set();});
     await page.route(/\/src\/lib\/tikz\.js(?:\?|$)/,async route=>{const response=await route.fetch();await route.fulfill({response,body:collectorSource(await response.text())});});
     const record=structuredClone(project);await routeCandidateProject(page,record);
@@ -54,12 +58,15 @@ export async function collectSources(browser,{base,project,editions}){
       await page.goto(base+'/#/booklet?stage=projects&project='+encodeURIComponent(record.id),{waitUntil:'domcontentloaded',timeout:180000});
       await page.getByLabel('Booklet edition',{exact:true}).waitFor({state:'visible',timeout:600000});
       await ready(page,edition);
-      await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
-      await page.locator('.project-print .print-page').first().waitFor({state:'attached'});
-      await page.emulateMedia({media:'print'});
-      await page.evaluate(async()=>{const {settleBooklet}=await import('/src/lib/booklet-qa.js');await settleBooklet(document.querySelector('.project-print'));});
+      // A booklet without answers has an empty short or worked edition: no print surface.
+      if(await page.locator('.flow-document .booklet-page').count()){
+        await page.evaluate(()=>window.dispatchEvent(new Event('booklet-prepare-print')));
+        await page.locator('.project-print .print-page').first().waitFor({state:'attached'});
+        await page.emulateMedia({media:'print'});
+        await page.evaluate(async()=>{const {settleBooklet}=await import('/src/lib/booklet-qa.js');await settleBooklet(document.querySelector('.project-print'));});
+        await page.emulateMedia({media:'screen'});
+      }
       for(const code of await page.evaluate(()=>[...window.__tikzSources]))sources.add(code);
-      await page.emulateMedia({media:'screen'});
     }
   }finally{await context.close();}
   return [...sources];
@@ -84,8 +91,46 @@ export async function compileSources(browser,{base,codes,pages=3,cold=false}){
   }finally{await context.close();}
 }
 
+// Whole library: collect every booklet (three at a time), de-duplicate across
+// booklets, then compile in batches so each batch is published as it finishes.
+// An interrupted run loses at most one batch; rerunning skips what is cached.
+async function warmLibrary(browser,{base,editions,pages,ids,out}){
+  const started=Date.now(),sources=new Set(),booklets=[],queue=[...ids];
+  await Promise.all(Array.from({length:Math.min(3,queue.length)},async()=>{
+    while(queue.length){
+      const id=queue.shift(),t=Date.now();
+      try{
+        const project=JSON.parse(fs.readFileSync(`booklets/projects/${id}.json`,'utf8').replace(/^﻿/,''));
+        const codes=await collectSources(browser,{base,project,editions});codes.forEach(code=>sources.add(code));
+        booklets.push({id,sources:codes.length,seconds:Math.round((Date.now()-t)/1000)});
+      }catch(error){booklets.push({id,error:error.message.slice(0,300)});}
+      console.log(JSON.stringify({collected:booklets.length,of:ids.length,id,unique:sources.size}));
+    }
+  }));
+  const codes=[...sources],batch=pages*80,totals={compiles:0,cacheHits:0,failed:0,published:0},collectMs=Date.now()-started;
+  for(let i=0;i<codes.length;i+=batch){
+    const row=await compileSources(browser,{base,codes:codes.slice(i,i+batch),pages});
+    for(const name of Object.keys(totals))totals[name]+=row[name];
+    console.log(JSON.stringify({compiled:Math.min(i+batch,codes.length),of:codes.length,...totals}));
+  }
+  const report={tool:'prewarm-diagrams',mode:'library',base,editions,booklets:booklets.length,failedBooklets:booklets.filter(b=>b.error),sources:codes.length,collectMs,compileMs:Date.now()-started-collectMs,pages,...totals,elapsedMs:Date.now()-started,perBooklet:booklets};
+  fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify(report,null,2));
+  return report;
+}
+
 async function main(){
   const arg=(name,fallback)=>{const i=process.argv.indexOf(name);return i<0?fallback:process.argv[i+1];};
+  if(process.argv.includes('--all')||arg('--projects')){
+    const {listBookletProjects}=await import('./project-studio-server.mjs');
+    const ids=arg('--projects')?.split(',')??(await listBookletProjects({summary:true})).filter(p=>!p.library?.archivedAt).map(p=>p.id);
+    const browser=await launchChromium(chromium,{headless:true});
+    try{
+      const report=await warmLibrary(browser,{base:arg('--base','http://127.0.0.1:5173'),editions:arg('--editions','student,short,worked').split(','),pages:Math.max(1,Number(arg('--pages','3'))),ids,out:arg('--out','.booklet-work/studio-load/prewarm-library.json')});
+      console.log(JSON.stringify({...report,perBooklet:undefined,failedBooklets:report.failedBooklets.length}));
+      if(report.failed||report.failedBooklets.length)process.exitCode=1;
+    }finally{await browser.close();}
+    return;
+  }
   const file=arg('--project-file')??(arg('--project')?`booklets/projects/${arg('--project')}.json`:null);
   if(!file)throw Error('Use --project ID or --project-file FILE');
   const project=JSON.parse(fs.readFileSync(file,'utf8').replace(/^﻿/,''));
