@@ -1,6 +1,6 @@
 // Pedagogy suggestions for the teacher (polish pipeline, 23 October 2026). The pedagogy review
-// (pedagogy/review.mjs, docs/booklet-pedagogy-review.md) uses low effort for both calls here, as the polish
-// handoff requires for every model call. Nothing is applied. Only an extension, a variation sequence or a bridging question
+// (pedagogy/review.mjs, docs/booklet-pedagogy-review.md) uses the current booklet review configuration
+// for both passes. Nothing is applied. Only an extension, a variation sequence or a bridging question
 // (a finding whose repair adds a question, a review or teaching) becomes a Studio comment of kind
 // 'pedagogy-suggestion'; any other finding is listed in the polish report and left alone.
 import fs from 'node:fs';
@@ -28,7 +28,7 @@ export async function runPedagogySuggestions({projectFile,polishDir,liveProvenan
  const copy=path.join(provenanceDir,project.id+'.json'),live=path.join(liveProvenanceDir,project.id+'.json');
  if(!fs.existsSync(copy)&&fs.existsSync(live))fs.copyFileSync(live,copy);
  const run=review??(async options=>(await import('../pedagogy/review.mjs')).runReview(options));
- try{await run({projectFile,reviewEffort:'low',challengeEffort:'low',provenanceDir,workDir:path.join(polishDir,'pedagogy-work'),concurrency:3});}
+ try{await run({projectFile,provenanceDir,workDir:path.join(polishDir,'pedagogy-work'),concurrency:3});}
  catch(error){
   if(/no teaching content/.test(error.message))return {skipped:error.message,suggestions:[],reported:[]};
   throw error;

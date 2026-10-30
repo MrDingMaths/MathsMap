@@ -103,7 +103,7 @@ test('benchmark arms are explicit, recorded and never reach the Codex runner',as
  assert.equal(configuration.model,'claude-sonnet-5-5');assert.equal(configuration.provider,'claude-subagent');assert.doesNotThrow(()=>requireCurrentTranscription({...configuration}));
  assert.throws(()=>transcriptionConfiguration({benchmarkArm:{id:'unknown',reason:'x'}}),/Benchmark arm/);assert.throws(()=>transcriptionConfiguration({benchmarkArm:{id:'claude-sonnet-5-5-relay'}}),/Benchmark arm/);
  assert.equal(transcriptionConfiguration().model,'gpt-6.1-sol');assert.throws(()=>requireCurrentTranscription({provider:'codex',model:'claude-sonnet-5-5',effort:'medium'}),/Sol 6.1 medium/);
- const dir=temp(t);await assert.rejects(runAstraTask({cwd:dir,prompt:'x',out:path.join(dir,'o'),configuration}),/relay runner/);
+ const dir=temp(t);await assert.rejects(runAstraTask({cwd:dir,prompt:'x',out:path.join(dir,'o'),configuration,profile:'transcription'}),/relay runner/);
 });
 test('relay runner delivers the canonical prompt and images, records the actual model and refuses production runs',async t=>{
  const dir=temp(t),runDir=path.join(dir,'run'),relayDir=path.join(dir,'relay'),out=path.join(runDir,'job','codex');

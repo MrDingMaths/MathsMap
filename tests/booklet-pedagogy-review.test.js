@@ -18,14 +18,16 @@ const FIXTURE=path.join(ROOT,'tests','fixtures','pedagogy-seeded.json');
 const load=()=>JSON.parse(fs.readFileSync(FIXTURE,'utf8'));
 const temp=t=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pedagogy-review-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));return dir;};
 const payloadOf=prompt=>JSON.parse(prompt.slice(prompt.indexOf('{"booklet"')));
+const payloadFromTask=task=>task.taskReferences.decode(payloadOf(task.prompt));
 const candidate=(kind,targets,extra={})=>({kind,severity:'high',targets,finding:'Finding about '+targets[0],breakdown:'Students apply a wrong rule.',checked:'Earlier teaching.',assumptions:'',repair:{type:'change-values',proposal:'Use a general example.'},doneWhen:'A general example is shown.',...extra});
 // A stub for both passes. `review` maps a sequence id to its raw candidates;
 // `challenge` receives the candidate list and returns the second reader's result.
 function stubRunner({review={},challenge,calls=[]}={}){
  return async options=>{
-  const payload=payloadOf(options.prompt);calls.push({stage:options.stage,effort:options.configuration.effort,runDir:options.runDir,cwd:options.cwd,payload,images:options.images});
-  if(options.stage==='pedagogy-review')return {result:review[payload.sequence.id]??{candidates:[]},metrics:{usage:{input_tokens:1},elapsedMs:1}};
-  return {result:challenge?challenge(payload.candidates,payload):{findings:payload.candidates.map(row=>({...row,from:[row.id]}))},metrics:{}};
+  const wirePayload=payloadOf(options.prompt),payload=options.taskReferences?.decode(wirePayload)??wirePayload;
+  calls.push({stage:options.stage,effort:options.configuration.effort,runDir:options.runDir,cwd:options.cwd,payload,wirePayload,images:options.images});
+  const result=options.stage==='pedagogy-review'?(review[payload.sequence.id]??{candidates:[]}):(challenge?challenge(payload.candidates,payload):{findings:payload.candidates.map(row=>({...row,from:[row.id]}))});
+  return {result:options.taskReferences?.encode(result)??result,metrics:options.stage==='pedagogy-review'?{usage:{input_tokens:1},elapsedMs:1}:{}};
  };
 }
 // A working copy of the fixture outside booklets/projects, so saves rewrite the file directly.
@@ -110,9 +112,9 @@ test('prompts embed the contracts from the doc and the map command sends nothing
  const review=contract('review'),challenge=contract('challenge');
  for(const phrase of ['Preserve the author','recognise, recall, choose and calculate','Never cite a difficulty label','notReliablyReviewed','protectedGroups','opening-review','add-review','difficulty-jump','variation-sequence','area of a circle'])assert.ok(review.includes(phrase),phrase);
  assert.match(challenge,/try to disprove each candidate/);assert.match(challenge,/Do not add findings of your own/);
- const project=load(),all=sequences(project),prompt=reviewPrompt({project,all,index:2,skills:[]});
+ const project=load(),all=sequences(project),task=reviewPrompt({project,all,index:2,skills:[],task:true}),prompt=task.prompt;
  assert.ok(prompt.startsWith(review));
- const payload=payloadOf(prompt);assert.equal(payload.sequence.id,'percentage-of-quantity');assert.equal(payload.earlierTeachingComplete,true);assert.match(payload.assumptions.delivery,/Teacher-led/);assert.match(payload.assumptions.intendedOutcomes,/percentage of a quantity/);assert.deepEqual(payload.assumptions.otherBooklets,[]);
+ const payload=payloadFromTask(task);assert.equal(payload.sequence.id,'percentage-of-quantity');assert.equal(payload.earlierTeachingComplete,true);assert.match(payload.assumptions.delivery,/Teacher-led/);assert.match(payload.assumptions.intendedOutcomes,/percentage of a quantity/);assert.deepEqual(payload.assumptions.otherBooklets,[]);
  assert.ok(reviewPrompt({project,all,index:2,skills:[],library:['Rates']}).includes('"otherBooklets":["Rates"]'));
  const before=fs.readFileSync(FIXTURE);const map=runMap({projectFile:FIXTURE,root:ROOT,skills:[],runDir:null});
  assert.equal(map.sequences.length,6);assert.equal(map.sequences[4].imagesExpected,true);assert.ok(fs.readFileSync(FIXTURE).equals(before));
@@ -121,27 +123,37 @@ test('prompts embed the contracts from the doc and the map command sends nothing
 test('review filters candidates, challenges them once and never writes the project',async t=>{
  const space=workspace(t),before=fs.readFileSync(space.projectFile),calls=[];
  const runner=stubRunner({calls,review:{
-  'negative-index':{candidates:[candidate('example-choice',['t1-example-a']),candidate('example-choice',['t1-example-b']),candidate('example-choice',['not-an-id']),candidate('example-choice',['t1-guided'],{severity:'medium'}),candidate('made-up-kind',['t1-guided'])],protectedGroups:[{targets:['t1-q1-a','t1-q1-b','missing'],observation:'o',varies:'v',invariant:'i'}]},
+  'negative-index':{candidates:[candidate('example-choice',['t1-example-a']),candidate('example-choice',['t1-example-b']),candidate('example-choice',['t1-guided'],{severity:'medium'}),candidate('made-up-kind',['t1-guided'])],protectedGroups:[{targets:['t1-q1-a','t1-q1-b'],observation:'o',varies:'v',invariant:'i'}]},
   'two-step-equations':{candidates:[candidate('unsupported-transition',['t2-q3'],{repair:{type:'add-teaching',proposal:'Teach brackets first.'}}),candidate('example-choice',['t2-example-2-entry']),candidate('guided-practice',['t2-guided'])],contextQuestions:[{targets:['t2-q4'],question:'Have students formed equations before?'}]},
   'triangular-prism':{candidates:[],notReliablyReviewed:[{targets:['t5-example'],reason:'The diagram was not supplied.'}]}},
   challenge:rows=>({findings:[{...rows[0],from:[rows[0].id,rows[1].id],targets:['t1-example-a','t1-example-b'],severity:'high'},{...rows[2],from:[rows[2].id]}],dropped:[{id:rows[3].id,reason:'Roles are clear in the working.'}]})});
  const result=await runReview({...space.options,runner});
  assert.ok(fs.readFileSync(space.projectFile).equals(before),'the project file is byte-identical');
- assert.deepEqual(calls.filter(call=>call.stage==='pedagogy-review').map(call=>call.effort),Array(6).fill('low'));
- assert.deepEqual(calls.filter(call=>call.stage==='pedagogy-challenge').map(call=>call.effort),['medium']);
+ assert.deepEqual(calls.filter(call=>call.stage==='pedagogy-review').map(call=>call.effort),Array(6).fill('high'));
+ assert.deepEqual(calls.filter(call=>call.stage==='pedagogy-challenge').map(call=>call.effort),['high']);
+ assert.match(calls[0].wirePayload.sequence.id,/^ref\d+$/);
+ assert.notEqual(calls[0].wirePayload.sequence.id,calls[0].payload.sequence.id,'only the local adapter sees canonical IDs');
+ assert(calls.find(call=>call.stage==='pedagogy-challenge').wirePayload.candidates.every(row=>row.targets.every(id=>/^ref\d+$/.test(id))));
  assert.ok(calls.every(call=>!call.cwd.startsWith(ROOT)),'workers start outside the repository');
  const record=space.record(),merged=record.findings.find(finding=>finding.kind==='example-choice');
  assert.equal(record.findings.length,2);assert.deepEqual(merged.targets.map(target=>target.id),['t1-example-a','t1-example-b']);
  assert.equal(merged.id,findingId('example-choice',['t1-example-a','t1-example-b']));assert.equal(merged.targets[0].blockId,'t1-example');assert.equal(merged.targets[0].hash,blockHash(load().sections[1].blocks[2]));assert.equal(merged.state,'pending');
- assert.deepEqual(record.lastRun.sequences[0].discarded,['no target is an id from the reviewed content','severity below the reporting threshold','unknown kind made-up-kind']);
+ assert.deepEqual(record.lastRun.sequences[0].discarded,['severity below the reporting threshold','unknown kind made-up-kind']);
  assert.deepEqual(record.lastRun.dropped.map(row=>row.reason),['Roles are clear in the working.']);
  assert.deepEqual(record.lastRun.unchecked.map(row=>row.candidate.targets),[['t2-guided']],'a candidate the second reader ignored is neither kept nor dropped');
  assert.deepEqual(record.protectedGroups[0].targets,['t1-q1-a','t1-q1-b']);assert.equal(record.contextQuestions.length,1);assert.equal(record.notReliablyReviewed.length,1);
- assert.deepEqual(record.passes,{review:{model:'gpt-6.1-sol',effort:'low',calls:6},challenge:{model:'gpt-6.1-sol',effort:'medium',calls:1}});
+ assert.deepEqual(record.passes,{review:{provider:'codex',model:'gpt-6.1-terra',effort:'high',calls:6},challenge:{provider:'codex',model:'gpt-6.1-terra',effort:'high',calls:1}});
  assert.deepEqual(result.counts,{severe:0,high:2,structural:1,suggestions:0,contextQuestions:1,protectedGroups:1,notReliablyReviewed:1,dropped:1,unchecked:1,suppressed:0});
  assert.equal(result.holdBeforeFinalExport,true);assert.equal(isStructural(merged),false);
  const challengePayload=calls.find(call=>call.stage==='pedagogy-challenge').payload;
  assert.deepEqual(challengePayload.teaching.map(row=>row.topic),['negative-index','two-step-equations']);assert.equal(challengePayload.teachingComplete,true);assert.deepEqual(challengePayload.practice.map(row=>row.id),['t2-q1','t2-q2','t2-q3','t2-q4'],'a claim about a transition is checked against the whole exercise');
+});
+
+test('unknown neutral targets reject the worker response rather than silently dropping the target',async t=>{
+ const space=workspace(t),before=fs.readFileSync(space.projectFile);
+ const result=await runReview({...space.options,topics:['negative-index'],runner:async()=>({result:{candidates:[candidate('example-choice',['ref9999'])]},metrics:{}})});
+ assert.deepEqual(result.findings,[]);assert.equal(result.errors.length,1);assert.match(result.errors[0],/Unknown review reference/);
+ assert.ok(fs.readFileSync(space.projectFile).equals(before));
 });
 
 test('no candidates means no challenge call, and a candidates-only run records nothing',async t=>{
@@ -149,7 +161,7 @@ test('no candidates means no challenge call, and a candidates-only run records n
  const quiet=await runReview({...space.options,runner:stubRunner({calls})});
  assert.equal(calls.some(call=>call.stage==='pedagogy-challenge'),false);assert.deepEqual(quiet.findings,[]);assert.equal(quiet.holdBeforeFinalExport,false);
  const other=workspace(t),only=await runReview({...other.options,candidatesOnly:true,reviewEffort:'medium',topics:['two-step-equations'],runner:stubRunner({calls,review:{'two-step-equations':{candidates:[candidate('guided-practice',['t2-guided'])]}}})});
- assert.equal(only.candidates.length,1);assert.equal(only.effort,'medium');assert.equal(fs.existsSync(path.join(other.dir,'provenance')),false);assert.ok(fs.existsSync(only.candidateFile));
+ assert.equal(only.candidates.length,1);assert.equal(only.effort,'high');assert.equal(fs.existsSync(path.join(other.dir,'provenance')),false);assert.ok(fs.existsSync(only.candidateFile));
  await assert.rejects(runReview({...other.options,topics:['nowhere'],runner:stubRunner()}),/No sequence matches/);
 });
 
@@ -158,7 +170,7 @@ test('context questions alone still go to the second reader, who prunes and merg
  const result=await runReview({...space.options,runner:stubRunner({calls,review:{
   'negative-index':{contextQuestions:[ask(['t1-example-a'],'Do students know reciprocals?')]},
   'two-step-equations':{contextQuestions:[ask(['t2-q3'],'Have students expanded brackets?'),ask(['t2-q4'],'Have students formed equations from words?')]},
-  'percentage-of-quantity':{contextQuestions:[ask(['t3-q1-d'],'Have students met percentages above 100?'),ask(['nowhere'],'Ignored: no valid target.')]}},
+  'percentage-of-quantity':{contextQuestions:[ask(['t3-q1-d'],'Have students met percentages above 100?')]}},
   challenge:(rows,payload)=>({findings:[],contextQuestions:[{from:['q1'],targets:['t1-example-a','t1-example-b'],question:'Do students already know what a reciprocal is?'}],droppedQuestions:[{id:'q2',reason:'Expanding Brackets is a separate booklet.'},{id:payload.contextQuestions[2].id,reason:'Taught in t2-example-3.'}]})})});
  const challenge=calls.find(call=>call.stage==='pedagogy-challenge');
  assert.deepEqual(challenge.payload.contextQuestions.map(row=>[row.id,row.topic]),[['q1','negative-index'],['q2','two-step-equations'],['q3','two-step-equations'],['q4','percentage-of-quantity']]);
@@ -240,13 +252,13 @@ test('review gaps and difficulty jumps are findings; extensions and variation ru
  const space=workspace(t),calls=[],idea=(kind,targets,extra={})=>({kind,targets,idea:'An idea for '+targets[0],rationale:'Students would notice a pattern.',proposal:'Three questions written out.',placement:'After the exercise.',...extra});
  const result=await runReview({...space.options,runner:stubRunner({calls,review:{
   'cylinder-volume':{candidates:[candidate('opening-review',['t6-review','t6-example-entry'],{repair:{type:'add-review',proposal:'Add: find the area of a circle with radius 3 cm; with diameter 10 cm.'}}),candidate('difficulty-jump',['t6-q2'],{repair:{type:'add-question',proposal:'Add a question with diameter given and one with a part-filled height.'}})],
-   suggestions:[idea('variation-sequence',['t6-q1']),idea('variation-sequence',['t6-q2']),idea('extension',['t6-q2']),idea('extension',['nowhere']),idea('made-up',['t6-q1'])]},
+   suggestions:[idea('variation-sequence',['t6-q1']),idea('variation-sequence',['t6-q2']),idea('extension',['t6-q2']),idea('made-up',['t6-q1'])]},
   'two-step-equations':{suggestions:[idea('extension',['t2-q4'],{proposal:''})]}},
   challenge:rows=>({findings:rows.filter(row=>row.kind!=='extension').map(row=>({...row,from:[row.id]})),dropped:rows.filter(row=>row.kind==='extension').map(row=>({id:row.id,reason:'Needs a method beyond the topic.'}))})})});
  assert.deepEqual(calls.at(-1).payload.candidates.map(row=>[row.kind,row.severity]),[['opening-review','high'],['difficulty-jump','high'],['variation-sequence','suggestion'],['extension','suggestion']],'one suggestion of each kind for a topic');
  assert.deepEqual(calls.at(-1).payload.practice.map(row=>row.id),['t6-q1','t6-q2']);
  const record=space.record(),row=record.lastRun.sequences.find(item=>item.id==='cylinder-volume');
- assert.equal(row.candidates,2);assert.equal(row.suggestions,2);assert.equal(row.discarded.length,3);
+ assert.equal(row.candidates,2);assert.equal(row.suggestions,2);assert.equal(row.discarded.length,2);
  assert.deepEqual(result.findings.map(finding=>[finding.kind,finding.repair.type]),[['opening-review','add-review'],['difficulty-jump','add-question']]);
  assert.deepEqual(result.suggestions.map(finding=>[finding.kind,finding.severity]),[['variation-sequence','suggestion']]);
  assert.deepEqual(result.counts,{severe:0,high:2,structural:2,suggestions:1,contextQuestions:0,protectedGroups:0,notReliablyReviewed:0,dropped:1,unchecked:0,suppressed:0});
@@ -290,19 +302,20 @@ test('worker slots are shared through the canonical run directory and released o
  // An old manifest in the canonical run must not constrain the review's own configuration.
  fs.writeFileSync(path.join(runDir,'manifest.json'),JSON.stringify({provider:'codex',model:'gpt-5',effort:'high'}));
  let active=0,peak=0;const efforts=[];
- const child=(bin,args)=>{
+ const child=(bin,args,taskReferences)=>{
   const process=new EventEmitter();process.stdout=new EventEmitter();process.stderr=new EventEmitter();process.kill=()=>{};
   process.stdin={on(){},end(prompt){active++;peak=Math.max(peak,active);efforts.push(args.find(arg=>arg.startsWith('model_reasoning_effort')));
-   const payload=payloadOf(prompt),fail=payload.sequence?.id==='triangular-prism';
-   setTimeout(()=>{active--;if(!fail)fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify(payload.sequence?{candidates:payload.sequence.id==='negative-index'?[candidate('example-choice',['t1-example-a'])]:[]}:{findings:payload.candidates.map(row=>({...row,from:[row.id]}))}));process.emit('close',fail?1:0);},15);}};
+    const wirePayload=payloadOf(prompt),payload=taskReferences?.decode(wirePayload)??wirePayload,fail=payload.sequence?.id==='triangular-prism';
+    const result=payload.sequence?{candidates:payload.sequence.id==='negative-index'?[candidate('example-choice',['t1-example-a'])]:[]}:{findings:payload.candidates.map(row=>({...row,from:[row.id]}))};
+    setTimeout(()=>{active--;if(!fail)fs.writeFileSync(args[args.indexOf('--output-last-message')+1],JSON.stringify(taskReferences?.encode(result)??result));process.emit('close',fail?1:0);},15);}};
   return process;
  };
- const runner=options=>runAstraTask(options,{spawnProcess:child});
+ const runner=options=>runAstraTask(options,{spawnProcess:(bin,args)=>child(bin,args,options.taskReferences)});
  const spaces=[workspace(t),workspace(t)],results=await Promise.all(spaces.map(space=>runReview({...space.options,lease:undefined,runDir,runner})));
  assert.ok(peak<=3,'never more than three workers on one booklet: '+peak);assert.ok(peak>1,'calls do run concurrently');
  assert.deepEqual(fs.readdirSync(path.join(runDir,'workflow','worker-slots')),[],'every slot is released, including the failed call');
  for(const result of results){assert.equal(result.findings.length,1);assert.equal(result.errors.length,1);assert.match(result.errors[0],/triangular-prism: Codex exited 1/);}
- assert.equal(efforts.filter(value=>value==='model_reasoning_effort="low"').length,12);assert.equal(efforts.filter(value=>value==='model_reasoning_effort="medium"').length,2);
+ assert.equal(efforts.filter(value=>value==='model_reasoning_effort="high"').length,14);
 });
 
 test('withdraw archives open pending findings and does not suppress a fresh review',async t=>{
@@ -347,7 +360,7 @@ test('inline guided practice remains teaching rather than ordinary or unrated pr
  assert.deepEqual(routineQuestions(seq).questions.map(q=>q.id),['ordinary']);
  assert.deepEqual(routineQuestions(seq).unrated,['ordinary-unrated']);
  assert.deepEqual(instructionalSections(seq).flatMap(s=>s.blocks.map(b=>b.id)),['inline-guided','inline-guided-unrated','inline-example']);
- const payload=payloadOf(archetypePrompt(project,seq,{skills:[]}));
+ const payload=payloadFromTask(archetypePrompt(project,seq,{skills:[],task:true}));
  assert.deepEqual(payload.routineQuestions.map(q=>q.id),['ordinary']);
  assert.deepEqual(payload.teaching.sections.flatMap(s=>s.blocks.map(b=>b.id)),['inline-guided','inline-guided-unrated','inline-example']);
  assert.deepEqual(project,before);
@@ -357,6 +370,7 @@ test('archetype pilot excludes nonroutine/end sections and requires complete uni
  const q=(id,score)=>({id,type:'question',classification:{reasoningScore:score},content:{stem:'Calculate.'}});
  const project={id:'pilot',revision:1,title:'Pilot'};
  const seq={id:'topic',topicId:'topic',title:'Topic',sections:[{phase:'teaching',blocks:[{id:'example',pedagogyRole:'example',type:'question'}]},{phase:'practice',blocks:[q('routine',20),q('hard',65),q('unrated',undefined)]},{phase:'practice',role:'challenge',blocks:[q('challenge',10)]},{phase:'practice',role:'exam',blocks:[q('exam',20)]}]};
+ project.sections=seq.sections=seq.sections.map((section,index)=>({...section,id:'pilot-section-'+index,topicId:seq.topicId}));
  assert.deepEqual(routineQuestions(seq).questions.map(q=>q.id),['routine']);
  assert.deepEqual(routineQuestions(seq).unrated,['unrated']);
  const cluster={id:'calculate',questionIds:['routine'],exampleIds:['example'],guidedPracticeIds:[],coverage:'covered',rationale:'Example shows the same method.'};
@@ -411,7 +425,7 @@ test('only verified routine backfill of a taught archetype has an automatic path
  const c={model:NEW_CONTENT_MODEL,kind:'backfill',destination:'booklet',status:'verified-routine-backfill',archetypeTaught:true,instructionalChange:false,reasoningScore:20,independentReview:review,block,backfillProof:{draft,blocks:[block],review}};
  assert.equal(validateNewTeachingCandidate(c),c);
  for(const change of [{archetypeTaught:false},{instructionalChange:true},{reasoningScore:65},{kind:'bridge'}])assert.throws(()=>validateNewTeachingCandidate({...c,...change}),/pending Studio comment/);
- assert.throws(()=>validateNewTeachingCandidate({...c,backfillProof:undefined}),/Independent Sol/);
+ assert.throws(()=>validateNewTeachingCandidate({...c,backfillProof:undefined}),/Independent review/);
 });
 
 
@@ -464,7 +478,7 @@ test('explicit worked examples inside practice retain solutions and earlier teac
  assert.equal(compactBlock(example,sequence.sections[0]).answer.worked,'EXPLICIT_WORKED_SOLUTION');
  assert.equal(earlierTeaching([sequence,{id:'later',sections:[]}],1).full[0].sections[0].blocks[0].id,'inline-example');
  const project={title:'Test',sections:sequence.sections};
- const payload=payloadOf(archetypePrompt(project,sequence,{all:[sequence],skills:[]}));
+ const payload=payloadFromTask(archetypePrompt(project,sequence,{all:[sequence],skills:[],task:true}));
  assert.equal(payload.teaching.sections[0].blocks[0].id,'inline-example');
  assert.equal(payload.teaching.sections[0].blocks.length,1);
 });

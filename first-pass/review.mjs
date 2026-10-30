@@ -428,18 +428,18 @@ export async function defaultRunner(options){
  return (await import('../scripts/booklet/codex-transcription.mjs')).runAstraTask(options);
 }
 export async function defaultLease(runDir,details,action){return (await import('../scripts/booklet/worker-pool.mjs')).withWorkerSlot(runDir,details,action);}
-async function lowEffort(){
- const {transcriptionConfiguration}=await import('../scripts/booklet/transcription-settings.mjs');
- return transcriptionConfiguration({reasoningOverride:{effort:'low',reason:'First-pass review: user decision of 15 October 2026 (Sol 6.1 at low reasoning).'}});
+async function reviewSettings(){
+ const {reviewConfiguration}=await import('../scripts/booklet/transcription-settings.mjs');
+ return reviewConfiguration();
 }
 // A slot in the booklet's canonical run directory is the shared three-worker
 // limit. Workers start outside the repository so they do not load its AGENTS.md.
 export async function callWorker({runner,lease,canonicalRunDir,workDir,name,prompt,images}){
  const out=path.join(workDir,'calls',Date.now()+'-'+name+'-'+Math.random().toString(36).slice(2,6)),cwd=path.join(os.tmpdir(),'mathsmap-first-pass-review');
  fs.mkdirSync(cwd,{recursive:true});fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'prompt.txt'),prompt);
- const configuration=await lowEffort(),invoke=()=>runner({cwd,runDir:workDir,prompt,images,out,profile:'review',stage:'first-pass',configuration});
+ const configuration=await reviewSettings(),invoke=()=>runner({cwd,runDir:workDir,prompt,images,out,profile:'review',stage:'first-pass',configuration});
  const {result,metrics}=await(canonicalRunDir?lease(canonicalRunDir,{stage:'first-pass',tool:'first-pass-review'},invoke):invoke());
- return {result,usage:metrics?.usage??null,elapsedMs:metrics?.elapsedMs??null,out};
+ return {result,usage:metrics?.usage??null,elapsedMs:metrics?.elapsedMs??null,configuration,out};
 }
 export async function pool(items,concurrency,work){
  const queue=[...items.entries()];
@@ -488,14 +488,14 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
    if(images.some(image=>!image))throw Error('Missing page raster');
    if(prompt.length>LIMITS.payloadCharacters)throw Error('Review context exceeds the packet limit; split this page context rather than truncating its question text');
    log(`Reviewing ${EDITION_NAMES[batch.edition]} pages ${pageNumbers.join(',')}`);
-   const {result,usage,elapsedMs,out}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,name:batch.edition+'-'+pageNumbers[0],prompt,images});
-   Object.assign(call,{usage,elapsedMs,out:relative(root,out)});
+   const {result,usage,elapsedMs,out,configuration}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,name:batch.edition+'-'+pageNumbers[0],prompt,images});
+   Object.assign(call,{usage,elapsedMs,configuration,out:relative(root,out)});
    for(const verdict of result?.verifiedFindings??[])if(verify.some(f=>f.id===verdict.id))verifiedFindings.push(verdict);
    for(const raw of Array.isArray(result?.findings)?result.findings:[]){
     if(textbook&&['review','extension'].includes(raw.area)){call.discarded.push('Excluded from textbook import: '+raw.area);continue;}
     const {value,error}=normalise(raw,{index,edition:batch.edition,blockIds,pages:pageNumbers});
     if(error){call.discarded.push(error);continue;}
-    found.push({id:findingId(value.area,value.edition,value.targets),...value,...(source&&extra.length?{sourceRepair:true}:{}),targets:targetRows(project,index,value.targets),revision:project.revision??null,batch:i});call.findings++;
+    found.push({id:findingId(value.area,value.edition,value.targets),...value,reviewConfiguration:configuration,...(source&&extra.length?{sourceRepair:true}:{}),targets:targetRows(project,index,value.targets),revision:project.revision??null,batch:i});call.findings++;
    }
    for(const row of Array.isArray(result?.notReliablyReviewed)?result.notReliablyReviewed:[])if(text(row?.note))unreliable.push({edition:batch.edition,page:pageNumbers.includes(row.page)?row.page:pageNumbers[0],note:(Number.isInteger(row.page)&&!pageNumbers.includes(row.page)?'Context page '+row.page+': ':'')+text(row.note),revision:project.revision??null});
    blockIds.forEach(id=>reviewed[batch.edition].add(id));pageNumbers.forEach(page=>reviewedPages[batch.edition].add(page));
@@ -503,8 +503,9 @@ export async function runReview({projectFile,root=ROOT,pages=null,editions=EDITI
  });
 calls.sort((a,b)=>a.batch-b.batch);found.sort((a,b)=>a.batch-b.batch||EDITIONS.indexOf(a.edition)-EDITIONS.indexOf(b.edition)||(a.page??Infinity)-(b.page??Infinity));
  const residual=found.map(({batch,...finding})=>({id:finding.id,edition:finding.edition,page:finding.page,area:finding.area,scope:finding.scope,targets:finding.targets.map(target=>target.id),comment:finding.comment,...(finding.proposal?{proposal:finding.proposal}:{})}));
- const merged=mergeFindings(record.findings??[],found.map(({batch,...finding})=>finding),{reviewed,project,index});
- Object.assign(record,{projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),model:'gpt-6.1-sol',effort:'low',findings:merged.findings,
+ const previousFindings=(record.findings??[]).map(finding=>finding.reviewConfiguration||!record.model?finding:{...finding,reviewConfiguration:{model:record.model,effort:record.effort,provenance:'retained-review-record'}});
+ const merged=mergeFindings(previousFindings,found.map(({batch,...finding})=>finding),{reviewed,project,index});
+ Object.assign(record,{projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),model:calls.find(c=>c.configuration)?.configuration.model??record.model,effort:calls.find(c=>c.configuration)?.configuration.effort??record.effort,findings:merged.findings,
   notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!reviewedPages[row.edition]?.has(row.page)&&!(!pages&&selection[row.edition]?.length&&selection[row.edition].every(p=>reviewedPages[row.edition]?.has(p.page))&&row.revision!==project.revision&&Number.isInteger(row.page)&&row.page>plan.pageCounts[row.edition])),...unreliable],
   lastRun:{contentHash:hash,pages:plan.reviewed,calls,suppressed:merged.suppressed,render:{report:rendered.report,reused:rendered.reused,automatedFailures:(rendered.failures??[]).map(row=>row.kind+(row.count?' ×'+row.count:''))},errors}});
  for(const finding of record.findings??[])if(verificationFindings.some(f=>f.id===finding.id)&&verifiedFindings.some(v=>v.id===finding.id&&v.fixed===true)&&!verifiedFindings.some(v=>v.id===finding.id&&v.fixed!==true)){finding.visualVerified=true;if(finding.contentVerified)setState(finding,'repaired','Independent content and affected-page verification passed');}

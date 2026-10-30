@@ -9,6 +9,17 @@ const setup=()=>{
  const currentProject=structuredClone(reviewedProject);currentProject.revision=76;
  return {reviewedProject,currentProject,map,snapshotSha256};
 };
+
+test('metadata retains actual per-topic reviewers and historical Sol attribution',()=>{
+ const historical=setup();
+ const old=reuseArchetypeMap(historical).candidate.sections[0].blocks[0].classification.archetypeReview;
+ assert.equal(old.model,'gpt-6.1-sol');assert.equal(old.effort,'low');
+ const current=setup();current.map.reviewConfiguration={model:'gpt-6.1-terra',effort:'high'};
+ const terra=reuseArchetypeMap(current).candidate.sections[0].blocks[0].classification.archetypeReview;
+ assert.equal(terra.model,'gpt-6.1-terra');assert.equal(terra.effort,'high');
+ current.map.topics[0].reviewConfiguration={model:'gpt-6.1-sol',effort:'low'};
+ assert.equal(reuseArchetypeMap(current).candidate.sections[0].blocks[0].classification.archetypeReview.model,'gpt-6.1-sol');
+});
 test('scope-external comments and exam moves reuse recorded review without accepting it',()=>{
  const o=setup(),q=o.currentProject.sections[0].blocks.pop();o.currentProject.sections.push({id:'exam',role:'exam',workingSpace:'none',blocks:[q,{id:'new-exam',content:{prompt:'External.'}}]});o.currentProject.studio={flags:[{id:'teacher',note:'Keep.'}]};
  const result=reuseArchetypeMap(o);

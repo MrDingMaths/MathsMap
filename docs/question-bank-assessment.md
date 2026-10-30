@@ -1,5 +1,7 @@
 # Question-bank assessment
 
+30 October 2026: future booklet review/rating calls and finding challenges use Terra 6.1 High under the [review policy](booklet-pedagogy-review.md#review-model-30-october-2026). Preserve completed/in-flight provenance; transcription, Anthropic generation and separate content-campaign settings remain unchanged. No automatic fallback or routine double-model pass.
+
 ## LLM ratings for all Studio practice questions (21 October 2026)
 
 Every practice question in Studio requires an individual LLM reasoning score and task-specific rationale on the existing cognitive-demand scale below. Exclude teaching examples and guided practice. Initial import authoring must supply the raw integer score, derived band and rationale even when no optional classification catalogue is configured; fallback scores are not assessments. The existing independent content review checks rating consistency and substantive corrections in the same pass. Import completion requires complete verified rating coverage.

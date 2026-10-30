@@ -15,6 +15,8 @@ import {toSource} from '../public/libs/maths-editor/document-model.mjs';
 import {questionKey} from '../src/lib/question-sync.js';
 import {isTheoryReview} from '../src/lib/question-bank-eligibility.js';
 import {flowNumbers,exerciseNumbers} from '../src/lib/booklet-flow.js';
+import {REVIEW_DEFAULT,reviewConfiguration} from '../scripts/booklet/transcription-settings.mjs';
+import {projectReviewReferences} from './review-references.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 export const LIMITS=Object.freeze({concurrency:3,images:8,earlierCharacters:24000,practiceOnlyEarlierCharacters:48000,challengeCharacters:160000,digestCharacters:220,outcomeCharacters:2500,coverageCharacters:180000,insertionCharacters:180000,outlineCharacters:300});
@@ -31,6 +33,15 @@ const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const sha=value=>createHash('sha256').update(value).digest('hex');
 const now=()=>new Date().toISOString();
 const text=value=>typeof value==='string'?value.trim():'';
+const reviewTask=(project,payload,instructions)=>{
+ const {payload:view,encode,decode}=projectReviewReferences({project,payload,purpose:'pedagogy-order'});
+ return {prompt:instructions+'\n\n'+JSON.stringify(view),taskReferences:{encode,decode}};
+};
+const passIdentity=(rows,fallback)=>{
+ const configs=rows.map(row=>row.reviewConfiguration??fallback??{model:'unrecorded',effort:'unrecorded'});
+ const unique=[...new Map(configs.map(config=>[JSON.stringify({provider:config.provider,model:config.model,effort:config.effort}),config])).values()];
+ return {...(unique.length===1?unique[0]:unique.length?{model:'mixed',effort:'mixed',configurations:unique}:REVIEW_DEFAULT),calls:rows.length};
+};
 
 // ---- contracts ----------------------------------------------------------------
 
@@ -184,12 +195,13 @@ export function sequenceImages(sequence,runDir,{limit=LIMITS.images}={}){
  const files=runDir?pages.map(page=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png')).filter(file=>fs.existsSync(file)).slice(0,limit):[];
  return {expected,files};
 }
-export function reviewPrompt({project,all,index,skills,decided=[],images={expected:false,files:[]},stored,library=[],root=ROOT}){
+export function reviewPrompt({project,all,index,skills,decided=[],images={expected:false,files:[]},stored,library=[],root=ROOT,task=false,principlesOnly=false}){
  const numbering=numberingFor(project);
  const sequence=all[index],practiceOnly=!sequence.sections.some(section=>section.phase==='teaching');
  const earlier=earlierTeaching(all,index,{characters:practiceOnly?LIMITS.practiceOnlyEarlierCharacters:LIMITS.earlierCharacters,numbering});
  const payload={booklet:project.title,numbering:NUMBERING_NOTE,assumptions:assumptions(project,stored,library),sequence:sequencePayload(sequence,numbering),earlierTeaching:earlier.full,earlierTeachingDigests:earlier.digests,earlierTeachingComplete:earlier.complete,skills:skillFacts(all,index,skills),decided,imagesExpected:images.expected,imagesAttached:images.files.length};
- return contract('review',{root})+'\n\n'+bookletPrinciples({root})+'\n\n'+REVIEW_OUTPUT+'\n\n'+JSON.stringify(payload);
+ const view=reviewTask(project,payload,(principlesOnly?'Report only example-principle candidates; do not repeat other pedagogy findings or generate questions.\n\n':'')+contract('review',{root})+'\n\n'+bookletPrinciples({root})+'\n\n'+REVIEW_OUTPUT);
+ return task?view:view.prompt;
 }
 
 // ---- findings -------------------------------------------------------------------
@@ -260,21 +272,20 @@ async function defaultRunner(options){
 }
 async function defaultLease(runDir,details,action){return (await import('../scripts/booklet/worker-pool.mjs')).withWorkerSlot(runDir,details,action);}
 async function effortConfiguration(effort){
- const {transcriptionConfiguration}=await import('../scripts/booklet/transcription-settings.mjs');
- if(effort==='medium')return transcriptionConfiguration();
- if(effort!=='low')throw Error('Effort must be low or medium');
- return transcriptionConfiguration({reasoningOverride:{effort:'low',reason:'Pedagogy review pass: user decision of 9 October 2026 (low review, medium challenge).'}});
+ if(!['low','medium','high'].includes(effort))throw Error('Unknown review stage effort');
+ // Legacy stage labels do not select the superseded production model.
+ return reviewConfiguration();
 }
 // A slot in the booklet's canonical run directory is the shared three-worker
 // limit. The call itself runs from the review's own folder, which has no
 // manifest, so each pass can use its own effort. Workers start outside the
 // repository so they do not load its AGENTS.md.
-async function callWorker({runner,lease,canonicalRunDir,workDir,stage,prompt,images=[],effort}){
+async function callWorker({runner,lease,canonicalRunDir,workDir,stage,prompt,images=[],effort,taskReferences}){
  const out=path.join(workDir,'calls',stage+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,8)),cwd=path.join(os.tmpdir(),'mathsmap-pedagogy-review');
  fs.mkdirSync(cwd,{recursive:true});fs.mkdirSync(path.dirname(out),{recursive:true});
- const configuration=await effortConfiguration(effort),invoke=()=>runner({cwd,runDir:workDir,prompt,images,out,profile:'review',stage,configuration});
+ const configuration=await effortConfiguration(effort),invoke=()=>runner({cwd,runDir:workDir,prompt,images,out,profile:'review',stage,configuration,...(taskReferences?{taskReferences}:{})});
  const {result,metrics}=await(canonicalRunDir?lease(canonicalRunDir,{stage,tool:'pedagogy-review'},invoke):invoke());
- return {result,usage:metrics?.usage??null,elapsedMs:metrics?.elapsedMs??null};
+ return {result:taskReferences?taskReferences.decode(result):result,usage:metrics?.usage??null,elapsedMs:metrics?.elapsedMs??null,reviewConfiguration:{provider:metrics?.provider??configuration.provider,model:metrics?.model??configuration.model,effort:metrics?.effort??configuration.effort}};
 }
 export async function pool(items,concurrency,work){
  const queue=[...items.entries()];let failed=false,failure;
@@ -309,9 +320,9 @@ function challengePrompt({project,all,candidates,questions,ids,stored,library,ro
  const whole=new Set(candidates.filter(candidate=>['difficulty-jump','unsupported-transition'].includes(candidate.kind)).map(candidate=>candidate.sequence));
  const practice=all.flatMap(sequence=>sequence.sections.filter(section=>section.phase==='practice').flatMap(section=>(section.blocks??[]).filter(block=>whole.has(sequence.id)||owners.has(block.id)).map(block=>({topic:sequence.id,...compactBlock(block,section,numbering)}))));
  const payload={booklet:project.title,numbering:NUMBERING_NOTE,assumptions:assumptions(project,stored,library),candidates:candidates.map(({id,sequence,...rest})=>({id,topic:sequence,...rest})),contextQuestions:questions.map(({id,sequence,targets,question})=>({id,topic:sequence,targets,question})),teaching:[...teaching.entries()].sort((a,b)=>a[0]-b[0]).map(([,value])=>value),teachingComplete:complete,practice,topicOrder:all.slice(0,last+1).map(sequence=>sequence.id)};
- return contract('challenge',{root})+'\n\n'+bookletPrinciples({root})+'\n\n'+CHALLENGE_OUTPUT+'\n\nThe first reader\'s instructions, which are the standard:\n\n'+contract('review',{root})+'\n\n'+JSON.stringify(payload);
+ return reviewTask(project,payload,contract('challenge',{root})+'\n\n'+bookletPrinciples({root})+'\n\n'+CHALLENGE_OUTPUT+'\n\nThe first reader\'s instructions, which are the standard:\n\n'+contract('review',{root}));
 }
-export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='low',challengeEffort='medium',candidatesOnly=false,concurrency=LIMITS.concurrency,runner=defaultRunner,lease=defaultLease,provenanceDir,workDir,skills,library,runDir,resumeFrom,principlesOnly=false,reportOnly=false}={}){
+export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='high',challengeEffort='high',candidatesOnly=false,concurrency=LIMITS.concurrency,runner=defaultRunner,lease=defaultLease,provenanceDir,workDir,skills,library,runDir,resumeFrom,principlesOnly=false,reportOnly=false}={}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>LIMITS.concurrency)throw Error('Use one to three workers');
  const project=read(projectFile),all=sequences(project);
  if(!all.some(sequence=>instructionalSections(sequence).length))throw Error('This project has no teaching content; the pedagogy review does not apply.');
@@ -331,8 +342,8 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
   const decided=rejected.filter(finding=>finding.targets.some(target=>own.has(target.id))).map(finding=>({kind:finding.kind,targets:finding.targets.map(target=>target.id),finding:finding.finding}));
   const row={id:sequence.id,title:sequence.title,blocks:sequence.sections.reduce((count,section)=>count+(section.blocks?.length??0),0),images:images.files.length,imagesExpected:images.expected};rows.push(row);
   try{
-   const {result,usage,elapsedMs}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-review',prompt:(principlesOnly?'Report only example-principle candidates for this scoped principles pilot. Do not repeat other pedagogy findings or generate new questions.\n\n':'')+reviewPrompt({project,all,index,skills,decided,images,stored:record.assumptions,library,root}),images:images.files,effort:reviewEffort});
-   Object.assign(row,{usage,elapsedMs,candidates:0,discarded:[],working:result?.working??null});
+   const {result,usage,elapsedMs,reviewConfiguration:actualConfiguration}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-review',...reviewPrompt({project,all,index,skills,decided,images,stored:record.assumptions,library,root,task:true,principlesOnly}),images:images.files,effort:reviewEffort});
+   Object.assign(row,{usage,elapsedMs,reviewConfiguration:actualConfiguration,candidates:0,discarded:[],working:result?.working??null});
    for(const raw of Array.isArray(result?.candidates)?result.candidates:[]){
     if(principlesOnly&&raw.kind!=='example-principle')continue;
     const {value,error}=normalise(raw,own);
@@ -365,21 +376,22 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
  context.sort((a,b)=>all.findIndex(sequence=>sequence.id===a.sequence)-all.findIndex(sequence=>sequence.id===b.sequence));
  context.forEach((question,i)=>{question.id='q'+(i+1);});
  fs.mkdirSync(workDir,{recursive:true});
- const candidateFile=resumeFrom?.candidateFile??path.join(workDir,`candidates-${reviewEffort}-${Date.now()}.json`);
- if(!recovered)fs.writeFileSync(candidateFile,JSON.stringify({projectId:project.id,revision:project.revision??null,effort:reviewEffort,sequences:rows,candidates,contextQuestions:context,protectedGroups:groups,notReliablyReviewed:unreliable,errors},null,1)+'\n');
- if(candidatesOnly)return {projectId:project.id,effort:reviewEffort,sequences:rows.length,candidates:candidates.map(({id,sequence,kind,severity,targets,finding})=>({id,sequence,kind,severity,targets,finding})),candidateFile,errors};
+ const actualReview=passIdentity(rows,recovered?record.passes?.review??recovered.reviewConfiguration:undefined);
+ const candidateFile=resumeFrom?.candidateFile??path.join(workDir,`candidates-${actualReview.effort}-${Date.now()}.json`);
+ if(!recovered)fs.writeFileSync(candidateFile,JSON.stringify({projectId:project.id,revision:project.revision??null,effort:actualReview.effort,reviewConfiguration:actualReview,sequences:rows,candidates,contextQuestions:context,protectedGroups:groups,notReliablyReviewed:unreliable,errors},null,1)+'\n');
+ if(candidatesOnly)return {projectId:project.id,effort:actualReview.effort,reviewConfiguration:actualReview,sequences:rows.length,candidates:candidates.map(({id,sequence,kind,severity,targets,finding})=>({id,sequence,kind,severity,targets,finding})),candidateFile,errors};
 
  const found=[],dropped=[],unchecked=[],droppedQuestions=[],challenge={};let questions=context;
  if(candidates.length||context.length){
   try{
-   const {result,usage,elapsedMs}=recovered?{result:read(resumeFrom.challengeResultFile)}:await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-challenge',prompt:challengePrompt({project,all,candidates,questions:context,ids,stored:record.assumptions,library,root}),effort:challengeEffort});
-   Object.assign(challenge,{usage,elapsedMs});
+   const {result,usage,elapsedMs,reviewConfiguration:actualConfiguration}=recovered?{result:read(resumeFrom.challengeResultFile)}:await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-challenge',...challengePrompt({project,all,candidates,questions:context,ids,stored:record.assumptions,library,root}),effort:challengeEffort});
+   Object.assign(challenge,{usage,elapsedMs,...(actualConfiguration?{reviewConfiguration:actualConfiguration}:{})});
    const known=new Set(candidates.map(candidate=>candidate.id)),seen=new Set();
    for(const raw of Array.isArray(result?.findings)?result.findings:[]){
     const from=(Array.isArray(raw?.from)?raw.from:[]).map(String).filter(id=>known.has(id)),{value,error}=normalise(raw,ids);
     from.forEach(id=>seen.add(id));
     if(error||!from.length){dropped.push({ids:from,reason:error??'finding names no candidate'});continue;}
-    found.push({id:findingId(value.kind,value.targets),...value,targets:targetRows(value.targets,ids,blocks),from,sequences:[...new Set(candidates.filter(candidate=>from.includes(candidate.id)).map(candidate=>candidate.sequence))]});
+    found.push({id:findingId(value.kind,value.targets),...value,...(actualConfiguration?{reviewConfiguration:actualConfiguration}:{}),targets:targetRows(value.targets,ids,blocks),from,sequences:[...new Set(candidates.filter(candidate=>from.includes(candidate.id)).map(candidate=>candidate.sequence))]});
    }
    for(const row of Array.isArray(result?.dropped)?result.dropped:[])if(known.has(String(row?.id))){seen.add(String(row.id));dropped.push({ids:[String(row.id)],reason:text(row.reason)});}
    for(const row of Array.isArray(result?.unchecked)?result.unchecked:[])if(known.has(String(row?.id))){seen.add(String(row.id));unchecked.push({id:String(row.id),reason:text(row.reason)});}
@@ -395,7 +407,7 @@ export async function runReview({projectFile,root=ROOT,topics=[],reviewEffort='l
  const describe=id=>{const candidate=candidates.find(row=>row.id===id);return candidate?{id,sequence:candidate.sequence,kind:candidate.kind,targets:candidate.targets,finding:candidate.finding}:{id};};
  const reviewedBlocks=new Set(selected.flatMap(sequence=>sequence.sections.flatMap(section=>(section.blocks??[]).map(block=>block.id)))),inScope=row=>row.targets.some(id=>reviewedBlocks.has(ids.get(id)));
  const merged=challenge.error?{findings:record.findings??[],suppressed:[]}:mergeFindings(record.findings??[],found,{reviewedBlocks,blocks});
- Object.assign(record,{...(reportOnly?{reportOnly:true}:{}),projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),passes:{review:{model:'gpt-6.1-sol',effort:reviewEffort,calls:rows.length},challenge:{model:'gpt-6.1-sol',effort:challengeEffort,calls:candidates.length||context.length?1:0}},importReview:importReviewStatus(runDir),questionOrder:project.settings?.questionOrder??null,findings:merged.findings,
+ Object.assign(record,{...(reportOnly?{reportOnly:true}:{}),projectId:project.id,title:project.title,reviewedRevision:project.revision??null,reviewedAt:now(),passes:{review:passIdentity(rows,recovered?record.passes?.review??recovered.reviewConfiguration:undefined),challenge:passIdentity(candidates.length||context.length?[challenge]:[],recovered?record.passes?.challenge:undefined)},importReview:importReviewStatus(runDir),questionOrder:project.settings?.questionOrder??null,findings:merged.findings,
   contextQuestions:[...(record.contextQuestions??[]).filter(row=>!inScope(row)),...questions.map(({id,...question})=>question)],protectedGroups:[...(record.protectedGroups??[]).filter(row=>!inScope(row)),...groups],notReliablyReviewed:[...(record.notReliablyReviewed??[]).filter(row=>!inScope(row)),...unreliable],
   lastRun:{sequences:rows.map(({working,...row})=>row),dropped:dropped.map(row=>({...row,candidates:row.ids.map(describe)})),unchecked:unchecked.map(row=>({...row,candidate:describe(row.id)})),suppressed:merged.suppressed,droppedQuestions,candidateFile:path.relative(root,candidateFile).replaceAll('\\','/'),errors}});
  if(recovered)record.lastRun.recoveredFrom={candidateFile:resumeFrom.candidateFile,challengeResultFile:resumeFrom.challengeResultFile,at:now(),newModelCalls:0};
@@ -592,12 +604,13 @@ export function routineQuestions(sequence,{numbering}={}){
  }
  return {questions,unrated};
 }
-export function archetypePrompt(project,sequence,{root=ROOT,all=sequences(project),skills}={}){
+export function archetypePrompt(project,sequence,{root=ROOT,all=sequences(project),skills,task=false}={}){
  const numbering=numberingFor(project),{questions}=routineQuestions(sequence,{numbering});
  skills??=fs.existsSync(path.join(root,'data','skills.json'))?read(path.join(root,'data','skills.json')):[];
  const index=all.findIndex(s=>s.id===sequence.id),facts=skillFacts(index<0?[sequence]:all,index<0?0:index,skills);
  const approvedPriorKnowledge=project.library?.courseId==='s6-ext1-11'?['substitute-into-expressions','function-notation']:[];
- return 'Read-only routine-archetype and independent-practice-item audit. Cluster by mathematical decision/method, never wording or numbers alone. Map every listed routine question exactly once. coverage covered = example or explicit teaching supplies the method; preserve empty exampleIds when no worked example exists and do not invent one for direct application of a stated rule; bridge = modest step up best served by scaffolded questions; missing = genuinely different new untaught archetype, not a familiar prerequisite; prior-knowledge = prerequisite justified by skill/context evidence. Prior knowledge is never a missing worked example: any worthwhile retrieval belongs in the opening review block, and James decides whether to add it. Do not generate new content, questions, examples or wording. Additional worked-example drafts remain Studio comments pending individual James approval; calibration never approves insertion. Examine teaching earlier in this booklet before claiming a gap. Apply the substitution/function-evaluation prior-knowledge approval ONLY when courseId is s6-ext1-11 and approvedPriorKnowledge lists it; never transfer it to Stage5 or other courses. Each prerequisite verdict cites prerequisiteIds and evidence; its reviewStatus is pending-user-decision. Only exact example-role IDs go in exampleIds; identification/definitions belong in teachingIds; a method or scaffold supplied inside an earlier practice question belongs in practiceEvidenceIds, not teachingIds. A mere unsolved exercise is not supplied teaching. Exclude Challenge/Exam. For each question, enumerate practiceItems as independent complete attempts, grouping dependent steps together. Count independently answerable labelled asks separately even when they share a given polynomial: term count, each requested coefficient and constant-term identification are separate attempts. Shared givens alone are not dependency. A dedicated complete feature-grid row for one polynomial is ONE attempt, not five cells; three unknowns solved jointly is ONE attempt; separately posed evaluations/independent polynomials may be separate. Every practiceItems nodeId must belong to that question. For heterogeneous independent parts, an item may carry optional archetype naming an existing cluster id in THIS topic; omitted means inherit the question primary archetype. Keep each question mapped to exactly one primary cluster, and count independent parts for their own archetypes. When a part has its own method but no whole question belongs primarily to it, use an explicit itemOnly:true cluster with questionIds:[] and at least one valid practiceItems.archetype reference. An unreferenced empty cluster is invalid. For example, prior-knowledge volume-formula retrieval is not another complete cubic-model attempt; its item-only cluster can set routine:false to keep an opening-Review decision separate from routine-practice targets. Dependent scaffold steps count together, and three independent items never means three whole blocks. Never invent a new skill or use an item-only cluster to leave a whole question unmapped. Return JSON only: {"clusters":[{"id":"short stable slug","questionIds":["id"],"exampleIds":[],"guidedPracticeIds":[],"teachingIds":[],"practiceEvidenceIds":[],"coverage":"covered|bridge|missing|prior-knowledge","prerequisiteIds":[],"evidence":"specific teaching/prerequisite evidence","reviewStatus":"pending-user-decision","rationale":"specific reasoning"}],"practiceItems":{"each-question-id":[{"nodeIds":["question/part id"],"rationale":"why this is one independent attempt","archetype":"optional existing same-topic cluster id"}]}}.\n\n'+JSON.stringify({booklet:project.title,numbering:NUMBERING_NOTE,courseId:project.library?.courseId,topicId:sequence.topicId,skills:facts,approvedPriorKnowledge,earlierTeaching:earlierTeaching(all,index<0?0:index,{numbering}),teaching:sequencePayload({...sequence,sections:instructionalSections(sequence)},numbering),routineQuestions:questions});
+ const view=reviewTask(project,{booklet:project.title,numbering:NUMBERING_NOTE,courseId:project.library?.courseId,topicId:sequence.topicId,skills:facts,approvedPriorKnowledge,earlierTeaching:earlierTeaching(all,index<0?0:index,{numbering}),teaching:sequencePayload({...sequence,sections:instructionalSections(sequence)},numbering),routineQuestions:questions},'Read-only routine-archetype and independent-practice-item audit. Cluster by mathematical decision/method, never wording or numbers alone. Map every listed routine question exactly once. coverage covered = example or explicit teaching supplies the method; preserve empty exampleIds when no worked example exists and do not invent one for direct application of a stated rule; bridge = modest step up best served by scaffolded questions; missing = genuinely different new untaught archetype, not a familiar prerequisite; prior-knowledge = prerequisite justified by skill/context evidence. Prior knowledge is never a missing worked example: any worthwhile retrieval belongs in the opening review block, and James decides whether to add it. Do not generate new content, questions, examples or wording. Additional worked-example drafts remain Studio comments pending individual James approval; calibration never approves insertion. Examine teaching earlier in this booklet before claiming a gap. Apply the substitution/function-evaluation prior-knowledge approval ONLY when courseId is s6-ext1-11 and approvedPriorKnowledge lists it; never transfer it to Stage5 or other courses. Each prerequisite verdict cites prerequisiteIds and evidence; its reviewStatus is pending-user-decision. Only exact example-role IDs go in exampleIds; identification/definitions belong in teachingIds; a method or scaffold supplied inside an earlier practice question belongs in practiceEvidenceIds, not teachingIds. A mere unsolved exercise is not supplied teaching. Exclude Challenge/Exam. For each question, enumerate practiceItems as independent complete attempts, grouping dependent steps together. Count independently answerable labelled asks separately even when they share a given polynomial: term count, each requested coefficient and constant-term identification are separate attempts. Shared givens alone are not dependency. A dedicated complete feature-grid row for one polynomial is ONE attempt, not five cells; three unknowns solved jointly is ONE attempt; separately posed evaluations/independent polynomials may be separate. Every practiceItems nodeId must belong to that question. For heterogeneous independent parts, an item may carry optional archetype naming an existing cluster id in THIS topic; omitted means inherit the question primary archetype. Keep each question mapped to exactly one primary cluster, and count independent parts for their own archetypes. When a part has its own method but no whole question belongs primarily to it, use an explicit itemOnly:true cluster with questionIds:[] and at least one valid practiceItems.archetype reference. An unreferenced empty cluster is invalid. For example, prior-knowledge volume-formula retrieval is not another complete cubic-model attempt; its item-only cluster can set routine:false to keep an opening-Review decision separate from routine-practice targets. Dependent scaffold steps count together, and three independent items never means three whole blocks. Never invent a new skill or use an item-only cluster to leave a whole question unmapped. Return JSON only: {"clusters":[{"id":"short stable slug","questionIds":["id"],"exampleIds":[],"guidedPracticeIds":[],"teachingIds":[],"practiceEvidenceIds":[],"coverage":"covered|bridge|missing|prior-knowledge","prerequisiteIds":[],"evidence":"specific teaching/prerequisite evidence","reviewStatus":"pending-user-decision","rationale":"specific reasoning"}],"practiceItems":{"each-question-id":[{"nodeIds":["question/part id"],"rationale":"why this is one independent attempt","archetype":"optional existing same-topic cluster id"}]}}.\n\n');
+ return task?view:view.prompt;
 }
 export function validateArchetypes(project,sequence,result,{responseAnchors}={}){
  const {questions,unrated}=routineQuestions(sequence),eligible=new Map(questions.map(q=>[q.id,q])),seen=new Set(),ids=visibleIds(sequence),errors=[];
@@ -636,12 +649,12 @@ export async function runArchetypes({projectFile,root=ROOT,topics=[],runner=defa
  workDir??=path.join(root,'.booklet-work','pedagogy-review',project.id,'archetypes');runDir??=canonicalRunDir(project,{root});
  const rows=[];
  await pool(selected.filter(sequence=>routineQuestions(sequence).questions.length),concurrency,async sequence=>{
-  const {result,usage,elapsedMs}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-archetypes',prompt:archetypePrompt(project,sequence,{root}),effort:'low'});
+  const {result,usage,elapsedMs,reviewConfiguration:actualConfiguration}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-archetypes',...archetypePrompt(project,sequence,{root,task:true}),effort:'high'});
   for(const q of routineQuestions(sequence).questions)if(!result.practiceItems?.[q.id]?.length)throw Error('Missing independent practice-item review for '+q.id);
-  rows.push({...validateArchetypes(project,sequence,result,{responseAnchors}),usage,elapsedMs});
+  rows.push({...validateArchetypes(project,sequence,result,{responseAnchors}),usage,elapsedMs,reviewConfiguration:actualConfiguration});
  });
  rows.sort((a,b)=>all.findIndex(s=>s.id===a.sequenceId)-all.findIndex(s=>s.id===b.sequenceId));
- const record={version:1,projectId:project.id,revision:project.revision,status:'pending-user-review',createdAt:now(),questions:Object.assign({},...rows.map(r=>r.questions)),topics:rows.map(({questions,...row})=>row)};
+ const record={version:1,projectId:project.id,revision:project.revision,reviewConfiguration:passIdentity(rows),requestedReviewConfiguration:reviewConfiguration(),status:'pending-user-review',createdAt:now(),questions:Object.assign({},...rows.map(r=>r.questions)),topics:rows.map(({questions,...row})=>row)};
  output??=path.join(workDir,'map.json');fs.mkdirSync(path.dirname(output),{recursive:true});fs.writeFileSync(output,JSON.stringify(record,null,2)+'\n');
  return {...record,output};
 }
@@ -649,7 +662,7 @@ export async function runArchetypes({projectFile,root=ROOT,topics=[],runner=defa
 // ---- claim challenge and question insertion views (no project mutation) ----------
 
 const COVERAGE_VERDICTS=new Set(['KEEP','DROP','UNCHECKED']);
-const COVERAGE_CHALLENGE='Independent standing Medium challenge of Low archetype-coverage claims. Judge only the listed claims. No new student content, questions, diagrams, solutions or ratings; no source, mathematics, rating or visual re-audit. Challenge false positives: exact example clones are unnecessary for modest direct applications, deliberate guided discovery is not missing teaching, and explicitly supplied scaffolds count. Unsolved practice is not teaching. Genuine prerequisite retrieval belongs to pending James opening-Review decisions, not missing worked examples. Comments only; concise learning-support proposals, no drafted tasks.\n\nYou are given `claims`; `teaching`, `earlierTeaching` and `practice` in full; and `digests` and `outline`, which are locators only. Cite only ids shown in full. If a verdict would rest on a digest or outline entry, or on a topic not supplied, return UNCHECKED and name it in needsTopics rather than guessing. Hidden diagram detail is a limitation to state, not evidence.\n\nReturn JSON only: {"verdicts":[{"topicId":"","clusterId":"","verdict":"KEEP|DROP|UNCHECKED","coverage":"covered|bridge|missing|prior-knowledge","reason":"","teachingIds":[],"exampleIds":[],"guidedPracticeIds":[],"practiceEvidenceIds":[],"prerequisiteIds":[],"needsTopics":[],"comment":null}],"uncertainties":[],"newStudentContent":0}. Exactly one verdict per claim.';
+const COVERAGE_CHALLENGE='Independent challenge of archetype-coverage claims. Judge only the listed claims. No new student content, questions, diagrams, solutions or ratings; no source, mathematics, rating or visual re-audit. Challenge false positives: exact example clones are unnecessary for modest direct applications, deliberate guided discovery is not missing teaching, and explicitly supplied scaffolds count. Unsolved practice is not teaching. Genuine prerequisite retrieval belongs to pending James opening-Review decisions, not missing worked examples. Comments only; concise learning-support proposals, no drafted tasks.\n\nYou are given `claims`; `teaching`, `earlierTeaching` and `practice` in full; and `digests` and `outline`, which are locators only. Cite only ids shown in full. If a verdict would rest on a digest or outline entry, or on a topic not supplied, return UNCHECKED and name it in needsTopics rather than guessing. Hidden diagram detail is a limitation to state, not evidence.\n\nReturn JSON only: {"verdicts":[{"topicId":"","clusterId":"","verdict":"KEEP|DROP|UNCHECKED","coverage":"covered|bridge|missing|prior-knowledge","reason":"","teachingIds":[],"exampleIds":[],"guidedPracticeIds":[],"practiceEvidenceIds":[],"prerequisiteIds":[],"needsTopics":[],"comment":null}],"uncertainties":[],"newStudentContent":0}. Exactly one verdict per claim.';
 const COVERAGE_CITATIONS=['teachingIds','exampleIds','guidedPracticeIds','practiceEvidenceIds','prerequisiteIds'];
 const withoutAnswers=value=>JSON.parse(JSON.stringify(value,(key,child)=>key==='answer'?undefined:child));
 const locator=(block,section)=>({id:block.id,text:headline(withoutAnswers(compactBlock(block,section)),LIMITS.outlineCharacters)});
@@ -696,7 +709,7 @@ export function coverageChallengeView({project,all=sequences(project),claims,ski
 // Never cut to fit: over the limit the claims split between topics, and one topic
 // that cannot fit alone is refused.
 export function coverageChallengePackets({project,all=sequences(project),claims,skills=[],limit=LIMITS.coverageCharacters}){
- const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators,prerequisites}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,prompt:COVERAGE_CHALLENGE+'\n\n'+JSON.stringify(payload),evidence,locators,prerequisites};};
+ const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators,prerequisites}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,...reviewTask(project,payload,COVERAGE_CHALLENGE),evidence,locators,prerequisites};};
  const packets=[];let current=[];
  for(const topicId of [...new Set(all.map(sequence=>sequence.topicId))].filter(id=>claims.some(claim=>claim.topicId===id))){
   const next=[...current,topicId];
@@ -738,10 +751,10 @@ export async function runCoverageChallenge({projectFile,mapFile,root=ROOT,output
  const replies=[];
  // One at a time: a refusal stops the batch before another payload is sent.
  for(const packet of packets){
-  const {result,usage,elapsedMs}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-coverage-challenge',prompt:packet.prompt,effort:'medium'});
-  validateCoverageChallenge(packet,result);replies.push({result,usage,elapsedMs,characters:packet.prompt.length});
+  const {result,usage,elapsedMs,reviewConfiguration:actualConfiguration}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-coverage-challenge',prompt:packet.prompt,taskReferences:packet.taskReferences,effort:'high'});
+  validateCoverageChallenge(packet,result);replies.push({result,usage,elapsedMs,reviewConfiguration:actualConfiguration,characters:packet.prompt.length});
  }
- const report={projectId:project.id,revision:project.revision,result:{verdicts:replies.flatMap(reply=>reply.result.verdicts),uncertainties:replies.flatMap(reply=>reply.result.uncertainties??[]),newStudentContent:0},calls:replies.map(({usage,elapsedMs,characters})=>({usage,elapsedMs,characters}))};
+ const report={projectId:project.id,revision:project.revision,result:{verdicts:replies.flatMap(reply=>reply.result.verdicts),uncertainties:replies.flatMap(reply=>reply.result.uncertainties??[]),newStudentContent:0},calls:replies.map(({usage,elapsedMs,characters,reviewConfiguration})=>({usage,elapsedMs,characters,reviewConfiguration}))};
  fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
  return {...report,output};
 }
@@ -793,7 +806,7 @@ export async function main(args=process.argv.slice(2)){
  if(command==='archetypes')result=await runArchetypes({projectFile,concurrency:Number(values['--concurrency']??1),topics:list('--topics'),output:values['--output']&&path.resolve(values['--output'])});
  else if(command==='coverage-challenge'){if(!values['--map'])throw Error('coverage-challenge needs --map FILE');result=await runCoverageChallenge({projectFile,mapFile:path.resolve(values['--map']),output:values['--output']&&path.resolve(values['--output']),dryRun:flags.has('--dry-run')});}
  else if(command==='map')result=runMap({projectFile});
- else if(command==='review'||command==='principles')result=await runReview({projectFile,principlesOnly:command==='principles',reportOnly:flags.has('--report-only'),topics:list('--topics'),reviewEffort:values['--review-effort']??'low',candidatesOnly:flags.has('--candidates-only'),concurrency:Number(values['--concurrency']??LIMITS.concurrency),provenanceDir});
+ else if(command==='review'||command==='principles')result=await runReview({projectFile,principlesOnly:command==='principles',reportOnly:flags.has('--report-only'),topics:list('--topics'),reviewEffort:values['--review-effort']??'high',candidatesOnly:flags.has('--candidates-only'),concurrency:Number(values['--concurrency']??LIMITS.concurrency),provenanceDir});
  else if(command==='post'){if(!live||values['--project-file'])throw Error('Comments are posted only to a live project: use --project ID');result=await postFindings({projectFile,provenanceDir,suggestions:flags.has('--suggestions'),...(values['--findings']?{findingIds:list('--findings')}:{})});}
  else if(command==='status')result=await reconcile({projectFile,approve:list('--approve'),defer:list('--defer'),resolve:list('--resolve'),reject:list('--reject'),assume:values['--assume'],provenanceDir});
  else if(command==='withdraw'){if(!live||values['--project-file'])throw Error('Withdraw works on a live project: use --project ID');result=await withdraw({projectFile,provenanceDir});}

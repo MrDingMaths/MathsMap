@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
-import {TRANSCRIPTION_DEFAULT,requireCurrentTranscription,transcriptionConfiguration} from './transcription-settings.mjs';
+import {TRANSCRIPTION_DEFAULT,REVIEW_DEFAULT,requireCurrentTranscription,transcriptionConfiguration,reviewConfiguration,requireCurrentReview} from './transcription-settings.mjs';
 import {reconcileIds} from '../agy/lib/agy-run.mjs';
 import {withWorkerSlot} from './worker-pool.mjs';
 import {StringDecoder} from 'node:string_decoder';
@@ -28,12 +28,15 @@ export function readToolDiagnostics(file){
  const fd=fs.openSync(file,'r'),buffer=Buffer.alloc(64*1024);try{let size;while((size=fs.readSync(fd,buffer,0,buffer.length,null)))counter.write(buffer.subarray(0,size));counter.finish();return counter.snapshot();}finally{fs.closeSync(fd);}
 }
 
-// Legacy export names are retained for callers; all roles share the production default.
+// Legacy export names remain; review and transcription have independent defaults.
 const productionProfile=Object.freeze({model:TRANSCRIPTION_DEFAULT.model,effort:TRANSCRIPTION_DEFAULT.effort});
-export const ASTRA_PROFILES=Object.freeze({transcription:productionProfile,review:productionProfile,coordinator:productionProfile});
+const reviewProfile=Object.freeze({model:REVIEW_DEFAULT.model,effort:REVIEW_DEFAULT.effort});
+export const ASTRA_PROFILES=Object.freeze({transcription:productionProfile,review:reviewProfile,coordinator:productionProfile});
 const BOUNDED_WORKER_INSTRUCTIONS='Bounded worker execution: you already occupy one slot in the shared three-worker pool. Complete only the assigned task yourself. Do not spawn sub-agents, delegate work, or launch another Codex CLI, model runner or model/API call through any tool or shell command. Only the parent coordinator schedules workers. If the assigned evidence or task cannot be completed, report the specific blocker in the required result rather than delegating. Use read-only source access and return the required final response; the caller writes the result.';
-export function astraCommandArgs({cwd,images=[],raw,profile='transcription',configuration=transcriptionConfiguration()}){
- if(!ASTRA_PROFILES[profile])throw Error('Unknown booklet worker profile');requireCurrentTranscription(configuration);
+export function astraCommandArgs({cwd,images=[],raw,profile='transcription',configuration}){
+ if(!ASTRA_PROFILES[profile])throw Error('Unknown booklet worker profile');
+ configuration??=profile==='review'?reviewConfiguration():transcriptionConfiguration();
+ if(profile==='review')requireCurrentReview(configuration);else requireCurrentTranscription(configuration);
  const args=['exec','--ephemeral','--ignore-user-config','--skip-git-repo-check','--sandbox','read-only','-C',cwd,'--model',configuration.model,'-c',`model_reasoning_effort="${configuration.effort}"`,'-c','service_tier="default"','-c','features.fast_mode=false','-c','features.multi_agent=false','-c','features.multi_agent_v2=false','--json','--output-last-message',raw];
  for(const image of images)args.push('--image',image);args.push('-');return args;
 }
@@ -49,39 +52,50 @@ export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile=
  // Any other review wrapped around a whole booklet is refused by size, whatever its
  // stage is called. A deliberate exception names its reason, which the metrics record.
  if(profile==='review'&&typeof prompt==='string'&&prompt.length>REVIEW_PROMPT_LIMIT&&!oversizeReason?.trim())throw Error(`Review prompt of ${prompt.length} characters exceeds ${REVIEW_PROMPT_LIMIT}; send a task view or split at a topic boundary, or pass a named oversizeReason`);
+ if(configuration?.provider&&configuration.provider!==TRANSCRIPTION_DEFAULT.provider)throw Error('A benchmark arm cannot use the Codex runner; supply its explicit relay runner');
+ // The separate skill-content campaign keeps its explicitly recorded settings.
+ // Its existing stage names are not booklet-review model selections.
+ const contentReview=profile==='review'&&(stage==='content-review'||stage.startsWith('content-bounded-'));
+ const executionProfile=contentReview?'transcription':profile;
  const manifestFile=path.join(runDir,'manifest.json');
- if(fs.existsSync(manifestFile)){
+ if(executionProfile==='review'){
+  // Borrow the run's pool/evidence, not its historical transcription model.
+  // The manifest and its model/input pins remain byte-for-byte untouched.
+  configuration??=reviewConfiguration();requireCurrentReview(configuration);
+ }else if(fs.existsSync(manifestFile)){
   const manifest=JSON.parse(fs.readFileSync(manifestFile,'utf8'));requireCurrentTranscription(manifest);
   const recorded=transcriptionConfiguration(manifest);
   if(configuration&&JSON.stringify(transcriptionConfiguration(requireCurrentTranscription(configuration)))!==JSON.stringify(recorded))throw Error('Worker configuration differs from recorded run; prepare a fresh run');
   configuration=recorded;
  }else configuration??=transcriptionConfiguration();
- requireCurrentTranscription(configuration);if(configuration.provider!==TRANSCRIPTION_DEFAULT.provider)throw Error('A benchmark arm cannot use the Codex runner; supply its explicit relay runner');
+ if(executionProfile!=='review')requireCurrentTranscription(configuration);if(configuration.provider!==TRANSCRIPTION_DEFAULT.provider)throw Error('A benchmark arm cannot use the Codex runner; supply its explicit relay runner');
  const callId=randomUUID();
- return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs,oversizeReason},spawnProcess),{signal});
+ return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,executionProfile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs,oversizeReason},spawnProcess),{signal});
 }
 export async function runCodexTranscription(options){return runAstraTask({...options,profile:'transcription'},options.execution);}
 
-async function invokeAstra({cwd,prompt,images,out,profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs,oversizeReason},spawnProcess){
+async function invokeAstra({cwd,prompt,images,out,profile,executionProfile=profile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs,oversizeReason},spawnProcess){
  fs.mkdirSync(out,{recursive:true});
- const raw=path.join(out,'last-message.txt'),start=Date.now();let usage=null,observedModel=null,sessionId=null,completedCapture=false;const toolIds=new Set(),toolDiagnostics=toolDiagnosticCounter();
- const args=astraCommandArgs({cwd,images,raw,profile,configuration});
+ const raw=path.join(out,'last-message.txt'),start=Date.now();let usage=null,observedModel=null,observedEffort=null,sessionId=null,completedCapture=false;const toolIds=new Set(),toolDiagnostics=toolDiagnosticCounter();
+ const args=astraCommandArgs({cwd,images,raw,profile:executionProfile,configuration});
  // Exclusive creation makes a failed attempt visible and prevents silent retries.
  const eventFd=fs.openSync(path.join(out,'events.jsonl'),'wx'),errorFd=fs.openSync(path.join(out,'stderr.txt'),'wx');
- const metrics=()=>({provider:'codex',...configuration,requestedModel:configuration.model,profile,role:profile,stage,serviceTier:'default',observedModel,sessionId,callId,usage,promptCharacters:prompt.length,...(oversizeReason?{oversizeReason}:{}),toolCalls:toolIds.size,completedToolCalls:completedCapture||toolIds.size?toolIds.size:null,missingCompletedToolCounts:completedCapture?0:1,...toolDiagnostics.snapshot(),toolCountingNote:'toolCalls retains observed completion events. Completed events and recognized stderr rejection diagnostics are separate observations and may overlap; neither establishes all attempted calls.',queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
+ const metrics=()=>({provider:'codex',...configuration,requestedModel:configuration.model,requestedEffort:configuration.effort,profile,executionProfile,role:profile,stage,serviceTier:'default',observedModel,observedEffort,sessionId,callId,usage,promptCharacters:prompt.length,...(oversizeReason?{oversizeReason}:{}),toolCalls:toolIds.size,completedToolCalls:completedCapture||toolIds.size?toolIds.size:null,missingCompletedToolCounts:completedCapture?0:1,...toolDiagnostics.snapshot(),toolCountingNote:'toolCalls retains observed completion events. Completed events and recognized stderr rejection diagnostics are separate observations and may overlap; neither establishes all attempted calls.',queueWaitMs,startedAt:new Date(start).toISOString(),endedAt:new Date().toISOString(),elapsedMs:Date.now()-start});
  try {
   await new Promise((resolve,reject)=>{
    const child=spawnProcess(process.env.BOOKLET_CODEX_BIN??'codex',args,{cwd,windowsHide:true,shell:false,stdio:['pipe','pipe','pipe']});let buffer='',failure=null;
-   const timer=setTimeout(()=>{failure=new Error(`Sol ${stage} invocation exceeded ${timeoutMs} ms`);child.kill();},timeoutMs);
-   const consume=line=>{let e;try{e=JSON.parse(line);}catch{return;}if(e.usage)usage=e.usage;if(e.model)observedModel=e.model;if(e.type==='thread.started')sessionId=e.thread_id??e.session_id??null;
+   const timer=setTimeout(()=>{failure=new Error(`Codex ${stage} invocation exceeded ${timeoutMs} ms`);child.kill();},timeoutMs);
+   const consume=line=>{let e;try{e=JSON.parse(line);}catch{return;}if(e.usage)usage=e.usage;const model=e.model??e.turn?.model,effort=e.reasoning_effort??e.reasoning?.effort??e.effort??e.turn?.reasoning_effort;if(typeof model==='string')observedModel=model;if(typeof effort==='string')observedEffort=effort;if(e.type==='thread.started')sessionId=e.thread_id??e.session_id??null;
     if(e.type==='item.completed'&&['command_execution','mcp_tool_call','tool_call','web_search'].includes(e.item?.type))toolIds.add(e.item.id??JSON.stringify(e.item));try{onProgress(e);}catch(error){failure=error;child.kill();}};
-   const abort=()=>{failure=signal.reason instanceof Error?signal.reason:new Error('Sol worker aborted');child.kill();};
+   const abort=()=>{failure=signal.reason instanceof Error?signal.reason:new Error('Codex worker aborted');child.kill();};
    signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted)abort();
    child.stdout.on('data',chunk=>{fs.writeSync(eventFd,chunk);buffer+=chunk;let end;while((end=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,end);buffer=buffer.slice(end+1);consume(line);}});
    child.stderr.on('data',chunk=>{fs.writeSync(errorFd,chunk);toolDiagnostics.write(chunk);});child.stdin.on('error',e=>{failure=e;});child.on('error',e=>{failure=e;});
    child.on('close',code=>{clearTimeout(timer);signal?.removeEventListener('abort',abort);if(buffer.trim())consume(buffer);completedCapture=true;toolDiagnostics.finish();if(failure)reject(failure);else if(code!==0)reject(new Error('Codex exited '+code));else resolve();});
    child.stdin.end(BOUNDED_WORKER_INSTRUCTIONS+'\n\n'+prompt);
   });
+  if(observedModel&&observedModel!==configuration.model)throw Error(`Worker reported model ${observedModel}, requested ${configuration.model}; no model substitution is accepted`);
+  if(observedEffort&&observedEffort!==configuration.effort)throw Error(`Worker reported effort ${observedEffort}, requested ${configuration.effort}; no reasoning substitution is accepted`);
   const result=JSON.parse(fs.readFileSync(raw,'utf8').trim().replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));return{result,metrics:metrics()};
  }catch(error){error.metrics=metrics();throw error;}finally{fs.closeSync(eventFd);fs.closeSync(errorFd);}
 }

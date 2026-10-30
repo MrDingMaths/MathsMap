@@ -45,7 +45,9 @@ export async function runLeanImportPool(runs,{poolDir,concurrency=3,maxJobs=1000
   }
   // Every event records slot occupancy, so utilisation is measured directly.
   const emit=(event,data={})=>{const row={event,at:new Date().toISOString(),activeWorkers:active.size,...data};fs.appendFileSync(logFile,JSON.stringify(row)+'\n');onEvent(row);};
-  const runnerFor=options=>runner??runnerForManifest(options.manifest,poolDir);
+  // This pool dispatches review stages. The author/inventory CLI below retains
+  // its recorded transcription provider, including explicit relay benchmarks.
+  const runnerFor=()=>runner??runAstraTask;
   // Adoption happens at a drained boundary. Completed immutable output can be
   // recorded; active/unknown historical owners are never cancelled or stolen.
   for(const options of runs){

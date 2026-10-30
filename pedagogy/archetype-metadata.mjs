@@ -45,7 +45,12 @@ export function reuseArchetypeMap({reviewedProject,currentProject,map,snapshotSh
   validatePracticeItems(source.get(id),row.practiceItems,{responseAnchors});
   validatePracticeItems(current.get(id),row.practiceItems,{responseAnchors});
   hashes[id]=expected;
-  const review={reviewedRevision,snapshotSha256,mapFile:mapFile??null,sourceHash:expected,...(attributionMatches[id]?{approvedAttributionReuse:attributionMatches[id]}:{}),model:'gpt-6.1-sol',effort:'low',coverage:cluster.coverage,practiceItems:structuredClone(row.practiceItems),reviewStatus:cluster.coverage==='prior-knowledge'?'pending-James-opening-review-decision':map.status};
+  // Old maps predate explicit per-call configuration. Preserve their historical
+  // Sol attribution; never label retained output with today's review default.
+  const recorded=row.reviewConfiguration??topic.reviewConfiguration??topic.configuration??(topic.model?topic:null)??map.reviewConfiguration??map.configuration??(map.model?map:null);
+  const reviewer=recorded?{model:recorded.model,effort:recorded.effort}:{model:'gpt-6.1-sol',effort:'low',provenance:'legacy-map-default'};
+  if(!reviewer.model||!reviewer.effort)throw Error('Incomplete recorded archetype reviewer: '+id);
+  const review={reviewedRevision,snapshotSha256,mapFile:mapFile??null,sourceHash:expected,...(attributionMatches[id]?{approvedAttributionReuse:attributionMatches[id]}:{}),...reviewer,coverage:cluster.coverage,practiceItems:structuredClone(row.practiceItems),reviewStatus:cluster.coverage==='prior-knowledge'?'pending-James-opening-review-decision':map.status};
   changes.push({blockId:id,expectedSourceHash:actual,classification:{archetype:row.archetype,archetypeReview:review}});
  }
  const candidate=structuredClone(currentProject),candidateBlocks=byId(candidate);

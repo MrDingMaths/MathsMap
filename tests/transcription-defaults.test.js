@@ -97,16 +97,18 @@ test('both production prompt routes include booklet methods and MathsDatabase so
 });
 
 
-test('explicit medium override reaches every CLI worker role and defaults use medium',async()=>{
+test('transcription and coordinator retain medium while review has its independent default',async()=>{
  const {astraCommandArgs,ASTRA_PROFILES}=await import('../scripts/booklet/codex-transcription.mjs');
  const configuration=transcriptionConfiguration({reasoningOverride:{effort:'medium',reason:'User-requested Pythagoras trial'}});
  assert.equal(requireCurrentTranscription(configuration).effort,'medium');
- for(const profile of ['transcription','review','coordinator']){
+ for(const profile of ['transcription','coordinator']){
   assert.deepEqual(ASTRA_PROFILES[profile],{model:'gpt-6.1-sol',effort:'medium'});
   const args=astraCommandArgs({cwd:'.',raw:'result.txt',profile,configuration});
   assert.ok(args.includes('model_reasoning_effort="medium"'));
   assert.ok(args.includes('service_tier="default"'));
   assert.ok(astraCommandArgs({cwd:'.',raw:'result.txt',profile}).includes('model_reasoning_effort="medium"'));
  }
+ assert.deepEqual(ASTRA_PROFILES.review,{model:'gpt-6.1-terra',effort:'high'});
+ assert.throws(()=>astraCommandArgs({cwd:'.',raw:'result.txt',profile:'review',configuration}),/Review uses Terra High/);
  for(const override of [{effort:'medium'},{effort:'high',reason:'trial'},{effort:'xhigh',reason:'trial'}])assert.throws(()=>transcriptionConfiguration({reasoningOverride:override}),/override requires/);
 });

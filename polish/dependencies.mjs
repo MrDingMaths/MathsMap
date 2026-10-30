@@ -5,7 +5,7 @@
 //                                [--concurrency N] [--save --allow-live]
 // 1. A deterministic wording pass (src/lib/booklet-question-dependencies.js orderDependencies): "previous
 //    question", "part (a)", "Question 3", "your answer to", "the graph above", a shared figure or table.
-// 2. One GPT-6.1 Sol low call per exercise (the existing worker path, at most three workers per booklet, all
+// 2. One configured booklet-review call per exercise (the existing worker path, at most three workers per booklet, all
 //    material in the prompt because read-only workers cannot open files), cached by the content hash of the
 //    exercise in <run>/polish/dependencies.json. It lists the pairs that must keep their order and returns JSON.
 // Both are written as block.flow.dependsOn, which exerciseUnits() and the pagination optimiser respect.
@@ -18,6 +18,7 @@ import {isPractice} from '../src/lib/booklet-flow.js';
 import {orderDependencies,applyFlowDependencies,questionNumber,promptText} from '../src/lib/booklet-question-dependencies.js';
 import {ROOT,read,write,now,isMain,parseArgs,resolveTarget,runDirOf,saveTarget,changedBlocks} from '../checks/lib/common.mjs';
 import {teacherBlocks} from './guards.mjs';
+import {projectReviewReferences} from '../pedagogy/review-references.mjs';
 
 export const PROMPT_VERSION=1;
 export const KINDS=Object.freeze(['scaffolds-next','refers-back','shared-stimulus']);
@@ -48,7 +49,7 @@ export function exerciseDigest(blocks){
 }
 export const exerciseHash=(blocks,regexPairs)=>sha({v:PROMPT_VERSION,digest:exerciseDigest(blocks),regex:regexPairs.map(p=>p.dependent+'>'+p.requires)});
 
-export function dependencyPrompt(blocks,regexPairs){
+export function dependencyPrompt(blocks,regexPairs,reviewView){
  return `You order-check the questions of ONE exercise in a printed maths booklet. Do not run commands or open files: everything you need is below.
 
 A layout tool may reorder questions of similar difficulty to fill pages better. List only the pairs of questions that must keep their order:
@@ -60,10 +61,19 @@ Do not list two questions only because they share a topic or a skill: questions 
 Return one JSON object and nothing else: {"pairs":[{"dependent":"ID","requires":"ID","kind":"scaffolds-next|refers-back|shared-stimulus","why":"under 15 words"}]}. "dependent" is the question that must stay after "requires". Use only the question ids below. Return {"pairs":[]} when there are none.
 
 Questions in the order printed (stimulus is true when the question carries its own figure or table):
-${JSON.stringify(exerciseDigest(blocks),null,1)}
+${JSON.stringify(reviewView??exerciseDigest(blocks),null,1)}
 
 Pairs already found from the wording (do not repeat them; add only others):
-${JSON.stringify(regexPairs.map(({dependent,requires,kind})=>({dependent,requires,kind})))}`;
+${JSON.stringify(reviewView?reviewView.knownPairs:regexPairs.map(({dependent,requires,kind})=>({dependent,requires,kind})))}`;
+}
+
+export function dependencyReview({project,blocks,regexPairs}){
+ const digest=exerciseDigest(blocks);
+ const view=projectReviewReferences({project,purpose:'practice-order',payload:{
+  questions:blocks.map((block,i)=>({id:block.id,content:block.content,stimulus:digest[i].stimulus})),
+  knownPairs:regexPairs.map(({dependent,requires,kind})=>({dependent,requires,kind}))
+ }});
+ return {prompt:dependencyPrompt(blocks,regexPairs,view.payload),decode:view.decode};
 }
 
 // The worker's pairs, checked against the exercise: known ids, a known kind, not the same question. A pair is
@@ -100,9 +110,10 @@ export async function runDependencies({project,runDir=null,model=true,concurrenc
   const ask=askModel??(async({prompt,workDir})=>(await import('../checks/lib/model.mjs')).askJson({prompt,project,workDir,name:'polish-dependencies'}));
   await pool(todo,Math.max(1,Math.min(3,concurrency)),async row=>{
    try{
-    const {result,usage,elapsedMs}=await ask({prompt:dependencyPrompt(row.run.blocks,row.regex),workDir:path.join(dir,'polish','dependencies-calls')});
-    row.model=parseModelPairs(result,row.run.blocks);
-    cache.exercises[row.hash]={exercise:row.run.key,blocks:row.run.blocks.map(b=>b.id),pairs:row.model,usage:usage??null,elapsedMs:elapsedMs??null,at:now()};
+    const view=dependencyReview({project,blocks:row.run.blocks,regexPairs:row.regex});
+    const {result,usage,elapsedMs,configuration}=await ask({prompt:view.prompt,workDir:path.join(dir,'polish','dependencies-calls')});
+    row.model=parseModelPairs(view.decode(result),row.run.blocks);
+    cache.exercises[row.hash]={exercise:row.run.key,blocks:row.run.blocks.map(b=>b.id),pairs:row.model,usage:usage??null,...(configuration?{configuration}:{}),elapsedMs:elapsedMs??null,at:now()};
     report.calls.push({exercise:row.run.key,pairs:row.model.length,elapsedMs:elapsedMs??null});
     log('dependencies: '+row.run.key+' '+row.model.length+' pair(s) from the model');
     write(cacheFile(dir),cache);

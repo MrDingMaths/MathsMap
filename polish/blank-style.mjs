@@ -6,7 +6,7 @@
 // source.
 //   node polish/blank-style.mjs --candidate FILE|--project ID [--out FILE] [--run-dir DIR] [--work-dir DIR] [--no-model]
 //                               [--concurrency N] [--save --allow-live]
-// One GPT-6.1 Sol low call per block that holds an outlined blank in its maths, with the block's source page
+// One configured booklet-review call per block that holds an outlined blank in its maths, with the block's source page
 // image(s) attached (the existing worker path; at most three workers per booklet), asking only whether each
 // piece of maths is drawn with boxes or with empty space. Cached by block content and source pages in
 // <work>/polish/blank-style.json. "space" pieces are converted deterministically; "box", "mixed" and "unclear"
@@ -106,9 +106,9 @@ export async function runBlankStyle({project,runDir=null,cacheDir=null,model=tru
   const ask=askModel??(async({prompt,images,workDir})=>(await import('../checks/lib/model.mjs')).askJson({prompt,project,images,workDir,name:'polish-blank-style'}));
   await pool(todo,Math.max(1,Math.min(3,concurrency)),async row=>{
    try{
-    const {result,usage,elapsedMs}=await ask({prompt:blankStylePrompt(row.maths,row.pages),images:row.images,workDir:path.join(work,'polish','blank-style-calls')});
+    const {result,usage,elapsedMs,configuration}=await ask({prompt:blankStylePrompt(row.maths,row.pages),images:row.images,workDir:path.join(work,'polish','blank-style-calls')});
     row.styles=parseStyles(result,row.maths.length);report.asked++;
-    cache.blocks[row.hash]={block:row.block.id,pages:row.pages,styles:row.styles,usage:usage??null,elapsedMs:elapsedMs??null,at:now()};
+    cache.blocks[row.hash]={block:row.block.id,pages:row.pages,styles:row.styles,usage:usage??null,...(configuration?{configuration}:{}),elapsedMs:elapsedMs??null,at:now()};
     log('blank-style: '+row.block.id+' '+row.styles.join(','));
     write(cacheFile(work),cache);
    }catch(error){report.errors.push({block:row.block.id,error:error.message});log('blank-style: '+row.block.id+' failed: '+error.message);}

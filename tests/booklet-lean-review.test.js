@@ -248,7 +248,7 @@ test('practice reviews with missing original teaching/key evidence never launch 
  state.questions.practice.practiceEvidenceVersion=PRACTICE_CONTENT_EVIDENCE_VERSION;assert.equal(pendingBlocks(w.project,state).length,0);
 });
 const passAll=batchIds=>({records:batchIds.map(id=>({id,outcome:'passed',note:'ok'})),corrections:[]});
-const idsIn=prompt=>JSON.parse(prompt.slice(prompt.indexOf('\n\n')+2)).blocks.map(block=>block.id);
+const idsIn=prompt=>JSON.parse(prompt.slice(prompt.lastIndexOf('\n\n')+2)).blocks.map(block=>block.id);
 
 test('same-pass geometry decisions bind corrected code and never accept rejected or failed blocks',()=>{
  const block=question('q'),diagram={id:'d',format:'tikz',code:'old'};block.content.questionDiagrams=[diagram];
@@ -315,7 +315,7 @@ test('scoped teaching review includes same-group companions without reopening th
  const unrelated={id:'activity',type:'question',sourceAtom:{id:'different-group'}};
  const section={id:'teaching',phase:'teaching',blocks:[text,figures,unrelated]},project={title:'Similarity',sections:[section]};
  const state={questions:{definitions:{hash:'before-repair',outcome:'passed'},figures:{hash:contentHash(figures),outcome:'passed'},activity:{hash:contentHash(unrelated),outcome:'passed'}}};
- const batch=batchBlocks(pendingBlocks(project,state))[0],prompt=contentPrompt({project,batch}),payload=JSON.parse(prompt.slice(prompt.indexOf('\n\n')+2));
+ const batch=batchBlocks(pendingBlocks(project,state))[0],prompt=contentPrompt({project,batch}),payload=JSON.parse(prompt.slice(prompt.lastIndexOf('\n\n')+2));
  assert.deepEqual(payload.blocks.map(block=>block.id),['definitions']);
  assert.deepEqual(payload.companionBlocks.map(block=>block.id),['figures']);
  assert.equal(payload.companionBlocks[0].examples[0].questionDiagrams[0].code,'paired triangles');

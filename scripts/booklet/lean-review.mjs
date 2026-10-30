@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import {reviewConfiguration} from './transcription-settings.mjs';
 // Lean review route (approved 5 October 2026) for three-pass imports. It keeps
 // three things and nothing else:
 //   1. a revision-checked save of the project being reviewed;
@@ -419,7 +420,7 @@ export async function runContentReview({runDir,projectFile,reuseProjectFile,reus
   const out=path.join(dir,'calls','content-'+Date.now()+'-'+index);
   try{
    const evidence=practiceContentEvidence(handle.project,batch,runDir);batch.practiceEvidence=evidence;
-   const {result,metrics}=await runner({cwd:root,runDir,prompt:contentPrompt({project:handle.project,batch,skills,reuse,evidence}),images:contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence}),out,profile:'review',stage:'lean-content'});
+   const {result,metrics}=await runner({cwd:root,runDir,prompt:contentPrompt({project:handle.project,batch,skills,reuse,evidence}),images:contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence}),out,profile:'review',configuration:reviewConfiguration(),stage:'lean-content'});
    if(evidence)for(const ref of evidence.files)if(!fs.existsSync(ref.path)||sha(fs.readFileSync(ref.path))!==ref.hash)throw Error('Original review evidence changed during the call: '+ref.path);
    if(evidence&&batch.rows.some(({block})=>block.sourceReview?.teachingContext?.externalSources?.length)&&practiceContentEvidence(handle.project,batch,runDir).binding!==evidence.binding)throw Error('External original teaching references changed during the call');
    // Results are applied and saved one at a time.
@@ -508,7 +509,7 @@ export async function runShadingReview({runDir,projectFile,exportDir,teachingExp
  await pool(batches,concurrency,async(batch,index)=>{
   try{
    const payload={booklet:project.title,pages:batch.pages,sourcePages:batch.sourceImages.map(row=>row.page),imageOrder:'Rendered PDF pages first, then original source pages',occurrences:batch.rows.map(({occurrence,sourceHash,contextHash,code,image,candidates,nativeContext})=>({occurrence,sourceHash,contextHash,code,image,candidates,context:nativeContext}))};
-   const {result}=await runner({cwd:root,runDir,prompt:LEAN_SHADING_CONTRACT+'\n\n'+JSON.stringify(payload),images:[...batch.images,...batch.sourceImages.map(row=>row.path)],out:path.join(dir,'calls','shading-'+Date.now()+'-'+index),profile:'review',stage:'lean-shading'});
+   const {result}=await runner({cwd:root,runDir,prompt:LEAN_SHADING_CONTRACT+'\n\n'+JSON.stringify(payload),images:[...batch.images,...batch.sourceImages.map(row=>row.path)],out:path.join(dir,'calls','shading-'+Date.now()+'-'+index),profile:'review',configuration:reviewConfiguration(),stage:'lean-shading'});
    const issues=recordLeanShading(batch.rows,result,state);errors.push(...issues);accepted+=batch.rows.filter(row=>!leanShadingIssues([row],state).length).length;
    saveReviewed(dir,state);
   }catch(error){errors.push(error.message);}
@@ -770,7 +771,7 @@ export async function runVisualReview({runDir,projectFile,exportDir,concurrency=
    const out=path.join(dir,'calls','visual-'+Date.now()+'-'+index);fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'batch.json'),JSON.stringify(batch,null,1)+'\n');
    const details=batch.rows.filter(row=>row.previousFindings?.length||state.pages[pageKey(batch.edition,row.hash)]?.finding).flatMap(row=>nativeDetails(plan[batch.edition].pdf,row.page,out));
    const prompt=VISUAL_CONTRACT+' '+FEEDBACK_CHECKS+' '+VISUAL_BREAK_POLICY+VISUAL_SOURCE_GUIDANCE+VISUAL_DETAIL_GUIDANCE+'\n\n'+JSON.stringify({booklet:project.title,edition:batch.edition,pages:batch.rows.map(row=>({page:row.page,blocks:row.blocks,imagePath:row.image,previousFinding:state.pages[pageKey(batch.edition,row.hash)]?.finding||undefined,previousFindings:row.previousFindings,sizingReviews:row.sizingReviews,diagramFindings:row.diagramFindings})),blocks:[...new Set(batch.rows.flatMap(row=>row.blocks.map(id=>typeof id==='string'?id:id.id)))].map(id=>{const block=blocks.get(id);return {id,classification:block?.classification,flow:block?.flow,sourceRefs:block?.sourceRefs};}),details,sourcePages:requiredSources,sourceImages:sources.length});
-   const {result}=await runner({cwd:root,runDir,prompt,images:[...batch.rows.map(row=>row.image),...details.map(row=>row.imagePath),...sources],out,profile:'review',stage:'lean-visual'});
+   const {result}=await runner({cwd:root,runDir,prompt,images:[...batch.rows.map(row=>row.image),...details.map(row=>row.imagePath),...sources],out,profile:'review',configuration:reviewConfiguration(),stage:'lean-visual'});
    findings.push(...recordVisualResult({batch,result,state}));
    for(const row of batch.rows){const saved=state.pages[pageKey(batch.edition,row.hash)];if(saved)saved.sourceEvidenceHash=sourceEvidenceFor(row);}
    saveReviewed(dir,state);
@@ -940,7 +941,7 @@ export async function runImagePreflight({runDir,projectFile,runner,root=ROOT}){
      await page.locator('img').screenshot({path:preview});
     }finally{await browser?.close();}
    }
-   const {result}=await runner({cwd:root,runDir,prompt:prompt+'\nThe supplied source-page PNG is rendered directly from the authoritative original PDF and is the original-page evidence for this comparison; no filesystem lookup is needed. SVG assets are supplied as exact browser-rendered PNG previews. An authored vector reconstruction may replace source pixels when it preserves the assessed graph shape, axes, labels and relationships.',images:[preview,...sources],out:path.join(dir,'calls','image-preflight-'+Date.now()),profile:'review',stage:'lean-image-preflight'});
+   const {result}=await runner({cwd:root,runDir,prompt:prompt+'\nThe supplied source-page PNG is rendered directly from the authoritative original PDF and is the original-page evidence for this comparison; no filesystem lookup is needed. SVG assets are supplied as exact browser-rendered PNG previews. An authored vector reconstruction may replace source pixels when it preserves the assessed graph shape, axes, labels and relationships.',images:[preview,...sources],out:path.join(dir,'calls','image-preflight-'+Date.now()),profile:'review',configuration:reviewConfiguration(),stage:'lean-image-preflight'});
    if(result.sourceHash!==row.sourceHash||result.outcome!=='accepted'||!result.reason?.trim())throw Error(result.reason||'Incomplete retained-image preflight');
    if(imageSourceHash(row.image,root)!==row.sourceHash||read(projectFile).revision!==project.revision)throw Error('Image or project changed during preflight');
    state.diagrams??={};state.diagrams[row.sourceHash]={status:'accepted',reason:result.reason,sourceHash:row.sourceHash,contextHash:row.contextHash,at:now()};saveReviewed(dir,state);accepted++;

@@ -1,5 +1,7 @@
 # Three-pass imports
 
+30 October 2026: future booklet review/rating calls and finding challenges use Terra 6.1 High under the [review policy](booklet-pedagogy-review.md#review-model-30-october-2026). Preserve completed/in-flight provenance; transcription, Anthropic generation and separate content-campaign settings remain unchanged. No automatic fallback or routine double-model pass.
+
 29 October user rule: apply [exam mark removal and exercise difficulty order](booklet-exam-marks-and-order.md) before candidate review/rating and pagination. Preserve immutable source evidence and meaningful notation; do not infer mark allocations from brackets alone.
 
 ## Streamlined completion (24 October 2026)

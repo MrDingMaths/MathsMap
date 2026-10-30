@@ -34,7 +34,7 @@ const finding=(page,targets,extra={})=>({page,edition:'student',targets,area:'sp
 // `review` maps "edition:first page" to the reviewer's findings for that call.
 function stubRunner({review={},calls=[]}={}){
  return async options=>{
-  const payload=payloadOf(options.prompt);calls.push({stage:options.stage,effort:options.configuration.effort,runDir:options.runDir,cwd:options.cwd,images:options.images,payload});
+  const payload=payloadOf(options.prompt);calls.push({stage:options.stage,model:options.configuration.model,effort:options.configuration.effort,runDir:options.runDir,cwd:options.cwd,images:options.images,payload});
   return {result:review[payload.edition+':'+payload.pages[0].page]??{findings:[],notReliablyReviewed:[]},metrics:{usage:{input_tokens:1},elapsedMs:1}};
  };
 }
@@ -98,13 +98,13 @@ test('pages skip front matter; batches hold at most six pages of one edition',as
  await assert.rejects(runReview({...space.options,concurrency:4}),/one to three workers/);
 });
 
-test('review sends rasters in page order at low effort, keeps only findings on its pages and never writes the project',async t=>{
+test('review sends rasters in page order with the current review configuration, keeps only findings on its pages and never writes the project',async t=>{
  const space=workspace(t),before=fs.readFileSync(space.projectFile),calls=[],runDir=path.join(space.dir,'canonical-run');
  const review={'student:2':{findings:[finding(3,['q1-a','not-an-id']),finding(4,['q2'],{area:'pagination',scope:'all',proposal:{items:['x']}}),finding(5,['q14']),finding(5,['q3'],{area:'colour'}),finding(5,['q3'],{comment:' '}),finding(99,['q4'],{area:'labels'})],notReliablyReviewed:[{page:7,note:'The diagram is too faint to judge.'}]},
   'short:1':{findings:[finding(1,['q1-b'],{edition:'student',area:'answers',comment:'Start question 2 on a new line.'})]}};
  const result=await runReview({...space.options,runDir,runner:stubRunner({review,calls})});
  assert.ok(fs.readFileSync(space.projectFile).equals(before));
- assert.equal(calls.length,8);assert.ok(calls.every(call=>call.stage==='first-pass'&&call.effort==='low'&&call.runDir===path.join(space.dir,'work')));
+ assert.equal(calls.length,8);assert.ok(calls.every(call=>call.stage==='first-pass'&&call.model==='gpt-6.1-terra'&&call.effort==='high'&&call.runDir===path.join(space.dir,'work')));
  assert.ok(calls.every(call=>!path.resolve(call.cwd).startsWith(ROOT)));
  assert.equal(space.leases.length,8);assert.ok(space.leases.every(lease=>lease.runDir===runDir&&lease.details.tool==='first-pass-review'));
  const first=calls.find(call=>call.payload.edition==='student'&&call.payload.pages[0].page===2);

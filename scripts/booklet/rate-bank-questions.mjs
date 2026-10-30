@@ -6,7 +6,7 @@ import {difficultyBandForScore} from '../../src/lib/practice-question-model.js';
 import {REASONING_PROMPT,reasoningTaskHash,verifiedRating,assessedRating,practiceRatingBlocks,compatibleRatingHash,reuseReasoningRating,recoverStoredRatingFile} from './reasoning-ratings.mjs';
 import {revisionHash,withBankLock,writeTransaction,bankManifestEntry,syncLinks,readSyncJson} from './bank-sync.mjs';
 import {runAstraTask} from './codex-transcription.mjs';
-import {transcriptionConfiguration} from './transcription-settings.mjs';
+import {reviewConfiguration} from './transcription-settings.mjs';
 import {runBoundedJobs,withWorkerSlot} from './worker-pool.mjs';
 import {ratingBatches,validateRatingReply,studioProjects,canonicalRun,supplementalRatingEvidence} from './rating-input.mjs';
 import {ratingImageEvidence} from './rating-images.mjs';
@@ -14,7 +14,7 @@ import {ratingImageEvidence} from './rating-images.mjs';
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const json=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n');};
-const configuration=transcriptionConfiguration({reasoningOverride:{effort:'low',reason:'User-approved Studio practice-question rating policy, 21 October 2026'}});
+const configuration=reviewConfiguration();
 export function selectableBank(root=ROOT){
  const bankRoot=path.join(root,'booklets/question-bank');if(!fs.existsSync(bankRoot))return [];
  return fs.readdirSync(bankRoot).filter(f=>f.endsWith('.json')&&f!=='manifest.json').map(f=>read(path.join(bankRoot,f))).filter(isSelectableBankQuestion);

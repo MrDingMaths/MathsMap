@@ -28,7 +28,7 @@
 // (a live --project only) writes it through the revision-checked repair path: the revision recorded at the start must
 // still be the booklet's, no import, review or export may be running for it, and a milestone checkpoint of the start
 // revision is taken first. Teacher comments (a flag with no kind) and the blocks the teacher decided are never changed.
-// Model calls are GPT-6.1 Sol at low reasoning, at most three workers per booklet; launch them with the permitted host
+// Model calls are the configured booklet reviewer, at most three workers per booklet; launch them with the permitted host
 // launch AGENTS.md describes. The Studio server on 127.0.0.1:5173 is used, never restarted.
 import fs from 'node:fs';
 import path from 'node:path';

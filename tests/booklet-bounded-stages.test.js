@@ -131,7 +131,7 @@ test('next work is a read-only compact projection with stable unique ownership',
  assert.deepEqual(a.jobs,b.jobs);assert.deepEqual(fs.readdirSync(f.dir),before);assert.equal(fs.existsSync(path.join(f.dir,'workflow/issues.json')),false);
  assert.equal(a.jobs.filter(j=>j.stage==='maths').length,2);assert.ok(a.jobs.every(j=>!Object.hasOwn(j,'context')&&!Object.hasOwn(j,'images')));
  assert.equal(new Set(a.jobs.flatMap(j=>j.ownershipIds)).size,a.jobs.flatMap(j=>j.ownershipIds).length);
- assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6.1-sol'&&j.profile.effort==='medium'&&j.profile.freshContext&&j.profile.speed==='standard'));
+ assert.ok(a.jobs.every(j=>j.profile.model==='gpt-6.1-terra'&&j.profile.effort==='high'&&j.profile.freshContext&&j.profile.speed==='standard'));
 });
 
 test('three-pass structured finding identities stay with their actual question instead of the first page question',async t=>{
@@ -768,27 +768,27 @@ test('lean teaching-summary receipts preserve completed question dependencies wh
 });
 
 
-test('retained medium trial provenance reaches bounded tickets and invalidates other generation tickets',async t=>{
+test('retained transcription trial changes evidence bindings while fresh reviews use current review settings',async t=>{
  const f=fixture(t),original=await nextBoundedWork(f.options),pending=original.jobs.find(j=>!j.done&&!j.blockers.length);
  const manifestFile=path.join(f.dir,'manifest.json'),manifest=JSON.parse(fs.readFileSync(manifestFile));
  manifest.effort='medium';manifest.reasoningOverride={effort:'medium',reason:'User-requested Pythagoras trial'};
  fs.writeFileSync(manifestFile,JSON.stringify(manifest));
  const next=await nextBoundedWork(f.options),changed=next.jobs.find(j=>j.id===pending.id);
  assert.notEqual(changed.dependencyHash,pending.dependencyHash);
- assert.ok(next.jobs.every(j=>j.profile.effort==='medium'&&j.profile.speed==='standard'));
+ assert.ok(next.jobs.every(j=>j.profile.model==='gpt-6.1-terra'&&j.profile.effort==='high'&&j.profile.speed==='standard'));
  const prepared=await prepareBoundedStage(f.options,changed.id);
- assert.equal(prepared.configuration.effort,'medium');assert.match(prepared.prompt,/fresh Sol medium context/);
+ assert.equal(prepared.configuration.effort,'high');assert.match(prepared.prompt,/fresh gpt-6.1-terra high context/);
  await cancelBoundedStage(f.options,{ticket:prepared.ticket,reason:'Test complete'});
 });
 
-test('historical high run retains its bounded profile and prepared execution configuration',async t=>{
+test('historical transcription manifest remains unchanged while new review execution uses Terra High',async t=>{
  const f=fixture(t),manifestFile=path.join(f.dir,'manifest.json');
  const manifest={...JSON.parse(fs.readFileSync(manifestFile)),provider:'codex',model:'gpt-6.1-sol',effort:'high'};
  const original=JSON.stringify(manifest);fs.writeFileSync(manifestFile,original);
  const next=await nextBoundedWork(f.options);
- assert.ok(next.jobs.every(j=>j.profile.model==='gpt-6.1-sol'&&j.profile.effort==='high'));
+ assert.ok(next.jobs.every(j=>j.profile.model==='gpt-6.1-terra'&&j.profile.effort==='high'));
  const job=next.jobs.find(j=>!j.done&&!j.blockers.length),prepared=await prepareBoundedStage(f.options,job.id);
- assert.equal(prepared.configuration.effort,'high');assert.match(prepared.prompt,/fresh Sol high context/);
+ assert.equal(prepared.configuration.effort,'high');assert.match(prepared.prompt,/fresh gpt-6.1-terra high context/);
  assert.equal(fs.readFileSync(manifestFile,'utf8'),original);
  await cancelBoundedStage(f.options,{ticket:prepared.ticket,reason:'Historical preservation check complete'});
 });

@@ -1,5 +1,13 @@
 # Booklet pedagogy review
 
+## Review model (30 October 2026)
+
+Future booklet reviews and ratings, including pedagogy reviews and finding challenges, use exactly `gpt-6.1-terra` at high reasoning. This supersedes older Low/Medium model-selection instructions below; it does not change Anthropic conversion/generation or the separate skill-content campaign. Completed reviews and already-running calls retain their actual provenance. Never rerun accepted work just to change its model. An explicit `reviewConfiguration({reviewFallback:{model:"gpt-6.1-sol",effort:"low",reason:"..."}})` records a deliberate Sol Low fallback; do not substitute automatically or add a routine Sol/Terra comparison pass. The model change does not clear a denied transmission.
+
+Fresh pedagogy/order tasks use `projectReviewReferences`: neutral task references, current printed labels and traversal positions, actual declared/literal dependencies, and supplied original/proposed order. Code decodes references to canonical IDs and rejects unknown targets. Student mathematics, multipart labels and literal references stay intact; persisted IDs are never renamed. Source-fidelity reviews retain their source identities. Reuse completed evidence and keep held packets unchanged rather than rebuilding them through a new view.
+
+
+
 Textbook-import precedence (18 October 2026, user approved): pedagogy review and its challenge pass are excluded from textbook imports, including work not yet started in existing campaigns. Do not create a reference-teaching wrapper to reintroduce this stage. Preserve completed reviews and active calls; adopt at the next safe boundary. This tool remains available for separately requested pedagogy reviews. See [streamlined textbook imports](booklet-three-pass-import.md#streamlined-textbook-imports-18-october-2026-user-approved).
 
 Campaign save recovery (15 October 2026): provenance is saved by atomic replacement. If a review completed both model passes but failed only while saving provenance, `runReview` can recover from the saved candidate file and challenge response through `resumeFrom`, without new model calls. Recovery requires the candidate file's project ID and revision to match the live project and preserves the original pass results; a changed revision or candidate errors stop recovery.
@@ -51,11 +59,11 @@ node pedagogy/review.mjs principles --project ID [--topics a,b] [--provenance-di
 node pedagogy/review.mjs archetypes --project ID [--topics a,b] [--output FILE] [--concurrency 1-3]
 node pedagogy/review.mjs coverage-challenge --project ID --map FILE (--dry-run | --output FILE)
 node pedagogy/review.mjs map    --project ID | --project-file FILE
-node pedagogy/review.mjs review --project ID | --project-file FILE [--topics a,b] [--review-effort low|medium] [--candidates-only]
+node pedagogy/review.mjs review --project ID | --project-file FILE [--topics a,b] [--review-effort high] [--candidates-only]
 node pedagogy/review.mjs post   --project ID [--suggestions] [--findings ID,ID]
 node pedagogy/review.mjs status --project ID [--approve ID,ID] [--reject ID,ID] [--defer ID,ID] [--resolve ID,ID] [--assume TEXT]
 node pedagogy/review.mjs format --project ID --exports DIR
-node pedagogy/review.mjs seeded [--review-effort low|medium]
+node pedagogy/review.mjs seeded [--review-effort high]
 ```
 
 - `principles` restricts the existing low-review/medium-challenge route to `example-principle`; it does not repeat other pedagogy findings. Use a pilot provenance directory to preserve existing audits.

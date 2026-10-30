@@ -9,7 +9,7 @@ import {REASONING_PROMPT,practiceRatingBlocks,reasoningTaskHash,verifiedRating,v
 import {saveReasoningRatings} from './save-reasoning-ratings.mjs';
 import {revisionHash} from './bank-sync.mjs';
 import {runAstraTask} from './codex-transcription.mjs';
-import {transcriptionConfiguration} from './transcription-settings.mjs';
+import {reviewConfiguration} from './transcription-settings.mjs';
 import {withWorkerSlot,runBoundedJobs} from './worker-pool.mjs';
 import {ratingImageEvidence} from './rating-images.mjs';
 
@@ -20,7 +20,7 @@ const relative=file=>path.relative(ROOT,file).replaceAll('\\','/');
 const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const ratingVersion=block=>digest(Object.fromEntries(['reasoningScore','difficulty','difficultyReason','assessment'].map(key=>[key,block.classification?.[key]??null])));
 const json=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n');};
-const config=transcriptionConfiguration({reasoningOverride:{effort:'low',reason:'User approved practice-question reasoning rating backfill, 21 October 2026'}});
+const config=reviewConfiguration();
 
 export function studioRatingCoverage(projects){
  const rows=projects.map(({project})=>({projectId:project.id,...ratingCoverage(project)}));

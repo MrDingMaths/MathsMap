@@ -29,7 +29,7 @@ export function validateNewTeachingCandidate(candidate){
  if(!candidate.independentReview?.answersVerified||!candidate.independentReview?.principlesVerified)throw Error('Independent answer and principles review required before posting');
  if(automaticBackfill){
   const verified=assertIndependentBackfillReview(candidate.backfillProof),block=verified.find(b=>b.id===candidate.block?.id);
-  if(!block||reasoningTaskHash(block)!==reasoningTaskHash(candidate.block)||!verifiedRating(candidate.block)||candidate.block.classification.assessment.model!=='gpt-6.1-sol'||candidate.reasoningScore!==block.classification.reasoningScore||candidate.block.classification.reasoningScore!==block.classification.reasoningScore||candidate.block.classification.primarySkillId!==block.classification.primarySkillId||candidate.block.classification.archetype!==block.classification.archetype)throw Error('Automatic backfill requires its exact independently rated content');
+  if(!block||reasoningTaskHash(block)!==reasoningTaskHash(candidate.block)||!verifiedRating(candidate.block)||candidate.block.classification.assessment.model!==candidate.backfillProof.review.model||candidate.reasoningScore!==block.classification.reasoningScore||candidate.block.classification.reasoningScore!==block.classification.reasoningScore||candidate.block.classification.primarySkillId!==block.classification.primarySkillId||candidate.block.classification.archetype!==block.classification.archetype)throw Error('Automatic backfill requires its exact independently rated content');
  }
  return candidate;
 }

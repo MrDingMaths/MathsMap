@@ -53,10 +53,13 @@ test('acceptance requires independent exact-draft answer checks and existing ver
  const block={id:item.id,type:'question',pedagogyRole:'practice',content:item.content};block.classification=assessedRating(block,{reasoningScore:20,difficulty:'Foundation',difficultyReason:'Direct application.'},{model:'gpt-6.1-sol',assessedAt:new Date().toISOString(),evidence:'separate-call'});
  const review={draftHash:draft.draftHash,model:'gpt-6.1-sol',accepted:true,answersVerified:true,principlesVerified:true,archetypeTaught:true,inScope:true,instructionalChange:false};
  assert.deepEqual(assertIndependentBackfillReview({draft,blocks:[block],review}),[block]);
+ const terraBlock=structuredClone(block);terraBlock.classification.assessment.model='gpt-6.1-terra';
+ assert.deepEqual(assertIndependentBackfillReview({draft,blocks:[terraBlock],review:{...review,model:'gpt-6.1-terra'}}),[terraBlock]);
+ assert.throws(()=>assertIndependentBackfillReview({draft,blocks:[block],review:{...review,model:'gpt-6.1-terra'}}),/verified routine rating/);
  const automatic={model:NEW_CONTENT_MODEL,kind:'backfill',destination:'booklet',status:'verified-routine-backfill',archetypeTaught:true,instructionalChange:false,reasoningScore:20,independentReview:review,block,backfillProof:{draft,blocks:[block],review}};
- assert.equal(validateNewTeachingCandidate(automatic),automatic);assert.throws(()=>validateNewTeachingCandidate({...automatic,backfillProof:undefined}),/Independent Sol/);
+ assert.equal(validateNewTeachingCandidate(automatic),automatic);assert.throws(()=>validateNewTeachingCandidate({...automatic,backfillProof:undefined}),/Independent review/);
  const unrated=structuredClone(block);delete unrated.classification.assessment;assert.throws(()=>validateNewTeachingCandidate({...automatic,block:unrated}),/exact independently rated/);
- assert.throws(()=>assertIndependentBackfillReview({draft,blocks:[block],review:{...review,model:NEW_CONTENT_MODEL}}),/Independent Sol/);
+ assert.throws(()=>assertIndependentBackfillReview({draft,blocks:[block],review:{...review,model:NEW_CONTENT_MODEL}}),/Independent review/);
  assert.throws(()=>assertIndependentBackfillReview({draft,blocks:[block],review:{...review,draftHash:'stale'}}),/exact taught routine draft/);
  const changed=structuredClone(block);changed.content.prompt='Different task';assert.throws(()=>assertIndependentBackfillReview({draft,blocks:[changed],review}),/verified routine rating/);
  changed.classification=assessedRating(changed,{reasoningScore:20,difficulty:'Foundation',difficultyReason:'Still direct, but a different question.'},{model:'gpt-6.1-sol',assessedAt:new Date().toISOString(),evidence:'different-question-review'});assert.throws(()=>assertIndependentBackfillReview({draft,blocks:[changed],review}),/verified routine rating/);
@@ -67,7 +70,7 @@ test('native multipart grouping preserves every task/answer and invalidates indi
  const result={items:[item,second],instructionalChange:false},draft={kind:'backfill',model:NEW_CONTENT_MODEL,result,draftHash:draftHash(result),metrics:{modelUsage:{[NEW_CONTENT_MODEL]:{}}}};
  const grouped=groupRoutineBackfillDraft(draft,{idPrefix:'group'});assert.equal(grouped.result.items.length,1);assert.equal(grouped.grouping.itemGroups[0].practiceItems.length,2);assert.equal(grouped.grouping.ratingReusable,false);
  assert.equal(grouped.result.items[0].content.children[0].prompt,item.content.prompt);assert.deepEqual(grouped.result.items[0].content.children[1].answer,second.content.answer);assert.notEqual(grouped.draftHash,draft.draftHash);
- assert.throws(()=>assertIndependentBackfillReview({draft:grouped,blocks:[],review:{draftHash:draft.draftHash}}),/Independent Sol/);
+ assert.throws(()=>assertIndependentBackfillReview({draft:grouped,blocks:[],review:{draftHash:draft.draftHash}}),/Independent review/);
 });
 
 const retainedRequest={model:NEW_CONTENT_MODEL,kind:'backfill',prompt:'Synthetic software-contract fixture; no booklet source.'};

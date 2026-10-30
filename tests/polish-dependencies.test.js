@@ -7,7 +7,7 @@ import path from 'node:path';
 import {orderDependencies,applyFlowDependencies,questionNumber} from '../src/lib/booklet-question-dependencies.js';
 import {exerciseUnits} from '../src/lib/booklet-exercises.js';
 import {optimisePagination} from '../src/lib/booklet-pagination-optimiser.js';
-import {runDependencies,exerciseRuns,exerciseDigest,parseModelPairs,dependencyPrompt,exerciseHash} from '../polish/dependencies.mjs';
+import {runDependencies,exerciseRuns,exerciseDigest,parseModelPairs,dependencyPrompt,dependencyReview,exerciseHash} from '../polish/dependencies.mjs';
 
 const doc=text=>({format:'maths-editor-document-v1',version:1,blocks:[{id:'p-'+Math.random().toString(36).slice(2,8),type:'paragraph',inlines:[{type:'text',text}]}]});
 const part=(label,text)=>({id:'part-'+label+'-'+Math.random().toString(36).slice(2,6),type:'part',label,prompt:doc(text)});
@@ -98,7 +98,8 @@ test('one model call per exercise, cached by content hash, at most three at once
   const project=bookletOf([q('a1',1,'Set up the equation.'),q('a2',2,'Solve it.')],[q('b1',1,'Here is a table.',{stimulus:true}),q('b2',2,'Find the mean from the table.')],[q('c1',1,'One.'),q('c2',2,'Two.')],[q('d1',1,'One.'),q('d2',2,'Two.')]);
   let calls=0,active=0,peak=0;const prompts=[];
   const askModel=async({prompt})=>{calls++;active++;peak=Math.max(peak,active);prompts.push(prompt);await new Promise(r=>setTimeout(r,15));active--;
-   return {result:{pairs:/Set up/.test(prompt)?[{dependent:'a2',requires:'a1',kind:'scaffolds-next',why:'sets up the equation'}]:[]},usage:{input_tokens:1},elapsedMs:15};};
+   const view=JSON.parse(prompt.split('Questions in the order printed (stimulus is true when the question carries its own figure or table):\n')[1].split('\n\nPairs already')[0]);
+   return {result:{pairs:/Set up/.test(prompt)?[{dependent:view.questions[1].id,requires:view.questions[0].id,kind:'scaffolds-next',why:'sets up the equation'}]:[]},usage:{input_tokens:1},elapsedMs:15};};
   const first=await runDependencies({project,runDir:dir,askModel,concurrency:3});
   assert.equal(calls,4);assert.ok(peak<=3,'at most three workers at once');
   assert.deepEqual(first.report.cache,{hits:0,misses:4});
@@ -141,4 +142,19 @@ test('exercise runs group practice sections of one topic and skip single questio
  const runs=exerciseRuns({sections:[{id:'t0',phase:'teaching',blocks:[]},one,two,other]});
  assert.equal(runs.length,1);assert.deepEqual(runs[0].blocks.map(b=>b.id),['a','b']);
  assert.notEqual(exerciseHash(runs[0].blocks,[]),exerciseHash([...runs[0].blocks].reverse(),[]));
+});
+
+
+test('fresh dependency views use neutral references and preserve full multipart content and legacy cache hashes',()=>{
+ const a=q('source-q99',99,'First task.',{parts:[part('a','A full multipart instruction ending with a unique marker.')]});
+ const b=q('source-q4',4,'Use the earlier result.');a.content.label='99';b.content.label='4';
+ const project=bookletOf([a,b]),hash=exerciseHash([a,b],[]),view=dependencyReview({project,blocks:[a,b],regexPairs:[]});
+ assert.equal(view.prompt.includes('source-q99'),false);assert.match(view.prompt,/unique marker/);
+ const payload=JSON.parse(view.prompt.split('Questions in the order printed (stimulus is true when the question carries its own figure or table):\n')[1].split('\n\nPairs already')[0]);
+ assert.equal(payload.questions[0].content.label,'1');assert.equal(payload.questions[1].content.label,'2');
+ assert.equal(payload.reviewReferences.targets.find(t=>t.id===payload.questions[0].id).displayNumber,1);
+ assert.equal(payload.reviewReferences.targets.some(t=>t.partLabels?.includes('a')),true);
+ assert.deepEqual(parseModelPairs(view.decode({pairs:[{dependent:payload.questions[1].id,requires:payload.questions[0].id,kind:'refers-back'}]}),[a,b]).map(p=>[p.dependent,p.requires]),[['source-q4','source-q99']]);
+ assert.throws(()=>view.decode({pairs:[{dependent:'ref999999',requires:payload.questions[0].id}]}),/Unknown review reference/);
+ assert.equal(exerciseHash([a,b],[]),hash);assert.equal(a.content.label,'99');
 });

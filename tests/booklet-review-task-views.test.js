@@ -55,8 +55,8 @@ test('a coverage challenge runs on the matching revision and records validated v
   const common={projectFile,mapFile,root:dir,skills:[],workDir:dir,runDir:null,lease:async(_,__,action)=>action()};
   const dry=await runCoverageChallenge({...common,dryRun:true,runner:async()=>{throw Error('no call');}});
   assert.equal(dry.packets[0].claims,1);
-  const report=await runCoverageChallenge({...common,output,runner:async options=>{calls.push(options);return {result:reply(),metrics:{usage:{input_tokens:1},elapsedMs:1}};}});
-  assert.equal(calls.length,1);assert.equal(calls[0].stage,'pedagogy-coverage-challenge');assert.equal(calls[0].configuration.effort,'medium');
+  const report=await runCoverageChallenge({...common,output,runner:async options=>{calls.push(options);return {result:options.taskReferences.encode(reply()),metrics:{usage:{input_tokens:1},elapsedMs:1}};}});
+  assert.equal(calls.length,1);assert.equal(calls[0].stage,'pedagogy-coverage-challenge');assert.equal(calls[0].configuration.effort,'high');assert.equal(calls[0].configuration.model,'gpt-6.1-terra');
   assert.equal(report.result.verdicts[0].verdict,'KEEP');assert.ok(fs.existsSync(output));
   fs.writeFileSync(mapFile,JSON.stringify({...map,revision:6}));
   await assert.rejects(runCoverageChallenge({...common,dryRun:true}),/does not match/);
@@ -96,28 +96,31 @@ test('a rating input shows the questions a task depends on without changing its 
 
 test('review views preserve renderer traversal and disambiguate original source labels',async()=>{
  const names=['p4-q1','p4-q2','p7-q6','p9-q11','p5-q3','p6-q4','p7-q5'];
- const blocks=names.map(id=>({...question(id,'Calculate.'),classification:{reasoningScore:id==='p9-q11'?72:18}}));
+ const blocks=names.map(id=>{const block=question(id,'Calculate.');block.content.answer={short:'1',worked:'Calculated value 1.'};return {...block,classification:{reasoningScore:id==='p9-q11'?72:18}};});
  blocks[2].content.label='6';blocks[6].content.label='5';
  const project={id:'ordered-demo',title:'Ordered demo',revision:3,settings:{exerciseOrganisation:'topic',questionOrder:'source'},topics:[{id:'t',title:'Triangles'}],sections:[{id:'teaching',topicId:'t',phase:'teaching',title:'Teaching',blocks:[example('supplied-example')]},{id:'practice',topicId:'t',phase:'practice',title:'Exercise',blocks}]};
  const original=JSON.stringify(project),all=sequences(project),claims=[{topicId:'t',id:'hourglass',coverage:'bridge',questionIds:['p7-q6']}];
- const check=rows=>{
+ const check=(rows,projected=false)=>{
   assert.deepEqual(rows.map(row=>row.id),names);
   assert.equal(rows[2].displayNumber,3);assert.equal(rows[6].displayNumber,7);
   assert.equal(rows[2].exerciseNumber,1);assert.equal(rows[6].exerciseNumber,1);
-  assert.equal(rows[2].content.label,'6');assert.equal(rows[6].content.label,'5');
+  assert.equal(rows[2].content.label,projected?'3':'6');assert.equal(rows[6].content.label,projected?'7':'5');
  };
  check(coverageChallengeView({project,claims}).payload.practice);
  check(insertionReviewView({project,newBlocks:[question('new','New')],sectionId:'practice',topics:['t']}).payload.targetExercise.blocks);
  const payload=prompt=>JSON.parse(prompt.slice(prompt.lastIndexOf('\n')+1));
- check(payload(reviewPrompt({project,all,index:0,skills:[]})).sequence.sections.find(section=>section.phase==='practice').blocks);
- const routine=payload(archetypePrompt(project,all[0],{all,skills:[]})).routineQuestions;
+ const task=reviewPrompt({project,all,index:0,skills:[],task:true});
+ assert(!task.prompt.includes('p7-q6'),'source-style IDs are absent from ordering task');
+ check(task.taskReferences.decode(payload(task.prompt)).sequence.sections.find(section=>section.phase==='practice').blocks,true);
+ const archetype=archetypePrompt(project,all[0],{all,skills:[],task:true});
+ const routine=archetype.taskReferences.decode(payload(archetype.prompt)).routineQuestions;
  assert.equal(routine.find(row=>row.id==='p7-q5').block.displayNumber,7,'omitted Challenge-score items still count in printed numbering');
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'review-numbering-'));let challenged=false;
  try{
   const projectFile=path.join(dir,'project.json');fs.writeFileSync(projectFile,JSON.stringify(project));
   await runReview({projectFile,skills:[],library:[],runDir:null,workDir:dir,provenanceDir:dir,runner:async options=>{
-   if(options.stage==='pedagogy-review')return {result:{candidates:[{kind:'difficulty-jump',severity:'high',targets:['p7-q6','p7-q5'],finding:'Check the actual order.',breakdown:'Source labels differ from printed numbers.',repair:{type:'reorder',proposal:'Inspect the displayed order.'}}]}};
-   assert.equal(options.stage,'pedagogy-challenge');check(payload(options.prompt).practice);challenged=true;
+   if(options.stage==='pedagogy-review')return {result:options.taskReferences.encode({candidates:[{kind:'difficulty-jump',severity:'high',targets:['p7-q6','p7-q5'],finding:'Check the actual order.',breakdown:'Source labels differ from printed numbers.',repair:{type:'reorder',proposal:'Inspect the displayed order.'}}]})};
+   assert.equal(options.stage,'pedagogy-challenge');check(options.taskReferences.decode(payload(options.prompt)).practice,true);challenged=true;
    return {result:{findings:[],dropped:[{id:'c1',reason:'Verified printed order.'}]}};
   }});
   assert.equal(challenged,true);
