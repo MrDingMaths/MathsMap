@@ -17,7 +17,9 @@ export const TIKZ_CM_DESIGN_SIZES = [5, 6, 7, 8, 9, 10, 12, 17];
 // and fails with EC/T1 fonts at unusual sizes.
 const TIKZJAX_UNSUPPORTED_PKG = /^(fontenc|inputenc|babel|lmodern|fontawesome|luatex85)$/;
 
-// Every figure is compiled with these lines in the preamble.
+// Every figure is compiled with these lines in the preamble. They are not in the
+// entry key, so they alone version compiled SVGs (render-cache-server.mjs).
+// diagram-output:begin
 export const TIKZ_PREAMBLE_LINES = [
   // Modern LaTeX (2020+) auto-loads textcomp and routes \$ through TC fonts,
   // but TikZJax only bundles CM fonts. Bind \textdollar to OT1 char 36 directly.
@@ -26,6 +28,7 @@ export const TIKZ_PREAMBLE_LINES = [
   '\\usetikzlibrary{decorations.pathreplacing,decorations.markings,decorations.pathmorphing}',
   '\\usetikzlibrary{positioning,intersections,shadings}',
 ];
+// diagram-output:end
 
 const _djb2 = (s) => {
   let h = 5381;

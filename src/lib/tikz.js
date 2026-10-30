@@ -71,7 +71,12 @@ const TIKZ_LOADER_MAX_MS = 45000;
 const TIKZ_COLD_STALL_MS = 120000;
 // Absolute per-job backstop, measured from injection.
 const TIKZ_HARD_CAP_MS = 300000;    // 5 min
+// Only code between diagram-output markers versions the compiled-SVG cache
+// (render-cache-server.mjs). Anything that changes the TeX handed to TikZJax or
+// the SVG captured from it belongs inside a marked region.
+// diagram-output:begin
 const TIKZ_ENGINE_SRC = '/libs/tikzjax/tikzjax.js';
+// diagram-output:end
 const TIKZ_FONTS_HREF = '/libs/tikzjax/fonts.css';
 // Start compiling this far before a wrapper scrolls into view.
 const TIKZ_LAZY_MARGIN = '600px';
@@ -262,6 +267,7 @@ const _ensureEngine = () => {
   return _tikzEngineLoading;
 };
 
+// diagram-output:begin
 const _buildTikzScript = (job) => {
   const s = document.createElement('script');
   s.type = 'text/tikz';
@@ -284,6 +290,7 @@ export function normalizeTikzSvgViewport(svg) {
   svg.classList.add('tikz-svg');
   svg.style.overflow = 'visible';
 }
+// diagram-output:end
 
 const _applyCachedToNode = (node, svgHtml) => {
   if (!node.parentNode) return false;
@@ -513,6 +520,7 @@ const _reloadEngine = () => {
 };
 
 // Capture-phase so it fires even if the wrapper has been detached/re-attached to the DOM.
+// diagram-output:begin
 document.addEventListener('tikzjax-load-finished', (e) => {
   const svg = e.target;
   const wrapper = svg.parentElement;
@@ -537,6 +545,7 @@ document.addEventListener('tikzjax-load-finished', (e) => {
   // Render succeeded — cancel this wrapper's watchdog + outcome observer.
   if (wrapper._tikzJob) _finishJob(wrapper._tikzJob);
 }, true);
+// diagram-output:end
 
 // ---------------------------------------------------------------------------
 // Lazy start: shared IntersectionObserver over pending wrappers.

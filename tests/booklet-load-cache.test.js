@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import {createMeasurementStore,boundedCache} from '../src/lib/booklet-cache-store.js';
-import {publishRenderEntries,readRenderEntry,rendererFingerprint,diagramFingerprint,DIAGRAM_RENDER_INPUTS,assetFingerprint} from '../scripts/booklet/render-cache-server.mjs';
+import {publishRenderEntries,readRenderEntry,rendererFingerprint,diagramFingerprint,diagramInputFiles,DIAGRAM_RENDER_INPUTS,DIAGRAM_VERSION_INPUTS,assetFingerprint} from '../scripts/booklet/render-cache-server.mjs';
 import {createBankManifestReader} from '../scripts/booklet/bank-manifest-cache.mjs';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {createEditableProject} from '../src/lib/editable-booklet-model.js';
@@ -82,13 +82,29 @@ test('diagram versions survive UI/layout edits while measurements and runtime in
  for(const file of ['src/App.svelte','src/components/FlowBookletPage.svelte'])await fs.writeFile(path.join(root,file),'two');
  assert.equal(await diagramFingerprint(root),diagram);
  assert.notEqual(await rendererFingerprint(root),layout);
- for(const file of [...DIAGRAM_RENDER_INPUTS,'public/libs/tikzjax/font.woff','package-lock.json']){
+ for(const file of [...DIAGRAM_VERSION_INPUTS,'public/libs/tikzjax/font.woff']){
   const before=await diagramFingerprint(root);await fs.writeFile(path.join(root,file),'two');
   assert.notEqual(await diagramFingerprint(root),before,file+' must invalidate compiled diagrams');
+ }
+ // Modules that only shape the prepared TeX change the entry key instead.
+ for(const file of [...DIAGRAM_RENDER_INPUTS.filter(file=>!DIAGRAM_VERSION_INPUTS.includes(file)),'package-lock.json']){
+  const before=await diagramFingerprint(root);await fs.writeFile(path.join(root,file),'two');
+  assert.equal(await diagramFingerprint(root),before,file+' cannot change an SVG for a fixed key');
  }
  await fs.writeFile(path.join(root,'public/libs/tikzjax/new-runtime.js'),'new');
  const added=await diagramFingerprint(root);await fs.unlink(path.join(root,'public/libs/tikzjax/new-runtime.js'));
  assert.notEqual(await diagramFingerprint(root),added,'runtime additions/deletions invalidate diagrams');
+}));
+
+test('marked diagram-output regions version diagrams; scheduling edits outside them do not',()=>temporary(async root=>{
+ for(const file of [...DIAGRAM_RENDER_INPUTS,'public/libs/tikzjax/font.woff','package-lock.json']){
+  await fs.mkdir(path.dirname(path.join(root,file)),{recursive:true});await fs.writeFile(path.join(root,file),'one');
+ }
+ const tikz=path.join(root,'src/lib/tikz.js'),write=(watchdog,output)=>fs.writeFile(tikz,`const WATCHDOG=${watchdog};\n// diagram-output:begin\nconst PREAMBLE='${output}';\n// diagram-output:end\n`);
+ await write(30,'a');const before=await diagramFingerprint(root);
+ await write(8,'a');assert.equal(await diagramFingerprint(root),before,'watchdog timing cannot affect compiled SVGs');
+ await write(8,'b');assert.notEqual(await diagramFingerprint(root),before,'marked output code must invalidate compiled diagrams');
+ assert.match(await fs.readFile(path.resolve('src/lib/tikz.js'),'utf8'),/diagram-output:begin[\s\S]*_buildTikzScript[\s\S]*diagram-output:end/,'the real TikZ script builder stays inside a marked region');
 }));
 
 test('the diagram fingerprint covers every relative runtime import and re-export',async()=>{
@@ -104,23 +120,30 @@ test('the diagram fingerprint covers every relative runtime import and re-export
  }
 });
 
-test('diagram versions ignore shared libraries outside the diagram import closure',()=>temporary(async root=>{
+test('the base preamble versions diagrams; prepareTikz edits outside it do not',()=>temporary(async root=>{
+ for(const file of [...DIAGRAM_VERSION_INPUTS,'public/libs/tikzjax/font.woff']){
+  await fs.mkdir(path.dirname(path.join(root,file)),{recursive:true});await fs.writeFile(path.join(root,file),'one');
+ }
+ const prepare=path.join(root,'src/lib/tikz-prepare.js'),write=(snap,preamble)=>fs.writeFile(prepare,`const SNAP=${snap};\n// diagram-output:begin\nexport const TIKZ_PREAMBLE_LINES=['${preamble}'];\n// diagram-output:end\n`);
+ await write(1,'a');const before=await diagramFingerprint(root);
+ await write(2,'a');assert.equal(await diagramFingerprint(root),before,'keyed TeX preparation cannot make a cached entry wrong');
+ await write(2,'b');assert.notEqual(await diagramFingerprint(root),before,'the base preamble is outside the key and must invalidate');
+ assert.match(await fs.readFile(path.resolve('src/lib/tikz-prepare.js'),'utf8'),/diagram-output:begin\r?\nexport const TIKZ_PREAMBLE_LINES[\s\S]*?\];\r?\n\/\/ diagram-output:end/,'the real base preamble stays inside a marked region');
+}));
+
+test('candidate-override inputs keep the diagram import closure',()=>temporary(async root=>{
  for(const file of [...DIAGRAM_RENDER_INPUTS,'public/libs/tikzjax/font.woff','public/libs/maths-editor/document-editor.js','public/libs/maths-editor/house-style.mjs','public/libs/maths-editor/booklet-palette.mjs','public/libs/fonts/page.woff2','package-lock.json']){
   await fs.mkdir(path.dirname(path.join(root,file)),{recursive:true});await fs.writeFile(path.join(root,file),'one');
  }
  await fs.writeFile(path.join(root,'public/libs/maths-editor/booklet-palette.mjs'),"import {style} from './house-style.mjs';");
  await fs.writeFile(path.join(root,'src/lib/tikz-prepare.js'),"import {palette} from '../../public/libs/maths-editor/booklet-palette.mjs';");
- const before=await diagramFingerprint(root);
- for(const file of ['public/libs/maths-editor/document-editor.js','public/libs/fonts/page.woff2']){await fs.writeFile(path.join(root,file),'two');assert.equal(await diagramFingerprint(root),before,file+' cannot affect compiled diagrams');}
- // Imported modules invalidate, including modules reached only transitively.
- for(const file of ['public/libs/maths-editor/booklet-palette.mjs','public/libs/maths-editor/house-style.mjs']){
-  const prior=await diagramFingerprint(root);await fs.appendFile(path.join(root,file),'\n// changed');
-  assert.notEqual(await diagramFingerprint(root),prior,file+' must invalidate compiled diagrams');
- }
+ const inputs=async()=>(await diagramInputFiles(root)).map(file=>path.relative(root,file).replaceAll('\\','/'));
+ for(const file of ['public/libs/maths-editor/document-editor.js','public/libs/fonts/page.woff2'])assert.ok(!(await inputs()).includes(file),file+' is outside the diagram closure');
+ // Imported modules are inputs, including modules reached only transitively.
+ for(const file of ['public/libs/maths-editor/booklet-palette.mjs','public/libs/maths-editor/house-style.mjs'])assert.ok((await inputs()).includes(file),file+' must be a diagram input');
  // An import the walker cannot resolve, or a computed import, restores the whole-library scope.
  for(const source of ["import {x} from './missing.js';","const load=name=>import(name);"]){
   await fs.writeFile(path.join(root,'src/lib/svg-paint-scope.js'),source);
-  const wide=await diagramFingerprint(root);await fs.appendFile(path.join(root,'public/libs/maths-editor/document-editor.js'),'x');
-  assert.notEqual(await diagramFingerprint(root),wide,'unknown imports widen to every shared library');
+  assert.ok((await inputs()).includes('public/libs/maths-editor/document-editor.js'),'unknown imports widen to every shared library');
  }
 }));

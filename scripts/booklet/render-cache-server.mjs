@@ -45,10 +45,29 @@ export async function diagramInputFiles(root=process.cwd()){
   files.add(path.join(root,'package-lock.json'));
   return [...files].sort();
 }
-export async function diagramInputRows(root=process.cwd(),readHash=fileHash){
-  return hashRows(await diagramInputFiles(root),root,readHash);
+// A module that marks its output-determining code (TikZ input and SVG capture)
+// versions diagrams by those regions alone, so job scheduling, watchdog and
+// measurement edits keep compiled SVGs. Unmarked files are hashed whole.
+export function diagramOutputSource(source){
+  const regions=[...source.matchAll(/\/\/ diagram-output:begin\r?\n([\s\S]*?)\/\/ diagram-output:end/g)].map(match=>match[1].replace(/\r\n/g,'\n'));
+  return regions.length?'diagram-output-regions\n'+regions.join('\n---\n'):source;
 }
-export async function diagramFingerprint(root=process.cwd(),readHash=fileHash){
+const diagramInputHash=async file=>/\.(?:[cm]?js)$/.test(file)?hash(diagramOutputSource(await fs.readFile(file,'utf8'))):fileHash(file);
+// The entry key already hashes the prepared TeX (colour policy, palette,
+// typography, packages and extra preamble), so modules that only shape that TeX
+// cannot make a cached entry wrong. The version covers what can change the SVG
+// for a fixed key: the engine, the base preamble and SVG capture. Stroke and
+// label refits run from observers after capture and never reach the cache.
+// diagramInputFiles keeps the whole closure for candidate-override checks.
+export const DIAGRAM_VERSION_INPUTS=['src/lib/tikz.js','src/lib/tikz-prepare.js'];
+export async function diagramVersionFiles(root=process.cwd()){
+  const engine=await filesUnder(path.join(root,'public/libs/tikzjax')).catch(()=>[]);
+  return [...DIAGRAM_VERSION_INPUTS.map(file=>path.join(root,file)),...engine].sort();
+}
+export async function diagramInputRows(root=process.cwd(),readHash=diagramInputHash){
+  return hashRows(await diagramVersionFiles(root),root,readHash);
+}
+export async function diagramFingerprint(root=process.cwd(),readHash=diagramInputHash){
   return hash(JSON.stringify(['booklet-diagram-cache-v2',await diagramInputRows(root,readHash)]));
 }
 export async function rendererFingerprint(root=process.cwd(),readHash=fileHash){
@@ -89,8 +108,8 @@ const RENDER_INPUT=/\/(src|data|public\/libs|node_modules\/katex\/dist)\/|\/(ind
 export function renderCachePlugin(){
   let versions=null;
   const currentVersions=()=>versions??=(async()=>{
-    const reads=new Map(),readHash=file=>{if(!reads.has(file))reads.set(file,fileHash(file));return reads.get(file);};
-    const [version,diagramVersion]=await Promise.all([rendererFingerprint(process.cwd(),readHash),diagramFingerprint(process.cwd(),readHash)]);
+    const memo=(reads,read)=>file=>{if(!reads.has(file))reads.set(file,read(file));return reads.get(file);};
+    const [version,diagramVersion]=await Promise.all([rendererFingerprint(process.cwd(),memo(new Map(),fileHash)),diagramFingerprint(process.cwd(),memo(new Map(),diagramInputHash))]);
     return {version,diagramVersion,leanVersion:rendererSignature({lean:true})};
   })().catch(error=>{versions=null;throw error;});
   const invalidate=(file,server)=>{
@@ -124,9 +143,12 @@ export function renderCachePlugin(){
 export async function publishBrowserDiagrams(page){
   const data=await page.evaluate(()=>window.TikZ?.cacheEntries?.()??null);
   if(!data?.version)return {published:0};
-  if(data.version!==await diagramFingerprint())throw Error('Diagram renderer changed during cache warming; rerun with settled inputs');
+  // Compare with the server that compiled them: a frozen snapshot versions by
+  // its own copy of this file, which may differ from the live checkout's.
+  const served=await page.evaluate(async()=>{try{return (await (await fetch('/__booklet/render-cache/version',{cache:'no-store'})).json()).diagramVersion;}catch{return null;}});
+  if(data.version!==served)throw Error('Diagram renderer changed during cache warming; rerun with settled inputs');
   const published=await publishRenderEntries(data.version,data.entries);
   // Record what this version was built from so a later invalidation can be attributed.
-  if(published)await fs.writeFile(path.join(RENDER_CACHE_ROOT,data.version,'_inputs.manifest'),JSON.stringify(await diagramInputRows())).catch(()=>{});
+  if(published&&data.version===await diagramFingerprint())await fs.writeFile(path.join(RENDER_CACHE_ROOT,data.version,'_inputs.manifest'),JSON.stringify(await diagramInputRows())).catch(()=>{});
   return {version:data.version,published};
 }
