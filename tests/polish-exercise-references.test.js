@@ -257,3 +257,51 @@ test('table below resolves only a later visible native table in the same prompt 
  const numeric={id:'fixture',settings:{exerciseOrganisation:'topic'},sections:[{id:'s',topicId:'t',phase:'practice',blocks:[{...cross,sourceOrder:1},{...make(),id:'two',sourceOrder:2}]}]};const result=resolveExerciseReferences(numeric);assert(result.holds.some(h=>h.quote==='next question'));assert(result.holds.some(h=>h.quote==='result above'));assert(!result.holds.some(h=>h.quote==='table below'));assert.equal(result.records[0].oldNumber,2);const slice=result.records[0].slices[0];const original=slice.path.reduce((v,k)=>v[k],cross);assert.equal(original.slice(slice.start,slice.end),'2','numeric rewrite offsets remain on original text');
  for(const phrase of ['table as below','table above','diagram below','result below']){const b=make();b.content.prompt.blocks[0].inlines[0].text=phrase;assert.equal(held(b),true,phrase);}
 });
+
+const localReferenceProject=b=>({id:'local',settings:{exerciseOrganisation:'topic',layoutOverrides:{blockLayouts:{}}},sections:[{id:'s',topicId:'t',phase:'practice',blocks:[b]}]});
+const localRefItem=ref=>({id:'item:'+ref,type:'item',ref});
+const localRefTree=(direction,refs)=>({version:1,root:{id:'layout',type:'group',direction,children:refs.map(localRefItem)}});
+test('empty response cells are native tables; malformed cells and project omission/order remain held',()=>{
+ const make=()=>({id:'own',type:'question',content:{id:'root',type:'question',prompt:{format:'maths-editor-document-v1',version:1,blocks:[{id:'intro',type:'paragraph',inlines:[{type:'text',text:'Complete the table below.'}]},{id:'table',type:'table',rows:[[{blocks:[]}]]}]}}});
+ const refs=['root/prompt#intro','root/prompt#table'];
+ assert.deepEqual(resolveExerciseReferences(localReferenceProject(make())).holds,[]);
+ for(const mode of ['nullcell','missingblocks','nullblocks','emptyrows','hidden','reversed','row']){
+  const b=make(),p=localReferenceProject(b),table=b.content.prompt.blocks[1];
+  if(mode==='nullcell')table.rows=[[null]];if(mode==='missingblocks')table.rows=[[{}]];if(mode==='nullblocks')table.rows=[[{blocks:null}]];if(mode==='emptyrows')table.rows=[];
+  if(['hidden','reversed','row'].includes(mode))p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree(mode==='row'?'row':'stack',mode==='hidden'?refs.slice(0,1):mode==='reversed'?[...refs].reverse():refs)};
+  assert(resolveExerciseReferences(p).holds.length,mode);
+ }
+});
+test('own diagram below requires a unique same-node diagram visibly below the prompt in effective arrangements',()=>{
+ const make=()=>({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Use the diagram below.',questionDiagrams:[{id:'figure',format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'}]}});
+ const refs=['root/prompt','figure'];
+ assert.deepEqual(resolveExerciseReferences(localReferenceProject(make())).holds,[]);
+ // A row below a common stacked stem is legitimately below that stem.
+ const valid=localReferenceProject(make());valid.settings.layoutOverrides.blockLayouts.own={arrangement:{version:1,root:{id:'top',type:'group',direction:'stack',children:[localRefItem(refs[0]),{id:'lower',type:'group',direction:'row',children:[localRefItem(refs[1])]}]}}};assert.deepEqual(resolveExerciseReferences(valid).holds,[]);
+ for(const mode of ['hidden','reversed','row','answer','sibling','ambiguous','localhidden']){
+  const b=make(),p=localReferenceProject(b);
+  if(['hidden','reversed','row'].includes(mode))p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree(mode==='row'?'row':'stack',mode==='hidden'?refs.slice(0,1):mode==='reversed'?[...refs].reverse():refs)};
+  if(mode==='answer'){b.content.solutionDiagrams=b.content.questionDiagrams;delete b.content.questionDiagrams;}
+  if(mode==='sibling'){b.content.children=[{id:'part',type:'part',questionDiagrams:b.content.questionDiagrams}];delete b.content.questionDiagrams;}
+  if(mode==='ambiguous')b.content.questionDiagrams.push({...b.content.questionDiagrams[0],id:'second'});
+  if(mode==='localhidden'){p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree('stack',refs)};b.presentation={layoutOverrides:{blockLayouts:{own:{arrangement:localRefTree('stack',refs.slice(0,1))}}}};}
+  assert(resolveExerciseReferences(p).holds.length,mode);
+ }
+});
+test('exact own-parts Venn suffix retains numeric-reference offsets and renumbers actual digits',()=>{
+ const p=fixture(),b=p.sections[0].blocks[11];b.content.children=[{id:'a',type:'part',prompt:'Calculate 2+2.'}];
+ b.content.prompt='Use Question 11 to answer the following questions. Drawing a Venn diagram helps.';
+ const resolution=resolveExerciseReferences(p);assert.deepEqual(resolution.holds,[]);const ref=resolution.records.find(r=>r.ownerId===b.id);assert(ref);const slice=ref.slices[0];assert.equal(slice.path.reduce((v,k)=>v[k],b).slice(slice.start,slice.end),'11');
+ const ordered=structuredClone(p);ordered.sections[0].blocks=[...ordered.sections[0].blocks.slice(10,12),...ordered.sections[0].blocks.slice(0,10),ordered.sections[0].blocks[12]];
+ const result=renumberExerciseReferences(p,ordered,resolution);const candidate=result.candidate??result.project;assert(candidate.sections[0].blocks.find(q=>q.id===b.id).content.prompt.startsWith('Use Question 1 '));
+ for(const mutation of ['childless','external']){const q=structuredClone(p);if(mutation==='childless')delete q.sections[0].blocks[11].content.children;else q.sections[0].blocks[11].content.prompt+=' Use the next question.';assert(resolveExerciseReferences(q).holds.length,mutation);}
+});
+test('own-parts introduction remains held when effective project layout hides or precedes its asks',()=>{
+ const make=()=>({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Answer the following questions. Drawing a Venn diagram helps.',children:[{id:'a',type:'part',prompt:'Calculate 2+2.'}]}});
+ for(const mode of ['hidden','before','row']){
+  const p=localReferenceProject(make()),refs=mode==='hidden'?['root/prompt']:['a/prompt','root/prompt'];
+  p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree(mode==='row'?'row':'stack',refs)};
+  assert(resolveExerciseReferences(p).holds.length,mode);
+  assert(planScoreOrder(p).holds.some(h=>h.kind==='project-unresolved-printed-reference'||h.kind==='printed-reference'),mode+' direct planner keeps project context');
+ }
+});

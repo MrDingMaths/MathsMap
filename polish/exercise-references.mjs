@@ -6,6 +6,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {DIAGRAM_COLOUR_PREFIX} from '../src/lib/diagram-colours.js';
+import {normalizeArrangement} from '../public/libs/maths-editor/arrangement-model.mjs';
+import {resolveArrangement} from '../src/lib/booklet-arrangement.js';
 import {flowNumbers,isPractice} from '../src/lib/booklet-flow.js';
 import {reasoningTaskHash,verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 const hash=x=>createHash('sha256').update(typeof x==='string'?x:JSON.stringify(x)).digest('hex');
@@ -81,16 +83,43 @@ export function printedReferenceFields(block){
  }
  return fields;
 }
+// Match native project assembly: local overrides supplement project layouts.
+const effectiveLayouts=(block,project)=>({...project?.settings?.layoutOverrides?.blockLayouts,...block.presentation?.layoutOverrides?.blockLayouts});
+function belowInStack(root,intro,target){
+ const paths=ref=>{const found=[];const visit=(n,path)=>{if(n.type==='item'&&n.ref===ref)found.push(path);(n.children??[]).forEach((c,i)=>visit(c,[...path,{node:n,index:i}]));};visit(root,[]);return found;};
+ const a=paths(intro),b=paths(target);if(a.length!==1||b.length!==1)return false;
+ let i=0;while(i<a[0].length&&i<b[0].length&&a[0][i].node===b[0][i].node&&a[0][i].index===b[0][i].index)i++;
+ return !!a[0][i]&&!!b[0][i]&&a[0][i].node===b[0][i].node&&a[0][i].node.direction==='stack'&&a[0][i].index<b[0][i].index;
+}
+function ownFollowingDiagram(block,field,project){
+ const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
+ if(path[0]!=='content'||pi<0||path.slice(0,pi).includes('answer'))return false;
+ const node=get(block,path.slice(0,pi));
+ if(!['question','part'].includes(node?.type)||node.questionDiagrams?.length!==1)return false;
+ const diagram=node.questionDiagrams[0];if(!diagram?.id||diagram.role!=null&&!['question','content'].includes(diagram.role))return false;
+ const layouts=effectiveLayouts(block,project),overrides={...project?.settings?.layoutOverrides,...block.presentation?.layoutOverrides,blockLayouts:layouts};
+ try{
+  const stored=layouts[block.id]?.arrangement;if(stored&&!normalizeArrangement(stored))return false;
+  const resolved=resolveArrangement(block,stored,overrides);
+  if(resolved.missing.length)return false;
+  const paragraph=path[pi+1]==='blocks'?node.prompt?.blocks?.[path[pi+2]]:null;
+  const intro=node.id+'/prompt'+(paragraph?'#'+paragraph.id:'');
+  if(!belowInStack(resolved.tree.root,intro,diagram.id))return false;
+  // A narrower saved arrangement must not hide or reverse the same pair.
+  for(let i=1;i<=pi;i++){const ancestor=get(block,path.slice(0,i)),saved=layouts[ancestor?.id]?.arrangement;if(saved&&ancestor.id!==block.id&&!belowInStack(saved.root,intro,diagram.id))return false;}
+  return resolved.entries.get(diagram.id)?.kind==='diagram';
+ }catch{return false;}
+}
 // Resolve only a following native table in this exact student prompt document.
 // Answer/provenance tables, sibling prompts and other owners cannot satisfy it.
-function ownFollowingTable(block,field){
+function ownFollowingTable(block,field,project){
  const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
  if(path[0]!=='content'||pi<0||path.slice(0,pi).includes('answer')||path[pi+1]!=='blocks'||!Number.isInteger(path[pi+2]))return false;
  const document=get(block,path.slice(0,pi+1)),index=path[pi+2],paragraph=document?.blocks?.[index];
  if(document?.format!=='maths-editor-document-v1'||paragraph?.type!=='paragraph')return false;
- const table=document.blocks.slice(index+1).find(n=>n.type==='table'&&Array.isArray(n.rows)&&n.rows.length&&n.rows.every(row=>Array.isArray(row)&&row.length&&row.every(cell=>Array.isArray(cell.blocks)&&cell.blocks.length)));
+ const table=document.blocks.slice(index+1).find(n=>n.type==='table'&&Array.isArray(n.rows)&&n.rows.length&&n.rows.every(row=>Array.isArray(row)&&row.length&&row.every(cell=>cell&&Array.isArray(cell.blocks))));
  if(!table)return false;
- const node=get(block,path.slice(0,pi)),layouts=block.presentation?.layoutOverrides?.blockLayouts;
+ const node=get(block,path.slice(0,pi)),layouts=effectiveLayouts(block,project);
  // Any applicable saved ancestor/child/prompt layout must independently prove
  // visibility and order. A root default cannot overrule a narrower saved layout.
  const ids=new Set([block.id,node.id,document.id,paragraph.id,table.id]);
@@ -108,23 +137,41 @@ function ownFollowingTable(block,field){
 }
 // A terminal introduction to actual native parts refers to this owner's asks.
 // Only its own span is ignored for scanning; all other prose/digit offsets stay.
-function referenceScanText(block,field,fields){
- const text=ownFollowingTable(block,field)?field.text.replace(/\btable below\b/gi,m=>' '.repeat(m.length)):field.text;
+function ownFollowingParts(block,field,project){
+ const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt'),node=block.content;
+ const layouts=effectiveLayouts(block,project),overrides={...project?.settings?.layoutOverrides,...block.presentation?.layoutOverrides,blockLayouts:layouts};
+ try{
+  const stored=layouts[block.id]?.arrangement;if(stored&&!normalizeArrangement(stored))return false;
+  const resolved=resolveArrangement(block,stored,overrides);if(resolved.missing.length)return false;
+  const paragraph=path[pi+1]==='blocks'?node.prompt?.blocks?.[path[pi+2]]:null;
+  const intro=node.id+'/prompt'+(paragraph?'#'+paragraph.id:'');
+  const parts=[];const visit=n=>{for(const child of n.children??[]){if(['question','part'].includes(child.type))parts.push(child);visit(child);}};visit(node);
+  if(!parts.length)return false;
+  return parts.every(part=>{
+   const refs=[...resolved.entries.values()].filter(e=>e.ownerId===part.id&&e.field==='prompt').map(e=>e.ref);
+   const narrower=node.id!==block.id?layouts[node.id]?.arrangement:null;
+   return refs.length&&refs.every(ref=>belowInStack(resolved.tree.root,intro,ref)&&(!narrower||belowInStack(narrower.root,intro,ref)));
+  });
+ }catch{return false;}
+}
+function referenceScanText(block,field,fields,project){
+ let text=ownFollowingTable(block,field,project)?field.text.replace(/\btable below\b/gi,m=>' '.repeat(m.length)):field.text;
+ if(/\bdiagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
  const nativeQuestions=children=>Array.isArray(children)&&children.some(child=>['question','part'].includes(child?.type)||child?.type==='group'&&nativeQuestions(child.children));
  const isPrompt=row=>{const path=JSON.parse(row.key);return path[0]==='content'&&path[1]==='prompt';};
- if(!isPrompt(field)||!nativeQuestions(block.content?.children)||fields.filter(isPrompt).at(-1)?.key!==field.key)return text;
+ if(!isPrompt(field)||!nativeQuestions(block.content?.children)||fields.filter(isPrompt).at(-1)?.key!==field.key||!ownFollowingParts(block,field,project))return text;
  const intro=[...text.matchAll(/\banswer\s+the\s+following\s+questions\b/gi)].at(-1);
  if(!intro)return text;
  const tail=text.slice(intro.index+intro[0].length);
- if(!/^\s*[.:]?\s*$/.test(tail)&&!/^\s+(?:for|using|to|correct\s+to)\b/i.test(tail))return text;
- return text.slice(0,intro.index)+text.slice(intro.index+intro[0].length);
+ if(!/^\s*[.:]?\s*$/.test(tail)&&!/^\s+(?:for|using|to|correct\s+to)\b/i.test(tail)&&!/^\s*\.\s*Drawing a Venn diagram helps\.\s*$/.test(tail))return text;
+ return text.slice(0,intro.index)+' '.repeat(intro[0].length)+text.slice(intro.index+intro[0].length);
 }
 // Direct callers without a pinned resolution remain held-safe for every known
 // printed field, including shorthand Qn, native inline runs and answer prose.
-export function unresolvedPrintedQuestionReferences(block){
+export function unresolvedPrintedQuestionReferences(block,project){
  const fields=printedReferenceFields(block);
  return fields.filter(field=>{
-  const text=referenceScanText(block,field,fields);
+  const text=referenceScanText(block,field,fields,project);
   return hasNumericMathReference(text)||/\b(?:questions?|Q|exercises?|examples?)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/i.test(text);
  }).map(field=>field.text);
 }
@@ -136,12 +183,12 @@ function exerciseIndex(project){
 export function resolveExerciseReferences(project){
  const {rows}=exerciseIndex(project),records=[],holds=[];
  // Unsupported teacher references can still address sortable practice targets.
- for(const section of project.sections??[])for(const block of section.blocks??[])if(!isPractice(block))for(const text of unresolvedPrintedQuestionReferences(block))holds.push({id:block.id,kind:'unsupported-nonpractice-printed-reference',text});
+ for(const section of project.sections??[])for(const block of section.blocks??[])if(!isPractice(block))for(const text of unresolvedPrintedQuestionReferences(block,project))holds.push({id:block.id,kind:'unsupported-nonpractice-printed-reference',text});
  for(const {block,section}of rows){
   const fields=printedReferenceFields(block);
   for(const field of fields){
-   const fieldPath=JSON.parse(field.key),unsupported=referenceScanText(block,field,fields);
-   if(field.unsupportedVisibleAtom&&unresolvedPrintedQuestionReferences(block).includes(field.text)){holds.push({id:block.id,kind:'unsupported-visible-atom-reference',field:field.key});continue;}
+   const fieldPath=JSON.parse(field.key),unsupported=referenceScanText(block,field,fields,project);
+   if(field.unsupportedVisibleAtom&&unresolvedPrintedQuestionReferences(block,project).includes(field.text)){holds.push({id:block.id,kind:'unsupported-visible-atom-reference',field:field.key});continue;}
    if(field.unsupportedCode){holds.push({id:block.id,kind:'unsupported-native-code-reference',field:field.key});continue;}
    if(hasNumericMathReference(field.text)){holds.push({id:block.id,kind:'unsupported-math-token-reference',field:field.key});continue;}
    if((fieldPath.at(-1)==='html'||/<\/?[a-z][^>]*>/i.test(field.text))&&/\b(?:Questions?|Q)\s*\.?\s*\d/i.test(field.text)){holds.push({id:block.id,kind:'unsupported-html-reference',field:field.key});continue;}
