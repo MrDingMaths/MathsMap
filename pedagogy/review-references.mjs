@@ -4,7 +4,7 @@ import {resolveExerciseReferences} from '../polish/exercise-references.mjs';
 
 const escape=value=>value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 const boundary='[A-Za-z0-9_-]';
-const referenceField=/^(?:targets?|targetIds?|blockIds?|ownerIds?|nodeIds?|sectionIds?|projectId|questionIds?|teachingIds?|exampleIds?|guidedPracticeIds?|dependsOn|requires|dependent|pairedBlockId|continuationOf|ids|originalOrder|proposedOrder|plannedIds|currentOrder|evidenceIds|teachingEvidenceIds|practiceEvidenceIds|moveAfter|moveBefore|keepTogether|suppliedBy)$/;
+const referenceField=/^(?:targets?|targetIds?|blockIds?|ownerIds?|nodeIds?|sectionIds?|projectId|questionIds?|teachingIds?|exampleIds?|guidedPracticeIds?|dependsOn|requires|dependent|pairedBlockId|continuationOf|ids|originalOrder|proposedOrder|plannedIds|currentOrder|evidenceIds|teachingEvidenceIds|practiceEvidenceIds|moveAfter|moveBefore|keepTogether)$/;
 
 // A task-local view for pedagogy/order reviews ONLY. Source-fidelity reviews must
 // retain their original source identities and must not use this projection.
@@ -50,7 +50,7 @@ export function projectReviewReferences({project,payload,purpose,proposedOrder}=
  const neutralPattern=/(?<![A-Za-z0-9_-])ref\d+(?![A-Za-z0-9_-])/g;
  const used=new Set();
  const identityFields=new Set(['id','topic','topicId','sectionId','ownerId','blockId','nodeId','projectId']);
- const reviewerProse=new Set(['finding','breakdown','checked','assumptions','proposal','doneWhen','reason','evidence','rationale','note','question','comment','where']);
+ const reviewerProse=new Set(['finding','breakdown','checked','assumptions','proposal','doneWhen','reason','evidence','rationale','note','question','comment','where','suppliedBy']);
  const replaceProse=(value,replace)=>canonicalPattern?value.split(/(\$\$[\s\S]*?\$\$|\$[^$]*\$)/g).map((part,i)=>i%2?part:part.replace(canonicalPattern,replace)).join(''):value;
  const encodeText=(value,key)=>{
   const replace=id=>{used.add(id);return forward.get(id);};
@@ -115,9 +115,26 @@ export function projectReviewReferences({project,payload,purpose,proposedOrder}=
  for(const row of literalReferences){used.add(row.ownerId);used.add(row.targetId);}
  const originalOrder=blocks.filter(({block})=>ownerScope.has(block.id)).map(({block})=>block.id);
  for(const id of [...used])if(nodeOwners.has(id))used.add(nodeOwners.get(id));
- const targets=[...entries].filter(([id])=>used.has(id)).map(([id,entry])=>({id,...entry}));
+ // Store shared location once. Parts point to owners; owners point to sections.
+ // Never remove a field when an incomplete synthetic section has no identity.
+ for(const id of [...used]){
+  const entry=entries.get(id);
+  if(entry?.kind==='block'&&entries.get(entry.sectionId)?.kind==='section'){
+   used.add(entry.sectionId);
+   entries.set(entry.sectionId,{...entries.get(entry.sectionId),...(entry.exerciseNumber!=null?{exerciseNumber:entry.exerciseNumber}:{})});
+  }
+ }
+ const targets=[...entries].filter(([id])=>used.has(id)).map(([id,entry])=>{
+  const target={id,...entry};
+  if(entry.kind==='part')for(const key of ['sectionId','topicId','sequencePosition','sectionPosition','positionInSection','displayNumber','exerciseNumber'])delete target[key];
+  if(entry.kind==='block'){
+   if(target.ownerId===id)delete target.ownerId;
+   if(used.has(entry.sectionId)&&entries.get(entry.sectionId)?.kind==='section')for(const key of ['topicId','sectionPosition','exerciseNumber'])delete target[key];
+  }
+  return target;
+ });
  const referenceContext={
-  note:'Neutral task references identify native targets. displayNumber/exerciseNumber are current printed labels; partLabels preserve multipart labels. sequencePosition follows the saved booklet traversal. Literal question references remain unchanged and their resolved targets are listed separately. Do not infer printed labels from IDs or content.label.',
+  note:'Neutral task references identify native targets. displayNumber/exerciseNumber are current printed labels; partLabels preserve multipart labels. sequencePosition follows the saved booklet traversal. Literal question references remain unchanged and their resolved targets are listed separately. Do not infer printed labels from IDs or content.label. Part entries inherit location and printed question/exercise from ownerId; block entries own themselves and inherit topic, section position and exercise from sectionId.',
   targets,originalOrder,...(proposedOrder?{proposedOrder}:{}),dependencies,
   literalReferences:literalReferences.map(({ownerId,targetId,oldNumber,quote,field})=>({ownerId,targetId,printedNumber:oldNumber,quote,field})),
   referenceHolds:resolution.holds.filter(row=>ownerScope.has(row.id)),

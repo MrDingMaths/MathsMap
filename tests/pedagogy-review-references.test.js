@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {projectReviewReferences} from '../pedagogy/review-references.mjs';
 import {arrangementCatalog,arrangementQuestionBlock} from '../src/lib/booklet-arrangement.js';
-import {flowNumbers} from '../src/lib/booklet-flow.js';
+import {flowNumbers,exerciseNumbers} from '../src/lib/booklet-flow.js';
 
 function fixture(){
  const question=(id,label,prompt,children=[])=>({id,type:'question',pedagogyRole:'practice',sourceOrder:Number(label),content:{id:id+'-native',type:'question',label,prompt,children}});
@@ -30,7 +30,7 @@ test('neutral traversal refs expose printed numbers, multipart labels and exact 
 test('catalogue stays bounded to encoded identities and owning blocks; mathematical r1/r2 survive',()=>{
  const project=fixture();project.sections[0].blocks[0].content.children.push({id:'unused-native-paragraph',type:'paragraph',prompt:'Unused.'});
  const p=projectReviewReferences({project,payload:{practice:[{id:'p7-q6',content:{label:'6',prompt:'Compare r1 and r2.'}}]},purpose:'practice-order'});
- assert.equal(p.payload.reviewReferences.targets.length,1);assert.equal(p.payload.reviewReferences.targets[0].id,p.payload.practice[0].id);
+ assert.equal(p.payload.reviewReferences.targets.length,2);assert(p.payload.reviewReferences.targets.some(t=>t.id===p.payload.practice[0].id));assert(p.payload.reviewReferences.targets.some(t=>t.kind==='section'));
  assert.deepEqual(p.decode({reason:'Compare r1 and r2.'}),{reason:'Compare r1 and r2.'});
  const full=projectReviewReferences({project,payload:{practice:project.sections[0].blocks},purpose:'practice-order'});
  assert.throws(()=>p.decode({targets:[full.payload.practice[1].id]}),/reference/,'An unexposed master target is outside this task');
@@ -95,6 +95,32 @@ test('printed multipart paths reuse catalogue leaf index fallbacks and unlabelle
  assert.deepEqual(path('nested-leaf'),['c','a']);
  const fidelity=projectReviewReferences({project,payload:{practice:[block]},purpose:'source-fidelity'});
  assert.deepEqual(fidelity.payload.practice[0],block);
+});
+test('section/owner inheritance reconstructs exact locations, printed numbers and part paths',()=>{
+ const project=fixture();project.sections.push({id:'second-exercise',topicId:'second-topic',phase:'practice',blocks:[{id:'p9-q1',type:'question',content:{id:'p9-q1-root',type:'question',prompt:'Find z.',children:[{id:'p9-q1-a',type:'question',label:'i',prompt:'Find w.'}]}}]});
+ const before=structuredClone(project),p=projectReviewReferences({project,payload:{practice:project.sections.flatMap(s=>s.blocks)},purpose:'practice-order'});
+ const catalogue=p.decode({targets:p.payload.reviewReferences.targets}).targets,byId=new Map(catalogue.map(t=>[t.id,t]));
+ const expand=id=>{const t=byId.get(id);return t.kind==='part'?{...expand(t.ownerId),...t}:t.kind==='block'?{...byId.get(t.sectionId),...t,ownerId:t.id}:t;};
+ let sequencePosition=0;const questions=flowNumbers(project),exercises=exerciseNumbers(project);
+ for(const [sectionIndex,section]of project.sections.entries())for(const [index,block]of section.blocks.entries()){
+  sequencePosition++;
+  for(const t of catalogue.filter(t=>t.id===block.id||t.ownerId===block.id)){
+   const location=expand(t.id);
+   assert.deepEqual(Object.fromEntries(['ownerId','sectionId','topicId','sequencePosition','sectionPosition','positionInSection','displayNumber','exerciseNumber'].map(k=>[k,location[k]])),{ownerId:block.id,sectionId:section.id,topicId:section.topicId,sequencePosition,sectionPosition:sectionIndex+1,positionInSection:index+1,displayNumber:questions[block.id],exerciseNumber:exercises[section.topicId]});
+   if(t.kind==='part')assert.equal(Object.hasOwn(t,'displayNumber'),false);
+  }
+ }
+ assert.deepEqual(expand('p9-q1-a').partLabels,['i']);assert.equal(byId.get('second-exercise').exerciseNumber,2);
+ assert.deepEqual(project,before);
+});
+test('suppliedBy supports diagnostic prose and comma-joined known refs, while unknown neutral refs fail',()=>{
+ const p=prepare(),canonical={working:{practice:[{id:'p7-q5',suppliedBy:'p7-q6, p7-q5; these provide the scaffold.'}]}};
+ const encoded=p.encode(canonical);
+ assert(encoded.working.practice[0].suppliedBy.includes(p.payload.practice[0].id+', '+p.payload.practice[1].id));
+ assert.deepEqual(p.decode(encoded),canonical);
+ for(const suppliedBy of ['none','No earlier worked example supplies this step.'])assert.deepEqual(p.decode(p.encode({working:{practice:[{id:'p7-q5',suppliedBy}]}})),{working:{practice:[{id:'p7-q5',suppliedBy}]}});
+ assert.throws(()=>p.decode({working:{practice:[{id:p.payload.practice[1].id,suppliedBy:'Known scaffold plus ref9999.'}]}}),/Unknown review reference/);
+ assert.throws(()=>p.decode({questionIds:['ref9999']}),/reference/);
 });
 test('decode restores structured refs, dictionary keys and reason text without changing task-owned IDs',()=>{
  const p=prepare(),[a,b]=p.payload.practice;
