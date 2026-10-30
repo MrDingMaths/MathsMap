@@ -40,6 +40,27 @@ test('literal formatter is mandatory even when a hand-written label looks plausi
   assert.deepEqual(requireProgrammeExamSection(options(absent)).blocks[0].source, mathsBaseSource('HSC.ADV.2011'));
 });
 
+test('correct printed labels preserve existing partial source objects and compatible historical course metadata', () => {
+  const code = 'PLC.Y12.ADV.2024.T2 Q1', label = 'PLC Y12 ADV T2 2024';
+  for (const source of [{label}, {label, paper: 'Advanced'}, {label, provider: 'PLC', year: 2024, paper: 'Advanced', origin: 'booklet'}]) {
+    const block = {...question(code), source}, before = structuredClone(block);
+    const section = requireProgrammeExamSection(options(block));
+    assert.deepEqual(section.blocks[0], before);
+    assert.deepEqual(block, before);
+    assert.equal(validateProgrammeExamSection(section).valid, true);
+  }
+});
+
+test('partial-source compatibility still rejects false declared provider, year and nonliteral labels', () => {
+  const code = 'PLC.Y12.ADV.2024.T2 Q1', label = 'PLC Y12 ADV T2 2024';
+  for (const source of [{label, provider: 'HSC'}, {label, year: 2023}, {label: 'PLC Y12 ADV T2 2023'}, {label: ' PLC Y12 ADV T2 2024 '}]) {
+    const block = {...question(code), source};
+    assert.equal(createProgrammeExamSection(options(block)).section, null);
+  }
+  const sample = {id: 'sample', type: 'question', title: 'HSC Sample Advanced Question', content: {prompt: 'Keep.'}, source: {label: 'HSC Sample Advanced Question', year: 2024}};
+  assert.equal(createProgrammeExamSection(options(sample)).section, null);
+});
+
 test('accepted trial calibration retains explicit levels, courses and terms without guessing unknown schools', () => {
   assert.deepEqual(approvedMathsBaseSource('HSC.BHHS.Y11.X1.2022.T2 Q13b'), {
     provider: 'HSC-trial', paper: 'BHHS Y11 X1 T2', year: '2022', label: 'BHHS Y11 X1 T2 2022', origin: 'MathsBase',
