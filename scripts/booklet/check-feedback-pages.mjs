@@ -4,8 +4,15 @@
 // bank or comment is written. No report here is a visual inspection.
 // --blocks selects pages by the blocks a repair changed and needs no baseline;
 // --selection-blocks supplies a separate print selection without widening --blocks mutation scope.
-// --checks-only editions run the automated checks without printing.
+// --checks-only editions run the automated checks without printing; by default
+// none, or with-worked when practice answers changed.
 // --editions none completes checks without reprinting already inspected pages.
+// --reuse-baseline DIR reuses an earlier run's map of the same before-project;
+// --reuse-images REPORT reuses images (and their inspection) of identical pages.
+// --prewarm first compiles the candidate's diagrams across three pages
+// (prewarm-diagrams.mjs); use it when diagram TeX is new, since pagination
+// otherwise compiles one page's diagrams at a time.
+// Diagram label diagnostics cover the selected pages only.
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
@@ -17,6 +24,7 @@ import {artifactHash,projectReviewHash,renderedPageHashes,affectedPages,readPage
 import {routeCandidateProject,inspectFinalSizeDiagrams} from './diagram-preflight.mjs';
 import {trackProcessPhase} from './run-observability.mjs';
 import {publishBrowserDiagrams,diagramInputFiles} from './render-cache-server.mjs';
+import {collectSources,compileSources} from './prewarm-diagrams.mjs';
 import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {accumulateTikzCompilation,expectedAnswerNodeIds,assertAnswerRenderCoverage} from './check-compact-exercises.mjs';
 import {structuralPreflight,assertRepairScope} from './feedback-preflight.mjs';
@@ -107,6 +115,17 @@ export function parseOverrides(values){
  return values.map(value=>{const at=value.lastIndexOf('=');if(at<1||at===value.length-1)throw Error('--runtime-override requires URL_GLOB=FILE');const file=path.resolve(value.slice(at+1));if(!fs.existsSync(file))throw Error('Missing override file: '+file);return {glob:value.slice(0,at),file};});
 }
 
+// An earlier run's image of a page with the same rendered-page hash and diagram
+// version shows the same page; its inspection carries over and nothing is
+// rasterised again. Not for shared CSS or renderer changes the page hash cannot see.
+export function reusableImages(previous,result,pages){
+ if(!previous||previous.diagramVersion!==result.diagramVersion)return [];
+ return pages.flatMap(number=>{
+  const image=previous.images?.find(row=>row.page===number);
+  if(!image||previous.pages?.[number-1]?.hash!==result.pages[number-1]?.hash||!fs.existsSync(image.path??''))return [];
+  return artifactHash(image.path)===image.hash?[{...image,reusedFrom:previous.pdf?.path??null}]:[];
+ });
+}
 export function finalizeFeedbackReport(report,{capture=false}={}){
  const required=[...new Set([...(report.editions??[]),...(report.checksOnly??[])])];
  const completed=new Set(report.completedEditions??[]);
@@ -129,10 +148,6 @@ async function main(){
  const capture=flag('--capture-baseline'),candidateFile=arg('--project-file'),baselineFile=arg('--baseline-project-file'),projectId=arg('--project');
  const overrides=parseOverrides(all('--runtime-override')),candidateCss=arg('--candidate-css'),extra=(arg('--pages','')).split(',').filter(Boolean).map(Number),fullReason=arg('--full-reason');
  if(capture&&(overrides.length||candidateCss||baselineFile||byBlocks))throw Error('--capture-baseline records the current project and runtime only');
- // One combined edition exercises answer coverage and navigation by default,
- // without printing; a local repair inspects its pages in the Questions layout.
- const checksOnly=capture||arg('--checks-only','with-worked')==='none'?[]:arg('--checks-only','with-worked').split(',').filter(edition=>!editions.includes(edition));
- if(checksOnly.some(edition=>!FEEDBACK_EDITIONS.includes(edition)))throw Error('--checks-only takes supported editions or none');
  const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
  const candidate=candidateFile?read(candidateFile):read(`booklets/projects/${projectId??(()=>{throw Error('Use --project ID or --project-file FILE');})()}.json`);
  const baselineProject=baselineFile?read(baselineFile):null;
@@ -154,8 +169,24 @@ async function main(){
  const baselineChoice=arg('--baseline-editions','auto');
  if(!['auto','all'].includes(baselineChoice))throw Error('--baseline-editions is auto or all');
  const answersDiffer=!!baselineProject&&answerSignature(baselineProject)!==answerSignature(candidate);
+ // A local repair inspects its pages in the Questions layout and paginates no
+ // other edition. Changed answers exercise one combined edition's answer
+ // coverage and navigation without printing; covers, transitions or footers
+ // name their editions explicitly.
+ const checksDefault=answersDiffer?'with-worked':'none',checksChoice=arg('--checks-only',checksDefault);
+ const checksOnly=capture||checksChoice==='none'?[]:checksChoice.split(',').filter(edition=>!editions.includes(edition));
+ if(checksOnly.some(edition=>!FEEDBACK_EDITIONS.includes(edition)))throw Error('--checks-only takes supported editions or none');
  const derived=!byBlocks&&baselineProject&&baselineChoice==='auto'&&!answersDiffer&&editions.includes('student')?editions.filter(edition=>edition.startsWith('with-')):[];
  const baselineEditions=byBlocks?[]:editions.filter(edition=>!derived.includes(edition));
+ // --reuse-baseline DIR takes an earlier run's page map of the same before-project
+ // instead of rendering it again. A changed renderer can only widen the selection.
+ const reuseDir=arg('--reuse-baseline'),reusedBaseline=[];
+ if(reuseDir&&baselineProject&&!capture)for(const edition of baselineEditions){
+  const previous=readPageManifest(path.join(path.resolve(reuseDir),path.basename(mapFile(edition))));
+  if(previous?.projectHash===projectReviewHash(baselineProject)&&previous.edition===edition&&Array.isArray(previous.pages)){fs.writeFileSync(mapFile(edition),JSON.stringify({...previous,reusedFrom:path.resolve(reuseDir)},null,2));reusedBaseline.push(edition);}
+ }
+ const renderBaseline=baselineEditions.filter(edition=>!reusedBaseline.includes(edition));
+ const previousRun=arg('--reuse-images')?read(arg('--reuse-images')):null;
  if(answersDiffer&&!editions.some(edition=>edition!=='student'))console.warn('Practice answers changed; add the affected answer edition with --editions student,short or student,worked');
  if(!capture&&!baselineProject&&!byBlocks)for(const edition of editions)requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!readPageManifest(mapFile(edition)),reason:fullReason});
  const runDir=arg('--run-dir');trackProcessPhase(runDir,capture?'feedback-baseline-map':'feedback-pages',{artifact:reportFile,projectId:id,editions});
@@ -173,6 +204,11 @@ async function main(){
   if(!report.cacheState.entriesForOrigin&&report.cacheState.otherOrigins.length)console.warn('Cache state has diagram entries only for other origins; IndexedDB reuse needs --base '+report.cacheState.otherOrigins[0].origin);
  }else report.cacheState=null;
  browser=await launchChromium(chromium,{headless:true});
+ if(flag('--prewarm')){
+  if(cacheOff||flag('--cold-diagrams'))report.prewarm={skipped:cacheOff?'a diagram input is overridden':'--cold-diagrams'};
+  else{const prewarmStarted=Date.now(),codes=await collectSources(browser,{base,project:candidate,editions:[...editions,...checksOnly]}),collectMs=Date.now()-prewarmStarted;report.prewarm={sources:codes.length,collectMs,...await compileSources(browser,{base,codes,pages:3}),elapsedMs:Date.now()-prewarmStarted};}
+  write();
+ }
  const context=await browser.newContext({viewport:{width:1600,height:1100},...(stateExists?{storageState:cacheState}:{})});
  const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
  // Pagination can occupy the page's main thread for longer than the default action timeout.
@@ -231,14 +267,16 @@ async function main(){
    const hashes=renderedPageHashes(pages,{renderer:'feedback-page-map-v1',settings:{},assets});
    const now=await stats(),result={pages:hashes,timings,tikz:tikzDelta(previousStats,now),diagramVersion:await version()};
    if(inspect){
-    const diagramStarted=Date.now(),diagrams=await inspectFinalSizeDiagrams(page);timings.diagramInspectionMs=Date.now()-diagramStarted;
+    // Diagram diagnostics cover the selected pages only (verification cuts,
+    // 30 October): off-scope findings stay history instead of reopening.
+    const inspectDiagrams=async pages=>{const diagramStarted=Date.now(),diagrams=await inspectFinalSizeDiagrams(page,{pages});timings.diagramInspectionMs=Date.now()-diagramStarted;return diagrams;};
     const info=await page.locator('.project-print').evaluate(root=>({
      labels:[...root.querySelectorAll('.compact-answer .answer-item')].map(e=>({id:e.dataset.nodeId,label:e.querySelector('.answer-label')?.textContent,continuation:e.closest('[data-answer-continuation]')?.dataset.answerContinuation,editableFields:e.querySelectorAll('.editable-booklet-text').length,diagrams:e.querySelectorAll('[data-diagram-id]').length})),
      answerDiagramIds:[...root.querySelectorAll('.compact-answer [data-diagram-id]')].filter(e=>!e.parentElement.closest('[data-diagram-id]')).map(e=>e.dataset.diagramId),
      missingLinks:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0&&!root.querySelector(`[id="${CSS.escape(a.getAttribute('href').slice(1))}"]`)).map(a=>a.getAttribute('href')),
      links:[...root.querySelectorAll('a[href^="#"]')].filter(a=>a.getClientRects().length>0).length
     }));
-    Object.assign(result,{qa,diagrams,info});
+    Object.assign(result,{qa,inspectDiagrams,info});
    }
    pass.editions[edition]=result;
    if(inspect)await inspect(edition,result,record);
@@ -251,10 +289,10 @@ async function main(){
   return pass;
  };
   if(capture||(baselineProject&&!byBlocks)){
-   const pass=await renderPass('baseline',baselineProject??candidate,{inspect:null,editions:baselineEditions,publish:true});
-   for(const edition of baselineEditions)fs.writeFileSync(mapFile(edition),JSON.stringify({mode:'feedback-baseline',projectId:id,projectHash:pass.projectHash,revision:pass.revision,edition,capturedAt:new Date().toISOString(),diagramVersion:pass.editions[edition].diagramVersion,pages:pass.editions[edition].pages},null,2));
-   for(const edition of baselineEditions)pass.editions[edition]={pageCount:pass.editions[edition].pages.length,timings:pass.editions[edition].timings,tikz:pass.editions[edition].tikz,diagramVersion:pass.editions[edition].diagramVersion};
-   report.baseline={source:baselineProject?'project-file':'current-project',editions:baselineEditions,derivedFromStudent:derived,answersDiffer,cachePublished:pass.cachePublished};
+   const pass=renderBaseline.length?await renderPass('baseline',baselineProject??candidate,{inspect:null,editions:renderBaseline,publish:true}):{cachePublished:0,editions:{}};
+   for(const edition of renderBaseline)fs.writeFileSync(mapFile(edition),JSON.stringify({mode:'feedback-baseline',projectId:id,projectHash:pass.projectHash,revision:pass.revision,edition,capturedAt:new Date().toISOString(),diagramVersion:pass.editions[edition].diagramVersion,pages:pass.editions[edition].pages},null,2));
+   for(const edition of renderBaseline)pass.editions[edition]={pageCount:pass.editions[edition].pages.length,timings:pass.editions[edition].timings,tikz:pass.editions[edition].tikz,diagramVersion:pass.editions[edition].diagramVersion};
+   report.baseline={source:baselineProject?'project-file':'current-project',editions:baselineEditions,reused:reusedBaseline,derivedFromStudent:derived,answersDiffer,cachePublished:pass.cachePublished};
    await saveState();write();
   }
   if(!capture){
@@ -275,9 +313,10 @@ async function main(){
     if(edition==='student')Object.assign(student,{pages:result.pages,selected:selection.selected});
     if(byBlocks&&edition==='student'){const present=new Set(result.pages.flatMap(p=>p.blocks??[])),unknown=survivingRepairBlocks(candidate,baselineProject,blockIds).filter(id=>!present.has(id));if(unknown.length)report.failures.push({edition,kind:'unknown-block',blocks:unknown});}
     const plan=inspectionPlan({edition,selected:selection.selected,boundaries:selection.boundaries,pages:result.pages,studentPages:student.pages,studentSelected:student.selected});
+    result.diagrams=await result.inspectDiagrams(selection.selected);
     const issues=result.qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).concat(result.diagrams.issues);
     const entry={baseline:{pages:baseline.pages.length,revision:baseline.revision,projectHash:baseline.projectHash},pageCount:result.pages.length,pages:result.pages,...selection,inspection:plan,inspectHere:plan.filter(p=>p.inspectIn===edition).map(p=>p.page),
-     issues,missingLinks:result.info.missingLinks,links:result.info.links,diagramFigures:result.diagrams.figures.length,diagramVisualFindings:result.diagrams.visualFindings,timings:result.timings,tikz:result.tikz,diagramVersion:result.diagramVersion,printed:[],pdf:null,images:[]};
+     issues,missingLinks:result.info.missingLinks,links:result.info.links,diagramFigures:result.diagrams.figures.length,diagramFiguresTotal:result.diagrams.figuresTotal,diagramVisualFindings:result.diagrams.visualFindings,timings:result.timings,tikz:result.tikz,diagramVersion:result.diagramVersion,printed:[],pdf:null,images:[]};
     report.editionsReport[edition]=entry;
     if(issues.length)report.failures.push({edition,kind:'layout',count:issues.length});
     if(result.info.missingLinks.length)report.failures.push({edition,kind:'navigation',links:result.info.missingLinks});
@@ -291,9 +330,11 @@ async function main(){
      if(entry.printed.length!==selection.selected.length)report.failures.push({edition,kind:'print',message:'Partial PDF page count differs from the selection'});
      if(entry.printed.some(p=>p.issues.length))report.failures.push({edition,kind:'printed-geometry',count:entry.printed.flatMap(p=>p.issues).length});
      if(!flag('--no-rasters')&&entry.inspectHere.length){
-      const rasterStarted=Date.now(),positions=entry.inspectHere.map(number=>selection.selected.indexOf(number)+1);
-      const rasters=await ensureSelectedPdfRasters(entry.pdf,selection.selected.length,path.join(out,'pdf-rasters'),{pages:positions});
-      entry.images=rasters.images.map(image=>({page:selection.selected[image.page-1],path:image.path,hash:image.hash}));
+      const rasterStarted=Date.now(),reused=reusableImages(previousRun?.editionsReport?.[edition],result,entry.inspectHere);
+      entry.reusedInspection=reused.map(image=>image.page);
+      const positions=entry.inspectHere.filter(number=>!entry.reusedInspection.includes(number)).map(number=>selection.selected.indexOf(number)+1);
+      const rasters=positions.length?await ensureSelectedPdfRasters(entry.pdf,selection.selected.length,path.join(out,'pdf-rasters'),{pages:positions}):{images:[]};
+      entry.images=[...reused,...rasters.images.map(image=>({page:selection.selected[image.page-1],path:image.path,hash:image.hash}))].sort((a,b)=>a.page-b.page);
       result.timings.rasterMs=Date.now()-rasterStarted;
      }
     }
@@ -308,7 +349,7 @@ async function main(){
   report.failures.push({kind:'exception',message:error.message??String(error),stack:error.stack??null});
  }finally{
   const totals=key=>Object.values(report.editionsReport).reduce((sum,entry)=>sum+(entry[key]?.length??0),0);
-  report.counts={pagesHashedBaseline:report.passes.filter(p=>p.name==='baseline').flatMap(p=>Object.values(p.editions)).reduce((sum,e)=>sum+(e.pageCount??0),0),pagesHashedCandidate:Object.values(report.editionsReport).reduce((sum,e)=>sum+e.pageCount,0),pagesPrinted:totals('selected'),pagesRasterised:totals('images'),pagesToInspect:totals('inspectHere'),fullPdfs:0,
+  report.counts={pagesHashedBaseline:report.passes.filter(p=>p.name==='baseline').flatMap(p=>Object.values(p.editions)).reduce((sum,e)=>sum+(e.pageCount??0),0),pagesHashedCandidate:Object.values(report.editionsReport).reduce((sum,e)=>sum+e.pageCount,0),pagesPrinted:totals('selected'),pagesRasterised:totals('images')-totals('reusedInspection'),pagesReusedInspection:totals('reusedInspection'),pagesToInspect:totals('inspectHere')-totals('reusedInspection'),fullPdfs:0,
    tikz:Object.fromEntries(TIKZ_COUNTERS.map(name=>[name,[...report.passes.flatMap(p=>Object.values(p.editions).map(e=>e.tikz?.[name]??0)),...Object.values(report.editionsReport).map(e=>e.tikz?.[name]??0)].reduce((a,b)=>a+b,0)]))};
   try{await browser?.close();}catch(error){report.failures.push({kind:'browser-close',message:error.message??String(error)});}
   finalizeFeedbackReport(report,{capture});write();

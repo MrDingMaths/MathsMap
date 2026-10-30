@@ -39,6 +39,11 @@ test('candidate routing uses the open envelope, blocks writes, and inspects cali
   const clipped=await inspectFinalSizeDiagrams(page);
   assert.equal(clipped.figures.length,1);assert.ok(clipped.issues.some(i=>i.kind==='diagram-label-clipping'&&i.diagramId==='d'&&i.page===1));
   assert.ok(Math.abs(clipped.figures[0].labels[0].pt-10)<.1);
+  // A scoped check measures only its selected pages; the total still counts every figure.
+  const elsewhere=await inspectFinalSizeDiagrams(page,{pages:[2]});
+  assert.deepEqual([elsewhere.figures.length,elsewhere.issues.length,elsewhere.figuresTotal],[0,0,1]);
+  const selected=await inspectFinalSizeDiagrams(page,{pages:[1]});
+  assert.ok(selected.issues.some(i=>i.kind==='diagram-label-clipping'&&i.page===1));assert.equal(selected.figuresTotal,1);
   await page.evaluate(async()=>{document.querySelector('text').setAttribute('x','20');const {calibrateDiagramTypography}=await import('/src/lib/diagram-typography.js');calibrateDiagramTypography(document);});
   assert.deepEqual((await inspectFinalSizeDiagrams(page)).issues,[]);
   await page.evaluate(()=>{const svg=document.querySelector('svg'),path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','M 0 18 L 100 18');path.setAttribute('stroke','black');svg.append(path);});

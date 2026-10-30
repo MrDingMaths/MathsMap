@@ -30,14 +30,18 @@ export async function routeCandidateProject(page,project) {
  await page.route('**/__booklet/projects/'+encodeURIComponent(project.id)+'/open',r=>get(r,{project,bankSync:{items:[]},bankSyncError:''}));
 }
 
-export async function inspectFinalSizeDiagrams(page) {
- return page.evaluate(async()=>{
+// pages (1-based print pages) limits measurement to those pages; omitted, the
+// whole surface is inspected. figuresTotal still counts every visible figure.
+export async function inspectFinalSizeDiagrams(page,{pages:only=null}={}) {
+ return page.evaluate(async only=>{
   const {inspectDiagramLabelLayout,measureDiagramLabels,graphPageScale}=await import('/src/lib/diagram-typography.js');
   const root=document.querySelector('.project-print');
   if(!root||!root.querySelector('.print-page'))throw Error('Diagram preflight requires a populated print surface');
   const pages=[...root.querySelectorAll('.print-page')];
   const visible=e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden';};
-  const figures=[...root.querySelectorAll('.tikz-wrap svg')].filter(visible).map((svg,index)=>{
+  const wanted=only?new Set(only):null,inScope=e=>!wanted||wanted.has(pages.indexOf(e.closest('.print-page'))+1);
+  const allFigures=[...root.querySelectorAll('.tikz-wrap svg')].filter(visible);
+  const figures=allFigures.filter(inScope).map((svg,index)=>{
    const labels=measureDiagramLabels(svg),bounds=svg.getBoundingClientRect(),scale=graphPageScale(svg);
    // Calibrated labels can extend beyond the original TeX view box. Include
    // their actual ink containers and an owning caption in the final footprint.
@@ -50,14 +54,14 @@ export async function inspectFinalSizeDiagrams(page) {
    return {index,page:pages.indexOf(svg.closest('.print-page'))+1,id:svg.closest('[data-diagram-id]')?.dataset.diagramId??null,
     widthMm:complete.width/scale*25.4/96,heightMm:complete.height/scale*25.4/96,svgWidthMm:bounds.width/scale*25.4/96,svgHeightMm:bounds.height/scale*25.4/96,viewBox:svg.getAttribute('viewBox'),labels,issues};
   });
-  const overlays=[...root.querySelectorAll('.diagram-composite')].filter(visible).map(el=>({
+  const overlays=[...root.querySelectorAll('.diagram-composite')].filter(visible).filter(inScope).map(el=>({
    page:pages.indexOf(el.closest('.print-page'))+1,id:el.closest('[data-diagram-id]')?.dataset.diagramId,
    layers:[...el.querySelectorAll('svg')].map(svg=>{const r=svg.getBoundingClientRect();return {viewBox:svg.getAttribute('viewBox'),x:r.x,y:r.y,width:r.width,height:r.height};}),
    reviewRequired:'Separate SVG layers require visual coordinate-frame and angle-region review.'
   }));
-  return {figures,overlays,rasterOccurrences:[...root.querySelectorAll('img')].filter(visible).length,
+  return {figures,figuresTotal:allFigures.length,pages:only,overlays,rasterOccurrences:[...root.querySelectorAll('img')].filter(visible).filter(inScope).length,
    issues:figures.flatMap(f=>f.issues.filter(i=>!['diagram-label-overlap','diagram-label-viewport','diagram-label-stroke'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
    visualFindings:figures.flatMap(f=>f.issues.filter(i=>['diagram-label-overlap','diagram-label-viewport','diagram-label-stroke'].includes(i.kind)).map(i=>({page:f.page,diagramId:f.id,...i}))),
    note:'Measurements detect bounds and label-size defects. Viewport spill, overlaps, overlays, raster labels and mathematical angle regions require source comparison and visual review.'};
- });
+ },only);
 }

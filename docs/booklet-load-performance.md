@@ -512,6 +512,9 @@ open, render-cache and bank requests reach the real server). Reports go to
   Differential Equations and 3D Trigonometry), compiles the unique ones across
   `--pages 3` and publishes them. For 90 cold diagrams: 148 s on one page,
   66 s on three, 51 s on four, at about 0.55 GB of Chrome per extra page.
+  `check-feedback-pages.mjs --prewarm` runs the same step in the check's own
+  browser. On a booklet that is already warm it only adds collection time
+  (15 s on Differential Equations), so use it when diagram TeX is new.
 - **Project list.** Summaries are reparsed only for files whose size or
   modification time changed (2.8 s to about 10 ms warm).
 - **Question bank.** The manifest reparses only changed files instead of reading

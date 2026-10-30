@@ -132,3 +132,16 @@ test('answer changes are detected separately from question-side edits',()=>{
  const layout=structuredClone(project);layout.settings.compactAnswers.columns=1;
  assert.notEqual(answerSignature(layout),answerSignature(project));
 });
+
+test('identical rendered pages reuse an earlier image and its inspection; changed pages or diagrams do not',async t=>{
+ const {reusableImages}=await import('../scripts/booklet/check-feedback-pages.mjs');
+ const fs=await import('node:fs'),os=await import('node:os'),{createHash}=await import('node:crypto');
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'feedback-reuse-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
+ const image=path.join(dir,'page-3.png');fs.writeFileSync(image,'png');const hash=createHash('sha256').update('png').digest('hex');
+ const previous={diagramVersion:'v',pdf:{path:'old.pdf'},pages:[{page:1,hash:'a'},{page:2,hash:'b'},{page:3,hash:'c'}],images:[{page:2,path:image,hash},{page:3,path:image,hash}]};
+ const result={diagramVersion:'v',pages:[{page:1,hash:'a'},{page:2,hash:'changed'},{page:3,hash:'c'}]};
+ assert.deepEqual(reusableImages(previous,result,[2,3]).map(row=>row.page),[3]);
+ assert.deepEqual(reusableImages(previous,{...result,diagramVersion:'w'},[3]),[],'a new diagram version re-renders');
+ fs.writeFileSync(image,'edited');assert.deepEqual(reusableImages(previous,result,[3]),[],'a changed image file is not reused');
+ assert.deepEqual(reusableImages(null,result,[3]),[]);
+});
