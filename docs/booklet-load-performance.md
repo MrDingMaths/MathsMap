@@ -505,6 +505,13 @@ open, render-cache and bank requests reach the real server). Reports go to
   (or `--projects a,b`) opens booklets read-only in headless Studio, three at a
   time, and publishes their compiled SVGs to the server cache. Run it after a
   diagram-version change.
+- **Single-booklet pre-warm.** Pagination feeds TikZJax one page's diagrams
+  at a time, so a booklet with new diagram TeX compiles them in series inside
+  a check. `node scripts/booklet/prewarm-diagrams.mjs --project ID` collects
+  the sources with compilation stubbed (same sets as a real render on
+  Differential Equations and 3D Trigonometry), compiles the unique ones across
+  `--pages 3` and publishes them. For 90 cold diagrams: 148 s on one page,
+  66 s on three, 51 s on four, at about 0.55 GB of Chrome per extra page.
 - **Project list.** Summaries are reparsed only for files whose size or
   modification time changed (2.8 s to about 10 ms warm).
 - **Question bank.** The manifest reparses only changed files instead of reading
