@@ -110,6 +110,29 @@ function ownFollowingDiagram(block,field,project){
   return resolved.entries.get(diagram.id)?.kind==='diagram';
  }catch{return false;}
 }
+// A child may refer back to its own ancestor's unique supplied graph. Ownership
+// alone is insufficient: both slots must be visible in that vertical order.
+function ownAncestorGraphAbove(block,field,project){
+ const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
+ if(path[0]!=='content'||pi<0||path.slice(0,pi).includes('answer'))return false;
+ const node=get(block,path.slice(0,pi));
+ if(node===block.content||!['question','part'].includes(node?.type))return false;
+ const ancestors=[];for(let i=1;i<pi;i++){const value=get(block,path.slice(0,i));if(['question','part'].includes(value?.type))ancestors.push(value);}
+ const supplied=[];const visit=n=>{for(const d of n?.questionDiagrams??[])supplied.push({owner:n,diagram:d});for(const child of n?.children??[])visit(child);};visit(block.content);
+ if(supplied.length!==1||!ancestors.includes(supplied[0].owner))return false;
+ const diagram=supplied[0].diagram;if(!diagram.id||diagram.role!=null&&!['question','content'].includes(diagram.role))return false;
+ const layouts=effectiveLayouts(block,project),overrides={...project?.settings?.layoutOverrides,...block.presentation?.layoutOverrides,blockLayouts:layouts};
+ try{
+  const stored=layouts[block.id]?.arrangement;if(stored&&!normalizeArrangement(stored))return false;
+  const resolved=resolveArrangement(block,stored,overrides);if(resolved.missing.length)return false;
+  const paragraph=path[pi+1]==='blocks'?node.prompt?.blocks?.[path[pi+2]]:null;
+  const prompt=node.id+'/prompt'+(paragraph?'#'+paragraph.id:'');
+  if(resolved.entries.get(diagram.id)?.kind!=='diagram'||!belowInStack(resolved.tree.root,diagram.id,prompt))return false;
+  // Narrower saved arrangements cannot be assumed to preserve either slot.
+  for(const owner of [...ancestors,node]){const saved=layouts[owner.id]?.arrangement;if(saved&&owner.id!==block.id&&(!normalizeArrangement(saved)||!belowInStack(saved.root,diagram.id,prompt)))return false;}
+  return true;
+ }catch{return false;}
+}
 // Resolve only a following native table in this exact student prompt document.
 // Answer/provenance tables, sibling prompts and other owners cannot satisfy it.
 function ownFollowingTable(block,field,project){
@@ -157,6 +180,7 @@ function ownFollowingParts(block,field,project){
 function referenceScanText(block,field,fields,project){
  let text=ownFollowingTable(block,field,project)?field.text.replace(/\btable below\b/gi,m=>' '.repeat(m.length)):field.text;
  if(/\bdiagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
+ if(/\b(?:the same graph as above|the graph above)\b/i.test(text)&&ownAncestorGraphAbove(block,field,project))text=text.replace(/\b(?:the same graph as above|the graph above)\b/gi,m=>' '.repeat(m.length));
  const nativeQuestions=children=>Array.isArray(children)&&children.some(child=>['question','part'].includes(child?.type)||child?.type==='group'&&nativeQuestions(child.children));
  const isPrompt=row=>{const path=JSON.parse(row.key);return path[0]==='content'&&path[1]==='prompt';};
  if(!isPrompt(field)||!nativeQuestions(block.content?.children)||fields.filter(isPrompt).at(-1)?.key!==field.key||!ownFollowingParts(block,field,project))return text;

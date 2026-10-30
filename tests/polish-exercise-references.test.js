@@ -305,3 +305,39 @@ test('own-parts introduction remains held when effective project layout hides or
   assert(planScoreOrder(p).holds.some(h=>h.kind==='project-unresolved-printed-reference'||h.kind==='printed-reference'),mode+' direct planner keeps project context');
  }
 });
+
+const ancestorGraphQuestion=()=>({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Consider the supplied graph.',questionDiagrams:[{id:'figure',format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'}],children:[{id:'a',type:'part',prompt:'Read the intercept.'},{id:'d',type:'part',prompt:'On the same graph as above, sketch the tangent.'}]}});
+test('child graph-above reference needs the unique supplied ancestor graph visibly above',()=>{
+ for(const text of ['On the same graph as above, sketch the tangent.','Use the graph above.']){
+  const b=ancestorGraphQuestion(),p=localReferenceProject(b);b.content.children[1].prompt=text;const original=JSON.stringify(p);
+  assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.deepEqual(unresolvedPrintedQuestionReferences(b,p),[]);assert.equal(JSON.stringify(p),original);
+ }
+ const b=ancestorGraphQuestion();b.content.children[1].prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'instruction',type:'paragraph',inlines:[{type:'text',text:'Use the graph above.'}]}]};
+ assert.deepEqual(resolveExerciseReferences(localReferenceProject(b)).holds,[]);
+});
+test('ancestor graph-above reference retains effective hidden reversed same-row and malformed layout holds',()=>{
+ for(const mode of ['hidden-graph','hidden-prompt','reversed','row','duplicate','malformed','localhidden','narrow-hidden']){
+  const b=ancestorGraphQuestion(),p=localReferenceProject(b);let refs=['figure','d/prompt'];
+  if(mode==='hidden-graph')refs=['d/prompt'];if(mode==='hidden-prompt')refs=['figure'];if(mode==='reversed')refs.reverse();if(mode==='duplicate')refs.push('figure');
+  p.settings.layoutOverrides.blockLayouts.own={arrangement:mode==='malformed'?{root:null}:localRefTree(mode==='row'?'row':'stack',refs)};
+  if(mode==='localhidden')b.presentation={layoutOverrides:{blockLayouts:{own:{arrangement:localRefTree('stack',['d/prompt'])}}}};
+  if(mode==='narrow-hidden')p.settings.layoutOverrides.blockLayouts.d={arrangement:localRefTree('stack',['d/prompt'])};
+  assert(resolveExerciseReferences(p).holds.length,mode);
+  assert(planScoreOrder(p).holds.some(h=>h.kind==='project-unresolved-printed-reference'||h.kind==='printed-reference'),mode+' direct planner');
+ }
+});
+test('answer sibling external ambiguous and following graphs never satisfy an ancestor graph-above reference',()=>{
+ for(const mode of ['answer','sibling','external','ambiguous','following','answer-text','unknown-phrase']){
+  const b=ancestorGraphQuestion(),p=localReferenceProject(b),diagram=b.content.questionDiagrams[0];
+  if(mode==='answer'){b.content.answer={solutionDiagrams:[diagram]};delete b.content.questionDiagrams;}
+  if(mode==='sibling'){b.content.children[0].questionDiagrams=[diagram];delete b.content.questionDiagrams;}
+  if(mode==='external'){delete b.content.questionDiagrams;p.sections[0].blocks.push({id:'other',type:'question',content:{id:'other-root',type:'question',prompt:'Different question.',questionDiagrams:[diagram]}});}
+  if(mode==='ambiguous')b.content.questionDiagrams.push({...diagram,id:'second'});
+  if(mode==='following'){b.content.children[1].questionDiagrams=[diagram];delete b.content.questionDiagrams;}
+  if(mode==='answer-text'){b.content.children[1].answer={worked:b.content.children[1].prompt};b.content.children[1].prompt='Calculate.';}
+  if(mode==='unknown-phrase')b.content.children[1].prompt='Use the other graph above.';
+  assert(resolveExerciseReferences(p).holds.length,mode);
+ }
+ const b=ancestorGraphQuestion();b.content.children[1].prompt+=' Then use the next question and result above.';
+ const holds=resolveExerciseReferences(localReferenceProject(b)).holds;assert(holds.some(h=>h.quote==='next question'));assert(holds.some(h=>h.quote==='result above'));assert(!holds.some(h=>h.quote==='graph as above'));
+});
