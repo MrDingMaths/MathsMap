@@ -1,4 +1,4 @@
-import{resolveExerciseReferences,verifyExerciseReferenceResolution,renumberExerciseReferences,unresolvedPrintedQuestionReferences}from'./exercise-references.mjs';
+import{resolveExerciseReferences,verifyExerciseReferenceResolution,renumberExerciseReferences,verifyReferenceNumberAdaptation,unresolvedPrintedQuestionReferences}from'./exercise-references.mjs';
 // Node-only authoring planner. Never import from a renderer or run on project load.
 // This proposes persistent whole-question order only; callers own revision-safe
 // publication and actual pagination/visual checks. Layout pins are holds until a
@@ -52,16 +52,37 @@ function recordedMethodSnapshot(map,file,projectId,readJson){
  for(const name of fs.readdirSync(directory)){if(!name.endsWith('.json'))continue;const snapshot=matching(path.join(directory,name));if(snapshot)return snapshot;}
  throw Error('review snapshot hash not found in map directory');
 }
-export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFileSync(f,'utf8'))}={}){
+export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFileSync(f,'utf8')),referenceAdaptations=[]}={}){
  const cache=new Map(),edges=[],holds=[],currentBlocks=new Map((project.sections??[]).flatMap(s=>(s.blocks??[]).map(b=>[b.id,b]))),currentOwners=owners(project);
+ // Only an explicit replay of the reference-number transformer can establish
+ // reference-only equivalence; the current references must retain its targets.
+ const adaptationCache=new Map();let currentReferences;
+ const matchesReviewed=(current,reviewed)=>{
+  if(sameContent(current,reviewed))return true;
+  return Array.isArray(referenceAdaptations)&&referenceAdaptations.some(adaptation=>{
+   try{
+    let replay=adaptationCache.get(adaptation);
+    if(!replay){try{
+     const {before,ordered,candidate,proof}=adaptation;
+     if(!before||!ordered||!candidate||!proof||[before,ordered,candidate].some(p=>p.id!==project.id))throw Error('Reference adaptation snapshots absent or wrong project');
+     verifyReferenceNumberAdaptation(before,ordered,candidate,proof);
+     replay={before:new Map(before.sections.flatMap(s=>s.blocks.map(b=>[b.id,b]))),candidate:new Map(candidate.sections.flatMap(s=>s.blocks.map(b=>[b.id,b]))),references:resolveExerciseReferences(candidate),changed:new Set(proof.edits.map(e=>e.ownerId))};
+    }catch(error){replay={error};}adaptationCache.set(adaptation,replay);}
+    if(replay.error||!replay.changed.has(current.id)||!replay.before.has(current.id)||!replay.candidate.has(current.id)||!sameContent(replay.before.get(current.id),reviewed)||!sameContent(replay.candidate.get(current.id),current))return false;
+    currentReferences??=resolveExerciseReferences(project);
+    const records=r=>r.records.filter(x=>x.ownerId===current.id),unresolved=r=>r.holds.some(x=>x.id===current.id),targets=[...new Set(records(replay.references).map(r=>r.targetId))];
+    return !unresolved(replay.references)&&!unresolved(currentReferences)&&targets.every(id=>currentBlocks.has(id)&&replay.candidate.has(id)&&sameContent(currentBlocks.get(id),replay.candidate.get(id)))&&JSON.stringify(canonical(records(replay.references)))===JSON.stringify(canonical(records(currentReferences)));
+   }catch{return false;}
+  });
+ };
  for(const b of currentBlocks.values()){
   const file=b.classification?.archetypeReview?.mapFile;if(!file)continue;
   try{
    let record=cache.get(file);if(!record){try{const map=readJson(file);if(map.projectId!==project.id)throw Error('review project differs');const snapshot=recordedMethodSnapshot(map,file,project.id,readJson);if(snapshot.id!==project.id)throw Error('snapshot project differs');record={map,snapshot,blocks:new Map(snapshot.sections.flatMap(s=>s.blocks.map(b=>[b.id,b]))),owners:owners(snapshot)};}catch(error){record={error};}cache.set(file,record);}if(record.error)throw record.error;
-   const q=record.map.questions?.[b.id],cluster=record.map.topics?.find(t=>t.topicId===q?.topicId)?.clusters?.find(c=>c.id===q?.archetype);if(!q||!cluster||!record.blocks.has(b.id)||!sameContent(b,record.blocks.get(b.id)))throw Error('reviewed question changed or absent');
+   const q=record.map.questions?.[b.id],cluster=record.map.topics?.find(t=>t.topicId===q?.topicId)?.clusters?.find(c=>c.id===q?.archetype);if(!q||!cluster||!record.blocks.has(b.id)||!matchesReviewed(b,record.blocks.get(b.id)))throw Error('reviewed question changed or absent');
    const clusters=record.map.topics.find(t=>t.topicId===q.topicId).clusters.filter(c=>new Set([q.archetype,...(q.practiceItems??[]).map(i=>i.archetype).filter(Boolean)]).has(c.id));
    for(const anchor of [...new Set(clusters.flatMap(c=>[...(c.teachingIds??[]),...(c.exampleIds??[]),...(c.guidedPracticeIds??[]),...(c.practiceEvidenceIds??[])]))]){
-    const owner=currentOwners.result.get(anchor),priorOwner=record.owners.result.get(anchor);if(!owner||owner!==priorOwner||currentOwners.ambiguous.has(anchor)||!record.blocks.has(owner)||!sameContent(currentBlocks.get(owner),record.blocks.get(owner)))throw Error('reviewed method anchor changed or absent: '+anchor);
+    const owner=currentOwners.result.get(anchor),priorOwner=record.owners.result.get(anchor);if(!owner||owner!==priorOwner||currentOwners.ambiguous.has(anchor)||!record.blocks.has(owner)||!matchesReviewed(currentBlocks.get(owner),record.blocks.get(owner)))throw Error('reviewed method anchor changed or absent: '+anchor);
     if(owner!==b.id)edges.push({before:owner,after:b.id,kind:'reviewed-method-support',evidence:file,anchor});
    }
   }catch(error){holds.push({id:b.id,kind:'review-context-unverified',reason:error.message,evidence:file});}

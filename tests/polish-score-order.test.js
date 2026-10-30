@@ -8,6 +8,7 @@ import assert from 'node:assert/strict';
 import {assessedRating,reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
 import {difficultyBandForScore} from '../src/lib/practice-question-model.js';
 import {planScoreOrder,scoreOrderCandidate,reviewedMethodSupport,exerciseRole,acceptedSourceRatingReuses,scoreOrderMain} from '../polish/score-order.mjs';
+import {resolveExerciseReferences,renumberExerciseReferences} from '../polish/exercise-references.mjs';
 const q=(id,score,extra={})=>{const b={id,type:'question',content:{id:id+'-root',type:'question',prompt:'Calculate $3+5$.',answer:{short:'8',worked:'$3+5=8$'},answerSpaceMm:24},...extra};b.classification={...assessedRating(b,{reasoningScore:score,difficulty:difficultyBandForScore(score),difficultyReason:'Apply the supplied operation.'},{model:'gpt-6.1-sol',assessedAt:'2026-10-29T00:00:00Z',evidence:'independent-review.json'})};return b;};
 const project=blocks=>({id:'p',revision:1,settings:{layoutOverrides:{answerSpaces:{}}},studio:{flags:[{id:'teacher',resolved:false}]},sections:[{id:'exercise',phase:'practice',role:'mixed-practice',blocks}]});
 const ids=p=>p.sections[0].blocks.map(b=>b.id);
@@ -24,6 +25,41 @@ test('real method-support edge holds a score sort that would reverse supplied su
 test('additionTo records lineage, not an instructional dependency',()=>{const p=project([q('a',40),q('b',10,{sourceReview:{additionTo:{projectId:'p',blockId:'a'}}})]);assert.deepEqual(planScoreOrder(p).sections[0].plannedIds,['b','a']);});
 test('node-level dependencies resolve to the whole source question; unresolved links hold',()=>{const a=q('a',20),b=q('b',40,{flow:{dependsOn:['a-root']}}),p=project([a,b,q('c',10)]);assert.deepEqual(planScoreOrder(p).sections[0].plannedIds,['c','a','b']);b.flow.dependsOn=['absent'];assert.ok(planScoreOrder(p).holds.some(h=>h.kind==='unresolved-dependency'));});
 test('reviewed support is reused only against matching question and method contents',()=>{const intro={id:'intro',type:'callout',content:'Supplied method.'},a=q('a',40),b=q('b',10);a.classification.archetypeReview={mapFile:'map'};const p=project([intro,a,b]),snapshot=structuredClone(p),map={projectId:'p',snapshot:'snapshot',questions:{a:{topicId:'t',archetype:'x',practiceItems:[{archetype:'sub'}]}},topics:[{topicId:'t',clusters:[{id:'x',teachingIds:[]},{id:'sub',practiceEvidenceIds:['intro']}]}]},readJson=f=>f==='map'?map:snapshot;assert.deepEqual(reviewedMethodSupport(p,{readJson}).edges.map(e=>[e.before,e.after]),[['intro','a']]);p.sections[0].blocks[0].content='Changed method.';assert.equal(reviewedMethodSupport(p,{readJson}).holds[0].kind,'review-context-unverified');});
+
+function referenceMethodFixture(){
+ const a=q('a',20),b=q('b',25),c=q('c',30);b.content.prompt='Use Question 1 to calculate the result.';b.content.answer={short:'8, agreeing with Question 1.',worked:'Use Question 1: $3+5=8$.'};
+ for(const block of [b,c])block.classification.archetypeReview={mapFile:'map'};
+ const snapshot=project([a,b,c]);snapshot.settings.exerciseOrganisation='topic';snapshot.settings.questionOrder='source';snapshot.sections[0].topicId='t';const map={projectId:'p',snapshot:'snapshot',questions:{b:{topicId:'t',archetype:'x'},c:{topicId:'t',archetype:'y'}},topics:[{topicId:'t',clusters:[{id:'x',teachingIds:['a']},{id:'y',practiceEvidenceIds:['b']}]}]},readJson=f=>f==='map'?map:snapshot;
+ const before=structuredClone(snapshot);before.sections[0].blocks.push(q('new',10));const ordered=structuredClone(before),by=new Map(ordered.sections[0].blocks.map(b=>[b.id,b]));ordered.sections[0].blocks=['new','a','b','c'].map(id=>by.get(id));
+ const {candidate,proof}=renumberExerciseReferences(before,ordered,resolveExerciseReferences(before));
+ return{snapshot,readJson,adaptation:{before,ordered,candidate,proof},current:structuredClone(candidate)};
+}
+test('reviewed question and method anchor retain context through explicit reference-only replay',()=>{
+ const {snapshot,readJson,adaptation,current}=referenceMethodFixture(),unchanged=structuredClone({snapshot,adaptation,current});
+ assert.equal(reviewedMethodSupport(current,{readJson}).holds.length,2);
+ const result=reviewedMethodSupport(current,{readJson,referenceAdaptations:[adaptation]});assert.deepEqual(result.holds,[]);assert.deepEqual(result.edges.map(e=>[e.before,e.after]),[['a','b'],['b','c']]);assert.equal(adaptation.proof.edits.length,3);
+ assert.deepEqual({snapshot,adaptation,current},unchanged);
+});
+test('reference context replay rejects missing proof and serialized acceptance assertions',()=>{
+ for(const change of [a=>delete a.proof,a=>{a.proof={verified:true};},a=>delete a.before,a=>{a.candidate.id='other';},a=>{a.proof.edits[0].targetId='new';}]){
+  const {readJson,adaptation,current}=referenceMethodFixture();change(adaptation);assert.equal(reviewedMethodSupport(current,{readJson,referenceAdaptations:[adaptation]}).holds.length,2);
+ }
+});
+test('reference context replay cannot hide changed mathematics answers or nonreference text',()=>{
+ for(const change of [b=>{b.content.prompt+=' Also calculate $4+9$.';},b=>{b.content.answer.short='13, agreeing with Question 2.';},b=>{b.content.answer.worked='Use Question 2: $4+9=13$.';}]){
+  const {readJson,adaptation,current}=referenceMethodFixture();change(current.sections[0].blocks.find(b=>b.id==='b'));assert.equal(reviewedMethodSupport(current,{readJson,referenceAdaptations:[adaptation]}).holds.length,2);
+ }
+});
+test('reference context replay requires actual current bindings and original reviewed content',()=>{
+ const f=referenceMethodFixture(),by=new Map(f.current.sections[0].blocks.map(b=>[b.id,b]));f.current.sections[0].blocks=['a','new','b','c'].map(id=>by.get(id));assert.equal(reviewedMethodSupport(f.current,{readJson:f.readJson,referenceAdaptations:[f.adaptation]}).holds.length,2);
+ const g=referenceMethodFixture();g.snapshot.sections[0].blocks.find(b=>b.id==='b').content.answer.short='A different reviewed answer.';assert.equal(reviewedMethodSupport(g.current,{readJson:g.readJson,referenceAdaptations:[g.adaptation]}).holds.length,2);
+});
+test('reference context replay holds when a stable target task changes without an own review map',()=>{
+ const {readJson,adaptation,current}=referenceMethodFixture(),target=current.sections[0].blocks.find(b=>b.id==='a');assert.equal(target.classification.archetypeReview,undefined);
+ target.content.prompt='Calculate $4+9$.';target.content.answer={short:'13',worked:'$4+9=13$'};
+ const currentBindings=resolveExerciseReferences(current).records,replayedBindings=resolveExerciseReferences(adaptation.candidate).records;assert.deepEqual(currentBindings,replayedBindings);
+ const support=reviewedMethodSupport(current,{readJson,referenceAdaptations:[adaptation]});assert.equal(support.holds.length,2);assert(support.holds.every(h=>h.kind==='review-context-unverified'));
+});
 
 function archivedMethodFixture(){
  const header={id:'header',type:'callout',content:'Methods',sourceLayoutEvidence:{originalContent:{blocks:[{id:'method',type:'layout',blocks:[]}]}}};
