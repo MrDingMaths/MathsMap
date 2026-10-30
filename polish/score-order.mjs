@@ -36,12 +36,28 @@ const crossQuestionReferences=unresolvedPrintedQuestionReferences;
 
 // Optional current-content-checked context from recorded archetype reviews.
 // Missing/stale recorded evidence is a hold, never invented teaching support.
+function recordedMethodSnapshot(map,file,projectId,readJson){
+ if(Object.hasOwn(map,'snapshot')){if(!map.snapshot)throw Error('review snapshot absent');return readJson(map.snapshot);}
+ if(!/^[a-f0-9]{64}$/i.test(map.snapshotSha256??''))throw Error('review snapshot absent');
+ const directory=path.resolve(path.dirname(file));
+ const matching=candidate=>{
+  const resolved=path.resolve(candidate);
+  if(path.dirname(resolved)!==directory||path.extname(resolved)!=='.json')return null;
+  const stat=fs.lstatSync(resolved);if(!stat.isFile()||stat.isSymbolicLink())return null;
+  if(createHash('sha256').update(fs.readFileSync(resolved)).digest('hex')!==map.snapshotSha256.toLowerCase())return null;
+  const snapshot=readJson(resolved);return snapshot.id===projectId?snapshot:null;
+ };
+ const preferred=map.metadataRatingProjection?.projectedSnapshot;
+ if(preferred!==undefined){const snapshot=typeof preferred==='string'&&matching(preferred);if(!snapshot)throw Error('recorded projected snapshot differs');return snapshot;}
+ for(const name of fs.readdirSync(directory)){if(!name.endsWith('.json'))continue;const snapshot=matching(path.join(directory,name));if(snapshot)return snapshot;}
+ throw Error('review snapshot hash not found in map directory');
+}
 export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFileSync(f,'utf8'))}={}){
  const cache=new Map(),edges=[],holds=[],currentBlocks=new Map((project.sections??[]).flatMap(s=>(s.blocks??[]).map(b=>[b.id,b]))),currentOwners=owners(project);
  for(const b of currentBlocks.values()){
   const file=b.classification?.archetypeReview?.mapFile;if(!file)continue;
   try{
-   let record=cache.get(file);if(!record){const map=readJson(file);if(map.projectId!==project.id)throw Error('review project differs');if(!map.snapshot)throw Error('review snapshot absent');const snapshot=readJson(map.snapshot);if(snapshot.id!==project.id)throw Error('snapshot project differs');record={map,snapshot,blocks:new Map(snapshot.sections.flatMap(s=>s.blocks.map(b=>[b.id,b]))),owners:owners(snapshot)};cache.set(file,record);}
+   let record=cache.get(file);if(!record){try{const map=readJson(file);if(map.projectId!==project.id)throw Error('review project differs');const snapshot=recordedMethodSnapshot(map,file,project.id,readJson);if(snapshot.id!==project.id)throw Error('snapshot project differs');record={map,snapshot,blocks:new Map(snapshot.sections.flatMap(s=>s.blocks.map(b=>[b.id,b]))),owners:owners(snapshot)};}catch(error){record={error};}cache.set(file,record);}if(record.error)throw record.error;
    const q=record.map.questions?.[b.id],cluster=record.map.topics?.find(t=>t.topicId===q?.topicId)?.clusters?.find(c=>c.id===q?.archetype);if(!q||!cluster||!record.blocks.has(b.id)||!sameContent(b,record.blocks.get(b.id)))throw Error('reviewed question changed or absent');
    const clusters=record.map.topics.find(t=>t.topicId===q.topicId).clusters.filter(c=>new Set([q.archetype,...(q.practiceItems??[]).map(i=>i.archetype).filter(Boolean)]).has(c.id));
    for(const anchor of [...new Set(clusters.flatMap(c=>[...(c.teachingIds??[]),...(c.exampleIds??[]),...(c.guidedPracticeIds??[]),...(c.practiceEvidenceIds??[])]))]){

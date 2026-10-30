@@ -96,3 +96,43 @@ test('legacy absence still requires exact accepted mathematical hash and classif
 });
 test('CLI rejects overwrite, unknown flags and live outputs before any output write',()=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-score-cli-')),input=path.join(dir,'input.json'),out=path.join(dir,'out.json'),report=path.join(dir,'report.json');fs.writeFileSync(input,JSON.stringify(project([q('a',40),q('b',10)])));fs.writeFileSync(out,'retained');assert.throws(()=>scoreOrderMain(['--candidate',input,'--out',out,'--report',report]),/overwrite/);assert.equal(fs.readFileSync(out,'utf8'),'retained');assert.equal(fs.existsSync(report),false);assert.throws(()=>scoreOrderMain(['--candidate',input,'--out',path.resolve('booklets/projects/score-test.json'),'--report',report]),/live project writes/);assert.throws(()=>scoreOrderMain(['--candidate',input,'--out',path.join(dir,'fresh.json'),'--bogus',report]),/Use --candidate/);});
 test('CLI writes a separate reproducible shadow and report without changing input',()=>{const dir=fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-score-cli-')),input=path.join(dir,'input.json'),out=path.join(dir,'out.json'),report=path.join(dir,'report.json'),raw=JSON.stringify(project([q('a',40),q('b',10)]));fs.writeFileSync(input,raw);const result=scoreOrderMain(['--candidate',input,'--out',out,'--report',report]);assert.equal(result.liveWrites,0);assert.equal(fs.readFileSync(input,'utf8'),raw);assert.deepEqual(ids(JSON.parse(fs.readFileSync(out))),['b','a']);const proof=JSON.parse(fs.readFileSync(report));assert.equal(proof.candidateSha256,createHash('sha256').update(fs.readFileSync(out)).digest('hex'));});
+
+function missingMethodSnapshotFixture(){
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-method-snapshot-')),file=path.join(dir,'map.json'),snapshotFile=path.join(dir,'snapshot.json');
+ const intro={id:'intro',type:'callout',content:'Supplied method.'},a=q('a',40),b=q('b',20);
+ for(const block of [a,b])block.classification.archetypeReview={mapFile:file};
+ const p=project([intro,a,b]),snapshot=structuredClone(p),text=JSON.stringify(snapshot);
+ const map={projectId:'p',snapshotSha256:createHash('sha256').update(text).digest('hex'),questions:{a:{topicId:'t',archetype:'x'},b:{topicId:'t',archetype:'x'}},topics:[{topicId:'t',clusters:[{id:'x',teachingIds:['intro']}]}]};
+ fs.writeFileSync(snapshotFile,text);const save=()=>fs.writeFileSync(file,JSON.stringify(map));save();
+ return{dir,file,snapshotFile,p,snapshot,map,save};
+}
+test('missing recorded snapshot pointer resolves exact same-directory hash once per map',t=>{
+ const f=missingMethodSnapshotFixture();t.after(()=>fs.rmSync(f.dir,{recursive:true,force:true}));
+ const original=fs.readdirSync.bind(fs);let scans=0;t.mock.method(fs,'readdirSync',(...args)=>{scans++;return original(...args);});
+ const result=reviewedMethodSupport(f.p);assert.deepEqual(result.holds,[]);assert.deepEqual(result.edges.map(e=>[e.before,e.after]),[['intro','a'],['intro','b']]);assert.equal(scans,1);
+});
+test('recorded projected snapshot is preferred without scanning and still checks current anchors',t=>{
+ const f=missingMethodSnapshotFixture();t.after(()=>fs.rmSync(f.dir,{recursive:true,force:true}));f.map.metadataRatingProjection={projectedSnapshot:f.snapshotFile};f.save();
+ t.mock.method(fs,'readdirSync',()=>{throw Error('must not scan');});assert.deepEqual(reviewedMethodSupport(f.p).holds,[]);
+ f.p.sections[0].blocks[0].content='Changed method.';assert.equal(reviewedMethodSupport(f.p).holds.length,2);
+});
+test('missing-pointer lookup rejects wrong hash, wrong project and explicit stale pointers',t=>{
+ for(const mutation of ['hash','project','explicit','false','preferred','outside']){
+  const f=missingMethodSnapshotFixture();try{
+   if(mutation==='hash')f.map.snapshotSha256='0'.repeat(64);
+   if(mutation==='project'){f.snapshot.id='other';const text=JSON.stringify(f.snapshot);fs.writeFileSync(f.snapshotFile,text);f.map.snapshotSha256=createHash('sha256').update(text).digest('hex');}
+   if(mutation==='explicit')f.map.snapshot=path.join(f.dir,'missing.json');
+   if(mutation==='false')f.map.snapshot=false;
+   if(mutation==='preferred')f.map.metadataRatingProjection={projectedSnapshot:path.join(f.dir,'missing.json')};
+   if(mutation==='outside')f.map.metadataRatingProjection={projectedSnapshot:path.join(f.dir,'..','snapshot.json')};
+   f.save();assert.equal(reviewedMethodSupport(f.p).holds.length,2,mutation);
+  }finally{fs.rmSync(f.dir,{recursive:true,force:true});}
+ }
+});
+test('snapshot lookup rejects symbolic links and caches unsuccessful lookup per map',t=>{
+ const f=missingMethodSnapshotFixture();t.after(()=>fs.rmSync(f.dir,{recursive:true,force:true}));
+ const original=fs.lstatSync.bind(fs),read=fs.readdirSync.bind(fs);let scans=0;
+ t.mock.method(fs,'lstatSync',file=>path.resolve(file)===f.snapshotFile?{isFile:()=>true,isSymbolicLink:()=>true}:original(file));
+ t.mock.method(fs,'readdirSync',(...args)=>{scans++;return read(...args);});
+ assert.equal(reviewedMethodSupport(f.p).holds.length,2);assert.equal(scans,1);
+});
