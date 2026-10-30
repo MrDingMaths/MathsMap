@@ -39,3 +39,23 @@ export function mathsBaseSource(code) {
   }
   return {provider, paper, year, label, origin:'MathsBase'};
 }
+
+// Approved 28 October source-label calibration. Keep the explicit year/course/
+// term tokens; an unrecognised school or token still needs a mapping decision.
+export function approvedMathsBaseSource(code) {
+  const source = mathsBaseSource(code);
+  if (!source?.needsSchoolMapping) return source;
+  const parts = String(code).trim().split(/\s+/)[0].split('.');
+  const yearIndex = parts.findIndex(part => /^(19|20)\d{2}$/.test(part));
+  const tokens = parts.slice(2, yearIndex);
+  if (!['BHHS', 'PLC'].includes(source.schoolCode) || !tokens.some(token => /^Y\d{1,2}$/.test(token))) return source;
+  const after = parts.slice(yearIndex + 1).filter(token => !/^Q\d/i.test(token));
+  if ([...tokens, ...after].some(token => !/^Y\d{1,2}$|^(?:ADV|STN|STD[12]?|X[12]|T[1-4]|S[12])$/.test(token))) return source;
+  return {
+    provider: source.schoolCode === 'PLC' ? 'PLC' : 'HSC-trial',
+    paper: [source.schoolCode, ...tokens, ...after].join(' '),
+    year: source.year,
+    label: [source.schoolCode, ...tokens, ...after, source.year].join(' '),
+    origin: 'MathsBase',
+  };
+}

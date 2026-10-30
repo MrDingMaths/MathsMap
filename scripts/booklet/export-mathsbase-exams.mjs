@@ -3,20 +3,16 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import vm from 'node:vm';
-import {mathsBaseSource} from '../../src/lib/question-source.js';
+import {approvedMathsBaseSource} from '../../src/lib/question-source.js';
+import {createProgrammeExamSection} from '../../pedagogy/programme-exam.mjs';
 
 export function selectExamCandidates(rows, mapping = {}) {
   const selected = [], held = [], excluded = [], archetypes = new Set();
   for (const row of rows) {
-    let source = mathsBaseSource(row.source);
+    const source = approvedMathsBaseSource(row.source);
     if (!source || !['Development','Mastery','Challenge'].includes(row.difficulty)) {excluded.push({id:row.id, source:row.source, reason:'source or difficulty outside whitelist'}); continue;}
     if (source.needsSchoolMapping) {
-      const school = mapping.schools?.[source.schoolCode];
-      if (!school) {held.push({id:row.id, source:row.source, reason:'school source label needs approval'}); continue;}
-      const schoolName=typeof school==='string'?school:school.name;
-      const yearLevel=source.schoolYear ?? (typeof school==='object'?school.yearLevel:null);
-      if(!schoolName || !yearLevel) {held.push({id:row.id,source:row.source,reason:'trial year level needs approval'});continue;}
-      source = {provider:'HSC-trial', paper:schoolName, year:source.year, label:`${schoolName} ${yearLevel} ${source.year}`, origin:'MathsBase'};
+      held.push({id:row.id, source:row.source, reason:'school source label needs an approved literal mapping'}); continue;
     }
     const assessment = mapping.questions?.[row.id];
     if (!assessment?.skillId || !assessment?.archetype || assessment.routine !== true || assessment.inScope !== true) {
@@ -29,6 +25,29 @@ export function selectExamCandidates(rows, mapping = {}) {
     selected.push({externalId:row.id, source, sourceCode:row.source, skillId:assessment.skillId, archetype:assessment.archetype, question:row.question_text, solution:row.solution_text, difficulty:row.difficulty});
   }
   return {selected, held, excluded};
+}
+
+// Programme-native candidate producer. One-off wrappers may also call the shared
+// section builder directly, but must not replace it with a generic schema check.
+export function buildProgrammeExamSection(rows, mapping, {blocks = [], section = {}} = {}) {
+  const selection = selectExamCandidates(rows, mapping), held = [...selection.held];
+  if (!String(mapping.projectId ?? '').trim()) held.push({reason: 'explicit programme projectId is required'});
+  const selected = new Map(selection.selected.map(row => [row.externalId, row]));
+  const seen = new Set();
+  for (const block of blocks) {
+    if (block.type !== 'question') continue;
+    const origin = block.sourceReview?.origin, row = selected.get(origin?.externalId);
+    if (!row || origin.sourceCode !== row.sourceCode || seen.has(origin.externalId)) {
+      held.push({id: block.id, reason: 'native owner must bind one selected raw source identity and literal source code'});
+      continue;
+    }
+    seen.add(origin.externalId);
+  }
+  for (const row of selection.selected) if (!seen.has(row.externalId)) held.push({id: row.externalId, reason: 'selected raw source has no bound native question owner'});
+  const id = mapping.projectId + '-exam-questions';
+  const result = createProgrammeExamSection({id, topicId: id, title: 'Exam questions', ...section, blocks});
+  held.push(...result.report.held);
+  return {section: held.length ? null : result.section, report: {status: held.length ? 'held' : 'candidate-only', held, selected: selection.selected, excluded: selection.excluded, publication: false}};
 }
 
 export async function readMathsBase({root, subtopicIds, fetcher = fetch}) {
@@ -58,12 +77,18 @@ export async function readMathsBase({root, subtopicIds, fetcher = fetch}) {
 
 async function main() {
   const args = process.argv.slice(2), option = name => args.includes(name) ? args[args.indexOf(name)+1] : undefined;
-  if (!args.includes('--mapping') || !args.includes('--out')) throw Error('Usage: node scripts/booklet/export-mathsbase-exams.mjs --mapping FILE --out DIRECTORY [--input ROWS.json | --mathsbase-root D:/WebApps/MathsDatabase]');
+  if (!args.includes('--mapping') || !args.includes('--out')) throw Error('Usage: node scripts/booklet/export-mathsbase-exams.mjs --mapping FILE --out DIRECTORY [--input ROWS.json | --mathsbase-root D:/WebApps/MathsDatabase] [--native-blocks FILE]');
   const mapping = JSON.parse(await fs.readFile(option('--mapping'), 'utf8'));
   const rows = args.includes('--input') ? JSON.parse(await fs.readFile(option('--input'),'utf8')) : await readMathsBase({root:option('--mathsbase-root') ?? 'D:/WebApps/MathsDatabase', subtopicIds:mapping.subtopicIds ?? []});
   const report = {status:'pilot-approval-required', projectId:mapping.projectId, labelMappingApproved:mapping.labelMappingApproved === true, fetched:rows.length, ...selectExamCandidates(rows,mapping)};
   await fs.mkdir(option('--out'),{recursive:true});
   await fs.writeFile(path.join(option('--out'),'mathsbase-candidates.json'),JSON.stringify({report,rows},null,2)+'\n');
-  console.log(JSON.stringify({status:report.status, fetched:report.fetched,selected:report.selected.length,held:report.held.length,excluded:report.excluded.length}));
+  let programmeExam;
+  if (args.includes('--native-blocks')) {
+    const blocks = JSON.parse(await fs.readFile(option('--native-blocks'), 'utf8'));
+    programmeExam = buildProgrammeExamSection(rows, mapping, {blocks, section: mapping.programmeExamSection});
+    await fs.writeFile(path.join(option('--out'), 'programme-exam-candidate.json'), JSON.stringify(programmeExam, null, 2) + '\n');
+  }
+  console.log(JSON.stringify({status:programmeExam?.report.status ?? report.status, fetched:report.fetched,selected:report.selected.length,held:programmeExam?.report.held.length ?? report.held.length,excluded:report.excluded.length,...(programmeExam ? {sectionCreated: !!programmeExam.section} : {})}));
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main().catch(error=>{console.error(error.message);process.exitCode=1;});
