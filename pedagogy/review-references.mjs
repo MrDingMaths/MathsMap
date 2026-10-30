@@ -8,7 +8,7 @@ const referenceField=/^(?:targets?|targetIds?|blockIds?|ownerIds?|nodeIds?|secti
 
 // A task-local view for pedagogy/order reviews ONLY. Source-fidelity reviews must
 // retain their original source identities and must not use this projection.
-export function projectReviewReferences({project,payload,purpose,proposedOrder}={}){
+export function projectReviewReferences({project,payload,purpose,proposedOrder,compactTargets=false}={}){
  if(purpose==='source-fidelity')return {payload:structuredClone(payload),encode:value=>structuredClone(value),decode:result=>structuredClone(result)};
  if(!['pedagogy-order','practice-order'].includes(purpose))throw Error('Neutral references require a pedagogy/order review purpose');
  if(!project||!Array.isArray(project.sections)||!payload||typeof payload!=='object'||Array.isArray(payload))throw Error('Expected project and JSON object payload');
@@ -151,7 +151,21 @@ export function projectReviewReferences({project,payload,purpose,proposedOrder}=
   if((identityFields.has(key)||referenceField.test(key))&&forward.has(value))return replace(value);
   return reviewerProse.has(key)?replaceProse(value,replace):value;
  };
- return {payload:{...encoded,reviewReferences:walk(referenceContext,encodeText)},encode(value){
+ const encodedReferences=walk(referenceContext,encodeText);
+ // Coverage packets can carry hundreds of targets. Share only repeated field
+ // names and kinds; keep every value and the original catalogue row order.
+ if(compactTargets){
+  const targetSchemas=[],schemas=new Map();
+  encodedReferences.targets=encodedReferences.targets.map(target=>{
+   const fields=Object.keys(target).filter(key=>key!=='kind');
+   const schema={kind:target.kind,fields},key=JSON.stringify(schema);
+   if(!schemas.has(key)){schemas.set(key,targetSchemas.length);targetSchemas.push(schema);}
+   return [schemas.get(key),...fields.map(field=>target[field])];
+  });
+  encodedReferences.targetSchemas=targetSchemas;
+  encodedReferences.note+=' Target rows are [schemaIndex,...values]. Look up targetSchemas[schemaIndex]: kind is shared by that schema; fields lists the column names for the following values in order. The id column is the neutral target reference. Printed labels and traversal positions are in the named columns or inherited through ownerId/sectionId as above. Every value and catalogue row order are retained.';
+ }
+ return {payload:{...encoded,reviewReferences:encodedReferences},encode(value){
   return walk(value,resultEncodeText,(text,key,inContainer)=>{
    encodeValidate(text,key,inContainer);
    if((referenceField.test(key)||(key==='id'&&inContainer))&&!used.has(text))throw Error('Canonical reference outside review scope: '+text);

@@ -33,8 +33,8 @@ const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
 const sha=value=>createHash('sha256').update(value).digest('hex');
 const now=()=>new Date().toISOString();
 const text=value=>typeof value==='string'?value.trim():'';
-const reviewTask=(project,payload,instructions)=>{
- const {payload:view,encode,decode}=projectReviewReferences({project,payload,purpose:'pedagogy-order'});
+const reviewTask=(project,payload,instructions,{compactTargets=false}={})=>{
+ const {payload:view,encode,decode}=projectReviewReferences({project,payload,purpose:'pedagogy-order',compactTargets});
  return {prompt:instructions+'\n\n'+JSON.stringify(view),taskReferences:{encode,decode}};
 };
 const passIdentity=(rows,fallback)=>{
@@ -709,7 +709,7 @@ export function coverageChallengeView({project,all=sequences(project),claims,ski
 // Never cut to fit: over the limit the claims split between topics, and one topic
 // that cannot fit alone is refused.
 export function coverageChallengePackets({project,all=sequences(project),claims,skills=[],limit=LIMITS.coverageCharacters}){
- const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators,prerequisites}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,...reviewTask(project,payload,COVERAGE_CHALLENGE),evidence,locators,prerequisites};};
+ const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators,prerequisites}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,...reviewTask(project,payload,COVERAGE_CHALLENGE,{compactTargets:true}),evidence,locators,prerequisites};};
  const packets=[];let current=[];
  for(const topicId of [...new Set(all.map(sequence=>sequence.topicId))].filter(id=>claims.some(claim=>claim.topicId===id))){
   const next=[...current,topicId];

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {projectReviewReferences} from '../pedagogy/review-references.mjs';
 import {arrangementCatalog,arrangementQuestionBlock} from '../src/lib/booklet-arrangement.js';
 import {flowNumbers,exerciseNumbers} from '../src/lib/booklet-flow.js';
+import {coverageChallengePackets,coverageChallengeView} from '../pedagogy/review.mjs';
 
 function fixture(){
  const question=(id,label,prompt,children=[])=>({id,type:'question',pedagogyRole:'practice',sourceOrder:Number(label),content:{id:id+'-native',type:'question',label,prompt,children}});
@@ -148,4 +149,59 @@ test('task candidate/context IDs and from refs cannot collide with native identi
  assert.deepEqual(p.payload.image,payload.image);assert.equal(p.payload.sourceURL,payload.sourceURL);
  assert.deepEqual(p.decode({findings:[{id:'c1',from:['c1','q1'],targets:[a.id,b.id]}]}),{findings:[{id:'c1',from:['c1','q1'],targets:['c1','q1']}]});
  assert.throws(()=>projectReviewReferences({project,payload:{candidates:[{id:'c1',targets:['unknown']}]},purpose:'pedagogy-order'}),/Unknown canonical reference/);
+});
+
+function expandTargetRows(context){
+ return context.targets.map(([schemaIndex,...values])=>{
+  const {kind,fields}=context.targetSchemas[schemaIndex];
+  const target=Object.fromEntries(fields.map((field,index)=>[field,values[index]]));
+  return {id:target.id,kind,...Object.fromEntries(Object.entries(target).filter(([field])=>field!=='id'))};
+ });
+}
+
+test('compact target schemas round-trip every field, label and traversal row without changing evidence',()=>{
+ const project=fixture(),payload={practice:structuredClone(project.sections[0].blocks)},before=structuredClone({project,payload});
+ const options={project,payload,purpose:'pedagogy-order',proposedOrder:['p7-q5','p7-q6']};
+ const ordinary=projectReviewReferences(options),compact=projectReviewReferences({...options,compactTargets:true});
+ const {reviewReferences:normalContext,...normalEvidence}=ordinary.payload;
+ const {reviewReferences:compactContext,...compactEvidence}=compact.payload;
+ assert.deepEqual(compactEvidence,normalEvidence);
+ assert.deepEqual(expandTargetRows(compactContext),normalContext.targets);
+ for(const key of ['originalOrder','proposedOrder','dependencies','literalReferences','referenceHolds'])assert.deepEqual(compactContext[key],normalContext[key]);
+ assert(compactContext.targetSchemas.every(schema=>typeof schema.kind==='string'&&schema.fields[0]==='id'&&!schema.fields.includes('kind')));
+ assert.match(compactContext.note,/targetSchemas\[schemaIndex\]/);
+ assert.match(compactContext.note,/Printed labels and traversal positions/);
+ assert.match(compactContext.note,/ownerId\/sectionId/);
+ const targets=expandTargetRows(compactContext),owner=compact.payload.practice[0];
+ assert.equal(targets.find(row=>row.id===owner.id).displayNumber,1);
+ assert.deepEqual(targets.find(row=>row.id===owner.content.children[0].id).partLabels,['a']);
+ assert.deepEqual({project,payload},before);
+});
+
+test('compact catalogue preserves result decoding and rejects unknown or unexposed references',()=>{
+ const project=fixture(),payload={practice:structuredClone(project.sections[0].blocks)};
+ const ordinary=projectReviewReferences({project,payload,purpose:'pedagogy-order'});
+ const compact=projectReviewReferences({project,payload,purpose:'pedagogy-order',compactTargets:true});
+ const canonical={findings:[{id:'f1',targets:['p7-q5'],reason:'p7-q5 follows p7-q6'}],practiceItems:{'p7-q6':[{nodeIds:['p7-q6-a']}]}};
+ assert.deepEqual(compact.encode(canonical),ordinary.encode(canonical));
+ assert.deepEqual(compact.decode(compact.encode(canonical)),canonical);
+ for(const result of [{targets:['ref9999']},{targets:['p7-q5']},{nodeIds:['made-up']},{reason:'Compare ref9999.'}])assert.throws(()=>compact.decode(result),/reference/);
+ const narrow=projectReviewReferences({project,payload:{practice:[{id:'p7-q6',content:{prompt:'Find x.'}}]},purpose:'pedagogy-order',compactTargets:true});
+ assert.throws(()=>narrow.decode({targets:[compact.payload.practice[1].id]}),/reference/);
+ const fidelity=projectReviewReferences({project,payload,purpose:'source-fidelity',compactTargets:true});
+ assert.deepEqual(fidelity.payload,payload);
+ assert.equal(fidelity.payload.reviewReferences,undefined);
+});
+
+test('coverage packets opt into readable target tables without changing their evidence or output bindings',()=>{
+ const project=fixture(),claims=[{topicId:'similar-triangles',id:'same-method',coverage:'bridge',questionIds:['p7-q6'],teachingIds:[],rationale:'Check the supplied method.'}];
+ const view=coverageChallengeView({project,claims,skills:[]});
+ const ordinary=projectReviewReferences({project,payload:view.payload,purpose:'pedagogy-order'});
+ const [packet]=coverageChallengePackets({project,claims,skills:[]});
+ const payload=JSON.parse(packet.prompt.slice(packet.prompt.indexOf('\n\n{')+2));
+ assert.deepEqual(expandTargetRows(payload.reviewReferences),ordinary.payload.reviewReferences.targets);
+ for(const key of Object.keys(ordinary.payload).filter(key=>key!=='reviewReferences'))assert.deepEqual(payload[key],ordinary.payload[key]);
+ const canonical={verdicts:[{topicId:'similar-triangles',clusterId:'same-method',teachingIds:[],practiceEvidenceIds:['p7-q6']}],newStudentContent:0};
+ assert.deepEqual(packet.taskReferences.decode(packet.taskReferences.encode(canonical)),canonical);
+ assert.throws(()=>packet.taskReferences.decode({questionIds:['ref9999']}),/reference/);
 });
