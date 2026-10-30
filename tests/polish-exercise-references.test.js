@@ -10,7 +10,7 @@ import {paginateFlow} from '../src/lib/booklet-pagination.js';
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {assessedRating,verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 import {difficultyBandForScore} from '../src/lib/practice-question-model.js';
-import {resolveExerciseReferences,renumberExerciseReferences,verifyReferenceNumberAdaptation,reuseReferenceNumberRating} from '../polish/exercise-references.mjs';
+import {resolveExerciseReferences,renumberExerciseReferences,verifyReferenceNumberAdaptation,reuseReferenceNumberRating,unresolvedPrintedQuestionReferences} from '../polish/exercise-references.mjs';
 import {planScoreOrder,scoreOrderCandidate} from '../polish/score-order.mjs';
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'reference-fixture-'));
 after(()=>fs.rmSync(dir,{recursive:true,force:true}));
@@ -65,6 +65,35 @@ test('own-child introduction never hides a childless or same-field external refe
  const p=fixture();p.sections[0].blocks[0].content.prompt='Answer the following questions.';assert(resolveExerciseReferences(p).holds.some(h=>h.id==='stable-q1'));
  const q=fixture();q.sections[0].blocks[0].content.prompt='Answer the following questions.';q.sections[0].blocks[0].content.children=[{id:'own-a',type:'part',prompt:'Calculate 2+2.'}];assert(!resolveExerciseReferences(q).holds.some(h=>h.id==='stable-q1'));
  q.sections[0].blocks[0].content.prompt+=' Use Example 99.';assert(resolveExerciseReferences(q).holds.some(h=>h.id==='stable-q1'));
+});
+
+test('terminal own-child introductions allow preceding givens without altering their source text',()=>{
+ for(const prompt of ['Refer to the diagram to answer the following questions.','$M$ is 50 km north of $O$.\nAnswer the following questions to the nearest kilometre.']){
+  const p=fixture(),q=p.sections[0].blocks[0];q.content.prompt=prompt;
+  q.content.children=[{id:'own-a',type:'part',prompt:'Find the length.'},{id:'own-b',type:'part',prompt:'Find the angle.'}];
+  const before=JSON.stringify(p);
+  assert(!resolveExerciseReferences(p).holds.some(h=>h.id===q.id));
+  assert.deepEqual(unresolvedPrintedQuestionReferences(q),[]);
+  assert.equal(JSON.stringify(p),before);
+ }
+});
+
+test('an own-child span never conceals another question reference or nonterminal introduction',()=>{
+ for(const prompt of ['Use the next question to calculate this result.','Given the model, answer the following questions. Use the next question.']){
+  const p=fixture(),q=p.sections[0].blocks[0];q.content.prompt=prompt;q.content.children=[{id:'own-a',type:'part',prompt:'Calculate.'}];
+  assert(resolveExerciseReferences(p).holds.some(h=>h.id===q.id&&h.kind==='unresolved-relative-or-cross-scope-reference'));
+ }
+ const p=fixture(),q=p.sections[0].blocks[0];q.content.prompt='Given the model, answer the following questions for Question 11.';
+ q.content.children=[{id:'own-a',type:'part',prompt:'Use Question 11.'}];
+ const result=resolveExerciseReferences(p);
+ assert.equal(result.records.filter(r=>r.ownerId===q.id&&r.targetId==='stable-q11').length,2);
+ q.content.children[0].prompt='Use the next question.';
+ assert(resolveExerciseReferences(p).holds.some(h=>h.id===q.id&&h.field.includes('children')));
+ q.content.prompt='Answer the following questions.';q.content.children=[{id:'not-an-ask',type:'paragraph',inlines:[{type:'text',text:'Description.'}]}];
+ assert(resolveExerciseReferences(p).holds.some(h=>h.id===q.id));
+ q.content.children=[{id:'own-a',type:'part',prompt:'Calculate.'}];
+ q.content.prompt={format:'maths-editor-document-v1',blocks:[{type:'paragraph',inlines:[{type:'text',text:'Answer the following questions.'}]},{type:'paragraph',inlines:[{type:'text',text:'A later separate instruction.'}]}]};
+ assert(resolveExerciseReferences(p).holds.some(h=>h.id===q.id),'Only the last prompt field can introduce the native parts');
 });
 test('ranges, lists, decimal and page-qualified references hold without partially rewriting',()=>{
  for(const text of['Question 11–13','Question 11 and 12','Question11and12','Question 11, 12','Question 11, and 12','Q11.5','Question 11 on page 12']){
@@ -152,4 +181,25 @@ test('only exact generated nonprinting colour metadata whole lines are ignored',
  const q=p.sections[0].blocks[0];q.content.questionDiagrams=[{code:metadata+'\n\\draw (0,0)--(1,1);'}];const raw=q.content.questionDiagrams[0].code;
  assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.equal(q.content.questionDiagrams[0].code,raw);
  for(const code of [metadata+'\n\\node at (0,0) {Question 11};',metadata+'\\node at (0,0) {Question 11};','\\special{dvisvgm:raw <text>Question 11</text>}','\\special{dvisvgm:raw <metadata data-diagram-colours="1" other="Question 11"/>}']){q.content.questionDiagrams[0].code=code;assert.ok(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-native-code-reference'));assert.equal(q.content.questionDiagrams[0].code,code);}
+});
+
+test('known SVG source metadata with or without a palette never becomes a printable reference',()=>{
+ for(const palette of [' data-graph-source-palette="056FDB,478FD6"','']){
+  const p=fixture(),q=p.sections[0].blocks[0];
+  const metadata='\\special{dvisvgm:raw <metadata data-graph-strokes="1"'+palette+' data-graph-source-reference="PDF page 4, Q1a"/>}';
+  q.content.questionDiagrams=[{format:'tikz',code:metadata+'\n\\draw (0,0)--(1,1);'}];
+  const before=JSON.stringify(p);
+  assert.deepEqual(resolveExerciseReferences(p).holds,[]);
+  assert.deepEqual(unresolvedPrintedQuestionReferences(q),[]);
+  assert.equal(JSON.stringify(p),before);
+ }
+});
+
+test('visible or unknown native-code references remain held beside known SVG source metadata',()=>{
+ const p=fixture(),q=p.sections[0].blocks[0],metadata='\\special{dvisvgm:raw <metadata data-graph-strokes="1" data-graph-source-reference="PDF page 4, Q1a"/>}';
+ for(const code of [metadata+'\n\\node {Question 11};',metadata+'\\node {Question 11};','\\special{dvisvgm:raw <text>Question 11</text>}','\\special{dvisvgm:raw <metadata data-graph-strokes="1" other="Question 11"/>}','\\special{dvisvgm:raw <metadata data-graph-strokes="1" data-graph-source-reference="Q1" extra="unknown"/>}']){
+  q.content.questionDiagrams=[{format:'tikz',code}];
+  assert(resolveExerciseReferences(p).holds.some(h=>h.id===q.id&&h.kind==='unsupported-native-code-reference'));
+  assert.equal(q.content.questionDiagrams[0].code,code);
+ }
 });

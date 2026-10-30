@@ -18,6 +18,7 @@ const ROOTS=new Set(['content','prompt','answer','examples','theorySolution','ex
 const MATH_TOKEN_REFERENCE=/\b(?:questions?|Q)\s*(?:\$\$?|\\\()\s*\d+/gi;
 // Exact nonprinting whole-line marker emitted by applyDiagramColourPolicy.
 const GENERATED_COLOUR_METADATA=/^\s*\\special\{dvisvgm:raw <metadata data-diagram-colours="1" data-diagram-kind="(?:geometry|graph)" data-diagram-base="[^"<>\r\n]*" data-diagram-semantic-palette="[^"<>\r\n]*" data-diagram-semantic-reference="[^"<>\r\n]*" data-diagram-semantic-reasons="[^"<>\r\n]*"\/>\}\s*$/;
+const GENERATED_SOURCE_METADATA=/^\s*\\special\{dvisvgm:raw <metadata data-graph-strokes="1"(?: data-graph-source-palette="[^"<>\r\n]*")? data-graph-source-reference="[^"<>\r\n]*"\/>\}\s*$/;
 const NUMBERED=/\b(?:Question|Q)\s*\.?\s*(\d{1,3})\b/gi;
 const AMBIGUOUS_NUMBERED=/\b(?:Questions?|Q)\s*\.?\s*\d{1,3}(?:\s*(?:[–—-]|,\s*(?:(?:and|or)\s*)?|and\s*|or\s*|&\s*)\d|\.\d|\s+(?:on|from|of)\s+page\s*\d)/gi;
 const UNSUPPORTED=/\b(?:questions\s*\d|exercises?\s*\d|examples?\s*\d)|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/gi;
@@ -48,7 +49,7 @@ export function printedReferenceFields(block){
   for(const[k,x]of Object.entries(v)){
    if(OMIT.has(k)||k==='inlines')continue;
    if(k==='code'){
-    const printedCode=typeof x==='string'?x.split('\n').filter(line=>!line.startsWith(DIAGRAM_COLOUR_PREFIX)&&!GENERATED_COLOUR_METADATA.test(line)).join('\n'):x;
+    const printedCode=typeof x==='string'?x.split('\n').filter(line=>!line.startsWith(DIAGRAM_COLOUR_PREFIX)&&!GENERATED_COLOUR_METADATA.test(line)&&!GENERATED_SOURCE_METADATA.test(line)).join('\n'):x;
     if(typeof printedCode==='string'&&/\b(?:Question|Q)\s*\.?\s*\d|\bas above\b/i.test(printedCode))fields.push({key:JSON.stringify([...path,k]),text:x,parts:[],unsupportedCode:true});
     continue;
    }
@@ -65,12 +66,24 @@ export function printedReferenceFields(block){
  }
  return fields;
 }
+// A terminal introduction to actual native parts refers to this owner's asks.
+// Only its own span is ignored for scanning; all other prose/digit offsets stay.
+function referenceScanText(block,field,fields){
+ const nativeQuestions=children=>Array.isArray(children)&&children.some(child=>['question','part'].includes(child?.type)||child?.type==='group'&&nativeQuestions(child.children));
+ const isPrompt=row=>{const path=JSON.parse(row.key);return path[0]==='content'&&path[1]==='prompt';};
+ if(!isPrompt(field)||!nativeQuestions(block.content?.children)||fields.filter(isPrompt).at(-1)?.key!==field.key)return field.text;
+ const intro=[...field.text.matchAll(/\banswer\s+the\s+following\s+questions\b/gi)].at(-1);
+ if(!intro)return field.text;
+ const tail=field.text.slice(intro.index+intro[0].length);
+ if(!/^\s*[.:]?\s*$/.test(tail)&&!/^\s+(?:for|using|to|correct\s+to)\b/i.test(tail))return field.text;
+ return field.text.slice(0,intro.index)+field.text.slice(intro.index+intro[0].length);
+}
 // Direct callers without a pinned resolution remain held-safe for every known
 // printed field, including shorthand Qn, native inline runs and answer prose.
 export function unresolvedPrintedQuestionReferences(block){
- return printedReferenceFields(block).filter(field=>{
-  const p=JSON.parse(field.key),ownIntro=block.content?.children?.length&&p[0]==='content'&&p[1]==='prompt';
-  const text=ownIntro?field.text.replace(/^\s*Answer\s+the\s+following\s+questions\b/i,''):field.text;
+ const fields=printedReferenceFields(block);
+ return fields.filter(field=>{
+  const text=referenceScanText(block,field,fields);
   return hasNumericMathReference(text)||/\b(?:questions?|Q|exercises?|examples?)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier)\s+(?:question|exercise|example)|\b(?:result|answer|method|graph|table|diagram|figure)\s+(?:as\s+)?(?:above|below)|\bas above\b/i.test(text);
  }).map(field=>field.text);
 }
@@ -84,9 +97,9 @@ export function resolveExerciseReferences(project){
  // Unsupported teacher references can still address sortable practice targets.
  for(const section of project.sections??[])for(const block of section.blocks??[])if(!isPractice(block))for(const text of unresolvedPrintedQuestionReferences(block))holds.push({id:block.id,kind:'unsupported-nonpractice-printed-reference',text});
  for(const {block,section}of rows){
-  for(const field of printedReferenceFields(block)){
-   const fieldPath=JSON.parse(field.key),ownChildIntro=block.content?.children?.length&&fieldPath[0]==='content'&&fieldPath[1]==='prompt';
-   const unsupported=ownChildIntro?field.text.replace(/^\s*Answer\s+the\s+following\s+questions\b/i,''):field.text;
+  const fields=printedReferenceFields(block);
+  for(const field of fields){
+   const fieldPath=JSON.parse(field.key),unsupported=referenceScanText(block,field,fields);
    if(field.unsupportedVisibleAtom&&unresolvedPrintedQuestionReferences(block).includes(field.text)){holds.push({id:block.id,kind:'unsupported-visible-atom-reference',field:field.key});continue;}
    if(field.unsupportedCode){holds.push({id:block.id,kind:'unsupported-native-code-reference',field:field.key});continue;}
    if(hasNumericMathReference(field.text)){holds.push({id:block.id,kind:'unsupported-math-token-reference',field:field.key});continue;}
