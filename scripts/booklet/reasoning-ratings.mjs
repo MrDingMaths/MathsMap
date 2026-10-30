@@ -88,7 +88,48 @@ function pinnedJson(artifact){
  const bytes=fs.readFileSync(artifact.path);if(createHash('sha256').update(bytes).digest('hex')!==artifact.sha256)throw Error('Diagram evidence changed');return JSON.parse(bytes);
 }
 const valueAt=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
-function diagramReuseProof(target,artifact){
+const ratingKeys=['reasoningScore','difficulty','difficultyReason','assessment'];
+const withoutRating=block=>{const copy=structuredClone(block);for(const key of ratingKeys)delete copy.classification?.[key];return copy;};
+function diagramAdditionalAdaptations(source,target,proof,inverse,seen,{checkImages}){
+ if(proof.additionalAdaptations===undefined)return;
+ if(!Array.isArray(proof.additionalAdaptations)||!proof.additionalAdaptations.length||!Array.isArray(proof.targetArtifact?.blockPath))throw Error('Invalid additional diagram adaptations');
+ const originalTarget=valueAt(pinnedJson(proof.targetArtifact),proof.targetArtifact.blockPath);
+ if(source.id!==target.id||originalTarget?.id!==target.id||!isDeepStrictEqual(withoutRating(originalTarget),withoutRating(target)))throw Error('Changed current diagram snapshot');
+ if(!isDeepStrictEqual(originalTarget.classification?.assessment,source.classification.assessment))throw Error('Changed pinned original assessment');
+ for(const key of ratingKeys.slice(0,3))if(source.classification[key]!==target.classification[key]||source.classification[key]!==originalTarget.classification[key])throw Error('Changed original rating');
+ const metadata=new Set(['classification/archetype','classification/archetypeReview','sourceReview/origin','sourceReview/feedbackRepair','bankRef/revision','flow/bankDifficulty/revision']);
+ for(const change of proof.additionalAdaptations){
+  const parts=change.path;
+  if(!Array.isArray(parts)||parts.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)))throw Error('Invalid additional adaptation path');
+  if(seen.some(p=>p.every((k,i)=>parts[i]===k)||parts.every((k,i)=>p[i]===k)))throw Error('Overlapping diagram paths');seen.push(parts);
+  const key=parts.join('/'),isMetadata=metadata.has(key);
+  const parent=valueAt(target,parts.slice(0,-1)),last=parts.at(-1);
+  const isRows=parts[0]==='content'&&last==='rowHeights'&&parent?.type==='table';
+  const isWidth=parts.length===5&&parts.slice(0,3).join('/')==='presentation/layoutOverrides/blockLayouts'&&last==='diagramWidthMm'&&typeof parts[3]==='string';
+  if(change.kind!==(isMetadata?'metadata':'presentation')||!isMetadata&&!isRows&&!isWidth)throw Error('Unsupported additional adaptation');
+  if(key==='bankRef/revision'||key==='flow/bankDifficulty/revision'){
+   const a=valueAt(source,parts.slice(0,-1)),b=valueAt(target,parts.slice(0,-1));
+   if(!a||!b||!isDeepStrictEqual({...a,revision:null},{...b,revision:null})||key==='bankRef/revision'&&(typeof a.id!=='string'||!a.id.trim()))throw Error('Bank identity changed');
+  }
+  const before=valueAt(source,parts),after=valueAt(target,parts);
+  if(change.beforeSha256!==objectHash({value:before})||change.afterSha256!==objectHash({value:after})||isDeepStrictEqual(before,after))throw Error('Additional adaptation changed');
+  if(!isMetadata){
+   if(isRows&&(!Array.isArray(before)||!Array.isArray(after)||before.length!==after.length||![...before,...after].every(n=>Number.isFinite(n)&&n>0)))throw Error('Invalid row-height adaptation');
+   if(isWidth&&![before,after].every(n=>Number.isFinite(n)&&n>0))throw Error('Invalid diagram-width adaptation');
+   const visual=pinnedJson(change.visualEvidence);
+   if(visual.accepted!==true||visual.sourceTaskHash!==proof.sourceTaskHash||visual.targetTaskHash!==proof.targetTaskHash||!isDeepStrictEqual(visual.adaptationPath,parts)||typeof visual.reason!=='string'||!visual.reason.trim()||!Array.isArray(visual.images)||!visual.images.length)throw Error('Missing adaptation visual review');
+   for(const image of visual.images)if(typeof image.path!=='string'||!/^[a-f0-9]{64}$/.test(image.sha256??'')||checkImages&&fileHash(image.path)!==image.sha256)throw Error('Adaptation visual image changed');
+  }
+  const inverseParent=valueAt(inverse,parts.slice(0,-1));
+  if(!inverseParent)throw Error('Missing inverse adaptation parent');
+  if(Object.hasOwn(valueAt(source,parts.slice(0,-1))??{},last))inverseParent[last]=structuredClone(before);else delete inverseParent[last];
+ }
+ // Assessment rebinding is validated separately; every other original field
+ // must return exactly to the actual pinned source, never a synthetic source.
+ for(const key of ratingKeys)inverse.classification[key]=structuredClone(source.classification[key]);
+ if(!isDeepStrictEqual(inverse,source))throw Error('Additional adaptation whole-block inverse failed');
+}
+function diagramReuseProof(target,artifact,{checkImages=false}={}){
  const proof=pinnedJson(artifact);
  if(proof.kind!=='diagram-presentation-only-v1'||!Array.isArray(proof.sourceArtifact?.blockPath)||!Array.isArray(proof.changes)||!proof.changes.length)throw Error('Invalid diagram-only proof');
  const source=valueAt(pinnedJson(proof.sourceArtifact),proof.sourceArtifact.blockPath);
@@ -108,6 +149,7 @@ function diagramReuseProof(target,artifact){
   if(!isDeepStrictEqual(before.mathematicalModel,after.mathematicalModel))throw Error('Diagram mathematical model changed');
   valueAt(inverse,parts.slice(0,-1))[parts.at(-1)]=structuredClone(before);
  }
+ diagramAdditionalAdaptations(source,target,proof,inverse,seen,{checkImages});
  // Recheck posed task, answers and supplied scaffolding even on bank copies,
  // whose placement metadata and native IDs can legitimately differ.
  if(reasoningTaskHash(inverse)!==proof.sourceTaskHash)throw Error('Non-diagram task changed');
@@ -131,7 +173,7 @@ function validDiagramPresentationReuse(block,rating){
 // relationship/multiplicity invariants and actual visual evidence at creation.
 export function reuseDiagramPresentationRating(source,target,{proofArtifact,confirmEquivalent}={}){
  if(typeof confirmEquivalent!=='function')throw Error('Coordinator diagram-equivalence review required');
- const checked=diagramReuseProof(target,proofArtifact);
+ const checked=diagramReuseProof(target,proofArtifact,{checkImages:true});
  if(!isDeepStrictEqual(checked.source,source)||source.id!==target.id||!isDeepStrictEqual(checked.inverse,source))throw Error('Diagram-only whole-block inverse failed');
  if(confirmEquivalent(structuredClone({source,target,proof:checked.proof,semanticEvidence:checked.semantic,visualEvidence:checked.visual}))!==true)throw Error('Diagram equivalence not confirmed');
  return{reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedDiagramAssessment(source,target,proofArtifact)};

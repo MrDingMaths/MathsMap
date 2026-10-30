@@ -60,3 +60,38 @@ test('readback rejects mutated evidence, images, history, score or task',t=>{
   const f=fixture(t),rating=reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true});f.after.classification={...f.after.classification,...rating};mutate(f);assert.equal(verifiedRating(f.after),false);
  }
 });
+
+function extraFixture(t,{layout=false}={}){
+ const f=fixture(t);
+ f.before.bankRef={id:'bank-one',revision:'old'};f.after.bankRef={id:'bank-one',revision:'new'};
+ f.after.classification.archetype='corresponding';
+ if(layout){f.before.presentation={layoutOverrides:{blockLayouts:{given:{diagramWidthMm:70}}}};f.after.presentation={layoutOverrides:{blockLayouts:{given:{diagramWidthMm:80}}}};}
+ f.proof.sourceArtifact={...f.write('before.json',{sections:[{blocks:[f.before]}]}),blockPath:['sections',0,'blocks',0]};
+ const at=(v,p)=>p.reduce((v,k)=>v?.[k],v);
+ const add=(path,kind)=>({path,kind,beforeSha256:objectHash({value:at(f.before,path)}),afterSha256:objectHash({value:at(f.after,path)})});
+ f.proof.additionalAdaptations=[add(['bankRef','revision'],'metadata'),add(['classification','archetype'],'metadata')];
+ if(layout){const p=['presentation','layoutOverrides','blockLayouts','given','diagramWidthMm'];f.proof.additionalAdaptations.push({...add(p,'presentation'),visualEvidence:f.write('layout-visual.json',{...f.visual,adaptationPath:p,reason:'Actual final-size view retains labels and writing space.'})});}
+ f.pinTarget=()=>{f.proof.targetArtifact={...f.write('target.json',{sections:[{blocks:[f.after]}]}),blockPath:['sections',0,'blocks',0]};};f.pinTarget();return f;
+}
+test('opt-in metadata and separately reviewed layout retain original rating and persisted lineage',t=>{
+ for(const layout of [false,true]){const f=extraFixture(t,{layout});const rating=reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:e=>{assert(e.proof.additionalAdaptations.length>=2);return true;}});f.after.classification={...f.after.classification,...rating};assert(verifiedRating(f.after));assert.equal(f.after.bankRef.revision,'new');assert.equal(f.after.classification.archetype,'corresponding');}
+});
+test('additional route rejects unknown paths, changed bank identity, stale current snapshots and skill changes',t=>{
+ for(const mutate of [f=>{f.proof.additionalAdaptations[0].path=['content','prompt'];},f=>{f.after.bankRef.id='another';f.pinTarget();},f=>{f.after.sourceReview={unexpected:true};},f=>{f.after.classification.primarySkillId='another';f.pinTarget();},f=>{f.after.classification.reasoningScore=19;f.pinTarget();}]){const f=extraFixture(t);mutate(f);assert.throws(()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true}));}
+});
+test('layout adaptation requires its own actual visual evidence and matching path',t=>{
+ for(const mutate of [f=>{delete f.proof.additionalAdaptations[2].visualEvidence;},f=>{f.proof.additionalAdaptations[2].visualEvidence=f.proof.visualEvidence;},f=>{fs.appendFileSync(f.imageFile,'changed');}]){const f=extraFixture(t,{layout:true});mutate(f);assert.throws(()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true}));}
+});
+test('opt-in metadata cannot conceal changed prompt, answer, scaffold or diagram mathematical model',t=>{
+ for(const mutate of [b=>{b.content.prompt+=' Prove it.';},b=>{b.content.answer.short='50';},b=>{b.content.children=[{id:'step',prompt:'Use this hint.'}];},b=>{b.content.questionDiagrams[0].mathematicalModel={angle:50};}]){const f=extraFixture(t);mutate(f.after);f.pinTarget();assert.throws(()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true}));}
+});
+test('native table row-height reuse needs exact positive dimensions and per-table visual coverage',t=>{
+ for(const valid of [true,false]){
+  const f=extraFixture(t);f.before.content.responseTable={id:'table',type:'table',rows:[['given'],['answer']],rowHeights:[12,12]};f.after.content.responseTable=structuredClone(f.before.content.responseTable);f.after.content.responseTable.rowHeights=valid?[8,8]:[8,0];
+  f.before.classification={...f.before.classification,...assessedRating(f.before,f.before.classification,f.before.classification.assessment)};f.after.classification={...f.before.classification,archetype:'corresponding'};
+  f.proof.sourceTaskHash=reasoningTaskHash(f.before);f.proof.targetTaskHash=reasoningTaskHash(f.after);for(const evidence of [f.semantic,f.visual]){evidence.sourceTaskHash=f.proof.sourceTaskHash;evidence.targetTaskHash=f.proof.targetTaskHash;}
+  f.proof.semanticEvidence=f.write('semantic.json',f.semantic);f.proof.visualEvidence=f.write('visual.json',f.visual);f.proof.sourceArtifact={...f.write('before.json',{sections:[{blocks:[f.before]}]}),blockPath:['sections',0,'blocks',0]};f.pinTarget();
+  const p=['content','responseTable','rowHeights'];f.proof.additionalAdaptations.push({path:p,kind:'presentation',beforeSha256:objectHash({value:[12,12]}),afterSha256:objectHash({value:f.after.content.responseTable.rowHeights}),visualEvidence:f.write('rows-visual.json',{...f.visual,adaptationPath:p,reason:'Actual table retains all givens and adequate response space.'})});
+  const reuse=()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true});if(valid){f.after.classification={...f.after.classification,...reuse()};assert(verifiedRating(f.after));}else assert.throws(reuse,/row-height/);
+ }
+});
