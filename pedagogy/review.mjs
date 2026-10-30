@@ -688,28 +688,53 @@ export const coverageClaims=map=>(map.topics??[]).flatMap(topic=>(topic.clusters
 // A challenger must be able to disprove a claim, so claimed topics keep their whole
 // practice: replay of retained verdicts lost cited evidence when it was narrowed to
 // the blocks a claim names. Every block travels once.
-export function coverageChallengeView({project,all=sequences(project),claims,skills=[]}){
+export function coverageChallengeView({project,all=sequences(project),claims,skills=[],needsTopics=[]}){
  const numbering=numberingFor(project);
  const claimed=new Set(all.flatMap((sequence,i)=>claims.some(claim=>claim.topicId===sequence.topicId)?[i]:[]));
  if(!claimed.size)throw Error('No claim belongs to a topic of this booklet');
+ if(!Array.isArray(needsTopics)||needsTopics.some(id=>typeof id!=='string'||!id)||new Set(needsTopics).size!==needsTopics.length)throw Error('needsTopics must contain unique native topic IDs');
  const last=Math.max(...claimed),seen=new Set(),once=block=>!seen.has(block.id)&&seen.add(block.id);
+ const forced=new Set();
+ for(const topicId of needsTopics){
+  const indices=all.flatMap((sequence,i)=>sequence.topicId===topicId?[i]:[]);
+  if(!indices.length)throw Error('Unknown needsTopics topic: '+topicId);
+  if(indices.some(i=>i>last))throw Error('Future needsTopics topic is unsupported earlier context: '+topicId);
+  for(const i of indices)if(!claimed.has(i))forced.add(i);
+ }
  const teaching=[...claimed].map(i=>({topic:all[i].id,title:all[i].title,sections:instructionalSections(all[i]).map(section=>({title:section.title??null,blocks:section.blocks.filter(once).map(block=>compactBlock(block,section,numbering))}))}));
- const surrounding=surroundingTeaching(all,claimed,last,LIMITS.practiceOnlyEarlierCharacters,numbering),practice=[],outline=[];
+ const practice=[],outline=[],earlierPractice=[];let surrounding;
+ if(needsTopics.length){
+  // Requested whole topics are mandatory. They consume the earlier-context
+  // budget first; unrequested teaching remains explicitly locatable when omitted.
+  const required=[...forced].map(i=>({topic:all[i].id,title:all[i].title,sections:instructionalSections(all[i]).map(section=>({title:section.title??null,blocks:section.blocks.filter(once).map(block=>compactBlock(block,section,numbering))}))}));
+  for(const i of forced)for(const section of all[i].sections.filter(section=>section.phase==='practice'))for(const block of (section.blocks??[]).filter(once))earlierPractice.push({topic:all[i].id,...compactBlock(block,section,numbering)});
+  const mandatoryCharacters=required.reduce((n,row)=>n+JSON.stringify(row).length,0)+JSON.stringify(earlierPractice).length;
+  surrounding=surroundingTeaching(all,new Set([...claimed,...forced]),last,Math.max(0,LIMITS.practiceOnlyEarlierCharacters-mandatoryCharacters),numbering);
+  const full=new Map([...surrounding.full,...required].map(row=>[row.topic,row]));
+  surrounding.full=all.filter(sequence=>full.has(sequence.id)).map(sequence=>{
+   const row=full.get(sequence.id);
+   return forced.has(all.indexOf(sequence))?row:{...row,sections:row.sections.map(section=>({...section,blocks:section.blocks.filter(once)}))};
+  });
+ }else surrounding=surroundingTeaching(all,claimed,last,LIMITS.practiceOnlyEarlierCharacters,numbering);
  all.forEach((sequence,i)=>{
   for(const section of sequence.sections.filter(section=>section.phase==='practice'))for(const block of (section.blocks??[]).filter(once)){
    if(claimed.has(i))practice.push({topic:sequence.id,...compactBlock(block,section,numbering)});
+   else if(forced.has(i))earlierPractice.push({topic:sequence.id,...compactBlock(block,section,numbering)});
    else if(i<=last)outline.push({topic:sequence.id,...locator(block,section)});
   }
  });
  const owners=new Map(all.flatMap(sequence=>[...visibleIds(sequence)])),named=new Set(claims.flatMap(claim=>['questionIds',...COVERAGE_CITATIONS].flatMap(field=>(claim[field]??[]).map(id=>owners.get(id)??id))));
- const payload={booklet:project.title,numbering:NUMBERING_NOTE,courseId:project.library?.courseId??null,claims,comments:openComments(project,named),teaching,earlierTeaching:surrounding.full,digests:surrounding.digests,practice,outline,skills:[...claimed].flatMap(i=>skillFacts(all,i,skills))};
- const evidence=idsIn([teaching,surrounding.full,practice]),locators=new Set([...idsIn([surrounding.digests,outline])].filter(id=>!evidence.has(id)));
+ const payload={booklet:project.title,numbering:NUMBERING_NOTE,courseId:project.library?.courseId??null,claims,comments:openComments(project,named),teaching,earlierTeaching:surrounding.full,digests:surrounding.digests,practice,...(needsTopics.length?{earlierPractice}:{}),outline,skills:[...claimed].flatMap(i=>skillFacts(all,i,skills))};
+ const evidence=idsIn([teaching,surrounding.full,practice,earlierPractice]),locators=new Set([...idsIn([surrounding.digests,outline])].filter(id=>!evidence.has(id)));
  return {payload,evidence,locators,prerequisites:idsIn(payload.skills)};
 }
 // Never cut to fit: over the limit the claims split between topics, and one topic
 // that cannot fit alone is refused.
-export function coverageChallengePackets({project,all=sequences(project),claims,skills=[],limit=LIMITS.coverageCharacters}){
- const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators,prerequisites}=coverageChallengeView({project,all,claims:chosen,skills});return {claims:chosen,...reviewTask(project,payload,COVERAGE_CHALLENGE,{compactTargets:true}),evidence,locators,prerequisites};};
+export function coverageChallengePackets({project,all=sequences(project),claims,skills=[],limit=LIMITS.coverageCharacters,needsTopics=[]}){
+ if(!Array.isArray(needsTopics))throw Error('needsTopics must contain unique native topic IDs');
+ if(!claims.length&&needsTopics.length)throw Error('needsTopics requires coverage claims');
+ const instructions=COVERAGE_CHALLENGE+(needsTopics.length?'\n\nOptional earlierPractice contains complete practice from explicitly requested earlier topics. It adds context, not claims. Requested topics take priority in the earlier-context budget; other omitted teaching remains locator-only in digests. Unsolved practice is not teaching; judge any explicitly supplied scaffold in its actual role.':'');
+ const build=topicIds=>{const chosen=claims.filter(claim=>topicIds.includes(claim.topicId)),{payload,evidence,locators,prerequisites}=coverageChallengeView({project,all,claims:chosen,skills,needsTopics});return {claims:chosen,...reviewTask(project,payload,instructions,{compactTargets:true}),evidence,locators,prerequisites};};
  const packets=[];let current=[];
  for(const topicId of [...new Set(all.map(sequence=>sequence.topicId))].filter(id=>claims.some(claim=>claim.topicId===id))){
   const next=[...current,topicId];
@@ -739,13 +764,14 @@ export function validateCoverageChallenge(packet,result){
  if(errors.length)throw Error(errors.join('; '));
  return verdicts;
 }
-export async function runCoverageChallenge({projectFile,mapFile,root=ROOT,output,dryRun=false,runner=defaultRunner,lease=defaultLease,workDir,runDir,skills}={}){
+export async function runCoverageChallenge({projectFile,mapFile,root=ROOT,output,dryRun=false,runner=defaultRunner,lease=defaultLease,workDir,runDir,skills,needsTopics=[]}={}){
  const project=read(projectFile),map=read(mapFile),claims=coverageClaims(map);
  if(map.projectId!==project.id||map.revision!==project.revision)throw Error('The archetype map does not match this project and revision');
- if(!claims.length)return {projectId:project.id,revision:project.revision,packets:[],verdicts:[]};
+ if(!Array.isArray(needsTopics))throw Error('needsTopics must contain unique native topic IDs');
+ if(!claims.length){if(needsTopics.length)throw Error('needsTopics requires coverage claims');return {projectId:project.id,revision:project.revision,packets:[],verdicts:[]};}
  skills??=read(path.join(root,'data','skills.json'));
- const packets=coverageChallengePackets({project,claims,skills}),sizes=packets.map(packet=>({claims:packet.claims.length,characters:packet.prompt.length}));
- if(dryRun)return {projectId:project.id,revision:project.revision,packets:sizes};
+ const packets=coverageChallengePackets({project,claims,skills,needsTopics}),sizes=packets.map(packet=>({claims:packet.claims.length,characters:packet.prompt.length}));
+ if(dryRun)return {projectId:project.id,revision:project.revision,packets:sizes,...(needsTopics.length?{needsTopics}:{})};
  if(!output)throw Error('Name an --output file');
  workDir??=path.join(root,'.booklet-work','pedagogy-review',project.id,'coverage-challenge');runDir??=canonicalRunDir(project,{root});
  const replies=[];
@@ -754,7 +780,7 @@ export async function runCoverageChallenge({projectFile,mapFile,root=ROOT,output
   const {result,usage,elapsedMs,reviewConfiguration:actualConfiguration}=await callWorker({runner,lease,canonicalRunDir:runDir,workDir,stage:'pedagogy-coverage-challenge',prompt:packet.prompt,taskReferences:packet.taskReferences,effort:'high'});
   validateCoverageChallenge(packet,result);replies.push({result,usage,elapsedMs,reviewConfiguration:actualConfiguration,characters:packet.prompt.length});
  }
- const report={projectId:project.id,revision:project.revision,result:{verdicts:replies.flatMap(reply=>reply.result.verdicts),uncertainties:replies.flatMap(reply=>reply.result.uncertainties??[]),newStudentContent:0},calls:replies.map(({usage,elapsedMs,characters,reviewConfiguration})=>({usage,elapsedMs,characters,reviewConfiguration}))};
+ const report={projectId:project.id,revision:project.revision,...(needsTopics.length?{needsTopics}:{}),result:{verdicts:replies.flatMap(reply=>reply.result.verdicts),uncertainties:replies.flatMap(reply=>reply.result.uncertainties??[]),newStudentContent:0},calls:replies.map(({usage,elapsedMs,characters,reviewConfiguration})=>({usage,elapsedMs,characters,reviewConfiguration}))};
  fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n',{flag:'wx'});
  return {...report,output};
 }
@@ -795,16 +821,17 @@ export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
   if(['--candidates-only','--suggestions','--report-only','--dry-run'].includes(args[i])){flags.add(args[i]);continue;}
-  if(!['--project','--project-file','--topics','--review-effort','--approve','--defer','--resolve','--reject','--assume','--exports','--concurrency','--provenance-dir','--findings','--output','--map'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
+  if(!['--project','--project-file','--topics','--needs-topics','--review-effort','--approve','--defer','--resolve','--reject','--assume','--exports','--concurrency','--provenance-dir','--findings','--output','--map'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
  if(flags.has('--report-only')&&!['review','principles'].includes(command))throw Error('--report-only is allowed only for review or principles; no action was taken.');
+ if(values['--needs-topics']&&command!=='coverage-challenge')throw Error('--needs-topics is allowed only for coverage-challenge');
  const list=name=>values[name]?.split(',').map(item=>item.trim()).filter(Boolean)??[],live=values['--project']&&path.join(ROOT,'booklets','projects',values['--project']+'.json');
  const projectFile=values['--project-file']?path.resolve(values['--project-file']):live,provenanceDir=values['--provenance-dir']&&path.resolve(values['--provenance-dir']);
  if(command!=='seeded'&&!projectFile)throw Error('Name a booklet with --project ID or --project-file FILE');
  let result;
  if(command==='archetypes')result=await runArchetypes({projectFile,concurrency:Number(values['--concurrency']??1),topics:list('--topics'),output:values['--output']&&path.resolve(values['--output'])});
- else if(command==='coverage-challenge'){if(!values['--map'])throw Error('coverage-challenge needs --map FILE');result=await runCoverageChallenge({projectFile,mapFile:path.resolve(values['--map']),output:values['--output']&&path.resolve(values['--output']),dryRun:flags.has('--dry-run')});}
+ else if(command==='coverage-challenge'){if(!values['--map'])throw Error('coverage-challenge needs --map FILE');result=await runCoverageChallenge({projectFile,mapFile:path.resolve(values['--map']),output:values['--output']&&path.resolve(values['--output']),dryRun:flags.has('--dry-run'),needsTopics:list('--needs-topics')});}
  else if(command==='map')result=runMap({projectFile});
  else if(command==='review'||command==='principles')result=await runReview({projectFile,principlesOnly:command==='principles',reportOnly:flags.has('--report-only'),topics:list('--topics'),reviewEffort:values['--review-effort']??'high',candidatesOnly:flags.has('--candidates-only'),concurrency:Number(values['--concurrency']??LIMITS.concurrency),provenanceDir});
  else if(command==='post'){if(!live||values['--project-file'])throw Error('Comments are posted only to a live project: use --project ID');result=await postFindings({projectFile,provenanceDir,suggestions:flags.has('--suggestions'),...(values['--findings']?{findingIds:list('--findings')}:{})});}
