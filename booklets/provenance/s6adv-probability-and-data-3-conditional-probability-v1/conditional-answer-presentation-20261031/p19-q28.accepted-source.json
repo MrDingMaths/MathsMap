@@ -1,0 +1,225 @@
+{
+  "id": "p19-q28",
+  "type": "question",
+  "sourceOrder": 28,
+  "title": "2023 HSC Advanced Band 6",
+  "sourcePageNumber": 19,
+  "sourceRefs": [
+    {
+      "pageNumber": 19
+    }
+  ],
+  "classification": {
+    "primarySkillId": "conditional-probability",
+    "secondarySkillIds": [
+      "probability-complement-addition"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Compare probabilities to test independence, link two conditional formulas through their shared intersection, then use the explicitly stated independence assumption and complement rule.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "265a9827d63063ebe8e5b1ed2db5cce76e28bddf409a10db40ecc55c8476ea26",
+      "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-3-conditional-probability-20261024/lean-review/calls/content-1792826130124-21/last-message.txt",
+      "timestampPrecision": "day",
+      "completedAt": null,
+      "modelProvenance": "run-configured gpt-6.1-sol, low reasoning effort; provider runtime model unreported"
+    }
+  },
+  "content": {
+    "id": "p19-q28-root",
+    "type": "question",
+    "label": "28",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p19-q28-stem",
+          "type": "paragraph",
+          "align": "left",
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Four Year 12 students want to organise a graduation party."
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "All four students have the same probability, "
+            },
+            {
+              "type": "math",
+              "latex": "P(F)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", of being available next Friday."
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "text",
+              "text": "All four students have the same probability, "
+            },
+            {
+              "type": "math",
+              "latex": "P(S)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", of being available next Saturday."
+            }
+          ]
+        },
+        {
+          "id": "p19-q28-givens",
+          "type": "paragraph",
+          "align": "left",
+          "inlines": [
+            {
+              "type": "text",
+              "text": "It is given that "
+            },
+            {
+              "type": "math",
+              "latex": "P(F)=\\frac{3}{10},\\quad P(S\\mid F)=\\frac{1}{3},\\quad\\text{and}\\quad P(F\\mid S)=\\frac{1}{8}.",
+              "display": false
+            }
+          ]
+        },
+        {
+          "id": "p19-q28-kim",
+          "type": "paragraph",
+          "align": "left",
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Kim is one of the four students."
+            }
+          ]
+        }
+      ]
+    },
+    "children": [
+      {
+        "id": "p19-q28-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Is Kim's availability next Friday independent from his availability next Saturday? Justify your answer.",
+        "answerSpaceMm": 22,
+        "answer": {
+          "short": "Not independent, since $P(F\\mid S)=\\frac18\\ne\\frac{3}{10}=P(F)$.",
+          "worked": "For independence, $P(F)=P(F\\mid S)$. Here,\n$$\\begin{aligned}P(F)&=\\frac{3}{10},\\\\P(F\\mid S)&=\\frac18.\\end{aligned}$$\nSince $\\frac{3}{10}\\ne\\frac18$, Kim's availability on the two days is not independent."
+        }
+      },
+      {
+        "id": "p19-q28-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the probability that Kim is available next Saturday is $\\frac45$.",
+        "answerSpaceMm": 67,
+        "answer": {
+          "short": "$P(S)=\\frac45$.",
+          "worked": "$$\\begin{aligned}P(S\\mid F)&=\\frac{P(S\\cap F)}{P(F)},\\\\\\frac13&=\\frac{P(S\\cap F)}{\\frac{3}{10}},\\\\P(S\\cap F)&=\\frac{1}{10}.\\end{aligned}$$\n$$\\begin{aligned}P(F\\mid S)&=\\frac{P(S\\cap F)}{P(S)},\\\\\\frac18&=\\frac{\\frac{1}{10}}{P(S)},\\\\P(S)&=\\frac{1}{10}\\times8\\\\P(S)&=\\frac45.\\end{aligned}$$"
+        }
+      },
+      {
+        "id": "p19-q28-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Assume that the four students' availabilities next Saturday are independent of one another. What is the probability that at least one of the four students is NOT available next Saturday?",
+        "answerSpaceMm": 36,
+        "answer": {
+          "short": "$\\frac{369}{625}$.",
+          "worked": "Using independence between students,\n$$\\begin{aligned}P(\\text{all four available})&=\\left(\\frac45\\right)^4\\\\P(\\text{all four available})&=\\frac{256}{625}.\\end{aligned}$$\n$$\\begin{aligned}P(\\text{at least one not available})&=1-P(\\text{all four available})\\\\P(\\text{at least one not available})&=1-\\frac{256}{625}\\\\P(\\text{at least one not available})&=\\frac{369}{625}.\\end{aligned}$$"
+        }
+      }
+    ]
+  },
+  "sourceReview": {
+    "sourceIdentity": {
+      "questionLabel": "28"
+    },
+    "teachingContext": {
+      "pdfPages": [
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10
+      ],
+      "methodNote": "Use the conditional probability formula to obtain the intersection and reverse conditional probability; test independence by comparing a conditional and unconditional probability. Apply the multiplication rule and complement rule for part c, as in the supplied teacher solution."
+    },
+    "responses": [
+      {
+        "targetId": "p19-q28-a",
+        "kind": "working"
+      },
+      {
+        "targetId": "p19-q28-b",
+        "kind": "working"
+      },
+      {
+        "targetId": "p19-q28-c",
+        "kind": "working"
+      }
+    ],
+    "workingSpaceEstimate": {
+      "method": "solution-steps",
+      "estimates": [
+        {
+          "targetId": "p19-q28-a",
+          "widthMm": 166,
+          "mathematicalRows": 2,
+          "answerSpaceMm": 22
+        },
+        {
+          "targetId": "p19-q28-b",
+          "widthMm": 166,
+          "mathematicalRows": 7,
+          "answerSpaceMm": 67
+        },
+        {
+          "targetId": "p19-q28-c",
+          "widthMm": 166,
+          "mathematicalRows": 5,
+          "answerSpaceMm": 36
+        }
+      ]
+    },
+    "sourcePagination": {
+      "page": 19,
+      "breakBefore": true
+    }
+  },
+  "flow": {
+    "sourcePageBreakBefore": false,
+    "localDifficulty": {
+      "primarySkillId": "conditional-probability",
+      "secondarySkillIds": [
+        "probability-complement-addition"
+      ],
+      "reasoningScore": 44,
+      "difficulty": "Development",
+      "difficultyReason": "Compare probabilities to test independence, link two conditional formulas through their shared intersection, then use the explicitly stated independence assumption and complement rule.",
+      "assessment": {
+        "model": "gpt-6.1-sol",
+        "assessedAt": "2026-10-24T07:12:43.078Z",
+        "rubricVersion": "mathsmap-cognitive-demand-v1",
+        "taskHash": "265a9827d63063ebe8e5b1ed2db5cce76e28bddf409a10db40ecc55c8476ea26",
+        "evidence": ".booklet-work/full-imports/s6adv-probability-and-data-3-conditional-probability-20261024/semantic-packets/assignments/assignment-27335344b493772f2d3e/1/generation.json"
+      }
+    }
+  },
+  "snapshotKind": "local"
+}
