@@ -7,6 +7,7 @@ import {TRANSCRIPTION_DEFAULT,REVIEW_DEFAULT,requireCurrentTranscription,transcr
 import {reconcileIds} from '../agy/lib/agy-run.mjs';
 import {withWorkerSlot} from './worker-pool.mjs';
 import {StringDecoder} from 'node:string_decoder';
+import {withWorkerAuthorizationContext} from './worker-authorization-context.mjs';
 
 function toolDiagnosticCounter(){
  const decoder=new StringDecoder('utf8');let pending='',rejected=0,unclassified=0,complete=false;const reasons={};
@@ -43,8 +44,10 @@ export function astraCommandArgs({cwd,images=[],raw,profile='transcription',conf
 
 export const PEDAGOGY_PROMPT_LIMIT=300000;
 export const REVIEW_PROMPT_LIMIT=200000;
-export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile='review',configuration,stage=profile,timeoutMs=900000,onProgress=()=>{},signal,oversizeReason},{spawnProcess=spawn}={}){
+export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile='review',configuration,stage=profile,timeoutMs=900000,onProgress=()=>{},signal,oversizeReason,authorizationContext,authorizationScope},{spawnProcess=spawn}={}){
  if(!ASTRA_PROFILES[profile])throw Error('Unknown booklet worker profile');
+ prompt=withWorkerAuthorizationContext(prompt,{authorizationContext,authorizationScope});
+ if(authorizationScope&&JSON.stringify([...images].sort())!==JSON.stringify([...authorizationScope.attachments].sort()))throw Error('Authorization attachments differ from actual worker images');
  // Pedagogy prompts are one topic plus budgeted earlier teaching (LIMITS in
  // pedagogy/review.mjs, at most ~170k characters). Wrapping them in the whole
  // booklet repeats ~270k tokens per call; refuse before a slot or model call.
@@ -69,6 +72,7 @@ export async function runAstraTask({cwd,runDir=cwd,prompt,images=[],out,profile=
   configuration=recorded;
  }else configuration??=transcriptionConfiguration();
  if(executionProfile!=='review')requireCurrentTranscription(configuration);if(configuration.provider!==TRANSCRIPTION_DEFAULT.provider)throw Error('A benchmark arm cannot use the Codex runner; supply its explicit relay runner');
+ if(authorizationScope&&(authorizationScope.destination.provider!=='openai'||authorizationScope.destination.model!==configuration.model||authorizationScope.destination.effort!==configuration.effort))throw Error('Authorization destination differs from actual Codex worker');
  const callId=randomUUID();
  return withWorkerSlot(runDir,{callId,stage,profile},lease=>invokeAstra({cwd,prompt,images,out,profile,executionProfile,configuration,stage,timeoutMs,onProgress,signal,callId,queueWaitMs:lease.queueWaitMs,oversizeReason},spawnProcess),{signal});
 }
