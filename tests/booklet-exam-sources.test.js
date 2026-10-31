@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import {mathsBaseSource, normaliseQuestionSource,sourceAttributionPromptId} from '../src/lib/question-source.js';
+import {mathsBaseSource, approvedMathsBaseSource, normaliseQuestionSource,sourceAttributionPromptId} from '../src/lib/question-source.js';
 import {normaliseQuestion, containsSourceMetadata} from '../src/lib/practice-question-model.js';
 import {selectExamCandidates, readMathsBase} from '../scripts/booklet/export-mathsbase-exams.mjs';
 import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
@@ -38,6 +38,21 @@ test('whitelist labels official/PLC sources and holds unknown trial names',()=>{
   assert.equal(mathsBaseSource('PLC.Y11.X1.2023.T2 S1Qb').label,'PLC Y11 X1 T2 2023');
   assert.equal(mathsBaseSource('HSC.BHHS.Y11.X1.2022 Q13b').schoolYear,'Y11');
   for(const code of ['CAIE.2020','MB.2020','GEN.2020','LBNZ.2020','AU.AMC.2020','SmarterMaths.2020','HSC.SmarterMaths.2020'])assert.equal(mathsBaseSource(code),null);
+});
+
+test('resolved source identities preserve course tokens without inventing school or trial provenance',()=>{
+  assert.equal(approvedMathsBaseSource('HSC.CSSA.X1.2023 Q13e').label,'CSSA Extension 1 2023');
+  assert.equal(approvedMathsBaseSource('HSC.NEAP.Y12.X1.2021 Q13b').provider,'HSC-provider');
+  assert.equal(approvedMathsBaseSource('HSC.NEAP.Y12.X1.2021 Q13b').label,'Neap Education Y12 Extension 1 2021');
+  assert.equal(approvedMathsBaseSource('HSC.SGG.Y12.ADV.2020 Q22').label,'St George Girls High School Y12 Advanced 2020');
+  assert.equal(approvedMathsBaseSource('HSC.SYDGR.Y12.X1.2022 Q12c').label,'Sydney Grammar School Y12 Extension 1 2022');
+  const internal=approvedMathsBaseSource('HSC.SYDG.Y12.ADV.2021 Q7');
+  assert.equal(internal.provider,'HSC-school');
+  assert.equal(internal.label,'Sydney Girls High School Y12 Advanced 2021');
+  assert.doesNotMatch(internal.label,/trial/i);
+  for(const code of ['HSC.MER.Y12.ADV.2020 Q23','HSC.JRUSE.Y12.X1.2022 Q14a','HSC.SYDG.Y11.ADV.2021 Q7','HSC.NEAP.Y12.X2.2021 Q1','HSC.SGG.Y12.ADV.2019 Q1','HSC.CSSA.X1.2023.BAD Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
+  assert.equal(approvedMathsBaseSource('CAIE.0606.2023 Q1'),null);
+  assert.equal(approvedMathsBaseSource('HSC.BHHS.Y12.ADV.2025 Q24').label,'BHHS Y12 ADV 2025');
 });
 test('candidate export holds unassessed items, removes excluded sources and repeats',()=>{
   const rows=[1,2,3,4].map(id=>({id:String(id),source:'HSC.ADV.2011',difficulty:'Development'}));

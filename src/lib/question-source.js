@@ -48,6 +48,27 @@ export function approvedMathsBaseSource(code) {
   const parts = String(code).trim().split(/\s+/)[0].split('.');
   const yearIndex = parts.findIndex(part => /^(19|20)\d{2}$/.test(part));
   const tokens = parts.slice(2, yearIndex);
+  // Source-backed programme reconciliation, 31 October 2026. These identities
+  // are not a blanket eligibility decision or a claim that every paper is a
+  // trial. In particular Sydney Girls 2021 Alternate Task 4 is an internal task.
+  const resolved = {
+    CSSA: {provider:'HSC-provider', name:'CSSA'},
+    NEAP: {provider:'HSC-provider', name:'Neap Education'},
+    SGG: {provider:'HSC-school', name:'St George Girls High School'},
+    SYDG: {provider:'HSC-school', name:'Sydney Girls High School'},
+    SYDGR: {provider:'HSC-school', name:'Sydney Grammar School'},
+  }[source.schoolCode];
+  if (resolved) {
+    const after = parts.slice(yearIndex + 1).filter(token => !/^Q\d/i.test(token));
+    const paperTokens = tokens.join(' ');
+    const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
+      || source.schoolCode === 'CSSA' && paperTokens === 'X1';
+    if (!recognised || after.length || Number(source.year) < 2020 || Number(source.year) > 2026) return source;
+    const course = {ADV:'Advanced', X1:'Extension 1'}[tokens.at(-1)];
+    const paper = [...tokens.slice(0,-1), course].join(' ');
+    return {provider:resolved.provider, paper, year:source.year,
+      label:`${resolved.name} ${paper} ${source.year}`, origin:'MathsBase'};
+  }
   if (!['BHHS', 'PLC'].includes(source.schoolCode) || !tokens.some(token => /^Y\d{1,2}$/.test(token))) return source;
   const after = parts.slice(yearIndex + 1).filter(token => !/^Q\d/i.test(token));
   if ([...tokens, ...after].some(token => !/^Y\d{1,2}$|^(?:ADV|STN|STD[12]?|X[12]|T[1-4]|S[12])$/.test(token))) return source;
