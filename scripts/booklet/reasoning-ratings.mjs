@@ -90,6 +90,23 @@ function pinnedJson(artifact){
 const valueAt=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
 const ratingKeys=['reasoningScore','difficulty','difficultyReason','assessment'];
 const withoutRating=block=>{const copy=structuredClone(block);for(const key of ratingKeys)delete copy.classification?.[key];return copy;};
+// Only the explicitly approved grid palette substitutions within complete
+// inline TikZ blocks may be treated as a string-level presentation change.
+function inlineTikzGridPalette(before,after){
+ if(typeof before!=='string'||typeof after!=='string'||before===after)return false;
+ let changed=false,invalid=false;
+ const mapped=before.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/g,(whole,body)=>{
+  if(/\[\/?tikz\]/.test(body)){invalid=true;return whole;}
+  const next=body.replace(/\\draw\s*\[([^\[\]\r\n]*)\](?=\s*\([^;]*?\)\s*grid\b[^;]*;)/g,(draw,options)=>{
+   const mapped=options.replace(/(?<![\w!])gray!(?:35|40|70)(?![\w!])/g,()=>{changed=true;return 'black!20';});
+   return draw.slice(0,draw.indexOf('[')+1)+mapped+']';
+  });
+  return '[tikz]'+next+'[/tikz]';
+ });
+ // Any remaining tag indicates an incomplete, nested or unmatched block.
+ const withoutBlocks=before.replace(/\[tikz\][\s\S]*?\[\/tikz\]/g,'');
+ return changed&&!invalid&&!/\[\/?tikz\]/.test(withoutBlocks)&&mapped===after;
+}
 function diagramAdditionalAdaptations(source,target,proof,inverse,seen,{checkImages}){
  if(proof.additionalAdaptations===undefined)return;
  if(!Array.isArray(proof.additionalAdaptations)||!proof.additionalAdaptations.length||!Array.isArray(proof.targetArtifact?.blockPath))throw Error('Invalid additional diagram adaptations');
@@ -145,8 +162,12 @@ function diagramReuseProof(target,artifact,{checkImages=false}={}){
   if(!Array.isArray(parts)||parts[0]!=='content'||parts.length<2||parts.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)))throw Error('Invalid diagram path');
   if(seen.some(p=>p.every((k,i)=>parts[i]===k)||parts.every((k,i)=>p[i]===k)))throw Error('Overlapping diagram paths');seen.push(parts);
   const before=valueAt(source,parts),after=valueAt(target,parts);
-  if(!before||!after||typeof before.id!=='string'||!before.id.trim()||before.id!==after.id||!['tikz','svg'].includes(before.format)||before.format!==after.format||typeof before.code!=='string'||!before.code.trim()||typeof after.code!=='string'||!after.code.trim()||objectHash(before)!==change.beforeSha256||objectHash(after)!==change.afterSha256)throw Error('Changed or unsupported diagram identity');
-  if(!isDeepStrictEqual(before.mathematicalModel,after.mathematicalModel))throw Error('Diagram mathematical model changed');
+  if(change.kind==='inline-tikz-grid-palette-v1'){
+   if(objectHash(before)!==change.beforeSha256||objectHash(after)!==change.afterSha256||!inlineTikzGridPalette(before,after))throw Error('Invalid inline TikZ grid palette change');
+  }else{
+   if(!before||!after||typeof before.id!=='string'||!before.id.trim()||before.id!==after.id||!['tikz','svg'].includes(before.format)||before.format!==after.format||typeof before.code!=='string'||!before.code.trim()||typeof after.code!=='string'||!after.code.trim()||objectHash(before)!==change.beforeSha256||objectHash(after)!==change.afterSha256)throw Error('Changed or unsupported diagram identity');
+   if(!isDeepStrictEqual(before.mathematicalModel,after.mathematicalModel))throw Error('Diagram mathematical model changed');
+  }
   valueAt(inverse,parts.slice(0,-1))[parts.at(-1)]=structuredClone(before);
  }
  diagramAdditionalAdaptations(source,target,proof,inverse,seen,{checkImages});

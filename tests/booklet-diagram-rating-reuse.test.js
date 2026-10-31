@@ -61,6 +61,35 @@ test('readback rejects mutated evidence, images, history, score or task',t=>{
  }
 });
 
+function inlineFixture(t,paragraph=false){
+ const f=fixture(t),p=paragraph?['content','paragraphs',0,'text']:['content','prompt'];
+ delete f.before.content.questionDiagrams;delete f.after.content.questionDiagrams;
+ const text='Use this grid: [tikz]\\draw[step=1, gray!35] (0,0) grid (4,4); \\draw[step=2, gray!70] (0,0) grid (4,4); \\draw[gray!40] (0,0)--(4,0); \\node {label x};[/tikz] State the answer.';
+ if(paragraph){f.before.content.paragraphs=[{type:'paragraph',text}];f.after.content.paragraphs=structuredClone(f.before.content.paragraphs);}else f.before.content.prompt=f.after.content.prompt=text;
+ const set=(obj,parts,value)=>{const k=parts.at(-1);parts.slice(0,-1).reduce((v,x)=>v[x],obj)[k]=value;},get=(obj,parts)=>parts.reduce((v,x)=>v[x],obj);
+ set(f.after,p,text.replace('gray!35','black!20').replace('gray!70','black!20'));
+ f.before.classification={...f.before.classification,...assessedRating(f.before,f.before.classification,f.before.classification.assessment)};f.after.classification=structuredClone(f.before.classification);
+ f.refresh=()=>{f.proof.sourceTaskHash=reasoningTaskHash(f.before);f.proof.targetTaskHash=reasoningTaskHash(f.after);for(const e of [f.semantic,f.visual]){e.sourceTaskHash=f.proof.sourceTaskHash;e.targetTaskHash=f.proof.targetTaskHash;}f.proof.semanticEvidence=f.write('semantic.json',f.semantic);f.proof.visualEvidence=f.write('visual.json',f.visual);f.proof.sourceArtifact={...f.write('before.json',{sections:[{blocks:[f.before]}]}),blockPath:['sections',0,'blocks',0]};f.proof.changes=[{kind:'inline-tikz-grid-palette-v1',path:p,beforeSha256:objectHash(get(f.before,p)),afterSha256:objectHash(get(f.after,p))}];};
+ f.setAfter=value=>set(f.after,p,value);f.getAfter=()=>get(f.after,p);f.refresh();return f;
+}
+test('inline prompt and native paragraph grid palette changes preserve original rating lineage',t=>{
+ for(const paragraph of [false,true]){const f=inlineFixture(t,paragraph),old=structuredClone(f.before.classification);const rating=reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true});for(const k of ['reasoningScore','difficulty','difficultyReason'])assert.equal(rating[k],old[k]);for(const k of ['model','assessedAt','evidence'])assert.equal(rating.assessment[k],old.assessment[k]);f.after.classification={...f.after.classification,...rating};assert(verifiedRating(f.after));}
+});
+test('inline palette proof rejects task, answer, label, grid, token and proof changes',t=>{
+ for(const mutate of [
+  f=>f.setAfter(f.getAfter().replace('State the answer','Explain the answer')),
+  f=>f.setAfter(f.getAfter().replace('(4,4)','(5,4)')),
+  f=>f.setAfter(f.getAfter().replace('label x','label y')),
+  f=>f.setAfter(f.getAfter().replace('gray!40','black!20')),
+  f=>f.setAfter(f.getAfter().replace('State the answer','State the answer labelled x')),
+  f=>f.setAfter(f.getAfter().replace('black!20','black!21')),
+  f=>f.setAfter(f.getAfter().replace('[/tikz]','')),
+  f=>{f.after.content.answer.short='50 degrees';},
+  f=>{f.proof.changes[0].kind='other-string-rebind';},
+  f=>{f.proof.changes[0].beforeSha256='0'.repeat(64);},
+ ]){const f=inlineFixture(t);mutate(f);if(f.proof.changes[0].kind==='inline-tikz-grid-palette-v1'&&f.proof.changes[0].beforeSha256!=='0'.repeat(64))f.refresh();assert.throws(()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true}));}
+});
+
 function extraFixture(t,{layout=false}={}){
  const f=fixture(t);
  f.before.bankRef={id:'bank-one',revision:'old'};f.after.bankRef={id:'bank-one',revision:'new'};
