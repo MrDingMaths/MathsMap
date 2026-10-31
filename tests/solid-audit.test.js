@@ -6,6 +6,19 @@ import {repairValue} from '../scripts/repair-solid-visibility.mjs';
 import {solidHash,visitFigures,isSolidCandidate,solidAcceptance} from '../scripts/audit-solid-visibility.mjs';
 const box=()=>solidTikz(prismModel([[0,0],[3,0],[3,2],[0,2]]));
 
+test('dense sampled curved outlines stay source-hashed review gated',()=>{
+ const points=Array.from({length:721},(_,i)=>{const t=2*Math.PI*i/720;return `(${Math.cos(t).toFixed(6)},${Math.sin(t).toFixed(6)})`;});
+ const code='\\begin{tikzpicture}\n\\draw '+points.join('--')+'--cycle;\n\\end{tikzpicture}';
+ const audit=inspectSolid(code,{context:'hemisphere'});
+ assert.equal(audit.status,'review');
+ assert.match(audit.reason,/Dense numeric outline/);
+ const figure={type:'diagram',code,alt:'hemisphere'};
+ assert.equal(solidAcceptance(figure).length,1);
+ const hash=solidHash(code),review={status:'accepted',sourceHash:hash,reason:'Independent exact-source geometry verification'};
+ assert.deepEqual(solidAcceptance(figure,{[hash]:review}),[]);
+ assert.equal(solidAcceptance({...figure,code:code.replace('(1.000000,0.000000)','(1.100000,0.000000)')},{[hash]:review}).length,1);
+});
+
 test('three disconnected comparison triangles are planar; solid cues and connected or hidden geometry remain guarded',()=>{
  const triangles=String.raw`\begin{tikzpicture}
  \coordinate (A) at (0,1.5);\coordinate (B) at (3,1.5);\coordinate (C) at (2.3,0);

@@ -104,6 +104,12 @@ export function inferSolid(code) {
   const points=new Map([...named].filter(([,p])=>p.length===2));
   for(const m of code.matchAll(/\(([-+\d.]+\s*,\s*[-+\d.]+)\)/g)){const p=tuple(m[1]);if(p&&![...points.values()].some(q=>near(p,q)))points.set(m[1],p);}
   const entries=[...points],find=p=>entries.find(([,q])=>near(p,q));
+  // Sampled curved outlines can contain thousands of numeric points. The
+  // fallback below only recognises a small rectangular box and searches point
+  // combinations; it cannot establish a curved surface's topology. Keep dense
+  // drawings behind the exact-source review gate instead of expanding that
+  // search. Recorded models and named classroom solids were handled above.
+  if(entries.length>64)return {reason:'Dense numeric outline requires independent source-hashed geometry review'};
   const candidates=[];
   for(const [a,p]of entries)for(const [b,q]of entries){
     if(q[0]<=p[0]+1e-5||Math.abs(q[1]-p[1])>1e-5)continue;
