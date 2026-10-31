@@ -14,7 +14,7 @@ Keep this file under 32,000 bytes; link detail in `docs/`. `npm run repo:check` 
 
 Follow [the current workflow](docs/booklet-three-pass-import.md#streamlined-completion-24-october-2026): shared completion gate, repair by required edit, one source-side rendered review, scoped repair verification and reused exports. Use `lean-review.mjs finish`; saving progress is not completion. Keep ICE-EM's direct exception, accepted work and active workers. No automatic live-booklet repair campaign. This supersedes conflicting import/polish stages below.
 
-Separately requested [pedagogy reviews](docs/booklet-pedagogy-review.md) retain their low review/medium challenge settings, named-user approval for repairs and [first-pass rules](docs/booklet-first-pass-review.md). Keep the tool outside `scripts/`.
+Separately requested [pedagogy reviews](docs/booklet-pedagogy-review.md) follow [worker routing](docs/booklet-worker-routing.md), comments-first repairs and [first-pass rules](docs/booklet-first-pass-review.md). Keep the tool outside `scripts/`.
 
 Imports: [omit redundant vertex labels, retain necessary labels and update solutions](docs/booklet-cross-session-rules.md#redundant-vertex-labels-25-october-2026-user-requested).
 
