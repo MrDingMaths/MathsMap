@@ -1,3 +1,4 @@
+import {atomicFlowReferences,assertSharedResourceView,assertSharedResourceSection} from './booklet-shared-resources.js';
 import {compactAnswerProseGlue} from './compact-answer-glue.js';
 import {contentSource} from './document-content.js';
 import {retainDifficultyAsMetadata} from './booklet-difficulty-headings.js';
@@ -188,7 +189,8 @@ function autoOrderRank(group) {
 // blocks; a run of several sections passes them all. Returns {groups, unresolved}:
 // each group is {blocks}, and `unresolved` flags a reference to something the run
 // does not hold. Used by organiseExercises and the pagination optimiser.
-export function exerciseUnits(section, blocks = section.blocks) {
+export function exerciseUnits(section, blocks = section.blocks, resourceView = null) {
+  assertSharedResourceSection(section,blocks,resourceView);
   // Group continuation chains, paired questions and source instructions first.
   const units=[];let pending=[];
   for(const unit of logicalUnits({sections:[{...section,blocks}]})){
@@ -201,7 +203,7 @@ export function exerciseUnits(section, blocks = section.blocks) {
   const owner=new Map(units.flatMap((u,j)=>u.blocks.flatMap(b=>ownedNodes(b).map(n=>[n.id,j])))),joined=new Set();
   // flow.dependsOn is the layout-level order dependency of the polish pipeline (it keeps a question after the one it
   // scaffolds from or refers to, with no meaning for the bank); dependsOn is the content-level one.
-  const references=b=>[...(b.dependsOn??[]),...(b.flow?.dependsOn??[]),b.pairedBlockId,b.flow?.continuationOf??b.continuationOf].filter(Boolean);
+  const references=b=>[...(b.dependsOn??[]),...atomicFlowReferences(b,resourceView),b.pairedBlockId,b.flow?.continuationOf??b.continuationOf].filter(Boolean);
   let unresolved=false;
   for(const b of blocks.flatMap(ownedNodes))if(references(b).some(id=>!owner.has(id)))unresolved=true;
   units.forEach((u,j)=>u.blocks.flatMap(ownedNodes).forEach(b=>{
@@ -214,7 +216,8 @@ export function exerciseUnits(section, blocks = section.blocks) {
 }
 
 // Ratings are pinned presentation metadata, not edits to a bank classification.
-export function organiseExercises(source, ratings={}) {
+export function organiseExercises(source, ratings={}, {resourceView=null}={}) {
+  assertSharedResourceView(source,resourceView);
   const project=structuredClone(source);
   project.settings={...project.settings,exerciseOrganisation:'topic',compactAnswers:{...structuredClone(COMPACT_ANSWERS),...structuredClone(project.settings.compactAnswers??{})},flowEdition:'with-short'};
   const sections=[];
@@ -246,7 +249,7 @@ export function organiseExercises(source, ratings={}) {
       block.flow={...block.flow,sourcePageBreakBefore:false};
       delete block.flow.numberGapBefore;delete block.flow.numberResetBefore;
     }
-    const {groups,unresolved}=exerciseUnits(section,blocks);
+    const {groups,unresolved}=exerciseUnits(section,blocks,resourceView);
     if(unresolved)uncertain=true;
     const score=u=>Math.max(0,...u.blocks.filter(isPractice).map(b=>(b.flow.bankDifficulty??b.flow.localDifficulty).reasoningScore));
     if(!uncertain&&project.settings.questionOrder!=='source'){
@@ -278,6 +281,7 @@ export function organiseExercises(source, ratings={}) {
     sections.push(next);
   }
   project.sections=sections;
+  assertSharedResourceView(project,resourceView);
   return project;
 }
 

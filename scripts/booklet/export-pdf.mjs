@@ -1,4 +1,6 @@
-﻿#!/usr/bin/env node
+#!/usr/bin/env node
+import {inspectRenderedSharedResources} from '../../polish/shared-resources.mjs';
+
 // Export the current project surface; --project is a read-only in-memory preview.
 import {inspectPrintedPdf} from './pdf-layout-qa.mjs';
 import {inspectFinalSizeDiagrams} from './diagram-preflight.mjs';
@@ -15,10 +17,13 @@ const mode = arg('--mode', 'student');
 const draft=process.argv.includes('--draft');
 if (!['student', 'short', 'worked','with-short','with-worked'].includes(mode)) throw new Error('--mode must be student, short, worked, with-short or with-worked');
 const projectFile = arg('--project');
+let exportProject=null;
 let projectId = arg('--project-id');
 const browser=await launchChromium(chromium,{headless:true});
 const context = await browser.newContext({ viewport: { width: 1600, height: 1200 }, ...(arg('--cache-state') ? {storageState:arg('--cache-state')} : {}) });
 const page = await context.newPage();
+let exportProjectRead=Promise.resolve();
+page.on('response', response=>{if(response.request().method()==='GET'&&/\/__booklet\/projects\/[^/?]+(?:\/open)?(?:\?|$)/.test(response.url()))exportProjectRead=response.json().then(data=>{if(data?.project)exportProject=data.project;else if(data?.id&&Array.isArray(data.sections))exportProject=data;});});
 const renderErrors = [];
 page.on('pageerror', error => renderErrors.push(error.message));
 try {
@@ -31,6 +36,7 @@ try {
  await context.route('**/__booklet/**',r=>r.request().method()==='GET'?r.fallback():r.abort());
   if (projectFile) {
     const project = materializeLegacyProject(JSON.parse(readFileSync(resolve(projectFile), 'utf8').replace(/^\uFEFF/, '')));
+    exportProject=project;
     projectId = project.id;
     await context.route('**/__booklet/projects?*', (route)=>route.fulfill({json:[{id:project.id,title:project.title}]}));
     await context.route('**/__booklet/projects/'+encodeURIComponent(projectId)+'/open',route=>route.fulfill({json:{project,bankSync:{items:[]},bankSyncError:''}}));
@@ -85,6 +91,8 @@ try {
     const collisions=[];for(const article of document.querySelectorAll('.project-print .booklet-page')){const footer=article.querySelector('footer')?.getBoundingClientRect(),bounds=article.getBoundingClientRect();if(!footer?.width)continue;for(const el of article.querySelectorAll('main table,main p,main [data-type=annotated-equation],main .text-line,main .tikz-wrap,main [data-table-annotations] text')){const r=el.getBoundingClientRect();if(r.bottom>footer.top-4||r.left<bounds.left-1||r.right>bounds.right+1)collisions.push({page:article.dataset.pageNumber,id:el.dataset.id,text:el.textContent.slice(0,70),bottom:r.bottom,footerTop:footer.top});}}
     return {collisions,tabs:[...document.querySelectorAll('.project-print p:has([data-tab])')].map(p=>({paragraph:rect(p),width:getComputedStyle(p).width,html:p.innerHTML,stops:p.dataset.tabStops,tabs:[...p.querySelectorAll('[data-tab]')].map(t=>({rect:rect(t),style:t.getAttribute('style')}))})),pages:[...document.querySelectorAll('.project-print .print-page')].map(p=>({page:rect(p),footer:p.querySelector('footer')?rect(p.querySelector('footer')):null,content:p.querySelector('main')?rect(p.querySelector('main')):null}))};
   }),null,2));
+  await exportProjectRead;
+  await inspectRenderedSharedResources(page,exportProject,{edition:mode});
   const qa=await page.evaluate(async()=>{const {settleBooklet,inspectBooklet}=await import('/src/lib/booklet-qa.js');const root=document.querySelector('.project-print');await settleBooklet(root);return inspectBooklet(root,{style:document.querySelector('[data-house-style="1.1.0"]')!=null});});
   mkdirSync(dirname(output),{recursive:true});
   if(process.argv.includes('--verify-diagrams')){const diagrams=await inspectFinalSizeDiagrams(page);writeFileSync(output+'.diagrams.json',JSON.stringify(diagrams,null,2));if(diagrams.issues.length)throw Error('Final-size diagram QA failed; see '+output+'.diagrams.json');}

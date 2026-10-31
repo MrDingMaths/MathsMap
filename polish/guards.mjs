@@ -1,3 +1,4 @@
+import {assertSharedResourceView} from '../src/lib/booklet-shared-resources.js';
 // Save invariants shared by the polish driver and its layout trials. Pure/browser-safe.
 import {isPractice} from '../src/lib/booklet-flow.js';
 import {bandIndex,reasoningScore} from '../src/lib/booklet-pagination-metrics.js';
@@ -32,6 +33,7 @@ export function layoutSafetyIssues(before,after){
  const issues=[],next=new Map(nodesOf(after).map(n=>[n.id,n]));
  for(const old of nodesOf(before)){
   const n=next.get(old.id);
+  if(!equal(old.flow?.sharedResourceEdges,n?.flow?.sharedResourceEdges))issues.push('changed shared resource annotation on '+old.id);
   if(references(old).some(id=>!n||!references(n).includes(id))||old.flow?.keepWithNext&&!n?.flow?.keepWithNext)issues.push('lost dependency on '+old.id);
   if(old.flow?.exercisePageBreakBefore!==false&&n?.flow?.exercisePageBreakBefore===false)issues.push('removed exercise break on '+old.id);
   if(isPractice(before)){
@@ -49,8 +51,9 @@ export function layoutSafetyIssues(before,after){
 
 // Full-project guard, also used immediately before the revision-checked live save.
 // `reference` is the run's immutable input, so an earlier calibration never makes a teacher edit look imported.
-export function polishSafetyIssues(before,after,{reference=before,imported=null,protectedIds=teacherBlocks(reference),spacing=true,challengeSplit=false}={}){
- const issues=[],oldBlocks=blocksOf(before),newBlocks=blocksOf(after),nextBlocks=new Map(newBlocks.map(b=>[b.id,b])),nextNodes=new Map(newBlocks.flatMap(b=>nodesOf(b).map(n=>[n.id,{node:n,block:b}]))),beforeIds=new Set(oldBlocks.flatMap(b=>nodesOf(b).map(n=>n.id)));
+export function polishSafetyIssues(before,after,{reference=before,imported=null,protectedIds=teacherBlocks(reference),spacing=true,challengeSplit=false,resourceView=null}={}){
+ const issues=[];let resourceValidated=false;try{assertSharedResourceView(after,resourceView);resourceValidated=!!resourceView;}catch(error){issues.push(error.message);}
+ const oldBlocks=blocksOf(before),newBlocks=blocksOf(after),nextBlocks=new Map(newBlocks.map(b=>[b.id,b])),nextNodes=new Map(newBlocks.flatMap(b=>nodesOf(b).map(n=>[n.id,{node:n,block:b}]))),beforeIds=new Set(oldBlocks.flatMap(b=>nodesOf(b).map(n=>n.id)));
  const referenceBlocks=new Map(blocksOf(reference).map(b=>[b.id,b]));
  const oldFlags=new Map((after.studio?.flags??[]).map(f=>[f.id,f]));
  for(const flag of teacherFlags(reference))if(!equal(flag,oldFlags.get(flag.id)))issues.push('changed teacher comment '+flag.id);
@@ -64,6 +67,7 @@ export function polishSafetyIssues(before,after,{reference=before,imported=null,
   const now=nextBlocks.get(block.id);
   for(const old of nodesOf(block)){
    const n=nextNodes.get(old.id)?.node;
+   if(!equal(old.flow?.sharedResourceEdges,n?.flow?.sharedResourceEdges)&&!(resourceValidated&&(!old.flow||!Object.hasOwn(old.flow,'sharedResourceEdges'))))issues.push('changed shared resource annotation on '+old.id);
    if(references(old).some(id=>!n||!references(n).includes(id)||beforeIds.has(id)&&!nextNodes.has(id))||old.flow?.keepWithNext&&!n?.flow?.keepWithNext)issues.push('lost dependency on '+old.id);
    // An implicit exercise break is just as binding as an explicit true.
    if(n&&old.flow?.exercisePageBreakBefore!==false&&n.flow?.exercisePageBreakBefore===false)issues.push('removed exercise break on '+old.id);

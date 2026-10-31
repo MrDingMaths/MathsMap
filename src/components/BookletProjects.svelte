@@ -1,4 +1,5 @@
 <script>
+  import {inspectSharedResourcePrint} from '../lib/booklet-resource-output.js';
   import BookletProjectPicker from './BookletProjectPicker.svelte';
   import BookletLibraryFields from './BookletLibraryFields.svelte';
   import BookletCreateDialog from './BookletCreateDialog.svelte';
@@ -1097,6 +1098,16 @@
       // Calibrate synchronously before the browser snapshots its print layout.
       await settleBookletMeasurement(root);
       if(exportGeneration!==documentSession.generation||exportEdition!==flowEdition)throw Error('The document changed while export was being prepared. Retry export for the latest revision.');
+      // The application preparation surface is offscreen and visibility:hidden
+      // on screen only. Reveal that offscreen surface during the same DOM check
+      // used by PDF export; explicit hidden resource descendants stay hidden.
+      const preparationVisibility=root.style.getPropertyValue('visibility'),preparationPriority=root.style.getPropertyPriority('visibility');
+      const preparationFooters=[...root.querySelectorAll('.booklet-footer')].map(el=>({el,value:el.style.getPropertyValue('display'),priority:el.style.getPropertyPriority('display')}));
+      root.style.setProperty('visibility','visible','important');
+      for(const {el}of preparationFooters)el.style.setProperty('display','flex','important');
+      try{await inspectSharedResourcePrint(project,root,{edition:exportEdition});}
+      finally{if(preparationVisibility)root.style.setProperty('visibility',preparationVisibility,preparationPriority);else root.style.removeProperty('visibility');for(const {el,value,priority}of preparationFooters){if(value)el.style.setProperty('display',value,priority);else el.style.removeProperty('display');}}
+      if(exportGeneration!==documentSession.generation||exportEdition!==flowEdition)throw Error('The document changed while print access was being checked. Retry printing for the latest revision.');
       printProgress = 'Opening print dialog…';
       window.print();
     } catch (exception) { error = exception.message; }

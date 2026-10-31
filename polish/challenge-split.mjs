@@ -1,3 +1,4 @@
+import {atomicFlowReferences,assertSharedResourceView} from '../src/lib/booklet-shared-resources.js';
 import{unresolvedPrintedQuestionReferences}from'./exercise-references.mjs';
 import {validatePracticeItems} from '../pedagogy/practice-item-targets.mjs';
 // Read-only calibration: no live save or generation is permitted by this entry point.
@@ -6,9 +7,9 @@ import {pathToFileURL} from 'node:url';
 import {isPractice} from '../src/lib/booklet-flow.js';
 import {teacherBlocks,nodesOf} from './guards.mjs';
 import {endSectionRole,isExamQuestion} from './end-section-role.mjs';
-const rawLinks=b=>nodesOf(b).flatMap(n=>[...(n.dependsOn??[]),...(n.flow?.dependsOn??[]),n.continuationOf,n.flow?.continuationOf,n.pairedBlockId].filter(Boolean));
+const rawLinks=(b,resourceView)=>nodesOf(b).flatMap(n=>[...(n.dependsOn??[]),...atomicFlowReferences(n,resourceView),n.continuationOf,n.flow?.continuationOf,n.pairedBlockId].filter(Boolean));
 const ownersOf=entries=>new Map(entries.flatMap(({b})=>nodesOf(b).map(n=>[n.id,b.id])));
-const blockLinks=(b,owners)=>[...new Set(rawLinks(b).map(id=>owners.get(id)??id).filter(id=>id!==b.id))];
+const blockLinks=(b,owners,resourceView)=>[...new Set(rawLinks(b,resourceView).map(id=>owners.get(id)??id).filter(id=>id!==b.id))];
 // Only instructional content between the linked owners crosses their move unit.
 // Teaching before or after the unit remains in place and is not part of the move.
 function crossesTeachingWithinUnit(project,unit){
@@ -17,7 +18,8 @@ function crossesTeachingWithinUnit(project,unit){
  if(!positions.length||positions.some(i=>i<0))return true;
  return entries.slice(Math.min(...positions),Math.max(...positions)+1).some(({s,b})=>s.phase!=='practice'||b&&!isPractice(b));
 }
-export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3,routineCeiling=64,targetOverrides={},responseAnchors}={}){
+export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3,routineCeiling=64,targetOverrides={},responseAnchors,resourceView=null}={}){
+ assertSharedResourceView(project,resourceView);
  if(archetypes.projectId&&archetypes.projectId!==project.id)throw Error('Archetype map belongs to another project');
  if(archetypes.revision!==undefined&&archetypes.revision!==project.revision)throw Error('Archetype map revision is stale');
  const sections=(project.sections??[]).filter(s=>s.phase==='practice'&&!['challenge','exam','mixed-review','candidate-pool'].includes(endSectionRole(s,project)));
@@ -36,10 +38,10 @@ export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3
  const moveOwners=ownersOf(moveEntries),protectedMoves=teacherBlocks(project);
  const parent=new Map(moveEntries.map(e=>[e.b.id,e.b.id]));
  const root=id=>{while(parent.get(id)!==id)id=parent.get(id);return id;};
- for(const {b} of moveEntries)for(const id of blockLinks(b,moveOwners))if(parent.has(id))parent.set(root(b.id),root(id));
+ for(const {b} of moveEntries)for(const id of blockLinks(b,moveOwners,resourceView))if(parent.has(id))parent.set(root(b.id),root(id));
  for(const s of moveSections)for(let i=0;i<s.blocks.length-1;i++)if(s.blocks[i].flow?.keepWithNext)parent.set(root(s.blocks[i].id),root(s.blocks[i+1].id));
  const proposedRoots=new Set(moveEntries.filter(({b,s})=>isPractice(b)&&Number.isFinite(b.classification?.reasoningScore)&&b.classification.reasoningScore>=65&&!external(b)&&!isExamQuestion(b)&&(!endSection(s)||owned(b))).map(({b})=>root(b.id))),movedRoots=new Set();
- for(const key of proposedRoots){const unit=moveEntries.filter(({b})=>root(b.id)===key),uncertain=unit.filter(({b,s})=>isExamQuestion(b)||external(b)||endSection(s)&&!owned(b)||blockLinks(b,moveOwners).some(id=>!moveById.has(id)));const sourceSections=new Set(unit.map(e=>e.s.id)),crossesTeaching=crossesTeachingWithinUnit(project,unit),emptied=[...sourceSections].some(id=>{const section=moveSections.find(s=>s.id===id);return !endSection(section)&&section.blocks.every(b=>unit.some(e=>e.b.id===b.id));}),protectedMeaning=unit.some(({b})=>protectedMoves.has(b.id)||!isPractice(b)),continuationMixed=unit.some(({b})=>nodesOf(b).some(n=>n.continuationOf||n.flow?.continuationOf))&&unit.some(({b})=>b.classification?.reasoningScore<65)&&!unit.every(({b})=>archetypes.questions?.[b.id]?.continuationUnitReviewed===true);if(uncertain.length||emptied||protectedMeaning||continuationMixed||crossesTeaching){scopeHolds.push({kind:'uncertain-owned-move-unit',ids:unit.map(e=>e.b.id),reason:crossesTeaching?'Linked unit crosses teaching or meaningful instructional content':continuationMixed?'Semantic-unit review required: mixed-score continuation/shared-stem independence not established':emptied?'Whole linked unit would remove an existing exercise boundary':protectedMeaning?'Linked unit contains protected or instructional content':'External, uncertain ownership or unresolved dependency in linked unit'});}else movedRoots.add(key);}
+ for(const key of proposedRoots){const unit=moveEntries.filter(({b})=>root(b.id)===key),uncertain=unit.filter(({b,s})=>isExamQuestion(b)||external(b)||endSection(s)&&!owned(b)||blockLinks(b,moveOwners,resourceView).some(id=>!moveById.has(id)));const sourceSections=new Set(unit.map(e=>e.s.id)),crossesTeaching=crossesTeachingWithinUnit(project,unit),emptied=[...sourceSections].some(id=>{const section=moveSections.find(s=>s.id===id);return !endSection(section)&&section.blocks.every(b=>unit.some(e=>e.b.id===b.id));}),protectedMeaning=unit.some(({b})=>protectedMoves.has(b.id)||!isPractice(b)),continuationMixed=unit.some(({b})=>nodesOf(b).some(n=>n.continuationOf||n.flow?.continuationOf))&&unit.some(({b})=>b.classification?.reasoningScore<65)&&!unit.every(({b})=>archetypes.questions?.[b.id]?.continuationUnitReviewed===true);if(uncertain.length||emptied||protectedMeaning||continuationMixed||crossesTeaching){scopeHolds.push({kind:'uncertain-owned-move-unit',ids:unit.map(e=>e.b.id),reason:crossesTeaching?'Linked unit crosses teaching or meaningful instructional content':continuationMixed?'Semantic-unit review required: mixed-score continuation/shared-stem independence not established':emptied?'Whole linked unit would remove an existing exercise boundary':protectedMeaning?'Linked unit contains protected or instructional content':'External, uncertain ownership or unresolved dependency in linked unit'});}else movedRoots.add(key);}
  for(const {b,s} of moveEntries)if(endSection(s)&&isPractice(b)&&b.classification?.reasoningScore>=65&&!external(b)&&!owned(b))scopeHolds.push({kind:'uncertain-owned-end-question',id:b.id,sectionId:s.id});
  const moves=moveEntries.filter(({b})=>movedRoots.has(root(b.id))).map(({b,s})=>({id:b.id,from:s.id,topicId:s.topicId,score:b.classification?.reasoningScore,linked:b.classification?.reasoningScore<65,fromEndSection:endSection(s)}));
  const highOwnedExamRemaining=[]; const preservedExamQuestions=(project.sections??[]).flatMap(s=>(s.blocks??[]).filter(b=>isPractice(b)&&(endSectionRole(s,project)==='exam'||isExamQuestion(b))).map(b=>({id:b.id,sectionId:s.id,score:b.classification?.reasoningScore,reason:'Exam identity is independent of reasoning score'}))); const moved=new Set(moves.map(x=>x.id)),topics=[];
@@ -66,7 +68,7 @@ export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3
   });
   // A score sort is a proposal only: hold it whenever a retained dependency would be reversed or cross topics.
   const positions=new Map(retained.map((e,i)=>[e.b.id,i]));
-  const orderHolds=retained.flatMap(({b})=>(b.flow?.dependsOn??[]).filter(id=>!positions.has(id)||positions.get(id)>=positions.get(b.id)).map(id=>({id:b.id,dependsOn:id,reason:'dependency order requires review'})));
+  const orderHolds=retained.flatMap(({b})=>atomicFlowReferences(b,resourceView).filter(id=>!positions.has(id)||positions.get(id)>=positions.get(b.id)).map(id=>({id:b.id,dependsOn:id,reason:'dependency order requires review'})));
   const gradientGaps=retained.slice(1).flatMap((e,i)=>{const previous=retained[i].b,step=e.b.classification?.reasoningScore-previous.classification?.reasoningScore;return step>maxStep?[{before:previous.id,after:e.b.id,step}]:[];});
   const originalRoutineScores=original.map(e=>e.b.classification?.reasoningScore).filter(score=>Number.isFinite(score)&&score<65);
   const upperRoutineTarget=topicMap?.routineUpperScore??(originalRoutineScores.length?Math.max(...originalRoutineScores):null);
@@ -104,8 +106,8 @@ export function challengeSplitCandidate(project,{archetypes,approvedCalibration=
   const all=run.flatMap(s=>s.blocks);
   // Meaningful non-question instructions remain in place and prevent reordering across them.
   let start=0;while(start<all.length){if(!safeBlock(all[start])){start++;continue;}let stop=start+1;while(stop<all.length&&safeBlock(all[stop]))stop++;const segment=all.slice(start,stop),parents=new Map(segment.map(b=>[b.id,b.id])),find=id=>{while(parents.get(id)!==id)id=parents.get(id);return id;};
-   const outside=segment.some(b=>blockLinks(b,candidateOwners).some(id=>!parents.has(id)));
-   for(const b of segment)for(const id of blockLinks(b,candidateOwners))if(parents.has(id))parents.set(find(b.id),find(id));
+   const outside=segment.some(b=>blockLinks(b,candidateOwners,options.resourceView).some(id=>!parents.has(id)));
+   for(const b of segment)for(const id of blockLinks(b,candidateOwners,options.resourceView))if(parents.has(id))parents.set(find(b.id),find(id));
    const groups=new Map();for(const b of segment){const key=find(b.id);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(b);}
    const groupList=[...groups.values()],score=g=>Math.max(...g.map(b=>b.classification?.reasoningScore??Infinity));
    const sorted=outside?segment:groupList.sort((a,b)=>score(a)-score(b)).flat();all.splice(start,stop-start,...sorted);start=stop;}
@@ -119,10 +121,10 @@ export function challengeSplitCandidate(project,{archetypes,approvedCalibration=
   topic.actualOrder=actual.map(b=>b.id);topic.order=topic.actualOrder;
   topic.rejectedProposalOrderHolds=topic.orderHolds;
   const actualPositions=new Map(actual.map((b,i)=>[b.id,i]));
-  topic.orderHolds=actual.flatMap(b=>blockLinks(b,candidateOwners).filter(id=>!actualPositions.has(id)||actualPositions.get(id)>=actualPositions.get(b.id)).map(id=>({id:b.id,dependsOn:id,reason:'actual dependency order violation'})));
+  topic.orderHolds=actual.flatMap(b=>blockLinks(b,candidateOwners,options.resourceView).filter(id=>!actualPositions.has(id)||actualPositions.get(id)>=actualPositions.get(b.id)).map(id=>({id:b.id,dependsOn:id,reason:'actual dependency order violation'})));
   const groupParent=new Map(actual.map(b=>[b.id,b.id]));
   const groupRoot=id=>{while(groupParent.get(id)!==id)id=groupParent.get(id);return id;};
-  for(const b of actual)for(const id of blockLinks(b,candidateOwners))if(groupParent.has(id))groupParent.set(groupRoot(b.id),groupRoot(id));
+  for(const b of actual)for(const id of blockLinks(b,candidateOwners,options.resourceView))if(groupParent.has(id))groupParent.set(groupRoot(b.id),groupRoot(id));
   const unitMap=new Map();for(const b of actual){const key=groupRoot(b.id);if(!unitMap.has(key))unitMap.set(key,[]);unitMap.get(key).push(b);}
   topic.gradientUnits=[...unitMap.values()].map(members=>({ids:members.map(b=>b.id),score:Math.max(...members.map(b=>b.classification?.reasoningScore??NaN)),scoreBasis:'max-member-rating; original ratings unchanged'}));
   topic.gradientGaps=topic.gradientUnits.slice(1).flatMap((unit,i)=>{const before=topic.gradientUnits[i],step=unit.score-before.score;return Math.abs(step)>report.calibration.maxStep?[{before:before.ids.at(-1),after:unit.ids[0],beforeUnit:before.ids,afterUnit:unit.ids,step}]:[];});  topic.orderDiffersFromProposal=JSON.stringify(topic.actualOrder)!==JSON.stringify(topic.proposedScoreOrder);
@@ -145,5 +147,6 @@ export function challengeSplitCandidate(project,{archetypes,approvedCalibration=
  ...report.splitHolds.map(h=>({kind:'protected-split-layout',...h})),
  {kind:'pagination-verification-pending'}];
  report.backfillBlocked=report.publicationHolds.some(h=>['unassessable-sufficiency','practice-deficit','gradient-gap','upper-routine-gap'].includes(h.kind));
+ assertSharedResourceView(candidate,options.resourceView);
  return {project:candidate,report};
 }

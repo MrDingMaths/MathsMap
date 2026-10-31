@@ -1,3 +1,4 @@
+import {assertSharedResourceView} from './booklet-shared-resources.js';
 // Pagination optimiser (22 October 2026, user approved). Pure: the real paginator is
 // reached only through the `paginate(candidate, focus)` callback, so Studio (a hidden
 // probe preview) and tests (a fake) share this code.
@@ -82,8 +83,8 @@ export function optimisableSections(project) {
 
 // A unit is movable when it has a rating and no manual break of its own; an unrated
 // unit or one that forces a page break is a barrier nothing may jump over.
-export function describeUnits(section, protectedIds = new Set()) {
-  const {groups,unresolved} = exerciseUnits(section);
+export function describeUnits(section, protectedIds = new Set(), resourceView = null) {
+  const {groups,unresolved} = exerciseUnits(section,section.blocks,resourceView);
   // Protected blocks cannot receive the autoOrder metadata required to persist a reorder.
   const protectedSection=section.blocks.some(b=>protectedIds.has(b.id));
   return groups.map((group, index) => {
@@ -305,7 +306,8 @@ function stampAutoOrder(project, sectionIndex, units, order, moves, at) {
 
 // ---- optimiser ---------------------------------------------------------------------
 
-export async function optimisePagination(source, {paginate, guard = null, named = false, trials = OPTIMISER_LIMITS.trials, gapMm = OPTIMISER_LIMITS.gapMm, now = () => new Date().toISOString(), onprogress = null, shouldStop = () => false, sectionIds = null} = {}) {
+export async function optimisePagination(source, {paginate, guard = null, named = false, trials = OPTIMISER_LIMITS.trials, gapMm = OPTIMISER_LIMITS.gapMm, now = () => new Date().toISOString(), onprogress = null, shouldStop = () => false, sectionIds = null, resourceView = null} = {}) {
+  assertSharedResourceView(source,resourceView);
   if (typeof paginate !== 'function') throw Error('optimisePagination needs a paginate callback');
   if (hasTeacherReview(source) && !named) throw Error(`${source.id ?? 'This booklet'} has teacher comments; it changes only when named explicitly.`);
   const baseline = await paginate(source, {});
@@ -334,7 +336,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     if (block.flow?.keepTogether !== false) attempts.push({label: 'keep together ' + split.id, project: withSectionBlocks(kept, index, kept.sections[index].blocks.map(b => b.id === split.id ? {...b, flow: {...b.flow, keepTogether: true}} : b)),
       changes: [...(tightened.changes), {type: 'keep-together', sectionId: split.sectionId, blockId: split.id, tailParts: split.tailParts}]});
     for (const attempt of attempts) {
-      if(polishSafetyIssues(source,attempt.project,{protectedIds,spacing:false}).length)continue;
+      if(polishSafetyIssues(source,attempt.project,{protectedIds,spacing:false,resourceView}).length)continue;
       totalTrials++;
       let result;
       try { result = await paginate(attempt.project, {sectionId: split.sectionId, blockIds: [split.id]}); } catch (error) { reject(split.sectionId, 'pagination-error', {label: attempt.label, message: error.message}); continue; }
@@ -360,7 +362,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     onprogress?.({exercise: position + 1, exercises: targets.length, sectionId: originalSection.id, trials: totalTrials});
     const sectionStart = project;
     const exerciseMoves = [];
-    let units = describeUnits(project.sections[index],protectedIds);
+    let units = describeUnits(project.sections[index],protectedIds,resourceView);
     let order = units.map((_, i) => i);
     let used = 0;
     const owned = () => project.sections[index].blocks.map(b => b.id);
@@ -375,7 +377,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     // One trial: paginate the candidate and apply the hard rejections.
     const trial = async (candidate, label) => {
       used++; totalTrials++;
-      const unsafe=polishSafetyIssues(source,candidate,{protectedIds,spacing:false});
+      const unsafe=polishSafetyIssues(source,candidate,{protectedIds,spacing:false,resourceView});
       if(unsafe.length){reject(originalSection.id,'safety',{label,issues:unsafe});return null;}
       let result;
       try { result = await paginate(candidate, focusOf()); } catch (error) { reject(originalSection.id, 'pagination-error', {label, message: error.message}); return null; }
@@ -517,6 +519,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     if (exerciseMoves.length) map = await paginate(project, {});
   }
 
+  assertSharedResourceView(project,resourceView);
   const final = moves.length ? await paginate(project, {}) : baseline;
   if ((final.pages ?? []).length > (baseline.pages ?? []).length) {
     // Never hand back a longer booklet.

@@ -1,3 +1,4 @@
+import {assertSharedResourceView} from '../src/lib/booklet-shared-resources.js';
 // Pure Node authoring only: never loaded by a renderer or on project load.
 // This binds/relabels explicit question references, not implicit teaching groups.
 // Full source-exercise dependency review and independent rating/SDK publication
@@ -348,7 +349,7 @@ function exerciseReferenceResolution(project,{fixedTeachingReferences=[],checkIm
  }
  return {kind:'exercise-reference-bindings-v1',projectId:project.id,revision:project.revision,sourceFingerprint:hash(project),records,groups,holds,...(fixedTeachingReferences.length?{fixedTeachingReferences:structuredClone(fixedTeachingReferences),fixedTeachingBindings}: {})};
 }
-export function resolveExerciseReferences(project,{fixedTeachingReferences=[]}={}){return exerciseReferenceResolution(project,{fixedTeachingReferences});}
+export function resolveExerciseReferences(project,{fixedTeachingReferences=[],resourceView=null}={}){assertSharedResourceView(project,resourceView);return exerciseReferenceResolution(project,{fixedTeachingReferences});}
 export function verifyExerciseReferenceResolution(project,resolution){same(exerciseReferenceResolution(project,{fixedTeachingReferences:resolution.fixedTeachingReferences??[],checkImages:false}),resolution);return true;}
 export function renumberExerciseReferences(before,ordered,resolution){
  verifyExerciseReferenceResolution(before,resolution);assert.equal(resolution.holds.length,0,'Reference holds must be settled before applying');

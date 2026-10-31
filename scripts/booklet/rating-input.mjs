@@ -1,3 +1,4 @@
+import {atomicFlowReferences,sharedResourceContext,assertSharedResourceView} from '../../src/lib/booklet-shared-resources.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
@@ -22,21 +23,24 @@ export function supplementalRatingEvidence(block,evidence){
 }
 // Earlier questions this one builds on, as students see them. They are context
 // only: the task hash and the task rated do not include them.
-function linkedQuestions(block,section){
- const byId=new Map((section.blocks??[]).map(b=>[b.id,b])),seen=new Set(),found=[];
- const visit=id=>{if(seen.has(id))return;seen.add(id);const parent=byId.get(id);if(!parent)return;(parent.flow?.dependsOn??[]).forEach(visit);found.push({id,task:JSON.parse(JSON.stringify(sharedQuestion({...normaliseQuestion(parent),title:''}).content,(key,value)=>key==='answer'?undefined:value))});};
- (block.flow?.dependsOn??[]).forEach(visit);
+function linkedQuestions(block,section,project,resourceView){
+ const byId=new Map((project?project.sections.flatMap(s=>s.blocks??[]):section.blocks??[]).map(b=>[b.id,b])),seen=new Set(),found=[];
+ const visit=id=>{if(seen.has(id))return;seen.add(id);const parent=byId.get(id);if(!parent)return;atomicFlowReferences(parent,resourceView).forEach(visit);found.push({id,task:JSON.parse(JSON.stringify(sharedQuestion({...normaliseQuestion(parent),title:''}).content,(key,value)=>key==='answer'?undefined:value))});};
+ atomicFlowReferences(block,resourceView).forEach(visit);
  return found;
 }
-function inputQuestion({block,section,projectTitle,topicTitle,supplementalEvidence}){
+function inputQuestion({block,section,projectTitle,topicTitle,supplementalEvidence,project,resourceView}){
+ if(block.flow&&Object.hasOwn(block.flow,'sharedResourceEdges')&&!project)throw Error('Global project required for shared-resource rating context');
  const before=(section.blocks??[]).slice(0,(section.blocks??[]).findIndex(b=>b.id===block.id));
  const instructions=before.filter(b=>['heading','rich-text','narrative'].includes(b.type)).map(b=>({title:b.title,content:b.content??b.text}));
- const linked=linkedQuestions(block,section);
- return {id:block.id,taskHash:reasoningTaskHash(block),booklet:projectTitle,topic:topicTitle,section:section.title,instructions,teachingContext:block.sourceReview?.teachingContext??null,...(supplementalEvidence?.length?{supplementalEvidence}:{}),...(linked.length?{linkedQuestions:linked}:{}),task:sharedQuestion({...normaliseQuestion(block),title:''}).content};
+ if(project)assertSharedResourceView(project,resourceView);
+ const linked=linkedQuestions(block,section,project,resourceView);
+ const resources=project?sharedResourceContext(project,block.id,resourceView):[];
+ return {...(resources.length?{sharedResources:resources}:{}),id:block.id,taskHash:reasoningTaskHash(block),booklet:projectTitle,topic:topicTitle,section:section.title,instructions,teachingContext:block.sourceReview?.teachingContext??null,...(supplementalEvidence?.length?{supplementalEvidence}:{}),...(linked.length?{linkedQuestions:linked}:{}),task:sharedQuestion({...normaliseQuestion(block),title:''}).content};
 }
-export function ratingBatches(rows,{characters=100000,questions=60,images=8}={}){
+export function ratingBatches(rows,{characters=100000,questions=60,images=8,project=null,resourceView=null}={}){
  const batches=[];let batch=[],size=0,imageRefs=new Set();
- for(const row of rows){const input=inputQuestion(row),length=JSON.stringify(input).length;
+ for(const row of rows){const input=inputQuestion({...row,project:row.project??project,resourceView:row.resourceView??resourceView}),length=JSON.stringify(input).length;
   const refs=ratingImageReferences(input.task);
   if(batch.length&&(size+length>characters||batch.length>=questions||new Set([...imageRefs,...refs]).size>images)){batches.push(batch);batch=[];size=0;imageRefs=new Set();}
   batch.push({...row,input});size+=length;for(const ref of refs)imageRefs.add(ref);
