@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {NEW_CONTENT_MODEL,validateNewTeachingCandidate} from '../pedagogy/new-content.mjs';
-import {assertExactSonnetVerification,sonnetArguments,parseSonnetDraft,routineBackfillPrompt,routineBackfillBatchPrompt,generateSonnetDraft,validateRoutineBackfillDraft,groupRoutineBackfillDraft,assertIndependentBackfillReview,draftHash} from '../pedagogy/sonnet-generation.mjs';
+import {assertExactSonnetVerification,sonnetArguments,prepareSonnetInput,SONNET_IMAGE_LIMITS,parseSonnetDraft,routineBackfillPrompt,routineBackfillBatchPrompt,generateSonnetDraft,validateRoutineBackfillDraft,groupRoutineBackfillDraft,assertIndependentBackfillReview,draftHash} from '../pedagogy/sonnet-generation.mjs';
 import {assessedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 const verification={passed:true,requestedModel:NEW_CONTENT_MODEL,models:[NEW_CONTENT_MODEL]};
 const item={id:'test-1',archetype:'known',content:{id:'test-root',type:'question',prompt:'Calculate $2+3$.',answer:{short:'$5$',worked:'$2+3=5$'}}};
@@ -76,6 +76,49 @@ test('native multipart grouping preserves every task/answer and invalidates indi
 const retainedRequest={model:NEW_CONTENT_MODEL,kind:'backfill',prompt:'Synthetic software-contract fixture; no booklet source.'};
 const retainedTemp=()=>fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-sonnet-retention-test-'));
 const retainedLease=async(_run,_details,action)=>action();
+
+const imageFixture=()=>{
+ const dir=retainedTemp(),bytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a9K0AAAAASUVORK5CYII=','base64'),file=path.join(dir,'source.png');
+ fs.writeFileSync(file,bytes);return {bytes,image:{path:file,mediaType:'image/png',sha256:createHash('sha256').update(bytes).digest('hex')}};
+};
+test('optional images preserve the text-only transport exactly',async()=>{
+ for(const images of [undefined,[]]){
+  const request={...retainedRequest,...(images===undefined?{}:{images})};
+  assert.deepEqual(prepareSonnetInput(request),{prompt:request.prompt,images:[]});
+  await generateSonnetDraft({request,verification,runDir:'canonical',workDir:retainedTemp(),lease:retainedLease,executor:async options=>{
+   assert.equal(options.prompt,request.prompt);assert.deepEqual(options.args,sonnetArguments());assert.equal(options.args.includes('--input-format'),false);return {code:0,stdout:envelope()};
+  }});
+ }
+});
+test('nine images travel as ordered base64 blocks with unchanged exact-model controls',async()=>{
+ const {bytes,image}=imageFixture(),images=Array.from({length:9},(_,i)=>({...image,label:'Source '+(i+1)})),workDir=retainedTemp();let leased=false;
+ const draft=await generateSonnetDraft({request:{...retainedRequest,images},verification,runDir:'canonical',workDir,lease:async(_run,_details,action)=>{leased=true;return action();},executor:async options=>{
+  assert.equal(leased,true);assert.deepEqual(options.args,[...sonnetArguments(),'--input-format','stream-json']);
+  const wire=options.prompt+'\n';assert.equal(wire.split('\n').length,2);const message=JSON.parse(wire);
+  assert.equal(message.type,'user');assert.equal(message.parent_tool_use_id,null);assert.equal(message.message.role,'user');
+  const blocks=message.message.content;assert.deepEqual(blocks[0],{type:'text',text:retainedRequest.prompt});assert.equal(blocks.length,19);
+  images.forEach((im,i)=>{assert.deepEqual(blocks[1+i*2],{type:'text',text:im.label});assert.deepEqual(blocks[2+i*2],{type:'image',source:{type:'base64',media_type:'image/png',data:bytes.toString('base64')}});});
+  return {code:0,stdout:envelope()};
+ }});
+ assert.equal(draft.metrics.imageCount,9);assert.deepEqual(draft.metrics.images,images.map(im=>({sha256:im.sha256,mediaType:im.mediaType,bytes:bytes.length,label:im.label})));
+ const metrics=fs.readFileSync(path.join(workDir,'generation-metrics.json'),'utf8');assert.equal(metrics.includes(bytes.toString('base64')),false);assert.equal(metrics.includes(image.path),false);
+ await assert.rejects(generateSonnetDraft({request:{...retainedRequest,images},verification,runDir:'canonical',workDir,lease:()=>assert.fail('No retained-attempt lease')}),/already has a result/);
+});
+test('invalid image inputs fail before lease or output creation',async()=>{
+ const {image}=imageFixture(),oversized=path.join(retainedTemp(),'large.png');fs.writeFileSync(oversized,Buffer.alloc(SONNET_IMAGE_LIMITS.perImageBytes+1));
+ const cases=[null,{},Array(SONNET_IMAGE_LIMITS.count+1).fill(image),[{...image,path:''}],[{...image,path:image.path+'.missing'}],[{...image,path:path.dirname(image.path)}],[{...image,mediaType:'image/svg+xml'}],[{...image,mediaType:'image/jpeg'}],[{...image,sha256:'0'.repeat(64)}],[{...image,sha256:4}],[{...image,label:' '}],[{...image,path:oversized}]];
+ for(const images of cases){const workDir=path.join(retainedTemp(),'not-created');await assert.rejects(generateSonnetDraft({request:{...retainedRequest,images},verification,runDir:'canonical',workDir,lease:()=>assert.fail('Invalid image reached lease'),executor:()=>assert.fail('Invalid image reached executor')}));assert.equal(fs.existsSync(workDir),false);}
+ const large=Buffer.alloc(SONNET_IMAGE_LIMITS.perImageBytes);Buffer.from([137,80,78,71,13,10,26,10]).copy(large);const file=path.join(retainedTemp(),'limit.png');fs.writeFileSync(file,large);
+ const largeImage={path:file,mediaType:'image/png',sha256:createHash('sha256').update(large).digest('hex')};
+ assert.throws(()=>prepareSonnetInput({...retainedRequest,images:Array(5).fill(largeImage)}),/total image byte limit/);
+});
+test('image transport retains exact output, fallback and tool rejection',async()=>{
+ const {image}=imageFixture();
+ for(const [stdout,code,expected]of [[envelope({modelUsage:{'claude-sonnet-5':{}}}),0,/Exact Sonnet/],[envelope({permission_denials:[{tool:'Read'}]}),0,/tool permission/],['bad',0,/valid JSON envelope/],[envelope(),1,/exit code 1/]]){
+  const workDir=retainedTemp();await assert.rejects(generateSonnetDraft({request:{...retainedRequest,images:[image]},verification,runDir:'canonical',workDir,lease:retainedLease,executor:async()=>({code,stdout})}),expected);
+  assert.equal(fs.existsSync(path.join(workDir,'draft.json')),false);assert.equal(fs.readFileSync(path.join(workDir,'raw-stdout.txt'),'utf8'),stdout);
+ }
+});
 
 test('raw stdout exists before parsing and preserves healthy legacy results and current controls',async()=>{
  for(const streamed of ['all','prefix']){

@@ -12,8 +12,30 @@ import {draftHash} from './routine-backfill-proof.mjs';
 export function assertExactSonnetVerification(verification){
  if(verification?.passed!==true||verification.requestedModel!==NEW_CONTENT_MODEL||verification.models?.length!==1||verification.models[0]!==NEW_CONTENT_MODEL)throw Error('A successful exact Sonnet 5.5 availability check is required');
 }
-export function sonnetArguments(){
- return ['--print','--model',NEW_CONTENT_MODEL,'--output-format','json','--no-session-persistence','--max-turns','1','--safe-mode','--tools','','--disallowedTools','*','--strict-mcp-config','--permission-mode','default','--settings','{"fallbackModel":[]}'];
+export function sonnetArguments({imageInput=false}={}){
+ return ['--print','--model',NEW_CONTENT_MODEL,'--output-format','json','--no-session-persistence','--max-turns','1','--safe-mode','--tools','','--disallowedTools','*','--strict-mcp-config','--permission-mode','default','--settings','{"fallbackModel":[]}',...(imageInput?['--input-format','stream-json']:[])];
+}
+// Conservative local transport limits; base64 stays on stdin, never in metrics.
+export const SONNET_IMAGE_LIMITS=Object.freeze({count:12,perImageBytes:5*1024*1024,totalBytes:20*1024*1024});
+export function prepareSonnetInput(request){
+ if(request.images===undefined)return {prompt:request.prompt,images:[]};
+ if(!Array.isArray(request.images)||request.images.length>SONNET_IMAGE_LIMITS.count)throw Error('Invalid Sonnet image count');
+ if(!request.images.length)return {prompt:request.prompt,images:[]};
+ let totalBytes=0;const content=[{type:'text',text:request.prompt}],images=[];
+ for(const image of request.images){
+  if(!image||typeof image.path!=='string'||!image.path||!['image/png','image/jpeg','image/gif','image/webp'].includes(image.mediaType)||typeof image.sha256!=='string'||!/^[a-f0-9]{64}$/i.test(image.sha256))throw Error('Invalid Sonnet image path, MIME or hash');
+  if(image.label!==undefined&&(typeof image.label!=='string'||!image.label.trim()||image.label.length>500))throw Error('Invalid Sonnet image label');
+  const stat=fs.statSync(image.path);if(!stat.isFile()||stat.size<12||stat.size>SONNET_IMAGE_LIMITS.perImageBytes)throw Error('Sonnet image byte limit or file check failed');
+  totalBytes+=stat.size;if(totalBytes>SONNET_IMAGE_LIMITS.totalBytes)throw Error('Sonnet total image byte limit exceeded');
+  const bytes=fs.readFileSync(image.path);if(bytes.length!==stat.size)throw Error('Sonnet image changed while reading');
+  const sha256=createHash('sha256').update(bytes).digest('hex');if(sha256!==image.sha256.toLowerCase())throw Error('Sonnet image hash mismatch');
+  const valid=image.mediaType==='image/png'?bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])):image.mediaType==='image/jpeg'?bytes[0]===255&&bytes[1]===216&&bytes[2]===255:image.mediaType==='image/gif'?['GIF87a','GIF89a'].includes(bytes.toString('ascii',0,6)):bytes.toString('ascii',0,4)==='RIFF'&&bytes.toString('ascii',8,12)==='WEBP';
+  if(!valid)throw Error('Sonnet image MIME/signature mismatch');
+  if(image.label)content.push({type:'text',text:image.label});
+  content.push({type:'image',source:{type:'base64',media_type:image.mediaType,data:bytes.toString('base64')}});
+  images.push({sha256,mediaType:image.mediaType,bytes:bytes.length,...(image.label?{label:image.label}:{})});
+ }
+ return {prompt:JSON.stringify({type:'user',message:{role:'user',content},parent_tool_use_id:null}),images};
 }
 export function parseSonnetDraft(stdout){
  let envelope;try{envelope=JSON.parse(stdout);}catch{throw Error('Claude CLI returned no valid JSON envelope');}
@@ -72,14 +94,16 @@ export async function generateSonnetDraft({request,verification,runDir,workDir,e
  const resolvedWork=path.resolve(workDir),forbidden=['booklets/projects','booklets/question-bank','public/content','public/quizzes'].map(p=>path.resolve(p));
  if(forbidden.some(p=>resolvedWork===p||resolvedWork.startsWith(p+path.sep)))throw Error('Draft output cannot target live content');
  if(['draft.json','generation-metrics.json','raw-stdout.txt','raw-envelope.json'].some(name=>fs.existsSync(path.join(workDir,name))))throw Error('Generation work directory already has a result or retained attempt; preserve it and use a fresh call directory');
+ const input=prepareSonnetInput(request);
  const started=Date.now(),metrics={provider:'claude-code',model:NEW_CONTENT_MODEL,requestedModel:NEW_CONTENT_MODEL,startedAt:new Date().toISOString(),externalModelCalls:0,toolUseDisabled:true,fallbackChain:[]};
+ if(input.images.length)Object.assign(metrics,{imageCount:input.images.length,images:input.images});
  fs.mkdirSync(workDir,{recursive:true});
  const stdoutFile=path.join(workDir,'raw-stdout.txt'),stdoutFd=fs.openSync(stdoutFile,'wx');let stdoutBytes=0;
  Object.assign(metrics,{rawStdoutFile:stdoutFile,rawStdoutComplete:false,rawStdoutTruncated:false});
  const retain=chunk=>{const bytes=Buffer.isBuffer(chunk)?chunk:Buffer.from(String(chunk)),remaining=8000000-stdoutBytes;if(bytes.length>remaining){if(remaining>0)fs.writeSync(stdoutFd,bytes.subarray(0,remaining));stdoutBytes+=Math.max(0,remaining);metrics.rawStdoutTruncated=true;throw Error('Sonnet draft exceeds output limit');}fs.writeSync(stdoutFd,bytes);stdoutBytes+=bytes.length;};
  try{
   const cwd=fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-sonnet-draft-'));
-  const call=await lease(runDir,{stage:'routine-backfill-generation',model:NEW_CONTENT_MODEL,provider:'claude-code'},async()=>{metrics.externalModelCalls=1;return executor({executable,args:sonnetArguments(),cwd,prompt:request.prompt,timeoutMs,signal,onStdout:retain});},{signal});
+  const call=await lease(runDir,{stage:'routine-backfill-generation',model:NEW_CONTENT_MODEL,provider:'claude-code'},async()=>{metrics.externalModelCalls=1;return executor({executable,args:sonnetArguments({imageInput:input.images.length>0}),cwd,prompt:input.prompt,timeoutMs,signal,onStdout:retain});},{signal});
   // Retain output before exit checks or parsing. Return-only custom executors
   // remain supported; streaming also preserves partial timeout/abort output.
   if(!stdoutBytes)retain(call.stdout??'');
