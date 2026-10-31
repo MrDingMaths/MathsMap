@@ -3,7 +3,15 @@ import {approvedMathsBaseSource, isQuestionSource} from '../src/lib/question-sou
 import {sourceFromBookletTitle} from '../scripts/booklet/regroup-exam-sections.mjs';
 
 function expectedSource(block) {
-  const code = block.sourceReview?.origin?.sourceCode;
+  // Booklet-origin normalization preserves its original fields. A verified
+  // course-only correction therefore retains its literal identity separately.
+  const correction = block.sourceReview?.courseAttributionCorrection;
+  const correctionCode = correction?.kind === 'whole-source-ask-course-attribution-only-v1'
+    && correction.mathematicsAndRatingUnchanged === true && correction.sourceId && correction.proofFile
+    && /^[a-f0-9]{64}$/i.test(correction.nativeTaskHash ?? '')
+    && /^[a-f0-9]{64}$/i.test(correction.sourceQuestionSha256 ?? '')
+    && /^[a-f0-9]{64}$/i.test(correction.sourceSolutionSha256 ?? '') ? correction.sourceCode : undefined;
+  const code = block.sourceReview?.origin?.sourceCode ?? correctionCode;
   if (code !== undefined) {
     const source = approvedMathsBaseSource(code);
     if (!source || source.needsSchoolMapping || !source.label) return {reason: 'literal source code is excluded, unknown or needs an approved school mapping', sourceCode: code};
@@ -19,7 +27,10 @@ export function validateProgrammeExamSection(section) {
   const held = [];
   if (section?.role !== 'exam' || section?.phase !== 'practice') held.push({sectionId: section?.id, reason: 'programme Exam section must have role exam and phase practice'});
   if (section?.workingSpace !== 'none') held.push({sectionId: section?.id, reason: 'programme Exam acceptance requires explicit workingSpace: none'});
-  const questions = (section?.blocks ?? []).filter(block => block.type === 'question');
+  for (const block of section?.blocks ?? []) {
+    if (!block || typeof block.type !== 'string' || !block.type) held.push({id: block?.id, reason: 'project block type is required; native question records need a type: question wrapper'});
+  }
+  const questions = (section?.blocks ?? []).filter(block => block?.type === 'question');
   if (!questions.length) held.push({sectionId: section?.id, reason: 'programme Exam section has no question owners'});
   for (const block of questions) {
     const expected = expectedSource(block);

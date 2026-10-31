@@ -31,6 +31,24 @@ test('programme builder fixes the omitted section option without rewriting mathe
   assert.equal(validateProgrammeExamSection(section).valid, true);
 });
 
+test('an existing valid owner cannot hide new question records missing their project wrapper', () => {
+  const unwrapped = {...question(), id: 'new-source'}; delete unwrapped.type;
+  const input = {...options(question()), blocks: [question(), unwrapped]};
+  assert.throws(() => requireProgrammeExamSection(input), /new-source: project block type is required/);
+  unwrapped.type = 'question';
+  assert.equal(requireProgrammeExamSection(input).blocks.length, 2);
+});
+
+test('saved typed course corrections retain their literal identity without rewriting booklet origins', () => {
+  const block = question('HSC.X1.2016 Q14a');
+  block.title = '2016 HSC Advanced Band 4';
+  block.sourceReview.origin = {provider:'booklet',sourcePage:43};
+  block.sourceReview.courseAttributionCorrection = {kind:'whole-source-ask-course-attribution-only-v1',sourceId:'source-id',sourceCode:'HSC.X1.2016 Q14a',proofFile:'match-proof.json',mathematicsAndRatingUnchanged:true,nativeTaskHash:'a'.repeat(64),sourceQuestionSha256:'b'.repeat(64),sourceSolutionSha256:'c'.repeat(64)};
+  assert.deepEqual(requireProgrammeExamSection(options(block)).blocks[0],block);
+  delete block.sourceReview.courseAttributionCorrection.proofFile;
+  assert.throws(()=>requireProgrammeExamSection(options(block)),/held/);
+});
+
 test('literal formatter is mandatory even when a hand-written label looks plausible', () => {
   for (const source of [undefined, {provider: 'HSC', label: '2011 HSC Advanced'}, {...mathsBaseSource('HSC.ADV.2011'), label: 'HSC Advanced 2012'}, {...mathsBaseSource('HSC.ADV.2011'), label: ' HSC Advanced 2011 '}]) {
     const section = {...options({...question(), source}), role: 'exam', phase: 'practice', workingSpace: 'none'};
