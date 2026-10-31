@@ -138,3 +138,17 @@ test('unknown or malformed explicit item archetype holds sufficiency within same
  const b=q('b',20);b.content={id:'root'};const map={questions:{b:{archetype:'known',practiceItems:[{nodeIds:['root'],archetype:'elsewhere'}]}},topics:[{topicId:'a',clusters:[{id:'known',coverage:'covered'}]},{topicId:'other',clusters:[{id:'elsewhere',coverage:'covered'}]}]};
  const check=()=>report({sections:[section('a',[b])]},{archetypes:map}).topics[0];assert.equal(check().sufficiencyStatus,'unassessable');assert.equal(check().invalidItemArchetypes.length,1);assert.equal(check().coverage[0].gap,null);map.questions.b.practiceItems[0].archetype=null;assert.equal(check().invalidItemArchetypes.length,1);
 });
+
+// Moving a self-contained owner does not move its section's teaching prefix.
+test('Challenge move ignores teaching outside its actual linked owner interval',()=>{
+ const guide=id=>({id,type:'worked-example'});const p={sections:[section('a',[guide('before'),q('spare',10),q('high',70),guide('after')])]};
+ assert.deepEqual(report(p).moves.map(x=>x.id),['high']);
+});
+test('Challenge move still holds instructional content inside a linked owner interval',()=>{
+ const p={sections:[section('a',[q('spare',10),q('high',70,['low']),{id:'guide',type:'worked-example'},q('low',20)])]};
+ const r=report(p);assert.equal(r.moves.length,0);assert.ok(r.scopeHolds.some(h=>h.reason?.includes('crosses teaching')));
+});
+test('Challenge move still holds an empty teaching section between linked owners',()=>{
+ const p={sections:[section('a',[q('spare-a',10),q('high',70,['low'])]),{id:'teach',phase:'teaching',blocks:[]},section('b',[q('low',20),q('spare-b',10)])]};
+ const r=report(p);assert.equal(r.moves.length,0);assert.ok(r.scopeHolds.some(h=>h.reason?.includes('crosses teaching')));
+});
