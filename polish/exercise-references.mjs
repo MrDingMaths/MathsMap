@@ -36,10 +36,10 @@ const hasNumericMathReference=text=>[...text.matchAll(MATH_TOKEN_REFERENCE)].som
 function inlineTikzReferenceText(text){
  const tokens=[...text.matchAll(/\[(\/?tikz)\]/g)];
  if(!tokens.length||tokens.length%2||tokens.some((m,i)=>m[1]!==((i%2)?'/tikz':'tikz')))return text;
- return text.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/g,(span,code)=>span.replace(/^% mathsmap-diagram-colours ([^\r\n]*)/gm,(line,json)=>{
+ return text.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/g,(span,code)=>'[tikz]'+code.replace(/^% mathsmap-diagram-colours ([^\r\n]*)/gm,(line,json)=>{
   try{const v=JSON.parse(json);if(v?.version!==1||!['graph','geometry'].includes(v.kind)||!Array.isArray(v.base)||!Array.isArray(v.semantic)||typeof v.reference!=='string')return line;}catch{return line;}
   return ' '.repeat(line.length);
- }));
+ })+'[/tikz]');
 }
 function scanField(field){
  field.text=inlineTikzReferenceText(field.text);
@@ -91,6 +91,24 @@ function belowInStack(root,intro,target){
  const a=paths(intro),b=paths(target);if(a.length!==1||b.length!==1)return false;
  let i=0;while(i<a[0].length&&i<b[0].length&&a[0][i].node===b[0][i].node&&a[0][i].index===b[0][i].index)i++;
  return !!a[0][i]&&!!b[0][i]&&a[0][i].node===b[0][i].node&&a[0][i].node.direction==='stack'&&a[0][i].index<b[0][i].index;
+}
+// A single inline figure later in the same printable prompt is an explicit local
+// target. Never infer a target across fields, owners, malformed fences or figures.
+function ownFollowingInlineDiagram(block,field,match){
+ const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
+ if(path[0]!=='content'||pi<0||path.slice(0,pi).includes('answer'))return false;
+ const node=get(block,path.slice(0,pi));
+ if(!['question','part'].includes(node?.type)||/\beach\s+$/i.test(field.text.slice(0,match.index)))return false;
+ const ownerFields=printedReferenceFields(block).filter(f=>{const p=JSON.parse(f.key);return p.slice(0,pi).every((v,i)=>v===path[i])&&!p.slice(pi).includes('answer');});
+ if(ownerFields.reduce((n,f)=>n+[...f.text.matchAll(/\[(\/?tikz)\]/g)].length,0)!==2)return false;
+ const promptFields=printedReferenceFields(block).filter(f=>{
+  const p=JSON.parse(f.key);return p.length>=pi+1&&p.slice(0,pi+1).every((v,i)=>v===path[i]);
+ });
+ const tokens=promptFields.flatMap(f=>[...f.text.matchAll(/\[(\/?tikz)\]/g)].map(m=>({field:f.key,tag:m[1],index:m.index})));
+ if(tokens.length!==2||tokens[0].tag!=='tikz'||tokens[1].tag!=='/tikz'||tokens.some(t=>t.field!==field.key)||tokens[0].index<=match.index+match[0].length)return false;
+ // Other native figures in this owner would make the relative target ambiguous.
+ const hasNative=v=>v&&typeof v==='object'&&(Array.isArray(v.questionDiagrams)&&v.questionDiagrams.length>0||Object.entries(v).some(([k,x])=>!OMIT.has(k)&&k!=='answer'&&typeof x==='object'&&(Array.isArray(x)?x.some(hasNative):hasNative(x))));
+ return !hasNative(node);
 }
 function ownFollowingDiagram(block,field,project){
  const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
@@ -234,6 +252,7 @@ function checkedFixedTeachingReferences(project,artifacts,{checkImages=true}={})
 function referenceScanText(block,field,fields,project,fixedTeachingBindings=[]){
  let text=ownFollowingTable(block,field,project)?field.text.replace(/\btable below\b/gi,m=>' '.repeat(m.length)):field.text;
  for(const binding of fixedTeachingBindings.filter(b=>b.ownerId===block.id&&b.field===field.key)){assert.equal(field.text.slice(binding.start,binding.end),binding.quote);text=text.slice(0,binding.start)+' '.repeat(binding.end-binding.start)+text.slice(binding.end);}
+ text=text.replace(/\b(?:diagram|graph|figure) below\b/gi,(quote,index)=>ownFollowingInlineDiagram(block,field,{0:quote,index})?' '.repeat(quote.length):quote);
  if(/\bdiagram below\b/i.test(text)&&!/\beach diagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
  if([...text.matchAll(/\beach diagram below\b/gi)].length===1&&ownChildDiagramsBelow(block,field,project))text=text.replace(/\beach diagram below\b/gi,m=>' '.repeat(m.length));
  if(/\b(?:the same graph as above|the graph above)\b/i.test(text)&&ownAncestorGraphAbove(block,field,project))text=text.replace(/\b(?:the same graph as above|the graph above)\b/gi,m=>' '.repeat(m.length));

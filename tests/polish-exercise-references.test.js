@@ -415,3 +415,25 @@ test('a fixed teaching binding does not waive other unresolved teacher reference
 test('direct reference scanner ignores forged raw fixed-teaching suppression arguments',()=>{
  const f=fixedTeachingFixture(),owner=f.p.sections[0].blocks[0];const forged={fixedTeachingBindings:[{ownerId:'intro',targetId:'table',field:JSON.stringify(f.e.sourceField),start:14,end:25,quote:'table below'}]};assert(unresolvedPrintedQuestionReferences(owner,f.p,forged).includes(f.e.quote));
 });
+
+test('opening-fence colour metadata is nonprinting but visible Q references remain guarded',()=>{
+ const span='[tikz]'+inlineColourLine.replace('source page 5 p5-q1-solution','HSC.ADV.2023 Q32')+'\n\\draw (0,0)--(1,1);\n[/tikz]';
+ const p=fixture();p.sections[0].blocks[11].content.prompt='Calculate.';p.sections[0].blocks[11].content.answer={short:span};
+ const raw=JSON.stringify(p);assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.equal(JSON.stringify(p),raw);
+ for(const bad of [span.replace('"version":1','"version":2'),span.replace('[/tikz]',''),span.replace('\\draw','\\node{Question 11};\\draw')]){
+  p.sections[0].blocks[11].content.answer.short=bad;assert(resolveExerciseReferences(p).holds.some(h=>h.kind==='unsupported-native-code-reference'));
+ }
+});
+
+test('single following same-prompt inline figure binds only the local below reference',()=>{
+ const span='[tikz]\\draw (0,0)--(1,1);[/tikz]';
+ const make=text=>({id:'own',type:'question',content:{id:'root',type:'question',prompt:text}});
+ for(const noun of ['diagram','graph','figure']){
+  const b=make('Use the '+noun+' below.\n'+span),p=localReferenceProject(b),raw=JSON.stringify(p);
+  assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.equal(JSON.stringify(p),raw);
+ }
+ for(const text of ['Use each diagram below. '+span,'Use the graph below. '+span+span,span+' Use the graph below.','Use the graph below. '+span.replace('[/tikz]',''),'Use the graph below. [tikz]'+span+'[/tikz]'])assert(resolveExerciseReferences(localReferenceProject(make(text))).holds.length,text);
+ const b=make('Use the graph below. '+span);b.content.questionDiagrams=[{id:'other',format:'tikz',code:'\\draw(0,0)--(1,0);'}];assert(resolveExerciseReferences(localReferenceProject(b)).holds.length);
+ const p=localReferenceProject(make('Use the graph below. '+span+' Use the next question.'));assert(resolveExerciseReferences(p).holds.some(h=>h.quote==='next question'));
+ const q=localReferenceProject(make('Use the graph below. '+span+' The symbol $Q11$ is given.'));assert(resolveExerciseReferences(q).holds.some(h=>h.kind==='unsupported-math-reference'));
+});
