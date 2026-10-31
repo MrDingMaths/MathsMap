@@ -41,8 +41,24 @@ function inlineTikzReferenceText(text){
   return ' '.repeat(line.length);
  })+'[/tikz]');
 }
+// Only a complete native-maths sign deduction identifies Q1..Q4 as a
+// quadrant. Match the same angle and both strict signs; never infer from prose.
+function quadrantReferenceText(field){
+ let text=field.text;
+ for(const part of field.parts){
+  if(part.path.at(-1)!=='latex')continue;
+  const value=text.slice(part.start,part.end);
+  const m=value.match(/^\s*\\sin\s*(\\(?:alpha|beta|theta|phi)|[a-zA-Z])\s*([<>])\s*0\s*,\s*\\quad\s*\\cos\s*\1\s*([<>])\s*0\s*,\s*\\quad\s*\\therefore\s*\\mathrm\{Q([1-4])\}\s*$/);
+  if(!m)continue;
+  const expected={'> >':'1','> <':'2','< <':'3','< >':'4'}[m[2]+' '+m[3]];
+  if(m[4]!==expected)continue;
+  const start=part.start+value.lastIndexOf('Q'+m[4]);
+  text=text.slice(0,start)+'  '+text.slice(start+2);
+ }
+ return text;
+}
 function scanField(field){
- field.text=inlineTikzReferenceText(field.text);
+ field.text=inlineTikzReferenceText(quadrantReferenceText(field));
  if([...field.text.matchAll(/\[tikz\][\s\S]*?(?:\[\/tikz\]|$)/g)].some(m=>/\b(?:Question|Q)\s*\.?\s*\d|\bas above\b/i.test(m[0])))field.unsupportedCode=true;
  return field;
 }

@@ -437,3 +437,17 @@ test('single following same-prompt inline figure binds only the local below refe
  const p=localReferenceProject(make('Use the graph below. '+span+' Use the next question.'));assert(resolveExerciseReferences(p).holds.some(h=>h.quote==='next question'));
  const q=localReferenceProject(make('Use the graph below. '+span+' The symbol $Q11$ is given.'));assert(resolveExerciseReferences(q).holds.some(h=>h.kind==='unsupported-math-reference'));
 });
+
+test('complete native trig-sign deductions identify only the matching four quadrants',()=>{
+ const deduction=(sin,cos,q)=>`\\sin\\alpha${sin}0,\\quad\\cos\\alpha${cos}0,\\quad\\therefore\\mathrm{Q${q}}`;
+ const put=(p,latex,extra=[])=>{p.sections[0].blocks[11].content.answer={short:{format:'maths-editor-document-v1',blocks:[{type:'paragraph',inlines:[{type:'math',latex},...extra]}]}};};
+ for(const [sin,cos,q]of [['>','>',1],['>','<',2],['<','<',3],['<','>',4]]){
+  const p=fixture();put(p,deduction(sin,cos,q));const original=JSON.stringify(p);const r=resolveExerciseReferences(p);assert.deepEqual(r.holds,[]);assert(!r.records.some(x=>x.field.includes('answer')));assert.equal(JSON.stringify(p),original);
+ }
+ for(const latex of ['\\mathrm{Q4}','\\sin\\alpha<0,\\therefore\\mathrm{Q4}',deduction('<','<',4),deduction('<','>',11),deduction('<','>',4).replace('\\cos\\alpha','\\cos\\theta'),deduction('<','>',4)+'+Q4']){
+  const p=fixture();put(p,latex);assert(resolveExerciseReferences(p).holds.length,latex);
+ }
+ const p=fixture();put(p,deduction('<','>',4),[{type:'text',text:' Use Question 11.'}]);assert(resolveExerciseReferences(p).records.some(r=>r.targetId==='stable-q11'));
+ const q=fixture();put(q,deduction('<','>',4),[{type:'math',latex:'Q4'}]);assert(resolveExerciseReferences(q).holds.some(h=>h.kind==='unsupported-math-reference'));
+ const r=fixture();r.sections[0].blocks[11].content.answer.worked=deduction('<','>',4);assert(resolveExerciseReferences(r).records.some(x=>x.oldNumber===4),'plain prose is not certified native maths');
+});
