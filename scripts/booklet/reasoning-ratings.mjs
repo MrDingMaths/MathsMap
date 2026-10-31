@@ -19,9 +19,27 @@ export function practiceRatingBlocks(project){
 export function reasoningTaskHash(block){
  return createHash('sha256').update(JSON.stringify(sharedQuestion({...normaliseQuestion(block),title:''}).content)).digest('hex');
 }
+// Only line breaks immediately outside complete display-maths blocks are
+// presentation. Preserve all other text, including whitespace inside maths.
+function compatibleWorked(value){
+ const parts=value.split('$$');
+ if(parts.length<3||parts.length%2===0)return value;
+ return parts.map((part,i)=>{
+  if(i%2)return part;
+  if(i)part=part.replace(/^(?:\r?\n)+/,'');
+  if(i<parts.length-1)part=part.replace(/(?:\r?\n)+$/,'');
+  return part;
+ }).join('$$');
+}
+function normalizeWorkedBoundaries(value){
+ if(!value||typeof value!=='object')return;
+ if(value.answer&&typeof value.answer==='object'&&typeof value.answer.worked==='string')value.answer.worked=compatibleWorked(value.answer.worked);
+ for(const child of Object.values(value))normalizeWorkedBoundaries(child);
+}
 export function compatibleRatingHash(block){
  const content=sharedQuestion({...normaliseQuestion(block),title:''}).content;
  if(content.label==null||/^\d+[.)]?$/.test(String(content.label)))content.label=null;
+ normalizeWorkedBoundaries(content);
  return createHash('sha256').update(JSON.stringify(content)).digest('hex');
 }
 // Renumbering a whole question changes no assessed mathematics. Preserve the

@@ -38,6 +38,28 @@ test('whole-question renumbering reuses a genuine rating without inventing a new
  assert.equal(verifiedRating(target,rating),true);assert.equal(rating.assessment.assessedAt,metadata.assessedAt);assert.equal(rating.assessment.originalTaskHash,source.classification.assessment.taskHash);
  target.content.children=[{id:'new',type:'part',prompt:'Prove this for all integers.'}];assert.equal(reuseReasoningRating(source,target),null);
 });
+test('rating reuse permits only answer-worked display boundary newlines',()=>{
+ const source=question();source.content.answer.worked='First$$x=4$$Then$$y=2$$Done\nOther paragraph';
+ source.classification={...source.classification,...rated(source)};
+ const target=structuredClone(source);target.content.answer.worked='First\n$$x=4$$\r\nThen\n$$y=2$$\nDone\nOther paragraph';
+ assert.notEqual(reasoningTaskHash(source),reasoningTaskHash(target));
+ const rating=reuseReasoningRating(source,target);
+ assert.ok(rating);assert.equal(verifiedRating(target,rating),true);
+ assert.equal(rating.assessment.originalTaskHash,reasoningTaskHash(source));assert.equal(rating.assessment.taskHash,reasoningTaskHash(target));
+ assert.deepEqual({...rating.assessment,taskHash:source.classification.assessment.taskHash,originalTaskHash:undefined},{...source.classification.assessment,originalTaskHash:undefined});
+ assert.equal(rating.reasoningScore,source.classification.reasoningScore);assert.equal(rating.difficultyReason,source.classification.difficultyReason);
+ const variants=[
+  q=>q.content.answer.worked=target.content.answer.worked.replace('x=4','x=5'),
+  q=>q.content.answer.worked=target.content.answer.worked.replace('First','Changed'),
+  q=>q.content.prompt+=' More',
+  q=>q.content.questionDiagrams=[{id:'d',format:'tikz',code:'changed'}],
+  q=>q.content.answer.worked=target.content.answer.worked.replace('x=4','x=\n4'),
+  q=>q.content.answer.worked=target.content.answer.worked.replace('Done\nOther','Done\n\nOther'),
+  q=>q.content.answer.short='4\n',
+  q=>q.content.answer.worked=target.content.answer.worked+'$$',
+ ];
+ for(const change of variants){const other=structuredClone(target);change(other);assert.equal(reuseReasoningRating(source,other),null);}
+});
 test('scope excludes teaching, worked and guided questions, and theory-review',()=>{
  const p=project();p.sections[0].blocks.push({...question(),id:'guided',pedagogyRole:'guided-practice'},{...question(),id:'worked',type:'worked-example'},{...question(),id:'review',libraryRole:'theory-review'});p.sections.push({phase:'teaching',blocks:[question()]});assert.deepEqual(practiceRatingBlocks(p).map(r=>r.block.id),['q']);
  assert.throws(()=>requireReasoningCoverage(p),/Incomplete LLM/);
