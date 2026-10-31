@@ -57,6 +57,10 @@ export function approvedMathsBaseSource(code) {
     SGG: {provider:'HSC-school', name:'St George Girls High School'},
     SYDG: {provider:'HSC-school', name:'Sydney Girls High School'},
     SYDGR: {provider:'HSC-school', name:'Sydney Grammar School'},
+    JRUSE: {provider:'HSC-school', name:'James Ruse Agricultural High School'},
+    NSB: {provider:'HSC-school', name:'North Sydney Boys High School'},
+    NSG: {provider:'HSC-school', name:'North Sydney Girls High School'},
+    SYDB: {provider:'HSC-school', name:'Sydney Boys High School'},
   }[source.schoolCode];
   if (resolved) {
     const after = parts.slice(yearIndex + 1).filter(token => !/^Q\d/i.test(token));

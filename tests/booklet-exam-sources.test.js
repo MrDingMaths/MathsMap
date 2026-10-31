@@ -50,9 +50,14 @@ test('resolved source identities preserve course tokens without inventing school
   assert.equal(internal.provider,'HSC-school');
   assert.equal(internal.label,'Sydney Girls High School Y12 Advanced 2021');
   assert.doesNotMatch(internal.label,/trial/i);
-  for(const code of ['HSC.MER.Y12.ADV.2020 Q23','HSC.JRUSE.Y12.X1.2022 Q14a','HSC.SYDG.Y11.ADV.2021 Q7','HSC.NEAP.Y12.X2.2021 Q1','HSC.SGG.Y12.ADV.2019 Q1','HSC.CSSA.X1.2023.BAD Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
+  for(const code of ['HSC.MER.Y12.ADV.2020 Q23','HSC.NORM.Y12.X1.2022 Q14a','HSC.SYDG.Y11.ADV.2021 Q7','HSC.NEAP.Y12.X2.2021 Q1','HSC.SGG.Y12.ADV.2019 Q1','HSC.CSSA.X1.2023.BAD Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
   assert.equal(approvedMathsBaseSource('CAIE.0606.2023 Q1'),null);
   assert.equal(approvedMathsBaseSource('HSC.BHHS.Y12.ADV.2025 Q24').label,'BHHS Y12 ADV 2025');
+});
+test('four exact-paper school mappings preserve assessment context without a trial claim',()=>{
+  const cases=[['HSC.JRUSE.Y12.X1.2023 Q17b','James Ruse Agricultural High School Y12 Extension 1 2023'],['HSC.NSB.Y12.ADV.2024 Q31','North Sydney Boys High School Y12 Advanced 2024'],['HSC.NSG.Y12.ADV.2022 Q32','North Sydney Girls High School Y12 Advanced 2022'],['HSC.SYDB.Y12.X1.2024 Q14b','Sydney Boys High School Y12 Extension 1 2024']];
+  for(const[code,label]of cases){const source=approvedMathsBaseSource(code);assert.equal(source.provider,'HSC-school');assert.equal(source.label,label);assert.doesNotMatch(source.label,/trial/i);}
+  assert.equal(approvedMathsBaseSource('HSC.NSB.Y12.ADV.2024.BAD Q31').needsSchoolMapping,true);
 });
 test('candidate export holds unassessed items, removes excluded sources and repeats',()=>{
   const rows=[1,2,3,4].map(id=>({id:String(id),source:'HSC.ADV.2011',difficulty:'Development'}));
