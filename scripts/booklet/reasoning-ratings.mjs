@@ -7,6 +7,7 @@ import {isTheoryReview} from '../../src/lib/question-bank-eligibility.js';
 import {normaliseQuestion,difficultyBandForScore} from '../../src/lib/practice-question-model.js';
 import {sharedQuestion} from '../../src/lib/question-sync.js';
 import {GRADIENT_TABLE_KIND,checkedGradientTableProof} from './gradient-table-lineage.mjs';
+import {WORKED_CORRECTION_KIND,checkedWorkedCorrection,workedCorrectionAssessment} from './worked-answer-correction-lineage.mjs';
 import {CONSTRUCT_BLANK_KIND,checkedConstructBlankProof} from './construct-blank-lineage.mjs';
 
 export const REASONING_RUBRIC='mathsmap-cognitive-demand-v1';
@@ -56,6 +57,7 @@ export function validRawRating(rating){
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
  if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.workedMathematicalCorrectionReuse){const key='worked-correction:'+a.workedMathematicalCorrectionReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validWorkedCorrectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.promptLineBreakReuse){const key='prompt-break:'+a.promptLineBreakReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validPromptLineBreakReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.answerPresentationReuse){const key='answer:'+a.answerPresentationReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validAnswerPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.bankProjectionReuse){const key='bank:'+a.bankProjectionReuse.sourceArtifact?.sha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validBankProjectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
@@ -163,6 +165,23 @@ export function reuseAnswerPresentationRating(source,target,{proofArtifact,confi
  if(!isDeepStrictEqual(checked.source,source))throw Error('Answer-presentation source differs');
  if(confirmEquivalent(structuredClone({source,target,proof:checked.proof,review:checked.review}))!==true)throw Error('Answer equivalence not confirmed');
  return{reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedAnswerPresentationAssessment(source,target,proofArtifact)};
+}
+const workedCorrectionHooks={reasoningTaskHash,verifiedRating};
+function validWorkedCorrectionReuse(target,rating){
+ const row=rating.assessment.workedMathematicalCorrectionReuse;
+ if(row?.kind!==WORKED_CORRECTION_KIND||row.correctedMathematics!==true||row.newDemand!==false||row.assessmentReused!==true||row.newAssessmentPerformed!==false)return false;
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=checkedWorkedCorrection(target,artifact,workedCorrectionHooks);
+ return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,workedCorrectionAssessment(source,target,artifact,workedCorrectionHooks));
+}
+// Substantive mathematical correction, never presentation equivalence or a new
+// numeric assessment. Both pinned independent verdicts and explicit coordinator
+// confirmation are required; all non-Worked fields remain byte-value exact.
+export function reuseWorkedMathematicalCorrectionRating(source,target,{proofArtifact,confirmCorrection}={}){
+ if(typeof confirmCorrection!=='function')throw Error('Coordinator worked-correction confirmation required');
+ const checked=checkedWorkedCorrection(target,proofArtifact,workedCorrectionHooks);
+ if(!isDeepStrictEqual(checked.source,source))throw Error('Worked-correction source differs');
+ if(confirmCorrection(structuredClone(checked))!==true)throw Error('Worked correction not confirmed');
+ return {reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:workedCorrectionAssessment(source,target,proofArtifact,workedCorrectionHooks)};
 }
 // Opt-in for an independently reviewed break between plain prose in ONE native
 // prompt paragraph. Never part of reasoningTaskHash/compatibleRatingHash.
