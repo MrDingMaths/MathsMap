@@ -56,6 +56,7 @@ export function validRawRating(rating){
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
  if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.answerPresentationReuse){const key='answer:'+a.answerPresentationReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validAnswerPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.bankProjectionReuse){const key='bank:'+a.bankProjectionReuse.sourceArtifact?.sha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validBankProjectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.gradientTablePresentationAdaptations?.length){const key='table:'+a.gradientTablePresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validGradientTableReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.constructBlankPresentationAdaptations?.length){const key='blank:'+a.constructBlankPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validConstructBlankReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
@@ -107,6 +108,61 @@ function pinnedJson(artifact){
  const bytes=fs.readFileSync(artifact.path);if(createHash('sha256').update(bytes).digest('hex')!==artifact.sha256)throw Error('Diagram evidence changed');return JSON.parse(bytes);
 }
 const valueAt=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
+// Remove answers before canonical ID/local-style processing: answer-owned IDs
+// must not shift posed identities. Keep semantic scaffolding and actual diagram
+// code even where sharedQuestion normally ignores their presentation fields.
+function withoutAnswers(value){
+ if(Array.isArray(value))return value.map(withoutAnswers);
+ if(!value||typeof value!=='object')return value;
+ const supplied=value.responseSpace==='given'||value.responseKind==='given';
+ return Object.fromEntries(Object.entries(value).filter(([key])=>key!=='answer'||supplied).map(([key,v])=>[key==='answer'?'answerReuseGivenContent':key,withoutAnswers(v)]));
+}
+function answerReusePosedTask(block){
+ const normalized=normaliseQuestion({...block,content:withoutAnswers(block.content)});
+ function protect(value){
+  if(Array.isArray(value))return value.map(protect);
+  if(!value||typeof value!=='object')return value;
+  return Object.fromEntries(Object.entries(value).map(([key,v])=>[key==='code'?'answerReuseDiagramCode':key==='responseSpace'?'answerReuseResponseSpace':key,protect(v)]));
+ }
+ // Compare canonical stated fields too: normalizers may omit newer card or
+ // relationship fields, which must never disappear from this equivalence gate.
+ return {normalized:sharedQuestion({...normalized,title:'',content:protect(normalized.content)}).content,stated:sharedQuestion({title:'',content:protect(withoutAnswers(block.content))}).content};
+}
+function checkedAnswerPresentationProof(target,artifact){
+ const proof=pinnedJson(artifact);
+ if(proof.kind!=='answer-presentation-only-v1'||!Array.isArray(proof.sourceArtifact?.blockPath)||proof.sourceArtifact.blockPath.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)))throw Error('Invalid answer-presentation proof');
+ const source=valueAt(pinnedJson(proof.sourceArtifact),proof.sourceArtifact.blockPath);
+ if(!source||!verifiedRating(source)||proof.sourceTaskHash!==reasoningTaskHash(source)||proof.targetTaskHash!==reasoningTaskHash(target)||proof.sourceTaskHash===proof.targetTaskHash)throw Error('Unverified or changed answer-presentation source/task');
+ if(!source.content||!target.content||!isDeepStrictEqual(answerReusePosedTask(source),answerReusePosedTask(target)))throw Error('Canonical posed task, diagram or scaffold changed');
+ if((source.id!==target.id||proof.sourceId!==undefined||proof.targetId!==undefined)&&(proof.sourceId!==source.id||proof.targetId!==target.id))throw Error('Explicit source/target identity mapping required');
+ for(const key of ['dependsOn','continuationOf','pairedBlockId'])if(!isDeepStrictEqual(source[key],target[key])||!isDeepStrictEqual(source.flow?.[key],target.flow?.[key]))throw Error('Task dependency changed');
+ const review=pinnedJson(proof.answerEquivalenceReview);
+ if((source.id!==target.id||review.sourceId!==undefined||review.targetId!==undefined)&&(review.sourceId!==source.id||review.targetId!==target.id))throw Error('Independent review identity mapping mismatch');
+ if(review.kind!=='independent-answer-equivalence-v1'||review.sourceTaskHash!==proof.sourceTaskHash||review.targetTaskHash!==proof.targetTaskHash||review.answersEquivalent!==true||review.newMathematics!==false||review.newDemand!==false||review.rationaleApplicable!==true||typeof review.rationale!=='string'||!review.rationale.trim())throw Error('Missing independent answer-equivalence review');
+ return{source,proof,review};
+}
+function reusedAnswerPresentationAssessment(source,target,artifact){
+ const original=source.classification.assessment,assessment=structuredClone(original);
+ assessment.originalTaskHash??=original.taskHash;assessment.taskHash=reasoningTaskHash(target);
+ assessment.answerPresentationReuse={kind:'answer-presentation-only-v1',sourceId:source.id,targetId:target.id,previousTaskHash:reasoningTaskHash(source),currentTaskHash:reasoningTaskHash(target),proofFile:artifact.path,proofSha256:artifact.sha256,originalAssessment:structuredClone(original),assessmentReused:true,newAssessmentPerformed:false};
+ return assessment;
+}
+function validAnswerPresentationReuse(target,rating){
+ const row=rating.assessment.answerPresentationReuse;
+ if(row?.kind!=='answer-presentation-only-v1'||row.assessmentReused!==true||row.newAssessmentPerformed!==false)return false;
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=checkedAnswerPresentationProof(target,artifact);
+ return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,reusedAnswerPresentationAssessment(source,target,artifact));
+}
+// Explicit opt-in only: pinned retained rating + unchanged canonical posed task +
+// pinned independent semantic review and coordinator confirmation. Preserve the
+// actual legacy numeric/model/date/evidence facts; this performs no new rating.
+export function reuseAnswerPresentationRating(source,target,{proofArtifact,confirmEquivalent}={}){
+ if(typeof confirmEquivalent!=='function')throw Error('Coordinator independent answer-review confirmation required');
+ const checked=checkedAnswerPresentationProof(target,proofArtifact);
+ if(!isDeepStrictEqual(checked.source,source))throw Error('Answer-presentation source differs');
+ if(confirmEquivalent(structuredClone({source,target,proof:checked.proof,review:checked.review}))!==true)throw Error('Answer equivalence not confirmed');
+ return{reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedAnswerPresentationAssessment(source,target,proofArtifact)};
+}
 // Bank normalization may add diagram defaults. Pin the actual rated project
 // owner and compare the complete normalized diagram, including its spec.
 function checkedBankProjection(target,record){
