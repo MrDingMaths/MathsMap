@@ -13,7 +13,7 @@ export function assertExactSonnetVerification(verification){
  if(verification?.passed!==true||verification.requestedModel!==NEW_CONTENT_MODEL||verification.models?.length!==1||verification.models[0]!==NEW_CONTENT_MODEL)throw Error('A successful exact Sonnet 5.5 availability check is required');
 }
 export function sonnetArguments({imageInput=false}={}){
- return ['--print','--model',NEW_CONTENT_MODEL,'--output-format','json','--no-session-persistence','--max-turns','1','--safe-mode','--tools','','--disallowedTools','*','--strict-mcp-config','--permission-mode','default','--settings','{"fallbackModel":[]}',...(imageInput?['--input-format','stream-json']:[])];
+ return ['--print','--model',NEW_CONTENT_MODEL,'--output-format',imageInput?'stream-json':'json','--no-session-persistence','--max-turns','1','--safe-mode','--tools','','--disallowedTools','*','--strict-mcp-config','--permission-mode','default','--settings','{"fallbackModel":[]}',...(imageInput?['--input-format','stream-json','--verbose']:[])];
 }
 // Conservative local transport limits; base64 stays on stdin, never in metrics.
 export const SONNET_IMAGE_LIMITS=Object.freeze({count:12,perImageBytes:5*1024*1024,totalBytes:20*1024*1024});
@@ -46,6 +46,12 @@ export function parseSonnetDraft(stdout){
  if(!result||typeof result!=='object'||Array.isArray(result))throw Error('Sonnet draft must be a JSON object');
  return {result,usage:envelope.usage??null,modelUsage:envelope.modelUsage,costUsd:envelope.total_cost_usd??null};
 }
+export function parseSonnetStreamDraft(stdout){
+ let events;try{events=stdout.split(/\r?\n/).filter(line=>line.trim()).map(line=>JSON.parse(line));}catch{throw Error('Claude CLI returned no valid JSON stream');}
+ const results=events.filter(event=>event?.type==='result');
+ if(results.length!==1||events.at(-1)!==results[0])throw Error('Claude CLI stream requires one final result');
+ return parseSonnetDraft(JSON.stringify(results[0]));
+}
 
 export function routineBackfillPrompt({topic,archetype,count,styleExamples,taughtEvidence,targetScores=[],idPrefix='routine-backfill'}={}){
  if(!archetype||!Number.isInteger(count)||count<1||count>12)throw Error('A named archetype and bounded item count (1–12) are required');
@@ -71,15 +77,15 @@ export function routineBackfillBatchPrompt({topic,groups,idPrefix='routine-backf
  ].join('\n\n')};
 }
 
-function executeClaude({executable,args,cwd,prompt,timeoutMs=300000,signal,onStdout}){
+function executeClaude({executable,args,cwd,prompt,timeoutMs=300000,signal,onStdout,onStderr}){
  return new Promise((resolve,reject)=>{
   const child=spawn(executable,args,{cwd,windowsHide:true,stdio:['pipe','pipe','pipe']}),chunks=[];let bytes=0,settled=false;
   const finish=(error,result)=>{if(settled)return;settled=true;clearTimeout(timer);signal?.removeEventListener('abort',abort);error?reject(error):resolve(result);};
   const abort=()=>{child.kill();finish(Error('Sonnet draft generation aborted'));};
   const timer=setTimeout(()=>{child.kill();finish(Error('Sonnet draft generation timed out'));},timeoutMs);
   child.stdout.on('data',chunk=>{try{onStdout?.(chunk);}catch(error){child.kill();finish(error);return;}bytes+=chunk.length;if(bytes>8000000){child.kill();finish(Error('Sonnet draft exceeds output limit'));}else chunks.push(chunk);});
-  // Consume diagnostics without exposing credentials or arbitrary provider output.
-  child.stderr.on('data',()=>{});
+  // Retain diagnostics locally without exposing arbitrary provider output.
+  child.stderr.on('data',chunk=>{try{onStderr?.(chunk);}catch(error){child.kill();finish(error);}});
   child.once('error',error=>finish(Object.assign(Error('Claude CLI process failed to start'),{code:error.code})));
   child.once('close',(code,signalName)=>finish(null,{code,signal:signalName,stdout:Buffer.concat(chunks).toString('utf8')}));
   signal?.addEventListener('abort',abort,{once:true});if(signal?.aborted){abort();return;}
@@ -93,17 +99,20 @@ export async function generateSonnetDraft({request,verification,runDir,workDir,e
  if(!runDir||!workDir)throw Error('Canonical run directory and local work directory are required');
  const resolvedWork=path.resolve(workDir),forbidden=['booklets/projects','booklets/question-bank','public/content','public/quizzes'].map(p=>path.resolve(p));
  if(forbidden.some(p=>resolvedWork===p||resolvedWork.startsWith(p+path.sep)))throw Error('Draft output cannot target live content');
- if(['draft.json','generation-metrics.json','raw-stdout.txt','raw-envelope.json'].some(name=>fs.existsSync(path.join(workDir,name))))throw Error('Generation work directory already has a result or retained attempt; preserve it and use a fresh call directory');
+ if(['draft.json','generation-metrics.json','raw-stdout.txt','raw-stderr.txt','raw-envelope.json'].some(name=>fs.existsSync(path.join(workDir,name))))throw Error('Generation work directory already has a result or retained attempt; preserve it and use a fresh call directory');
  const input=prepareSonnetInput(request);
  const started=Date.now(),metrics={provider:'claude-code',model:NEW_CONTENT_MODEL,requestedModel:NEW_CONTENT_MODEL,startedAt:new Date().toISOString(),externalModelCalls:0,toolUseDisabled:true,fallbackChain:[]};
  if(input.images.length)Object.assign(metrics,{imageCount:input.images.length,images:input.images});
  fs.mkdirSync(workDir,{recursive:true});
  const stdoutFile=path.join(workDir,'raw-stdout.txt'),stdoutFd=fs.openSync(stdoutFile,'wx');let stdoutBytes=0;
+ const stderrFile=path.join(workDir,'raw-stderr.txt');fs.writeFileSync(stderrFile,'',{flag:'wx'});let stderrBytes=0;
+ const retainStderr=chunk=>{const bytes=Buffer.isBuffer(chunk)?chunk:Buffer.from(String(chunk)),kept=bytes.subarray(0,Math.max(0,65536-stderrBytes));if(kept.length)fs.appendFileSync(stderrFile,kept);stderrBytes+=kept.length;if(kept.length<bytes.length)metrics.rawStderrTruncated=true;};
+ Object.assign(metrics,{rawStderrFile:stderrFile,rawStderrTruncated:false});
  Object.assign(metrics,{rawStdoutFile:stdoutFile,rawStdoutComplete:false,rawStdoutTruncated:false});
  const retain=chunk=>{const bytes=Buffer.isBuffer(chunk)?chunk:Buffer.from(String(chunk)),remaining=8000000-stdoutBytes;if(bytes.length>remaining){if(remaining>0)fs.writeSync(stdoutFd,bytes.subarray(0,remaining));stdoutBytes+=Math.max(0,remaining);metrics.rawStdoutTruncated=true;throw Error('Sonnet draft exceeds output limit');}fs.writeSync(stdoutFd,bytes);stdoutBytes+=bytes.length;};
  try{
   const cwd=fs.mkdtempSync(path.join(os.tmpdir(),'mathsmap-sonnet-draft-'));
-  const call=await lease(runDir,{stage:'routine-backfill-generation',model:NEW_CONTENT_MODEL,provider:'claude-code'},async()=>{metrics.externalModelCalls=1;return executor({executable,args:sonnetArguments({imageInput:input.images.length>0}),cwd,prompt:input.prompt,timeoutMs,signal,onStdout:retain});},{signal});
+  const call=await lease(runDir,{stage:'routine-backfill-generation',model:NEW_CONTENT_MODEL,provider:'claude-code'},async()=>{metrics.externalModelCalls=1;return executor({executable,args:sonnetArguments({imageInput:input.images.length>0}),cwd,prompt:input.prompt,timeoutMs,signal,onStdout:retain,onStderr:retainStderr});},{signal});
   // Retain output before exit checks or parsing. Return-only custom executors
   // remain supported; streaming also preserves partial timeout/abort output.
   if(!stdoutBytes)retain(call.stdout??'');
@@ -111,12 +120,12 @@ export async function generateSonnetDraft({request,verification,runDir,workDir,e
   metrics.rawStdoutComplete=true;
   metrics.exitCode=call.code;metrics.signal=call.signal??null;
   if(call.code!==0)throw Error('Claude CLI generation failed with exit code '+call.code);
-  const parsed=parseSonnetDraft(fs.readFileSync(stdoutFile,'utf8'));Object.assign(metrics,{usage:parsed.usage,modelUsage:parsed.modelUsage,costUsd:parsed.costUsd,rawStdoutBytes:stdoutBytes,rawStdoutSha256:createHash('sha256').update(fs.readFileSync(stdoutFile)).digest('hex')});
+  const parsed=(input.images.length?parseSonnetStreamDraft:parseSonnetDraft)(fs.readFileSync(stdoutFile,'utf8'));Object.assign(metrics,{usage:parsed.usage,modelUsage:parsed.modelUsage,costUsd:parsed.costUsd,rawStdoutBytes:stdoutBytes,rawStdoutSha256:createHash('sha256').update(fs.readFileSync(stdoutFile)).digest('hex')});
   const record={status:'candidate-only-awaiting-independent-review',kind:request.kind,model:NEW_CONTENT_MODEL,result:parsed.result,draftHash:draftHash(parsed.result),metrics};
   fs.writeFileSync(path.join(workDir,'draft.json'),JSON.stringify(record,null,2)+'\n');
   return record;
  }catch(error){metrics.error=error.code??error.message;throw error;}
- finally{fs.closeSync(stdoutFd);metrics.rawStdoutBytes=stdoutBytes;metrics.rawStdoutSha256=createHash('sha256').update(fs.readFileSync(stdoutFile)).digest('hex');metrics.endedAt=new Date().toISOString();metrics.elapsedMs=Date.now()-started;fs.writeFileSync(path.join(workDir,'generation-metrics.json'),JSON.stringify(metrics,null,2)+'\n');}
+ finally{fs.closeSync(stdoutFd);metrics.rawStdoutBytes=stdoutBytes;metrics.rawStdoutSha256=createHash('sha256').update(fs.readFileSync(stdoutFile)).digest('hex');metrics.rawStderrBytes=stderrBytes;metrics.rawStderrSha256=createHash('sha256').update(fs.readFileSync(stderrFile)).digest('hex');metrics.endedAt=new Date().toISOString();metrics.elapsedMs=Date.now()-started;fs.writeFileSync(path.join(workDir,'generation-metrics.json'),JSON.stringify(metrics,null,2)+'\n');}
 }
 
 export function validateRoutineBackfillDraft(request,result){

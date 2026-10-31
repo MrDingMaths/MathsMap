@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {NEW_CONTENT_MODEL,validateNewTeachingCandidate} from '../pedagogy/new-content.mjs';
-import {assertExactSonnetVerification,sonnetArguments,prepareSonnetInput,SONNET_IMAGE_LIMITS,parseSonnetDraft,routineBackfillPrompt,routineBackfillBatchPrompt,generateSonnetDraft,validateRoutineBackfillDraft,groupRoutineBackfillDraft,assertIndependentBackfillReview,draftHash} from '../pedagogy/sonnet-generation.mjs';
+import {assertExactSonnetVerification,sonnetArguments,prepareSonnetInput,SONNET_IMAGE_LIMITS,parseSonnetDraft,parseSonnetStreamDraft,routineBackfillPrompt,routineBackfillBatchPrompt,generateSonnetDraft,validateRoutineBackfillDraft,groupRoutineBackfillDraft,assertIndependentBackfillReview,draftHash} from '../pedagogy/sonnet-generation.mjs';
 import {assessedRating} from '../scripts/booklet/reasoning-ratings.mjs';
 const verification={passed:true,requestedModel:NEW_CONTENT_MODEL,models:[NEW_CONTENT_MODEL]};
 const item={id:'test-1',archetype:'known',content:{id:'test-root',type:'question',prompt:'Calculate $2+3$.',answer:{short:'$5$',worked:'$2+3=5$'}}};
@@ -81,6 +81,12 @@ const imageFixture=()=>{
  const dir=retainedTemp(),bytes=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a9K0AAAAASUVORK5CYII=','base64'),file=path.join(dir,'source.png');
  fs.writeFileSync(file,bytes);return {bytes,image:{path:file,mediaType:'image/png',sha256:createHash('sha256').update(bytes).digest('hex')}};
 };
+const streamEnvelope=overrides=>JSON.stringify({type:'system',subtype:'init'})+'\n'+JSON.stringify({type:'result',...JSON.parse(envelope(overrides))})+'\n';
+test('image stream extracts exactly one terminal result and preserves envelope validation',()=>{
+ assert.deepEqual(parseSonnetStreamDraft(streamEnvelope()).result,result);
+ for(const text of [streamEnvelope()+streamEnvelope(),streamEnvelope()+'{}\n','not JSON',JSON.stringify({type:'assistant'})])assert.throws(()=>parseSonnetStreamDraft(text));
+ assert.throws(()=>parseSonnetStreamDraft(streamEnvelope({modelUsage:{'claude-sonnet-5':{}}})),/Exact Sonnet/);
+});
 test('optional images preserve the text-only transport exactly',async()=>{
  for(const images of [undefined,[]]){
   const request={...retainedRequest,...(images===undefined?{}:{images})};
@@ -93,12 +99,12 @@ test('optional images preserve the text-only transport exactly',async()=>{
 test('nine images travel as ordered base64 blocks with unchanged exact-model controls',async()=>{
  const {bytes,image}=imageFixture(),images=Array.from({length:9},(_,i)=>({...image,label:'Source '+(i+1)})),workDir=retainedTemp();let leased=false;
  const draft=await generateSonnetDraft({request:{...retainedRequest,images},verification,runDir:'canonical',workDir,lease:async(_run,_details,action)=>{leased=true;return action();},executor:async options=>{
-  assert.equal(leased,true);assert.deepEqual(options.args,[...sonnetArguments(),'--input-format','stream-json']);
+  assert.equal(leased,true);assert.deepEqual(options.args,sonnetArguments({imageInput:true}));assert.equal(options.args[options.args.indexOf('--output-format')+1],'stream-json');assert(options.args.includes('--verbose'));
   const wire=options.prompt+'\n';assert.equal(wire.split('\n').length,2);const message=JSON.parse(wire);
   assert.equal(message.type,'user');assert.equal(message.parent_tool_use_id,null);assert.equal(message.message.role,'user');
   const blocks=message.message.content;assert.deepEqual(blocks[0],{type:'text',text:retainedRequest.prompt});assert.equal(blocks.length,19);
   images.forEach((im,i)=>{assert.deepEqual(blocks[1+i*2],{type:'text',text:im.label});assert.deepEqual(blocks[2+i*2],{type:'image',source:{type:'base64',media_type:'image/png',data:bytes.toString('base64')}});});
-  return {code:0,stdout:envelope()};
+  return {code:0,stdout:streamEnvelope()};
  }});
  assert.equal(draft.metrics.imageCount,9);assert.deepEqual(draft.metrics.images,images.map(im=>({sha256:im.sha256,mediaType:im.mediaType,bytes:bytes.length,label:im.label})));
  const metrics=fs.readFileSync(path.join(workDir,'generation-metrics.json'),'utf8');assert.equal(metrics.includes(bytes.toString('base64')),false);assert.equal(metrics.includes(image.path),false);
@@ -114,10 +120,16 @@ test('invalid image inputs fail before lease or output creation',async()=>{
 });
 test('image transport retains exact output, fallback and tool rejection',async()=>{
  const {image}=imageFixture();
- for(const [stdout,code,expected]of [[envelope({modelUsage:{'claude-sonnet-5':{}}}),0,/Exact Sonnet/],[envelope({permission_denials:[{tool:'Read'}]}),0,/tool permission/],['bad',0,/valid JSON envelope/],[envelope(),1,/exit code 1/]]){
+ for(const [stdout,code,expected]of [[streamEnvelope({modelUsage:{'claude-sonnet-5':{}}}),0,/Exact Sonnet/],[streamEnvelope({permission_denials:[{tool:'Read'}]}),0,/tool permission/],['bad',0,/valid JSON stream/],[streamEnvelope(),1,/exit code 1/]]){
   const workDir=retainedTemp();await assert.rejects(generateSonnetDraft({request:{...retainedRequest,images:[image]},verification,runDir:'canonical',workDir,lease:retainedLease,executor:async()=>({code,stdout})}),expected);
   assert.equal(fs.existsSync(path.join(workDir,'draft.json')),false);assert.equal(fs.readFileSync(path.join(workDir,'raw-stdout.txt'),'utf8'),stdout);
  }
+});
+test('startup diagnostics are retained locally and bounded without entering metrics',async()=>{
+ const workDir=retainedTemp(),message='Error: --input-format=stream-json requires output-format=stream-json.\n';
+ await assert.rejects(generateSonnetDraft({request:retainedRequest,verification,runDir:'canonical',workDir,lease:retainedLease,executor:async options=>{options.onStderr(message);options.onStderr('x'.repeat(70000));return{code:1,stdout:''};}}),/exit code 1/);
+ const raw=fs.readFileSync(path.join(workDir,'raw-stderr.txt'),'utf8'),metrics=fs.readFileSync(path.join(workDir,'generation-metrics.json'),'utf8');
+ assert(raw.startsWith(message));assert.equal(Buffer.byteLength(raw),65536);assert.equal(JSON.parse(metrics).rawStderrTruncated,true);assert(!metrics.includes(message));
 });
 
 test('raw stdout exists before parsing and preserves healthy legacy results and current controls',async()=>{
