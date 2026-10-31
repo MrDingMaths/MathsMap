@@ -107,6 +107,28 @@ function inlineTikzGridPalette(before,after){
  const withoutBlocks=before.replace(/\[tikz\][\s\S]*?\[\/tikz\]/g,'');
  return changed&&!invalid&&!/\[\/?tikz\]/.test(withoutBlocks)&&mapped===after;
 }
+// Exact house-blue insertion at a TikZ picture start; grid edits use the
+// already constrained grid-only checker above, block by block.
+function inlineTikzHousePalette(before,after){
+ if(typeof before!=='string'||typeof after!=='string'||before===after)return false;
+ if(/\\(?:definecolor|providecolor|colorlet|definecolorset)\b/.test(before))return false;
+ const blocks=[];let malformed=false;
+ const template=before.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/g,(whole,body)=>{if(/\[\/?tikz\]/.test(body))malformed=true;blocks.push(body);return '\u0000TIKZ'+(blocks.length-1)+'\u0000';});
+ if(malformed||/\[\/?tikz\]/.test(template)||!blocks.length)return false;
+ const targetBlocks=[];const targetTemplate=after.replace(/\[tikz\]([\s\S]*?)\[\/tikz\]/g,(whole,body)=>{if(/\[\/?tikz\]/.test(body))malformed=true;targetBlocks.push(body);return '\u0000TIKZ'+(targetBlocks.length-1)+'\u0000';});
+ if(malformed||/\[\/?tikz\]/.test(targetTemplate)||targetTemplate!==template||targetBlocks.length!==blocks.length)return false;
+ let changed=false;
+ for(let i=0;i<blocks.length;i++){
+  const a=blocks[i];let b=targetBlocks[i];
+  // Reject existing color-definition machinery, including an existing blue override.
+  if(/\\(?:definecolor|providecolor|colorlet|definecolorset)\b/.test(a))return false;
+  const prefix='\\definecolor{blue}{HTML}{268CFF}\n',position=b.indexOf(prefix);
+  if(position!==-1){if(!b.slice(position+prefix.length).startsWith('\\begin{tikzpicture}'))return false;b=b.slice(0,position)+b.slice(position+prefix.length);changed=true;}
+  if(/\\(?:definecolor|providecolor|colorlet|definecolorset)\b/.test(b))return false;
+  if(a!==b){if(!inlineTikzGridPalette('[tikz]'+a+'[/tikz]','[tikz]'+b+'[/tikz]'))return false;changed=true;}
+ }
+ return changed;
+}
 function diagramAdditionalAdaptations(source,target,proof,inverse,seen,{checkImages}){
  if(proof.additionalAdaptations===undefined)return;
  if(!Array.isArray(proof.additionalAdaptations)||!proof.additionalAdaptations.length||!Array.isArray(proof.targetArtifact?.blockPath))throw Error('Invalid additional diagram adaptations');
@@ -162,7 +184,9 @@ function diagramReuseProof(target,artifact,{checkImages=false}={}){
   if(!Array.isArray(parts)||parts[0]!=='content'||parts.length<2||parts.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)))throw Error('Invalid diagram path');
   if(seen.some(p=>p.every((k,i)=>parts[i]===k)||parts.every((k,i)=>p[i]===k)))throw Error('Overlapping diagram paths');seen.push(parts);
   const before=valueAt(source,parts),after=valueAt(target,parts);
-  if(change.kind==='inline-tikz-grid-palette-v1'){
+  if(change.kind==='inline-tikz-house-palette-v1'){
+   if(objectHash(before)!==change.beforeSha256||objectHash(after)!==change.afterSha256||!inlineTikzHousePalette(before,after))throw Error('Invalid inline TikZ house palette change');
+  }else if(change.kind==='inline-tikz-grid-palette-v1'){
    if(objectHash(before)!==change.beforeSha256||objectHash(after)!==change.afterSha256||!inlineTikzGridPalette(before,after))throw Error('Invalid inline TikZ grid palette change');
   }else{
    if(!before||!after||typeof before.id!=='string'||!before.id.trim()||before.id!==after.id||!['tikz','svg'].includes(before.format)||before.format!==after.format||typeof before.code!=='string'||!before.code.trim()||typeof after.code!=='string'||!after.code.trim()||objectHash(before)!==change.beforeSha256||objectHash(after)!==change.afterSha256)throw Error('Changed or unsupported diagram identity');

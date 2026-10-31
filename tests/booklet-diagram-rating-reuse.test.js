@@ -124,3 +124,22 @@ test('native table row-height reuse needs exact positive dimensions and per-tabl
   const reuse=()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true});if(valid){f.after.classification={...f.after.classification,...reuse()};assert(verifiedRating(f.after));}else assert.throws(reuse,/row-height/);
  }
 });
+
+
+function houseFixture(t){
+ const f=inlineFixture(t),a='Use: [tikz]\n\\begin{tikzpicture}\n\\draw[gray!35] (0,0) grid (4,4);\\node {x};\n\\end{tikzpicture}\n[/tikz] and [tikz]\n\\begin{tikzpicture}\n\\draw (0,0)--(1,1);\n\\end{tikzpicture}\n[/tikz]';
+ f.before.content.prompt=a;f.after.content.prompt=a.replace('gray!35','black!20').replaceAll('\\begin{tikzpicture}','\\definecolor{blue}{HTML}{268CFF}\n\\begin{tikzpicture}');
+ f.before.classification={...f.before.classification,...assessedRating(f.before,f.before.classification,f.before.classification.assessment)};f.after.classification=structuredClone(f.before.classification);f.refresh();f.proof.changes[0].kind='inline-tikz-house-palette-v1';return f;
+}
+test('house palette accepts combined grid and exact blue insertion in multiple blocks',t=>{const f=houseFixture(t),old=f.before.classification.assessment,rating=reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true});assert.equal(rating.assessment.model,old.model);assert.equal(rating.assessment.assessedAt,old.assessedAt);f.after.classification={...f.after.classification,...rating};assert(verifiedRating(f.after));});
+test('house palette rejects other colours, alias positions, existing overrides and task changes',t=>{
+ for(const mutate of [
+  f=>f.after.content.prompt=f.after.content.prompt.replace('268CFF','268CFE'),
+  f=>f.after.content.prompt=f.after.content.prompt.replace('\\definecolor{blue}{HTML}{268CFF}\n\\begin{tikzpicture}','\\begin{tikzpicture}\n\\definecolor{blue}{HTML}{268CFF}'),
+  f=>f.after.content.prompt=f.after.content.prompt.replace('(4,4)','(5,4)'),
+  f=>f.after.content.prompt=f.after.content.prompt.replace('{x}','{y}'),
+  f=>f.after.content.prompt=f.after.content.prompt.replace('Use:','Explain:'),
+  f=>f.after.content.answer.short='different',
+  f=>{f.before.content.prompt=f.before.content.prompt.replace('\\begin{tikzpicture}','\\colorlet{blue}{red}\n\\begin{tikzpicture}');f.after.content.prompt=f.after.content.prompt.replace('\\begin{tikzpicture}','\\colorlet{blue}{red}\n\\begin{tikzpicture}');f.before.classification={...f.before.classification,...assessedRating(f.before,f.before.classification,f.before.classification.assessment)};f.after.classification=structuredClone(f.before.classification);},
+ ]){const f=houseFixture(t);mutate(f);f.refresh();f.proof.changes[0].kind='inline-tikz-house-palette-v1';assert.throws(()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true}));}
+});
