@@ -38,6 +38,7 @@ export function validRawRating(rating){
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
  if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.bankProjectionReuse){const key='bank:'+a.bankProjectionReuse.sourceArtifact?.sha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validBankProjectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.gradientTablePresentationAdaptations?.length){const key='table:'+a.gradientTablePresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validGradientTableReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.constructBlankPresentationAdaptations?.length){const key='blank:'+a.constructBlankPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validConstructBlankReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.diagramPresentationAdaptations?.length){const key=a.diagramPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validDiagramPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
@@ -88,6 +89,35 @@ function pinnedJson(artifact){
  const bytes=fs.readFileSync(artifact.path);if(createHash('sha256').update(bytes).digest('hex')!==artifact.sha256)throw Error('Diagram evidence changed');return JSON.parse(bytes);
 }
 const valueAt=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
+// Bank normalization may add diagram defaults. Pin the actual rated project
+// owner and compare the complete normalized diagram, including its spec.
+function checkedBankProjection(target,record){
+ if(record?.kind!=='same-task-bank-projection-v1'||!Array.isArray(record.sourceArtifact?.blockPath)||record.sourceArtifact.blockPath.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k))||!Array.isArray(record.diagramPaths)||!record.diagramPaths.length)throw Error('Invalid bank projection evidence');
+ const source=valueAt(pinnedJson(record.sourceArtifact),record.sourceArtifact.blockPath);
+ if(!source||source.id!==record.sourceId||source.bankRef?.id!==record.bankId||target.id!==record.bankId||!verifiedRating(source)||reasoningTaskHash(source)!==record.taskHash||reasoningTaskHash(target)!==record.taskHash)throw Error('Bank projection source or task changed');
+ const a=normaliseQuestion(source),b=normaliseQuestion(target),seen=new Set();
+ for(const parts of record.diagramPaths){
+  if(!Array.isArray(parts)||parts[0]!=='content'||parts.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k))||seen.has(JSON.stringify(parts)))throw Error('Invalid bank diagram path');
+  seen.add(JSON.stringify(parts));const x=valueAt(a,parts),y=valueAt(b,parts);
+  if(!x||!y||!['tikz','svg'].includes(x.format)||!isDeepStrictEqual(x,y))throw Error('Bank normalized diagram differs');
+ }
+ // Also check every diagram, so a caller cannot name an unrelated matching
+ // figure while a changed figure carries stale or divergent metadata.
+ const diagrams=(v,p=[],out=[])=>{if(!v||typeof v!=='object')return out;if(['tikz','svg'].includes(v.format)&&typeof v.id==='string')out.push([p,v]);for(const [k,x] of Object.entries(v))if(x&&typeof x==='object')diagrams(x,[...p,Array.isArray(v)?Number(k):k],out);return out;};
+ const da=diagrams(a.content),db=diagrams(b.content);
+ if(da.length!==db.length||da.some(([p,v],i)=>!isDeepStrictEqual(p,db[i][0])||!isDeepStrictEqual(v,db[i][1])))throw Error('Bank normalized diagram differs');
+ return source;
+}
+function bankProjectionAssessment(source,record){return {...structuredClone(source.classification.assessment),bankProjectionReuse:structuredClone(record)};}
+function validBankProjectionReuse(target,rating){
+ const record=rating.assessment.bankProjectionReuse,source=checkedBankProjection(target,record);
+ return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,bankProjectionAssessment(source,record));
+}
+export function reuseBankProjectionRating(source,target,{sourceArtifact,diagramPaths}={}){
+ const record={kind:'same-task-bank-projection-v1',sourceArtifact:structuredClone(sourceArtifact),sourceId:source.id,bankId:target.id,taskHash:reasoningTaskHash(source),diagramPaths:structuredClone(diagramPaths)};
+ if(!isDeepStrictEqual(checkedBankProjection(target,record),source))throw Error('Bank projection source differs');
+ return {reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:bankProjectionAssessment(source,record)};
+}
 const ratingKeys=['reasoningScore','difficulty','difficultyReason','assessment'];
 const withoutRating=block=>{const copy=structuredClone(block);for(const key of ratingKeys)delete copy.classification?.[key];return copy;};
 // Only the explicitly approved grid palette substitutions within complete
@@ -141,6 +171,20 @@ function diagramAdditionalAdaptations(source,target,proof,inverse,seen,{checkIma
   const parts=change.path;
   if(!Array.isArray(parts)||parts.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k)))throw Error('Invalid additional adaptation path');
   if(seen.some(p=>p.every((k,i)=>parts[i]===k)||parts.every((k,i)=>p[i]===k)))throw Error('Overlapping diagram paths');seen.push(parts);
+  if(change.kind==='stable-part-reference-v1'){
+   if(parts.length!==4||parts[0]!=='content'||parts[1]!=='children'||!Number.isInteger(parts[2])||parts[3]!=='prompt')throw Error('Invalid stable reference prompt');
+   const before=valueAt(source,parts),after=valueAt(target,parts),old='the grid on the previous page',replacement='the grid in part (a)';
+   if(typeof before!=='string'||typeof after!=='string'||before.split(old).length!==2||before.replace(old,replacement)!==after||change.beforeSha256!==objectHash({value:before})||change.afterSha256!==objectHash({value:after}))throw Error('Invalid stable reference replacement');
+   const ref=change.referenceTarget;if(typeof ref?.partId!=='string'||!ref.partId||typeof ref.diagramId!=='string'||!ref.diagramId)throw Error('Missing stable reference identity');
+   const collect=(v,id,out=[])=>{if(!v||typeof v!=='object')return out;if(v.id===id)out.push(v);for(const x of Object.values(v))if(x&&typeof x==='object')collect(x,id,out);return out;};
+   const original=collect(source.content,ref.partId),restored=collect(inverse.content,ref.partId),current=collect(target.content,ref.partId),diagramsBefore=collect(source.content,ref.diagramId),diagramsAfter=collect(target.content,ref.diagramId);
+   if(original.length!==1||restored.length!==1||current.length!==1||diagramsBefore.length!==1||diagramsAfter.length!==1||original[0].label!=='a'||current[0].label!=='a'||!isDeepStrictEqual(original[0],restored[0])||collect(original[0],ref.diagramId).length!==1||collect(current[0],ref.diagramId).length!==1||source.content.children[parts[2]]?.id===ref.partId||!proof.changes.some(c=>valueAt(source,c.path)?.id===ref.diagramId))throw Error('Stable reference target changed or ambiguous');
+   const visual=pinnedJson(change.visualEvidence);
+   if(visual.accepted!==true||visual.sourceTaskHash!==proof.sourceTaskHash||visual.targetTaskHash!==proof.targetTaskHash||!isDeepStrictEqual(visual.adaptationPath,parts)||!isDeepStrictEqual(visual.referenceTarget,ref)||!Array.isArray(visual.images)||!visual.images.length)throw Error('Missing stable reference visual review');
+   for(const image of visual.images)if(typeof image.path!=='string'||!/^[a-f0-9]{64}$/.test(image.sha256??'')||checkImages&&fileHash(image.path)!==image.sha256)throw Error('Stable reference visual image changed');
+   valueAt(inverse,parts.slice(0,-1))[parts.at(-1)]=before;
+   continue;
+  }
   const key=parts.join('/'),isMetadata=metadata.has(key);
   const parent=valueAt(target,parts.slice(0,-1)),last=parts.at(-1);
   const isRows=parts[0]==='content'&&last==='rowHeights'&&parent?.type==='table';
