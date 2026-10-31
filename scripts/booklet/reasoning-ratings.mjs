@@ -56,6 +56,7 @@ export function validRawRating(rating){
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
  if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.promptLineBreakReuse){const key='prompt-break:'+a.promptLineBreakReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validPromptLineBreakReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.answerPresentationReuse){const key='answer:'+a.answerPresentationReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validAnswerPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.bankProjectionReuse){const key='bank:'+a.bankProjectionReuse.sourceArtifact?.sha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validBankProjectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.gradientTablePresentationAdaptations?.length){const key='table:'+a.gradientTablePresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validGradientTableReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
@@ -162,6 +163,59 @@ export function reuseAnswerPresentationRating(source,target,{proofArtifact,confi
  if(!isDeepStrictEqual(checked.source,source))throw Error('Answer-presentation source differs');
  if(confirmEquivalent(structuredClone({source,target,proof:checked.proof,review:checked.review}))!==true)throw Error('Answer equivalence not confirmed');
  return{reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedAnswerPresentationAssessment(source,target,proofArtifact)};
+}
+// Opt-in for an independently reviewed break between plain prose in ONE native
+// prompt paragraph. Never part of reasoningTaskHash/compatibleRatingHash.
+function checkedPromptLineBreakProof(target,artifact){
+ const proof=pinnedJson(artifact);
+ const safePath=p=>Array.isArray(p)&&p.every(k=>['string','number'].includes(typeof k)&&!['__proto__','constructor','prototype'].includes(k));
+ if(proof.kind!=='plain-prompt-line-break-only-v1'||!safePath(proof.sourceArtifact?.blockPath)||!safePath(proof.promptPath)||proof.promptPath[0]!=='content')throw Error('Invalid plain prompt-break proof');
+ const source=valueAt(pinnedJson(proof.sourceArtifact),proof.sourceArtifact.blockPath);
+ if(!source||source.id!==target.id||!verifiedRating(source)||proof.sourceTaskHash!==reasoningTaskHash(source)||proof.targetTaskHash!==reasoningTaskHash(target)||proof.sourceTaskHash===proof.targetTaskHash)throw Error('Changed or unverified prompt-break source/task');
+ const parts=proof.promptPath;let cursor=1;
+ while(parts[cursor]==='children'&&Number.isSafeInteger(parts[cursor+1])&&parts[cursor+1]>=0)cursor+=2;
+ if(parts.slice(cursor).length!==4||parts[cursor]!=='prompt'||parts[cursor+1]!=='blocks'||!Number.isSafeInteger(parts[cursor+2])||parts[cursor+2]<0||parts[cursor+3]!=='inlines')throw Error('Break must be in a native question/part prompt paragraph');
+ const rawA=structuredClone(source),rawB=structuredClone(target),nodePath=parts.slice(0,cursor),paragraphPath=parts.slice(0,-1);
+ if(!['question','part'].includes(valueAt(rawA,nodePath)?.type)||!['question','part'].includes(valueAt(rawB,nodePath)?.type)||valueAt(rawA,paragraphPath)?.type!=='paragraph'||valueAt(rawB,paragraphPath)?.type!=='paragraph')throw Error('Not a plain question paragraph');
+ const collapse=(record,expectedBreaks)=>{
+  const inlines=valueAt(record,parts);if(!Array.isArray(inlines)||!inlines.length)throw Error('Missing native inlines');let text='',breaks=0;
+  for(const [index,inline] of inlines.entries()){
+   if(inline.type==='break'){if(Object.keys(inline).some(k=>k!=='type'))throw Error('Decorated/semantic break');const left=inlines[index-1],right=inlines[index+1];if(left?.type!=='text'||right?.type!=='text'||!left.text?.trim()||!right.text?.trim()||!/[.!?;:]\s*$/.test(left.text)||!(/\s$/.test(left.text)||/^\s/.test(right.text)))throw Error('Leading, trailing or ambiguous prose break');breaks++;continue;}
+   if(inline.type!=='text'||typeof inline.text!=='string'||inline.marks?.length||Object.keys(inline).some(k=>!['type','text','marks'].includes(k)))throw Error('Math, marked text or non-plain inline');text+=inline.text;
+  }
+  if(breaks!==expectedBreaks||/[$\\=<>≤≥^×÷\r\n]/.test(text))throw Error('Not one plain-prose line break');
+  valueAt(record,paragraphPath).inlines=[{type:'text',text,marks:[]}];return text;
+ };
+ if(collapse(rawA,0)!==collapse(rawB,1))throw Error('Plain prompt words/data/order changed');
+ // Preserve stated semantic fields that a normalizer does not yet know. Only
+ // provenance/layout metadata is excluded; default native fields still normalize.
+ const omitted=new Set(['provenance','sourceReview','sourceRefs','sourceLayoutEvidence','spec']);
+ const stated=(normalized,raw)=>{if(!raw||typeof raw!=='object')return normalized;if(Array.isArray(raw))return raw.map((v,i)=>stated(normalized?.[i],v));const out={...(normalized??{})};for(const[k,v]of Object.entries(raw))if(!omitted.has(k)){if(v&&typeof v==='object')out[k]=stated(normalized?.[k],v);else if(!Object.hasOwn(out,k)||k==='code')out[k]=v;}return out;};
+ const a=normaliseQuestion(rawA),b=normaliseQuestion(rawB);a.content=stated(a.content,rawA.content);b.content=stated(b.content,rawB.content);
+ const semanticKeys={code:'promptBreakDiagramCode',responseSpace:'promptBreakResponseSpace',layout:'promptBreakLayout',layoutPreset:'promptBreakLayoutPreset',columns:'promptBreakColumns',answerColumns:'promptBreakAnswerColumns',diagramPlacement:'promptBreakDiagramPlacement',presentation:'promptBreakPresentation'};
+ const semantic=value=>{if(Array.isArray(value))return value.map(semantic);if(!value||typeof value!=='object')return value;if(['card','table','grid','equation','aligned'].includes(value.type))throw Error('Card/table/equation semantics outside this opt-in');if(Object.keys(value).some(k=>Object.values(semanticKeys).includes(k)))throw Error('Reserved semantic field');return Object.fromEntries(Object.entries(value).map(([k,v])=>[semanticKeys[k]??k,semantic(v)]));};
+ if(!isDeepStrictEqual(sharedQuestion({content:semantic(a.content)}).content,sharedQuestion({content:semantic(b.content)}).content))throw Error('Task, answer, diagram, relationship or scaffold changed');
+ for(const key of ['dependsOn','continuationOf','pairedBlockId'])if(!isDeepStrictEqual(source[key],target[key])||!isDeepStrictEqual(source.flow?.[key],target.flow?.[key]))throw Error('Task dependency changed');
+ if(!isDeepStrictEqual(source.presentation,target.presentation))throw Error('Prompt-break presentation relationships changed');
+ const review=pinnedJson(proof.equivalenceReview);
+ if(review.kind!=='independent-plain-prompt-break-equivalence-v1'||review.sourceTaskHash!==proof.sourceTaskHash||review.targetTaskHash!==proof.targetTaskHash||review.posedTaskEquivalent!==true||review.answersEquivalent!==true||review.newMathematics!==false||review.newDemand!==false||review.layoutMeaningChanged!==false||review.rationaleApplicable!==true||typeof review.rationale!=='string'||!review.rationale.trim())throw Error('Independent prompt equivalence review missing');
+ return{source,proof,review};
+}
+function reusedPromptLineBreakAssessment(source,target,artifact){
+ const original=source.classification.assessment,assessment=structuredClone(original);assessment.originalTaskHash??=original.taskHash;assessment.taskHash=reasoningTaskHash(target);
+ assessment.promptLineBreakReuse={kind:'plain-prompt-line-break-only-v1',previousTaskHash:reasoningTaskHash(source),currentTaskHash:reasoningTaskHash(target),proofFile:artifact.path,proofSha256:artifact.sha256,originalAssessment:structuredClone(original),assessmentReused:true,newAssessmentPerformed:false};return assessment;
+}
+function validPromptLineBreakReuse(target,rating){
+ const row=rating.assessment.promptLineBreakReuse;if(row?.kind!=='plain-prompt-line-break-only-v1'||row.assessmentReused!==true||row.newAssessmentPerformed!==false)return false;
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=checkedPromptLineBreakProof(target,artifact);
+ return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,reusedPromptLineBreakAssessment(source,target,artifact));
+}
+// Creation still requires the coordinator to inspect the pinned independent
+// review. Its booleans alone never approve reuse or manufacture a new score.
+export function reusePromptLineBreakRating(source,target,{proofArtifact,confirmEquivalent}={}){
+ if(typeof confirmEquivalent!=='function')throw Error('Coordinator prompt-break review confirmation required');const checked=checkedPromptLineBreakProof(target,proofArtifact);
+ if(!isDeepStrictEqual(source,checked.source))throw Error('Source differs from pinned owner');if(confirmEquivalent(structuredClone({source,target,proof:checked.proof,review:checked.review}))!==true)throw Error('Prompt-break equivalence not confirmed');
+ return{reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedPromptLineBreakAssessment(source,target,proofArtifact)};
 }
 // Bank normalization may add diagram defaults. Pin the actual rated project
 // owner and compare the complete normalized diagram, including its spec.
