@@ -1,0 +1,191 @@
+{
+  "id": "p57-q8",
+  "type": "question",
+  "sourceOrder": 8,
+  "sourcePageNumber": 57,
+  "sourceRefs": [
+    {
+      "pageNumber": 57
+    }
+  ],
+  "classification": {
+    "primarySkillId": "model-exponential-growth-decay-calculus",
+    "secondarySkillIds": [],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Differentiate an exponential decay model, solve logarithmic equations and distinguish an annual percentage decrease from an instantaneous decay rate.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T05:08:55.017Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d7a724c3d86712a3a62e56bc0ce8301d9644d264bdc91085fd4064056ead47a9",
+      "evidence": ".booklet-work/full-imports/s6adv-exponential-and-logarithmic-functions-2-logarithmic-functions-20261024/semantic-packets/assignments/assignment-7070ff6d74a297f06f91/1/generation.json"
+    },
+    "archetype": "fractional-decay-target",
+    "archetypeReview": {
+      "reviewedRevision": 10,
+      "snapshotSha256": "0720ec061db736255bba8a4359a8fcab21f336f6bf94850170436162d1ea165a",
+      "mapFile": ".booklet-work/end-goal-20261028/phase6-log-functions-r10-lean/map-final.json",
+      "sourceHash": "8a9e8a06d3da8cce6614a7b0c8e337609dade137ee537f828fe854cc98e13f40",
+      "model": "gpt-6.1-terra",
+      "effort": "high",
+      "coverage": "covered",
+      "practiceItems": [
+        {
+          "nodeIds": [
+            "p57-q8-a"
+          ],
+          "rationale": "Expressing half the original mass as the target and solving for time form one complete attempt."
+        },
+        {
+          "nodeIds": [
+            "p57-q8-b"
+          ],
+          "archetype": "proportional-rate",
+          "rationale": "Finding the derivative and showing its relationship to the mass are dependent steps in one demonstration."
+        },
+        {
+          "nodeIds": [
+            "p57-q8-c"
+          ],
+          "archetype": "annual-decay-percentage",
+          "rationale": "Finding the percentage lost over one year is one complete interpretation of the model."
+        },
+        {
+          "nodeIds": [
+            "p57-q8-d"
+          ],
+          "archetype": "solve-rate-target",
+          "rationale": "Setting the decay rate to the specified fraction of the original mass and solving for time form one complete attempt."
+        }
+      ],
+      "reviewStatus": "independent-Terra-high-audit-one-explicit-context-hold-pending-James"
+    }
+  },
+  "content": {
+    "id": "p57-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "A radioactive substance decays in such a way that the mass $M$ of a sample $t$ years after it has been measured and stored is $M=M_0e^{-0.1t}$, where $M_0$ is its original mass.",
+    "children": [
+      {
+        "id": "p57-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How long until half the sample is gone? Give your answer correct to three decimal places.",
+        "answerSpaceMm": 40,
+        "answer": {
+          "short": "$t=10\\ln 2\\approx6.931$ years.",
+          "worked": "Let $M=\\dfrac{M_0}{2}$.\n$$\\begin{aligned}\\frac12&=e^{-0.1t}\\\\\\ln\\left(\\frac12\\right)&=-0.1t\\\\t&=-10\\ln\\left(\\frac12\\right)\\\\&\\approx6.931\\text{ years}.\\end{aligned}$$",
+          "provenance": {
+            "short": "source",
+            "worked": "source"
+          }
+        }
+      },
+      {
+        "id": "p57-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the rate $\\dfrac{dM}{dt}$ at which the sample is decaying, and show that $\\dfrac{dM}{dt}=-0.1\\times M$.",
+        "answerSpaceMm": 20,
+        "answer": {
+          "short": "$\\dfrac{dM}{dt}=-0.1M_0e^{-0.1t}=-0.1M$.",
+          "worked": "$$\\begin{aligned}\\frac{dM}{dt}&=-0.1M_0e^{-0.1t}\\\\&=-0.1M.\\end{aligned}$$\nThe rate is measured in mass units per year.",
+          "provenance": {
+            "short": "source",
+            "worked": "authored"
+          }
+        }
+      },
+      {
+        "id": "p57-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What percentage of the remaining sample decays each year? Give your answer correct to three decimal places.",
+        "answerSpaceMm": 28,
+        "answer": {
+          "short": "$100(1-e^{-0.1})\\%\\approx9.516\\%$.",
+          "worked": "Every year the remaining mass is multiplied by $e^{-0.1}\\approx0.9048$.\n$$\\begin{aligned}\\text{Percentage decrease}&=100(1-e^{-0.1})\\%\\\\&\\approx9.516\\%.\\end{aligned}$$",
+          "provenance": {
+            "short": "source",
+            "worked": "authored"
+          }
+        }
+      },
+      {
+        "id": "p57-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "When will the rate of decay be $1\\%$ of the original mass $M_0$ per year? Give your answer correct to two decimal places.",
+        "answerSpaceMm": 48,
+        "answer": {
+          "short": "$t=10\\ln 10\\approx23.03$ years.",
+          "worked": "Let $\\dfrac{dM}{dt}=-0.01M_0$.\n$$\\begin{aligned}-0.1M_0e^{-0.1t}&=-0.01M_0\\\\e^{-0.1t}&=0.1\\\\-0.1t&=\\ln(0.1)\\\\t&=-10\\ln(0.1)\\\\&=10\\ln 10\\\\&\\approx23.03\\text{ years}.\\end{aligned}$$",
+          "provenance": {
+            "short": "authored",
+            "worked": "authored"
+          }
+        }
+      }
+    ]
+  },
+  "sourceReview": {
+    "sourceIdentity": {
+      "questionLabel": "8"
+    },
+    "teachingContext": {
+      "pdfPages": [
+        54
+      ],
+      "methodNote": "Differentiate the exponential model, substitute a specified quantity or rate, isolate the exponential and use natural logarithms to find time."
+    },
+    "responses": [
+      {
+        "targetId": "p57-q8-a",
+        "kind": "working"
+      },
+      {
+        "targetId": "p57-q8-b",
+        "kind": "working"
+      },
+      {
+        "targetId": "p57-q8-c",
+        "kind": "working"
+      },
+      {
+        "targetId": "p57-q8-d",
+        "kind": "working"
+      }
+    ],
+    "workingSpaceEstimate": {
+      "method": "solution-steps",
+      "estimates": [
+        {
+          "targetId": "p57-q8-a",
+          "widthMm": 166,
+          "mathematicalRows": 5,
+          "answerSpaceMm": 40
+        },
+        {
+          "targetId": "p57-q8-b",
+          "widthMm": 166,
+          "mathematicalRows": 2,
+          "answerSpaceMm": 20
+        },
+        {
+          "targetId": "p57-q8-c",
+          "widthMm": 166,
+          "mathematicalRows": 3,
+          "answerSpaceMm": 28
+        },
+        {
+          "targetId": "p57-q8-d",
+          "widthMm": 166,
+          "mathematicalRows": 7,
+          "answerSpaceMm": 48
+        }
+      ]
+    }
+  }
+}
