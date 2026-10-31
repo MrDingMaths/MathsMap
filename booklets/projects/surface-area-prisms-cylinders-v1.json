@@ -21985,59 +21985,76 @@
           "canonicalId": "q-c4ec3ac3-3b82-43d6-992b-28fea10061f5"
         },
         {
-          "id": "p12-q11-block",
+          "id": "p11-q10",
           "type": "question",
-          "sourceOrder": 11,
-          "sourcePageNumber": 12,
+          "sourceOrder": 10,
+          "sourcePageNumber": 11,
           "sourceRefs": [
             {
-              "pageNumber": 12
+              "pageNumber": 11
             }
           ],
           "classification": {
             "primarySkillId": "surface-area-prism",
             "secondarySkillIds": [],
-            "reasoningScore": 45,
-            "difficulty": "Development",
-            "difficultyReason": "Find the area of three pairs of faces, then round the required number of paint tins up to a whole number and calculate the cost.",
+            "reasoningScore": 22,
+            "difficulty": "Foundation",
+            "difficultyReason": "Express one square face area as s squared and generalise to six equal faces to form the surface-area formula.",
             "assessment": {
               "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-05T23:22:11.833Z",
+              "assessedAt": "2026-10-21T05:55:47.349Z",
               "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "f3c0626aa77427dcc646ad5c81502816f3dc15db385aae43eac2a97f8ff4db2d",
-              "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-3f6a8b89ff0e8d2dd522/1/generation.json"
+              "taskHash": "eb0c2684c866f388a75987c37c9bfe29d52622b4f7d48716c5fef6ee09d0b9ac",
+              "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/307b603e85884c61ce17d137eaf7ec09f7ed4609556ae9b2c7e3384465d73e30-1792562109047/last-message.txt"
             },
-            "archetype": "purchase-whole-paint-tins",
+            "archetype": "derive-cube-formula",
             "archetypeReview": {
               "reviewedRevision": 368,
               "snapshotSha256": "e9f3147dacfd1cf745b1dd009de49af451104883db5b1b51a9652e6626ab0adf",
               "mapFile": ".booklet-work/end-goal-20261028/phase6-surface-r368-lean/map-final.json",
-              "sourceHash": "65b919dd49d4cc3a1c316f0585eea0d21573e4926f6db2e01f1ce8b9ff6d1faf",
+              "sourceHash": "57baa8e50fde94d79a4bf1637628fbf3820558c9b37d54f950892ad4e280716b",
               "model": "gpt-6.1-sol",
               "effort": "low",
-              "coverage": "bridge",
+              "coverage": "covered",
               "practiceItems": [
                 {
                   "nodeIds": [
-                    "p12-q11"
+                    "p11-q10-root"
                   ],
-                  "rationale": "Surface area, required whole tins and total cost are dependent stages of one purchasing calculation."
+                  "rationale": "Deriving the single cube surface-area formula is one complete symbolic attempt."
                 }
               ],
               "reviewStatus": "independent-low-map-medium-claims-settled-pending-James"
             }
           },
           "content": {
-            "id": "p12-q11",
+            "id": "p11-q10-root",
             "type": "question",
-            "label": "11",
-            "prompt": "A rectangular prism storage crate measures $0.8$ m by $1$ m by $1.5$ m.\nClaudia paints all the faces of the crate.\nOne tin of paint costs $\\$8$. Each tin covers $4\\text{ m}^2$.\nWork out the total cost of the paint that Claudia needs.",
-            "answerSpaceMm": 30,
+            "label": "",
+            "prompt": "What would be the formula for the surface area of a cube with side length $s$?",
+            "questionDiagrams": [
+              {
+                "id": "p11-q10-diagram",
+                "format": "tikz",
+                "widthMm": 42,
+                "role": "question",
+                "reviewStatus": "needs-review",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 11 p11-q10-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (2.5,0);\\coordinate (C) at (2.5,2.5);\\coordinate (D) at (0,2.5);\\coordinate (E) at (1.05,0.6);\\coordinate (F) at (3.55,0.6);\\coordinate (G) at (3.55,3.1);\\coordinate (H) at (1.05,3.1);\n\\draw[black] (A)--(B)--(C)--(D)--cycle (D)--(H)--(G)--(C) (B)--(F)--(G);\n\\draw[black,dashed] (A)--(E)--(F) (E)--(H);\n\\path (A)--(B) node[midway,below=3pt] {$s$};\\path (B)--(F) node[midway,below right=3pt] {$s$};\\path (F)--(G) node[midway,right=3pt] {$s$};\n\\end{tikzpicture}",
+                "spec": {
+                  "sourcePage": 11,
+                  "sourceRegion": "Question 10",
+                  "description": "Cube with front, top and right faces visible, three hidden edges and three side-length labels; decorative grey fills omitted.",
+                  "mathematics": "All cube edges have length s.",
+                  "answerVisibility": "Givens only."
+                }
+              }
+            ],
+            "answerSpaceMm": 16,
             "answer": {
-              "short": "$\\$16$",
-              "worked": "$$\\begin{align*}A&=2(0.8\\times1)+2(0.8\\times1.5)+2(1\\times1.5)\\\\&=1.6+2.4+3\\\\&=7\\text{ m}^2\\\\\\text{Tins required}&=7\\div4\\\\&=1.75\\end{align*}$$\nClaudia needs $2$ whole tins.\n$$\\begin{align*}\\text{Cost}&=\\$8\\times2\\\\&=\\$16\\end{align*}$$",
+              "short": "$SA=6s^2$",
+              "worked": "The cube has six square faces, each with area $s^2$.\n$$\\begin{align*}SA&=6\\times s^2\\\\SA&=6s^2\\end{align*}$$",
               "provenance": {
-                "short": "authored",
+                "short": "source",
                 "worked": "authored"
               }
             }
@@ -22045,13 +22062,12 @@
           "sourceReview": {
             "teachingContext": [
               {
-                "pageNumber": 8,
-                "method": "Calculate the areas of the front and back, side, and top and bottom rectangles, then add them."
+                "pageNumber": 8
               }
             ],
             "responses": [
               {
-                "targetId": "p12-q11",
+                "targetId": "p11-q10-root",
                 "kind": "working"
               }
             ],
@@ -22059,26 +22075,27 @@
               "method": "solution-steps",
               "estimates": [
                 {
-                  "targetId": "p12-q11",
+                  "targetId": "p11-q10-root",
                   "widthMm": 173,
-                  "mathematicalRows": 7,
-                  "answerSpaceMm": 43
+                  "mathematicalRows": 2,
+                  "answerSpaceMm": 22
                 }
               ]
             },
             "sourcePagination": {
-              "page": 12,
-              "breakBefore": true
+              "page": 11,
+              "breakBefore": false
             },
             "origin": {
               "projectId": "surface-area-prisms-cylinders-v1",
-              "blockId": "p12-q11-block",
+              "blockId": "p11-q10",
               "runId": "surface-area-import-20261006",
               "artifact": {
-                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-012.author.json",
-                "hash": "c8dae525f756fb4f5726207bbcf0c2a57877db37482e0054486f6b9261cd71fa"
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-011.author.json",
+                "hash": "53092a80cf6c8b421306e6baf542cf1adc39964147439797401cf948b02ae86f"
               }
-            }
+            },
+            "taughtMethod": "Add the areas of the faces covering the solid."
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -22086,68 +22103,74 @@
               "primarySkillId": "surface-area-prism",
               "secondarySkillIds": [],
               "reasoningScore": 45,
-              "difficulty": "Development",
-              "difficultyReason": "Find the area of three pairs of faces, then round the required number of paint tins up to a whole number and calculate the cost."
+              "difficulty": "Mastery",
+              "difficultyReason": "Generalise surface area to a cube using a symbolic side length."
             },
             "bankDifficulty": {
-              "difficulty": "Development",
-              "reasoningScore": 45,
-              "difficultyReason": "Find the area of three pairs of faces, then round the required number of paint tins up to a whole number and calculate the cost.",
+              "difficulty": "Foundation",
+              "reasoningScore": 22,
+              "difficultyReason": "Express one square face area as s squared and generalise to six equal faces to form the surface-area formula.",
               "assessment": {
                 "model": "gpt-6.1-sol",
-                "assessedAt": "2026-10-05T23:22:11.833Z",
+                "assessedAt": "2026-10-21T05:55:47.349Z",
                 "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "f3c0626aa77427dcc646ad5c81502816f3dc15db385aae43eac2a97f8ff4db2d",
-                "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-3f6a8b89ff0e8d2dd522/1/generation.json"
+                "taskHash": "eb0c2684c866f388a75987c37c9bfe29d52622b4f7d48716c5fef6ee09d0b9ac",
+                "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/307b603e85884c61ce17d137eaf7ec09f7ed4609556ae9b2c7e3384465d73e30-1792562109047/last-message.txt"
               },
-              "revision": "8339619c07fa24bcf137a4ccf1424ac78b2767eb71881442db1d7d6b76da0f42"
+              "revision": "156ebb8c5742c33031d7cd3bb0a7b067e9381c64078212d309f482ca54b7b32f"
             },
             "autoOrder": {
-              "rank": 11,
-              "from": 10,
-              "band": "Development",
+              "rank": 10,
+              "from": 9,
+              "band": "Foundation",
               "reason": "order-kept",
               "at": "2026-10-23T11:29:32.310Z",
-              "ratingHash": "8ce38d62"
+              "ratingHash": "8ff29ca5"
             }
           },
           "snapshotKind": "bank",
           "bankRef": {
-            "id": "q-86232148-8a65-40d2-9a3b-122330d76946",
-            "revision": "8339619c07fa24bcf137a4ccf1424ac78b2767eb71881442db1d7d6b76da0f42"
+            "id": "q-6a5187b4-69f7-4392-82ef-29d129a45b2e",
+            "revision": "156ebb8c5742c33031d7cd3bb0a7b067e9381c64078212d309f482ca54b7b32f"
           },
           "presentation": {
-            "ownerId": "p12-q11-block",
+            "ownerId": "p11-q10",
             "layoutOverrides": {
               "blockLayouts": {
-                "p12-q11-block": {
+                "p11-q10": {
                   "arrangement": {
                     "version": 1,
                     "root": {
-                      "id": "p12-q11:question",
+                      "id": "p11-q10-root:question",
                       "type": "group",
                       "direction": "stack",
                       "children": [
                         {
-                          "id": "layout:p12-q11/label",
+                          "id": "layout:p11-q10-root/label",
                           "type": "item",
-                          "ref": "p12-q11/label",
-                          "title": "Label 11"
+                          "ref": "p11-q10-root/label",
+                          "title": "Label 10"
                         },
                         {
-                          "id": "layout:p12-q11/prompt",
+                          "id": "layout:p11-q10-root/prompt",
                           "type": "item",
-                          "ref": "p12-q11/prompt",
+                          "ref": "p11-q10-root/prompt",
                           "title": "Text"
                         },
                         {
-                          "id": "layout:p12-q11/space",
+                          "id": "layout:p11-q10-diagram",
                           "type": "item",
-                          "ref": "p12-q11/space",
+                          "ref": "p11-q10-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p11-q10-root/space",
+                          "type": "item",
+                          "ref": "p11-q10-root/space",
                           "title": "Answer space"
                         }
                       ],
-                      "title": "Question 11",
+                      "title": "Question 10",
                       "gap": 1
                     }
                   }
@@ -22157,10 +22180,7 @@
               "diagramColourModes": {}
             }
           },
-          "canonicalId": "q-86232148-8a65-40d2-9a3b-122330d76946",
-          "sourceLayoutEvidence": {
-            "pageBreakBefore": true
-          }
+          "canonicalId": "q-6a5187b4-69f7-4392-82ef-29d129a45b2e"
         },
         {
           "id": "p12-q12-block",
@@ -22441,76 +22461,59 @@
           "canonicalId": "q-b28e4d23-d98d-4cf4-983d-c07ad4f5f298"
         },
         {
-          "id": "p11-q10",
+          "id": "p12-q11-block",
           "type": "question",
-          "sourceOrder": 10,
-          "sourcePageNumber": 11,
+          "sourceOrder": 11,
+          "sourcePageNumber": 12,
           "sourceRefs": [
             {
-              "pageNumber": 11
+              "pageNumber": 12
             }
           ],
           "classification": {
             "primarySkillId": "surface-area-prism",
             "secondarySkillIds": [],
-            "reasoningScore": 22,
-            "difficulty": "Foundation",
-            "difficultyReason": "Express one square face area as s squared and generalise to six equal faces to form the surface-area formula.",
+            "reasoningScore": 45,
+            "difficulty": "Development",
+            "difficultyReason": "Find the area of three pairs of faces, then round the required number of paint tins up to a whole number and calculate the cost.",
             "assessment": {
               "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-21T05:55:47.349Z",
+              "assessedAt": "2026-10-05T23:22:11.833Z",
               "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "eb0c2684c866f388a75987c37c9bfe29d52622b4f7d48716c5fef6ee09d0b9ac",
-              "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/307b603e85884c61ce17d137eaf7ec09f7ed4609556ae9b2c7e3384465d73e30-1792562109047/last-message.txt"
+              "taskHash": "f3c0626aa77427dcc646ad5c81502816f3dc15db385aae43eac2a97f8ff4db2d",
+              "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-3f6a8b89ff0e8d2dd522/1/generation.json"
             },
-            "archetype": "derive-cube-formula",
+            "archetype": "purchase-whole-paint-tins",
             "archetypeReview": {
               "reviewedRevision": 368,
               "snapshotSha256": "e9f3147dacfd1cf745b1dd009de49af451104883db5b1b51a9652e6626ab0adf",
               "mapFile": ".booklet-work/end-goal-20261028/phase6-surface-r368-lean/map-final.json",
-              "sourceHash": "57baa8e50fde94d79a4bf1637628fbf3820558c9b37d54f950892ad4e280716b",
+              "sourceHash": "65b919dd49d4cc3a1c316f0585eea0d21573e4926f6db2e01f1ce8b9ff6d1faf",
               "model": "gpt-6.1-sol",
               "effort": "low",
-              "coverage": "covered",
+              "coverage": "bridge",
               "practiceItems": [
                 {
                   "nodeIds": [
-                    "p11-q10-root"
+                    "p12-q11"
                   ],
-                  "rationale": "Deriving the single cube surface-area formula is one complete symbolic attempt."
+                  "rationale": "Surface area, required whole tins and total cost are dependent stages of one purchasing calculation."
                 }
               ],
               "reviewStatus": "independent-low-map-medium-claims-settled-pending-James"
             }
           },
           "content": {
-            "id": "p11-q10-root",
+            "id": "p12-q11",
             "type": "question",
-            "label": "",
-            "prompt": "What would be the formula for the surface area of a cube with side length $s$?",
-            "questionDiagrams": [
-              {
-                "id": "p11-q10-diagram",
-                "format": "tikz",
-                "widthMm": 42,
-                "role": "question",
-                "reviewStatus": "needs-review",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 11 p11-q10-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (2.5,0);\\coordinate (C) at (2.5,2.5);\\coordinate (D) at (0,2.5);\\coordinate (E) at (1.05,0.6);\\coordinate (F) at (3.55,0.6);\\coordinate (G) at (3.55,3.1);\\coordinate (H) at (1.05,3.1);\n\\draw[black] (A)--(B)--(C)--(D)--cycle (D)--(H)--(G)--(C) (B)--(F)--(G);\n\\draw[black,dashed] (A)--(E)--(F) (E)--(H);\n\\path (A)--(B) node[midway,below=3pt] {$s$};\\path (B)--(F) node[midway,below right=3pt] {$s$};\\path (F)--(G) node[midway,right=3pt] {$s$};\n\\end{tikzpicture}",
-                "spec": {
-                  "sourcePage": 11,
-                  "sourceRegion": "Question 10",
-                  "description": "Cube with front, top and right faces visible, three hidden edges and three side-length labels; decorative grey fills omitted.",
-                  "mathematics": "All cube edges have length s.",
-                  "answerVisibility": "Givens only."
-                }
-              }
-            ],
-            "answerSpaceMm": 16,
+            "label": "11",
+            "prompt": "A rectangular prism storage crate measures $0.8$ m by $1$ m by $1.5$ m.\nClaudia paints all the faces of the crate.\nOne tin of paint costs $\\$8$. Each tin covers $4\\text{ m}^2$.\nWork out the total cost of the paint that Claudia needs.",
+            "answerSpaceMm": 30,
             "answer": {
-              "short": "$SA=6s^2$",
-              "worked": "The cube has six square faces, each with area $s^2$.\n$$\\begin{align*}SA&=6\\times s^2\\\\SA&=6s^2\\end{align*}$$",
+              "short": "$\\$16$",
+              "worked": "$$\\begin{align*}A&=2(0.8\\times1)+2(0.8\\times1.5)+2(1\\times1.5)\\\\&=1.6+2.4+3\\\\&=7\\text{ m}^2\\\\\\text{Tins required}&=7\\div4\\\\&=1.75\\end{align*}$$\nClaudia needs $2$ whole tins.\n$$\\begin{align*}\\text{Cost}&=\\$8\\times2\\\\&=\\$16\\end{align*}$$",
               "provenance": {
-                "short": "source",
+                "short": "authored",
                 "worked": "authored"
               }
             }
@@ -22518,12 +22521,13 @@
           "sourceReview": {
             "teachingContext": [
               {
-                "pageNumber": 8
+                "pageNumber": 8,
+                "method": "Calculate the areas of the front and back, side, and top and bottom rectangles, then add them."
               }
             ],
             "responses": [
               {
-                "targetId": "p11-q10-root",
+                "targetId": "p12-q11",
                 "kind": "working"
               }
             ],
@@ -22531,27 +22535,26 @@
               "method": "solution-steps",
               "estimates": [
                 {
-                  "targetId": "p11-q10-root",
+                  "targetId": "p12-q11",
                   "widthMm": 173,
-                  "mathematicalRows": 2,
-                  "answerSpaceMm": 22
+                  "mathematicalRows": 7,
+                  "answerSpaceMm": 43
                 }
               ]
             },
             "sourcePagination": {
-              "page": 11,
-              "breakBefore": false
+              "page": 12,
+              "breakBefore": true
             },
             "origin": {
               "projectId": "surface-area-prisms-cylinders-v1",
-              "blockId": "p11-q10",
+              "blockId": "p12-q11-block",
               "runId": "surface-area-import-20261006",
               "artifact": {
-                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-011.author.json",
-                "hash": "53092a80cf6c8b421306e6baf542cf1adc39964147439797401cf948b02ae86f"
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\surface-area-import-20261006\\semantic-packets\\page-012.author.json",
+                "hash": "c8dae525f756fb4f5726207bbcf0c2a57877db37482e0054486f6b9261cd71fa"
               }
-            },
-            "taughtMethod": "Add the areas of the faces covering the solid."
+            }
           },
           "flow": {
             "sourcePageBreakBefore": false,
@@ -22559,74 +22562,68 @@
               "primarySkillId": "surface-area-prism",
               "secondarySkillIds": [],
               "reasoningScore": 45,
-              "difficulty": "Mastery",
-              "difficultyReason": "Generalise surface area to a cube using a symbolic side length."
+              "difficulty": "Development",
+              "difficultyReason": "Find the area of three pairs of faces, then round the required number of paint tins up to a whole number and calculate the cost."
             },
             "bankDifficulty": {
-              "difficulty": "Foundation",
-              "reasoningScore": 22,
-              "difficultyReason": "Express one square face area as s squared and generalise to six equal faces to form the surface-area formula.",
+              "difficulty": "Development",
+              "reasoningScore": 45,
+              "difficultyReason": "Find the area of three pairs of faces, then round the required number of paint tins up to a whole number and calculate the cost.",
               "assessment": {
                 "model": "gpt-6.1-sol",
-                "assessedAt": "2026-10-21T05:55:47.349Z",
+                "assessedAt": "2026-10-05T23:22:11.833Z",
                 "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "eb0c2684c866f388a75987c37c9bfe29d52622b4f7d48716c5fef6ee09d0b9ac",
-                "evidence": ".booklet-work/reasoning-ratings/calls/surface-area-prisms-cylinders-v1/307b603e85884c61ce17d137eaf7ec09f7ed4609556ae9b2c7e3384465d73e30-1792562109047/last-message.txt"
+                "taskHash": "f3c0626aa77427dcc646ad5c81502816f3dc15db385aae43eac2a97f8ff4db2d",
+                "evidence": ".booklet-work/full-imports/surface-area-import-20261006/semantic-packets/assignments/assignment-3f6a8b89ff0e8d2dd522/1/generation.json"
               },
-              "revision": "156ebb8c5742c33031d7cd3bb0a7b067e9381c64078212d309f482ca54b7b32f"
+              "revision": "8339619c07fa24bcf137a4ccf1424ac78b2767eb71881442db1d7d6b76da0f42"
             },
             "autoOrder": {
-              "rank": 10,
-              "from": 9,
-              "band": "Foundation",
+              "rank": 11,
+              "from": 10,
+              "band": "Development",
               "reason": "order-kept",
               "at": "2026-10-23T11:29:32.310Z",
-              "ratingHash": "8ff29ca5"
+              "ratingHash": "8ce38d62"
             }
           },
           "snapshotKind": "bank",
           "bankRef": {
-            "id": "q-6a5187b4-69f7-4392-82ef-29d129a45b2e",
-            "revision": "156ebb8c5742c33031d7cd3bb0a7b067e9381c64078212d309f482ca54b7b32f"
+            "id": "q-86232148-8a65-40d2-9a3b-122330d76946",
+            "revision": "8339619c07fa24bcf137a4ccf1424ac78b2767eb71881442db1d7d6b76da0f42"
           },
           "presentation": {
-            "ownerId": "p11-q10",
+            "ownerId": "p12-q11-block",
             "layoutOverrides": {
               "blockLayouts": {
-                "p11-q10": {
+                "p12-q11-block": {
                   "arrangement": {
                     "version": 1,
                     "root": {
-                      "id": "p11-q10-root:question",
+                      "id": "p12-q11:question",
                       "type": "group",
                       "direction": "stack",
                       "children": [
                         {
-                          "id": "layout:p11-q10-root/label",
+                          "id": "layout:p12-q11/label",
                           "type": "item",
-                          "ref": "p11-q10-root/label",
-                          "title": "Label 10"
+                          "ref": "p12-q11/label",
+                          "title": "Label 11"
                         },
                         {
-                          "id": "layout:p11-q10-root/prompt",
+                          "id": "layout:p12-q11/prompt",
                           "type": "item",
-                          "ref": "p11-q10-root/prompt",
+                          "ref": "p12-q11/prompt",
                           "title": "Text"
                         },
                         {
-                          "id": "layout:p11-q10-diagram",
+                          "id": "layout:p12-q11/space",
                           "type": "item",
-                          "ref": "p11-q10-diagram",
-                          "title": "Diagram"
-                        },
-                        {
-                          "id": "layout:p11-q10-root/space",
-                          "type": "item",
-                          "ref": "p11-q10-root/space",
+                          "ref": "p12-q11/space",
                           "title": "Answer space"
                         }
                       ],
-                      "title": "Question 10",
+                      "title": "Question 11",
                       "gap": 1
                     }
                   }
@@ -22636,7 +22633,10 @@
               "diagramColourModes": {}
             }
           },
-          "canonicalId": "q-6a5187b4-69f7-4392-82ef-29d129a45b2e"
+          "canonicalId": "q-86232148-8a65-40d2-9a3b-122330d76946",
+          "sourceLayoutEvidence": {
+            "pageBreakBefore": true
+          }
         },
         {
           "id": "p11-q8",
