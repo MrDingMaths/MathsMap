@@ -65,12 +65,18 @@ export function approvedMathsBaseSource(code) {
   if (resolved) {
     const after = parts.slice(yearIndex + 1).filter(token => !/^Q\d/i.test(token));
     const paperTokens = tokens.join(' ');
+    const year = Number(source.year);
+    const retained2019Paper = year === 2019 && (
+      source.schoolCode === 'SGG' && paperTokens === 'Y11 ADV'
+      || source.schoolCode === 'CSSA' && paperTokens === 'STN'
+    );
     const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
-      || ['NEAP', 'SYDGR', 'NSG', 'SYDG'].includes(source.schoolCode) && paperTokens === 'Y11 ADV'
+      || ['NEAP', 'SYDGR', 'NSG', 'SYDG', 'SGG'].includes(source.schoolCode) && paperTokens === 'Y11 ADV'
       || source.schoolCode === 'SYDGR' && paperTokens === 'Y11 STN'
-      || source.schoolCode === 'CSSA' && paperTokens === 'X1';
-    if (!recognised || after.length || Number(source.year) < 2020 || Number(source.year) > 2026) return source;
-    const course = {ADV:'Advanced', X1:'Extension 1', STN:'Standard'}[tokens.at(-1)];
+      || source.schoolCode === 'NSG' && paperTokens === 'Y12 X2' && year === 2022
+      || source.schoolCode === 'CSSA' && (paperTokens === 'X1' || retained2019Paper);
+    if (!recognised || after.length || year < 2020 && !retained2019Paper || year > 2026) return source;
+    const course = {ADV:'Advanced', X1:'Extension 1', X2:'Extension 2', STN:'Standard'}[tokens.at(-1)];
     const paper = [...tokens.slice(0,-1), course].join(' ');
     return {provider:resolved.provider, paper, year:source.year,
       label:`${resolved.name} ${paper} ${source.year}`, origin:'MathsBase'};
