@@ -3389,9 +3389,9 @@
       "sourcePageNumber": 6,
       "blocks": [
         {
-          "id": "p6-q1",
+          "id": "p6-q3",
           "type": "question",
-          "sourceOrder": 1,
+          "sourceOrder": 3,
           "sourcePageNumber": 6,
           "sourceRefs": [
             {
@@ -3399,99 +3399,73 @@
             }
           ],
           "classification": {
-            "primarySkillId": "sequence-notation",
+            "primarySkillId": "recurrence-relation-definition",
             "secondarySkillIds": [
-              "recurrence-relation-definition"
+              "sequence-notation"
             ],
-            "reasoningScore": 20,
+            "reasoningScore": 10,
             "difficulty": "Foundation",
-            "difficultyReason": "Recognise simple term-to-term patterns, square numbers and a numerator-denominator pattern.",
+            "difficultyReason": "Apply an explicitly stated term-to-term rule from a supplied first term.",
             "assessment": {
               "model": "gpt-6.1-sol",
               "assessedAt": "2026-10-24T02:30:57.057Z",
               "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "556cbe74c1437baa0442f775909a1e39cd2467b12df26c83ef9042df0b9cb949",
+              "taskHash": "7a7456df8b83e6f95b131d0535e49a1d125ca6551531df4872a2ca5efab48384",
               "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-31a7b232da4f0facbce3/1/generation.json"
             },
-            "archetype": "continue-pattern",
+            "archetype": "iterate-supplied-rule",
             "archetypeReview": {
               "reviewedRevision": 6,
               "snapshotSha256": "1384e454ff1d6bdbf61d453ec96af1e9ad93f57ecef42103b7bc4469a15ea279",
               "mapFile": ".booklet-work/end-goal-20261028/phase6-sequences-r6/settled/map.json",
-              "sourceHash": "68c27e5b80ba15ef5b50d456c876f6c09641e657cf83f4aa4ae2b0d618815e5f",
+              "sourceHash": "5c1adf30c593b2f5fb30fe5c3d660ad1f06420253e1a1a342d8022a424ce416a",
               "model": "gpt-6.1-sol",
               "effort": "low",
               "coverage": "covered",
               "practiceItems": [
                 {
                   "nodeIds": [
-                    "p6-q1-a"
+                    "p6-q3-a"
                   ],
-                  "rationale": "One inferred additive pattern and its dependent four-term continuation."
+                  "rationale": "One recursive run; successive terms depend on preceding terms."
                 },
                 {
                   "nodeIds": [
-                    "p6-q1-b"
+                    "p6-q3-b"
                   ],
-                  "rationale": "One inferred multiplicative pattern and its dependent continuation."
+                  "rationale": "One recursive run; successive terms depend on preceding terms."
                 },
                 {
                   "nodeIds": [
-                    "p6-q1-c"
+                    "p6-q3-c"
                   ],
-                  "rationale": "One inferred decreasing pattern and its dependent continuation."
+                  "rationale": "One recursive run; successive terms depend on preceding terms."
                 },
                 {
                   "nodeIds": [
-                    "p6-q1-d"
+                    "p6-q3-d"
                   ],
-                  "rationale": "One inferred halving pattern and its dependent continuation."
-                },
-                {
-                  "nodeIds": [
-                    "p6-q1-e"
-                  ],
-                  "rationale": "One inferred alternating pattern and its dependent continuation."
-                },
-                {
-                  "nodeIds": [
-                    "p6-q1-f"
-                  ],
-                  "rationale": "One inferred square-number pattern and its dependent continuation."
-                },
-                {
-                  "nodeIds": [
-                    "p6-q1-g"
-                  ],
-                  "rationale": "One inferred numerator-denominator pattern and its dependent continuation."
-                },
-                {
-                  "nodeIds": [
-                    "p6-q1-h"
-                  ],
-                  "rationale": "One inferred negative-ratio pattern and its dependent continuation."
+                  "rationale": "One recursive run; successive terms depend on preceding terms."
                 }
               ],
               "reviewStatus": "candidate-only-root-review-pending"
             }
           },
           "content": {
-            "id": "p6-q1-root",
+            "id": "p6-q3-root",
             "type": "question",
-            "label": "1",
-            "prompt": "Write down the next four terms of each sequence.",
-            "layout": "grid",
-            "columns": 2,
+            "label": "3",
+            "prompt": "Write down the first four terms of each sequence described below.",
             "children": [
               {
-                "id": "p6-q1-a",
+                "id": "p6-q3-a",
                 "type": "part",
                 "label": "a",
-                "prompt": "$6,16,26,\\ldots$",
+                "prompt": "First term is 11, every term after is 50 more than previous",
                 "answerSpaceMm": 10,
                 "answer": {
-                  "short": "$36,46,56,66$",
-                  "worked": "Add $10$ each time: $26+10=36$, $36+10=46$, $46+10=56$, $56+10=66$.",
+                  "short": "$11,61,111,161$",
+                  "worked": "Start at $11$ and add $50$ each time: $11+50=61$, $61+50=111$, $111+50=161$.\n\nThe first four terms are $11,61,111,161$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -3499,14 +3473,14 @@
                 }
               },
               {
-                "id": "p6-q1-b",
+                "id": "p6-q3-b",
                 "type": "part",
                 "label": "b",
-                "prompt": "$3,6,12,\\ldots$",
+                "prompt": "First term is 15, every term after is 3 less than previous",
                 "answerSpaceMm": 10,
                 "answer": {
-                  "short": "$24,48,96,192$",
-                  "worked": "Multiply by $2$ each time: $12\\times2=24$, $24\\times2=48$, $48\\times2=96$, $96\\times2=192$.",
+                  "short": "$15,12,9,6$",
+                  "worked": "Start at $15$ and subtract $3$ each time: $15-3=12$, $12-3=9$, $9-3=6$.\n\nThe first four terms are $15,12,9,6$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -3514,14 +3488,14 @@
                 }
               },
               {
-                "id": "p6-q1-c",
+                "id": "p6-q3-c",
                 "type": "part",
                 "label": "c",
-                "prompt": "$38,34,30,\\ldots$",
+                "prompt": "First term is 5, every term after is twice the previous",
                 "answerSpaceMm": 10,
                 "answer": {
-                  "short": "$26,22,18,14$",
-                  "worked": "Subtract $4$ each time: $30-4=26$, $26-4=22$, $22-4=18$, $18-4=14$.",
+                  "short": "$5,10,20,40$",
+                  "worked": "Start at $5$ and multiply by $2$ each time: $5\\times2=10$, $10\\times2=20$, $20\\times2=40$.\n\nThe first four terms are $5,10,20,40$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -3529,74 +3503,14 @@
                 }
               },
               {
-                "id": "p6-q1-d",
+                "id": "p6-q3-d",
                 "type": "part",
                 "label": "d",
-                "prompt": "$24,12,6,\\ldots$",
+                "prompt": "First term is $-100$, every term after is one fifth of previous",
                 "answerSpaceMm": 22,
                 "answer": {
-                  "short": "$3,1\\frac12,\\frac34,\\frac38$",
-                  "worked": "Divide by $2$ each time: $6\\div2=3$, $3\\div2=1\\frac12$, $\\frac32\\div2=\\frac34$, $\\frac34\\div2=\\frac38$.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p6-q1-e",
-                "type": "part",
-                "label": "e",
-                "prompt": "$-1,1,-1,\\ldots$",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "$1,-1,1,-1$",
-                  "worked": "The terms alternate between $-1$ and $1$, so the next four terms are $1,-1,1,-1$.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p6-q1-f",
-                "type": "part",
-                "label": "f",
-                "prompt": "$1,4,9,\\ldots$",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "$16,25,36,49$",
-                  "worked": "The terms are consecutive squares: $1^2,2^2,3^2,\\ldots$. The next terms are $4^2=16$, $5^2=25$, $6^2=36$, $7^2=49$.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p6-q1-g",
-                "type": "part",
-                "label": "g",
-                "prompt": "$\\frac12,\\frac23,\\frac34,\\ldots$",
-                "answerSpaceMm": 30,
-                "answer": {
-                  "short": "$\\frac45,\\frac56,\\frac67,\\frac78$",
-                  "worked": "Increase both the numerator and denominator by $1$ each time. The next four terms are $\\frac45,\\frac56,\\frac67,\\frac78$.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p6-q1-h",
-                "type": "part",
-                "label": "h",
-                "prompt": "$16,-8,4,\\ldots$",
-                "answerSpaceMm": 30,
-                "answer": {
-                  "short": "$-2,1,-\\frac12,\\frac14$",
-                  "worked": "Multiply by $-\\frac12$ each time: $4(-\\frac12)=-2$, $(-2)(-\\frac12)=1$, $1(-\\frac12)=-\\frac12$, $(-\\frac12)(-\\frac12)=\\frac14$.",
+                  "short": "$-100,-20,-4,-\\frac45$",
+                  "worked": "Start at $-100$ and divide by $5$ each time: $-100\\div5=-20$, $-20\\div5=-4$, $-4\\div5=-\\frac45$.\n\nThe first four terms are $-100,-20,-4,-\\frac45$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -3607,7 +3521,7 @@
           },
           "sourceReview": {
             "sourceIdentity": {
-              "questionLabel": "1",
+              "questionLabel": "3",
               "pdfPage": 6,
               "printedPage": 6
             },
@@ -3617,39 +3531,23 @@
                 4,
                 5
               ],
-              "methodNote": "Identify the rule from the ordered terms and apply it successively. Page 3 introduces sequence patterns and term-to-term rules; page 4 practises generating terms."
+              "methodNote": "Keep the stated first term, then repeatedly apply the verbal term-to-term rule. Page 3 defines recursive rules and page 4 generates terms from a first term and recurrence."
             },
             "responses": [
               {
-                "targetId": "p6-q1-a",
+                "targetId": "p6-q3-a",
                 "kind": "short"
               },
               {
-                "targetId": "p6-q1-b",
+                "targetId": "p6-q3-b",
                 "kind": "short"
               },
               {
-                "targetId": "p6-q1-c",
+                "targetId": "p6-q3-c",
                 "kind": "short"
               },
               {
-                "targetId": "p6-q1-d",
-                "kind": "short"
-              },
-              {
-                "targetId": "p6-q1-e",
-                "kind": "short"
-              },
-              {
-                "targetId": "p6-q1-f",
-                "kind": "short"
-              },
-              {
-                "targetId": "p6-q1-g",
-                "kind": "short"
-              },
-              {
-                "targetId": "p6-q1-h",
+                "targetId": "p6-q3-d",
                 "kind": "short"
               }
             ],
@@ -3657,62 +3555,38 @@
               "method": "solution-steps",
               "estimates": [
                 {
-                  "targetId": "p6-q1-a",
-                  "widthMm": 80,
+                  "targetId": "p6-q3-a",
+                  "widthMm": 166,
                   "mathematicalRows": 1,
                   "answerSpaceMm": 12
                 },
                 {
-                  "targetId": "p6-q1-b",
-                  "widthMm": 80,
+                  "targetId": "p6-q3-b",
+                  "widthMm": 166,
                   "mathematicalRows": 1,
                   "answerSpaceMm": 12
                 },
                 {
-                  "targetId": "p6-q1-c",
-                  "widthMm": 80,
+                  "targetId": "p6-q3-c",
+                  "widthMm": 166,
                   "mathematicalRows": 1,
                   "answerSpaceMm": 12
                 },
                 {
-                  "targetId": "p6-q1-d",
-                  "widthMm": 80,
+                  "targetId": "p6-q3-d",
+                  "widthMm": 166,
                   "mathematicalRows": 1,
-                  "answerSpaceMm": 18
-                },
-                {
-                  "targetId": "p6-q1-e",
-                  "widthMm": 80,
-                  "mathematicalRows": 1,
-                  "answerSpaceMm": 12
-                },
-                {
-                  "targetId": "p6-q1-f",
-                  "widthMm": 80,
-                  "mathematicalRows": 1,
-                  "answerSpaceMm": 12
-                },
-                {
-                  "targetId": "p6-q1-g",
-                  "widthMm": 80,
-                  "mathematicalRows": 1,
-                  "answerSpaceMm": 18
-                },
-                {
-                  "targetId": "p6-q1-h",
-                  "widthMm": 80,
-                  "mathematicalRows": 1,
-                  "answerSpaceMm": 18
+                  "answerSpaceMm": 16
                 }
               ]
             },
             "sourcePagination": {
               "page": 6,
-              "breakBefore": true
+              "breakBefore": false
             },
             "origin": {
               "projectId": "s6adv-sequences-and-series-1-sequences-and-series-v1",
-              "blockId": "p6-q1",
+              "blockId": "p6-q3",
               "runId": "s6adv-sequences-and-series-1-sequences-and-series-20261024",
               "artifact": {
                 "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\s6adv-sequences-and-series-1-sequences-and-series-20261024\\semantic-packets\\page-006.author.json",
@@ -3723,27 +3597,24 @@
           "flow": {
             "sourcePageBreakBefore": false,
             "localDifficulty": {
-              "primarySkillId": "sequence-notation",
+              "primarySkillId": "recurrence-relation-definition",
               "secondarySkillIds": [
-                "recurrence-relation-definition"
+                "sequence-notation"
               ],
-              "reasoningScore": 20,
+              "reasoningScore": 10,
               "difficulty": "Foundation",
-              "difficultyReason": "Recognise simple term-to-term patterns, square numbers and a numerator-denominator pattern.",
+              "difficultyReason": "Apply an explicitly stated term-to-term rule from a supplied first term.",
               "assessment": {
                 "model": "gpt-6.1-sol",
                 "assessedAt": "2026-10-24T02:30:57.057Z",
                 "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "556cbe74c1437baa0442f775909a1e39cd2467b12df26c83ef9042df0b9cb949",
+                "taskHash": "7a7456df8b83e6f95b131d0535e49a1d125ca6551531df4872a2ca5efab48384",
                 "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-31a7b232da4f0facbce3/1/generation.json"
               }
             }
           },
           "snapshotKind": "local",
-          "bankRef": null,
-          "sourceLayoutEvidence": {
-            "pageBreakBefore": true
-          }
+          "bankRef": null
         },
         {
           "id": "p6-q2",
@@ -4096,9 +3967,9 @@
           "bankRef": null
         },
         {
-          "id": "p6-q3",
+          "id": "p6-q1",
           "type": "question",
-          "sourceOrder": 3,
+          "sourceOrder": 1,
           "sourcePageNumber": 6,
           "sourceRefs": [
             {
@@ -4106,73 +3977,99 @@
             }
           ],
           "classification": {
-            "primarySkillId": "recurrence-relation-definition",
+            "primarySkillId": "sequence-notation",
             "secondarySkillIds": [
-              "sequence-notation"
+              "recurrence-relation-definition"
             ],
-            "reasoningScore": 10,
+            "reasoningScore": 20,
             "difficulty": "Foundation",
-            "difficultyReason": "Apply an explicitly stated term-to-term rule from a supplied first term.",
+            "difficultyReason": "Recognise simple term-to-term patterns, square numbers and a numerator-denominator pattern.",
             "assessment": {
               "model": "gpt-6.1-sol",
               "assessedAt": "2026-10-24T02:30:57.057Z",
               "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "7a7456df8b83e6f95b131d0535e49a1d125ca6551531df4872a2ca5efab48384",
+              "taskHash": "556cbe74c1437baa0442f775909a1e39cd2467b12df26c83ef9042df0b9cb949",
               "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-31a7b232da4f0facbce3/1/generation.json"
             },
-            "archetype": "iterate-supplied-rule",
+            "archetype": "continue-pattern",
             "archetypeReview": {
               "reviewedRevision": 6,
               "snapshotSha256": "1384e454ff1d6bdbf61d453ec96af1e9ad93f57ecef42103b7bc4469a15ea279",
               "mapFile": ".booklet-work/end-goal-20261028/phase6-sequences-r6/settled/map.json",
-              "sourceHash": "5c1adf30c593b2f5fb30fe5c3d660ad1f06420253e1a1a342d8022a424ce416a",
+              "sourceHash": "68c27e5b80ba15ef5b50d456c876f6c09641e657cf83f4aa4ae2b0d618815e5f",
               "model": "gpt-6.1-sol",
               "effort": "low",
               "coverage": "covered",
               "practiceItems": [
                 {
                   "nodeIds": [
-                    "p6-q3-a"
+                    "p6-q1-a"
                   ],
-                  "rationale": "One recursive run; successive terms depend on preceding terms."
+                  "rationale": "One inferred additive pattern and its dependent four-term continuation."
                 },
                 {
                   "nodeIds": [
-                    "p6-q3-b"
+                    "p6-q1-b"
                   ],
-                  "rationale": "One recursive run; successive terms depend on preceding terms."
+                  "rationale": "One inferred multiplicative pattern and its dependent continuation."
                 },
                 {
                   "nodeIds": [
-                    "p6-q3-c"
+                    "p6-q1-c"
                   ],
-                  "rationale": "One recursive run; successive terms depend on preceding terms."
+                  "rationale": "One inferred decreasing pattern and its dependent continuation."
                 },
                 {
                   "nodeIds": [
-                    "p6-q3-d"
+                    "p6-q1-d"
                   ],
-                  "rationale": "One recursive run; successive terms depend on preceding terms."
+                  "rationale": "One inferred halving pattern and its dependent continuation."
+                },
+                {
+                  "nodeIds": [
+                    "p6-q1-e"
+                  ],
+                  "rationale": "One inferred alternating pattern and its dependent continuation."
+                },
+                {
+                  "nodeIds": [
+                    "p6-q1-f"
+                  ],
+                  "rationale": "One inferred square-number pattern and its dependent continuation."
+                },
+                {
+                  "nodeIds": [
+                    "p6-q1-g"
+                  ],
+                  "rationale": "One inferred numerator-denominator pattern and its dependent continuation."
+                },
+                {
+                  "nodeIds": [
+                    "p6-q1-h"
+                  ],
+                  "rationale": "One inferred negative-ratio pattern and its dependent continuation."
                 }
               ],
               "reviewStatus": "candidate-only-root-review-pending"
             }
           },
           "content": {
-            "id": "p6-q3-root",
+            "id": "p6-q1-root",
             "type": "question",
-            "label": "3",
-            "prompt": "Write down the first four terms of each sequence described below.",
+            "label": "1",
+            "prompt": "Write down the next four terms of each sequence.",
+            "layout": "grid",
+            "columns": 2,
             "children": [
               {
-                "id": "p6-q3-a",
+                "id": "p6-q1-a",
                 "type": "part",
                 "label": "a",
-                "prompt": "First term is 11, every term after is 50 more than previous",
+                "prompt": "$6,16,26,\\ldots$",
                 "answerSpaceMm": 10,
                 "answer": {
-                  "short": "$11,61,111,161$",
-                  "worked": "Start at $11$ and add $50$ each time: $11+50=61$, $61+50=111$, $111+50=161$.\n\nThe first four terms are $11,61,111,161$.",
+                  "short": "$36,46,56,66$",
+                  "worked": "Add $10$ each time: $26+10=36$, $36+10=46$, $46+10=56$, $56+10=66$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -4180,14 +4077,14 @@
                 }
               },
               {
-                "id": "p6-q3-b",
+                "id": "p6-q1-b",
                 "type": "part",
                 "label": "b",
-                "prompt": "First term is 15, every term after is 3 less than previous",
+                "prompt": "$3,6,12,\\ldots$",
                 "answerSpaceMm": 10,
                 "answer": {
-                  "short": "$15,12,9,6$",
-                  "worked": "Start at $15$ and subtract $3$ each time: $15-3=12$, $12-3=9$, $9-3=6$.\n\nThe first four terms are $15,12,9,6$.",
+                  "short": "$24,48,96,192$",
+                  "worked": "Multiply by $2$ each time: $12\\times2=24$, $24\\times2=48$, $48\\times2=96$, $96\\times2=192$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -4195,14 +4092,14 @@
                 }
               },
               {
-                "id": "p6-q3-c",
+                "id": "p6-q1-c",
                 "type": "part",
                 "label": "c",
-                "prompt": "First term is 5, every term after is twice the previous",
+                "prompt": "$38,34,30,\\ldots$",
                 "answerSpaceMm": 10,
                 "answer": {
-                  "short": "$5,10,20,40$",
-                  "worked": "Start at $5$ and multiply by $2$ each time: $5\\times2=10$, $10\\times2=20$, $20\\times2=40$.\n\nThe first four terms are $5,10,20,40$.",
+                  "short": "$26,22,18,14$",
+                  "worked": "Subtract $4$ each time: $30-4=26$, $26-4=22$, $22-4=18$, $18-4=14$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -4210,14 +4107,74 @@
                 }
               },
               {
-                "id": "p6-q3-d",
+                "id": "p6-q1-d",
                 "type": "part",
                 "label": "d",
-                "prompt": "First term is $-100$, every term after is one fifth of previous",
+                "prompt": "$24,12,6,\\ldots$",
                 "answerSpaceMm": 22,
                 "answer": {
-                  "short": "$-100,-20,-4,-\\frac45$",
-                  "worked": "Start at $-100$ and divide by $5$ each time: $-100\\div5=-20$, $-20\\div5=-4$, $-4\\div5=-\\frac45$.\n\nThe first four terms are $-100,-20,-4,-\\frac45$.",
+                  "short": "$3,1\\frac12,\\frac34,\\frac38$",
+                  "worked": "Divide by $2$ each time: $6\\div2=3$, $3\\div2=1\\frac12$, $\\frac32\\div2=\\frac34$, $\\frac34\\div2=\\frac38$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p6-q1-e",
+                "type": "part",
+                "label": "e",
+                "prompt": "$-1,1,-1,\\ldots$",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "$1,-1,1,-1$",
+                  "worked": "The terms alternate between $-1$ and $1$, so the next four terms are $1,-1,1,-1$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p6-q1-f",
+                "type": "part",
+                "label": "f",
+                "prompt": "$1,4,9,\\ldots$",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "$16,25,36,49$",
+                  "worked": "The terms are consecutive squares: $1^2,2^2,3^2,\\ldots$. The next terms are $4^2=16$, $5^2=25$, $6^2=36$, $7^2=49$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p6-q1-g",
+                "type": "part",
+                "label": "g",
+                "prompt": "$\\frac12,\\frac23,\\frac34,\\ldots$",
+                "answerSpaceMm": 30,
+                "answer": {
+                  "short": "$\\frac45,\\frac56,\\frac67,\\frac78$",
+                  "worked": "Increase both the numerator and denominator by $1$ each time. The next four terms are $\\frac45,\\frac56,\\frac67,\\frac78$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p6-q1-h",
+                "type": "part",
+                "label": "h",
+                "prompt": "$16,-8,4,\\ldots$",
+                "answerSpaceMm": 30,
+                "answer": {
+                  "short": "$-2,1,-\\frac12,\\frac14$",
+                  "worked": "Multiply by $-\\frac12$ each time: $4(-\\frac12)=-2$, $(-2)(-\\frac12)=1$, $1(-\\frac12)=-\\frac12$, $(-\\frac12)(-\\frac12)=\\frac14$.",
                   "provenance": {
                     "short": "source",
                     "worked": "authored"
@@ -4228,7 +4185,7 @@
           },
           "sourceReview": {
             "sourceIdentity": {
-              "questionLabel": "3",
+              "questionLabel": "1",
               "pdfPage": 6,
               "printedPage": 6
             },
@@ -4238,23 +4195,39 @@
                 4,
                 5
               ],
-              "methodNote": "Keep the stated first term, then repeatedly apply the verbal term-to-term rule. Page 3 defines recursive rules and page 4 generates terms from a first term and recurrence."
+              "methodNote": "Identify the rule from the ordered terms and apply it successively. Page 3 introduces sequence patterns and term-to-term rules; page 4 practises generating terms."
             },
             "responses": [
               {
-                "targetId": "p6-q3-a",
+                "targetId": "p6-q1-a",
                 "kind": "short"
               },
               {
-                "targetId": "p6-q3-b",
+                "targetId": "p6-q1-b",
                 "kind": "short"
               },
               {
-                "targetId": "p6-q3-c",
+                "targetId": "p6-q1-c",
                 "kind": "short"
               },
               {
-                "targetId": "p6-q3-d",
+                "targetId": "p6-q1-d",
+                "kind": "short"
+              },
+              {
+                "targetId": "p6-q1-e",
+                "kind": "short"
+              },
+              {
+                "targetId": "p6-q1-f",
+                "kind": "short"
+              },
+              {
+                "targetId": "p6-q1-g",
+                "kind": "short"
+              },
+              {
+                "targetId": "p6-q1-h",
                 "kind": "short"
               }
             ],
@@ -4262,38 +4235,62 @@
               "method": "solution-steps",
               "estimates": [
                 {
-                  "targetId": "p6-q3-a",
-                  "widthMm": 166,
+                  "targetId": "p6-q1-a",
+                  "widthMm": 80,
                   "mathematicalRows": 1,
                   "answerSpaceMm": 12
                 },
                 {
-                  "targetId": "p6-q3-b",
-                  "widthMm": 166,
+                  "targetId": "p6-q1-b",
+                  "widthMm": 80,
                   "mathematicalRows": 1,
                   "answerSpaceMm": 12
                 },
                 {
-                  "targetId": "p6-q3-c",
-                  "widthMm": 166,
+                  "targetId": "p6-q1-c",
+                  "widthMm": 80,
                   "mathematicalRows": 1,
                   "answerSpaceMm": 12
                 },
                 {
-                  "targetId": "p6-q3-d",
-                  "widthMm": 166,
+                  "targetId": "p6-q1-d",
+                  "widthMm": 80,
                   "mathematicalRows": 1,
-                  "answerSpaceMm": 16
+                  "answerSpaceMm": 18
+                },
+                {
+                  "targetId": "p6-q1-e",
+                  "widthMm": 80,
+                  "mathematicalRows": 1,
+                  "answerSpaceMm": 12
+                },
+                {
+                  "targetId": "p6-q1-f",
+                  "widthMm": 80,
+                  "mathematicalRows": 1,
+                  "answerSpaceMm": 12
+                },
+                {
+                  "targetId": "p6-q1-g",
+                  "widthMm": 80,
+                  "mathematicalRows": 1,
+                  "answerSpaceMm": 18
+                },
+                {
+                  "targetId": "p6-q1-h",
+                  "widthMm": 80,
+                  "mathematicalRows": 1,
+                  "answerSpaceMm": 18
                 }
               ]
             },
             "sourcePagination": {
               "page": 6,
-              "breakBefore": false
+              "breakBefore": true
             },
             "origin": {
               "projectId": "s6adv-sequences-and-series-1-sequences-and-series-v1",
-              "blockId": "p6-q3",
+              "blockId": "p6-q1",
               "runId": "s6adv-sequences-and-series-1-sequences-and-series-20261024",
               "artifact": {
                 "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\s6adv-sequences-and-series-1-sequences-and-series-20261024\\semantic-packets\\page-006.author.json",
@@ -4304,336 +4301,22 @@
           "flow": {
             "sourcePageBreakBefore": false,
             "localDifficulty": {
-              "primarySkillId": "recurrence-relation-definition",
+              "primarySkillId": "sequence-notation",
               "secondarySkillIds": [
-                "sequence-notation"
+                "recurrence-relation-definition"
               ],
-              "reasoningScore": 10,
+              "reasoningScore": 20,
               "difficulty": "Foundation",
-              "difficultyReason": "Apply an explicitly stated term-to-term rule from a supplied first term.",
+              "difficultyReason": "Recognise simple term-to-term patterns, square numbers and a numerator-denominator pattern.",
               "assessment": {
                 "model": "gpt-6.1-sol",
                 "assessedAt": "2026-10-24T02:30:57.057Z",
                 "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "7a7456df8b83e6f95b131d0535e49a1d125ca6551531df4872a2ca5efab48384",
+                "taskHash": "556cbe74c1437baa0442f775909a1e39cd2467b12df26c83ef9042df0b9cb949",
                 "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-31a7b232da4f0facbce3/1/generation.json"
               }
-            }
-          },
-          "snapshotKind": "local",
-          "bankRef": null
-        },
-        {
-          "id": "p7-q4",
-          "type": "question",
-          "sourceOrder": 4,
-          "sourcePageNumber": 7,
-          "sourceRefs": [
-            {
-              "pageNumber": 7
-            }
-          ],
-          "classification": {
-            "primarySkillId": "arithmetic-sequence-nth-term",
-            "secondarySkillIds": [],
-            "reasoningScore": 35,
-            "difficulty": "Development",
-            "difficultyReason": "Extend an arithmetic sequence, count terms within bounds, and determine term positions and membership.",
-            "assessment": {
-              "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-24T02:30:19.887Z",
-              "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "bc5be6cb66e725978ca127cc1cc66dff67a3b4d9476fcc4fc24beeedfba6051f",
-              "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-a9c3749bca423a5528f4/1/generation.json"
             },
-            "archetype": "inspect-generated-sequence",
-            "archetypeReview": {
-              "reviewedRevision": 6,
-              "snapshotSha256": "1384e454ff1d6bdbf61d453ec96af1e9ad93f57ecef42103b7bc4469a15ea279",
-              "mapFile": ".booklet-work/end-goal-20261028/phase6-sequences-r6/settled/map.json",
-              "sourceHash": "fed64e8d5d56becb16efbdfe754f1875d66010747c6ee01e09efb7890b22faa7",
-              "model": "gpt-6.1-sol",
-              "effort": "low",
-              "coverage": "covered",
-              "practiceItems": [
-                {
-                  "nodeIds": [
-                    "p7-q4-a"
-                  ],
-                  "rationale": "One complete twelve-term sequence generation."
-                },
-                {
-                  "nodeIds": [
-                    "p7-q4-b"
-                  ],
-                  "rationale": "One independently answerable count below a bound."
-                },
-                {
-                  "nodeIds": [
-                    "p7-q4-c"
-                  ],
-                  "rationale": "One independently answerable count within an interval."
-                },
-                {
-                  "nodeIds": [
-                    "p7-q4-d"
-                  ],
-                  "rationale": "One independently answerable position-to-value lookup."
-                },
-                {
-                  "nodeIds": [
-                    "p7-q4-e"
-                  ],
-                  "rationale": "One independently answerable value-to-position lookup."
-                },
-                {
-                  "nodeIds": [
-                    "p7-q4-f"
-                  ],
-                  "rationale": "One independently answerable membership decision by extending or inspecting the pattern."
-                },
-                {
-                  "nodeIds": [
-                    "p7-q4-g"
-                  ],
-                  "rationale": "One independently answerable membership decision from the pattern."
-                }
-              ],
-              "reviewStatus": "candidate-only-root-review-pending"
-            }
-          },
-          "content": {
-            "id": "p7-q4-root",
-            "type": "question",
-            "label": "4",
-            "prompt": "Consider the sequence: $7, 12, 17, 22, \\ldots$",
-            "children": [
-              {
-                "id": "p7-q4-a",
-                "type": "part",
-                "label": "a",
-                "prompt": "Write the first 12 terms.",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "$7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57, 62$",
-                  "worked": "Add $5$ to each term to obtain the next term:\n$$7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57, 62.$$",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p7-q4-b",
-                "type": "part",
-                "label": "b",
-                "prompt": "How many terms are less than 30?",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "$5$",
-                  "worked": "The terms less than $30$ are $7, 12, 17, 22, 27$. The next term is $32$, so there are $5$ terms.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p7-q4-c",
-                "type": "part",
-                "label": "c",
-                "prompt": "How many terms lie between 20 and 40?",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "$4$",
-                  "worked": "The terms between $20$ and $40$ are $22, 27, 32, 37$, so there are $4$ terms.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p7-q4-d",
-                "type": "part",
-                "label": "d",
-                "prompt": "What is the 10th term?",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "$52$",
-                  "worked": "Counting the terms listed in part a gives $a_{10}=52$.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p7-q4-e",
-                "type": "part",
-                "label": "e",
-                "prompt": "What number term is 37?",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "7th term",
-                  "worked": "Counting from the first term, $7, 12, 17, 22, 27, 32, 37$, gives $a_7=37$. It is the 7th term.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p7-q4-f",
-                "type": "part",
-                "label": "f",
-                "prompt": "Is 87 a term in the sequence?",
-                "answerSpaceMm": 20,
-                "answer": {
-                  "short": "Yes; 17th term.",
-                  "worked": "The position-to-term rule is $a_n=5n+2$.\n$$\\begin{align*}5n+2&=87\\\\5n&=85\\\\n&=17\\end{align*}$$\nYes, $87$ is the 17th term.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              },
-              {
-                "id": "p7-q4-g",
-                "type": "part",
-                "label": "g",
-                "prompt": "Is 201 a term in the sequence?",
-                "answerSpaceMm": 10,
-                "answer": {
-                  "short": "No; all terms end in 2 or 7.",
-                  "worked": "Starting at $7$ and repeatedly adding $5$ gives terms ending alternately in $7$ and $2$. Since $201$ ends in $1$, it is not a term.",
-                  "provenance": {
-                    "short": "source",
-                    "worked": "authored"
-                  }
-                }
-              }
-            ]
-          },
-          "sourceReview": {
-            "sourceIdentity": {
-              "questionLabel": "4"
-            },
-            "teachingContext": {
-              "pdfPages": [
-                3,
-                4,
-                5
-              ],
-              "methodNote": "Generate terms using the term-to-term rule, count positions and bounded terms, and use an equation from the position-to-term rule to test membership."
-            },
-            "responses": [
-              {
-                "targetId": "p7-q4-a",
-                "kind": "short"
-              },
-              {
-                "targetId": "p7-q4-b",
-                "kind": "short"
-              },
-              {
-                "targetId": "p7-q4-c",
-                "kind": "short"
-              },
-              {
-                "targetId": "p7-q4-d",
-                "kind": "short"
-              },
-              {
-                "targetId": "p7-q4-e",
-                "kind": "short"
-              },
-              {
-                "targetId": "p7-q4-f",
-                "kind": "working"
-              },
-              {
-                "targetId": "p7-q4-g",
-                "kind": "short"
-              }
-            ],
-            "workingSpaceEstimate": {
-              "method": "solution-steps",
-              "estimates": [
-                {
-                  "targetId": "p7-q4-a",
-                  "widthMm": 166,
-                  "mathematicalRows": 2,
-                  "answerSpaceMm": 14
-                },
-                {
-                  "targetId": "p7-q4-b",
-                  "widthMm": 166,
-                  "mathematicalRows": 2,
-                  "answerSpaceMm": 14
-                },
-                {
-                  "targetId": "p7-q4-c",
-                  "widthMm": 166,
-                  "mathematicalRows": 2,
-                  "answerSpaceMm": 14
-                },
-                {
-                  "targetId": "p7-q4-d",
-                  "widthMm": 166,
-                  "mathematicalRows": 1,
-                  "answerSpaceMm": 14
-                },
-                {
-                  "targetId": "p7-q4-e",
-                  "widthMm": 166,
-                  "mathematicalRows": 2,
-                  "answerSpaceMm": 14
-                },
-                {
-                  "targetId": "p7-q4-f",
-                  "widthMm": 166,
-                  "mathematicalRows": 4,
-                  "answerSpaceMm": 28
-                },
-                {
-                  "targetId": "p7-q4-g",
-                  "widthMm": 166,
-                  "mathematicalRows": 2,
-                  "answerSpaceMm": 14
-                }
-              ]
-            },
-            "sourcePagination": {
-              "page": 7,
-              "breakBefore": true
-            },
-            "origin": {
-              "projectId": "s6adv-sequences-and-series-1-sequences-and-series-v1",
-              "blockId": "p7-q4",
-              "runId": "s6adv-sequences-and-series-1-sequences-and-series-20261024",
-              "artifact": {
-                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\s6adv-sequences-and-series-1-sequences-and-series-20261024\\semantic-packets\\page-007.author.json",
-                "hash": "e9d0034abf25f7c7d4c8dd49885e388848894ec422bd7604885376ec554c7b18"
-              }
-            }
-          },
-          "flow": {
-            "sourcePageBreakBefore": false,
-            "localDifficulty": {
-              "primarySkillId": "arithmetic-sequence-nth-term",
-              "secondarySkillIds": [],
-              "reasoningScore": 35,
-              "difficulty": "Development",
-              "difficultyReason": "Extend an arithmetic sequence, count terms within bounds, and determine term positions and membership.",
-              "assessment": {
-                "model": "gpt-6.1-sol",
-                "assessedAt": "2026-10-24T02:30:19.887Z",
-                "rubricVersion": "mathsmap-cognitive-demand-v1",
-                "taskHash": "bc5be6cb66e725978ca127cc1cc66dff67a3b4d9476fcc4fc24beeedfba6051f",
-                "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-a9c3749bca423a5528f4/1/generation.json"
-              }
-            }
+            "keepTogether": true
           },
           "snapshotKind": "local",
           "bankRef": null,
@@ -5125,6 +4808,324 @@
           },
           "snapshotKind": "local",
           "bankRef": null
+        },
+        {
+          "id": "p7-q4",
+          "type": "question",
+          "sourceOrder": 4,
+          "sourcePageNumber": 7,
+          "sourceRefs": [
+            {
+              "pageNumber": 7
+            }
+          ],
+          "classification": {
+            "primarySkillId": "arithmetic-sequence-nth-term",
+            "secondarySkillIds": [],
+            "reasoningScore": 35,
+            "difficulty": "Development",
+            "difficultyReason": "Extend an arithmetic sequence, count terms within bounds, and determine term positions and membership.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "assessedAt": "2026-10-24T02:30:19.887Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "bc5be6cb66e725978ca127cc1cc66dff67a3b4d9476fcc4fc24beeedfba6051f",
+              "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-a9c3749bca423a5528f4/1/generation.json"
+            },
+            "archetype": "inspect-generated-sequence",
+            "archetypeReview": {
+              "reviewedRevision": 6,
+              "snapshotSha256": "1384e454ff1d6bdbf61d453ec96af1e9ad93f57ecef42103b7bc4469a15ea279",
+              "mapFile": ".booklet-work/end-goal-20261028/phase6-sequences-r6/settled/map.json",
+              "sourceHash": "fed64e8d5d56becb16efbdfe754f1875d66010747c6ee01e09efb7890b22faa7",
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "coverage": "covered",
+              "practiceItems": [
+                {
+                  "nodeIds": [
+                    "p7-q4-a"
+                  ],
+                  "rationale": "One complete twelve-term sequence generation."
+                },
+                {
+                  "nodeIds": [
+                    "p7-q4-b"
+                  ],
+                  "rationale": "One independently answerable count below a bound."
+                },
+                {
+                  "nodeIds": [
+                    "p7-q4-c"
+                  ],
+                  "rationale": "One independently answerable count within an interval."
+                },
+                {
+                  "nodeIds": [
+                    "p7-q4-d"
+                  ],
+                  "rationale": "One independently answerable position-to-value lookup."
+                },
+                {
+                  "nodeIds": [
+                    "p7-q4-e"
+                  ],
+                  "rationale": "One independently answerable value-to-position lookup."
+                },
+                {
+                  "nodeIds": [
+                    "p7-q4-f"
+                  ],
+                  "rationale": "One independently answerable membership decision by extending or inspecting the pattern."
+                },
+                {
+                  "nodeIds": [
+                    "p7-q4-g"
+                  ],
+                  "rationale": "One independently answerable membership decision from the pattern."
+                }
+              ],
+              "reviewStatus": "candidate-only-root-review-pending"
+            }
+          },
+          "content": {
+            "id": "p7-q4-root",
+            "type": "question",
+            "label": "4",
+            "prompt": "Consider the sequence: $7, 12, 17, 22, \\ldots$",
+            "children": [
+              {
+                "id": "p7-q4-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Write the first 12 terms.",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "$7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57, 62$",
+                  "worked": "Add $5$ to each term to obtain the next term:\n$$7, 12, 17, 22, 27, 32, 37, 42, 47, 52, 57, 62.$$",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p7-q4-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "How many terms are less than 30?",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "$5$",
+                  "worked": "The terms less than $30$ are $7, 12, 17, 22, 27$. The next term is $32$, so there are $5$ terms.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p7-q4-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "How many terms lie between 20 and 40?",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "$4$",
+                  "worked": "The terms between $20$ and $40$ are $22, 27, 32, 37$, so there are $4$ terms.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p7-q4-d",
+                "type": "part",
+                "label": "d",
+                "prompt": "What is the 10th term?",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "$52$",
+                  "worked": "Counting the terms listed in part a gives $a_{10}=52$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p7-q4-e",
+                "type": "part",
+                "label": "e",
+                "prompt": "What number term is 37?",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "7th term",
+                  "worked": "Counting from the first term, $7, 12, 17, 22, 27, 32, 37$, gives $a_7=37$. It is the 7th term.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p7-q4-f",
+                "type": "part",
+                "label": "f",
+                "prompt": "Is 87 a term in the sequence?",
+                "answerSpaceMm": 20,
+                "answer": {
+                  "short": "Yes; 17th term.",
+                  "worked": "The position-to-term rule is $a_n=5n+2$.\n$$\\begin{align*}5n+2&=87\\\\5n&=85\\\\n&=17\\end{align*}$$\nYes, $87$ is the 17th term.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              },
+              {
+                "id": "p7-q4-g",
+                "type": "part",
+                "label": "g",
+                "prompt": "Is 201 a term in the sequence?",
+                "answerSpaceMm": 10,
+                "answer": {
+                  "short": "No; all terms end in 2 or 7.",
+                  "worked": "Starting at $7$ and repeatedly adding $5$ gives terms ending alternately in $7$ and $2$. Since $201$ ends in $1$, it is not a term.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "sourceIdentity": {
+              "questionLabel": "4"
+            },
+            "teachingContext": {
+              "pdfPages": [
+                3,
+                4,
+                5
+              ],
+              "methodNote": "Generate terms using the term-to-term rule, count positions and bounded terms, and use an equation from the position-to-term rule to test membership."
+            },
+            "responses": [
+              {
+                "targetId": "p7-q4-a",
+                "kind": "short"
+              },
+              {
+                "targetId": "p7-q4-b",
+                "kind": "short"
+              },
+              {
+                "targetId": "p7-q4-c",
+                "kind": "short"
+              },
+              {
+                "targetId": "p7-q4-d",
+                "kind": "short"
+              },
+              {
+                "targetId": "p7-q4-e",
+                "kind": "short"
+              },
+              {
+                "targetId": "p7-q4-f",
+                "kind": "working"
+              },
+              {
+                "targetId": "p7-q4-g",
+                "kind": "short"
+              }
+            ],
+            "workingSpaceEstimate": {
+              "method": "solution-steps",
+              "estimates": [
+                {
+                  "targetId": "p7-q4-a",
+                  "widthMm": 166,
+                  "mathematicalRows": 2,
+                  "answerSpaceMm": 14
+                },
+                {
+                  "targetId": "p7-q4-b",
+                  "widthMm": 166,
+                  "mathematicalRows": 2,
+                  "answerSpaceMm": 14
+                },
+                {
+                  "targetId": "p7-q4-c",
+                  "widthMm": 166,
+                  "mathematicalRows": 2,
+                  "answerSpaceMm": 14
+                },
+                {
+                  "targetId": "p7-q4-d",
+                  "widthMm": 166,
+                  "mathematicalRows": 1,
+                  "answerSpaceMm": 14
+                },
+                {
+                  "targetId": "p7-q4-e",
+                  "widthMm": 166,
+                  "mathematicalRows": 2,
+                  "answerSpaceMm": 14
+                },
+                {
+                  "targetId": "p7-q4-f",
+                  "widthMm": 166,
+                  "mathematicalRows": 4,
+                  "answerSpaceMm": 28
+                },
+                {
+                  "targetId": "p7-q4-g",
+                  "widthMm": 166,
+                  "mathematicalRows": 2,
+                  "answerSpaceMm": 14
+                }
+              ]
+            },
+            "sourcePagination": {
+              "page": 7,
+              "breakBefore": true
+            },
+            "origin": {
+              "projectId": "s6adv-sequences-and-series-1-sequences-and-series-v1",
+              "blockId": "p7-q4",
+              "runId": "s6adv-sequences-and-series-1-sequences-and-series-20261024",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\s6adv-sequences-and-series-1-sequences-and-series-20261024\\semantic-packets\\page-007.author.json",
+                "hash": "e9d0034abf25f7c7d4c8dd49885e388848894ec422bd7604885376ec554c7b18"
+              }
+            }
+          },
+          "flow": {
+            "sourcePageBreakBefore": false,
+            "localDifficulty": {
+              "primarySkillId": "arithmetic-sequence-nth-term",
+              "secondarySkillIds": [],
+              "reasoningScore": 35,
+              "difficulty": "Development",
+              "difficultyReason": "Extend an arithmetic sequence, count terms within bounds, and determine term positions and membership.",
+              "assessment": {
+                "model": "gpt-6.1-sol",
+                "assessedAt": "2026-10-24T02:30:19.887Z",
+                "rubricVersion": "mathsmap-cognitive-demand-v1",
+                "taskHash": "bc5be6cb66e725978ca127cc1cc66dff67a3b4d9476fcc4fc24beeedfba6051f",
+                "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-a9c3749bca423a5528f4/1/generation.json"
+              }
+            }
+          },
+          "snapshotKind": "local",
+          "bankRef": null,
+          "sourceLayoutEvidence": {
+            "pageBreakBefore": true
+          }
         },
         {
           "id": "p8-q7",
@@ -11423,10 +11424,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 9,
+  "revision": 12,
   "assets": [],
   "createdAt": "2026-10-24T09:18:16.040Z",
-  "updatedAt": "2026-10-30T00:22:12.275Z",
+  "updatedAt": "2026-11-01T11:22:40.121Z",
   "library": {
     "category": "master",
     "courseId": "s6-adv12",
