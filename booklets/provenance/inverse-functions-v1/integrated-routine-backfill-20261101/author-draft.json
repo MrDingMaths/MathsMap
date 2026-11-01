@@ -1,0 +1,115 @@
+{
+  "model": "claude-sonnet-5-5",
+  "blockers": [],
+  "adaptation": {
+    "donorId": "p12-q11",
+    "changedValues": "f(x)=sqrt(2x-1) becomes y=sqrt(4x-4). Domain x>=1/2 becomes x>=1, and range y>=0 is unchanged. Inverse y=(x^2+1)/2 with x>=0, y>=1/2 becomes y=(x^2+4)/4 with x>=0, y>=1. Intersection (1,1) becomes (2,2). The sketch endpoints become (1,0) and (0,1). The donor a-e structure, answer spaces and diagram arrangement are kept, and the diagram mathematics is updated.",
+    "taughtMethodEvidence": "Domain and range from the radicand and square root: p27-guided-b and p26. Interchanging x and y and rearranging: p7 and p17. Inverse domain taken from the original range, and domain and range swap: p6 and p27. Reflection in y=x: p6 and p7. Intersection by setting the function equal to x, as in donor p12-q11-c. Paired sketch as a reflection in y=x. No new teaching step, two-cycle argument or counterexample is used."
+  },
+  "question": {
+    "id": "inverse-integrated-routine-backfill-20261101",
+    "type": "question",
+    "label": "",
+    "title": "",
+    "prompt": "Consider the function $y=\\sqrt{4x-4}$.",
+    "layout": "list",
+    "children": [
+      {
+        "id": "inverse-integrated-routine-backfill-20261101-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the domain and range of this function.",
+        "answerSpaceMm": 18,
+        "answer": {
+          "short": "Domain: $x\\ge1$. Range: $y\\ge0$.",
+          "worked": "The radicand must be non-negative:\n$$\\begin{align*}4x-4&\\ge0\\\\4x&\\ge4\\\\x&\\ge1\\end{align*}$$\nThe square root takes every non-negative value. Domain: $x\\ge1$. Range: $y\\ge0$.",
+          "provenance": {
+            "short": "authored",
+            "worked": "authored"
+          }
+        }
+      },
+      {
+        "id": "inverse-integrated-routine-backfill-20261101-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the equation of the inverse and state the domain and range.\n\nYou must consider the restrictions on the original function, not just the equation of the inverse.",
+        "answerSpaceMm": 43,
+        "answer": {
+          "short": "$y=\\frac{x^2+4}{4}$, with domain $x\\ge0$ and range $y\\ge1$.",
+          "worked": "Interchange $x$ and $y$:\n$$\\begin{align*}x&=\\sqrt{4y-4}\\\\x^2&=4y-4\\\\x^2+4&=4y\\\\y&=\\frac{x^2+4}{4}\\end{align*}$$\nThe domain and range swap. The original range gives the inverse domain $x\\ge0$; the original domain gives the inverse range $y\\ge1$.",
+          "provenance": {
+            "short": "authored",
+            "worked": "authored"
+          }
+        }
+      },
+      {
+        "id": "inverse-integrated-routine-backfill-20261101-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the coordinates of the point where the original function intersects $y=x$.",
+        "answerSpaceMm": 34,
+        "answer": {
+          "short": "$(2,2)$.",
+          "worked": "At the intersection, $y=x$:\n$$\\begin{align*}x&=\\sqrt{4x-4}\\\\x^2&=4x-4\\\\x^2-4x+4&=0\\\\(x-2)^2&=0\\\\x&=2\\end{align*}$$\nSince $\\sqrt{4(2)-4}=2$, the point is $(2,2)$.",
+          "provenance": {
+            "short": "authored",
+            "worked": "authored"
+          }
+        }
+      },
+      {
+        "id": "inverse-integrated-routine-backfill-20261101-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain why this point also represents where the original function intersects with the inverse.",
+        "answerSpaceMm": 18,
+        "answer": {
+          "short": "The graphs are reflections across $y=x$. The point $(2,2)$ stays fixed under this reflection, so it lies on both graphs.",
+          "worked": "Reflecting in $y=x$ swaps the coordinates. The point $(2,2)$ reflects to itself, so its reflection also lies on the inverse graph. Thus $(2,2)$ is an intersection of the function and its inverse.",
+          "provenance": {
+            "short": "authored",
+            "worked": "authored"
+          }
+        }
+      },
+      {
+        "id": "inverse-integrated-routine-backfill-20261101-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence, draw $y=\\sqrt{4x-4}$ and its inverse on the same set of axes.",
+        "answerSpaceMm": 75,
+        "answer": {
+          "short": "See the sketch: $f(x)=\\sqrt{4x-4}$ for $x\\ge1$ and $g(x)=\\frac{x^2+4}{4}$ for $x\\ge0$, meeting at $(2,2)$.",
+          "worked": "Sketch $f(x)=\\sqrt{4x-4}$ from $(1,0)$ through $(2,2)$. Reflect it across $y=x$ to obtain $g(x)=\\frac{x^2+4}{4}$ for $x\\ge0$, starting at $(0,1)$ and passing through $(2,2)$.",
+          "provenance": {
+            "short": "authored",
+            "worked": "authored"
+          },
+          "solutionDiagrams": [
+            {
+              "id": "inverse-integrated-routine-backfill-20261101-e-diagram",
+              "format": "tikz",
+              "widthMm": 60,
+              "role": "solution",
+              "reviewStatus": "needs-review",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"original function f(x)\"},{\"name\":\"inverseRed\",\"hex\":\"EF6068\",\"reason\":\"inverse function g(x)\"},{\"name\":\"reflectionGuide\",\"hex\":\"777777\",\"reason\":\"dashed reflection line and intersection guides\"}],\"reference\":\"inverse-integrated-routine-backfill-20261101-e-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{inverseRed}{HTML}{EF6068}\n\\definecolor{reflectionGuide}{HTML}{777777}\n\\path[use as bounding box] (-0.75,-0.75) rectangle (5.25,5.25);\n\\draw[black,line width=0.5pt,->] (-0.65,0)--(5,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.65)--(0,5) node[right] {$y$};\n\\draw[reflectionGuide,line width=0.4pt,dashed] (-0.65,-0.65)--(5,5);\n\\draw[reflectionGuide,line width=0.4pt,dashed] (0,2)--(2,2)--(2,0);\n\\draw[black,line width=0.4pt] (1,-0.07)--(1,0.07);\n\\draw[black,line width=0.4pt] (2,-0.07)--(2,0.07);\n\\draw[black,line width=0.4pt] (-0.07,1)--(0.07,1);\n\\draw[black,line width=0.4pt] (-0.07,2)--(0.07,2);\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt,->] plot[domain=0:3.9,samples=100,variable=\\t] ({(\\t*\\t+4)/4},{\\t});\n\\draw[inverseRed,line width=0.8pt,->] plot[domain=0:3.9,samples=100,variable=\\t] ({\\t},{(\\t*\\t+4)/4});\n\\node[functionBlue,below right] at (4,{sqrt(12)}) {$f(x)$};\n\\node[inverseRed,above left] at (2.9,{(2.9*2.9+4)/4}) {$g(x)$};\n\\end{tikzpicture}",
+              "spec": {
+                "description": "One shared coordinate figure with positive axis arrowheads, blue f(x), red g(x), a dashed reflection line and dashed guides to (2,2). There is no full grid or endpoint marker.",
+                "mathematics": "f(x)=sqrt(4x-4), x>=1; g(x)=(x^2+4)/4, x>=0. The graphs are reflections across y=x and meet at (2,2). Plot bounds are schematic display bounds, not additional domain restrictions.",
+                "answerVisibility": "Solution only; the unsolved prompt contains no supplied graph."
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "selfCheck": {
+    "independentDerivation": "a) 4x-4>=0 gives x>=1; the range is y>=0. b) Swapping gives x=sqrt(4y-4), so x^2=4y-4 and y=(x^2+4)/4. Its domain is x>=0, the original range, and its range is y>=1, the original domain. At x=0 the inverse gives y=1, and f(1)=0, which is consistent. c) x^2=4x-4 gives (x-2)^2=0, so x=2; sqrt(4)=2, so the point is (2,2). d) (2,2) is fixed by the swap of coordinates, so it lies on both graphs. e) f passes through (1,0) and (2,2). g passes through (0,1) and (2,2). In the parametrisation f=((t^2+4)/4,t) and g=(t,(t^2+4)/4), t=2 gives (2,2) on both curves, and t=0 gives (1,0) and (0,1).",
+    "domainBranches": "Only the principal square-root branch is involved. f has x>=1 and y>=0, so the inverse y=(x^2+4)/4 is restricted to x>=0, the non-negative branch. The double root x=2 satisfies x>=1 and gives y=2>=0, so no root is rejected.",
+    "allParts": "Parts a-e are present as a continuous sequence with the donor's scaffolding and answer spaces. Each has a short and a worked answer, and part e has a native TikZ solution diagram with updated mathematics.",
+    "distinctFromBothDonors": "The values 4x-4, (x^2+4)/4 and (2,2) differ from p12-q11 (2x-1, (x^2+1)/2, (1,1)). p31-q8 has a different function, a decreasing branch, no double root and a two-cycle argument, so it is not copied or matched."
+  }
+}

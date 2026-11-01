@@ -1,0 +1,39 @@
+{
+  "pass": true,
+  "reviewConfiguration": {
+    "requestedModel": "gpt-6.1-terra",
+    "requestedReasoningEffort": "high",
+    "actualRuntimeModel": "not independently observable from the packet"
+  },
+  "independentDerivation": {
+    "a": "4x-4 >= 0 gives x >= 1; the principal square root ranges over y >= 0. Both endpoints are included.",
+    "b": "Swap coordinates: x = sqrt(4y-4), so x >= 0 and y = x²/4 + 1. Its domain is x >= 0 and range y >= 1; these exchange the original range and domain. Squaring alone would incorrectly admit x < 0.",
+    "c": "x = sqrt(4x-4) implies x²-4x+4 = (x-2)² = 0; x=2 satisfies the unsquared equation. The unique intersection with y=x is (2,2).",
+    "d": "Reflection in y=x swaps coordinates; (2,2) is fixed and therefore is on both the original and inverse graphs.",
+    "e": "The original starts at (1,0), rises through (2,2), and is the increasing square-root branch. Its reflection starts at (0,1), passes through (2,2), and is the right-hand branch y=x²/4+1 for x >= 0. Both continue indefinitely.",
+    "allFunctionInverseIntersections": "The function is strictly increasing on x >= 1. If (a,b) lies on both graphs then b=f(a) and a=f(b), with a,b in its domain. If a<b, strict increase gives b=f(a)<f(b)=a, a contradiction; similarly b<a is impossible. Thus a=b, and the calculation in c gives only (2,2). This proof is a review check, not an added student requirement."
+  },
+  "sourceFidelity": "A whole numerical adaptation of p12-q11: the same a–e sequence, restrictions prompt and inverse-reflection sketch are retained. sqrt(2x-1) and its double-root fixed point (1,1) become sqrt(4x-4) and (2,2). All five short and worked answers agree with the independently derived results. The separate p31-q8 decreasing-branch donor is contextual evidence rather than the copied task.",
+  "taughtScope": {
+    "pass": true,
+    "evidence": "p6 teaches reflection and swapping domain/range; p7 and p17 teach exchanging variables; p27 guided b inverts a square-root function with restriction, and p27 teaching connects restriction to range and reflection. The whole p12-q11 donor models this particular sequence and fixed-point argument. No unsignposted off-diagonal proof is asked of the student.",
+    "newMethodRequired": false
+  },
+  "nativeDiagram": {
+    "pass": true,
+    "derivation": "Blue parametrisation ((t²+4)/4,t), 0<=t<=3.9, is y=sqrt(4x-4); red (t,(t²+4)/4) is its inverse. Their starts are (1,0) and (0,1), each includes (2,2), and arrows indicate continuation. Axes use equal units; dashed diagonal and guides are consistent with reflection and ticks 1 and 2. f and g labels use points on their respective mathematical curves. This is a code-level check only.",
+    "requiredCorrections": []
+  },
+  "distinctIndependentAttempt": "Yes: students must solve a separate whole five-part problem with changed function and numerical endpoints, inverse and fixed point. It deliberately preserves the donor archetype and structure rather than presenting a new teaching step.",
+  "requiredCorrections": [],
+  "initialRating": {
+    "reasoningScore": 43,
+    "difficultyReason": "The prompts scaffold the sequence: find square-root domain and range, swap variables and preserve the inverse restriction, solve a fixed-point quadratic, then use reflection to explain and sketch the pair. These are linked taught procedures with a representation change, rather than an unprompted new connection."
+  },
+  "layoutChecks": [
+    "Questions: inspect the new whole question and any page-break neighbours for the five prompts, mathematical notation and usable answer space, especially the sketch area.",
+    "Short: inspect the new a–e answers and solution graph and their pagination neighbours for completeness, legibility, graph labels, ticks, endpoints, guides, arrowheads and clipping.",
+    "Worked: inspect the new a–e derivations and solution graph and their pagination neighbours for equations, legibility, graph labels, ticks, endpoints, guides, arrowheads and clipping."
+  ],
+  "blockers": []
+}
