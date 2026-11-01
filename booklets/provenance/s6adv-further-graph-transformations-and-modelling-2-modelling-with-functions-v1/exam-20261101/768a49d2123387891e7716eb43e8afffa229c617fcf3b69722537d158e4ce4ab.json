@@ -1,0 +1,160 @@
+{
+  "status": "original reviewed candidate with score provenance attached after explicit reviewer ownership correction; initial review remains corrections-required",
+  "block": {
+    "id": "exam-mb-d86dec34-aebc-4387-9406-9de63f733e8d",
+    "type": "question",
+    "snapshotKind": "local",
+    "bankRef": null,
+    "title": "",
+    "source": {
+      "provider": "HSC",
+      "paper": "Advanced",
+      "year": "2025",
+      "label": "HSC Advanced 2025",
+      "origin": "MathsBase"
+    },
+    "classification": {
+      "primarySkillId": "model-periodic-phenomena",
+      "secondarySkillIds": [
+        "transform-trig-functions"
+      ],
+      "reasoningScore": 48,
+      "difficulty": "Development",
+      "difficultyReason": "Construct a sine model from given amplitude and period, sketch the second supplied wave and compare the decreasing portions of two graphs. The given first graph and 'Hence' scaffold the overlap, but identifying both turning-point intervals is the hardest essential demand.",
+      "assessment": {
+        "model": "gpt-6.1-terra",
+        "assessedAt": "2026-11-01T21:18:51.124Z",
+        "rubricVersion": "mathsmap-cognitive-demand-v1",
+        "taskHash": "ee6ad2a0b761afd8bec4c76ca26111be88172b60de504c2199d8386ce5eb3bb4",
+        "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/singleton-final-three-local-preflight/modelling-r8-second-session-two-source-sealed/combined-independent-review.json",
+        "timeProvenance": {
+          "kind": "review-file-last-write-capture-time-not-observed-review-completion",
+          "capturedAt": "2026-11-01T21:18:51.124Z",
+          "actualReviewCompletedAt": null
+        },
+        "modelProvenance": {
+          "requested": "gpt-6.1-terra",
+          "requestedEffort": "high",
+          "observedModel": null,
+          "observedEffort": null,
+          "source": "coordinator-confirmed explicit spawn configuration in retained review"
+        },
+        "initialReview": {
+          "verdict": "corrections-required",
+          "rawTaskHash": "427d87a6fc777e4592c420c7b7f9b98eb94d129c1b919cfe48a4b4fefca2a1a8",
+          "requiredCorrections": [
+            "Move part b's diagrams array to questionDiagrams on that part, and its solutionDiagrams array to answer.solutionDiagrams on the same part. The native question arrangement reads those locations; the current draft locations do not supply the given P1 graph or the stated worked solution graph. Preserve the code and IDs, and inspect Questions and worked output after repair."
+          ],
+          "newAssessmentPerformed": false
+        }
+      }
+    },
+    "content": {
+      "id": "hsc-adv-2025-q15-root",
+      "type": "question",
+      "label": null,
+      "prompt": "A sound wave can be modelled using a function $P(t)=k \\sin at$, where $P$ is air pressure in Pascals, $t$ is time in milliseconds (ms) and $k$ and $a$ are constants.",
+      "children": [
+        {
+          "id": "hsc-adv-2025-q15-a",
+          "type": "part",
+          "label": "a",
+          "prompt": "Write the equation for a sound wave $P_1(t)$ that has an amplitude of $2$ Pascals and a period of $5$ ms.",
+          "answer": {
+            "short": "$P_1(t)=2\\sin\\left(\\dfrac{2\\pi}{5}t\\right)$",
+            "worked": "The amplitude is $2$, so $k=2$.\n$$\\begin{align*}\\text{Period}&=\\frac{2\\pi}{a}=5\\\\a&=\\frac{2\\pi}{5}\\end{align*}$$\n$$P_1(t)=2\\sin\\left(\\frac{2\\pi}{5}t\\right)$$"
+          }
+        },
+        {
+          "id": "hsc-adv-2025-q15-b",
+          "type": "part",
+          "label": "b",
+          "prompt": "The graph of $P_1(t)$ from part a is shown.\nOn the diagram, sketch the graph of $P_2(t)=4 \\sin(\\frac{\\pi}{10}t)$ for $0 \\leq t \\leq 10$.",
+          "answer": {
+            "short": "A sine wave of amplitude $4$ and period $20$: half a wave from $(0,0)$ up to the peak $(5,4)$ and back to $(10,0)$.",
+            "worked": "For $P_2(t)=4\\sin\\left(\\frac{\\pi}{10}t\\right)$:\n$$\\begin{align*}\\text{Amplitude}&=4\\\\\\text{Period}&=\\frac{2\\pi}{\\pi/10}=20\\end{align*}$$\nOver $0\\le t\\le10$ the graph is half of one wave. It starts at $(0,0)$, reaches its maximum a quarter of a period later at $(5,4)$, and returns to the axis at $(10,0)$.\n\nThe sketch of $P_2$ is shown with $P_1$ in the solution diagram.",
+            "solutionDiagrams": [
+              {
+                "id": "hsc-adv-2025-q15-b-solution-graph",
+                "format": "tikz",
+                "role": "solution",
+                "widthMm": 100,
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"p1Blue\",\"hex\":\"268CFF\",\"reason\":\"P1 curve and label\"},{\"name\":\"p2Purple\",\"hex\":\"8B5CC7\",\"reason\":\"P2 curve and label\"}],\"reference\":\"HSC.ADV.2025 Q15 part b solution\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.32cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{p1Blue}{HTML}{268CFF}\n\\definecolor{p2Purple}{HTML}{8B5CC7}\n\\foreach \\x in {-0.5,0,...,11}{\\draw[line width=0.2pt] (\\x,-4.5)--(\\x,4.5);}\n\\foreach \\y in {-4,-3,...,4}{\\draw[line width=0.2pt] (-0.5,\\y)--(11,\\y);}\n\\foreach \\x in {2.5,5,7.5,10}{\\draw[line width=0.4pt] (\\x,-4.5)--(\\x,4.5);}\n\\foreach \\y in {-4,-2,2,4}{\\draw[line width=0.4pt] (-0.5,\\y)--(11,\\y);}\n\\draw[->,line width=0.5pt] (-1,0)--(11.8,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,-5.2)--(0,5.4) node[above] {$P(t)$};\n\\foreach \\x in {1,...,10}{\\draw[line width=0.4pt] (\\x,-0.25)--(\\x,0.25);\\node[below,font=\\fontsize{8.5}{10}\\selectfont,fill=white,inner sep=0.5pt] at (\\x,-0.25) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {-4,-2,2,4}{\\draw[line width=0.4pt] (-0.1,\\y)--(0.1,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont,fill=white,inner sep=0.5pt] at (-0.1,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node at (-0.4,-0.9) {$O$};\n\\draw[p1Blue,line width=0.8pt,domain=0:10,samples=101] plot (\\x,{2*sin(72*\\x)});\n\\draw[p2Purple,line width=0.8pt,domain=0:10,samples=101] plot (\\x,{4*sin(18*\\x)});\n\\fill (0,0) circle (1.5pt);\n\\fill (5,4) circle (1.5pt);\n\\fill (10,0) circle (1.5pt);\n\\node[above] at (5,4) {$(5,4)$};\n\\node[above right] at (10,0) {$(10,0)$};\n\\node[p2Purple,above left] at (2.2,2.55) {$P_2$};\n\\node[p1Blue,below] at (8.75,-2) {$P_1$};\n\\end{tikzpicture}"
+              }
+            ]
+          },
+          "questionDiagrams": [
+            {
+              "id": "hsc-adv-2025-q15-b-question-graph",
+              "format": "tikz",
+              "role": "question",
+              "widthMm": 120,
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"HSC.ADV.2025 Q15 part b original P1 graph\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.38cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\x in {-0.5,0,...,11}{\\draw[line width=0.2pt] (\\x,-4.5)--(\\x,4.5);}\n\\foreach \\y in {-4,-3,...,4}{\\draw[line width=0.2pt] (-0.5,\\y)--(11,\\y);}\n\\foreach \\x in {2.5,5,7.5,10}{\\draw[line width=0.4pt] (\\x,-4.5)--(\\x,4.5);}\n\\foreach \\y in {-4,-2,2,4}{\\draw[line width=0.4pt] (-0.5,\\y)--(11,\\y);}\n\\draw[->,line width=0.5pt] (-1,0)--(11.8,0) node[right] {$t$};\n\\draw[->,line width=0.5pt] (0,-5.2)--(0,5.4) node[above] {$P(t)$};\n\\foreach \\x in {1,...,10}{\\draw[line width=0.4pt] (\\x,-0.25)--(\\x,0.25);\\node[below,font=\\fontsize{8.5}{10}\\selectfont,fill=white,inner sep=0.5pt] at (\\x,-0.25) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {-4,-2,2,4}{\\draw[line width=0.4pt] (-0.1,\\y)--(0.1,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont,fill=white,inner sep=0.5pt] at (-0.1,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node at (-0.4,-0.9) {$O$};\n\\draw[line width=0.8pt,domain=0:10.8,samples=109] plot (\\x,{2*sin(72*\\x)});\n\\foreach \\p in {(0,0),(2.5,0),(5,0),(7.5,0),(10,0),(1.25,2),(3.75,-2),(6.25,2),(8.75,-2)}{\\fill \\p circle (1.5pt);}\n\\end{tikzpicture}"
+            }
+          ]
+        },
+        {
+          "id": "hsc-adv-2025-q15-c",
+          "type": "part",
+          "label": "c",
+          "prompt": "Hence, find the values of $t$, where $0 < t < 10$, for which functions $P_1(t)$ and $P_2(t)$ are BOTH decreasing.",
+          "answer": {
+            "short": "$6.25<t<8.75$",
+            "worked": "From the graph of $P_2$, the function is decreasing from its peak at $t=5$ to $t=10$, so on $5<t<10$.\n\nFrom the graph of $P_1$ (period $5$), it is decreasing from each peak to the next trough. The peaks are at $t=1.25$ and $t=6.25$ and the troughs are at $t=3.75$ and $t=8.75$. So $P_1$ is decreasing on $1.25<t<3.75$ and on $6.25<t<8.75$.\n\nBoth are decreasing where these intervals overlap:\n$$6.25<t<8.75$$"
+          }
+        }
+      ]
+    },
+    "sourceReview": {
+      "origin": {
+        "provider": "MathsBase",
+        "externalId": "d86dec34-aebc-4387-9406-9de63f733e8d",
+        "sourceCode": "HSC.ADV.2025 Q15",
+        "sourceQuestionSha256": "c64585f027e37b23b10eeeb7cf49f87c0b0f18af2d7960781b5bcf6bcc42db5a",
+        "sourceSolutionSha256": "53ca88628093b6ca6dad1e2940974731f393015eb3e1aef1f3f346b308694d25",
+        "readSnapshot": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/singleton-final-three-local-preflight/modelling-r8-second-session-two-source-sealed/sealed-two-source-author-review-packet.json"
+      },
+      "generation": {
+        "model": "claude-sonnet-5-5",
+        "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/singleton-final-three-local-preflight/modelling-r8-second-session-two-source-sealed/author-call-1/draft.json",
+        "fileSha256": "9aa424252df24823476d002ec2642a31c21ad2ef280c43a7746b4dab3442a35c",
+        "draftHash": "d4d1d72f876085928c4ae2d893df5715d2e3040e8065144b3f87566ff1936f1d"
+      },
+      "independentReview": {
+        "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/singleton-final-three-local-preflight/modelling-r8-second-session-two-source-sealed/combined-independent-review.json",
+        "fileSha256": "3a6292dbf8f260fcd2afcff1b9afcfa148f386bcec184228592f2a1c6d5ec11d",
+        "model": "gpt-6.1-terra",
+        "effort": "high",
+        "reviewedSourceId": "d86dec34-aebc-4387-9406-9de63f733e8d",
+        "status": "semantic-review-retained-required-native-field-move-applied; canonical-binding-pending-main"
+      },
+      "requiredNativeEdit": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/singleton-final-three-local-preflight/modelling-r8-second-session-two-source-sealed/draft-required-native-field-exact-diff.json",
+      "sourceAttributionResolution": {
+        "sourceId": "d86dec34-aebc-4387-9406-9de63f733e8d",
+        "sourceCode": "HSC.ADV.2025 Q15",
+        "historicalStatus": "allowed-label-ready",
+        "currentApprovedParser": {
+          "provider": "HSC",
+          "paper": "Advanced",
+          "year": "2025",
+          "label": "HSC Advanced 2025",
+          "origin": "MathsBase"
+        },
+        "sealedLabel": {
+          "provider": "HSC",
+          "paper": "Advanced",
+          "year": "2025",
+          "label": "HSC Advanced 2025",
+          "origin": "MathsBase"
+        },
+        "contradictoryEvidence": false,
+        "publicationHold": false,
+        "reason": "Current approved parser mapping and sealed resolved metadata agree exactly. Historical source-label-hold is superseded for formatting; independent retrieval of specific paper not claimed or newly required."
+      },
+      "pageVerificationStatus": "pending-scoped-Questions-Short-Worked-QA"
+    }
+  },
+  "reviewFile": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/singleton-final-three-local-preflight/modelling-r8-second-session-two-source-sealed/combined-independent-review.json",
+  "reviewSha256": "3a6292dbf8f260fcd2afcff1b9afcfa148f386bcec184228592f2a1c6d5ec11d",
+  "noNewReview": true
+}
