@@ -288,20 +288,27 @@ test('empty response cells are native tables; malformed cells and project omissi
  }
 });
 test('own diagram below requires a unique same-node diagram visibly below the prompt in effective arrangements',()=>{
- const make=()=>({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Use the diagram below.',questionDiagrams:[{id:'figure',format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'}]}});
+ for(const rootType of ['question','group']){
+ const make=()=>({id:'own',type:'question',content:{id:'root',type:rootType,prompt:'Use the diagram below.',questionDiagrams:[{id:'figure',format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'}]}});
  const refs=['root/prompt','figure'];
  assert.deepEqual(resolveExerciseReferences(localReferenceProject(make())).holds,[]);
  // A row below a common stacked stem is legitimately below that stem.
  const valid=localReferenceProject(make());valid.settings.layoutOverrides.blockLayouts.own={arrangement:{version:1,root:{id:'top',type:'group',direction:'stack',children:[localRefItem(refs[0]),{id:'lower',type:'group',direction:'row',children:[localRefItem(refs[1])]}]}}};assert.deepEqual(resolveExerciseReferences(valid).holds,[]);
- for(const mode of ['hidden','reversed','row','answer','sibling','ambiguous','localhidden']){
+ for(const mode of ['hidden','reversed','row','answer','sibling','ambiguous','localhidden','wrong-role','narrowhidden','external-reference']){
   const b=make(),p=localReferenceProject(b);
   if(['hidden','reversed','row'].includes(mode))p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree(mode==='row'?'row':'stack',mode==='hidden'?refs.slice(0,1):mode==='reversed'?[...refs].reverse():refs)};
   if(mode==='answer'){b.content.solutionDiagrams=b.content.questionDiagrams;delete b.content.questionDiagrams;}
   if(mode==='sibling'){b.content.children=[{id:'part',type:'part',questionDiagrams:b.content.questionDiagrams}];delete b.content.questionDiagrams;}
   if(mode==='ambiguous')b.content.questionDiagrams.push({...b.content.questionDiagrams[0],id:'second'});
   if(mode==='localhidden'){p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree('stack',refs)};b.presentation={layoutOverrides:{blockLayouts:{own:{arrangement:localRefTree('stack',refs.slice(0,1))}}}};}
+  if(mode==='wrong-role')b.content.questionDiagrams[0].role='solution';
+  if(mode==='narrowhidden'){p.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree('stack',refs)};p.settings.layoutOverrides.blockLayouts.root={arrangement:localRefTree('stack',refs.slice(0,1))};}
+  if(mode==='external-reference')b.content.prompt+=' Then use the next question.';
   assert(resolveExerciseReferences(p).holds.length,mode);
  }
+ }
+ const nested={id:'own',type:'question',content:{id:'root',type:'question',prompt:'Calculate.',children:[{id:'nested',type:'group',prompt:'Use the diagram below.',questionDiagrams:[{id:'nested-figure',format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'}]}]}};
+ assert(resolveExerciseReferences(localReferenceProject(nested)).holds.length,'nested group is not a posed root');
 });
 test('exact own-parts Venn suffix retains numeric-reference offsets and renumbers actual digits',()=>{
  const p=fixture(),b=p.sections[0].blocks[11];b.content.children=[{id:'a',type:'part',prompt:'Calculate 2+2.'}];

@@ -131,7 +131,9 @@ function ownFollowingDiagram(block,field,project){
  const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
  if(path[0]!=='content'||pi<0||path.slice(0,pi).includes('answer'))return false;
  const node=get(block,path.slice(0,pi));
- if(!['question','part'].includes(node?.type)||node.questionDiagrams?.length!==1)return false;
+ // Native question roots can be groups; nested groups are not posed owners.
+ const posedNode=['question','part'].includes(node?.type)||(node===block.content&&node?.type==='group');
+ if(!posedNode||node.questionDiagrams?.length!==1)return false;
  const diagram=node.questionDiagrams[0];if(!diagram?.id||diagram.role!=null&&!['question','content'].includes(diagram.role))return false;
  const layouts=effectiveLayouts(block,project),overrides={...project?.settings?.layoutOverrides,...block.presentation?.layoutOverrides,blockLayouts:layouts};
  try{
