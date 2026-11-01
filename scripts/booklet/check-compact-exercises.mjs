@@ -152,6 +152,7 @@ const observeExport=async(edition,file,dependencyKey,reused)=>{
 };
 fs.mkdirSync(out,{recursive:true});
 const browser=await launchChromium(chromium,{headless:true});
+try{
 const cache=fs.existsSync(out+'/cache.json')?out+'/cache.json':'.booklet-work/flexible-check/cache.json';
 const context=await browser.newContext({viewport:{width:1600,height:1100},...(fs.existsSync(cache)?{storageState:cache}:{})});
 const page=await context.newPage(),errors=[],report={};page.on('pageerror',e=>errors.push(e.message));
@@ -398,7 +399,8 @@ try{
  assert.deepEqual(Object.values(report).flatMap(p=>Object.values(p).flatMap(e=>e.issues)),[],'DOM layout/style checks');
  assert.deepEqual(Object.values(report).flatMap(p=>Object.values(p).flatMap(e=>e.printed.flatMap(p=>p.issues))),[],'Printed geometry');
  console.log(preflight?'Diagram preflight passed automated checks; source comparison and final-size visual review remain pending.':development?'Development subset checks passed; full final visual inspection is still required.':draft?'Draft layout checks passed; see the separate readiness report.':'Compact exercise verification passed; visual acceptance is recorded separately.');
-}finally{writeReport();await context.storageState({path:out+'/cache.json',indexedDB:true}).catch(()=>{});await browser.close();}
+}finally{writeReport();await context.storageState({path:out+'/cache.json',indexedDB:true}).catch(()=>{});}
+}finally{await browser.close();}
 
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href)await runCompactExerciseCheck();

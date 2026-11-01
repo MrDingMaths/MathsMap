@@ -20,13 +20,14 @@ const projectFile = arg('--project');
 let exportProject=null;
 let projectId = arg('--project-id');
 const browser=await launchChromium(chromium,{headless:true});
-const context = await browser.newContext({ viewport: { width: 1600, height: 1200 }, ...(arg('--cache-state') ? {storageState:arg('--cache-state')} : {}) });
-const page = await context.newPage();
+let context,page;
 let exportProjectRead=Promise.resolve();
-page.on('response', response=>{if(response.request().method()==='GET'&&/\/__booklet\/projects\/[^/?]+(?:\/open)?(?:\?|$)/.test(response.url()))exportProjectRead=response.json().then(data=>{if(data?.project)exportProject=data.project;else if(data?.id&&Array.isArray(data.sections))exportProject=data;});});
 const renderErrors = [];
-page.on('pageerror', error => renderErrors.push(error.message));
 try {
+  context = await browser.newContext({ viewport: { width: 1600, height: 1200 }, ...(arg('--cache-state') ? {storageState:arg('--cache-state')} : {}) });
+  page = await context.newPage();
+  page.on('response', response=>{if(response.request().method()==='GET'&&/\/__booklet\/projects\/[^/?]+(?:\/open)?(?:\?|$)/.test(response.url()))exportProjectRead=response.json().then(data=>{if(data?.project)exportProject=data.project;else if(data?.id&&Array.isArray(data.sections))exportProject=data;});});
+  page.on('pageerror', error => renderErrors.push(error.message));
   // Optional read-only renderer baseline for same-snapshot PDF regression checks.
   const baselineRuntime=arg('--baseline-runtime');
   // A frozen production preview has no source-module route; retain the same QA checks.
@@ -118,7 +119,7 @@ try {
 } catch (error) {
   console.error('Booklet PDF export failed:', error.message);
   if(renderErrors.length)console.error('Browser errors:',renderErrors.join('; '));
-  console.error(await page.evaluate(() => [...document.querySelectorAll('.project-print .tikz-wrap')].filter(el => ![...el.querySelectorAll('svg')].some(svg => !svg.querySelector('animate'))).map(el => ({ question: el.closest('[data-question-id]')?.dataset.questionId, error: el.querySelector('.tikz-error')?.textContent, state: el.innerHTML.slice(0, 1200) }))).catch(() => 'Print page unavailable'));
+  console.error(page ? await page.evaluate(() => [...document.querySelectorAll('.project-print .tikz-wrap')].filter(el => ![...el.querySelectorAll('svg')].some(svg => !svg.querySelector('animate'))).map(el => ({ question: el.closest('[data-question-id]')?.dataset.questionId, error: el.querySelector('.tikz-error')?.textContent, state: el.innerHTML.slice(0, 1200) }))).catch(() => 'Print page unavailable') : 'Print page unavailable');
   process.exitCode = 1;
 }
 finally { await browser.close(); }
