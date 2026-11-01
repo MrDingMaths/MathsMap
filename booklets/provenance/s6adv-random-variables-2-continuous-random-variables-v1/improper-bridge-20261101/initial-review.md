@@ -1,0 +1,16 @@
+# Continuous Q12 bridge: initial review
+
+**Finding:** The new bridge correctly teaches the finite-cutoff interpretation in its student-facing part b. If approved and placed immediately before Q12, it supports Q12 as an independent application of this method. The two parts are dependent guided practice, not independent attempts. This does not settle other acceptance gates.
+
+The antiderivative is correct: differentiating −3x⁻² gives 6x⁻³. The integrand is positive on the domain. For finite B > 1, the area is [−3/x²]₁ᴮ = 3 − 3/B². Its limit as B → ∞ is 3 square units. Both short and worked answers agree.
+
+**Correction required:** `classification.secondarySkillIds` includes `probability-density-function`, but the bridge asks only for area and limit; its total area is 3 and it does not assess PDF identification. Remove the unsupported tag or select only a verified directly assessed skill. The local question/part and answer fields are coherent; the author reported schema validation, but I did not independently run a validator or render.
+
+**Requested new-bridge rating:** 27/100, Development. The given antiderivative, explicit limit interpretation and supplied limiting fact make this linked routine application with modest interpretation; its essential insight is scaffolded. This is a requested task-specific rating despite guided practice's usual exclusion. Q12 remains unchanged and is not rerated.
+
+The different positive integrand, concise symbolic style and absence of PDF claims, diagrams or Q12's answer fit the bounded brief. The prior finite reciprocal task and hidden answers do not teach the limit. Author warning dispositions: the instructional change requires review, while its comments-only wording preserves prior author context and is superseded by later exact parent authorization for isolated integration and physical QA; root alone handles publication. The scaffold does not claim prior limit teaching; the cited finite task and context do not establish it; independent derivation and the requested provisional rating are recorded here, and calibration does not approve content. This reviewer made no source or live edits.
+
+Evidence: `draft-native-block.json`, `author-input.json`, `author-outcome.json`, the linked prerequisite inspection, and `docs/question-bank-assessment.md`. Source r6 SHA-256 `d2874f7aad93b9b4a4229f14b6b8635e3cb9ac6173ab595b41afd24bd615afa0`; author-reported draft hash `74b54a411d5762dda95f45810216c66dd0ba364d5372bfeb5de339588f8ce437`; task hash `ae65e6ab53382497e76385abe2e18075ca6ae35a6652355323f03a2319def549`. The raw draft file SHA-256 is `a72c5a77e17854ae79d1a0b331b41cd96778dbae174da95b1e1f73a767dcb2c7`. No source image was examined; source review relies on the supplied native owners and retained inspection.
+
+Reviewed 2026-11-01 00:14 UTC. Requested reviewer: `gpt-6.1-terra`, high effort. Actual runtime identifies itself only as GPT-6 and does not expose model/effort attestation to this reviewer. Accordingly this is a completed substantive review with **unverified model-policy provenance**, not a verified Terra High review. No additional model call was made. Evidence: `.booklet-work/end-goal-20261028/continuous-q12-bridge-20261031/initial-review.json`.
+
