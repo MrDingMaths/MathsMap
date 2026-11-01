@@ -87,7 +87,10 @@ export function checkedNativeLayoutBankCacheRefresh(target,rating,hooks){
  need(same(inherited,restoredRating.assessment)&&sameRating(bank.classification,rating),'Bank cache inherited assessment differs');
  const expected={reasoningScore:bank.classification.reasoningScore,difficulty:bank.classification.difficulty,difficultyReason:bank.classification.difficultyReason,assessment:structuredClone(bank.classification.assessment),revision};
  need(same(target.flow?.bankDifficulty,expected),'Bank display cache differs from exact archived grade/revision');
+ const originalReference=owner.bankRef;
+ need([originalReference.revision,refresh.bankRevision].includes(target.bankRef?.revision)&&same({...target.bankRef,revision:originalReference.revision},{...originalReference,revision:originalReference.revision}),'Unreviewed native-layout bank reference normalization');
  const restored=structuredClone(target);restored.classification={...restored.classification,...restoredRating};
+ restored.bankRef=structuredClone(originalReference);
  if(refresh.previousBankDifficulty===undefined)delete restored.flow.bankDifficulty;else restored.flow.bankDifficulty=structuredClone(refresh.previousBankDifficulty);
  return {restored,restoredRating,projectId:refresh.projectId};
 }
