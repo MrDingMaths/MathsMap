@@ -66,9 +66,11 @@ export function approvedMathsBaseSource(code) {
     const after = parts.slice(yearIndex + 1).filter(token => !/^Q\d/i.test(token));
     const paperTokens = tokens.join(' ');
     const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
+      || ['NEAP', 'SYDGR', 'NSG', 'SYDG'].includes(source.schoolCode) && paperTokens === 'Y11 ADV'
+      || source.schoolCode === 'SYDGR' && paperTokens === 'Y11 STN'
       || source.schoolCode === 'CSSA' && paperTokens === 'X1';
     if (!recognised || after.length || Number(source.year) < 2020 || Number(source.year) > 2026) return source;
-    const course = {ADV:'Advanced', X1:'Extension 1'}[tokens.at(-1)];
+    const course = {ADV:'Advanced', X1:'Extension 1', STN:'Standard'}[tokens.at(-1)];
     const paper = [...tokens.slice(0,-1), course].join(' ');
     return {provider:resolved.provider, paper, year:source.year,
       label:`${resolved.name} ${paper} ${source.year}`, origin:'MathsBase'};

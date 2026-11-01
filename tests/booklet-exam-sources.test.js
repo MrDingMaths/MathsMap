@@ -11,6 +11,30 @@ import {flowEditionSections} from '../src/lib/booklet-flow.js';
 import {sectionShowsWorkingSpace} from '../src/lib/booklet-section-options.js';
 import {visibleImportedQuestionTitle} from '../src/lib/booklet-preview.js';
 import {withoutWorkingSpace,arrangementExamTitle} from '../src/lib/booklet-arrangement.js';
+import {createProgrammeExamSection} from '../pedagogy/programme-exam.mjs';
+
+test('reviewed Year 11 Advanced source mappings retain their literal context',()=>{
+  for(const [code,label] of [
+    ['HSC.NEAP.Y11.ADV.2023 Q9','Neap Education Y11 Advanced 2023'],
+    ['HSC.SYDGR.Y11.ADV.2021 Q12c','Sydney Grammar School Y11 Advanced 2021'],
+    ['HSC.NSG.Y11.ADV.2022 Q34','North Sydney Girls High School Y11 Advanced 2022'],
+    ['HSC.SYDG.Y11.ADV.2020 Q1b','Sydney Girls High School Y11 Advanced 2020'],
+    ['HSC.SYDGR.Y11.STN.2020 Q11','Sydney Grammar School Y11 Standard 2020'],
+  ]){
+    const source=approvedMathsBaseSource(code);
+    assert.equal(source.label,label);
+    assert.equal(source.paper,code.includes('.STN.')?'Y11 Standard':'Y11 Advanced');
+    assert.doesNotMatch(source.label,/trial/i);
+    const section={id:'exam',role:'exam',phase:'practice',workingSpace:'none',blocks:[{id:code,type:'question',sourceReview:{origin:{provider:'MathsBase',sourceCode:code}},content:{id:code+'-root',type:'question',prompt:'Find x.'}}]},before=structuredClone(section);
+    const result=createProgrammeExamSection(section);
+    assert.equal(result.report.valid,true);
+    assert.equal(result.section.blocks[0].sourceReview.origin.sourceCode,code);
+    assert.deepEqual(section,before);
+  }
+  for(const code of ['HSC.UNKNOWN.Y11.ADV.2023 Q9','HSC.KNOX.Y11.ADV.2021 Q1','HSC.NEAP.Y11.X1.2023 Q9','HSC.NSG.Y11.STN.2020 Q1','HSC.NSG.Y11.ADV.2022.BAD Q1','HSC.SYDGR.Y11.ADV.2019 Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
+  for(const code of ['CAIE.0580.2022 Q1','MB.Y11.ADV.2023 Q9','HSC.NEAP.Y11.AMC.2023 Q9'])assert.equal(approvedMathsBaseSource(code),null,code);
+  assert.equal(approvedMathsBaseSource('HSC.NEAP.Y12.X1.2021 Q13b').label,'Neap Education Y12 Extension 1 2021');
+});
 
 test('printed source round-trips without accepting extraction provenance',()=>{
   const source={provider:'HSC',paper:'Advanced',year:2011,label:'HSC Advanced 2011',origin:'MathsBase'};
@@ -50,7 +74,7 @@ test('resolved source identities preserve course tokens without inventing school
   assert.equal(internal.provider,'HSC-school');
   assert.equal(internal.label,'Sydney Girls High School Y12 Advanced 2021');
   assert.doesNotMatch(internal.label,/trial/i);
-  for(const code of ['HSC.MER.Y12.ADV.2020 Q23','HSC.NORM.Y12.X1.2022 Q14a','HSC.SYDG.Y11.ADV.2021 Q7','HSC.NEAP.Y12.X2.2021 Q1','HSC.SGG.Y12.ADV.2019 Q1','HSC.CSSA.X1.2023.BAD Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
+  for(const code of ['HSC.MER.Y12.ADV.2020 Q23','HSC.NORM.Y12.X1.2022 Q14a','HSC.SYDG.Y11.X1.2021 Q7','HSC.NEAP.Y12.X2.2021 Q1','HSC.SGG.Y12.ADV.2019 Q1','HSC.CSSA.X1.2023.BAD Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
   assert.equal(approvedMathsBaseSource('CAIE.0606.2023 Q1'),null);
   assert.equal(approvedMathsBaseSource('HSC.BHHS.Y12.ADV.2025 Q24').label,'BHHS Y12 ADV 2025');
 });
