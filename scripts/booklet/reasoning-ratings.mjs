@@ -1,3 +1,4 @@
+import {readPinnedEvidenceBytes} from './pinned-evidence-reader.mjs';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -6,9 +7,12 @@ import {isPractice} from '../../src/lib/booklet-flow.js';
 import {isTheoryReview} from '../../src/lib/question-bank-eligibility.js';
 import {normaliseQuestion,difficultyBandForScore} from '../../src/lib/practice-question-model.js';
 import {sharedQuestion} from '../../src/lib/question-sync.js';
-import {GRADIENT_TABLE_KIND,checkedGradientTableProof} from './gradient-table-lineage.mjs';
-import {WORKED_CORRECTION_KIND,checkedWorkedCorrection,workedCorrectionAssessment} from './worked-answer-correction-lineage.mjs';
 import {CONSTRUCT_BLANK_KIND,checkedConstructBlankProof} from './construct-blank-lineage.mjs';
+import {GRADIENT_TABLE_KIND,checkedGradientTableProof} from './gradient-table-lineage.mjs';
+import {NATIVE_TABLE_REPRESENTATION_KIND,checkedNativeTableRepresentationProof} from './native-table-representation-lineage.mjs';
+import {WORKED_CORRECTION_KIND,checkedWorkedCorrection,workedCorrectionAssessment} from './worked-answer-correction-lineage.mjs';
+import {checkedResponseLayoutBankProjection} from './bank-response-layout-lineage.mjs';
+import {NATIVE_LAYOUT_PRESENTATION_KIND,checkedNativeLayoutPresentationProof,checkedNativeLayoutBankCacheRefresh} from './native-layout-presentation-lineage.mjs';
 
 export const REASONING_RUBRIC='mathsmap-cognitive-demand-v1';
 export const REASONING_PROMPT=`Assess every whole practice question individually on the MathsMap 0–100 cognitive-demand scale for a prepared student taught the relevant methods. Foundation 0–24: direct application; Development 25–49: routine linked procedures; Mastery 50–79: non-trivial connections or reframing; Challenge 80–100: decisive unsignposted insight. No quota or distribution. Read the student task first, then use the solution to detect hidden demand. Count decisions, representation changes and interpretation, not repeated parts, arithmetic bulk or solution length. Account for scaffolding actually supplied. Rate a multipart task by its hardest essential demand, not its average. Fractional numbers alone do not raise the band. Return an integer reasoningScore and a concise, task-specific difficultyReason explaining the decisions required. Never infer a score from an old band, title, page number or default. Do not change skills, content, answers or layout. If essential diagram/task evidence is unavailable, return a blocker rather than guessing.`;
@@ -57,16 +61,53 @@ export function validRawRating(rating){
 export function verifiedRating(block,rating=block.classification){
  const a=rating?.assessment;
  if(!(validRawRating(rating)&&a?.rubricVersion===REASONING_RUBRIC&&a.taskHash===reasoningTaskHash(block)&&typeof a.model==='string'&&a.model.trim().length>0&&Number.isFinite(Date.parse(a.assessedAt))&&typeof a.evidence==='string'&&a.evidence.length>0))return false;
+ if(a.bankProjectionReuse){const key='bank:'+a.bankProjectionReuse.sourceArtifact?.sha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validBankProjectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.workedMathematicalCorrectionReuse){const key='worked-correction:'+a.workedMathematicalCorrectionReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validWorkedCorrectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
+ if(a.nativeLayoutPresentationReuse?.currentTaskHash===a.taskHash){const key=(a.nativeLayoutPresentationReuse.bankCacheRefresh?'native-layout-cache:'+a.nativeLayoutPresentationReuse.bankCacheRefresh.bankRevision+':':'native-layout:')+a.nativeLayoutPresentationReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validNativeLayoutPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
+ if(a.nativeTableRepresentationReuse?.currentTaskHash===a.taskHash){const key='native-table:'+a.nativeTableRepresentationReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validNativeTableRepresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.promptLineBreakReuse){const key='prompt-break:'+a.promptLineBreakReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validPromptLineBreakReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.answerPresentationReuse){const key='answer:'+a.answerPresentationReuse.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validAnswerPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
- if(a.bankProjectionReuse){const key='bank:'+a.bankProjectionReuse.sourceArtifact?.sha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validBankProjectionReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.gradientTablePresentationAdaptations?.length){const key='table:'+a.gradientTablePresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validGradientTableReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.constructBlankPresentationAdaptations?.length){const key='blank:'+a.constructBlankPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validConstructBlankReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
  if(a.diagramPresentationAdaptations?.length){const key=a.diagramPresentationAdaptations.at(-1)?.proofSha256;if(checkingDiagramProofs.has(key)||checkingDiagramProofs.size>=32)return false;checkingDiagramProofs.add(key);try{return validDiagramPresentationReuse(block,rating);}catch{return false;}finally{checkingDiagramProofs.delete(key);}}
+ if(a.nativeLayoutPresentationReuse)return false;
+ if(a.nativeTableRepresentationReuse)return false;
  return true;
 }
 const checkingDiagramProofs=new Set();
+const nativeLayoutHooks={verifiedRating,reasoningTaskHash};
+function reusedNativeLayoutAssessment(source,target,artifact){
+ const original=source.classification.assessment,assessment=structuredClone(original);assessment.originalTaskHash??=original.taskHash;assessment.taskHash=reasoningTaskHash(target);
+ assessment.nativeLayoutPresentationReuse={kind:NATIVE_LAYOUT_PRESENTATION_KIND,previousTaskHash:original.taskHash,currentTaskHash:assessment.taskHash,proofFile:artifact.path,proofSha256:artifact.sha256,originalAssessment:structuredClone(original),assessmentReused:true,newAssessmentPerformed:false};return assessment;
+}
+function validNativeLayoutPresentationReuse(block,rating){
+ if(rating.assessment.nativeLayoutPresentationReuse?.bankCacheRefresh){const checked=checkedNativeLayoutBankCacheRefresh(block,rating,nativeLayoutHooks);const artifact={path:checked.restoredRating.assessment.nativeLayoutPresentationReuse.proofFile,sha256:checked.restoredRating.assessment.nativeLayoutPresentationReuse.proofSha256};const original=checkedNativeLayoutPresentationProof(checked.restored,artifact,nativeLayoutHooks);return original.proof.projectId===checked.projectId&&validNativeLayoutPresentationReuse(checked.restored,checked.restoredRating);}
+ const row=rating.assessment.nativeLayoutPresentationReuse;if(row.kind!==NATIVE_LAYOUT_PRESENTATION_KIND||row.assessmentReused!==true||row.newAssessmentPerformed!==false)return false;
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=checkedNativeLayoutPresentationProof(block,artifact,nativeLayoutHooks);
+ return row.previousTaskHash===reasoningTaskHash(source)&&row.currentTaskHash===reasoningTaskHash(block)&&isDeepStrictEqual(row.originalAssessment,source.classification.assessment)&&['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,reusedNativeLayoutAssessment(source,block,artifact));
+}
+export function reuseNativeLayoutPresentationRating(source,target,{proofArtifact,confirmEquivalent}={}){
+ if(typeof confirmEquivalent!=='function')throw Error('Coordinator independent native-layout applicability confirmation required');
+ const checked=checkedNativeLayoutPresentationProof(target,proofArtifact,nativeLayoutHooks);
+ if(!isDeepStrictEqual(checked.source,source)||confirmEquivalent(structuredClone(checked))!==true)throw Error('Native-layout applicability not confirmed');
+ return {reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedNativeLayoutAssessment(source,target,proofArtifact)};
+}
+const nativeTableHooks={verifiedRating,reasoningTaskHash};
+function reusedNativeTableAssessment(source,target,artifact){
+ const original=source.classification.assessment,assessment=structuredClone(original);assessment.originalTaskHash??=original.taskHash;assessment.taskHash=reasoningTaskHash(target);
+ assessment.nativeTableRepresentationReuse={kind:NATIVE_TABLE_REPRESENTATION_KIND,previousTaskHash:original.taskHash,currentTaskHash:assessment.taskHash,proofFile:artifact.path,proofSha256:artifact.sha256,originalAssessment:structuredClone(original),assessmentReused:true,newAssessmentPerformed:false};return assessment;
+}
+function validNativeTableRepresentationReuse(block,rating){
+ const row=rating.assessment.nativeTableRepresentationReuse;if(row.kind!==NATIVE_TABLE_REPRESENTATION_KIND||row.assessmentReused!==true||row.newAssessmentPerformed!==false)return false;
+ const artifact={path:row.proofFile,sha256:row.proofSha256},{source}=checkedNativeTableRepresentationProof(block,artifact,nativeTableHooks);
+ return row.previousTaskHash===reasoningTaskHash(source)&&row.currentTaskHash===reasoningTaskHash(block)&&isDeepStrictEqual(row.originalAssessment,source.classification.assessment)&&['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,reusedNativeTableAssessment(source,block,artifact));
+}
+export function reuseNativeTableRepresentationRating(source,target,{proofArtifact,confirmEquivalent}={}){
+ if(typeof confirmEquivalent!=='function')throw Error('Coordinator native-table equivalence review required');
+ const checked=checkedNativeTableRepresentationProof(target,proofArtifact,nativeTableHooks,{checkImages:true});
+ if(!isDeepStrictEqual(checked.source,source)||!isDeepStrictEqual(checked.inverse,source)||confirmEquivalent(structuredClone(checked))!==true)throw Error('Native-table representation equivalence not confirmed');
+ return{reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:reusedNativeTableAssessment(source,target,proofArtifact)};
+}
 const gradientTableHooks={verifiedRating,reasoningTaskHash};
 function reusedGradientTableAssessment(source,target,artifact){
  const original=source.classification.assessment,assessment=structuredClone(original);
@@ -108,7 +149,7 @@ export function reuseConstructBlankPresentationRating(source,target,{proofArtifa
 const objectHash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 function pinnedJson(artifact){
  if(typeof artifact?.path!=='string'||!/^[a-f0-9]{64}$/.test(artifact.sha256??''))throw Error('Missing pinned diagram evidence');
- const bytes=fs.readFileSync(artifact.path);if(createHash('sha256').update(bytes).digest('hex')!==artifact.sha256)throw Error('Diagram evidence changed');return JSON.parse(bytes);
+ const bytes=readPinnedEvidenceBytes(artifact);if(createHash('sha256').update(bytes).digest('hex')!==artifact.sha256)throw Error('Diagram evidence changed');return JSON.parse(bytes);
 }
 const valueAt=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
 // Remove answers before canonical ID/local-style processing: answer-owned IDs
@@ -239,7 +280,9 @@ export function reusePromptLineBreakRating(source,target,{proofArtifact,confirmE
 // Bank normalization may add diagram defaults. Pin the actual rated project
 // owner and compare the complete normalized diagram, including its spec.
 function checkedBankProjection(target,record){
- if(record?.kind!=='same-task-bank-projection-v1'||!Array.isArray(record.sourceArtifact?.blockPath)||record.sourceArtifact.blockPath.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k))||!Array.isArray(record.diagramPaths)||!record.diagramPaths.length)throw Error('Invalid bank projection evidence');
+ if(record?.kind!=='same-task-bank-projection-v1'||!Array.isArray(record.sourceArtifact?.blockPath)||record.sourceArtifact.blockPath.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k))||!Array.isArray(record.diagramPaths)||(!record.diagramPaths.length&&!record.responseLayoutProof))throw Error('Invalid bank projection evidence');
+ if(!record.diagramPaths.length)return checkedResponseLayoutBankProjection(target,record,{verifiedRating,reasoningTaskHash}).source;
+ if(record.responseLayoutProof)throw Error('Diagram and zero-diagram projection cannot be combined');
  const source=valueAt(pinnedJson(record.sourceArtifact),record.sourceArtifact.blockPath);
  if(!source||source.id!==record.sourceId||source.bankRef?.id!==record.bankId||target.id!==record.bankId||!verifiedRating(source)||reasoningTaskHash(source)!==record.taskHash||reasoningTaskHash(target)!==record.taskHash)throw Error('Bank projection source or task changed');
  const a=normaliseQuestion(source),b=normaliseQuestion(target),seen=new Set();
@@ -260,8 +303,9 @@ function validBankProjectionReuse(target,rating){
  const record=rating.assessment.bankProjectionReuse,source=checkedBankProjection(target,record);
  return ['reasoningScore','difficulty','difficultyReason'].every(k=>rating[k]===source.classification[k])&&isDeepStrictEqual(rating.assessment,bankProjectionAssessment(source,record));
 }
-export function reuseBankProjectionRating(source,target,{sourceArtifact,diagramPaths}={}){
- const record={kind:'same-task-bank-projection-v1',sourceArtifact:structuredClone(sourceArtifact),sourceId:source.id,bankId:target.id,taskHash:reasoningTaskHash(source),diagramPaths:structuredClone(diagramPaths)};
+export function reuseBankProjectionRating(source,target,{sourceArtifact,diagramPaths,responseLayoutProof,confirmEquivalent}={}){
+ const record={kind:'same-task-bank-projection-v1',sourceArtifact:structuredClone(sourceArtifact),sourceId:source.id,bankId:target.id,taskHash:reasoningTaskHash(source),diagramPaths:structuredClone(diagramPaths),...(responseLayoutProof?{responseLayoutProof:structuredClone(responseLayoutProof)}:{})};
+ if(responseLayoutProof){if(typeof confirmEquivalent!=='function')throw Error('Coordinator bank-layout confirmation required');const checked=checkedResponseLayoutBankProjection(target,record,{verifiedRating,reasoningTaskHash});if(confirmEquivalent(structuredClone(checked))!==true)throw Error('Bank response-layout equivalence not confirmed');}
  if(!isDeepStrictEqual(checkedBankProjection(target,record),source))throw Error('Bank projection source differs');
  return {reasoningScore:source.classification.reasoningScore,difficulty:source.classification.difficulty,difficultyReason:source.classification.difficultyReason,assessment:bankProjectionAssessment(source,record)};
 }
@@ -368,7 +412,9 @@ function diagramReuseProof(target,artifact,{checkImages=false}={}){
  for(const evidence of [semantic,visual])if(evidence.sourceTaskHash!==proof.sourceTaskHash||evidence.targetTaskHash!==proof.targetTaskHash)throw Error('Foreign diagram review');
  if(!semantic.mathematicsBefore||!Object.keys(semantic.mathematicsBefore).length||!isDeepStrictEqual(semantic.mathematicsBefore,semantic.mathematicsAfter))throw Error('Diagram mathematics changed');
  if(visual.accepted!==true||!Array.isArray(visual.images)||!visual.images.length)throw Error('Missing actual diagram visual review');
- for(const image of visual.images){if(typeof image.path!=='string'||!/^[a-f0-9]{64}$/.test(image.sha256??'')||fileHash(image.path)!==image.sha256)throw Error('Diagram visual image changed');}
+ // Rasters are regenerable cache: verify pixels at acceptance, then retain
+ // their recorded hashes without making every future rating read depend on them.
+ for(const image of visual.images){if(typeof image.path!=='string'||!/^[a-f0-9]{64}$/.test(image.sha256??'')||checkImages&&fileHash(image.path)!==image.sha256)throw Error('Diagram visual image changed');}
  const inverse=structuredClone(target),seen=[];
  for(const change of proof.changes){
   const parts=change.path;

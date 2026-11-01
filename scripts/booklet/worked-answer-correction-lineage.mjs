@@ -1,3 +1,4 @@
+import {readPinnedEvidenceBytes} from './pinned-evidence-reader.mjs';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import {isDeepStrictEqual} from 'node:util';
@@ -8,7 +9,7 @@ const safePath=value=>Array.isArray(value)&&value.every(k=>(typeof k==='string'|
 const at=(value,parts)=>parts.reduce((v,k)=>v?.[k],value);
 const pinned=artifact=>{
  if(typeof artifact?.path!=='string'||!/^[a-f0-9]{64}$/.test(artifact.sha256??''))throw Error('Missing pinned worked-correction evidence');
- const bytes=fs.readFileSync(artifact.path);
+ const bytes=readPinnedEvidenceBytes(artifact);
  if(createHash('sha256').update(bytes).digest('hex')!==artifact.sha256)throw Error('Worked-correction evidence changed');
  return JSON.parse(bytes);
 };

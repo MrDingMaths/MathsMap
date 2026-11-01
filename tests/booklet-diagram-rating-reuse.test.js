@@ -55,10 +55,15 @@ test('stale or unreviewed source questions cannot acquire an assessment through 
  const f=fixture(t);f.before.classification.assessment.taskHash='stale';f.after.classification=structuredClone(f.before.classification);f.proof.sourceArtifact={...f.write('before.json',{sections:[{blocks:[f.before]}]}),blockPath:['sections',0,'blocks',0]};
  assert.throws(()=>reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true}),/Unverified original/);
 });
-test('readback rejects mutated evidence, images, history, score or task',t=>{
- for(const mutate of [f=>fs.appendFileSync(f.imageFile,'changed'),f=>fs.appendFileSync(f.proof.semanticEvidence.path,' '),f=>{f.after.classification.assessment.diagramPresentationAdaptations[0].originalAssessment.model='invented';},f=>{f.after.classification.reasoningScore=19;},f=>{f.after.content.answer.worked+=' Assume another fact.';}]){
+test('readback rejects mutated acceptance records, source, history, score or task',t=>{
+ for(const mutate of [f=>fs.appendFileSync(f.proof.visualEvidence.path,' '),f=>fs.appendFileSync(f.proof.sourceArtifact.path,' '),f=>fs.appendFileSync(f.proof.semanticEvidence.path,' '),f=>{f.after.classification.assessment.diagramPresentationAdaptations[0].originalAssessment.model='invented';},f=>{f.after.classification.reasoningScore=19;},f=>{f.after.content.answer.worked+=' Assume another fact.';}]){
   const f=fixture(t),rating=reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true});f.after.classification={...f.after.classification,...rating};mutate(f);assert.equal(verifiedRating(f.after),false);
  }
+});
+test('creation verifies pixels once; deleting or regenerating raster cache does not stale an accepted rating',t=>{
+ const bad=fixture(t);fs.appendFileSync(bad.imageFile,'changed');assert.throws(()=>reuseDiagramPresentationRating(bad.before,bad.after,{proofArtifact:bad.pin(),confirmEquivalent:()=>true}),/visual image changed/);
+ const f=fixture(t),rating=reuseDiagramPresentationRating(f.before,f.after,{proofArtifact:f.pin(),confirmEquivalent:()=>true});f.after.classification={...f.after.classification,...rating};
+ fs.unlinkSync(f.imageFile);assert(verifiedRating(f.after));fs.writeFileSync(f.imageFile,'regenerated pixels');assert(verifiedRating(f.after));
 });
 
 function inlineFixture(t,paragraph=false){

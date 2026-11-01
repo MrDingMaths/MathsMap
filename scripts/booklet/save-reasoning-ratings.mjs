@@ -8,7 +8,7 @@ import {practiceRatingBlocks,reasoningTaskHash,verifiedRating,reuseBankProjectio
 const conflict=message=>Object.assign(new Error(message),{statusCode:409});
 const ratingMetadata=rating=>({reasoningScore:rating?.reasoningScore,difficulty:rating?.difficulty,difficultyReason:rating?.difficultyReason,assessment:structuredClone(rating?.assessment)});
 // Metadata-only transaction: no content normalisation, ordering or bank promotion.
-export async function saveReasoningRatings({projectId,expectedRevision,updates},{projectRoot=path.resolve('booklets/projects'),bankRoot=path.resolve('booklets/question-bank')}={}){
+export async function saveReasoningRatings({projectId,expectedRevision,updates},{projectRoot=path.resolve('booklets/projects'),bankRoot=path.resolve('booklets/question-bank'),confirmBankProjection}={}){
  if(!/^[\w.-]+$/.test(projectId)||['.','..'].includes(projectId)||!Number.isInteger(expectedRevision)||!Array.isArray(updates))throw Error('Invalid rating transaction');
  return withBankLock(async()=>{
   const file=path.join(projectRoot,projectId+'.json'),before=await fs.readFile(file,'utf8'),project=JSON.parse(before.replace(/^\uFEFF/,''));
@@ -28,8 +28,8 @@ export async function saveReasoningRatings({projectId,expectedRevision,updates},
    if(update.bankProjection){
     if(bankUpdates.has(id))throw conflict('Multiple updates for bank projection: '+id);
     if(update.expectedBankRevision!==revisionHash(bank)||links[id]?.projectId!==projectId||links[id]?.blockId!==block.id)throw conflict('Bank projection ownership or revision changed: '+id);
-    const {sourceArtifact,diagramPaths}=update.bankProjection;
-    if(!sourceArtifact||!Array.isArray(sourceArtifact.blockPath)||sourceArtifact.blockPath.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k))||!Array.isArray(diagramPaths)||!diagramPaths.length)throw Error('Invalid bank projection request');
+    const {sourceArtifact,diagramPaths,responseLayoutProof}=update.bankProjection;
+    if(!sourceArtifact||!Array.isArray(sourceArtifact.blockPath)||sourceArtifact.blockPath.some(k=>!['string','number'].includes(typeof k)||['__proto__','constructor','prototype'].includes(k))||!Array.isArray(diagramPaths)||(!diagramPaths.length&&!responseLayoutProof))throw Error('Invalid bank projection request');
     const bytes=await fs.readFile(sourceArtifact.path);
     if(createHash('sha256').update(bytes).digest('hex')!==sourceArtifact.sha256)throw conflict('Bank projection source changed');
     const source=sourceArtifact.blockPath.reduce((v,k)=>v?.[k],JSON.parse(bytes));
@@ -41,13 +41,14 @@ export async function saveReasoningRatings({projectId,expectedRevision,updates},
      if(!a||!b||!Object.hasOwn(a,'spec'))throw Error('Missing source diagram spec');
      b.spec=structuredClone(a.spec);
     }
-    next.classification={...next.classification,...reuseBankProjectionRating(source,next,{sourceArtifact,diagramPaths})};
+    next.classification={...next.classification,...reuseBankProjectionRating(source,next,{sourceArtifact,diagramPaths,responseLayoutProof,confirmEquivalent:confirmBankProjection})};
     if(!verifiedRating(next))throw Error('Bank projection rating did not verify');
     next.updatedAt=new Date().toISOString();bankBefore.set(id,revisionHash(bank));bankUpdates.set(id,next);bankDisplays.set(id,next);
     entries.push([path.join(bankRoot,'.revisions',id,revisionHash(bank)+'.json'),bank],[bankFile,next]);
     links[id]={...links[id],bankRevision:revisionHash(next)};
     continue;
    }
+   if(!verifiedRating(bank,update.rating))throw conflict('Bank assessment needs a verified owner projection: '+id);
    if(JSON.stringify(ratingMetadata(bank.classification))===JSON.stringify(ratingMetadata(update.rating))){bankDisplays.set(id,bank);continue;}
    if(update.expectedBankRevision!==revisionHash(bank))throw conflict('Bank changed during assessment: '+id);
    bankBefore.set(id,revisionHash(bank));
@@ -63,6 +64,11 @@ export async function saveReasoningRatings({projectId,expectedRevision,updates},
   for(const {block} of practiceRatingBlocks(project)){
    const bank=bankDisplays.get(block.bankRef?.id);if(!bank)continue;
    const c=bank.classification;
+   if(block.classification.assessment?.nativeLayoutPresentationReuse&&c.assessment?.bankProjectionReuse?.sourceId===block.id){
+    const revision=revisionHash(bank),archive=path.join(bankRoot,'.revisions',bank.id,revision+'.json');
+    entries.push([archive,bank]);
+    block.classification.assessment.nativeLayoutPresentationReuse.bankCacheRefresh={kind:'verified-owner-bank-cache-refresh-v1',projectId:project.id,ownerId:block.id,bankId:bank.id,bankRevision:revision,bankAfterArtifact:{path:archive,sha256:createHash('sha256').update(JSON.stringify(bank,null,2)+'\n').digest('hex')},...(block.flow?.bankDifficulty===undefined?{}:{previousBankDifficulty:structuredClone(block.flow.bankDifficulty)})};
+   }
    block.flow={...block.flow,bankDifficulty:{reasoningScore:c.reasoningScore,difficulty:c.difficulty,difficultyReason:c.difficultyReason,assessment:structuredClone(c.assessment),revision:revisionHash(bank)}};
   }
   if(!updates.length)return project;
