@@ -20996,6 +20996,74 @@
           }
         },
         {
+          "id": "exam-induction-sgg-2020-q12c",
+          "type": "question",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "source": {
+            "provider": "HSC-school",
+            "paper": "Y12 Extension 1",
+            "year": "2020",
+            "label": "St George Girls High School Y12 Extension 1 2020",
+            "origin": "MathsBase"
+          },
+          "classification": {
+            "primarySkillId": "induction-false-proofs",
+            "archetype": "false-proof-reversed-step",
+            "reasoningScore": 38,
+            "difficulty": "Development",
+            "difficultyReason": "A prepared student must compare the attempted proof with the taught induction structure and identify two distinct faults, including the direction of the implication. The explicit assumption and intended conclusion make this a routine linked diagnosis.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-02T05:48:58.178Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "cfd46e7be5785f60d9426f652a3f82a69791c5dde7c834c243ec91b6155516d3",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/induction-two-r7/corrected-one-native-result.json",
+              "modelProvenance": {
+                "requestedModel": "gpt-6.1-terra",
+                "requestedEffort": "high",
+                "observedBackendMetadata": "unavailable",
+                "dispatchEvidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/induction-two-r7/corrected-one-dispatch.json"
+              }
+            }
+          },
+          "content": {
+            "id": "exam-induction-sgg-2020-q12c-root",
+            "type": "question",
+            "label": null,
+            "prompt": "Consider the statement $P(n)$:\n$$2^0+2^1+2^2+\\cdots+2^{n-1}=2^n-1$$\nfor integers $n\\geq 1$.\nAn attempted proof of this statement by induction is given below.\nProof:\nAssume the statement is true for $n=k+1$.\nThat is,\n$$2^0+2^1+2^2+\\cdots+2^{k-1}+2^k=2^{k+1}-1 \\qquad (1)$$\nNext, we shall show it is true for $n=k$ by noting that if\n$$2^0+2^1+2^2+\\cdots+2^{k-1}+2^k=2^{k+1}-1$$\nis true, then\n$$2^0+2^1+2^2+\\cdots+2^{k-1}+2^k=2\\times 2^k-1$$\n$$2^0+2^1+2^2+\\cdots+2^{k-1}+2^k=2^k+2^k-1$$\nNow subtracting $2^k$ from both sides of this equation, we have\n$$2^0+2^1+2^2+\\cdots+2^{k-1}=2^k-1$$\nWhich is true by statement (1).\nTherefore, by the principle of induction, the statement $P(n)$ is true.\nGive two reasons why the given proof is incorrect and does not prove $P(n)$.",
+            "answerSpaceMm": 0,
+            "answer": {
+              "short": "1) No base case (e.g. n = 1) is shown. 2) The induction step is in the wrong direction: it assumes P(k+1) and tries to prove P(k), instead of assuming P(k) and proving P(k+1).",
+              "worked": "Reason 1 (base failure): the proof never verifies a starting case such as n = 1. Without a base case, induction has nothing to start from, even if the implication were valid.\n\nReason 2 (reversed implication): the proof assumes P(k+1) and deduces P(k), that is, it shows P(k+1) implies P(k). Induction requires the forward implication: assume P(k) and prove P(k+1). The resulting $P(k)$ follows from the assumed $P(k+1)$, but it does not establish the forward implication required for induction.\n\nThese are two separate faults: the missing base case concerns the start of the chain, and the reversed step concerns the direction of the implication. Hence the argument does not prove P(n)."
+            }
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "110b20e0-ff5f-4a2c-93a3-c974cacf0e01",
+              "sourceCode": "HSC.SGG.Y12.X1.2020 Q12c",
+              "readSnapshot": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/induction-two-r7/source-context.json",
+              "sourceSnapshotSha256": "a49e769689f90c4ff0b1f2ee1e5714fbe2589fe75a63396842b45db693bf84f3",
+              "sourceQuestionSha256": "76034d861d16684f6fb6f8fecd985c135d7aa17eb01362a5d9beb5672ae6d355",
+              "sourceSolutionSha256": "7456d887ed65820ea2b90de61c5965d3a20883ee3a48268bdce076acb9344bf2"
+            },
+            "nativeConversionStatus": "independent-corrected-native-review-accepted-visual-pending",
+            "additionTo": {
+              "projectId": "s6ext1-proof-by-mathematical-induction-v1",
+              "blockId": "exam-mb-c1037a30-7873-4d42-ad0d-bff95e4b7268"
+            },
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/induction-two-r7/corrected-one-native-result.json",
+              "taskHash": "cfd46e7be5785f60d9426f652a3f82a69791c5dde7c834c243ec91b6155516d3",
+              "workerAccepted": true,
+              "scope": "Exact corrected whole source/native task, answers, teaching and fresh assessment; requested Terra High, backend metadata unavailable"
+            }
+          }
+        },
+        {
           "id": "exam-mb-dd7b0302-8f44-4712-9515-9e5370c1e6c6",
           "type": "question",
           "snapshotKind": "local",
@@ -21620,7 +21688,7 @@
           "source": {
             "provider": "HSC",
             "paper": "Advanced",
-            "label": "HSC Advanced Sample Question",
+            "label": "HSC Advanced sample",
             "origin": "booklet"
           }
         },
@@ -23334,7 +23402,7 @@
           "source": {
             "provider": "HSC",
             "paper": "Advanced",
-            "label": "HSC Advanced Sample Question",
+            "label": "HSC Advanced sample",
             "origin": "booklet"
           }
         }
@@ -28482,10 +28550,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 4,
+  "revision": 9,
   "assets": [],
   "createdAt": "2026-10-28T07:09:51.748Z",
-  "updatedAt": "2026-10-29T14:21:11.297Z",
+  "updatedAt": "2026-11-02T06:06:53.608Z",
   "library": {
     "category": "master",
     "courseId": "s6-ext1-12",
