@@ -203,3 +203,10 @@ test('ADD/FUN and STN1 recognition preserves unknown-school holds and excluded p
  assert.deepEqual(Object.keys(printed).sort(),['label','origin','paper','provider','year']);
  assert.deepEqual(printed,mathsBaseSource('HSC.STN1.2025'));
 });
+
+test('two user-approved exact source exceptions do not widen school course or year gates',()=>{
+ for(const [code,label] of [['HSC.JRUSE.Y12.X2.2022 Q13c','James Ruse Agricultural High School Y12 Extension 2 2022'],['HSC.NORM.Y11.X1.2019 Q12b','Normanhurst Boys Y11 Extension 1 2019']]){const source=approvedMathsBaseSource(code);assert.equal(source.provider,'HSC-school');assert.equal(source.label,label);assert.equal(source.origin,'MathsBase');assert.equal(source.year,code.includes('2019')?'2019':'2022');}
+ for(const code of ['HSC.JRUSE.Y12.X2.2022 Q13b','HSC.JRUSE.Y12.X2.2022 Q13d','HSC.JRUSE.Y12.X2.2021 Q13c','HSC.JRUSE.Y11.X2.2022 Q13c','HSC.NORM.Y11.X1.2019 Q12a','HSC.NORM.Y11.X1.2019 Q12c','HSC.NORM.Y11.X1.2018 Q12b','HSC.NORM.Y11.ADV.2019 Q12b','HSC.NORM.Y11.X1.2019.BAD Q12b'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
+ assert.equal(approvedMathsBaseSource('HSC.NORM.Y11.X1.2020 Q11c').label,'Normanhurst Boys Y11 Extension 1 2020');
+ assert.equal(approvedMathsBaseSource('HSC.NSB.Y12.X2.2022 Q13e').label,'North Sydney Boys High School Y12 Extension 2 2022');
+});

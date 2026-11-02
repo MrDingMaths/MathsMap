@@ -73,6 +73,7 @@ export function approvedMathsBaseSource(code) {
     const retained2019Paper = year === 2019 && (
       source.schoolCode === 'SGG' && paperTokens === 'Y11 ADV'
       || source.schoolCode === 'CSSA' && paperTokens === 'STN'
+      || String(code).trim() === 'HSC.NORM.Y11.X1.2019 Q12b'
       || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV'
     );
     const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
@@ -80,6 +81,7 @@ export function approvedMathsBaseSource(code) {
       || source.schoolCode === 'SYDGR' && paperTokens === 'Y11 STN'
       || source.schoolCode === 'NSG' && paperTokens === 'Y12 X2' && year === 2022
       || String(code).trim() === 'HSC.NSB.Y12.X2.2022 Q13e'
+      || ['HSC.JRUSE.Y12.X2.2022 Q13c', 'HSC.NORM.Y11.X1.2019 Q12b'].includes(String(code).trim())
       || ['HSC.CSSA.STN.2020 Q14', 'HSC.SGG.Y12.STN.2020 Q17'].includes(String(code).trim())
       || String(code).trim() === 'HSC.NEAP.Y11.X1.2022 Q12a'
       || source.schoolCode === 'NORM' && paperTokens === 'Y11 X1' && year === 2020

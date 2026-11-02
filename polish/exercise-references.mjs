@@ -273,7 +273,7 @@ function referenceScanText(block,field,fields,project,fixedTeachingBindings=[]){
  for(const binding of fixedTeachingBindings.filter(b=>b.ownerId===block.id&&b.field===field.key)){assert.equal(field.text.slice(binding.start,binding.end),binding.quote);text=text.slice(0,binding.start)+' '.repeat(binding.end-binding.start)+text.slice(binding.end);}
  text=text.replace(/\b(?:diagram|graph|figure) below\b/gi,(quote,index)=>ownFollowingInlineDiagram(block,field,{0:quote,index})?' '.repeat(quote.length):quote);
  if(/\bdiagram below\b/i.test(text)&&!/\beach diagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
- if([...text.matchAll(/\beach diagram below\b/gi)].length===1&&ownChildDiagramsBelow(block,field,project))text=text.replace(/\beach diagram below\b/gi,m=>' '.repeat(m.length));
+ if([...text.matchAll(/\beach (?:diagram|graph) below\b/gi)].length===1&&ownChildDiagramsBelow(block,field,project))text=text.replace(/\beach (?:diagram|graph) below\b/gi,m=>' '.repeat(m.length));
  if(/\b(?:the same graph as above|the graph above)\b/i.test(text)&&ownAncestorGraphAbove(block,field,project))text=text.replace(/\b(?:the same graph as above|the graph above)\b/gi,m=>' '.repeat(m.length));
  const nativeQuestions=children=>Array.isArray(children)&&children.some(child=>['question','part'].includes(child?.type)||child?.type==='group'&&nativeQuestions(child.children));
  const isPrompt=row=>{const path=JSON.parse(row.key);return path[0]==='content'&&path[1]==='prompt';};
