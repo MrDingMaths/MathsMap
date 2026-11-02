@@ -61,6 +61,10 @@ export function approvedMathsBaseSource(code) {
     NSB: {provider:'HSC-school', name:'North Sydney Boys High School'},
     NSG: {provider:'HSC-school', name:'North Sydney Girls High School'},
     SYDB: {provider:'HSC-school', name:'Sydney Boys High School'},
+    NORM: {provider:'HSC-school', name:'Normanhurst Boys'},
+    ABBOT: {provider:'HSC-school', name:'Abbotsleigh'},
+    MER: {provider:'HSC-school', name:'Meriden'},
+    KNOX: {provider:'HSC-school', name:'Knox Grammar'},
   }[source.schoolCode];
   if (resolved) {
     const after = parts.slice(yearIndex + 1).filter(token => !/^Q\d/i.test(token));
@@ -69,11 +73,14 @@ export function approvedMathsBaseSource(code) {
     const retained2019Paper = year === 2019 && (
       source.schoolCode === 'SGG' && paperTokens === 'Y11 ADV'
       || source.schoolCode === 'CSSA' && paperTokens === 'STN'
+      || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV'
     );
     const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
       || ['NEAP', 'SYDGR', 'NSG', 'SYDG', 'SGG'].includes(source.schoolCode) && paperTokens === 'Y11 ADV'
       || source.schoolCode === 'SYDGR' && paperTokens === 'Y11 STN'
       || source.schoolCode === 'NSG' && paperTokens === 'Y12 X2' && year === 2022
+      || source.schoolCode === 'NORM' && paperTokens === 'Y11 X1' && year === 2020
+      || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV' && [2019, 2022].includes(year)
       || source.schoolCode === 'CSSA' && (paperTokens === 'X1' || retained2019Paper);
     if (!recognised || after.length || year < 2020 && !retained2019Paper || year > 2026) return source;
     const course = {ADV:'Advanced', X1:'Extension 1', X2:'Extension 2', STN:'Standard'}[tokens.at(-1)];

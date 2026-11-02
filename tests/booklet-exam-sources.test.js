@@ -44,7 +44,7 @@ test('retained source papers preserve explicit course and omitted year level',()
   assert.equal(standard.paper,'Standard');
   assert.doesNotMatch(standard.label,/Y11|Y12|trial/i);
   assert.equal(approvedMathsBaseSource('HSC.NSG.Y12.X2.2022 Q14d').label,'North Sydney Girls High School Y12 Extension 2 2022');
-  for(const code of ['HSC.CSSA.STN.2018 Q13','HSC.CSSA.STN.2020 Q13','HSC.SGG.Y12.ADV.2019 Q1','HSC.SGG.Y11.STN.2019 Q1','HSC.NSG.Y12.X2.2023 Q1','HSC.CSSA.STN.2019.BAD Q1','HSC.KNOX.Y11.ADV.2019 Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
+  for(const code of ['HSC.CSSA.STN.2018 Q13','HSC.CSSA.STN.2020 Q13','HSC.SGG.Y12.ADV.2019 Q1','HSC.SGG.Y11.STN.2019 Q1','HSC.NSG.Y12.X2.2023 Q1','HSC.CSSA.STN.2019.BAD Q1','HSC.KNOX.Y11.ADV.2018 Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
 });
 
 test('printed source round-trips without accepting extraction provenance',()=>{
@@ -85,9 +85,20 @@ test('resolved source identities preserve course tokens without inventing school
   assert.equal(internal.provider,'HSC-school');
   assert.equal(internal.label,'Sydney Girls High School Y12 Advanced 2021');
   assert.doesNotMatch(internal.label,/trial/i);
-  for(const code of ['HSC.MER.Y12.ADV.2020 Q23','HSC.NORM.Y12.X1.2022 Q14a','HSC.SYDG.Y11.X1.2021 Q7','HSC.NEAP.Y12.X2.2021 Q1','HSC.SGG.Y12.ADV.2019 Q1','HSC.CSSA.X1.2023.BAD Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
+  for(const code of ['HSC.UNKNOWN.Y12.ADV.2020 Q23','HSC.SYDG.Y11.X1.2021 Q7','HSC.NEAP.Y12.X2.2021 Q1','HSC.SGG.Y12.ADV.2019 Q1','HSC.CSSA.X1.2023.BAD Q1'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
   assert.equal(approvedMathsBaseSource('CAIE.0606.2023 Q1'),null);
   assert.equal(approvedMathsBaseSource('HSC.BHHS.Y12.ADV.2025 Q24').label,'BHHS Y12 ADV 2025');
+});
+test('user-confirmed school names and three paper exceptions keep nearby papers held',()=>{
+  for(const [code,name] of Object.entries({NORM:'Normanhurst Boys',ABBOT:'Abbotsleigh',MER:'Meriden',KNOX:'Knox Grammar'})) {
+    assert.equal(approvedMathsBaseSource(`HSC.${code}.Y12.ADV.2022 Q1`).label,`${name} Y12 Advanced 2022`);
+  }
+  for(const [code,label] of [
+    ['HSC.NORM.Y11.X1.2020 Q11c','Normanhurst Boys Y11 Extension 1 2020'],
+    ['HSC.KNOX.Y11.ADV.2019 Q13b','Knox Grammar Y11 Advanced 2019'],
+    ['HSC.KNOX.Y11.ADV.2022 Q15e','Knox Grammar Y11 Advanced 2022'],
+  ]) assert.equal(approvedMathsBaseSource(code).label,label);
+  for(const code of ['HSC.NORM.Y11.X1.2021 Q11c','HSC.NORM.Y11.ADV.2020 Q11c','HSC.KNOX.Y11.ADV.2020 Q13b','HSC.KNOX.Y11.ADV.2021 Q13b','HSC.KNOX.Y11.X1.2022 Q15e','HSC.ABBOT.Y11.X1.2020 Q11c','HSC.MER.Y11.ADV.2019 Q1','HSC.KNOX.Y11.ADV.2022.BAD Q1']) assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true);
 });
 test('four exact-paper school mappings preserve assessment context without a trial claim',()=>{
   const cases=[['HSC.JRUSE.Y12.X1.2023 Q17b','James Ruse Agricultural High School Y12 Extension 1 2023'],['HSC.NSB.Y12.ADV.2024 Q31','North Sydney Boys High School Y12 Advanced 2024'],['HSC.NSG.Y12.ADV.2022 Q32','North Sydney Girls High School Y12 Advanced 2022'],['HSC.SYDB.Y12.X1.2024 Q14b','Sydney Boys High School Y12 Extension 1 2024']];
