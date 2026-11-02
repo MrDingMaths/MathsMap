@@ -10485,6 +10485,141 @@
           }
         },
         {
+          "id": "mathsbase-plc-y9-com-2023-t2-s2q8",
+          "type": "question",
+          "title": "",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "source": {
+            "provider": "PLC",
+            "paper": "Y9 COM T2",
+            "year": "2023",
+            "label": "PLC Y9 COM T2 2023",
+            "origin": "MathsBase"
+          },
+          "classification": {
+            "primarySkillId": "find-sides-similar",
+            "secondarySkillIds": [],
+            "reasoningScore": 35,
+            "difficulty": "Development",
+            "difficultyReason": "Use the supplied corresponding side lengths to obtain the scale factor, form and solve an equation for the unknown base, then calculate and round a triangle area.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-02T11:20:26.168Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "6cd5dd9ba253f7a01b276ed210c8d200b095df9330ccbb50e3a0557dffe20fdc",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json"
+            }
+          },
+          "content": {
+            "id": "mathsbase-plc-y9-com-2023-t2-s2q8-root",
+            "type": "group",
+            "label": "",
+            "prompt": "The triangle PQR has been enlarged to give triangle LMN and are similar.",
+            "diagramPlacement": "after-prompt",
+            "questionDiagrams": [
+              {
+                "id": "mathsbase-plc-y9-com-2023-t2-s2q8-paired-triangles",
+                "format": "tikz",
+                "role": "question",
+                "widthMm": 95,
+                "code": "\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},draw=black,line width=0.8pt,line cap=round,line join=round]\n\\usetikzlibrary{calc}\n\\coordinate (Q) at (0,0);\n\\coordinate (R) at (2.4,0);\n\\coordinate (P) at (0,2.0);\n\\draw (Q) -- (P) node[midway, left] {$4\\text{ cm}$};\n\\draw (Q) -- (R) node[midway, below] {$(2x-5)\\text{ cm}$};\n\\draw (P) -- (R);\n\\node[left] at (Q) {$Q$};\n\\node[above] at (P) {$P$};\n\\node[right] at (R) {$R$};\n\\coordinate (ra) at ($(Q)!0.25cm!(P)$);\n\\coordinate (rb) at ($(Q)!0.25cm!(R)$);\n\\draw (ra) -- ($(ra)+(rb)-(Q)$) -- (rb);\n\\coordinate (M) at (4.2,0);\n\\coordinate (N) at (8.3,0);\n\\coordinate (L) at (4.2,4.0);\n\\draw (M) -- (L) node[midway, left] {$20\\text{ cm}$};\n\\draw (M) -- (N) node[midway, below] {$(7x+3)\\text{ cm}$};\n\\draw (L) -- (N);\n\\node[left] at (M) {$M$};\n\\node[above] at (L) {$L$};\n\\node[right] at (N) {$N$};\n\\coordinate (ra2) at ($(M)!0.3cm!(L)$);\n\\coordinate (rb2) at ($(M)!0.3cm!(N)$);\n\\draw (ra2) -- ($(ra2)+(rb2)-(M)$) -- (rb2);\n\\end{tikzpicture}",
+                "spec": {
+                  "sourceRegion": "WholepairedPQR/LMNsourceTikZ",
+                  "description": "Two unshaded right triangles, PQR left and enlargedLMN right. Explicit right-angle markers at Q and M. P,Q,R and L,M,N preserved with corresponding vertical sides4cm/20cm and horizontal sides(2x-5)cm/(7x+3)cm.",
+                  "mathematics": "Sourceillustrativecoordinatesretainedverbatim; drawingsnot-to-scale with respect to marked20/4side ratio. Givens and correspondence are supplied explicitly; do not infer measurements from coordinates.",
+                  "sizing": {
+                    "purpose": "supplied-paired-triangles",
+                    "startingWidthMm": 95,
+                    "exceptionReason": "Meaningful paired triangles with long algebraic base labels and corresponding vertical lengths; width/height and typography require actual output inspection."
+                  },
+                  "sourceTikzSha256": "5be24a272600ad13e31c1def81553dc8457a369d1195a1fe118311f491a6a75e",
+                  "nativeTypography": "Explicitnative10ptlabeltarget; sourcefontlarge/global1.5scale replaced with house drawing units and font. No coordinates, semantic paths or rightmarks changed."
+                }
+              }
+            ],
+            "children": [
+              {
+                "id": "mathsbase-plc-y9-com-2023-t2-s2q8-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "What is the scale factor from triangle PQR to triangle LMN?",
+                "answer": {
+                  "short": "$5$",
+                  "worked": "The scale factor is:\n$$\\begin{align*}\nk &= \\frac{20}{4} \\\\\n&= 5\n\\end{align*}$$",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "mathsbase-plc-y9-com-2023-t2-s2q8-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Hence or otherwise, find the area of triangle PQR correct to the nearest square centimetre.",
+                "answer": {
+                  "short": "$27\\text{ cm}^2$",
+                  "worked": "Corresponding base lengths are related by the scale factor.\n$$\\begin{align*}\n5(2x-5) &= 7x+3 \\\\\n10x-25 &= 7x+3 \\\\\n3x &= 28 \\\\\nx &= \\frac{28}{3}\n\\end{align*}$$\nThe base of triangle PQR is:\n$$\\begin{align*}\n2x-5 &= 2\\left(\\frac{28}{3}\\right)-5 \\\\\n&= \\frac{56}{3}-\\frac{15}{3} \\\\\n&= \\frac{41}{3}\n\\end{align*}$$\nThe area of triangle PQR is:\n$$\\begin{align*}\nA &= \\frac{1}{2}\\times \\frac{41}{3}\\times 4 \\\\\n&= \\frac{82}{3} \\\\\n&= 27.33\\ldots\n\\end{align*}$$\nCorrect to the nearest square centimetre, the area is $27\\text{ cm}^2$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "externalId": "ebbf7fff-94cc-45fe-8a9c-5f8a1615a1f7",
+              "sourceCode": "PLC.Y9.COM.2023.T2 S2Q8",
+              "cacheFile": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/176.json",
+              "cacheRowIndex": 74,
+              "cacheSha256": "7ac4e4128e4168ba6ddccf00e67e2016d6eec87d5e5d2eeb571b4ecd48531e4b",
+              "questionSha256": "002d9a2e2839544f4a9c2c63e3c4c1d33f9355aae478640dfebdddd33f73bc0b",
+              "solutionSha256": "32f4abcf145963a9fc28223501c2e92d22e4277378df13b7d81566fcca1422d9"
+            },
+            "nativeConversion": {
+              "status": "mechanical-only-pending-initial-combined-review-rating",
+              "wholeQuestionRetained": true,
+              "sourceTikzUsed": true,
+              "noInventedScore": true,
+              "sourceCoordinateAndDrawingCommandsPreserved": true
+            },
+            "marksRecovery": {
+              "originalQuestionText": "The triangle PQR has been enlarged to give triangle LMN and are similar.\n\n[tikz]\n\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.5]\n\\usetikzlibrary{calc}\n\\coordinate (Q) at (0,0);\n\\coordinate (R) at (2.4,0);\n\\coordinate (P) at (0,2.0);\n\\draw (Q) -- (P) node[midway, left] {$4\\text{ cm}$};\n\\draw (Q) -- (R) node[midway, below] {$(2x-5)\\text{ cm}$};\n\\draw (P) -- (R);\n\\node[left] at (Q) {$Q$};\n\\node[above] at (P) {$P$};\n\\node[right] at (R) {$R$};\n\\coordinate (ra) at ($(Q)!0.25cm!(P)$);\n\\coordinate (rb) at ($(Q)!0.25cm!(R)$);\n\\draw (ra) -- ($(ra)+(rb)-(Q)$) -- (rb);\n\\coordinate (M) at (4.2,0);\n\\coordinate (N) at (8.3,0);\n\\coordinate (L) at (4.2,4.0);\n\\draw (M) -- (L) node[midway, left] {$20\\text{ cm}$};\n\\draw (M) -- (N) node[midway, below] {$(7x+3)\\text{ cm}$};\n\\draw (L) -- (N);\n\\node[left] at (M) {$M$};\n\\node[above] at (L) {$L$};\n\\node[right] at (N) {$N$};\n\\coordinate (ra2) at ($(M)!0.3cm!(L)$);\n\\coordinate (rb2) at ($(M)!0.3cm!(N)$);\n\\draw (ra2) -- ($(ra2)+(rb2)-(M)$) -- (rb2);\n\\end{tikzpicture}\n[/tikz]\n\n$\\textbf{(a)}$ What is the scale factor from triangle PQR to triangle LMN?\n[1]\n$\\textbf{(b)}$ Hence or otherwise, find the area of triangle PQR correct to the nearest square centimetre.\n[2]",
+              "originalSolutionText": "$\\textbf{(a)}$ The scale factor is:\n$$\\begin{align*}\nk &= \\frac{20}{4} \\\\\n&= 5\n\\end{align*}$$\n\n$\\textbf{(b)}$ Corresponding base lengths are related by the scale factor.\n$$\\begin{align*}\n5(2x-5) &= 7x+3 \\\\\n10x-25 &= 7x+3 \\\\\n3x &= 28 \\\\\nx &= \\frac{28}{3}\n\\end{align*}$$\nThe base of triangle PQR is:\n$$\\begin{align*}\n2x-5 &= 2\\left(\\frac{28}{3}\\right)-5 \\\\\n&= \\frac{56}{3}-\\frac{15}{3} \\\\\n&= \\frac{41}{3}\n\\end{align*}$$\nThe area of triangle PQR is:\n$$\\begin{align*}\nA &= \\frac{1}{2}\\times \\frac{41}{3}\\times 4 \\\\\n&= \\frac{82}{3} \\\\\n&= 27.33\\ldots\n\\end{align*}$$\nCorrect to the nearest square centimetre, the area is $27\\text{ cm}^2$.",
+              "removed": [
+                {
+                  "part": "a",
+                  "token": "[1]"
+                },
+                {
+                  "part": "b",
+                  "token": "[2]"
+                }
+              ],
+              "inverse": "Originalquestiontextretainedbyteexact; transformationonlyextractsdiagram,partsandremovesallocatedmarktokens."
+            },
+            "initialCombinedReviewPending": false,
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json",
+              "sha256": "8ab04576d2b6e144596492f9b382e0c21e2efaf3962626c70e717fdfdf370b8d",
+              "model": "gpt-6.1-terra",
+              "reasoning": "high",
+              "reviewedInputTaskHash": "6cd5dd9ba253f7a01b276ed210c8d200b095df9330ccbb50e3a0557dffe20fdc",
+              "currentTaskHash": "6cd5dd9ba253f7a01b276ed210c8d200b095df9330ccbb50e3a0557dffe20fdc",
+              "acceptance": "accepted",
+              "answersVerified": true,
+              "inScope": true
+            },
+            "additionTo": {
+              "projectId": "similar-triangles-v1",
+              "blockId": "p10-q14"
+            }
+          }
+        },
+        {
           "id": "exam-mathsbase-c4a8cd89-6c6f-44ae-9900-6b30df3bed42",
           "type": "question",
           "bankRef": null,
@@ -10658,6 +10793,462 @@
             }
           },
           "snapshotKind": "local"
+        },
+        {
+          "id": "mathsbase-1e81531f-ff7f-48b3-8866-52bd4dbfc442",
+          "type": "question",
+          "title": "",
+          "source": {
+            "provider": "HSC",
+            "paper": "Advanced",
+            "year": "2011",
+            "label": "HSC Advanced 2011",
+            "origin": "MathsBase"
+          },
+          "snapshotKind": "local",
+          "bankRef": null,
+          "content": {
+            "id": "mathsbase-1e81531f-ff7f-48b3-8866-52bd4dbfc442-root",
+            "type": "group",
+            "label": null,
+            "prompt": "The diagram shows $\\triangle ADE$, where $B$ is the midpoint of $AD$ and $C$ is the midpoint of $AE$.\nThe intervals $BE$ and $CD$ meet at $F$.",
+            "questionDiagrams": [
+              {
+                "id": "mathsbase-1e81531f-ff7f-48b3-8866-52bd4dbfc442-diagram",
+                "format": "tikz",
+                "code": "\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate(A) at (2,5);\\coordinate(D) at (0,0);\\coordinate(E) at (6,2);\\coordinate(B) at (1,2.5);\\coordinate(C) at (4,3.5);\\coordinate(F) at (2.666666667,2.333333333);\n\\draw (A)--(D)--(E)--cycle;\\draw (B)--(C);\\draw (B)--(E);\\draw (C)--(D);\n\\draw (0.4,1.29)--(0.6,1.21);\\draw (1.4,3.79)--(1.6,3.71);\n\\draw (2.91,4.17)--(3.03,4.33);\\draw (2.97,4.12)--(3.09,4.28);\n\\draw (4.91,2.67)--(5.03,2.83);\\draw (4.97,2.62)--(5.09,2.78);\n\\node[above left] at(A){$A$};\\node[left] at(B){$B$};\\node[above right] at(C){$C$};\\node[below left] at(D){$D$};\\node[right] at(E){$E$};\\node[below] at(F){$F$};\n\\end{tikzpicture}",
+                "widthMm": 85
+              }
+            ],
+            "children": [
+              {
+                "id": "mathsbase-1e81531f-ff7f-48b3-8866-52bd4dbfc442-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Explain why $\\triangle ABC$ is similar to $\\triangle ADE$.",
+                "answer": {
+                  "short": "$AB/AD=AC/AE=1/2$ and $\\angle A$ is common, so the triangles are similar by SAS.",
+                  "worked": "In $\\triangle ABC$ and $\\triangle ADE$:\n$\\angle A$ is common.\n$\\frac{AB}{AD} = \\frac{1}{2}$ (since $B$ is the midpoint of $AD$)\n$\\frac{AC}{AE} = \\frac{1}{2}$ (since $C$ is the midpoint of $AE$)\n$\\therefore \\triangle ABC \\sim \\triangle ADE$ (Two pairs of corresponding sides are in the same ratio, and the included angle is equal).",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "mathsbase-1e81531f-ff7f-48b3-8866-52bd4dbfc442-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Hence, or otherwise, prove that the ratio $BF:FE = 1:2$.",
+                "answer": {
+                  "short": "$BC\\parallel DE$ and $BC/DE=1/2$. By AA, $\\triangle BFC\\sim\\triangle EFD$, so $BF/FE=BC/ED=1/2$.",
+                  "worked": "Since $\\triangle ABC \\sim \\triangle ADE$, the corresponding angles $\\angle ABC$ and $\\angle ADE$ are equal. \nThus, the lines $BC$ and $DE$ are parallel (corresponding angles are equal).\nAlso, since $\\triangle ABC \\sim \\triangle ADE$ with ratio $\\frac{1}{2}$, we have $\\frac{BC}{DE} = \\frac{1}{2}$.\nNow consider $\\triangle BFC$ and $\\triangle EFD$:\n$\\angle BFC = \\angle EFD$ (vertically opposite angles)\n$\\angle FBC = \\angle FED$ (alternate angles, $BC \\parallel DE$)\n$\\therefore \\triangle BFC \\sim \\triangle EFD$ (equiangular)\nThe ratio of their corresponding sides is the same:\n$$\\begin{align*}\n\\frac{BF}{FE} &= \\frac{BC}{ED} \\\\\n&= \\frac{1}{2}\n\\end{align*}$$\n$\\therefore BF:FE = 1:2$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "externalId": "1e81531f-ff7f-48b3-8866-52bd4dbfc442",
+              "sourceCode": "HSC.ADV.2011 Q9a",
+              "questionSha256": "f0a08b4b3ca66e578d3e2de9e34220724f26235f0b48c23aa639ef44d3134025",
+              "solutionSha256": "4f2588935c301fe5d7f09b00a7b08c5937d7dda7285eac5ab2f20c52a51d5175"
+            },
+            "initialCombinedReviewPending": false,
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json",
+              "sha256": "8ab04576d2b6e144596492f9b382e0c21e2efaf3962626c70e717fdfdf370b8d",
+              "model": "gpt-6.1-terra",
+              "reasoning": "high",
+              "reviewedInputTaskHash": "1c8997f47b0d4238dc2d43564dc5669e6737eac7159f0414d20e7bf5f496474b",
+              "currentTaskHash": "1c8997f47b0d4238dc2d43564dc5669e6737eac7159f0414d20e7bf5f496474b",
+              "acceptance": "accepted",
+              "answersVerified": true,
+              "inScope": true
+            },
+            "additionTo": {
+              "projectId": "similar-triangles-v1",
+              "blockId": "p10-q14"
+            }
+          },
+          "classification": {
+            "reasoningScore": 52,
+            "difficulty": "Mastery",
+            "difficultyReason": "Use midpoint ratios and the included angle for SAS, then infer parallel lines and select a second crossed pair of similar triangles to prove the requested segment ratio.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-02T11:20:26.168Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "1c8997f47b0d4238dc2d43564dc5669e6737eac7159f0414d20e7bf5f496474b",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json"
+            }
+          }
+        },
+        {
+          "id": "exam-mathsbase-26346824-0c1f-47bf-98df-98908fa5a4d1",
+          "type": "question",
+          "bankRef": null,
+          "content": {
+            "id": "exam-mathsbase-26346824-0c1f-47bf-98df-98908fa5a4d1-root",
+            "type": "question",
+            "label": null,
+            "prompt": "Maryam wishes to estimate the height, $h \\text{ metres}$, of a tower, $ST$, using a square, $ABCD$, with side length $1 \\text{ metre}$.\nShe places the point $A$ on the horizontal ground and ensures that the point $D$ lies on the line joining $A$ to the top of the tower $T$.\nThe point $F$ is the intersection of the line joining $B$ and $T$ and the side $CD$.\nThe point $E$ is the foot of the perpendicular from $B$ to the ground.\nLet $CF$ have length $x \\text{ metres}$ and $AE$ have length $y \\text{ metres}$.",
+            "questionDiagrams": [
+              {
+                "id": "exam-mathsbase-26346824-0c1f-47bf-98df-98908fa5a4d1-diagram",
+                "format": "tikz",
+                "widthMm": 115,
+                "role": "question",
+                "code": "\\usetikzlibrary{calc,intersections}\n\\begin{tikzpicture}[line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\coordinate(S)at(0,0);\\coordinate(A)at(6,0);\\coordinate(B)at(6.4,{sqrt(.84)});\\coordinate(D)at({6-sqrt(.84)},.4);\\coordinate(C)at({6.4-sqrt(.84)},{sqrt(.84)+.4});\\coordinate(E)at(6.4,0);\\coordinate(T)at(0,{2.4/sqrt(.84)});\n\\path[name path=BT](B)--(T);\\path[name path=CD](C)--(D);\\path[name intersections={of=BT and CD,by=F}];\n\\draw(S)--(T)--(A) (S)--(E)--(B)--(C)--(D)--(A)--(B) (T)--(B);\n\\draw[line width=.4pt](.14,0)--(.14,.14)--(0,.14);\\draw[line width=.4pt]($(E)+(-.14,0)$)--($(E)+(-.14,.14)$)--($(E)+(0,.14)$);\n\\node[left]at(S){$S$};\\node[left]at(T){$T$};\\node[below left]at(A){$A$};\\node[right]at(B){$B$};\\node[above]at(C){$C$};\\node[below left]at(D){$D$};\\node[right]at(E){$E$};\\node[below right]at(F){$F$};\n\\path(S)--(T)node[midway,left]{$h$};\\path(C)--(B)node[midway,above right]{$1$};\\path(C)--(F)node[midway,left]{$x$};\\path(A)--(E)node[midway,above]{$y$};\n\\end{tikzpicture}"
+              }
+            ],
+            "diagramPlacement": "after-prompt",
+            "children": [
+              {
+                "id": "exam-mathsbase-26346824-0c1f-47bf-98df-98908fa5a4d1-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Show that $\\triangle FCB$ and $\\triangle BAT$ are similar.",
+                "answer": {
+                  "short": "$\\angle FCB=\\angle BAT=90^\\circ$ (square), and $\\angle CFB=\\angle ABT$ (alternate angles, $CD\\parallel AB$). Hence $\\triangle FCB\\sim\\triangle BAT$ (AA).",
+                  "worked": "In $\\triangle FCB$ and $\\triangle BAT$:\n$$\\begin{align*}\n\\angle FCB &= \\angle BAT = 90^\\circ \\quad \\text{(angles of the square } ABCD) \\\\\nAB &\\parallel DC \\quad \\text{(opposite sides of square } ABCD) \\\\\n\\angle CFB &= \\angle ABT \\quad \\text{(alternate angles, } AB \\parallel DC, \\text{ transversal } BT)\n\\end{align*}$$\nTherefore, $\\triangle FCB$ is similar to $\\triangle BAT$ (two corresponding angles are equal, AA)."
+                }
+              },
+              {
+                "id": "exam-mathsbase-26346824-0c1f-47bf-98df-98908fa5a4d1-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Show that $\\triangle TSA$ and $\\triangle AEB$ are similar.",
+                "answer": {
+                  "short": "$\\angle TSA=\\angle AEB=90^\\circ$, and $\\angle TAS=\\angle ABE$ (both complement $\\angle BAE$). Hence $\\triangle TSA\\sim\\triangle AEB$ (AA).",
+                  "worked": "In $\\triangle TSA$ and $\\triangle AEB$:\n$$\\begin{align*}\n\\angle TSA &= \\angle AEB = 90^\\circ \\\\\n&\\quad \\text{(given vertical tower and} \\\\\n&\\quad \\text{perpendicular to ground)} \\\\\n\\text{Straight line } SAE \\implies \\angle TAS + \\angle BAD \\\\\n\\quad {}+ \\angle BAE &= 180^\\circ \\\\\n\\text{Since } \\angle BAD = 90^\\circ, \\\\\n\\quad \\angle TAS + \\angle BAE &= 90^\\circ \\\\\n\\text{In } \\triangle AEB, \\\\\n\\quad \\angle ABE + \\angle BAE + 90^\\circ \\\\\n&= 180^\\circ \\implies \\angle ABE + \\angle BAE = 90^\\circ \\\\\n\\text{Therefore, } \\angle TAS &= \\angle ABE\n\\end{align*}$$\nTherefore, $\\triangle TSA$ is similar to $\\triangle AEB$ (two corresponding angles are equal, AA)."
+                }
+              },
+              {
+                "id": "exam-mathsbase-26346824-0c1f-47bf-98df-98908fa5a4d1-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "Find $h$ in terms of $x$ and $y$.",
+                "answer": {
+                  "short": "$h=\\dfrac{y}{x}$ metres.",
+                  "worked": "From similar triangles $\\triangle TSA \\sim \\triangle AEB$:\n$$\\begin{align*}\n\\frac{TS}{AE} &= \\frac{TA}{AB} \\\\\n\\frac{h}{y} &= \\frac{TA}{1} \\\\\nh &= y \\times TA\n\\end{align*}$$\nFrom similar triangles $\\triangle FCB \\sim \\triangle BAT$:\n$$\\begin{align*}\n\\frac{TA}{BC} &= \\frac{BA}{FC} \\\\\n\\frac{TA}{1} &= \\frac{1}{x} \\\\\nTA &= \\frac{1}{x}\n\\end{align*}$$\nSubstituting $TA$ into the equation for $h$:\n$$\\begin{align*}\nh &= y \\times \\frac{1}{x} \\\\\nh &= \\frac{y}{x}\n\\end{align*}$$"
+                }
+              }
+            ]
+          },
+          "classification": {
+            "primarySkillId": "prove-similar-triangles",
+            "secondarySkillIds": [
+              "find-sides-similar"
+            ],
+            "reasoningScore": 53,
+            "difficulty": "Mastery",
+            "difficultyReason": "Prove two specified triangle pairs similar using square and complementary-angle facts, then connect their corresponding side ratios through the common length AT to express the height.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-02T11:20:26.168Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "82f95034491af9862cf7054fe1f9a5b94ce5602ffe75b7602e80732d6e62e6b1",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json",
+              "reviewedPreRepairTaskHash": "771ba691bd5d7ef796ae68c923e6386c127bf92b0687a40c9c1aaf4b377b68c9",
+              "requiredEditEvidence": {
+                "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json",
+                "sha256": "8ab04576d2b6e144596492f9b382e0c21e2efaf3962626c70e717fdfdf370b8d",
+                "sourceId": "26346824-0c1f-47bf-98df-98908fa5a4d1",
+                "scope": "Exact reviewer-required angle pairs/reasons addedtoShortanswers. Posedtask anddemandunchanged. Not a secondassessment."
+              }
+            }
+          },
+          "source": {
+            "provider": "HSC",
+            "paper": "Advanced",
+            "year": "2016",
+            "label": "HSC Advanced 2016",
+            "origin": "MathsBase"
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "26346824-0c1f-47bf-98df-98908fa5a4d1",
+              "sourceCode": "HSC.ADV.2016 Q15c",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/176.json",
+              "sourceSnapshotSha256": "7ac4e4128e4168ba6ddccf00e67e2016d6eec87d5e5d2eeb571b4ecd48531e4b",
+              "sourceQuestionSha256": "46568ee527849711898a7d31323de25da704b82ab9ae3186449a5bf1003bec51",
+              "sourceSolutionSha256": "808d765bb407a950fe7f1244f23864208ffdf12f9880bd92097b410421ac521d"
+            },
+            "initialCombinedReviewPending": false,
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json",
+              "sha256": "8ab04576d2b6e144596492f9b382e0c21e2efaf3962626c70e717fdfdf370b8d",
+              "model": "gpt-6.1-terra",
+              "reasoning": "high",
+              "reviewedInputTaskHash": "771ba691bd5d7ef796ae68c923e6386c127bf92b0687a40c9c1aaf4b377b68c9",
+              "currentTaskHash": "82f95034491af9862cf7054fe1f9a5b94ce5602ffe75b7602e80732d6e62e6b1",
+              "acceptance": "accepted-after-exact-required-edit",
+              "answersVerified": true,
+              "inScope": true
+            },
+            "additionTo": {
+              "projectId": "similar-triangles-v1",
+              "blockId": "p10-q14"
+            }
+          },
+          "snapshotKind": "local"
+        },
+        {
+          "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb",
+          "type": "question",
+          "title": "",
+          "source": {
+            "provider": "HSC",
+            "paper": "Advanced",
+            "year": "2009",
+            "label": "HSC Advanced 2009",
+            "origin": "MathsBase"
+          },
+          "snapshotKind": "local",
+          "bankRef": null,
+          "content": {
+            "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-root",
+            "type": "group",
+            "label": null,
+            "prompt": "In the diagram, $\\triangle ABC$ is a right-angled triangle, with the right angle at $C$.\nThe midpoint of $AB$ is $M$, and $MP\\perp AC$.",
+            "questionDiagrams": [
+              {
+                "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-right-triangle",
+                "format": "tikz",
+                "code": "\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate(A)at(0,6);\\coordinate(B)at(3.5,0);\\coordinate(C)at(0,0);\\coordinate(M)at(1.75,3);\\coordinate(P)at(0,3);\n\\draw(A)--(C)--(B)--cycle;\\draw(P)--(M);\n\\draw(0,.3)--(.3,.3)--(.3,0);\\draw(0,3.3)--(.3,3.3)--(.3,3);\n\\draw(.75,4.43)--(.95,4.55);\\draw(.80,4.34)--(1,4.46);\\draw(2.5,1.43)--(2.7,1.55);\\draw(2.55,1.34)--(2.75,1.46);\n\\node[above left]at(A){$A$};\\node[right]at(B){$B$};\\node[below left]at(C){$C$};\\node[right]at(M){$M$};\\node[left]at(P){$P$};\n\\end{tikzpicture}",
+                "widthMm": 75
+              }
+            ],
+            "children": [
+              {
+                "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Prove that $\\triangle AMP$ is similar to $\\triangle ABC$.",
+                "answer": {
+                  "short": "Equal right angles and the common angle at $A$ give AA similarity.",
+                  "worked": "For $\\triangle APM$ and $\\triangle ACB$:\n$$\\begin{align*}\n\\angle APM &= \\angle ACB = 90^\\circ \\\\\n\\angle PAM &= \\angle CAB \\quad \\text{(common angle)} \\\\\n\\therefore \\angle AMP &= \\angle ABC\n\\end{align*}$$\nAll corresponding angles are equal, hence the two triangles are similar.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "What is the ratio of $AP$ to $AC$?",
+                "answer": {
+                  "short": "$AP:AC=1:2$.",
+                  "worked": "$AP : AC = AM : AB = 1 : 2$",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "Prove that $\\triangle AMC$ is isosceles.",
+                "answer": {
+                  "short": "$AP=PC$, $PM$ is common and both included angles are right, so $\\triangle APM\\cong\\triangle CPM$ (SAS). Hence $\\angle PAM=\\angle PCM$ and $\\triangle AMC$ is isosceles.",
+                  "worked": "Since $AP : AC = 1 : 2$, $AP = PC$.\n$PM$ is a common side for $\\triangle APM$ and $\\triangle CPM$.\n$\\angle APM = \\angle CPM = 90^\\circ$.\nTherefore, $\\triangle APM$ and $\\triangle CPM$ are congruent (SAS).\n$\\therefore \\angle PAM = \\angle PCM$.\nHence $\\triangle AMC$ is isosceles.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-d",
+                "type": "part",
+                "label": "d",
+                "prompt": "Show that $\\triangle ABC$ can be divided into two isosceles triangles.",
+                "answer": {
+                  "short": "Join $CM$. Both $AMC$ and $MCB$ are isosceles since $AM=MB=MC$.",
+                  "worked": "Since $\\triangle AMC$ is isosceles, $MB = AM = MC$.\nHence $\\triangle MCB$ is isosceles as well.\n$\\therefore \\triangle ABC$ can be divided into two isosceles triangles.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-e",
+                "type": "part",
+                "label": "e",
+                "prompt": "Show how to divide this triangle into four isosceles triangles.",
+                "questionDiagrams": [
+                  {
+                    "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-generic-triangle",
+                    "format": "tikz",
+                    "code": "\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw(0,0)--(4,2.5)--(7,0)--cycle;\n\\end{tikzpicture}",
+                    "widthMm": 85
+                  }
+                ],
+                "answer": {
+                  "short": "Draw the altitude, then join its foot to the midpoint of each sloping side; see construction.",
+                  "worked": "Draw the altitude to split the triangle into two right triangles. Join the foot to each hypotenuse midpoint to split each right triangle into two isosceles triangles.",
+                  "solutionDiagrams": [
+                    {
+                      "id": "mathsbase-85eead0f-9150-4f58-9285-91536ac213cb-four-construction",
+                      "format": "tikz",
+                      "code": "\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\draw(0,0)--(4,2.5)--(7,0)--cycle;\\draw(4,2.5)--(4,0);\\draw(2,1.25)--(4,0)--(5.5,1.25);\\draw[dashed](2,1.25)--(5.5,1.25);\n\\draw(.92,.75)--(1.02,.59);\\draw(1.02,.81)--(1.12,.65);\\draw(2.92,2)--(3.02,1.84);\\draw(3.02,2.06)--(3.12,1.90);\n\\draw(4.69,1.77)--(4.81,1.91);\\draw(6.19,.52)--(6.31,.66);\n\\end{tikzpicture}",
+                      "widthMm": 85
+                    }
+                  ],
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "externalId": "85eead0f-9150-4f58-9285-91536ac213cb",
+              "sourceCode": "HSC.ADV.2009 Q4c",
+              "questionSha256": "0453f61bb88ab223e76c7c982f98a722d2fb917d99cf494b1401a06afacb981d",
+              "solutionSha256": "b9af96d1a9543775f9d02183c659a2464e3487332a1760e9ec2d94b200ab0f88"
+            },
+            "initialCombinedReviewPending": false,
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json",
+              "sha256": "8ab04576d2b6e144596492f9b382e0c21e2efaf3962626c70e717fdfdf370b8d",
+              "model": "gpt-6.1-terra",
+              "reasoning": "high",
+              "reviewedInputTaskHash": "559e86c7eac9530a8ba97b4f54aeccf3db22c86a362f4a518a40d9491277893e",
+              "currentTaskHash": "559e86c7eac9530a8ba97b4f54aeccf3db22c86a362f4a518a40d9491277893e",
+              "acceptance": "accepted",
+              "answersVerified": true,
+              "inScope": true
+            },
+            "additionTo": {
+              "projectId": "similar-triangles-v1",
+              "blockId": "p10-q14"
+            }
+          },
+          "classification": {
+            "reasoningScore": 60,
+            "difficulty": "Mastery",
+            "difficultyReason": "Build on the scaffolded similarity and congruence proof to recognise the midpoint-of-hypotenuse property, then apply it twice after constructing an altitude in a fresh triangle.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-02T11:20:26.168Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "559e86c7eac9530a8ba97b4f54aeccf3db22c86a362f4a518a40d9491277893e",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/initial-four-review-result.json"
+            }
+          }
+        },
+        {
+          "id": "mathsbase-6acc5191-c1bd-4807-a1d8-0c580895f47d",
+          "type": "question",
+          "title": "",
+          "source": {
+            "provider": "HSC",
+            "paper": "Advanced",
+            "year": "2013",
+            "label": "HSC Advanced 2013",
+            "origin": "MathsBase"
+          },
+          "snapshotKind": "local",
+          "bankRef": null,
+          "content": {
+            "id": "mathsbase-6acc5191-c1bd-4807-a1d8-0c580895f47d-root",
+            "type": "group",
+            "label": null,
+            "prompt": "The diagram shows triangles $ABC$ and $ABD$ with $AD$ parallel to $BC$.\nThe sides $AC$ and $BD$ intersect at $Y$.\nThe point $X$ lies on $AB$ such that $XY$ is parallel to $AD$ and $BC$.",
+            "questionDiagrams": [
+              {
+                "id": "mathsbase-6acc5191-c1bd-4807-a1d8-0c580895f47d-diagram",
+                "format": "tikz",
+                "code": "\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\coordinate(A)at(0,0);\\coordinate(B)at(6,0);\\coordinate(D)at(1,2.5);\\coordinate(C)at(8,5);\\coordinate(X)at(2,0);\\coordinate(Y)at(2.666666667,1.666666667);\n\\draw(A)--(B)--(C)--cycle;\\draw(A)--(D)--(B);\\draw(X)--(Y);\n\\draw(.35,1.05)--(.5,1.25)--(.52,.95);\\draw(2.183333, .633333)--(2.333333,.833333)--(2.353333,.533333);\\draw(6.85,2.3)--(7,2.5)--(7.02,2.2);\n\\node[below left]at(A){$A$};\\node[below right]at(B){$B$};\\node[above]at(C){$C$};\\node[above]at(D){$D$};\\node[below]at(X){$X$};\\node[above]at(Y){$Y$};\n\\end{tikzpicture}",
+                "widthMm": 110
+              }
+            ],
+            "children": [
+              {
+                "id": "mathsbase-6acc5191-c1bd-4807-a1d8-0c580895f47d-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Prove that $\\triangle ABC$ is similar to $\\triangle AXY$.",
+                "answer": {
+                  "short": "The angle at $A$ is common and corresponding angles are equal since $XY\\parallel BC$; hence the triangles are similar by AA.",
+                  "worked": "In $\\triangle ABC$ and $\\triangle AXY$:\n$\\angle XAY$ is common to both triangles (also known as $\\angle BAC$).\n$\\angle AXY = \\angle ABC$ (corresponding angles are equal, since $XY \\parallel BC$).\n$\\angle AYX = \\angle ACB$ (corresponding angles are equal, since $XY \\parallel BC$).\nTherefore, $\\triangle ABC \\sim \\triangle AXY$ (equiangular).",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "mathsbase-6acc5191-c1bd-4807-a1d8-0c580895f47d-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Hence, or otherwise, prove that $\\frac{1}{XY}=\\frac{1}{AD}+\\frac{1}{BC}$.",
+                "answer": {
+                  "short": "$AX/AB=XY/BC$ and $BX/AB=XY/AD$. Adding and using $AX+BX=AB$ gives $1=XY(1/BC+1/AD)$, hence $1/XY=1/AD+1/BC$.",
+                  "worked": "Since $\\triangle ABC \\sim \\triangle AXY$, the ratios of corresponding sides are equal:\n$$\\begin{align*}\n\\frac{AX}{AB} &= \\frac{XY}{BC} \\quad \\text{--- (1)}\n\\end{align*}$$\nSimilarly, we can prove $\\triangle ABD \\sim \\triangle XBY$:\n$\\angle XBY$ is common (also known as $\\angle ABD$).\n$\\angle BXY = \\angle BAD$ (corresponding angles, $XY \\parallel AD$).\n$\\angle BYX = \\angle BDA$ (corresponding angles, $XY \\parallel AD$).\nTherefore, $\\triangle ABD \\sim \\triangle XBY$ (equiangular).\nThus, the ratios of their corresponding sides are equal:\n$$\\begin{align*}\n\\frac{BX}{AB} &= \\frac{XY}{AD} \\quad \\text{--- (2)}\n\\end{align*}$$\nAdding equations (1) and (2) gives:\n$$\\begin{align*}\n\\frac{AX}{AB} + \\frac{BX}{AB} &= \\frac{XY}{BC} + \\frac{XY}{AD} \\\\\n\\frac{AX + BX}{AB} &= XY \\left(\\frac{1}{BC} + \\frac{1}{AD}\\right)\n\\end{align*}$$\nSince point $X$ lies on the line segment $AB$, we have $AX + BX = AB$.\n$$\\begin{align*}\n\\frac{AB}{AB} &= XY \\left(\\frac{1}{BC} + \\frac{1}{AD}\\right) \\\\\n1 &= XY \\left(\\frac{1}{AD} + \\frac{1}{BC}\\right) \\\\\n\\frac{1}{XY} &= \\frac{1}{AD} + \\frac{1}{BC}\n\\end{align*}$$",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "externalId": "6acc5191-c1bd-4807-a1d8-0c580895f47d",
+              "sourceCode": "HSC.ADV.2013 Q16c",
+              "questionSha256": "afc765314f59aced49ea251980c283d21629ce23c94905fa8d2c900fd3701f8f",
+              "solutionSha256": "c0d09ded2ef25780ee68bc8e172dc9eeae738e6df021da3dad3d762d9772a059"
+            },
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/fifth-initial-review-result.json",
+              "sha256": "8cfca4c26c2f0ed30afe16bad71803a943647eaa1dd6c160395f0ba317d6b6cd",
+              "model": "gpt-6.1-terra",
+              "reasoning": "high",
+              "reviewedInputTaskHash": "f628387f733232f43c9b547b4d20e138c80737464ef739dc05f7befb89a8f4bf",
+              "currentTaskHash": "d5d78560a9432c4c57525ca4ff101cbc864d7b24f5680b5a60a72c6903416311",
+              "acceptance": "accepted-after-exact-required-edit",
+              "answersVerified": true,
+              "inScope": true
+            },
+            "additionTo": {
+              "projectId": "similar-triangles-v1",
+              "blockId": "p10-q14"
+            }
+          },
+          "classification": {
+            "reasoningScore": 63,
+            "difficulty": "Mastery",
+            "difficultyReason": "The named first pair scaffolds an AA proof, but the reciprocal identity requires identifying a second similar pair, matching its sides, and recognising that the two ratios with denominator AB add to one. Connecting that partition to the target reciprocals is the main non-trivial step.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-02T11:26:33.228Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "d5d78560a9432c4c57525ca4ff101cbc864d7b24f5680b5a60a72c6903416311",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/fifth-initial-review-result.json",
+              "reviewedPreRepairTaskHash": "f628387f733232f43c9b547b4d20e138c80737464ef739dc05f7befb89a8f4bf",
+              "requiredEditEvidence": {
+                "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-similar-r32/fifth-initial-review-result.json",
+                "sha256": "8cfca4c26c2f0ed30afe16bad71803a943647eaa1dd6c160395f0ba317d6b6cd",
+                "scope": "ExactrequiredBCparallelmarkattachment; semanticparallelrelationship andposedtask unchanged. Not asecondassessment."
+              }
+            }
+          }
         }
       ]
     }
@@ -13052,10 +13643,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 31,
+  "revision": 33,
   "assets": [],
   "createdAt": "2026-10-08T11:53:03.284Z",
-  "updatedAt": "2026-10-30T06:05:34.876Z",
+  "updatedAt": "2026-11-02T11:48:56.062Z",
   "library": {
     "category": "master",
     "courseId": "s5-path",
