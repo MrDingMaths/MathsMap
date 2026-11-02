@@ -1,0 +1,998 @@
+{
+  "packets": [
+    {
+      "pageNumber": 36,
+      "sections": [
+        {
+          "id": "assignment-35e4e80107f4d6a0f863-p36-practice",
+          "title": "Minimal connector problems",
+          "topicId": "minimal-connector-problems",
+          "phase": "practice",
+          "role": "mixed-practice",
+          "headingStyle": "none",
+          "sourcePageNumber": 36,
+          "blocks": [
+            {
+              "id": "p36-q7",
+              "type": "question",
+              "sourceOrder": 7,
+              "title": "2022 HSC Standard 2 Band 3",
+              "sourcePageNumber": 36,
+              "sourceRefs": [
+                {
+                  "pageNumber": 36
+                }
+              ],
+              "classification": {
+                "primarySkillId": "minimal-connector",
+                "secondarySkillIds": [
+                  "construct-network-diagram",
+                  "minimum-spanning-tree"
+                ],
+                "reasoningScore": 42,
+                "difficulty": "Development",
+                "difficultyReason": "Translate a symmetric distance table into a network, then select a minimum spanning tree and total its weights."
+              },
+              "content": {
+                "id": "p36-q7-root",
+                "type": "group",
+                "label": "7",
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
+                    {
+                      "id": "p36-q7-introduction",
+                      "type": "paragraph",
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "The table below shows the distances, in kilometres, between a number of towns."
+                        }
+                      ]
+                    },
+                    {
+                      "id": "p36-q7-table",
+                      "type": "table",
+                      "widthMm": 160,
+                      "widths": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                      ],
+                      "padding": 1.5,
+                      "border": true,
+                      "rows": [
+                        [
+                          {
+                            "id": "p36-q7-h0",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-h0-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "Towns"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-h1",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-h1-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "Snowtown"
+                                  },
+                                  {
+                                    "type": "break"
+                                  },
+                                  {
+                                    "type": "math",
+                                    "latex": "(S)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-h2",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-h2-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "Clairville"
+                                  },
+                                  {
+                                    "type": "break"
+                                  },
+                                  {
+                                    "type": "math",
+                                    "latex": "(C)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-h3",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-h3-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "Yuma"
+                                  },
+                                  {
+                                    "type": "break"
+                                  },
+                                  {
+                                    "type": "math",
+                                    "latex": "(Y)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-h4",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-h4-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "Bosten"
+                                  },
+                                  {
+                                    "type": "break"
+                                  },
+                                  {
+                                    "type": "math",
+                                    "latex": "(B)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-h5",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-h5-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "Morrella"
+                                  },
+                                  {
+                                    "type": "break"
+                                  },
+                                  {
+                                    "type": "math",
+                                    "latex": "(M)"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "id": "p36-q7-s0",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-s0-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "(S)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-s1",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-s1-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-s2",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-s2-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-s3",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-s3-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "280"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-s4",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-s4-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "275"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-s5",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-s5-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "id": "p36-q7-c0",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-c0-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "(C)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-c1",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-c1-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-c2",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-c2-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-c3",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-c3-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "60"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-c4",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-c4-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "150"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-c5",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-c5-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "id": "p36-q7-y0",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-y0-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "(Y)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-y1",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-y1-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "280"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-y2",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-y2-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "60"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-y3",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-y3-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-y4",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-y4-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-y5",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-y5-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "530"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "id": "p36-q7-b0",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-b0-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "(B)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-b1",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-b1-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "275"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-b2",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-b2-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "150"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-b3",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-b3-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-b4",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-b4-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-b5",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-b5-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "790"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        [
+                          {
+                            "id": "p36-q7-m0",
+                            "type": "cell",
+                            "align": "center",
+                            "background": "#d3e8fc",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-m0-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "(M)"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-m1",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-m1-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-m2",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-m2-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-m3",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-m3-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "530"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-m4",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-m4-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "math",
+                                    "latex": "790"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "id": "p36-q7-m5",
+                            "type": "cell",
+                            "align": "center",
+                            "blocks": [
+                              {
+                                "id": "p36-q7-m5-p",
+                                "type": "paragraph",
+                                "inlines": [
+                                  {
+                                    "type": "text",
+                                    "text": "–"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                "children": [
+                  {
+                    "id": "p36-q7-network-task",
+                    "type": "part",
+                    "label": "",
+                    "prompt": "Draw a weighted network diagram to represent the information shown in the table.",
+                    "questionDiagrams": [
+                      {
+                        "id": "p36-q7-network-scaffold",
+                        "format": "tikz",
+                        "widthMm": 110,
+                        "role": "question",
+                        "reviewStatus": "needs-review",
+                        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 36 p36-q7-network-scaffold\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (0,0) rectangle (10,4.2);\n\\coordinate (S) at (0.8,2.9);\\coordinate (Y) at (4,3.35);\\coordinate (M) at (9.2,2.8);\\coordinate (C) at (5.6,2.1);\\coordinate (B) at (3.45,0.9);\n\\foreach \\v in {S,Y,M,C,B}{\\fill (\\v) circle (1.8pt);}\n\\foreach \\v in {S,Y,M,C}{\\node[above=3pt] at (\\v) {$\\v$};}\n\\node[below=3pt] at (B) {$B$};\n\\end{tikzpicture}",
+                        "spec": {
+                          "sourcePage": 36,
+                          "sourceRegion": "Question 7 first drawing region",
+                          "description": "Five isolated labelled vertices in a rectangular drawing region, preserving their relative arrangement.",
+                          "mathematics": "Vertices S, Y, M, C and B; no edges supplied.",
+                          "answerVisibility": "Student scaffold only."
+                        }
+                      }
+                    ],
+                    "answerSpaceMm": 0,
+                    "answer": {
+                      "short": "The weighted network is shown.",
+                      "worked": "Represent each town by its labelled vertex. Join each listed pair once, using its distance as the edge weight; omit pairs marked with a dash.",
+                      "provenance": {
+                        "short": "authored",
+                        "worked": "authored"
+                      },
+                      "solutionDiagrams": [
+                        {
+                          "id": "p36-q7-network-solution",
+                          "format": "tikz",
+                          "widthMm": 110,
+                          "role": "solution",
+                          "reviewStatus": "needs-review",
+                          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 36 p36-q7-network-solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (0,0) rectangle (10,4.2);\n\\coordinate (S) at (0.8,2.9);\\coordinate (Y) at (4,3.35);\\coordinate (M) at (9.2,2.8);\\coordinate (C) at (5.6,2.1);\\coordinate (B) at (3.45,0.9);\n\\draw[line width=0.8pt] (S)--node[midway,above=3pt] {$280$}(Y);\n\\draw[line width=0.8pt] (S)--node[midway,below left=3pt] {$275$}(B);\n\\draw[line width=0.8pt] (Y)--node[midway,above right=3pt] {$60$}(C);\n\\draw[line width=0.8pt] (C)--node[midway,above left=3pt] {$150$}(B);\n\\draw[line width=0.8pt] (Y)--node[midway,above=3pt] {$530$}(M);\n\\draw[line width=0.8pt] (B)--node[pos=0.7,below right=3pt] {$790$}(M);\n\\foreach \\v in {S,Y,M,C,B}{\\fill (\\v) circle (1.8pt);}\n\\foreach \\v in {S,Y,M,C}{\\node[above=3pt] at (\\v) {$\\v$};}\n\\node[below=3pt] at (B) {$B$};\n\\end{tikzpicture}",
+                          "spec": {
+                            "sourcePage": 36,
+                            "sourceRegion": "Question 7 table and first drawing task",
+                            "description": "Complete weighted network using the supplied vertex arrangement.",
+                            "mathematics": "SY=280, SB=275, YC=60, CB=150, YM=530, BM=790 kilometres.",
+                            "answerVisibility": "Answer editions only."
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "id": "p36-q7-tree-task",
+                    "type": "group",
+                    "label": "",
+                    "prompt": "A tourist wishes to visit each town.\nDraw the minimum spanning tree that will allow for this and determine its length.",
+                    "children": [
+                      {
+                        "id": "p36-q7-tree-drawing",
+                        "type": "part",
+                        "label": "",
+                        "prompt": "",
+                        "questionDiagrams": [
+                          {
+                            "id": "p36-q7-tree-scaffold",
+                            "format": "tikz",
+                            "widthMm": 110,
+                            "role": "question",
+                            "reviewStatus": "needs-review",
+                            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 36 p36-q7-tree-scaffold\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (0,0) rectangle (10,4.2);\n\\coordinate (S) at (0.8,2.9);\\coordinate (Y) at (4,3.35);\\coordinate (M) at (9.2,2.8);\\coordinate (C) at (5.6,2.1);\\coordinate (B) at (3.45,0.9);\n\\foreach \\v in {S,Y,M,C,B}{\\fill (\\v) circle (1.8pt);}\n\\foreach \\v in {S,Y,M,C}{\\node[above=3pt] at (\\v) {$\\v$};}\n\\node[below=3pt] at (B) {$B$};\n\\end{tikzpicture}",
+                            "spec": {
+                              "sourcePage": 36,
+                              "sourceRegion": "Question 7 second drawing region",
+                              "description": "Second editable drawing region with the same five isolated vertices and relative positions.",
+                              "mathematics": "Vertices S, Y, M, C and B; no edges supplied.",
+                              "answerVisibility": "Student scaffold only."
+                            }
+                          }
+                        ],
+                        "answerSpaceMm": 0,
+                        "answer": {
+                          "short": "Join $S$–$B$, $B$–$C$, $C$–$Y$ and $Y$–$M$.",
+                          "worked": "Choose $CY=60$, $CB=150$ and $BS=275$. Omit $SY=280$ because it would form a cycle. Connect $M$ using $YM=530$, which is shorter than $BM=790$. These four edges connect all five towns without a cycle.",
+                          "provenance": {
+                            "short": "authored",
+                            "worked": "authored"
+                          },
+                          "solutionDiagrams": [
+                            {
+                              "id": "p36-q7-tree-solution",
+                              "format": "tikz",
+                              "widthMm": 110,
+                              "role": "solution",
+                              "reviewStatus": "needs-review",
+                              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 36 p36-q7-tree-solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (0,0) rectangle (10,4.2);\n\\coordinate (S) at (0.8,2.9);\\coordinate (Y) at (4,3.35);\\coordinate (M) at (9.2,2.8);\\coordinate (C) at (5.6,2.1);\\coordinate (B) at (3.45,0.9);\n\\draw[line width=0.8pt] (S)--node[midway,below left=3pt] {$275$}(B);\n\\draw[line width=0.8pt] (B)--node[midway,above left=3pt] {$150$}(C);\n\\draw[line width=0.8pt] (C)--node[midway,above right=3pt] {$60$}(Y);\n\\draw[line width=0.8pt] (Y)--node[midway,above=3pt] {$530$}(M);\n\\foreach \\v in {S,Y,M,C,B}{\\fill (\\v) circle (1.8pt);}\n\\foreach \\v in {S,Y,M,C}{\\node[above=3pt] at (\\v) {$\\v$};}\n\\node[below=3pt] at (B) {$B$};\n\\end{tikzpicture}",
+                              "spec": {
+                                "sourcePage": 36,
+                                "sourceRegion": "Question 7 minimum spanning tree task",
+                                "description": "Complete minimum spanning tree retaining the supplied vertex arrangement.",
+                                "mathematics": "SB=275, BC=150, CY=60 and YM=530; total 1015 kilometres.",
+                                "answerVisibility": "Answer editions only."
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "id": "p36-q7-length",
+                        "type": "part",
+                        "label": "",
+                        "prompt": {
+                          "format": "maths-editor-document-v1",
+                          "version": 1,
+                          "blocks": [
+                            {
+                              "id": "p36-q7-length-p",
+                              "type": "paragraph",
+                              "inlines": [
+                                {
+                                  "type": "text",
+                                  "text": "Length of minimum spanning tree = "
+                                },
+                                {
+                                  "type": "cloze",
+                                  "answer": "1015 km",
+                                  "width": 35
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "responseSpace": "scaffold",
+                        "answerSpaceMm": 0,
+                        "answer": {
+                          "short": "$1015\\text{ km}$",
+                          "worked": "$$\\begin{aligned}\\text{Length}&=275+150+60+530\\\\&=1015\\text{ km}\\end{aligned}$$",
+                          "provenance": {
+                            "short": "source",
+                            "worked": "authored"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "sourceReview": {
+                "sourceIdentity": {
+                  "questionLabel": "7"
+                },
+                "teachingContext": [
+                  33
+                ],
+                "responses": [
+                  {
+                    "targetId": "p36-q7-network-task",
+                    "kind": "working",
+                    "label": ""
+                  },
+                  {
+                    "targetId": "p36-q7-tree-drawing",
+                    "kind": "working",
+                    "label": ""
+                  },
+                  {
+                    "targetId": "p36-q7-length",
+                    "kind": "cloze",
+                    "label": ""
+                  }
+                ],
+                "workingSpaceEstimate": {
+                  "method": "solution-steps",
+                  "estimates": [
+                    {
+                      "targetId": "p36-q7-network-task",
+                      "widthMm": 110,
+                      "mathematicalRows": 0,
+                      "answerSpaceMm": 0
+                    },
+                    {
+                      "targetId": "p36-q7-tree-drawing",
+                      "widthMm": 110,
+                      "mathematicalRows": 0,
+                      "answerSpaceMm": 0
+                    },
+                    {
+                      "targetId": "p36-q7-length",
+                      "widthMm": 160,
+                      "mathematicalRows": 2,
+                      "answerSpaceMm": 0
+                    }
+                  ]
+                },
+                "arrangements": [
+                  {
+                    "description": "Distance table followed by two stacked drawing tasks. Each supplied rectangular vertex scaffold provides the drawing space; the length cloze follows the second scaffold."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "inventoryMappings": [
+        {
+          "inventoryId": "p36-q7",
+          "targetId": "p36-q7"
+        },
+        {
+          "inventoryId": "p36-q7-table",
+          "targetId": "p36-q7-table"
+        },
+        {
+          "inventoryId": "p36-q7-network-task",
+          "targetId": "p36-q7-network-task",
+          "field": "/prompt"
+        },
+        {
+          "inventoryId": "p36-q7-network-scaffold",
+          "targetId": "p36-q7-network-scaffold"
+        },
+        {
+          "inventoryId": "p36-q7-tree-task",
+          "targetId": "p36-q7-tree-task",
+          "field": "/prompt"
+        },
+        {
+          "inventoryId": "p36-q7-tree-scaffold",
+          "targetId": "p36-q7-tree-scaffold"
+        },
+        {
+          "inventoryId": "p36-q7-length",
+          "targetId": "p36-q7-length",
+          "field": "/prompt"
+        },
+        {
+          "inventoryId": "p36-q7-supplied-answer",
+          "targetId": "p36-q7-length",
+          "field": "/answer/short"
+        }
+      ],
+      "findings": [],
+      "corrections": [],
+      "answerEvidence": [
+        {
+          "inventoryId": "p36-q7-supplied-answer",
+          "targetId": "p36-q7-length",
+          "field": "/answer/short",
+          "sourcePage": 36,
+          "evidenceId": "evidence-34a0717ca445ccb92c09a182cbd1f5128e0a35fcb4de5d883350e881dc84d9ac",
+          "sourceRegion": "Blue supplied answer at lower right",
+          "transcription": "1015 km"
+        }
+      ]
+    }
+  ]
+}

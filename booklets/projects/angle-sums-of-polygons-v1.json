@@ -29367,6 +29367,95 @@
               "blockId": "exam-mb-64e5dc4f-14ac-4b74-9dda-64ea6ffb909b"
             }
           }
+        },
+        {
+          "id": "exam-09a79cc5-ca53-4073-a316-c9170dc9622c",
+          "type": "question",
+          "title": "",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "content": {
+            "id": "exam-09a79cc5-ca53-4073-a316-c9170dc9622c-root",
+            "type": "question",
+            "label": null,
+            "prompt": "In the figure below, $\\angle ABC = 40^\\circ$, $\\angle CDE = 100^\\circ$, and reflex $\\angle BCD = 240^\\circ$.\nIt is known that $AB \\parallel DE$.\nShow that this is true by providing information on the diagram and any working.\nReasons are not required.",
+            "questionDiagrams": [
+              {
+                "id": "exam-09a79cc5-ca53-4073-a316-c9170dc9622c-diagram",
+                "format": "tikz",
+                "widthMm": 95,
+                "role": "question",
+                "code": "\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (B) at (-2,1.4);\n\\coordinate (A) at ($(B)+(10:2.7)$);\n\\coordinate (C) at ($(B)+(-30:2.8)$);\n\\coordinate (D) at ($(C)+(270:2.0)$);\n\\coordinate (E) at ($(D)+(190:2.2)$);\n\\draw[line width=.8pt] (B) -- (A);\n\\draw[thick] (B) -- (C) -- (D) -- (E);\n\\node[above right] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\pic[draw, \"$40^\\circ$\", angle radius=0.45cm, angle eccentricity=1.5] {angle = C--B--A};\n\\pic[draw, \"$100^\\circ$\", angle radius=0.55cm, angle eccentricity=1.45] {angle = C--D--E};\n\\draw ($(C)+(270:0.55)$) arc[start angle=270, end angle=510, radius=0.55];\n\\node at ($(C)+(30:0.95)$) {$240^\\circ$};\n\\end{tikzpicture}\n"
+              }
+            ],
+            "diagramPlacement": "after-prompt",
+            "answer": {
+              "short": "Construct $FC\\parallel AB$. Then $\\angle FCB=40^\\circ$, $\\angle FCD=360^\\circ-240^\\circ-40^\\circ=80^\\circ$, and $80^\\circ+100^\\circ=180^\\circ$. Hence $AB\\parallel DE$.",
+              "worked": "Construct $FC$ so that $FC \\parallel AB$. Then $\\angle FCB = 40^\\circ$.\nThe remaining angle at $C$ is:\n$$\\begin{align*}\n\\angle FCD &= 360^\\circ - 240^\\circ - 40^\\circ \\\\\n&= 80^\\circ\n\\end{align*}$$\nThen\n$$\\begin{align*}\n\\angle FCD + \\angle CDE &= 80^\\circ + 100^\\circ \\\\\n&= 180^\\circ\n\\end{align*}$$\nSo $FC \\parallel DE$. Since $FC \\parallel AB$, $AB \\parallel DE$.",
+              "solutionDiagrams": [
+                {
+                  "id": "exam-09a79cc5-ca53-4073-a316-c9170dc9622c-solution-diagram",
+                  "format": "tikz",
+                  "widthMm": 95,
+                  "role": "solution",
+                  "code": "\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\usetikzlibrary{angles, quotes, calc}\n\\coordinate (B) at (-2,1.4);\n\\coordinate (A) at ($(B)+(10:2.7)$);\n\\coordinate (C) at ($(B)+(-30:2.8)$);\n\\coordinate (D) at ($(C)+(270:2.0)$);\n\\coordinate (E) at ($(D)+(190:2.2)$);\n\\draw[line width=.8pt] (B) -- (A);\n\\draw[thick] (B) -- (C) -- (D) -- (E);\n\\node[above right] at (A) {$A$};\n\\node[left] at (B) {$B$};\n\\node[left] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\node[below left] at (E) {$E$};\n\\pic[draw, \"$40^\\circ$\", angle radius=0.45cm, angle eccentricity=1.5] {angle = C--B--A};\n\\pic[draw, \"$100^\\circ$\", angle radius=0.55cm, angle eccentricity=1.45] {angle = C--D--E};\n\\draw ($(C)+(270:0.55)$) arc[start angle=270, end angle=510, radius=0.55];\n\\node at ($(C)+(30:0.95)$) {$240^\\circ$};\n\\coordinate(F)at($(C)+(190:1.8)$);\n\\draw[dashed,line width=.8pt](F)--(C);\\node[left]at(F){$F$};\n\\pic[draw, \"$40^\\circ$\", angle radius=.78cm, angle eccentricity=1.3]{angle=B--C--F};\n\\pic[draw, \"$80^\\circ$\", angle radius=.45cm, angle eccentricity=1.4]{angle=F--C--D};\n\\end{tikzpicture}\n"
+                }
+              ]
+            }
+          },
+          "source": {
+            "provider": "PLC",
+            "paper": "Y7 S1",
+            "year": "2024",
+            "label": "PLC Y7 S1 2024",
+            "origin": "MathsBase"
+          },
+          "classification": {
+            "primarySkillId": "unknown-angles-parallel",
+            "secondarySkillIds": [],
+            "archetype": "auxiliary-parallel-reflex-zigzag-proof",
+            "reasoningScore": 72,
+            "difficulty": "Mastery",
+            "difficultyReason": "The student must decide to introduce an auxiliary parallel through the bend, connect the reflex angle and transferred 40° to the remaining angle, and use a supplementary-angle converse to establish parallelism. The construction and proof are unsignposted, but rely on familiar angle facts; the prompt already states the conclusion and does not require reasons.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-02T12:09:30.819Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "fa7ee6ab841b762c6535aeb96bdc6b74f3f53505cfa7203692a3dfaa494d154d",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-angle-r49/auxiliary-parallel-initial-review-result.json"
+            }
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "09a79cc5-ca53-4073-a316-c9170dc9622c",
+              "sourceCode": "PLC.Y7.2024.S1 S2Q12",
+              "readSnapshot": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/angle-r46-author13/terra-review-template-2.json",
+              "sourceQuestionSha256": "304185c55415bc8820077250930d51bf24e39a1d11149b63349ad2825a9b7917",
+              "sourceSolutionSha256": "a513387e3d4926a637a8a9813c4ee5c7ddd0bcce4714bbdf6a10b908f8899cb4"
+            },
+            "conversion": {
+              "kind": "local-deterministic-source-conversion",
+              "scope": "RetainedsourceTikZ/text preserved; markallocationremoved,10ptblacktypography. Explicitsourceauxiliaryparallel/40/80 working showninanswers only. No newquestion/bridgingcall.",
+              "parkedPriorAuthor": "Batch2provideroutcome remainsuncertain/untouched; no retry/resume/reauthorcall orreuseunreturnedproviderdraft."
+            },
+            "initialCombinedReviewPending": false,
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-angle-r49/auxiliary-parallel-initial-review-result.json",
+              "sha256": "f39b969330720ddb1b12e27392cfe2e1fda0eb1cac3b0db78df406dde72a0327",
+              "model": "gpt-6.1-terra",
+              "reasoning": "high",
+              "taskHash": "fa7ee6ab841b762c6535aeb96bdc6b74f3f53505cfa7203692a3dfaa494d154d",
+              "accepted": true,
+              "sourceFidelity": true,
+              "answersVerified": true,
+              "inScope": true
+            },
+            "additionTo": {
+              "projectId": "angle-sums-of-polygons-v1",
+              "blockId": "exam-mb-64e5dc4f-14ac-4b74-9dda-64ea6ffb909b"
+            }
+          }
         }
       ]
     }
@@ -35195,10 +35284,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 49,
+  "revision": 50,
   "assets": [],
   "createdAt": "2026-10-08T12:07:02.228Z",
-  "updatedAt": "2026-11-01T22:42:26.960Z",
+  "updatedAt": "2026-11-02T20:25:30.707Z",
   "library": {
     "category": "master",
     "courseId": "s5-path",

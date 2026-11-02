@@ -1,0 +1,228 @@
+{
+  "packets": [
+    {
+      "pageNumber": 43,
+      "sections": [
+        {
+          "id": "assignment-2593a40a5162c4fb9f25-p43-practice",
+          "title": "Shortest paths",
+          "topicId": "shortest-paths",
+          "phase": "practice",
+          "role": "mixed-practice",
+          "headingStyle": "none",
+          "sourcePageNumber": 43,
+          "blocks": [
+            {
+              "id": "p43-q6",
+              "type": "question",
+              "sourceOrder": 6,
+              "title": "HSC Sample Question Band 4",
+              "sourcePageNumber": 43,
+              "sourceRefs": [
+                {
+                  "pageNumber": 43
+                }
+              ],
+              "classification": {
+                "primarySkillId": "shortest-path",
+                "secondarySkillIds": [],
+                "reasoningScore": 45,
+                "difficulty": "Development",
+                "difficultyReason": "Compare routes through a ten-vertex weighted network and identify the minimum total weight."
+              },
+              "content": {
+                "id": "p43-q6-root",
+                "type": "group",
+                "label": "6",
+                "prompt": "Describe the shortest path between A and J and its weight.",
+                "questionDiagrams": [
+                  {
+                    "id": "p43-q6-network",
+                    "format": "tikz",
+                    "widthMm": 95,
+                    "role": "question",
+                    "reviewStatus": "needs-review",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 43 p43-q6-network\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont},vertex/.style={circle,draw=black,fill=white,line width=0.8pt,minimum size=6mm,inner sep=0pt},weight/.style={fill=white,inner sep=1pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[vertex,label=above:$A$] (A) at (0,4.4) {};\n\\node[vertex,label=above:$B$] (B) at (2.2,4.4) {};\n\\node[vertex,label=above:$C$] (C) at (4.4,4.4) {};\n\\node[vertex,label=left:$D$] (D) at (0,2.2) {};\n\\node[vertex,label=above left:$E$] (E) at (2.2,2.2) {};\n\\node[vertex,label=above left:$F$] (F) at (4.4,2.2) {};\n\\node[vertex,label=below:$G$] (G) at (0,0) {};\n\\node[vertex,label=below:$H$] (H) at (2.2,0) {};\n\\node[vertex,label=below:$I$] (I) at (4.4,0) {};\n\\node[vertex,label=right:$J$] (J) at (6.5,2.2) {};\n\\draw[line width=0.8pt] (A)--node[weight,above] {$4$} (B);\n\\draw[line width=0.8pt] (B)--node[weight,above] {$5$} (C);\n\\draw[line width=0.8pt] (A)--node[weight,left] {$5$} (D);\n\\draw[line width=0.8pt] (B)--node[weight,left] {$5$} (E);\n\\draw[line width=0.8pt] (C)--node[weight,left] {$5$} (F);\n\\draw[line width=0.8pt] (D)--node[weight,above] {$5$} (E);\n\\draw[line width=0.8pt] (E)--node[weight,above] {$4$} (F);\n\\draw[line width=0.8pt] (D)--node[weight,left] {$7$} (G);\n\\draw[line width=0.8pt] (E)--node[weight,left] {$6$} (H);\n\\draw[line width=0.8pt] (F)--node[weight,left] {$7$} (I);\n\\draw[line width=0.8pt] (G)--node[weight,above] {$4$} (H);\n\\draw[line width=0.8pt] (H)--node[weight,above] {$4$} (I);\n\\draw[line width=0.8pt] (C)--node[weight,above right] {$7$} (J);\n\\draw[line width=0.8pt] (F)--node[weight,above] {$2$} (J);\n\\draw[line width=0.8pt] (I)--node[weight,below right] {$4$} (J);\n\\end{tikzpicture}",
+                    "spec": {
+                      "sourcePage": 43,
+                      "sourceRegion": "Question 6 network",
+                      "description": "Ten open circular vertices with external labels; three aligned rows and J to the right of F. All fifteen weighted edges are undirected.",
+                      "mathematics": "AB=4, BC=5, AD=5, BE=5, CF=5, DE=5, EF=4, DG=7, EH=6, FI=7, GH=4, HI=4, CJ=7, FJ=2, IJ=4.",
+                      "answerVisibility": "All edges and weights are permanent givens; no route is highlighted."
+                    }
+                  }
+                ],
+                "children": [
+                  {
+                    "id": "p43-q6-path",
+                    "type": "part",
+                    "label": "",
+                    "prompt": {
+                      "format": "maths-editor-document-v1",
+                      "version": 1,
+                      "blocks": [
+                        {
+                          "id": "p43-q6-path-line",
+                          "type": "paragraph",
+                          "align": "left",
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Path: "
+                            },
+                            {
+                              "type": "cloze",
+                              "answer": "A–B–E–F–J",
+                              "width": 44
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "responseSpace": "scaffold",
+                    "answerSpaceMm": 0,
+                    "answer": {
+                      "short": "A–B–E–F–J",
+                      "worked": "Using Dijkstra’s algorithm from A, the lowest totals at B, E, F and J are 4, 9, 13 and 15. Tracing back from J gives J–F–E–B–A, so the shortest path is A–B–E–F–J.",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  },
+                  {
+                    "id": "p43-q6-weight",
+                    "type": "part",
+                    "label": "",
+                    "prompt": {
+                      "format": "maths-editor-document-v1",
+                      "version": 1,
+                      "blocks": [
+                        {
+                          "id": "p43-q6-weight-line",
+                          "type": "paragraph",
+                          "align": "left",
+                          "inlines": [
+                            {
+                              "type": "text",
+                              "text": "Weight: "
+                            },
+                            {
+                              "type": "cloze",
+                              "answer": "$15$",
+                              "width": 16
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "responseSpace": "scaffold",
+                    "answerSpaceMm": 0,
+                    "answer": {
+                      "short": "$15$",
+                      "worked": "$$\\begin{aligned}\\text{Total weight}&=4+5+4+2\\\\&=15\\end{aligned}$$",
+                      "provenance": {
+                        "short": "source",
+                        "worked": "authored"
+                      }
+                    }
+                  }
+                ]
+              },
+              "sourceReview": {
+                "sourceIdentity": {
+                  "questionLabel": "6"
+                },
+                "teachingContext": [
+                  {
+                    "pageNumber": 38
+                  },
+                  {
+                    "pageNumber": 39
+                  },
+                  {
+                    "pageNumber": 40
+                  }
+                ],
+                "taughtMethodRefs": [
+                  "Shortest path by inspection",
+                  "Dijkstra’s algorithm"
+                ],
+                "responses": [
+                  {
+                    "targetId": "p43-q6-path",
+                    "kind": "cloze"
+                  },
+                  {
+                    "targetId": "p43-q6-weight",
+                    "kind": "cloze"
+                  }
+                ],
+                "workingSpaceEstimate": {
+                  "method": "solution-steps",
+                  "estimates": [
+                    {
+                      "targetId": "p43-q6-path",
+                      "widthMm": 44,
+                      "mathematicalRows": 0,
+                      "answerSpaceMm": 0
+                    },
+                    {
+                      "targetId": "p43-q6-weight",
+                      "widthMm": 16,
+                      "mathematicalRows": 0,
+                      "answerSpaceMm": 0
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "inventoryMappings": [
+        {
+          "inventoryId": "p43-q6",
+          "targetId": "p43-q6-root",
+          "field": "/prompt"
+        },
+        {
+          "inventoryId": "p43-q6-network",
+          "targetId": "p43-q6-network"
+        },
+        {
+          "inventoryId": "p43-q6-answer",
+          "targetId": "p43-q6-path",
+          "field": "/answer/short"
+        },
+        {
+          "inventoryId": "p43-q6-answer",
+          "targetId": "p43-q6-weight",
+          "field": "/answer/short"
+        }
+      ],
+      "findings": [],
+      "corrections": [],
+      "answerEvidence": [
+        {
+          "inventoryId": "p43-q6-answer",
+          "targetId": "p43-q6-path",
+          "field": "/answer/short",
+          "sourcePage": 43,
+          "evidenceId": "evidence-f9b66f878a9ec22971ef835fab3d6420d865df3dea1e2f1483e9f5e6fa8c0a9d",
+          "sourceText": "A-B-E-F-J 15",
+          "match": "The supplied route matches the reconstructed network."
+        },
+        {
+          "inventoryId": "p43-q6-answer",
+          "targetId": "p43-q6-weight",
+          "field": "/answer/short",
+          "sourcePage": 43,
+          "evidenceId": "evidence-f9b66f878a9ec22971ef835fab3d6420d865df3dea1e2f1483e9f5e6fa8c0a9d",
+          "sourceText": "A-B-E-F-J 15",
+          "match": "The supplied weight agrees with 4+5+4+2=15."
+        }
+      ]
+    }
+  ]
+}
