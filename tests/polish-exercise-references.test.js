@@ -466,3 +466,17 @@ test('each graph below uses the existing complete owner-local child-diagram chec
  for(const mode of ['hidden','foreign','multiple','repeated','mixed']){const q=ownDiagramCollection();q.content.prompt='Use each graph below.';const x=localReferenceProject(q);if(mode==='hidden')x.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree('stack',['root/prompt','a-figure'])};if(mode==='foreign'){const d=q.content.children[0].questionDiagrams;delete q.content.children[0].questionDiagrams;x.sections[0].blocks.push({id:'foreign',type:'question',content:{id:'foreign-root',type:'question',prompt:'Other.',questionDiagrams:d}});}if(mode==='multiple')q.content.children[0].questionDiagrams.push({...q.content.children[0].questionDiagrams[0],id:'extra'});if(mode==='repeated')q.content.prompt+=' Use each graph below.';if(mode==='mixed')q.content.prompt+=' Use each diagram below.';assert(resolveExerciseReferences(x).holds.length,mode);}
  const external=ownDiagramCollection();external.content.prompt='Use each graph below. Then use the next question and result above.';const holds=resolveExerciseReferences(localReferenceProject(external)).holds;assert(holds.some(h=>h.quote==='next question'));assert(holds.some(h=>h.quote==='result above'));
 });
+
+test('root grouped each-graph collection retains the complete child-diagram visibility guards',()=>{
+ const make=()=>{const b=ownDiagramCollection();b.content.type='group';b.content.prompt='Give a possible equation for each graph below.';return b;};
+ const b=make(),p=localReferenceProject(b),before=JSON.stringify(p);assert.deepEqual(resolveExerciseReferences(p).holds,[]);assert.deepEqual(unresolvedPrintedQuestionReferences(b,p),[]);assert.equal(JSON.stringify(p),before);
+ for(const mode of ['missing','above','nested','foreign','duplicate']){
+  const q=make(),x=localReferenceProject(q);
+  if(mode==='missing')delete q.content.children[1].questionDiagrams;
+  if(mode==='above')x.settings.layoutOverrides.blockLayouts.own={arrangement:localRefTree('stack',['a-figure','b-figure','root/prompt'])};
+  if(mode==='nested')q.content.children[0].type='group';
+  if(mode==='foreign'){const d=q.content.children[0].questionDiagrams;delete q.content.children[0].questionDiagrams;x.sections[0].blocks.push({id:'foreign',type:'question',content:{id:'foreign-root',type:'question',prompt:'Other.',questionDiagrams:d}});}
+  if(mode==='duplicate')q.content.children[1].questionDiagrams[0].id='a-figure';
+  assert(resolveExerciseReferences(x).holds.length,mode);
+ }
+});

@@ -152,7 +152,7 @@ function ownFollowingDiagram(block,field,project){
 // Do not infer an external figure, a descendant collection or omitted slots.
 function ownChildDiagramsBelow(block,field,project){
  const path=JSON.parse(field.key),node=block.content,parts=node?.children;
- if(path[0]!=='content'||path[1]!=='prompt'||path.lastIndexOf('prompt')!==1||node?.type!=='question'||node.questionDiagrams?.length||!Array.isArray(parts)||parts.length<2)return false;
+ if(path[0]!=='content'||path[1]!=='prompt'||path.lastIndexOf('prompt')!==1||!['question','group'].includes(node?.type)||node.questionDiagrams?.length||!Array.isArray(parts)||parts.length<2)return false;
  if(parts.some(n=>n.type!=='part'||!n.id||n.children?.length||n.questionDiagrams?.length!==1))return false;
  const diagrams=parts.map(n=>n.questionDiagrams[0]),ids=diagrams.map(d=>d?.id);
  if(ids.some(id=>!id)||new Set(ids).size!==ids.length||new Set(parts.map(n=>n.id)).size!==parts.length||diagrams.some(d=>d.role!=null&&d.role!=='question'))return false;
