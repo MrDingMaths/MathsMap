@@ -1,0 +1,41 @@
+{
+  "source": "HSC.NSG.Y12.ADV.2023 Q25",
+  "id": "exam-mb-930bf2e6-3c38-48b3-9114-fb4cc054d039",
+  "reviewedAt": "2026-11-02T08:45:32.759Z",
+  "model": "gpt-6.1-terra",
+  "effort": "high",
+  "provenance": "Configured independent content and initial rating review; no additional model calls, renders, or external fetches.",
+  "pins": {
+    "requestSha256": "08ddacb8525df596b93cd96a3738f135c57582417ee6504eaa6576fd6ae3521f",
+    "blockSha256": "0cf654128479e0917ffaba63662fc4cc4a8b6bcb3eecc872f5a68b88961b30e0",
+    "proofSha256": "696a1e84f25320a4d8dc0280eb1096ab0bb30cceab0854aa137bb7a7634c2af1",
+    "contextSha256": "c254e97f4cd77f6d4f13bbba23260b09981e19f06006333c3b96c59de06b63fc",
+    "originalPngSha256": "46bee3182cdf717e2fc332f04f3c87d755b52120a61c12a93be4d61eb151e1f8",
+    "originalPngActuallyViewed": true,
+    "allMatch": true
+  },
+  "sourceTaskHash": "8e5157633000c6d45d11a222c2d8584ec9971062b6ce31c60680dabb9ec2ebdf",
+  "previousTaskHash": "ba4d3ad2de3f6ef5a1bdac8d06174e4865c17f1a6ee72e39c42be14cec875379",
+  "hashMethod": "reasoningTaskHash from scripts/booklet/reasoning-ratings.mjs, evaluated on the pinned corrected block",
+  "sourceVerdict": "PASS: Original pixels show an unscaled vertical axis, positive derivative before 2 and after 4, negative between, and a smooth minimum around 3. The correction preserves those mathematical features and the endpoint conditions; its unprinted polynomial values are a construction for a possible graph, not numerical givens. The original curve is schematic; the corrected relative shape differs, but does not change a specified ordinate or extremum.",
+  "nativeVerdict": "PASS content-level: crossings 2 and 4, monotonic decrease to 3 and increase thereafter, and sign intervals match the source. Widths, fonts, labels and source wording are retained. Actual rendering was outside this review.",
+  "mathsVerdict": "PASS: consistent derivative and antiderivative with equal endpoint values.",
+  "derivation": "Let g=f'. On 0..2, g=1-x²/4 and integral=4/3. On 2..3 put t=x-2: g=4t³-(11/2)t²-t, integral=1-11/6-1/2=-4/3. Reflection g(x)=g(6-x) gives the two remaining areas -4/3 and 4/3; total 0. At x=2 both pieces equal 0 and slopes equal -1; reflection gives matching value 0 and slope +1 at 4. At 3 the value is -5/2 and both one-sided slopes 0. On 2..3, g'=(t-1)(12t+1)<0; on 0..2, g'=-x/2<0 away from 0; reflection gives increase after 3. Thus f increases, decreases, increases across the intervals, has horizontal local maximum at 2 and minimum at 4, and changes concavity at 3. Integrating gives f=3+x-x³/12 to 2 and f=13/3+t⁴-(11/6)t³-t²/2 to 3; reflection f(x)=6-f(6-x) gives f(3)=3, f(4)=5/3 and f(6)=3. These are unprinted model values, not source givens.",
+  "answerVerdict": "Worked explanation and plotted solution match the corrected derivative and source. The short answer omits the source-essential inflection, so requires the concise addition below.",
+  "scopeEvidence": "Reuse prior reviewed verdict: p3 primitive and p23 endpoint theorem; derivative sign, concavity and sketching are prior calculus transfer.",
+  "primarySkillId": "primitive-initial-condition",
+  "secondarySkillIds": [],
+  "skillVerdict": "Existing primary ID is valid and matches recovery of a primitive from a derivative and point; retain prior scope/method mapping.",
+  "reasoningScore": 62,
+  "difficulty": "Mastery",
+  "difficultyReason": "The student must translate derivative signs and its turning point into the primitive's increasing and decreasing intervals, stationary extrema and change of concavity, then combine these with equal endpoint values in a coherent sketch. The representation change and coordination of several graphical features go beyond a routine single procedure.",
+  "requiredEdits": [
+    {
+      "target": "content.answer.short",
+      "edit": "A possible sketch has a maximum at $x=2$, a minimum at $x=4$, an inflection point near $x=3$, and passes through $(0,3)$ and $(6,3)$.",
+      "reason": "The short answer should include the inflection that the task asks students to deduce and the source solution explicitly identifies."
+    }
+  ],
+  "holds": [],
+  "status": "content review and initial rating complete; short-answer edit required before acceptance; actual render remains outside this review"
+}
