@@ -84,6 +84,7 @@ export function approvedMathsBaseSource(code) {
       || ['HSC.JRUSE.Y12.X2.2022 Q13c', 'HSC.NORM.Y11.X1.2019 Q12b'].includes(String(code).trim())
       || ['HSC.CSSA.STN.2020 Q14', 'HSC.SGG.Y12.STN.2020 Q17'].includes(String(code).trim())
       || String(code).trim() === 'HSC.NEAP.Y11.X1.2022 Q12a'
+      || String(code).trim() === 'HSC.NORM.Y12.X2.2024 Q13a'
       || source.schoolCode === 'NORM' && paperTokens === 'Y11 X1' && year === 2020
       || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV' && [2019, 2022].includes(year)
       || source.schoolCode === 'CSSA' && (paperTokens === 'X1' || retained2019Paper);
