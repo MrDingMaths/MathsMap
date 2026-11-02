@@ -44015,6 +44015,129 @@
           }
         },
         {
+          "id": "exam-mb-ccf2de1b-db29-4303-b35c-5944a8a32213",
+          "type": "question",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "source": {
+            "provider": "PLC",
+            "paper": "Y12 STN T1",
+            "year": "2024",
+            "label": "PLC Y12 STN T1 2024",
+            "origin": "MathsBase"
+          },
+          "classification": {
+            "primarySkillId": "solve-network-problems",
+            "secondarySkillIds": [
+              "minimum-spanning-tree",
+              "describe-networks"
+            ],
+            "archetype": "minimum-closed-garden-tour-degree-mst",
+            "reasoningScore": 53,
+            "difficulty": "Mastery",
+            "difficultyReason": "The hardest part requires selecting and comparing complete closed routes through all five gardens, interpreting the network and its weights; the degree and explicitly named spanning-tree tasks are more routine.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-02T20:48:01.924Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "b46d2b6378bbaf447fc23d3faa052369ae1ae67068850932338c618c5c2cad1b",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session7-network-r233-preparation/plc-closed-tour-authentic-native-review.json",
+              "requestedEffort": "high"
+            }
+          },
+          "content": {
+            "id": "exam-mb-ccf2de1b-db29-4303-b35c-5944a8a32213-root",
+            "type": "group",
+            "label": null,
+            "prompt": "The network diagram below shows a park with $5$ gardens that are joined by paths to the gate.\nThe numbers show the distance along the paths in metres.",
+            "answerSpaceMm": 0,
+            "questionDiagrams": [
+              {
+                "id": "plc-closed-tour-original-graph",
+                "format": "tikz",
+                "role": "question",
+                "widthMm": 115,
+                "reviewStatus": "needs-review",
+                "code": "\\begin{tikzpicture}[every node/.style={font=\\large}, scale=2]\n\\coordinate (A) at (0,1.1);\n\\coordinate (B) at (1.25,2.15);\n\\coordinate (C) at (1.35,0);\n\\coordinate (F) at (2.15,1.15);\n\\coordinate (D) at (3.05,2.15);\n\\coordinate (E) at (4.45,1.05);\n\\draw (A) -- (B) node[midway, above left, fill=white, inner sep=1pt] {$30$};\n\\draw (A) -- (C) node[midway, below left, fill=white, inner sep=1pt] {$40$};\n\\draw (B) -- (C) node[midway, left, fill=white, inner sep=1pt] {$150$};\n\\draw (B) -- (D) node[midway, above, fill=white, inner sep=1pt] {$200$};\n\\draw (D) -- (E) node[midway, above right, fill=white, inner sep=1pt] {$80$};\n\\draw (C) -- (E) node[midway, below right, fill=white, inner sep=1pt] {$120$};\n\\draw (B) -- (F) node[midway, above right, fill=white, inner sep=1pt] {$70$};\n\\draw (F) -- (D) node[midway, above right, fill=white, inner sep=1pt] {$90$};\n\\draw (F) -- (C) node[midway, right, fill=white, inner sep=1pt] {$85$};\n\\fill (A) circle (1.5pt) node[left] {$A$};\n\\node[below left] at (A) {Gate};\n\\fill (B) circle (1.5pt) node[above] {$B$};\n\\fill (C) circle (1.5pt) node[below] {$C$};\n\\fill (D) circle (1.5pt) node[above] {$D$};\n\\fill (E) circle (1.5pt) node[right] {$E$};\n\\fill (F) circle (1.5pt) node[below right] {$F$};\n\\end{tikzpicture}"
+              }
+            ],
+            "children": [
+              {
+                "id": "plc-tour-degrees",
+                "type": "part",
+                "label": "a",
+                "prompt": "What is the degree of each vertex?",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$A:2, B:4, C:4, D:3, E:2, F:3$.",
+                  "worked": "Count each incident edge at its vertex: $A:2, B:4, C:4, D:3, E:2, F:3$."
+                }
+              },
+              {
+                "id": "plc-tour-minimum",
+                "type": "part",
+                "label": "b",
+                "prompt": "What is the minimum distance a person would have to walk to visit every garden, starting and ending at the same gate?",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$430\\text{ m}$; $A\\to B\\to F\\to D\\to E\\to C\\to A$.",
+                  "worked": "A shortest route is $A\\to B\\to F\\to D\\to E\\to C\\to A$.\n$$30+70+90+80+120+40=430\\text{ m}.$$"
+                }
+              },
+              {
+                "id": "plc-tour-pipes",
+                "type": "part",
+                "label": "c",
+                "prompt": "Each garden needs to be connected by a water pipe located along a path.\nShow the minimum spanning tree on the diagram above and state the amount of the minimum pipe needed.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$AB, AC, BF, FD, DE$; $310\\text{ m}$.",
+                  "worked": "The minimum spanning tree uses $AB, AC, BF, FD$ and $DE$.\n$$30+40+70+90+80=310\\text{ m}.$$ The minimum amount of pipe needed is $310\\text{ m}$.",
+                  "solutionDiagrams": [
+                    {
+                      "id": "plc-closed-tour-original-mst",
+                      "format": "tikz",
+                      "role": "solution",
+                      "widthMm": 85,
+                      "reviewStatus": "needs-review",
+                      "code": "\\begin{tikzpicture}[every node/.style={font=\\large}, scale=1.1]\n\\coordinate (A) at (0,1.1);\n\\coordinate (B) at (1.25,2.15);\n\\coordinate (C) at (1.35,0);\n\\coordinate (F) at (2.15,1.15);\n\\coordinate (D) at (3.05,2.15);\n\\coordinate (E) at (4.45,1.05);\n\\draw[thick] (A) -- (B) node[midway, above left, fill=white, inner sep=1pt] {$30$};\n\\draw[thick] (A) -- (C) node[midway, below left, fill=white, inner sep=1pt] {$40$};\n\\draw[dashed] (B) -- (C);\n\\draw[dashed] (B) -- (D);\n\\draw[thick] (D) -- (E) node[midway, above right, fill=white, inner sep=1pt] {$80$};\n\\draw[dashed] (C) -- (E);\n\\draw[thick] (B) -- (F) node[midway, above right, fill=white, inner sep=1pt] {$70$};\n\\draw[thick] (F) -- (D) node[midway, above right, fill=white, inner sep=1pt] {$90$};\n\\draw[dashed] (F) -- (C);\n\\fill (A) circle (1.5pt) node[left] {$A$};\n\\node[below left] at (A) {Gate};\n\\fill (B) circle (1.5pt) node[above] {$B$};\n\\fill (C) circle (1.5pt) node[below] {$C$};\n\\fill (D) circle (1.5pt) node[above] {$D$};\n\\fill (E) circle (1.5pt) node[right] {$E$};\n\\fill (F) circle (1.5pt) node[below right] {$F$};\n\\end{tikzpicture}"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "ccf2de1b-db29-4303-b35c-5944a8a32213",
+              "sourceCode": "PLC.Y12.STN.2024.T1 S3Q13",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/126.json"
+            },
+            "adaptation": {
+              "kind": "faithful-exam-source-conversion",
+              "authorModel": "gpt-6.1-sol",
+              "authorEffort": "low",
+              "allocationMarksOnlyOmitted": true
+            },
+            "sourceFigureInspection": "pending actual original-inline-TikZ output",
+            "independentReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session7-network-r233-preparation/plc-closed-tour-authentic-native-review.json",
+              "sha256": "9a0cfe14154cb49d78f88dbf9665a36f6f79a2e6ff35ad39a89171eed6e00e4b",
+              "rawAccepted": false,
+              "sourcePreserved": true,
+              "answersVerified": true,
+              "localEvidenceResolutions": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session7-network-r233-preparation/plc-closed-tour-local-review-resolutions.json",
+              "finalVisual": "pending"
+            },
+            "additionTo": {
+              "projectId": "network-concepts-v1",
+              "blockId": "p45-q10"
+            }
+          }
+        },
+        {
           "id": "p10-q13",
           "type": "question",
           "sourceOrder": 13,
@@ -56568,10 +56691,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 235,
+  "revision": 236,
   "assets": [],
   "createdAt": "2026-10-24T07:00:19.007Z",
-  "updatedAt": "2026-11-02T20:25:35.325Z",
+  "updatedAt": "2026-11-02T21:01:14.766Z",
   "library": {
     "category": "master",
     "courseId": "s6-std11",
