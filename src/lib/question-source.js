@@ -87,6 +87,7 @@ export function approvedMathsBaseSource(code) {
       || String(code).trim() === 'HSC.NORM.Y12.X2.2024 Q13a'
       || source.schoolCode === 'NORM' && paperTokens === 'Y11 X1' && year === 2020
       || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV' && [2019, 2022].includes(year)
+      || String(code).trim() === 'HSC.KNOX.Y11.ADV.2023 Q27b'
       || source.schoolCode === 'CSSA' && (paperTokens === 'X1' || retained2019Paper);
     if (!recognised || after.length || year < 2020 && !retained2019Paper || year > 2026) return source;
     const course = {ADV:'Advanced', X1:'Extension 1', X2:'Extension 2', STN:'Standard'}[tokens.at(-1)];
