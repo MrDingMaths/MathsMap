@@ -74,6 +74,7 @@ export function approvedMathsBaseSource(code) {
       source.schoolCode === 'SGG' && paperTokens === 'Y11 ADV'
       || source.schoolCode === 'CSSA' && paperTokens === 'STN'
       || String(code).trim() === 'HSC.NORM.Y11.X1.2019 Q12b'
+      || ['HSC.NSG.Y11.ADV.2019 Q14b', 'HSC.SYDGR.Y11.ADV.2019 Q12b'].includes(String(code).trim())
       || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV'
     );
     const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
@@ -88,6 +89,7 @@ export function approvedMathsBaseSource(code) {
       || source.schoolCode === 'NORM' && paperTokens === 'Y11 X1' && year === 2020
       || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV' && [2019, 2022].includes(year)
       || String(code).trim() === 'HSC.KNOX.Y11.ADV.2023 Q27b'
+      || ['HSC.KNOX.Y11.ADV.2020 Q14a', 'HSC.KNOX.Y11.ADV.2020 Q16d'].includes(String(code).trim())
       || source.schoolCode === 'CSSA' && (paperTokens === 'X1' || retained2019Paper);
     if (!recognised || after.length || year < 2020 && !retained2019Paper || year > 2026) return source;
     const course = {ADV:'Advanced', X1:'Extension 1', X2:'Extension 2', STN:'Standard'}[tokens.at(-1)];
