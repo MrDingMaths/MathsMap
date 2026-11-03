@@ -96,6 +96,8 @@ Recovery checked actual process/evidence state: the further Negative HCF p5-q4 r
 
 Scope: Stage 5/6 teaching masters, not class copies, exemplars or textbook review chapters. Implement phases 1–6 against actual repository state. Phase 7 and source-dependent textbook imports wait for James to finalise the imports. Never import question-bank content into booklets during this programme.
 
+3 November (user requested): Exam completion follows [the completion workflow](booklet-exam-completion.md). Each master has one closure record on the current source screen, with every pool question classed and the closure criteria checked against the saved project. Each master has at most one open proposal, amended instead of superseded. Saves go through `pedagogy/exam-publish.mjs`, which writes a ledger row. Commits are taken from the live file. Cosmetic label holds and practice-phase holds never block Exam closure.
+
 ## Approval boundaries
 
 Each phase is piloted before validated rollout. On 28 October James approved the real-source label mapping (preserve explicit course/year levels and undated samples), minimum three independent practice items per archetype, maximum score step ten and routine questions below 65, retaining larger original exercise needs. He approved basic substitution/evaluation as prior knowledge for Year 11 Extension 1, then clarified that any proposed prerequisite retrieval belongs in a Review-block suggestion for his decision, never a missing worked-example claim or automatic addition. A pilot report alone is not validation. New skill proposals require approval. Preserve class copies until James decides.

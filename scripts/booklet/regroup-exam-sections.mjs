@@ -14,7 +14,7 @@ export function sourceFromBookletTitle(block) {
   const year=title.match(/\b((?:19|20)\d{2})\b/)?.[1];
   if(!paper)return !year&&/^HSC Sample Question$/i.test(title)?{provider:'HSC',label:title,origin:'booklet'}:null;
   if(!year&&!/\bSample(?:\s+(?:Advanced|Extension\s+[12]|Standard(?:\s+[12])?))?\s+Question\b/i.test(title))return null;
-  return {provider:'HSC',paper,...(year?{year}:{}),label:year?`HSC ${paper} ${year}`:`HSC ${paper} sample`,origin:'booklet'};
+  return {provider:'HSC',paper,...(year?{year}:{}),label:year?`HSC ${paper} ${year}`:`HSC ${paper} Sample Question`,origin:'booklet'};
 }
 
 export function existingExamCandidate(project,{courses=[],excludedIds=[]}={}) {

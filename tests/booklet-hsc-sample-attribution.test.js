@@ -13,7 +13,7 @@ test('sample recognition does not absorb practice titles or prose references',()
 test('known sample courses receive readable attribution without invented year or paper question',()=>{
  for(const paper of ['Advanced','Extension 1','Extension 2','Standard 2']){
   const source=sourceFromBookletTitle({title:`HSC Sample ${paper} Question Band 4`});
-  assert.deepEqual(source,{provider:'HSC',paper,label:`HSC ${paper} sample`,origin:'booklet'});
+  assert.deepEqual(source,{provider:'HSC',paper,label:`HSC ${paper} Sample Question`,origin:'booklet'});
  }
  assert.equal(sourceFromBookletTitle({title:'2010 HSC Advanced Question Band 5'}).label,'HSC Advanced 2010');
 });

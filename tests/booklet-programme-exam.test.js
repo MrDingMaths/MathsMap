@@ -111,7 +111,7 @@ test('raw-code identity cannot be bypassed using a recognised booklet title', ()
 test('existing approved undated samples reuse the booklet parser and never invent a year', () => {
   const block = {id: 'sample', type: 'question', title: 'HSC Sample Advanced Question Band 4', content: {prompt: 'Keep source task.'}};
   const section = requireProgrammeExamSection(options(block));
-  assert.equal(section.blocks[0].source.label, 'HSC Sample Advanced Question');
+  assert.equal(section.blocks[0].source.label, 'HSC Advanced Sample Question');
   assert.equal(Object.hasOwn(section.blocks[0].source, 'year'), false);
   assert.equal(createProgrammeExamSection(options({...block, title: 'HSC Question'})).section, null);
   assert.equal(createProgrammeExamSection(options({...block, source: {provider: 'HSC', label: 'Arbitrary sample'}})).section, null);
