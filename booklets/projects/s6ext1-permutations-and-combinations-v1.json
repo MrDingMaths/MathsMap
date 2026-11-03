@@ -66763,6 +66763,150 @@
           },
           "snapshotKind": "local",
           "bankRef": null
+        },
+        {
+          "id": "exam-mb-cb54f2f9-78a7-4864-9d2f-8e153bf7af0c",
+          "type": "question",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "source": {
+            "provider": "HSC",
+            "paper": "Extension 2",
+            "year": "2012",
+            "label": "HSC Extension 2 2012",
+            "origin": "MathsBase"
+          },
+          "classification": {
+            "primarySkillId": "probability-perm-comb",
+            "secondarySkillIds": [
+              "permutations-nPr"
+            ],
+            "reasoningScore": 86,
+            "difficulty": "Challenge",
+            "difficultyReason": "Across the whole scaffolded task, the decisive final demand is to connect an adjacent-probability comparison, a quadratic threshold, an integer inequality and a discrete mode. Earlier parts direct substantial work, but assembling the global argument still requires a nonroutine insight.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-03T02:11:26.488Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "ec2f325ea603fbaad23c5adbb5001281d6629b287b3a758af8c25ef2f891f053",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-permutations-r6-local/approved-X-final-task-acceptance-result.json",
+              "effort": "high"
+            }
+          },
+          "content": {
+            "id": "exam-mb-cb54f2f9-78a7-4864-9d2f-8e153bf7af0c-root",
+            "type": "group",
+            "label": null,
+            "prompt": "Let $n$ be an integer where $n > 1$.\nIntegers from 1 to $n$ inclusive are selected randomly one by one with repetition being possible.\nEach selection is independent, and each of the integers from 1 to n is equally likely on every selection.\nLet $P(k)$ be the probability that exactly $k$ different integers are selected before one of them is selected for the second time, where $1 \\leq k \\leq n$.",
+            "answerSpaceMm": 0,
+            "questionDiagrams": [],
+            "answer": {
+              "short": "",
+              "worked": "",
+              "solutionDiagrams": []
+            },
+            "children": [
+              {
+                "id": "exam-mb-cb54f2f9-78a7-4864-9d2f-8e153bf7af0c-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Explain why\n$$P(k) = \\frac{(n-1)!k}{n^k(n-k)!}$$",
+                "answerSpaceMm": 0,
+                "questionDiagrams": [],
+                "answer": {
+                  "short": "$P(k)=\\frac{(n-1)!k}{n^k(n-k)!}$.",
+                  "worked": "$$\\begin{align*}\nP(k) &= \\frac{n}{n} \\times \\frac{(n-1)}{n} \\times \\dots \\times \\frac{n-k+1}{n} \\times \\frac{k}{n} \\\\\n&= 1 \\times \\frac{1}{n^{k-1}} \\times \\frac{(n-1)!}{(n-k)!} \\times \\frac{k}{n} \\\\\n&= \\frac{(n-1)!k}{n^k(n-k)!}\n\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "children": []
+              },
+              {
+                "id": "exam-mb-cb54f2f9-78a7-4864-9d2f-8e153bf7af0c-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Suppose $P(k) \\geq P(k-1)$.\nShow that $k^2-k-n \\leq 0$.",
+                "answerSpaceMm": 0,
+                "questionDiagrams": [],
+                "answer": {
+                  "short": "$k^2-k-n\\leq0$.",
+                  "worked": "The comparison uses $P(k-1)$, so its natural domain is $2\\leq k\\leq n$. All probabilities in the following ratio are positive:\n$$\\frac{P(k)}{P(k-1)}=\\frac{k(n-k+1)}{n(k-1)}.$$\nThus, on this domain,\n$$\\begin{aligned}P(k)\\geq P(k-1)&\\iff k(n-k+1)\\geq n(k-1)\\\\&\\iff -k^2+k+n\\geq0\\\\&\\iff k^2-k-n\\leq0.\\end{aligned}$$\nAt $k=1$, the comparison is undefined because the source does not define $P(0)$; no value of $P(0)$ is assumed.",
+                  "solutionDiagrams": []
+                },
+                "children": []
+              },
+              {
+                "id": "exam-mb-cb54f2f9-78a7-4864-9d2f-8e153bf7af0c-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "Show that if $\\sqrt{n+\\frac{1}{4}} > k-\\frac{1}{2}$ then the integers $n$ and $k$ satisfy $\\sqrt{n} > k-\\frac{1}{2}$.",
+                "answerSpaceMm": 0,
+                "questionDiagrams": [],
+                "answer": {
+                  "short": "$\\sqrt n>k-\\frac12$.",
+                  "worked": "Suppose $\\sqrt{n+\\frac{1}{4}} > k - \\frac{1}{2}$. Then:\n$$\\begin{align*}\nn + \\frac{1}{4} &> \\left(k - \\frac{1}{2}\\right)^2 \\\\\nn + \\frac{1}{4} &> k^2 - k + \\frac{1}{4} \\\\\nn &> k(k-1)\n\\end{align*}$$\nSince $n$ and $k$ are integers:\n$$\\begin{align*}\nn &\\geq k(k-1) + 1 \\\\\nn &\\geq k^2 - k + 1\n\\end{align*}$$\nSince $k^2 - k + 1 > k^2 - k + \\frac{1}{4} = \\left(k - \\frac{1}{2}\\right)^2$:\n$$\\begin{align*}\nn &> \\left(k - \\frac{1}{2}\\right)^2 \\\\\n\\sqrt{n} &> k - \\frac{1}{2}\n\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "children": []
+              },
+              {
+                "id": "exam-mb-cb54f2f9-78a7-4864-9d2f-8e153bf7af0c-d",
+                "type": "part",
+                "label": "d",
+                "prompt": "Hence show that if $4n+1$ is not a perfect square, then $P(k)$ is greatest when $k$ is the closest integer to $\\sqrt{n}$.\nYou may use part (c) and also that $k^2-k-n > 0$ if $P(k) < P(k-1)$.",
+                "answerSpaceMm": 0,
+                "questionDiagrams": [],
+                "answer": {
+                  "short": "$k$ is the closest integer to $\\sqrt n$.",
+                  "worked": "For $2\\leq k\\leq n$, part (b) gives the positive ratio\n$$\\frac{P(k)}{P(k-1)}=\\frac{k(n-k+1)}{n(k-1)}.$$\nIt is greater than $1$ exactly when $k^2-k-n<0$, and less than $1$ exactly when $k^2-k-n>0$.\nLet $r=\\frac12+\\sqrt{n+\\frac14}$, the positive root of $k^2-k-n=0$. Since $4n+1$ is not a perfect square, $r$ is not an integer. Therefore the ratios are greater than $1$ for integer $k<r$ and less than $1$ for integer $k>r$.\nThe case $n=2$ is excluded by $4n+1=9$. For the remaining integers $n\\geq3$, $2<r<n$. Starting at the defined endpoint $P(1)$, the sequence therefore increases to $P(\\lfloor r\\rfloor)$ and decreases thereafter. Its unique maximum is at $k=\\lfloor r\\rfloor$.\nBy part (c), and its immediate converse using $\\sqrt n<\\sqrt{n+\\frac14}$, for integer $k\\geq1$,\n$$k<r\\iff k-\\frac12<\\sqrt n.$$\nHence $\\lfloor r\\rfloor$ is the greatest integer below $\\sqrt n+\\frac12$, which is the unique closest integer to $\\sqrt n$. The argument starts at $P(1)$ and never uses $P(0)$.",
+                  "solutionDiagrams": []
+                },
+                "children": []
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "cb54f2f9-78a7-4864-9d2f-8e153bf7af0c",
+              "sourceCode": "HSC.X2.2012 Q16c",
+              "readSnapshot": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-permutations-r6-local/two-exact-retained-originals.json",
+              "sourceQuestionSha256": "6f077fd484c9a4c75ca02dc3580333573c1d60f01eba14c003ac359dc61d6c71",
+              "sourceSolutionSha256": "2c544ca07a0ccb26935fbe3832353ffef29fbf5a9f365edaf8669a20c604a7aa"
+            },
+            "nativeConversionStatus": "APPROVED-X-FINAL-TASK-ACCEPTED-RETAINED86-VISUAL-PENDING",
+            "sourcePolicy": "User-approved exact independent/uniform sentence resolves source model ambiguity; b/d Worked proofs corrected by initial reviewer prescriptions. Full original question/solution, P(0) limitation and correction history retained; no P(0) extension.",
+            "initialReview": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-permutations-r6-local/two-initial-review-result.json",
+              "sha256": "50049c12b90a6f9e9a03a0427fed9fe0c8b071608dcb3c53b90a23bab2ac36c0",
+              "score": 86
+            },
+            "finalTaskAcceptance": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-permutations-r6-local/approved-X-final-task-acceptance-result.json",
+              "sha256": "282135712433430f52907753e3d87726ceaaa17f05d25527a76224f1bfdddf5e",
+              "sourceTaskHash": "f23d63bdb54a12a2c7dcbf0c52444315cac6b11d20aedf06c721ccffc350421e",
+              "targetTaskHash": "ec2f325ea603fbaad23c5adbb5001281d6629b287b3a758af8c25ef2f891f053",
+              "retainedOriginalNumericAssessment": true,
+              "newNumericAssessment": false,
+              "nativeDispatch": {
+                "agent": "/root/permutations_approved_x_final_acceptance",
+                "configuredModel": "gpt-6.1-terra",
+                "configuredReasoningEffort": "high",
+                "provenance": "Native collaboration.spawn_agent explicitly configured model gpt-6.1-terra and reasoning_effort high with fork_turns none; launch returned this exact canonical task name. Reviewer self-attestation caveat retained raw; configured dispatch provenance is the tool launch, not a claim of backend self-attestation."
+              }
+            },
+            "correctionHistory": {
+              "file": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session8-permutations-r6-local/approved-X-source-correction-history.json",
+              "sha256": "3c44cd96edc5b9bf35f62ebcf688eb2dd34d8527c0d07890f218cd2b6f537d19"
+            },
+            "additionTo": {
+              "projectId": "s6ext1-permutations-and-combinations-v1",
+              "blockId": "p84-q8"
+            }
+          },
+          "flow": {
+            "keepTogether": true
+          }
         }
       ],
       "pageBreakBefore": false,
@@ -88424,10 +88568,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 7,
+  "revision": 8,
   "assets": [],
   "createdAt": "2026-10-28T10:32:17.019Z",
-  "updatedAt": "2026-11-03T02:04:56.174Z",
+  "updatedAt": "2026-11-03T02:35:27.369Z",
   "library": {
     "category": "master",
     "courseId": "s6-ext1-11",
