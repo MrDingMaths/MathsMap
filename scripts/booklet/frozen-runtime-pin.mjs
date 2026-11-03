@@ -14,7 +14,7 @@ const fileBuffer=Buffer.allocUnsafe(1024*1024);
 const hash=file=>{const digest=createHash('sha256'),fd=fs.openSync(file,'r');try{let count;while((count=fs.readSync(fd,fileBuffer,0,fileBuffer.length,null)))digest.update(fileBuffer.subarray(0,count));return digest.digest('hex');}finally{fs.closeSync(fd);}};
 const inside=(root,file)=>{const r=path.relative(root,file);return r===''||r!=='..'&&!r.startsWith('..'+path.sep)&&!path.isAbsolute(r);};
 const entries=['src','data','public','scripts','polish','checks','paginate','first-pass','bench','sweep','docs','AGENTS.md','index.html','vite.config.js','package.json','package-lock.json'];
-export const PIN_OVERLAYS=['scripts/booklet/frozen-runtime-pin.mjs','scripts/booklet/frozen-dependencies.mjs','scripts/booklet/frozen-engines.mjs','scripts/booklet/browser-launch.mjs','scripts/booklet/browser-engine-mirror.mjs','scripts/booklet/browser-mirror-lifecycle.mjs','scripts/booklet/import-verification-runtime.mjs','scripts/booklet/lean-review.mjs','scripts/booklet/lean-import.mjs','scripts/booklet/transcription.mjs','first-pass/review.mjs','bench/render-geometry.mjs','paginate/optimise.mjs','scripts/booklet/check-compact-exercises.mjs','scripts/booklet/check-feedback-pages.mjs','scripts/booklet/export-pdf.mjs'];
+export const PIN_OVERLAYS=['scripts/booklet/frozen-runtime-pin.mjs','scripts/booklet/frozen-dependencies.mjs','scripts/booklet/frozen-engines.mjs','scripts/booklet/browser-launch.mjs','scripts/booklet/shared-browser-engine.mjs','scripts/booklet/browser-engine-mirror.mjs','scripts/booklet/browser-mirror-lifecycle.mjs','scripts/booklet/import-verification-runtime.mjs','scripts/booklet/lean-review.mjs','scripts/booklet/lean-import.mjs','scripts/booklet/transcription.mjs','first-pass/review.mjs','bench/render-geometry.mjs','paginate/optimise.mjs','scripts/booklet/check-compact-exercises.mjs','scripts/booklet/check-feedback-pages.mjs','scripts/booklet/export-pdf.mjs'];
 
 export function readPinnedRuntime(root){
  const file=path.join(path.resolve(root),PIN_FILE);
@@ -102,9 +102,13 @@ export async function dispatchPinnedCli(metaUrl,args){
   if(!runDir||!inside(pin.workRoot,runDir))throw Error('Pinned command needs a canonical run for its private browser mirror');
   const {createPrivateMirror,verifyPrivateMirror}=await import('./browser-engine-mirror.mjs');
   const mirrorParent=path.join(runDir,'lean-review','browser-mirrors');fs.mkdirSync(mirrorParent,{recursive:true});
-  binding=createPrivateMirror(pin.root,path.join(mirrorParent,`${Date.now()}-${process.pid}`));
-  const browser=verifyPrivateMirror(binding.receiptFile,binding.receiptSha256,pin.manifestHash);
+  const shared=pin.files.some(row=>row.path==='scripts/booklet/shared-browser-engine.mjs');
+  const sharedApi=shared?await import('./shared-browser-engine.mjs'):null;
+  binding=shared?sharedApi.createSharedEngineBinding(pin.root,path.join(mirrorParent,`${Date.now()}-${process.pid}`)):createPrivateMirror(pin.root,path.join(mirrorParent,`${Date.now()}-${process.pid}`));
+  binding.mode=shared?'shared':'legacy-private';
+  const browser=shared?sharedApi.verifySharedEngineBinding(binding.receiptFile,binding.receiptSha256,pin.manifestHash):verifyPrivateMirror(binding.receiptFile,binding.receiptSha256,pin.manifestHash);
   const env={...process.env,NODE_ENV:'development',MATHSMAP_BOOKLET_WORK_ROOT:pin.workRoot,MATHSMAP_RUNTIME_PIN_HASH:pin.manifestHash,MATHSMAP_BOOKLET_CHROMIUM:browser.executable,MATHSMAP_BROWSER_MIRROR_RECEIPT:binding.receiptFile,MATHSMAP_BROWSER_MIRROR_SHA256:binding.receiptSha256,MATHSMAP_BOOKLET_BASE:server?'http://127.0.0.1:'+server.info.port:'http://127.0.0.1:1'};
+  if(shared){delete env.MATHSMAP_BROWSER_MIRROR_RECEIPT;delete env.MATHSMAP_BROWSER_MIRROR_SHA256;env.MATHSMAP_SHARED_BROWSER_RECEIPT=binding.receiptFile;env.MATHSMAP_SHARED_BROWSER_SHA256=binding.receiptSha256;}else{delete env.MATHSMAP_SHARED_BROWSER_RECEIPT;delete env.MATHSMAP_SHARED_BROWSER_SHA256;}
   delete env.NODE_PATH;delete env.NODE_OPTIONS;
   const status=await new Promise((resolve,reject)=>{const child=spawn(pin.engines.node.executable,[path.join(pin.root,relative),...forwarded],{cwd:pin.root,env,windowsHide:true,stdio:'inherit'});child.once('error',reject);child.once('close',resolve);});
   process.exitCode=status??1;return true;
@@ -112,7 +116,7 @@ export async function dispatchPinnedCli(metaUrl,args){
  finally{
   const errors=[];try{await server?.close();}catch(error){errors.push(error);}
   try{if(verifyPinnedRuntime(pin.root).manifestHash!==pin.manifestHash)throw Error('Pinned runtime changed');}catch(error){errors.push(error);}
-  if(binding)try{const {verifyPrivateMirror}=await import('./browser-engine-mirror.mjs');verifyPrivateMirror(binding.receiptFile,binding.receiptSha256,pin.manifestHash);if(fs.existsSync(path.join(path.dirname(binding.receiptFile),'browser-active.lease')))throw Error('Browser ownership remains unresolved; mirror lease retained');}catch(error){errors.push(error);}
+  if(binding)try{if(binding.mode==='shared'){const {verifySharedEngineBinding}=await import('./shared-browser-engine.mjs');verifySharedEngineBinding(binding.receiptFile,binding.receiptSha256,pin.manifestHash);}else{const {verifyPrivateMirror}=await import('./browser-engine-mirror.mjs');verifyPrivateMirror(binding.receiptFile,binding.receiptSha256,pin.manifestHash);}if(fs.existsSync(path.join(path.dirname(binding.receiptFile),'browser-active.lease')))throw Error('Browser ownership remains unresolved; mirror lease retained');}catch(error){errors.push(error);}
   if(errors.length)throw new AggregateError(failure?[failure,...errors]:errors,'Pinned dispatch cleanup failed');
  }
 }

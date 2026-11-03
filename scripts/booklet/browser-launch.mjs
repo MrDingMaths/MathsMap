@@ -1,10 +1,19 @@
 import path from 'node:path';
 import {verifyPrivateMirror} from './browser-engine-mirror.mjs';
 import {launchPrivateMirror} from './browser-mirror-lifecycle.mjs';
+import {verifySharedEngineBinding,launchSharedEngine} from './shared-browser-engine.mjs';
 // A pinned executable is mandatory when supplied; never fall back to a live browser.
 export async function launchChromium(chromium,options={headless:true}){
  const executablePath=process.env.MATHSMAP_BOOKLET_CHROMIUM;
  if(process.env.MATHSMAP_RUNTIME_PIN_HASH){
+  if(process.env.MATHSMAP_SHARED_BROWSER_RECEIPT){
+   if(process.env.MATHSMAP_BROWSER_MIRROR_RECEIPT)throw Error('Ambiguous pinned browser bindings');
+   const receiptFile=process.env.MATHSMAP_SHARED_BROWSER_RECEIPT,receiptSha256=process.env.MATHSMAP_SHARED_BROWSER_SHA256,pinHash=process.env.MATHSMAP_RUNTIME_PIN_HASH;
+   if(!receiptSha256||!executablePath)throw Error('Missing shared pinned browser binding');
+   const binding=verifySharedEngineBinding(receiptFile,receiptSha256,pinHash);
+   if(path.resolve(executablePath).toLowerCase()!==path.resolve(binding.executable).toLowerCase())throw Error('Shared executable differs from binding');
+   return launchSharedEngine(chromium,{receiptFile,receiptSha256,pinHash,options});
+  }
   const receiptFile=process.env.MATHSMAP_BROWSER_MIRROR_RECEIPT,receiptSha256=process.env.MATHSMAP_BROWSER_MIRROR_SHA256,pinHash=process.env.MATHSMAP_RUNTIME_PIN_HASH;
   if(!receiptFile||!receiptSha256||!executablePath)throw Error('Pinned browser requires an explicit per-host mirror binding');
   const binding=verifyPrivateMirror(receiptFile,receiptSha256,pinHash);
