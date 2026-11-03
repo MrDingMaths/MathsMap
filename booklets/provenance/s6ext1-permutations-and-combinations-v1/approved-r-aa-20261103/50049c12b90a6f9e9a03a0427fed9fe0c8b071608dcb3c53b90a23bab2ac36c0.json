@@ -1,0 +1,75 @@
+{
+  "status": "independent-initial-review-complete-corrections-required",
+  "projectId": "s6ext1-permutations-and-combinations-v1",
+  "revision": 6,
+  "scope": "One combined semantic initial review of the two exact whole tasks; no rendered-dimension acceptance or publication.",
+  "inputHashes": {
+    "request": "859986837c808e576cf2795b934c2c5394bd381f46924797ccea0d4efa281134",
+    "originals": "304849beed8745cca7e27ce5175bed0438b9668b7a4efafc6883a35dfcaff46f",
+    "native": "f91c8e80d9b5db190554176d2ca7d3cbdeee982797e709eed89ffd5890ca0c90"
+  },
+  "rubric": "mathsmap-cognitive-demand-v1",
+  "tasks": [
+    {
+      "id": "3f97146e-66e7-4fda-87f8-042cd81eaf3d",
+      "sourceCode": "HSC.NSG.Y12.X1.2024 Q10",
+      "acceptance": "content-and-answer-accepted-subject-to-source-label-hold",
+      "source": "Native prompt and options faithfully reproduce retained original; approved mark omission. The retained provider explicitly has source-label-hold: the expanded North Sydney Girls label needs independent resolution under that hold, not acceptance inferred from the code alone.",
+      "mathematicsAndAnswers": "IMPRESSION has ten letters, with two I and two S. Choose five positions for the unique ordered P,R,E,S,S subsequence and arrange O,N,I,M,I in the remainder: C(10,5)5!/2! = 10!/(5!2!) = 15120, option B. There is exactly one representation per valid word because there are exactly two S; no overcount from the repeated S.",
+      "taughtScope": "In scope: restrictions, choosing positions, multiplication and identical elements are taught on pages 24, 39–41 and 52–54; combining them for a nonadjacent ordered subsequence is an appropriate exam application.",
+      "skillMapping": {
+        "primarySkillId": "permutations-restrictions",
+        "secondarySkillIds": [
+          "permutations-not-distinct",
+          "combinations-nCr"
+        ],
+        "rationale": "The fixed relative-order restriction drives the count; repeated letters and position selection support it. All IDs are existing taxonomy IDs."
+      },
+      "rating": {
+        "score": 60,
+        "difficulty": "Mastery",
+        "rationale": "Requires reframing a relative-order, nonadjacent restriction as a choice of positions and accounting for repeated letters; the example and multiple-choice options provide some support, but do not supply the count."
+      },
+      "minimumSet": "Distinctive relative-order restriction combines repetition and choice of positions, so it contributes a nonduplicate exam archetype within the supplied set. This is a task-level contribution, not a certification that the entire exam set meets a global minimum.",
+      "requiredEdits": [],
+      "outstandingDecision": "Resolve the separately recorded source-label hold before asserting the expanded school label as verified."
+    },
+    {
+      "id": "cb54f2f9-78a7-4864-9d2f-8e153bf7af0c",
+      "sourceCode": "HSC.X2.2012 Q16c",
+      "acceptance": "correction-required",
+      "source": "Native reproduces the retained statement and solutions, preserving all four parts as a–d and the reference to part c; approved omission of source marks. Source states random selection with repetition but does not explicitly state independent, uniformly distributed draws. Its displayed probability presupposes both; preserve the actual givens and identify this source ambiguity for a source clarification decision rather than silently asserting them as given.",
+      "mathematicsAndAnswers": "Under independent uniform draws, part a is the product of probabilities of k distinct first draws and a repeat on the next. Part b holds precisely on its natural comparison domain 2 <= k <= n: P(k)/P(k-1)=k(n-k+1)/(n(k-1)), so the inequality is equivalent to k^2-k-n <= 0. At k=1 the question defines P(1) but not P(0), so its comparison is undefined; do not invent P(0). Part c is valid since k >= 1 makes k-1/2 positive and integer n > k(k-1) gives n >= k(k-1)+1 > (k-1/2)^2. Part d conclusion is correct under the probability model, but the current solution incorrectly claims part b alone supplies a converse and assumes a global maximum from a local comparison without establishing monotonicity or treating the endpoint.",
+      "taughtScope": "Factorials, ordered selection and counting-based probability are taught on pages 3–5, 14–19 and 70. The variable stopping time, adjacent probability comparison and integer quadratic/mode argument are substantial unfamiliar connections; appropriate as a Challenge application for prepared students, not a claim that that complete proof method is explicitly taught. A probability-model clarification is needed because the source givens do not express the independence and equal-probability assumptions.",
+      "skillMapping": {
+        "primarySkillId": "probability-perm-comb",
+        "secondarySkillIds": [
+          "permutations-nPr"
+        ],
+        "rationale": "The whole task centres on a probability distribution from ordered selections and its mode; factorial and algebraic reasoning support that primary skill. IDs are existing taxonomy IDs."
+      },
+      "rating": {
+        "score": 86,
+        "difficulty": "Challenge",
+        "rationale": "Across the whole scaffolded task, the decisive final demand is to connect an adjacent-probability comparison, a quadratic threshold, an integer inequality and a discrete mode. Earlier parts direct substantial work, but assembling the global argument still requires a nonroutine insight."
+      },
+      "minimumSet": "Provides a distinct stopping-time probability and discrete-mode proof beyond ordinary finite equally likely counting in the supplied exam set. This is a task-level contribution, not a certification of global set sufficiency.",
+      "requiredEdits": [
+        {
+          "target": "part a worked answer and source clarification",
+          "prescription": "State in the explanation that the displayed formula follows under independent uniform selections. Flag the unexpressed probability model as a source ambiguity for an explicit decision; do not silently add it to the posed givens. Explain the first k draws are distinct and the next repeats one of them."
+        },
+        {
+          "target": "part b worked answer",
+          "prescription": "Retain the source prompt and all four parts. Explicitly state that P(k-1) is defined only for 2 <= k <= n, and derive the displayed inequality there by the positive ratio P(k)/P(k-1)=k(n-k+1)/(n(k-1)); the algebra gives an equivalence. Note that at k=1 the comparison is undefined, without assigning P(0)."
+        },
+        {
+          "target": "part d worked answer",
+          "prescription": "Replace the opening assertion with a complete discrete-mode proof: for 2 <= k <= n, the ratio is greater than 1 exactly when k^2-k-n < 0 and less than 1 exactly when it is > 0. Under 4n+1 nonsquare the positive root r=1/2+sqrt(n+1/4) is nonintegral, hence ratios are strictly above 1 for integer k<r and strictly below 1 for k>r. Here n=2 is excluded because 4n+1=9; for n>=3, 2<r<n, so the sequence increases from P(1) to P(floor r) and decreases thereafter. Thus the unique mode is floor r. Part c and the immediate converse show, for integer k>=1, k<r iff k-1/2<sqrt(n), so floor r is the greatest integer below sqrt(n)+1/2, the unique closest integer to sqrt(n). This uses P(1) as the starting endpoint and never P(0)."
+        }
+      ]
+    }
+  ],
+  "separateWarning": "DUMBWAITERS remains a separate incomplete-source and letter-count fault; it is not a third review item.",
+  "limits": "Semantic review only. Actual writing space, pagination and rendered dimensions require the authorised affected-page review. Original 14 and four earlier additions were not rerated or reviewed."
+}

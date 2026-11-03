@@ -1,0 +1,80 @@
+{
+  "status": "corrections-required",
+  "reviewer": {
+    "model": "gpt-6.1-terra",
+    "effort": "high",
+    "assessedAt": "2026-11-03T01:15:33Z"
+  },
+  "packet": {
+    "path": ".booklet-work/algebra-five-seven-preparation-20261103/new-maths-review-packet.json",
+    "sha256": "c5e4177f55e73f3cfb0dc7f8e138e01169b830081bb91107ce974806c7549e99"
+  },
+  "pinVerification": {
+    "result": "pass",
+    "details": "Both actual project revision and SHA-256 pins and both authored candidate file SHA-256 pins match the packet. Each of the four packet blocks exactly matches its candidate block."
+  },
+  "findings": [
+    {
+      "severity": "high",
+      "kind": "unsupported-transition",
+      "targets": [
+        "teacher-p35-q22-bridge-root",
+        "teacher-p35-q22-bridge-a",
+        "teacher-p35-q22-bridge-b",
+        "p35-q22-f"
+      ],
+      "problem": "Parts a and b present the common bracket explicitly. Part c has four ungrouped terms: students must first choose pairs and factor each pair to create the shared bracket, but grouping in pairs is taught later on pages 41–42. The stem implies the bracket is already present and instructs students to take it out, without explaining the necessary prior step. The existing a/b scaffold does not practise creating a hidden bracket.",
+      "requiredCorrection": "Keep the requested extracted part c and two bridging parts. Revise the bridge support so students practise creating a shared bracket by factoring a pair of terms before independently tackling c; accurately distinguish an existing visible bracket from one first made by grouping. A targeted completion scaffold for c could show w^6-w^4-w^2+1 = w^4(w^2-1) - (w^2-1), with a completion step that makes the pairing and negative factor transparent. Ensure the two earlier parts build towards that decision, rather than only extracting already visible brackets. Reassess the changed whole bridge and rebind its task hash after the repair."
+    }
+  ],
+  "checks": [
+    {
+      "target": "p8-example-block second example",
+      "result": "pass",
+      "derivation": "For x ≠ 0, common denominator 15x²; 2/(3x) = 10x/(15x²), 3/(5x²) = 9/(15x²), giving (10x−9)/(15x²). The power choice and denominators match the teacher request. Page 3 teaches equivalent fractions with variable powers; the scaffold and both solution steps are consistent. The example supplies the denominator, appropriate for the existing two-step teaching scaffold."
+    },
+    {
+      "target": "p15-q15 c–e",
+      "result": "pass",
+      "derivation": "77² = 5929. 79×75 = (77+2)(77−2) = 5929−4 = 5925; 80×74 = (77+3)(77−3) = 5929−9 = 5920; the latter is 9 = 3² less than 77². All short and worked answers agree. Page 11 supplies the product identity and the existing a/b lead into the numerical comparisons; these are the requested extensions."
+    },
+    {
+      "target": "teacher-p35-q22-bridge a–c",
+      "result": "answers-correct-support-repair-required",
+      "derivation": "a: (x+3)(x²−4) = (x+3)(x−2)(x+2). b: (k²−4)(k⁴−1) = (k−2)(k+2)(k−1)(k+1)(k²+1). c: w⁴(w²−1)−(w²−1) = (w²−1)(w⁴−1) = (w−1)²(w+1)²(w²+1). All answer forms expand to the stated expressions. The issue is creating the shared bracket in c before the grouping lesson, not the calculations."
+    },
+    {
+      "target": "p35-q22 a–e",
+      "result": "pass",
+      "derivation": "The worked answers correctly factor each task, including the common coefficients in c and e and repeated differences of squares in d. The supplied x⁴−y⁴ example supports repeated application; page 29 supplies the difference-of-squares rule. These parts no longer include the four-term grouping task."
+    }
+  ],
+  "ratings": [
+    {
+      "id": "p15-q15",
+      "taskHash": "9ca7b2b0fd9ae2626215973ac0a0ca13abe8414be9ff78a2c9ff2db7fbb1a8e3",
+      "reasoningScore": 42,
+      "difficulty": "Development",
+      "difficultyReason": "Select the midpoint 77 and corresponding offsets in numerical products, apply the taught difference-of-squares identity, and interpret the comparison in e. The linked parts provide the square and progressively expose the pattern; arithmetic repetition does not itself raise demand.",
+      "skillAssessment": "special-products is appropriate."
+    },
+    {
+      "id": "p35-q22",
+      "taskHash": "2b52a0ed8899db84048a7e8e04fbe33c71b4c755ac189ce553a4547e08c5c81c",
+      "reasoningScore": 47,
+      "difficulty": "Development",
+      "difficultyReason": "Use the supplied fourth-power example and apply difference of squares repeatedly, sometimes first extracting a common factor; part d requires recognising fractional squares and an eighth power. These are linked applications of demonstrated methods, without the removed grouping insight.",
+      "skillAssessment": "factorise-special-products primary and factorise-common-algebraic-factor secondary fit the retained tasks; replace the stale rationale referring to the removed four-term grouping."
+    },
+    {
+      "id": "teacher-p35-q22-bridge",
+      "taskHash": "3ebfd4077f3e3c3f427538843033260ea16b1b3afe5f3891c3083db07c32f82f",
+      "reasoningScore": 65,
+      "difficulty": "Mastery",
+      "difficultyReason": "The hardest part requires reframing four terms into two factored pairs to reveal a common binomial, then repeatedly applying the difference-of-squares identity. The first two parts only show visible common brackets, so they do not supply that crucial decision.",
+      "skillAssessment": "The task combines factorisation by grouping/common factors with repeated special-product factorisation. Its grouping component is not yet taught; apply an appropriate existing grouping skill if available.",
+      "bindingCaution": "This is an assessment of the exact current candidate only. Any repair to the stem, prompts, scaffold or answers changes the assessed task and requires a fresh assessment and hash."
+    }
+  ],
+  "scopeLimit": "No visual or layout review, accepted p5 applicability review, bank/live publication, candidate edits, or provider calls were performed."
+}
