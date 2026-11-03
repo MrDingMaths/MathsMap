@@ -1,0 +1,80 @@
+{
+  "status": "independent-review-complete",
+  "model": "gpt-6.1-terra",
+  "effort": "high",
+  "modelSelection": "Explicitly selected by spawn coordinator",
+  "assessedAt": "2026-11-01T22:20:13.651Z",
+  "rubricVersion": "mathsmap-cognitive-demand-v1",
+  "projectId": "further-expansion-factorisation-v1",
+  "revision": 45,
+  "inputs": {
+    "draftFile": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/further-expansion-r45-second-session-full239-local/author/draft.json",
+    "draftFileSha256": "e6553deca99c235df88804de25a830b121ee5b55d9f4f57cb265918cb3b186c5",
+    "draftContentHash": "b3f4e99e1d72b6c945af3c0251a55c89e137c516e96545a96b7c46397ebebb82",
+    "sourcePacketSha256": "33311237cfb6157f5f02788e3aca4631e0328742d5724b704f7ca139af5c1437",
+    "boundedContextSha256": "228e008dde0f8ee2c5fe11d88cac4a302895442985344159fcd78e627c65c1f4",
+    "preservedExamEvidenceSha256": "95e73c9ed5fa164a34cccb7d2632116eccb27d0a90f6a8b251d556a32d38821b"
+  },
+  "globalFindings": {
+    "sourceFidelity": "Both prompts reproduce their whole source questions and givens, omitting only exam marks in accordance with house rules; source identifiers and printed references match.",
+    "teachingAndTransfer": "The page 5 square identity, pages 24–25 perfect-square recognition and factorisation, page 20 reciprocal-square expansions and page 70 question 15 symmetric-square substitution support ordinary transfer. No new method is required.",
+    "duplicates": "The project revision 45 and supplied nine Exam owners were checked for matching questions; no same whole question was found. Page 20 question 7 expands both reciprocal squares and page 70 question 15 relates a sum to a difference; neither asks the same task or gives the same conditions.",
+    "native": "Each candidate has one question root owning its complete prompt and short/worked answers; no child or continuation response is orphaned. Source metadata is correct; there are no diagrams or external image references. Native content structures are valid for ordinary question nodes. Rendered dimensions and page fit were not inspected.",
+    "wrapper": "instructionalChange is false on each item; its absence on the wrapper is not a mathematical defect or separate review gate.",
+    "preservation": "Existing nine Exam owners and accepted reviews were not edited."
+  },
+  "items": [
+    {
+      "id": "exam-further-plc-2023-s3q14",
+      "sourceId": "c8afd770-cb46-4b9e-8969-b4826129517b",
+      "taskHash": "8fe6021e7090c4a27f7878deb3b634abe0db8f30494c2937f8bcf99659232bd2",
+      "independentDerivation": "A monic perfect square must be (x+a)^2, so a²=144 and 7−n=2a. The two possibilities a=12 and a=−12 give n=−17 and n=31 respectively; substituting gives (x+12)² and (x−12)².",
+      "answerVerdict": "Both short and worked answers are correct and complete, including both signs.",
+      "domain": "Interpreting the expression as a polynomial perfect-square identity, both values are valid. No extra restriction on n is given or introduced.",
+      "classification": {
+        "primarySkillId": "factorise-special-products",
+        "secondarySkillIds": [],
+        "finding": "The task recognises a perfect-square trinomial and compares its terms; factorise-special-products is the closest directly assessed skill. Expansion is a supporting identity rather than an independently requested assessed skill; remove the secondary expand-simplify-special-products tag."
+      },
+      "rating": {
+        "reasoningScore": 40,
+        "difficulty": "Development",
+        "difficultyReason": "The unscaffolded task requires recognising a square trinomial, matching constant and middle coefficients, keeping both signs, and solving the two resulting linear equations. These are linked taught procedures; both values are essential."
+      },
+      "requiredCorrections": [
+        {
+          "path": "classification.secondarySkillIds",
+          "value": [],
+          "reason": "Remove supporting expansion skill from topic filters; it is not independently assessed."
+        }
+      ]
+    },
+    {
+      "id": "exam-further-plc-2025-s2q7",
+      "sourceId": "34e92f9c-5c1f-49b6-9d70-53b04d2e9590",
+      "taskHash": "8730653f0ecddd49acf34f739667f23f1136a8e08f9a004e35e0d7326c681a89",
+      "independentDerivation": "For x ≠ 0, subtract the two square expansions: (x+1/x)²−(x−1/x)²=4x(1/x)=4. Since the first square is P², the requested square is P²−4.",
+      "answerVerdict": "Both short and worked answers are correct; the working independently expands and substitutes the common squared terms.",
+      "domain": "The reciprocal in the original given already requires x ≠ 0; no division by any further expression or extraneous restriction is introduced. If real values are assumed, only P arising from a real nonzero x are relevant, but the identity holds for all allowed x.",
+      "classification": {
+        "primarySkillId": "expand-simplify-special-products",
+        "secondarySkillIds": [],
+        "finding": "The principal assessed method is expansion and combination of special products. special-products is the prerequisite identity embodied by the primary skill, not a separate directly assessed task; remove that secondary tag."
+      },
+      "rating": {
+        "reasoningScore": 47,
+        "difficulty": "Development",
+        "difficultyReason": "With no intermediate prompts, the student must connect the given sum to the required difference, square the sum, use both perfect-square expansions and substitute the common terms. The p20 reciprocal expansions and p70 sum/difference example make this a linked application of taught methods rather than an unrelated technique."
+      },
+      "requiredCorrections": [
+        {
+          "path": "classification.secondarySkillIds",
+          "value": [],
+          "reason": "Remove prerequisite special-products tag; no separate task directly assesses it."
+        }
+      ]
+    }
+  ],
+  "requiredContentCorrections": [],
+  "visualAcceptance": false
+}
