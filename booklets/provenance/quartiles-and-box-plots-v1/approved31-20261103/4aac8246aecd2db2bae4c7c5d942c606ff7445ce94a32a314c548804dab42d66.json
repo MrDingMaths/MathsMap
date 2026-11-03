@@ -1,0 +1,122 @@
+{
+  "review": "quartilesR268FourWholeCombinedInitialTerraReview20261103",
+  "model": "gpt-6.1-terra",
+  "effort": "high",
+  "packetSha256": "75ad9f37033b5ce4cd9d1b0cee2d3a4c88316b6e699a7030a01bc146e8307779",
+  "sourceRevision": 268,
+  "sourceSha256": "8e8dc7139a09621375d8a80361afee585dbb6d9516fb81a83375c1c09bb2366d",
+  "originalImageInspection": {
+    "path": ".booklet-work/end-goal-20261028/quartiles-exam-r263-local/original-images/0ed41fb4-5349-4e9c-8f1b-021374336bab-question-0.png",
+    "sha256": "c1804f2639f51c362c5938a91f83c98aee6f0cac7ec97dec29d8e361d4c968e6",
+    "personallyViewed": true,
+    "finding": "Original and native each show 18 dots per class. For ticks 1 through 6, A frequencies are 2,2,4,4,6,0 and B frequencies are 0,5,5,4,3,1. Class titles and axes match."
+  },
+  "results": [
+    {
+      "ownerId": "exam-quartiles-retained-0ed41fb4",
+      "sourceId": "0ed41fb4-5349-4e9c-8f1b-021374336bab",
+      "taskHash": "655fbd0a6cb27052d0da44ce72571e5b0f9b2a233b8f13c83cbcadf1ae5e16ea",
+      "accepted": false,
+      "sourceFaithful": true,
+      "answersCorrect": false,
+      "wholeMethodFit": true,
+      "minimalRepresentativeNeeded": false,
+      "reasoningScore": 39,
+      "difficultyReason": "Read two frequency displays, locate even-sample medians and quartiles, and compare shape and two measures of spread; the three comparison criteria are explicitly supplied.",
+      "primarySkillId": "compare-box-plots",
+      "secondarySkillIds": [
+        "skewness-from-displays",
+        "five-number-summary",
+        "interquartile-range"
+      ],
+      "independentDerivation": "A ordered positions 9 and 10 are 4; lower-half middle is 3, upper-half middle 5. B positions 9 and 10 are 3; lower-half middle 2, upper-half middle 4. Thus medians 4 and 3, ranges 4 and 4, IQRs 2 and 2; A has a left tail and B a right tail.",
+      "requiredEdits": [
+        "In the short answer add spaces or mathematical separators in median4, range4, IQR2, median3, range4 and IQR2, so the values are readable. Prefer explicitly stating that ranges and IQRs are equal rather than implying all aspects of the distributions are identical."
+      ],
+      "sourceDefects": [],
+      "holds": [
+        "Short answer requires correction before acceptance; rendered diagram and writing space remain for the separately authorized visual check."
+      ],
+      "selectionReason": "Existing p38-q11 and p37-q10 already require comparing location, spread and skewness, while the booklet teaches obtaining summaries from dot plots. Combining those ordinary taught components here does not add a sufficiently distinct whole method to the minimum set."
+    },
+    {
+      "ownerId": "exam-quartiles-retained-0f532e8c",
+      "sourceId": "0f532e8c-d176-4342-9c18-bfe25bd404e2",
+      "taskHash": "118d0cc9c263fbe85979dabb2880f85ed6133ee4df8e8faeed7b1408e0635f91",
+      "accepted": false,
+      "sourceFaithful": false,
+      "answersCorrect": true,
+      "wholeMethodFit": true,
+      "minimalRepresentativeNeeded": true,
+      "reasoningScore": 55,
+      "difficultyReason": "Interpret percentile statements as quartiles, then use symmetry in reverse to infer both the centre and the missing extreme before matching a pair of values.",
+      "primarySkillId": "five-number-summary",
+      "secondarySkillIds": [
+        "skewness-from-displays"
+      ],
+      "independentDerivation": "Using the source’s intended quartile interpretation, Q1=40 and Q3=86, so symmetry gives median (40+86)/2=63. The maximum 96 is 10 above Q3, hence the minimum is 10 below Q1, 30. A=(30,63) is correct; B=(30,68), C=(36,63), D=(36,68) each disagree in at least one coordinate.",
+      "requiredEdits": [
+        "Add a space after the first sentence ending “96.” and before “25%” in the native prompt; adjacent inline runs currently produce “96.25%”. Preserve all four native table options and the source givens."
+      ],
+      "sourceDefects": [
+        "The source describes exact percentages scoring strictly below 40 and 86 rather than explicitly naming the quartiles. Its answer assumes these are the quartile cut points; exact finite-data strict-inequality conventions can make that inference ambiguous."
+      ],
+      "holds": [
+        "Resolve the source’s percentile/quartile wording ambiguity without silently changing the given or claiming unconditional mathematical uniqueness."
+      ],
+      "selectionReason": "Inferring a missing centre and extreme from symmetry and percentile cut points is distinct from the existing forward summary and skewness-reading tasks. Its source ambiguity remains a genuine hold."
+    },
+    {
+      "ownerId": "exam-quartiles-retained-8960af85",
+      "sourceId": "8960af85-fda5-4647-86a4-a6c5133c57bc",
+      "taskHash": "7889bb977e20770f3d382924c63c47017a249acea292d8f5c62aba552560a96b",
+      "accepted": true,
+      "sourceFaithful": true,
+      "answersCorrect": true,
+      "wholeMethodFit": true,
+      "minimalRepresentativeNeeded": true,
+      "reasoningScore": 43,
+      "difficultyReason": "Find quartiles and the upper fence, then choose and calculate meaningful with-and-without summaries to explain the effect on two measures of centre.",
+      "primarySkillId": "identify-outliers-iqr",
+      "secondarySkillIds": [
+        "five-number-summary"
+      ],
+      "independentDerivation": "Lower-half median (505000+517000)/2=511000; upper-half median (552000+580000)/2=566000; IQR=55000 and upper fence=648500, below 980000. Sum of all eight is 4670000, giving mean 583750 and median 528000. Removing 980000 leaves sum 3690000 over seven, mean approximately 527142.86 and median 528000. The outlier increases the mean by about 56607.14 while the median is unchanged in this dataset.",
+      "requiredEdits": [],
+      "sourceDefects": [],
+      "holds": [],
+      "selectionReason": "Distinct linked method: establish an outlier then quantitatively compare its effect on mean and median. Prior mean and median teaching and current fence teaching support the components; no identical example is needed."
+    },
+    {
+      "ownerId": "exam-quartiles-retained-511b0f5d",
+      "sourceId": "511b0f5d-4716-49b0-bf6e-d86d0714e936",
+      "taskHash": "f7d60f3a0745562ad2ecd444b763db8eef8c30fe7cca7d24440b6cbe4a5605f2",
+      "accepted": false,
+      "sourceFaithful": true,
+      "answersCorrect": false,
+      "wholeMethodFit": true,
+      "minimalRepresentativeNeeded": true,
+      "reasoningScore": 37,
+      "difficultyReason": "Apply the lower outlier fence to a supplied summary and use that conclusion to justify a choice between two spread measures.",
+      "primarySkillId": "identify-outliers-iqr",
+      "secondarySkillIds": [
+        "interquartile-range"
+      ],
+      "independentDerivation": "IQR=15−11=4; lower fence=11−1.5(4)=5; 4<5, so 4 is an outlier. An extreme value can strongly affect standard deviation whereas IQR is resistant; IQR is the appropriate robust summary of central spread for this comparison.",
+      "requiredEdits": [
+        "Replace “the standard deviation will be skewed by this extreme value” in part (b) worked solution with “the standard deviation is sensitive to this extreme value”; retain the explanation that the IQR is resistant to outliers."
+      ],
+      "sourceDefects": [
+        "Source worked solution uses “skewed” of a standard deviation, which is a numerical measure rather than a distribution. The native worked solution repeats this misleading wording."
+      ],
+      "holds": [
+        "Worked explanation requires the stated correction before acceptance."
+      ],
+      "selectionReason": "Distinct from merely identifying an outlier or considering a uniform shift in p43-q10: it asks students to choose a robust spread measure and justify the choice from the detected outlier. The IQR versus standard-deviation sensitivity is explicitly taught."
+    }
+  ],
+  "scopeNotes": [
+    "16 accepted existing owners used as semantic context for minimality only; no existing task was reassessed or rerated.",
+    "No rendered-size, pagination or actual writing-space certification is made. No candidate, packet, ledger, bank or live booklet changed."
+  ]
+}
