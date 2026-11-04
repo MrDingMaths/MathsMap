@@ -58,15 +58,24 @@ export async function settleBookletMeasurement(root,{signal,timeoutMs=300000,cal
   });
   check();
   const diagramsReady=()=>[...root.querySelectorAll('.tikz-wrap')].every(e=>e.querySelector('svg:not(:has(animate)),.tikz-error'));
-  const waitForDiagrams=()=>new Promise((resolve,reject)=>{
-    const finish=error=>{observer.disconnect();clearTimeout(timer);signal?.removeEventListener('abort',abort);error?reject(error):resolve();};
-    const abort=()=>finish(aborted());
-    const observer=new MutationObserver(()=>{if(diagramsReady())finish();});
-    const timer=setTimeout(()=>finish(Error('Diagram queue timed out')),timeoutMs);
-    observer.observe(root,{childList:true,subtree:true});
-    signal?.addEventListener('abort',abort,{once:true});
-    if(signal?.aborted)abort();else if(diagramsReady())finish();
-  });
+  const waitForDiagrams=async()=>{
+    // Preview pages can be outside the viewport while pagination is settling.
+    // Start their queued diagrams through the same API used by print settling.
+    if(globalThis.TikZ?.flushPending){
+      const flushed=await wait(globalThis.TikZ.flushPending(root,timeoutMs));
+      check();
+      if(!flushed)throw Error('Diagram queue timed out');
+    }
+    return new Promise((resolve,reject)=>{
+      const finish=error=>{observer.disconnect();clearTimeout(timer);signal?.removeEventListener('abort',abort);error?reject(error):resolve();};
+      const abort=()=>finish(aborted());
+      const observer=new MutationObserver(()=>{if(diagramsReady())finish();});
+      const timer=setTimeout(()=>finish(Error('Diagram queue timed out')),timeoutMs);
+      observer.observe(root,{childList:true,subtree:true});
+      signal?.addEventListener('abort',abort,{once:true});
+      if(signal?.aborted)abort();else if(diagramsReady())finish();
+    });
+  };
   if(!diagramsReady())await waitForDiagrams();
   check();
   await wait(Promise.all([...root.querySelectorAll('img')].map(async image=>{
