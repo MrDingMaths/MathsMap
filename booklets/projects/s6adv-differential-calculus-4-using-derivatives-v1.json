@@ -9973,6 +9973,144 @@
           }
         },
         {
+          "id": "exam-mb-02a93f2d-158d-4116-84ec-af3248ea77b1",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "Sydney Grammar School Y11 Advanced 2023",
+          "classification": {
+            "primarySkillId": "define-derivative-tangent",
+            "secondarySkillIds": [
+              "differentiate-exponential-composite"
+            ],
+            "reasoningScore": 79,
+            "difficulty": "Mastery",
+            "difficultyReason": "Use the first tangent result to reason globally about an entire family of lines and distinguish the two-intersection threshold; the hence cue gives direction.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "assessedAt": "2026-11-03T07:13:19.529Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "8d0d088503bf2fb4f15d2ea733cd5a7e103966ea88c4d597198a307ba61020e6",
+              "evidence": ".booklet-work/end-goal-20261028/exam-acceptance-census-20261030/session10-using-derivatives-r10/held139-six-terra-review.json",
+              "requiredEditAcceptance": {
+                "initialTaskHash": "7e6c6d21134134a4ec87140c61fae6de769438acbc81a42de0ab5bf12e143cd5",
+                "targetTaskHash": "8d0d088503bf2fb4f15d2ea733cd5a7e103966ea88c4d597198a307ba61020e6",
+                "proofConfirmation": {
+                  "file": ".booklet-work/end-goal-20261028/exam-resume-20261104/using-derivatives-secant-required-edit-confirmation.json",
+                  "sha256": "e7e4bb895deebb6905e4e3c758eedcb57fc4749f283a65c43129adef05134165"
+                },
+                "finalTargetConfirmation": {
+                  "file": ".booklet-work/end-goal-20261028/exam-resume-20261104/using-derivatives-secant-final-target-confirmation.json",
+                  "sha256": "441def32b65816d9ba655ddc32187877d4931423f1ab09857a84f5c607416847"
+                },
+                "newNumericAssessmentPerformed": false
+              }
+            }
+          },
+          "content": {
+            "id": "exam-mb-02a93f2d-158d-4116-84ec-af3248ea77b1-root",
+            "type": "question",
+            "label": null,
+            "prompt": "The diagram shows the curve $y=e^{ax}$.\nThe tangent to the curve at the point where $x=b$ meets the $x$-axis at $T$.\nNote that $a$ is a positive real number.",
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-02a93f2d-158d-4116-84ec-af3248ea77b1-given",
+                "format": "tikz",
+                "role": "question",
+                "widthMm": 95,
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"HSC.SYDGR.Y11.ADV.2023 Q14c\"}\n\\begin{tikzpicture}[scale=1.2, every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n    % Axes (Note: the original PDF has arrows on both ends of the axes here)\n    \\draw[black,<->,line width=.5pt] (-4,0) -- (5,0) node[below] {$x$};\n    \\draw[black,<->,line width=.5pt] (0,-2) -- (0,4) node[left] {$y$};\n\n    % Exponential curve (using 0.6*e^{0.7x} for visual proportion)\n    \\draw[black,line width=.8pt,<->,domain=-3.8:2.5, samples=100] plot (\\x, {0.6*exp(0.7*\\x)});\n    \\node at (-2, 1) {$y=e^{ax}$};\n\n    % Coordinates for Tangency\n    \\coordinate (P) at (2, 2.43); % Tangent point at b=2\n    \\coordinate (T) at (0.57, 0); % x-intercept of the tangent\n\n    % Tangent line\n    \\draw[black,line width=.5pt,<->] (-0.5, -1.82) -- (2.8, 3.79);\n\n    % Points and dashed dropping line\n    \\filldraw (P) circle (1.5pt);\n    \\filldraw (T) circle (1.5pt) node[below right] {$T$};\n    \\draw[black,dashed,line width=.4pt] (P) -- (2,0) node[below] {$b$};\n\\end{tikzpicture}",
+                "spec": {
+                  "description": "Unscaled exponential sketch, coordinate axes, tangent at x=b, x-interceptT, dashed drop to b; exact retained source TikZ positions/segments unchanged.",
+                  "source": "Literal TikZ supplied in retained question_text; no original PDF/image fetched.",
+                  "qualification": "Source uses schematic unnumbered axes and 0.6 exp(0.7x) construction; all supplied labels/givens retained. Source/native graph fidelity and global two-intersection reasoning need initial review."
+                }
+              }
+            ],
+            "children": [
+              {
+                "id": "exam-mb-02a93f2d-158d-4116-84ec-af3248ea77b1-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Find the coordinates of $T$ in terms of $a$ and $b$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$T\\left(b-\\frac1a,0\\right)$.",
+                  "worked": "Find the derivative of $y = e^{ax}$:\n$$\\begin{align*}\ny' &= ae^{ax}\n\\end{align*}$$\nAt $x=b$, the $y$-coordinate is $e^{ab}$ and the gradient of the tangent is $m = ae^{ab}$.\nUsing the point-gradient form for the tangent line:\n$$\\begin{align*}\ny - y_1 &= m(x - x_1) \\\\\ny - e^{ab} &= ae^{ab}(x - b)\n\\end{align*}$$\nTo find the $x$-intercept $T$, set $y = 0$:\n$$\\begin{align*}\n-e^{ab} &= ae^{ab}(x - b) \\\\\n-1 &= a(x - b) \\\\\n-\\frac{1}{a} &= x - b \\\\\nx &= b - \\frac{1}{a}\n\\end{align*}$$\nThe coordinates of $T$ are $\\left(b - \\frac{1}{a}, 0\\right)$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "source"
+                  }
+                }
+              },
+              {
+                "id": "exam-mb-02a93f2d-158d-4116-84ec-af3248ea77b1-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Hence, explain why any straight line which passes through a given point $(p, 0)$, and which cuts the curve $y=e^{ax}$ twice, has gradient greater than $ae^{ap+1}$.",
+                "dependsOn": [
+                  "exam-mb-02a93f2d-158d-4116-84ec-af3248ea77b1-a"
+                ],
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "The tangent from $(p,0)$ has gradient $ae^{ap+1}$. Nonpositive slopes give at most one intersection. For positive slope, $e^{ax}/(x-p)$ has its unique minimum $ae^{ap+1}$ at $x=p+1/a$; hence two distinct intersections require $m>ae^{ap+1}$.",
+                  "worked": "From part (a), the tangent through $(p,0)$ has $b=p+\\frac1a$, so its gradient is $ae^{ap+1}$.\nLet a line through $(p,0)$ have equation $y=m(x-p)$.\nIf $m\\leq0$, then\n$$\\frac{d}{dx}\\left(m(x-p)-e^{ax}\\right)=m-ae^{ax}<0.$$\nThe difference is strictly decreasing, so there is at most one intersection. Thus a line cutting the curve twice must have $m>0$.\nAt an intersection, $m(x-p)=e^{ax}>0$, so $x>p$ and\n$$m=\\frac{e^{ax}}{x-p}.$$\nFor $x>p$, define $g(x)=\\frac{e^{ax}}{x-p}$. Then\n$$g'(x)=\\frac{e^{ax}\\left(a(x-p)-1\\right)}{(x-p)^2}.$$\nSince $a>0$, the denominator and exponential factor are positive. Thus $g$ decreases on $(p,p+1/a)$ and increases on $(p+1/a,\\infty)$.\nIt has a unique minimum at $x=p+1/a$, with value\n$$g\\left(p+\\frac1a\\right)=\\frac{e^{a(p+1/a)}}{1/a}=ae^{ap+1}.$$\nA slope equal to this minimum gives just the single tangency. Therefore two distinct intersections require\n$$m>ae^{ap+1}.$$",
+                  "provenance": {
+                    "short": "source-corrected",
+                    "worked": "source-corrected"
+                  }
+                }
+              }
+            ]
+          },
+          "source": {
+            "provider": "HSC-school",
+            "paper": "Y11 Advanced",
+            "year": "2023",
+            "label": "Sydney Grammar School Y11 Advanced 2023",
+            "origin": "MathsBase"
+          },
+          "sourceReview": {
+            "externalId": "02a93f2d-158d-4116-84ec-af3248ea77b1",
+            "rawSourceCode": "HSC.SYDGR.Y11.ADV.2023 Q14c",
+            "sourceQuestion": "The diagram above shows the curve $y=e^{ax}$.\nThe tangent to the curve at the point where $x=b$ meets the $x$-axis at $T$.\nNote that $a$ is a positive real number.\n\n[tikz]\\begin{tikzpicture}[scale=1.2, every node/.style={font=\\large}]\n    % Axes (Note: the original PDF has arrows on both ends of the axes here)\n    \\draw[<->, thick] (-4,0) -- (5,0) node[below] {$x$};\n    \\draw[<->, thick] (0,-2) -- (0,4) node[left] {$y$};\n\n    % Exponential curve (using 0.6*e^{0.7x} for visual proportion)\n    \\draw[thick, <->, domain=-3.8:2.5, samples=100] plot (\\x, {0.6*exp(0.7*\\x)});\n    \\node at (-2, 1) {$y=e^{ax}$};\n\n    % Coordinates for Tangency\n    \\coordinate (P) at (2, 2.43); % Tangent point at b=2\n    \\coordinate (T) at (0.57, 0); % x-intercept of the tangent\n\n    % Tangent line\n    \\draw[thick, <->] (-0.5, -1.82) -- (2.8, 3.79);\n\n    % Points and dashed dropping line\n    \\filldraw (P) circle (1.5pt);\n    \\filldraw (T) circle (1.5pt) node[below right] {$T$};\n    \\draw[dashed, thin] (P) -- (2,0) node[below] {$b$};\n\\end{tikzpicture}[/tikz]\n\n$\\textbf{(i)}$ Find the coordinates of $T$ in terms of $a$ and $b$.\n[3]\n$\\textbf{(ii)}$ Hence, explain why any straight line which passes through a given point $(p, 0)$, and which cuts the curve $y=e^{ax}$ twice, has gradient greater than $ae^{ap+1}$.\n[2]",
+            "sourceSolution": "$\\textbf{(i)}$\nFind the derivative of $y = e^{ax}$:\n$$\\begin{align*}\ny' &= ae^{ax}\n\\end{align*}$$\nAt $x=b$, the $y$-coordinate is $e^{ab}$ and the gradient of the tangent is $m = ae^{ab}$.\nUsing the point-gradient form for the tangent line:\n$$\\begin{align*}\ny - y_1 &= m(x - x_1) \\\\\ny - e^{ab} &= ae^{ab}(x - b)\n\\end{align*}$$\nTo find the $x$-intercept $T$, set $y = 0$:\n$$\\begin{align*}\n-e^{ab} &= ae^{ab}(x - b) \\\\\n-1 &= a(x - b) \\\\\n-\\frac{1}{a} &= x - b \\\\\nx &= b - \\frac{1}{a}\n\\end{align*}$$\nThe coordinates of $T$ are $\\left(b - \\frac{1}{a}, 0\\right)$.\n\n$\\textbf{(ii)}$\nSuppose the tangent from part (i) passes through the point $(p, 0)$. Then from the $x$-intercept found above, $p = b - \\frac{1}{a}$, which can be rearranged to $b = p + \\frac{1}{a}$.\nThe gradient of this specific tangent is:\n$$\\begin{align*}\nm_T &= ae^{ab} \\\\\n&= ae^{a\\left(p + \\frac{1}{a}\\right)} \\\\\n&= ae^{ap + 1}\n\\end{align*}$$\nBecause $a > 0$, the curve $y = e^{ax}$ is strictly concave up (its second derivative $a^2e^{ax} > 0$). Therefore, the curve lies entirely above any of its tangents. For any straight line passing through $(p, 0)$ to cut the curve twice, it must be steeper than the tangent drawn from that same point. Consequently, its gradient must be strictly greater than $ae^{ap+1}$.",
+            "examMarksRemoved": [
+              "[3] after(i)",
+              "[2] after(ii)"
+            ],
+            "partLabelAdaptation": "(i)/(ii) become(a)/(b), and solution literal reference(i) becomes(a).",
+            "diagramAdaptation": "House metadata/standard strokes only; supplied unnumbered schematic coordinates/plot/labels retained. No new original-paper verification claimed.",
+            "preparationStatus": "CONTENT-ACCEPTED-AFFECTED-VISUAL-PENDING",
+            "methodSelection": "Whole tangent-intercept then global two-intersection slope threshold preserved. Part(b) is not covered merely by a local tangent formula; initial independent review must decide ordinary exponential graph/prior-knowledge fit vs genuine scope hold. Do not silently omit(b), assume a convexity theorem taught, or replace global reasoning with only derivative calculation.",
+            "status": "independent-required-edit-accepted-rendered-QA-pending",
+            "preparationOnly": false,
+            "initialReviewPending": false,
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "02a93f2d-158d-4116-84ec-af3248ea77b1",
+              "sourceCode": "HSC.SYDGR.Y11.ADV.2023 Q14c",
+              "sourceQuestionSha256": "18c499053e76ea9a09341bb69751ef3e322c2662d50bcec013fde78b8656c49f",
+              "sourceSolutionSha256": "00756c21c18381b7443279e3f4ca2ff929aa82c581678c60c286bdff0f6e8eac"
+            },
+            "currentAcceptance": {
+              "file": ".booklet-work/end-goal-20261028/exam-resume-20261104/using-derivatives-secant-final-target-confirmation.json",
+              "sha256": "441def32b65816d9ba655ddc32187877d4931423f1ab09857a84f5c607416847",
+              "taskHash": "8d0d088503bf2fb4f15d2ea733cd5a7e103966ea88c4d597198a307ba61020e6"
+            },
+            "sourceCorrections": [
+              "Stem diagram above changed to diagram for native placement",
+              "Partb global proof covers nonpositive slopes and unique positive-ratio minimum; retained source claim is not used as its own proof"
+            ],
+            "additionTo": {
+              "projectId": "s6adv-differential-calculus-4-using-derivatives-v1",
+              "blockId": "p17-q13"
+            }
+          },
+          "externalId": "02a93f2d-158d-4116-84ec-af3248ea77b1",
+          "sourceOrder": 26
+        },
+        {
           "id": "exam-mb-0693473c-da38-4f7f-aa1b-427368fa5c5c",
           "type": "question",
           "pedagogyRole": "practice",
@@ -10185,7 +10323,7 @@
       {
         "id": "178b1605-0f20-4fd3-b40f-a1de23f24ad6",
         "targetId": "p12-q12",
-        "note": "[Pedagogy review · Suggestion · extension · pf-cd4f15d485]\nIdea: Extend the existing intercept problem by comparing the triangle formed by the other two axis intercepts.\nWhy: The follow-up uses the tangent and normal equations already obtained and exposes the equal areas of the two intercept triangles.\nProposed addition: Append to p12-q12: e. The tangent meets the y-axis at R. Find R. Answer: (0,1/2−π/4). f. The normal meets the x-axis at S. Find S. Answer: (π/4+1/2,0). g. Find the area of triangle ORS. Answer: (π²−4)/32 units². h. Compare the areas of triangles ORS and OPQ. Answer: They are equal.",
+        "note": "[Pedagogy review · Suggestion · extension · pf-cd4f15d485]\nAppend to p12-q12: e. The tangent meets the y-axis at R. Find R. Answer: (0,1/2−π/4). f. The normal meets the x-axis at S. Find S. Answer: (π/4+1/2,0). g. Find the area of triangle ORS. Answer: (π²−4)/32 units². h. Compare the areas of triangles ORS and OPQ. Answer: They are equal.",
         "resolved": false,
         "at": "2026-10-24T07:34:24.577Z",
         "scope": "local",
@@ -10212,7 +10350,7 @@
       {
         "id": "00096a07-43de-4dae-9ba0-0070eafd7956",
         "targetId": "p17-q13",
-        "note": "[Pedagogy review · Suggestion · extension · pf-4795fae66e]\nIdea: Follow the existing exponential tangent problem with a numerical comparison using y=e^{4x}.\nWhy: Students reuse the tangent-through-origin condition and compare how changing the exponent affects the tangency point and gradient.\nProposed addition: Append to p17-q13: d. The line y=nx is tangent to y=e^{4x} at Q. Find Q. Answer: Q=(1/4,e). e. Find n. Answer: n=4e. f. Compare the coordinates of P and Q. Answer: Q has half the x-coordinate of P and the same y-coordinate. g. Compare m and n. Answer: n=2m.",
+        "note": "[Pedagogy review · Suggestion · extension · pf-4795fae66e]\nAppend to p17-q13: d. The line y=nx is tangent to y=e^{4x} at Q. Find Q. Answer: Q=(1/4,e). e. Find n. Answer: n=4e. f. Compare the coordinates of P and Q. Answer: Q has half the x-coordinate of P and the same y-coordinate. g. Compare m and n. Answer: n=2m.",
         "resolved": false,
         "at": "2026-10-24T07:34:24.577Z",
         "scope": "local",
@@ -12950,10 +13088,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 13,
+  "revision": 14,
   "assets": [],
   "createdAt": "2026-10-24T09:21:12.763Z",
-  "updatedAt": "2026-11-03T10:20:52.956Z",
+  "updatedAt": "2026-11-04T04:36:19.399Z",
   "library": {
     "category": "master",
     "courseId": "s6-adv12",
