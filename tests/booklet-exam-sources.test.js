@@ -43,6 +43,12 @@ test('reviewed function and identity sources admit only their exact literal code
   ['HSC.SYDGR.Y12.STN.2021 Q26','Sydney Grammar School Y12 Standard 2021'],
   ['HSC.NEAP.Y11.X1.2021 Q12b','Neap Education Y11 Extension 1 2021'],
   ['HSC.NORM.Y12.X2.2024 Q4','Normanhurst Boys Y12 Extension 2 2024'],
+  ['HSC.NEAP.Y12.STN.2020 Q21','Neap Education Y12 Standard 2020'],
+  ['HSC.NEAP.Y12.STN.2024 Q31','Neap Education Y12 Standard 2024'],
+  ['HSC.NEAP.Y12.STN.2022 Q34','Neap Education Y12 Standard 2022'],
+  ['HSC.NEAP.Y12.STN.2025 Q30','Neap Education Y12 Standard 2025'],
+  ['HSC.NSG.Y11.ADV.2019 Q16c','North Sydney Girls High School Y11 Advanced 2019'],
+  ['HSC.SYDGR.Y12.STN.2024 Q26','Sydney Grammar School Y12 Standard 2024'],
   ['HSC.HORNSG.Y12.X1.2023 Q12b','HORNSG Y12 Extension 1 2023'],
  ]){
   assert.equal(approvedMathsBaseSource(code).label,label,code);
@@ -250,7 +256,7 @@ test('two user-approved exact source exceptions do not widen school course or ye
 
 test('Financial exact Sydney Grammar source preserves neighbouring course holds',()=>{
  assert.equal(approvedMathsBaseSource('HSC.SYDGR.Y12.STN.2024 Q27').label,'Sydney Grammar School Y12 Standard 2024');
- for(const code of ['HSC.SYDGR.Y12.STN.2024 Q26','HSC.SYDGR.Y12.STN.2024 Q28','HSC.SYDGR.Y12.STN.2023 Q27'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
+ for(const code of ['HSC.SYDGR.Y12.STN.2024 Q25','HSC.SYDGR.Y12.STN.2024 Q28','HSC.SYDGR.Y12.STN.2023 Q27'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
 });
 
 test('FTC exact school sources preserve neighbouring Extension 2 holds',()=>{
