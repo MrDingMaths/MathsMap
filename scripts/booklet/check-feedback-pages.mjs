@@ -30,6 +30,64 @@ import {accumulateTikzCompilation,expectedAnswerNodeIds,assertAnswerRenderCovera
 import {structuralPreflight,assertRepairScope} from './feedback-preflight.mjs';
 
 // Failure diagnostics must never replace a useful original exception or fail a success.
+export function installEarlyMathFailureObserver() {
+  if (window.__mathsmapMathFailureHistory) return;
+  const rows = window.__mathsmapMathFailureHistory = [], seen = new Set(), limit = 20;
+  const selector = '.tikz-error,.katex-error,.math-error,.latex-error,[data-math-error]:not([data-math-error=""]),[data-error]:not([data-error=""]),[data-status="error"],[data-status="failed"],[data-state="error"],[data-state="failed"],[data-render-status="error"],[data-render-status="failed"],[data-render-state="error"],[data-render-state="failed"],img[src*="invalid.site"],img[src*="img-not-found"]';
+  const text = (v, max = 4000) => String(v ?? '').slice(0, max);
+  const element = node => node?.nodeType === 1 ? node : node?.parentElement;
+  const ancestry = node => {
+    const result = []; let el = element(node);
+    for (let i = 0; el && i < 10; i++, el = el.parentElement) {
+      const ids = {};
+      for (const name of ['id','data-question-id','data-node-id','data-block-id','data-diagram-id','data-edit-root','data-content-owner','data-flow-blocks','data-cache-key']) {
+        const value = el.getAttribute?.(name); if (value) ids[name] = text(value, 600);
+      }
+      if (Object.keys(ids).length) result.push({tag: el.tagName, ...ids});
+    }
+    return result;
+  };
+  const remember = row => {
+    try {
+      const key = JSON.stringify([row.kind,row.title,row.error,row.text,row.cacheKey,row.source?.slice(0,400),row.ancestors]);
+      if (seen.has(key) || rows.filter(r => r.kind === row.kind).length >= limit) return;
+      seen.add(key); rows.push({...row, at: Date.now(), url: text(location.href, 1200)});
+      // Capture can precede the checker's 200 ms ready poll and DOM teardown.
+      Promise.resolve(window.__mathsmapRecordMathFailure?.(rows.at(-1))).catch(() => {});
+    } catch {}
+  };
+  const record = (node, fallback, reason) => {
+    try {
+      const el = element(node); if (!el?.matches?.(selector)) return;
+      const host = el.closest?.('.tikz-loading,.tikz-wrap,[data-diagram-id]');
+      const fallbackEl = element(fallback), job = host?._tikzJob ?? fallbackEl?._tikzJob ?? fallbackEl?.closest?.('.tikz-loading,.tikz-wrap')?._tikzJob;
+      const source = job?.code ?? host?.querySelector?.('script[type="text/tikz"]')?.textContent ?? '';
+      remember({kind:'math-node',reason,connected:el.isConnected,tag:el.tagName,className:text(el.getAttribute('class'),600),title:text(el.getAttribute('title')),error:text(job?.error),text:text(el.textContent),status:el.getAttribute('data-status')??el.getAttribute('data-state')??el.getAttribute('data-render-status')??el.getAttribute('data-render-state'),dataError:text(el.getAttribute('data-error')??el.getAttribute('data-math-error')),cacheKey:text(job?.key??host?.dataset?.cacheKey,800),jobSequence:job?.seq??null,source:text(source,16000),ancestors:ancestry(el),mutationParentAncestors:ancestry(fallbackEl),html:text(el.outerHTML,5000)});
+    } catch {}
+  };
+  const scan = (node, fallback, reason) => {
+    try { const el = element(node); if (!el) return; record(el,fallback,reason); for (const hit of el.querySelectorAll?.(selector) ?? []) record(hit,fallback,reason); } catch {}
+  };
+  const observer = new MutationObserver(records => {
+    for (const change of records) {
+      if (change.type === 'attributes' || change.type === 'characterData') record(element(change.target)?.closest?.(selector) ?? change.target,change.target,'changed');
+      else {
+        record(change.target,change.target,'parent-changed');
+        for (const node of change.addedNodes) scan(node,change.target,'added');
+        // Detached descendants remain inspectable through this retained Node.
+        for (const node of change.removedNodes) scan(node,change.target,'removed');
+      }
+    }
+  });
+  observer.observe(document,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['class','title','src','data-status','data-state','data-render-status','data-render-state','data-error','data-math-error']});
+  document.addEventListener('tikzjax-load-finished', event => {
+    if (event.detail?.error) remember({kind:'tikz-engine-event',error:text(event.detail.error),message:text(event.detail.message),stack:text(event.detail.stack)});
+  },true);
+  window.addEventListener('error', event => remember({kind:'window-error',error:text(event.message),stack:text(event.error?.stack)}),true);
+  window.addEventListener('unhandledrejection', event => remember({kind:'unhandled-rejection',error:text(event.reason?.message??event.reason),stack:text(event.reason?.stack)}),true);
+  scan(document.documentElement,null,'initial');
+}
+
 export function feedbackFailureMessage(error,snapshot){
  const original=error?.message??String(error);
  if(original!=='Pagination failed')return original;
@@ -234,6 +292,12 @@ async function main(){
  }
  const context=await browser.newContext({viewport:{width:1600,height:1100},...(stateExists?{storageState:cacheState}:{})});
  const page=await context.newPage(),errors=[],consoleErrors=[],requestFailures=[],httpErrors=[];
+ const earlyMathErrors=[];
+ await page.exposeFunction('__mathsmapRecordMathFailure',row=>{try{
+  if(earlyMathErrors.filter(r=>r.kind===row.kind).length>=20)return;earlyMathErrors.push(row);
+  fs.writeFileSync(path.join(path.dirname(reportFile),'early-math-failures.json'),JSON.stringify({kind:'early-math-failure-history-v1',rows:earlyMathErrors},null,2)+'\n');
+ }catch{}});
+ await page.addInitScript(installEarlyMathFailureObserver);
  const retain=(rows,value)=>{rows.push(value);if(rows.length>50)rows.shift();};
  page.on('pageerror',error=>retain(errors,error.message));
  page.on('console',message=>{if(message.type()==='error')retain(consoleErrors,{text:message.text().slice(0,4000),location:message.location()});});
@@ -241,7 +305,7 @@ async function main(){
  page.on('response',response=>{if(response.status()>=400)retain(httpErrors,{url:response.url(),status:response.status()});});
  const captureFailure=async({pass,edition,error})=>{
   const ordinal=(report.failureDiagnostics?.length??0)+1,stem='failure-diagnostic-'+ordinal;
-  const diagnostic={at:new Date().toISOString(),pass,edition,originalError:{message:error?.message??String(error),stack:error?.stack??null},pageErrors:[...errors],consoleErrors:[...consoleErrors],requestFailures:[...requestFailures],httpErrors:[...httpErrors],snapshot:null,captureErrors:[]};
+  const diagnostic={at:new Date().toISOString(),pass,edition,originalError:{message:error?.message??String(error),stack:error?.stack??null},pageErrors:[...errors],consoleErrors:[...consoleErrors],requestFailures:[...requestFailures],httpErrors:[...httpErrors],earlyMathErrors:[...earlyMathErrors],snapshot:null,captureErrors:[]};
   // evaluate has no Playwright timeout option. Bound it independently so a busy
   // renderer cannot prevent checker cleanup; late resolution has no side effects.
   let timer;try{diagnostic.snapshot=await Promise.race([
@@ -249,7 +313,7 @@ async function main(){
     const text=(element,max=20000)=>(element?.innerText??element?.textContent??'').slice(0,max);
     const alerts=selector=>[...document.querySelectorAll(selector)].slice(0,50).map(element=>({text:text(element,4000),ancestorClass:element.parentElement?.className??null}));
     const flow=document.querySelector('.flow-document');
-    return{url:location.href,readyState:document.readyState,title:document.title,bodyText:text(document.body),workspaceAlerts:alerts('.workspace-loading [role="alert"]'),alerts:alerts('[role="alert"]'),loading:text(document.querySelector('.workspace-loading')),layoutState:text(document.querySelector('.layout-state')),pagination:flow?{state:flow.dataset.paginationState,edition:flow.dataset.paginatedEdition,work:flow.dataset.paginationWork,runs:flow.dataset.paginationRuns,metrics:flow.dataset.paginationMetrics}:null,mathErrors:[...document.querySelectorAll('.flow-measure .tikz-error,.flow-measure .katex-error')].slice(0,30).map(element=>({text:text(element,4000),nodeId:element.closest('[data-node-id]')?.dataset.nodeId??null,questionId:element.closest('[data-question-id]')?.dataset.questionId??null,diagramId:element.closest('[data-diagram-id]')?.dataset.diagramId??null}))};
+    return{url:location.href,readyState:document.readyState,title:document.title,bodyText:text(document.body),workspaceAlerts:alerts('.workspace-loading [role="alert"]'),alerts:alerts('[role="alert"]'),loading:text(document.querySelector('.workspace-loading')),layoutState:text(document.querySelector('.layout-state')),pagination:flow?{state:flow.dataset.paginationState,edition:flow.dataset.paginatedEdition,work:flow.dataset.paginationWork,runs:flow.dataset.paginationRuns,metrics:flow.dataset.paginationMetrics}:null,earlyMathErrors:window.__mathsmapMathFailureHistory??[],mathErrors:[...document.querySelectorAll('.flow-measure .tikz-error,.flow-measure .katex-error')].slice(0,30).map(element=>({text:text(element,4000),nodeId:element.closest('[data-node-id]')?.dataset.nodeId??null,questionId:element.closest('[data-question-id]')?.dataset.questionId??null,diagramId:element.closest('[data-diagram-id]')?.dataset.diagramId??null}))};
    }),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Failure DOM snapshot timed out after 5000 ms')),5000);})
   ]);}catch(captureError){diagnostic.captureErrors.push({stage:'dom',message:captureError.message??String(captureError)});}finally{clearTimeout(timer);}
   const screenshot=path.join(path.dirname(reportFile),stem+'.png');

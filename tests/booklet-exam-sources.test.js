@@ -30,6 +30,13 @@ test('two exact simultaneous sources preserve neighbouring school holds',()=>{
 
 test('reviewed function and identity sources admit only their exact literal codes',()=>{
  for(const [code,label]of [
+  ['HSC.NSG.Y11.ADV.2019 Q17c','North Sydney Girls High School Y11 Advanced 2019'],
+  ['HSC.ABBOT.Y12.X2.2023 Q12c','Abbotsleigh Y12 Extension 2 2023'],
+  ['HSC.NORM.Y11.X1.2019 Q15d','Normanhurst Boys Y11 Extension 1 2019'],
+  ['HSC.NORM.Y12.X2.2022 Q15b','Normanhurst Boys Y12 Extension 2 2022'],
+  ['HSC.NORM.Y12.X2.2024 Q12b','Normanhurst Boys Y12 Extension 2 2024'],
+  ['HSC.HORNSG.Y12.X1.2023 Q13c','HORNSG Y12 Extension 1 2023'],
+  ['HSC.HORNSG.Y12.X1.2023 Q14d','HORNSG Y12 Extension 1 2023'],
   ['HSC.SYDGR.Y11.ADV.2019 Q9e','Sydney Grammar School Y11 Advanced 2019'],
   ['HSC.NORM.Y11.ADV.2020 Q8a','Normanhurst Boys Y11 Advanced 2020'],
   ['HSC.NSB.Y11.ADV.2024 Q10','North Sydney Boys High School Y11 Advanced 2024'],
@@ -44,6 +51,7 @@ test('reviewed function and identity sources admit only their exact literal code
   ['HSC.NEAP.Y11.X1.2021 Q12b','Neap Education Y11 Extension 1 2021'],
   ['HSC.NORM.Y12.X2.2024 Q4','Normanhurst Boys Y12 Extension 2 2024'],
   ['HSC.NORM.Y11.ADV.2020 Q6c','Normanhurst Boys Y11 Advanced 2020'],
+  ['HSC.SGG.Y12.X2.2023 Q8','St George Girls High School Y12 Extension 2 2023'],
   ['HSC.NEAP.Y12.STN.2020 Q21','Neap Education Y12 Standard 2020'],
   ['HSC.NEAP.Y12.STN.2024 Q31','Neap Education Y12 Standard 2024'],
   ['HSC.NEAP.Y12.STN.2022 Q34','Neap Education Y12 Standard 2022'],

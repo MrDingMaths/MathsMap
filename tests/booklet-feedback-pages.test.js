@@ -173,3 +173,19 @@ test('identical rendered pages reuse an earlier image and its inspection; change
  fs.writeFileSync(image,'edited');assert.deepEqual(reusableImages(previous,result,[3]),[],'a changed image file is not reused');
  assert.deepEqual(reusableImages(null,result,[3]),[]);
 });
+
+ test('early diagnostics retain detached math failures before preview teardown',async t=>{
+const {installEarlyMathFailureObserver}=await import('../scripts/booklet/check-feedback-pages.mjs');
+let callback,options;const persisted=[];
+class Element {
+ constructor(attrs={},parent=null,children=[]){this.nodeType=1;this.attrs=attrs;this.parentElement=parent;this.children=children;this.tagName='DIV';this.textContent='precise TeX failure';this.isConnected=false;this.outerHTML='<div class="tikz-error" title="compile failed">failure</div>';this.dataset={};for(const c of children)c.parentElement=this;}
+ getAttribute(k){return this.attrs[k]??null;}
+ matches(selector){return selector.split(',').some(s=>{if(s.startsWith('.'))return(this.attrs.class??'').split(' ').includes(s.slice(1));const m=s.match(/^\[([^=\]]+)(?:="([^"]*)")?\]$/);return m&&(m[2]===undefined?Object.hasOwn(this.attrs,m[1]):this.attrs[m[1]]===m[2]);});}
+ closest(selector){for(let n=this;n;n=n.parentElement)if(n.matches(selector))return n;return null;}
+ querySelectorAll(selector){return this.children.flatMap(c=>[...(c.matches(selector)?[c]:[]),...c.querySelectorAll(selector)]);}
+ querySelector(selector){return this.querySelectorAll(selector)[0]??null;}
+}
+const originalGlobals=Object.fromEntries(['window','location','document','MutationObserver'].map(k=>[k,Object.getOwnPropertyDescriptor(globalThis,k)]));t.after(()=>{for(const[k,v]of Object.entries(originalGlobals)){if(v)Object.defineProperty(globalThis,k,v);else delete globalThis[k];}}); globalThis.window={addEventListener(){},__mathsmapRecordMathFailure:r=>persisted.push(r)};globalThis.location={href:'https://diagnostic.invalid/#/booklet'};globalThis.document={documentElement:new Element(),addEventListener(){}};globalThis.MutationObserver=class{constructor(fn){callback=fn;}observe(_node,o){options=o;}};
+installEarlyMathFailureObserver();assert(options.subtree&&options.childList&&options.characterData&&options.attributes);const err=new Element({class:'tikz-error',title:'Exact compile failure'}),wrapper=new Element({class:'tikz-loading','data-cache-key':'fixture-key'},null,[err]);wrapper._tikzJob={code:'\\begin{tikzpicture}fixture exact source\\end{tikzpicture}',key:'fixture-key',error:'Exact TeX compile failure',seq:7};const owner=new Element({'data-question-id':'fixture-whole-owner','data-diagram-id':'fixture-diagram'},null,[wrapper]),root=new Element();callback([{type:'childList',target:root,addedNodes:[],removedNodes:[owner]}]);assert.equal(persisted.length,1);assert.equal(persisted[0].connected,false);assert.equal(persisted[0].reason,'removed');assert.equal(persisted[0].cacheKey,'fixture-key');assert.equal(persisted[0].source,wrapper._tikzJob.code);assert.equal(persisted[0].title,'Exact compile failure');assert(persisted[0].ancestors.some(a=>a['data-question-id']==='fixture-whole-owner'));assert(persisted[0].ancestors.some(a=>a['data-diagram-id']==='fixture-diagram'));
+const status=new Element({'data-status':'failed',title:'data-status failure'},owner);callback([{type:'attributes',target:status}]);assert.equal(persisted.length,2);for(let i=0;i<30;i++){const n=new Element({class:'katex-error',title:'Unique '+i},owner);callback([{type:'attributes',target:n}]);}assert.equal(window.__mathsmapMathFailureHistory.length,20);assert.equal(persisted.length,20);assert.equal(persisted[0].title,'Exact compile failure');
+});
