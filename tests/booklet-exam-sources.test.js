@@ -210,3 +210,8 @@ test('two user-approved exact source exceptions do not widen school course or ye
  assert.equal(approvedMathsBaseSource('HSC.NORM.Y11.X1.2020 Q11c').label,'Normanhurst Boys Y11 Extension 1 2020');
  assert.equal(approvedMathsBaseSource('HSC.NSB.Y12.X2.2022 Q13e').label,'North Sydney Boys High School Y12 Extension 2 2022');
 });
+
+test('Financial exact Sydney Grammar source preserves neighbouring course holds',()=>{
+ assert.equal(approvedMathsBaseSource('HSC.SYDGR.Y12.STN.2024 Q27').label,'Sydney Grammar School Y12 Standard 2024');
+ for(const code of ['HSC.SYDGR.Y12.STN.2024 Q26','HSC.SYDGR.Y12.STN.2024 Q28','HSC.SYDGR.Y12.STN.2023 Q27'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
+});
