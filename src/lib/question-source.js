@@ -43,6 +43,7 @@ export function mathsBaseSource(code) {
 // Exact reviewed Exam sources; neighbouring questions retain their existing
 // holds. All school/provider identities below already have approved mappings.
 const approvedExamQuestionCodes = new Set([
+  'HSC.CSSA.STN.2023 Q20',
   'HSC.SGG.Y12.STN.2020 Q20',
   'HSC.CSSA.STN.2023 Q28',
   'HSC.NEAP.Y12.STN.2024 Q18',
@@ -86,6 +87,10 @@ export function approvedMathsBaseSource(code) {
   if (String(code).trim() === 'HSC.HORNSG.Y12.STN.2024 Q34') return {
     provider:'HSC-school',paper:'Y12 Standard',year:'2024',
     label:'Hornsby Girls High School Y12 Standard 2024',origin:'MathsBase',
+  };
+  if (String(code).trim() === 'HSC.HORNSG.Y12.STN.2024 Q17') return {
+    provider:'HSC-school',paper:'Y12 Standard',year:'2024',
+    label:'HORNSG Y12 Standard 2024',origin:'MathsBase',
   };
   // Preserve the literal unverified school token for this exact source.
   if (['HSC.HORNSG.Y12.X1.2023 Q12b','HSC.HORNSG.Y12.X1.2023 Q13c','HSC.HORNSG.Y12.X1.2023 Q14d'].includes(String(code).trim())) return {
