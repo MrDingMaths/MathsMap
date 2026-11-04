@@ -50,6 +50,7 @@ const approvedExamQuestionCodes = new Set([
   'HSC.NEAP.Y12.STN.2023 Q24', 'HSC.SYDGR.Y12.STN.2020 Q25',
   'HSC.SYDGR.Y12.STN.2021 Q26',
   'HSC.NEAP.Y11.X1.2021 Q12b',
+  'HSC.NORM.Y12.X2.2024 Q4',
 ]);
 // Approved 28 October source-label calibration. Keep the explicit year/course/
 // term tokens; an unrecognised school or token still needs a mapping decision.

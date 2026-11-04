@@ -29,6 +29,25 @@ import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {accumulateTikzCompilation,expectedAnswerNodeIds,assertAnswerRenderCoverage} from './check-compact-exercises.mjs';
 import {structuralPreflight,assertRepairScope} from './feedback-preflight.mjs';
 
+// Failure diagnostics must never replace a useful original exception or fail a success.
+export function feedbackFailureMessage(error,snapshot){
+ const original=error?.message??String(error);
+ if(original!=='Pagination failed')return original;
+ const actual=snapshot?.workspaceAlerts?.map(row=>row.text?.trim()).find(Boolean);
+ return actual?'Pagination failed: '+actual.slice(0,2000):original;
+}
+export async function withFeedbackFailureDiagnostic(operation,diagnose){
+ try{return await operation();}catch(error){
+  let message;try{message=await diagnose(error);}catch{}
+  if(message&&message!==(error?.message??String(error))){
+   const enriched=new Error(message,{cause:error});
+   if(error?.stack)enriched.stack=enriched.toString()+'\n'+error.stack.split('\n').slice(1).join('\n');
+   throw enriched;
+  }
+  throw error;
+ }
+}
+
 export const FEEDBACK_EDITIONS=['student','short','worked','with-short','with-worked'];
 export function feedbackDevelopmentReason(args){
  const value=name=>{const index=args.indexOf(name);return index<0?undefined:args[index+1];};
@@ -214,7 +233,34 @@ async function main(){
   write();
  }
  const context=await browser.newContext({viewport:{width:1600,height:1100},...(stateExists?{storageState:cacheState}:{})});
- const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
+ const page=await context.newPage(),errors=[],consoleErrors=[],requestFailures=[],httpErrors=[];
+ const retain=(rows,value)=>{rows.push(value);if(rows.length>50)rows.shift();};
+ page.on('pageerror',error=>retain(errors,error.message));
+ page.on('console',message=>{if(message.type()==='error')retain(consoleErrors,{text:message.text().slice(0,4000),location:message.location()});});
+ page.on('requestfailed',request=>retain(requestFailures,{url:request.url(),method:request.method(),error:request.failure()?.errorText??null}));
+ page.on('response',response=>{if(response.status()>=400)retain(httpErrors,{url:response.url(),status:response.status()});});
+ const captureFailure=async({pass,edition,error})=>{
+  const ordinal=(report.failureDiagnostics?.length??0)+1,stem='failure-diagnostic-'+ordinal;
+  const diagnostic={at:new Date().toISOString(),pass,edition,originalError:{message:error?.message??String(error),stack:error?.stack??null},pageErrors:[...errors],consoleErrors:[...consoleErrors],requestFailures:[...requestFailures],httpErrors:[...httpErrors],snapshot:null,captureErrors:[]};
+  // evaluate has no Playwright timeout option. Bound it independently so a busy
+  // renderer cannot prevent checker cleanup; late resolution has no side effects.
+  let timer;try{diagnostic.snapshot=await Promise.race([
+   page.evaluate(()=>{
+    const text=(element,max=20000)=>(element?.innerText??element?.textContent??'').slice(0,max);
+    const alerts=selector=>[...document.querySelectorAll(selector)].slice(0,50).map(element=>({text:text(element,4000),ancestorClass:element.parentElement?.className??null}));
+    const flow=document.querySelector('.flow-document');
+    return{url:location.href,readyState:document.readyState,title:document.title,bodyText:text(document.body),workspaceAlerts:alerts('.workspace-loading [role="alert"]'),alerts:alerts('[role="alert"]'),loading:text(document.querySelector('.workspace-loading')),layoutState:text(document.querySelector('.layout-state')),pagination:flow?{state:flow.dataset.paginationState,edition:flow.dataset.paginatedEdition,work:flow.dataset.paginationWork,runs:flow.dataset.paginationRuns,metrics:flow.dataset.paginationMetrics}:null,mathErrors:[...document.querySelectorAll('.flow-measure .tikz-error,.flow-measure .katex-error')].slice(0,30).map(element=>({text:text(element,4000),nodeId:element.closest('[data-node-id]')?.dataset.nodeId??null,questionId:element.closest('[data-question-id]')?.dataset.questionId??null,diagramId:element.closest('[data-diagram-id]')?.dataset.diagramId??null}))};
+   }),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Failure DOM snapshot timed out after 5000 ms')),5000);})
+  ]);}catch(captureError){diagnostic.captureErrors.push({stage:'dom',message:captureError.message??String(captureError)});}finally{clearTimeout(timer);}
+  const screenshot=path.join(path.dirname(reportFile),stem+'.png');
+  try{await page.screenshot({path:screenshot,fullPage:false,timeout:5000,animations:'disabled'});diagnostic.screenshot={file:screenshot,sha256:artifactHash(screenshot)};}
+  catch(captureError){diagnostic.captureErrors.push({stage:'screenshot',message:captureError.message??String(captureError)});}
+  const file=path.join(path.dirname(reportFile),stem+'.json');
+  // Recording the failure must remain best effort, including a full/read-only disk.
+  try{fs.writeFileSync(file,JSON.stringify(diagnostic,null,2)+'\n');(report.failureDiagnostics??=[]).push({file,sha256:artifactHash(file),pass,edition,captureErrors:diagnostic.captureErrors});}
+  catch(captureError){(report.failureDiagnostics??=[]).push({pass,edition,originalMessage:diagnostic.originalError.message,captureError:captureError.message??String(captureError)});return;}
+  return diagnostic.snapshot?feedbackFailureMessage(error,diagnostic.snapshot):undefined;
+ };
  // Pagination can occupy the page's main thread for longer than the default action timeout.
  page.setDefaultTimeout(300000);
  await page.addInitScript({content:`(()=>{const accumulate=${accumulateTikzCompilation.toString()};window.__mathsmapExportCompilation=accumulate(null,null);document.addEventListener('tikzjax-load-finished',event=>{window.__mathsmapExportCompilation=accumulate(window.__mathsmapExportCompilation,event.detail);},true);})();`});
@@ -235,11 +281,14 @@ async function main(){
  const version=()=>page.evaluate(async()=>(await window.TikZ?.cacheEntries?.())?.version??null);
  // Render each edition of one project. Baseline passes hash pages only.
  const renderPass=async(name,project,{inspect,editions,publish})=>{
+  let activeEdition=null;
+  return withFeedbackFailureDiagnostic(async()=>{
   const record=structuredClone(project);
   const assets=await contentAssetSignatures(record),pass={name,revision:project.revision??null,projectHash:projectReviewHash(project),editions:{},cachePublished:0};
   await routeCandidateProject(page,record);
   report.passes.push(pass);
   for(const edition of editions){
+   activeEdition=edition;
    // One browser and context throughout, but a fresh document per edition that
    // opens directly in it. Measured on Integers: re-paginating inside a document
    // whose print surface is already populated took 39-78 s per combined edition
@@ -291,6 +340,7 @@ async function main(){
    if(name==='candidate'||(capture&&name==='baseline'))report.completedEditions.push(edition);
   }
   return pass;
+  },error=>captureFailure({pass:name,edition:activeEdition,error}));
  };
   if(capture||(baselineProject&&!byBlocks)){
    const pass=renderBaseline.length?await renderPass('baseline',baselineProject??candidate,{inspect:null,editions:renderBaseline,publish:true}):{cachePublished:0,editions:{}};

@@ -6,7 +6,23 @@ import {diagramInputFiles} from '../scripts/booklet/render-cache-server.mjs';
 import {requireBoundedDevelopmentExport} from '../scripts/booklet/page-review.mjs';
 import {survivingRepairBlocks} from '../scripts/booklet/check-feedback-pages.mjs';
 import {feedbackDevelopmentReason} from '../scripts/booklet/check-feedback-pages.mjs';
+import {feedbackFailureMessage,withFeedbackFailureDiagnostic} from '../scripts/booklet/check-feedback-pages.mjs';
 import {feedbackArguments} from '../scripts/booklet/shared-render-runner.mjs';
+
+test('failure diagnostics preserve successes and the original exception if capture fails',async()=>{
+ let captures=0;
+ assert.equal(await withFeedbackFailureDiagnostic(async()=>42,async()=>{captures++;}),42);
+ assert.equal(captures,0);
+ const original=new Error('Pagination timed out');
+ await assert.rejects(withFeedbackFailureDiagnostic(async()=>{throw original;},async()=>{throw Error('Diagnostic capture failed');}),error=>error===original);
+});
+
+test('pagination failure reports the actual workspace error and keeps its cause',async()=>{
+ const original=new Error('Pagination failed'),snapshot={workspaceAlerts:[{text:'Diagram source could not be rendered'}],alerts:[{text:'Unrelated notice'}]};
+ await assert.rejects(withFeedbackFailureDiagnostic(async()=>{throw original;},async error=>feedbackFailureMessage(error,snapshot)),error=>error.cause===original&&error.message==='Pagination failed: Diagram source could not be rendered'&&error.stack.includes(original.stack.split('\n')[1]));
+ assert.equal(feedbackFailureMessage(original,{alerts:snapshot.alerts}),'Pagination failed');
+ assert.equal(feedbackFailureMessage(new Error('Specific failure'),snapshot),'Specific failure');
+});
 
 test('queued full-edition justification reaches the checker guard through its documented flag',()=>{
  const reason='Both compact Short pages are the minimal affected selection for the reviewed additions';

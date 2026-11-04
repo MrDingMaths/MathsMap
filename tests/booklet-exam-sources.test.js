@@ -42,6 +42,7 @@ test('reviewed function and identity sources admit only their exact literal code
   ['HSC.SYDGR.Y12.STN.2020 Q25','Sydney Grammar School Y12 Standard 2020'],
   ['HSC.SYDGR.Y12.STN.2021 Q26','Sydney Grammar School Y12 Standard 2021'],
   ['HSC.NEAP.Y11.X1.2021 Q12b','Neap Education Y11 Extension 1 2021'],
+  ['HSC.NORM.Y12.X2.2024 Q4','Normanhurst Boys Y12 Extension 2 2024'],
   ['HSC.HORNSG.Y12.X1.2023 Q12b','HORNSG Y12 Extension 1 2023'],
  ]){
   assert.equal(approvedMathsBaseSource(code).label,label,code);
