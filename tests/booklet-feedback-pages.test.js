@@ -5,6 +5,18 @@ import {boundaryPages,selectFeedbackPages,selectBlockPages,inspectionPlan,derive
 import {diagramInputFiles} from '../scripts/booklet/render-cache-server.mjs';
 import {requireBoundedDevelopmentExport} from '../scripts/booklet/page-review.mjs';
 import {survivingRepairBlocks} from '../scripts/booklet/check-feedback-pages.mjs';
+import {feedbackDevelopmentReason} from '../scripts/booklet/check-feedback-pages.mjs';
+import {feedbackArguments} from '../scripts/booklet/shared-render-runner.mjs';
+
+test('queued full-edition justification reaches the checker guard through its documented flag',()=>{
+ const reason='Both compact Short pages are the minimal affected selection for the reviewed additions';
+ const args=feedbackArguments({root:process.cwd()},{projectId:'p',blocks:['new'],allowedPaths:['/sections/0/blocks'],editions:['short'],checksOnly:[],fullDevelopmentReason:reason},{candidate:'candidate.json',baseline:'before.json'},1234,'output');
+ assert.equal(feedbackDevelopmentReason(args),reason);
+ assert.doesNotThrow(()=>requireBoundedDevelopmentExport({projectId:'p',edition:'short',hasBaseline:true,selectedPages:2,totalPages:2,reason:feedbackDevelopmentReason(args)}));
+ assert.equal(feedbackDevelopmentReason(['--full-reason',reason]),reason);
+ assert.equal(feedbackDevelopmentReason(['--full-reason','legacy','--full-development-reason',reason]),reason);
+ for(const missing of [[],['--full-development-reason']])assert.throws(()=>requireBoundedDevelopmentExport({projectId:'p',edition:'short',hasBaseline:true,selectedPages:2,totalPages:2,reason:feedbackDevelopmentReason(missing)}),/selected all 2 pages/);
+});
 
 test('scoped deletion keeps mutation ownership without rendering a removed duplicate',()=>{
  const project=ids=>({sections:[{blocks:ids.map(id=>({id}))}]});

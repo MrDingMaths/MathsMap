@@ -40,6 +40,17 @@ export function mathsBaseSource(code) {
   return {provider, paper, year, label, origin:'MathsBase'};
 }
 
+// Exact reviewed Exam sources; neighbouring questions retain their existing
+// holds. All school/provider identities below already have approved mappings.
+const approvedExamQuestionCodes = new Set([
+  'HSC.SYDGR.Y11.ADV.2019 Q9e', 'HSC.NORM.Y11.ADV.2020 Q8a',
+  'HSC.NSB.Y11.ADV.2024 Q10', 'HSC.NSB.Y11.ADV.2024 Q26',
+  'HSC.NEAP.Y11.X1.2023 Q11e', 'HSC.SYDG.Y11.X1.2019 Q2d',
+  'HSC.KNOX.Y11.ADV.2020 Q12c', 'HSC.SYDGR.Y11.ADV.2019 Q11a',
+  'HSC.NEAP.Y12.STN.2023 Q24', 'HSC.SYDGR.Y12.STN.2020 Q25',
+  'HSC.SYDGR.Y12.STN.2021 Q26',
+  'HSC.NEAP.Y11.X1.2021 Q12b',
+]);
 // Approved 28 October source-label calibration. Keep the explicit year/course/
 // term tokens; an unrecognised school or token still needs a mapping decision.
 export function approvedMathsBaseSource(code) {
@@ -53,6 +64,11 @@ export function approvedMathsBaseSource(code) {
   if (String(code).trim() === 'HSC.HORNSG.Y12.STN.2024 Q34') return {
     provider:'HSC-school',paper:'Y12 Standard',year:'2024',
     label:'Hornsby Girls High School Y12 Standard 2024',origin:'MathsBase',
+  };
+  // Preserve the literal unverified school token for this exact source.
+  if (String(code).trim() === 'HSC.HORNSG.Y12.X1.2023 Q12b') return {
+    provider:'HSC-school',paper:'Y12 Extension 1',year:'2023',
+    label:'HORNSG Y12 Extension 1 2023',origin:'MathsBase',
   };
   // Source-backed programme reconciliation, 31 October 2026. These identities
   // are not a blanket eligibility decision or a claim that every paper is a
@@ -77,7 +93,8 @@ export function approvedMathsBaseSource(code) {
     const paperTokens = tokens.join(' ');
     const year = Number(source.year);
     const retained2019Paper = year === 2019 && (
-      source.schoolCode === 'SGG' && paperTokens === 'Y11 ADV'
+      approvedExamQuestionCodes.has(String(code).trim())
+      || source.schoolCode === 'SGG' && paperTokens === 'Y11 ADV'
       || source.schoolCode === 'CSSA' && paperTokens === 'STN'
       || String(code).trim() === 'HSC.NORM.Y11.X1.2019 Q12b'
       || ['HSC.NSG.Y11.ADV.2019 Q14b', 'HSC.SYDGR.Y11.ADV.2019 Q12b'].includes(String(code).trim())
@@ -85,6 +102,7 @@ export function approvedMathsBaseSource(code) {
       || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV'
     );
     const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
+      || approvedExamQuestionCodes.has(String(code).trim())
       || ['NEAP', 'SYDGR', 'NSG', 'SYDG', 'SGG'].includes(source.schoolCode) && paperTokens === 'Y11 ADV'
       || source.schoolCode === 'SYDGR' && paperTokens === 'Y11 STN'
       || source.schoolCode === 'NSG' && paperTokens === 'Y12 X2' && year === 2022

@@ -30,6 +30,10 @@ import {accumulateTikzCompilation,expectedAnswerNodeIds,assertAnswerRenderCovera
 import {structuralPreflight,assertRepairScope} from './feedback-preflight.mjs';
 
 export const FEEDBACK_EDITIONS=['student','short','worked','with-short','with-worked'];
+export function feedbackDevelopmentReason(args){
+ const value=name=>{const index=args.indexOf(name);return index<0?undefined:args[index+1];};
+ return value('--full-development-reason')??value('--full-reason');
+}
 // A scoped deletion still belongs to mutation scope, but has no surviving
 // document to render. Unknown IDs remain so structural preflight rejects them.
 export function survivingRepairBlocks(candidate,baseline,ids){
@@ -146,7 +150,7 @@ async function main(){
  const blockIds=arg('--blocks','').split(',').filter(Boolean),selectionBlockIds=arg('--selection-blocks','').split(',').filter(Boolean),byBlocks=blockIds.length>0;
  if(selectionBlockIds.length&&!byBlocks)throw Error('--selection-blocks requires --blocks to declare mutation scope');
  const capture=flag('--capture-baseline'),candidateFile=arg('--project-file'),baselineFile=arg('--baseline-project-file'),projectId=arg('--project');
- const overrides=parseOverrides(all('--runtime-override')),candidateCss=arg('--candidate-css'),extra=(arg('--pages','')).split(',').filter(Boolean).map(Number),fullReason=arg('--full-reason');
+ const overrides=parseOverrides(all('--runtime-override')),candidateCss=arg('--candidate-css'),extra=(arg('--pages','')).split(',').filter(Boolean).map(Number),fullReason=feedbackDevelopmentReason(process.argv.slice(2));
  if(capture&&(overrides.length||candidateCss||baselineFile||byBlocks))throw Error('--capture-baseline records the current project and runtime only');
  const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
  const candidate=candidateFile?read(candidateFile):read(`booklets/projects/${projectId??(()=>{throw Error('Use --project ID or --project-file FILE');})()}.json`);

@@ -28,6 +28,27 @@ test('two exact simultaneous sources preserve neighbouring school holds',()=>{
   assert.equal(approvedMathsBaseSource('HSC.HORNSG.Y12.STN.2024 Q35').needsSchoolMapping,true);
 });
 
+test('reviewed function and identity sources admit only their exact literal codes',()=>{
+ for(const [code,label]of [
+  ['HSC.SYDGR.Y11.ADV.2019 Q9e','Sydney Grammar School Y11 Advanced 2019'],
+  ['HSC.NORM.Y11.ADV.2020 Q8a','Normanhurst Boys Y11 Advanced 2020'],
+  ['HSC.NSB.Y11.ADV.2024 Q10','North Sydney Boys High School Y11 Advanced 2024'],
+  ['HSC.NSB.Y11.ADV.2024 Q26','North Sydney Boys High School Y11 Advanced 2024'],
+  ['HSC.NEAP.Y11.X1.2023 Q11e','Neap Education Y11 Extension 1 2023'],
+  ['HSC.SYDG.Y11.X1.2019 Q2d','Sydney Girls High School Y11 Extension 1 2019'],
+  ['HSC.KNOX.Y11.ADV.2020 Q12c','Knox Grammar Y11 Advanced 2020'],
+  ['HSC.SYDGR.Y11.ADV.2019 Q11a','Sydney Grammar School Y11 Advanced 2019'],
+  ['HSC.NEAP.Y12.STN.2023 Q24','Neap Education Y12 Standard 2023'],
+  ['HSC.SYDGR.Y12.STN.2020 Q25','Sydney Grammar School Y12 Standard 2020'],
+  ['HSC.SYDGR.Y12.STN.2021 Q26','Sydney Grammar School Y12 Standard 2021'],
+  ['HSC.NEAP.Y11.X1.2021 Q12b','Neap Education Y11 Extension 1 2021'],
+  ['HSC.HORNSG.Y12.X1.2023 Q12b','HORNSG Y12 Extension 1 2023'],
+ ]){
+  assert.equal(approvedMathsBaseSource(code).label,label,code);
+  assert.equal(approvedMathsBaseSource(code.replace(/Q\S+$/,'Q99999')).needsSchoolMapping,true,code);
+ }
+});
+
 test('reviewed Year 11 Advanced source mappings retain their literal context',()=>{
   for(const [code,label] of [
     ['HSC.NEAP.Y11.ADV.2023 Q9','Neap Education Y11 Advanced 2023'],
