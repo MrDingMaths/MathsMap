@@ -226,3 +226,8 @@ test('Inverse Trig exact NSB E3 attribution preserves adjacent source holds',()=
  assert.equal(approvedMathsBaseSource('HSC.NSB.Y11.X1.2023 QE3').label,'North Sydney Boys High School Y11 Extension 1 2023');
  for(const code of ['HSC.NSB.Y11.X1.2023 QE2','HSC.NSB.Y11.X1.2023 QE4','HSC.NSB.Y11.X1.2022 QE3'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
 });
+
+test('Further Areas exact Extension 2 attributions preserve adjacent holds',()=>{
+ for(const [code,label] of [['HSC.NORM.Y12.X2.2024 Q16b','Normanhurst Boys Y12 Extension 2 2024'],['HSC.NSG.Y12.X2.2024 Q15a','North Sydney Girls High School Y12 Extension 2 2024'],['HSC.JRUSE.Y12.X2.2020 Q9','James Ruse Agricultural High School Y12 Extension 2 2020']])assert.equal(approvedMathsBaseSource(code).label,label);
+ for(const code of ['HSC.NORM.Y12.X2.2024 Q16a','HSC.NORM.Y12.X2.2023 Q16b','HSC.NSG.Y12.X2.2024 Q15b','HSC.NSG.Y12.X2.2023 Q15a','HSC.JRUSE.Y12.X2.2020 Q10','HSC.JRUSE.Y12.X2.2021 Q9'])assert.equal(approvedMathsBaseSource(code).needsSchoolMapping,true,code);
+});
