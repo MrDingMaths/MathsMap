@@ -48,6 +48,12 @@ export function approvedMathsBaseSource(code) {
   const parts = String(code).trim().split(/\s+/)[0].split('.');
   const yearIndex = parts.findIndex(part => /^(19|20)\d{2}$/.test(part));
   const tokens = parts.slice(2, yearIndex);
+  // Exact retained 2024 paper cover identifies Hornsby Girls; no other
+  // HORNSG course/year/question is admitted by this source-backed exception.
+  if (String(code).trim() === 'HSC.HORNSG.Y12.STN.2024 Q34') return {
+    provider:'HSC-school',paper:'Y12 Standard',year:'2024',
+    label:'Hornsby Girls High School Y12 Standard 2024',origin:'MathsBase',
+  };
   // Source-backed programme reconciliation, 31 October 2026. These identities
   // are not a blanket eligibility decision or a claim that every paper is a
   // trial. In particular Sydney Girls 2021 Alternate Task 4 is an internal task.
@@ -75,6 +81,7 @@ export function approvedMathsBaseSource(code) {
       || source.schoolCode === 'CSSA' && paperTokens === 'STN'
       || String(code).trim() === 'HSC.NORM.Y11.X1.2019 Q12b'
       || ['HSC.NSG.Y11.ADV.2019 Q14b', 'HSC.SYDGR.Y11.ADV.2019 Q12b'].includes(String(code).trim())
+      || String(code).trim() === 'HSC.SYDGR.Y12.STN.2019 Q20'
       || source.schoolCode === 'KNOX' && paperTokens === 'Y11 ADV'
     );
     const recognised = /^Y12 (?:ADV|X1)$/.test(paperTokens)
@@ -86,6 +93,8 @@ export function approvedMathsBaseSource(code) {
       || ['HSC.CSSA.STN.2020 Q14', 'HSC.SGG.Y12.STN.2020 Q17'].includes(String(code).trim())
       || String(code).trim() === 'HSC.SGG.Y12.STN.2025 Q38'
       || String(code).trim() === 'HSC.SYDGR.Y12.STN.2024 Q27'
+      || String(code).trim() === 'HSC.SYDGR.Y12.STN.2019 Q20'
+      || String(code).trim() === 'HSC.SYDGR.Y12.STN.2020 Q42'
       || ['HSC.ABBOT.Y12.X2.2023 Q15c', 'HSC.NSB.Y12.X2.2020 Q13c'].includes(String(code).trim())
       || String(code).trim() === 'HSC.NSB.Y11.X1.2023 QE3'
       || ['HSC.NORM.Y12.X2.2024 Q16b', 'HSC.NSG.Y12.X2.2024 Q15a', 'HSC.JRUSE.Y12.X2.2020 Q9'].includes(String(code).trim())

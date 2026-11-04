@@ -13,6 +13,21 @@ import {visibleImportedQuestionTitle} from '../src/lib/booklet-preview.js';
 import {withoutWorkingSpace,arrangementExamTitle} from '../src/lib/booklet-arrangement.js';
 import {createProgrammeExamSection} from '../pedagogy/programme-exam.mjs';
 
+test('retained Sydney Grammar 2019 grouped-data source keeps exact year and course',()=>{
+  assert.deepEqual(approvedMathsBaseSource('HSC.SYDGR.Y12.STN.2019 Q20'),{
+    provider:'HSC-school',paper:'Y12 Standard',year:'2019',
+    label:'Sydney Grammar School Y12 Standard 2019',origin:'MathsBase',
+  });
+  assert.equal(approvedMathsBaseSource('HSC.SYDGR.Y12.STN.2019 Q21').needsSchoolMapping,true);
+});
+
+test('two exact simultaneous sources preserve neighbouring school holds',()=>{
+  assert.equal(approvedMathsBaseSource('HSC.SYDGR.Y12.STN.2020 Q42').label,'Sydney Grammar School Y12 Standard 2020');
+  assert.equal(approvedMathsBaseSource('HSC.HORNSG.Y12.STN.2024 Q34').label,'Hornsby Girls High School Y12 Standard 2024');
+  assert.equal(approvedMathsBaseSource('HSC.SYDGR.Y12.STN.2020 Q41').needsSchoolMapping,true);
+  assert.equal(approvedMathsBaseSource('HSC.HORNSG.Y12.STN.2024 Q35').needsSchoolMapping,true);
+});
+
 test('reviewed Year 11 Advanced source mappings retain their literal context',()=>{
   for(const [code,label] of [
     ['HSC.NEAP.Y11.ADV.2023 Q9','Neap Education Y11 Advanced 2023'],
