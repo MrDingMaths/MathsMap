@@ -43,6 +43,7 @@ test('reviewed function and identity sources admit only their exact literal code
   ['HSC.SYDGR.Y12.STN.2021 Q26','Sydney Grammar School Y12 Standard 2021'],
   ['HSC.NEAP.Y11.X1.2021 Q12b','Neap Education Y11 Extension 1 2021'],
   ['HSC.NORM.Y12.X2.2024 Q4','Normanhurst Boys Y12 Extension 2 2024'],
+  ['HSC.NORM.Y11.ADV.2020 Q6c','Normanhurst Boys Y11 Advanced 2020'],
   ['HSC.NEAP.Y12.STN.2020 Q21','Neap Education Y12 Standard 2020'],
   ['HSC.NEAP.Y12.STN.2024 Q31','Neap Education Y12 Standard 2024'],
   ['HSC.NEAP.Y12.STN.2022 Q34','Neap Education Y12 Standard 2022'],
