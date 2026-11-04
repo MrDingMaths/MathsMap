@@ -1,3 +1,107 @@
+import {requestHash as scopedConsoleRequestHash} from './shared-render-queue.mjs';
+export function validateDiagnosticBinding({config,configSha256,expectedConfigSha256,request,authorization,computedRequestHash,candidateSha256,projectId,runtimePinHash}){
+  const fail=reason=>{throw Error('Scoped TeX console diagnostic refused: '+reason);};
+  if(!/^[a-f0-9]{64}$/.test(expectedConfigSha256??'')||configSha256!==expectedConfigSha256)fail('config hash mismatch');
+  if(request?.kind!=='pinned-feedback-render-v1'||request.owner!=='Exam'||authorization?.owner!=='Exam'||authorization.executionAuthorized!==true||authorization.publicationAuthorized!==false||authorization.maxAttempts!==1||authorization.requestHash!==computedRequestHash)fail('request/authorization binding mismatch');
+  if(!runtimePinHash||request.runtime?.pinHash!==runtimePinHash)fail('runtime pin mismatch');
+  if(request.inputHashes?.diagnosticConfig!==configSha256||request.inputHashes?.candidate!==candidateSha256)fail('immutable request input mismatch');
+  if(config?.kind!=='scoped-tikz-console-diagnostic-config-v1'||config.enabled!==true||config.projectId!==projectId||request.projectId!==projectId||config.candidateSha256!==candidateSha256)fail('project/candidate mismatch');
+  if(!Array.isArray(request.selectionBlocks)||request.selectionBlocks.length!==1||request.selectionBlocks[0]!==config.ownerId||!request.blocks?.includes(config.ownerId))fail('one-owner selection required');
+  if(!Array.isArray(config.diagramIds)||!config.diagramIds.length||config.diagramIds.length>8||new Set(config.diagramIds).size!==config.diagramIds.length)fail('bounded distinct diagram IDs required');
+  for(const id of config.diagramIds)if(typeof id!=='string'||typeof config.expectedSources?.[id]!=='string'||config.expectedSources[id].length>60000||!config.expectedSources[id].length||!/^[a-zA-Z0-9-]{1,200}$/.test(config.expectedKeySuffixes?.[id]??''))fail('exact prepared source/key missing');
+  return config;
+}
+
+export function installScopedGeneratorsConsole(config) {
+  if(config?.enabled!==true)return;
+  const key='__mathsmapGeneratorsConsoleDiagnostic';
+  if(window[key])return;
+  const state=window[key]={version:1,armed:[],refusals:[],limit:16};
+  const record=(kind,row)=>{const value={kind,at:Date.now(),url:String(location.href).slice(0,1200),...row};
+    try{Promise.resolve(window.__mathsmapRecordGeneratorsConsoleArm?.(value)).catch(()=>{});}catch{}
+    return value;};
+  const refuse=row=>{if(state.refusals.length<32)state.refusals.push(record('not-armed',row));};
+  if(window.TikzJax){refuse({reason:'Engine was already installed; early registration cannot be established.'});return;}
+  const allowed=new Set(config.diagramIds),armedScripts=new WeakSet();
+  const arm=(script,parent)=>{try{
+    if(script?.nodeType!==1||script.tagName!=='SCRIPT'||script.type!=='text/tikz'||armedScripts.has(script))return;
+    const owner=parent.closest?.('[data-question-id]')?.getAttribute('data-question-id');
+    const diagram=parent.closest?.('[data-diagram-id]')?.getAttribute('data-diagram-id');
+    if(owner!==config.ownerId||!allowed.has(diagram))return;
+    const wrapper=parent.closest?.('.tikz-loading,.tikz-wrap'),job=wrapper?._tikzJob;
+    // Both identity and the complete runtime-prepared source must match this job.
+    const expected=config.expectedSources?.[diagram],suffix=config.expectedKeySuffixes?.[diagram];
+    if(!job||typeof expected!=='string'||typeof suffix!=='string'||script.textContent!==expected||script.textContent!==job.code||!(job.key===suffix||String(job.key).endsWith('-'+suffix))){refuse({owner,diagram,reason:'Missing job/expected source or exact script/job/candidate source/cache-key mismatch.'});return;}
+    if(state.armed.length>=state.limit){refuse({owner,diagram,reason:'Bounded16scriptarm limit reached.'});return;}
+    const before={...script.dataset};
+    script.dataset.showConsole='true';
+    armedScripts.add(script);
+    state.armed.push(record('script-armed',{owner,diagram,cacheKey:job.key??null,jobSequence:job.seq??null,source:job.code.slice(0,60000),sourceTruncated:job.code.length>60000,beforeDataset:before,afterDataset:{...script.dataset}}));
+  }catch(error){refuse({reason:String(error?.message??error).slice(0,2000)});}};
+  const proto=Node.prototype,original=proto.appendChild;
+  if(typeof original!=='function'){refuse({reason:'Node.appendChild unavailable.'});return;}
+  const wrapped=function(...args){arm(args[0],this);return Reflect.apply(original,this,args);};
+  proto.appendChild=wrapped;
+  state.stop=()=>{if(proto.appendChild===wrapped)proto.appendChild=original;};
+}
+
+export function serializeConsoleArgument(value) {
+  const seen=new WeakSet();let count=0;
+  function visit(v,depth=0){
+    if(++count>300)return '[argument node limit]';
+    if(typeof v==='string')return v.length>16000?v.slice(0,16000)+'[truncated]':v;
+    if(typeof v==='bigint')return {type:'bigint',value:String(v)};
+    if(typeof v==='undefined')return {type:'undefined'};
+    if(typeof v==='number'&&!Number.isFinite(v))return {type:'number',value:String(v)};
+    if(v===null||['number','boolean'].includes(typeof v))return v;
+    if(['function','symbol'].includes(typeof v))return {type:typeof v,value:String(v).slice(0,2000)};
+    if(depth>5)return '[argument depth limit]';
+    if(seen.has(v))return '[circular]';seen.add(v);
+    if(v instanceof Error||Object.prototype.toString.call(v).endsWith('Error]'))return {type:'Error',name:visit(v.name,depth+1),message:visit(v.message,depth+1),stack:visit(v.stack,depth+1),...(v.cause===undefined?{}:{cause:visit(v.cause,depth+1)})};
+    if(Array.isArray(v))return v.slice(0,60).map(x=>visit(x,depth+1));
+    const out={};for(const k of Object.keys(v).slice(0,60)){try{out[k]=visit(v[k],depth+1);}catch(e){out[k]='[getter failed: '+String(e?.message??e).slice(0,500)+']';}}return out;
+  }
+  return visit(value);
+}
+
+export function createBoundedConsoleHistory({headBytes=128*1024,tailBytes=2*1024*1024,maxRows=2000}={}){
+  const head=[],tail=[];let headSize=0,tailSize=0,totalRows=0,droppedRows=0,droppedBytes=0;
+  const bytes=x=>new TextEncoder().encode(JSON.stringify(x)).length;
+  return {
+    push(row){totalRows++;const size=bytes(row);if(size>tailBytes){droppedRows++;droppedBytes+=size;return;}
+      if(!tail.length&&headSize+size<=headBytes&&head.length<Math.floor(maxRows/4)){head.push(row);headSize+=size;return;}
+      tail.push({row,size});tailSize+=size;while(tailSize>tailBytes||head.length+tail.length>maxRows){const old=tail.shift();tailSize-=old.size;droppedRows++;droppedBytes+=old.size;}},
+    snapshot(){return{head:[...head],tail:tail.map(x=>x.row),totalRows,droppedRows,droppedBytes,limits:{headBytes,tailBytes,maxRows},retainedBytes:headSize+tailSize};}
+  };
+}
+
+export function attachAllConsoleCapture(page,{persist=()=>{},argumentTimeoutMs=500}={}){
+  const history=createBoundedConsoleHistory(),pending=new Set(),captureErrors=[];let sequence=0;
+  const captureError=e=>{captureErrors.push(String(e?.message??e).slice(0,2000));if(captureErrors.length>20)captureErrors.shift();};
+  const snapshot=()=>({...history.snapshot(),captureErrors:[...captureErrors]});
+  const save=()=>{try{persist(snapshot());}catch(e){captureError(e);}};
+  const onConsole=message=>{
+    const ordinal=++sequence,at=Date.now();
+    let type,text,location,handles;try{type=message.type();text=message.text().slice(0,32000);location=message.location();handles=message.args();}catch(e){captureError(e);save();return;}
+    const critical=type==='error'||/^(?:Error:|! )|exception/i.test(text);
+    if(pending.size>=(critical?72:64)){history.push({sequence:ordinal,at,type,text,location,argumentCount:handles.length,args:[],omittedArguments:handles.length,argumentCaptureSkipped:'Bounded pending serialization limit; complete bounded message text retained.'});save();return;}
+    const task=(async()=>{const args=[];for(const handle of handles.slice(0,8)){let timer;try{args.push(await Promise.race([handle.evaluate(serializeConsoleArgument),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('argument serialization timeout')),argumentTimeoutMs);})]));}catch(e){args.push({captureError:String(e?.message??e)});}finally{clearTimeout(timer);}}
+      history.push({sequence:ordinal,at,type,text,location,args,argumentCount:handles.length,omittedArguments:Math.max(0,handles.length-8)});save();})().catch(e=>{captureError(e);save();});pending.add(task);task.then(()=>pending.delete(task),()=>pending.delete(task));
+  };
+  page.on('console',onConsole);
+  return {snapshot,recordError:error=>{history.push({sequence:++sequence,at:Date.now(),type:'pageerror',args:[serializeConsoleArgument(error)]});save();},flush:async()=>{await Promise.allSettled([...pending]);save();return snapshot();},detach:()=>page.off('console',onConsole)};
+}
+function loadScopedConsoleDiagnostic(candidateFile,projectId){
+ const expected=process.env.MATHSMAP_TIKZ_CONSOLE_CONFIG_SHA256;if(!expected)return null;
+ if(!candidateFile||path.basename(path.dirname(path.resolve(candidateFile)))!=='inputs')throw Error('Scoped diagnostic requires immutable queued candidate input');
+ const inputsDir=path.dirname(path.resolve(candidateFile)),manifestFile=path.join(path.dirname(inputsDir),'manifest.json'),configFile=path.join(inputsDir,'diagnosticConfig');
+ for(const file of[manifestFile,configFile,path.resolve(candidateFile)])if(!fs.lstatSync(file).isFile()||fs.realpathSync(file)!==path.resolve(file))throw Error('Scoped diagnostic input is not a regular canonical file');
+ const manifest=JSON.parse(fs.readFileSync(manifestFile,'utf8')),config=JSON.parse(fs.readFileSync(configFile,'utf8')),configSha256=artifactHash(configFile),candidateSha256=artifactHash(candidateFile),guard=manifest.inputs?.find(i=>i.role==='diagnosticConfig');
+ if(guard?.sha256!==configSha256)throw Error('Scoped diagnostic config snapshot differs from manifest');
+ validateDiagnosticBinding({config,configSha256,expectedConfigSha256:expected,request:manifest.request,authorization:manifest.authorization,computedRequestHash:scopedConsoleRequestHash(manifest.request),candidateSha256,projectId,runtimePinHash:process.env.MATHSMAP_RUNTIME_PIN_HASH});
+ return{config,binding:{manifestFile,manifestSha256:artifactHash(manifestFile),requestHash:scopedConsoleRequestHash(manifest.request),configFile,configSha256,candidateSha256}};
+}
+
 // Scoped feedback-maintenance page check. One browser and context render the
 // accepted project (page maps only) and the candidate (checks, then only the
 // affected pages and their pagination neighbours as PDF). Read-only: no project,
@@ -242,6 +346,7 @@ async function main(){
   fs.writeFileSync(path.join(out,'preflight.json'),JSON.stringify(preflight,null,2)+'\n');
   if(preflight.issues.length)throw Error('Repair structural preflight failed: '+JSON.stringify(preflight.issues));
  }
+ const scopedConsoleDiagnostic=loadScopedConsoleDiagnostic(candidateFile,candidate.id);
  const id=candidate.id,mapFile=edition=>path.join(out,`${id}-${edition}.baseline.pages.json`),reportFile=path.join(out,capture?'baseline-report.json':'feedback-pages.json');
  // Stop before any rendering when a comparison has nothing to compare with.
  // With a baseline project, combined editions default to the Questions
@@ -275,7 +380,7 @@ async function main(){
   selectionBlocks:selectionBlockIds,note:'Automated evidence only. Selected pages still need final-size visual inspection; combined body pages marked inspectIn "student" reuse that inspection of the same flow blocks, with no pixel comparison performed or claimed. Partial PDFs carry no link annotations; navigation is checked in the print DOM.'};
  const write=()=>fs.writeFileSync(reportFile,JSON.stringify({...report,elapsedMs:Date.now()-started},null,2));
  write();
- let browser;
+ let browser,scopedConsoleCapture;
  try{
  const inputUrls=diagramInputUrls(await diagramInputFiles()),cacheOff=overrideTouchesDiagramInputs(overrides.map(o=>o.glob),inputUrls);
  const cacheState=arg('--cache-state'),stateExists=cacheState&&fs.existsSync(cacheState);
@@ -298,6 +403,13 @@ async function main(){
   fs.writeFileSync(path.join(path.dirname(reportFile),'early-math-failures.json'),JSON.stringify({kind:'early-math-failure-history-v1',rows:earlyMathErrors},null,2)+'\n');
  }catch{}});
  await page.addInitScript(installEarlyMathFailureObserver);
+ if(scopedConsoleDiagnostic){
+  const armRows=[];await page.exposeFunction('__mathsmapRecordGeneratorsConsoleArm',row=>{try{if(armRows.length>=48)return;armRows.push(row);fs.writeFileSync(path.join(out,'scoped-tikz-console-arms.json'),JSON.stringify({binding:scopedConsoleDiagnostic.binding,rows:armRows},null,2)+'\n');}catch{}});
+  scopedConsoleCapture=attachAllConsoleCapture(page,{persist:history=>fs.writeFileSync(path.join(out,'scoped-tikz-console-history.json'),JSON.stringify({binding:scopedConsoleDiagnostic.binding,...history},null,2)+'\n')});
+  page.on('pageerror',error=>scopedConsoleCapture.recordError(error));
+  await page.addInitScript(installScopedGeneratorsConsole,scopedConsoleDiagnostic.config);
+  report.scopedTikzConsoleDiagnostic=scopedConsoleDiagnostic.binding;
+ }
  const retain=(rows,value)=>{rows.push(value);if(rows.length>50)rows.shift();};
  page.on('pageerror',error=>retain(errors,error.message));
  page.on('console',message=>{if(message.type()==='error')retain(consoleErrors,{text:message.text().slice(0,4000),location:message.location()});});
@@ -306,6 +418,7 @@ async function main(){
  const captureFailure=async({pass,edition,error})=>{
   const ordinal=(report.failureDiagnostics?.length??0)+1,stem='failure-diagnostic-'+ordinal;
   const diagnostic={at:new Date().toISOString(),pass,edition,originalError:{message:error?.message??String(error),stack:error?.stack??null},pageErrors:[...errors],consoleErrors:[...consoleErrors],requestFailures:[...requestFailures],httpErrors:[...httpErrors],earlyMathErrors:[...earlyMathErrors],snapshot:null,captureErrors:[]};
+  if(scopedConsoleCapture){try{diagnostic.scopedTikzConsole=await scopedConsoleCapture.flush();}catch(captureError){diagnostic.captureErrors.push({stage:'console-history',message:captureError.message??String(captureError)});}}
   // evaluate has no Playwright timeout option. Bound it independently so a busy
   // renderer cannot prevent checker cleanup; late resolution has no side effects.
   let timer;try{diagnostic.snapshot=await Promise.race([
@@ -469,6 +582,7 @@ async function main(){
   const totals=key=>Object.values(report.editionsReport).reduce((sum,entry)=>sum+(entry[key]?.length??0),0);
   report.counts={pagesHashedBaseline:report.passes.filter(p=>p.name==='baseline').flatMap(p=>Object.values(p.editions)).reduce((sum,e)=>sum+(e.pageCount??0),0),pagesHashedCandidate:Object.values(report.editionsReport).reduce((sum,e)=>sum+e.pageCount,0),pagesPrinted:totals('selected'),pagesRasterised:totals('images')-totals('reusedInspection'),pagesReusedInspection:totals('reusedInspection'),pagesToInspect:totals('inspectHere')-totals('reusedInspection'),fullPdfs:0,
    tikz:Object.fromEntries(TIKZ_COUNTERS.map(name=>[name,[...report.passes.flatMap(p=>Object.values(p.editions).map(e=>e.tikz?.[name]??0)),...Object.values(report.editionsReport).map(e=>e.tikz?.[name]??0)].reduce((a,b)=>a+b,0)]))};
+  if(scopedConsoleCapture){try{await scopedConsoleCapture.flush();}catch(captureError){report.scopedConsoleCaptureError=captureError.message??String(captureError);}scopedConsoleCapture.detach();}
   try{await browser?.close();}catch(error){report.failures.push({kind:'browser-close',message:error.message??String(error)});}
   finalizeFeedbackReport(report,{capture});write();
  }
