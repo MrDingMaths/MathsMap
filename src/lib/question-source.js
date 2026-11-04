@@ -43,6 +43,9 @@ export function mathsBaseSource(code) {
 // Exact reviewed Exam sources; neighbouring questions retain their existing
 // holds. All school/provider identities below already have approved mappings.
 const approvedExamQuestionCodes = new Set([
+  'HSC.SGG.Y12.STN.2020 Q20',
+  'HSC.CSSA.STN.2023 Q28',
+  'HSC.NEAP.Y12.STN.2024 Q18',
   'HSC.SYDGR.Y11.ADV.2019 Q9g',
   'HSC.NORM.Y11.ADV.2019 Q14b',
   'HSC.SYDGR.Y11.X1.2019 Q8',

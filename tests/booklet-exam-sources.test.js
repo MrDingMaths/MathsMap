@@ -30,6 +30,9 @@ test('two exact simultaneous sources preserve neighbouring school holds',()=>{
 
 test('reviewed function and identity sources admit only their exact literal codes',()=>{
  for(const [code,label]of [
+  ['HSC.SGG.Y12.STN.2020 Q20','St George Girls High School Y12 Standard 2020'],
+  ['HSC.CSSA.STN.2023 Q28','CSSA Standard 2023'],
+  ['HSC.NEAP.Y12.STN.2024 Q18','Neap Education Y12 Standard 2024'],
   ['HSC.SYDGR.Y11.ADV.2019 Q9g','Sydney Grammar School Y11 Advanced 2019'],
   ['HSC.NORM.Y11.ADV.2019 Q14b','Normanhurst Boys Y11 Advanced 2019'],
   ['HSC.SYDGR.Y11.X1.2019 Q8','Sydney Grammar School Y11 Extension 1 2019'],

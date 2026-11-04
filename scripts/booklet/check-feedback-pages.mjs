@@ -1,4 +1,5 @@
-import {requestHash as scopedConsoleRequestHash} from './shared-render-queue.mjs';
+import {createHash as scopedConsoleDigest} from 'node:crypto';
+export function scopedConsoleRequestHash(value){const canonical=v=>Array.isArray(v)?v.map(canonical):v&&typeof v==='object'?Object.fromEntries(Object.keys(v).sort().map(k=>[k,canonical(v[k])])):v;return scopedConsoleDigest('sha256').update(JSON.stringify(canonical(value))).digest('hex');}
 export function validateDiagnosticBinding({config,configSha256,expectedConfigSha256,request,authorization,computedRequestHash,candidateSha256,projectId,runtimePinHash}){
   const fail=reason=>{throw Error('Scoped TeX console diagnostic refused: '+reason);};
   if(!/^[a-f0-9]{64}$/.test(expectedConfigSha256??'')||configSha256!==expectedConfigSha256)fail('config hash mismatch');
