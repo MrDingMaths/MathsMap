@@ -86,6 +86,7 @@ export function approvedMathsBaseSource(code) {
       || ['HSC.CSSA.STN.2020 Q14', 'HSC.SGG.Y12.STN.2020 Q17'].includes(String(code).trim())
       || String(code).trim() === 'HSC.SGG.Y12.STN.2025 Q38'
       || String(code).trim() === 'HSC.SYDGR.Y12.STN.2024 Q27'
+      || ['HSC.ABBOT.Y12.X2.2023 Q15c', 'HSC.NSB.Y12.X2.2020 Q13c'].includes(String(code).trim())
       || String(code).trim() === 'HSC.NEAP.Y11.X1.2022 Q12a'
       || String(code).trim() === 'HSC.NORM.Y12.X2.2024 Q13a'
       || source.schoolCode === 'NORM' && paperTokens === 'Y11 X1' && year === 2020
