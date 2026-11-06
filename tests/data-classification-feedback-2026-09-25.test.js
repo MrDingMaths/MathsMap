@@ -2,8 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import {loadWholeProject} from './helpers/split-projects.js';
 
-const project=JSON.parse(fs.readFileSync('booklets/projects/data-visualisation-1-v1.json','utf8'));
+const project=loadWholeProject('data-visualisation-1-v1');
 const evidence=JSON.parse(fs.readFileSync('booklets/provenance/data-visualisation-1-v1/feedback-2026-09-25.json','utf8'));
 const blocks=project.sections.flatMap(s=>s.blocks);
 const block=id=>blocks.find(b=>b.id===id);

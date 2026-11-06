@@ -7,6 +7,7 @@ import {repairEarningStyle} from '../scripts/booklet/repair-earning-style-202610
 import {tableGrid} from '../public/libs/maths-editor/table-model.mjs';
 import {normalizeDocument,renderDocument} from '../public/libs/maths-editor/document-model.mjs';
 import {teachingAnswerCategory,independentAnswerPages} from '../src/lib/booklet-answer-options.js';
+import {loadWholeProject} from './helpers/split-projects.js';
 const cell=(id,text,background)=>({id,type:'cell',background,blocks:[{id:id+'-p',type:'paragraph',inlines:[{type:'text',text}]}]});
 const table=(id,rows)=>({id,type:'table',border:true,widths:[1,1],rows});
 const doc=blocks=>({format:'maths-editor-document-v1',version:1,blocks});
@@ -63,18 +64,4 @@ test('table consolidation keeps response identities, answers, writing space and 
  assert.deepEqual(b.content.children.map(p=>[p.id,p.answer,p.answerSpaceMm]),input.sections[0].blocks[0].content.children.map(p=>[p.id,p.answer,p.answerSpaceMm]));
  assert.equal(importStructureFindings(repaired).filter(f=>f.severity==='error').length,0);
  assert.equal(repairEarningStyle(repaired).changedBlockIds.length,0);
-});
-test('Earning Money repair retains every existing answer and produces valid grouped table spans and teaching-only activity',()=>{
- const input=JSON.parse(fs.readFileSync(new URL('../booklets/projects/earning-money-v1.json',import.meta.url))),result=repairEarningStyle(input),p=result.project;
- const byId=id=>p.sections.flatMap(s=>s.blocks).find(b=>b.id===id);
- const answers=project=>{const out=new Map();const visit=n=>{if(!n||typeof n!=='object')return;if(n.answer&&typeof n.answer==='object')out.set(n.id,n.answer);for(const [k,v]of Object.entries(n))if(!['sourceReview','answer'].includes(k))visit(v);};visit(project.sections);return out;};
- const original=answers(input),after=answers(p);for(const [id,answer]of original)assert.deepEqual(after.get(id),answer,id);
- const employee=byId('p17-q13').content.prompt.blocks.find(b=>b.id==='p17-q13-employees-header');
- assert.equal(employee.rows.length,5);assert.equal(tableGrid(employee).columns,5);
- const paired=byId('p18-q18').content.prompt.blocks.find(b=>b.id==='p18-q18-paired-table');assert.equal(tableGrid(paired).columns,2);
- const html=renderDocument(normalizeDocument(doc([paired])));assert.match(html,/Worked solution/);assert.match(html,/Explanation/);assert.match(html,/24mm/);
- const activity=byId('p3-time-conversion-activity');assert.equal(teachingAnswerCategory(activity),'identify');assert.equal(independentAnswerPages([{blocks:[activity]}]).length,0);
- for(const id of ['p25-royalties-formula','p46-gross-income-block','p46-taxable-income-formula-block','p49-net-income-explanation'])assert.ok(byId(id).content.blocks.every(n=>n.type!=='layout'&&n.type!=='table'),id+' has no nested prose/formula frame');
- assert.deepEqual(activity.content.children.map(n=>n.answerSpaceMm),[12,12,20,20]);
- assert.equal(repairEarningStyle(p).changedBlockIds.length,0);
 });

@@ -24,5 +24,7 @@ test('Probability choices and paired spinners keep horizontal arrangements',()=>
  const pair=findArrangement(layouts['p22-q5'].arrangement.root,'p22-q5-root:diagrams');assert.equal(pair.direction,'row');assert.equal(pair.children.length,2);
 });
 test('every active booklet exercise opening forces a question-side page boundary only',()=>{
- for(const file of fs.readdirSync('booklets/projects').filter(f=>f.endsWith('.json'))){const project=JSON.parse(fs.readFileSync('booklets/projects/'+file));for(const edition of ['student','with-short','with-worked','short','worked'])for(const section of flowEditionSections(project,edition)){if(section.mode==='student'&&section.blocks[0]?.flow.exerciseHeadingBefore)assert.equal(section.pageBreakBefore,true,file);else assert.equal(section.pageBreakBefore,project.sections.find(s=>s.id===section.sourceSectionId)?.pageBreakBefore);}}
+ const failures=[];
+ for(const file of fs.readdirSync('booklets/projects').filter(f=>f.endsWith('.json'))){try{const project=JSON.parse(fs.readFileSync('booklets/projects/'+file));for(const edition of ['student','with-short','with-worked','short','worked'])for(const section of flowEditionSections(project,edition)){if(section.mode==='student'&&section.blocks[0]?.flow.exerciseHeadingBefore)assert.equal(section.pageBreakBefore,section.blocks[0].flow.exercisePageBreakBefore!==false,file);else assert.equal(section.pageBreakBefore,project.sections.find(s=>s.id===section.sourceSectionId)?.pageBreakBefore);}}catch(error){failures.push(file+': '+String(error.message).split(/\r?\n/)[0]);}}
+ assert.deepEqual(failures,[]);
 });

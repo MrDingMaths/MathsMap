@@ -30,9 +30,9 @@ const rel=file=>path.relative(ROOT,file).replaceAll('\\','/');
 export const COMMENT_KIND='pedagogy-audit-v2';
 const V1_KINDS=new Set(['pedagogy-review','pedagogy-suggestion']);
 // Standing comparison anchors (5 November spot check): read live, on Sol's scale.
-export const ANCHORS=[['computation-with-integers-v1','p30-q2'],['angle-relationships-v1','p72-q3'],['algebraic-fractions-v1','p11-q9'],['area-parallelograms-triangles-v1','p19-q16'],['area-parallelograms-triangles-v1','p18-q14'],['concept-maths-adv11-ch03','p63-q26'],['concept-maths-adv11-ch02','p70-q26'],['concept-maths-x11-ch01','p70-q77'],['enrichment-maths-1-part3-20261008','p12-q7'],['enrichment-maths-1-part14','p12-q23'],['enrichment-maths-1-part11-20261008','p18-q25'],['concept-maths-x11-ch05','p14-q69'],['enrichment-maths-1-part9-20261008','p7-q9'],['enrichment-maths-2-part4-20261009','p33-q18'],['enrichment-maths-1-part3-20261008','p18-q22'],['enrichment-maths-2-part10-20261009','p37-q18']];
+export const ANCHORS=[['computation-with-integers-2-v1','p30-q2'],['angle-relationships-v1','p72-q3'],['algebraic-fractions-v1','p11-q9'],['area-parallelograms-triangles-v1','p19-q16'],['area-parallelograms-triangles-v1','p18-q14'],['concept-maths-adv11-ch03','p63-q26'],['concept-maths-adv11-ch02','p70-q26'],['concept-maths-x11-ch01','p70-q77'],['enrichment-maths-1-part3-20261008','p12-q7'],['enrichment-maths-1-part14','p12-q23'],['enrichment-maths-1-part11-20261008','p18-q25'],['concept-maths-x11-ch05','p14-q69'],['enrichment-maths-1-part9-20261008','p7-q9'],['enrichment-maths-2-part4-20261009','p33-q18'],['enrichment-maths-1-part3-20261008','p18-q22'],['enrichment-maths-2-part10-20261009','p37-q18']];
 // 31 October named progression exceptions: fixed while their task hashes match.
-const PROGRESSIONS=[['s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-v1',['p30-q4','p31-q5']],['s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-v1',['p46-practice','p47-q1-block','p47-q2-block']],['coordinate-geometry-formulas-v1',['p7-q8','p7-q9-block','p7-q10-block']]];
+const PROGRESSIONS=[['s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-v1',['p30-q4','p31-q5']],['s6adv-introduction-to-differentiation-2-calculations-with-the-derivative-2-v1',['p46-practice','p47-q1-block','p47-q2-block']],['coordinate-geometry-formulas-v1',['p7-q8','p7-q9-block','p7-q10-block']]];
 
 // ---- model calls -----------------------------------------------------------------
 const claudeExe=()=>process.env.MATHSMAP_CLAUDE_BIN??path.join(os.homedir(),'.local','bin','claude.exe');
@@ -105,7 +105,12 @@ const typeOf=(state,id)=>state.types.get(id)?.type??null;
 // ---- records ----------------------------------------------------------------------
 export const recordFile=(id,{root=ROOT}={})=>path.join(root,'booklets','provenance','pedagogy-review','audit-v2',id+'.json');
 export const proposalsFile=(id,{root=ROOT}={})=>path.join(root,'booklets','provenance','pedagogy-review','audit-v2',id+'.proposals.json');
-const loadRecord=(id,root)=>{const file=recordFile(id,{root});return fs.existsSync(file)?read(file):{version:1,projectId:id,checks:{},types:{},exampleMatches:{},keep:[],runs:[]};};
+// A split part 2 (source.partition, 6 November 2026) starts from its parent's checks: they are keyed by
+// block id and content fingerprint, so only blocks the split changed go stale.
+const loadRecord=(id,root,parentId)=>{const file=recordFile(id,{root});if(fs.existsSync(file))return read(file);
+ const parent=parentId&&recordFile(parentId,{root}),p=parent&&fs.existsSync(parent)?read(parent):null;
+ return {version:1,projectId:id,checks:{...p?.checks},types:{...p?.types},exampleMatches:{...p?.exampleMatches},keep:[],runs:[],...(p?{inheritedFrom:{projectId:parentId,checkedRevision:p.checkedRevision??null}}:{})};};
+const parentOf=project=>project.source?.partition?.parentProjectId;
 // A stored archetype map is reused for a block whose reviewed snapshot content is unchanged.
 function storedTypes(project,rows,root){
  const out=new Map(),snapshots=new Map();
@@ -114,7 +119,7 @@ function storedTypes(project,rows,root){
   let snap=snapshots.get(review.mapFile);
   if(snap===undefined){snap=null;try{const file=path.resolve(root,review.mapFile),map=read(file),dir=path.dirname(file);const want=String(map.snapshotSha256??review.snapshotSha256??'').toLowerCase();
    const candidates=[map.snapshot,map.metadataRatingProjection?.projectedSnapshot,...fs.readdirSync(dir).filter(n=>n.endsWith('.json')).map(n=>path.join(dir,n))].filter(Boolean);
-   for(const c of candidates){const f=path.resolve(root,c);if(!fs.existsSync(f))continue;const bytes=fs.readFileSync(f);if(want&&createHash('sha256').update(bytes).digest('hex')!==want)continue;const s=JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));if(s.id===project.id&&Array.isArray(s.sections)){snap=new Map(s.sections.flatMap(x=>(x.blocks??[]).map(b=>[b.id,b])));break;}}}catch{}snapshots.set(review.mapFile,snap);}
+   for(const c of candidates){const f=path.resolve(root,c);if(!fs.existsSync(f))continue;const bytes=fs.readFileSync(f);if(want&&createHash('sha256').update(bytes).digest('hex')!==want)continue;const s=JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));if((s.id===project.id||s.id===parentOf(project))&&Array.isArray(s.sections)){snap=new Map(s.sections.flatMap(x=>(x.blocks??[]).map(b=>[b.id,b])));break;}}}catch{}snapshots.set(review.mapFile,snap);}
   const old=snap?.get(block.id);
   out.set(block.id,{type,current:!!old&&contentFingerprint(old)===contentFingerprint(block),source:review.mapFile,snapshot:!!snap});
  }
@@ -178,7 +183,7 @@ export function preflight(project,{root=ROOT,topics=[],allowNonMaster=false}={})
  const master=isMaster(project.id,root);
  if(master===false&&!allowNonMaster)throw Error(project.id+' is not a booklet master (not in the programme ledger). The audit is for booklet masters.');
  const busy=inFlight(project);if(busy.length)throw Error('An import, review, export or repair is running for this booklet: '+busy[0].slice(0,200));
- const rows=bookletIndex(project),record=loadRecord(project.id,root),stored=storedTypes(project,rows,root),accepted=importAccepted(project,root),protectedIds=teacherBlocks(project);
+ const rows=bookletIndex(project),record=loadRecord(project.id,root,parentOf(project)),stored=storedTypes(project,rows,root),accepted=importAccepted(project,root),protectedIds=teacherBlocks(project);
  const fp=new Map(rows.map(r=>[r.block.id,contentFingerprint(r.block)]));
  const checked=(id,kind)=>record.checks?.[id]?.[kind]===fp.get(id);
  const stale={rating:[],type:[],error:[],duplicate:[],theory:[]},types=new Map();
@@ -824,7 +829,7 @@ export async function applyAuditV2({projectId,runDir,root=ROOT,log=console.error
  log('publish dry run: '+JSON.stringify(dry.diff).slice(0,400));
  const saved=await publishProject({candidateFile,expectedRevision:live.revision,apply:true,root,record:path.join(runDir,'publication.json'),ledger:path.join(root,'.booklet-work','pedagogy-audit-v2','publications.jsonl'),note:'pedagogy audit v2'});
  // Provenance: model, effort, usage and time per call, and the fingerprints now checked.
- const file=recordFile(projectId,{root}),prior=fs.existsSync(file)?read(file):{version:1,projectId,checks:{},types:{},exampleMatches:{},keep:[],runs:[]};
+ const file=recordFile(projectId,{root}),prior=loadRecord(projectId,root,parentOf(live));
  const archive=path.join(path.dirname(file),'archive',projectId+'-v1-withdrawn-'+now().slice(0,10).replaceAll('-','')+'.json');
  if(report.withdrawnV1?.length)write(archive,{version:1,projectId,withdrawnAt:now(),reason:'Replaced by pedagogy audit v2',comments:report.withdrawnV1});
  const next={...prior,title:report.title,checkedRevision:saved.to,checks:{...prior.checks,...report.record.checks},types:{...prior.types,...report.record.types},exampleMatches:{...prior.exampleMatches,...report.record.exampleMatches},keep:report.record.keep??prior.keep,

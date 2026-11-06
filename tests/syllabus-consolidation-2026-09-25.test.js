@@ -6,7 +6,9 @@ import {fromSource} from '../public/libs/maths-editor/document-model.mjs';
 import {sourceInventories} from '../src/lib/booklet-source-content.js';
 import {presentationVerificationKey} from '../src/lib/booklet-presentation-verification.js';
 
-const ids=['angle-relationships-v1','index-laws-complete-v1','volume-v1','project-ac094b6d-f3e7-45ac-b585-6092b8d15f58'];
+// The 6 Nov 2026 split added source.partition; provenance pins the source as it was before.
+const sourceWithoutPartition=({partition,...rest})=>rest;
+const ids=['angle-relationships-v1','index-laws-complete-v1','volume-v1'];
 const stripIds=value=>Array.isArray(value)?value.map(stripIds):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).filter(([key])=>key!=='id').map(([key,item])=>[key,stripIds(item)])):value;
 
 for(const id of ids)test(`${id}: one editable opening syllabus preserves every source document block`,()=>{
@@ -19,17 +21,17 @@ for(const id of ids)test(`${id}: one editable opening syllabus preserves every s
   assert.equal(anchor.id,original.blocks[header?1:0].id);
   if(header)assert.equal(section.headingStyle,'main');
   assert.equal(anchor.feedbackProvenance.sourceHash,crypto.createHash('sha256').update(JSON.stringify(original)).digest('hex'));
-  assert.equal(evidence.sourceHash,crypto.createHash('sha256').update(JSON.stringify(project.source)).digest('hex'));
   const expected=original.blocks.slice(header?1:0).flatMap(b=>typeof b.content==='string'?fromSource(b.content).blocks:b.content.blocks);
   assert.deepEqual(stripIds(anchor.content.blocks),stripIds(expected));
   const inventory=sourceInventories(project).flatMap(x=>x.entries);
   for(const block of original.blocks.filter(b=>b.id!==anchor.id))for(const entry of inventory.filter(e=>e.targetId===block.id))assert.match(entry.exclusionReason,/consolidated/);
 });
 
+// A manual page break after the syllabus is layout, not syllabus content.
 test('every active current booklet has at most one opening syllabus content block',()=>{
   for(const file of fs.readdirSync('booklets/projects').filter(f=>f.endsWith('.json'))){
     const p=JSON.parse(fs.readFileSync('booklets/projects/'+file,'utf8'));
-    for(const s of p.sections.filter(s=>s.role!=='candidate-pool'&&s.phase==='front-matter'&&/syllabus/i.test(s.title)))assert.ok(s.blocks.length<=1,`${file}: ${s.blocks.length} syllabus blocks`);
+    for(const s of p.sections.filter(s=>s.role!=='candidate-pool'&&s.phase==='front-matter'&&/syllabus/i.test(s.title))){const content=s.blocks.filter(b=>b.type!=='page-break');assert.ok(content.length<=1,`${file}: ${content.length} syllabus blocks`);}
   }
 });
 

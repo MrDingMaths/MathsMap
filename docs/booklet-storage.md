@@ -86,7 +86,7 @@ npm run booklet:storage -- exports --apply
 npm run booklet:storage -- exports --records --out .booklet-work/NAME/prune.json
 ```
 
-Run it only when no import or feedback repair is in flight in any session. Check first that no `lean-import.mjs`, `lean-review.mjs` or export process is running. The command cannot tell a paused run from a working one: on 8 October 2026 a second pass removed sample payload from twelve imports that had started half an hour earlier. The command also lives in `scripts/booklet/`, so editing it while an import is running changes that import's export snapshot hash.
+A split booklet's two halves share one run folder (both have the original `source.runId`), and live references from either half protect that run's evidence, so pruning is by run, not by half; see [the 6 November 2026 split](booklet-split-20261106.md). Run it only when no import or feedback repair is in flight in any session. Check first that no `lean-import.mjs`, `lean-review.mjs` or export process is running. The command cannot tell a paused run from a working one: on 8 October 2026 a second pass removed sample payload from twelve imports that had started half an hour earlier. The command also lives in `scripts/booklet/`, so editing it while an import is running changes that import's export snapshot hash.
 
 Without `--records` the command removes only regenerable payload: frozen app copies, `vite-cache/`, folders ending in `rasters`, `cache.json` in export folders, and leaked test temp folders older than 24 hours. The newest export of a run folder active in the last 48 hours is left whole so a paused import can still reuse it; its earlier exports are pruned.
 

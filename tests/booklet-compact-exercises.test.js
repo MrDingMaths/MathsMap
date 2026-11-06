@@ -176,7 +176,9 @@ test('one exercise heading survives source sections, checkpoints and page fragme
 });
 
 test('every active compact booklet derives exactly one question heading per exercise',()=>{
+ const failures=[];
  for(const file of readdirSync('booklets/projects').filter(f=>f.endsWith('.json'))){
+  try{
   const p=JSON.parse(readFileSync(`booklets/projects/${file}`));
   if(p.settings.exerciseOrganisation!=='topic')continue;
   const expected=Object.values(exerciseNumbers(p));
@@ -184,9 +186,14 @@ test('every active compact booklet derives exactly one question heading per exer
   const practiceExpected=Object.entries(exerciseNumbers(p)).filter(([id])=>practiceTopics.has(id)).map(([,n])=>n);
   for(const edition of ['student','with-short','with-worked']){
    const sections=flowEditionSections(p,edition).filter(s=>s.mode==='student');
-   assert.deepEqual(sections.filter(s=>s.difficultyTitle).map(s=>s.difficultyTitle),practiceExpected.map(exerciseHeading),`${file}: ${edition}`);
+   // A warm-up may precede an exercise in its first section: the heading then sits above the first real question (block-level marker, checked below), not at the section top.
+   const headedAtTop=practiceExpected.filter(n=>sections.some(s=>s.blocks[0]?.flow.exerciseHeadingBefore===n));
+   // Exam and Challenge sections print their own titles; only exercise headings are counted here.
+   assert.deepEqual(sections.filter(s=>/^Exercises?\b/.test(s.difficultyTitle??'')).map(s=>s.difficultyTitle),headedAtTop.map(exerciseHeading),`${file}: ${edition}`);
    assert.deepEqual(sections.flatMap(s=>s.blocks).map(b=>b.flow.exerciseHeadingBefore).filter(Boolean),practiceExpected);
    assert.deepEqual(sections.flatMap(s=>s.blocks).map(b=>b.flow.exerciseAnchorBefore).filter(Boolean),expected);
   }
+  }catch(error){failures.push(`${file}: ${String(error.message).split(/\r?\n/)[0]}`);}
  }
+ assert.deepEqual(failures,[]);
 });

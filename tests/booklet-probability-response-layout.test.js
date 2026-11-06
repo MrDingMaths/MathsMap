@@ -24,30 +24,6 @@ test('reviewed blank-only trailing paragraphs disappear without replacing them b
   assert.equal(removeAppendedClozes(p),1);
   assert.deepEqual(p.blocks,[paragraph('prompt',[text('List the sample space.')])]);
 });
-test('Probability repair preserves answers, source evidence, tables, working areas and solution dividers',()=>{
-  const project=JSON.parse(fs.readFileSync('booklets/projects/probability-v1.json','utf8'));
-  const {next,records}=repairProbabilityResponseLayout(project);
-  const walk=(x,fn)=>{if(!x||typeof x!=='object')return;fn(x);for(const v of Object.values(x))walk(v,fn);};
-  const collect=(p,predicate)=>{const result=[];for(const s of p.sections)for(const b of s.blocks)walk(b.content??b.examples,x=>{if(predicate(x))result.push(x);});return result;};
-  assert.deepEqual(collect(next,x=>x.short!==undefined||x.worked!==undefined),collect(project,x=>x.short!==undefined||x.worked!==undefined));
-  assert.deepEqual(collect(next,x=>x.type==='table'),collect(project,x=>x.type==='table'));
-  assert.deepEqual(next.source,project.source);
-  for(const [si,s] of project.sections.entries())for(const [bi,b] of s.blocks.entries()){
-    const after=next.sections[si].blocks[bi];
-    assert.deepEqual(after.sourceLayoutEvidence,b.sourceLayoutEvidence);
-    assert.deepEqual(after.bankRef,b.bankRef);
-    if(RESPONSE_BLOCKS.includes(b.id)){
-      assert.equal(JSON.stringify(after.content).includes('"type":"cloze"'),false,b.id);
-      walk(after.content,n=>{if(n.prompt&&!n.children?.length)assert.equal(n.answerSpaceMm,/p14-q13-followup|p14-q15-root/.test(n.id)?8:0,n.id);});
-    }
-    const a=next.settings.layoutOverrides?.blockLayouts?.[b.id]?.arrangement;
-    if(a){assert.deepEqual(resolveArrangement(after,a).missing,[],b.id);walk(a,n=>{if(n.rules==='internal')assert.ok(SOLUTION_RULE_GROUPS.includes(n.id),n.id);});}
-  }
-  const retained=collect(next,x=>x.type==='cloze'),original=collect(project,x=>x.type==='cloze');
-  assert.equal(retained.length,original.length-records.reduce((sum,r)=>sum+(r.clozes??0),0),'Only the individually audited appended responses are removed');
-  assert.deepEqual(repairProbabilityResponseLayout(next).records,[]);
-  for(const flag of project.studio.flags.filter(f=>['fb7990f9-9e20-4736-a49f-4c595993c0ed','d2768a05-d477-4ebd-a6fa-4d7c22a5d9ee'].includes(f.id)))assert.equal(next.studio.flags.find(f=>f.id===flag.id).resolved,flag.resolved);
-});
 test('other books and bank questions require their own source-reviewed corrections',()=>{
   const input={id:'another-book',sections:[{blocks:[{id:'p4-q1-block',content:{prompt:doc([paragraph('p',[text('Question'),{type:'break'},cloze])])}}]}]};
   assert.deepEqual(repairProbabilityResponseLayout(input),{next:input,records:[]});

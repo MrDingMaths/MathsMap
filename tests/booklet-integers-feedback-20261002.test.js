@@ -5,6 +5,7 @@ import {renderDocument,normalizeDocument} from '../public/libs/maths-editor/docu
 import {hasTablePartLabel} from '../public/libs/maths-editor/table-part-label.mjs';
 import {repairIntegersFeedback,walk} from '../scripts/booklet/repair-integers-feedback-20261002.mjs';
 import {resolveArrangement} from '../src/lib/booklet-arrangement.js';
+import {loadWholeProject} from './helpers/split-projects.js';
 
 const paragraph={id:'p',type:'paragraph',inlines:[{type:'text',text:'a',marks:['bold']},{type:'text',text:' '},{type:'math',latex:'5-2'}]};
 const table=(border=false)=>({format:'maths-editor-document-v1',version:1,blocks:[{id:'t',type:'table',border,rows:[[{id:'c',type:'cell',align:'left',blocks:[structuredClone(paragraph),{id:'cloze',type:'paragraph',inlines:[{type:'cloze',answer:'less',width:22}]}]}]]}]});
@@ -27,7 +28,7 @@ test('nested borderless table clozes retain baseline leaders and meaningful tabl
  assert.doesNotMatch(renderDocument(nested),/cloze-bottom:.5em/);
 });
 test('scoped integer repairs preserve all mathematical answers and source inventory',()=>{
- const original=JSON.parse(fs.readFileSync('booklets/projects/computation-with-integers-v1.json'));
+ const original=loadWholeProject('computation-with-integers-v1');
  const answers=p=>{const found=[];walk(p.sections,n=>{if(n.answer&&typeof n.answer==='object')found.push({id:n.id,answer:n.answer});});return found;};
  const next=repairIntegersFeedback(original);
  assert.deepEqual(answers(next),answers(original));assert.deepEqual(next.source,original.source);

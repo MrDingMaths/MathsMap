@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mathsBaseSource} from '../src/lib/question-source.js';
-import {buildClosureSkeleton, checkClosure, importPriorDispositions, markCosmetic, setDisposition} from '../pedagogy/exam-closure.mjs';
+import {buildClosureSkeleton, checkClosure, importPriorDispositions, markCosmetic, rebaseClosureRecord, setDisposition} from '../pedagogy/exam-closure.mjs';
 import {importLegacy, markSaved, openOrAmend} from '../pedagogy/exam-proposals.mjs';
 
 const owner = (id, code = 'HSC.ADV.2011 Q2') => ({id, type: 'question', source: mathsBaseSource(code), content: {prompt: 'Find $x$.'},
@@ -119,4 +119,25 @@ test('legacy proposals are recorded as saved only when the live owners prove it'
   assert.equal(proven, true);
   assert.equal(entry.status, 'saved');
   assert.match(entry.history[0].note, /de11ce96/);
+});
+
+// Split pairs (6 November 2026): one record on the parent's screen covers both halves.
+test('a split pair closes as one unit, with owners in either half', () => {
+  const one = {...project([owner('q1')]), id: 'p'}, PART2 = 'd'.repeat(64);
+  const two = {...project([owner('q2')], 1), id: 'p-2', source: {partition: {parentProjectId: 'p'}}};
+  const record = buildClosureSkeleton({projectId: 'p', project: one, projectSha256: LIVE, screenRows, screen: {file: 'screen.json', sha256: SCREEN}, members: [{project: one, sha256: LIVE}, {project: two, sha256: PART2}]});
+  setDisposition(record, 'a', {class: 'selected', ownerId: 'q1'});
+  setDisposition(record, 'b', {class: 'represented', representedBy: ['q2'], basis: 'q2 asks the same method'});
+  const check = (checked, sha, sibling, siblingSha, extra = {}) => checkClosure({record, project: checked, projectSha256: sha, siblings: [{project: sibling, sha256: siblingSha}], screenRows, screenSha256: SCREEN, isRatingBound: bound, ...extra});
+  assert.equal(check(one, LIVE, two, PART2).closed, true);
+  assert.equal(check(two, PART2, one, LIVE).closed, true);
+  // Without its sibling, part 1 alone cannot close the pair.
+  const alone = checkClosure({record, project: one, projectSha256: LIVE, screenRows, screenSha256: SCREEN, isRatingBound: bound});
+  assert.ok(kinds(alone).includes('pair-member-missing') && kinds(alone).includes('unknown-owner'));
+  // A changed part 2 makes the record stale until it is rebased for that member.
+  assert.ok(kinds(check(one, LIVE, two, 'c'.repeat(64))).includes('stale-revision'));
+  const rebased = rebaseClosureRecord(record, {revision: 2, sha256: 'c'.repeat(64), projectId: 'p-2'});
+  assert.equal(rebased.liveSha256, LIVE);
+  assert.deepEqual(rebased.members.map(m => m.liveRevision), [7, 2]);
+  assert.throws(() => buildClosureSkeleton({projectId: 'p', project: one, projectSha256: LIVE, screenRows, members: [{project: one, sha256: LIVE}, {project: {...two, source: {}}, sha256: PART2}]}), /parent and its part 2/);
 });

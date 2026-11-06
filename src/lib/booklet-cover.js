@@ -6,7 +6,8 @@ function plain(value) {
 
 // Compact contents name the topic; retain the source heading and destination.
 function compactTopicTitle(value) {
-  return String(value ?? '').replace(/\bExercise\b/gi, '').replace(/\s+/g, ' ').trim();
+  // "Challenge exercise: X" reads "Challenge: X", never "Challenge : X".
+  return String(value ?? '').replace(/\bExercise\b/gi, '').replace(/\s+/g, ' ').replace(/\s+([:;,.])/g, '$1').trim();
 }
 
 export function parseImportedContents(value) {

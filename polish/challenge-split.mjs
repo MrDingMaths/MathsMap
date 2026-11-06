@@ -32,7 +32,7 @@ export function challengeSplitReport(project,{archetypes={},maxStep=10,minimum=3
  const moveSections=(project.sections??[]).filter(s=>s.phase==='practice'&&!['challenge','exam','candidate-pool'].includes(endSectionRole(s,project)));
  const moveEntries=moveSections.flatMap(s=>(s.blocks??[]).map(b=>({b,s}))),moveById=new Map(moveEntries.map(e=>[e.b.id,e]));
  const external=b=>b.source?.origin==='MathsBase'||b.sourceReview?.origin?.provider==='MathsBase';
- const owned=b=>!external(b)&&(b.source?.origin==='booklet'||project.id&&b.sourceReview?.origin?.projectId===project.id||b.sourceReview?.origin?.artifact?.path&&b.sourceReview?.origin?.blockId===b.id);
+ const owned=b=>!external(b)&&(b.source?.origin==='booklet'||project.id&&[project.id,project.source?.partition?.parentProjectId].filter(Boolean).includes(b.sourceReview?.origin?.projectId)||b.sourceReview?.origin?.artifact?.path&&b.sourceReview?.origin?.blockId===b.id);
  const endSection=s=>['exam','mixed-review'].includes(endSectionRole(s,project));
  const scopeHolds=moveEntries.filter(({b})=>isPractice(b)&&b.classification?.reasoningScore>=65&&external(b)&&!isExamQuestion(b)).map(({b,s})=>({kind:'external-source-eligibility',id:b.id,sectionId:s.id,reason:'External source identity and Exam eligibility require review; never use as automatic Challenge fill'}));
  const moveOwners=ownersOf(moveEntries),protectedMoves=teacherBlocks(project);

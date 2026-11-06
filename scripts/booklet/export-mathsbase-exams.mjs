@@ -44,7 +44,8 @@ export function buildProgrammeExamSection(rows, mapping, {blocks = [], section =
     seen.add(origin.externalId);
   }
   for (const row of selection.selected) if (!seen.has(row.externalId)) held.push({id: row.externalId, reason: 'selected raw source has no bound native question owner'});
-  const id = mapping.projectId + '-exam-questions';
+  // A split part 2 keeps its old section id: pass mapping.examSectionId (an existing role: exam section id) to reuse it.
+  const id = mapping.examSectionId ?? mapping.projectId + '-exam-questions';
   const result = createProgrammeExamSection({id, topicId: id, title: 'Exam questions', ...section, blocks});
   held.push(...result.report.held);
   return {section: held.length ? null : result.section, report: {status: held.length ? 'held' : 'candidate-only', held, selected: selection.selected, excluded: selection.excluded, publication: false}};

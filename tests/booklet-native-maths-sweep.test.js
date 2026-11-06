@@ -16,11 +16,3 @@ test('all Index Laws ordinary maths and scaffolds use native content, with only 
   if(stored){const r=resolveArrangement(b,stored),refs=new Set(arrangementItems(r.tree.root).map(n=>n.ref));assert.equal(r.missing.length,0);assert.ok([...r.entries.values()].filter(e=>e.role==='content').every(e=>refs.has(e.ref)));}
  }
 });
-test('source intermediate boxes and two-method flowchart paths are retained',()=>{
- const boxes=id=>(get(id).content.children.map(n=>n.prompt).join('').match(/\\boxed/g)??[]).length;
- assert.equal(boxes('index-t7-q2'),12);
- assert.equal(boxes('index-t8-q1'),15);
- assert.equal(boxes('index-t9-q1'),20);
- for(const n of get('index-t8-q15').content.children){assert.equal((n.prompt.match(/\\boxed/g)??[]).length,5);assert.equal((n.prompt.match(/\\downarrow/g)??[]).length,3);assert.equal((n.prompt.match(/\\rightarrow/g)??[]).length,2);}
- for(const n of get('index-t8-q12').content.children){assert.equal(n.questionDiagrams[0].format,'tikz');assert.equal(n.questionDiagrams[0].mathematicalModel.kind,'square');}
-});

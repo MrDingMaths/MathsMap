@@ -6,6 +6,7 @@ import {correctnessMarker,numberedTeachingWorking} from '../public/libs/maths-ed
 import {normalizeDocument,renderDocument} from '../public/libs/maths-editor/document-model.mjs';
 import {markTeaching,repairAngle} from '../scripts/booklet/repair-angle-feedback.mjs';
 import {validateEditableProject} from '../src/lib/editable-booklet-model.js';
+import {loadWholeProject} from './helpers/split-projects.js';
 test('correctness markers retain explicit role through normalization and print while multiplication keeps ordinary size',()=>{
  const doc=normalizeDocument({blocks:[{id:'p',type:'paragraph',inlines:[correctnessMarker(true),correctnessMarker(false),{type:'math',latex:'2\\times3'}]}]});
  const html=renderDocument(doc);assert.equal((html.match(/data-semantic-role="correctness-marker"/g)||[]).length,2);assert.equal((html.match(/font-size:14pt/g)||[]).length,2);assert.ok(html.includes('data-marker="tick"')&&html.includes('transform:scale(1.35)'));assert.ok(html.includes('data-marker="cross"')&&html.includes('<span data-marker-glyph>\u2717</span>'));assert.ok(!correctnessMarker(false).latex.includes('times'));{const legacy=renderDocument(normalizeDocument({blocks:[{id:'l',type:'paragraph',inlines:[{...correctnessMarker(false),latex:'\\times'}]}]}));assert.ok(legacy.includes('data-marker-glyph')&&!legacy.includes('\u00d7'));}{const text=renderDocument(normalizeDocument({blocks:[{id:'t',type:'paragraph',inlines:[{type:'text',text:' \u2717'},{type:'text',text:'2 \u2713 3'}]}]}));assert.equal((text.match(/data-marker="cross"/g)||[]).length,1);assert.ok(!text.includes('data-marker="tick"'));}{const cell=(id,text)=>({id,type:'cell',blocks:[{id:id+'-p',type:'paragraph',inlines:[{type:'text',text}]}]}),table=rows=>renderDocument(normalizeDocument({blocks:[{id:'tb',type:'table',rows}]}));{const ticked=table([[cell('a','\u2713'),cell('b','\u00d7'),cell('c','2 \u00d7 3')]]);assert.equal((ticked.match(/data-marker="cross"/g)||[]).length,1);assert.ok(ticked.includes('>\u2717</span>')&&ticked.includes('2 \u00d7 3'));}assert.ok(!table([[cell('a','1'),cell('b','\u00d7'),cell('c','3')]]).includes('data-marker'));}assert.equal(doc.blocks[0].inlines[2].semanticRole,undefined);
@@ -26,7 +27,7 @@ test('current non-right trigonometry project has unique live node IDs',()=>{
  assert.equal(result.valid,true,result.errors.join('; '));
 });
 test('local feedback repair preserves evidence and mathematics and is idempotent',()=>{
- const p=JSON.parse(fs.readFileSync('booklets/projects/angle-relationships-v1.json')),before=structuredClone(p.source);repairAngle(p);const once=JSON.stringify(p);repairAngle(p);assert.equal(JSON.stringify(p),once);assert.deepEqual(p.source,before);
+ const p=loadWholeProject('angle-relationships-v1'),before=structuredClone(p.source);repairAngle(p);const once=JSON.stringify(p);repairAngle(p);assert.equal(JSON.stringify(p),once);assert.deepEqual(p.source,before);
  const blocks=p.sections.flatMap(s=>s.blocks),b=id=>blocks.find(b=>b.id===id);
  assert.equal(b('p29-q1').content.children[0].prompt.blocks[0].inlines[0].latex,'45+g=360');assert.equal(b('p46-teaching').flow.pageBreakBefore,true);
  const row=p.settings.layoutOverrides.blockLayouts['p67-q8'].arrangement.root.children.find(n=>n.id==='p67-q8-a-row');assert.equal(row.children[0].ref,'p67-q8-a/label');

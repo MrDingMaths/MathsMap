@@ -155,7 +155,8 @@
     if([...next].join()!==[...visible].join())visible=next;
     if(nearest!==active){active=nearest;onpage?.(result.pages[active]);}
   }
-  let shownView=pageView;
+  // The starting view is captured once on purpose; the effect below tracks changes.
+  let shownView=untrack(()=>pageView);
   // Runs before the DOM changes so the page in view is read from the outgoing layout.
   $effect.pre(()=>{
     if(pageView===shownView)return;shownView=pageView;

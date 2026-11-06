@@ -25,7 +25,7 @@ export function verifyConventions(before,after,changed){
   const a=blocks(before).find(b=>b.id===id),b=blocks(after).find(b=>b.id===id);
   for(const key of ['classification','bankRef','pedagogyRole','type'])if(!isDeepStrictEqual(a[key],b[key]))errors.push(id+': '+key+' changed');
   const answers=x=>{const out=[];walk(x,n=>{if(n.id&&n.answer&&typeof n.answer==='object')out.push([n.id,n.answer]);});return out.sort((a,b)=>a[0].localeCompare(b[0]));};
-  const normaliseAnswers=value=>TERM_BLOCKS.has(before.id+'/'+id)?referenceValue(value):value;
+  const normaliseAnswers=value=>TERM_BLOCKS.has(before.id.replace(/-2-v1$/,'-v1')+'/'+id)?referenceValue(value):value;
   if(!isDeepStrictEqual(normaliseAnswers(answers(a)),normaliseAnswers(answers(b))))errors.push(id+': saved mathematical answer or owning identity changed');
   const paras=x=>{const out=new Map();for(const {doc}of documents(x))walk(doc,n=>{if(n.type==='paragraph'&&n.id)out.set(n.id,paraSignature(n));});return out;};
   const old=paras(a),now=paras(b);
@@ -180,7 +180,7 @@ export function repairConventions(before){
     for(const inline of n.inlines){const parts=inline.type==='math'?splitBoxes(inline,owner,[...ancestors,n],n):null;if(parts){out.push(...parts);count+=parts.filter(p=>p.type==='cloze').length;}else out.push(inline);}
     if(count){n.inlines=out;record(b,'cloze',owner?.id??b.id,'Convert '+count+' ordinary box blanks to native dotted clozes in '+n.id+'; preserve fraction scaffolds.');}
    }
-   if(['bivariate-data-analysis-v1','concept-maths-x11-ch01','enrichment-maths-1-part3-20261008'].includes(project.id)){
+   if(['bivariate-data-analysis-v1','bivariate-data-analysis-2-v1','concept-maths-x11-ch01','enrichment-maths-1-part3-20261008'].includes(project.id)){
     const first=n.inlines.find(i=>i.type==='text'&&i.text.trim());
     const match=first&&/^\s*\(?([a-z])\)\s*(.*)$/s.exec(first.text);
     if(match){
@@ -190,7 +190,7 @@ export function repairConventions(before){
     }
    }
   });
-  if(project.id==='circle-geometry-v1'&&b.id==='p35-q7-block'){
+  if(['circle-geometry-v1','circle-geometry-2-v1'].includes(project.id)&&b.id==='p35-q7-block'){
    const para=find(b.content,'p35-q7-similarity-completion'),blank=para.inlines.find(i=>i.type==='cloze');
    const parts=['Two angles of one triangle equal','two angles of the other triangle.'];
    if(para.inlines.filter(i=>i.type==='cloze').length===1){
@@ -240,7 +240,7 @@ export function repairConventions(before){
    }
   }
   consolidateTables(project,b,record,allowedPaths);
-  if(TERM_BLOCKS.has(project.id+'/'+b.id)){
+  if(TERM_BLOCKS.has(project.id.replace(/-2-v1$/,'-v1')+'/'+b.id)){
    let updated=false;
    walk({content:b.content,examples:b.examples},n=>{for(const [key,value]of Object.entries(n))if(['prompt','short','worked','text','theorySolution'].includes(key)&&typeof value==='string'){
     const next=referenceWords(value);if(next!==value){n[key]=next;updated=true;}

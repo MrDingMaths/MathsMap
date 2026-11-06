@@ -247,6 +247,14 @@ export function exerciseOpeningIndex(section) {
   return at<0?first:at;
 }
 
+// Position of the opening block among the blocks that are actually rendered.
+// Editor-only labels are filtered out of the printed section, so they must not
+// make an opening question look like it follows a warm-up.
+function renderedOpeningIndex(section) {
+  const at=exerciseOpeningIndex(section);
+  return at<0?at:section.blocks.slice(0,at).filter(block=>!block.presentation?.editorOnly).length;
+}
+
 export function flowEditionSections(project, edition='student') {
   const numbers = flowNumbers(project), topics = new Map((project.topics ?? []).map(t => [t.id,t.title]));
   const exercises=exerciseNumbers(project);
@@ -280,10 +288,10 @@ export function flowEditionSections(project, edition='student') {
   const rowStarts = new Set(sections.flatMap(section => section.blocks.filter((block,index) => resolveStudentRow(section.blocks,index)).map(block => block.id)));
   const make = (section,mode) => ({...section,id:`${section.id}:${mode}`,sourceSectionId:section.id,mode,topicTitle:topics.get(section.topicId) ?? section.title,
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,
-    pageBreakBefore:mode==='student'&&startsExercise(section)&&exerciseOpeningIndex(section)===0?section.blocks[0]?.flow?.exercisePageBreakBefore!==false:section.pageBreakBefore,
+    pageBreakBefore:mode==='student'&&startsExercise(section)&&renderedOpeningIndex(section)===0?section.blocks[0]?.flow?.exercisePageBreakBefore!==false:section.pageBreakBefore,
     exerciseNumber:section.phase==='front-matter'?undefined:exercises[section.topicId],
     ...(project.settings?.numberPracticeTopicsOnly&&section.phase!=='front-matter'&&!exercises[section.topicId]?{unnumberedTopic:true}:{}),
-    difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)&&exerciseOpeningIndex(section)===0?exerciseHeading(exercises[section.topicId]):null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
-    blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,...(mode==='student'&&rowStarts.has(b.id)?{keepTogether:true}:{}),sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),...(mode==='student'&&startsExercise(section)&&b===section.blocks[exerciseOpeningIndex(section)]&&exerciseOpeningIndex(section)>0?{pageBreakBefore:b.flow?.exercisePageBreakBefore!==false}:{}),exerciseHeadingBefore:startsExercise(section)&&b===section.blocks[exerciseOpeningIndex(section)]?exercises[section.topicId]:undefined,exerciseAnchorBefore:mode==='student'&&exerciseDestinations.get(section.topicId)===section&&b===section.blocks[startsExercise(section)?exerciseOpeningIndex(section):0]?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
+    difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)&&renderedOpeningIndex(section)===0?exerciseHeading(exercises[section.topicId]):null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
+    blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,...(mode==='student'&&rowStarts.has(b.id)?{keepTogether:true}:{}),sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),...(mode==='student'&&startsExercise(section)&&b===section.blocks[exerciseOpeningIndex(section)]&&renderedOpeningIndex(section)>0?{pageBreakBefore:b.flow?.exercisePageBreakBefore!==false}:{}),exerciseHeadingBefore:startsExercise(section)&&b===section.blocks[exerciseOpeningIndex(section)]?exercises[section.topicId]:undefined,exerciseAnchorBefore:mode==='student'&&exerciseDestinations.get(section.topicId)===section&&b===section.blocks[startsExercise(section)?exerciseOpeningIndex(section):0]?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
   return shareFlowProjection(project,edition,[...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])]);
 }

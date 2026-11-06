@@ -5,6 +5,10 @@
 // and writes only to --out. See docs/booklet-exam-completion.md.
 //   node pedagogy/exam-closure.mjs skeleton --project-id ID --out FILE [--screen-dir DIR]
 //   node pedagogy/exam-closure.mjs check --record FILE --project FILE [--candidate FILE]
+// A split pair (6 November 2026) closes as one unit on the parent's screen:
+//   node pedagogy/exam-closure.mjs skeleton --project-id PARENT_ID --pair --out FILE
+// The record lists both halves under `members`; owners count across both Exam
+// sections and each half's revision is checked. `check` takes either half.
 import fs from 'node:fs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
@@ -45,8 +49,10 @@ export function rowProblems(row) {
 }
 
 // screenRows: this master's rows from the current screen, {id, status, ...}.
-export function buildClosureSkeleton({projectId, project, projectSha256, screenRows, screen = {}}) {
+// members (split pairs only): [{project, sha256}] for both halves, parent first.
+export function buildClosureSkeleton({projectId, project, projectSha256, screenRows, screen = {}, members}) {
   if (project?.id !== projectId) throw Error(`Project id ${project?.id} is not ${projectId}`);
+  if (members && (members.length !== 2 || members[0].project.id !== projectId || members[1].project.source?.partition?.parentProjectId !== projectId)) throw Error('A pair record needs the parent and its part 2');
   const seen = new Set();
   const rows = screenRows.map(source => {
     if (!text(source.id) || seen.has(source.id)) throw Error(`Screen row id missing or repeated: ${source.id}`);
@@ -60,6 +66,7 @@ export function buildClosureSkeleton({projectId, project, projectSha256, screenR
   return {
     kind: CLOSURE_KIND, projectId,
     liveRevision: project.revision, liveSha256: projectSha256,
+    ...(members ? {members: members.map(m => ({projectId: m.project.id, liveRevision: m.project.revision, liveSha256: m.sha256}))} : {}),
     screenFile: screen.file ?? null, screenSha256: screen.sha256 ?? null,
     screenRowCount: rows.length, rows,
   };
@@ -124,11 +131,19 @@ function labelOnly(held) {
 
 // isRatingBound is the existing assessment-binding check (verifiedRating);
 // practiceBlocks lists ordinary practice for the nonblocking practice report.
-export function checkClosure({record, project, projectSha256, candidate, screenRows, screenSha256, isRatingBound, practiceBlocks = () => []}) {
+// siblings (pair records): the other half's live [{project, sha256}].
+export function checkClosure({record, project, projectSha256, candidate, screenRows, screenSha256, isRatingBound, practiceBlocks = () => [], siblings = []}) {
   if (typeof isRatingBound !== 'function') throw Error('isRatingBound (the existing assessment binding check) is required');
   const checked = candidate ?? project, blocking = [], nonBlocking = [];
   const block = (kind, detail = {}) => blocking.push({kind, ...detail}), note = (kind, detail = {}) => nonBlocking.push({kind, ...detail});
-  if (record?.kind !== CLOSURE_KIND || record.projectId !== checked?.id) block('record-identity', {projectId: record?.projectId, checked: checked?.id});
+  const members = record?.members, memberIds = members?.map(m => m.projectId) ?? [record?.projectId];
+  if (record?.kind !== CLOSURE_KIND || !memberIds.includes(checked?.id)) block('record-identity', {projectId: record?.projectId, checked: checked?.id});
+  if (members) {
+    const given = new Set([checked?.id, ...siblings.map(item => item.project?.id)]);
+    for (const id of memberIds) if (!given.has(id)) block('pair-member-missing', {projectId: id});
+  }
+  // The unit being closed: the checked project plus, for a pair, its live sibling.
+  const unit = [checked, ...siblings.map(item => item.project)], liveUnit = [project, ...siblings.map(item => item.project)];
 
   // 1. The pool is the current screen for this master.
   const screenIds = new Set((screenRows ?? []).map(row => row.id)), rowIds = new Set(record.rows.map(row => row.id));
@@ -154,8 +169,8 @@ export function checkClosure({record, project, projectSha256, candidate, screenR
   }
 
   // 3. Every named owner exists in the Exam section being checked.
-  const sections = examSections(checked), owners = new Set(questionIds(sections));
-  const allBlocks = new Set((checked?.sections ?? []).flatMap(section => (section.blocks ?? []).map(item => item.id)));
+  const sections = unit.flatMap(examSections), owners = new Set(questionIds(sections));
+  const allBlocks = new Set(unit.flatMap(p => (p?.sections ?? []).flatMap(section => (section.blocks ?? []).map(item => item.id))));
   const named = new Set();
   for (const row of record.rows) {
     const effective = coverageClass(row);
@@ -168,7 +183,7 @@ export function checkClosure({record, project, projectSha256, candidate, screenR
   // 4–5. Guard holds: new owners block; existing owners' attribution is listed.
   if (!sections.length) block('no-exam-section');
   // Existing owners are blocks already in the live project (any section).
-  const existing = new Set((project?.sections ?? []).flatMap(section => (section.blocks ?? []).map(item => item.id)));
+  const existing = new Set(liveUnit.flatMap(p => (p?.sections ?? []).flatMap(section => (section.blocks ?? []).map(item => item.id))));
   for (const section of sections) {
     if (section.workingSpace !== 'none') block('working-space', {sectionId: section.id, workingSpace: section.workingSpace ?? null});
     for (const held of validateProgrammeExamSection(section).held) {
@@ -184,12 +199,15 @@ export function checkClosure({record, project, projectSha256, candidate, screenR
   for (const section of sections) for (const item of section.blocks ?? []) if (item?.type === 'question' && !isRatingBound(item)) block('rating-unbound', {ownerId: item.id});
 
   // 7. The record was built on the project being checked.
-  if (record.liveRevision !== project?.revision || record.liveSha256 !== projectSha256) block('stale-revision', {record: [record.liveRevision, record.liveSha256], live: [project?.revision, projectSha256]});
+  if (members) {
+    const live = new Map([[project?.id, [project?.revision, projectSha256]], ...siblings.map(item => [item.project?.id, [item.project?.revision, item.sha256]])]);
+    for (const m of members) { const now = live.get(m.projectId); if (now && (m.liveRevision !== now[0] || m.liveSha256 !== now[1])) block('stale-revision', {projectId: m.projectId, record: [m.liveRevision, m.liveSha256], live: now}); }
+  } else if (record.liveRevision !== project?.revision || record.liveSha256 !== projectSha256) block('stale-revision', {record: [record.liveRevision, record.liveSha256], live: [project?.revision, projectSha256]});
   if (candidate && candidate.revision !== project?.revision) block('candidate-base', {candidate: candidate.revision, live: project?.revision});
 
   // Practice-phase holds never block Exam closure.
   const examIds = new Set(sections.flatMap(section => (section.blocks ?? []).map(item => item.id)));
-  const practiceHolds = practiceBlocks(checked).filter(item => !examIds.has(item.id) && !isRatingBound(item)).map(item => item.id);
+  const practiceHolds = unit.flatMap(p => practiceBlocks(p)).filter(item => !examIds.has(item.id) && !isRatingBound(item)).map(item => item.id);
   if (practiceHolds.length) note('practice-rating', {count: practiceHolds.length, ids: practiceHolds.slice(0, 20)});
 
   const counts = {}, coverage = {};
@@ -198,7 +216,16 @@ export function checkClosure({record, project, projectSha256, candidate, screenR
 }
 
 // After a guarded save the content is the checked candidate at a new revision.
-export function rebaseClosureRecord(record, {revision, sha256, savedFrom}) {
+export function rebaseClosureRecord(record, {revision, sha256, savedFrom, projectId}) {
+  if (record.members) {
+    const id = projectId ?? record.projectId;
+    const old = record.members.find(m => m.projectId === id);
+    if (!old) throw Error(`${id} is not a member of this pair record`);
+    const next = structuredClone(record);
+    next.members = next.members.map(m => m.projectId === id ? {...m, liveRevision: revision, liveSha256: sha256} : m);
+    if (id === record.projectId) Object.assign(next, {liveRevision: revision, liveSha256: sha256});
+    return {...next, rebasedFrom: {projectId: id, revision: old.liveRevision, sha256: old.liveSha256, ...(savedFrom ? {publication: savedFrom} : {})}};
+  }
   return {...structuredClone(record), liveRevision: revision, liveSha256: sha256, rebasedFrom: {revision: record.liveRevision, sha256: record.liveSha256, ...(savedFrom ? {publication: savedFrom} : {})}};
 }
 
@@ -225,6 +252,22 @@ export async function defaultBindings() {
   return {isRatingBound: block => verifiedRating(block), practiceBlocks: project => practiceRatingBlocks(project).map(row => row.block)};
 }
 
+// The live other half of a pair record, read from booklets/projects.
+export function readSiblings(record, checkedId, {root = process.cwd()} = {}) {
+  return (record.members ?? []).filter(m => m.projectId !== checkedId).map(m => {
+    const file = path.join(root, 'booklets/projects', m.projectId + '.json');
+    return {project: readJson(file), sha256: sha256File(file)};
+  });
+}
+// A parent's part 2 is <id minus -v1>-2-v1 and names the parent in source.partition.
+export function findPartTwo(parentId, {root = process.cwd()} = {}) {
+  const file = path.join(root, 'booklets/projects', parentId.replace(/-v1$/, '-2-v1') + '.json');
+  if (!fs.existsSync(file)) throw Error(`No part 2 for ${parentId}`);
+  const project = readJson(file);
+  if (project.source?.partition?.parentProjectId !== parentId) throw Error(`${project.id} does not name ${parentId} as its parent`);
+  return {project, sha256: sha256File(file)};
+}
+
 export async function checkClosureFiles({recordFile, projectFile, candidateFile, root = process.cwd()}) {
   const record = readJson(recordFile), project = readJson(projectFile);
   const screenFile = path.resolve(root, record.screenFile), screen = readJson(screenFile);
@@ -232,7 +275,7 @@ export async function checkClosureFiles({recordFile, projectFile, candidateFile,
   return checkClosure({
     record, project, projectSha256: sha256File(projectFile),
     candidate: candidateFile ? readJson(candidateFile) : undefined,
-    screenRows, screenSha256: sha256File(screenFile), ...await defaultBindings(),
+    screenRows, screenSha256: sha256File(screenFile), siblings: readSiblings(record, project.id, {root}), ...await defaultBindings(),
   });
 }
 
@@ -242,7 +285,9 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
   if (command === 'skeleton') {
     const projectId = need('--project-id'), out = need('--out'), projectFile = path.join('booklets/projects', projectId + '.json');
     const screen = readScreen(projectId, {screenDir: arg('--screen-dir') ?? DEFAULT_SCREEN_DIR, withIndex: true});
-    const record = buildClosureSkeleton({projectId, project: readJson(projectFile), projectSha256: sha256File(projectFile), screenRows: screen.rows, screen});
+    const project = readJson(projectFile), projectSha256 = sha256File(projectFile);
+    const members = args.includes('--pair') ? [{project, sha256: projectSha256}, findPartTwo(projectId)] : undefined;
+    const record = buildClosureSkeleton({projectId, project, projectSha256, screenRows: screen.rows, screen, members});
     fs.mkdirSync(path.dirname(path.resolve(out)), {recursive: true});
     fs.writeFileSync(out, JSON.stringify(record, null, 2) + '\n', {flag: 'wx'});
     console.log(JSON.stringify({out, rows: record.rows.length, screen: screen.counts}, null, 2));
@@ -251,7 +296,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.ar
     console.log(JSON.stringify(result, null, 2));
     process.exitCode = result.closed ? 0 : 1;
   } else {
-    console.error('Usage: exam-closure.mjs skeleton --project-id ID --out FILE | check --record FILE --project FILE [--candidate FILE]');
+    console.error('Usage: exam-closure.mjs skeleton --project-id ID [--pair] --out FILE | check --record FILE --project FILE [--candidate FILE]');
     process.exitCode = 2;
   }
 }

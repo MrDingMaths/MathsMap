@@ -7,14 +7,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
-import {checkClosure, defaultBindings, readJson, rebaseClosureRecord, sha256File} from './exam-closure.mjs';
+import {checkClosure, defaultBindings, readJson, readSiblings, rebaseClosureRecord, sha256File} from './exam-closure.mjs';
 import {DEFAULT_REGISTRY, markSaved, readEntry, recordApproval, writeEntry} from './exam-proposals.mjs';
 
 export const LEDGER = '.booklet-work/end-goal-20261028/publications.jsonl';
 
 function closureFor({record, projectFile, candidate, bindings, root}) {
   const screenFile = path.resolve(root, record.screenFile), screen = readJson(screenFile);
-  return checkClosure({record, project: readJson(projectFile), projectSha256: sha256File(projectFile), candidate, screenRows: (screen.questionReferences ?? []).map(ref => ({id: ref.id, status: ref.status})), screenSha256: sha256File(screenFile), ...bindings});
+  const project = readJson(projectFile);
+  return checkClosure({record, project, projectSha256: sha256File(projectFile), candidate, siblings: readSiblings(record, project.id, {root}), screenRows: (screen.questionReferences ?? []).map(ref => ({id: ref.id, status: ref.status})), screenSha256: sha256File(screenFile), ...bindings});
 }
 
 export async function examPublish({projectId, apply = false, approvedBy, note, root = process.cwd(), registry = DEFAULT_REGISTRY, publish}) {
@@ -35,7 +36,7 @@ export async function examPublish({projectId, apply = false, approvedBy, note, r
   let current = recordApproval(entry, approvedBy);
   writeEntry(current, {dir: path.resolve(root, registry), expectedBytes: bytes});
   const result = await publish({...args, apply: true});
-  const rebased = rebaseClosureRecord(record, {revision: result.to, sha256: sha256File(projectFile), savedFrom: {ledger: LEDGER, savedAt: result.savedAt}});
+  const rebased = rebaseClosureRecord(record, {revision: result.to, sha256: sha256File(projectFile), savedFrom: {ledger: LEDGER, savedAt: result.savedAt}, projectId});
   const rebasedFile = recordFile.replace(/(\.r\d+)?\.json$/, `.r${result.to}.json`);
   fs.writeFileSync(rebasedFile, JSON.stringify(rebased, null, 2) + '\n', {flag: 'wx'});
   const after = closureFor({record: rebased, projectFile, bindings, root});

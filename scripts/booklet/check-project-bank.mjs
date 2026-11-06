@@ -7,7 +7,9 @@ import {makeBankManifest} from '../../src/lib/practice-question-model.js';
 const arg=(k,d)=>{const i=process.argv.indexOf(k);return i<0?d:process.argv[i+1];};
 const work=arg('--stage'),projectId=arg('--project','volume-v1'),base=arg('--base','http://127.0.0.1:5297');
 const bankRoot=work?path.join(work,'bank'):'booklets/question-bank';
-const receipt=JSON.parse(await fs.readFile(work?path.join(work,'receipt.json'):'booklets/provenance/'+projectId+'/bank-import.json','utf8'));
+// A split part 2 keeps no evidence of its own: PARENT.json names the booklet whose folder holds it.
+const provenanceId=work?projectId:await fs.readFile('booklets/provenance/'+projectId+'/PARENT.json','utf8').then(text=>JSON.parse(text).parentProjectId,()=>projectId);
+const receipt=JSON.parse(await fs.readFile(work?path.join(work,'receipt.json'):'booklets/provenance/'+provenanceId+'/bank-import.json','utf8'));
 const records=await Promise.all(receipt.questions.map(q=>fs.readFile(path.join(bankRoot,q.bankId+'.json'),'utf8').then(JSON.parse)));
 const byId=new Map(records.map(q=>[q.id,q]));
 const out=arg('--out','.booklet-work/volume-bank/bank-previews');await fs.mkdir(out,{recursive:true});

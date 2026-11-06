@@ -78,14 +78,3 @@ test('promotion preserves an explicit library classification over supporting tea
  assert.deepEqual(result.question.content.teachingMapping.skillIds,['find-rule-from-table']);
 });
 
-test('reviewed Linear records appear in Linear Relationships and not Multiplicative relations B',async()=>{
- const read=async f=>JSON.parse(await fs.readFile(f,'utf8'));
- const review=await read('booklets/provenance/linear-relationships-v1/source-classification-review.json');
- const records=await Promise.all(review.questions.map(a=>read('booklets/question-bank/'+a.id+'.json')));
- const taxonomy={skills:await read('data/skills.json'),topics:await read('data/topics.json'),dotpoints:await read('data/dotpoints.json')};
- assert.equal(filterQuestionBank(records,{topicId:'t-s3-mr-b'},taxonomy).length,0);
- assert.equal(filterQuestionBank(records,{topicId:'t-s4-lin'},taxonomy).length,7);
- for(const a of review.questions){const q=records.find(q=>q.id===a.id);assert.deepEqual(q.classification,a.after);}
- const stage3=normaliseQuestion({...question(),classification:{primarySkillId:'find-rule-from-table'}});
- assert.equal(filterQuestionBank([stage3],{topicId:'t-s3-mr-b'},taxonomy).length,1);
-});

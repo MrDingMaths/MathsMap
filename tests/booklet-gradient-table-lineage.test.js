@@ -8,10 +8,11 @@ import {sharedQuestion} from '../src/lib/question-sync.js';
 import {normaliseQuestion} from '../src/lib/practice-question-model.js';
 import {GRADIENT_TABLE_KIND,gradientTableRenderEvidence} from '../scripts/booklet/gradient-table-lineage.mjs';
 import {reasoningTaskHash,verifiedRating,reuseGradientTablePresentationRating} from '../scripts/booklet/reasoning-ratings.mjs';
+import {loadWholeProject} from './helpers/split-projects.js';
 const hash=v=>createHash('sha256').update(v).digest('hex');
 function fixture(t,{alreadyAdapted=false}={}){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'gradient-table-lineage-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
- const project=JSON.parse(fs.readFileSync(new URL('../booklets/projects/gradient-intercept-form-v1.json',import.meta.url)));project.revision=381;
+ const project=loadWholeProject('gradient-intercept-form-v1');project.revision=381;
  const si=project.sections.findIndex(s=>s.blocks.some(b=>b.id==='p33-q3-block')),bi=project.sections[si].blocks.findIndex(b=>b.id==='p33-q3-block'),target=project.sections[si].blocks[bi];
  if(alreadyAdapted&&!target.classification.assessment.gradientTablePresentationAdaptations?.length){const originalAssessment=structuredClone(target.classification.assessment);target.classification.assessment.gradientTablePresentationAdaptations=[{originalAssessment}];}
  const original=target.classification.assessment.gradientTablePresentationAdaptations?.[0]?.originalAssessment;if(original)target.classification.assessment=structuredClone(original);

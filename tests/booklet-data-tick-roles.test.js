@@ -1,8 +1,9 @@
 import fs from 'node:fs';import test from 'node:test';import assert from 'node:assert/strict';
 import {explicitSmallGraphLabels} from '../scripts/booklet/graph-tick-role-audit.mjs';
+import {loadWholeProject} from './helpers/split-projects.js';
 
 test('current Data Visualisation graph tick declarations carry semantic markers in every content role',()=>{
- const project=JSON.parse(fs.readFileSync(process.env.BOOKLET_TICK_PROJECT_FILE??'booklets/projects/data-visualisation-1-v1.json','utf8'));
+ const project=(process.env.BOOKLET_TICK_PROJECT_FILE?JSON.parse(fs.readFileSync(process.env.BOOKLET_TICK_PROJECT_FILE,'utf8')):loadWholeProject('data-visualisation-1-v1'));
  const findings=[],ids=new Set();let marked=0,categories=0;
  function visit(v){if(!v||typeof v!=='object')return;
   if(v.format==='tikz'&&typeof v.code==='string'){
