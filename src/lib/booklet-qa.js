@@ -58,7 +58,7 @@ export function clozeResponseRequiredMm(expected) {
  return Math.ceil(compact.length*2.2+6);
 }
 export function inspectBookletPage(article,{footerClearanceMm=3,style=false}={}) {
- if(article.dataset.blankPage==='true')return {page:article.dataset.pageNumber,issues:article.children.length||article.textContent.trim()?[{kind:'nonempty-blank-page'}]:[],graphs:[]};
+ if(article.dataset.blankPage==='true')return {page:article.dataset.pageNumber,issues:[...article.children].some(c=>c.tagName!=='FOOTER'&&c.dataset?.blankPageLabel!=='true')||[...(article.childNodes??[])].some(n=>n.nodeType===3&&n.textContent.trim())?[{kind:'nonempty-blank-page'}]:[],graphs:[]};
  const flow=!!article.closest('.flow'),issues=[],r=article.getBoundingClientRect(),scale=r.width/((flow?180:210)*96/25.4),mm=96/25.4*scale,main=article.querySelector('main'),footer=article.querySelector('footer');
  if(!main||!footer)return {page:article.dataset.pageNumber,issues:[{kind:'missing-page-structure'}],graphs:[]};
  const f=footer.getBoundingClientRect(),boundary=flow?{left:r.left,right:r.right,top:r.top,bottom:Infinity}:{left:r.left+10*mm,right:r.right-10*mm,top:r.top,bottom:f.top-footerClearanceMm*mm};

@@ -829,6 +829,26 @@
     finally { busy = ''; }
   }
 
+  async function deleteManagedClassCopy(id, confirmId) {
+    if(editSession || librarySaveInFlight || busy)throw new Error('Wait for the current booklet operation to finish.');
+    const listed=projects.find(item=>item.id===id);
+    if(!listed || normalizeProjectLibrary(listed.library).category!=='class')throw new Error('Only class copies can be deleted here.');
+    const isCurrent=project?.id===id;
+    busy='Deleting';
+    try{
+      if(isCurrent){finishInline();await flushDocument();}
+      await deleteBookletProject(id, confirmId);
+      projects=projects.filter(item=>item.id!==id);
+      if(isCurrent){
+        loadGeneration++;
+        project=null;savedBase=null;saveState='Saved';
+        documentSession.reset();persistence.reset(null);documentGeneration=documentSession.generation;
+        undoStack=[];redoStack=[];groupSelection=[];documentSelection=null;opening=null;
+        onprojectchange?.(null);
+      }
+    }finally{busy='';}
+  }
+
   async function removeCurrent() {
     if (!project) return;
     const confirmId = window.prompt(`Type ${project.id} to permanently delete this project.`);
@@ -1170,7 +1190,7 @@
   onMount(() => {initialiseProjects();});
 </script>
 {#if creation}<BookletCreateDialog source={creation.source} {courses} onsubmit={createLibraryBooklet} oncancel={()=>creation=null}/>{/if}
-{#if libraryManager}<BookletLibraryManager {projects} {courses} disabled={!!editSession||librarySaveInFlight} onapply={applyLibraryChanges} onclose={()=>libraryManager=false}/>{/if}
+{#if libraryManager}<BookletLibraryManager {projects} {courses} disabled={!!editSession||librarySaveInFlight||!!busy} onapply={applyLibraryChanges} ondelete={deleteManagedClassCopy} onclose={()=>libraryManager=false}/>{/if}
 {#if pasteFallback}<div class="document-finder" role="dialog" aria-modal="true" aria-label="Paste options"><p>This clipboard contains {pasteFallback.unsupported.join(', ')}. Paste the available text, or cancel to keep your selection.</p><button onclick={()=>{const value=pasteFallback.text;pasteFallback=null;selecting=false;replaceSelection(plainTextDocument(value));}}>Paste text only</button><button onclick={()=>pasteFallback=null}>Cancel</button></div>{/if}
 {#if finder}<dialog bind:this={finderDialog} oncancel={e=>{e.preventDefault();closeFinder();}} class="document-finder project-screen" aria-label={finder==='commands'?'Search commands':finder==='goto'?'Go to page':'Find in document'}>
  <header><strong>{finder==='commands'?'Commands':finder==='goto'?'Go to page':'Find in document'}</strong><button aria-label="Close search" onclick={closeFinder}>×</button></header>

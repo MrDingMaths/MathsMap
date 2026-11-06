@@ -102,7 +102,7 @@
         {:else if route.name === 'quiz-history'}
           <QuizHistory id={route.params[0] ?? null} />
         {:else if route.name === 'booklet' && (import.meta.env.DEV || import.meta.env.VITE_BOOKLET_STUDIO === 'true')}
-          <BookletStudioView initialDifficulty={route.query.difficulty ?? 'all'} projectId={route.query.project ?? null} initialStage={route.query.stage ?? 'builder'} initialOutput={route.query.output ?? null} />
+          <BookletStudioView initialDifficulty={route.query.difficulty ?? 'all'} projectId={route.query.project ?? null} initialStage={route.query.stage ?? 'projects'} initialOutput={route.query.output ?? null} />
         {:else if route.name === 'tikz-check' && import.meta.env.DEV}
           <TikzCheck
             topicId={route.query.topic ?? null}

@@ -15,9 +15,9 @@
   import PracticeQuestionRenderer from './PracticeQuestionRenderer.svelte';
   import Tikz from './Tikz.svelte';
   import { isDocument } from '../lib/document-content.js';
-  import { teachingQuestionMode, blockClozeAnswers } from '../lib/booklet-answer-options.js';
+  import { teachingQuestionMode, blockClozeAnswers, blockTheorySolutions } from '../lib/booklet-answer-options.js';
   import { deriveBookletCover, frontMatterDestinations, unnumberedTopicDestinations } from '../lib/booklet-cover.js';
-  import { combinedExampleTikz, groupBookletBlocks, resolveTeachingColumns, investigationDescription, resolvePreviewAssets, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
+  import { combinedExampleTikz, groupBookletBlocks, resolveTeachingColumns, teachingColumnHeadings, teachingPairHeadings, investigationDescription, resolvePreviewAssets, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
 
   let {
     page, bookletPages = [], runId, zoom = null, showTheorySolutions = true, solutionMode = 'student', flow = false, houseStyleVersion = null,
@@ -97,7 +97,7 @@
   {/if}
 {/snippet}
 
-{#snippet exampleDiagramSet(example)}
+{#snippet exampleDiagramSet(example, showTheorySolutions = true)}
   {#each example.questionDiagrams ?? [] as base}
     {@const overlay = (example.solutionDiagrams ?? []).find((item) => item.overlayOf === base.id)}
     {@const combined = overlay ? combinedExampleTikz(base, overlay) : null}
@@ -118,7 +118,7 @@
   </div>
 {/snippet}
 
-{#snippet exampleSolution(example, numbered = true)}
+{#snippet exampleSolution(example, numbered = true, showTheorySolutions = true)}
   <div class="theory-solution" class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}>
     {#each example.steps?.length ? example.steps : [example.theorySolution] as step, stepIndex}
       {@const stepPointer = example.steps?.length ? '/steps/' + stepIndex : '/theorySolution'}
@@ -129,7 +129,6 @@
 {/snippet}
 
 {#snippet questionView(block, number, answerHref = null)}
-  {#if block.presentation?.studentRole==='your-turn'&&solutionMode==='student'}<h3>Your turn</h3>{/if}
   {@const visibleNumber=usesReviewNumbers(block)?(labels[block.content.id]===''?null:Number(labels[block.content.id]??1)):usesTeachingLetters(block)?null:number}
   {@const trailing=page.blocks.find(b=>b.id===block.pairedBlockId&&!(block.sourceAtom&&b.sourceAtom))}
   {@const questionMode = teachingQuestionMode(block, {showReviewAnswers, showIdentifyAnswers, showGuidedPracticeAnswers, showKeyIdeasAnswers}, solutionMode)}
@@ -143,6 +142,7 @@
 {/snippet}
 
 {#snippet blockBody(block, index = 0, insideAtom = false)}
+  {@const blockSolutions = blockTheorySolutions(block,{showTheorySolutions,showGuidedPracticeAnswers},solutionMode)}
   {@const rated=block.type==='question'&&page.section?.phase==='practice'&&!isTheoryReview(block,page.section)}
   {@const marked=editMode&&rated}
   {@const rating=rated?questionDifficulty(block):null}
@@ -169,17 +169,17 @@
       {#if !insideAtom}<BookletSectionHeader kind="example" subtitle={block.title} editMode={editMode} rootId={block.id} pointer="/title" {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />{/if}
       <div class:body-box={!insideAtom} class:example-columns={block.presentation?.layout === 'columns'} class="example" style={'--example-columns:' + (block.presentation?.columns ?? 3)}>
         {#if blockLayouts[block.id]?.arrangement || block.examples?.some(example=>example.equationAlignment) || block.examples?.length && block.presentation?.layout === 'columns'}
-          <BookletArrangement {block} arrangement={blockLayouts[block.id]?.arrangement} layoutOverrides={{blockLayouts, answerSpaces:answerSpaceOverrides}} showSolutions={showTheorySolutions} {assetUrl} {diagramColourModes} {editMode}/>
+          <BookletArrangement {block} arrangement={blockLayouts[block.id]?.arrangement} layoutOverrides={{blockLayouts, answerSpaces:answerSpaceOverrides}} showSolutions={blockSolutions} {assetUrl} {diagramColourModes} {editMode}/>
         {:else if block.examples?.length && block.presentation?.layout === 'worked-rows'}
           {#each block.examples as example, exampleIndex}
             {@const exampleLabel=block.presentation?.exampleLabels?.[example.id]??''}
             <div class="worked-example-row" class:without-illustration={!(example.questionDiagrams?.length || example.diagrams?.length || example.solutionDiagrams?.length || example.diagramCaption)} data-example-id={example.id} style={exampleRowStyle(example)}>
               <div class="example-working">
                 {#if example.prompt}<div class="stacked-prompt" class:labelled-example={!!exampleLabel} style:padding-left={blockLayouts[example.id]?.insetMm != null ? blockLayouts[example.id].insetMm+'mm' : undefined}><span class="example-prompt">{#if exampleLabel}<b class="worked-example-label">{exampleLabel}</b>{/if}<EditableBookletText value={example.prompt} rootId={example.id} pointer="/prompt" {...editProps()} edited={isEdited(example.id, '/prompt')} /></span></div>{/if}
-                {@render exampleSolution(example, block.presentation?.numberSteps !== false)}
+                {@render exampleSolution(example, block.presentation?.numberSteps !== false, blockSolutions)}
               </div>
-              <div class="example-illustration">{@render exampleDiagramSet(example)}{#if example.diagramCaption}<EditableBookletText value={example.diagramCaption} rootId={example.id} pointer="/diagramCaption" {...editProps()}/>{/if}</div>
-              {#if example.explanation}<div class="example-explanation" class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}><EditableBookletText value={example.explanation} rootId={example.id} pointer="/explanation" fillCloze={blockClozeAnswers(block,{showKeyIdeasAnswers},solutionMode)} {...editProps()} edited={isEdited(example.id, '/explanation')} /></div>{/if}
+              <div class="example-illustration">{@render exampleDiagramSet(example, blockSolutions)}{#if example.diagramCaption}<EditableBookletText value={example.diagramCaption} rootId={example.id} pointer="/diagramCaption" {...editProps()}/>{/if}</div>
+              {#if example.explanation}<div class="example-explanation" class:copy-space={!blockSolutions} aria-hidden={!blockSolutions} inert={!blockSolutions}><EditableBookletText value={example.explanation} rootId={example.id} pointer="/explanation" fillCloze={blockClozeAnswers(block,{showKeyIdeasAnswers},solutionMode)} {...editProps()} edited={isEdited(example.id, '/explanation')} /></div>{/if}
             </div>
           {/each}
         {:else if block.examples?.length}
@@ -187,9 +187,9 @@
             <div class="example-row">
               <div>
                 <span class="example-prompt"><EditableBookletText value={example.prompt} rootId={example.id} pointer="/prompt" {...editProps()} edited={isEdited(example.id, '/prompt')} /></span>
-                {@render exampleDiagramSet(example)}
+                {@render exampleDiagramSet(example, blockSolutions)}
               </div>
-              <div class="theory-solution" class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}>
+              <div class="theory-solution" class:copy-space={!blockSolutions} aria-hidden={!blockSolutions} inert={!blockSolutions}>
                   {#each example.steps?.length ? example.steps : [example.theorySolution] as step, stepIndex}
                     {@const stepPointer = example.steps?.length ? '/steps/' + stepIndex : '/theorySolution'}
                     {#if step}<div class="theory-step"><b>{stepIndex + 1}</b><EditableBookletText value={mathLine(step)} rootId={example.id} pointer={stepPointer} {...editProps()} edited={isEdited(example.id, stepPointer)} /></div>{/if}
@@ -201,7 +201,7 @@
           {/each}
         {:else}
           <EditableBookletText value={block.content} rootId={block.id} pointer="/content" {...editProps()} edited={isEdited(block.id, '/content')} />
-          {#if block.theorySolution}<div class="theory-solution" class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}><EditableBookletText value={mathLine(block.theorySolution)} rootId={block.id} pointer="/theorySolution" {...editProps()} edited={isEdited(block.id, '/theorySolution')} /></div>{/if}
+          {#if block.theorySolution}<div class="theory-solution" class:copy-space={!blockSolutions} aria-hidden={!blockSolutions} inert={!blockSolutions}><EditableBookletText value={mathLine(block.theorySolution)} rootId={block.id} pointer="/theorySolution" {...editProps()} edited={isEdited(block.id, '/theorySolution')} /></div>{/if}
         {/if}
       </div>
     </section>
@@ -231,7 +231,8 @@
   {/if}
 {/snippet}
 
-{#snippet teachingAtom(item)}
+{#snippet teachingAtom(item, columnHeading = null)}
+  {@const columnHeadings = teachingColumnHeadings(item)}
   {@const teachingColumns = resolveTeachingColumns(item)}
   {#if item.atom.kind === 'instruction'}
     <section class="teaching-atom" data-atom-id={item.atom.id}>
@@ -239,13 +240,14 @@
     </section>
   {:else}
   <section class="theory-section teaching-atom" class:key-ideas-body={item.atom.kind==='key-ideas'} data-atom-id={item.atom.id}>
-    <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} headerFill={item.atom.headerFill} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />
+    {#if columnHeading}<div class="paired-teaching-heading">{columnHeading}</div>{#if item.atom.visibleSubtitle}<div class="paired-teaching-description"><EditableBookletText value={item.atom.visibleSubtitle} rootId={item.blocks[0].id} pointer={item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {...editProps()} /></div>{/if}{:else}
+    <BookletSectionHeader kind={item.atom.kind} label={item.atom.label} labelPointer="/sourceAtom/label" subtitle={item.atom.visibleSubtitle} headerFill={item.atom.headerFill} editMode={editMode} rootId={item.blocks[0].id} rootIds={item.blocks.map((block) => block.id)} pointer={item.atom.visibleSubtitle !== undefined && item.blocks[0].sourceAtom.visibleSubtitle !== undefined ? "/sourceAtom/visibleSubtitle" : "/sourceAtom/description"} {onContentEdit} {onContentRevert} {onEditingChange} {isEdited} />{/if}
     <div class="body-box atom-body" class:without-body-border={item.blocks[0]?.flow?.teachingBodyBorder===false} class:review-body={item.atom.kind === "review"}>
       {#if teachingColumns}
         {#each teachingColumns.before as block (block.id)}{@render blockBody(block, item.blocks.indexOf(block), true)}{/each}
         <div class="atom-columns">
-          {#each teachingColumns.columns as column}
-            <div class="atom-column">{#each column as block (block.id)}{@render blockBody(block, item.blocks.indexOf(block), true)}{/each}</div>
+          {#each teachingColumns.columns as column, columnIndex}
+            <div class="atom-column">{#if columnHeadings}<div class="paired-teaching-heading">{columnHeadings[columnIndex]}</div>{/if}{#each column as block (block.id)}{@render blockBody(block, item.blocks.indexOf(block), true)}{/each}</div>
           {/each}
         </div>
         {#each teachingColumns.after as block (block.id)}{@render blockBody(block, item.blocks.indexOf(block), true)}{/each}
@@ -260,7 +262,7 @@
 <div class="preview-frame" class:compact-pages={compactPages} class:zoomed={zoom!==null} class:flow bind:this={previewFrame} style={`--preview-scale:${previewScale};--preview-height:${297 * previewScale}mm;--preview-width:${210 * previewScale}mm`}>
   <div class="preview-page" style={houseStyleVariables(houseStyleVersion)} data-house-style={houseStyleVersion}>
     {#if page.isBlank}
-      <article class="booklet-page blank-page" data-blank-page="true" data-page-number={page.pageNumber} aria-label="Blank page"></article>
+      <article class="booklet-page blank-page" data-blank-page="true" data-page-number={page.pageNumber} aria-label="Blank page"><div class="blank-page-label" data-blank-page-label="true">Blank page</div><BookletFooter pageNumber={page.pageNumber} totalPages={page.totalPages??cover.totalPages} feedback={cover.feedback} /></article>
     {:else if page.flexible ? page.isCover : bookletPageNumber === 1 && Number(page.pageNumber) === 1 && !answerSheet}
       <BookletCover pages={bookletPages} {anchorPrefix} {editMode} settings={presentation?.()?.cover}/>
     {:else}
@@ -280,7 +282,8 @@
               {#if documentActions.commentsFor(documentIds).length}<button aria-label="Comments on this group" onclick={()=>documentActions.comment(documentIds)}>●</button>{/if}
             </div>{/if}
             {#if item.type === 'teaching-pair'}
-              <div class="teaching-pair">{#each item.groups as group (group.id)}{@render teachingAtom(group)}{/each}</div>
+              {@const pairHeadings = teachingPairHeadings(item.groups)}
+              <div class="teaching-pair">{#each item.groups as group, groupIndex (group.id)}{@render teachingAtom(group, pairHeadings?.[groupIndex])}{/each}</div>
             {:else if item.type === 'practice-row'}
               <div class="practice-row">{#each item.blocks as block (block.id)}<div class="practice-cell" data-row-owner={block.id}>{@render blockBody(block, index, false)}</div>{/each}</div>
             {:else if item.type === 'teaching-atom'}
@@ -326,6 +329,7 @@
   .flow.preview-frame{height:auto;overflow:visible}.flow .preview-page{position:relative;left:0;width:100%;transform:none}.flow .booklet-page{width:100%;height:auto;min-height:180mm;overflow:visible}.flow .booklet-page main{display:block;min-height:0;flex:none}.flow .booklet-page main>.document-group>section{margin-bottom:3mm}.flow :global(.booklet-footer){position:static;margin-top:6mm}.flow :global(.question-node),.flow :global(.me-layout),.flow :global(tr){break-inside:avoid}@media print{.flow.preview-frame,.flow .preview-page,.flow .booklet-page{width:180mm;height:auto;min-height:0;overflow:visible}.flow .booklet-page{display:block;padding:0}.flow :global(.booklet-footer){display:none}.flow .booklet-page main{padding:0}}
   .preview-frame { position:relative; width:100%; height:var(--preview-height); overflow:hidden; }
   .preview-page { position:absolute; top:0; left:50%; width:210mm; transform:translateX(-50%) scale(var(--preview-scale)); transform-origin:top center; }
+  .blank-page-label { text-align:center; color:var(--booklet-muted); font-size:var(--type-label); font-weight:700; letter-spacing:.04em; }
   .booklet-page { --type-meta:8pt; --type-label:9pt; --type-body:11pt; --type-subheading:13pt; --type-heading:18pt; --type-display:22pt; position:relative; display:flex; width:210mm; height:297mm; padding:10mm 15mm; overflow:hidden; box-sizing:border-box; flex-direction:column; background:var(--booklet-white); color:var(--booklet-ink); font-family:'Nunito',system-ui,-apple-system,'Segoe UI',sans-serif; font-size:var(--type-body); line-height:1.32; }
   main { display:grid; align-content:start; gap:3mm; min-height:0; padding:0 0 11mm; flex:1; } h3 { margin:0 0 2mm; color:var(--booklet-blue); font-size:var(--type-subheading); }
   .theory-section { break-inside:avoid; }
@@ -336,6 +340,8 @@
   .atom-body { display:grid; grid-template-columns:minmax(0,1fr); min-width:0; gap:1.8mm; }
   .atom-columns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4mm; align-items:start; }
   .atom-column { display:grid; grid-template-columns:minmax(0,1fr); min-width:0; gap:1.8mm; align-content:start; }
+  .paired-teaching-description {margin:0 0 2mm;color:#000;}
+  .paired-teaching-heading {color:#000;font-weight:700;font-size:11pt;margin:0 0 2mm;}
   .teaching-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4mm; align-items:start; margin-bottom:3mm; }
   .teaching-pair > .teaching-atom { min-width:0; }
   .inside-atom { margin:0; }

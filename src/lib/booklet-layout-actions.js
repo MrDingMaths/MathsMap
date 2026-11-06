@@ -15,7 +15,7 @@ const visit=(node,fn,context={})=>{if(!node||typeof node!=='object')return;fn(no
 const replaceBlock=(p,b)=>({...p,sections:p.sections.map(s=>({...s,blocks:s.blocks.map(x=>x.id===b.id?b:x)}))});
 const withTree=(p,id,tree)=>({...p,settings:{...p.settings,layoutOverrides:{...p.settings.layoutOverrides,blockLayouts:{...p.settings.layoutOverrides?.blockLayouts,[id]:{...p.settings.layoutOverrides?.blockLayouts?.[id],arrangement:tree}}}}});
 const overrides=p=>p.settings?.layoutOverrides??{};
-export const BLOCK_ROLES=[['theory','Theory'],['definition','Definition'],['example','Worked example + Your turn'],['guided-practice','Guided practice'],['question','Exercise question'],['review','Review'],['investigation','Activity / investigation'],['key-ideas','Key Ideas']];
+export const BLOCK_ROLES=[['theory','Theory'],['definition','Definition'],['example','Worked example + guided practice'],['guided-practice','Guided practice'],['question','Exercise question'],['review','Review'],['investigation','Activity / investigation'],['key-ideas','Key Ideas']];
 export const blockRole=b=>b?.sourceAtom?.kind??(b?.pedagogyRole==='worked-example'?'example':b?.pedagogyRole==='practice'?'question':b?.pedagogyRole)??(b?.type==='question'?'question':'theory');
 
 export function changeBlockRole(project,blockId,role){

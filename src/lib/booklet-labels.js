@@ -1,3 +1,4 @@
+import {teachingAnswerCategory} from './booklet-answer-options.js';
 // Presentation labels never alter source identities or stored question references.
 const letterKinds=new Set(['activity','investigation','identify','proof','verify','example','worked-example','guided-practice']);
 export const usesReviewNumbers=block=>block?.type==='question'&&(block.sourceAtom?.kind??block.pedagogyRole??block.variant)==='review';
@@ -53,7 +54,7 @@ export function teachingLabels(blocks=[]){
  const labels={},counts=new Map(),seen=new Set();
  for(const block of blocks){
   if(seen.has(block.id)||!(usesTeachingLetters(block)||usesReviewNumbers(block)))continue;seen.add(block.id);
-  const key=block.sourceAtom?.id??block.id;
+  const key=teachingAnswerCategory(block)==='guided'?'guided:'+(block.flow?.continuationOf??block.continuationOf??block.id):block.sourceAtom?.id??block.id;
   if(usesReviewNumbers(block)){
    const root=block.content;
    if(root?.type==='group'&&root.label===''&&!root.prompt&&root.children?.length&&root.children.every(child=>/^\d+$/.test(String(child.label??'')))){

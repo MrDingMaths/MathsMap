@@ -236,6 +236,17 @@ export function flowCommand(project, command) {
   return next;
 }
 
+// Preparation boxes cannot own the exercise heading. Generic exercise instructions
+// remain with the question; manual opening-page exceptions remain supported.
+export function exerciseOpeningIndex(section) {
+  const first=(section.blocks??[]).findIndex(block=>!block.presentation?.editorOnly&&isPractice(block));
+  if(first<0)return -1;
+  const at=section.blocks.findIndex((block,index)=>index<=first&&!block.presentation?.editorOnly&&block.type!=='page-break'
+    &&!teachingAnswerCategory(block)&&!(block.sourceAtom&&block.sourceAtom.kind!=='instruction')
+    &&!['theory','definition','key-ideas'].includes(block.pedagogyRole));
+  return at<0?first:at;
+}
+
 export function flowEditionSections(project, edition='student') {
   const numbers = flowNumbers(project), topics = new Map((project.topics ?? []).map(t => [t.id,t.title]));
   const exercises=exerciseNumbers(project);
@@ -260,7 +271,7 @@ export function flowEditionSections(project, edition='student') {
   // A rated warm-up may precede that heading without changing its practice
   // phase, answers or assessment requirements. Absence keeps existing flow.
   const exerciseStarts = new Map();
-  for (const section of sections) if (section.phase==='practice' && section.exerciseStart!==false && section.blocks.some(b=>!b.presentation?.editorOnly) && exercises[section.topicId] && !exerciseStarts.has(section.topicId)) exerciseStarts.set(section.topicId,section);
+  for (const section of sections) if (section.phase==='practice' && section.exerciseStart!==false && exerciseOpeningIndex(section)>=0 && exercises[section.topicId] && !exerciseStarts.has(section.topicId)) exerciseStarts.set(section.topicId,section);
   // Navigation still needs a destination for teaching-only topics and excerpts.
   // Owning a contents entry does not turn a teaching activity into an exercise.
   const exerciseDestinations=new Map(exerciseStarts);
@@ -269,10 +280,10 @@ export function flowEditionSections(project, edition='student') {
   const rowStarts = new Set(sections.flatMap(section => section.blocks.filter((block,index) => resolveStudentRow(section.blocks,index)).map(block => block.id)));
   const make = (section,mode) => ({...section,id:`${section.id}:${mode}`,sourceSectionId:section.id,mode,topicTitle:topics.get(section.topicId) ?? section.title,
     title:section.phase === 'front-matter' ? section.title : `${topics.get(section.topicId) ?? ''}${mode === 'student' ? '' : mode === 'short' ? ' · Short answers':' · Worked solutions'}`,
-    pageBreakBefore:mode==='student'&&startsExercise(section)?section.blocks[0]?.flow?.exercisePageBreakBefore!==false:section.pageBreakBefore,
+    pageBreakBefore:mode==='student'&&startsExercise(section)&&exerciseOpeningIndex(section)===0?section.blocks[0]?.flow?.exercisePageBreakBefore!==false:section.pageBreakBefore,
     exerciseNumber:section.phase==='front-matter'?undefined:exercises[section.topicId],
     ...(project.settings?.numberPracticeTopicsOnly&&section.phase!=='front-matter'&&!exercises[section.topicId]?{unnumberedTopic:true}:{}),
-    difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)?exerciseHeading(exercises[section.topicId]):null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
-    blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,...(mode==='student'&&rowStarts.has(b.id)?{keepTogether:true}:{}),sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),exerciseHeadingBefore:startsExercise(section)&&index===0?exercises[section.topicId]:undefined,exerciseAnchorBefore:mode==='student'&&exerciseDestinations.get(section.topicId)===section&&index===0?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
+    difficultyTitle:section.phase==='practice'&&exercises[section.topicId]?(startsExercise(section)&&exerciseOpeningIndex(section)===0?exerciseHeading(exercises[section.topicId]):null):section.phase === 'practice' && section.showDifficultyHeading!==false ? section.title : null,
+    blocks:section.blocks.filter(b => !b.presentation?.editorOnly && (mode === 'student' || isPractice(b)||teachingLabels.has(b.id))).map((b,index) => ({...b,sourceOrder:numbers[b.id] ?? teachingLabels.get(b.id) ?? b.sourceOrder,flow:{...b.flow,...(mode==='student'&&rowStarts.has(b.id)?{keepTogether:true}:{}),sectionId:section.id,displayNumber:numbers[b.id],...(teachingLabels.has(b.id)?{teachingLabel:teachingLabels.get(b.id)}:{}),...(mode==='student'&&startsExercise(section)&&b===section.blocks[exerciseOpeningIndex(section)]&&exerciseOpeningIndex(section)>0?{pageBreakBefore:b.flow?.exercisePageBreakBefore!==false}:{}),exerciseHeadingBefore:startsExercise(section)&&b===section.blocks[exerciseOpeningIndex(section)]?exercises[section.topicId]:undefined,exerciseAnchorBefore:mode==='student'&&exerciseDestinations.get(section.topicId)===section&&b===section.blocks[startsExercise(section)?exerciseOpeningIndex(section):0]?exercises[section.topicId]:undefined,...(exercises[section.topicId]&&(isPractice(b)||teachingLabels.has(b.id))?{exerciseNumber:exercises[section.topicId],answerMode:edition.startsWith('with-')?answers:null}: {})}}))});
   return shareFlowProjection(project,edition,[...(!['short','worked'].includes(edition) ? sections.map(s => make(s,'student')):[]),...(edition !== 'student' ? sections.map(s => make(s,answers)).filter(s => s.blocks.length):[])]);
 }

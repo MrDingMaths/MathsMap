@@ -1,5 +1,5 @@
 // Old import links open Projects without creating or loading a source run.
-export function bookletStudioRoute(hash, initialStage = 'builder', projectId = null) {
+export function bookletStudioRoute(hash, initialStage = 'projects', projectId = null) {
   const query = new URLSearchParams(hash.split('?')[1] ?? '');
   const requested = query.get('stage') ?? initialStage;
   const retired = ['full-import', 'import', 'review'].includes(requested);

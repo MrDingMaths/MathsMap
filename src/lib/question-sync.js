@@ -8,7 +8,7 @@ export function sharedQuestion(value){
   if(typeof v==='string')return ids.get(v)??v;
   if(Array.isArray(v))return v.map(clean);
   if(!v||typeof v!=='object')return v;
-  return Object.fromEntries(Object.keys(v).sort().filter(k=>!LOCAL.has(k)&&!(k==='code'&&v.mathematicalModel)).map(k=>[ids.get(k)??k,clean(v[k])]));
+  return Object.fromEntries(Object.keys(v).sort().filter(k=>!LOCAL.has(k)&&!(v.type==='cloze'&&k==='appearance')&&!(k==='code'&&v.mathematicalModel)).map(k=>[ids.get(k)??k,clean(v[k])]));
  }
  return {title:value.title??'',content:clean(value.content)};
 }
@@ -42,7 +42,7 @@ export function mergeQuestionContent(incoming,local,base=null){
   if(!v||typeof v!=='object')return v;
   previous=localFor.get(v.id)??previous;
   const result=Object.fromEntries(Object.entries(v).map(([k,x])=>[ids.get(k)??k,merge(x,previous?.[k])]));
-  if(previous)for(const k of LOCAL){if(Object.hasOwn(previous,k))result[k]=copy(previous[k]);else delete result[k];}
+  if(previous)for(const k of [...LOCAL,...(v.type==='cloze'?['appearance']:[])]){if(Object.hasOwn(previous,k))result[k]=copy(previous[k]);else delete result[k];}
   return result;
  }
  return merge(incoming);

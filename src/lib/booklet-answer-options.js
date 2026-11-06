@@ -25,6 +25,16 @@ export function retainsTeachingPromptWithAnswers(block) {
 }
 export function blockClozeAnswers(block,options,mode='student') {return isKeyIdeas(block)?options.showKeyIdeasAnswers===true:mode!=='student';}
 
+export function blockTheorySolutions(block,options,mode='student') {
+  if(block?.presentation?.hideStudentSolutions && mode==='student')return false;
+  if(block?.presentation?.hideStudentSolutions && teachingAnswerCategory(block)==='guided')return options.showGuidedPracticeAnswers===true;
+  return options.showTheorySolutions!==false;
+}
+
+export function arrangementSolutionHidden(entry,showSolutions) {
+  return !showSolutions && ['solution','solution-overlay','answer-short','answer-worked'].includes(entry?.role);
+}
+
 export function teachingQuestionMode(block, options, independentMode = 'student') {
   if(independentMode==='student'&&block?.presentation?.hideStudentSolutions)return 'student';
   const category = teachingAnswerCategory(block);

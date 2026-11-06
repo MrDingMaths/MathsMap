@@ -1,4 +1,5 @@
 import {resolveStudentRow} from './booklet-flow.js';
+import {teachingAnswerCategory} from './booklet-answer-options.js';
 import {contentSource} from './document-content.js';
 import {diagramColourPolicy, DIAGRAM_COLOUR_PREFIX} from './diagram-colours.js';
 
@@ -151,6 +152,36 @@ export function resolveTeachingColumns(item) {
   };
 }
 
+const isYourTurn = block => block?.presentation?.studentRole === 'your-turn';
+const isModel = block => block?.type === 'worked-example' || block?.presentation?.studentRole === 'demonstration';
+export function teachingColumnHeadings(item) {
+  const layout = resolveTeachingColumns(item);
+  if (!layout) return null;
+  const guided = layout.columns.map(column => column.some(block => block.type === 'question' && teachingAnswerCategory(block) === 'guided'));
+  const model = layout.columns.map(column => column.some(isModel));
+  if (model[0] && guided[1] && !guided[0] && !model[1]) return ['Worked example', 'Your turn'];
+  if (guided[0] && model[1] && !model[0] && !guided[1]) return ['Your turn', 'Worked example'];
+  return null;
+}
+export function teachingPairHeadings(groups) {
+  return groups?.length === 2 && groups[0].blocks.some(block => isModel(block) || block.sourceAtom?.kind === 'example')
+    && groups[1].blocks.some(block => block.type === 'question' && teachingAnswerCategory(block) === 'guided')
+    ? ['Worked example', 'Your turn'] : null;
+}
+// Display policy only: retain saved identities, answer controls and source evidence.
+// A stacked response gets its own Guided practice box; explicit columns retain their pairing.
+export function separateStackedGuidedPractice(item) {
+  if (item.type !== 'teaching-atom' || resolveTeachingColumns(item) || !item.blocks.some(isYourTurn)) return [item];
+  const result = [];
+  for (const block of item.blocks) {
+    const guided = isYourTurn(block),previous = result.at(-1);
+    if (previous && previous.guided === guided) { previous.item.blocks.push(block); continue; }
+    const id = guided ? item.id + ':guided:' + block.id : result.length ? item.id + ':continued:' + block.id : item.id;
+    result.push({guided,item:{...item,id,atom:guided?{...item.atom,id,kind:'guided-practice',label:'Guided practice',headerFill:'orange'}:{...item.atom,id},blocks:[block]}});
+  }
+  return result.map(row => row.item);
+}
+
 export function groupBookletBlocks(blocks = [], {mode = 'student'} = {}) {
   const result = [];
   for (let index = 0; index < blocks.length; index++) {
@@ -182,10 +213,12 @@ export function groupBookletBlocks(blocks = [], {mode = 'student'} = {}) {
   // while each retains its own header and answer controls. Practice pairs keep
   // their established question renderer path.
   const grouped = [];
-  for (let index = 0; index < result.length; index++) {
-    const item = result[index], next = result[index + 1];
+  const displayed = result.flatMap(separateStackedGuidedPractice);
+  for (let index = 0; index < displayed.length; index++) {
+    const item = displayed[index], next = displayed[index + 1];
     if (item.type === 'teaching-atom' && next?.type === 'teaching-atom'
-      && item.blocks.at(-1).pairedBlockId === next.blocks[0].id) {
+      && item.blocks.at(-1).pairedBlockId === next.blocks[0].id
+      && !(isYourTurn(next.blocks[0]) && item.blocks.at(-1).sourceAtom?.id === next.blocks[0].sourceAtom?.id)) {
       grouped.push({type:'teaching-pair',id:item.id,groups:[item,next],blocks:[...item.blocks,...next.blocks]});
       index++;
     } else grouped.push(item);

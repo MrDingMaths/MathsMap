@@ -2,7 +2,7 @@
   import { tick } from 'svelte';
   import { PROJECT_CATEGORIES, normalizeProjectLibrary, groupLibraryProjects } from '../lib/booklet-library.js';
   // onapply receives [{id, library?, title?}] and resolves to {updated, failures:[{id,title,error}]}.
-  let { projects = [], courses = [], disabled = false, onapply, onclose } = $props();
+  let { projects = [], courses = [], disabled = false, onapply, ondelete, onclose } = $props();
   let query = $state(''), archived = $state(false), selected = $state([]);
   let category = $state('keep'), courseId = $state('keep'), classLabel = $state('');
   let renaming = $state(''), draft = $state(''), renameInput = $state();
@@ -21,6 +21,18 @@
   }
   function toggle(id, on){selected = on ? [...new Set([...selected, id])] : selected.filter(item=>item!==id);}
   function toggleGroup(group, on){const ids = group.projects.map(p=>p.id);selected = on ? [...new Set([...selected, ...ids])] : selected.filter(id=>!ids.includes(id));}
+  async function deleteClassCopy(item){
+    if(locked || normalizeProjectLibrary(item.library).category !== 'class')return;
+    const confirmId = window.prompt(`Type ${item.id} to permanently delete class booklet “${item.title}”.`);
+    if(confirmId !== item.id)return;
+    busy = true; message = ''; failures = [];
+    try{
+      await ondelete(item.id, confirmId);
+      selected = selected.filter(id=>id!==item.id);
+      message = `Deleted “${item.title}”.`;
+    }catch(error){failures = [{id:item.id,title:item.title,error:error.message}];}
+    finally{busy = false;}
+  }
   async function run(changes){
     busy = true; message = ''; failures = [];
     try{
@@ -76,6 +88,7 @@
             {:else}
               <span class="name"><span class="title">{item.title}</span><small>{describe(item)}</small></span>
               <button type="button" aria-label={'Rename '+item.title} disabled={locked} onclick={()=>startRename(item)}>Rename</button>
+              {#if normalizeProjectLibrary(item.library).category==='class'}<button type="button" class="danger" aria-label={'Delete '+item.title} disabled={locked} onclick={()=>deleteClassCopy(item)}>Delete</button>{/if}
             {/if}
           </div>
         {/each}
@@ -113,6 +126,7 @@
   .row{display:flex;align-items:center;gap:8px;padding:4px 2px;border-radius:4px}.row:hover{background:color-mix(in srgb,var(--md-text,#24282d) 6%,transparent)}
   .name{flex:1;min-width:0;display:flex;flex-direction:column}.title{overflow-wrap:anywhere}.name small{color:var(--md-muted,#666);font-size:12px}
   .rename{flex:1;margin:0}
+  .danger{color:#a12a2a}
   .selection{display:flex;align-items:center;gap:8px;font-size:13px}
   .bulk{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:8px 12px;align-items:end}
   footer p,footer ul{margin:6px 0 0;font-size:13px}footer ul{padding-left:18px;color:#a12a2a}

@@ -2,7 +2,7 @@
   import PracticeStudio from '../components/PracticeStudio.svelte';
   import { loadPracticeBank } from '../lib/practice-question-storage.js';
 
-  let { initialDifficulty = 'all', initialStage = 'builder', initialOutput = null, projectId = null } = $props();
+  let { initialDifficulty = 'all', initialStage = 'projects', initialOutput = null, projectId = null } = $props();
   let bank = $state.raw([]);
   let loading = $state(false),loaded=false,pending;
   let error = $state('');

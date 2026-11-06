@@ -25,9 +25,9 @@
     writeWorksheetDraft,
   } from '../lib/practice-question-storage.js';
 
-  let { initialBank = [], onrequestbank = null, initialDifficulty = 'all', initialError = '', initialStage = 'builder', initialOutput = null, initialProjectId = null } = $props();
+  let { initialBank = [], onrequestbank = null, initialDifficulty = 'all', initialError = '', initialStage = 'projects', initialOutput = null, initialProjectId = null } = $props();
 
-  let stage = $state('builder');
+  let stage = $state('projects');
   // Thousands of large records, only ever replaced: deep proxies cost seconds.
   let bank = $state.raw([]);
   let error = $state('');

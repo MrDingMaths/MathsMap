@@ -1,7 +1,7 @@
 <script>
  import {tick,untrack} from 'svelte';
  import FlowBookletPreview from './FlowBookletPreview.svelte';
- import {diagramSizeTargets,targetWidths,setDiagramWidths,SIZE_MODES,sizeModeFor} from '../lib/booklet-diagram-size.js';
+ import {diagramSizeTargets,targetWidths,setDiagramWidths,reserveDiagramHeights,SIZE_MODES,sizeModeFor} from '../lib/booklet-diagram-size.js';
  // measure(id,mode) returns the rendered {widthMm,heightMm} or null.
  // layout: the current page map; rendered sizes are re-read whenever it changes.
  let {project,blockIds=[],edition='student',options={},measure=()=>null,onchange,pageCount=0,layout=null}=$props();
@@ -17,7 +17,7 @@
   try{
    if(before.project!==project||before.edition!==ed)before={project,edition:ed,count:await count(project,ed)};
    if(token!==run)return;
-   const after=await count(setDiagramWidths(project,changes,mode),ed);
+   const after=await count(build(changes).project,ed);
    if(token===run)pages={before:before.count,after,key};
   }catch{if(token===run)pages=null;}
   finally{if(token===run){counting=false;probeProject=null;}}
@@ -26,14 +26,19 @@
  const rows=$derived(diagramSizeTargets(project,blockIds,mode));
  const chosen=$derived(rows.filter(r=>includeFixed||r.adjustable));
  const measured=$derived.by(()=>{layout;return Object.fromEntries(rows.map(r=>[r.id,measure(r.id,mode)]).filter(([,m])=>m));});
- const preview=$derived(targetWidths(chosen,action,Number(value),measured));
+ // Minimum height reserves page space and never resizes: its pending rows are
+ // those whose reservation changes (question edition only; 0 clears it).
+ const reserving=$derived(action==='min-height');
+ const preview=$derived(reserving?[]:targetWidths(chosen,action,Number(value),measured));
  const needsValue=$derived(['width','height','min-height','scale'].includes(action));
- const pending=$derived(preview.filter(r=>r.targetMm!=null&&r.targetMm!==r.widthMm));
- const pendingKey=$derived(JSON.stringify([mode,pending.map(r=>[r.id,r.targetMm])]));
+ const validValue=v=>Number(v)>0||reserving&&Number(v)===0;
+ const pending=$derived(reserving?(mode==='question'?chosen.filter(r=>(r.minHeightMm??0)!==(Number(value)||0)):[]):preview.filter(r=>r.targetMm!=null&&r.targetMm!==r.widthMm));
+ const build=changes=>reserving?reserveDiagramHeights(project,changes,Number(value)):{project:setDiagramWidths(project,changes,mode),skipped:[]};
+ const pendingKey=$derived(JSON.stringify([mode,action,value,pending.map(r=>[r.id,r.targetMm])]));
  // Debounced: a typed value is previewed once it settles.
  $effect(()=>{
   const key=pendingKey,changes=untrack(()=>pending),token=++run;pages=null;
-  if(!changes.length||(needsValue&&!(Number(untrack(()=>value))>0))){counting=false;probeProject=null;return;}
+  if(!changes.length||(needsValue&&!validValue(untrack(()=>value)))){counting=false;probeProject=null;return;}
   const timer=setTimeout(()=>previewPages(changes,token,key),600);
   return ()=>clearTimeout(timer);
  });
@@ -42,12 +47,16 @@
  const size=row=>{const m=measured[row.id];return m?Math.round(m.widthMm)+' × '+Math.round(m.heightMm)+' mm':(row.widthMm?row.widthMm+' mm wide':'auto');};
  function apply(){
   try{
-   if(needsValue&&!(Number(value)>0))throw Error('Enter a positive value.');
+   if(reserving&&mode!=='question')throw Error('Minimum height applies to the Questions edition; answer editions keep their compact layout.');
+   if(needsValue&&!validValue(value))throw Error('Enter a positive value.');
    const changes=pending;
-   if(!changes.length){message=action==='recommended'?'Every diagram is already within its recommended size.':action==='min-height'?'Every diagram with a rendered size is already at least that tall.':'Nothing to change (diagrams without a rendered size cannot take a height).';return;}
+   if(!changes.length){message=action==='recommended'?'Every diagram is already within its recommended size.':reserving?'Every diagram already reserves that height.':'Nothing to change (diagrams without a rendered size cannot take a height).';return;}
+   const result=build(changes),done=changes.length-result.skipped.length;
+   if(!done)throw Error('These diagrams are not laid out in a question arrangement, so no height can be reserved for them.');
    const previewed=pages?.key===pendingKey?pages:null;run++;counting=false;probeProject=null;pages=null;
-   onchange(setDiagramWidths(project,changes,mode));
-   message=`Resized ${changes.length} diagram${changes.length>1?'s':''} as one undo step.`+(previewed?' '+pageText(previewed):pageCount?` The booklet had ${pageCount} pages; the page count updates when layout finishes.`:'');
+   onchange(result.project);
+   const diagrams=`${done} diagram${done>1?'s':''}`,skipped=result.skipped.length?` ${result.skipped.length} outside a question arrangement were left unchanged.`:'';
+   message=(reserving?(Number(value)?`Reserved at least ${Number(value)} mm of height for ${diagrams}; the diagrams keep their size.`:`Cleared the minimum height of ${diagrams}.`)+skipped:`Resized ${diagrams}.`)+' One undo step.'+(previewed?' '+pageText(previewed):pageCount?` The booklet had ${pageCount} pages; the page count updates when layout finishes.`:'');
   }catch(e){message=e.message;}
  }
 </script>
@@ -55,13 +64,13 @@
  <h3>Diagrams in {blockIds.length>1?'selection':'question'}</h3>
   <label>Edition<select aria-label="Diagram size edition" bind:value={mode}>{#each SIZE_MODES as [v,l]}<option value={v}>{l}</option>{/each}</select></label>
  {#if rows.length}
-  <ul>{#each rows as row (row.id)}<li class:fixed={!row.adjustable}><span>{row.id}</span><small>{row.kind} · {size(row)}</small>{#if limited(row)}<small class="limited" title="The stored width is {row.widthMm} mm; the space it sits in is narrower, so it cannot grow taller here.">Limited by its column</small>{/if}{#if preview.find(p=>p.id===row.id)?.targetMm!=null}<small class="target">→ {preview.find(p=>p.id===row.id).targetMm} mm wide</small>{/if}</li>{/each}</ul>
+  <ul>{#each rows as row (row.id)}<li class:fixed={!row.adjustable}><span>{row.id}</span><small>{row.kind} · {size(row)}</small>{#if limited(row)&&!reserving}<small class="limited" title="The stored width is {row.widthMm} mm; the space it sits in is narrower, so it cannot grow taller here.">Limited by its column</small>{/if}{#if row.minHeightMm}<small>Reserves at least {row.minHeightMm} mm height</small>{/if}{#if reserving&&pending.some(p=>p.id===row.id)}<small class="target">→ {Number(value)?'reserve at least '+Number(value)+' mm height':'no minimum height'}</small>{/if}{#if preview.find(p=>p.id===row.id)?.targetMm!=null}<small class="target">→ {preview.find(p=>p.id===row.id).targetMm} mm wide</small>{/if}</li>{/each}</ul>
   <label class="check"><input type="checkbox" bind:checked={includeFixed}/>Include drawing grids and images</label>
   <label>Change<select aria-label="Diagram size action" bind:value={action}>
-   <option value="height">Set height (mm)</option><option value="min-height">Minimum height (mm)</option><option value="width">Set width (mm)</option><option value="scale">Scale (%)</option>
+   <option value="height">Set height (mm)</option><option value="min-height" title="Reserves page height around each diagram without resizing it">Minimum height (mm)</option><option value="width">Set width (mm)</option><option value="scale">Scale (%)</option>
    <option value="match-tallest">Match the tallest</option><option value="match-widest">Match the widest</option><option value="recommended">Recommended size</option>
   </select></label>
-  {#if needsValue}<label>{action==='scale'?'Percent':'Millimetres'}<input aria-label="Diagram size value" type="number" min="1" max={action==='scale'?400:190} step=".5" bind:value/></label>{/if}
+  {#if needsValue}<label>{action==='scale'?'Percent':'Millimetres'}<input aria-label="Diagram size value" type="number" min={reserving?0:1} max={action==='scale'?400:reserving?180:190} step=".5" bind:value/></label>{/if}
   <p class="pages" role="status" aria-label="Page count preview">{counting?'Checking the page count…':pages?pageText(pages):''}</p>
   <button onclick={apply} title="Alt+Shift+D">Apply to {chosen.length} diagram{chosen.length===1?'':'s'}</button>
  {:else}<p>No diagrams in this {mode==='question'?'question':'answer edition'}.</p>{/if}

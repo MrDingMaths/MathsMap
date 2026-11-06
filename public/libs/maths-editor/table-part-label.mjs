@@ -6,6 +6,9 @@ export function hasTablePartLabel(paragraph) {
   /^[a-z][.)]?\s*$/.test(label.text??'')&&label.marks?.includes('bold')&&
   (/\s$/.test(label.text??'') || (space?.type==='text'&&/^\s+$/.test(space.text??'')&&rest.length>0));
 }
-export function renderTablePartLabel(html,paragraph,inCell) {
- return inCell&&hasTablePartLabel(paragraph)?html.replace(/<strong>([a-z][.)]?)\s*<\/strong>\s*/, '<strong data-table-part-label style="display:inline-block;min-width:7mm">$1</strong>'):html;
+export function renderTablePartLabel(html,paragraph,inCell,editable=false) {
+ // Keep the source whitespace in the DOM: every style transaction reads it
+ // back. Removing it makes the next render stop recognising the part label.
+ return inCell&&hasTablePartLabel(paragraph)?html.replace(/<strong>([a-z][.)]?)(\s*)<\/strong>(\s*)/,
+  (_,label,inside,after)=>`<strong data-table-part-label style="display:inline-block;min-width:7mm">${label}${editable?inside:''}</strong>${editable&&after?`<span data-table-part-gap style="display:none">${after}</span>`:''}`):html;
 }

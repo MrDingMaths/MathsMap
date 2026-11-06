@@ -3,6 +3,14 @@
 // Translate only at the editor boundary; stored/printed maths stays portable.
 export const editableMathLatex = latex => latex.replace(/\\(?:boldsymbol|bm)\b/g,'\\mathbfit');
 export function storedMathLatex(latex) {
+ return portableMathLatex(boldMathLatex(latex));
+}
+// MathLive writes a typed '' as ^{\doubleprime} and drops the space after
+// \pmod; KaTeX cannot render either result (\pmodn is an unknown command).
+const portableMathLatex = latex => latex
+ .replace(/\^\s*\{\s*\\doubleprime\s*\}|\^\s*\\doubleprime(?![A-Za-z])\s?/g,"''")
+ .replace(/\\pmod(?=[A-Za-z])/g,'\\pmod ');
+function boldMathLatex(latex) {
  const groupEnd=start=>{let depth=1;for(let i=start+1;i<latex.length;i++){if(latex[i]==='\\'){i++;continue;}if(latex[i]==='{')depth++;if(latex[i]==='}'&&!--depth)return i;}return -1;};
  let result='';
  for(let i=0;i<latex.length;){
@@ -10,7 +18,7 @@ export function storedMathLatex(latex) {
   if(!match){result+=latex[i++];continue;}
   const start=i+match[0].length-1,end=groupEnd(start);
   if(end<0){result+=latex.slice(i);break;}
-  const inner=storedMathLatex(latex.slice(start+1,end));
+  const inner=boldMathLatex(latex.slice(start+1,end));
   if(match[1]==='mathbfit')result+='\\boldsymbol{'+inner+'}';
   else if(/^\\boldsymbol\{/.test(inner)&&storedMathLatexSingleGroup(inner))result+=inner;
   else result+='\\mathbf{'+inner+'}';
