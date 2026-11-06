@@ -1,0 +1,964 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d0bf25ba-4f1a-48f7-95c5-b64a86e9faf7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-sector",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Choose addition or subtraction, infer missing radii from lengths and equality marks, and identify the relevant circle fraction. The hardest part requires removing the rectangle's right angle from 140 degrees before calculating and adding the sector area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:08.063Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "86ff45c2097a1f28ab447bb1cc3d8507125f7d7a7169e70b2a0692e101bb26ba",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/fd9ca9a19321aae9e1cc776d17f368cf0676ece4b5d1838fade7bb58aa419295-1792556081290/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Calculate the area of these shapes. Answer to 2 decimal places.",
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p19-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q3-a-diagram\"}\n\\usetikzlibrary{calc,arrows.meta}\n\\begin{tikzpicture}[x=0.026cm,y=0.026cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (LT) at (0,50); \\coordinate (LB) at (0,0); \\coordinate (RT) at (65,50); \\coordinate (RB) at (65,0);\n\\draw[geometry] (LT)--(RT) arc[start angle=90,end angle=-90,radius=25]--(LB) arc[start angle=270,end angle=90,radius=25]--cycle;\n\\draw[guide,dashed] (LT)--(LB) (RT)--(RB);\n\\node[anchor=west] at ($(LT)!0.5!(LB)$) {$50\\,\\mathrm{m}$};\n\\node[below] at ($(LB)!0.5!(RB)$) {$65\\,\\mathrm{m}$};\n\\draw[guide,-{Stealth[length=1.8mm]}] ($(LT)!0.57!(RT)$)--($(LT)!0.43!(RT)$);\n\\draw[guide,-{Stealth[length=1.8mm]}] ($(LB)!0.57!(RB)$)--($(LB)!0.43!(RB)$);\n\\draw[guide] ($(RB)+(-6,0)$)--($(RB)+(-6,6)$)--($(RB)+(0,6)$);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 44,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(a), row 1 column 1",
+              "description": "Rectangle with a semicircle at each end, two dashed diameters, parallel arrows and a lower-right right angle.",
+              "mathematics": "Rectangle length 65 m and height 50 m; both semicircles have diameter 50 m.",
+              "answerVisibility": "Only source givens and construction marks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$5213.50\\,\\mathrm{m}^{2}$",
+          "worked": "The two semicircles form one circle.\n$$\\begin{align*}A_1&=65\\times50\\\\A_1&=3250\\\\A_2&=\\pi\\left(\\frac{50}{2}\\right)^2\\\\A_2&=625\\pi\\\\A_{\\text{Total}}&=3250+625\\pi\\\\A_{\\text{Total}}&\\approx5213.50\\,\\mathrm{m}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q3-b-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=0.30cm,y=0.30cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (LT) at (0,7); \\coordinate (RT) at (10,7); \\coordinate (LB) at (0,0); \\coordinate (RB) at (10,0);\n\\draw[geometry] (LT)--(RT)--(RB)--(LB) arc[start angle=-90,end angle=90,radius=3.5]--cycle;\n\\coordinate (MT) at ($(LT)!0.5!(RT)$); \\coordinate (MB) at ($(LB)!0.5!(RB)$);\n\\draw[guide] ($(MT)+(0,-0.35)$)--($(MT)+(0,0.35)$) ($(MB)+(0,-0.35)$)--($(MB)+(0,0.35)$);\n\\node[right] at ($(RT)!0.5!(RB)$) {$7\\,\\mathrm{m}$};\n\\node[below] at (MB) {$10\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 44,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(b), row 1 column 2",
+              "description": "Rectangle with an inward semicircular cut-out on its left edge and equal ticks on its horizontal edges.",
+              "mathematics": "Rectangle 10 m by 7 m; cut-out diameter 7 m.",
+              "answerVisibility": "Only the 7 m and 10 m givens and equality marks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$50.76\\,\\mathrm{m}^{2}$",
+          "worked": "$$\\begin{align*}r&=\\frac{7}{2}\\\\r&=3.5\\,\\mathrm{m}\\\\A_1&=10\\times7\\\\A_1&=70\\\\A_2&=\\frac12\\pi(3.5)^2\\\\A_{\\text{Total}}&=70-\\frac{49\\pi}{8}\\\\A_{\\text{Total}}&\\approx50.76\\,\\mathrm{m}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 53,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q3-c-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=0.43cm,y=0.43cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (OL) at (-3.5,0); \\coordinate (IL) at (-2,0); \\coordinate (IR) at (2,0); \\coordinate (OR) at (3.5,0); \\coordinate (O) at (0,0);\n\\draw[geometry] (OL) arc[start angle=180,end angle=0,radius=3.5]--(IR) arc[start angle=0,end angle=180,radius=2]--cycle;\n\\coordinate (ML) at ($(OL)!0.5!(IL)$); \\coordinate (MR) at ($(IR)!0.5!(OR)$);\n\\draw[guide] ($(ML)+(0,-0.2)$)--($(ML)+(0,0.2)$) ($(MR)+(0,-0.2)$)--($(MR)+(0,0.2)$);\n\\node[below=2pt] at (ML) {$1.5\\,\\mathrm{m}$};\n\\draw[guide] ($(O)+(0,-0.55)$)--($(IR)+(0,-0.55)$);\n\\draw[guide] ($(O)+(0,-0.38)$)--($(O)+(0,-0.72)$) ($(IR)+(0,-0.38)$)--($(IR)+(0,-0.72)$);\n\\node[below] at ($(O)!0.5!(IR)+(0,-0.55)$) {$2\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 44,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(c), row 1 column 3",
+              "description": "Semicircular ring with equal end-segment ticks and a bracket measuring the inner radius.",
+              "mathematics": "Inner radius 2 m and radial thickness 1.5 m.",
+              "answerVisibility": "The outer radius and computed area are not supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$12.96\\,\\mathrm{m}^{2}$",
+          "worked": "$$\\begin{align*}R&=2+1.5\\\\R&=3.5\\,\\mathrm{m}\\\\A_1&=\\frac12\\pi(3.5)^2\\\\A_2&=\\frac12\\pi(2)^2\\\\A_{\\text{Total}}&=A_1-A_2\\\\A_{\\text{Total}}&=\\frac{33\\pi}{8}\\\\A_{\\text{Total}}&\\approx12.96\\,\\mathrm{m}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q3-d-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=0.25cm,y=0.25cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (B) at (0,0); \\coordinate (D) at (6,0); \\coordinate (O) at (6,7); \\coordinate (L) at (0,7); \\coordinate (T) at ($(O)+(135:6)$);\n\\draw[geometry] (B)--(D)--(O)--(T) arc[start angle=135,end angle=180,radius=6]--cycle;\n\\draw[guide,dashed] (L)--(O);\n\\pic[draw=black,line width=0.4pt,angle radius=4mm,angle eccentricity=1.65,\"$45^\\circ$\"] {angle=T--O--L};\n\\coordinate (MB) at ($(B)!0.5!(D)$); \\coordinate (MS) at ($(O)!0.5!(T)$); \\coordinate (ML) at ($(B)!0.5!(L)$); \\coordinate (MR) at ($(D)!0.5!(O)$);\n\\draw[guide] ($(MB)+(0,-0.32)$)--($(MB)+(0,0.32)$);\n\\begin{scope}[shift={(MS)},rotate=135]\\draw[guide] (0,-0.32)--(0,0.32);\\end{scope}\n\\draw[guide] ($(ML)+(-0.32,-0.12)$)--($(ML)+(0.32,-0.12)$) ($(ML)+(-0.32,0.12)$)--($(ML)+(0.32,0.12)$);\n\\draw[guide] ($(MR)+(-0.32,-0.12)$)--($(MR)+(0.32,-0.12)$) ($(MR)+(-0.32,0.12)$)--($(MR)+(0.32,0.12)$);\n\\node[below] at (MB) {$6\\,\\mathrm{cm}$}; \\node[right] at (MR) {$7\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 36.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(d), row 2 column 1",
+              "description": "Rectangle topped by a 45-degree circular sector centred at its upper-right corner.",
+              "mathematics": "Rectangle 6 cm by 7 cm; sector radius 6 cm, linked to the base by single ticks. Vertical sides have double ticks.",
+              "answerVisibility": "Only source dimensions, equality marks, dashed boundary and angle are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$56.14\\,\\mathrm{cm}^{2}$",
+          "worked": "$$\\begin{align*}A_1&=6\\times7\\\\A_1&=42\\\\A_2&=\\frac{45}{360}\\pi(6)^2\\\\A_2&=\\frac{9\\pi}{2}\\\\A_{\\text{Total}}&=42+\\frac{9\\pi}{2}\\\\A_{\\text{Total}}&\\approx56.14\\,\\mathrm{cm}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 47,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": []
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-e-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q3-e-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=0.18cm,y=0.18cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0); \\coordinate (A) at (0,8); \\coordinate (T) at (6,8); \\coordinate (B) at (0,-10);\n\\draw[geometry] (A)--(T) arc[start angle=53.1301023542,end angle=-90,radius=10]--(A);\n\\draw[guide,dashed] (O)--(T);\n\\draw[guide] ($(A)+(0,-1)$)--($(A)+(1,-1)$)--($(A)+(1,0)$);\n\\node[above] at ($(A)!0.5!(T)$) {$6\\,\\mathrm{mm}$};\n\\coordinate (DA) at ($(A)+(-1.6,0)$); \\coordinate (DO) at ($(O)+(-1.6,0)$); \\coordinate (DB) at ($(B)+(-1.6,0)$);\n\\draw[guide] (DA)--(DB);\n\\draw[guide] ($(DA)+(-0.55,0)$)--($(DA)+(0.55,0)$) ($(DO)+(-0.55,0)$)--($(DO)+(0.55,0)$) ($(DB)+(-0.55,0)$)--($(DB)+(0.55,0)$);\n\\node[left] at ($(DA)!0.5!(DO)$) {$8\\,\\mathrm{mm}$}; \\node[left] at ($(DO)!0.5!(DB)$) {$10\\,\\mathrm{mm}$};\n\\pic[draw=black,line width=0.4pt,angle radius=3.6mm,angle eccentricity=1.9,\"$142^\\circ$\"] {angle=B--O--T};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 44,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(e), row 2 column 2",
+              "description": "Right triangle joined along a dashed diagonal to a circular sector; external vertical dimensions distinguish the 8 mm and 10 mm segments.",
+              "mathematics": "Triangle legs 6 mm and 8 mm imply a 10 mm diagonal. The sector has a stated angle of 142 degrees and a lower radius of 10 mm. The stated angle conflicts with the exact triangle geometry.",
+              "answerVisibility": "Retain all four printed givens without revealing the diagonal length or answer."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$147.92\\,\\mathrm{mm}^{2}$",
+          "worked": "$$\\begin{align*}A_1&=\\frac12\\times6\\times8\\\\A_1&=24\\\\A_2&=\\frac{142}{360}\\pi(10)^2\\\\A_2&=\\frac{355\\pi}{9}\\\\A_{\\text{Total}}&=24+\\frac{355\\pi}{9}\\\\A_{\\text{Total}}&\\approx147.92\\,\\mathrm{mm}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-f-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q3-f-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=0.11cm,y=0.11cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (B) at (0,0); \\coordinate (A) at (0,24); \\coordinate (T) at (10,24);\n\\draw[geometry] (B)--(A)--(T) arc[start angle=67.380135052,end angle=-112.619864948,radius=13]--cycle;\n\\draw[guide,dashed] (B)--(T);\n\\draw[guide] ($(A)+(0,-2)$)--($(A)+(2,-2)$)--($(A)+(2,0)$);\n\\node[above] at ($(A)!0.5!(T)$) {$10\\,\\mathrm{mm}$};\n\\node[left] at ($(A)!0.5!(B)$) {$24\\,\\mathrm{mm}$};\n\\node[right] at ($(B)!0.5!(T)$) {$26\\,\\mathrm{mm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 44,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(f), row 2 column 3",
+              "description": "Right triangle joined to an outward semicircle along its dashed hypotenuse.",
+              "mathematics": "Perpendicular triangle sides 10 mm and 24 mm; hypotenuse and semicircle diameter 26 mm.",
+              "answerVisibility": "All three numerical givens remain visible; calculated radius and area are hidden."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$385.46\\,\\mathrm{mm}^{2}$",
+          "worked": "$$\\begin{align*}r&=\\frac{26}{2}\\\\r&=13\\,\\mathrm{mm}\\\\A_1&=\\frac12\\times10\\times24\\\\A_1&=120\\\\A_2&=\\frac12\\pi(13)^2\\\\A_{\\text{Total}}&=120+\\frac{169\\pi}{2}\\\\A_{\\text{Total}}&\\approx385.46\\,\\mathrm{mm}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-g-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredRegion\",\"hex\":\"D4E8FF\",\"reason\":\"identify the annulus whose area is required\"}],\"reference\":\"source page 19 p19-q3-g-diagram\"}\n\\usetikzlibrary{calc,arrows.meta}\n\\begin{tikzpicture}[x=0.28cm,y=0.28cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{measuredRegion}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0); \\coordinate (IT) at (0,2.5); \\coordinate (IB) at (0,-2.5); \\coordinate (OT) at (0,5.5);\n\\path[fill=measuredRegion] (O) circle[radius=5.5]; \\path[fill=white] (O) circle[radius=2.5];\n\\draw[geometry] (O) circle[radius=5.5] (O) circle[radius=2.5];\n\\draw[guide,-{Stealth[length=1.4mm]}] (0,0.9)--(IT);\n\\draw[guide,-{Stealth[length=1.4mm]}] (0,-0.9)--(IB);\n\\node at (O) {$5\\,\\mathrm{cm}$};\n\\draw[guide,{Stealth[length=1.4mm]}-{Stealth[length=1.4mm]}] (IT)--(OT);\n\\node[right] at ($(IT)!0.5!(OT)$) {$3\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 35,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(g), row 3 column 1",
+              "description": "Shaded annulus with arrows measuring the central hole's diameter and the radial thickness.",
+              "mathematics": "Inner diameter 5 cm; ring thickness 3 cm.",
+              "answerVisibility": "Only the measured region and original dimensions are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$75.40\\,\\mathrm{cm}^{2}$",
+          "worked": "$$\\begin{align*}r&=\\frac{5}{2}\\\\r&=2.5\\,\\mathrm{cm}\\\\R&=2.5+3\\\\R&=5.5\\,\\mathrm{cm}\\\\A_1&=\\pi(5.5)^2\\\\A_2&=\\pi(2.5)^2\\\\A_{\\text{Total}}&=24\\pi\\\\A_{\\text{Total}}&\\approx75.40\\,\\mathrm{cm}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-h-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredRegion\",\"hex\":\"D4E8FF\",\"reason\":\"identify the larger disk with its circular hole removed\"}],\"reference\":\"source page 19 p19-q3-h-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=0.10cm,y=0.10cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{measuredRegion}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0); \\coordinate (H) at (0,7.5); \\coordinate (T) at (0,15); \\coordinate (B) at (0,-15);\n\\path[fill=measuredRegion] (O) circle[radius=15]; \\path[fill=white] (H) circle[radius=7.5];\n\\draw[geometry] (O) circle[radius=15] (H) circle[radius=7.5];\n\\draw[guide,dashed] (T)--(B);\n\\coordinate (MU) at ($(T)!0.5!(O)$); \\coordinate (ML) at ($(O)!0.5!(B)$);\n\\draw[guide] ($(MU)+(-0.9,-0.3)$)--($(MU)+(0.9,-0.3)$) ($(MU)+(-0.9,0.3)$)--($(MU)+(0.9,0.3)$);\n\\draw[guide] ($(ML)+(-0.9,-0.3)$)--($(ML)+(0.9,-0.3)$) ($(ML)+(-0.9,0.3)$)--($(ML)+(0.9,0.3)$);\n\\node[right=2pt] at (ML) {$15\\,\\mathrm{mm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 35,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(h), row 3 column 2",
+              "description": "Shaded circle with an internally tangent white circular hole and a dashed vertical diameter; double ticks equate the hole diameter and lower remaining segment.",
+              "mathematics": "The lower remaining segment is 15 mm and equals the small circle's diameter. The outer diameter is therefore 30 mm.",
+              "answerVisibility": "Only the printed 15 mm label, equality marks and measured region are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$530.14\\,\\mathrm{mm}^{2}$",
+          "worked": "The equal marked segments are each $15\\,\\mathrm{mm}$.\n$$\\begin{align*}r&=\\frac{15}{2}\\\\r&=7.5\\,\\mathrm{mm}\\\\R&=\\frac{15+15}{2}\\\\R&=15\\,\\mathrm{mm}\\\\A_1&=\\pi(15)^2\\\\A_2&=\\pi(7.5)^2\\\\A_{\\text{Total}}&=\\frac{675\\pi}{4}\\\\A_{\\text{Total}}&\\approx530.14\\,\\mathrm{mm}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 69,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-i-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredRegion\",\"hex\":\"D4E8FF\",\"reason\":\"identify the annular sector whose area is required\"}],\"reference\":\"source page 19 p19-q3-i-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=0.28cm,y=0.28cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{measuredRegion}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0); \\coordinate (I) at (7,0); \\coordinate (R) at (10,0); \\coordinate (J) at (80:7); \\coordinate (T) at (80:10);\n\\path[fill=measuredRegion] (I)--(R) arc[start angle=0,end angle=80,radius=10]--(J) arc[start angle=80,end angle=0,radius=7]--cycle;\n\\draw[geometry] (O)--(R) arc[start angle=0,end angle=80,radius=10]--cycle;\n\\draw[geometry] (I) arc[start angle=0,end angle=80,radius=7];\n\\pic[draw=black,line width=0.4pt,angle radius=4mm,angle eccentricity=1.65,\"$80^\\circ$\"] {angle=R--O--T};\n\\coordinate (MI) at ($(O)!0.5!(I)$); \\coordinate (MO) at ($(I)!0.5!(R)$); \\coordinate (SI) at ($(O)!0.5!(J)$); \\coordinate (SO) at ($(J)!0.5!(T)$);\n\\draw[guide] ($(MI)+(0,-0.32)$)--($(MI)+(0,0.32)$);\n\\draw[guide] ($(MO)+(-0.12,-0.32)$)--($(MO)+(-0.12,0.32)$) ($(MO)+(0.12,-0.32)$)--($(MO)+(0.12,0.32)$);\n\\begin{scope}[shift={(SI)},rotate=80]\\draw[guide] (0,-0.32)--(0,0.32);\\end{scope}\n\\begin{scope}[shift={(SO)},rotate=80]\\draw[guide] (-0.12,-0.32)--(-0.12,0.32) (0.12,-0.32)--(0.12,0.32);\\end{scope}\n\\node[below=2pt] at (MI) {$7\\,\\mathrm{cm}$}; \\node[below=2pt] at (MO) {$3\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 28.9,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(i), row 3 column 3",
+              "description": "Shaded annular sector with an 80-degree angle; single ticks pair the inner radii and double ticks pair the ring-thickness segments.",
+              "mathematics": "Inner radius 7 cm; additional radial thickness 3 cm; central angle 80 degrees.",
+              "answerVisibility": "Only source dimensions, angle and equality marks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$35.60\\,\\mathrm{cm}^{2}$",
+          "worked": "$$\\begin{align*}R&=7+3\\\\R&=10\\,\\mathrm{cm}\\\\A_1&=\\frac{80}{360}\\pi(10)^2\\\\A_2&=\\frac{80}{360}\\pi(7)^2\\\\A_{\\text{Total}}&=\\frac{34\\pi}{3}\\\\A_{\\text{Total}}&\\approx35.60\\,\\mathrm{cm}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-j",
+        "type": "part",
+        "label": "j",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-j-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"decompositionRed\",\"hex\":\"EF6068\",\"reason\":\"highlight the shared boundary separating rectangle and quadrant\"}],\"reference\":\"source page 19 p19-q3-j-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=0.13cm,y=0.13cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{decompositionRed}{HTML}{EF6068}\n\\coordinate (A) at (0,6); \\coordinate (B) at (0,0); \\coordinate (C) at (18,0); \\coordinate (T) at (18,6); \\coordinate (R) at (24,0);\n\\draw[geometry] (B)--(A)--(T) arc[start angle=90,end angle=0,radius=6]--cycle;\n\\draw[draw=decompositionRed,line width=0.4pt,dashed] (C)--(T);\n\\draw[guide] ($(A)+(0,-1.1)$)--($(A)+(1.1,-1.1)$)--($(A)+(1.1,0)$);\n\\draw[guide] ($(B)+(0,1.1)$)--($(B)+(1.1,1.1)$)--($(B)+(1.1,0)$);\n\\node[above] at ($(A)!0.5!(T)$) {$18\\,\\mathrm{cm}$};\n\\node[below] at ($(B)!0.5!(R)$) {$24\\,\\mathrm{cm}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 44,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(j), row 4 column 1",
+              "description": "Rectangle joined to a quadrant on the right; red dashed vertical decomposition line and two left-hand right angles.",
+              "mathematics": "Rectangle width 18 cm; total width 24 cm. Quadrant radius and rectangle height are the difference.",
+              "answerVisibility": "The inferred 6 cm radius is not printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$136.27\\,\\mathrm{cm}^{2}$",
+          "worked": "$$\\begin{align*}r&=24-18\\\\r&=6\\,\\mathrm{cm}\\\\A_1&=18\\times6\\\\A_1&=108\\\\A_2&=\\frac14\\pi(6)^2\\\\A_{\\text{Total}}&=108+9\\pi\\\\A_{\\text{Total}}&\\approx136.27\\,\\mathrm{cm}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-k",
+        "type": "part",
+        "label": "k",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-k-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"decompositionRed\",\"hex\":\"EF6068\",\"reason\":\"highlight the shared boundary separating rectangle and sector\"}],\"reference\":\"source page 19 p19-q3-k-diagram\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=0.38cm,y=0.38cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{decompositionRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0); \\coordinate (B) at (0,-3); \\coordinate (D) at (7,-3); \\coordinate (R) at (7,0); \\coordinate (T) at (50:7);\n\\draw[geometry] (B)--(D)--(R) arc[start angle=0,end angle=50,radius=7]--(O)--cycle;\n\\draw[draw=decompositionRed,line width=0.4pt,dashed] (O)--(R);\n\\draw[guide] ($(B)+(0,0.5)$)--($(B)+(0.5,0.5)$)--($(B)+(0.5,0)$);\n\\draw[guide] ($(D)+(-0.5,0)$)--($(D)+(-0.5,0.5)$)--($(D)+(0,0.5)$);\n\\pic[draw=black,line width=0.4pt,angle radius=4mm,angle eccentricity=1.85,\"$140^\\circ$\"] {angle=B--O--T};\n\\node[below] at ($(B)!0.5!(D)$) {$7\\,\\mathrm{m}$}; \\node[right] at ($(D)!0.5!(R)$) {$3\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 30.5,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(k), row 4 column 2",
+              "description": "Rectangle topped by a sector, with a red dashed shared boundary, two lower right angles and a 140-degree angle spanning the downward vertical ray and sloping radius.",
+              "mathematics": "Rectangle width 7 m and height 3 m. The sector radius is 7 m; its angle is obtained by subtracting the rectangle's 90-degree angle from 140 degrees.",
+              "answerVisibility": "The inferred sector angle is not printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$42.38\\,\\mathrm{m}^{2}$",
+          "worked": "$$\\begin{align*}\\theta&=140^\\circ-90^\\circ\\\\\\theta&=50^\\circ\\\\A_1&=7\\times3\\\\A_1&=21\\\\A_2&=\\frac{50}{360}\\pi(7)^2\\\\A_{\\text{Total}}&=21+\\frac{245\\pi}{36}\\\\A_{\\text{Total}}&\\approx42.38\\,\\mathrm{m}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 56,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p19-q3-l",
+        "type": "part",
+        "label": "l",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p19-q3-l-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"decompositionRed\",\"hex\":\"EF6068\",\"reason\":\"highlight the radii separating the major sector from the right triangle\"}],\"reference\":\"source page 19 p19-q3-l-diagram\"}\n\\usetikzlibrary{calc}\n\\begin{tikzpicture}[x=0.14cm,y=0.14cm,font=\\fontsize{10}{12}\\selectfont,geometry/.style={draw=black,line width=0.8pt},guide/.style={draw=black,line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{decompositionRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0); \\coordinate (T) at (0,11); \\coordinate (R) at (11,0);\n\\draw[geometry] (T) arc[start angle=90,end angle=360,radius=11]--cycle;\n\\draw[draw=decompositionRed,line width=0.4pt,dashed] (O)--(T) (O)--(R);\n\\draw[guide] ($(O)+(0,1.6)$)--($(O)+(1.6,1.6)$)--($(O)+(1.6,0)$);\n\\fill[black] (O) circle[radius=1.2pt];\n\\node[below=2pt] at ($(O)!0.5!(R)$) {$11\\,\\mathrm{m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 28.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 19,
+              "sourceRegion": "Question 3(l), row 4 column 3",
+              "description": "Major circular arc closed by a chord joining the top and right endpoints; red dashed perpendicular radii, a centre point and a right-angle marker.",
+              "mathematics": "Radius 11 m. The enclosed region consists of a 270-degree sector and a right triangle with two 11 m legs.",
+              "answerVisibility": "Only the printed radius and right-angle construction are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$345.60\\,\\mathrm{m}^{2}$",
+          "worked": "Add the three-quarter circle and the right triangle.\n$$\\begin{align*}A_1&=\\frac{270}{360}\\pi(11)^2\\\\A_1&=\\frac{363\\pi}{4}\\\\A_2&=\\frac12\\times11\\times11\\\\A_2&=\\frac{121}{2}\\\\A_{\\text{Total}}&=\\frac{363\\pi}{4}+\\frac{121}{2}\\\\A_{\\text{Total}}&\\approx345.60\\,\\mathrm{m}^{2}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 53,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p19-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q3-root/label",
+                  "type": "item",
+                  "ref": "p19-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p19-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p19-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p19-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p19-q3-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p19-q3-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-a/label",
+                              "type": "item",
+                              "ref": "p19-q3-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p19-q3-a-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-a-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p19-q3-a/space",
+                              "type": "item",
+                              "ref": "p19-q3-a/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-b/label",
+                              "type": "item",
+                              "ref": "p19-q3-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p19-q3-b-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-b-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p19-q3-b/space",
+                              "type": "item",
+                              "ref": "p19-q3-b/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-c/label",
+                              "type": "item",
+                              "ref": "p19-q3-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p19-q3-c-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-c-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p19-q3-c/space",
+                              "type": "item",
+                              "ref": "p19-q3-c/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p19-q3-root:row:3",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p19-q3-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-d/label",
+                              "type": "item",
+                              "ref": "p19-q3-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p19-q3-d-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-d-diagram",
+                              "title": "Diagram",
+                              "width": 36.3
+                            },
+                            {
+                              "id": "layout:p19-q3-d/space",
+                              "type": "item",
+                              "ref": "p19-q3-d/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-e/label",
+                              "type": "item",
+                              "ref": "p19-q3-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p19-q3-e-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-e-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p19-q3-e/space",
+                              "type": "item",
+                              "ref": "p19-q3-e/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-f/label",
+                              "type": "item",
+                              "ref": "p19-q3-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p19-q3-f-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-f-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p19-q3-f/space",
+                              "type": "item",
+                              "ref": "p19-q3-f/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p19-q3-root:row:6",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p19-q3-g:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-g/label",
+                              "type": "item",
+                              "ref": "p19-q3-g/label",
+                              "title": "Label g"
+                            },
+                            {
+                              "id": "layout:p19-q3-g-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-g-diagram",
+                              "title": "Diagram",
+                              "width": 35
+                            },
+                            {
+                              "id": "layout:p19-q3-g/space",
+                              "type": "item",
+                              "ref": "p19-q3-g/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part g",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-h:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-h/label",
+                              "type": "item",
+                              "ref": "p19-q3-h/label",
+                              "title": "Label h"
+                            },
+                            {
+                              "id": "layout:p19-q3-h-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-h-diagram",
+                              "title": "Diagram",
+                              "width": 35
+                            },
+                            {
+                              "id": "layout:p19-q3-h/space",
+                              "type": "item",
+                              "ref": "p19-q3-h/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part h",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-i:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-i/label",
+                              "type": "item",
+                              "ref": "p19-q3-i/label",
+                              "title": "Label i"
+                            },
+                            {
+                              "id": "layout:p19-q3-i-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-i-diagram",
+                              "title": "Diagram",
+                              "width": 28.9
+                            },
+                            {
+                              "id": "layout:p19-q3-i/space",
+                              "type": "item",
+                              "ref": "p19-q3-i/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part i",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p19-q3-root:row:9",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p19-q3-j:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-j/label",
+                              "type": "item",
+                              "ref": "p19-q3-j/label",
+                              "title": "Label j"
+                            },
+                            {
+                              "id": "layout:p19-q3-j-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-j-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p19-q3-j/space",
+                              "type": "item",
+                              "ref": "p19-q3-j/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part j",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-k:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-k/label",
+                              "type": "item",
+                              "ref": "p19-q3-k/label",
+                              "title": "Label k"
+                            },
+                            {
+                              "id": "layout:p19-q3-k-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-k-diagram",
+                              "title": "Diagram",
+                              "width": 30.5
+                            },
+                            {
+                              "id": "layout:p19-q3-k/space",
+                              "type": "item",
+                              "ref": "p19-q3-k/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part k",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p19-q3-l:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p19-q3-l/label",
+                              "type": "item",
+                              "ref": "p19-q3-l/label",
+                              "title": "Label l"
+                            },
+                            {
+                              "id": "layout:p19-q3-l-diagram",
+                              "type": "item",
+                              "ref": "p19-q3-l-diagram",
+                              "title": "Diagram",
+                              "width": 28.3
+                            },
+                            {
+                              "id": "layout:p19-q3-l/space",
+                              "type": "item",
+                              "ref": "p19-q3-l/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part l",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        },
+        "p19-q3-d-diagram": {
+          "diagramWidthMm": 36.3
+        },
+        "p19-q3-k-diagram": {
+          "diagramWidthMm": 30.5
+        },
+        "p19-q3-l-diagram": {
+          "diagramWidthMm": 28.3
+        },
+        "p19-q3-g-diagram": {
+          "diagramWidthMm": 35
+        },
+        "p19-q3-h-diagram": {
+          "diagramWidthMm": 35
+        },
+        "p19-q3-i-diagram": {
+          "diagramWidthMm": 28.9
+        }
+      },
+      "answerSpaces": {
+        "p19-q3-a": 30,
+        "p19-q3-b": 30,
+        "p19-q3-c": 30,
+        "p19-q3-d": 30,
+        "p19-q3-e": 30,
+        "p19-q3-f": 30,
+        "p19-q3-g": 30,
+        "p19-q3-h": 30,
+        "p19-q3-i": 30,
+        "p19-q3-j": 30,
+        "p19-q3-k": 30,
+        "p19-q3-l": 30
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:42:37.921Z",
+  "updatedAt": "2026-10-21T10:42:37.922Z"
+}

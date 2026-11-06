@@ -7,15 +7,15 @@
   "classification": {
     "primarySkillId": "calculate-mean-median-mode-range",
     "secondarySkillIds": [],
-    "reasoningScore": 24,
+    "reasoningScore": 19,
     "difficulty": "Foundation",
-    "difficultyReason": "Follow the supplied frequency-times-score procedure, total the products and dot counts, then divide; the horizontal plot requires reading row frequencies using the same method.",
+    "difficultyReason": "Count dots at each score, form the indicated frequency–score products and divide their sum by the number of dots. The first plot supplies examples and a mean scaffold.",
     "assessment": {
-      "model": "gpt-6.1-sol",
-      "assessedAt": "2026-10-21T04:41:57.215Z",
+      "model": "gpt-6.1-terra",
+      "assessedAt": "2026-11-05T10:45:50.583Z",
       "rubricVersion": "mathsmap-cognitive-demand-v1",
-      "taskHash": "670afb7fad50c9f7d08ce2276f7f88e6f4d11450a07e6cfa4b1b4cdf11028869",
-      "evidence": ".booklet-work/reasoning-ratings/calls/data-analysis-2-v1/c37c048a4ead269770219b3b0388e48ecce2c4b6a7198b04197a7b7e503b2be2-1792557683968/last-message.txt"
+      "taskHash": "71f34dece10bc4da7a577b5f81bf8166fd13cdeee3d0e8ec1c19bc6c831140d0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/data-analysis-2-v1/92d51a2260f1909f9b4f878a1c216f790ff6f1b496f7888681dc983cd9d710c2-1793875539637/last-message.txt"
     }
   },
   "content": {
@@ -39,7 +39,7 @@
             "id": "p38-q3a-plot",
             "role": "question",
             "format": "tikz",
-            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q3a-plot\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (0,-3) rectangle (82,43);\n\\draw[line width=0.5pt] (3,12)--(42,12);\n\\foreach \\i/\\score/\\freq in {0/5/1,1/6/3,2/7/2,3/8/0,4/9/3,5/10/5,6/11/5,7/12/3}{\n\\draw[line width=0.4pt] ({5+5*\\i},12)--({5+5*\\i},10);\n\\node[anchor=north,inner sep=0pt] at ({5+5*\\i},9.2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\score$\\special{dvisvgm:raw </g>}};\n\\ifnum\\freq>0\\relax\\foreach \\j in {1,...,\\freq}{\\fill[black] ({5+5*\\i},{12+3.2*\\j}) circle[radius=0.8mm];}\\fi}\n\\node[inner sep=0pt] (sumhint) at (61,40) {$5+18+14+\\cdots$};\n\\node[draw,line width=0.4pt,minimum width=14mm,minimum height=7mm,inner sep=0pt] (numerator) at (63,29) {};\n\\node[draw,line width=0.4pt,minimum width=11mm,minimum height=7mm,inner sep=0pt] (denominator) at (63,19) {};\n\\draw[line width=0.4pt] (55,24)--(71,24);\n\\node[anchor=east,inner sep=0pt] at (53.5,24) {$\\bar{x}=$};\n\\draw[->,line width=0.4pt] (61,37)--(numerator.north);\n\\node[align=center,inner sep=0pt] (allhint) at (77,18) {All\\\\Dots};\n\\draw[->,line width=0.4pt] (allhint.west)--(denominator.east);\n\\node[draw,line width=0.4pt,minimum width=18mm,minimum height=8mm,inner sep=0pt] at (65,7) {};\n\\node[anchor=east,inner sep=0pt] at (54,7) {$\\bar{x}\\approx$};\n\\node[inner sep=0pt] at (65,0) {(1 d.p.)};\n\\end{tikzpicture}",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 38 p38-q3a-plot\"}\n\\begin{tikzpicture}[x=1mm,y=1mm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (0,-42) rectangle (82,47);\n\\draw[line width=0.5pt] (2,12)--(80,12);\n\\foreach \\i/\\score/\\freq in {0/5/1,1/6/3,2/7/2,3/8/0,4/9/3,5/10/5,6/11/5,7/12/3}{\n\\draw[line width=0.4pt] ({6+10*\\i},12)--({6+10*\\i},10);\n\\node[anchor=north,inner sep=0pt] at ({6+10*\\i},9.2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\score$\\special{dvisvgm:raw </g>}};\n\\ifnum\\freq>0\\relax\\foreach \\j in {1,...,\\freq}{\\fill[black] ({6+10*\\i},{12+3.2*\\j}) circle[radius=0.8mm];}\\fi\n\\node[draw,line width=0.4pt,minimum width=8mm,minimum height=6.5mm,inner sep=0pt] at ({6+10*\\i},{16.5+3.2*\\freq}) {};}\n\\node[anchor=south,inner sep=0pt] at (6,24) {$5\\times1$};\n\\node[anchor=south,inner sep=0pt] at (16,30.4) {$6\\times3$};\n\\node[anchor=south,inner sep=0pt] at (26,27.2) {$7\\times2$};\n\\begin{scope}[shift={(-22,-39)}]\n\\node[inner sep=0pt] (sumhint) at (61,40) {$5+18+14+\\cdots$};\n\\node[draw,line width=0.4pt,minimum width=14mm,minimum height=7mm,inner sep=0pt] (numerator) at (63,29) {};\n\\node[draw,line width=0.4pt,minimum width=11mm,minimum height=7mm,inner sep=0pt] (denominator) at (63,19) {};\n\\draw[line width=0.4pt] (55,24)--(71,24);\n\\node[anchor=east,inner sep=0pt] at (53.5,24) {$\\bar{x}=$};\n\\draw[->,line width=0.4pt] (61,37)--(numerator.north);\n\\node[align=center,inner sep=0pt] (allhint) at (77,18) {All\\\\Dots};\n\\draw[->,line width=0.4pt] (allhint.west)--(denominator.east);\n\\node[draw,line width=0.4pt,minimum width=18mm,minimum height=8mm,inner sep=0pt] at (65,7) {};\n\\node[anchor=east,inner sep=0pt] at (54,7) {$\\bar{x}\\approx$};\n\\node[inner sep=0pt] at (65,0) {(1 d.p.)};\n\\end{scope}\n\\end{tikzpicture}",
             "src": null,
             "widthMm": 82,
             "alt": "Mathematical diagram",
@@ -541,5 +541,5 @@
     "history": []
   },
   "createdAt": "2026-10-11T09:48:16.663Z",
-  "updatedAt": "2026-10-22T02:33:52.080Z"
+  "updatedAt": "2026-11-05T10:45:50.708Z"
 }

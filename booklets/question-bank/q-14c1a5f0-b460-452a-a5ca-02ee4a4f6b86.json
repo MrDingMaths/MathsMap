@@ -7,15 +7,15 @@
   "classification": {
     "primarySkillId": "elevation-depression",
     "secondarySkillIds": [],
-    "reasoningScore": 29,
+    "reasoningScore": 32,
     "difficulty": "Development",
-    "difficultyReason": "The labelled right triangle scaffolds the tangent calculation. Students must interpret x as the altitude gained, then compare it with the difference between the mountain height and starting altitude to decide whether the plane clears the peak.",
+    "difficultyReason": "Use the supplied triangle to calculate and interpret the climb, then compare it with the height difference needed to clear the mountain.",
     "assessment": {
-      "model": "gpt-6.1-sol",
-      "assessedAt": "2026-10-25T03:42:12.678Z",
+      "model": "gpt-6.1-terra",
+      "assessedAt": "2026-11-05T10:46:33.239Z",
       "rubricVersion": "mathsmap-cognitive-demand-v1",
-      "taskHash": "ad0fb1641dcee2638a86f4eec243a5f295b47627e17c5c96a0058ce133346698",
-      "evidence": ".booklet-work/repair-redundant-vertices-20261025/elevation-depression-bearings-v1/ratings-0/last-message.txt"
+      "taskHash": "1fb01d8f824e1a03ffb5c82fc8a62567418d5cc8cffeb48ea7686f29af3987f3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/elevation-depression-bearings-v1/f1974a724b67589782760be58e4d0ca069004ec1cd4aff3d146d544e02772ede-1793875579668/last-message.txt"
     }
   },
   "content": {
@@ -30,7 +30,7 @@
         "id": "p10-q12-context",
         "role": "question",
         "format": "tikz",
-        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q12-context\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Q) at (0,0);\\coordinate (N) at (3.6,0);\\coordinate (M) at (3.6,3.18);\\coordinate (P) at (0,2.25);\n\\draw[line width=0.4pt,dashed] (-1.2,0)--(5.25,0);\n\\draw[line width=0.8pt] (1,0)--(1.35,0.16)--(1.65,0.52)--(2,0.67)--(2.32,1.15)--(2.7,1.42)--(2.98,2.02)--(3.23,2.63)--(3.43,2.95)--(M)--(3.76,2.93)--(3.94,2.5)--(4.06,1.86)--(4.35,1.4)--(4.56,0.8)--(4.87,0.44)--(5.06,0);\n\\draw[line width=0.8pt] (-0.95,2.32)--(-0.55,2.35)--(-0.85,2.7)--(-0.69,2.7)--(-0.19,2.36)--(0.02,2.33)--(0.1,2.26)--(-0.08,2.22)--(-0.32,2.22)--(-0.65,1.98)--(-0.8,1.98)--(-0.61,2.22)--(-0.96,2.22)--cycle;\n\\draw[line width=0.5pt,<->] (Q)--(P) node[midway,left] {$1500\\text{ m}$};\n\\draw[line width=0.5pt,<->] (N)--(M) node[midway,right] {$2120\\text{ m}$};\n\\draw[line width=0.4pt] (0,-0.08)--(0,-0.42) (3.6,-0.08)--(3.6,-0.42);\n\\draw[line width=0.5pt,<->] (0,-0.3)--(3.6,-0.3) node[midway,fill=white,inner sep=2pt] {$2400\\text{ m}$};\n\n\\end{tikzpicture}",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q12-context\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (Q) at (0,0);\\coordinate (N) at (3.6,0);\\coordinate (M) at (3.6,3.18);\\coordinate (P) at (0,2.25);\n\\draw[line width=0.4pt,dashed] (-1.2,0)--(5.25,0);\n\\draw[line width=0.8pt] (1,0)--(1.35,0.16)--(1.65,0.52)--(2,0.67)--(2.32,1.15)--(2.7,1.42)--(2.98,2.02)--(3.23,2.63)--(3.43,2.95)--(M)--(3.76,2.93)--(3.94,2.5)--(4.06,1.86)--(4.35,1.4)--(4.56,0.8)--(4.87,0.44)--(5.06,0);\n\\draw[line width=0.8pt] (-0.95,2.32)--(-0.55,2.35)--(-0.85,2.7)--(-0.69,2.7)--(-0.19,2.36)--(0.02,2.33)--(0.1,2.26)--(-0.08,2.22)--(-0.32,2.22)--(-0.65,1.98)--(-0.8,1.98)--(-0.61,2.22)--(-0.96,2.22)--cycle;\n\\draw[line width=0.5pt,<->] (Q)--(P) node[midway,left] {$1500\\text{ m}$};\n\\draw[line width=0.5pt,<->] (N)--(M) node[midway,right,xshift=25pt] {$2120\\text{ m}$};\n\\draw[line width=0.4pt] (0,-0.08)--(0,-0.42) (3.6,-0.08)--(3.6,-0.42);\n\\draw[line width=0.5pt,<->] (0,-0.3)--(3.6,-0.3) node[midway,fill=white,inner sep=2pt] {$2400\\text{ m}$};\n\n\\end{tikzpicture}",
         "src": null,
         "widthMm": 70,
         "alt": "Mathematical diagram",
@@ -51,7 +51,7 @@
         "id": "p10-q12-triangle",
         "role": "question",
         "format": "tikz",
-        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q12-triangle\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.8,0);\\coordinate (C) at (4.8,{4.8*tan(15)});\n\\draw[line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[line width=0.4pt] (4.55,0)--(4.55,0.25)--(4.8,0.25);\n\\draw[line width=0.4pt] (0.95,0) arc[start angle=0,end angle=15,radius=0.95];\n\\node at (1.35,0.18) {$15^\\circ$};\n\\path (A)--(C) node[midway,above] {$(\\mathrm H)$};\n\\path (A)--(B) node[midway,below] {$(\\mathrm A)$};\n\\path (B)--(C) node[midway,right] {$x\\text{ m }(\\mathrm O)$};\n\\draw[line width=0.4pt,dashed] (A)--(0,-1.45)--(4.8,-1.45)--(B);\n\\draw[line width=0.5pt,<->] (-0.65,0)--(-0.65,-1.45) node[midway,left] {$1500\\text{ m}$};\n\\draw[line width=0.4pt] (-0.78,0)--(-0.52,0) (-0.78,-1.45)--(-0.52,-1.45) (0,-1.62)--(0,-1.98) (4.8,-1.62)--(4.8,-1.98);\n\\draw[line width=0.5pt,<->] (0,-1.8)--(4.8,-1.8) node[midway,fill=white,inner sep=2pt] {$2400\\text{ m}$};\n\\end{tikzpicture}",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q12-triangle\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4.8,0);\\coordinate (C) at (4.8,{4.8*tan(15)});\n\\draw[line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[line width=0.4pt] (4.55,0)--(4.55,0.25)--(4.8,0.25);\n\\draw[line width=0.4pt] (0.95,0) arc[start angle=0,end angle=15,radius=0.95];\n\\node at (2.20,0.28) {$15^\\circ$};\n\\path (A)--(C) node[midway,above] {$(\\mathrm H)$};\n\\path (A)--(B) node[midway,below] {$(\\mathrm A)$};\n\\path (B)--(C) node[midway,right] {$x\\text{ m }(\\mathrm O)$};\n\\draw[line width=0.4pt,dashed] (A)--(0,-1.45)--(4.8,-1.45)--(B);\n\\draw[line width=0.5pt,<->] (-0.65,0)--(-0.65,-1.45) node[midway,left] {$1500\\text{ m}$};\n\\draw[line width=0.4pt] (-0.78,0)--(-0.52,0) (-0.78,-1.45)--(-0.52,-1.45) (0,-1.62)--(0,-1.98) (4.8,-1.62)--(4.8,-1.98);\n\\draw[line width=0.5pt,<->] (0,-1.8)--(4.8,-1.8) node[midway,fill=white,inner sep=2pt] {$2400\\text{ m}$};\n\\end{tikzpicture}",
         "src": null,
         "widthMm": 70,
         "alt": "Mathematical diagram",
@@ -241,5 +241,5 @@
     "history": []
   },
   "createdAt": "2026-10-21T08:39:45.119Z",
-  "updatedAt": "2026-10-25T03:42:12.728Z"
+  "updatedAt": "2026-11-05T10:46:33.321Z"
 }

@@ -12,13 +12,13 @@
     ],
     "reasoningScore": 44,
     "difficulty": "Development",
-    "difficultyReason": "Use a reverse bearing to establish the right angle, then select inverse cosine and determine which way to adjust the initial bearing to reach the construction site.",
+    "difficultyReason": "Reverse the first bearing to establish the right angle, then use cosine and interpret the resulting angle as a bearing from the town.",
     "assessment": {
-      "model": "gpt-6.1-sol",
-      "assessedAt": "2026-10-21T04:48:13.583Z",
+      "model": "gpt-6.1-terra",
+      "assessedAt": "2026-11-05T10:46:26.324Z",
       "rubricVersion": "mathsmap-cognitive-demand-v1",
-      "taskHash": "83d7a6739f070a071738da6fc2ed96945a839fc72c68bae5282565aa20bc862a",
-      "evidence": ".booklet-work/reasoning-ratings/calls/elevation-depression-bearings-v1/5b363a7cedf2849a7b5372c8e2607113b938b3ef241b091139cf6d4a16a45afd-1792558067132/last-message.txt"
+      "taskHash": "f2a28b22a6b843a5641eee9de5a1dd5a03a2b7901a78fc35a25ea76ee5d7e663",
+      "evidence": ".booklet-work/reasoning-ratings/calls/elevation-depression-bearings-v1/abf64846b1b04b15d13811e2163dbeb4cbefb1f4ad74f63cb1a477a50bfe0951-1793875579727/last-message.txt"
     }
   },
   "content": {
@@ -33,7 +33,7 @@
         "id": "p40-q18-diagram",
         "role": "question",
         "format": "tikz",
-        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 40 p40-q18-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (T) at (0,0);\n\\coordinate (D) at (-1.414214,1.414214);\n\\coordinate (C) at (-4.846569,-2.018141);\n\\draw[black,line width=0.8pt] (T)--(D)--(C)--cycle;\n\\draw[black,->,line width=0.5pt] (T)--++(0,1.25) node[above right=3pt] {$N$};\n\\draw[black,->,line width=0.5pt] (T)--++(-0.65,0);\n\\draw[black,->,line width=0.5pt] (T)--++(0,-0.55);\n\\draw[black,->,line width=0.5pt] (D)--++(0,1.2) node[above] {$N$};\n\\draw[black,->,line width=0.5pt] (D)--++(-0.6,0);\n\\draw[black,line width=0.4pt] (T) ++(90:0.43) arc[start angle=90,end angle=-225,radius=0.43];\n\\path (T) ++(-67.5:0.74) node[right] {$315^\\circ$};\n\\draw[black,line width=0.4pt] (D) ++(90:0.42) arc[start angle=90,end angle=-135,radius=0.42];\n\\path (D) ++(0.85,0.65) node[anchor=west] (depotBearing) {$225^\\circ$};\n\\draw[black,line width=0.4pt] (depotBearing.west)--++(-0.2,0)--($(D)+(25:0.42)$);\n\\path (T)--(D) node[midway,sloped,below=5pt,fill=white,inner sep=1pt] {40 km};\n\\path (C)--(T) node[midway,sloped,below,fill=white,inner sep=1pt] {105 km};\n\\node[right] at (T) {$T$ (town)};\n\\path (D) ++(-0.55,0.6) node[anchor=east] {$D$ (depot)};\n\\node[below,align=center] at (C) {$C$ (construction site)};\n\\end{tikzpicture}",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 40 p40-q18-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (T) at (0,0);\n\\coordinate (D) at (-1.414214,1.414214);\n\\coordinate (C) at (-4.846569,-2.018141);\n\\draw[black,line width=0.8pt] (T)--(D)--(C)--cycle;\n\\draw[black,->,line width=0.5pt] (T)--++(0,1.25) node[above right=3pt] {$N$};\n\\draw[black,->,line width=0.5pt] (T)--++(-0.65,0);\n\\draw[black,->,line width=0.5pt] (T)--++(0,-0.55);\n\\draw[black,->,line width=0.5pt] (D)--++(0,1.2) node[above] {$N$};\n\\draw[black,->,line width=0.5pt] (D)--++(-0.6,0);\n\\draw[black,line width=0.4pt] (T) ++(90:0.43) arc[start angle=90,end angle=-225,radius=0.43];\n\\path (T) ++(-67.5:0.74) node[right] {$315^\\circ$};\n\\draw[black,line width=0.4pt] (D) ++(90:0.42) arc[start angle=90,end angle=-135,radius=0.42];\n\\path (D) ++(0.85,0.65) node[anchor=west] (depotBearing) {$225^\\circ$};\n\\draw[black,line width=0.4pt] (depotBearing.west)--++(-0.2,0)--($(D)+(25:0.42)$);\n\\path (T)--(D) node[midway,sloped,below=5pt,fill=white,inner sep=1pt] {40 km};\n\\path (C)--(T) node[midway,sloped,below,fill=white,inner sep=1pt] {105 km};\n\\node[right,xshift=12pt,yshift=-2pt] at (T) {$T$ (town)};\n\\path (D) ++(-0.55,0.6) node[anchor=east] {$D$ (depot)};\n\\node[below,align=center] at (C) {$C$ (construction site)};\n\\end{tikzpicture}",
         "src": null,
         "widthMm": 72,
         "alt": "Mathematical diagram",
@@ -223,5 +223,5 @@
     "history": []
   },
   "createdAt": "2026-10-21T08:40:48.240Z",
-  "updatedAt": "2026-10-21T08:40:48.241Z"
+  "updatedAt": "2026-11-05T10:46:26.375Z"
 }

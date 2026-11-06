@@ -9,15 +9,15 @@
     "secondarySkillIds": [
       "absolute-error"
     ],
-    "reasoningScore": 28,
+    "reasoningScore": 38,
     "difficulty": "Development",
-    "difficultyReason": "Infer precision from 49.6 kg, derive the error and bounds, then reuse that error as a proportion of the measured mass to calculate percentage error.",
+    "difficultyReason": "Calculate bounds and percentage errors, then explain why doubling the mass halves percentage error when the absolute error stays fixed.",
     "assessment": {
       "model": "gpt-6.1-sol",
-      "assessedAt": "2026-10-21T05:31:29.474Z",
+      "assessedAt": "2026-10-29T03:33:24.829Z",
       "rubricVersion": "mathsmap-cognitive-demand-v1",
-      "taskHash": "bfee20e6000922eaabe9e10c609f315ddc718c9fb9f64998c074d7cb8a5751e0",
-      "evidence": ".booklet-work/reasoning-ratings/calls/measurement-error-v1/4dbd8d3a0c551d1f793736152e1f8f443fbfd8daff30dc5e7b4cc862b4a6fee7-1792560664511/last-message.txt"
+      "taskHash": "4e33da4182f6de4b5f4e96db305ccc7f793f9efb91a39556ff3401f9e65c05db",
+      "evidence": ".booklet-work/reasoning-ratings/calls/measurement-error-v1/563bbcaba4aa28c82786d1d9a623011937308f6ed3060fe8dbb4cb5294081861-1793244794634/last-message.txt"
     }
   },
   "content": {
@@ -60,6 +60,38 @@
           "solutionDiagrams": []
         },
         "answerSpaceMm": 20
+      },
+      {
+        "id": "p11-q2-root-bank-p11-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Another dishwasher is measured as 99.2 kg. Find its percentage error to three decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.050\\%$",
+          "worked": "Precision: $0.1\\text{ kg}$.\n\n$$\\begin{aligned}\\text{Absolute error}&=\\tfrac12\\times0.1=0.05\\text{ kg}\\\\\\text{Percentage error}&=\\frac{0.05}{99.2}\\times100\\%\\\\&\\approx0.050\\%\\quad\\text{(3 d.p.)}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p11-q2-root-bank-p11-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "How does this percentage error compare with that for 49.6 kg? Explain why.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Before rounding, it is half as large because the absolute error remains $0.05\\text{ kg}$ while the measured mass doubles.",
+          "worked": "Before rounding, the percentage error is half as large: the absolute error remains $0.05\\text{ kg}$ while the measured mass doubles.\n\n$$\\frac{0.05}{99.2}\\times100=\\tfrac12\\left(\\frac{0.05}{49.6}\\times100\\right).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
       }
     ]
   },
@@ -145,6 +177,60 @@
                       ],
                       "title": "Part b",
                       "gap": 1
+                    },
+                    {
+                      "id": "p11-q2-root-bank-p11-q2-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "id": "layout:p11-q2-root-bank-p11-q2-c/label",
+                          "type": "item",
+                          "ref": "p11-q2-root-bank-p11-q2-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p11-q2-root-bank-p11-q2-c/prompt",
+                          "type": "item",
+                          "ref": "p11-q2-root-bank-p11-q2-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-q2-root-bank-p11-q2-c/space",
+                          "type": "item",
+                          "ref": "p11-q2-root-bank-p11-q2-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c"
+                    },
+                    {
+                      "id": "p11-q2-root-bank-p11-q2-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "id": "layout:p11-q2-root-bank-p11-q2-d/label",
+                          "type": "item",
+                          "ref": "p11-q2-root-bank-p11-q2-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p11-q2-root-bank-p11-q2-d/prompt",
+                          "type": "item",
+                          "ref": "p11-q2-root-bank-p11-q2-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p11-q2-root-bank-p11-q2-d/space",
+                          "type": "item",
+                          "ref": "p11-q2-root-bank-p11-q2-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d"
                     }
                   ],
                   "gap": 1
@@ -169,5 +255,5 @@
     "history": []
   },
   "createdAt": "2026-10-21T09:06:51.081Z",
-  "updatedAt": "2026-10-21T09:06:51.081Z"
+  "updatedAt": "2026-10-29T03:33:24.881Z"
 }

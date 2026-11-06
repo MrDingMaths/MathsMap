@@ -1,0 +1,539 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-261aa94b-a204-440f-adae-2a26cb105d4a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-using-pythagoras",
+    "secondarySkillIds": [
+      "area-trapezium",
+      "area-kite-rhombus"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "The kite requires converting units, identifying which diagonal is bisected, finding two unequal diagonal sections with Pythagoras, and combining them before calculating area; other parts require inferring horizontal offsets.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:16:30.447Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "45e8fad6df0275c25d65a31f04717714c84740c9bb76de8e2be97dc8df6eb35c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-quadrilaterals-v1/f8e3986e0bfdb03f64f62b4d29e67101c03bcf11a6ebc35dea0f2b68dade7bb7-1792556158371/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q6-content",
+    "type": "question",
+    "label": "6",
+    "prompt": "Find the missing sides, then find the area. Round your answer to 1 d.p.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q6-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q6-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (3.6,0);\\coordinate (C) at (3.6,1.2);\\coordinate (D) at (1.6,1.2);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\path (D)--node[above] {$10\\,\\mathrm{cm}$}(C);\n\\path (A)--node[above left] {$10\\,\\mathrm{cm}$}(D);\n\\path (A)--node[below] {$18\\,\\mathrm{cm}$}(B);\n\\draw[black,line width=0.4pt] (3.36,0)--(3.36,0.24)--(3.6,0.24);\n\\draw[black,line width=0.4pt] (3.36,1.2)--(3.36,0.96)--(3.6,0.96);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 56,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 6a, upper-left cell",
+              "description": "Unfilled trapezium with horizontal bases, a vertical right edge and a left edge sloping up-right. Both right vertices have right-angle marks.",
+              "mathematics": "Top base 10 cm, bottom base 18 cm, left side 10 cm. Coordinates use the resulting 6 cm height without displaying it.",
+              "answerVisibility": "Only source givens and right-angle marks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$h=6.0\\text{ cm};\\quad A=84.0\\text{ cm}^2$.",
+          "worked": "$$\\begin{align*}h&=\\sqrt{10^2-(18-10)^2}\\\\h&=6.0\\text{ cm}\\\\A&=\\frac{6}{2}(10+18)\\\\A&=84.0\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p25-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q6-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q6-b-diagram\"}\n\\usetikzlibrary{calc,arrows.meta}\n\\begin{tikzpicture}[x=1cm,y=1cm,rotate=30,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},>={Latex[length=1.6mm,width=1mm]}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (L) at (-0.95,0);\\coordinate (R) at (0.95,0);\\coordinate (S) at (0,{sqrt(1365)/40});\\coordinate (T) at (0,{-sqrt(15456)/40});\n\\draw[black,line width=0.8pt] (S)--(R)--(T)--(L)--cycle;\n\\draw[black,dashed,line width=0.4pt] (L)--(R) (S)--(T);\n\\path (L)--(S) node[pos=0.78,sloped,above=1.5mm,inner sep=0pt] {$53\\,\\mathrm{cm}$};\n\\path (L)--(T) node[midway,sloped,below=2mm,inner sep=0pt] {$1.3\\,\\mathrm{m}$};\n\\coordinate (M1) at ($(S)!0.5!(L)$);\\coordinate (M2) at ($(S)!0.5!(R)$);\n\\draw[black,line width=0.4pt] ($(M1)!2pt!90:(L)$)--($(M1)!2pt!-90:(L)$);\n\\draw[black,line width=0.4pt] ($(M2)!2pt!90:(R)$)--($(M2)!2pt!-90:(R)$);\n\\coordinate (M3) at ($(L)!0.48!(T)$);\\coordinate (M4) at ($(L)!0.52!(T)$);\\coordinate (M5) at ($(R)!0.48!(T)$);\\coordinate (M6) at ($(R)!0.52!(T)$);\n\\draw[black,line width=0.4pt] ($(M3)!2pt!90:(T)$)--($(M3)!2pt!-90:(T)$) ($(M4)!2pt!90:(T)$)--($(M4)!2pt!-90:(T)$);\n\\draw[black,line width=0.4pt] ($(M5)!2pt!90:(T)$)--($(M5)!2pt!-90:(T)$) ($(M6)!2pt!90:(T)$)--($(M6)!2pt!-90:(T)$);\n\\coordinate (LD) at (-0.95,1.48);\\coordinate (RD) at (0.95,1.48);\n\\draw[black,line width=0.4pt] (L)--($(LD)+(0,0.12)$) (R)--($(RD)+(0,0.12)$);\n\\draw[black,<->,line width=0.4pt] (LD)--node[above=4mm,sloped] {$76\\,\\mathrm{cm}$}(RD);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 40,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 6b, upper-right cell",
+              "description": "Oblique unfilled kite pointing down-right, with both diagonals dashed. Short equal sides have single ticks; long equal sides have double ticks. An external dimension measures the complete diagonal joining the left and upper-right vertices.",
+              "mathematics": "Complete bisected diagonal 76 cm; short equal sides 53 cm; long equal sides 1.3 m. The other diagonal comprises sqrt(53²−38²)+sqrt(130²−38²) cm.",
+              "answerVisibility": "Only the original 76 cm, 53 cm and 1.3 m givens, dashed diagonals and equality ticks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "Other diagonal $\\approx161.3\\text{ cm}$; $A\\approx6128.2\\text{ cm}^2$.",
+          "worked": "$1.3\\text{ m}=130\\text{ cm}$. The kite's symmetry diagonal bisects the $76\\text{ cm}$ diagonal at right angles. Let its two sections be $p$ and $q$.\n\n$$\\begin{align*}x&=\\frac{76}{2}=38\\text{ cm}\\\\p&=\\sqrt{53^2-38^2}=\\sqrt{1365}\\text{ cm}\\\\q&=\\sqrt{130^2-38^2}=\\sqrt{15456}\\text{ cm}\\\\d&=\\sqrt{1365}+\\sqrt{15456}\\text{ cm}\\\\d&\\approx161.3\\text{ cm}\\\\A&=\\frac{76(\\sqrt{1365}+\\sqrt{15456})}{2}\\\\A&\\approx6128.2\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p25-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q6-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q6-c-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (3.638,0);\\coordinate (C) at (2.55,{0.034*sqrt(1001)});\\coordinate (D) at (0,{0.034*sqrt(1001)});\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\path (D)--node[above] {$75\\,\\mathrm{mm}$}(C);\n\\path (A)--node[below] {$107\\,\\mathrm{mm}$}(B);\n\\path (C)--node[above,sloped] {$45\\,\\mathrm{mm}$}(B);\n\\draw[black,line width=0.4pt] (0.2,0)--(0.2,0.2)--(0,0.2);\n\\draw[black,line width=0.4pt] (0.2,{0.034*sqrt(1001)})--(0.2,{0.034*sqrt(1001)-0.2})--(0,{0.034*sqrt(1001)-0.2});\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 59,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 6c, middle-left cell",
+              "description": "Unfilled trapezium with horizontal bases, a vertical left edge and a right edge sloping down-right. Both left vertices have right-angle marks.",
+              "mathematics": "Top 75 mm, bottom 107 mm, sloping right side 45 mm; base difference 32 mm.",
+              "answerVisibility": "Only the three source dimensions and right-angle marks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$h\\approx31.6\\text{ mm};\\quad A\\approx2879.1\\text{ mm}^2$.",
+          "worked": "$$\\begin{align*}h&=\\sqrt{45^2-(107-75)^2}\\\\h&=\\sqrt{1001}\\text{ mm}\\\\h&\\approx31.6\\text{ mm}\\\\A&=\\frac{\\sqrt{1001}}{2}(75+107)\\\\A&\\approx2879.1\\text{ mm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p25-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q6-d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q6-d-diagram\"}\n\\usetikzlibrary{arrows.meta}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},>={Latex[length=1.6mm,width=1mm]}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (3.6,0);\\coordinate (C) at (3,2.4);\\coordinate (D) at (1,2.4);\\coordinate (F) at (1,0);\\coordinate (G) at (3,0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,dashed,line width=0.4pt] (D)--(F) (C)--(G);\n\\path (D)--node[above] {$10\\,\\mathrm{cm}$}(C);\n\\path (A)--node[left] {$13\\,\\mathrm{cm}$}(D);\n\\draw[black,line width=0.4pt] (0.8,0)--(0.8,0.2)--(1,0.2) (3,0.2)--(3.2,0.2)--(3.2,0);\n\\draw[black,<->,line width=0.4pt] (0,-0.18)--node[below] {$5\\,\\mathrm{cm}$}(1,-0.18);\n\\draw[black,<->,line width=0.4pt] (3,-0.18)--node[below] {$3\\,\\mathrm{cm}$}(3.6,-0.18);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 59,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 6d, middle-right cell",
+              "description": "Unfilled trapezium with horizontal bases and outward-sloping sides. Dashed perpendiculars descend from both top vertices with right-angle marks at their feet. Separate external dimensions label both base overhangs.",
+              "mathematics": "Top 10 cm, left side 13 cm, left overhang 5 cm, right overhang 3 cm. No complete bottom-base label is supplied.",
+              "answerVisibility": "Only source dimensions, dashed perpendiculars and right-angle marks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "Height $=12.0\\text{ cm}$; bottom base $=18.0\\text{ cm}$; right side $\\approx12.4\\text{ cm}$; $A=168.0\\text{ cm}^2$.",
+          "worked": "Let $b$ be the bottom base and $r$ the right sloping side.\n\n$$\\begin{align*}b&=5+10+3\\\\b&=18\\text{ cm}\\\\h&=\\sqrt{13^2-5^2}\\\\h&=12\\text{ cm}\\\\r&=\\sqrt{12^2+3^2}\\\\r&\\approx12.4\\text{ cm}\\\\A&=\\frac{12}{2}(10+18)\\\\A&=168.0\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p25-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q6-e-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q6-e-diagram\"}\n\\usetikzlibrary{arrows.meta}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},>={Latex[length=1.6mm,width=1mm]}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (3.2,0);\\coordinate (C) at (2.8,{0.4*sqrt(8)});\\coordinate (D) at (1.2,{0.4*sqrt(8)});\\coordinate (F) at (1.2,0);\\coordinate (G) at (2.8,0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,dashed,line width=0.4pt] (D)--(F) (C)--(G);\n\\path (D)--node[above] {$4\\,\\mathrm{cm}$}(C);\n\\path (C)--node[right] {$3\\,\\mathrm{cm}$}(B);\n\\draw[black,line width=0.4pt] (1,0)--(1,0.2)--(1.2,0.2) (2.8,0.2)--(3,0.2)--(3,0);\n\\draw[black,<->,line width=0.4pt] (0,-0.18)--node[below] {$3\\,\\mathrm{cm}$}(1.2,-0.18);\n\\draw[black,<->,line width=0.4pt] (2.8,-0.18)--node[below] {$1\\,\\mathrm{cm}$}(3.2,-0.18);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 58,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 6e, lower-left cell",
+              "description": "Unfilled trapezium with horizontal bases and outward-sloping sides. Dashed perpendiculars descend from the top vertices with right-angle marks at their feet. Separate external dimensions label the base overhangs.",
+              "mathematics": "Top 4 cm, right side 3 cm, left overhang 3 cm, right overhang 1 cm. No complete bottom-base label is supplied.",
+              "answerVisibility": "Only source dimensions, perpendiculars and right-angle marks are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "Height $\\approx2.8\\text{ cm}$; bottom base $=8.0\\text{ cm}$; left side $\\approx4.1\\text{ cm}$; $A\\approx17.0\\text{ cm}^2$.",
+          "worked": "Let $b$ be the bottom base and $l$ the left sloping side.\n\n$$\\begin{align*}b&=3+4+1\\\\b&=8\\text{ cm}\\\\h&=\\sqrt{3^2-1^2}\\\\h&=\\sqrt8\\text{ cm}\\\\h&\\approx2.8\\text{ cm}\\\\l&=\\sqrt{(\\sqrt8)^2+3^2}=\\sqrt{17}\\text{ cm}\\\\l&\\approx4.1\\text{ cm}\\\\A&=\\frac{\\sqrt8}{2}(4+8)\\\\A&\\approx17.0\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p25-q6-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q6-f-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q6-f-diagram\"}\n\\usetikzlibrary{arrows.meta}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},>={Latex[length=1.6mm,width=1mm]}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,1.6);\\coordinate (B) at (1.2,1.6);\\coordinate (C) at (4,0);\\coordinate (D) at (1.2,0);\\coordinate (F) at (0,0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,dashed,line width=0.4pt] (A)--node[left] {$4\\,\\mathrm{cm}$}(F);\n\\draw[black,line width=0.4pt] (F)--(D) (0,0.22)--(0.22,0.22)--(0.22,0);\n\\path (A)--node[above] {$3\\,\\mathrm{cm}$}(B);\n\\draw[black,<->,line width=0.4pt] (0,-0.18)--node[below] {$3\\,\\mathrm{cm}$}(1.2,-0.18);\n\\draw[black,<->,line width=0.4pt] (1.2,-0.18)--node[below] {$7\\,\\mathrm{cm}$}(4,-0.18);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 6f, lower-right cell",
+              "description": "Unfilled trapezium leaning right, with an exterior dashed perpendicular from the upper-left vertex and a right-angle mark at its foot. Separate dimensions measure the exterior offset and bottom base.",
+              "mathematics": "Top 3 cm, bottom 7 cm, perpendicular height 4 cm and exterior left offset 3 cm. The left side is 5 cm; the right side has horizontal separation 3+7-3=7 cm and length sqrt(65) cm. The source's incompatible 9 cm right-side label is intentionally omitted. Coordinates preserve the other source givens, and the area remains the source-supported 20 cm². Original source evidence retains the printed 9 cm label.",
+              "answerVisibility": "The original top base 3 cm, bottom base 7 cm, height 4 cm, exterior offset 3 cm and right-angle mark remain visible. The erroneous 9 cm right-side label is omitted; no computed side or area is printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "Left side $=5.0\\text{ cm}$; right side $\\approx8.1\\text{ cm}$; $A=20.0\\text{ cm}^2$.",
+          "worked": "Let $l$ and $r$ be the left and right sloping sides. The horizontal separation of the right-side endpoints is $3+7-3=7\\text{ cm}$.\n\n$$\\begin{align*}l&=\\sqrt{3^2+4^2}\\\\l&=5.0\\text{ cm}\\\\r&=\\sqrt{7^2+4^2}\\\\r&=\\sqrt{65}\\text{ cm}\\\\r&\\approx8.1\\text{ cm}\\\\A&=\\frac4{2}(3+7)\\\\A&=20.0\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q6-content:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q6-content/label",
+                  "type": "item",
+                  "ref": "p25-q6-content/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p25-q6-content/prompt",
+                  "type": "item",
+                  "ref": "p25-q6-content/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p25-q6-content:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p25-q6-content:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p25-q6-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q6-a/label",
+                              "type": "item",
+                              "ref": "p25-q6-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p25-q6-a-diagram",
+                              "type": "item",
+                              "ref": "p25-q6-a-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p25-q6-a/space",
+                              "type": "item",
+                              "ref": "p25-q6-a/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p25-q6-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q6-b/label",
+                              "type": "item",
+                              "ref": "p25-q6-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p25-q6-b-diagram",
+                              "type": "item",
+                              "ref": "p25-q6-b-diagram",
+                              "title": "Diagram",
+                              "width": 40
+                            },
+                            {
+                              "id": "layout:p25-q6-b/space",
+                              "type": "item",
+                              "ref": "p25-q6-b/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p25-q6-content:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p25-q6-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q6-c/label",
+                              "type": "item",
+                              "ref": "p25-q6-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p25-q6-c-diagram",
+                              "type": "item",
+                              "ref": "p25-q6-c-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p25-q6-c/space",
+                              "type": "item",
+                              "ref": "p25-q6-c/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p25-q6-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q6-d/label",
+                              "type": "item",
+                              "ref": "p25-q6-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p25-q6-d-diagram",
+                              "type": "item",
+                              "ref": "p25-q6-d-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p25-q6-d/space",
+                              "type": "item",
+                              "ref": "p25-q6-d/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p25-q6-content:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p25-q6-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q6-e/label",
+                              "type": "item",
+                              "ref": "p25-q6-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p25-q6-e-diagram",
+                              "type": "item",
+                              "ref": "p25-q6-e-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p25-q6-e/space",
+                              "type": "item",
+                              "ref": "p25-q6-e/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p25-q6-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p25-q6-f/label",
+                              "type": "item",
+                              "ref": "p25-q6-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p25-q6-f-diagram",
+                              "type": "item",
+                              "ref": "p25-q6-f-diagram",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p25-q6-f/space",
+                              "type": "item",
+                              "ref": "p25-q6-f/space",
+                              "title": "Answer space",
+                              "height": 30
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1
+            }
+          }
+        },
+        "p25-q6-a-diagram": {
+          "diagramWidthMm": 32
+        },
+        "p25-q6-b-diagram": {
+          "diagramWidthMm": 40
+        },
+        "p25-q6-c-diagram": {
+          "diagramWidthMm": 32
+        },
+        "p25-q6-d-diagram": {
+          "diagramWidthMm": 32
+        },
+        "p25-q6-e-diagram": {
+          "diagramWidthMm": 32
+        },
+        "p25-q6-f-diagram": {
+          "diagramWidthMm": 32
+        }
+      },
+      "answerSpaces": {
+        "p25-q6-a": 30,
+        "p25-q6-b": 30,
+        "p25-q6-c": 30,
+        "p25-q6-d": 30,
+        "p25-q6-e": 30,
+        "p25-q6-f": 30
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T07:41:17.642Z",
+  "updatedAt": "2026-10-21T07:41:17.643Z"
+}

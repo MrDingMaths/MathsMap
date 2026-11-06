@@ -10,15 +10,15 @@
       "trig-find-side",
       "round-angle-degrees-minutes"
     ],
-    "reasoningScore": 42,
+    "reasoningScore": 43,
     "difficulty": "Development",
-    "difficultyReason": "Follow the supplied intermediate expressions across linked right triangles; the hardest part requires subtracting a base segment before forming a new ratio for the angle.",
+    "difficultyReason": "Use the prompted expressions to move between connected right triangles; the hardest part requires subtracting a segment from the calculated base and combining it with the height in an inverse-tangent calculation.",
     "assessment": {
       "model": "gpt-6.1-sol",
-      "assessedAt": "2026-10-21T05:47:25.835Z",
+      "assessedAt": "2026-11-05T11:08:17.246Z",
       "rubricVersion": "mathsmap-cognitive-demand-v1",
-      "taskHash": "c7924c0853f792709b82a0eb241db1bd9daf7b55549fb1d4f010117a73b37e19",
-      "evidence": ".booklet-work/reasoning-ratings/calls/right-angled-trigonometry-v1/a77e7e9f78f8c6f34b2d4f6ac8dab2b5808ad9b058a65ccd119767513df32363-1792561606021/last-message.txt"
+      "taskHash": "84bb4f174e277766f335b813126e8c28d78aab0c6a5e48e93a89cc75ea586142",
+      "evidence": ".booklet-work/reasoning-ratings/calls/right-angled-trigonometry-v1/7f368af372309ae1935b568642e1f4cf286f83e9d05e7b4d0c4352fa8038d762-1793876848402/last-message.txt"
     }
   },
   "content": {
@@ -42,7 +42,7 @@
             "id": "p49-q12-a-diagram",
             "role": "question",
             "format": "tikz",
-            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 49 p49-q12-a-diagram\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (D) at (0,0);\n\\coordinate (C) at (7,0);\n\\coordinate (B) at (7,{7*tan(25)});\n\\coordinate (A) at (7,{7*tan(50)});\n\\draw[black] (D)--(C)--(A)--cycle (D)--(B);\n\\draw[black,line width=0.4pt] ($(C)+(-0.45,0)$)--($(C)+(-0.45,0.45)$)--($(C)+(0,0.45)$);\n\\pic[draw=black,line width=0.4pt,angle radius=11mm,angle eccentricity=1.8,\"$25^{\\circ}$\"] {angle=C--D--B};\n\\pic[draw=black,line width=0.4pt,angle radius=9mm,angle eccentricity=1.35,\"$25^{\\circ}$\"] {angle=B--D--A};\n\\path (D)--node[below] {$7\\text{ cm}$} (C);\n\\node[below left] at (D) {$D$};\n\\node[below right] at (C) {$C$};\n\\node[right] at (B) {$B$};\n\\node[right] at (A) {$A$};\n\\end{tikzpicture}",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 49 p49-q12-a-diagram\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes}\n\\coordinate (D) at (0,0);\n\\coordinate (C) at (7,0);\n\\coordinate (B) at (7,{7*tan(25)});\n\\coordinate (A) at (7,{7*tan(50)});\n\\draw[black] (D)--(C)--(A)--cycle (D)--(B);\n\\draw[black,line width=0.4pt] ($(C)+(-0.45,0)$)--($(C)+(-0.45,0.45)$)--($(C)+(0,0.45)$);\n\\pic[draw=black,line width=0.4pt,angle radius=11mm,angle eccentricity=1.8,\"$25^{\\circ}$\"] {angle=C--D--B};\n\\pic[draw=black,line width=0.4pt,angle radius=9mm,angle eccentricity=2.3,\"$25^{\\circ}$\"] {angle=B--D--A};\n\\path (D)--node[below] {$7\\text{ cm}$} (C);\n\\node[below left] at (D) {$D$};\n\\node[below right] at (C) {$C$};\n\\node[right] at (B) {$B$};\n\\node[right] at (A) {$A$};\n\\end{tikzpicture}",
             "src": null,
             "widthMm": 48,
             "alt": "Mathematical diagram",
@@ -120,7 +120,7 @@
             "id": "p49-q12-c-diagram",
             "role": "question",
             "format": "tikz",
-            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 49 p49-q12-c-diagram\"}\n\\begin{tikzpicture}[x=0.28cm,y=0.28cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes,arrows.meta}\n\\coordinate (P) at (0,0);\n\\coordinate (R) at ({18*cos(40)},0);\n\\coordinate (Q) at (0,{-18*sin(40)});\n\\coordinate (S) at ({18*cos(40)-8},0);\n\\draw[black] (P)--(R)--(Q)--cycle (Q)--(S);\n\\draw[black,line width=0.4pt] ($(P)+(1.2,0)$)--($(P)+(1.2,-1.2)$)--($(P)+(0,-1.2)$);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.4,\"$40^{\\circ}$\"] {angle=P--R--Q};\n\\pic[draw=black,line width=0.4pt,angle radius=5mm,angle eccentricity=1.4,\"$\\alpha$\"] {angle=P--S--Q};\n\\draw[black,line width=0.4pt,{Stealth}-{Stealth}] ($(S)+(0,1)$)--node[above] {$8\\text{ cm}$} ($(R)+(0,1)$);\n\\path (Q)--node[below right] {$18\\text{ cm}$} (R);\n\\node[left] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[above left] at (S) {$S$};\n\\node[right] at (R) {$R$};\n\\end{tikzpicture}",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 49 p49-q12-c-diagram\"}\n\\begin{tikzpicture}[x=0.28cm,y=0.28cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc,angles,quotes,arrows.meta}\n\\coordinate (P) at (0,0);\n\\coordinate (R) at ({18*cos(40)},0);\n\\coordinate (Q) at (0,{-18*sin(40)});\n\\coordinate (S) at ({18*cos(40)-8},0);\n\\draw[black] (P)--(R)--(Q)--cycle (Q)--(S);\n\\draw[black,line width=0.4pt] ($(P)+(1.2,0)$)--($(P)+(1.2,-1.2)$)--($(P)+(0,-1.2)$);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=2.3,\"$40^{\\circ}$\"] {angle=P--R--Q};\n\\pic[draw=black,line width=0.4pt,angle radius=5mm,angle eccentricity=1.4,\"$\\alpha$\"] {angle=P--S--Q};\n\\draw[black,line width=0.4pt,{Stealth}-{Stealth}] ($(S)+(0,1)$)--node[above] {$8\\text{ cm}$} ($(R)+(0,1)$);\n\\path (Q)--node[below right] {$18\\text{ cm}$} (R);\n\\node[left] at (P) {$P$};\n\\node[below left] at (Q) {$Q$};\n\\node[above left] at (S) {$S$};\n\\node[right] at (R) {$R$};\n\\end{tikzpicture}",
             "src": null,
             "widthMm": 48,
             "alt": "Mathematical diagram",
@@ -303,5 +303,5 @@
     "history": []
   },
   "createdAt": "2026-10-21T09:51:23.071Z",
-  "updatedAt": "2026-10-21T09:51:23.072Z"
+  "updatedAt": "2026-11-05T11:08:17.444Z"
 }

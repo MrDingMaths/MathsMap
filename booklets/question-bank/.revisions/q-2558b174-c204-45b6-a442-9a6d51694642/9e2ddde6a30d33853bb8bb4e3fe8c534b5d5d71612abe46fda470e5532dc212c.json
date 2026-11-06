@@ -1,0 +1,222 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2558b174-c204-45b6-a442-9a6d51694642",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "trig-find-side-denominator",
+    "secondarySkillIds": [
+      "trig-find-side"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied perpendicular to find a shared height and one base portion, transfer the height into the second triangle, and add the portions; distinguish subtraction for the external extension.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:47:25.835Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a8d206deee1005a3694ca92f4c771cad277c0a89d379d6ee91c2d376280389cf",
+      "evidence": ".booklet-work/reasoning-ratings/calls/right-angled-trigonometry-v1/a77e7e9f78f8c6f34b2d4f6ac8dab2b5808ad9b058a65ccd119767513df32363-1792561606021/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p50-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "Find the length $XY$ in these diagrams. Answer to 1 d.p.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p50-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p50-q15-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"altitudeRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the perpendicular construction from triangle edges\"}],\"reference\":\"source page 50 p50-q15-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{altitudeRed}{HTML}{EF6068}\n\\coordinate (X) at (0,0);\n\\coordinate (F) at ({3*cos(50)},0);\n\\coordinate (V) at ({3*cos(50)},{-3*sin(50)});\n\\coordinate (Y) at ({3*cos(50)+3*sin(50)/tan(42)},0);\n\\draw[black,line width=0.8pt] (X)--(V)--(Y)--cycle;\n\\draw[altitudeRed,dashed,line width=0.4pt] (F)--(V);\n\\draw[black,line width=0.4pt] ($(F)+(0.23,0)$)--($(F)+(0.23,-0.23)$)--($(F)+(0,-0.23)$);\n\\pic[draw=black,line width=0.4pt,angle radius=6mm] {angle=V--X--Y};\n\\pic[draw=black,line width=0.4pt,angle radius=6mm] {angle=X--Y--V};\n\\node[below right] at ($(X)+(0.42,-0.06)$) {$50^\\circ$};\n\\node[below left] at ($(Y)+(-0.42,-0.06)$) {$42^\\circ$};\n\\path (X)--(V) node[midway,left] {$3\\text{ cm}$};\n\\node[above left] at (X) {$X$};\n\\node[above right] at (Y) {$Y$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 50,
+              "sourceRegion": "Question 15a",
+              "description": "Inverted triangle XYV with dashed perpendicular VF to the horizontal side XY. Ordinary blue source edges become black; the red construction remains semantically distinct.",
+              "mathematics": "XV = 3 cm; angle VXY = 50 degrees; angle XYV = 42 degrees; VF is perpendicular to XY.",
+              "answerVisibility": "Only source givens are visible; auxiliary vertex and foot names are omitted."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$4.5\\text{ cm}$",
+          "worked": "Let $F$ be the foot of the perpendicular and $h$ its length.\n$$\\begin{align*}\nh&=3\\sin50^\\circ\\\\\nXF&=3\\cos50^\\circ\\\\\n\\tan42^\\circ&=\\frac{h}{FY}\\\\\nFY&=\\frac{3\\sin50^\\circ}{\\tan42^\\circ}\\\\\nXY&=3\\cos50^\\circ+\\frac{3\\sin50^\\circ}{\\tan42^\\circ}\\\\\nXY&\\approx4.5\\text{ cm}\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p50-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p50-q15-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the external perpendicular and horizontal extension\"}],\"reference\":\"source page 50 p50-q15-b-diagram\"}\n\\begin{tikzpicture}[x=0.2cm,y=0.2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (X) at (0,0);\n\\coordinate (V) at (0,-10);\n\\coordinate (R) at ({10/tan(26)},0);\n\\coordinate (Y) at ({10/tan(26)-12},0);\n\\draw[black,line width=0.8pt] (V)--(Y)--(R)--cycle;\n\\draw[constructionRed,dashed,line width=0.4pt] (V)--(X)--(Y);\n\\draw[black,line width=0.4pt] ($(X)+(1.2,0)$)--($(X)+(1.2,-1.2)$)--($(X)+(0,-1.2)$);\n\\fill[black] (Y) circle[radius=1.3pt];\n\\pic[draw=black,line width=0.4pt,angle radius=7mm] {angle=Y--R--V};\n\\node[below left] at ($(R)+(-3,-0.1)$) {$26^\\circ$};\n\\path (X)--(V) node[midway,left] {$10\\text{ mm}$};\n\\path (Y)--(R) node[midway,above] {$12\\text{ mm}$};\n\\node[above] at (X) {$X$};\n\\node[above] at (Y) {$Y$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 50,
+              "sourceRegion": "Question 15b",
+              "description": "Triangle VYR with Y marked by a solid point, X on the leftward horizontal extension, and an external dashed perpendicular XV.",
+              "mathematics": "X, Y and R are collinear in that order; XV = 10 mm; YR = 12 mm; angle YRV = 26 degrees; XV is perpendicular to XR.",
+              "answerVisibility": "Only source givens are visible; unlabelled source vertices remain unlabelled."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$8.5\\text{ mm}$",
+          "worked": "Let $R$ be the rightmost vertex.\n$$\\begin{align*}\n\\tan26^\\circ&=\\frac{10}{XR}\\\\\nXR&=\\frac{10}{\\tan26^\\circ}\\\\\nXY&=\\frac{10}{\\tan26^\\circ}-12\\\\\nXY&\\approx8.5\\text{ mm}\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p50-q15",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p50-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p50-q15-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p50-q15-root/label",
+                  "type": "item",
+                  "ref": "p50-q15-root/label",
+                  "title": "Label 15"
+                },
+                {
+                  "id": "layout:p50-q15-root/prompt",
+                  "type": "item",
+                  "ref": "p50-q15-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p50-q15-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p50-q15-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p50-q15-a/label",
+                          "type": "item",
+                          "ref": "p50-q15-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p50-q15-a-diagram",
+                          "type": "item",
+                          "ref": "p50-q15-a-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p50-q15-a/space",
+                          "type": "item",
+                          "ref": "p50-q15-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p50-q15-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p50-q15-b/label",
+                          "type": "item",
+                          "ref": "p50-q15-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p50-q15-b-diagram",
+                          "type": "item",
+                          "ref": "p50-q15-b-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p50-q15-b/space",
+                          "type": "item",
+                          "ref": "p50-q15-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 15",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        },
+        "p50-q15-b-diagram": {
+          "diagramWidthMm": 32
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T09:51:28.388Z",
+  "updatedAt": "2026-10-21T09:51:28.388Z"
+}
