@@ -6,22 +6,28 @@
   import { buildTopicGraph } from '../lib/topicGraph.js';
   import { layoutSwimlanes, drawBands } from '../lib/swimlane.js';
   import {
+    boundsFromBands,
+    clampPanToBounds,
+    computeZoomBounds,
     getCachedGeometry,
     labelFade,
     mapGeometryKey,
     selectVisibleLabels,
-    setCachedGeometry
+    setCachedGeometry,
+    wheelZoomFactor
   } from '../lib/mapView.js';
   import { courses, topicById, skillById, topicsForSkill } from '../lib/data.js';
   import { go } from '../lib/router.svelte.js';
   import MathText, { renderMath } from '../components/Math.svelte';
 
   let { courseId = null, skillId = null, topicId = null } = $props();
+  let graphArea;
   let container;
   let bandCanvas;
   let labelWorld;
   let cy;
   let bands = [];
+  let graphBounds = null;
   let labelRecords = [];
   let currentGeometryKey = null;
   let currentDark = null;
@@ -31,7 +37,10 @@
   let viewportRaf = null;
   let bandRaf = null;
   let labelTimer = null;
+  let lastLabelCullAt = 0;
   let farState = null;
+  let lastFarZoom = null;
+  let clampingViewport = false;
   let resizeObserver = null;
 
   const initial = untrack(() => courseId);
@@ -189,11 +198,45 @@
   }
 
   function scheduleLabelCull() {
-    clearTimeout(labelTimer);
-    labelTimer = setTimeout(refreshVisibleLabels, 80);
+    const now = performance.now();
+    const elapsed = now - lastLabelCullAt;
+    if (elapsed >= 80) {
+      clearTimeout(labelTimer);
+      labelTimer = null;
+      lastLabelCullAt = now;
+      refreshVisibleLabels();
+      return;
+    }
+    if (labelTimer) return;
+    labelTimer = setTimeout(() => {
+      labelTimer = null;
+      lastLabelCullAt = performance.now();
+      refreshVisibleLabels();
+    }, 80 - elapsed);
+  }
+
+  function enforceViewportBounds() {
+    if (clampingViewport || !cy || cy.destroyed() || cy.animated() || !graphBounds || !container) {
+      return;
+    }
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    if (!(width > 0) || !(height > 0)) return;
+    const pan = cy.pan();
+    const clamped = clampPanToBounds(pan, cy.zoom(), graphBounds, width, height);
+    if (Math.abs(clamped.x - pan.x) > 0.5 || Math.abs(clamped.y - pan.y) > 0.5) {
+      clampingViewport = true;
+      try {
+        cy.pan(clamped);
+      } finally {
+        clampingViewport = false;
+      }
+    }
   }
 
   function onViewport() {
+    if (clampingViewport) return;
+    enforceViewportBounds();
     if (tip) tip = null;
     if (edgeTip) edgeTip = null;
     scheduleViewportPaint();
@@ -202,20 +245,85 @@
   }
 
   const FAR_ZOOM = 0.55;
-  const WHEEL_ZOOM_SENSITIVITY = 0.14;
   const ZOOM_STEP = 1.18;
   function syncFar() {
     if (!cy || cy.destroyed()) return;
-    const next = cy.zoom() < FAR_ZOOM;
+    const zoom = cy.zoom();
+    const next = zoom < FAR_ZOOM;
+    if (!next && next === farState) return;
+    if (
+      next &&
+      farState === true &&
+      lastFarZoom !== null &&
+      Math.abs(zoom - lastFarZoom) / lastFarZoom < 0.02
+    ) {
+      return;
+    }
     cy.batch(() => {
-      if (next) cy.nodes().forEach((node) => {
-        node.data('overviewSize', Math.max(node.data('size'), 6 / cy.zoom()));
-        node.data('overviewBorder', 0.8 / cy.zoom());
-      });
+      if (next) {
+        lastFarZoom = zoom;
+        const minOverview = Math.min(84, 6 / zoom);
+        const border = Math.min(10, 0.8 / zoom);
+        cy.nodes().forEach((node) => {
+          node.data('overviewSize', Math.max(node.data('size'), minOverview));
+          node.data('overviewBorder', border);
+        });
+      } else {
+        lastFarZoom = null;
+      }
       if (next === farState) return;
       farState = next;
       cy.elements().toggleClass('far', next);
     });
+  }
+
+  function zoomAround(factor, posX, posY) {
+    if (!cy || cy.destroyed() || !container || factor === 1) return;
+    const currentZoom = cy.zoom();
+    const nextZoom = Math.min(cy.maxZoom(), Math.max(cy.minZoom(), currentZoom * factor));
+    if (nextZoom === currentZoom) return;
+    const currentPan = cy.pan();
+    const rawPan = {
+      x: posX - (nextZoom / currentZoom) * (posX - currentPan.x),
+      y: posY - (nextZoom / currentZoom) * (posY - currentPan.y)
+    };
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    const pan = graphBounds
+      ? clampPanToBounds(rawPan, nextZoom, graphBounds, width, height)
+      : rawPan;
+    clampingViewport = true;
+    try {
+      cy.viewport({ zoom: nextZoom, pan });
+    } finally {
+      clampingViewport = false;
+    }
+    if (tip) tip = null;
+    if (edgeTip) edgeTip = null;
+    scheduleViewportPaint();
+    scheduleBandDraw();
+    scheduleLabelCull();
+  }
+
+  function onWheel(event) {
+    if (!cy || cy.destroyed() || !container) return;
+    if (
+      event.target instanceof Element &&
+      event.target.closest('.node-inspector, .map-toolbar, .zoom-controls')
+    ) {
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+    const rect = container.getBoundingClientRect();
+    const factor = wheelZoomFactor({
+      deltaY: event.deltaY,
+      deltaMode: event.deltaMode,
+      ctrlKey: event.ctrlKey,
+      pageHeight: rect.height
+    });
+    if (factor === 1) return;
+    zoomAround(factor, event.clientX - rect.left, event.clientY - rect.top);
   }
 
   const FOCUS_CLASSES = 'dim focus-root focus-chain path-lit incoming-lit outgoing-lit';
@@ -441,6 +549,19 @@
     cy.on('viewport', onViewport);
   }
 
+  function syncZoomBounds() {
+    if (!cy || cy.destroyed() || !container) return;
+    const { minZoom, maxZoom } = computeZoomBounds(
+      graphBounds,
+      container.clientWidth,
+      container.clientHeight
+    );
+    cy.zoomRange({ min: minZoom, max: maxZoom });
+    const current = cy.zoom();
+    if (current < minZoom) cy.zoom(minZoom);
+    else if (current > maxZoom) cy.zoom(maxZoom);
+  }
+
   function rebuildGraph(key, isDark) {
     if (!cy || cy.destroyed()) return;
     clearFocus({ clearTip: true });
@@ -448,6 +569,8 @@
     labels = [];
     labelRecords = [];
     farState = null;
+    lastFarZoom = null;
+    lastLabelCullAt = 0;
 
     const graphData = buildGraphData(isDark);
     const elements = graphData.elements;
@@ -474,6 +597,8 @@
 
     if (!cached) setCachedGeometry(key, { positions: capturePositions(), routes, bands });
     currentGeometryKey = key;
+    graphBounds = boundsFromBands(bands);
+    syncZoomBounds();
     refreshEdgeVisibility();
     rebuildLabelRecords();
     if (cy.nodes().length) cy.fit(undefined, 30);
@@ -512,11 +637,8 @@
   }
 
   function zoomBy(factor) {
-    if (!cy || cy.destroyed()) return;
-    cy.zoom({
-      level: cy.zoom() * factor,
-      renderedPosition: { x: container.clientWidth / 2, y: container.clientHeight / 2 }
-    });
+    if (!cy || cy.destroyed() || !container) return;
+    zoomAround(factor, container.clientWidth / 2, container.clientHeight / 2);
   }
 
   function fitAll() {
@@ -561,6 +683,9 @@
   onMount(() => {
     touchMode = window.matchMedia('(hover: none), (pointer: coarse)').matches;
     currentDark = theme.current === 'dark';
+    // Wheel/trackpad zoom is handled statelessly in capture phase by onWheel on
+    // graphArea so Cytoscape's stateful wheel-delta sampler cannot ratchet zoom
+    // sensitivity up when tiny fractional deltas arrive, and wheel works over labels.
     cy = cytoscape({
       container,
       elements: [],
@@ -568,7 +693,6 @@
       minZoom: 0.1,
       maxZoom: 3,
       pixelRatio: 1,
-      wheelSensitivity: WHEEL_ZOOM_SENSITIVITY,
       // Cached viewport textures leave a visible silhouette while zooming out,
       // and hiding edges makes them flash back in when a gesture ends. The label
       // world and geometry optimisations keep interaction light without either
@@ -580,11 +704,14 @@
       autounselectify: true,
       boxSelectionEnabled: false
     });
+    graphArea.addEventListener('wheel', onWheel, { capture: true, passive: false });
     bindGraphEvents();
     rebuildGraph(graphKey(), currentDark);
 
     resizeObserver = new ResizeObserver(() => {
       cy?.resize();
+      syncZoomBounds();
+      enforceViewportBounds();
       scheduleViewportPaint();
       scheduleBandDraw();
       scheduleLabelCull();
@@ -601,6 +728,7 @@
 
     return () => {
       window.removeEventListener('keydown', onKeydown);
+      graphArea?.removeEventListener('wheel', onWheel, { capture: true });
       resizeObserver?.disconnect();
       if (viewportRaf) cancelAnimationFrame(viewportRaf);
       if (bandRaf) cancelAnimationFrame(bandRaf);
@@ -706,7 +834,7 @@
     <p class="muted hint">Each node is a mastery ring. A dashed teal halo marks topics whose prerequisites are complete.</p>
   </aside>
 
-  <div class="graph-area" class:inspector-open={Boolean(inspector)}>
+  <div bind:this={graphArea} class="graph-area" class:inspector-open={Boolean(inspector)}>
     <canvas bind:this={bandCanvas} class="bands"></canvas>
     <div bind:this={container} class="graph"></div>
 
@@ -948,9 +1076,9 @@
     user-select: none;
     appearance: none;
   }
-  .node-label.boundary { font-size: 13px; opacity: 0.62; }
+  .node-label.boundary { font-size: 13px; opacity: calc(0.62 * var(--label-fade, 1)); }
   .node-label.ready { color: var(--map-ready); font-weight: 700; }
-  .node-label.dimmed { opacity: 0.28; }
+  .node-label.dimmed { opacity: calc(0.28 * var(--label-fade, 1)); }
   .node-label.focused { opacity: 1; border-color: color-mix(in srgb, var(--text) 42%, transparent); }
   .node-label.focus-root { opacity: 1; border-color: var(--border-strong); background: var(--panel-2); box-shadow: var(--shadow); }
   .node-label :global(.katex) { font-size: 1em; }
@@ -1002,6 +1130,10 @@
   .empty strong { color: var(--text); font-family: var(--font-display); font-size: 1rem; }
   .empty small { font-size: 0.72rem; }
   .drawer-backdrop { display: none; }
+
+  @media (min-width: 769px) {
+    .graph-area.inspector-open .zoom-controls { right: 356px; }
+  }
 
   @media (max-width: 768px) {
     .sidebar { position: absolute; inset: 0 auto 0 0; width: min(320px, 88vw); max-width: 88vw; flex-basis: auto; padding-top: max(1rem, env(safe-area-inset-top)); transform: translateX(-105%); transition: transform 180ms ease; box-shadow: 12px 0 34px rgba(0,0,0,.42); }
