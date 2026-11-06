@@ -1,4 +1,4 @@
-// Box-versus-dots decisions for blanks (AGENTS.md "Cloze styles and source tables"; 14, 17 and 21 October
+// Box-versus-dots decisions for blanks (docs/agent-rules.md "Cloze styles and source tables"; 14, 17 and 21 October
 // 2026, user requested), as code. The sweep's cloze rule and the first-pass reviewer share these so the
 // reviewer stops suggesting dots for the fraction boxes the teacher keeps:
 //   - a missing numerator or denominator is an outlined box in native maths, also when both are missing

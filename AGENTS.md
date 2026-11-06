@@ -1,168 +1,44 @@
 # MathsMap working conventions
 
-30 October: [verification cuts](docs/booklet-verification-cuts-20261030.md) govern local/programme checks; otherwise use [lean acceptance](docs/booklet-lean-acceptance.md).
-
-## Cross-booklet duplicate tooling retired (27 October 2026, user requested)
-
-Do not discover, link, synchronise or manage duplicates across booklets. Tools and registry remain in [the recoverable archive](retired/cross-booklet-duplicates-20261027/README.md). Review duplicates within each booklet; use full matching during bank publication. Preserve historical acceptance, lineage and explicit review reuse without live cross-booklet dependencies. This supersedes automatic cross-project discovery and propagation.
-
-29 October: [remove exam marks and sort exercises by verified difficulty](docs/booklet-exam-marks-and-order.md), including existing booklets; preserve mathematical notation and dependencies.
-
-Keep this file under 32,000 bytes; link detail in `docs/`. `npm run repo:check` enforces the limit.
-
-## Streamlined imports (24 October 2026, user approved)
-
-Follow [the current workflow](docs/booklet-three-pass-import.md#streamlined-completion-24-october-2026): shared completion gate, repair by required edit, one source-side rendered review, scoped repair verification and reused exports. Use `lean-review.mjs finish`; saving progress is not completion. Keep ICE-EM's direct exception, accepted work and active workers. No automatic live-booklet repair campaign. This supersedes conflicting import/polish stages below.
-
-Separately requested [pedagogy reviews](docs/booklet-pedagogy-review.md) follow [worker routing](docs/booklet-worker-routing.md), comments-first repairs and [first-pass rules](docs/booklet-first-pass-review.md). Keep the tool outside `scripts/`.
-
-Imports: [omit redundant vertex labels, retain necessary labels and update solutions](docs/booklet-cross-session-rules.md#redundant-vertex-labels-25-october-2026-user-requested).
-
-## Part labels run in one sequence (11 October 2026, user requested)
-
-For imports and authorised repairs, use [one continuous part-label sequence](docs/booklet-transcription-feedback-checklist.md#part-labels-run-in-one-sequence-11-october-2026-user-requested). Run `node scripts/booklet/check-part-label-sequence.mjs [project-id]`; new imports should report no missing/restarted labels.
-
-## Sample answers for open-ended tables and box grids (11 October 2026, user requested)
-
-An open-ended question answered in the cells of one table or box grid gets one short-answer entry: “Sample answers” and the question’s layout filled with one example per cell, with no per-cell “e.g.” or restated headings. Follow [the convention](docs/booklet-cross-session-rules.md#sample-answers-for-open-ended-tables-and-box-grids-11-october-2026-user-requested).
-
-## Bank links and duplicate questions (9 October 2026, user approved)
-
-Append dependent follow-ups before bank import where possible; see the guide.
-
-A question is published to the bank once; every other booklet that contains it links to that record. Follow [duplicates and linking](docs/booklet-bank-auto-sync.md#duplicates-and-linking-9-october-2026-user-approved). `import-project-bank.mjs` links identical questions automatically, holds a same-question match that has a different answer for one decision in Studio (**Use existing** or **Keep separate**), and creates only the rest; assessments cover new questions only. Do not add a duplicate review stage or model call to imports, and do not hold or block on similarity scores. Run `node scripts/booklet/bank-links.mjs [--project ID]` to see what a publication would create, link or hold. Never create a second bank record for an identical question by writing bank files directly.
-
-## Remote Studio access (8 October 2026, user requested)
-
-Studio is published at `studio.mrdingmaths.com` through a Cloudflare Tunnel with an Access login; see [remote access](docs/studio-remote-access.md). Keep remote-access code in `remote/` and out of `vite.config.js` and `scripts/`, which are hash-bound by export evidence. Never expose port 5173 directly or remove the Access login while the DNS record exists.
-
-The server on `127.0.0.1:5173` may be serving the user remotely. All sessions (Claude and Codex):
-
-- If a server is already listening on 5173, reuse it. Do not stop or restart it unless the task requires it; say so first if the user may be working remotely.
-- When starting the port-5173 server, use the remote config: `npx vite --config remote/vite.remote.config.js --port 5173 --strictPort --host 127.0.0.1` (the `mathsmap-dev` launch configuration does this). Do not use `npm run dev`, `npm run dev:batch` or plain `npx vite` on 5173: those work locally but make the remote address return "Blocked request". Local behaviour under the remote config is identical.
-- Do not start or stop the tunnel. The user runs `remote/start-remote-studio.cmd`, which starts the tunnel and, only if 5173 is free, the server.
-- Scripts that start their own server on another port (frozen export and verification servers) are unaffected and keep using `vite.config.js`.
-
-## Run-folder pruning (8 October 2026, user approved)
-
-When an import is delivered or a feedback repair closes, run `npm run booklet:storage -- exports`, check the preview, then repeat it with `--apply`; see [pruning run folders](docs/booklet-storage.md#pruning-run-folders). Run it only when no import or feedback repair is in flight in any session (no `lean-import.mjs`, `lean-review.mjs` or export process running): it keeps only the newest export of each run, so a run that is still working loses the frozen copies and rasters of its earlier samples. It removes the frozen app copy, Vite cache, page rasters and layout cache that every export leaves behind. These are regenerable and are not evidence to retain. Add `--records` to also drop the process records of run folders idle for seven days or more; source evidence, run state, final decisions, the newest export and every file a live booklet or tracked provenance record points to are kept. Never clear run-folder trees with `rm -rf`, `Remove-Item -Recurse` or `git clean`: frozen copies contain junctions to the real `node_modules` and render cache. Keep one-off scripts and dated repair tests in the run folder, not in `scripts/` or `tests/`.
-
-## Booklet worker limit (6 October 2026, user requested)
-
-Allow at most three model workers per booklet import, shared by all sessions using that booklet's canonical run directory. Different booklets have independent three-worker limits; the multi-booklet lean dispatcher uses `--concurrency` per booklet, not across its entire queue. Reuse the existing run for the same booklet rather than creating separate runs to bypass its cap. This supersedes earlier wording requiring three workers total across different booklets. Preserve model settings, ownership, revision-safe publication and historical evidence. Already-running dispatchers adopt the change on their next launch; do not interrupt or remove active leases.
-
-## Windows Codex worker launches (6 October 2026, user requested)
-
-On this machine, launch authorised child Codex CLI workers and scripts that spawn them with `exec_command` using `sandbox_permissions: "require_escalated"` from the first attempt. This includes booklet import/review runners and content campaign runners. The outer Windows sandbox cannot write Codex's startup directory `C:\Users\Admin\.codex\tmp\arg0`; ordinary launches repeatedly fail with `Access is denied. (os error 5)`. The permitted host launch was verified to start without those warnings. Keep each worker's own `--sandbox read-only`, existing worker limits, model settings and revision-safe publication guards. This instruction does not authorise additional workers or unrelated elevated commands.
-
-Do not first launch these runners in the outer sandbox, consume attempts on the known failure, or retry unchanged permissions. If the permitted launch is rejected, stop the affected dispatch and report the approval-review reason. Do not broaden Windows ACLs, disable the sandbox, change `CODEX_HOME`, or clear runtime/session directories as a workaround. Existing chats must follow this rule when next launching workers; preserve completed work and resume only incomplete tasks.
-
-## Models (30 October 2026)
-
-New content uses exactly `claude-sonnet-5-5`: backfill, bridges, worked examples and guided practice; verify availability, never substitute. Future booklet reviews/ratings/challenges use `gpt-6.1-terra` high; see [review policy](docs/booklet-pedagogy-review.md#review-model-30-october-2026). Sol Low fallback must be explicit, never automatic. Preserve completed work/provenance and in-flight calls. Other work keeps its settings. The [programme](docs/booklet-end-goal-programme.md) governs rollout; teaching and Review additions stay comments-first. No bank-fed sections.
-
-## Lean imports (5 October 2026)
-
-New three-pass imports follow [the lean cut](docs/booklet-three-pass-import.md#lean-cut-5-october-2026-user-approved). Content review returns only corrections that change printed content, an answer or a skill mapping. Visual review covers the `student`, `short` and `worked` selections; combined editions are inspected only at covers, transitions and flagged pages, and all five editions keep their automated checks. After a visual repair, inspect only repaired pages and neighbours, once. Budget three exports per booklet (early sample, final, one post-repair); a further export needs a named cause. Do not write one-off scripts to retain, rebind or re-record evidence for unchanged content, and do not produce receipts or closeout audits beyond the short completion report. Review and export new imports with [`scripts/booklet/lean-review.mjs`](docs/booklet-three-pass-import.md#lean-review-route-no-ledger-5-october-2026-user-approved) (`content`, `export`, `visual`, `status`): it keeps only a revision-checked save, one reviewed table and one correction log, and replaces bounded-stage tickets, the visual review queue, settlement and final-review records, which stay only for runs already using them. This supersedes conflicting evidence, re-inspection and audit wording below for new imports; independent inventory, the one full content review, the early layout sample, revision-safe saves, Sol 6.1 medium and the three-worker limit remain.
-
-## Lean local feedback repairs (5 October 2026)
-
-For a feedback repair confined to named blocks of one booklet, follow [the lean local-repair rule](docs/booklet-change-runbook.md#minimum-verification-for-feedback-maintenance). Run `check-feedback-pages.mjs --blocks` once after changes settle, inspect the selected Questions pages, and add an answer edition only when answers changed. Combined editions get automated checks only unless covers, transitions or footers changed. Skip Studio reopen and interaction scripts unless editor code changed, bank checks unless a changed block is bank-linked, and `repo:check` unless committing or adding assets. Closeout is the before-snapshot, the revision-safe save and a short report; no hashed receipt, provenance copy or per-comment evidence list. One-off repair scripts stay in the run folder. This supersedes the wider feedback-maintenance wording below for local repairs; shared-renderer changes, new imports and full-acceptance work are unchanged. Source fidelity, mathematical correctness and applying feedback to every applicable occurrence remain required.
-
-## Waiting and polling (4 October 2026)
-
-For healthy, non-interactive builds, tests, exports, scripts and delegated work, use a 60-second wait (`60000` ms) by default when the active tool supports it. Prefer completion notifications or event-based waits that return early on completion, failure or required attention. Where a tool has a lower limit, use its maximum supported wait. Avoid additional status-listing or log checks merely to confirm healthy work is still running. Check sooner only when incremental output requires intervention, a relevant deadline approaches, or observed behaviour suggests a stall. Keep required progress updates and existing runtime guards; this changes model-driven waiting, not script-internal timers or quality gates.
-
-## Preset arrangements, templated diagrams and avatars (4 October 2026)
-
-For future imports and authorised feedback repairs, source appearance is evidence, not a layout target. Reproduce content, order, mathematical structure and meaningful relationships; apply house style to everything else. See [the cross-session convention](docs/booklet-cross-session-rules.md#preset-arrangements-templated-diagrams-and-avatars-4-october-2026).
-
-Lay out teaching and practice content with the shared arrangement presets. Use a custom arrangement only where position carries mathematical or instructional meaning, such as paired figures, matching activities, card placement or a diagram that working must sit beside, and record that meaning. Source placement alone is not a reason. Presets keep the per-part handwriting estimate and all instructional content. This supersedes source-relative placement as the default, including the Volume prevention wording; explicit local exceptions remain.
-
-Where a source diagram belongs to a supported family (number line, fraction bar or grid, fraction circle, blank grid), author it from the shared parameter model. Reproduce its mathematical content exactly: range, ticks, marked values, shaded parts, labels and givens. Proportions and size follow the template. Use free-form TikZ for other diagrams and where a template would lose a mathematical feature.
-
-Omit mascots and illustrations that carry no instructional or mathematical content, keeping everything they say as editable text and recording the omission against the source inventory. Explain-the-mistake and speech-bubble characters use the standard avatar set, assigned in order of first appearance within each booklet, with the existing 17 mm portrait and 5 mm gap; do not crop or reproduce source portraits. Keep the character's name and any image a question depends on.
-
-Do not migrate accepted projects automatically. These preferences add no review stage and change no quality gate, spacing rule, cloze or table convention.
-
-## Cloze styles and source tables (4 October 2026)
-
-For future imports and authorised feedback repairs, ordinary completion blanks use editable native dotted clozes, sized consistently with the shared handwriting rule for their expected responses. Prefer dots even when the source uses outlined boxes, except that missing fraction numerators and denominators retain outlined native maths boxes (17 October 2026, user reaffirmed). First-pass review must not suggest replacing these boxes with dots. Keep boxes only where they serve a specific mathematical or response purpose, such as card placement, a dedicated writing region, or meaningful table cells; source decoration alone is insufficient. Explicit user instructions to retain a local box remain exceptions. Preserve source evidence and record intentional departures. Do not automatically migrate accepted projects on load.
-
-Full fraction scaffolds keep a boxed numerator, boxed denominator and vinculum; never automatically replace the scaffold with dots (17 October 2026).
-
-Exception (21 October 2026): [parenthesised fraction blanks](docs/booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026) keep empty space without visible boxes or dots. Preserve occupied dimensions, line wrapping and pagination; unrelated boxes stay.
-
-Keep source tables as native editable tables, preserving row/column relationships, givens, reading order and meaningful borders; do not replace their cells with separate cards. Bordered table cells already provide the writing space and normally have no cloze dots or duplicate response boxes inside them. Preserve actual card activities as cards. The Integers magic-square conversion is an explicit user-requested departure from its separate source boxes. See [the cross-session convention](docs/booklet-cross-session-rules.md#cloze-styles-and-source-tables-4-october-2026).
-
-## Source alignment on import and Studio layout controls (4 October 2026)
-
-The initial import reproduces the source's [equation and working alignment](docs/booklet-transcription-feedback-checklist.md#equation-and-working-alignment-4-october-2026): position on the page, alignment between lines of working, and worked-example question against working. Inside tables the cell's `align` governs every line unless `preserveParagraphAlignment` is set; `scripts/booklet/check-dormant-alignment.mjs` reports lines whose stored alignment is overridden and should report none for a new import. Do not auto-repair existing booklets. Studio layout controls must only write fields the renderer already supports, or optional fields whose absence renders exactly as before, so adding a control never requires re-auditing existing booklets. House style (10 October 2026, user requested): a bare opening expression followed by lines starting with a relation sign gets an [equals-sign gutter](docs/booklet-transcription-feedback-checklist.md#equals-sign-gutter-10-october-2026-user-requested); `scripts/booklet/check-equals-gutter.mjs` reports the ones without, and existing booklets are repaired only where the user names them.
-
-## Skill-content campaign: booklet question types (4 October 2026)
-
-For `worked-examples-2026-09`, every practice and quiz item must be a question type found in the source booklet's teaching, guided practice or exercises for that skill. Replace off-booklet types with adapted booklet questions of the same tier; flattened single-part versions are acceptable; list genuine gaps as exceptions for the user. This supersedes "preserve good items" for off-booklet types. See [the rule and its runtime guard](docs/content-campaign-efficient-workflow.md#booklet-question-type-rule-4-october-2026).
-
-## Skill-content campaign: audit first (5 October 2026)
-
-The user retained auditing every skill and approved the [audit-first workflow](docs/content-campaign-efficient-workflow.md#audit-first-5-october-2026-user-approved). New `worked-examples-2026-09` runs audit existing content once before authoring, repair genuine defects only, and independently recheck affected content. Missing worked examples and discretionary rewrites are optional; usable working is not reformatted for taste. Passing skills are recorded without rewriting or publication. Inspect only new/changed diagram bodies. Preserve accepted work, complete answer/option/source review, booklet question types, GPT-6.1 Sol medium, at most three workers and revision-safe publication. This supersedes mandatory example coverage and redundant author/full-review requirements in the earlier lean route for new work; historical records and the deliberate survey hold remain unchanged.
-
-## Skill-content campaign: lean route (5 October 2026)
-
-After accepting the first nine-skill comparisons, the user approved adapting booklet exercises for worked examples when no booklet worked example covers the assessed method. Keep the target skill as the focus and introduce no more advanced skills in examples, practice or quizzes. Use different values and preserve independent source/mathematical review.
-
-For `worked-examples-2026-09`, new work uses the [lean route](docs/content-campaign-efficient-workflow.md#lean-route-5-october-2026): `scripts/content/lean-route.mjs` runs one author call, one independent reviewer call, at most one repair round, the mechanical validator and the existing revision-safe publication transaction. The user approved dropping ledger ownership, reading acknowledgments, lineage proofs, render receipts, per-skill UI capture and progress snapshots for this campaign. This supersedes the guarded-ledger requirements below and in `docs/content-campaign.md` for new work; historical receipts stay as they are. Still required: GPT-6.1 Sol medium, at most three workers, a reviewer that independently derives every answer and option, the booklet question-type rule, and a diagram check before publishing any changed diagram.
-
-## Skill-content campaign efficiency (2 October 2026)
-
-Moved word for word to [the campaign workflow](docs/content-campaign-efficient-workflow.md#campaign-efficiency-precedence-2-october-2026) on 15 October 2026.
-
-## Diagram sizing (25 October 2026, user requested)
-
-Follow [source-calibrated diagram sizing](docs/booklet-diagram-sizing.md) for Stage 5, Stage 5 Paths, Stage 6, textbook and future imports. The user's later 25 October scope clarification in that document supersedes the initial recent-edit hold for this maintenance pass; preserve its named exclusions. Measure final height as well as width, retain native 10 pt labels, drawing area and independent edition sizes, and review exceptions instead of enforcing hard caps. Never migrate on load. The [graph and compact-layout convention](docs/booklet-cross-session-rules.md#graph-sizing-and-user-directed-compact-layouts-2-october-2026) otherwise remains.
-
-## Tighter unreviewed layouts (17 October 2026, user requested)
-
-The [calibrated spacing exception](docs/booklet-cross-session-rules.md#tighter-unreviewed-layouts-17-october-2026-user-requested) permits tighter future import defaults and revision-checked maintenance of unreviewed, sweep-complete booklets. Any teacher flag with no `kind` and an `at` means reviewed. Preserve changed fields, repairs and exceptions; never migrate on load. Studio actions change only explicitly selected layouts, with undo and save/reopen verification.
-
-## Booklet polish pipeline (23 October 2026, user approved)
-
-[Polish pipeline](docs/booklet-verification-speed.md) replaces `handoff/run.mjs`: run `polish/run.mjs` before teacher review. Exercise breaks stay forced (suggestions only); only extension and bridging suggestions reach the user.
-
-## Future imports: three-pass precedence (28 September 2026)
-
-New runs use `reviewProfile: "textbook-three-pass-v1"` and [the three-pass import instructions](docs/booklet-three-pass-import.md). This supersedes conflicting stage, exhaustive visual, representative-register, audit and final-review requirements below **only for future imports**. Existing runs and projects retain their recorded policy.
-
-Author questions, solutions and classifications together using a source coverage checklist. One independent review checks all content against the source and taught methods and returns straightforward repairs directly. Then export all five editions, run automated checks, inspect the selected pages and deliver. No separate inventory-maths, teaching approval, classification review, per-correction approval or additional final pass. Check a small difficult-layout sample early without a comprehensive pattern-approval register.
-
-Fix clear errors and likely student misunderstandings. Add missing rounding instructions from source precision, otherwise 2 decimal places; preserve exact-answer tasks. Choose the closest taxonomy match using source context and the most advanced assessed skill. Escalate only consequential uncertainty that cannot reasonably be resolved. Optional wording/cosmetic improvements and audit documentation never delay delivery.
-
-Visual review is targeted: layout examples, densest examples, one ordinary page per exercise, covers, answer transitions, flagged pages, and repaired pages with pagination neighbours; deduplicate selections. Do not require whole-book pixel comparisons, every-page rasters or footer sheets. Preserve completed content reviews until relevant content/source/teaching changes; metadata and taxonomy edits cause no rendering. Batch repairs, reuse unchanged editions and inspections, resume interrupted work, and diagnose a repeated failure before a third attempt. Retain Sol high Standard, at most three workers, editable source references, correct answers, usable writing space and revision-safe saves. The completion report contains only deliverables, substantive corrections, genuine unresolved decisions and actual elapsed time.
-
-Import duration controls (28 September 2026): follow [the import duration controls and Chapter 2 lessons](docs/booklet-import-duration-controls.md). Preserve successful evidence through scoped metadata changes, review stable teaching context once, consolidate shared-cause repairs before exports, and inspect actual progress/call/retry/export counts every ten source pages or thirty active minutes. Diagnose repeated causes before further calls; these checkpoints do not require user permission and do not reduce any quality gate.
-
-Bounded Sol 6.1 workflow (2 October 2026): use [the canonical stage guidance](docs/booklet-bounded-workflow.md) for import and substantive review handoffs. Use exclusively Sol 6.1 (`gpt-6.1-sol`) at medium reasoning and Standard speed for all booklet transcription, dispatch, mathematical, teaching and visual review, and repair work. This supersedes earlier model/effort guidance; do not substitute another model or effort, or automatically escalate to high or xhigh. Preserve historical run configurations, completed evidence and recorded model usage; do not silently migrate existing runs. Fresh workers receive relevant source evidence and current register decisions without a full conversation fork; share at most three active workers and serialize publication. Use `run-workflow next` for ownership, dependencies, evidence and blockers, preserve successful assignments, and record complete-job session usage and actual export reuse. The two-hour/10%-weekly targets remain unproven until comparable accepted work including repairs is measured. Use the three-pass gates for future imports with that profile; legacy stage gates apply only to existing runs. The scoped maintenance precedence below remains required.
-
-Feedback-maintenance precedence (16 September 2026, efficiency review): use the [minimum verification matrix and stopping rule](docs/booklet-change-runbook.md#minimum-verification-for-feedback-maintenance). Ordinary feedback is not a new import settlement. Verify changed content and applicable occurrences, affected pages and pagination neighbours, and the behaviours/dependencies actually changed. Run relevant tests and, for application code, one build after changes settle. Full five-edition acceptance is required for new imports, global pagination/export changes whose impact cannot be bounded, or an explicit full-review request; it is not the default for local or editor-only repairs. Run diagram, geometry, navigation and bank checks only when their dependencies are affected. Preserve passing evidence for unchanged dependencies; review concurrent diffs once and rerun only invalidated checks. Do not restart broad exports for every unrelated file/hash change. Before a development export, verify its page baseline and selected editions; justify any deliberate full-book selection with the recorded `--full-development-reason`. This scoped verification rule takes precedence over blanket verification wording below; source fidelity, mathematical correctness, shared-cause audits, revision-safe saves and honest comment resolution remain required.
-
-## Standing booklet conventions
-
-Before any booklet or question-bank work, read [standing booklet conventions](docs/booklet-standing-conventions.md), which holds the September 2026 rules moved here on 9 October. Follow the [LLM practice-question rating requirement](docs/question-bank-assessment.md#llm-ratings-for-all-studio-practice-questions-21-october-2026) for current Studio questions and initial imports.
-
-For all 3D diagrams, follow [the visibility contract](docs/solid-visibility.md). Use explicit solid faces and the actual viewing direction to derive hidden edges; silhouettes stay solid. Labels use non-drawing paths and cannot repaint edges. Preserve construction/semantic lines separately. Audit every current occurrence and new candidate with `scripts/audit-solid-visibility.mjs`; unresolved geometry requires a source-hashed review. Changing camera or coordinates invalidates prior visibility acceptance.
-
-For booklet changes, follow [the change runbook](docs/booklet-change-runbook.md): establish affected scope once, validate representative cases early, reuse valid renders, settle changes before final exports, run required final checks once, and record actual phase timings/retries. Use affected-page/neighbour checks for ordinary edits; do not default to five complete booklet reviews. Editor-only changes use focused interaction, save/reopen and representative print checks. Preserve source, mathematical and presentation fidelity gates.
-
-Earlier-session rules are consolidated in [the cross-session transcription and rendering rules](docs/booklet-cross-session-rules.md). Read them with the feedback checklist for every future transcription and rendering change. They distinguish general conventions from source-specific corrections and document precedence where old prompts disagree.
-
-User feedback is a general requirement across all books and every applicable occurrence, including existing books, unless the user explicitly limits it to a specific item. Implement shared renderer/editor causes centrally; audit and repair repeated content defects throughout the affected booklet. Do not treat a named example as the full scope or leave known repeated defects as a list in place of fixing them. Preserve book-specific content, mathematical colour meaning through the standard palette and meaningful arrangements while applying general feedback. Fraction-step spacing is shared across all books and answer editions, not an Index Laws content patch.
-
-For every transcription run, read and complete the [transcription feedback acceptance checklist](docs/booklet-transcription-feedback-checklist.md). It consolidates the user's alignment, spacing, palette, grid, card, native-maths, writable-box, numbered-list and image-control feedback. Apply content conventions throughout; three-pass imports use the targeted visual selection above, while legacy runs check every applicable rendered occurrence; fix shared causes and retain regression coverage rather than waiting for the user to identify repeated defects.
-
-For new imports, use the [direct compact workflow](docs/booklet-direct-compact-import.md): independent source inventory, semantic content with source references, then one compact editable project. Imported counts do not establish fidelity. Record confirmed source corrections without changing original evidence. Keep exact cloning optional. Projects is the sole booklet workspace. Historical-import browsing and creation are retired; new imports require explicit semantic candidates. Retain source serving, correction conflict checks and exact-mode compatibility.
-
-Keep application code, tests, reusable authoring tools, current booklet/bank content and referenced assets in Git. Local render caches, extracted evidence, run logs and automatic project revision histories are not release files. Preserve original source documents and useful recovery/evidence records locally when cleaning temporary renders.
-
-Follow [the storage policy](docs/booklet-storage.md): keep fast autosaving separate from five-minute recovery checkpoints; repeated fine adjustments must not create a whole-booklet backup on every save. Studio retains the latest 20 loose checkpoints plus explicit milestones and archives older snapshots with verified hashes. Keep the ignored `booklets/.storage-archives/` objects, manifests and receipts together. Never apply project-history pruning to bank baselines. Preview maintenance before applying it; check live references and completed-run receipts before archiving staging payloads. Run `npm run repo:check` before committing; keep generated files out of Git and review justified source/content growth against `booklets/storage-policy.json`.
-
-Omit [example cues](docs/booklet-source-example-cues.md).
+This file is the always-on summary. The full rules, word for word, are in [docs/agent-rules.md](docs/agent-rules.md); every section there remains in force. Before doing a task, read the section of that page (and the guide it links) that matches the task.
+
+## Always
+
+- **Studio server (port 5173) may be serving the user remotely.** Reuse a running server; do not stop or restart it unless the task needs it, and say so first. Start it only with the `mathsmap-dev` launch configuration (`npx vite --config remote/vite.remote.config.js --port 5173 --strictPort --host 127.0.0.1`), never `npm run dev` or plain `npx vite`. Never start or stop the tunnel, expose 5173 directly or remove the Access login. Keep remote-access code in `remote/`, out of `vite.config.js` and `scripts/` (hash-bound by export evidence). [Detail](docs/agent-rules.md#remote-studio-access-8-october-2026-user-requested)
+- **Shared checkout.** Other sessions run imports and repairs here. Before editing `src/`, `scripts/`, `public/`, `data/` or `vite.config.js`, or pruning, check for running `lean-import.mjs`, `lean-review.mjs` or export processes. Never clear run folders with `rm -rf`, `Remove-Item -Recurse` or `git clean` (they hold junctions to `node_modules`). Commit with explicit paths.
+- **Workers.** At most three model workers per booklet, shared by every session using that booklet's run directory. On Windows, launch Codex worker runners with `sandbox_permissions: "require_escalated"` from the first attempt; keep each worker `--sandbox read-only`. [Detail](docs/agent-rules.md#windows-codex-worker-launches-6-october-2026-user-requested)
+- **Saves.** Booklet saves are revision-checked. Never write bank files directly; publish with `import-project-bank.mjs`, which links identical questions. Preserve completed work, provenance and in-flight calls. Never migrate booklets on load.
+- **Feedback is general.** A user comment applies to every applicable occurrence in every booklet unless the user limits it. Fix shared causes centrally.
+- **Waiting.** Use 60-second waits for healthy long-running work; avoid extra polling.
+- Run `npm run repo:check` before committing. Keep this file short: the limit is set in `booklets/storage-policy.json`; put detail in `docs/`.
+
+## Models
+
+| Work | Model |
+| --- | --- |
+| New content (backfill, bridges, worked examples, guided practice) | `claude-sonnet-5-5`, exactly; never substitute |
+| Pedagogy audit v2 (booklet masters), every call | `claude-sonnet-5-5` medium |
+| Booklet imports: reviews, ratings, challenges; difficulty-only rating calls | `gpt-6.1-sol` low |
+| Other booklet reviews, ratings, challenges | `gpt-6.1-terra` high |
+| Everything else | its existing setting |
+
+A Sol low fallback must be explicit, never automatic. [Detail](docs/agent-rules.md#opening-lines-5-november-and-30-october-2026)
+
+## Which guide to read
+
+| Task | Read |
+| --- | --- |
+| Any booklet or question-bank work | [standing conventions](docs/booklet-standing-conventions.md), [cross-session rules](docs/booklet-cross-session-rules.md) |
+| New booklet import | [three-pass import, streamlined completion](docs/booklet-three-pass-import.md#streamlined-completion-24-october-2026), [transcription checklist](docs/booklet-transcription-feedback-checklist.md), [direct compact workflow](docs/booklet-direct-compact-import.md); `lean-review.mjs finish` completes an import |
+| Feedback repair on named blocks | [lean local repairs](docs/agent-rules.md#lean-local-feedback-repairs-5-october-2026), [change runbook](docs/booklet-change-runbook.md) |
+| Verification scope | [verification cuts](docs/booklet-verification-cuts-20261030.md), else [lean acceptance](docs/booklet-lean-acceptance.md) |
+| Layout, clozes, tables, diagrams, avatars, alignment | [agent rules](docs/agent-rules.md#preset-arrangements-templated-diagrams-and-avatars-4-october-2026) and the sections after it; [diagram sizing](docs/booklet-diagram-sizing.md); 3D diagrams: [visibility contract](docs/solid-visibility.md) |
+| Part labels, sample answers, exam marks and order, vertex labels | [agent rules](docs/agent-rules.md#part-labels-run-in-one-sequence-11-october-2026-user-requested); [exam marks and order](docs/booklet-exam-marks-and-order.md) |
+| Bank publication and duplicates | [bank linking](docs/booklet-bank-auto-sync.md#duplicates-and-linking-9-october-2026-user-approved); no cross-booklet duplicate tooling ([retired](retired/cross-booklet-duplicates-20261027/README.md)) |
+| Ratings | [rating policy](docs/question-bank-assessment.md) |
+| Pedagogy review or audit | [pedagogy review](docs/booklet-pedagogy-review.md), [audit v2](docs/booklet-pedagogy-audit-v2.md), [programme status](docs/booklet-end-goal-programme.md) |
+| Exam completion | [completion workflow](docs/booklet-exam-completion.md) |
+| Polish before teacher review | [polish pipeline](docs/booklet-verification-speed.md) (`polish/run.mjs`) |
+| Pruning run folders after delivery | [storage](docs/booklet-storage.md#pruning-run-folders) |
+| Skill-content campaign `worked-examples-2026-09` | [moved sections](docs/agents-moved-20261103.md) |
+| Anything else | [docs index](docs/README.md) |
