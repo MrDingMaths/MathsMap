@@ -111,7 +111,7 @@ test('reply validation catches omitted, duplicated and mismatched tasks',()=>{
  assert.throws(()=>validateRatingReply({ratings:[]},rows),/exactly one/);assert.throws(()=>validateRatingReply({ratings:[{...reply.ratings[0],taskHash:'old'}]},rows),/identity/);
 });
 test('backfill saves a real runner result once and reuses it on resume',async t=>{
- const {root}=await fixture(t);let calls=0;const runner=async ({prompt})=>{calls++;const payload=JSON.parse(prompt.slice(prompt.indexOf('{"questions":')));return {result:{ratings:payload.questions.map(q=>({id:q.id,...raw}))},metrics:{model:metadata.model,endedAt:metadata.assessedAt}};};
+ const {root}=await fixture(t);let calls=0;const runner=async ({prompt,configuration})=>{assert.equal(configuration.model,'gpt-6.1-sol');assert.equal(configuration.effort,'low');calls++;const payload=JSON.parse(prompt.slice(prompt.indexOf('{"questions":')));return {result:{ratings:payload.questions.map(q=>({id:q.id,...raw}))},metrics:{model:metadata.model,endedAt:metadata.assessedAt}};};
  const result=await rateStudio({root,apply:true,runner,onEvent:()=>{}});assert.equal(result.assessed,1);assert.equal(result.coverage.missing,0);const resumed=await rateStudio({root,apply:true,runner,onEvent:()=>{}});assert.equal(resumed.coverage.missing,0);assert.equal(calls,1);
 });
 test('original image pixels are attached and mapped to their owning question',async t=>{

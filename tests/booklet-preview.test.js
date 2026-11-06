@@ -104,3 +104,15 @@ test('import preview recognises paired rewrite tables and hides model-only title
   document.blocks.shift();
   assert.equal(visibleImportedQuestionTitle({title:'NAPLAN C',content:{prompt:document}}),'NAPLAN C','A missing native attribution remains visible');
 });
+import {teachingColumnHeadings,teachingPairHeadings,separateStackedGuidedPractice} from '../src/lib/booklet-preview.js';
+test('stacked Your turn uses a separate Guided practice box without changing saved content',()=>{
+ const atom={id:'pair',kind:'example',label:'Example'},blocks=[{id:'e',type:'worked-example',sourceAtom:atom,pairedBlockId:'g'},{id:'g',type:'question',sourceAtom:atom,presentation:{studentRole:'your-turn'}}],before=structuredClone(blocks),items=groupBookletBlocks(blocks);
+ assert.deepEqual(items.map(i=>i.type),['teaching-atom','teaching-atom']);assert.deepEqual(items.map(i=>i.atom.label),['Example','Guided practice']);assert.deepEqual(items.map(i=>i.blocks.map(b=>b.id)),[['e'],['g']]);assert.deepEqual(blocks,before);
+});
+test('explicit side-by-side teaching keeps the pair and supplies black-heading labels',()=>{
+ const atom={id:'pair',kind:'example',label:'Example'},blocks=[{id:'e',type:'worked-example',sourceAtom:atom,flow:{teachingColumns:[['e'],['g']]}},{id:'g',type:'question',sourceAtom:atom,presentation:{studentRole:'your-turn'}}],items=groupBookletBlocks(blocks);
+ assert.equal(items.length,1);assert.deepEqual(teachingColumnHeadings(items[0]),['Worked example','Your turn']);assert.equal(separateStackedGuidedPractice(items[0])[0],items[0]);
+});
+test('distinct side-by-side example and practice groups receive Worked example and Your turn headings',()=>{
+ const items=groupBookletBlocks([{id:'e',type:'worked-example',sourceAtom:{id:'example',kind:'example'},pairedBlockId:'g'},{id:'g',type:'question',sourceAtom:{id:'guided',kind:'guided-practice'}}]);assert.equal(items[0].type,'teaching-pair');assert.deepEqual(teachingPairHeadings(items[0].groups),['Worked example','Your turn']);
+});

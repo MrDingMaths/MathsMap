@@ -40,3 +40,9 @@ export function requireCurrentReview(configuration) {
     throw new Error('Review configuration must explicitly record its provider, model and effort');
   return configuration;
 }
+
+// Difficulty-only calls have their own user-selected route. Keep the review
+// compatibility envelope so historical call metrics remain readable.
+export function difficultyRatingConfiguration() {
+  return reviewConfiguration({reviewFallback:{model:'gpt-6.1-sol',effort:'low',reason:'5 November 2026 user policy: use Sol 6.1 Low for difficulty ratings; preserve existing valid ratings. Other reviews retain Terra High.'}});
+}

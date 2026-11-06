@@ -16,7 +16,8 @@ test('table part gutters render centrally without changing editable text',()=>{
  assert.equal(hasTablePartLabel({...paragraph,inlines:[{type:'math',latex:'a'},...paragraph.inlines.slice(1)]}),false);
  const prose=table();prose.blocks[0].rows[0][0].blocks[0].inlines=[{type:'text',text:'a  ',marks:['bold']},{type:'text',text:'9 is a factor of 18'}];
  const original=JSON.stringify(prose);
- for(const editable of [false,true])assert.match(renderDocument(prose,{editable}),/min-width:7mm">a<\/strong>9 is a factor of 18/);
+ assert.match(renderDocument(prose),/min-width:7mm">a<\/strong>9 is a factor of 18/);
+ assert.match(renderDocument(prose,{editable:true}),/min-width:7mm">a  <\/strong>9 is a factor of 18/);
  assert.equal(JSON.stringify(prose),original);
 });
 test('nested borderless table clozes retain baseline leaders and meaningful table suppression',()=>{

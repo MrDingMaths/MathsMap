@@ -6,6 +6,7 @@ import path from 'node:path';
 import {createEditableProject,createProjectBlock} from '../../src/lib/editable-booklet-model.js';
 import {createBookletProject,listBookletProjects,openBookletProject,loadBookletProject,saveBookletProject,duplicateBookletProject,getProjectBankSync,updateProjectLibrary} from './project-studio-server.mjs';
 import {validateCaptureBase} from './local-preview-url.mjs';
+import {deleteBookletProject} from './project-studio-server.mjs';
 
 const base=validateCaptureBase(process.argv[2]??'http://localhost:5173');
 const root=await fs.mkdtemp(path.join(os.tmpdir(),'booklet-library-ui-'));
@@ -32,7 +33,9 @@ await page.route('**/__booklet/**',async route=>{
      else if(action==='bank-sync')result=await getProjectBankSync(id,options);
      else if(action==='duplicate')result=await duplicateBookletProject(id,{...options,...req.postDataJSON()});
      else if(action==='library'&&req.method()==='PATCH'){const body=req.postDataJSON();libraryPatches.push(id);result=await updateProjectLibrary(id,body.library,{...options,expectedRevision:body.expectedRevision,title:body.title});}
+     else if(req.method()==='PATCH')return route.fulfill({status:405,json:{error:'Use PUT in this test harness'}});
      else if(req.method()==='PUT'){const body=req.postDataJSON();result=await saveBookletProject(body.project,{...options,expectedRevision:body.expectedRevision});}
+     else if(req.method()==='DELETE')result=await deleteBookletProject(id,req.postDataJSON().confirmId,options);
      else if(req.method()==='GET')result=await loadBookletProject(id,options);
      else throw Error('Unexpected mutation');
    }else if(req.method()==='GET')return route.continue();
@@ -115,6 +118,27 @@ try{
  await page.getByLabel('Subtitle',{exact:true}).fill('After rename');await page.getByLabel('Subtitle',{exact:true}).press('Tab');await saved();
  const reopened=await loadBookletProject(openId,options);assert.equal(reopened.subtitle,'After rename');assert.equal(reopened.title,'Open renamed');
  assert.ok(await find('Open renamed'));
- assert.deepEqual(errors,[]);console.log('Passed: keyboard/search, class copy, details/save/reopen, archive/restore, narrow picker, preview/print visibility, new categories, bulk category/course, rename without opening and rename of the open booklet.');
+ await fileMenu();await page.getByRole('button',{name:'Manage booklets…',exact:true}).click();
+ assert.equal(await manager.getByRole('button',{name:'Delete Library Algebra',exact:true}).count(),0);
+ const deleteCopy=manager.getByRole('button',{name:'Delete Library Algebra for 8MAT6',exact:true});
+ page.once('dialog',dialog=>dialog.dismiss());await deleteCopy.click();assert.ok(await loadBookletProject(classId,options));
+ page.once('dialog',dialog=>dialog.accept(classId));await deleteCopy.click();
+ await manager.getByText('Deleted “Library Algebra for 8MAT6”.',{exact:true}).waitFor();
+ assert.equal((await listBookletProjects(options)).some(p=>p.id===classId),false);
+ await manager.getByRole('button',{name:'Close',exact:true}).click();
+ await picker.click();await page.getByLabel('Search projects',{exact:true}).fill('Library Algebra');
+ await page.locator('#project-library-menu .results button').filter({hasText:/^Library Algebra$/}).click();await ready();
+ await fileMenu();await page.getByRole('button',{name:'Create class booklet',exact:true}).click();
+ await page.getByRole('dialog').getByLabel('Class label',{exact:true}).fill('Delete open');
+ await page.getByRole('dialog').getByRole('button',{name:'Create class booklet',exact:true}).click();await ready();
+ const openCopy=(await listBookletProjects(options)).find(p=>p.library.classLabel==='Delete open');
+ await fileMenu();await page.getByRole('button',{name:'Manage booklets…',exact:true}).click();
+ page.once('dialog',dialog=>dialog.accept(openCopy.id));
+ await manager.getByRole('button',{name:'Delete '+openCopy.title,exact:true}).click();
+ await manager.getByText(`Deleted “${openCopy.title}”.`,{exact:true}).waitFor();
+ await manager.getByRole('button',{name:'Close',exact:true}).click();
+ await page.getByRole('heading',{name:'Open a booklet',exact:true}).waitFor();
+ assert.equal((await listBookletProjects(options)).some(p=>p.id===openCopy.id),false);
+ assert.deepEqual(errors,[]);console.log('Passed: library flows, class-copy deletion cancellation, deletion without opening, and deletion of the open class copy.');
 }catch(e){await page.screenshot({path:path.join(out,'failure.png')});console.error((await page.locator('body').innerText()).slice(-5000));throw e;}
 finally{await browser.close();await fs.rm(root,{recursive:true,force:true});}

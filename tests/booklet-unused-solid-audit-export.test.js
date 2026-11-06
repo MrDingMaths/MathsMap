@@ -24,6 +24,8 @@ test('completed planar export survives only an unused solid-auditor change',t=>{
  const out=path.join(root,'.booklet-work/out'),snapshot=path.join(out,'runtime'),projectFile=path.join(root,'project.json');
  const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,value);};
  write(path.join(root,'scripts/lib/solid-audit.mjs'),'original solid auditor');
+ // The checker loads the auditor, so it is a print dependency, not a host-only tool.
+ write(path.join(root,'scripts/booklet/check-compact-exercises.mjs'),"import '../lib/solid-audit.mjs';");
  const files=snapshotFiles(root);for(const row of files)write(path.join(snapshot,row.path),fs.readFileSync(path.join(root,row.path)));
  write(path.join(out,'runtime-manifest.json'),JSON.stringify({root,snapshot,files}));
  write(path.join(out,'frozen-export-receipt-1.json'),JSON.stringify({status:0}));

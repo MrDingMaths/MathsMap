@@ -87,11 +87,11 @@ test('review source numbering preserves unnumbered objectives and stems without 
  const defaults=blocks.map(({presentation,...b})=>b);
  assert.deepEqual(Object.values(teachingLabels(defaults)),['1','2','3']);
 });
-test('teaching boxes label parts continuously across blocks and omit root question numbers',()=>{
+test('guided practice resets each independent question and omits root question numbers',()=>{
  const blocks=[question('q1'),question('q2')],labels=teachingLabels(blocks);
- assert.deepEqual(Object.values(labels),['','a','b','','c','d']);
+ assert.deepEqual(Object.values(labels),['','a','b','','a','b']);
  for(const b of blocks){const catalog=arrangementCatalog(b,{labels});assert.equal(catalog.entries.get(b.content.id+'/label').value,'');}
- const preview=labelledTeachingQuestion(blocks[1],labels);assert.equal(preview.sourceOrder,null);assert.equal(preview.content.children[0].label,'c');assert.equal(blocks[1].content.children[0].label,'1');
+ const preview=labelledTeachingQuestion(blocks[1],labels);assert.equal(preview.sourceOrder,null);assert.equal(preview.content.children[0].label,'a');assert.equal(blocks[1].content.children[0].label,'1');
 });
 
 test('separately prompted nested teaching tasks retain their repeated source part labels',()=>{
@@ -169,4 +169,7 @@ test('standalone multiline prompts use top labels in inline and display encoding
  assert.equal(hasTopAlignedMathPrompt(doc(true,[{type:'text',text:'Simplify '} ])),false);
  assert.equal(hasTopAlignedMathPrompt({blocks:[{type:'paragraph',inlines:[{type:'math',latex:'x^2',display:true}]}]}),false);
  assert.equal(hasTopAlignedMathPrompt('ordinary prose'),false);
+});
+test('guided responses restart after a labelled worked example in the same source group',()=>{
+ const blocks=[{id:'worked',type:'worked-example',sourceAtom:{id:'pair',kind:'example'},presentation:{exampleLabels:{wa:'a',wb:'b'}},examples:[{id:'wa'},{id:'wb'}]},{...question('guided','example'),sourceAtom:{id:'pair',kind:'example'},presentation:{studentRole:'your-turn'}}];const labels=teachingLabels(blocks);assert.equal(labels['guided-a'],'a');assert.equal(labels['guided-b'],'b');
 });

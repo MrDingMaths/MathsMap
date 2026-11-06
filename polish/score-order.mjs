@@ -53,13 +53,15 @@ function recordedMethodSnapshot(map,file,projectId,readJson){
  for(const name of fs.readdirSync(directory)){if(!name.endsWith('.json'))continue;const snapshot=matching(path.join(directory,name));if(snapshot)return snapshot;}
  throw Error('review snapshot hash not found in map directory');
 }
-export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFileSync(f,'utf8')),referenceAdaptations=[],practiceSupportDecision=null}={}){
+export function reviewedMethodSupport(project,{readJson=f=>JSON.parse(fs.readFileSync(f,'utf8')),referenceAdaptations=[],practiceSupportDecision=null,equivalentContent=null}={}){
+ // equivalentContent(current, reviewed): an optional caller-supplied equivalence (the pedagogy
+ // audit passes diagram-blind equality); absent, only identical content matches as before.
  const cache=new Map(),edges=[],holds=[],practiceSupportCandidates=[],currentBlocks=new Map((project.sections??[]).flatMap(s=>(s.blocks??[]).map(b=>[b.id,b]))),currentOwners=owners(project);
  // Only an explicit replay of the reference-number transformer can establish
  // reference-only equivalence; the current references must retain its targets.
  const adaptationCache=new Map();let currentReferences;
  const matchesReviewed=(current,reviewed)=>{
-  if(sameContent(current,reviewed))return true;
+  if(sameContent(current,reviewed)||(typeof equivalentContent==='function'&&equivalentContent(current,reviewed)))return true;
   return Array.isArray(referenceAdaptations)&&referenceAdaptations.some(adaptation=>{
    try{
     let replay=adaptationCache.get(adaptation);

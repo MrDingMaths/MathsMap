@@ -38,6 +38,10 @@ test('blank verso is excluded from body utilisation even when geometry supplies 
 test('page QA accepts only an actually empty designated blank page',()=>{
  const article={dataset:{blankPage:'true',pageNumber:'4'},children:[],textContent:''};
  assert.deepEqual(inspectBookletPage(article).issues,[]);
- assert.equal(inspectBookletPage({...article,textContent:'Footer'}).issues[0].kind,'nonempty-blank-page');
+ const chrome=[{tagName:'DIV',dataset:{blankPageLabel:'true'}},{tagName:'FOOTER',dataset:{}}];
+ assert.deepEqual(inspectBookletPage({...article,children:chrome}).issues,[]);
+ assert.equal(inspectBookletPage({...article,children:[...chrome,{tagName:'MAIN',dataset:{}}]}).issues[0].kind,'nonempty-blank-page');
  assert.equal(inspectBookletPage({...article,children:[{}]}).issues[0].kind,'nonempty-blank-page');
+ assert.equal(inspectBookletPage({...article,children:chrome,childNodes:[{nodeType:3,textContent:'unexpected content'}]}).issues[0].kind,'nonempty-blank-page');
+ assert.deepEqual(inspectBookletPage({...article,children:chrome,childNodes:[{nodeType:3,textContent:' \n '},{nodeType:8,textContent:'framework comment'}]}).issues,[]);
 });

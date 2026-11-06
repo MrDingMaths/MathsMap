@@ -229,6 +229,16 @@ export function selectDenseFeedbackPages(selected,scores,count){
  const densePages=[...selected].sort((a,b)=>(scores[b-1]??0)-(scores[a-1]??0)||a-b).slice(0,count);
  return {densePages,selected:[...new Set(densePages.flatMap(p=>[p-1,p,p+1]))].filter(p=>selected.includes(p)).sort((a,b)=>a-b)};
 }
+// Bounded maintenance checks affected pages and neighbours. Keep unrelated
+// findings visible as history; checks-only editions still check every page.
+export function partitionFeedbackPageIssues(qa,{selected=[],bounded=false,checksOnly=false}={}){
+ const affected=new Set(selected),issues=[],offScopeIssues=[];
+ for(const [i,p] of qa.entries())for(const issue of p.issues){
+  const row={page:i+1,...issue};
+  (bounded&&!checksOnly&&!affected.has(i+1)?offScopeIssues:issues).push(row);
+ }
+ return {issues,offScopeIssues};
+}
 const TIKZ_COUNTERS=['compiles','memoryHits','idbHits','serverHits','driverHits','failures'];
 const within=(pages,count)=>[...new Set(pages)].filter(page=>Number.isInteger(page)&&page>=1&&page<=count).sort((a,b)=>a-b);
 
@@ -546,9 +556,10 @@ async function main(){
     if(byBlocks&&edition==='student'){const present=new Set(result.pages.flatMap(p=>p.blocks??[])),unknown=survivingRepairBlocks(candidate,baselineProject,blockIds).filter(id=>!present.has(id));if(unknown.length)report.failures.push({edition,kind:'unknown-block',blocks:unknown});}
     const plan=inspectionPlan({edition,selected:selection.selected,boundaries:selection.boundaries,pages:result.pages,studentPages:student.pages,studentSelected:student.selected});
     result.diagrams=await result.inspectDiagrams(selection.selected);
-    const issues=result.qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).concat(result.diagrams.issues);
+    const pageQA=partitionFeedbackPageIssues(result.qa,{selected:selection.selected,bounded:byBlocks,checksOnly:onlyChecks});
+    const issues=pageQA.issues.concat(result.diagrams.issues);
     const entry={baseline:{pages:baseline.pages.length,revision:baseline.revision,projectHash:baseline.projectHash},pageCount:result.pages.length,pages:result.pages,...selection,inspection:plan,inspectHere:plan.filter(p=>p.inspectIn===edition).map(p=>p.page),
-     issues,missingLinks:result.info.missingLinks,links:result.info.links,diagramFigures:result.diagrams.figures.length,diagramFiguresTotal:result.diagrams.figuresTotal,diagramVisualFindings:result.diagrams.visualFindings,timings:result.timings,tikz:result.tikz,diagramVersion:result.diagramVersion,printed:[],pdf:null,images:[]};
+     issues,offScopeIssues:pageQA.offScopeIssues,missingLinks:result.info.missingLinks,links:result.info.links,diagramFigures:result.diagrams.figures.length,diagramFiguresTotal:result.diagrams.figuresTotal,diagramVisualFindings:result.diagrams.visualFindings,timings:result.timings,tikz:result.tikz,diagramVersion:result.diagramVersion,printed:[],pdf:null,images:[]};
     report.editionsReport[edition]=entry;
     if(issues.length)report.failures.push({edition,kind:'layout',count:issues.length});
     if(result.info.missingLinks.length)report.failures.push({edition,kind:'navigation',links:result.info.missingLinks});

@@ -43,10 +43,11 @@ test('parent and child targets count once inside a dependent item but cannot spa
  archetypes.questions.a.practiceItems=[{nodeIds:['root','first','first']}];assert.throws(()=>report(project,{archetypes}),/Invalid or reused practice node/);
  archetypes.questions.a.practiceItems=[{nodeIds:['root','not-a-node']}];assert.throws(()=>report(project,{archetypes}),/Invalid or reused practice node/);
 });
-test('unreviewed multipart content holds sufficiency instead of inventing a block deficit',()=>{
+test('an unreviewed multipart question counts as one item instead of holding sufficiency',()=>{
  const b=q('a',20);b.content={id:'root',children:[{id:'one',type:'part'},{id:'two',type:'part'}]};
  const archetypes={questions:{a:{archetype:'routine'}},topics:[{topicId:'a',archetypes:[{id:'routine',coverage:'covered'}]}]};
- const t=report({sections:[section('a',[b])]},{archetypes}).topics[0];assert.equal(t.sufficiencyStatus,'unassessable');assert.deepEqual(t.missingItemReview,['a']);assert.equal(t.coverage[0].gap,null);
+ const t=report({sections:[section('a',[b])]},{archetypes}).topics[0];assert.equal(t.sufficiencyStatus,'pending-calibration');assert.deepEqual(t.missingItemReview,['a']);
+ assert.equal(t.itemBasis[0].basis,'unreviewed-multipart-one-item');assert.equal(t.coverage[0].count,1);assert.equal(t.coverage[0].gap,2,'one item against the minimum of three');
 });
 test('approved candidate moves own challenge questions without adding content; incomplete map blocks publication',async()=>{
  const {challengeSplitCandidate}=await import('../polish/challenge-split.mjs');

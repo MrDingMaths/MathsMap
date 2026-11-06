@@ -8,6 +8,19 @@ import {survivingRepairBlocks} from '../scripts/booklet/check-feedback-pages.mjs
 import {feedbackDevelopmentReason} from '../scripts/booklet/check-feedback-pages.mjs';
 import {feedbackFailureMessage,withFeedbackFailureDiagnostic} from '../scripts/booklet/check-feedback-pages.mjs';
 import {feedbackArguments} from '../scripts/booklet/shared-render-runner.mjs';
+import {partitionFeedbackPageIssues} from '../scripts/booklet/check-feedback-pages.mjs';
+
+test('bounded maintenance retains unrelated QA as history without hiding affected or neighbour failures',()=>{
+ const qa=Array.from({length:6},()=>({issues:[]}));
+ qa[1].issues=[{kind:'overflow'}];qa[2].issues=[{kind:'clipping'}];qa[5].issues=[{kind:'booklet-palette',id:'unchanged-exam'}];
+ const result=partitionFeedbackPageIssues(qa,{selected:[2,3,4],bounded:true});
+ assert.deepEqual(result.issues,[{page:2,kind:'overflow'},{page:3,kind:'clipping'}]);
+ assert.deepEqual(result.offScopeIssues,[{page:6,kind:'booklet-palette',id:'unchanged-exam'}]);
+ for(const options of [{selected:[2,3,4]},{bounded:true,checksOnly:true}]){
+  const full=partitionFeedbackPageIssues(qa,options);assert.equal(full.issues.length,3);assert.deepEqual(full.offScopeIssues,[]);
+ }
+ assert.equal(partitionFeedbackPageIssues(qa,{bounded:true}).offScopeIssues.length,3);
+});
 
 test('failure diagnostics preserve successes and the original exception if capture fails',async()=>{
  let captures=0;

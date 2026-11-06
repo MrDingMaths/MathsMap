@@ -176,6 +176,16 @@ test('only an unreferenced campaign skill file is unrelated; scripts, data and o
  assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/,'an imported orchestrator remains guarded');
 });
 
+test('a later edit to a script the renderer never loads is not a print change; scripts it loads stay guarded',()=>{
+ const f=fixture(),tool='scripts/booklet/host-report.mjs';
+ f.write(path.join(f.root,tool),'one');
+ const files=snapshotFiles(f.root);for(const row of files)f.write(path.join(f.snapshot,row.path),fs.readFileSync(path.join(f.root,row.path)));
+ f.write(path.join(f.out,'runtime-manifest.json'),JSON.stringify({root:f.root,snapshot:f.snapshot,files}));
+ f.write(path.join(f.root,tool),'two');
+ assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
+ f.write(path.join(f.root,'src/renderer.js'),`import '../${tool}';`);
+ assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+});
 test('assembly-only answer provenance changes preserve printed PDFs while direct and transitive runtime imports stay guarded',()=>{
  const f=fixture(),assembler='scripts/booklet/assemble-semantic-packets.mjs',helper='scripts/booklet/answer-evidence.mjs';
  f.write(path.join(f.root,assembler),"import {x} from './answer-evidence.mjs';");
@@ -195,8 +205,9 @@ test('assembly-only answer provenance changes preserve printed PDFs while direct
  }
  f.write(path.join(f.root,'src/renderer.js'),'original renderer');
  f.write(path.join(f.root,'scripts/booklet/unknown-checker.mjs'),"import {x} from './answer-evidence.mjs';");
- assert(snapshotFiles(f.root).some(row=>row.path===helper),'An unknown caller remains conservative');
- assert.throws(()=>verifyCompletedFrozenExport(f.options),/dependencies changed/);
+ assert(snapshotFiles(f.root).some(row=>row.path===helper),'An unknown caller is still frozen conservatively');
+ // The frozen copy prints the PDFs; a host tool the renderer never loads cannot change them.
+ assert.equal(verifyCompletedFrozenExport(f.options).reused,true);
 });
 test('a passing export survives an unrelated campaign write made while it ran, and fails on a renderer change',async()=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'export-campaign-')),write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,value);};

@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createEditableProject} from '../src/lib/editable-booklet-model.js';
-import {diagramSizeTargets,targetWidths,setDiagramWidths,sizeModeFor} from '../src/lib/booklet-diagram-size.js';
+import {diagramSizeTargets,targetWidths,setDiagramWidths,reserveDiagramHeights,sizeModeFor} from '../src/lib/booklet-diagram-size.js';
+import {resolveArrangement} from '../src/lib/booklet-arrangement.js';
+import {arrangementItems} from '../public/libs/maths-editor/arrangement-model.mjs';
 import {answerDiagramWidth} from '../src/lib/booklet-exercises.js';
 
 const figure={id:'fig',format:'tikz',code:'\\draw (0,0)--(1,1);',widthMm:80,alt:'triangle'};
@@ -25,9 +27,7 @@ test('height targets keep the rendered aspect; scale, match and clamping',()=>{
  assert.deepEqual(targetWidths(rows,'match-tallest',0,measured).map(r=>r.targetMm),[180,90]);
  assert.equal(targetWidths(rows,'width',400,measured)[0].targetMm,190);
  assert.equal(targetWidths(rows,'height',30,{})[0].targetMm,null,'no aspect, no guess');
- assert.deepEqual(targetWidths(rows,'min-height',60,measured).map(r=>r.targetMm),[120,null],'only shorter diagrams grow');
- assert.deepEqual(targetWidths(rows,'min-height',30,measured).map(r=>r.targetMm),[null,null]);
- assert.equal(targetWidths(rows,'min-height',60,{})[0].targetMm,null);
+ assert.deepEqual(targetWidths(rows,'min-height',60,measured).map(r=>r.targetMm),[null,null],'minimum height never resizes');
 });
 
 test('writes keep the diagram, its stored layout width and the arrangement in step; answers write their edition',()=>{
@@ -40,4 +40,18 @@ test('writes keep the diagram, its stored layout width and the arrangement in st
  const answers=setDiagramWidths(p,[{blockId:'q',id:'sol',targetMm:44}],'worked');
  assert.equal(answerDiagramWidth(answers.settings.compactAnswers,'worked',solution),44);
  assert.deepEqual(answers.sections,p.sections);
+});
+
+test('minimum height reserves arrangement space, keeps every diagram size and clears with 0',()=>{
+ const p=fixture(),before=JSON.stringify(p),rows=diagramSizeTargets(p,['q']);
+ const {project:next,skipped}=reserveDiagramHeights(p,rows,45);
+ assert.equal(JSON.stringify(p),before);assert.deepEqual(skipped,[]);
+ const block=next.sections[0].blocks[0],stored=next.settings.layoutOverrides.blockLayouts.q.arrangement,resolved=resolveArrangement(block,stored,next.settings.layoutOverrides);
+ const items=arrangementItems(resolved.tree.root).filter(n=>resolved.entries.get(n.ref)?.kind==='diagram');
+ assert.deepEqual(items.map(n=>n.minHeight),[45,45]);
+ assert.deepEqual(block.content.questionDiagrams.map(d=>d.widthMm),[80,90],'diagram widths unchanged');
+ assert.deepEqual(diagramSizeTargets(next,['q']).map(r=>[r.widthMm,r.minHeightMm]),[[80,45],[90,45]]);
+ const cleared=reserveDiagramHeights(next,diagramSizeTargets(next,['q']),0).project;
+ assert.deepEqual(diagramSizeTargets(cleared,['q']).map(r=>r.minHeightMm),[null,null]);
+ assert.throws(()=>reserveDiagramHeights(p,rows,200),/between 0 and 180/);
 });

@@ -17,7 +17,7 @@ const entries=['src','data','public','scripts','polish/guards.mjs','polish/repai
 // These host coordinators never run in the frozen print checker. Exclude them
 // only while their imports remain confined to the known parent CLI callers.
 // A renderer/checker import restores the dependency, including old manifests.
-function printDependencyFiles(root,files){
+function runtimeClosure(root,files){
  const callers=new Map([
   ['scripts/booklet/lean-import.mjs',new Set()],
   ['scripts/booklet/semantic-packets.mjs',new Set()],
@@ -52,6 +52,10 @@ function printDependencyFiles(root,files){
    pending.push(...targets);
   }
  }
+ return {callers,sources,runtime};
+}
+function printDependencyFiles(root,files){
+ const {callers,sources,runtime}=runtimeClosure(root,files);
  return files.filter(row=>{
   const allowed=callers.get(row.path);if(!allowed)return true;
   if(runtime.has(row.path))return true;
@@ -64,6 +68,14 @@ export function snapshotFiles(root,names=entries){
  const files=[];const walk=relative=>{const file=path.join(root,relative);if(!fs.existsSync(file))return;const stat=fs.lstatSync(file);if(stat.isSymbolicLink())throw Error('Snapshot source must not be symbolic: '+relative);if(stat.isDirectory())for(const name of fs.readdirSync(file).sort())walk(path.join(relative,name));else if(stat.isFile())files.push({path:relative.replaceAll('\\','/'),hash:hash(file)});};
  names.forEach(walk);
  return printDependencyFiles(root,files);
+}
+// A frozen export prints from its copy, so a later live edit cannot change it.
+// Live drift matters only where it would change what the current renderer
+// prints: application, data and public files, package files and modules the
+// renderer or checker actually loads. Host-only tools are reported, not blocking.
+export function printRelevantChanges(root,files,changed){
+ const {runtime}=runtimeClosure(root,files);
+ return changed.filter(file=>/^(?:src|data|public)\//.test(file)||['index.html','vite.config.js','package.json','package-lock.json'].includes(file)||runtime.has(file));
 }
 export function snapshotDifferences(root,files){
  const actual=snapshotFiles(root),hashes=new Map(actual.map(row=>[row.path,row.hash]));
@@ -289,7 +301,7 @@ export function verifyCompletedFrozenExport({out,projectId,projectFile,artifactR
  if(attempt?.status!==0||attempt.error)throw Error('The complete five-edition checker has not passed');
  if(artifactReview&&attempt.changedDependencies?.some(file=>!scopedCampaignFile(file,project,manifest.root,manifest.snapshot)))throw Error('Dependencies changed during the completed export');
  if(snapshotDifferences(manifest.snapshot,manifest.files).length)throw Error('Frozen renderer changed');
- const changed=snapshotDifferences(manifest.root,manifest.files),unrelated=changed.every(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot));
+ const changed=printRelevantChanges(manifest.root,manifest.files,snapshotDifferences(manifest.root,manifest.files)),unrelated=changed.every(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot));
  // A fill review reads already completed PDF bytes. Later tool/renderer edits
  // cannot alter those pages; project, frozen runtime and PDF guards still apply.
  // Ordinary export reuse keeps its current-runtime dependency check.
@@ -332,7 +344,7 @@ export function prepareVerificationSnapshot({root=process.cwd(),out,project}){
  if(fs.existsSync(manifestFile)){
   const manifest=JSON.parse(fs.readFileSync(manifestFile,'utf8'));
   if(manifest.root!==root||manifest.snapshot!==snapshot)throw Error('Verification snapshot belongs to another workspace');
-  const changed=[...snapshotDifferences(root,manifest.files).filter(file=>!unrelated(file)),...snapshotDifferences(snapshot,manifest.files)];
+  const changed=[...printRelevantChanges(root,manifest.files,snapshotDifferences(root,manifest.files)).filter(file=>!unrelated(file)),...snapshotDifferences(snapshot,manifest.files)];
   if(changed.length)throw Error('Verification snapshot changed; preserve this output and use a new output directory: '+[...new Set(changed)].slice(0,12).join(', '));
   attachSharedRenderCache(root,snapshot);
   return manifest;
@@ -399,10 +411,10 @@ export async function exportWithFrozenRuntime({root=process.cwd(),out,projectId,
    status=await execute({root:manifest.root,args});
   }catch(e){status=null;error=e.message;}
   let project=null;try{project=JSON.parse(fs.readFileSync(inputs[0].file,'utf8').replace(/^\uFEFF/,''));}catch{}
-  const live=snapshotDifferences(manifest.root,manifest.files),unrelated=project?live.filter(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot)):[];
+  const drift=snapshotDifferences(manifest.root,manifest.files),live=printRelevantChanges(manifest.root,manifest.files,drift),hostOnly=drift.filter(file=>!live.includes(file)),unrelated=project?live.filter(file=>scopedCampaignFile(file,project,manifest.root,manifest.snapshot)):[];
   const changed=[...live.filter(file=>!unrelated.includes(file)),...snapshotDifferences(manifest.snapshot,manifest.files),...inputs.filter(i=>!fs.existsSync(i.file)||hash(i.file)!==i.hash).map(i=>i.file)];
   if(manifest.pin){try{if(verifyPinnedRuntime(manifest.snapshot).manifestHash!==manifest.pin.manifestHash)changed.push('Pinned execution manifest changed');}catch(e){changed.push(e.message);}}
-  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],unrelatedCampaignChanges:unrelated.filter(file=>!unrelatedProjectAssetFile(file,project,manifest.root)),unrelatedProjectAssetChanges:unrelated.filter(file=>unrelatedProjectAssetFile(file,project,manifest.root)),runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),...(manifest.pin?{pin:manifest.pin,executionRoot:manifest.root,privateOrigin:'http://127.0.0.1:'+server?.info?.port}:{}),freshEditionDocuments:true,visualAcceptance:false};
+  const receipt={version:1,at:new Date().toISOString(),status,error,regenerationReason:regenerationReason??null,changedDependencies:[...new Set(changed)],hostOnlyChanges:hostOnly,unrelatedCampaignChanges:unrelated.filter(file=>!unrelatedProjectAssetFile(file,project,manifest.root)),unrelatedProjectAssetChanges:unrelated.filter(file=>unrelatedProjectAssetFile(file,project,manifest.root)),runtimeManifest:path.join(path.resolve(out),'runtime-manifest.json'),...(manifest.pin?{pin:manifest.pin,executionRoot:manifest.root,privateOrigin:'http://127.0.0.1:'+server?.info?.port}:{}),freshEditionDocuments:true,visualAcceptance:false};
   fs.writeFileSync(path.join(out,'frozen-export-receipt-'+Date.now()+'.json'),JSON.stringify(receipt,null,2),{flag:'wx'});
   if(changed.length)throw Error('Export snapshot no longer matches live dependencies; passing artifacts remain preserved: '+changed.slice(0,12).join(', '));
   if(status!==0)throw Error('Export failed; resume the same output directory to reuse passed editions. Diagnose repeated failure before a third attempt.');

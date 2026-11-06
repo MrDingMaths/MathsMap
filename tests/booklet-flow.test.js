@@ -256,3 +256,8 @@ test('deleting one block of a teaching group keeps the rest; a group delete remo
  assert.deepEqual(ids(flowCommand(project,{type:'delete',ids:['r2'],single:true})),['intro','r1']);
  assert.deepEqual(ids(flowCommand(project,{type:'delete',ids:['intro']})),[]);
 });
+test('exercise opening skips guided-only sections and leading guided practice in a mixed section',()=>{
+ const guided=id=>({id,type:'question',sourceAtom:{id:'g',kind:'guided-practice'},content:{id:id+'-root',prompt:'Practice'}}),q={id:'exercise-q',type:'question',content:{id:'exercise-root',prompt:'Question'}};
+ const p={id:'p',title:'Book',topics:[{id:'t',title:'Topic'}],settings:{exerciseOrganisation:'topic'},sections:[{id:'g',topicId:'t',phase:'practice',blocks:[guided('g1')]},{id:'mixed',topicId:'t',phase:'practice',pageBreakBefore:false,blocks:[guided('g2'),q]}]};
+ const before=structuredClone(p),sections=flowEditionSections(p,'student'),blocks=sections.flatMap(s=>s.blocks);assert.equal(blocks.find(b=>b.flow.exerciseHeadingBefore)?.id,'exercise-q');assert.equal(blocks.find(b=>b.id==='g1').flow.exerciseHeadingBefore,undefined);assert.equal(blocks.find(b=>b.id==='exercise-q').flow.pageBreakBefore,true);assert.equal(sections.find(s=>s.sourceSectionId==='mixed').difficultyTitle,null);assert.deepEqual(p,before);
+});
