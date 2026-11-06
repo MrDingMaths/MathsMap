@@ -1,5 +1,7 @@
 # Booklet change runbook
 
+31 October 2026, user requested: Complete every requested feedback repair and its applicable verification before stopping. If an item is uncertain or more complex, continue investigating and working through it; leave it unfinished only for a genuine blocker, and report that blocker and the remaining work clearly.
+
 30 October: [approved verification cuts](booklet-verification-cuts-20261030.md) take precedence for programme work and bounded maintenance. Strictly mark-only and comment-only changes require scoped diff and guarded save/readback, without routine visual rendering; substantive content and output changes keep their focused checks.
 
 ## Import completion and repair routing (24 October 2026)
@@ -42,7 +44,7 @@ The report includes saved arrangements, fixed widths, table cells and annotation
 **Lean local repairs (5 October 2026, user-approved).** A repair confined to named blocks of one booklet uses the first matching row below and nothing more. The 5 October Earning Money repair (7 comments, 8 blocks, 23 minutes) printed 1,070 pages, rasterised 496 and inspected 36; its only automated catches were the first layout check and the answer-coverage check, and its only visual catch was on the answer pages. Studio reopens, the interaction script, readback, the bank comparison, `repo:check` and the combined-edition page inspections found nothing. For these repairs:
 
 - Run `check-feedback-pages.mjs --blocks` once after the changes settle and again only after a failure. Inspect the selected Questions pages. Add `short` or `worked` to `--editions` only when practice answers changed.
-- Combined editions get the automated answer-coverage and navigation checks (`--checks-only`, on by default) and are not printed or inspected. Name a combined edition in `--editions` only when covers, contents, answer-section transitions or footers changed.
+- Combined editions are not paginated for a local repair (30 October 2026: `--checks-only` defaults to `none`, or to `with-worked` when practice answers changed). Pass `--checks-only with-short,with-worked` when answer page counts may change, and name a combined edition in `--editions` only when covers, contents, answer-section transitions or footers changed. A rerun can take `--reuse-baseline DIR` (an earlier map of the same before-project) and `--reuse-images REPORT` (images and inspection of pages whose rendered-page hash and diagram version match); do not reuse images across shared CSS or renderer changes.
 - Reopen in Studio or script an interaction only when editor code or a Studio control changed. A renderer-only change is covered by the page check.
 - Check bank sync only when a changed block is bank-linked. Run `repo:check` only before committing or when assets were added.
 - Closeout is the before-snapshot, the revision-safe save and a short report to the user. See [section 6](#6-record-evidence-and-actual-costs).
@@ -123,7 +125,7 @@ For scoped feedback on an accepted booklet, prefer the single-browser page check
 node scripts/booklet/check-feedback-pages.mjs --project-file RUN/candidate.json --blocks BLOCK_ID,BLOCK_ID --out RUN/pages
 ```
 
-This renders no baseline. It runs the full-DOM layout, diagram and navigation checks on the Questions edition, prints and rasterises only the pages carrying those blocks and their neighbours, and runs the same checks plus answer coverage on `with-worked` without printing it (`--checks-only EDITIONS`, or `none`). A renderer change made with the repair therefore cannot select the whole booklet. An unknown block ID fails the run. On Earning Money this took 19 seconds and printed 8 pages, against 70–82 seconds and 359 pages for the page-hash comparison after a renderer change. `--editions` now defaults to `student`.
+This renders no baseline. It runs the full-DOM layout, diagram and navigation checks on the Questions edition, prints and rasterises only the pages carrying those blocks and their neighbours, and paginates no other edition unless `--checks-only EDITIONS` names one (the 30 October default is `none`; with a baseline project whose practice answers changed it is `with-worked`). A renderer change made with the repair therefore cannot select the whole booklet. An unknown block ID fails the run. On Earning Money this took 19 seconds and printed 8 pages, against 70–82 seconds and 359 pages for the page-hash comparison after a renderer change. `--editions` now defaults to `student`.
 
 Use the page-hash comparison when the affected blocks are not known in advance, such as a shared-renderer or style change:
 

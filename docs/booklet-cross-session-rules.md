@@ -1,5 +1,13 @@
 # Cross-session transcription and rendering rules
 
+## Lesson teaching, exercise openings and guided-practice labels (29 October 2026, user requested)
+
+A lesson's worked examples and guided practice precede its exercise. Only actual exercise content owns an Exercise heading; a section containing only guided practice never starts an exercise. Each independent guided-practice question resets its own part-label sequence at a (or 1 for a numbered task), even when it follows a worked example or shares a teaching group with another question. Continue labels only across fragments of that same question, preserving meaningful local labels and explicit exceptions. Apply these defaults to future worked-example and guided-practice additions without changing their approval or model requirements.
+
+## Guided practice and paired headings (29 October 2026, user requested)
+
+Stacked “Your turn” questions belong in their own standard **Guided practice** box, with no blue “Your turn” subheading. When a worked example and its response task are explicitly arranged side by side, use black bold **Worked example** and **Your turn** column headings. Preserve questions, solutions, source evidence, answer controls and meaningful column arrangements. Apply the shared display policy without rewriting stored mathematical content.
+
 ## Graphs with long question columns (27 October 2026, user requested)
 
 In non-exemplar master booklets, when a question column extends significantly below its adjacent graph, place the existing questions in a two-column grid below the graph. Keep the shared introduction above it, reading order, graph dimensions, all content and per-part handwriting space. Preserve explicitly meaningful local arrangements and teacher exceptions. This applies to the current master-booklet cohort and future authoring; textbook imports, class copies and exemplars are outside this maintenance scope. Use printed measurements rather than part count alone: the current maintenance uses at least 20 mm of overhang and a question column at least 35% taller than the graph as its trigger. `graphQuestionsBelow` in `src/lib/booklet-graph-question-layout.js` performs the explicit arrangement edit; never migrate stored layouts on load. Inspect affected pages and neighbours through the ordinary repair workflow.

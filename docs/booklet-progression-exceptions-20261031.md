@@ -1,5 +1,7 @@
 # Named progression exceptions approved 31 October 2026
 
+5 November 2026 (James): the global maximum step is now 15, not ten; see the [programme standing rules](booklet-end-goal-programme.md#standing-rules). The named sequences below stay fixed regardless of the limit.
+
 James approved preserving the existing grades and teaching order for the reviewed Derivative 43→58 and 24→36 comparisons and Coordinate Q8→Q9/Q10. Proposal: 31 October 2026, 20:07, `Sentinel_5260ab2c71a081918670cf049274928f`. Reply: 31 October 2026, 22:04, “I approve all”, `Sentinel_875e37e695fc8191a01b193911231909`. These are the named exceptions below, not a change to the programme's global maximum score step of ten.
 
 ## Calculations with the Derivative

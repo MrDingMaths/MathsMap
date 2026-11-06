@@ -819,6 +819,8 @@ export function runMap({projectFile,root=ROOT,skills,runDir}){
 }
 export async function main(args=process.argv.slice(2)){
  const command=args[0],values={},flags=new Set();
+ // Pedagogy audit v2 (docs/booklet-pedagogy-audit-v2.md) has its own options.
+ if(command==='audit-v2'){const result=await (await import('./audit-v2.mjs')).auditV2Main(args.slice(1));console.log(JSON.stringify(result,null,2));if(result?.blockers?.length)process.exitCode=1;return result;}
  for(let i=1;i<args.length;i++){
   if(['--candidates-only','--suggestions','--report-only','--dry-run'].includes(args[i])){flags.add(args[i]);continue;}
   if(!['--project','--project-file','--topics','--needs-topics','--review-effort','--approve','--defer','--resolve','--reject','--assume','--exports','--concurrency','--provenance-dir','--findings','--output','--map'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);

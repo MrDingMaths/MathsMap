@@ -1,5 +1,7 @@
 # Question-bank assessment
 
+5 November 2026, user requested: future difficulty-only ratings use exactly `gpt-6.1-sol` at low reasoning, through `difficultyRatingConfiguration()`. Preserve existing valid assessments from every model; do not rerate them merely to change model. Complete missing/default/stale/unverified ratings in existing booklets with guarded metadata-only saves. This supersedes the 30 October model choice for difficulty-only calls; independent content/pedagogy reviews and finding challenges retain Terra 6.1 High, and import authors retain their own actual assessment provenance. Completed/in-flight calls keep their actual provenance.
+
 30 October 2026: future booklet review/rating calls and finding challenges use Terra 6.1 High under the [review policy](booklet-pedagogy-review.md#review-model-30-october-2026). Preserve completed/in-flight provenance; transcription, Anthropic generation and separate content-campaign settings remain unchanged. No automatic fallback or routine double-model pass.
 
 ## LLM ratings for all Studio practice questions (21 October 2026)
