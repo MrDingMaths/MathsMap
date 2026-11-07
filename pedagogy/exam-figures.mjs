@@ -31,7 +31,7 @@ import {RUN as BATCH_RUN, PER_ARCHETYPE, nativeContent, buildScreen, poolRows, e
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const FIG = '.booklet-work/exam-figures-20261107';
-const RATER = {model: 'gpt-6.1-terra', effort: 'high'}, RATE_VERSION = 'rate-v2', REPAIR_ROUNDS = 1;
+const RATER = {model: 'gpt-6.1-terra', effort: 'high'}, RATE_VERSION = 'rate-v3', REPAIR_ROUNDS = 1;
 const AUTHOR_ROWS = 3, AUTHOR_IMAGES = 10, RATE_ROWS = 3;
 const DEFER = 'scope:deferred-20261107';
 const read = f => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
@@ -162,6 +162,9 @@ figure gives, never a derived answer. Redraw every source figure the question us
 (restyle it to the rules below). Start each code with the colour metadata line
 % mathsmap-diagram-colours {"version":1,"kind":"geometry" or "graph","base":[],"semantic":[],"reference":"row key figure N"}
 Every stroke uses a house-style line width (0.8, 0.5, 0.4, 0.25 or 0.15 pt); arrow tips are Stealth[length=2mm] or larger.
+Inside a PGFPlots axis never use \\foreach with axis cs coordinates (the axis defers drawing, so it does not compile):
+draw grids with the axis options (grid=both, minor tick num, major/minor grid style) or \\pgfplotsinvokeforeach.
+House style: never print O or 0 at the origin of Cartesian axes.
 Hold a row instead of guessing when a figure is illegible, contradicts the text, is a photograph or illustration with
 no mathematical content to redraw, or cannot be reconstructed faithfully.`;
 function authorBatches(selected, rowById, index) {
@@ -206,6 +209,15 @@ function normaliseDiagram(d, ref) {
   // A Stealth tip shorter than 2 mm renders with a stroke width (0.768 pt for 1.6 mm) that is not a house-style
   // role, so the print QA reports it as an unclassified graph stroke (7 November 2026, Area of Circles pilot).
   code = code.replace(/Stealth\[length=(\d*\.?\d+)mm/g, (all, mm) => Number(mm) < 2 ? 'Stealth[length=2mm' : all);
+  // PGFPlots draws ticks grey at 0.2 pt by default (even empty ones with xtick=\empty): outside the palette and the
+  // stroke roles. House-style ticks are black 0.4 pt; a later tick style in the axis options still applies.
+  if (/\\begin\{axis\}/.test(code)) code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt}}');
+  // Pattern (hatched) fills are outside the palette: shade with the standard light blue instead.
+  // Only a standalone pattern= option: "dash pattern=" is a line style and must stay.
+  if (/(?:^|[\[,])\s*pattern\s*=/m.test(code)) {
+    code = code.replace(/,\s*pattern color\s*=\s*[^,\]]+/g, '').replace(/([\[,])\s*pattern color\s*=\s*[^,\]]+,?/g, '$1').replace(/([\[,])\s*pattern\s*=\s*[^,\]]+/g, '$1fill=shadeBlue');
+    code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\definecolor{shadeBlue}{HTML}{D4E8FF}');
+  }
   return code;
 }
 
@@ -234,7 +246,8 @@ wording, numbers and givens, removing nothing but exam mark allocations; (2) eve
 source figure: the same shape and configuration, every label, length, angle, mark, point, scale and axis value, nothing
 missing, nothing added, and no derived answer shown; the redraw is clean and legible at print size, with no line
 through a label. House style, NOT a reason to reject: decorative shading or colour removed, or shading in the standard
-light blue where the question refers to a shaded region; labels moved for clarity; standard fonts; a figure drawn to
+light blue where the question refers to a shaded region; no O or 0 printed at the origin of Cartesian axes; labels
+moved for clarity; standard fonts; a figure drawn to
 its stated measurements where the source sketch was off-scale, provided the configuration and every given match; (3) solve it
 yourself from the adaptation and its redrawn figures alone: the short answer and the worked solution are correct and
 complete, and the question is answerable as drawn; (4) the answers use the booklet's own notation, shown in these
@@ -326,7 +339,13 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
     const diagrams = [...got.values()].flatMap(it => it.diagrams.map((d, i) => ({id: `${it.id}-d${i + 1}`, code: d.code})));
     const manifest = diagrams.length ? preview(id, diagrams, round) : [];
     const png = new Map(manifest.filter(m => m.png && !['fail', 'error', 'pending'].includes(m.status)).map(m => [m.field, path.join(dir, round ? 'preview-r' + round : 'preview', m.png)]));
-    for (const [k, it] of [...got]) { it.pngs = it.diagrams.map((_, i) => png.get(`${k}-d${i + 1}`)); if (it.pngs.some(p => !p)) { got.delete(k); holds.set(k, 'TikZ did not compile in Studio'); } }
+    // A figure that does not compile goes to the repair round with the reason; after the last round it is held.
+    const compileFail = {};
+    for (const [k, it] of [...got]) {
+      it.pngs = it.diagrams.map((_, i) => png.get(`${k}-d${i + 1}`));
+      const bad = it.pngs.map((p, i) => p ? null : i + 1).filter(Boolean);
+      if (bad.length) { got.delete(k); holds.set(k, 'TikZ did not compile in Studio'); compileFail[k] = {issues: bad.map(n => `Figure ${n} did not compile in Studio's TikZ (check \\foreach inside a PGFPlots axis, undefined macros, missing libraries)`), previous: {content: it.content, diagrams: it.diagrams.map(({pngs, ...d}) => d)}}; }
+    }
     log1.compiled = got.size;
     if (until === 'preview') { state.rounds.push(log1); write(path.join(dir, 'state.json'), {...state, holds: Object.fromEntries(holds), status: 'previewed'}); return {...state, status: 'previewed'}; }
     // rate
@@ -354,7 +373,7 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
         if (attempt === 2) return {error: 'Terra reply incomplete twice', items: chunk.map(k => ({id: k, accept: false, issues: ['rating failed']}))};
       }
     });
-    const next = {};
+    const next = {...compileFail};
     for (const r of rateReplies) for (const i of r.items) {
       const evidence = r.key ? posix(path.join(dir, 'rate', 'chunk-' + r.key.slice(0, 16) + '.json')) : null;
       if (i.accept === true && evidence) { accepted.set(i.id, {...i, assessedAt: r.assessedAt, evidence}); authored.set(i.id, got.get(i.id)); rejected.delete(i.id); }
