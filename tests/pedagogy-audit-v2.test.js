@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {contentFingerprint,wordingFingerprint,australianSpelling,spellBlock,boldTerm,deriveComparisonScore,jumpSlots,slotWindow,duplicatePairs,diagramBlindHash,diagramEquivalent,LIMITS,MODEL,EFFORT} from '../pedagogy/audit-v2-plan.mjs';
 import {validateAudit,writingRules,theoryRules} from '../pedagogy/audit-v2-prompts.mjs';
-import {challengeMoves,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey} from '../pedagogy/audit-v2.mjs';
+import {challengeMoves,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText} from '../pedagogy/audit-v2.mjs';
 
 const rating=score=>({reasoningScore:score,difficulty:'Foundation',difficultyReason:'x'});
 const q=(id,prompt,short,extra={})=>({id,type:'question',classification:rating(10),content:{id:id+'-root',type:'question',label:'1',prompt,answer:{short,worked:'$$x$$'}},...extra});
@@ -242,4 +242,28 @@ test('bolding a word inside an editor paragraph keeps the fingerprint', ()=>{
  assert.equal(contentFingerprint(doc),contentFingerprint(bolded));
  const edited=structuredClone(doc);edited.body.blocks[0].inlines[0].text='The change-of-base law is used.';
  assert.notEqual(contentFingerprint(doc),contentFingerprint(edited));
+});
+
+test('the challenge sees the questions a finding is for, not only the block before the gap', ()=>{
+ const project={id:'p',topics:[{id:'t',title:'T'},{id:'u',title:'U'}],sections:[
+  {id:'s',phase:'practice',topicId:'t',title:'Exercise',blocks:[q('a','P a','$1$'),q('b','P b','$1$'),q('c','P c','$1$'),q('d','P d','$1$'),q('e','P e','$1$'),q('f','P f','$1$')]},
+  {id:'s2',phase:'practice',topicId:'u',title:'Exercise',blocks:[q('g','P g','$1$')]}]};
+ const state={types:new Map([['c',{type:'x'}],['g',{type:'x'}],['d',{type:'y'}]])};
+ assert.deepEqual(challengeTargets(project,state,'bridges',{after:'a',neededBy:['e']}),['e'],'neededBy from the auditor wins');
+ assert.deepEqual(challengeTargets(project,state,'bridges',{after:'a-root'}),['b','c','d','e'],'next questions in the same exercise, from a node id');
+ assert.deepEqual(challengeTargets(project,state,'bridges',{after:'f'}),[],'never crosses into the next exercise');
+ assert.deepEqual(challengeTargets(project,state,'missing',{topicId:'t',type:'x'}),['c'],'exercise questions of the type in its topic');
+ assert.deepEqual(challengeTargets(project,state,'prerequisites',{after:'a'}),[]);
+});
+
+test('neededBy ids resolve to their questions; unknown ids are dropped', ()=>{
+ const empty={archetypes:[{id:'a',type:'t'}],types:[],exampleMatches:[],spread:[],errors:[],duplicates:[],bridges:[{after:'a',neededBy:['b-1','zz']}],missing:[{type:'t'}],prerequisites:[],extensions:[],keep:[],theory:[]};
+ const r=validateAudit(empty,{ids:new Set(['a','b']),needTypes:[],staleError:new Set(),staleTheory:new Set(),pairs:[],owner:new Map([['b-1','b']])});
+ assert.deepEqual(r.bridges[0].neededBy,['b']);assert.deepEqual(r.missing[0].neededBy,[]);
+});
+
+test('a diagram-only part prints in a comment without undefined', ()=>{
+ assert.equal(partText({label:'a',questionDiagrams:[{}]}),'(with a diagram)');
+ assert.equal(partText({prompt:' $x+1$ '}),'$x+1$');
+ assert.equal(partText({}),'(no prompt)');
 });

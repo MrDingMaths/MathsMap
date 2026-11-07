@@ -147,6 +147,19 @@ function clean(value,{answers}){
 }
 export const studentView=(block,{answers=true}={})=>clean(block.type==='question'?{...questionReviewContent(block),id:block.id}:block,{answers});
 const typeOf=(state,id)=>state.types.get(id)?.type??null;
+// A part's line in a comment: a diagram-only part has no prompt (it printed "undefined", 7 November 2026).
+export const partText=p=>[typeof p.prompt==='string'?p.prompt.trim():'',(p.questionDiagrams??[]).length?'(with a diagram)':''].filter(Boolean).join(' ')||'(no prompt)';
+// The questions a bridge, extension or missing type is for, which the challenge must see (7 November 2026).
+// The auditor's neededBy wins; without it a bridge or extension takes the next questions in its exercise,
+// and a missing type takes its topic's exercise questions of that type.
+export function challengeTargets(project,state,kind,row){
+ if((row.neededBy??[]).length)return row.neededBy;
+ const rows=bookletIndex(project);
+ if(kind==='bridges'||kind==='extensions'){const owner=new Map(rows.flatMap(r=>nodesOf(r.block).map(n=>[String(n.id),r.block.id]))),id=owner.get(String(row.after))??row.after,at=rows.findIndex(r=>r.block.id===id);
+  if(at<0)return [];return rows.slice(at+1).filter(r=>r.section.id===rows[at].section.id&&r.question).slice(0,LIMITS.challengeFollowing).map(r=>r.block.id);}
+ if(kind==='missing'&&row.type)return rows.filter(r=>r.routine&&(!row.topicId||r.section.topicId===row.topicId)&&typeOf(state,r.block.id)===row.type).slice(0,LIMITS.challengeFollowing).map(r=>r.block.id);
+ return [];
+}
 
 // ---- records ----------------------------------------------------------------------
 export const recordFile=(id,{root=ROOT}={})=>path.join(root,'booklets','provenance','pedagogy-review','audit-v2',id+'.json');
@@ -711,22 +724,33 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  const cite=ids=>[...new Set(ids.filter(Boolean).map(id=>ownerOf.get(String(id))??id))].map(id=>bookletIndex(candidate).find(r=>r.block.id===id)).filter(Boolean).map(r=>({id:r.block.id,topicId:r.section.topicId,view:studentView(r.block)}));
  audit.duplicates.filter(d=>d.verdict==='accidental').forEach(d=>judgements.push({kind:'duplicate',row:d,cites:d.ids}));
  audit.spread.forEach(d=>judgements.push({kind:'spread',row:d,cites:d.ids}));
- for(const k of ['bridges','missing','prerequisites','extensions'])audit[k].forEach(d=>judgements.push({kind:k,row:d,cites:[d.after,...(d.neededBy??[])]}));
+ // A finding is judged against the questions it is for (7 November 2026): every unverified bridge and
+ // new-teaching comment in the first batch cited only the block before the gap, never its target.
+ // Without neededBy, a bridge or extension cites the next questions in its exercise, and a missing
+ // type cites the exercise questions of that type.
+ for(const k of ['bridges','missing','prerequisites','extensions'])audit[k].forEach(d=>judgements.push({kind:k,row:d,cites:[d.after,...challengeTargets(candidate,state,k,d)]}));
  audit.theory.filter(t=>['definition','wording'].includes(t.verdict)).forEach(d=>judgements.push({kind:'theory-'+d.verdict,row:d,cites:[d.id]}));
  judgements.forEach((j,i)=>{j.id='j'+(i+1);if(j.kind==='spread')j.row.judgement=j.id;});
  for(const s of gaps.slots)if(s.reason==='spread')s.judgement=audit.spread.find(sp=>sp.type===s.type)?.judgement??null;
  const teachingOf=topicId=>bookletIndex(candidate).filter(r=>r.section.topicId===topicId&&r.kind==='teaching').map(r=>({id:r.block.id,view:studentView(r.block)}));
+ // The retry of an unchecked judgement carries what the checker asked for: the teaching and the
+ // exercise questions of its own topic and of the topic it named, and the whole exercise it sits in.
+ // Teaching alone could never settle a claim about a question (the first batch's retries all failed).
+ const topicIds=new Set(bookletIndex(candidate).map(r=>r.section.topicId).filter(Boolean));
+ const retryMaterial=(j,needsTopic)=>{const cited=cite(j.cites),own=j.row.topicId??cited[0]?.topicId,topics=[...new Set([own,needsTopic].filter(t=>t&&topicIds.has(t)))],shown=new Set(cited.map(c=>c.id));
+  const questions=bookletIndex(candidate).filter(r=>r.question&&!shown.has(r.block.id)&&(topics.includes(r.section.topicId)||(j.row.exerciseId&&r.section.id===j.row.exerciseId)));
+  return {topicTeaching:topics.flatMap(teachingOf),topicQuestions:questions.map(r=>({id:r.block.id,topicId:r.section.topicId,exerciseId:r.section.id,view:studentView(r.block)}))};};
  const challengeRun=stage('5a-challenge',async()=>{
   if(!judgements.length)return new Map();
   // Judgements are independent, so an over-cap challenge is halved rather than refused (pilot 2's reached 247,000 of 280,000 characters).
-  const send=async(list,withTopics)=>{const system=challengeContract(),prompt=JSON.stringify({booklet:candidate.title,judgements:list.map(j=>({id:j.id,kind:j.kind,judgement:j.row,cited:cite(j.cites),...(withTopics?{topicTeaching:teachingOf(j.row.topicId??cite(j.cites)[0]?.topicId)}:{})}))});
-   if(list.length>1&&system.length+prompt.length>LIMITS.promptCharacters){const half=Math.ceil(list.length/2),[a,b]=await Promise.all([send(list.slice(0,half),withTopics),send(list.slice(half),withTopics)]);return new Map([...a,...b]);}
+  const send=async(list,withTopics,needs=new Map())=>{const system=challengeContract(),prompt=JSON.stringify({booklet:candidate.title,topics:[...topicIds],judgements:list.map(j=>({id:j.id,kind:j.kind,judgement:j.row,cited:cite(j.cites),...(needs.has(j.id)?retryMaterial(j,needs.get(j.id)):withTopics?{topicTeaching:teachingOf(j.row.topicId??cite(j.cites)[0]?.topicId)}:{})}))});
+   if(list.length>1&&system.length+prompt.length>LIMITS.promptCharacters){const half=Math.ceil(list.length/2),[a,b]=await Promise.all([send(list.slice(0,half),withTopics,needs),send(list.slice(half),withTopics,needs)]);return new Map([...a,...b]);}
    // One judgement over the cap on its own is not sent: it stays unchecked (then unverified, a comment), and the run continues.
    if(system.length+prompt.length>LIMITS.promptCharacters)return new Map([[list[0].id,{id:list[0].id,verdict:'unchecked',reason:'its cited material is over the prompt cap',needsTopic:null,comment:''}]]);
    return (await callSonnet(ctx,{stage:'challenge',system,prompt,validate:r=>validateVerdicts(r,list.map(j=>j.id))})).value;};
   const verdicts=await send(judgements,['missing','prerequisites','theory-definition'].some(k=>judgements.some(j=>j.kind===k)));
   const again=judgements.filter(j=>verdicts.get(j.id)?.verdict==='unchecked');
-  if(again.length){const second=await send(again,true);for(const j of again){const v=second.get(j.id);verdicts.set(j.id,v.verdict==='unchecked'?{...v,verdict:'unverified'}:v);}}
+  if(again.length){const second=await send(again,true,new Map(again.map(j=>[j.id,verdicts.get(j.id)?.needsTopic??null])));for(const j of again){const v=second.get(j.id);verdicts.set(j.id,v.verdict==='unchecked'?{...v,verdict:'unverified'}:v);}}
   return verdicts;
  })();
  // Stage 5b: slot drafting, in parallel with the challenge.
@@ -778,6 +802,10 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  const drafted=new Set(confirmed.map(j=>j.id));
  const proposalKind=j=>j.repeatedPart?'duplicate-parts':'proposal-'+j.kind;
  const proposalTarget=j=>j.row.replace??j.row.after??(j.row.neededBy??[])[0]??j.cites.find(Boolean);
+ // An unverified comment states the finding and why the check could not settle it (7 November 2026): the
+ // stock line alone left the teacher nothing to judge, and an empty checker comment hid the auditor's reason.
+ const findingReason=j=>{const r=j.row;return [r.achieves??r.insight??r.prerequisite??r.description,r.reason??r.why].filter(x=>typeof x==='string'&&x.trim()).join(' ');};
+ const unverifiedNote=v=>' Not confirmed: the independent check could not settle it'+(v?.reason?.trim()?' ('+v.reason.trim().replace(/\.$/,'')+').':'.');
  const proposalLabel=j=>j.repeatedPart?'Repeated part':{duplicate:'Duplicate replacement',missing:'New teaching',prerequisites:'Opening review item',bridges:'Bridge',extensions:'Extension'}[j.kind];
  let proposalDrafts=[];
  await stage('5c-proposals',async()=>{
@@ -880,8 +908,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   const d=it.placement?deriveComparisonScore(it.placement,refScores):{score:null,how:'none'};
   const temp=newBlock(it.draft.workedExample?{...it.draft,content:it.draft.workedExample.guidedPractice}:it.draft,slot??{id:it.id+'-'+stamp.slice(-6),sectionId:it.draft.judgement?.row?.exerciseId},{project:candidate,score:null,placement:it.placement,refs:refScores,evidence,type:slot?.type??it.draft.judgement?.row?.type??it.draft.judgement?.row?.replacementType??null,kind:proposal?it.draft.judgement.kind:'slot',skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});
   if(duplicatePairs([...existingQuestions,...inserted,temp]).some(p=>p.ids.includes(temp.id))){report.dropped.push({slot:it.id,reason:'duplicates an existing or new question'});continue;}
-  const describe=()=>{const c=temp.content,parts=(c.children??[]).map(p=>`${p.label??''}) ${p.prompt}`);return `Proposed question: ${c.prompt??''}${parts.length?'\n'+parts.join('\n'):''}${(c.questionDiagrams??[]).length?'\n(with a diagram)':''}\nAnswers: ${answerNodes(c).map(n=>(n.label&&n!==c?n.label+') ':'')+n.answer.short).join('; ')}`;};
-  if(proposal){const j=it.draft.judgement,c=verdicts.get(j.id);if(d.score!=null)setComparisonRating(temp,d.score,it.placement,refScores,evidence);addComment({targetId:proposalTarget(j),kind:proposalKind(j),key:'prop|'+j.id,payload:proposalPayload(j,temp,{rows:bookletIndex(candidate),ownerOf,workedExample:it.draft.workedExample}),note:`[Pedagogy audit v2 · ${proposalLabel(j)}${verdictOf(j)==='unverified'?' · unverified':''}] ${c?.comment??j.row.reason??j.row.achieves??j.row.insight??j.row.prerequisite??''}${verdictOf(j)==='unverified'?' The independent challenge could not confirm this from the material it was given.':''}${j.kind==='duplicate'?` Replace ${(j.row.replaceNodes??[]).join(', ')} with the question below.`:''}\n${it.draft.workedExample?'Worked example: '+it.draft.workedExample.prompt+'\n'+it.draft.workedExample.steps+'\nGuided practice:\n':''}${describe()}${d.score!=null?`\nComparison score: ${d.score}.`:''}`});continue;}
+  const describe=()=>{const c=temp.content,parts=(c.children??[]).map(p=>`${p.label??''}) ${partText(p)}`);return `Proposed question: ${c.prompt??''}${parts.length?'\n'+parts.join('\n'):''}${(c.questionDiagrams??[]).length?'\n(with a diagram)':''}\nAnswers: ${answerNodes(c).map(n=>(n.label&&n!==c?n.label+') ':'')+n.answer.short).join('; ')}`;};
+  if(proposal){const j=it.draft.judgement,c=verdicts.get(j.id);if(d.score!=null)setComparisonRating(temp,d.score,it.placement,refScores,evidence);addComment({targetId:proposalTarget(j),kind:proposalKind(j),key:'prop|'+j.id,payload:proposalPayload(j,temp,{rows:bookletIndex(candidate),ownerOf,workedExample:it.draft.workedExample}),note:`[Pedagogy audit v2 · ${proposalLabel(j)}${verdictOf(j)==='unverified'?' · unverified':''}] ${c?.comment||findingReason(j)}${verdictOf(j)==='unverified'?unverifiedNote(c):''}${j.kind==='duplicate'?` Replace ${(j.row.replaceNodes??[]).join(', ')} with the question below.`:''}\n${it.draft.workedExample?'Worked example: '+it.draft.workedExample.prompt+'\n'+it.draft.workedExample.steps+'\nGuided practice:\n':''}${describe()}${d.score!=null?`\nComparison score: ${d.score}.`:''}`});continue;}
   if(d.score==null){report.blockers.push({stage:'solve',id:it.id,reason:'placement '+d.how});continue;}
   if(d.score<slot.range[0]||d.score>slot.range[1]){report.dropped.push({slot:slot.id,reason:`scored ${d.score}, outside the slot range ${slot.range.join('–')}`,draft:stripAnswers(temp.content)});continue;}
   if(slot.commentOnly||d.score>=LIMITS.appliedBelow){const held=newBlock(it.draft,{...slot,id:slot.id+'-'+stamp.slice(-6)},{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});addComment({targetId:slot.after??slot.before??candidate.sections.find(s=>s.id===slot.sectionId)?.blocks?.[0]?.id,kind:'slot-comment-only',key:'slot|'+slot.id,payload:{op:'insert',sectionId:slot.sectionId,after:slot.after??null,block:held},note:`[Pedagogy audit v2 · New question to decide] For the ${slot.reason.replace(/-/g,' ')} gap (${slot.type}). Comparison score ${d.score}, between ${it.placement.harderThan??'—'} and ${it.placement.easierThan??'—'}: ${it.placement.difficultyReason}\n${describe()}`});continue;}
@@ -911,8 +939,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  }
  // Confirmed theory rewrites and other teaching findings become comments; unverified ones say so.
  for(const j of judgements){const v=verdictOf(j),c=verdicts.get(j.id);
-  if(j.kind.startsWith('theory-')&&(v==='confirmed'||v==='unverified'))addComment({targetId:j.row.id,kind:j.kind,key:'theory|'+j.row.id,payload:{op:'theory',blockId:j.row.id,replacement:j.row.replacement},note:`[Pedagogy audit v2 · ${j.kind==='theory-definition'?'Definition':'Wording'}${v==='unverified'?' · unverified':''}] ${c?.comment??j.row.reason}\nReplacement text: ${j.row.replacement}`});
-  else if(v==='unverified'&&!j.kind.startsWith('theory-')&&!drafted.has(j.id))addComment({targetId:j.cites.find(Boolean),kind:'unverified-'+j.kind,key:'unv|'+j.id,note:`[Pedagogy audit v2 · ${{bridges:'Bridge',missing:'New teaching',prerequisites:'Opening review item',extensions:'Extension',duplicate:'Duplicate',spread:'Near-copies'}[j.kind]??j.kind} · unverified] ${j.row.achieves??j.row.insight??j.row.prerequisite??j.row.description??j.row.reason??''}${j.row.after?' (after '+j.row.after+')':''}${(j.row.ids??[]).length?' Items: '+j.row.ids.join(', ')+'.':''} The independent challenge could not confirm this from the material it was given.`});
+  if(j.kind.startsWith('theory-')&&(v==='confirmed'||v==='unverified'))addComment({targetId:j.row.id,kind:j.kind,key:'theory|'+j.row.id,payload:{op:'theory',blockId:j.row.id,replacement:j.row.replacement},note:`[Pedagogy audit v2 · ${j.kind==='theory-definition'?'Definition':'Wording'}${v==='unverified'?' · unverified':''}] ${c?.comment||j.row.reason||''}${v==='unverified'?unverifiedNote(c):''}\nReplacement text: ${j.row.replacement}`});
+  else if(v==='unverified'&&!j.kind.startsWith('theory-')&&!drafted.has(j.id))addComment({targetId:j.cites.find(Boolean),kind:'unverified-'+j.kind,key:'unv|'+j.id,note:`[Pedagogy audit v2 · ${{bridges:'Bridge',missing:'New teaching',prerequisites:'Opening review item',extensions:'Extension',duplicate:'Duplicate',spread:'Near-copies'}[j.kind]??j.kind} · unverified] ${findingReason(j)}${j.row.after?' (after '+j.row.after+')':''}${(j.row.ids??[]).length?' Items: '+j.row.ids.join(', ')+'.':''}${unverifiedNote(verdicts.get(j.id))}`});
  }
  // The depletion guard was removed on 6 November 2026 (James): Challenge questions are meant to
  // be unfamiliar, so moves always go through. A routine type left below the minimum is a
