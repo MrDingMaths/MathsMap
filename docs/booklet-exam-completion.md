@@ -55,3 +55,26 @@ node pedagogy/exam-publish.mjs --project-id ID --apply --approved-by "QUOTE"
 ```
 
 Commits are taken from the **live** file. The wrapper prints the exact `git add` paths and the saved sha256 to compare first, and it never commits. Git HEAD is not a record of live content.
+
+## Batch Exam completion (7 November 2026, user requested)
+
+James asked for a faster, leaner Exam pass, starting with the 43 Stage 4 masters and then topping up Stage 5/6. `pedagogy/exam-batch.mjs` runs it for many booklets at once, in place of one hand-written script per booklet. Run state lives in `.booklet-work/exam-batch-20261107/<projectId>/`.
+
+```text
+node pedagogy/exam-batch.mjs run --all-s4 [--parallel 6] [--until select|rate|build]
+node pedagogy/exam-batch.mjs run --projects ID,ID --mode topup
+node pedagogy/exam-batch.mjs save --projects ID,ID --approved-by "QUOTE"
+node pedagogy/exam-batch.mjs report
+```
+
+- **Up to two per archetype.** This replaces one. `selectExamCandidates` takes `mapping.perArchetype` (default 2). A top-up counts existing owners towards the two.
+- **Pool.** For Stage 4 the pool is every MathsBase row classified under the booklet's `stage4` subtopics (`s4-subtopics.json`, read once into `s4-rows.json`). For a top-up it is the existing v2 screen. The batch writes its screen in the closure format, so `exam-closure.mjs` checks it unchanged.
+- **Archetypes reused.** `archetype-index.json` lists the archetype recorded for every MathsBase id by earlier runs and live owners. The selection call is given these labels and keeps them.
+- **One Sonnet call per booklet** (`claude-sonnet-5-5` medium, verified from the reply's model usage, with no separate ping). It classes every eligible row and adapts the chosen ones.
+- **One Terra call per booklet** (`gpt-6.1-terra` high). It checks fidelity, solves each question, and rates difficulty on the cognitive-demand rubric against the booklet's own rated questions as anchors. A rejected adaptation is dropped: it is `represented` when its archetype has another owner, and deferred otherwise.
+- **Deferred, not dropped.** Rows that need a source figure, and rejected adaptations without another owner, are classed `ineligible` with basis `scope:deferred-20261107` and listed for a later pass. School labels that are not yet approved stay `source-label-hold`.
+- **Split pairs** run in sequence, so the second half never prints a source the first already uses.
+- **Verification.** One scoped `check-feedback-pages.mjs --blocks <new owners> --editions student,worked` render per booklet, with the Exam pages looked at. There are no five-edition runs, baseline renders or hand-written inspection files.
+- **Saves** go through `exam-publish.mjs` under James's blanket approval of 7 November 2026 ("Blanket approval": each booklet saves once its closure check, Terra rating and render check pass). James reviews in Studio afterwards.
+
+**Gap between Exam questions.** Every booklet prints a 10 mm gap between consecutive questions in an Exam section, but not above the first question on a page (`EXAM_QUESTION_GAP_MM`, `src/lib/booklet-section-options.js`). Pagination measures the rendered page, so it counts the gap too. No project data changes.

@@ -48,8 +48,8 @@ entry keyed by external question ID:
 ```
 
 Development, Mastery and Challenge are eligible for assessment; difficulty
-alone does not establish that a question is routine. Only one question per
-reviewed skill/archetype pair is selected. Unassessed questions are held.
+alone does not establish that a question is routine. Up to two questions per
+reviewed skill/archetype pair are selected (`perArchetype`; one before 7 November 2026). Unassessed questions are held.
 `--input ROWS.json` uses a local read-only export instead of the network.
 The script writes candidate files only, never a project, question bank or
 external database. Every output remains `pilot-approval-required`.

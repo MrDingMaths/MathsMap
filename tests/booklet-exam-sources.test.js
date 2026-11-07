@@ -171,8 +171,12 @@ test('candidate export holds unassessed items, removes excluded sources and repe
   const rows=[1,2,3,4].map(id=>({id:String(id),source:'HSC.ADV.2011',difficulty:'Development'}));
   rows[3].source='CAIE.2020';
   const mapping={skillIds:['s'],questions:{1:{skillId:'s',archetype:'a',routine:true,inScope:true},2:{skillId:'s',archetype:'a',routine:true,inScope:true}}};
+  mapping.questions[3]={skillId:'s',archetype:'a',routine:true,inScope:true};
+  // Up to two per archetype by default (7 November 2026); a third repeat is excluded.
   const result=selectExamCandidates(rows,mapping);
-  assert.equal(result.selected.length,1);assert.equal(result.held.length,1);assert.equal(result.excluded.length,2);
+  assert.equal(result.selected.length,2);assert.equal(result.held.length,0);assert.equal(result.excluded.length,2);
+  const one=selectExamCandidates(rows,{...mapping,perArchetype:1});
+  assert.equal(one.selected.length,1);assert.equal(one.excluded.length,3);
 });
 test('external reader refuses an unscoped request before network access',async()=>{
   let calls=0;

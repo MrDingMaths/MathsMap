@@ -1,6 +1,7 @@
 <script>
   import {questionDifficulty,chilliCount} from '../lib/booklet-bank-ratings.js';
   import {isTheoryReview} from '../lib/question-bank-eligibility.js';
+  import {examQuestionGapMm} from '../lib/booklet-section-options.js';
   import { houseStyleVariables } from '../lib/booklet-house-style.js';
   import { sourceRegionStyles } from '../lib/diagram-source-region.js';
   import {exerciseHeading} from '../lib/booklet-exercise-heading.js';
@@ -158,7 +159,7 @@
     {:else if isGuided(block) && !insideAtom}
       <section class="theory-section"><BookletSectionHeader kind="guided-practice" /><div class="body-box">{@render questionView(block, null)}</div></section>
     {:else}
-      <section class:atom-practice={insideAtom} class="practice" data-reasoning-band={marked?rating?.difficulty:undefined} data-chillies={marked&&chillies?chillies:undefined} id={block.flow?.exerciseNumber&&!block.flow?.teachingLabel&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
+      <section class:atom-practice={insideAtom} class="practice" style={examQuestionGapMm(page.section,page.blocks,block)?`margin-top:${examQuestionGapMm(page.section,page.blocks,block)}mm`:undefined} data-reasoning-band={marked?rating?.difficulty:undefined} data-chillies={marked&&chillies?chillies:undefined} id={block.flow?.exerciseNumber&&!block.flow?.teachingLabel&&firstPlacement(block)?`${anchorPrefix}question-${block.id}`:undefined}>
         {#if block.flow?.exerciseNumber&&block.pairedBlockId&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.pairedBlockId}`}></span>{/if}
         {#if marked}<div class="editor-markers">{#if rating}<span class="editor-difficulty" data-editor-difficulty={block.id} data-chillies={chillies} title={`Difficulty: ${rating.difficulty}, reasoning ${rating.reasoningScore}/100${rating.difficultyReason?'; '+rating.difficultyReason:''}`}>{rating.reasoningScore}</span>{/if}<span class="editor-bank" data-editor-bank={bank.state} title={bank.title}>{bank.label}</span></div>{/if}
         {@render questionView(block, insideAtom ? null : block.sourceOrder ?? page.blocks.filter(item => item.type === 'question').findIndex(item => item.id === block.id) + 1, answerHrefFor(block))}

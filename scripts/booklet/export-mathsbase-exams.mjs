@@ -7,7 +7,8 @@ import {approvedMathsBaseSource} from '../../src/lib/question-source.js';
 import {createProgrammeExamSection} from '../../pedagogy/programme-exam.mjs';
 
 export function selectExamCandidates(rows, mapping = {}) {
-  const selected = [], held = [], excluded = [], archetypes = new Set();
+  // Up to perArchetype questions per reviewed skill/archetype pair (James, 7 November 2026: two, was one).
+  const selected = [], held = [], excluded = [], archetypes = new Map(), cap = mapping.perArchetype ?? 2;
   for (const row of rows) {
     const source = approvedMathsBaseSource(row.source);
     if (!source || !['Development','Mastery','Challenge'].includes(row.difficulty)) {excluded.push({id:row.id, source:row.source, reason:'source or difficulty outside whitelist'}); continue;}
@@ -20,8 +21,8 @@ export function selectExamCandidates(rows, mapping = {}) {
     }
     if (!(mapping.skillIds ?? []).includes(assessment.skillId)) {held.push({id:row.id, reason:'assessed skill is outside booklet skills'}); continue;}
     const key = `${assessment.skillId}:${assessment.archetype}`;
-    if (archetypes.has(key)) {excluded.push({id:row.id, reason:'archetype already represented'}); continue;}
-    archetypes.add(key);
+    if ((archetypes.get(key) ?? 0) >= cap) {excluded.push({id:row.id, reason:'archetype already represented'}); continue;}
+    archetypes.set(key, (archetypes.get(key) ?? 0) + 1);
     selected.push({externalId:row.id, source, sourceCode:row.source, skillId:assessment.skillId, archetype:assessment.archetype, question:row.question_text, solution:row.solution_text, difficulty:row.difficulty});
   }
   return {selected, held, excluded};

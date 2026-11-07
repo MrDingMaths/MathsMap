@@ -18,6 +18,7 @@ This file is the always-on summary. The full rules, word for word, are in [docs/
 | --- | --- |
 | New content (backfill, bridges, worked examples, guided practice) | `claude-sonnet-5-5`, exactly; never substitute |
 | Pedagogy audit v2 (booklet masters), every call | `claude-sonnet-5-5` medium |
+| Exam questions: checks and difficulty ratings ([batch](docs/booklet-exam-completion.md#batch-exam-completion-7-november-2026-user-requested)) | `gpt-6.1-terra` high |
 | Booklet imports: reviews, ratings, challenges; difficulty-only rating calls | `gpt-6.1-sol` low |
 | Other booklet reviews, ratings, challenges | `gpt-6.1-terra` high |
 | Everything else | its existing setting |
