@@ -60,6 +60,34 @@ export function thinBooklets({maxExam = 8, minDeferred = 10} = {}) {
   return out.sort((a, b) => a.exam - b.exam || b.deferred - a.deferred);
 }
 
+// ---- decisions from the 4 November pass ------------------------------------------------------------
+// Its closure records (one per job, inputs/closure) hold a decision for every row it classified. Screen-only
+// exclusions and its selections are not carried over (a selection that is not an owner now gets a fresh look).
+let firstPassIndex;
+function firstPassDecisions(id) {
+  if (!firstPassIndex) {
+    firstPassIndex = new Map();
+    const walk = d => { for (const f of fs.readdirSync(d)) { const p = path.join(d, f), st = fs.statSync(p);
+      if (st.isDirectory()) walk(p);
+      else if (f === 'closure') { let j; try { j = read(p); } catch { continue; }
+        const m = firstPassIndex.get(j.projectId) ?? new Map();
+        for (const r of j.rows ?? []) if (['represented', 'ineligible', 'faulty', 'duplicate'].includes(r.class) && !/^screen:/.test(r.basis ?? '')) m.set(r.id, {...r, evidence: posix(p)});
+        firstPassIndex.set(j.projectId, m); } } };
+    walk(path.join(ROOT, '.booklet-work/exam-q-20261104'));
+  }
+  return firstPassIndex.get(id) ?? new Map();
+}
+function carryOver(set, r, project) {
+  const blocks = new Set((project.sections ?? []).flatMap(s => (s.blocks ?? []).map(b => b.id)));
+  const note = `4 November pass (${r.evidence})`;
+  if (r.class === 'represented' && (r.representedBy ?? []).length && r.representedBy.every(o => blocks.has(o))) return set({class: 'represented', representedBy: r.representedBy, basis: `${note}: ${r.basis ?? 'archetype already represented'}`.slice(0, 400)});
+  if (r.class === 'duplicate' && blocks.has(r.duplicateOf)) return set({class: 'duplicate', duplicateOf: r.duplicateOf});
+  if (r.class === 'faulty' && String(r.fault ?? '').trim()) return set({class: 'faulty', fault: String(r.fault).slice(0, 300), action: 'parked'});
+  if (r.class === 'ineligible') return set({class: 'ineligible', basis: `${note}: ${r.basis}`.slice(0, 400)});
+  // The earlier owner or duplicate target is no longer in the booklet: record the decision and keep the row deferred.
+  set({class: 'ineligible', basis: `${DEFER}: ${note} decided ${r.class} (${(r.representedBy ?? [r.duplicateOf]).join(', ')}), which is no longer in the booklet`.slice(0, 400)});
+}
+
 // ---- images ---------------------------------------------------------------------------------------
 function figuresOf(row) {
   const out = [];
@@ -158,8 +186,9 @@ DIAGRAM: {"node": "root" or a part label, "role": "question" or "solution", "cod
 "answerVisibility": "what is deliberately not shown"}}. A question figure goes on the node whose prompt it belonged
 to ("root" for the stem). A figure in the source SOLUTION becomes role "solution" on the node it answers, only when
 the worked answer needs it (a sketch or graph the student must draw). Question figures show only what the source
-figure gives, never a derived answer. Redraw every source figure the question uses, even when it was already TikZ
-(restyle it to the rules below). Start each code with the colour metadata line
+figure gives, never a derived answer. Redraw every source image the question uses. A source figure that is already
+TikZ was checked earlier: start from its code and keep its coordinates, shapes, labels and mathematics; change only
+what the rules below require (line widths, colours, fonts, arrow tips, metadata). Start each code with the colour metadata line
 % mathsmap-diagram-colours {"version":1,"kind":"geometry" or "graph","base":[],"semantic":[],"reference":"row key figure N"}
 Every stroke uses a house-style line width (0.8, 0.5, 0.4, 0.25 or 0.15 pt); arrow tips are Stealth[length=2mm] or larger.
 Inside a PGFPlots axis never use \\foreach with axis cs coordinates (the axis defers drawing, so it does not compile):
@@ -212,6 +241,15 @@ function normaliseDiagram(d, ref) {
   // PGFPlots draws ticks grey at 0.2 pt by default (even empty ones with xtick=\empty): outside the palette and the
   // stroke roles. House-style ticks are black 0.4 pt; a later tick style in the axis options still applies.
   if (/\\begin\{axis\}/.test(code)) code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt}}');
+  // Greys other than the palette's grid grey (#CCCCCC) fail the palette check (7 November 2026, #E0E0E0).
+  code = code.replace(/\\definecolor\{([^}]+)\}\{HTML\}\{([0-9A-Fa-f]{6})\}/g, (all, name, hex) => {
+    const [r, g, b] = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16));
+    return r === g && g === b && r > 0 && r < 255 && hex.toUpperCase() !== 'CCCCCC' ? `\\definecolor{${name}}{HTML}{CCCCCC}` : all;
+  });
+  if (/\b(?:light)?gr[ae]y(?:!\d+)?\b|\bblack!\d+\b/.test(code)) {
+    code = code.replace(/\b(?:light)?gr[ae]y(?:!\d+)?\b|\bblack!(?:[1-9]\d?)\b/g, 'paletteGrey');
+    code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\definecolor{paletteGrey}{HTML}{CCCCCC}');
+  }
   // Pattern (hatched) fills are outside the palette: shade with the standard light blue instead.
   // Only a standalone pattern= option: "dash pattern=" is a line style and must stay.
   if (/(?:^|[\[,])\s*pattern\s*=/m.test(code)) {
@@ -259,9 +297,20 @@ Reply with ONLY JSON: {"items": [{"id": "...", "accept": true, "issues": [], "re
 }
 
 // ---- build ----------------------------------------------------------------------------------------
+// "\text{($k$ is a constant)}" inside $...$: the editor splits maths on "$", so nested dollars break the formula
+// (7 November 2026, Fundamental Theorem of Calculus). Lift the inner maths out of \text.
+export function unnestTextDollars(s) {
+  return String(s).replace(/\\text\{([^{}]*\$[^{}]*)\}/g, (all, body) => body.split(/\$([^$]*)\$/).map((part, i) => i % 2 ? part : part ? `\\text{${part}}` : '').join(''));
+}
+const unnestContent = c => {
+  if (!c || typeof c !== 'object') return c;
+  const out = Array.isArray(c) ? [] : {};
+  for (const [k, v] of Object.entries(c)) out[k] = typeof v === 'string' ? unnestTextDollars(v) : unnestContent(v);
+  return out;
+};
 function figureBlock(row, item, rating, {archetype, evidence, sourceImages}) {
   const id = 'exam-mb-' + row.id;
-  const content = nativeContent(id, item.content);
+  const content = nativeContent(id, unnestContent(item.content));
   const nodes = new Map([['root', content], ...(content.children ?? []).map(c => [String(c.label), c])]);
   const counts = {};
   for (const d of item.diagrams) {
@@ -291,7 +340,10 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
   const mode = read(path.join(ROOT, BATCH_RUN, 's4-subtopics.json')).masters?.[id] ? 's4' : 'topup';
   const rows = poolRows(id, mode), rowById = new Map(rows.map(r => [r.id, r]));
   const text = JSON.stringify(project), state = {id, revision: project.revision, mode};
-  const pool = rows.filter(r => figureDeferred(priorRow.get(r.id) ?? {}) && !used.has(r.id) && !text.includes(r.id) && hasFigure((r.question_text ?? '') + (r.solution_text ?? '')));
+  // Rows the 4 November pass already decided for this booklet keep that decision ("Reuse both", 7 November 2026).
+  const earlier = firstPassDecisions(id);
+  const pool = rows.filter(r => figureDeferred(priorRow.get(r.id) ?? {}) && !used.has(r.id) && !text.includes(r.id) && !earlier.has(r.id) && hasFigure((r.question_text ?? '') + (r.solution_text ?? '')));
+  state.carriedOver = rows.filter(r => figureDeferred(priorRow.get(r.id) ?? {}) && earlier.has(r.id)).length;
   state.pool = {figureRows: pool.length};
   if (!pool.length) { write(path.join(dir, 'state.json'), {...state, status: 'no-figure-rows'}); return {...state, status: 'no-figure-rows'}; }
   // select
@@ -337,6 +389,8 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
     if (until === 'author') { state.rounds.push(log1); write(path.join(dir, 'state.json'), {...state, holds: Object.fromEntries(holds), status: 'authored'}); return {...state, status: 'authored'}; }
     // preview
     const diagrams = [...got.values()].flatMap(it => it.diagrams.map((d, i) => ({id: `${it.id}-d${i + 1}`, code: d.code})));
+    // Source figures that are already TikZ are rendered too, so the checker compares pictures with pictures.
+    for (const k of got.keys()) for (const f of figuresOf(rowById.get(idOf.get(k))).filter(f => f.kind === 'tikz')) diagrams.push({id: `${k}-s${f.n}`, code: f.code});
     const manifest = diagrams.length ? preview(id, diagrams, round) : [];
     const png = new Map(manifest.filter(m => m.png && !['fail', 'error', 'pending'].includes(m.status)).map(m => [m.field, path.join(dir, round ? 'preview-r' + round : 'preview', m.png)]));
     // A figure that does not compile goes to the repair round with the reason; after the last round it is held.
@@ -355,7 +409,10 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
       const items = [], images = [], labels = [];
       for (const k of chunk) {
         const r = rowById.get(idOf.get(k)), it = got.get(k);
-        for (const f of figuresOf(r).filter(f => f.kind === 'image')) { const img = index[`${r.id}-${f.n}`]; images.push(path.join(ROOT, img.path)); labels.push(`Image ${images.length}: item ${k}, SOURCE figure ${f.n}`); }
+        for (const f of figuresOf(r)) {
+          if (f.kind === 'image') { const img = index[`${r.id}-${f.n}`]; images.push(path.join(ROOT, img.path)); labels.push(`Image ${images.length}: item ${k}, SOURCE figure ${f.n}`); }
+          else if (png.get(`${k}-s${f.n}`)) { images.push(png.get(`${k}-s${f.n}`)); labels.push(`Image ${images.length}: item ${k}, SOURCE figure ${f.n} (the bank's TikZ, rendered)`); }
+        }
         it.diagrams.forEach((d, i) => { images.push(it.pngs[i]); labels.push(`Image ${images.length}: item ${k}, REDRAWN ${d.role} figure ${i + 1} (${d.spec?.source ?? ''}, on ${d.node})`); });
         items.push({id: k, sourceCode: r.source, sourceQuestion: placeholders(r, 'question_text'), sourceSolution: placeholders(r, 'solution_text'), adaptation: it.content, redrawnFigures: it.diagrams.map(d => ({node: d.node, role: d.role, spec: d.spec, tikz: d.code}))});
       }
@@ -413,6 +470,7 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
     const set = fields => setDisposition(record, row.id, fields), p = priorRow.get(row.id), d = decision.get(row.id);
     if (blockIds.has(row.id)) set({class: 'selected', ownerId: 'exam-mb-' + row.id});
     else if (p && !figureDeferred(p) && p.class !== 'pending') { const {id: _i, screenStatus: _s, sourceCode: _c, difficulty: _d, key: _k, prior: _p, ...fields} = p; set(fields); }
+    else if (!d && earlier.has(row.id)) carryOver(set, earlier.get(row.id), project);
     else if (!d) set({class: 'ineligible', basis: `${DEFER}: source needs a figure; not in this figure pass`});
     else if (d.decision === 'selected' || d.decision === 'represented') {
       const why = d.decision === 'represented' ? '' : holds.has(d.key) ? ` (figure pass held it: ${holds.get(d.key)})` : ' (figure pass: not accepted by the checker)';
@@ -439,7 +497,10 @@ async function pool3(items, fn) { const out = []; let i = 0; await Promise.all(A
 export async function main(argv) {
   const [command, ...args] = argv, arg = name => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined; };
   if (command === 'thin') { for (const t of thinBooklets()) console.log(t.exam, t.deferred, t.id); return; }
-  const ids = arg('--projects') === 'thin' ? thinBooklets().map(t => t.id) : (arg('--projects') ?? '').split(',').filter(Boolean);
+  // "rest": every other booklet with deferred figure rows (7 November 2026, "Yes, run the rest"), most rows first.
+  const rest = () => thinBooklets({maxExam: Infinity, minDeferred: 1}).filter(t => !fs.existsSync(path.join(dirOf(t.id), 'saved.json'))).sort((a, b) => b.deferred - a.deferred);
+  if (command === 'rest') { for (const t of rest()) console.log(t.exam, t.deferred, t.id); return; }
+  const ids = arg('--projects') === 'thin' ? thinBooklets().map(t => t.id) : arg('--projects') === 'rest' ? rest().map(t => t.id) : (arg('--projects') ?? '').split(',').filter(Boolean);
   if (command === 'run') {
     const used = new Set();
     for (const f of fs.readdirSync(path.join(ROOT, 'booklets/projects'))) if (f.endsWith('.json')) try { for (const b of examOwners(read(path.join(ROOT, 'booklets/projects', f)))) if (b.sourceReview?.origin?.externalId) used.add(b.sourceReview.origin.externalId); } catch {}
