@@ -246,6 +246,9 @@ function normaliseDiagram(d, ref) {
     const [r, g, b] = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16));
     return r === g && g === b && r > 0 && r < 255 && hex.toUpperCase() !== 'CCCCCC' ? `\\definecolor{${name}}{HTML}{CCCCCC}` : all;
   });
+  // Inline greys as {rgb,255:red,204;green,204;blue,204} printed navy in the booklet (7 November 2026, Curve
+  // Sketching 2 grid): name them as the palette grey.
+  code = code.replace(/\{rgb,255:red,(\d+);green,\1;blue,\1\}/g, (all, v) => Number(v) > 0 && Number(v) < 255 ? 'lightgray' : all);
   if (/\b(?:light)?gr[ae]y(?:!\d+)?\b|\bblack!\d+\b/.test(code)) {
     code = code.replace(/\b(?:light)?gr[ae]y(?:!\d+)?\b|\bblack!(?:[1-9]\d?)\b/g, 'paletteGrey');
     code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\definecolor{paletteGrey}{HTML}{CCCCCC}');
@@ -256,7 +259,13 @@ function normaliseDiagram(d, ref) {
     code = code.replace(/,\s*pattern color\s*=\s*[^,\]]+/g, '').replace(/([\[,])\s*pattern color\s*=\s*[^,\]]+,?/g, '$1').replace(/([\[,])\s*pattern\s*=\s*[^,\]]+/g, '$1fill=shadeBlue');
     code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\definecolor{shadeBlue}{HTML}{D4E8FF}');
   }
-  return code;
+  return notToScaleGap(code);
+}
+// "NOT TO SCALE" anchored exactly on the drawing's bottom edge touches any label there, e.g. a vertex letter below
+// the lowest point (7 November 2026 page review, Non-right-angled Trigonometry 2 Q7 and Q35). Leave a 3 pt gap.
+export function notToScaleGap(code) {
+  return String(code).replace(/(\\node\[[^\]\n]*anchor=north (?:west|east)[^\]\n]*)\] at \(current bounding box\.south (west|east)\)(\s*\{NOT TO\s*(?:\\\\)?\s*SCALE\})/g,
+    (all, opts, side, rest) => /yshift/.test(opts) ? all : `${opts}] at ([yshift=-3pt]current bounding box.south ${side})${rest}`);
 }
 
 // ---- preview (Studio TikZ compile) ----------------------------------------------------------------
@@ -270,6 +279,23 @@ function preview(id, diagrams, round = 0) {
   if (result.status !== 0) throw Error(`${id}: TikZ preview failed: ${(result.stderr || result.stdout).slice(-600)}`);
   write(path.join(out, 'key.txt'), key);
   return read(manifestFile);
+}
+
+// The width the author drew at (10 pt labels), from the preview's viewBox in bp. Without a saved widthMm the
+// booklet prints every diagram at 78 mm, enlarging a 30 mm tree diagram 2.6 times (7 November 2026 page review).
+export const MAX_FIGURE_MM = 160;
+export function naturalWidthMm(entry) {
+  const w = Number(String(entry?.captureBounds?.drawings?.[0]?.viewBox ?? '').trim().split(/\s+/)[2]);
+  return Number.isFinite(w) && w > 0 ? Math.min(MAX_FIGURE_MM, Math.round(w * 25.4 / 72)) : null;
+}
+// A figure the student draws or writes on (blank axes, a tree to complete, angles to mark) is a drawing scaffold:
+// it keeps at least the booklet's 78 mm default rather than shrinking to its drawn size (diagram-sizing rules).
+export const DRAWING_MIN_MM = 78;
+const DRAWING_PROMPT = /\b(draw|sketch|complete|plot|construct|mark|shade|fill in|represent|label)\b/i;
+export function figureSizing(prompt, natural) {
+  if (!natural) return null;
+  const text = typeof prompt === 'string' ? prompt : JSON.stringify(prompt ?? '');
+  return DRAWING_PROMPT.test(text) ? {widthMm: Math.max(natural, DRAWING_MIN_MM), sizing: {purpose: 'drawing'}} : {widthMm: natural};
 }
 
 // ---- rate (Terra with images) ---------------------------------------------------------------------
@@ -317,8 +343,9 @@ function figureBlock(row, item, rating, {archetype, evidence, sourceImages}) {
     const node = nodes.get(String(d.node ?? 'root')) ?? (() => { throw Error(`${id}: diagram for unknown node ${d.node}`); })();
     const role = d.role === 'solution' ? 'solution' : 'question', field = role === 'solution' ? 'solutionDiagrams' : 'questionDiagrams';
     const n = counts[node.id + role] = (counts[node.id + role] ?? 0) + 1;
-    (node[field] ??= []).push({id: `${node.id}-${role}-diagram-${n}`, format: 'tikz', role, code: d.code,
-      spec: {sourceImageLabel: `Source ${d.spec?.source ?? 'figure'} for ${row.id}${sourceImages.length ? ' (' + sourceImages.join(', ') + ')' : ''}`, description: d.spec?.description ?? '', mathematics: d.spec?.mathematics ?? '', answerVisibility: d.spec?.answerVisibility ?? ''}});
+    const size = role === 'question' ? figureSizing(node.prompt, d.widthMm) : d.widthMm ? {widthMm: d.widthMm} : null;
+    (node[field] ??= []).push({id: `${node.id}-${role}-diagram-${n}`, format: 'tikz', role, code: d.code, ...(size ? {widthMm: size.widthMm} : {}),
+      spec: {sourceImageLabel: `Source ${d.spec?.source ?? 'figure'} for ${row.id}${sourceImages.length ? ' (' + sourceImages.join(', ') + ')' : ''}`, description: d.spec?.description ?? '', mathematics: d.spec?.mathematics ?? '', answerVisibility: d.spec?.answerVisibility ?? '', ...(size?.sizing ? {sizing: size.sizing} : {})}});
   }
   const block = {id, type: 'question', pedagogyRole: 'practice', snapshotKind: 'local', bankRef: null, title: '', content,
     sourceReview: {origin: {provider: 'MathsBase', externalId: row.id, sourceCode: row.source, sourceQuestionSha256: sha(row.question_text ?? ''), sourceSolutionSha256: sha(row.solution_text ?? ''), readSnapshot: row.readSnapshot ?? BATCH_RUN + '/s4-rows.json', sourceImages},
@@ -395,8 +422,10 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
     const png = new Map(manifest.filter(m => m.png && !['fail', 'error', 'pending'].includes(m.status)).map(m => [m.field, path.join(dir, round ? 'preview-r' + round : 'preview', m.png)]));
     // A figure that does not compile goes to the repair round with the reason; after the last round it is held.
     const compileFail = {};
+    const natural = new Map(manifest.map(m => [m.field, naturalWidthMm(m)]));
     for (const [k, it] of [...got]) {
       it.pngs = it.diagrams.map((_, i) => png.get(`${k}-d${i + 1}`));
+      it.diagrams.forEach((d, i) => { d.widthMm = natural.get(`${k}-d${i + 1}`) ?? undefined; });
       const bad = it.pngs.map((p, i) => p ? null : i + 1).filter(Boolean);
       if (bad.length) { got.delete(k); holds.set(k, 'TikZ did not compile in Studio'); compileFail[k] = {issues: bad.map(n => `Figure ${n} did not compile in Studio's TikZ (check \\foreach inside a PGFPlots axis, undefined macros, missing libraries)`), previous: {content: it.content, diagrams: it.diagrams.map(({pngs, ...d}) => d)}}; }
     }
