@@ -32651,6 +32651,172 @@
           }
         },
         {
+          "id": "exam-mb-a7786df0-0084-44f0-a423-39a86c29b7c0",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-a7786df0-0084-44f0-a423-39a86c29b7c0-root",
+            "type": "question",
+            "label": null,
+            "prompt": "The graph shows a normal distribution.\n\nApproximately $99.7\\%$ of the area under the curve is bounded by $x=25$ and $x=145$.\n\nWhich of the following gives the correct mean and variance of the distribution?\n(A) mean = $60$ and variance = $20$\n(B) mean = $60$ and variance = $400$\n(C) mean = $85$ and variance = $20$\n(D) mean = $85$ and variance = $400$",
+            "answerSpaceMm": 0,
+            "answer": {
+              "short": "(D) mean $=85$ and variance $=400$",
+              "worked": "Approximately $99.7\\%$ of a normal distribution lies within $3$ standard deviations of the mean.\n$$\\begin{align*}\\mu&=\\frac{25+145}{2}\\\\&=85\\end{align*}$$\nThe distance from the mean to either bound is $60$.\n$$\\begin{align*}3\\sigma&=60\\\\\\sigma&=20\\\\\\sigma^2&=400\\end{align*}$$\nCorrect answer: (D)."
+            },
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-a7786df0-0084-44f0-a423-39a86c29b7c0-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"plotted normal curve\"},{\"name\":\"areaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"shaded area between x=25 and x=145\"}],\"reference\":\"r4 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt}}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\begin{axis}[width=8cm,height=3.6cm,scale only axis,xmin=0,xmax=170,ymin=0,ymax=1.1,axis x line=bottom,axis y line=none,axis line style={line width=0.5pt,{Stealth[length=2mm]}-{Stealth[length=2mm]}},xtick={25,145},xticklabel style={font=\\fontsize{8.5}{10}\\selectfont},major tick style={line width=0.4pt},tick align=center,major tick length=4pt,samples=100,clip=true]\n\\addplot[draw=none,fill=areaBlue,domain=25:145]{exp(-(x-85)^2/800)} \\closedcycle;\n\\addplot[line width=0.8pt,draw=curveBlue,domain=2:168]{exp(-(x-85)^2/800)};\n\\addplot[line width=0.4pt,black] coordinates {(25,0)(25,0.0111)};\n\\addplot[line width=0.4pt,black] coordinates {(145,0)(145,0.0111)};\n\\addplot[line width=0.4pt,dashed,black] coordinates {(85,0)(85,1)};\n\\end{axis}\n\\end{tikzpicture}",
+                "widthMm": 82,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for a7786df0-0084-44f0-a423-39a86c29b7c0 (.booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/a7786df0-0084-44f0-a423-39a86c29b7c0-1.png)",
+                  "description": "Bell-shaped normal curve over a horizontal axis with arrowheads at both ends. The area between ticks at 25 and 145 is shaded, and a dashed vertical line marks the centre of symmetry. Only 25 and 145 are labelled.",
+                  "mathematics": "Curve is the normal density with mean 85 and SD 20, used as a proxy for the source curve, which has slightly heavier tails. The shaded region runs from x=25 to x=145.",
+                  "answerVisibility": "The mean (85) and standard deviation are not labelled; only the given bounds 25 and 145 appear."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "a7786df0-0084-44f0-a423-39a86c29b7c0",
+              "sourceCode": "HSC.NSG.Y12.ADV.2024 Q2",
+              "sourceQuestionSha256": "f73c6376aa88a56a40c42aeb87950cb56f268ab52cc3b507f610beb285f5d9ff",
+              "sourceSolutionSha256": "5d143f55daa73b1062314fd0c1756ee9644b5627378bcbb2e45b6cf627ec6602",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/316.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/a7786df0-0084-44f0-a423-39a86c29b7c0-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[1]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+              "blockId": "exam-mb-2631fc92-bcf5-4cdb-89fc-05a791fe4e80"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "empirical-mean-variance-from-bounds",
+            "reasoningScore": 30,
+            "difficulty": "Development",
+            "difficultyReason": "Use the empirical rule to identify the mean as the midpoint, then find the standard deviation from the three-standard-deviation interval and square it.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:31:55.233Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "a7bdabec56efce6543e1695a879803a599093dfa4524990ba42a0ce1e49504be",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/rate/chunk-6a27879273450782.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-school",
+            "paper": "Y12 Advanced",
+            "year": "2024",
+            "label": "North Sydney Girls High School Y12 Advanced 2024",
+            "origin": "MathsBase"
+          }
+        },
+        {
+          "id": "exam-mb-ea84bfac-9479-45a0-a9d8-383982c24981",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-ea84bfac-9479-45a0-a9d8-383982c24981-root",
+            "type": "question",
+            "label": null,
+            "prompt": "The scores of a class are normally distributed with a mean of $60$ and a standard deviation of $10$.\nWhich of the following could be the value of the shaded region on the diagram below?\n\n(A) $60\\%$\n(B) $68\\%$\n(C) $70\\%$\n(D) $90\\%$",
+            "answerSpaceMm": 0,
+            "answer": {
+              "short": "A",
+              "worked": "Convert the endpoints to $z$-scores.\n$$\\begin{align*}z_1&=\\frac{52-60}{10}\\\\&=-0.8\\end{align*}$$\n$$\\begin{align*}z_2&=\\frac{68-60}{10}\\\\&=0.8\\end{align*}$$\nThe shaded region is $P(-0.8<z<0.8)$.\n$$\\begin{align*}P(-0.8<z<0.8)&\\approx0.576\\\\&\\approx58\\%\\end{align*}$$\nThe closest option is $60\\%$, so the answer is A."
+            },
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-ea84bfac-9479-45a0-a9d8-383982c24981-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"probabilityBlue\",\"hex\":\"D4E8FF\",\"reason\":\"shaded probability region\"}],\"reference\":\"r22 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}, scale=0.9]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{probabilityBlue}{HTML}{D4E8FF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt,-{Stealth[length=2mm]}] (-4.3,0) -- (4.3,0);\n\\begin{scope}\n\\clip (-4.3,-0.1) rectangle (4.3,2.3);\n\\fill[probabilityBlue] (-1.6,0) -- plot[domain=-1.6:1.6, samples=100, smooth, variable=\\x] ({\\x},{2*exp(-0.5*(\\x/2)*(\\x/2))}) -- (1.6,0) -- cycle;\n\\draw[line width=0.8pt,{Stealth[length=2mm]}-{Stealth[length=2mm]}, domain=-4:4, samples=120, smooth, variable=\\x] plot ({\\x},{2*exp(-0.5*(\\x/2)*(\\x/2))});\n\\draw[line width=0.4pt,dashed] (-1.6,0) -- (-1.6,{2*exp(-0.5*(1.6/2)*(1.6/2))});\n\\draw[line width=0.4pt,dashed] (1.6,0) -- (1.6,{2*exp(-0.5*(1.6/2)*(1.6/2))});\n\\draw[line width=0.4pt,dashed] (0,0) -- (0,2);\n\\end{scope}\n\\foreach \\x/\\lab in {-4/40,-2/50,0/60,2/70,4/80}{\\draw[line width=0.4pt] (\\x,0.07) -- (\\x,-0.07) node[below,font=\\fontsize{8.5}{10}\\selectfont] {$\\lab$};}\n\\node[above] at (-1.6,{2*exp(-0.5*(1.6/2)*(1.6/2))}) {$52$};\n\\node[above] at (1.6,{2*exp(-0.5*(1.6/2)*(1.6/2))}) {$68$};\n\\end{tikzpicture}",
+                "widthMm": 79,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for ea84bfac-9479-45a0-a9d8-383982c24981",
+                  "description": "Normal curve centred at 60 on a horizontal axis scaled 40 to 80 in steps of 10. The region between 52 and 68 is shaded, with dashed vertical lines at 52, 60 and 68.",
+                  "mathematics": "Normal distribution with mean 60 and standard deviation 10; shaded region is P(52 < X < 68), which corresponds to z from -0.8 to 0.8.",
+                  "answerVisibility": "The shaded area is not given; only the axis scale and the endpoints 52 and 68 are shown."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "ea84bfac-9479-45a0-a9d8-383982c24981",
+              "sourceCode": "PLC.Y12.STN.2024.T3 S1Q2",
+              "sourceQuestionSha256": "2692f42fdafc2549d0bb56b1332d06f11eba48fb42ec1cf688944b3bc59218ec",
+              "sourceSolutionSha256": "cf0f08b336bb1b3f73ecb73f2b03f46a32b4cb3fcb91a2f8f08f0720b273dc50",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/317.json",
+              "sourceImages": []
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[1]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+              "blockId": "exam-mb-2631fc92-bcf5-4cdb-89fc-05a791fe4e80"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "symmetric-interval-raw-score",
+            "reasoningScore": 30,
+            "difficulty": "Development",
+            "difficultyReason": "Standardise the two endpoints, find the probability between the resulting z-scores, and select the closest percentage.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:31:50.886Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "43dcc2ea67af6ed3cd009725716586cac8f2ab0d2d0a943e6b142348ba4d1ab3",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/rate/chunk-c8b7a70dad4973bf.json"
+            }
+          },
+          "source": {
+            "provider": "PLC",
+            "paper": "Y12 STN T3",
+            "year": "2024",
+            "label": "PLC Y12 STN T3 2024",
+            "origin": "MathsBase"
+          }
+        },
+        {
           "id": "exam-mb-f7983846-8cb7-4c79-a28e-7c9b53c6c892",
           "type": "question",
           "pedagogyRole": "practice",
@@ -33675,6 +33841,2127 @@
             "paper": "Standard",
             "year": "2019",
             "label": "CSSA Standard 2019",
+            "origin": "MathsBase"
+          }
+        },
+        {
+          "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root",
+            "type": "question",
+            "label": null,
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d1",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "A random variable is normally distributed with mean ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "0",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " and standard deviation ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "1",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": ".",
+                      "marks": []
+                    },
+                    {
+                      "type": "break"
+                    },
+                    {
+                      "type": "text",
+                      "text": "The table gives the probability that this random variable lies between ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "0",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " and ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "z",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " for different values of ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "z",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": ".",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d2",
+                  "type": "table",
+                  "widthMm": 141,
+                  "marginBefore": 2,
+                  "marginAfter": 2,
+                  "borderColour": "#cccccc",
+                  "borderWidthMm": 0.26,
+                  "rowHeights": [],
+                  "annotations": [],
+                  "border": true,
+                  "padding": 1,
+                  "widths": [
+                    27,
+                    19,
+                    19,
+                    19,
+                    19,
+                    19,
+                    19
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d3",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d4",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "z",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d5",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d6",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.1",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d7",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d8",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.2",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d9",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d10",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.3",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d11",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d12",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.4",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d13",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d14",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.5",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d15",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d16",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.6",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d17",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d18",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Probability",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d19",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d20",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.0398",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d21",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d22",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.0793",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d23",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d24",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.1179",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d25",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d26",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.1554",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d27",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d28",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.1915",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d29",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d30",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.2257",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-d31",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "The probability values given in the table for different values of ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "z",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " are represented by the shaded area in the following diagram.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Using the table, find the probability that a value from a random variable that is normally distributed with mean $0$ and standard deviation $1$ lies between $0.1$ and $0.5$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$0.1517$",
+                  "worked": "$$\\begin{align*}P(0.1<Z<0.5)&=P(0<Z<0.5)-P(0<Z<0.1)\\\\&=0.1915-0.0398\\\\&=0.1517\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Birth weights are normally distributed with a mean of $3300 \\text{ grams}$ and a standard deviation of $570 \\text{ grams}$.\nBy first calculating a $z$-score, find how many babies, out of $1000$ born, are expected to have a birth weight greater than $3528 \\text{ grams}$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$344.6$ babies",
+                  "worked": "$$\\begin{align*}z&=\\frac{3528-3300}{570}\\\\&=0.4\\end{align*}$$\n$$\\begin{align*}P(Z>0.4)&=0.5-P(0<Z<0.4)\\\\&=0.5-0.1554\\\\&=0.3446\\end{align*}$$\n$$\\begin{align*}\\text{Expected number}&=1000\\times0.3446\\\\&=344.6\\end{align*}$$"
+                }
+              }
+            ],
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-28e078d1-5f67-4951-aeec-d97861b652d8-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"shadeBlue\",\"hex\":\"D4E8FF\",\"reason\":\"shaded probability region between 0 and z\"}],\"reference\":\"r15 figure 1\"}\n\\begin{tikzpicture}\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt}}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{shadeBlue}{HTML}{D4E8FF}\n\\begin{axis}[axis lines=none, width=7.5cm, height=2.8cm, scale only axis, xmin=-3.4, xmax=3.4, ymin=-0.08, ymax=0.43, clip=false]\n\\addplot[draw=none, fill=shadeBlue, domain=0:0.8, samples=20] {0.4*exp(-x^2/2)} \\closedcycle;\n\\addplot[line width=0.8pt, black, domain=-3.3:3.3, samples=100] {0.4*exp(-x^2/2)};\n\\draw[line width=0.5pt] (axis cs:0,0)--(axis cs:0,0.4);\n\\draw[line width=0.5pt] (axis cs:0.8,0)--(axis cs:0.8,0.2904);\n\\draw[line width=0.5pt] (axis cs:-3.4,0)--(axis cs:3.4,0);\n\\node[below, font=\\fontsize{10}{12}\\selectfont] at (axis cs:0,0) {$0$};\n\\node[below, font=\\fontsize{10}{12}\\selectfont] at (axis cs:0.8,0) {$z$};\n\\end{axis}\n\\end{tikzpicture}",
+                "widthMm": 77,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for 28e078d1-5f67-4951-aeec-d97861b652d8 (.booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/28e078d1-5f67-4951-aeec-d97861b652d8-1.png)",
+                  "description": "Normal curve centred at 0 with the region between 0 and z shaded; the axis is labelled 0 and z below the two ordinates.",
+                  "mathematics": "Curve y = 0.4 exp(-x^2/2); shaded area is P(0 < Z < z), drawn with z at 0.8 for illustration.",
+                  "answerVisibility": "No numerical value of z or probability is shown; z is a generic symbol."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "28e078d1-5f67-4951-aeec-d97861b652d8",
+              "sourceCode": "HSC.ADV.2021 Q22",
+              "sourceQuestionSha256": "214dc753f2861474969a1067b469a6c02ba5b6966fb845ede9ff6e322afac130",
+              "sourceSolutionSha256": "c1490cbf060b645a99eee9cbddc133e503a57a3d4cc60c1a641766ec247142f2",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/317.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/28e078d1-5f67-4951-aeec-d97861b652d8-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[1]",
+              "[3]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+              "blockId": "exam-mb-16e516ae-32a7-4d28-b15f-b50d016bf582"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "table-zero-to-z-expected-count",
+            "reasoningScore": 36,
+            "difficulty": "Development",
+            "difficultyReason": "Students subtract table areas, then standardise a birth weight, use a complementary tail and convert the probability to an expected count.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:31:55.633Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "3f8a7640a82fd2bda12c79d63abef2f9790c7373ca22e224a9f64a4db34af19a",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/rate/chunk-860636f4e1464b10.json"
+            }
+          },
+          "source": {
+            "provider": "HSC",
+            "paper": "Advanced",
+            "year": "2021",
+            "label": "HSC Advanced 2021",
+            "origin": "MathsBase"
+          }
+        },
+        {
+          "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root",
+            "type": "question",
+            "label": null,
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d1",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "A random variable is normally distributed with mean ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "0",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " and standard deviation ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "1",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": ".",
+                      "marks": []
+                    },
+                    {
+                      "type": "break"
+                    },
+                    {
+                      "type": "text",
+                      "text": "The table below gives the probability that this random variable lies below ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "z",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " for different values of ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "z",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": ".",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d2",
+                  "type": "table",
+                  "widthMm": 178,
+                  "marginBefore": 2,
+                  "marginAfter": 2,
+                  "borderColour": "#cccccc",
+                  "borderWidthMm": 0.26,
+                  "rowHeights": [],
+                  "annotations": [],
+                  "border": true,
+                  "padding": 1,
+                  "widths": [
+                    8,
+                    17,
+                    17,
+                    17,
+                    17,
+                    17,
+                    17,
+                    17,
+                    17,
+                    17,
+                    17
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d3",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d4",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "z",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d5",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d6",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".0",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d7",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d8",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".1",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d9",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d10",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".2",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d11",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d12",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".3",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d13",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d14",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".4",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d15",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d16",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".5",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d17",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d18",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".6",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d19",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d20",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".7",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d21",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d22",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".8",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d23",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d24",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": ".9",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d25",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d26",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d27",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d28",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.500",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d29",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d30",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.540",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d31",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d32",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.579",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d33",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d34",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.618",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d35",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d36",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.655",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d37",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d38",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.691",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d39",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d40",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.726",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d41",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d42",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.758",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d43",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d44",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.788",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d45",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d46",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.816",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d47",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d48",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d49",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d50",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.841",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d51",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d52",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.864",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d53",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d54",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.885",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d55",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d56",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.903",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d57",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d58",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.919",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d59",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d60",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.933",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d61",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d62",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.945",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d63",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d64",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.955",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d65",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d66",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.964",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d67",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d68",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "0.971",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-d69",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "The probability values given in the table for different values of ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "z",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " are represented by the shaded area in the following diagram.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Calculate the probability that the random variable lies above $-1.2$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$0.885$",
+                  "worked": "By symmetry of the normal distribution, the area above $-1.2$ equals the area below $1.2$.\n$$\\begin{align*}P(z>-1.2)&=P(z<1.2)\\\\&=0.885.\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "A factory fills bottles with water.\nThe actual amount of water in each bottle is normally distributed with a mean of $602 \\text{ mL}$ and a standard deviation of $2.5 \\text{ mL}$.\nUsing the values in the table, determine the percentage of bottles that contain between $599 \\text{ mL}$ and $604 \\text{ mL}$ of water.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$67.3\\%$",
+                  "worked": "$$\\begin{align*}z(599)&=\\frac{599-602}{2.5}\\\\&=-1.2\\end{align*}$$\n$$\\begin{align*}z(604)&=\\frac{604-602}{2.5}\\\\&=0.8\\end{align*}$$\nBy symmetry, $P(z<-1.2)=1-0.885=0.115$.\n$$\\begin{align*}P(-1.2<z<0.8)&=P(z<0.8)-P(z<-1.2)\\\\&=0.788-0.115\\\\&=0.673\\end{align*}$$\nThe percentage of bottles is $67.3\\%$."
+                }
+              }
+            ],
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-39889cc4-666b-4551-bc2d-7a7e1b03547d-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"probabilityBlue\",\"hex\":\"D4E8FF\",\"reason\":\"shaded probability region\"}],\"reference\":\"r17 figure 1\"}\n\\begin{tikzpicture}\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt}}\n\\definecolor{probabilityBlue}{HTML}{D4E8FF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{axis}[width=7cm,height=3.2cm,axis x line=bottom,axis y line=none,axis line style={line width=0.5pt,{Stealth[length=2mm]}-{Stealth[length=2mm]}},xmin=-4,xmax=4,ymin=0,ymax=0.45,xtick={0,0.9},xticklabels={$0$,$z$},major tick length=2pt,tick style={line width=0.4pt,black},ticklabel style={font=\\fontsize{10}{12}\\selectfont},samples=80,clip=true]\n\\addplot[draw=none,fill=probabilityBlue,domain=-3.6:0.9] {0.3989*exp(-x*x/2)} \\closedcycle;\n\\addplot[line width=0.8pt,black,domain=-3.6:3.6] {0.3989*exp(-x*x/2)};\n\\addplot[line width=0.8pt,black,samples=2,domain=0:1] ({0.9},{x*0.2661});\n\\end{axis}\n\\end{tikzpicture}",
+                "widthMm": 56,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for 39889cc4-666b-4551-bc2d-7a7e1b03547d (.booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/39889cc4-666b-4551-bc2d-7a7e1b03547d-1.png)",
+                  "description": "Standard normal curve on a horizontal axis with arrowheads at both ends. The area to the left of a vertical line at z is shaded. The axis is marked at 0 (the mean, at the centre of the curve) and at z.",
+                  "mathematics": "Density 0.3989 e^(-x^2/2); shaded region is P(Z < z), bounded by the vertical line at z > 0.",
+                  "answerVisibility": "No numerical value of z or area is shown; only the tick labels 0 and z given in the source appear."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "39889cc4-666b-4551-bc2d-7a7e1b03547d",
+              "sourceCode": "HSC.CSSA.Y12.ADV.2023 Q22",
+              "sourceQuestionSha256": "431707e22ab8b219d6158a8b40a69ca98020743e4d14735d6fe2195e56a35cd1",
+              "sourceSolutionSha256": "875aeaed2fbd6401701fda566c8f500022ffb596e680b44ff2eddf550dfbecd2",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/317.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/39889cc4-666b-4551-bc2d-7a7e1b03547d-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[1]",
+              "[2]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+              "blockId": "exam-mb-16e516ae-32a7-4d28-b15f-b50d016bf582"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "table-interval-probability",
+            "reasoningScore": 39,
+            "difficulty": "Development",
+            "difficultyReason": "Students use symmetry with a cumulative table, standardise two values and combine the resulting areas to find a percentage.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:31:55.633Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "6db68b9fe39a9cc13d2617e70d3216ba0b1149f00aa4fc91a0ab23aed3bc1b97",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/rate/chunk-860636f4e1464b10.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-provider",
+            "paper": "Y12 Advanced",
+            "year": "2023",
+            "label": "CSSA Y12 Advanced 2023",
             "origin": "MathsBase"
           }
         },
@@ -38790,6 +41077,926 @@
             "paper": "Y12 Advanced",
             "year": "2023",
             "label": "Neap Education Y12 Advanced 2023",
+            "origin": "MathsBase"
+          }
+        },
+        {
+          "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root",
+            "type": "question",
+            "label": null,
+            "prompt": {
+              "format": "maths-editor-document-v1",
+              "version": 1,
+              "blocks": [
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d1",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "In a particular city, the heights of adult females and the heights of adult males are each normally distributed.",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d2",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "Information relating to two females from that city is given in Table 1.",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d3",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "Table 1",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d4",
+                  "type": "table",
+                  "widthMm": 163,
+                  "marginBefore": 2,
+                  "marginAfter": 2,
+                  "borderColour": "#cccccc",
+                  "borderWidthMm": 0.26,
+                  "rowHeights": [],
+                  "annotations": [],
+                  "border": true,
+                  "padding": 1,
+                  "widths": [
+                    23,
+                    17,
+                    123
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d5",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d6",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Height",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d7",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d8",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Gender",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d9",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d10",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Percentage of females in this city shorter than this person",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d11",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d12",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "175",
+                                "display": false
+                              },
+                              {
+                                "type": "text",
+                                "text": " cm",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d13",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d14",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Female",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d15",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d16",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "97.5\\%",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d17",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d18",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "160.6",
+                                "display": false
+                              },
+                              {
+                                "type": "text",
+                                "text": " cm",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d19",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d20",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Female",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d21",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d22",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "16\\%",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d23",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "The means and standard deviations of adult females and males, in centimetres, are given in Table 2.",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d24",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "Table 2",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d25",
+                  "type": "table",
+                  "widthMm": 77,
+                  "marginBefore": 2,
+                  "marginAfter": 2,
+                  "borderColour": "#cccccc",
+                  "borderWidthMm": 0.26,
+                  "rowHeights": [],
+                  "annotations": [],
+                  "border": true,
+                  "padding": 1,
+                  "widths": [
+                    19,
+                    17,
+                    41
+                  ],
+                  "rows": [
+                    [
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d26",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d27",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": []
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d28",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d29",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Mean",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d30",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d31",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Standard deviation",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d32",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d33",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Females",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d34",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d35",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "\\mu",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d36",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d37",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "\\sigma",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    [
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d38",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d39",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "text",
+                                "text": "Males",
+                                "marks": []
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d40",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d41",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1.05\\mu",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d42",
+                        "type": "cell",
+                        "header": false,
+                        "align": "center",
+                        "verticalAlign": "middle",
+                        "background": "transparent",
+                        "colour": "inherit",
+                        "bold": false,
+                        "borderColour": null,
+                        "borderWidthMm": null,
+                        "border": null,
+                        "rotation": 0,
+                        "colspan": 1,
+                        "rowspan": 1,
+                        "blocks": [
+                          {
+                            "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d43",
+                            "type": "paragraph",
+                            "fontSize": null,
+                            "align": "center",
+                            "spaceBefore": 0,
+                            "spaceAfter": 2,
+                            "lineHeight": 1.4,
+                            "indent": 0,
+                            "inlines": [
+                              {
+                                "type": "math",
+                                "latex": "1.1\\sigma",
+                                "display": false
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d44",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "A selected male is taller than ",
+                      "marks": []
+                    },
+                    {
+                      "type": "math",
+                      "latex": "84\\%",
+                      "display": false
+                    },
+                    {
+                      "type": "text",
+                      "text": " of the population of adult males in this city.",
+                      "marks": []
+                    }
+                  ]
+                },
+                {
+                  "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-d45",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "By first labelling the normal distribution curve below with the heights of the two females given in Table 1, calculate the height of the selected male, in centimetres, correct to two decimal places.",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            "answerSpaceMm": 0,
+            "answer": {
+              "short": "$178.95\\text{ cm}$",
+              "worked": "A percentile of $97.5\\%$ corresponds to $z=2$, and $16\\%$ corresponds to $z=-1$. For the females:\n$$\\begin{align*}\\mu+2\\sigma&=175\\\\\\mu-\\sigma&=160.6\\end{align*}$$\nSubtracting the second equation from the first:\n$$\\begin{align*}3\\sigma&=14.4\\\\\\sigma&=4.8\\\\\\mu&=165.4\\end{align*}$$\nFor the males:\n$$\\begin{align*}\\text{mean}&=1.05\\times165.4\\\\&=173.67\\\\\\text{SD}&=1.1\\times4.8\\\\&=5.28\\end{align*}$$\nTaller than $84\\%$ corresponds to $z=1$.\n$$\\begin{align*}x&=173.67+1(5.28)\\\\&=178.95\\text{ cm}\\end{align*}$$"
+            },
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"plotted normal curve\"}],\"reference\":\"r9 figure 1\"}\n\\begin{tikzpicture}[x=1.2cm,y=1.2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[line width=0.5pt] (-0.3,0)--(6.3,0);\n\\foreach \\t in {0,1,2,3,4,5,6} {\\draw[line width=0.4pt] (\\t,-0.12)--(\\t,0.12);}\n\\draw[line width=0.8pt,curveBlue,domain=-0.3:6.3,samples=100,variable=\\x] plot ({\\x},{0.22+1.5*exp(-(\\x-3)*(\\x-3)/2)});\n\\end{tikzpicture}",
+                "widthMm": 81,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for 59b1b863-0b76-43e0-8704-f82b15d83eef (.booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/59b1b863-0b76-43e0-8704-f82b15d83eef-1.png, .booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/59b1b863-0b76-43e0-8704-f82b15d83eef-2.png)",
+                  "description": "Bell-shaped normal curve above a plain horizontal axis (no arrowheads) with seven equally spaced tick marks and no labels.",
+                  "mathematics": "Normal density centred on the middle (fourth) tick. The seven ticks represent equally spaced standard-deviation positions from the mean minus 3 SD to the mean plus 3 SD.",
+                  "answerVisibility": "No tick is labelled; the student labels the heights."
+                }
+              }
+            ],
+            "solutionDiagrams": [
+              {
+                "id": "exam-mb-59b1b863-0b76-43e0-8704-f82b15d83eef-root-solution-diagram-1",
+                "format": "tikz",
+                "role": "solution",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"plotted normal curve\"}],\"reference\":\"r9 figure 2\"}\n\\begin{tikzpicture}[x=1.2cm,y=1.2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\draw[line width=0.5pt] (-0.3,0)--(6.3,0);\n\\foreach \\t in {0,1,2,3,4,5,6} {\\draw[line width=0.4pt] (\\t,-0.12)--(\\t,0.12);}\n\\draw[line width=0.8pt,curveBlue,domain=-0.3:6.3,samples=100,variable=\\x] plot ({\\x},{0.22+1.5*exp(-(\\x-3)*(\\x-3)/2)});\n\\draw[line width=0.4pt,dashed] (2,0)--(2,1.13);\n\\draw[line width=0.4pt,dashed] (3,0)--(3,1.72);\n\\draw[line width=0.4pt,dashed] (5,0)--(5,0.423);\n\\draw[line width=0.4pt] (2,-0.12)--(2,-0.9);\n\\draw[line width=0.4pt] (5,-0.12)--(5,-0.9);\n\\node[anchor=north] at (3,-0.15) {$165.4$};\n\\node[anchor=north] at (2,-0.9) {$\\mu-\\sigma=160.6$};\n\\node[anchor=north] at (5,-0.9) {$\\mu+2\\sigma=175$};\n\\end{tikzpicture}",
+                "widthMm": 81,
+                "spec": {
+                  "sourceImageLabel": "Source figure 2 for 59b1b863-0b76-43e0-8704-f82b15d83eef (.booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/59b1b863-0b76-43e0-8704-f82b15d83eef-1.png, .booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/59b1b863-0b76-43e0-8704-f82b15d83eef-2.png)",
+                  "description": "The same normal curve and tick axis, with dashed lines from the axis up to the curve at the mean, mean minus 1 SD and mean plus 2 SD. Labels read 165.4 (under the mean), mu - sigma = 160.6 and mu + 2 sigma = 175 (below the axis, joined to it by short solid lines).",
+                  "mathematics": "mu+2sigma=175 and mu-sigma=160.6 give sigma=4.8 and mu=165.4. Guides sit at x=3 (mean), x=2 and x=5 on the unit-spaced tick scale.",
+                  "answerVisibility": "Solution only: shows the labelled heights the question asks the student to add."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "59b1b863-0b76-43e0-8704-f82b15d83eef",
+              "sourceCode": "HSC.STN.2021 Q41",
+              "sourceQuestionSha256": "b751daf5f744ed201a4b6ec9e6265f1a23af605a3b2936a31496a2e3859fc4c8",
+              "sourceSolutionSha256": "58cfd4b9ca5992662f3a854f332d2a21b9012c902b8a6223653de37d8702b156",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/316.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/59b1b863-0b76-43e0-8704-f82b15d83eef-1.png",
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/images/59b1b863-0b76-43e0-8704-f82b15d83eef-2.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[4]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-3-the-normal-distribution-2-v1",
+              "blockId": "p70-q7"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "empirical-percentile-infer-mean-sd",
+            "reasoningScore": 62,
+            "difficulty": "Mastery",
+            "difficultyReason": "Use percentile positions to form and solve two equations for the female mean and standard deviation, then transform both parameters and interpret the male percentile.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:33:24.206Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "c3ebd616071ac890e220842a95ea1384cb3dbe4880bf7d35001b9b3b1b5c4997",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-3-the-normal-distribution-2-v1/rate/chunk-c9c4f2e7543ca092.json"
+            }
+          },
+          "source": {
+            "provider": "HSC",
+            "paper": "Standard",
+            "year": "2021",
+            "label": "HSC Standard 2021",
             "origin": "MathsBase"
           }
         }
@@ -56231,10 +59438,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 4,
+  "revision": 5,
   "assets": [],
   "createdAt": "2026-11-06T10:47:59.577Z",
-  "updatedAt": "2026-11-07T04:51:33.183Z",
+  "updatedAt": "2026-11-07T10:41:01.586Z",
   "library": {
     "category": "master",
     "courseId": "s6-adv12",

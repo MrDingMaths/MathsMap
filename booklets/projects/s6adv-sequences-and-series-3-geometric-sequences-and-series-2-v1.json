@@ -18953,6 +18953,111 @@
           }
         },
         {
+          "id": "exam-mb-ebe710a9-f59d-43a1-bc83-0df10c6ce01f",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-ebe710a9-f59d-43a1-bc83-0df10c6ce01f-root",
+            "type": "question",
+            "label": null,
+            "prompt": "An equilateral triangle has a perimeter of $p$ cm.\nThe midpoints of each side are connected to form another triangle.\nThis pattern can continue for an infinite number of times, as shown in the diagram.",
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-ebe710a9-f59d-43a1-bc83-0df10c6ce01f-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Show that the perimeter of the $n$th triangle is $\\frac{p}{2^{n-1}}$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "Shown: $P_n=\\frac{p}{2^{n-1}}$.",
+                  "worked": "Each new triangle has side lengths half those of the previous triangle, so the perimeters form a geometric sequence with first term $p$ and common ratio $\\frac{1}{2}$.\n$$\\begin{align*}P_n&=ar^{n-1}\\\\&=p\\left(\\frac{1}{2}\\right)^{n-1}\\\\&=\\frac{p}{2^{n-1}}\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-ebe710a9-f59d-43a1-bc83-0df10c6ce01f-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Find an expression in terms of $p$ that represents the total perimeter of all the triangles.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$2p$",
+                  "worked": "The total perimeter is the sum of an infinite geometric series.\n$$\\begin{align*}S_\\infty&=\\frac{a}{1-r}\\\\&=\\frac{p}{1-\\frac{1}{2}}\\\\&=2p\\end{align*}$$"
+                }
+              }
+            ],
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-ebe710a9-f59d-43a1-bc83-0df10c6ce01f-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"r6 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\usetikzlibrary{calc}\n\\coordinate (a0) at (0,0);\n\\coordinate (b0) at (4,0);\n\\coordinate (c0) at (2,3.4641);\n\\foreach \\i/\\j in {0/1,1/2,2/3,3/4} {\n  \\coordinate (a\\j) at ($(a\\i)!0.5!(b\\i)$);\n  \\coordinate (b\\j) at ($(b\\i)!0.5!(c\\i)$);\n  \\coordinate (c\\j) at ($(c\\i)!0.5!(a\\i)$);\n}\n\\foreach \\i in {0,1,2,3,4} {\n  \\draw[line width=0.5pt] (a\\i)--(b\\i)--(c\\i)--cycle;\n}\n\\end{tikzpicture}",
+                "widthMm": 42,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for ebe710a9-f59d-43a1-bc83-0df10c6ce01f (.booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/ebe710a9-f59d-43a1-bc83-0df10c6ce01f-1.png)",
+                  "description": "An equilateral triangle with successive triangles formed by joining the midpoints of the sides, nested inward five triangles deep (the outer triangle plus four more).",
+                  "mathematics": "Each triangle's vertices are the midpoints of the previous triangle's sides, so side lengths halve each time. Triangles alternate between upright and inverted.",
+                  "answerVisibility": "No labels are given in the source; none are added."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "ebe710a9-f59d-43a1-bc83-0df10c6ce01f",
+              "sourceCode": "HSC.NEAP.Y12.ADV.2022 Q29",
+              "sourceQuestionSha256": "45dbf31da3060b6a8e807533cdbceaf6bde584cced21095d9388fba5b13c8a0e",
+              "sourceSolutionSha256": "47c0e4ba212682217a032eb43ddcd2e7898a59efa0be8ef9a0219235e1844119",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/94.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/ebe710a9-f59d-43a1-bc83-0df10c6ce01f-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[2]",
+              "[1]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1",
+              "blockId": "p50-q11"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "geometric-figure-limiting-sum",
+            "reasoningScore": 30,
+            "difficulty": "Development",
+            "difficultyReason": "Identify that joining midpoints halves each successive perimeter, then use the geometric term and limiting-sum formulas.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:54:18.908Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "d94b7054f454a0051609a5e3bd94583b2a096948ca868b8a49d0708fb760ea0a",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/rate/chunk-609bfa76af77e39a.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-provider",
+            "paper": "Y12 Advanced",
+            "year": "2022",
+            "label": "Neap Education Y12 Advanced 2022",
+            "origin": "MathsBase"
+          }
+        },
+        {
           "id": "exam-mb-999e5488-e300-40b8-a0f2-c621ad686a06",
           "type": "question",
           "pedagogyRole": "practice",
@@ -20280,6 +20385,124 @@
             "paper": "Advanced",
             "label": "HSC Sample Question Advanced",
             "origin": "booklet"
+          }
+        },
+        {
+          "id": "exam-mb-9bc92bd4-db44-4e6e-8adc-469b0a09b659",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-9bc92bd4-db44-4e6e-8adc-469b0a09b659-root",
+            "type": "question",
+            "label": null,
+            "prompt": "Sunya and Jonathan are playing a game.\nThe spinner below is spun.\nIf the hand lands on red then Sunya wins and the game is over.\nIf the hand lands on blue then Jonathan wins and the game is over.\nIf the hand lands on green then another spin is taken.",
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-9bc92bd4-db44-4e6e-8adc-469b0a09b659-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "What is the probability that Jonathan wins on the first spin?",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$\\frac{3}{10}$",
+                  "worked": "From the spinner:\n$$\\begin{align*}P(\\text{Jonathan wins on the first spin})&=P(B)\\\\&=\\frac{3}{10}\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-9bc92bd4-db44-4e6e-8adc-469b0a09b659-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "What is the probability that Jonathan wins on the third spin?",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$\\frac{3}{40}$",
+                  "worked": "Jonathan wins on the third spin if the first two spins are green and the third spin is blue.\n$$\\begin{align*}P(\\text{Jonathan wins on the third spin})&=\\frac{1}{2}\\times\\frac{1}{2}\\times\\frac{3}{10}\\\\&=\\frac{3}{40}\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-9bc92bd4-db44-4e6e-8adc-469b0a09b659-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "What is the probability that Jonathan eventually wins the game?",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$\\frac{3}{5}$\n\nJonathan's winning probabilities form a limiting geometric series with $a=\\frac{3}{10}$ and $r=\\frac{1}{2}$.",
+                  "worked": "Jonathan can win on the first spin, second spin, third spin, and so on. This is a limiting geometric series with first term $a=\\frac{3}{10}$ and common ratio $r=\\frac{1}{2}$.\n$$\\begin{align*}P(\\text{Jonathan eventually wins})&=\\frac{3}{10}+\\frac{1}{2}\\cdot\\frac{3}{10}+\\left(\\frac{1}{2}\\right)^2\\cdot\\frac{3}{10}+\\cdots\\\\&=\\frac{a}{1-r}\\\\&=\\frac{\\frac{3}{10}}{1-\\frac{1}{2}}\\\\&=\\frac{3}{5}\\end{align*}$$"
+                }
+              }
+            ],
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-9bc92bd4-db44-4e6e-8adc-469b0a09b659-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"r5 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\large}]\n\\def\\R{2.2}\n\\draw[line width=0.8pt] (0,0) circle (\\R);\n\\foreach \\a in {100,208,280} {\\draw[line width=0.8pt] (0,0)--(\\a:\\R);}\n\\foreach \\a in {136,172,244,316,352,28,64} {\\draw[line width=0.4pt] (\\a:{\\R-0.14})--(\\a:\\R);}\n\\node[align=center] at (-1.0,0.8) {Blue\\\\Jonathan\\\\wins};\n\\node[align=center] at (1.1,0.8) {Green\\\\Spin\\\\Again};\n\\node[align=center] at (-0.4,-1.2) {Red\\\\Sunya\\\\wins};\n\\fill[black] (0.028,0.096)--(1.634,-0.469)--(-0.028,-0.096)--cycle;\n\\draw[line width=0.5pt,fill=white] (0,0) circle (0.07);\n\\end{tikzpicture}",
+                "widthMm": 46,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for 9bc92bd4-db44-4e6e-8adc-469b0a09b659 (.booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/9bc92bd4-db44-4e6e-8adc-469b0a09b659-1.png, .booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/9bc92bd4-db44-4e6e-8adc-469b0a09b659-2.png)",
+                  "description": "Circular spinner divided into three sectors by three radii: Blue (Jonathan wins), Red (Sunya wins) and Green (Spin Again), with a black hand pointing into the green sector and short tick marks around the rim.",
+                  "mathematics": "Sectors are drawn as tenths of the circle: blue 3/10 (108°), red 2/10 (72°), green 1/2 (180°). Rim ticks are at 36° intervals (tenths).",
+                  "answerVisibility": "No probabilities are printed; they are read from the sector sizes."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "9bc92bd4-db44-4e6e-8adc-469b0a09b659",
+              "sourceCode": "HSC.BHHS.Y12.ADV.2025 Q30",
+              "sourceQuestionSha256": "6956290e65d08a7c6b3e1584dc9295ae1f38997bbcde0ea92d2e0e92af3312b4",
+              "sourceSolutionSha256": "2a195f84f610b2878ddf1cbf24f7bc3b21dbfecc9b90777f519e34b006bc472c",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/94.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/9bc92bd4-db44-4e6e-8adc-469b0a09b659-1.png",
+                ".booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/9bc92bd4-db44-4e6e-8adc-469b0a09b659-2.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[1]",
+              "[1]",
+              "[2]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1",
+              "blockId": "p54-q21-block"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "game-probability-limiting-sum",
+            "reasoningScore": 43,
+            "difficulty": "Development",
+            "difficultyReason": "The student must read probabilities from the spinner, identify the required sequence of spins, and model eventual success with a limiting geometric series.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:53:47.803Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "53f53273f919edf744724faa17b77ede229354ba9b2b4e06573c6969ed77e184",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/rate/chunk-277d8dc944bacd5e.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-trial",
+            "paper": "BHHS Y12 ADV",
+            "year": "2025",
+            "label": "BHHS Y12 ADV 2025",
+            "origin": "MathsBase"
           }
         },
         {
@@ -22960,6 +23183,123 @@
             "year": "2017",
             "label": "HSC Advanced 2017",
             "origin": "booklet"
+          }
+        },
+        {
+          "id": "exam-mb-ce244980-4241-4c5d-bd87-694d15ab591f",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-ce244980-4241-4c5d-bd87-694d15ab591f-root",
+            "type": "question",
+            "label": null,
+            "prompt": "The sides of a square are $16$ cm in length.\nThe midpoints of the sides of this square are joined to form a new square and four triangles.\nOne of these triangles is shaded in diagram 1.\nThe process is repeated twice as shown in diagrams 2 and 3.\nIn each iteration, one of the areas of the new triangles is shaded.\nLet $x_n$ denote the length of one of the equal sides of each new triangle.\nIt is known that the lengths of the sides form a geometric progression.\nLet $A_n$ denote the area of each new triangle.",
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-ce244980-4241-4c5d-bd87-694d15ab591f-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Show that the expression for $x_n$ is given by $x_n=\\left(\\sqrt{2}\\right)^{7-n}$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "Shown: $x_n=\\left(\\sqrt{2}\\right)^{7-n}$.",
+                  "worked": "The first shaded triangle has equal side lengths $8$ cm, so $x_1=8$. Each new equal side length is multiplied by $\\frac{1}{\\sqrt{2}}$.\n$$\\begin{align*}x_n&=8\\left(\\frac{1}{\\sqrt{2}}\\right)^{n-1}\\\\&=\\left(\\sqrt{2}\\right)^6\\left(\\sqrt{2}\\right)^{-(n-1)}\\\\&=\\left(\\sqrt{2}\\right)^{7-n}\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-ce244980-4241-4c5d-bd87-694d15ab591f-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Hence, find an expression for $A_n$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$A_n=2^{6-n}$",
+                  "worked": "Each triangle is right-angled and isosceles, so:\n$$\\begin{align*}A_n&=\\frac{1}{2}x_n^2\\\\&=\\frac{1}{2}\\left(\\left(\\sqrt{2}\\right)^{7-n}\\right)^2\\\\&=\\frac{1}{2}\\cdot 2^{7-n}\\\\&=2^{6-n}\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-ce244980-4241-4c5d-bd87-694d15ab591f-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "Now consider an initial square of side length $k$ cm.\nThe process described above is repeated indefinitely.\nBy considering the pattern made by the areas of the shaded triangles, find the value of $k$ if the total area of the shaded triangles is $k\\text{ cm}^2$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$k=4$\n\nThe shaded areas form a geometric series with $a=\\frac{k^2}{8}$ and $r=\\frac{1}{2}$; set $S_\\infty=k$.",
+                  "worked": "For an initial square of side length $k$, the first shaded triangle has equal side lengths $\\frac{k}{2}$.\n$$\\begin{align*}A_1&=\\frac{1}{2}\\left(\\frac{k}{2}\\right)^2\\\\&=\\frac{k^2}{8}\\end{align*}$$\nThe shaded areas form a geometric series with common ratio $\\frac{1}{2}$.\n$$\\begin{align*}S_\\infty&=\\frac{\\frac{k^2}{8}}{1-\\frac{1}{2}}\\\\&=\\frac{k^2}{4}\\end{align*}$$\nGiven the total area is $k\\text{ cm}^2$:\n$$\\begin{align*}\\frac{k^2}{4}&=k\\\\k^2&=4k\\\\k(k-4)&=0\\end{align*}$$\nSince $k>0$, $k=4$ cm."
+                }
+              }
+            ],
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-ce244980-4241-4c5d-bd87-694d15ab591f-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"r11 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\large}, x=0.18cm, y=0.18cm]\n\\usetikzlibrary{arrows.meta}\n\\definecolor{shadeBlue}{HTML}{D4E8FF}\n% diagram 1\n\\fill[shadeBlue] (0,0)--(8,0)--(0,8)--cycle;\n\\draw[line width=0.5pt] (0,0) rectangle (16,16);\n\\draw[line width=0.5pt] (8,0)--(16,8)--(8,16)--(0,8)--cycle;\n\\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, line width=0.5pt] (0,17.5)--(16,17.5) node[midway, fill=white, inner sep=1pt] {$16$};\n\\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, line width=0.5pt] (-1.6,0)--(-1.6,8);\n\\node[anchor=east] at (-1.9,4) {$x_1$};\n\\node at (2.4,2.4) {$A_1$};\n\\node[anchor=north] at (8,-0.8) {diagram 1};\n% diagram 2\n\\fill[shadeBlue] (24,0)--(32,0)--(24,8)--cycle;\n\\fill[shadeBlue] (24,8)--(28,12)--(28,4)--cycle;\n\\draw[line width=0.5pt] (24,0) rectangle (40,16);\n\\draw[line width=0.5pt] (32,0)--(40,8)--(32,16)--(24,8)--cycle;\n\\draw[line width=0.5pt] (28,4) rectangle (36,12);\n\\node[anchor=north] at (32,-0.8) {diagram 2};\n% diagram 3\n\\fill[shadeBlue] (48,0)--(56,0)--(48,8)--cycle;\n\\fill[shadeBlue] (48,8)--(52,12)--(52,4)--cycle;\n\\fill[shadeBlue] (52,12)--(56,12)--(52,8)--cycle;\n\\draw[line width=0.5pt] (48,0) rectangle (64,16);\n\\draw[line width=0.5pt] (56,0)--(64,8)--(56,16)--(48,8)--cycle;\n\\draw[line width=0.5pt] (52,4) rectangle (60,12);\n\\draw[line width=0.5pt] (56,4)--(60,8)--(56,12)--(52,8)--cycle;\n\\node[anchor=north] at (56,-0.8) {diagram 3};\n\\end{tikzpicture}",
+                "widthMm": 127,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for ce244980-4241-4c5d-bd87-694d15ab591f (.booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/ce244980-4241-4c5d-bd87-694d15ab591f-1.png)",
+                  "description": "Three squares side by side. Each has the diamond joining midpoints of its sides; diagram 2 adds the inner square joining the diamond's midpoints, and diagram 3 adds a further diamond inside that square. Diagram 1 shows the width 16 and the side x_1 and shades triangle A_1 in the bottom-left corner. Diagrams 2 and 3 shade the next triangles cumulatively.",
+                  "mathematics": "Outer side 16, first shaded triangle has legs 8 (x_1=8). Each later triangle has legs divided by sqrt(2): the left corner of the first diamond (hypotenuse on the inner square's left side), then the top-left corner of the inner square.",
+                  "answerVisibility": "Only 16, x_1 and A_1 are labelled, as in the source. Shading is retained because it is the mathematical subject of the question."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "ce244980-4241-4c5d-bd87-694d15ab591f",
+              "sourceCode": "HSC.NSG.Y11.ADV.2023 Q31",
+              "sourceQuestionSha256": "0e42afa1803ce62b7e6ace18a50c888c6ad27ae0a20a40ed38021b054be55af2",
+              "sourceSolutionSha256": "c7f9765960e5c86bd8a6c78a9feb0da1b27457c4e6ecbfd22a168a7be1e340eb",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/94.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/images/ce244980-4241-4c5d-bd87-694d15ab591f-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[2]",
+              "[1]",
+              "[3]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1",
+              "blockId": "p60-q32"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "geometric-figure-limiting-sum",
+            "reasoningScore": 57,
+            "difficulty": "Mastery",
+            "difficultyReason": "The student must relate nested square geometry to a geometric progression, convert side lengths to areas, and use a limiting area sum to solve for the initial side length.",
+            "assessment": {
+              "model": "gpt-6.1-terra",
+              "effort": "high",
+              "assessedAt": "2026-11-07T10:53:47.803Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "2ab0fdb09c00ff4e2f953203e3b0c1da6c0e405c0dc36ed0d3ea94cf34d87a2d",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-sequences-and-series-3-geometric-sequences-and-series-2-v1/rate/chunk-277d8dc944bacd5e.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-school",
+            "paper": "Y11 Advanced",
+            "year": "2023",
+            "label": "North Sydney Girls High School Y11 Advanced 2023",
+            "origin": "MathsBase"
           }
         },
         {
@@ -33096,10 +33436,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 2,
+  "revision": 3,
   "assets": [],
   "createdAt": "2026-11-06T11:03:39.166Z",
-  "updatedAt": "2026-11-07T03:03:11.887Z",
+  "updatedAt": "2026-11-07T10:54:38.741Z",
   "library": {
     "category": "master",
     "courseId": "s6-adv12",

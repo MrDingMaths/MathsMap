@@ -224,8 +224,10 @@ async function author(id, project, batch, rowById, index, verification, feedback
       ...(feedback[s.key] ? {previousAttempt: feedback[s.key].previous, checkerIssues: feedback[s.key].issues} : {})});
   }
   const repair = Object.keys(feedback).length ? 'REPAIR ROUND: each row has your previousAttempt and the independent checker\'s checkerIssues. Fix every issue (redraw from the source again where a figure is wrong); keep everything else. If an issue is a real defect in the source itself (a needed given is missing), hold the row with that reason.' : '';
-  const prompt = [AUTHOR_INSTRUCTIONS, repair, reconstructionPrompt('diagrams', 4), 'TikZ manual:\n' + reconstructionPrompt('tikz', 4),
-    JSON.stringify({booklet: project.title, answerSamples: answerSamples(project, 8), rows})].join('\n\n');
+  // The fixed text (instructions and the ~31k-token manuals) comes first so every call, repair rounds included, shares
+  // one prefix; the repair note and the rows follow (7 November 2026, token efficiency).
+  const prompt = [AUTHOR_INSTRUCTIONS, reconstructionPrompt('diagrams', 4), 'TikZ manual:\n' + reconstructionPrompt('tikz', 4), repair,
+    JSON.stringify({booklet: project.title, answerSamples: answerSamples(project, 8), rows})].filter(Boolean).join('\n\n');
   const draft = await generateSonnetDraft({request: {model: NEW_CONTENT_MODEL, kind: 'exam-figure-adaptation', prompt, images}, verification, runDir: dirOf(id), workDir: work, timeoutMs: 1500000});
   return draft.result;
 }
@@ -240,15 +242,25 @@ function normaliseDiagram(d, ref) {
   code = code.replace(/Stealth\[length=(\d*\.?\d+)mm/g, (all, mm) => Number(mm) < 2 ? 'Stealth[length=2mm' : all);
   // PGFPlots draws ticks grey at 0.2 pt by default (even empty ones with xtick=\empty): outside the palette and the
   // stroke roles. House-style ticks are black 0.4 pt; a later tick style in the axis options still applies.
-  if (/\\begin\{axis\}/.test(code)) code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt}}');
+  // Tick labels get a white backing so a curve passing near never runs through them, the commonest checker rejection
+  // (7 November 2026: 60% of rejection reasons were label collisions).
+  if (/\\begin\{axis\}/.test(code)) code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt},every tick label/.append style={fill=white,inner sep=1pt}}');
   // Greys other than the palette's grid grey (#CCCCCC) fail the palette check (7 November 2026, #E0E0E0).
   code = code.replace(/\\definecolor\{([^}]+)\}\{HTML\}\{([0-9A-Fa-f]{6})\}/g, (all, name, hex) => {
     const [r, g, b] = [0, 2, 4].map(i => parseInt(hex.slice(i, i + 2), 16));
     return r === g && g === b && r > 0 && r < 255 && hex.toUpperCase() !== 'CCCCCC' ? `\\definecolor{${name}}{HTML}{CCCCCC}` : all;
   });
-  // Inline greys as {rgb,255:red,204;green,204;blue,204} printed navy in the booklet (7 November 2026, Curve
-  // Sketching 2 grid): name them as the palette grey.
-  code = code.replace(/\{rgb,255:red,(\d+);green,\1;blue,\1\}/g, (all, v) => Number(v) > 0 && Number(v) < 255 ? 'lightgray' : all);
+  // Studio's TikZ misreads inline {rgb,255:red,R;green,G;blue,B}: a grey printed navy and the house blue printed
+  // green (7 November 2026, Curve Sketching 2, Bivariate Data 2, Fundamental Theorem). Greys become the palette
+  // grey; any other colour is defined by its HTML hex, which the palette check reads exactly.
+  const inline = new Map();
+  code = code.replace(/\{rgb,255:red,(\d+);green,(\d+);blue,(\d+)\}/g, (all, r, g, b) => {
+    if (r === g && g === b && Number(r) > 0 && Number(r) < 255) return 'lightgray';
+    const hex = [r, g, b].map(v => Math.min(255, Number(v)).toString(16).padStart(2, '0')).join('').toUpperCase(), name = 'inlineRGB' + hex;
+    inline.set(name, hex);
+    return name;
+  });
+  if (inline.size) code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n' + [...inline].map(([n, h]) => `\\definecolor{${n}}{HTML}{${h}}`).join('\n'));
   if (/\b(?:light)?gr[ae]y(?:!\d+)?\b|\bblack!\d+\b/.test(code)) {
     code = code.replace(/\b(?:light)?gr[ae]y(?:!\d+)?\b|\bblack!(?:[1-9]\d?)\b/g, 'paletteGrey');
     code = code.replace(/(\\begin\{tikzpicture\}(?:\[[^\n]*\])?)/, '$1\n\\definecolor{paletteGrey}{HTML}{CCCCCC}');
@@ -393,8 +405,10 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
   process.env.BOOKLET_CODEX_BIN ??= codexBinary();
   const {runAstraTask} = await import('../scripts/booklet/codex-transcription.mjs');
   let todo = selected, feedback = {};
+  const labelReturned = new Set(), terraRepairs = new Map();
   state.rounds = [];
-  for (let round = 0; round <= REPAIR_ROUNDS && todo.length; round++) {
+  // One round more than REPAIR_ROUNDS so a row sent back for labels still gets its checker-driven repair.
+  for (let round = 0; round <= REPAIR_ROUNDS + 1 && todo.length; round++) {
     const got = new Map();
     const replies = await pool3(authorBatches(todo, rowById, index), b => author(id, project, b, rowById, index, verification, feedback).catch(e => ({error: e.message, keys: b.map(s => s.key)})));
     for (const r of replies) {
@@ -431,6 +445,23 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
     }
     log1.compiled = got.size;
     if (until === 'preview') { state.rounds.push(log1); write(path.join(dir, 'state.json'), {...state, holds: Object.fromEntries(holds), status: 'previewed'}); return {...state, status: 'previewed'}; }
+    // Mechanical label check before the checker ("All three" speed-ups, 7 November 2026): a redraw with a label
+    // collision goes straight back to its author once, without a Terra call. Its later Terra repair is not used up.
+    const labelBack = {};
+    if (got.size && round < REPAIR_ROUNDS + 1) try {
+      const {labelCollisions} = await import('./figure-label-check.mjs');
+      const input = path.join(ROOT, 'public/.audit-input', `exam-figures-${id}-r${round}.json`);
+      const found = await labelCollisions(input);
+      for (const [k, it] of [...got]) {
+        if (labelReturned.has(k)) continue;
+        const issues = it.diagrams.flatMap((d, i) => (found[`${k}-d${i + 1}`]?.issues ?? []).map(t => `${d.role === 'solution' ? 'Solution' : 'Question'} figure ${i + 1}: ${t}. Move the label clear (above, below or beside the line, or along the axis away from the curve) and keep every label.`));
+        if (!issues.length) continue;
+        labelReturned.add(k); got.delete(k);
+        labelBack[k] = {issues, previous: {content: it.content, diagrams: it.diagrams.map(({pngs, ...d}) => d)}};
+      }
+    } catch (e) { say(`label check skipped: ${e.message.slice(0, 160)}`); }
+    log1.labelReturned = Object.keys(labelBack).length;
+    if (log1.labelReturned) say(`round ${round}: ${log1.labelReturned} sent back for label collisions`);
     // rate
     const keys = [...got.keys()], chunks = [];
     for (let i = 0; i < keys.length; i += RATE_ROWS) chunks.push(keys.slice(i, i + RATE_ROWS));
@@ -448,7 +479,17 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
       const key = sha(JSON.stringify(items) + RATER.model + RATER.effort + RATE_VERSION), file = path.join(dir, 'rate', 'chunk-' + key.slice(0, 16) + '.json');
       if (fs.existsSync(file)) return read(file);
       for (let attempt = 1; ; attempt++) {
-        const reply = await runAstraTask({cwd: dir, runDir: dir, prompt: ratePrompt(project, items, anchors, labels), images, out: path.join(dir, 'rate', `call-${key.slice(0, 8)}-${attempt}-${Date.now()}`), profile: 'review', stage: 'exam-figure-rate'});
+        // An unparseable reply (7 November 2026: "reasoningScore": fifty) is retried like an incomplete one, instead
+        // of failing the whole booklet.
+        let reply;
+        try { reply = await runAstraTask({cwd: dir, runDir: dir, prompt: ratePrompt(project, items, anchors, labels), images, out: path.join(dir, 'rate', `call-${key.slice(0, 8)}-${attempt}-${Date.now()}`), profile: 'review', stage: 'exam-figure-rate'}); }
+        catch (e) {
+          // Only a garbled reply is retried. Anything else (Codex exiting, a usage limit) fails the booklet loudly, so
+          // its rows are never recorded as rejected (7 November 2026: a usage limit turned 86 rows into "rating failed").
+          if (!(e instanceof SyntaxError || /JSON/i.test(e.message))) throw e;
+          if (attempt === 2) return {error: 'Terra reply unusable twice: ' + e.message.slice(0, 120), items: chunk.map(k => ({id: k, accept: false, issues: ['rating failed']}))};
+          continue;
+        }
         const res = reply.result, want = new Set(chunk);
         // A rejected item may come back without a score (7 November 2026: null for a blocked task).
         if (Array.isArray(res?.items) && res.items.length === want.size && res.items.every(i => want.has(i.id) && (i.accept !== true || (Number.isInteger(i.reasoningScore) && String(i.difficultyReason ?? '').trim())))) {
@@ -459,12 +500,19 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
         if (attempt === 2) return {error: 'Terra reply incomplete twice', items: chunk.map(k => ({id: k, accept: false, issues: ['rating failed']}))};
       }
     });
-    const next = {...compileFail};
+    const next = {...compileFail, ...labelBack};
     for (const r of rateReplies) for (const i of r.items) {
       const evidence = r.key ? posix(path.join(dir, 'rate', 'chunk-' + r.key.slice(0, 16) + '.json')) : null;
       if (i.accept === true && evidence) { accepted.set(i.id, {...i, assessedAt: r.assessedAt, evidence}); authored.set(i.id, got.get(i.id)); rejected.delete(i.id); }
-      else { rejected.set(i.id, i.issues ?? []); if (r.key) next[i.id] = {issues: i.issues ?? [], previous: {content: got.get(i.id).content, diagrams: got.get(i.id).diagrams.map(({pngs, ...d}) => d)}}; }
+      else {
+        rejected.set(i.id, i.issues ?? []);
+        // Each row gets REPAIR_ROUNDS repairs driven by the checker; a label send-back does not count.
+        const used = terraRepairs.get(i.id) ?? 0;
+        if (r.key && used < REPAIR_ROUNDS) { terraRepairs.set(i.id, used + 1); next[i.id] = {issues: i.issues ?? [], previous: {content: got.get(i.id).content, diagrams: got.get(i.id).diagrams.map(({pngs, ...d}) => d)}}; }
+      }
     }
+    // A compile failure uses one of the row's repairs, like a checker rejection.
+    for (const k of Object.keys(compileFail)) { const used = terraRepairs.get(k) ?? 0; if (used < REPAIR_ROUNDS) terraRepairs.set(k, used + 1); else delete next[k]; }
     log1.accepted = rateReplies.flatMap(r => r.items).filter(i => i.accept === true).length;
     state.rounds.push(log1);
     say(`round ${round}: Terra accepted ${log1.accepted} of ${keys.length}`);
