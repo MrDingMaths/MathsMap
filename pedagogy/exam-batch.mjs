@@ -165,12 +165,35 @@ function anchorsFor(project) {
 }
 
 // ---- native blocks ----------------------------------------------------------------------------------
+// Answers are strings, so tab-separated rows (a table) would print as loose text (7 November 2026: a
+// multiplication grid in a worked solution). Two or more consecutive tab rows become a bordered array;
+// a lone tab becomes a space.
+const arrayCell = cell => {
+  const c = cell.trim();
+  if (!c) return '';
+  if (/^[-−+]?[\d.,]+%?$|^[-–—×]$/.test(c)) return c.replace('%', '\\%').replace('×', '\\times').replace(/^[–—]$/, '-');
+  return c.split(/(\$[^$]*\$)/).map(part => part.startsWith('$') ? part.slice(1, -1) : part ? `\\text{${part.replace(/([%&#_{}])/g, '\\$1')}}` : '').join('');
+};
+export function tabRowsToArray(text) {
+  if (typeof text !== 'string' || !text.includes('\t')) return text;
+  const lines = text.split('\n'), out = [];
+  for (let i = 0; i < lines.length;) {
+    if (!lines[i].includes('\t')) { out.push(lines[i++]); continue; }
+    const rows = [];
+    while (i < lines.length && lines[i].includes('\t')) rows.push(lines[i++].split('\t'));
+    if (rows.length < 2) { out.push(rows[0].join(' ')); continue; }
+    const cols = Math.max(...rows.map(r => r.length));
+    out.push(`$$\\begin{array}{|${'c|'.repeat(cols)}}\\hline ${rows.map(r => Array.from({length: cols}, (_, k) => arrayCell(r[k] ?? '')).join(' & ')).join(' \\\\ \\hline ')} \\\\ \\hline\\end{array}$$`);
+  }
+  return out.join('\n');
+}
+const answerOf = a => ({short: tabRowsToArray(String(a?.short ?? '')), worked: tabRowsToArray(String(a?.worked ?? ''))});
 export function nativeContent(id, content) {
   // Editor source markup (tab-separated table rows, **bold**, _italic_, [[blank|mm]]) becomes an editor document.
   const root = {id: id + '-root', type: 'question', label: null, prompt: promptFromSource(String(content.prompt ?? ''), id + '-root'), answerSpaceMm: 0};
   if ((content.children ?? []).length) {
-    root.children = content.children.map((c, i) => ({id: `${id}-${String(c.label ?? String.fromCharCode(97 + i)).replace(/[^\w]/g, '')}`, type: 'part', label: String(c.label ?? String.fromCharCode(97 + i)), prompt: promptFromSource(String(c.prompt ?? ''), `${id}-${i}`), answerSpaceMm: 0, answer: {short: String(c.answer?.short ?? ''), worked: String(c.answer?.worked ?? '')}}));
-  } else root.answer = {short: String(content.answer?.short ?? ''), worked: String(content.answer?.worked ?? '')};
+    root.children = content.children.map((c, i) => ({id: `${id}-${String(c.label ?? String.fromCharCode(97 + i)).replace(/[^\w]/g, '')}`, type: 'part', label: String(c.label ?? String.fromCharCode(97 + i)), prompt: promptFromSource(String(c.prompt ?? ''), `${id}-${i}`), answerSpaceMm: 0, answer: answerOf(c.answer)}));
+  } else root.answer = answerOf(content.answer);
   return root;
 }
 function nativeBlock(row, selection, rating, {evidence, archetype}) {
@@ -261,8 +284,11 @@ export async function runBooklet(id, {mode = 's4', until = 'build', used = new S
   const blocks = selected.filter(s => accepted.has(s.id)).map(s => nativeBlock(rowById.get(s.id), s, {...accepted.get(s.id), assessedAt: rated.assessedAt}, {evidence: posix(rateFile), archetype: s.archetype}));
   if (!blocks.length) { Object.assign(state, {status: 'none-accepted'}); write(path.join(dir, 'state.json'), state); return state; }
   const prior = mode === 'topup' ? examOwners(project) : [];
-  const ordered = [...prior, ...blocks].sort((a, b) => (a.classification?.reasoningScore ?? 0) - (b.classification?.reasoningScore ?? 0));
   const existingSection = (project.sections ?? []).find(s => s.role === 'exam');
+  // Only the first Exam section's own questions are re-ordered with the new ones; a booklet with a second
+  // Exam section keeps it as it is (7 November 2026: five booklets have two, and merging duplicated owners).
+  const own = existingSection ? existingSection.blocks.filter(b => b.type === 'question') : [];
+  const ordered = [...own, ...blocks].sort((a, b) => (a.classification?.reasoningScore ?? 0) - (b.classification?.reasoningScore ?? 0));
   const sectionId = existingSection?.id ?? id + '-exam-questions';
   const section = existingSection ? {...structuredClone(existingSection), blocks: [...existingSection.blocks.filter(b => b.type !== 'question'), ...ordered]}
     : requireProgrammeExamSection({id: sectionId, topicId: sectionId, title: 'Exam questions', phase: 'practice', role: 'exam', pageBreakBefore: true, workingSpace: 'none', blocks: ordered});
@@ -320,6 +346,8 @@ function closureRecord({project, liveSha, screenFile, screenNow, rows, selection
 export async function saveBooklet(id, {approvedBy, log = console.error}) {
   const state = read(path.join(dirOf(id), 'state.json'));
   if (state.status !== 'built' || !state.closure?.closed) throw Error(`${id} is not built with a closed record (${state.status})`);
+  const blockIds = read(path.join(ROOT, state.candidateFile)).sections.flatMap(s => (s.blocks ?? []).map(b => b.id));
+  if (new Set(blockIds).size !== blockIds.length) throw Error(`${id} candidate repeats a block id; rebuild it`);
   const shaFile = path.join(dirOf(id), 'render', 'candidate.sha256');
   if (!fs.existsSync(shaFile) || fs.readFileSync(shaFile, 'utf8').trim() !== state.candidateSha256) throw Error(`${id} has no render of its current candidate`);
   const report = read(path.join(dirOf(id), 'render', 'feedback-pages.json'));
