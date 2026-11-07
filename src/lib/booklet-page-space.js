@@ -29,9 +29,17 @@ export function measureBookletPage(root) {
   const body = main.getBoundingClientRect();
   const bottom = footer.getBoundingClientRect().top - BOOKLET_FOOTER_CLEARANCE * scale;
   const capacity = (bottom - body.top) / scale;
-  const contentBottom = element => Math.max(body.top, ...[...element.children]
-    .filter(child => !child.matches('.document-end-insert,.document-group-tools,[data-page-guide]'))
-    .map(child => child.getBoundingClientRect().bottom));
+  // A KaTeX glyph's font box can hang below its block: a lower limit or subscript
+  // sits at the formula's depth, and its font descent (drawn or not) lies beyond
+  // the block's border box. The printed-PDF check measures those font boxes, so
+  // the bottom block's maths counts too (7 November 2026: an integral's lower
+  // limit ended 2.5 mm above the footer while the block reserved 3.2 mm).
+  const MATH_GLYPHS = '.katex-html .mord,.katex-html .mop,.katex-html .mbin,.katex-html .mrel,.katex-html .mpunct,.katex-html .mopen,.katex-html .mclose';
+  const contentBottom = element => {
+    const children = [...element.children].filter(child => !child.matches('.document-end-insert,.document-group-tools,[data-page-guide]'));
+    const last = children.at(-1), glyphs = last?.querySelectorAll ? [...last.querySelectorAll(MATH_GLYPHS)] : [];
+    return Math.max(body.top, ...children.map(child => child.getBoundingClientRect().bottom), ...glyphs.map(glyph => glyph.getBoundingClientRect().bottom));
+  };
   const columnElements = [...main.querySelectorAll(':scope > .answer-columns > .answer-column')];
   const ends = columnElements.length ? columnElements.map(contentBottom) : [contentBottom(main)];
   const height = (Math.max(...ends) - body.top) / scale;

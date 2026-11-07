@@ -29,6 +29,13 @@ test('oversized content is reported, while subpixel fitting tolerance is retaine
   assert.ok(value.remainingMm<0);assert.match(pageSpaceLabel(value.remainingMm),/^Overflow by/);
   assert.equal(pageSpaceLabel(-.01),'≈ 0 mm remaining');
 });
+test('maths glyph boxes hanging below the bottom block count towards its height',()=>{
+  const value=measureBookletPage(fixture({ends:[1060]}));
+  const hanging=fixture({ends:[1060]}),main=hanging.querySelector().querySelector('main');
+  main.children[0].querySelectorAll=()=>[{getBoundingClientRect:()=>({bottom:1072})}];
+  assert.equal(measureBookletPage(hanging).height-value.height,12);
+  assert.ok(measureBookletPage(hanging).remainingMm<0);
+});
 test('covers do not fabricate remaining editing space',()=>{
   assert.equal(measureBookletPage({querySelector:()=>null}),null);
 });
