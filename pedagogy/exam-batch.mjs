@@ -188,11 +188,81 @@ export function tabRowsToArray(text) {
   return out.join('\n');
 }
 const answerOf = a => ({short: tabRowsToArray(String(a?.short ?? '')), worked: tabRowsToArray(String(a?.worked ?? ''))});
+// Tab rows in an Exam prompt are source data tables (frequency tables, two-way tables, z-tables), so they
+// print as native bordered tables with centred cells, like the booklets' own bordered tables (7 November
+// 2026: promptFromSource lays tab rows out as borderless aligned columns, which suits drafted working, not
+// data). Each column gains the 2 mm the cell padding takes. Returns whether anything changed.
+// Maths does not wrap, so a column is never narrower than its widest maths: promptFromSource's estimate drops
+// \quad spacing (a stem-and-leaf "0\quad8\quad9" leaf spilled past its border, 7 November 2026).
+// Maths glyphs run wider than text and KaTeX spaces relations and operators ("P(X = x)" spilled into the next
+// cell at 2 mm a character): 2.3 mm a character plus 2 mm for each relation or binary operator; a fraction
+// counts its wider line.
+const mathMm = latex => {
+  let s = String(latex ?? '');
+  for (let k = 0; k < 4 && /\\[dt]?frac\{([^{}]*)\}\{([^{}]*)\}/.test(s); k++) s = s.replace(/\\[dt]?frac\{([^{}]*)\}\{([^{}]*)\}/g, (_, a, b) => a.length >= b.length ? a : b);
+  const ops = (s.match(/[=<>+\-−×÷]|\\(?:times|div|le|ge|leq|geq|ne|neq|pm|approx|cdot)\b/g) ?? []).length;
+  const chars = s.replace(/\\qquad/g, '####').replace(/\\quad/g, '##').replace(/\\[a-zA-Z]+/g, 'x').replace(/[{}^_\s]/g, '').length;
+  return 2.3 * chars + 2 * ops;
+};
+const cellMm = cell => {
+  let mm = 0;
+  for (const b of cell.blocks ?? []) for (const x of b.inlines ?? []) mm += x.type === 'math' ? mathMm(x.latex) : 2 * String(x.text ?? x.answer ?? '').length;
+  return Math.ceil(mm + 5);
+};
+// A cell's narrowest width: its longest word, or all of its maths (which does not wrap).
+const cellMinMm = cell => {
+  const hasMath = (cell.blocks ?? []).some(b => (b.inlines ?? []).some(x => x.type === 'math'));
+  if (hasMath) return cellMm(cell);
+  const words = (cell.blocks ?? []).flatMap(b => (b.inlines ?? []).flatMap(x => String(x.text ?? '').split(/\s+/)));
+  return 2 * Math.max(0, ...words.map(w => w.length)) + 5;
+};
+// Wider than this and the renderer squeezes every column, breaking one-word headers mid-word ("Mont / h",
+// 7 November 2026). The text column is about 173 mm and a part indents its prompt by about 7 mm.
+export const PROMPT_TABLE_MAX_MM = 165;
+export function fitPromptTableWidths(prompt) {
+  let changed = false;
+  const visit = n => {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) { n.forEach(visit); return; }
+    if (n.type === 'table' && n.border === true && Array.isArray(n.widths) && (n.rows ?? []).every(r => r.length === n.widths.length)) {
+      const mins = n.widths.map((_, c) => Math.max(...n.rows.map(r => cellMinMm(r[c] ?? {}))));
+      let widths = n.widths.map((w, c) => Math.max(w, ...n.rows.map(r => r[c]?.blocks?.some(b => (b.inlines ?? []).some(x => x.type === 'math')) ? cellMm(r[c]) : 0)));
+      const total = widths.reduce((a, b) => a + b, 0), slack = widths.reduce((a, w, c) => a + Math.max(0, w - mins[c]), 0);
+      if (total > PROMPT_TABLE_MAX_MM && slack > 0) {
+        const cut = Math.min(slack, total - PROMPT_TABLE_MAX_MM);
+        widths = widths.map((w, c) => Math.round(w - cut * Math.max(0, w - mins[c]) / slack));
+      }
+      if (widths.some((w, c) => w !== n.widths[c])) { n.widths = widths; n.widthMm = widths.reduce((a, b) => a + b, 0); changed = true; }
+    }
+    for (const v of Object.values(n)) if (v && typeof v === 'object') visit(v);
+  };
+  visit(prompt);
+  return changed;
+}
+export function borderPromptTables(prompt) {
+  if (!prompt || typeof prompt !== 'object') return false;
+  let changed = false;
+  const visit = n => {
+    if (!n || typeof n !== 'object') return;
+    if (Array.isArray(n)) { n.forEach(visit); return; }
+    if (n.type === 'table' && n.border === false) {
+      n.border = true; n.padding = 1;
+      if (Array.isArray(n.widths)) { n.widths = n.widths.map(w => w + 2); n.widthMm = n.widths.reduce((a, b) => a + b, 0); }
+      for (const row of n.rows ?? []) for (const cell of row) { cell.align = 'center'; for (const b of cell.blocks ?? []) if (b.type === 'paragraph') b.align = 'center'; }
+      changed = true;
+    }
+    for (const v of Object.values(n)) if (v && typeof v === 'object') visit(v);
+  };
+  visit(prompt);
+  if (changed) fitPromptTableWidths(prompt);
+  return changed;
+}
+const examPrompt = (text, id) => { const p = promptFromSource(text, id); borderPromptTables(p); return p; };
 export function nativeContent(id, content) {
   // Editor source markup (tab-separated table rows, **bold**, _italic_, [[blank|mm]]) becomes an editor document.
-  const root = {id: id + '-root', type: 'question', label: null, prompt: promptFromSource(String(content.prompt ?? ''), id + '-root'), answerSpaceMm: 0};
+  const root = {id: id + '-root', type: 'question', label: null, prompt: examPrompt(String(content.prompt ?? ''), id + '-root'), answerSpaceMm: 0};
   if ((content.children ?? []).length) {
-    root.children = content.children.map((c, i) => ({id: `${id}-${String(c.label ?? String.fromCharCode(97 + i)).replace(/[^\w]/g, '')}`, type: 'part', label: String(c.label ?? String.fromCharCode(97 + i)), prompt: promptFromSource(String(c.prompt ?? ''), `${id}-${i}`), answerSpaceMm: 0, answer: answerOf(c.answer)}));
+    root.children = content.children.map((c, i) => ({id: `${id}-${String(c.label ?? String.fromCharCode(97 + i)).replace(/[^\w]/g, '')}`, type: 'part', label: String(c.label ?? String.fromCharCode(97 + i)), prompt: examPrompt(String(c.prompt ?? ''), `${id}-${i}`), answerSpaceMm: 0, answer: answerOf(c.answer)}));
   } else root.answer = answerOf(content.answer);
   return root;
 }
