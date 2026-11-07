@@ -43,7 +43,7 @@ export function screenStatus(row) {
 }
 // The pool: every MathsBase row classified under the booklet's subtopics (s4), or the existing
 // v2 screen's rows (topup). Ineligible rows stay in the screen so closure accounts for them.
-function poolRows(id, mode) {
+export function poolRows(id, mode) {
   if (mode === 's4') {
     const subtopics = read(path.join(ROOT, RUN, 's4-subtopics.json')).masters[id];
     if (!subtopics) throw Error(`${id} has no Stage 4 subtopic mapping`);
@@ -73,7 +73,7 @@ export function buildScreen(project, rows) {
 }
 
 // ---- booklet view for the selection call ----------------------------------------------------------
-function bookletView(project) {
+export function bookletView(project) {
   const topics = new Map((project.topics ?? []).map(t => [t.id, t.title]));
   const teaching = [], practice = [], types = new Set();
   for (const section of project.sections ?? []) for (const block of section.blocks ?? []) {
@@ -88,7 +88,7 @@ function bookletView(project) {
 }
 // The booklet's own answers show its notation (recurring decimals, units, rounding); adaptations must match
 // (pilot, 7 November 2026: dot notation drafted for a booklet that writes an overline).
-function answerSamples(project, size = 14) {
+export function answerSamples(project, size = 14) {
   const all = (project.sections ?? []).filter(s => s.phase === 'practice' && s.role !== 'exam').flatMap(s => s.blocks ?? []).filter(b => b.type === 'question');
   const pick = all.length <= size ? all : Array.from({length: size}, (_, k) => all[Math.round(k * (all.length - 1) / (size - 1))]);
   return [...new Set(pick)].map(b => JSON.stringify(studentView(b)).slice(0, 700));
@@ -156,7 +156,7 @@ The booklet's existing rated questions, as anchors for the scale: ${JSON.stringi
 Items: ${JSON.stringify(items)}
 Reply with ONLY JSON: {"items": [{"id": "...", "accept": true, "issues": [], "reasoningScore": 0, "difficultyReason": "..."}]}`;
 }
-function anchorsFor(project) {
+export function anchorsFor(project) {
   const rated = (project.sections ?? []).filter(s => s.phase === 'practice').flatMap(s => s.blocks ?? []).filter(b => b.type === 'question' && Number.isInteger(b.classification?.reasoningScore));
   rated.sort((a, b) => a.classification.reasoningScore - b.classification.reasoningScore);
   const pick = [];
@@ -377,12 +377,12 @@ export async function runBooklet(id, {mode = 's4', until = 'build', used = new S
   return state;
 }
 // codex is not on PATH on this machine; the app installs it under %LOCALAPPDATA%\OpenAI\Codex\bin\<hash>.
-function codexBinary() {
+export function codexBinary() {
   const base = path.join(process.env.LOCALAPPDATA ?? '', 'OpenAI', 'Codex', 'bin');
   const found = fs.existsSync(base) ? fs.readdirSync(base).map(d => path.join(base, d, 'codex.exe')).filter(f => fs.existsSync(f)).sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs) : [];
   return found[0] ?? 'codex';
 }
-const examOwners = project => (project.sections ?? []).filter(s => s.role === 'exam').flatMap(s => s.blocks ?? []).filter(b => b.type === 'question');
+export const examOwners = project => (project.sections ?? []).filter(s => s.role === 'exam').flatMap(s => s.blocks ?? []).filter(b => b.type === 'question');
 
 function closureRecord({project, liveSha, screenFile, screenNow, rows, selection, accepted, blocks, prior, used, text}) {
   const record = buildClosureSkeleton({projectId: project.id, project, projectSha256: liveSha, screenRows: screenNow.questionReferences.map(r => ({id: r.id, status: r.status, sourceCode: r.key})), screen: {file: posix(screenFile), sha256: sha(fs.readFileSync(screenFile))}});
@@ -413,18 +413,18 @@ function closureRecord({project, liveSha, screenFile, screenNow, rows, selection
 }
 
 // ---- save ---------------------------------------------------------------------------------------------
-export async function saveBooklet(id, {approvedBy, log = console.error}) {
-  const state = read(path.join(dirOf(id), 'state.json'));
+export async function saveBooklet(id, {approvedBy, log = console.error, dir: runDir = dirOf(id), note = 'exam-batch-20261107'}) {
+  const state = read(path.join(runDir, 'state.json'));
   if (state.status !== 'built' || !state.closure?.closed) throw Error(`${id} is not built with a closed record (${state.status})`);
   const blockIds = read(path.join(ROOT, state.candidateFile)).sections.flatMap(s => (s.blocks ?? []).map(b => b.id));
   if (new Set(blockIds).size !== blockIds.length) throw Error(`${id} candidate repeats a block id; rebuild it`);
-  const shaFile = path.join(dirOf(id), 'render', 'candidate.sha256');
+  const shaFile = path.join(runDir, 'render', 'candidate.sha256');
   if (!fs.existsSync(shaFile) || fs.readFileSync(shaFile, 'utf8').trim() !== state.candidateSha256) throw Error(`${id} has no render of its current candidate`);
-  const report = read(path.join(dirOf(id), 'render', 'feedback-pages.json'));
+  const report = read(path.join(runDir, 'render', 'feedback-pages.json'));
   if (report.passed !== true) {
     // A failure the live booklet already has (same check, same message, no new owner named) does not block:
     // render/baseline.json points at a render of the live file that fails identically.
-    const baselineFile = path.join(dirOf(id), 'render', 'baseline.json');
+    const baselineFile = path.join(runDir, 'render', 'baseline.json');
     const baseline = fs.existsSync(baselineFile) ? read(path.join(ROOT, read(baselineFile).report)) : null;
     const key = f => `${f.edition}|${f.kind}|${f.message}`, known = new Set((baseline?.failures ?? []).map(key));
     // Layout issues on blocks that are not new owners (e.g. palette warnings on an existing diagram whose page
@@ -432,19 +432,19 @@ export async function saveBooklet(id, {approvedBy, log = console.error}) {
     const issues = Object.values(report.editionsReport ?? {}).flatMap(e => e.issues ?? []);
     const onlyOld = report.failures.every(f => f.kind === 'layout') && issues.length > 0
       && issues.every(i => !state.newOwners.some(o => JSON.stringify(i).includes(o)));
-    if (onlyOld) write(path.join(dirOf(id), 'render', 'accepted-existing-issues.json'), {at: now(), reason: 'layout issues only on existing blocks', issues});
+    if (onlyOld) write(path.join(runDir, 'render', 'accepted-existing-issues.json'), {at: now(), reason: 'layout issues only on existing blocks', issues});
     const ok = onlyOld || (baseline && report.failures.length && report.failures.every(f => known.has(key(f)) && !state.newOwners.some(o => String(f.message).includes(o))));
     if (!ok) throw Error(`${id} render check did not pass`);
   }
   const {openOrAmend, readEntry, writeEntry, DEFAULT_REGISTRY} = await import('./exam-proposals.mjs');
   const dir = path.join(ROOT, DEFAULT_REGISTRY), {entry, bytes} = readEntry(id, dir);
   if (!(entry?.status === 'open' && entry.candidateSha256 === state.candidateSha256)) {
-    const input = {projectId: id, fromRevision: state.revision, candidateFile: state.candidateFile, candidateSha256: state.candidateSha256, ownerIds: state.newOwners, closureRecord: state.closureRecord, note: 'exam-batch-20261107'};
+    const input = {projectId: id, fromRevision: state.revision, candidateFile: state.candidateFile, candidateSha256: state.candidateSha256, ownerIds: state.newOwners, closureRecord: state.closureRecord, note};
     writeEntry(openOrAmend(entry, input, {amend: entry?.status === 'open'}), {dir, expectedBytes: bytes});
   }
   const {examPublish} = await import('./exam-publish.mjs');
-  const result = await examPublish({projectId: id, apply: true, approvedBy, note: `Exam batch 20261107: ${state.newOwners.length} Exam questions`, root: ROOT});
-  write(path.join(dirOf(id), 'saved.json'), {at: now(), revision: result.publish.to, sha256: result.publish.savedSha256, closure: result.closure.closed, gitAdd: result.gitAdd});
+  const result = await examPublish({projectId: id, apply: true, approvedBy, note: `${note}: ${state.newOwners.length} Exam questions`, root: ROOT});
+  write(path.join(runDir, 'saved.json'), {at: now(), revision: result.publish.to, sha256: result.publish.savedSha256, closure: result.closure.closed, gitAdd: result.gitAdd});
   log(`[${id}] saved r${result.publish.to}, closure ${result.closure.closed ? 'closed' : 'OPEN'}`);
   return result;
 }

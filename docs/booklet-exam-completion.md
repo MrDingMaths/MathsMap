@@ -78,4 +78,20 @@ node pedagogy/exam-batch.mjs report
 - **Verification.** One scoped `check-feedback-pages.mjs --blocks <new owners> --editions student,worked` render per booklet, with the Exam pages looked at. There are no five-edition runs, baseline renders or hand-written inspection files.
 - **Saves** go through `exam-publish.mjs` under James's blanket approval of 7 November 2026 ("Blanket approval": each booklet saves once its closure check, Terra rating and render check pass). James reviews in Studio afterwards.
 
+### Figure pass (7 November 2026, user requested)
+
+James: "please redraw the source image. Implement your recommendation". `pedagogy/exam-figures.mjs` takes the rows the batch deferred because they need a figure, for the booklets whose Exam section is thin (fewer than 8 questions and at least 10 such rows; `node pedagogy/exam-figures.mjs thin` lists them). Run state lives in `.booklet-work/exam-figures-20261107/<projectId>/`.
+
+```text
+node pedagogy/exam-figures.mjs run  --projects ID,ID|thin [--until select|author|preview|rate|build]
+node pedagogy/exam-figures.mjs save --projects ID,ID --approved-by "QUOTE"
+```
+
+- **Select** (Sonnet, text only): figures appear as placeholders or their TikZ. Existing Exam questions count towards the two per archetype, so only task types the booklet lacks get drawn.
+- **Author** (`claude-sonnet-5-5` through `generateSonnetDraft`, source images attached): the native question plus every figure redrawn as TikZ under the import's diagram rules (`reconstructionPrompt('diagrams')` and the TikZ manual). Figures go in `questionDiagrams` / `solutionDiagrams` with a `spec` recording the source figure, its mathematics and what is deliberately not shown. Rows with an illegible, contradictory or non-mathematical figure, or a missing given, are held.
+- **Preview**: every redraw is compiled through Studio (`scripts/shoot-tikz.mjs`). A figure that does not compile holds its row.
+- **Rate** (Terra high, source images and redraw PNGs attached): text fidelity, figure fidelity, legibility, answers and difficulty. House-style departures (decorative shading removed, labels moved, drawn to the stated measurements) are not grounds for rejection. A rejected redraw gets one repair round with the checker's issues.
+- **Build and save**: as in the batch, with earlier decisions carried over into the closure record; figure rows not selected stay deferred.
+- `Stealth` tips shorter than 2 mm are raised to 2 mm: shorter tips print with a stroke width outside the house-style roles, and the print QA reports them as unclassified graph strokes.
+
 **Gap between Exam questions.** Every booklet prints a 10 mm gap between consecutive questions in an Exam section, but not above the first question on a page (`EXAM_QUESTION_GAP_MM`, `src/lib/booklet-section-options.js`). Pagination measures the rendered page, so it counts the gap too. No project data changes.
