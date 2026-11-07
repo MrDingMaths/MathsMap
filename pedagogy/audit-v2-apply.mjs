@@ -14,7 +14,7 @@ import {fileURLToPath} from 'node:url';
 import {inlinesFromSource} from '../public/libs/maths-editor/document-model.mjs';
 import {verifiedRating,practiceRatingBlocks} from '../scripts/booklet/reasoning-ratings.mjs';
 import {nodesOf} from '../polish/guards.mjs';
-import {COMMENT_KIND,callSonnet,studentView,anchorRefs,ladderFor,setComparisonRating,inFlight,recordFile,proposalsFile} from './audit-v2.mjs';
+import {COMMENT_KIND,callSonnet,splitByCap,studentView,anchorRefs,ladderFor,setComparisonRating,inFlight,recordFile,proposalsFile} from './audit-v2.mjs';
 import {MODEL,EFFORT,LIMITS,bookletIndex,scoreOf,contentFingerprint,deriveComparisonScore,boldTerm} from './audit-v2-plan.mjs';
 import {ratingContract,validatePlacements} from './audit-v2-prompts.mjs';
 import {canonicalRunDir} from './review.mjs';
@@ -80,9 +80,12 @@ async function rateChanged(ctx,candidate,ids,root){
  const items=ids.map(id=>{const r=rows.find(x=>x.block.id===id);const ladder=ladderFor(candidate,{sectionId:r.section.id,topicId:r.section.topicId,exclude});ladder.forEach(x=>refIds.add(x));return {id,ladder:[...ladder,...anchors.map(a=>a.ref)],task:studentView(r.block)};});
  const blocks=new Map(rows.map(r=>[r.block.id,r.block])),refs=new Map([...anchors.map(a=>[a.ref,a.score]),...[...refIds].map(id=>[id,scoreOf(blocks.get(id))])]);
  const system=ratingContract()+'\n\nStanding anchors:\n'+anchors.map(a=>JSON.stringify(a)).join('\n');
- const prompt=JSON.stringify({references:[...refIds].map(id=>({ref:id,score:scoreOf(blocks.get(id)),task:studentView(blocks.get(id))})),targets:items});
- const {value,file}=await callSonnet(ctx,{stage:'rating',system,prompt,validate:r=>validatePlacements(r,items.map(i=>i.id))});
- return items.map(it=>{const p=value.get(it.id),d=deriveComparisonScore(p,refs);if(d.score!=null)setComparisonRating(blocks.get(it.id),d.score,p,refs,file);return {id:it.id,score:d.score,how:d.how,harderThan:p?.harderThan??null,easierThan:p?.easierThan??null};});
+ // An over-cap batch is halved; a question over the cap on its own stays unrated (score null) and the apply continues.
+ const ratingPrompt=(list,trim)=>{const used=new Set(list.flatMap(i=>i.ladder));return JSON.stringify({references:[...refIds].filter(id=>!trim||used.has(id)).map(id=>({ref:id,score:scoreOf(blocks.get(id)),task:studentView(blocks.get(id))})),targets:list});};
+ const whole=system.length+ratingPrompt(items,false).length<=LIMITS.promptCharacters;
+ const parts=await splitByCap(items,list=>system.length+ratingPrompt(list,!whole).length,list=>callSonnet(ctx,{stage:'rating',system,prompt:ratingPrompt(list,!whole),validate:r=>validatePlacements(r,list.map(i=>i.id))}));
+ const value=new Map(parts.flatMap(p=>p.value?[...p.value.value]:[])),fileOf=new Map(parts.filter(p=>p.value).flatMap(p=>p.items.map(i=>[i.id,p.value.file])));
+ return items.map(it=>{const p=value.get(it.id),file=fileOf.get(it.id);if(!p)return {id:it.id,score:null,how:'over the prompt cap',harderThan:null,easierThan:null};const d=deriveComparisonScore(p,refs);if(d.score!=null)setComparisonRating(blocks.get(it.id),d.score,p,refs,file);return {id:it.id,score:d.score,how:d.how,harderThan:p?.harderThan??null,easierThan:p?.easierThan??null};});
 }
 
 // ---- the command ----------------------------------------------------------------------------

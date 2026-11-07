@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {contentFingerprint,wordingFingerprint,australianSpelling,spellBlock,boldTerm,deriveComparisonScore,jumpSlots,slotWindow,duplicatePairs,diagramBlindHash,diagramEquivalent,LIMITS,MODEL,EFFORT} from '../pedagogy/audit-v2-plan.mjs';
 import {validateAudit,writingRules,theoryRules} from '../pedagogy/audit-v2-prompts.mjs';
-import {challengeMoves,gapPlan,newBlock,studentView} from '../pedagogy/audit-v2.mjs';
+import {challengeMoves,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey} from '../pedagogy/audit-v2.mjs';
 
 const rating=score=>({reasoningScore:score,difficulty:'Foundation',difficultyReason:'x'});
 const q=(id,prompt,short,extra={})=>({id,type:'question',classification:rating(10),content:{id:id+'-root',type:'question',label:'1',prompt,answer:{short,worked:'$$x$$'}},...extra});
@@ -115,6 +115,30 @@ test('gap plan adds count slots for types under three items', ()=>{
  assert.equal(plan.deficits.length,1);assert.equal(plan.slots.filter(s=>s.reason==='type-count').length,1);
 });
 
+test('type names that differ only in plurals, stop words or order count as one type', ()=>{
+ assert.equal(typeKey('identify-inverse-operation'),typeKey('identify-inverse-operations'));
+ assert.equal(typeKey('area-of-a-triangle'),typeKey('triangle-area'));
+ assert.notEqual(typeKey('solve-side-triangle'),typeKey('solve-side-parallelogram'));
+ assert.equal(typeKey('class'),'class','a double-s word is not singularised');
+});
+
+test('only core types have the minimum; tiers of a topic count together; a soft cap per exercise', ()=>{
+ const sec=(id,ids)=>({id,phase:'practice',topicId:'t',title:'Exercise',blocks:ids.map(i=>q(i,'P '+i,'$1$'))});
+ const project={id:'p',topics:[{id:'t',title:'T'}],sections:[sec('s1',['a','b','c','d','e']),sec('s2',['f','g'])]};
+ const types=new Map([['a',{type:'solve-equation',current:true}],['b',{type:'solve-equation',current:true}],['f',{type:'solve-equations',current:true}],['c',{type:'explain-why',current:true}],['d',{type:'core-y',current:true}],['e',{type:'core-z',current:true}],['g',{type:'core-w',current:true}]]);
+ const state={project,progressions:[],types};
+ const audit={types:[{type:'solve-equation',topicId:'t',taught:true,role:'core'},{type:'explain-why',topicId:'t',taught:true,role:'enrichment'},{type:'core-y',topicId:'t',taught:true,role:'core'},{type:'core-z',topicId:'t',taught:true,role:'core'},{type:'core-w',topicId:'t',taught:false,role:'core'}],exampleMatches:[],spread:[]};
+ const plan=gapPlan(project,state,{audit});
+ const count=plan.slots.filter(s=>s.reason==='type-count');
+ assert.ok(!plan.deficits.some(d=>d.type==='solve-equation'||d.type==='solve-equations'),'a and b in one tier plus f (a plural name) in another make three');
+ assert.deepEqual(plan.exempt.map(e=>e.type),['explain-why'],'an enrichment one-off is exempt and listed');
+ assert.ok(!count.some(s=>s.type==='explain-why'));
+ assert.ok(count.filter(s=>s.sectionId==='s1').length<=LIMITS.countSlotsPerExercise,'at most two new count questions per exercise');
+ assert.ok(plan.capped.length>0,'what the cap leaves out is reported');
+ const untaught=count.find(s=>s.type==='core-w');
+ assert.ok(untaught&&untaught.commentOnly&&untaught.teachingNeeded,'an untaught core type is drafted for the teacher, not inserted');
+});
+
 test('a change confined to diagram drawing code is not a change to the question', ()=>{
  const make=(code,prompt='Find $x$.')=>({id:'a',type:'question',content:{id:'a-root',type:'question',prompt,questionDiagrams:[{id:'d',format:'tikz',code}],answer:{short:'6',worked:'$$x=6$$'}}});
  const a=make('\\draw (0,0)--(3,0);'),b=make('\\draw (0,0)--(3.8,0);');
@@ -132,6 +156,57 @@ test('a new block never reuses an id already in the booklet', ()=>{
  const first=newBlock(draft,slot,{project:{sections:[{id:'s',blocks:[]}]},score:null});
  const second=newBlock(draft,slot,{project:{sections:[{id:'s',blocks:[first]}]},score:null});
  assert.equal(first.id,'v2-s-slot-1-lower');assert.equal(second.id,'v2-s-slot-1-lower-2');assert.equal(second.content.id,'v2-s-slot-1-lower-2-root');
+});
+
+test('drafted prompts in editor source text become editor documents', ()=>{
+ assert.equal(promptFromSource('Solve $x_1+2=5$.','p'),'Solve $x_1+2=5$.','plain prompts and subscripts in maths stay strings');
+ const italic=promptFromSource('The first digits are:\n\n_2.718 281 …_\n\nClassify $e$.','p');
+ assert.equal(italic.format,'maths-editor-document-v1');
+ assert.deepEqual(italic.blocks[1].inlines[0],{type:'text',text:'2.718 281 …',marks:['italic']});
+ const cloze=promptFromSource('$x-5$\t$=$\t$9$\n[[$-12$|11]]\t\t[[$-12$|11]]\n$x$\t$=$\t$14$','v2-a-p');
+ const table=cloze.blocks[0];
+ assert.equal(table.type,'table');assert.equal(table.border,false);assert.equal(table.rows.length,3);
+ assert.deepEqual(table.rows[0].map(c=>c.align),['right','center','left']);
+ assert.ok(table.rows[1][0].blocks[0].inlines[0].width>=13,'a blank is at least the handwriting width of its answer');
+ assert.ok(cloze.blocks.every(b=>b.id.startsWith('v2-a-p-d')),'ids are stable and scoped to the part');
+});
+
+test('a drafted question takes the layout of a same-type sibling', ()=>{
+ const part=(id,l)=>({id,type:'part',label:l,prompt:'$x$',answerSpaceMm:20});
+ const sib={id:'q1',type:'question',content:{id:'q1-root',type:'question',layout:'grid',columns:4,children:['a','b','c','d','e'].map(l=>part('q1-'+l,l))}};
+ const cols={id:'q2',type:'question',content:{id:'q2-root',type:'question',layout:'grid',columns:3,children:[1,2,3].map(n=>({id:'q2-c'+n,type:'group',layout:'list',children:[part('q2-'+n,'a')]}))}};
+ const project={id:'b',sections:[{id:'s',blocks:[sib,cols]}]};
+ const draft={content:{type:'question',prompt:'Solve.',children:['a','b','c'].map(l=>part(l,l))}};
+ const typed=newBlock(draft,{id:'slot-1-lower',sectionId:'s'},{project,score:null,type:'solve',typeOfId:id=>id==='q1'?'solve':'other'});
+ assert.equal(typed.content.layout,'grid');assert.equal(typed.content.columns,3,'columns never exceed the parts');assert.equal(typed.sourceReview.layoutFrom,'q1');
+ assert.deepEqual(layoutSibling(project,{sectionId:'s',after:'q2'},null,null),{id:'q2',layout:'grid',columns:3},'a grid of column groups counts');
+ assert.equal(newBlock(draft,{id:'slot-2',sectionId:'s'},{project,score:null}).content.layout,undefined,'no sibling, no layout');
+});
+
+test('an accepted reply from an earlier run of the booklet is reused, a failed one never', async ()=>{
+ const fs=await import('node:fs'),os=await import('node:os'),path=await import('node:path');
+ const base=fs.mkdtempSync(path.join(os.tmpdir(),'audit-v2-reuse-')),old=path.join(base,'20261107-001409','calls'),workDir=path.join(base,'20261107-010000');
+ fs.mkdirSync(old,{recursive:true});fs.mkdirSync(workDir);
+ const call=(name,ok,prompt)=>{fs.writeFileSync(path.join(old,name+'.prompt.txt'),prompt);fs.writeFileSync(path.join(old,name+'.json'),JSON.stringify({id:name,ok,model:MODEL,effort:EFFORT,startedAt:new Date().toISOString(),costUsd:0.5,stdout:JSON.stringify({result:'{"drafts":[]}'})}));};
+ call('03-draft-slots-1',true,'PROMPT A');call('04-draft-slots-1',false,'PROMPT B');
+ const ctx={workDir};
+ const hit=reusableReply(ctx,{stage:'draft-slots',system:'S',prompt:'PROMPT A'});
+ assert.equal(hit.result,'{"drafts":[]}');assert.equal(hit.costUsd,0.5);
+ assert.equal(reusableReply(ctx,{stage:'draft-slots',system:'S',prompt:'PROMPT B'}),null,'a failed call is never reused');
+ assert.equal(reusableReply(ctx,{stage:'challenge',system:'S',prompt:'PROMPT A'}),null,'stage must match');
+ assert.equal(reusableReply({...ctx,freshCalls:true},{stage:'draft-slots',system:'S',prompt:'PROMPT A'}),null,'--fresh-calls');
+ fs.rmSync(base,{recursive:true,force:true});
+});
+
+test('an over-cap batch is halved and a single over-cap item is set aside, never sent', async ()=>{
+ const big=LIMITS.promptCharacters;
+ const items=[{id:'a',n:big*0.4},{id:'b',n:big*0.4},{id:'c',n:big*0.4},{id:'d',n:big*1.5}];
+ const sent=[];
+ const parts=await splitByCap(items,list=>list.reduce((s,i)=>s+i.n,0),async list=>{sent.push(list.map(i=>i.id).join(''));return list.length;});
+ assert.ok(sent.every(s=>!s.includes('d')),'the oversized item is never sent');
+ assert.deepEqual(parts.filter(p=>p.over).flatMap(p=>p.items.map(i=>i.id)),['d']);
+ assert.deepEqual(parts.filter(p=>p.value).flatMap(p=>p.items.map(i=>i.id)).sort(),['a','b','c']);
+ assert.deepEqual(await splitByCap([],()=>0,async()=>1),[]);
 });
 
 test('embedded image data is replaced in the views sent to the model', ()=>{

@@ -10,7 +10,8 @@ import path from 'node:path';
 import {spawn,spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {toSource} from '../public/libs/maths-editor/document-model.mjs';
+import {toSource,fromSource,inlinesFromSource,normalizeDocument,visitDocument,DOCUMENT_FORMAT,DOCUMENT_VERSION} from '../public/libs/maths-editor/document-model.mjs';
+import {clozeHandwritingMm} from '../public/libs/maths-editor/house-style.mjs';
 import {questionReviewContent} from '../src/lib/booklet-review-profile.js';
 import {verifiedRating,reasoningTaskHash,REASONING_RUBRIC} from '../scripts/booklet/reasoning-ratings.mjs';
 import {withWorkerSlot} from '../scripts/booklet/worker-pool.mjs';
@@ -19,7 +20,7 @@ import {resolveExerciseReferences} from '../polish/exercise-references.mjs';
 import {teacherBlocks,nodesOf} from '../polish/guards.mjs';
 import {sequences,canonicalRunDir} from './review.mjs';
 import {MODEL,EFFORT,LIMITS,contentFingerprint,wordingFingerprint,bookletIndex,scoreOf,practiceItems,duplicatePairs,spellBlock,boldTerm,deriveComparisonScore,bandFor,jumpSlots,slotWindow,diagramBlindHash,diagramEquivalent} from './audit-v2-plan.mjs';
-import {auditContract,challengeContract,draftContract,proposalContract,solveContract,ratingContract,equivalenceContract,validateAudit,validateVerdicts,validateDrafts,validateSolve,validatePlacements,validateEquivalence} from './audit-v2-prompts.mjs';
+import {auditContract,challengeContract,draftContract,proposalContract,solveContract,ratingContract,equivalenceContract,roleContract,validateRoles,validateAudit,validateVerdicts,validateDrafts,validateSolve,validatePlacements,validateEquivalence} from './audit-v2-prompts.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
@@ -47,12 +48,57 @@ function spawnClaude({args,prompt,cwd,timeoutMs}){
  });
 }
 const parseJson=text=>{const s=String(text??'');const a=s.indexOf('{'),b=s.lastIndexOf('}');if(a<0||b<a)throw Error('no JSON object in reply');return JSON.parse(s.slice(a,b+1));};
+// ---- reply reuse (James, 7 November 2026) ---------------------------------------------
+// A failed run must never cost its successful calls again: the first Area 1 run spent $12.18 and
+// failed at proposal drafting, and nothing could be reused. Every accepted reply is kept, keyed by the
+// exact model, effort, system prompt and prompt; a later run of the same booklet that sends the same
+// request reuses it at no cost. Identical replies make identical later prompts, so a re-run resumes
+// at the point of failure. Only replies that passed validation are reused; --fresh-calls turns it off.
+// Calls logged before keys were recorded are matched by stage and prompt text when they are newer than
+// the prompt contracts (the system prompt then cannot have changed).
+const replyKey=(system,prompt)=>sha(JSON.stringify([MODEL,EFFORT,sha(system),prompt]));
+const contractsChangedAt=()=>Math.max(...['audit-v2-prompts.mjs','audit-v2-plan.mjs'].map(f=>fs.statSync(path.join(ROOT,'pedagogy',f)).mtimeMs));
+export function reusableReply(ctx,{stage,system,prompt}){
+ if(ctx.freshCalls||!ctx.workDir)return null;
+ const base=path.dirname(ctx.workDir),key=replyKey(system,prompt),own=path.join(base,'reply-cache',key+'.json');
+ if(fs.existsSync(own))return {...read(own),key};
+ // Older runs of this booklet: accepted calls with the same stage and prompt, made since the contracts last changed.
+ const since=contractsChangedAt();
+ for(const run of fs.readdirSync(base).filter(n=>/^\d{8}-\d{6}$/.test(n)&&path.join(base,n)!==ctx.workDir).sort().reverse()){
+  const dir=path.join(base,run,'calls');if(!fs.existsSync(dir))continue;
+  for(const f of fs.readdirSync(dir).filter(n=>n.endsWith('.json')&&n.includes('-'+stage+'-'))){
+   const promptFile=path.join(dir,f.replace(/\.json$/,'.prompt.txt'));if(!fs.existsSync(promptFile))continue;
+   const row=read(path.join(dir,f));if(!row.ok||row.model!==MODEL||row.effort!==EFFORT||Date.parse(row.startedAt)<since)continue;
+   if(row.systemSha?row.systemSha!==sha(system):false)continue;
+   if(fs.readFileSync(promptFile,'utf8')!==prompt)continue;
+   let envelope;try{envelope=JSON.parse(row.stdout);}catch{continue;}
+   return {key,result:envelope.result,costUsd:row.costUsd??0,source:rel(path.join(dir,f))};
+  }
+ }
+ return null;
+}
+function keepReply(ctx,{system,prompt,result,costUsd,file}){
+ if(!ctx.workDir)return;const key=replyKey(system,prompt);
+ write(path.join(path.dirname(ctx.workDir),'reply-cache',key+'.json'),{key,model:MODEL,effort:EFFORT,systemSha:sha(system),promptSha:sha(prompt),savedAt:now(),costUsd,source:rel(file),result});
+}
 // One call: refuse over the cap, never truncate; exact model or failure; validate,
 // retry once if malformed. Every attempt is logged with time, tokens and cost.
 export async function callSonnet(ctx,{stage,system,prompt,validate=x=>x,timeoutMs=900000}){
  const size=system.length+prompt.length;
  if(size>LIMITS.promptCharacters)throw Object.assign(Error(`${stage} prompt is ${size} characters, over ${LIMITS.promptCharacters}; it is not sent or truncated`),{blocker:true});
  if(ctx.dryRun)throw Error('dry run makes no model calls');
+ const reuse=reusableReply(ctx,{stage,system,prompt});
+ if(reuse){
+  try{
+   const value=validate(parseJson(reuse.result));
+   const id=`${String(ctx.seq=(ctx.seq??0)+1).padStart(2,'0')}-${stage}-reused`,file=path.join(ctx.workDir,'calls',id+'.json');
+   const row={id,stage,attempt:0,model:MODEL,effort:EFFORT,promptCharacters:size,startedAt:now(),elapsedMs:0,exitCode:0,usage:null,costUsd:0,reused:{from:reuse.source,savedUsd:reuse.costUsd??0},systemSha:sha(system),ok:true};
+   write(path.join(ctx.workDir,'calls',id+'.prompt.txt'),prompt);write(file,{...row,stdout:JSON.stringify({result:reuse.result}),stderr:''});
+   ctx.calls.push(row);ctx.log(`  ${stage}: reused an accepted reply from ${reuse.source} (saved $${(reuse.costUsd??0).toFixed(3)})`);
+   if(!reuse.source?.includes('reply-cache'))keepReply(ctx,{system,prompt,result:reuse.result,costUsd:reuse.costUsd,file:path.join(ROOT,reuse.source)});
+   return {value,file:rel(file)};
+  }catch(error){ctx.log(`  ${stage}: kept reply no longer validates (${error.message.slice(0,120)}); calling again`);}
+ }
  const cwd=path.join(os.tmpdir(),'mathsmap-audit-v2');fs.mkdirSync(cwd,{recursive:true});
  const systemFile=path.join(cwd,'system-'+sha(system).slice(0,16)+'.txt');if(!fs.existsSync(systemFile))fs.writeFileSync(systemFile,system);
  const args=['-p','--model',MODEL,'--effort',EFFORT,'--tools','','--no-session-persistence','--output-format','json','--max-turns','1','--safe-mode','--strict-mcp-config','--settings','{"fallbackModel":[]}','--system-prompt-file',systemFile];
@@ -62,7 +108,7 @@ export async function callSonnet(ctx,{stage,system,prompt,validate=x=>x,timeoutM
   const started=Date.now();
   const run=()=>spawnClaude({args,prompt,cwd,timeoutMs});
   const r=ctx.runDir?await withWorkerSlot(ctx.runDir,{stage:'pedagogy-audit-v2-'+stage,model:MODEL,provider:'claude-code'},run):await run();
-  const row={id,stage,attempt,model:MODEL,effort:EFFORT,promptCharacters:size,startedAt:new Date(started).toISOString(),elapsedMs:Date.now()-started,exitCode:r.code};
+  const row={id,stage,attempt,model:MODEL,effort:EFFORT,promptCharacters:size,startedAt:new Date(started).toISOString(),elapsedMs:Date.now()-started,exitCode:r.code,systemSha:sha(system)};
   write(path.join(ctx.workDir,'calls',id+'.prompt.txt'),prompt);
   let envelope=null;try{envelope=JSON.parse(r.out);}catch{}
   if(envelope){row.usage=envelope.usage??null;row.costUsd=envelope.total_cost_usd??null;row.models=Object.keys(envelope.modelUsage??{});row.thinkingTokens=envelope.usage?.output_tokens_details?.thinking_tokens??null;}
@@ -72,7 +118,7 @@ export async function callSonnet(ctx,{stage,system,prompt,validate=x=>x,timeoutM
    if(r.code!==0||!envelope)throw Error('claude exited '+r.code+': '+r.err.slice(0,300));
    if(envelope.is_error!==false||row.models.length!==1||row.models[0]!==MODEL)throw Error('exact '+MODEL+' result required; got '+row.models.join(','));
    const value=validate(parseJson(envelope.result));
-   row.ok=true;write(file,{...row,stdout:r.out,stderr:r.err.slice(0,20000)});ctx.log(`  ${stage}: ${Math.round(row.elapsedMs/1000)} s, ${row.usage?.output_tokens??'?'} output tokens, $${(row.costUsd??0).toFixed(3)}`);
+   row.ok=true;write(file,{...row,stdout:r.out,stderr:r.err.slice(0,20000)});keepReply(ctx,{system,prompt,result:envelope.result,costUsd:row.costUsd,file});ctx.log(`  ${stage}: ${Math.round(row.elapsedMs/1000)} s, ${row.usage?.output_tokens??'?'} output tokens, $${(row.costUsd??0).toFixed(3)}`);
    return {value,file:rel(file)};
   }catch(error){row.ok=false;row.error=error.message;lastError=error;write(file,{...row,stdout:r.out,stderr:r.err.slice(0,20000)});ctx.log(`  ${stage}: attempt ${attempt} failed: ${error.message.slice(0,200)}`);}
  }
@@ -278,38 +324,87 @@ function holdComments(plan,project){
 }
 
 // ---- Stage 4: gap plan -------------------------------------------------------------
+// One small call labels the types that are short of the minimum as core or enrichment; their roles go onto
+// audit.types. A type the call cannot label stays unlabelled, which counts as core (the cautious default).
+export async function labelTypeRoles(ctx,candidate,state,audit){
+ const plan=gapPlan(candidate,state,{audit});
+ const short=[...new Set(plan.deficits.map(d=>d.type))].filter(t=>!(audit.types.find(x=>x.type===t)?.role));
+ if(!short.length)return [];
+ const rows=bookletIndex(candidate),system=roleContract();
+ const item=t=>{const info=audit.types.find(x=>x.type===t)??{},key=typeKey(t),qs=rows.filter(r=>r.routine&&typeKey(typeOf(state,r.block.id))===key).slice(0,2);
+  return {type:t,description:info.description??null,taught:info.taught!==false,taughtBy:(info.taughtBy??[]).length,topic:candidate.topics?.find(x=>x.id===info.topicId)?.title??null,questions:qs.map(r=>studentView(r.block,{answers:false}))};};
+ const items=short.map(item),prompt=list=>JSON.stringify({booklet:candidate.title,course:candidate.library?.courseId??null,types:list});
+ const parts=await splitByCap(items,list=>system.length+prompt(list).length,async list=>(await callSonnet(ctx,{stage:'roles',system,prompt:prompt(list),validate:r=>validateRoles(r,list.map(i=>i.type))})).value);
+ const roles=mergeMaps(parts.map(p=>p.value)),out=[];
+ for(const t of short){const r=roles.get(t);if(!r)continue;let info=audit.types.find(x=>x.type===t);if(!info){info={type:t,taught:true,taughtBy:[],description:null};audit.types.push(info);}info.role=r.role;info.roleReason=r.reason??'';out.push({type:t,role:r.role,reason:r.reason??''});}
+ return out;
+}
+// Type names that differ only in plurals, stop words or token order are one type when counting
+// (7 November 2026: "identify-inverse-operation" and "identify-inverse-operations" were counted apart).
+// The merge is for counting only; stored and audited types are never rewritten.
+const STOP=new Set(['a','an','the','of','in','on','by','from','to','with','and','for','using','into','at']);
+export function typeKey(type){return [...new Set(String(type??'').toLowerCase().split(/[^a-z0-9]+/).filter(t=>t&&!STOP.has(t)).map(t=>t.length>3&&t.endsWith('s')&&!t.endsWith('ss')?t.slice(0,-1):t))].sort().join('-');}
 export function gapPlan(candidate,state,{audit=null,original=state.project}={}){
- const rows=bookletIndex(candidate),slots=[],counts=[];
+ const rows=bookletIndex(candidate),slots=[],counts=[],exempt=[],capped=[];
  const origMax=new Map();for(const s of original.sections??[]){const r=bookletIndex({...original,sections:[s]}).filter(x=>x.routine).map(x=>scoreOf(x.block)).filter(x=>Number.isFinite(x)&&x<=LIMITS.routineCeiling);if(r.length)origMax.set(s.id,Math.max(...r));}
  const fixedPairs=new Set(state.progressions.flatMap(ids=>ids.slice(1).map((id,i)=>ids[i]+'>'+id)));
  const typeInfo=new Map((audit?.types??[]).map(t=>[t.type,t]));
+ const infoByKey=new Map();for(const t of typeInfo.values()){const k=typeKey(t.type);infoByKey.set(k,[...(infoByKey.get(k)??[]),t]);}
+ // A merged type is core unless every labelled name in it is enrichment, and taught if any name is.
+ const roleOfKey=k=>{const r=(infoByKey.get(k)??[]).map(t=>t.role).filter(Boolean);return r.length&&r.every(x=>x==='enrichment')?'enrichment':r.length?'core':null;};
+ const taughtKey=k=>{const t=infoByKey.get(k)??[];return !t.length||t.some(x=>x.taught!==false);};
  const applied=b=>verifiedRating(b)&&!state.pendingHigh?.has(b.id);
  const challengeOnly=type=>{const all=rows.filter(r=>r.question&&!r.exam&&typeOf(state,r.block.id)===type);return all.length>0&&all.every(r=>r.kind==='challenge'||(Number.isFinite(scoreOf(r.block))&&scoreOf(r.block)>LIMITS.routineCeiling));};
+ // Pass 1: each exercise's jumps and items per (merged) type.
+ const exercises=[];
  for(const section of candidate.sections??[]){
   const sec=rows.filter(r=>r.section.id===section.id);if(sec[0]?.kind!=='exercise')continue;
   const routine=sec.filter(r=>r.routine).map(r=>r.block);if(!routine.length)continue;
   const ceiling=origMax.get(section.id)??LIMITS.routineCeiling;
   const units=routine.map(b=>({firstId:b.id,lastId:b.id,score:applied(b)?scoreOf(b):null}));
   const scored=units.filter(u=>Number.isFinite(u.score)).map(u=>({id:u.firstId,score:u.score})),windowFor=target=>slotWindow(target,scored,{ceiling});
-  const jumps=jumpSlots(units,{ceiling}).filter(s=>!fixedPairs.has(s.after+'>'+s.before));
-  const own=[...jumps.map(s=>({...s,sectionId:section.id}))];
+  const own=jumpSlots(units,{ceiling}).filter(s=>!fixedPairs.has(s.after+'>'+s.before)).map(s=>({...s,sectionId:section.id}));
   // Items per type (Exam questions do not count).
-  const byType=new Map();for(const b of routine){for(const item of practiceItems(b)){const t=item.archetype??typeOf(state,b.id);if(!t)continue;const row=byType.get(t)??{type:t,items:0,ids:[],scores:[]};row.items++;if(!row.ids.includes(b.id)){row.ids.push(b.id);if(applied(b))row.scores.push(scoreOf(b));}byType.set(t,row);}}
-  for(const t of typeInfo.values())if(t.topicId===section.topicId&&t.taught!==false&&!byType.has(t.type))byType.set(t.type,{type:t.type,items:0,ids:[],scores:[]});
-  for(const row of byType.values()){
-   // A Challenge type (every question of it is in the Challenge exercise or rates above the
-   // routine limit) is unfamiliar by design and has no minimum (James, 6 November 2026).
-   if(challengeOnly(row.type))continue;
-   counts.push({sectionId:section.id,type:row.type,items:row.items,taught:typeInfo.get(row.type)?.taught!==false});
-   for(let need=LIMITS.minimumItems-row.items;need>0;need--){
-    const lo=row.scores.length?Math.min(...row.scores):null,hi=row.scores.length?Math.max(...row.scores):null;
-    const open=own.find(s=>s.reason==='difficulty-jump'&&!s.type&&(lo==null||(s.target>=lo-10&&s.target<=hi+10)));
-    if(open){open.type=row.type;open.alsoCount=true;continue;}
-    const scores=routine.filter(applied).map(scoreOf),median=x=>x.length?x.slice().sort((a,b)=>a-b)[Math.floor(x.length/2)]:20;
-    const target=Math.min(ceiling,row.scores.length?median(row.scores):median(scores));
-    own.push({reason:'type-count',sectionId:section.id,type:row.type,after:row.ids.at(-1)??routine.at(-1).id,target,...windowFor(target)});
-   }
+  const byKey=new Map();for(const b of routine){for(const item of practiceItems(b)){const t=item.archetype??typeOf(state,b.id);if(!t)continue;const k=typeKey(t),row=byKey.get(k)??{key:k,names:new Map(),items:0,ids:[],scores:[]};row.items++;row.names.set(t,(row.names.get(t)??0)+1);if(!row.ids.includes(b.id)){row.ids.push(b.id);if(applied(b))row.scores.push(scoreOf(b));}byKey.set(k,row);}}
+  exercises.push({section,routine,ceiling,windowFor,own,byKey});
+ }
+ // Pass 2: type minimums, per topic. Exercises of one topic are tiers of the same skills, so a
+ // type's items across them count together, and a short type is topped up in the tier holding
+ // the fewest of it (James, 7 November 2026). Only core types have a minimum; enrichment types
+ // (deliberate one-offs) are exempt and listed, as are Challenge-only types (6 November 2026).
+ const needs=[];
+ for(const topicId of [...new Set(exercises.map(e=>e.section.topicId))]){
+  const tiers=exercises.filter(e=>e.section.topicId===topicId);
+  const keys=new Map();
+  for(const e of tiers)for(const row of e.byKey.values()){const k=keys.get(row.key)??{key:row.key,items:0,names:new Map(),rows:[]};k.items+=row.items;for(const [n,c] of row.names)k.names.set(n,(k.names.get(n)??0)+c);k.rows.push({e,row});keys.set(row.key,k);}
+  for(const t of typeInfo.values()){const k=typeKey(t.type);if(t.topicId===topicId&&t.taught!==false&&!keys.has(k))keys.set(k,{key:k,items:0,names:new Map([[t.type,0]]),rows:[]});}
+  for(const k of keys.values()){
+   const type=[...k.names].sort((a,b)=>b[1]-a[1])[0][0],role=roleOfKey(k.key),taught=taughtKey(k.key);
+   if(challengeOnly(type))continue;
+   const home=k.rows.slice().sort((a,b)=>a.row.items-b.row.items||tiers.indexOf(a.e)-tiers.indexOf(b.e))[0]?.e??tiers[0];
+   counts.push({sectionId:home.section.id,topicId,type,items:k.items,role,taught});
+   if(role==='enrichment'){if(k.items<LIMITS.minimumItems)exempt.push({sectionId:home.section.id,type,items:k.items});continue;}
+   const need=LIMITS.minimumItems-k.items;if(need>0)needs.push({e:home,type,items:k.items,need,taught,row:k.rows.find(x=>x.e===home)?.row??{ids:[],scores:[]}});
   }
+ }
+ // A soft cap on new count questions per exercise, reported, never silent: taught types first, then the fewest items.
+ const used=new Map();
+ for(const n of needs.sort((a,b)=>(b.taught-a.taught)||a.items-b.items)){
+  const {e,row}=n;
+  for(let i=0;i<n.need;i++){
+   const lo=row.scores.length?Math.min(...row.scores):null,hi=row.scores.length?Math.max(...row.scores):null;
+   const open=e.own.find(s=>s.reason==='difficulty-jump'&&!s.type&&(lo==null||(s.target>=lo-10&&s.target<=hi+10)));
+   if(open){open.type=n.type;open.alsoCount=true;continue;}
+   if((used.get(e.section.id)??0)>=LIMITS.countSlotsPerExercise){capped.push({sectionId:e.section.id,type:n.type,items:n.items,unplaced:n.need-i});break;}
+   used.set(e.section.id,(used.get(e.section.id)??0)+1);
+   const scores=e.routine.filter(applied).map(scoreOf),median=x=>x.length?x.slice().sort((a,b)=>a-b)[Math.floor(x.length/2)]:20;
+   const target=Math.min(e.ceiling,row.scores.length?median(row.scores):median(scores));
+   // A core type the booklet does not teach is drafted for the teacher to decide (with its new teaching), not inserted.
+   e.own.push({reason:'type-count',sectionId:e.section.id,type:n.type,after:row.ids.at(-1)??e.routine.at(-1).id,target,...e.windowFor(target),...(n.taught?{}:{teachingNeeded:true})});
+  }
+ }
+ // Pass 3: per exercise, as before.
+ for(const {section,routine,ceiling,windowFor,own} of exercises){
   // A jump slot takes the type of the question it leads up to.
   for(const s of own)if(!s.type)s.type=typeOf(state,s.before)??typeOf(state,s.after);
   // Worked examples with no following practice of their type.
@@ -327,13 +422,13 @@ export function gapPlan(candidate,state,{audit=null,original=state.project}={}){
    own.push({reason:'spread',sectionId:section.id,type:sp.type,judgement:sp.judgement??null,after:ids.at(-1),target,...windowFor(target)});
   }
   // Comment-only follows the target (as before the 6 November windows), not the wider window.
-  for(const s of own){s.untaught=typeInfo.get(s.type)?.taught===false;s.commentOnly=s.target+LIMITS.slack>=LIMITS.appliedBelow;}
+  for(const s of own){s.untaught=typeInfo.get(s.type)?.taught===false&&!s.teachingNeeded;s.commentOnly=!!s.teachingNeeded||s.target+LIMITS.slack>=LIMITS.appliedBelow;}
   slots.push(...own);
  }
  slots.forEach((s,i)=>{s.id='slot-'+(i+1);});
  const gaps=[];
  for(const section of candidate.sections??[]){const routine=rows.filter(r=>r.section.id===section.id&&r.routine).map(r=>r.block).filter(applied);for(let i=1;i<routine.length;i++){const step=scoreOf(routine[i])-scoreOf(routine[i-1]);if(step>LIMITS.jump&&!fixedPairs.has(routine[i-1].id+'>'+routine[i].id))gaps.push({sectionId:section.id,after:routine[i-1].id,before:routine[i].id,step});}}
- return {slots,counts,deficits:counts.filter(c=>c.items<LIMITS.minimumItems),gaps};
+ return {slots,counts,deficits:counts.filter(c=>c.role!=='enrichment'&&c.items<LIMITS.minimumItems),gaps,exempt,capped};
 }
 
 // ---- Stage 3: audit packets ---------------------------------------------------------
@@ -427,6 +522,20 @@ export function ladderFor(candidate,{sectionId,topicId,exclude=new Set(),include
  return pick.map(r=>r.block.id);
 }
 
+// ---- the prompt cap never ends a run (James, 7 November 2026) ---------------------------
+// Area 1 failed twice after paying for most of its calls: first a proposal-drafting batch, then the
+// blind solve, went over the cap and the refusal ended the run. Every batched call now halves an
+// over-cap batch; a single item that still does not fit is returned in `over`, and each stage drops it
+// with a reason (no rating, no solve, so no insertion) while the rest of the run continues.
+export async function splitByCap(items,size,run){
+ if(!items.length)return [];
+ if(size(items)<=LIMITS.promptCharacters)return [{items,value:await run(items)}];
+ if(items.length===1)return [{items,over:true}];
+ const half=Math.ceil(items.length/2),[a,b]=await Promise.all([splitByCap(items.slice(0,half),size,run),splitByCap(items.slice(half),size,run)]);
+ return [...a,...b];
+}
+const mergeMaps=maps=>new Map(maps.flatMap(m=>[...(m??new Map())]));
+
 // ---- answer comparison ---------------------------------------------------------------
 const normAnswer=s=>String(s??'').replace(/\\left|\\right|\\displaystyle|\\,|\\;|\\!|\s|\$|\.$/g,'').replace(/\\dfrac|\\tfrac/g,'\\frac').replace(/^(?:y'|f'\(x\)|dy\/dx|\\frac\{dy\}\{dx\})=/,'').replace(/;$/,'');
 function answerNodes(content){return nodesOf(content).filter(n=>n.answer&&(n.answer.short||n.answer.worked)&&!(n.children??[]).some(c=>c.answer));}
@@ -434,8 +543,10 @@ async function compareAnswers(ctx,pairs){
  const out=new Map(),pending=[];
  for(const p of pairs){if(normAnswer(p.a)&&normAnswer(p.a)===normAnswer(p.b))out.set(p.id,{equivalent:true,how:'script'});else pending.push(p);}
  if(pending.length){
-  const {value}=await callSonnet(ctx,{stage:'equivalence',system:equivalenceContract(),prompt:JSON.stringify({pairs:pending.map(p=>({id:p.id,A:p.a,B:p.b}))}),validate:r=>validateEquivalence(r,pending.map(p=>p.id))});
-  for(const p of pending)out.set(p.id,{equivalent:value.get(p.id)?.equivalent===true,how:'model',reason:value.get(p.id)?.reason});
+  const system=equivalenceContract(),prompt=list=>JSON.stringify({pairs:list.map(p=>({id:p.id,A:p.a,B:p.b}))});
+  const parts=await splitByCap(pending,list=>system.length+prompt(list).length,async list=>(await callSonnet(ctx,{stage:'equivalence',system,prompt:prompt(list),validate:r=>validateEquivalence(r,list.map(p=>p.id))})).value);
+  const value=mergeMaps(parts.map(p=>p.value));
+  for(const p of pending)out.set(p.id,value.has(p.id)?{equivalent:value.get(p.id)?.equivalent===true,how:'model',reason:value.get(p.id)?.reason}:{equivalent:false,how:'over-cap',reason:'the answers were too long to compare within the prompt cap'});
  }
  return out;
 }
@@ -454,7 +565,7 @@ export function proposalPayload(j,block,{rows,ownerOf}){
 }
 
 // ---- new blocks ----------------------------------------------------------------------
-export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill,type,kind='slot'}){
+export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill,type,kind='slot',typeOfId=null}){
  // A later run reuses slot names, so an id already in the booklet gets a suffix (6 November 2026:
  // the second Similar Triangles run drafted a second "slot-1-lower" and the sort refused the clash).
  const base=('v2-'+(slot.sectionId??'proposal').slice(-18)+'-'+slot.id).replace(/[^\w-]/g,'-'),taken=new Set((project?.sections??[]).flatMap(s=>(s.blocks??[]).map(b=>b.id)));
@@ -467,8 +578,49 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
   classification:{primarySkillId:skill??draft.skill??null,secondarySkillIds:[],archetype:type},
   sourceReview:{origin:{projectId:project.id,blockId:id,generatedBy:'pedagogy-audit-v2'},generation:{model:MODEL,effort:EFFORT,kind,slot:{id:slot.id,reason:slot.reason,target:slot.target,range:slot.range},evidence},workingSpaceEstimate:{method:'solution-steps',estimates:(draft.workingSpace??[]).map(w=>({...w,targetId:content.id===w.targetId?content.id:nodesOf(content).find(x=>x.id.endsWith('-'+String(w.targetId).replace(/[^\w-]/g,'')))?.id??w.targetId}))}}};
  for(const node of nodesOf(content)){const est=block.sourceReview.workingSpaceEstimate.estimates.find(w=>w.targetId===node.id);if(est&&Number.isFinite(est.answerSpaceMm)&&!(node.children??[]).length)node.answerSpaceMm=est.answerSpaceMm;}
+ for(const node of nodesOf(content))if(typeof node.prompt==='string')node.prompt=promptFromSource(node.prompt,node.id);
+ const sibling=layoutSibling(project,slot,type,typeOfId);
+ if(sibling&&!content.layout&&(content.children??[]).length>1&&(content.children??[]).every(c=>!(c.children??[]).length)){content.layout=sibling.layout;if(sibling.columns!=null)content.columns=Math.min(sibling.columns,content.children.length);block.sourceReview.layoutFrom=sibling.id;}
  if(score!=null)setComparisonRating(block,score,placement,refs,evidence);
  return block;
+}
+// Drafts are written in the editor's source text, the form in which they see their siblings (toSource):
+// _italic_, **bold**, [[answer|width]] blanks and tables as tab-separated rows. A plain string prompt prints
+// that markup literally (7 November 2026, Stage 4 batch 1: "_2.718 …_" and run-together blanks), so a
+// marked-up prompt becomes an editor document, with tab-separated rows as a borderless table.
+const MARKUP=/\t|\[\[[^|\]\n]*\|\d+\]\]|\*\*[^*\n]+\*\*|(^|[^\w\\])_[^_\n]+_(?!\w)/;
+export function promptFromSource(text,id){
+ const outsideMath=String(text).replace(/\$\$[\s\S]*?\$\$|\$[^$\n]*\$/g,'');
+ if(!MARKUP.test(outsideMath))return text;
+ const lines=String(text).replace(/\r/g,'').split('\n'),blocks=[];let prose=[];
+ const flush=()=>{if(prose.join('').trim())blocks.push(...fromSource(prose.join('\n')).blocks);prose=[];};
+ for(let i=0;i<lines.length;){
+  if(!lines[i].includes('\t')){prose.push(lines[i++]);continue;}
+  flush();const rows=[];while(i<lines.length&&lines[i].includes('\t'))rows.push(lines[i++].split('\t'));
+  const cols=Math.max(...rows.map(r=>r.length)),align=c=>cols===3?['right','center','left'][c]:'left';
+  const mm=cell=>{const cloze=/\[\[([^|\]]*)\|(\d+)\]\]/.exec(cell);return cloze?Math.max(Number(cloze[2]),clozeHandwritingMm(cloze[1]))+2:Math.max(6,2*String(cell).replace(/\$|\\[a-z]+/gi,'').length+3);};
+  const widths=Array.from({length:cols},(_,c)=>Math.max(...rows.map(r=>mm(r[c]??''))));
+  blocks.push({type:'table',border:false,padding:0,widthMm:Math.round(widths.reduce((a,b)=>a+b,0)),widths,rows:rows.map(r=>Array.from({length:cols},(_,c)=>({type:'cell',align:align(c),verticalAlign:'middle',blocks:[{type:'paragraph',align:align(c),inlines:inlinesFromSource(r[c]??'')}]})))});
+ }
+ flush();
+ // A blank is never narrower than the house handwriting width for its answer (the page check's rule).
+ let k=0;const doc=normalizeDocument({format:DOCUMENT_FORMAT,version:DOCUMENT_VERSION,blocks:visitDocument({blocks},n=>{n.id=id+'-d'+(++k);for(const x of n.inlines??[])if(x.type==='cloze')x.width=Math.max(Number(x.width)||0,clozeHandwritingMm(x.answer));}).blocks});
+ return doc;
+}
+// A drafted question copies the arrangement of its siblings (7 November 2026, Stage 4 batch 1: six-part
+// drafts printed as one column, 2½ pages, beside 2–4 column siblings). Layout and columns are presentation,
+// which the drafter never sees. Prefer a sibling of the same type in the slot's exercise, then the slot's
+// neighbours; take the arrangement of whichever node of it holds its parts.
+export function layoutSibling(project,slot,type,typeOfId){
+ const section=(project?.sections??[]).find(s=>s.id===slot?.sectionId);if(!section)return null;
+ const own=(section.blocks??[]).filter(b=>b.type==='question'&&b.content&&b.sourceReview?.origin?.generatedBy!=='pedagogy-audit-v2');
+ // The outermost node that arranges parts: directly, or as a grid of column groups (each a list of parts).
+ const leaf=c=>c.type==='part'&&!(c.children??[]).length;
+ const holder=b=>nodesOf(b.content).find(n=>n.layout&&(n.children??[]).length>1&&(n.children.every(leaf)||(n.layout==='grid'&&n.children.every(c=>c.type==='group'&&(c.children??[]).length&&c.children.every(leaf)))));
+ const near=[slot.after,slot.before,slot.neighbours?.harderThan,slot.neighbours?.easierThan].filter(Boolean);
+ const ranked=[...(type&&typeOfId?own.filter(b=>typeOfId(b.id)===type):[]),...near.map(id=>own.find(b=>b.id===id)).filter(Boolean)];
+ for(const b of ranked){const n=holder(b);if(n)return {id:b.id,layout:n.layout,columns:n.columns??null};}
+ return null;
 }
 export function setComparisonRating(block,score,placement,refs,evidence){
  block.classification={...block.classification,reasoningScore:score,difficulty:bandFor(score),difficultyReason:String(placement.difficultyReason??'').trim()||'Placed by comparison.',
@@ -479,12 +631,12 @@ const fieldGet=(node,field)=>field==='prompt'?node.prompt:node.answer?.[field];
 function fieldSet(node,field,value){if(field==='prompt')node.prompt=value;else node.answer={...node.answer,[field]:value};}
 
 // ---- the run -------------------------------------------------------------------------
-export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,allowNonMaster=false,log=console.error}={}){
+export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,allowNonMaster=false,freshCalls=false,log=console.error}={}){
  const t0=Date.now(),project=read(projectFile),stamp=now().replace(/[-:]/g,'').replace(/\..*/,'').replace('T','-');
  const workDir=path.join(root,'.booklet-work','pedagogy-audit-v2',project.id,stamp);
  const rebinds=diagramRebinds(project,{root}),base=withRebinds(project,rebinds);
  const state=preflight(base,{root,topics,allowNonMaster});
- const ctx={workDir,runDir:canonicalRunDir(project,{root}),calls:[],log,dryRun};
+ const ctx={workDir,runDir:canonicalRunDir(project,{root}),calls:[],log,dryRun,freshCalls};
  const report={projectId:project.id,title:project.title,revision:project.revision,startedAt:new Date(t0).toISOString(),model:MODEL,effort:EFFORT,stages:{},applied:{},comments:[],blockers:[],dropped:[]};
  const stage=(name,fn)=>async(...a)=>{const s=Date.now();try{return await fn(...a);}finally{report.stages[name]={seconds:Math.round((Date.now()-s)/100)/10};}};
  report.preflight={master:state.master,stale:Object.fromEntries(Object.entries(state.stale).map(([k,v])=>[k,v.length])),duplicateCandidates:state.pairs.length,spelling:state.spelling.reduce((n,s)=>n+s.changes.length,0),openComments:state.openComments,v1CommentsToWithdraw:state.v1Comments.length,progressionExceptions:state.progressions,typesReused:[...state.types.values()].filter(t=>t.current).length};
@@ -517,9 +669,13 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   const refIds=new Set(),items=targets.map(r=>{const ladder=ladderFor(candidate,{sectionId:r.section.id,topicId:r.section.topicId,exclude:new Set([r.block.id])});ladder.forEach(id=>refIds.add(id));return {id:r.block.id,ladder:[...ladder,...anchors.map(a=>a.ref)],task:studentView(r.block)};});
   const blocks=new Map(bookletIndex(candidate).map(r=>[r.block.id,r.block])),refs=new Map([...anchors.map(a=>[a.ref,a.score]),...[...refIds].map(id=>[id,scoreOf(blocks.get(id))])]);
   const system=ratingContract()+'\n\nStanding anchors:\n'+anchors.map(a=>JSON.stringify(a)).join('\n');
-  const prompt=JSON.stringify({references:[...refIds].map(id=>({ref:id,score:scoreOf(blocks.get(id)),task:studentView(blocks.get(id))})),targets:items});
-  const {value,file}=await callSonnet(ctx,{stage:'rating',system,prompt,validate:r=>validatePlacements(r,items.map(i=>i.id))});
-  for(const item of items){const p=value.get(item.id),d=deriveComparisonScore(p,refs),b=blocks.get(item.id);
+  // Whole-batch references while they fit (unchanged prompts keep earlier replies reusable); a split batch takes only its own ladders.
+  const ratingPrompt=(list,trim)=>{const used=new Set(list.flatMap(i=>i.ladder));return JSON.stringify({references:[...refIds].filter(id=>!trim||used.has(id)).map(id=>({ref:id,score:scoreOf(blocks.get(id)),task:studentView(blocks.get(id))})),targets:list});};
+  const whole=system.length+ratingPrompt(items,false).length<=LIMITS.promptCharacters;
+  const parts=await splitByCap(items,list=>system.length+ratingPrompt(list,!whole).length,async list=>callSonnet(ctx,{stage:'rating',system,prompt:ratingPrompt(list,!whole),validate:r=>validatePlacements(r,list.map(i=>i.id))}));
+  for(const p of parts.filter(p=>p.over))for(const i of p.items)(report.dropped??=[]).push({rating:i.id,reason:'its rating material is over the prompt cap; the rating stays missing'});
+  const value=mergeMaps(parts.map(p=>p.value?.value)),fileOf=new Map(parts.filter(p=>p.value).flatMap(p=>p.items.map(i=>[i.id,p.value.file])));
+  for(const item of items){if(!value.has(item.id))continue;const file=fileOf.get(item.id),p=value.get(item.id),d=deriveComparisonScore(p,refs),b=blocks.get(item.id);
    if(d.score==null){report.blockers.push({stage:'rating',id:item.id,reason:'placement '+d.how});continue;}
    if(d.score>=LIMITS.appliedBelow){pendingHigh.add(item.id);const rated=structuredClone(b);setComparisonRating(rated,d.score,p,refs,file);addComment({targetId:item.id,kind:'rating-60-plus',key:'rate|'+item.id,payload:{op:'rating',blockId:item.id,classification:rated.classification},note:`[Pedagogy audit v2 · Rating to decide] Placed by comparison at ${d.score} (between ${p.harderThan??'—'} and ${p.easierThan??'—'}). Scores of 60 or more are not applied automatically; the question keeps its position. Reason: ${p.difficultyReason}`});continue;}
    setComparisonRating(b,d.score,p,refs,file);(report.applied.ratings??=[]).push({id:item.id,score:d.score,how:d.how,flagged:!!d.flagged});}
@@ -539,6 +695,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   for(const row of audit.archetypes)state.types.set(row.id,{type:row.type,current:true,source:'audit-v2'});
   for(const [id,t] of state.types)if(!audit.types.some(x=>x.type===t.type))audit.types.push({type:t.type,topicId:bookletIndex(candidate).find(r=>r.block.id===id)?.section.topicId,taught:true,taughtBy:[],description:'stored type'});
  })();
+ // Stage 3b: core or enrichment for each type that would otherwise get count slots (James, 7 November 2026).
+ await stage('3b-roles',async()=>{report.roles=await labelTypeRoles(ctx,candidate,state,audit);})();
  write(path.join(workDir,'audit.json'),audit);
  // Stage 4: final order and gap plan.
  let gaps;
@@ -563,6 +721,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   // Judgements are independent, so an over-cap challenge is halved rather than refused (pilot 2's reached 247,000 of 280,000 characters).
   const send=async(list,withTopics)=>{const system=challengeContract(),prompt=JSON.stringify({booklet:candidate.title,judgements:list.map(j=>({id:j.id,kind:j.kind,judgement:j.row,cited:cite(j.cites),...(withTopics?{topicTeaching:teachingOf(j.row.topicId??cite(j.cites)[0]?.topicId)}:{})}))});
    if(list.length>1&&system.length+prompt.length>LIMITS.promptCharacters){const half=Math.ceil(list.length/2),[a,b]=await Promise.all([send(list.slice(0,half),withTopics),send(list.slice(half),withTopics)]);return new Map([...a,...b]);}
+   // One judgement over the cap on its own is not sent: it stays unchecked (then unverified, a comment), and the run continues.
+   if(system.length+prompt.length>LIMITS.promptCharacters)return new Map([[list[0].id,{id:list[0].id,verdict:'unchecked',reason:'its cited material is over the prompt cap',needsTopic:null,comment:''}]]);
    return (await callSonnet(ctx,{stage:'challenge',system,prompt,validate:r=>validateVerdicts(r,list.map(j=>j.id))})).value;};
   const verdicts=await send(judgements,['missing','prerequisites','theory-definition'].some(k=>judgements.some(j=>j.kind===k)));
   const again=judgements.filter(j=>verdicts.get(j.id)?.verdict==='unchecked');
@@ -581,16 +741,23 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   return JSON.stringify({styleSheet:styleSheet(candidate,bookletIndex(candidate)),views,exercises,requests});};
  // At most LIMITS.draftsPerCall requests per drafting call (6 November 2026): pilot 2's
  // nine-request proposal reply ran to 38,000 output tokens and came back as broken JSON.
+ // An over-cap chunk is halved, like the challenge (7 November 2026: five Area 1 proposals carrying their
+ // diagram-heavy exercises reached 384,000 characters and the refusal ended the run after $12 of calls).
+ // A single request that still does not fit is blocked, so it becomes a comment without a draft.
  const draftCalls=async(stageName,system,requests,size=LIMITS.draftsPerCall)=>{
-  const chunks=[];for(let i=0;i<requests.length;i+=size)chunks.push(requests.slice(i,i+size));
-  const out=await Promise.all(chunks.map(list=>callSonnet(ctx,{stage:stageName,system,prompt:draftPrompt(list),validate:r=>validateDrafts(r,list.map(q=>q.requestId))})));
-  return {drafts:out.flatMap(({value,file})=>value.drafts.map(d=>({...d,file}))),blocked:out.flatMap(({value})=>value.blocked)};
+  const fits=list=>system.length+draftPrompt(list).length<=LIMITS.promptCharacters;
+  const split=list=>{if(list.length<2||fits(list))return [list];const half=Math.ceil(list.length/2);return [...split(list.slice(0,half)),...split(list.slice(half))];};
+  const chunks=[];for(let i=0;i<requests.length;i+=size)chunks.push(...split(requests.slice(i,i+size)));
+  const over=chunks.filter(list=>!fits(list)).flat();
+  const out=await Promise.all(chunks.filter(fits).map(list=>callSonnet(ctx,{stage:stageName,system,prompt:draftPrompt(list),validate:r=>validateDrafts(r,list.map(q=>q.requestId))})));
+  return {drafts:out.flatMap(({value,file})=>value.drafts.map(d=>({...d,file}))),blocked:[...out.flatMap(({value})=>value.blocked),...over.map(q=>({requestId:q.requestId,reason:`its drafting material (views and exercise) is over the ${LIMITS.promptCharacters}-character prompt cap`}))]};
  };
  // Two versions per slot (James, 6 November 2026), one aimed just above the lower neighbour and
  // one just below the upper; every version that passes is inserted. All three first drafts in
  // the 6 November Similar Triangles run came out harder than their window.
  const draftRun=stage('5b-drafting',async()=>{
-  const fill=gaps.slots.filter(s=>!s.untaught&&s.type).flatMap(s=>['lower','upper'].map(variant=>({...s,id:s.id+'-'+variant,baseSlot:s.id,variant})));
+  // Two versions only where a pair narrows a difficulty jump; every other slot gets one, and a failed one is redrafted once (James, 7 November 2026).
+  const fill=gaps.slots.filter(s=>!s.untaught&&s.type).flatMap(s=>s.reason==='difficulty-jump'?['lower','upper'].map(variant=>({...s,id:s.id+'-'+variant,baseSlot:s.id,variant})):[{...s,baseSlot:s.id}]);
   if(!fill.length)return [];
   const requests=fill.map(s=>typeRequest(s));
   const value=await draftCalls('draft-slots',draftContract({root}),requests,2*Math.floor((LIMITS.draftsPerCall+1)/2));
@@ -649,11 +816,18 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   if(!solveItems.length)return;
   const blocks=new Map(bookletIndex(candidate).map(r=>[r.block.id,r.block])),refs=new Map([...anchors.map(a=>[a.ref,a.score]),...[...refIds].map(id=>[id,scoreOf(blocks.get(id))])]);
   const system=solveContract({root})+'\n\nStanding anchors:\n'+anchors.map(a=>JSON.stringify(a)).join('\n');
-  const solve=async items=>{const prompt=JSON.stringify({references:[...refIds].map(id=>({ref:id,score:scoreOf(blocks.get(id)),task:studentView(blocks.get(id))})),items:items.map(it=>({id:it.id,...(it.kind==='new'?{new:true}:{}),...(it.intent?{intent:it.intent}:{}),question:it.task,...(it.workedExample?{workedExamplePrompt:it.workedExample.prompt}:{}),...(it.targetNode?{answerNode:it.targetNode}:{}),...(it.ladder?{ladder:it.ladder}:{})}))});
-   return (await callSonnet(ctx,{stage:'solve',system,prompt,validate:r=>validateSolve(r,items)})).value;};
+  // Whole references while the batch fits (unchanged prompts keep earlier replies reusable); a split batch takes only its own ladders.
+  const solvePrompt=(items,trim)=>{const used=new Set(items.flatMap(it=>it.ladder??[]));return JSON.stringify({references:[...refIds].filter(id=>!trim||used.has(id)).map(id=>({ref:id,score:scoreOf(blocks.get(id)),task:studentView(blocks.get(id))})),items:items.map(it=>({id:it.id,...(it.kind==='new'?{new:true}:{}),...(it.intent?{intent:it.intent}:{}),question:it.task,...(it.workedExample?{workedExamplePrompt:it.workedExample.prompt}:{}),...(it.targetNode?{answerNode:it.targetNode}:{}),...(it.ladder?{ladder:it.ladder}:{})}))});};
+  const solve=async items=>{const whole=system.length+solvePrompt(items,false).length<=LIMITS.promptCharacters;
+   const parts=await splitByCap(items,list=>system.length+solvePrompt(list,!whole).length,async list=>(await callSonnet(ctx,{stage:'solve',system,prompt:solvePrompt(list,!whole),validate:r=>validateSolve(r,list)})).value);
+   const got=parts.filter(p=>p.value).map(p=>p.value);
+   return {solutions:mergeMaps(got.map(v=>v.solutions)),placements:mergeMaps(got.map(v=>v.placements)),rules:mergeMaps(got.map(v=>v.rules)),intent:mergeMaps(got.map(v=>v.intent)),over:new Set(parts.filter(p=>p.over).flatMap(p=>p.items.map(i=>i.id)))};};
   let round=solveItems,attempt=1;
   while(round.length){
    const out=await solve(round),redo=[];
+   // An item over the cap on its own is never solved blind, so it is not inserted, corrected or redrafted.
+   for(const it of round.filter(i=>out.over.has(i.id))){if(it.kind==='claim')addComment({targetId:it.claim.blockId,kind:'error-unresolved',key:'err|'+it.claim.blockId+'|'+it.claim.nodeId,note:`[Pedagogy audit v2 · Unresolved possible error] ${it.claim.wrong}\nProposed: ${it.claim.correction}\nNot checked: the question is too long to solve blind within the prompt cap.`});else report.dropped.push({slot:it.id,reason:'its question and ladder are over the prompt cap, so it could not be solved blind; not inserted'});}
+   round=round.filter(i=>!out.over.has(i.id));
    const pairs=[];
    for(const it of round){const sol=out.solutions.get(it.id),answers=new Map((sol?.answers??[]).map(a=>[String(a.nodeId),a.answer]));
     if(it.kind==='new'){const c=it.draft.content??it.draft.workedExample?.guidedPractice;answerNodes(c).forEach((n,k)=>pairs.push({id:it.id+'#'+k,item:it,a:answers.get(String(n.id))??[...answers.values()][k]??'',b:n.answer.short||n.answer.worked}));}
@@ -704,14 +878,14 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  for(const it of accepted){
   const proposal=it.proposal,slot=it.draft.slot;
   const d=it.placement?deriveComparisonScore(it.placement,refScores):{score:null,how:'none'};
-  const temp=newBlock(it.draft.workedExample?{...it.draft,content:it.draft.workedExample.guidedPractice}:it.draft,slot??{id:it.id+'-'+stamp.slice(-6),sectionId:it.draft.judgement?.row?.exerciseId},{project:candidate,score:null,placement:it.placement,refs:refScores,evidence,type:slot?.type??it.draft.judgement?.row?.type??it.draft.judgement?.row?.replacementType??null,kind:proposal?it.draft.judgement.kind:'slot',skill:it.draft.skill});
+  const temp=newBlock(it.draft.workedExample?{...it.draft,content:it.draft.workedExample.guidedPractice}:it.draft,slot??{id:it.id+'-'+stamp.slice(-6),sectionId:it.draft.judgement?.row?.exerciseId},{project:candidate,score:null,placement:it.placement,refs:refScores,evidence,type:slot?.type??it.draft.judgement?.row?.type??it.draft.judgement?.row?.replacementType??null,kind:proposal?it.draft.judgement.kind:'slot',skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});
   if(duplicatePairs([...existingQuestions,...inserted,temp]).some(p=>p.ids.includes(temp.id))){report.dropped.push({slot:it.id,reason:'duplicates an existing or new question'});continue;}
   const describe=()=>{const c=temp.content,parts=(c.children??[]).map(p=>`${p.label??''}) ${p.prompt}`);return `Proposed question: ${c.prompt??''}${parts.length?'\n'+parts.join('\n'):''}${(c.questionDiagrams??[]).length?'\n(with a diagram)':''}\nAnswers: ${answerNodes(c).map(n=>(n.label&&n!==c?n.label+') ':'')+n.answer.short).join('; ')}`;};
   if(proposal){const j=it.draft.judgement,c=verdicts.get(j.id);if(d.score!=null)setComparisonRating(temp,d.score,it.placement,refScores,evidence);addComment({targetId:proposalTarget(j),kind:proposalKind(j),key:'prop|'+j.id,payload:proposalPayload(j,temp,{rows:bookletIndex(candidate),ownerOf,workedExample:it.draft.workedExample}),note:`[Pedagogy audit v2 · ${proposalLabel(j)}${verdictOf(j)==='unverified'?' · unverified':''}] ${c?.comment??j.row.reason??j.row.achieves??j.row.insight??j.row.prerequisite??''}${verdictOf(j)==='unverified'?' The independent challenge could not confirm this from the material it was given.':''}${j.kind==='duplicate'?` Replace ${(j.row.replaceNodes??[]).join(', ')} with the question below.`:''}\n${it.draft.workedExample?'Worked example: '+it.draft.workedExample.prompt+'\n'+it.draft.workedExample.steps+'\nGuided practice:\n':''}${describe()}${d.score!=null?`\nComparison score: ${d.score}.`:''}`});continue;}
   if(d.score==null){report.blockers.push({stage:'solve',id:it.id,reason:'placement '+d.how});continue;}
   if(d.score<slot.range[0]||d.score>slot.range[1]){report.dropped.push({slot:slot.id,reason:`scored ${d.score}, outside the slot range ${slot.range.join('–')}`,draft:stripAnswers(temp.content)});continue;}
-  if(slot.commentOnly||d.score>=LIMITS.appliedBelow){const held=newBlock(it.draft,{...slot,id:slot.id+'-'+stamp.slice(-6)},{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill});addComment({targetId:slot.after??slot.before??candidate.sections.find(s=>s.id===slot.sectionId)?.blocks?.[0]?.id,kind:'slot-comment-only',key:'slot|'+slot.id,payload:{op:'insert',sectionId:slot.sectionId,after:slot.after??null,block:held},note:`[Pedagogy audit v2 · New question to decide] For the ${slot.reason.replace(/-/g,' ')} gap (${slot.type}). Comparison score ${d.score}, between ${it.placement.harderThan??'—'} and ${it.placement.easierThan??'—'}: ${it.placement.difficultyReason}\n${describe()}`});continue;}
-  const block=newBlock(it.draft,slot,{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill});
+  if(slot.commentOnly||d.score>=LIMITS.appliedBelow){const held=newBlock(it.draft,{...slot,id:slot.id+'-'+stamp.slice(-6)},{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});addComment({targetId:slot.after??slot.before??candidate.sections.find(s=>s.id===slot.sectionId)?.blocks?.[0]?.id,kind:'slot-comment-only',key:'slot|'+slot.id,payload:{op:'insert',sectionId:slot.sectionId,after:slot.after??null,block:held},note:`[Pedagogy audit v2 · New question to decide] For the ${slot.reason.replace(/-/g,' ')} gap (${slot.type}). Comparison score ${d.score}, between ${it.placement.harderThan??'—'} and ${it.placement.easierThan??'—'}: ${it.placement.difficultyReason}\n${describe()}`});continue;}
+  const block=newBlock(it.draft,slot,{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});
   state.types.set(block.id,{type:slot.type,current:true,source:'audit-v2'});
   const section=candidate.sections.find(s=>s.id===slot.sectionId),at=section.blocks.findIndex(b=>b.id===slot.after);
   section.blocks.splice(at<0?section.blocks.length:at+1,0,block);inserted.push(block);
@@ -749,7 +923,16 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  for(const c of holdComments(ordered.plan,candidate))addComment(c);
  const finalGaps=gapPlan(candidate,state,{audit});
  report.remaining={deficits:finalGaps.deficits,jumpsOver15:finalGaps.gaps,slotsStillOpen:finalGaps.slots.length};
- report.slots=gaps.slots;
+ report.slots=gaps.slots;report.exempt=finalGaps.exempt;report.capped=gaps.capped;
+ // One comment per exercise: core types still short of the minimum, and the one-offs it exempted, so
+ // nothing the rule leaves alone is silent (James, 7 November 2026).
+ for(const section of candidate.sections??[]){
+  const short=finalGaps.deficits.filter(d=>d.sectionId===section.id),ex=finalGaps.exempt.filter(e=>e.sectionId===section.id),cap=new Set(gaps.capped.filter(c=>c.sectionId===section.id).map(c=>c.type));
+  if(!short.length&&!ex.length)continue;
+  const first=(section.blocks??[]).find(b=>b.type==='question')??section.blocks?.[0];if(!first)continue;
+  const lines=[...(short.length?[`Core question types with fewer than ${LIMITS.minimumItems} questions in this topic after this run:`,...short.map(d=>`- ${d.type}: ${d.items}${d.taught===false?' (not taught in the booklet)':''}${cap.has(d.type)?` (over this run's limit of ${LIMITS.countSlotsPerExercise} new count questions per exercise)`:''}`)]:[]),...(ex.length?['Left as one-off (enrichment) questions, with no minimum: '+ex.map(e=>`${e.type} (${e.items})`).join(', ')+'. Say if any of these should be practised more.']:[])];
+  addComment({targetId:first.id,kind:'type-gaps',key:'gaps|'+section.id,note:`[Pedagogy audit v2 · Practice counts]\n${lines.join('\n')}`});
+ }
  // Comments, merged with an open comment of the same kind on the same block; v1 comments withdrawn.
  const {createFeedback}=await import('../src/lib/booklet-feedback.js');
  const owners=new Map(candidate.sections.flatMap(s=>(s.blocks??[]).flatMap(b=>nodesOf(b).map(n=>[n.id,b.id]))));
@@ -780,14 +963,14 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  report.finishedAt=now();report.elapsedSeconds=Math.round((Date.now()-t0)/1000);
  report.calls=ctx.calls;
  report.totals=ctx.calls.reduce((t,c)=>({calls:t.calls+1,ok:t.ok+(c.ok?1:0),modelSeconds:t.modelSeconds+c.elapsedMs/1000,costUsd:t.costUsd+(c.costUsd??0),inputTokens:t.inputTokens+(c.usage?.input_tokens??0),cacheWriteTokens:t.cacheWriteTokens+(c.usage?.cache_creation_input_tokens??0),cacheReadTokens:t.cacheReadTokens+(c.usage?.cache_read_input_tokens??0),outputTokens:t.outputTokens+(c.usage?.output_tokens??0)}),{calls:0,ok:0,modelSeconds:0,costUsd:0,inputTokens:0,cacheWriteTokens:0,cacheReadTokens:0,outputTokens:0});
- report.totals.modelSeconds=Math.round(report.totals.modelSeconds);report.totals.costUsd=Math.round(report.totals.costUsd*1000)/1000;
+ report.totals.modelSeconds=Math.round(report.totals.modelSeconds);report.totals.reusedCalls=ctx.calls.filter(c=>c.reused).length;report.totals.savedUsd=Math.round(ctx.calls.reduce((s,c)=>s+(c.reused?.savedUsd??0),0)*1000)/1000;report.totals.costUsd=Math.round(report.totals.costUsd*1000)/1000;
  candidate.revision=project.revision;
  write(path.join(workDir,'candidate.json'),candidate);write(path.join(workDir,'report.json'),report);write(path.join(workDir,'report.md'),reportMarkdown(report));
  return {report,workDir};
 }
 
 export function reportMarkdown(r){
- const t=r.totals??{},lines=[`# Pedagogy audit v2: ${r.title}`,'',`Project \`${r.projectId}\` revision ${r.revision}. Model \`${r.model}\` at ${r.effort} effort for every call.`,'',`Wall clock ${r.elapsedSeconds} s; ${t.calls??0} calls (${t.ok??0} succeeded), ${t.modelSeconds??0} s in model calls, $${t.costUsd??0} (input ${t.inputTokens??0}, cache write ${t.cacheWriteTokens??0}, cache read ${t.cacheReadTokens??0}, output ${t.outputTokens??0} tokens).`,''];
+ const t=r.totals??{},lines=[`# Pedagogy audit v2: ${r.title}`,'',`Project \`${r.projectId}\` revision ${r.revision}. Model \`${r.model}\` at ${r.effort} effort for every call.`,'',`Wall clock ${r.elapsedSeconds} s; ${t.calls??0} calls (${t.ok??0} succeeded${t.reusedCalls?`, ${t.reusedCalls} reused from earlier runs, saving $${t.savedUsd}`:""}), ${t.modelSeconds??0} s in model calls, $${t.costUsd??0} (input ${t.inputTokens??0}, cache write ${t.cacheWriteTokens??0}, cache read ${t.cacheReadTokens??0}, output ${t.outputTokens??0} tokens).`,''];
  lines.push('## Stages','',...Object.entries(r.stages??{}).map(([k,v])=>`- ${k}: ${v.seconds} s`),'');
  lines.push('## Calls','','| Call | Seconds | Input | Cache write | Cache read | Output | Cost | OK |','|---|---|---|---|---|---|---|---|',...(r.calls??[]).map(c=>`| ${c.id} | ${Math.round(c.elapsedMs/1000)} | ${c.usage?.input_tokens??''} | ${c.usage?.cache_creation_input_tokens??''} | ${c.usage?.cache_read_input_tokens??''} | ${c.usage?.output_tokens??''} | ${c.costUsd!=null?'$'+c.costUsd.toFixed(3):''} | ${c.ok?'yes':'no: '+(c.error??'').slice(0,80)} |`),'');
  lines.push('## Applied automatically','',`- Challenge moves: ${(r.moves??[]).map(m=>m.ids.join('+')+' ('+m.score+')').join(', ')||'none'}${r.heldMoves?.length?'; held by the depletion guard: '+r.heldMoves.map(h=>h.id).join(', '):''}`,`- New questions: ${(r.applied?.newQuestions??[]).map(q=>`${q.id} (${q.type}, ${q.score})`).join(', ')||'none'}`,`- Corrections: ${(r.applied?.corrections??[]).map(c=>c.id+' '+c.field).join(', ')||'none'}`,`- Ratings filled: ${(r.applied?.ratings??[]).length}`,`- Spelling: ${(r.applied?.spelling??[]).map(s=>s.id+': '+s.changes.join(', ')).join('; ')||'none'}`,`- Bold: ${(r.applied?.bold??[]).map(b=>b.id+': '+b.terms.join(', ')).join('; ')||'none'}`,'');
@@ -849,7 +1032,7 @@ export async function auditV2Main(args){
  const id=value('--project');if(!id)throw Error('audit-v2 needs --project ID');
  if(args[0]==='apply-comments')return (await import('./audit-v2-apply.mjs')).applyCommentsMain(args.slice(1));
  if(flag('--apply'))return applyAuditV2({projectId:id,runDir:value('--run')&&path.resolve(value('--run'))});
- const {report,workDir}=await runAuditV2({projectFile:path.join(ROOT,'booklets','projects',id+'.json'),topics:(value('--topics')??'').split(',').filter(Boolean),dryRun:flag('--dry-run'),allowNonMaster:flag('--allow-non-master')});
+ const {report,workDir}=await runAuditV2({projectFile:path.join(ROOT,'booklets','projects',id+'.json'),topics:(value('--topics')??'').split(',').filter(Boolean),dryRun:flag('--dry-run'),allowNonMaster:flag('--allow-non-master'),freshCalls:flag('--fresh-calls')});
  if(!workDir)return report;
  return {projectId:report.projectId,run:rel(workDir),elapsedSeconds:report.elapsedSeconds,totals:report.totals,applied:{moves:report.moves?.length??0,newQuestions:report.applied?.newQuestions?.length??0,corrections:report.applied?.corrections?.length??0,ratings:report.applied?.ratings?.length??0},comments:report.comments?.length??0,blockers:report.blockers,report:rel(path.join(workDir,'report.md'))};
 }

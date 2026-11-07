@@ -11,7 +11,7 @@ import {nodesOf} from '../polish/guards.mjs';
 
 export const MODEL='claude-sonnet-5-5';
 export const EFFORT='medium';
-export const LIMITS=Object.freeze({jump:15,floor:6,slack:3,routineCeiling:65,appliedBelow:60,minimumItems:3,promptCharacters:280000,packCharacters:240000,draftsPerCall:5});
+export const LIMITS=Object.freeze({jump:15,floor:6,slack:3,routineCeiling:65,appliedBelow:60,minimumItems:3,countSlotsPerExercise:2,promptCharacters:280000,packCharacters:240000,draftsPerCall:5});
 const sha=value=>createHash('sha256').update(typeof value==='string'?value:JSON.stringify(value)).digest('hex');
 
 // ---- diagram-blind equivalence (James, 6 November 2026) ------------------------
