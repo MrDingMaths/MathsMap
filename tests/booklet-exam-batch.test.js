@@ -58,7 +58,11 @@ test('Exam questions after the first on a page get the 10 mm gap', () => {
   assert.equal(EXAM_QUESTION_GAP_MM, 10);
   assert.equal(examQuestionGapMm({role: 'exam'}, blocks, blocks[1]), 0);
   assert.equal(examQuestionGapMm({role: 'exam'}, blocks, blocks[2]), 10);
-  assert.equal(examQuestionGapMm({role: 'challenge'}, blocks, blocks[2]), 0);
+  // Challenge questions get the same gap (James, 9 November 2026); a teaching section tagged challenge does not.
+  assert.equal(examQuestionGapMm({role: 'challenge', phase: 'practice'}, blocks, blocks[2]), 10);
+  assert.equal(examQuestionGapMm({role: 'challenge', phase: 'practice'}, blocks, blocks[1]), 0);
+  assert.equal(examQuestionGapMm({role: 'challenge', phase: 'teaching'}, blocks, blocks[2]), 0);
+  assert.equal(examQuestionGapMm({role: 'practice', phase: 'practice'}, blocks, blocks[2]), 0);
 });
 
 test('a maths cell is sized for KaTeX spacing round relations, so P(X = x) fits its column', () => {

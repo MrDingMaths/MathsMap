@@ -11,7 +11,7 @@ import {nodesOf} from '../polish/guards.mjs';
 
 export const MODEL='claude-sonnet-5-5';
 export const EFFORT='medium';
-export const LIMITS=Object.freeze({jump:15,floor:6,slack:3,routineCeiling:65,appliedBelow:60,minimumItems:3,countSlotsPerExercise:2,promptCharacters:280000,packCharacters:240000,draftsPerCall:5,challengeFollowing:4});
+export const LIMITS=Object.freeze({jump:15,floor:6,slack:3,routineCeiling:59,appliedBelow:60,minimumItems:3,countSlotsPerExercise:3,promptCharacters:280000,packCharacters:240000,draftsPerCall:5,challengeFollowing:4});
 const sha=value=>createHash('sha256').update(typeof value==='string'?value:JSON.stringify(value)).digest('hex');
 
 // ---- diagram-blind equivalence (James, 6 November 2026) ------------------------
@@ -33,7 +33,12 @@ export function diagramBlind(value){
 }
 // Mirrors reasoningTaskHash (scripts/booklet/reasoning-ratings.mjs) with drawing code removed.
 export const diagramBlindHash=block=>sha(diagramBlind(sharedQuestion({...normaliseQuestion(block),title:''}).content));
-export const diagramEquivalent=(a,b)=>JSON.stringify(diagramBlind(questionReviewContent(a)))===JSON.stringify(diagramBlind(questionReviewContent(b)));
+// Presentation does not change what a question asks either (9 November 2026, Polynomials 1A: paragraph indent and
+// line height set by the editor, a figure's alignment, an empty mathematicalModel, and the source attribution the
+// exam pass added had cut eight questions off their reviewed type).
+const PRESENTATION=new Set(['align','indent','lineHeight','spaceBefore','spaceAfter','fontSize','widthMm','source']);
+const presentationBlind=v=>Array.isArray(v)?v.map(presentationBlind):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).filter(([k,x])=>!PRESENTATION.has(k)&&!(k==='mathematicalModel'&&x==null)).map(([k,x])=>[k,presentationBlind(x)])):v;
+export const diagramEquivalent=(a,b)=>JSON.stringify(diagramBlind(presentationBlind(questionReviewContent(a))))===JSON.stringify(diagramBlind(presentationBlind(questionReviewContent(b))));
 
 // ---- content fingerprints ------------------------------------------------------
 // What a student reads and answers, and nothing else. Layout, labels, numbering,
@@ -97,6 +102,43 @@ export function practiceItems(block){
  return Array.isArray(items)&&items.length?items:[{nodeIds:[block.content?.id??block.id]}];
 }
 
+// Complete-task parts of a question, for the core-type minimum (James, 8 November 2026): each part a
+// student answers on its own counts, at most `cap` per question. A part that leans on an earlier one
+// ("hence", "your answer", "part (a)"), or that has no numbers, maths or figure of its own under a
+// shared stem (the next step of one problem), joins the item before it, so a scaffolded chain is one.
+// A reviewed practiceItems grouping still wins (30 October rule).
+const SKIP_TEXT=new Set(['id','label','children','answer','answerSpaceMm','responseSpace','responseSpaceMm','sourceRefs','sourceReview','classification','layout','arrangement','presentation','flow']);
+const ownText=node=>{const out=[];const walk=(v,k)=>{if(SKIP_TEXT.has(k))return;if(typeof v==='string'){if(!['type','format','id'].includes(k))out.push(v);return;}if(Array.isArray(v))v.forEach(x=>walk(x));else if(v&&typeof v==='object')for(const [kk,vv] of Object.entries(v))walk(vv,kk);};for(const [k,v] of Object.entries(node??{}))walk(v,k);return out.join(' ');};
+const hasFigure=node=>['questionDiagrams','diagrams','table','tables','images'].some(k=>Array.isArray(node?.[k])?node[k].length>0:!!node?.[k]);
+const LEANS=/\bhence\b|\bthus\b|your answers?\b|previous (part|answer|question)|\bpart\s*\(?[a-z]\)|\b(in|from|using|use) \(?[a-h]\)|\babove\b/i;
+export function practiceItemCount(block,{cap=3}={}){
+ const reviewed=block.classification?.archetypeReview?.practiceItems;
+ if(Array.isArray(reviewed)&&reviewed.length)return reviewed.length;
+ const root=block.content;if(!root||typeof root!=='object')return 1;
+ const leaves=[];
+ const visit=(node,trail)=>{const kids=(node.children??[]).filter(c=>c&&typeof c==='object'&&['part','group'].includes(c.type));
+  if(!kids.length){if(node!==root)leaves.push({node,trail});return;}
+  for(const c of kids)visit(c,node===root?[]:[...trail,node]);};
+ visit(root,[]);
+ if(leaves.length<2)return 1;
+ // Answer cells in the stem's table ("Complete the table") are rows a student fills on their own.
+ const tableRows=/"type":"table"/.test(JSON.stringify(root.prompt??''));
+ // A part with no material of its own is the next step of one problem only when the stem holds the problem's
+ // data ("Four friends have $14, $22 …"). Under a stem without data ("Draw these geometrical figures."), each
+ // part ("Line FG", "Ray ZY") is a task of its own: Angle Relationships 1 Q2 counted as one item, and the
+ // count top-up added two more drawing questions (8 November 2026).
+ const MATERIAL=/\d|\$|\\\(|\\frac|[=+×÷<>]/;
+ const stemData=MATERIAL.test(ownText(root))||hasFigure(root)||tableRows;
+ let items=0;
+ for(const [i,{node,trail}] of leaves.entries()){
+  const text=[node,...trail].map(ownText).join(' '),material=MATERIAL.test(text)||[node,...trail].some(hasFigure);
+  const blank=!ownText(node).trim()&&![node,...trail].some(hasFigure);
+  const step=!material&&!(blank&&tableRows)&&(stemData||blank);
+  if(i===0||!(LEANS.test(ownText(node))||step))items++;
+ }
+ return Math.max(1,Math.min(cap,items));
+}
+
 // ---- duplicate candidates ------------------------------------------------------
 // The existing exact normalisation (questionKey), for whole questions and single parts.
 export function duplicateKeys(block){
@@ -143,8 +185,11 @@ const AMBIGUOUS=new Set(['tire','tires','mold']);
 const matchCase=(from,to)=>from===from.toUpperCase()?to.toUpperCase():from[0]===from[0].toUpperCase()?to[0].toUpperCase()+to.slice(1):to;
 export function australianSpelling(text){
  const changes=[];
- const parts=String(text).split(/(\$\$[\s\S]*?\$\$|\$[^$]*\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/);
- const out=parts.map((part,i)=>i%2?part:part.replace(/\b[A-Za-z]+\b/g,word=>{const lower=word.toLowerCase(),to=WORDS.get(lower);if(!to||AMBIGUOUS.has(lower))return word;const fixed=matchCase(word,to);changes.push({from:word,to:fixed});return fixed;})).join('');
+ // Code is never respelt: maths, inline TikZ in a prompt or answer ("[tikz] … \end{tikzpicture}"), and command
+ // names (\color). Operations with Decimals 1 p100-q7: "align=center" in an answer's inline figure became
+ // "align=centre", and the short edition stopped on "Mathematics failed to render" (8 November 2026).
+ const parts=String(text).split(/(\[tikz\][\s\S]*?\\end\{tikzpicture\}|\\begin\{tikzpicture\}[\s\S]*?\\end\{tikzpicture\}|\$\$[\s\S]*?\$\$|\$[^$]*\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/);
+ const out=parts.map((part,i)=>i%2?part:part.replace(/(?<!\\)\b[A-Za-z]+\b/g,word=>{const lower=word.toLowerCase(),to=WORDS.get(lower);if(!to||AMBIGUOUS.has(lower))return word;const fixed=matchCase(word,to);changes.push({from:word,to:fixed});return fixed;})).join('');
  return {text:out,changes};
 }
 // Student-visible prose fields: question/part prompts, answers, editor text inlines.

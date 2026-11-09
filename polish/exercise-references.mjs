@@ -148,6 +148,29 @@ function ownFollowingDiagram(block,field,project){
   return resolved.entries.get(diagram.id)?.kind==='diagram';
  }catch{return false;}
 }
+// unique: the block has exactly one question figure, on the prompt's own node or in an unlabelled group under it.
+// Otherwise (plural wording): two or more figures, all on the prompt's own node. Each must be visible below the
+// prompt in the resolved arrangement and in any narrower saved one. Answer figures do not count.
+function ownDescendantDiagramsBelow(block,field,project,{unique=true}={}){
+ const path=JSON.parse(field.key),pi=path.lastIndexOf('prompt');
+ if(path[0]!=='content'||pi<0||path.slice(0,pi).includes('answer'))return false;
+ const node=get(block,path.slice(0,pi));if(!node||!(['question','part'].includes(node.type)||node===block.content))return false;
+ const collect=(n,out)=>{for(const d of n?.questionDiagrams??[])out.push(d);for(const c of n?.children??[])collect(c,out);return out;};
+ // Unlabelled groups directly under the prompt hold layout, not separate asks.
+ const reach=(n,out)=>{for(const d of n?.questionDiagrams??[])out.push(d);for(const c of n?.children??[])if(c.type==='group'&&!c.label&&!c.prompt)reach(c,out);return out;};
+ const all=collect(block.content,[]),mine=unique?reach(node,[]):[...(node.questionDiagrams??[])];
+ if(unique?(all.length!==1||mine.length!==1):(mine.length<2||all.length!==mine.length))return false;
+ if(mine.some(d=>!d?.id||(d.role!=null&&!['question','content'].includes(d.role))))return false;
+ const layouts=effectiveLayouts(block,project),overrides={...project?.settings?.layoutOverrides,...block.presentation?.layoutOverrides,blockLayouts:layouts};
+ try{
+  const stored=layouts[block.id]?.arrangement;if(stored&&!normalizeArrangement(stored))return false;
+  const resolved=resolveArrangement(block,stored,overrides);if(resolved.missing.length)return false;
+  const paragraph=path[pi+1]==='blocks'?node.prompt?.blocks?.[path[pi+2]]:null,intro=node.id+'/prompt'+(paragraph?'#'+paragraph.id:'');
+  if(mine.some(d=>resolved.entries.get(d.id)?.kind!=='diagram'||!belowInStack(resolved.tree.root,intro,d.id)))return false;
+  for(let i=1;i<=pi;i++){const ancestor=get(block,path.slice(0,i)),saved=layouts[ancestor?.id]?.arrangement;if(saved&&ancestor.id!==block.id&&(!normalizeArrangement(saved)||mine.some(d=>!belowInStack(saved.root,intro,d.id))))return false;}
+  return true;
+ }catch{return false;}
+}
 // Exact collective stem: every direct part supplies its own question diagram.
 // Do not infer an external figure, a descendant collection or omitted slots.
 function ownChildDiagramsBelow(block,field,project){
@@ -273,6 +296,17 @@ function referenceScanText(block,field,fields,project,fixedTeachingBindings=[]){
  for(const binding of fixedTeachingBindings.filter(b=>b.ownerId===block.id&&b.field===field.key)){assert.equal(field.text.slice(binding.start,binding.end),binding.quote);text=text.slice(0,binding.start)+' '.repeat(binding.end-binding.start)+text.slice(binding.end);}
  text=text.replace(/\b(?:diagram|graph|figure) below\b/gi,(quote,index)=>ownFollowingInlineDiagram(block,field,{0:quote,index})?' '.repeat(quote.length):quote);
  if(/\bdiagram below\b/i.test(text)&&!/\beach diagram below\b/i.test(text)&&ownFollowingDiagram(block,field,project))text=text.replace(/\bdiagram below\b/gi,m=>' '.repeat(m.length));
+ // "The diagram/graph/figure below" names the question's only figure when it sits on this prompt or in an unlabelled
+ // group under it, below the prompt; "the diagrams below" names all of them when there are several on this prompt
+ // (9 November 2026: Polynomials p31-q11 "graph below" on its own graph; p29-q8's graph sits in a group above parts
+ // a and b; Area of Circles p34-q13 has two figures on its prompt). A figure on a lettered part, an inline figure in
+ // the prompt, or "the other diagram" stays held, as before.
+ if(!/\[\/?tikz\]/.test(field.text)){
+  if(/\bthe (?:diagram|graph|figure) below\b/i.test(text)&&ownDescendantDiagramsBelow(block,field,project,{unique:true}))text=text.replace(/\bthe (?:diagram|graph|figure) below\b/gi,m=>' '.repeat(m.length));
+  if(/\bthe (?:diagrams|graphs|figures) below\b/i.test(text)&&ownDescendantDiagramsBelow(block,field,project,{unique:false}))text=text.replace(/\bthe (?:diagrams|graphs|figures) below\b/gi,m=>' '.repeat(m.length));
+ }
+ // "for example 23832" is an example of a number, not a reference to Example 2 (Stage 4 Indices p95-q85).
+ text=text.replace(/\bfor example,?\s+(?=\d)/gi,m=>' '.repeat(m.length));
  if([...text.matchAll(/\beach (?:diagram|graph) below\b/gi)].length===1&&ownChildDiagramsBelow(block,field,project))text=text.replace(/\beach (?:diagram|graph) below\b/gi,m=>' '.repeat(m.length));
  if(/\b(?:the same graph as above|the graph above)\b/i.test(text)&&ownAncestorGraphAbove(block,field,project))text=text.replace(/\b(?:the same graph as above|the graph above)\b/gi,m=>' '.repeat(m.length));
  const nativeQuestions=children=>Array.isArray(children)&&children.some(child=>['question','part'].includes(child?.type)||child?.type==='group'&&nativeQuestions(child.children));

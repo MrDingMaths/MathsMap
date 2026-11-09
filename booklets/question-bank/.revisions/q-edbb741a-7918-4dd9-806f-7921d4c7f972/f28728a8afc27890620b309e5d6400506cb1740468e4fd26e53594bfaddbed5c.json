@@ -1,0 +1,668 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-edbb741a-7918-4dd9-806f-7921d4c7f972",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [
+      "graph-polynomials-factored"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Coordinate roots from linear factors, the y-intercept and leading-term end behaviour to produce consistent sketches with crossings at each simple root.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:38:11.842Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "508f428b545ed90e052b3041602aac17342bc7bee9008bbe31cad3e35a4fa5be",
+      "evidence": ".booklet-work/reasoning-ratings/calls/polynomials-v1/6c5db2e5794b1843215638248406b2a4798d562eb3968a624b584265ec520a42-1792561062015/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Sketch these polynomial curves. Show the $x$ and $y$-intercepts.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p20-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=(x-3)(x+2)(x-1)(x+4)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-q1-a-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 20 part a blank drawing grid\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\draw[black!20,line width=0.15pt,step=1] (-5,-4) grid (5,4);\\draw[<->,black,line width=0.5pt] (-5.3,0)--(5.3,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-4.3)--(0,4.3) node[above] {$y$};\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "question 1(a)",
+              "description": "Unnumbered coordinate grid supplied as editable drawing space; the source answer curve is withheld.",
+              "mathematics": "Blank axes with grid step 1 in drawing-coordinate units; student chooses a suitable scale.",
+              "answerVisibility": "No roots, intercept values or curve supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercepts: $(-4,0),(-2,0),(1,0),(3,0)$. $y$-intercept: $(0,24)$. Both ends upwards; cross at every root.",
+          "worked": "Leading term: $x^4$. As $x\\to\\pm\\infty$, $y\\to\\infty$.\n\nAt $x=0$:\n$$\\begin{aligned}y&=(-3)(2)(-1)(4)\\\\y&=24\\end{aligned}$$\nBy the null-factor law, $x=-4,-2,1,3$. Each factor occurs once, so the curve crosses the $x$-axis at each root.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q1-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial solution curve\"}],\"reference\":\"page 20 question 1(a)\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.7cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{curveBlue}{HTML}{268CFF}\\draw[<->,black,line width=0.5pt] (-5.2,0)--(4.4,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-1.5)--(0,4.1) node[above] {$y$};\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-4.8:3.8,samples=240] (\\x,{(\\x-3)*(\\x+2)*(\\x-1)*(\\x+4)/30});\\foreach \\v in {-4,-2,1,3}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\\node[right] at (0,0.8) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$24$\\special{dvisvgm:raw </g>}};\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "upper left supplied solution",
+                "description": "Equation-derived quartic with four crossings and both ends upwards.",
+                "mathematics": "Plot y=(x-3)(x+2)(x-1)(x+4); drawing ordinate is y/30. Roots -4,-2,1,3; y-intercept 24. Axes are ungraduated.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p20-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=-2x(x-3)(x+2)(x-1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-q1-b-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 20 part b blank drawing grid\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\draw[black!20,line width=0.15pt,step=1] (-5,-4) grid (5,4);\\draw[<->,black,line width=0.5pt] (-5.3,0)--(5.3,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-4.3)--(0,4.3) node[above] {$y$};\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "question 1(b)",
+              "description": "Editable blank coordinate grid.",
+              "mathematics": "Grid step 1 in drawing-coordinate units; scale chosen by student.",
+              "answerVisibility": "No solution supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercepts: $(-2,0),(0,0),(1,0),(3,0)$. $y$-intercept: $(0,0)$. Both ends downwards; cross at every root.",
+          "worked": "Leading term: $-2x^4$. As $x\\to\\pm\\infty$, $y\\to-\\infty$.\n\nAt $x=0$:\n$$\\begin{aligned}y&=-2(0)(-3)(2)(-1)\\\\y&=0\\end{aligned}$$\nBy the null-factor law, $x=-2,0,1,3$. Each root is simple, so the curve crosses at every $x$-intercept.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q1-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial solution curve\"}],\"reference\":\"page 20 question 1(b)\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.8cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{curveBlue}{HTML}{268CFF}\\draw[<->,black,line width=0.5pt] (-3.2,0)--(4.2,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-3.7)--(0,1.8) node[above] {$y$};\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-2.6:3.6,samples=240] (\\x,{-2*\\x*(\\x-3)*(\\x+2)*(\\x-1)/20});\\foreach \\v in {-2,1,3}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "upper right supplied solution",
+                "description": "Equation-derived quartic crossing at the unnumbered origin and three labelled roots.",
+                "mathematics": "Plot y=-2x(x-3)(x+2)(x-1); drawing ordinate y/20. Roots -2,0,1,3; both ends downwards.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p20-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=-3(x-2)(x+3)(x-4)(x+5)(x-1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-q1-c-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 20 part c blank drawing grid\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\draw[black!20,line width=0.15pt,step=1] (-5,-4) grid (5,4);\\draw[<->,black,line width=0.5pt] (-5.3,0)--(5.3,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-4.3)--(0,4.3) node[above] {$y$};\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "question 1(c)",
+              "description": "Editable blank coordinate grid.",
+              "mathematics": "Grid step 1 in drawing-coordinate units; student selects scale.",
+              "answerVisibility": "No solution supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercepts: $(-5,0),(-3,0),(1,0),(2,0),(4,0)$. $y$-intercept: $(0,360)$. Left end upwards, right end downwards; cross at every root.",
+          "worked": "Leading term: $-3x^5$. As $x\\to-\\infty$, $y\\to\\infty$; as $x\\to\\infty$, $y\\to-\\infty$.\n\nAt $x=0$:\n$$\\begin{aligned}y&=-3(-2)(3)(-4)(5)(-1)\\\\y&=360\\end{aligned}$$\nBy the null-factor law, $x=-5,-3,1,2,4$. Each root is simple, so the curve crosses at all five $x$-intercepts.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q1-c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial solution curve\"}],\"reference\":\"page 20 question 1(c)\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.9cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{curveBlue}{HTML}{268CFF}\\draw[<->,black,line width=0.5pt] (-5.9,0)--(5,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-2)--(0,3.1) node[above] {$y$};\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-5.4:4.4,samples=400] (\\x,{-3*(\\x-2)*(\\x+3)*(\\x-4)*(\\x+5)*(\\x-1)/500});\\foreach \\v in {-5,-3,1,2,4}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\\node[right] at (0,0.72) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$360$\\special{dvisvgm:raw </g>}};\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "middle left supplied solution",
+                "description": "Equation-derived quintic retaining all five crossings.",
+                "mathematics": "Plot y=-3(x-2)(x+3)(x-4)(x+5)(x-1), drawing ordinate y/500; roots -5,-3,1,2,4 and y-intercept 360.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p20-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=x(2x-1)(2-x)(x-3)(x+1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-q1-d-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 20 part d blank drawing grid\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\draw[black!20,line width=0.15pt,step=1] (-5,-4) grid (5,4);\\draw[<->,black,line width=0.5pt] (-5.3,0)--(5.3,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-4.3)--(0,4.3) node[above] {$y$};\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "question 1(d)",
+              "description": "Editable blank coordinate grid.",
+              "mathematics": "Grid step 1 in drawing-coordinate units; student selects scale.",
+              "answerVisibility": "No solution supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercepts: $(-1,0),(0,0),(\\tfrac12,0),(2,0),(3,0)$. $y$-intercept: $(0,0)$. Left end upwards, right end downwards; cross at every root.",
+          "worked": "Leading term: $x(2x)(-x)(x)(x)=-2x^5$. As $x\\to-\\infty$, $y\\to\\infty$; as $x\\to\\infty$, $y\\to-\\infty$.\n\nAt $x=0$:\n$$\\begin{aligned}y&=(0)(-1)(2)(-3)(1)\\\\y&=0\\end{aligned}$$\nBy the null-factor law, $x=0$, $2x-1=0$, $2-x=0$, $x-3=0$ or $x+1=0$. Hence $x=-1,0,\\tfrac12,2,3$. Cross at each simple root.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q1-d-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial solution curve\"}],\"reference\":\"page 20 question 1(d)\"}\n\\begin{tikzpicture}[x=1.05cm,y=0.55cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{curveBlue}{HTML}{268CFF}\\draw[<->,black,line width=0.5pt] (-2,0)--(4,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-5.5)--(0,4) node[above] {$y$};\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-1.6:3.6,samples=400] (\\x,{\\x*(2*\\x-1)*(2-\\x)*(\\x-3)*(\\x+1)/20});\\foreach \\v in {-1,2,3}{\\node[below] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\\node[below] at (0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "middle right supplied solution",
+                "description": "Equation-derived quintic with an unnumbered origin crossing and exact half-root label.",
+                "mathematics": "Plot y=x(2x-1)(2-x)(x-3)(x+1), drawing ordinate y/20; simple roots -1,0,1/2,2,3.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p20-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$y=-2(2x+3)(x+1)(2x-5)(x-3)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-q1-e-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 20 part e blank drawing grid\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\draw[black!20,line width=0.15pt,step=1] (-5,-4) grid (5,4);\\draw[<->,black,line width=0.5pt] (-5.3,0)--(5.3,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-4.3)--(0,4.3) node[above] {$y$};\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "question 1(e)",
+              "description": "Editable blank coordinate grid.",
+              "mathematics": "Grid step 1 in drawing-coordinate units; student selects scale.",
+              "answerVisibility": "No solution supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercepts: $(-\\tfrac32,0),(-1,0),(\\tfrac52,0),(3,0)$. $y$-intercept: $(0,-90)$. Both ends downwards; cross at every root.",
+          "worked": "Leading term: $-2(2x)(x)(2x)(x)=-8x^4$. As $x\\to\\pm\\infty$, $y\\to-\\infty$.\n\nAt $x=0$:\n$$\\begin{aligned}y&=-2(3)(1)(-5)(-3)\\\\y&=-90\\end{aligned}$$\nBy the null-factor law, $2x+3=0$, $x+1=0$, $2x-5=0$ or $x-3=0$. Hence $x=-\\tfrac32,-1,\\tfrac52,3$. Cross at each simple root.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q1-e-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial solution curve\"}],\"reference\":\"page 20 question 1(e)\"}\n\\begin{tikzpicture}[x=1cm,y=2cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{curveBlue}{HTML}{268CFF}\\draw[<->,black,line width=0.5pt] (-2.5,0)--(4,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-1.9)--(0,0.8) node[above] {$y$};\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-2:3.6,samples=320] (\\x,{-2*(2*\\x+3)*(\\x+1)*(2*\\x-5)*(\\x-3)/80});\\node[below left] at (-1.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac32$\\special{dvisvgm:raw </g>}};\\node[above] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\\node[below left] at (2.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac52$\\special{dvisvgm:raw </g>}};\\node[above right] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\\node[left] at (0,-1.125) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-90$\\special{dvisvgm:raw </g>}};\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "lower left supplied solution",
+                "description": "Equation-derived negative quartic; staggered exact root labels retain closely spaced crossings.",
+                "mathematics": "Plot y=-2(2x+3)(x+1)(2x-5)(x-3), drawing ordinate y/80; roots -3/2,-1,5/2,3; y-intercept -90.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p20-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$y=(3-2x)(4-x)(3-x)(x+3)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-q1-f-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 20 part f blank drawing grid\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\draw[black!20,line width=0.15pt,step=1] (-5,-4) grid (5,4);\\draw[<->,black,line width=0.5pt] (-5.3,0)--(5.3,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-4.3)--(0,4.3) node[above] {$y$};\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "question 1(f)",
+              "description": "Editable blank coordinate grid.",
+              "mathematics": "Grid step 1 in drawing-coordinate units; student selects scale.",
+              "answerVisibility": "No solution supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x$-intercepts: $(-3,0),(\\tfrac32,0),(3,0),(4,0)$. $y$-intercept: $(0,108)$. Both ends downwards; cross at every root.",
+          "worked": "Leading term: $(-2x)(-x)(-x)(x)=-2x^4$. As $x\\to\\pm\\infty$, $y\\to-\\infty$.\n\nAt $x=0$:\n$$\\begin{aligned}y&=(3)(4)(3)(3)\\\\y&=108\\end{aligned}$$\nBy the null-factor law, $3-2x=0$, $4-x=0$, $3-x=0$ or $x+3=0$. Hence $x=-3,\\tfrac32,3,4$. Cross at all four simple roots, including the closely spaced roots $3$ and $4$.",
+          "solutionDiagrams": [
+            {
+              "id": "p20-q1-f-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"polynomial solution curve\"}],\"reference\":\"page 20 question 1(f)\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.9cm]\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{curveBlue}{HTML}{268CFF}\\draw[<->,black,line width=0.5pt] (-4,0)--(5.2,0) node[right] {$x$};\\draw[<->,black,line width=0.5pt] (0,-2.9)--(0,2.9) node[above] {$y$};\\draw[<->,curveBlue,line width=0.8pt] plot[domain=-3.5:4.7,samples=400] (\\x,{(3-2*\\x)*(4-\\x)*(3-\\x)*(\\x+3)/100});\\node[below] at (-3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\\node[below] at (1.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac32$\\special{dvisvgm:raw </g>}};\\foreach \\v in {3,4}{\\node[above] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\\node[right] at (0,1.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$108$\\special{dvisvgm:raw </g>}};\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 20,
+                "sourceRegion": "lower right supplied solution",
+                "description": "Equation-derived quartic retaining the small crossings at 3 and 4.",
+                "mathematics": "Plot y=(3-2x)(4-x)(3-x)(x+3), drawing ordinate y/100; roots -3,3/2,3,4; y-intercept 108; both ends downwards.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q1-root/label",
+                  "type": "item",
+                  "ref": "p20-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p20-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p20-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p20-q1-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p20-q1-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p20-q1-a/label",
+                              "type": "item",
+                              "ref": "p20-q1-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p20-q1-a/prompt",
+                              "type": "item",
+                              "ref": "p20-q1-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p20-q1-a-grid",
+                              "type": "item",
+                              "ref": "p20-q1-a-grid",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p20-q1-a/space",
+                              "type": "item",
+                              "ref": "p20-q1-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p20-q1-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p20-q1-b/label",
+                              "type": "item",
+                              "ref": "p20-q1-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p20-q1-b/prompt",
+                              "type": "item",
+                              "ref": "p20-q1-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p20-q1-b-grid",
+                              "type": "item",
+                              "ref": "p20-q1-b-grid",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p20-q1-b/space",
+                              "type": "item",
+                              "ref": "p20-q1-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p20-q1-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p20-q1-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p20-q1-c/label",
+                              "type": "item",
+                              "ref": "p20-q1-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p20-q1-c/prompt",
+                              "type": "item",
+                              "ref": "p20-q1-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p20-q1-c-grid",
+                              "type": "item",
+                              "ref": "p20-q1-c-grid",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p20-q1-c/space",
+                              "type": "item",
+                              "ref": "p20-q1-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p20-q1-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p20-q1-d/label",
+                              "type": "item",
+                              "ref": "p20-q1-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p20-q1-d/prompt",
+                              "type": "item",
+                              "ref": "p20-q1-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p20-q1-d-grid",
+                              "type": "item",
+                              "ref": "p20-q1-d-grid",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p20-q1-d/space",
+                              "type": "item",
+                              "ref": "p20-q1-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p20-q1-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p20-q1-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p20-q1-e/label",
+                              "type": "item",
+                              "ref": "p20-q1-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p20-q1-e/prompt",
+                              "type": "item",
+                              "ref": "p20-q1-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p20-q1-e-grid",
+                              "type": "item",
+                              "ref": "p20-q1-e-grid",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p20-q1-e/space",
+                              "type": "item",
+                              "ref": "p20-q1-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p20-q1-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p20-q1-f/label",
+                              "type": "item",
+                              "ref": "p20-q1-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p20-q1-f/prompt",
+                              "type": "item",
+                              "ref": "p20-q1-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p20-q1-f-grid",
+                              "type": "item",
+                              "ref": "p20-q1-f-grid",
+                              "title": "Diagram"
+                            },
+                            {
+                              "id": "layout:p20-q1-f/space",
+                              "type": "item",
+                              "ref": "p20-q1-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 1",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T11:16:02.892Z",
+  "updatedAt": "2026-10-21T11:16:02.893Z"
+}

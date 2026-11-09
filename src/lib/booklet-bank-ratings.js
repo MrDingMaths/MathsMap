@@ -13,7 +13,8 @@ export function questionDifficulty(block) {
   return rating?{...rating,difficulty:difficultyBandForScore(rating.reasoningScore),difficultyReason:rating.difficultyReason??rating.reason??''}:null;
 }
 
-// Editor-only chilli markers scale with the reasoning score: lowest score earning each count.
+// Chilli markers scale with the reasoning score: lowest score earning each count. They print (James, 9 November 2026);
+// the score itself stays editor-only.
 export const CHILLI_THRESHOLDS=Object.freeze([60,70,80,90]);
 export function chilliCount(score) {
   return Number.isFinite(score)?CHILLI_THRESHOLDS.filter(min=>score>=min).length:0;

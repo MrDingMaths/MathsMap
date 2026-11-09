@@ -310,6 +310,22 @@ test('own diagram below requires a unique same-node diagram visibly below the pr
  const nested={id:'own',type:'question',content:{id:'root',type:'question',prompt:'Calculate.',children:[{id:'nested',type:'group',prompt:'Use the diagram below.',questionDiagrams:[{id:'nested-figure',format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'}]}]}};
  assert(resolveExerciseReferences(localReferenceProject(nested)).holds.length,'nested group is not a posed root');
 });
+test('the question\'s own figure below resolves; ambiguous or foreign figures stay held (9 November 2026)',()=>{
+ const fig=id=>({id,format:'tikz',role:'question',code:'\\draw (0,0)--(1,1);'});
+ const holds=b=>resolveExerciseReferences(localReferenceProject(b)).holds;
+ // "graph below" on the stem's own graph (Polynomials p31-q11).
+ assert.deepEqual(holds({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Use the graph below.',questionDiagrams:[fig('g')],children:[{id:'a',type:'part',prompt:'Find k.'}]}}),[]);
+ // The only figure, in an unlabelled group above the parts (Polynomials p29-q8).
+ assert.deepEqual(holds({id:'own',type:'question',content:{id:'root',type:'question',prompt:'The diagram below shows the graph.',children:[{id:'grp',type:'group',questionDiagrams:[fig('g')],children:[{id:'a',type:'part',prompt:'Explain.'}]},{id:'c',type:'part',prompt:'State it.'}]}}),[]);
+ // Two figures on the stem: the plural resolves, the singular stays ambiguous (Area of Circles p34-q13).
+ assert.deepEqual(holds({id:'own',type:'question',content:{id:'root',type:'question',prompt:'The shapes in the diagrams below have equal areas.',questionDiagrams:[fig('d1'),fig('d2')]}}),[]);
+ assert(holds({id:'own',type:'question',content:{id:'root',type:'question',prompt:'The shapes in the diagram below have equal areas.',questionDiagrams:[fig('d1'),fig('d2')]}}).length);
+ // A figure on a lettered part is not the stem's (sibling rule).
+ assert(holds({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Use the graph below.',children:[{id:'a',type:'part',prompt:'Find k.',questionDiagrams:[fig('g')]}]}}).length);
+ // "for example 23832" is not Example 2 (Stage 4 Indices p95-q85); "Example 2" still is.
+ assert.deepEqual(holds({id:'own',type:'question',content:{id:'root',type:'question',prompt:'A palindrome reads the same reversed, for example 23832. Find the largest one.'}}),[]);
+ assert(holds({id:'own',type:'question',content:{id:'root',type:'question',prompt:'Use the method of Example 2.'}}).length);
+});
 test('exact own-parts Venn suffix retains numeric-reference offsets and renumbers actual digits',()=>{
  const p=fixture(),b=p.sections[0].blocks[11];b.content.children=[{id:'a',type:'part',prompt:'Calculate 2+2.'}];
  b.content.prompt='Use Question 11 to answer the following questions. Drawing a Venn diagram helps.';

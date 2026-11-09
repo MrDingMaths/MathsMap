@@ -237,7 +237,9 @@ depends on.
 markers printed beside a question number are source evidence only. Never
 transcribe them into a prompt, answer or diagram: Studio shows its own
 printed chillies under the question number from the reasoning score (60+ one, 70+ two, 80+ three,
-90+ four), so a transcribed marker would appear twice. Record the source count
+90+ four), so a transcribed marker would appear twice. They print in every edition; the reasoning score
+and bank marker beside them stay editor-only (James, 9 November 2026: a print rule had been hiding them,
+`TranscribedBookletPage.svelte`; `tests/booklet-editor-markers.test.js`). Record the source count
 against the inventory entry. Presentation readiness rejects a chilli in rendered
 content (`sourceDifficultyPictograms` in `src/lib/booklet-difficulty-headings.js`).
 
