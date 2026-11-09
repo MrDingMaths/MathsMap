@@ -5,7 +5,7 @@
  import {FIT_OPTIONS,FIT_DEFAULTS,searchFit,fitSuggestions} from '../lib/booklet-fit.js';
  import {setPageBoundary} from '../lib/booklet-workspace.js';
  import {logicalUnits,flowNumbers} from '../lib/booklet-flow.js';
- import {measureBookletPage,pageSpaceLabel} from '../lib/booklet-page-space.js';
+ import {measureBookletPage} from '../lib/booklet-page-space.js';
  import {blockDocuments} from '../lib/booklet-bulk-spacing.js';
  import {optimisePagination} from '../lib/booklet-pagination-optimiser.js';
  import {probePagination,describeMove} from '../lib/booklet-probe-pagination.js';
@@ -13,7 +13,8 @@
  let {project,blockId,selection=null,pageMap={pages:[]},edition='student',options={},onchange,onfinish=()=>{}}=$props();
  let fitGoal=$state('block'),fitOptions=$state({...FIT_DEFAULTS});
  export function fitNow(){fitGoal='block';return fit();}
- let message=$state(''),running=$state(false),candidate=$state.raw(null),accepted=$state(false),preview=$state(),source=$state(''),target=$state(''),tableId=$state(''),fromRows=$state('1'),toRows=$state('2'),baseline=null;
+ // fitted: a fit found by the last check, applied by clicking the button again.
+ let message=$state(''),running=$state(false),candidate=$state.raw(null),fitted=$state.raw(null),preview=$state(),source=$state(''),target=$state(''),tableId=$state(''),fromRows=$state('1'),toRows=$state('2'),baseline=null;
  let matchProperties=$state(['arrangement','workingSpace','clozeWidths','alignment','diagramWidth']),rowProperties=$state(['alignment','padding','rowHeight']);
  const propertyChoices=[['arrangement','Arrangement and spacing'],['workingSpace','Working space'],['clozeWidths','Cloze widths'],['alignment','Alignment'],['diagramWidth','Diagram width']];
  const block=$derived(project.sections.flatMap(s=>s.blocks).find(b=>b.id===blockId));
@@ -23,9 +24,12 @@
  const chain=$derived(layoutSpaceChain(project,selection));
  const nextBlock=$derived(allBlocks[allBlocks.findIndex(b=>b.id===blockId)+1]);
  let previousBlock=null,previewBlock=null,fitGeneration=0;
- $effect(()=>{const id=blockId;if(previousBlock!==id){previousBlock=id;fitGeneration++;candidate=null;accepted=false;exercise=null;source='';target='';tableId='';message='';if(fitGoal==='exercise'&&!untrack(()=>exerciseSection))fitGoal='block';}});
+ $effect(()=>{const id=blockId;if(previousBlock!==id){previousBlock=id;fitGeneration++;candidate=null;fitted=null;exercise=null;source='';target='';tableId='';message='';if(fitGoal==='exercise'&&!untrack(()=>exerciseSection))fitGoal='block';}});
  function commit(next){onfinish();onchange(next);message='Saved as one undo step.';}
- function attempt(fn){try{candidate=null;accepted=false;commit(fn());}catch(e){message=e.message;}}
+ function attempt(fn){try{candidate=null;fitted=null;commit(fn());}catch(e){message=e.message;}}
+ // A found fit is stale once the goal, target or allowed reductions change.
+ const fitKey=$derived(JSON.stringify([fitGoal,target,fitOptions]));
+ $effect(()=>{fitKey;if(untrack(()=>fitted)&&untrack(()=>fitted.key)!==fitKey)fitted=null;});
  const rows=value=>{const values=value.split(',').map(v=>Number(v.trim())-1);if(values.some(v=>!Number.isInteger(v)||v<0)||new Set(values).size!==values.length)throw Error('Enter distinct row numbers separated by commas.');return values;};
  // Fit: bisect one uniform reduction (see booklet-fit.js) against the real
  // paginator in this edition; side effects are reported, never hidden.
@@ -41,7 +45,7 @@
  const exerciseSection=$derived(project.sections.find(s=>s.phase==='practice'&&s.blocks.some(b=>b.id===blockId))??null);
  const {paginate,guard}=probePagination({show:async(next,ed)=>{candidate=next;probeEdition=ed;await tick();},probe:()=>preview});
  async function fitExercise(){
-   onfinish();candidate=null;accepted=false;exercise=null;message='';running=true;progress='Measuring the current layout…';
+   onfinish();candidate=null;fitted=null;exercise=null;message='';running=true;progress='Measuring the current layout…';
    const original=project,selectedId=blockId,section=exerciseSection;exerciseBaseline=JSON.stringify(original);
    try{
      const outcome=await optimisePagination(original,{paginate,guard,named:reviewed&&confirmed,sectionIds:[section.id],onprogress:p=>{progress=`${p.trials} trials`;}});
@@ -74,7 +78,8 @@
    return below>0?Math.ceil(below-Math.max(0,space.remainingMm)):null;
  }
  async function fit(){
-   onfinish();candidate=null;accepted=false;
+   if(fitted&&fitGoal!=='page'&&fitted.key===fitKey){applyFit();return;}
+   onfinish();candidate=null;fitted=null;
    if(fitGoal==='page'){attempt(()=>setPageBoundary(project,blockId,'before'));return;}
    message='Checking page fit…';running=true;
    baseline=JSON.stringify(project);const selectedId=blockId,generation=++fitGeneration,original=project,before=side(pageMap),destination=target||nextBlock?.id;previewBlock=selectedId;
@@ -90,7 +95,7 @@
      const incoming=fitGoal==='next'?logicalUnits(original).find(u=>u.blocks.some(b=>b.id===destination))?.blocks.map(b=>b.id)??[destination]:[];
      const ids=[...new Set([...unit,...incoming,...(fitOptions.otherBlocks?pages.flatMap(i=>before.pages[i].blocks.map(identity)):[])])];
      const goal=map=>fitGoal==='block'?unitPages(map).length===1&&!newSplits(before,map).some(id=>!unit.includes(id)):fitIsSafe(before,map,blockId,destination);
-     let last=null,shortfall=null;
+     let shortfall=null;const fittingMaps=new Map();
      // The most-reduced probe that still fails says how much space is missing:
      // the fitted content below its page, less the space left on that page.
      const missing=full=>missingSpace(full,fitGoal==='block'?unit:incoming,fitGoal==='block'?'first':'last',unit);
@@ -98,17 +103,17 @@
        candidate=next;await tick();const full=await preview.waitUntilReady({allowIssues:true}),map=side(full);
        if(generation!==fitGeneration||selectedId!==blockId)throw Error('Selection changed; preview again.');
        if(JSON.stringify(project)!==baseline)throw Error('The booklet changed during the preview. Please try again.');
-       const ok=goal(map);if(ok)last=map;else if(shortfall===null)shortfall=await missing(full);return ok;
+       const ok=goal(map);if(ok)fittingMaps.set(next,map);else if(shortfall===null)shortfall=await missing(full);return ok;
      });
      if(!result.project&&result.reason==='nothing-to-reduce'){candidate=original;await tick();shortfall=await missing(await preview.waitUntilReady({allowIssues:true}));}
      if(!result.project){candidate=null;const more=fitSuggestions(fitOptions),needs=shortfall>0?`Needs about ${shortfall} mm more. `:'';message=result.reason==='nothing-to-reduce'?'Nothing left to reduce with these options. '+needs+(more.length?'Allow: '+more.join(', ')+'.':''):'Does not fit even at the floors. '+needs+'Nothing changed.'+(more.length?' Also allow: '+more.join(', ')+'.':'');return;}
-     candidate=result.project;await tick();const full=await preview.waitUntilReady({allowIssues:true});last=side(full);
-     accepted=true;const page=pageIndex(full,blockId);await preview.revealPage(page);preview.jumpTo(blockId);await tick();
-     const root=await preview.revealPage(page),space=measureBookletPage(root),added=newIssues(before,last).length;
-     message='Fits at '+Math.round(result.t*100)+'% of the allowed reduction. '+(space?pageSpaceLabel(space.remainingMm)+' ':'')+(added?added+' new layout check'+(added>1?'s':'')+'. ':'');
+     // The search already paginated the winning candidate; no extra render.
+     candidate=null;const added=newIssues(before,fittingMaps.get(result.project)??before).length;
+     fitted={project:result.project,key:fitKey};
+     message='Possible: fits at '+Math.round(result.t*100)+'% of the allowed reduction. '+(added?added+' new layout check'+(added>1?'s':'')+'. ':'')+'Click Apply fit to confirm.';
    }catch(e){candidate=null;message=e.message;}finally{running=false;}
  }
- function applyPreview(){if(previewBlock!==blockId||JSON.stringify(project)!==baseline){message='The selection or booklet changed; preview again.';candidate=null;accepted=false;return;}const next=candidate;candidate=null;accepted=false;commit(next);}
+ function applyFit(){if(previewBlock!==blockId||JSON.stringify(project)!==baseline){message='The selection or booklet changed; check again.';fitted=null;return;}const next=fitted.project;fitted=null;commit(next);}
 </script>
 {#if block}
 <section aria-label="Quick layout actions" class="layout-actions">
@@ -128,9 +133,9 @@
    {#if exercise}<p class="summary">Pages {exercise.before.pages} → {exercise.after.pages}.</p>{#if exercise.moves.length}<ul class="moves" aria-label="Exercise changes">{#each exercise.moves as m}<li>{describeMove(m,exercise.label)}</li>{/each}</ul><button onclick={applyExercise}>Apply</button><button onclick={()=>{exercise=null;message='Discarded. Nothing changed.';}}>Discard</button>{/if}{/if}
   {:else if fitGoal==='next'}<label>Block to bring up<select aria-label="Fit target block" bind:value={target}><option value="">Next block</option>{#each allBlocks.slice(allBlocks.findIndex(b=>b.id===blockId)+1) as b}<option value={b.id}>{b.sourceAtom?.label??b.content?.label??b.id}</option>{/each}</select></label>{/if}
   {#if fitGoal!=='page'&&fitGoal!=='exercise'}<fieldset><legend>May change</legend>{#each FIT_OPTIONS as [key,label]}<label class="property-choice"><input type="checkbox" bind:checked={fitOptions[key]}/>{label}</label>{/each}</fieldset>{/if}
-  {#if fitGoal!=='exercise'}<button disabled={running||(fitGoal!=='page'&&!pageMap.ready)} onclick={fit} title="Alt+Shift+F">{running?'Measuring…':fitGoal==='page'?'Start on next page':'Preview fit'}</button>{/if}
-  {#if !pageMap.ready&&!running&&fitGoal!=='page'}<small>Wait for pagination to preview a fit.</small>{/if}
-  {#if accepted}<button onclick={applyPreview}>Apply preview</button><button onclick={()=>{candidate=null;accepted=false;message='Preview cancelled. Nothing changed.';}}>Cancel preview</button>{/if}
+  {#if fitGoal!=='exercise'}<button disabled={running||(fitGoal!=='page'&&!pageMap.ready)} onclick={fit} title="Alt+Shift+F">{running?'Checking…':fitGoal==='page'?'Start on next page':fitted?'Apply fit':'Check fit'}</button>{/if}
+  {#if !pageMap.ready&&!running&&fitGoal!=='page'}<small>Wait for pagination to check a fit.</small>{/if}
+  {#if fitted&&fitGoal!=='page'&&fitGoal!=='exercise'}<button onclick={()=>{fitted=null;message='Cancelled. Nothing changed.';}}>Cancel</button>{/if}
  </div>
  <details><summary>Match siblings</summary>
   {#if parts.length}<label>Copy layout from part<select aria-label="Match sibling source" bind:value={source}><option value="">Choose part</option>{#each parts.filter(p=>siblingParts(project,blockId,p.id).length>1) as p}<option value={p.id}>{p.label??p.id}</option>{/each}</select></label><fieldset><legend>Properties to copy</legend>{#each propertyChoices as [value,label]}<label class="property-choice"><input type="checkbox" bind:group={matchProperties} {value}/>{label}</label>{/each}</fieldset><button disabled={!source||!matchProperties.length} onclick={()=>attempt(()=>matchSiblingLayout(project,blockId,source,matchProperties))}>Match sibling parts</button>{/if}
@@ -147,7 +152,7 @@
  {#if message}<p role="status">{message}</p>{/if}
 </section>
 {/if}
-{#if candidate}<div class:probe-only={!accepted} class="fit-preview" aria-label="Tighter layout preview"><FlowBookletPreview bind:this={preview} project={candidate} edition={probeEdition??edition} {options} zoom={1} selectedBlockId={blockId}/></div>{/if}
+{#if candidate}<div class="fit-preview probe-only" aria-label="Tighter layout preview"><FlowBookletPreview bind:this={preview} project={candidate} edition={probeEdition??edition} {options} zoom={1} selectedBlockId={blockId}/></div>{/if}
 <style>
  .layout-actions{padding:0;margin:0;font:13px system-ui}details{margin:8px 0}summary{cursor:pointer;font-weight:600}label{display:grid;gap:4px;margin:6px 0}select,input,button{font:inherit;min-height:32px;box-sizing:border-box;max-width:100%;padding:4px;border:1px solid #aab5c2;border-radius:4px;color:inherit;background:var(--panel,#fff)}button{cursor:pointer;margin:3px}button:disabled{opacity:.5}fieldset{margin:8px 0;border:1px solid #ccd5df}legend{font-weight:600}.fit-preview{position:fixed;z-index:40;inset:8vh 380px 8vh 10vw;overflow:auto;background:#e9eef4;border:2px solid #52769a;width:830px;max-width:calc(100vw - 400px);padding:12px}.fit-preview.probe-only{left:-20000px;top:0;right:auto;bottom:auto;width:830px;max-width:none;height:600px;visibility:hidden;pointer-events:none}@media print{.layout-actions,.fit-preview{display:none}}
  .property-choice{display:flex;align-items:center;gap:6px}.property-choice input{min-height:0}
