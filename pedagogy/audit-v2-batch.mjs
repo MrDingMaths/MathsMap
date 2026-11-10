@@ -51,7 +51,10 @@ async function one(id){
  // One apply at a time: an apply refuses to start while another page check runs (8 November 2026).
  const release=await applyLock();let apply;try{apply=await run(['--project',id,'--apply','--run',r.run]);}finally{release();}
  if(apply.code!==0||!apply.json?.revision){log({projectId:id,status:'apply-failed',run:r.run,note:apply.err.slice(-600)});return;}
- log({projectId:id,status:'applied',...(flag('--top-up-counts')?{topUp:true}:{}),run:r.run,revision:apply.json.revision,autoApplied:apply.json.autoApplied,render:apply.json.render});
+ // What the run left (11 November 2026): jumps over 15 and core types short of the minimum, so a second pass can be
+ // scheduled from the ledger instead of by reading every report.
+ let remaining=null;try{const rep=read(path.join(path.isAbsolute(r.run)?r.run:path.join(ROOT,r.run),'report.json')).remaining??{};remaining={jumpsOver15:(rep.jumpsOver15??[]).length,countGapsOpen:(rep.deficits??[]).length,slotsStillOpen:rep.slotsStillOpen??null};}catch{}
+ log({projectId:id,status:'applied',...(flag('--top-up-counts')?{topUp:true}:{}),run:r.run,revision:apply.json.revision,autoApplied:apply.json.autoApplied,render:apply.json.render,remaining});
 }
 
 const list=targets().slice(0,Number(value('--limit')??1e9)),parallel=Math.max(1,Number(value('--parallel')??3));

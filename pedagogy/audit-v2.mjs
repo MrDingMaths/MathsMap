@@ -19,6 +19,7 @@ import {planScoreOrder,scoreOrderCandidate,reviewedMethodSupport} from '../polis
 import {resolveExerciseReferences} from '../polish/exercise-references.mjs';
 import {teacherBlocks,nodesOf} from '../polish/guards.mjs';
 import {sequences,canonicalRunDir} from './review.mjs';
+import {theoryEditable} from './audit-v2-apply.mjs';
 import {MODEL,EFFORT,LIMITS,contentFingerprint,wordingFingerprint,bookletIndex,scoreOf,practiceItems,practiceItemCount,duplicatePairs,spellBlock,boldTerm,deriveComparisonScore,bandFor,jumpSlots,slotWindow,diagramBlindHash,diagramEquivalent} from './audit-v2-plan.mjs';
 import {auditContract,challengeContract,draftContract,proposalContract,solveContract,ratingContract,equivalenceContract,roleContract,roleGroupContract,variationContract,validateVariations,validateRoles,validateRoleGroups,validateAudit,validateVerdicts,validateDrafts,validateSolve,validatePlacements,validateEquivalence} from './audit-v2-prompts.mjs';
 
@@ -288,6 +289,21 @@ export function diagramRebinds(project,{root=ROOT}={}){
 const withRebinds=(project,rebinds)=>{if(!rebinds.length)return project;const by=new Map(rebinds.map(r=>[r.id,r]));const p=structuredClone(project);for(const s of p.sections??[])for(const b of s.blocks??[])if(by.has(b.id))b.classification=by.get(b.id).classification;return p;};
 
 // ---- Stage 0: preflight ------------------------------------------------------------
+const isGuided=b=>b?.type==='question'&&b.pedagogyRole==='guided-practice';
+// The booklet's answer for each part of a worked example or guided practice: an example's last line of working (the
+// part after its last "="), a guided practice part's short answer. Solved blind and compared part by part.
+export function teachingAnswers(block){
+ if(isGuided(block))return answerNodes(block.content).map(n=>({nodeId:String(n.id),answer:n.answer?.short||n.answer?.worked||''})).filter(x=>x.answer);
+ // A step number ("4.", "{\color{#ef6068}2.}\quad") is dropped; a sentence is kept whole; maths keeps what follows its last "=".
+ const finalOf=s=>{
+  const lines=String(s??'').replace(/\\(begin|end)\{[^}]*\}/g,'\n').split(/\\\\|\n/).map(x=>x.replace(/&/g,'').trim()).filter(x=>x.replace(/\$/g,'').trim());
+  const t=(lines.at(-1)??'').split('\t').map(x=>x.trim()).filter(x=>x.replace(/\$/g,'').trim()).at(-1)?.replace(/^\$*\s*(?:\{?\\color\{#[0-9a-fA-F]{6}\}\{?)?\s*\d+[.)]\s*\}?\}?\s*(?:\\quad|\\qquad)?\s*/,m=>m.startsWith('$')?'$':'').trim();
+  // A proof ends on "= RHS": there is no final answer to compare.
+  const bare=(t??'').replace(/\$/g,'').trim();if(!bare||/^(\\mathrm\{|\\text\{)?\s*(LHS|RHS)\s*\}?$/.test(bare))return '';
+  if(/[A-Za-z]{3,}\s+[A-Za-z]{2,}/.test(bare.replace(/\\[A-Za-z]+(\{[^}]*\})?/g,' ')))return t;
+  const i=bare.lastIndexOf('=');const v=(i>=0?bare.slice(i+1):bare).trim();return v&&!/^(\\mathrm\{|\\text\{)?\s*(LHS|RHS)\s*\}?$/.test(v)?'$'+v+'$':'';};
+ return (auditView(block).examples??[]).map(e=>({nodeId:String(e.id),answer:finalOf(e.theorySolution)})).filter(x=>x.answer&&x.answer!=='$$');
+}
 export function preflight(project,{root=ROOT,topics=[],allowNonMaster=false}={}){
  const master=isMaster(project.id,root,project);
  if(master===false&&!allowNonMaster)throw Error(project.id+' is not a booklet master (not in the programme ledger). The audit is for booklet masters.');
@@ -295,7 +311,7 @@ export function preflight(project,{root=ROOT,topics=[],allowNonMaster=false}={})
  const rows=bookletIndex(project),record=loadRecord(project.id,root,parentOf(project)),stored=storedTypes(project,rows,root),accepted=importAccepted(project,root),protectedIds=teacherBlocks(project);
  const fp=new Map(rows.map(r=>[r.block.id,contentFingerprint(r.block)]));
  const checked=(id,kind)=>record.checks?.[id]?.[kind]===fp.get(id);
- const stale={rating:[],type:[],error:[],duplicate:[],theory:[]},types=new Map();
+ const stale={rating:[],type:[],error:[],duplicate:[],theory:[],solve:[]},types=new Map();
  const all=sequences(project),selected=new Set(topics.length?all.filter(s=>topics.includes(s.id)||topics.includes(s.topicId)).flatMap(s=>s.sections.map(x=>x.id)):[]);
  const inScope=r=>!selected.size||selected.has(r.section.id)||r.exam;
  for(const r of rows){
@@ -308,6 +324,9 @@ export function preflight(project,{root=ROOT,topics=[],allowNonMaster=false}={})
    if(!checked(id,'duplicate'))stale.duplicate.push(id);
   }
   if((r.question||r.example)&&!checked(id,'error')&&!accepted.has(id+'|'+fp.get(id)))stale.error.push(id);
+  // Worked examples and guided practice are blind-solved whether or not the audit claims an error (11 November 2026:
+  // three teacher errors on Stage 5 pages were found by eye with no claim). Re-solved only when their content changes.
+  if((r.example||isGuided(r.block))&&!checked(id,'solve'))stale.solve.push(id);
   if(r.kind==='teaching'&&!checked(id,'theory'))stale.theory.push(id);
  }
  // Lessons with teaching but no Key ideas box (James, 8 November 2026): re-judged whenever the
@@ -391,6 +410,12 @@ export function typeCheckedIds(project,{root=ROOT}={}){
  const out=new Set();for(const s of project.sections??[])for(const b of s.blocks??[]){const fp=record.checks?.[b.id]?.type;if(fp&&b.type==='question'&&fp===contentFingerprint(b))out.add(b.id);}
  return out;
 }
+// The saved record's type checks plus this run's own, each only while the question's content is what was typed.
+export function runTypeChecked(candidate,state,{root=ROOT}={}){
+ const out=typeCheckedIds(candidate,{root});
+ for(const r of bookletIndex(candidate))if(state?.auditTypeFp?.get(r.block.id)===contentFingerprint(r.block))out.add(r.block.id);
+ return out;
+}
 export function orderCandidate(candidate,{keep=[],deliberate=[],progressions=[],original=null,typeChecked=null}={}){
  // Support from a teaching block is coverage only: teaching always precedes its exercise and sorting never moves it.
  const teachingIds=new Set((candidate.sections??[]).filter(s=>s.phase==='teaching').flatMap(s=>(s.blocks??[]).map(b=>b.id)));
@@ -413,12 +438,64 @@ export function orderCandidate(candidate,{keep=[],deliberate=[],progressions=[],
  const sameSection=ids=>ids.every(id=>known.has(id))&&new Set(ids.map(id=>sectionOf.get(id))).size===1;
  const semanticUnits=[...progressions.map(ids=>({ids,reason:'31 October named progression exception',evidence:'docs/booklet-progression-exceptions-20261031.md'})),...keep.filter(k=>sameSection(k.ids)).map(k=>({ids:k.ids,reason:'audit v2 keep: '+k.kind,evidence:k.reason||'audit v2'}))];
  const supportEdges=[...support.edges,...deliberate.filter(sameSection).map(([a,b])=>({before:a,after:b,kind:'deliberate-duplicate-pair'}))];
- const plan=planScoreOrder(candidate,{supportEdges,contextHolds:support.holds,semanticUnits,referenceResolution});
- // An unsettled printed reference holds every exercise in the booklet, and the reference
- // renumbering refuses to run; the order is left as it is and the holds become comments
- // (6 November 2026: 49 of 130 masters stopped here in the rollout dry run).
- if(referenceResolution.holds.length)return {project:candidate,plan};
+ const contextHolds=unusableMapHolds(support.holds,checked);
+ const plan=planScoreOrder(candidate,{supportEdges,contextHolds,semanticUnits,referenceResolution});
+ // An unsettled printed reference stops the reference renumbering for the whole booklet, so the planner holds every
+ // exercise. Each exercise is now sorted on its own holds (11 November 2026: a reference elsewhere held 24 Stage 5
+ // and 34 Stage 6 booklets whole). Without renumbering, an exercise is left as it is when a printed reference sits in
+ // it or points into it, or a same-topic reference names a question by number or position ("the previous question").
+ if(referenceResolution.holds.length)return applyLocalSegments(candidate,plan,referenceResolution);
  return {project:scoreOrderCandidate(candidate,plan),plan};
+}
+// Map links that cannot be used (a "-2" split booklet's questions point at the parent's map; a snapshot absent or
+// not found) hold a question only when the audit has no current type check for it (James, 11 November 2026). The
+// hold that stays names its cause. Other review-context holds (a reviewed question or anchor changed) are kept.
+const MAP_OTHER=/review project differs|snapshot project differs/,MAP_MISSING=/snapshot absent|snapshot hash not found|ENOENT|no such file/i;
+export function unusableMapHolds(holds,checked){
+ const out=[];
+ for(const h of holds){
+  if(h.kind!=='review-context-unverified'){out.push(h);continue;}
+  const other=MAP_OTHER.test(h.reason??''),missing=!other&&MAP_MISSING.test(h.reason??'');
+  if(!other&&!missing){out.push(h);continue;}
+  if(checked.has(h.id))continue;
+  out.push({...h,kind:other?'review-map-other-booklet':'review-map-snapshot-missing'});
+ }
+ return out;
+}
+const NAMES_QUESTION=/\b(?:questions?|Q)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier|last)\s+(?:question|part|exercise)|\b(?:answer|result)\s+(?:as\s+)?(?:above|below)|\bas above\b/i;
+// The planner's segments, applied one by one when the booklet has unsettled printed references. A reference hold is
+// local to a segment when its block or target is in it, or it sits in the same topic and names a question.
+export function applyLocalSegments(candidate,plan,referenceResolution){
+ const out=structuredClone(candidate),sectionOf=new Map(),topicOfSection=new Map((out.sections??[]).map(s=>[s.id,s.topicId]));
+ for(const s of out.sections??[])for(const b of s.blocks??[])sectionOf.set(b.id,s.id);
+ const refKeys=new Set((referenceResolution.holds??[]).map(h=>JSON.stringify(h)));
+ const tied=new Set([...(referenceResolution.records??[]).flatMap(r=>[r.ownerId,r.targetId]),...(referenceResolution.groups??[]).flatMap(g=>g.ids??[])].filter(Boolean));
+ const sections=plan.sections.map(row=>{
+  const s=out.sections.find(x=>x.id===row.sectionId),topic=topicOfSection.get(row.sectionId);
+  const segments=row.segments.map(seg=>{
+   const ids=new Set(seg.originalIds);
+   const holds=seg.holds.filter(h=>{
+    if(!refKeys.has(JSON.stringify(h)))return true;
+    if([h.id,...(h.ids??[]),h.targetId].some(x=>ids.has(x)))return true;
+    const home=sectionOf.get(h.id);
+    return !!home&&topicOfSection.get(home)===topic&&(h.number!=null||/numbered|range/.test(h.kind)||NAMES_QUESTION.test(String(h.quote??h.text??'')));
+   });
+   const changed=seg.originalIds.some((id,i)=>id!==seg.proposedIds[i]);
+   const bound=changed?seg.originalIds.filter(id=>tied.has(id)):[];
+   for(const id of bound)holds.push({id,kind:'reference-renumbering-blocked'});
+   const released=seg.holds.length-holds.length+bound.length;
+   if(holds.length)return {...seg,status:'held',changed:false,holds,...(released?{releasedReferenceHolds:released}:{})};
+   if(!changed)return {...seg,status:'already-ordered',changed:false,holds:[]};
+   const at=s.blocks.findIndex(b=>b.id===seg.originalIds[0]),byId=new Map(s.blocks.map(b=>[b.id,b]));
+   if(s.blocks.slice(at,at+seg.originalIds.length).map(b=>b.id).join()!==seg.originalIds.join())throw Error('Sort segment not contiguous in '+s.id);
+   s.blocks.splice(at,seg.originalIds.length,...seg.proposedIds.map(id=>byId.get(id)));
+   return {...seg,status:'sorted',changed:true,holds:[],releasedReferenceHolds:released};
+  });
+  const status=!segments.length?'protected-only':segments.some(g=>g.status==='held')?'held':segments.some(g=>g.changed)?'sorted':'already-ordered';
+  return {...row,segments,status,changed:segments.some(g=>g.changed),plannedIds:(out.sections.find(x=>x.id===row.sectionId)?.blocks??[]).map(b=>b.id)};
+ });
+ const {planDigest,...rest}=plan;
+ return {project:out,plan:{...rest,localSort:true,sections,changedSections:sections.filter(s=>s.changed).map(s=>s.sectionId),holds:sections.flatMap(s=>s.segments.flatMap(g=>g.holds.map(h=>({sectionId:s.sectionId,...h}))))}};
 }
 // Challenge exercises are sorted by difficulty with the same rules as exercises (James, 9 November 2026): the
 // audit's own plan (planScoreOrder: verified ratings, whole questions, dependants together, support edges, pins,
@@ -426,35 +503,36 @@ export function orderCandidate(candidate,{keep=[],deliberate=[],progressions=[],
 // Challenge section only holds naming one of its own questions count, as for exercises held only by a reference
 // elsewhere (8 November 2026). A Challenge question that a printed reference resolves to keeps the order, since
 // renumbering is the planner's and runs only for a fully settled booklet.
+// Since 11 November 2026 orderCandidate applies every exercise's own holds, Challenge sections included; this keeps
+// the Challenge-only result and report the apply records.
 export function sortChallengeSections(project,options={}){
- const {plan}=orderCandidate(project,options),rr=resolveExerciseReferences(project),refText=JSON.stringify([rr.records??[],rr.groups??[]]);
+ const {project:ordered,plan}=orderCandidate(project,options);
  const out=structuredClone(project),report=[];
  for(const row of plan.sections){if(row.role!=='challenge')continue;
-  const s=out.sections.find(x=>x.id===row.sectionId);if(!s)continue;
-  for(const seg of row.segments){const ids=new Set(seg.originalIds);
-   const local=seg.holds.filter(h=>[h.id,...(h.ids??[]),h.after,h.before].some(x=>ids.has(x)));
-   const referenced=seg.originalIds.filter(id=>refText.includes('"'+id+'"'));
-   const changed=seg.originalIds.some((id,i)=>id!==seg.proposedIds[i]);
-   if(!changed){report.push({sectionId:s.id,ids:seg.originalIds,status:'already-ordered'});continue;}
-   if(local.length||referenced.length){report.push({sectionId:s.id,ids:seg.originalIds,status:'held',holds:[...local.map(h=>h.kind+' '+(h.id??h.ids?.join('+')??'')),...referenced.map(id=>'printed-reference '+id)]});continue;}
-   const at=s.blocks.findIndex(b=>b.id===seg.originalIds[0]),byId=new Map(s.blocks.map(b=>[b.id,b]));
-   if(s.blocks.slice(at,at+seg.originalIds.length).map(b=>b.id).join()!==seg.originalIds.join())throw Error('Challenge segment not contiguous in '+s.id);
-   s.blocks.splice(at,seg.originalIds.length,...seg.proposedIds.map(id=>byId.get(id)));
+  const s=out.sections.find(x=>x.id===row.sectionId),sorted=ordered.sections.find(x=>x.id===row.sectionId);if(!s||!sorted)continue;
+  s.blocks=structuredClone(sorted.blocks);
+  for(const seg of row.segments){
+   if(seg.status==='held'){report.push({sectionId:s.id,ids:seg.originalIds,status:'held',holds:seg.holds.map(h=>h.kind+' '+(h.id??h.ids?.join('+')??(h.before?h.before+'>'+h.after:'')))});continue;}
+   if(!seg.changed){report.push({sectionId:s.id,ids:seg.originalIds,status:'already-ordered'});continue;}
    report.push({sectionId:s.id,ids:seg.proposedIds,status:'sorted',from:seg.originalIds});}}
  return {project:out,report};
 }
-// Ordering holds become one Studio comment per held segment. The comment names what held it: an unresolved
-// printed reference anywhere in the booklet holds every exercise, so "Held by" says where it is and whether it
-// is in this exercise (8 November 2026: 95 of 201 Stage 4 holds came from one reference elsewhere).
+// Ordering holds become one Studio comment per held segment. The comment names what held it and whether it is in
+// this exercise (8 November 2026: 95 of 201 Stage 4 holds came from one reference elsewhere). Since 11 November 2026
+// a reference elsewhere holds an exercise only when it is in the same topic and names a question.
 const HOLD_RELEASE={'rating-unverified':'a current verified rating for each named question','layout-pin-needs-pagination-evidence':'removing the keep-with-next pin or recording page evidence for it','layout-row-needs-pagination-evidence':'page evidence for the side-by-side row','printed-reference':'resolving the printed cross-question reference','unresolved-dependency':'fixing the dependency link','dependency-outside-sort-segment':'moving the dependency into this exercise','method-support-cycle':'breaking the circular method support between the named questions','method-support-context-uncertain':'a decision on whether the earlier method question must stay first','review-context-unverified':'re-mapping the question type of the changed question','noncontiguous-semantic-unit':'placing the kept sequence together',
  'unresolved-relative-or-cross-scope-reference':'rewording or settling the printed reference ("the previous question", "the figure below") so the planner can renumber it',
  'unsupported-nonpractice-printed-reference':'rewording the teaching block\'s printed reference to a question or example',
  'unsupported-native-code-reference':'moving the question reference out of the figure code',
  'unsupported-math-reference':'moving the question number out of the maths','unsupported-math-token-reference':'moving the question number out of the maths',
+ 'review-map-other-booklet':'a type check of the named question (its type-map link belongs to another booklet, the one it was split from)',
+ 'review-map-snapshot-missing':'a type check of the named question (its type-map snapshot is missing)',
+ 'reference-renumbering-blocked':'settling the booklet\'s other printed references, so the planner can renumber the references to these questions',
  'ambiguous-range-list-decimal-or-page-reference':'rewording the ambiguous numbered reference','ambiguous-numbered-reference':'naming the question unambiguously','dangling-numbered-reference':'fixing the reference to a question that does not exist','reference-outside-sort-section':'a decision on the reference to a question in another exercise'};
 export function holdComments(plan,project){
  const out=[];
- for(const s of plan.sections)for(const seg of s.segments)if(seg.status==='held'&&seg.holds.length&&seg.originalIds.length>1){
+ // A held exercise already in score order needs no decision (11 November 2026): it goes to the report only.
+ for(const s of plan.sections)for(const seg of s.segments)if(seg.status==='held'&&seg.holds.length&&seg.originalIds.length>1&&(!seg.proposedIds||seg.originalIds.some((id,i)=>id!==seg.proposedIds[i]))){
   const kinds=[...new Set(seg.holds.map(h=>h.kind))],inSeg=new Set(seg.originalIds);
   // Support edges carry before/after, not id (10 November 2026: "method-support-order at undefined").
   const causes=[...new Set(seg.holds.map(h=>{const pair=h.before&&h.after,id=h.id??(pair?`${h.before} → ${h.after}`:h.ids?.[0]),q=h.quote??h.text,members=h.ids??(pair?[h.before,h.after]:[h.id]);return (q?`"${String(q).replace(/\s+/g,' ').slice(0,80)}" in `:h.kind+' at ')+id+(members.some(x=>inSeg.has(x))?'':' (outside this exercise)');}))];
@@ -557,19 +635,26 @@ export function gapPlan(candidate,state,{audit=null,original=state.project,count
  // A soft cap on new count questions per exercise, reported, never silent. Slots go round by round
  // (8 November 2026): each short type gets its first new question before any type gets a second, taught
  // types first, then the fewest items, so a type with none or one is filled before another is topped up.
- const used=new Map(),order=needs.sort((a,b)=>(b.taught-a.taught)||a.items-b.items),stopped=new Set();
- for(let round=0;round<LIMITS.minimumItems;round++)for(const n of order){
-  if(round>=n.need||stopped.has(n))continue;
-  const {e,row}=n;
+ // One count slot per short type (11 November 2026): it asks for one question with as many independent parts as the
+ // type is short (at most 3; each part counts as an item). Stage 5 planned 530 slots, one per missing item, for 439
+ // short types. A jump slot near the type's scores still takes the type first and counts as one item; the rest of the
+ // need is the count slot's parts. A type with no description, no worked example and no existing question has
+ // nothing to draft from: it gets no slot and is listed (about 30 Stage 5 requests came back blocked).
+ const used=new Map(),order=needs.sort((a,b)=>(b.taught-a.taught)||a.items-b.items),undraftable=[];
+ for(const n of order){
+  const {e,row}=n,info=infoByKey.get(groupKey(n.type))??[];
+  if(audit&&!row.ids.length&&!info.some(t=>t.description&&t.description!=='stored type')&&!info.some(t=>(t.taughtBy??[]).length)){undraftable.push({sectionId:e.section.id,type:n.type,items:n.items});continue;}
+  let need=n.need;
   const lo=row.scores.length?Math.min(...row.scores):null,hi=row.scores.length?Math.max(...row.scores):null;
   const open=e.own.find(s=>s.reason==='difficulty-jump'&&!s.type&&(lo==null||(s.target>=lo-10&&s.target<=hi+10)));
-  if(open){open.type=n.type;open.alsoCount=true;continue;}
-  if((used.get(e.section.id)??0)>=LIMITS.countSlotsPerExercise){capped.push({sectionId:e.section.id,type:n.type,items:n.items,taught:n.taught,unplaced:n.need-round});stopped.add(n);continue;}
+  if(open){open.type=n.type;open.alsoCount=true;need--;}
+  if(need<=0)continue;
+  if((used.get(e.section.id)??0)>=LIMITS.countSlotsPerExercise){capped.push({sectionId:e.section.id,type:n.type,items:n.items,taught:n.taught,unplaced:need});continue;}
   used.set(e.section.id,(used.get(e.section.id)??0)+1);
   const scores=e.routine.filter(applied).map(scoreOf),median=x=>x.length?x.slice().sort((a,b)=>a-b)[Math.floor(x.length/2)]:20;
   const target=Math.min(e.ceiling,row.scores.length?median(row.scores):median(scores));
   // A core type the booklet does not teach is drafted for the teacher to decide (with its new teaching), not inserted.
-  e.own.push({reason:'type-count',sectionId:e.section.id,type:n.type,after:row.ids.at(-1)??e.routine.at(-1).id,target,...e.windowFor(target),...(n.taught?{}:{teachingNeeded:true})});
+  e.own.push({reason:'type-count',sectionId:e.section.id,type:n.type,parts:Math.min(need,LIMITS.minimumItems),after:row.ids.at(-1)??e.routine.at(-1).id,target,...e.windowFor(target),...(n.taught?{}:{teachingNeeded:true})});
  }
  // Pass 3: per exercise, as before.
  for(const {section,routine,ceiling,windowFor,own} of exercises){
@@ -596,9 +681,28 @@ export function gapPlan(candidate,state,{audit=null,original=state.project,count
  slots.forEach((s,i)=>{s.id='slot-'+(i+1);});
  const gaps=[];
  for(const section of candidate.sections??[]){const routine=rows.filter(r=>r.section.id===section.id&&r.routine).map(r=>r.block).filter(applied);for(let i=1;i<routine.length;i++){const step=scoreOf(routine[i])-scoreOf(routine[i-1]);if(step>LIMITS.jump&&!fixedPairs.has(routine[i-1].id+'>'+routine[i].id))gaps.push({sectionId:section.id,after:routine[i-1].id,before:routine[i].id,step});}}
- return {slots,counts,deficits:counts.filter(c=>c.role!=='enrichment'&&c.items<LIMITS.minimumItems),gaps,exempt,capped};
+ return {slots,counts,deficits:counts.filter(c=>c.role!=='enrichment'&&c.items<LIMITS.minimumItems),gaps,exempt,capped,undraftable};
 }
 
+// New type-count questions not needed once everything is counted: taking one out opens no shortage (no new or
+// deeper deficit) and no new jump over 15 in its exercise ("bridges a jump", remove-count-slots.mjs). The latest
+// inserted go first. Removes them from the candidate and returns their ids.
+export function surplusCountQuestions(candidate,state,audit,inserted=[]){
+ const isCount=b=>b.sourceReview?.generation?.slot?.reason==='type-count';
+ const shortfall=p=>p.deficits.reduce((n,d)=>n+Math.max(0,LIMITS.minimumItems-d.items),0);
+ const jumpsIn=(p,sectionId)=>new Set(p.gaps.filter(g=>g.sectionId===sectionId).map(g=>g.after+'>'+g.before));
+ const opens=(a,b)=>[...b].some(k=>!a.has(k));
+ const out=[];
+ for(const b of [...inserted].reverse().filter(isCount)){
+  const section=candidate.sections.find(s=>(s.blocks??[]).some(x=>x.id===b.id));if(!section)continue;
+  const before=gapPlan(candidate,state,{audit,countsOnly:true}),i=section.blocks.findIndex(x=>x.id===b.id);
+  section.blocks.splice(i,1);
+  const after=gapPlan(candidate,state,{audit,countsOnly:true});
+  if(after.deficits.length<=before.deficits.length&&shortfall(after)<=shortfall(before)&&!opens(jumpsIn(before,section.id),jumpsIn(after,section.id))){out.push(b.id);continue;}
+  section.blocks.splice(i,0,b);
+ }
+ return out;
+}
 // ---- count top-up: variation sequences only (8 November 2026) ----------------------------
 // Every topic with exercises, packed by size; no stale checks, no Exam questions.
 function variationPackets(state,candidate){
@@ -627,6 +731,7 @@ export function appliedChecks(project,ids){
  const want=new Set(ids),checks={},types={};
  for(const r of bookletIndex(project)){if(!want.has(r.block.id))continue;const fp=contentFingerprint(r.block),row={};
   if(r.question||r.example)row.error=fp;
+  if(r.example||isGuided(r.block))row.solve=fp;
   if(r.question){row.duplicate=fp;const t=r.block.classification?.archetype??(r.block.pedagogyRole&&r.block.pedagogyRole!=='practice'?r.block.pedagogyRole:null);if(t){row.type=fp;types[r.block.id]=t;}}
   if(r.kind==='teaching')row.theory=fp;
   checks[r.block.id]=row;}
@@ -655,8 +760,20 @@ export function houseTints(project,alsoIds=new Set()){
  for(const b of (project.sections??[]).flatMap(s=>s.blocks??[])){if(!b.id.startsWith('v2-')&&!alsoIds.has(b.id))continue;
   (function walk(x){if(!x||typeof x!=='object')return;if(x.format==='tikz'&&typeof x.code==='string'){const used=new Set();
     // A tint mixed explicitly with white (orange!20!white, Volume j8 redraft, 9 November 2026) is the same tint.
-    const code=x.code.replace(/\b(blue|cyan|red|pink|magenta|green|orange|yellow|purple|violet)!([1-4]\d|[5-9])(?:!white)?(?![\d!])/g,(m,hue)=>{used.add(hue);n++;return 'house'+hue+'Fill';});
+    let code=x.code.replace(/\b(blue|cyan|red|pink|magenta|green|orange|yellow|purple|violet)!([1-4]\d|[5-9])(?:!white)?(?![\d!])/g,(m,hue)=>{used.add(hue);n++;return 'house'+hue+'Fill';});
     const defs=[...used].map(h=>`\\definecolor{house${h}Fill}{HTML}{${HOUSE_FILLS[h]}}`);
+    // Greys and pure named hues are off the palette too (14 Stage 5 drafts were dropped for them, 11 November 2026:
+    // a gray!45 stroke prints rgb(198,198,198)). A grey becomes the house grid grey when light, the muted grey when
+    // dark; a bare hue name becomes the house hue. Mixed strong tints (blue!70!black) are left for the check.
+    const extra=new Map();
+    // Only a colour in a colour position: an option value or list item (draw=gray, [gray, thick]) or \color{gray}, a whole token.
+    code=code.replace(/(?<=[=\[,{]\s*)(lightgray|lightgrey|darkgray|darkgrey|gray|grey|black)(?:!(\d{1,2}))?(?:!white)?(?=\s*[\],};])/g,(m,name,pct)=>{
+     if(name==='black'&&pct==null)return m;
+     const base={lightgray:191,lightgrey:191,darkgray:64,darkgrey:64,gray:128,grey:128,black:0}[name],p=pct==null?100:Number(pct),v=Math.round(base*p/100+255*(1-p/100));
+     const role=v>=160?'housegrid':'housemuted';extra.set(role,role==='housegrid'?'CCCCCC':'777777');n++;return role;});
+    const PURE={blue:'268CFF',cyan:'268CFF',red:'EF6068',pink:'EF6068',magenta:'EF6068',green:'4F9B63',orange:'EF8B2C',yellow:'EF8B2C',purple:'8B5CC7',violet:'8B5CC7'};
+    code=code.replace(/(?<=[=\[,{]\s*)(blue|cyan|red|pink|magenta|green|orange|yellow|purple|violet)(?=\s*[\],};])/g,(m,hue)=>{const role='house'+hue;extra.set(role,PURE[hue]);n++;return role;});
+    for(const [role,hex] of extra)if(role!=='housegrid'&&!new RegExp('\\\\definecolor\\{'+role+'\\}').test(code))defs.push(`\\definecolor{${role}}{HTML}{${hex}}`);
     // The house grid colour is defined only in the graph template; a drafted figure that names it on its own
     // failed to compile and stopped the render (Quartiles and Box Plots slot 12, Stage 5, 10 November 2026).
     if(/\bhousegrid\b/.test(code)&&!/\\definecolor\{housegrid\}/.test(code)){defs.push('\\definecolor{housegrid}{HTML}{CCCCCC}');n++;}
@@ -709,7 +826,8 @@ function topicPayload(sequence,state,candidate){
  const rows=bookletIndex({...candidate,sections:sequence.sections.map(s=>candidate.sections.find(x=>x.id===s.id)??s)});
  const prePos=new Map(state.rows.filter(r=>r.routine).map(r=>[r.block.id,r.index+1]));
  return {topicId:sequence.topicId,title:sequence.title,
-  teaching:rows.filter(r=>r.kind==='teaching').map(r=>({id:r.block.id,role:r.example?'worked-example':r.block.pedagogyRole??'teaching',view:auditView(r.block)})),
+  // Each passage says whether a rewrite can be placed, and how many lines and cells it must keep (11 November 2026).
+  teaching:rows.filter(r=>r.kind==='teaching').map(r=>{const e=theoryEditable(r.block);return {id:r.block.id,role:r.example?'worked-example':r.block.pedagogyRole??'teaching',...(e.rewritable?(e.lines?{lines:e.lines}:{}):{rewritable:false}),view:auditView(r.block)};}),
   exercises:[...new Set(rows.filter(r=>r.kind==='exercise').map(r=>r.section.id))].map(id=>{const s=candidate.sections.find(x=>x.id===id)??sequence.sections.find(x=>x.id===id);return {exerciseId:id,title:s.title??null,items:rows.filter(r=>r.section.id===id&&r.question).map(r=>({id:r.block.id,prePosition:prePos.get(r.block.id)??null,score:scoreOf(r.block),type:state.types.get(r.block.id)?.type??null,view:auditView(r.block)}))};})};
 }
 export function auditPackets(state,candidate,{root=ROOT,variationsOnly=false}={}){
@@ -1223,7 +1341,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  report.moves=moves;
  const dryGaps=gapPlan(candidate,state,{audit:null});
  const packets=auditPackets(state,candidate,{root});
- report.dryRun={packets:packets.map(p=>({topics:p.topics,characters:p.system.length+p.prompt.length})),provisionalSlots:dryGaps.slots.length,provisionalSlotsBySection:Object.fromEntries([...new Set(dryGaps.slots.map(s=>s.sectionId))].map(id=>[id,dryGaps.slots.filter(s=>s.sectionId===id).length])),deficits:dryGaps.deficits,jumpsOver15:dryGaps.gaps,ratingsToFill:state.stale.rating.length,orderingHolds:ordered.plan.holds.length};
+ report.dryRun={packets:packets.map(p=>({topics:p.topics,characters:p.system.length+p.prompt.length})),provisionalSlots:dryGaps.slots.length,provisionalSlotsBySection:Object.fromEntries([...new Set(dryGaps.slots.map(s=>s.sectionId))].map(id=>[id,dryGaps.slots.filter(s=>s.sectionId===id).length])),deficits:dryGaps.deficits,jumpsOver15:dryGaps.gaps,ratingsToFill:state.stale.rating.length,teachingToSolve:(state.stale.solve??[]).length,orderingHolds:ordered.plan.holds.length,orderingHeldOutOfOrder:ordered.plan.sections.flatMap(s=>s.segments).filter(g=>g.status==='held'&&g.originalIds.length>1&&g.originalIds.some((id,i)=>id!==g.proposedIds[i])).length,undraftable:dryGaps.undraftable?.length??0};
  if(dryRun){report.elapsedSeconds=Math.round((Date.now()-t0)/1000);return {report,workDir:null};}
  fs.mkdirSync(workDir,{recursive:true});write(path.join(workDir,'before.json'),project);
  const anchors=anchorRefs(root);
@@ -1273,6 +1391,9 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   // keep one "missing" finding per type.
   const matches=new Map();for(const m of audit.exampleMatches){const row=matches.get(m.exampleId)??{...m,followedBy:[]};row.followedBy=[...new Set([...row.followedBy,...(m.followedBy??[])])];matches.set(m.exampleId,row);}audit.exampleMatches=[...matches.values()];
   const seenMissing=new Set();audit.missing=audit.missing.filter(m=>{const k=m.type??JSON.stringify(m);if(seenMissing.has(k))return false;seenMissing.add(k);return true;});
+  // A replacement for a passage the apply cannot rewrite becomes the comment's suggested text (11 November 2026).
+  {const byId=new Map(candidate.sections.flatMap(s=>(s.blocks??[]).map(b=>[b.id,b])));
+   for(const t of audit.theory){const b=byId.get(t.id);if(!b||!t.replacement||theoryEditable(b).rewritable)continue;t.comment=(t.comment?t.comment+' ':'')+'Suggested text: '+t.replacement;t.replacement=null;}}
   for(const row of audit.archetypes)state.types.set(row.id,{type:row.type,current:true,source:'audit-v2'});
   for(const [id,t] of state.types)if(!audit.types.some(x=>x.type===t.type))audit.types.push({type:t.type,topicId:bookletIndex(candidate).find(r=>r.block.id===id)?.section.topicId,taught:true,taughtBy:[],description:'stored type'});
  })();
@@ -1283,8 +1404,11 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  let gaps;
  const deliberate=audit.duplicates.filter(d=>d.verdict==='deliberate').map(d=>d.ids);
  await stage('4-plan',async()=>{
-  ordered=orderCandidate(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project});candidate=ordered.project;
-  gaps=gapPlan(candidate,state,{audit,countsOnly:topUp});
+  // The types this run's audit returned count as current type checks (11 November 2026): the saved record does
+  // not exist on a first run, so Stage 4 never counted them.
+  state.auditTypeFp=new Map(bookletIndex(candidate).filter(r=>audit.archetypes.some(a=>a.id===r.block.id)).map(r=>[r.block.id,contentFingerprint(r.block)]));
+  ordered=orderCandidate(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project,typeChecked:runTypeChecked(candidate,state)});candidate=ordered.project;
+  gaps=gapPlan(candidate,state,{audit,countsOnly:topUp});report.undraftable=gaps.undraftable;
   // Top-up questions get their own ids, so they never take the id of a count question removed earlier.
   if(topUp)for(const s of gaps.slots)s.id='topup-'+s.id;
  })();
@@ -1346,7 +1470,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  const blocksNow=()=>new Map(bookletIndex(candidate).map(r=>[r.block.id,r]));
  const typeRequest=(s,extra={})=>{const rows=blocksNow(),info=audit.types.find(t=>t.type===s.type);const same=[...rows.values()].filter(r=>r.routine&&typeOf(state,r.block.id)===s.type);
   const near=id=>id&&rows.get(id)?{id,score:scoreOf(rows.get(id).block)}:null,between=s.neighbours?{harderThan:near(s.neighbours.harderThan),easierThan:near(s.neighbours.easierThan)}:null;
-  return {requestId:s.id,exerciseId:s.sectionId,after:s.after,type:s.type,typeDescription:info?.description??null,targetScore:s.target,acceptRange:s.range,...(between&&(between.harderThan||between.easierThan)?{placeBetween:between}:{}),...(s.variant?{variant:s.variant,sameSlotAs:s.baseSlot+'-'+(s.variant==='lower'?'upper':'lower')}:{}),reason:s.reason,workedExamples:(info?.taughtBy??[]).filter(id=>rows.get(id)),existing:same.slice(0,6).map(r=>({id:r.block.id,score:scoreOf(r.block),skill:r.block.classification?.primarySkillId})),laterLessons:laterLessons(candidate,s.sectionId),...extra};};
+  return {requestId:s.id,exerciseId:s.sectionId,after:s.after,type:s.type,typeDescription:info?.description??null,targetScore:s.target,acceptRange:s.range,...(between&&(between.harderThan||between.easierThan)?{placeBetween:between}:{}),...(s.variant?{variant:s.variant,sameSlotAs:s.baseSlot+'-'+(s.variant==='lower'?'upper':'lower')}:{}),reason:s.reason,...(s.parts>1?{parts:s.parts,partsNote:`Write one question with ${s.parts} lettered parts, each a separate task of this type that a student answers on its own (not steps of one task); each part counts as one practice item.`}:{}),workedExamples:(info?.taughtBy??[]).filter(id=>rows.get(id)),existing:same.slice(0,6).map(r=>({id:r.block.id,score:scoreOf(r.block),skill:r.block.classification?.primarySkillId})),laterLessons:laterLessons(candidate,s.sectionId),...extra};};
  // Each question's text is sent once (6 November 2026): pilot 2's eight proposal requests each carried their whole exercise and reached 520,000 characters.
  const draftPrompt=requests=>{const rows=blocksNow(),views={},exercises={};
   const add=id=>{const r=rows.get(id);if(r&&!views[id])views[id]=studentView(r.block);};
@@ -1425,6 +1549,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  })();
  // Stage 6: blind solve, writing rules and placement; redraft once on failure.
  const accepted=[];const corrections=[];
+ const solvedTeaching=new Set();
  await stage('6-solve',async()=>{
   const rows=blocksNow();
   const refIds=new Set();
@@ -1440,6 +1565,10 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
    const corrected=structuredClone(r.block);fieldSet(nodesOf(corrected).find(n=>n.id===e.nodeId)??corrected.content,e.field,e.correction);
    solveItems.push({id,kind:'claim',claim:e,block:r.block,corrected,task:view,targetNode:e.nodeId,ladder:r.question?ladder(r.section.id,r.section.topicId):null});
   }
+  // Worked examples and guided practice not solved before, with no error claim (11 November 2026).
+  {const claimed=new Set(audit.errors.map(e=>e.blockId));
+   for(const id of state.stale.solve??[]){const r=rows.get(id);if(!r||claimed.has(id)||!teachingAnswers(r.block).length)continue;
+    solveItems.push({id:'w-'+id,kind:'check',block:r.block,task:r.example?auditView(r.block,{answers:false}):stripAnswers(r.block.content)});}}
   if(!solveItems.length)return;
   const blocks=new Map(bookletIndex(candidate).map(r=>[r.block.id,r.block])),refs=new Map([...anchors.map(a=>[a.ref,a.score]),...[...refIds].map(id=>[id,scoreOf(blocks.get(id))])]);
   const system=solveContract({root})+'\n\nStanding anchors:\n'+anchors.map(a=>JSON.stringify(a)).join('\n');
@@ -1458,10 +1587,18 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
    const pairs=[];
    for(const it of round){const sol=out.solutions.get(it.id),answers=new Map((sol?.answers??[]).map(a=>[String(a.nodeId),a.answer]));
     if(it.kind==='new'){const c=it.draft.content??it.draft.workedExample?.guidedPractice;answerNodes(c).forEach((n,k)=>pairs.push({id:it.id+'#'+k,item:it,a:answers.get(String(n.id))??[...answers.values()][k]??'',b:n.answer.short||n.answer.worked}));}
+    else if(it.kind==='check'){for(const t of teachingAnswers(it.block)){const a=answers.get(t.nodeId);if(a)pairs.push({id:it.id+'#'+t.nodeId,item:it,a,b:t.answer,nodeId:t.nodeId});}}
     else{const node=nodesOf(it.block).find(n=>n.id===it.targetNode)??it.block.content;const solved=answers.get(String(it.targetNode))??[...answers.values()].at(-1)??'';pairs.push({id:it.id+'#new',item:it,a:solved,b:it.claim.field==='short'?it.claim.correction:it.claim.correction.split('\\\\').at(-1)},{id:it.id+'#old',item:it,a:solved,b:it.claim.field==='short'?fieldGet(node,'short'):String(fieldGet(node,it.claim.field)??'').split('\\\\').at(-1)});}}
    const eq=await compareAnswers(ctx,pairs);
    for(const it of round){
     const mine=pairs.filter(p=>p.item===it),ok=mine.length&&mine.every(p=>eq.get(p.id)?.equivalent);
+    // A teaching answer the blind solve disagrees with is a comment for James: there is no claimed correction to
+    // test, so nothing is changed automatically.
+    if(it.kind==='check'){const bad=mine.filter(p=>!eq.get(p.id)?.equivalent);
+     (report.teachingSolve??=[]).push({id:it.block.id,parts:mine.length,mismatches:bad.map(p=>({nodeId:p.nodeId,booklet:p.b,solved:p.a,reason:eq.get(p.id)?.reason??null}))});
+     if(mine.length)solvedTeaching.add(it.block.id);
+     if(bad.length)addComment({targetId:it.block.id,kind:'error-solve-mismatch',key:'solve|'+it.block.id,note:`[Pedagogy audit v2 · Possible error found by a blind solve] An independent solve of this ${it.block.type==='worked-example'?'worked example':'guided practice'} gives a different final answer from the booklet:\n${bad.map(p=>`- ${p.nodeId}: booklet ${p.b}; independent solve ${p.a}`).join('\n')}\nNothing was changed. Check the working and correct it, or delete this comment.`});
+     continue;}
     if(it.kind==='claim'){const yes=eq.get(it.id+'#new')?.equivalent,no=eq.get(it.id+'#old')?.equivalent;
      if(yes&&!no){const p=out.placements.get(it.id);corrections.push({...it,placement:p,solveFile:ctx.calls.at(-1)?.id});}
      else if(no&&!yes)report.dropped.push({claim:it.claim.blockId,reason:'blind solve agrees with the booklet'});
@@ -1524,6 +1661,12 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   section.blocks.splice(at<0?section.blocks.length:afterInserted(section.blocks,at,inserted,d.score),0,block);inserted.push(block);
   (report.applied.newQuestions??=[]).push({id:block.id,slot:slot.id,reason:slot.reason,type:slot.type,score:d.score,range:slot.range});
  }
+ // Recount before the save (11 November 2026): a new count question whose type has enough practice without it, once
+ // the run's other new questions and their parts are counted with the run's own type groups, is taken out now. In
+ // Stage 5, 37 were saved and then removed by a second roles call and a removal save.
+ {const surplus=surplusCountQuestions(candidate,state,audit,inserted);
+  for(const id of surplus){report.applied.newQuestions=(report.applied.newQuestions??[]).filter(q=>q.id!==id);state.types.delete(id);(report.dropped??=[]).push({slot:id,reason:'recount: its type has enough practice without it, counting the run\'s other new questions and their parts'});}
+  if(surplus.length)log('recount: '+surplus.length+' new count question(s) not needed: '+surplus.join(', '));}
  // Solved corrections.
  const blockMap=()=>new Map(candidate.sections.flatMap(s=>(s.blocks??[]).map(b=>[b.id,b])));
  for(const c of corrections){
@@ -1544,7 +1687,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  }
  // Confirmed theory rewrites and other teaching findings become comments; unverified ones say so.
  for(const j of judgements){const v=verdictOf(j),c=verdicts.get(j.id);
-  if(j.kind.startsWith('theory-')&&(v==='confirmed'||v==='unverified'))addComment({targetId:j.row.id,kind:j.kind,key:'theory|'+j.row.id,payload:autoFlag({op:'theory',blockId:j.row.id,...(j.row.nodeId?{nodeId:j.row.nodeId}:{}),replacement:j.row.replacement},v==='confirmed'&&!state.protectedIds.has(j.row.id)),note:`[Pedagogy audit v2 · ${j.kind==='theory-definition'?'Definition':'Wording'}${v==='unverified'?' · unverified':''}] ${c?.comment||j.row.reason||''}${v==='unverified'?unverifiedNote(c):''}\nReplacement text: ${j.row.replacement}`});
+  // A passage marked comment-only (11 November 2026) carries its finding and no replacement payload.
+  if(j.kind.startsWith('theory-')&&(v==='confirmed'||v==='unverified'))addComment({targetId:j.row.id,kind:j.kind,key:'theory|'+j.row.id,payload:j.row.replacement?autoFlag({op:'theory',blockId:j.row.id,...(j.row.nodeId?{nodeId:j.row.nodeId}:{}),replacement:j.row.replacement},v==='confirmed'&&!state.protectedIds.has(j.row.id)):null,note:`[Pedagogy audit v2 · ${j.kind==='theory-definition'?'Definition':'Wording'}${v==='unverified'?' · unverified':''}] ${c?.comment||j.row.comment||j.row.reason||''}${v==='unverified'?unverifiedNote(c):''}\n${j.row.replacement?'Replacement text: '+j.row.replacement:'No replacement text: this passage cannot be rewritten automatically ('+(theoryEditable(candidate.sections.flatMap(s=>s.blocks??[]).find(b=>b.id===j.row.id)??{})?.why??'no editable text')+'); edit it by hand.'}`});
   else if(j.kind==='key-ideas'&&(v==='confirmed'||v==='unverified')){const l=keyIdeasLessons(candidate).get(j.row.topicId);if(!l)continue;
    const block=keyIdeasBlock(candidate,j.row.topicId,j.row.items,{stamp:stamp.slice(-6)});
    addComment({targetId:l.after,kind:'key-ideas',key:'keyideas|'+j.row.topicId,payload:autoFlag({op:'insert',sectionId:l.sectionId,after:l.after,block},v==='confirmed'),note:`[Pedagogy audit v2 · Key ideas${v==='unverified'?' · unverified':''}] ${c?.comment||j.row.reason||''}${v==='unverified'?unverifiedNote(c):''}\nKey ideas: ${j.row.items.map((t,i)=>(i+1)+'. '+t).join(' ')}`});}
@@ -1569,9 +1713,9 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  // count gap like any other; a type that only exists at Challenge level has no minimum.
  const ch=candidate.sections.find(s=>s.role==='challenge'&&s.id===candidate.id+'-challenge');if(ch&&!ch.blocks.length){candidate.sections=candidate.sections.filter(s=>s!==ch);candidate.topics=(candidate.topics??[]).filter(t=>t.id!=='challenge'||candidate.sections.some(s=>s.topicId==='challenge'));}
  // Final order and gap checks.
- ordered=orderCandidate(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project});candidate=ordered.project;
+ ordered=orderCandidate(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project,typeChecked:runTypeChecked(candidate,state)});candidate=ordered.project;
  // Challenge sorted by the exercise rules even when a reference elsewhere holds the booklet (James, 9 November 2026).
- {const ch=sortChallengeSections(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project});candidate=ch.project;report.challengeOrder=ch.report;
+ {const ch=sortChallengeSections(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project,typeChecked:runTypeChecked(candidate,state)});candidate=ch.project;report.challengeOrder=ch.report;
   const sortedIds=new Set(ch.report.filter(r=>r.status==='sorted').flatMap(r=>r.ids));ordered={...ordered,plan:{...ordered.plan,sections:ordered.plan.sections.map(s=>s.role!=='challenge'?s:{...s,segments:s.segments.map(g=>g.originalIds.some(id=>sortedIds.has(id))?{...g,status:'sorted',holds:[]}:g)})}};}
  for(const c of holdComments(ordered.plan,candidate))addComment(c);
  // Changes applied automatically get comments too, so every change can be reviewed in Studio
@@ -1583,7 +1727,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   for(const m of report.moves??[])push(m.ids[0],`- Moved here to Challenge: ${m.ids.join(', ')} (rated ${m.score}).`);
   for(const b of report.applied.bold??[])push(b.id,`- Bolded in ${b.id}: ${b.terms.join(', ')}.`);
   for(const s of report.applied.spelling??[])push(s.id,`- Australian spelling in ${s.id}: ${s.changes.join(', ')}.`);
-  for(const [s,lines]of bySection){const first=(s.blocks??[]).find(b=>b.type==='question')??s.blocks?.[0];if(first)addComment({targetId:first.id,kind:'applied-summary',key:'applied|'+s.id,applied:true,note:`[Pedagogy audit v2 · Applied automatically] ${s.title??s.id}\n${lines.join('\n')}`});}
+  // Summaries go to the report, not Studio (James, 11 November 2026: only comments that need a decision stay).
+  report.appliedSummaries=[...bySection].map(([s,lines])=>({sectionId:s.id,title:s.title??s.id,lines}));
   for(const c of report.applied.corrections??[])addComment({targetId:c.id,kind:'applied-correction',key:'applied-err|'+c.id+'|'+c.nodeId,applied:true,note:`[Pedagogy audit v2 · Applied automatically · Error corrected after an independent solve agreed] ${c.reason}\n${c.field} of ${c.nodeId} was: ${c.old}\nNow: ${c.new}`});}
  const finalGaps=gapPlan(candidate,state,{audit});
  report.remaining={deficits:finalGaps.deficits,jumpsOver15:finalGaps.gaps,slotsStillOpen:finalGaps.slots.length};
@@ -1596,7 +1741,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   if(!short.length&&!ex.length&&!merged.length)continue;
   const first=(section.blocks??[]).find(b=>b.type==='question')??section.blocks?.[0];if(!first)continue;
   const lines=[...(short.length?[`Core question types with fewer than ${LIMITS.minimumItems} practice items in this topic after this run (each part a student answers on its own counts, up to 3 per question):`,...short.map(d=>`- ${d.type}: ${d.items}${d.taught===false?' (not taught in the booklet)':''}${cap.has(d.type)?` (over this run's limit of ${LIMITS.countSlotsPerExercise} new count questions per exercise)`:''}`)]:[]),...(ex.length?['Left as one-off (enrichment) questions, with no minimum: '+ex.map(e=>`${e.type} (${e.items})`).join(', ')+'. Say if any of these should be practised more.']:[]),...(merged.length?['Counted together as one skill (the same method): '+merged.map(g=>g.types.join(' + ')+(g.method?' ('+g.method+')':'')).join('; ')+'. Say if any of these should be counted apart.']:[])];
-  addComment({targetId:first.id,kind:'type-gaps',key:'gaps|'+section.id,note:`[Pedagogy audit v2 · Practice counts]\n${lines.join('\n')}`});
+  // Practice counts go to the report (James, 11 November 2026); the gaps are listed per booklet for a top-up.
+  (report.practiceCounts??=[]).push({sectionId:section.id,title:section.title??section.id,lines});
  }
  // Comments, merged with an open comment of the same kind on the same block; v1 comments withdrawn.
  const {createFeedback}=await import('../src/lib/booklet-feedback.js');
@@ -1612,6 +1758,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  if(sentSeq.has('exam-and-challenge'))for(const r of state.rows)if(r.exam||r.section.role==='challenge')sentBlocks.add(r.block.id);
  const rechecked=f=>{const k=String(f.findingKind??'').replace(/^unverified-/,''),t=f.targetId;
   if(k.startsWith('theory-'))return state.stale.theory.includes(t);
+  if(k==='error-solve-mismatch')return (state.stale.solve??[]).includes(t);
   if(k.startsWith('error-'))return state.stale.error.includes(t);
   if(/duplicate/.test(k))return state.stale.duplicate.includes(t);
   if(topUp&&k==='type-gaps')return true;
@@ -1636,6 +1783,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  for(const r of finalRows){const id=r.block.id,fp=contentFingerprint(r.block),row={};
   const wasChanged=corrected.has(id),beforeBlock=state.rows.find(x=>x.block.id===id)?.block,wordingSame=beforeBlock&&wordingFingerprint(beforeBlock)===wordingFingerprint(r.block);
   if(r.question&&state.types.get(id)?.current&&(!wasChanged||wordingSame))row.type=fp;
+  if(solvedTeaching.has(id)&&!wasChanged)row.solve=fp;
   if((r.question||r.example)&&(state.stale.error.includes(id)?sentAudit.has(id)&&(!wasChanged||wordingSame):true))row.error=fp;
   if(r.question)row.duplicate=fp;
   if(r.kind==='teaching'&&(!state.stale.theory.includes(id)||audit.theory.some(t=>t.id===id)))row.theory=fp;
@@ -1665,6 +1813,10 @@ export function reportMarkdown(r){
  lines.push('## Dropped','',...(r.dropped??[]).map(d=>`- ${d.slot??d.proposal??d.claim}: ${d.reason}`),'');
  lines.push('## Types counted together (same method)','',...((r.typeGroups??[]).length?r.typeGroups.map(g=>'- '+g.types.join(' + ')+(g.method?' — '+g.method:'')):[r.typeGroupsFailed?'- none: the grouping call failed ('+r.typeGroupsFailed.slice(0,120)+')':'- none']),'');
  lines.push('## Remaining after this run','',`- Types below 3 items: ${(r.remaining?.deficits??[]).map(d=>d.sectionId.slice(-24)+'/'+d.type+' ('+d.items+')').join(', ')||'none'}`,`- Jumps over 15: ${(r.remaining?.jumpsOver15??[]).map(g=>g.after+'→'+g.before+' (+'+g.step+')').join(', ')||'none'}`,'');
+ // Reported, not posted (11 November 2026).
+ if(r.appliedSummaries?.length)lines.push('## Applied per exercise','',...r.appliedSummaries.flatMap(s=>[`### ${s.title}`,...s.lines]),'');
+ if(r.practiceCounts?.length)lines.push('## Practice counts','',...r.practiceCounts.flatMap(s=>[`### ${s.title}`,...s.lines]),'');
+ if(r.undraftable?.length)lines.push('## Short types with nothing to draft from','',...r.undraftable.map(u=>`- ${u.sectionId}: ${u.type} (${u.items})`),'');
  if(r.blockers?.length)lines.push('## Blockers','',...r.blockers.map(b=>`- ${b.stage}: ${b.reason}`),'');
  return lines.join('\n');
 }
@@ -1703,6 +1855,38 @@ export async function applyAuditV2(args){
   holdBack(runDir,culprits,'it did not print cleanly in the booklet');
   (args.log??console.error)('render check: '+[...culprits.keys()].join(', ')+' taken out and left as comments; applying again');
   return applyAuditV2Once({...args,runDir,retried:true});}
+}
+// Settle inside the apply (James, 11 November 2026): an "Applied automatically" comment whose change is confirmed in
+// the candidate that is about to be saved is saved resolved, so Studio shows only comments that need a decision. The
+// checks are the settle's (review-tools/triage-comments.mjs): an inserted block is present, a theory or replaced
+// part's text is in its block, a comment without a payload has its target. A comment with any change not applied,
+// or one that fails a check, stays open. Returns the ids resolved and the ids left open, with why.
+export function settleAppliedComments(candidate,proposals={},{at=now()}={}){
+ const blocks=new Map((candidate.sections??[]).flatMap(s=>(s.blocks??[]).map(b=>[b.id,b])));
+ const norm=t=>String(t).replace(/\\[a-zA-Z]+|[$*_{}\\]/g,' ').replace(/[^a-zA-Z0-9%]+/g,' ').trim().toLowerCase();
+ const words=t=>norm(t).split(' ').filter(w=>w.length>2);
+ const textOf=id=>blocks.has(id)?norm(JSON.stringify(blocks.get(id))):'';
+ const whole=norm(JSON.stringify(candidate.sections??[]));
+ const strings=o=>{const out=[];const walk=v=>{if(typeof v==='string')out.push(v);else if(v&&typeof v==='object')for(const [k,x] of Object.entries(v))if(!['id','classification','sourceReview','bankRef','arrangement','questionDiagrams','diagrams'].includes(k))walk(x);};walk(o);return out;};
+ const coverage=(needle,hay)=>{const w=[...new Set(words(needle))];if(!w.length)return 1;return w.filter(x=>hay.includes(x)).length/w.length;};
+ const check=p=>{
+  if(p.op==='insert'||p.op==='review')return blocks.has(p.block?.id)||coverage(strings(p.block?.content).join(' ').slice(0,400),whole)>=0.9;
+  if(p.op==='teaching')return (p.blocks??[]).every(b=>blocks.has(b.id));
+  if(p.op==='theory')return Math.max(coverage(p.replacement,textOf(p.blockId)||whole),coverage(p.replacement,whole))>=0.85;
+  if(p.op==='replace-node')return coverage(strings(p.content).join(' ').slice(0,400),textOf(p.blockId))>=0.85;
+  if(p.op==='set-field'||p.op==='rating')return blocks.has(p.blockId);
+  return false;};
+ const resolved=[],left=[];
+ for(const f of candidate.studio?.flags??[]){
+  if(f.kind!==COMMENT_KIND||f.resolved||!f.autoApplied)continue;
+  if(/Not applied automatically/.test(f.note??'')){left.push({id:f.id,why:'a change was not applied'});continue;}
+  const e=proposals[f.id],applied=(e?.payloads??[]).filter(p=>p.applied);
+  const ok=e?(e.payloads??[]).every(p=>p.applied||!p.autoApply)&&applied.length>0&&applied.every(check):!!textOf(f.targetId);
+  if(!ok){left.push({id:f.id,why:'the change was not found in the booklet'});continue;}
+  f.resolved=true;f.resolvedAt=at;f.resolution='Applied automatically by pedagogy audit v2 and confirmed in the saved booklet: '+(f.autoApplied.what||'see the note')+'. Listed in the run report.';
+  resolved.push(f.id);
+ }
+ return {resolved,left};
 }
 // Holds back blocks (Map id → why) before the apply runs again: a change to an existing block stays a comment with the
 // reason; one of the audit's own new questions (a v2- block) is taken out and noted on the comment that lists it.
@@ -1828,6 +2012,9 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
  // Audit-made figures are normalised on every apply, not only when proposals were auto-applied: a run with
  // only slot questions skipped it (8 November 2026).
  else{houseTints(candidate);gridSteps(candidate);for(const s of candidate.sections??[])joinContinuedRuns(s);write(candidateFile,candidate);}
+ // Applied changes confirmed in the candidate are saved resolved (James, 11 November 2026); the report keeps them.
+ {const settled=settleAppliedComments(candidate,report.proposals??{});report.settled=settled;write(path.join(runDir,'report.json'),report);write(candidateFile,candidate);
+  log(`settle: ${settled.resolved.length} applied comment(s) saved resolved, ${settled.left.length} left open`);}
  const {publishProject,publicationDiff}=await import('../scripts/booklet/publish-project.mjs');
  const diff=publicationDiff(live,candidate),printed=[...diff.added,...diff.changed].filter(id=>{const a=live.sections.flatMap(s=>s.blocks??[]).find(b=>b.id===id),b=candidate.sections.flatMap(s=>s.blocks??[]).find(x=>x.id===id);return !a||contentFingerprint(a)!==contentFingerprint(b)||JSON.stringify(a.content)!==JSON.stringify(b.content);});
  // Content rules before any render or save (10 November 2026): a block the audit added or changed that prints maths

@@ -196,10 +196,10 @@ test('type names that differ only in plurals, stop words or order count as one t
 
 test('only core types have the minimum; tiers of a topic count together; a soft cap per exercise', ()=>{
  const sec=(id,ids)=>({id,phase:'practice',topicId:'t',title:'Exercise',blocks:ids.map(i=>q(i,'P '+i,'$1$'))});
- const project={id:'p',topics:[{id:'t',title:'T'}],sections:[sec('s1',['a','b','c','d','e']),sec('s2',['f','g'])]};
- const types=new Map([['a',{type:'solve-equation',current:true}],['b',{type:'solve-equation',current:true}],['f',{type:'solve-equations',current:true}],['c',{type:'explain-why',current:true}],['d',{type:'core-y',current:true}],['e',{type:'core-z',current:true}],['g',{type:'core-w',current:true}]]);
+ const project={id:'p',topics:[{id:'t',title:'T'}],sections:[sec('s1',['a','b','c','d','e','h','i']),sec('s2',['f','g'])]};
+ const types=new Map([['a',{type:'solve-equation',current:true}],['b',{type:'solve-equation',current:true}],['f',{type:'solve-equations',current:true}],['c',{type:'explain-why',current:true}],['d',{type:'core-y',current:true}],['e',{type:'core-z',current:true}],['g',{type:'core-w',current:true}],['h',{type:'core-u',current:true}],['i',{type:'core-v',current:true}]]);
  const state={project,progressions:[],types};
- const audit={types:[{type:'solve-equation',topicId:'t',taught:true,role:'core'},{type:'explain-why',topicId:'t',taught:true,role:'enrichment'},{type:'core-y',topicId:'t',taught:true,role:'core'},{type:'core-z',topicId:'t',taught:true,role:'core'},{type:'core-w',topicId:'t',taught:false,role:'core'}],exampleMatches:[],spread:[]};
+ const audit={types:[{type:'solve-equation',topicId:'t',taught:true,role:'core'},{type:'explain-why',topicId:'t',taught:true,role:'enrichment'},{type:'core-y',topicId:'t',taught:true,role:'core'},{type:'core-z',topicId:'t',taught:true,role:'core'},{type:'core-w',topicId:'t',taught:false,role:'core'},{type:'core-u',topicId:'t',taught:true,role:'core'},{type:'core-v',topicId:'t',taught:true,role:'core'}],exampleMatches:[],spread:[]};
  const plan=gapPlan(project,state,{audit});
  const count=plan.slots.filter(s=>s.reason==='type-count');
  assert.ok(!plan.deficits.some(d=>d.type==='solve-equation'||d.type==='solve-equations'),'a and b in one tier plus f (a plural name) in another make three');
@@ -207,6 +207,9 @@ test('only core types have the minimum; tiers of a topic count together; a soft 
  assert.ok(!count.some(s=>s.type==='explain-why'));
  assert.ok(count.filter(s=>s.sectionId==='s1').length<=LIMITS.countSlotsPerExercise,'at most two new count questions per exercise');
  assert.ok(plan.capped.length>0,'what the cap leaves out is reported');
+ // One slot per short type, asking for as many parts as it is short (11 November 2026).
+ assert.ok(count.filter(s=>s.sectionId==='s1').every(s=>s.parts===2),'a type with one item gets one slot of two parts');
+ assert.equal(new Set(count.map(s=>s.type)).size,count.length,'never two count slots for one type');
  const untaught=count.find(s=>s.type==='core-w');
  assert.ok(untaught&&untaught.commentOnly&&untaught.teachingNeeded,'an untaught core type is drafted for the teacher, not inserted');
 });
@@ -850,4 +853,88 @@ test('holdBack turns a change back into a comment and takes out a new question (
   assert.deepEqual(holdBack(dir,new Map([['p9','z']]),'it broke a content rule',{all:true}).map(x=>x[0]),['p9']);
   assert.equal(fs.readFileSync(path.join(dir,'report.json'),'utf8'),before);
   fs.rmSync(dir,{recursive:true,force:true});
+});
+
+// Workflow changes before Stage 6 (11 November 2026).
+const ratedQ=async()=>{const {reasoningTaskHash,REASONING_RUBRIC}=await import('../scripts/booklet/reasoning-ratings.mjs'),{difficultyBandForScore}=await import('../src/lib/practice-question-model.js');
+ return (id,score,prompt='P '+id)=>{const b=q(id,prompt,'$1$',{classification:{...rating(score),difficulty:difficultyBandForScore(score)}});
+  b.classification.assessment={model:'m',assessedAt:'2026-11-09T00:00:00Z',evidence:'e',rubricVersion:REASONING_RUBRIC,taskHash:reasoningTaskHash(b)};return b;};};
+test('a printed reference holds only its own exercise, or a same-topic one when it names a question (11 November 2026)', async()=>{
+ const {orderCandidate}=await import('../pedagogy/audit-v2.mjs');const v=await ratedQ();
+ const ex=(id,topicId,blocks)=>({id,phase:'practice',topicId,title:'Exercise',blocks});
+ const project={id:'p',revision:1,topics:[{id:'t1',title:'T1'},{id:'t2',title:'T2'}],sections:[
+  ex('s1','t1',[v('a',50),v('x',30,'Use the diagram below.')]),ex('s2','t2',[v('c',40),v('d',10)]),ex('s3','t1',[v('e',40),v('f',10)])]};
+ const {project:out,plan}=orderCandidate(structuredClone(project));
+ const order=id=>out.sections.find(s=>s.id===id).blocks.map(b=>b.id);
+ assert.deepEqual(order('s1'),['a','x'],'the exercise holding the reference stays as it is');
+ assert.deepEqual(order('s2'),['d','c']);assert.deepEqual(order('s3'),['f','e'],'"the diagram below" names no question');
+ assert.equal(plan.sections.find(s=>s.sectionId==='s2').segments[0].status,'sorted');
+ const seg1=plan.sections.find(s=>s.sectionId==='s1').segments[0];assert.equal(seg1.status,'held');assert.ok(seg1.holds.every(h=>h.id==='x'));
+ // "the previous question" in the same topic holds its sibling exercise; another topic still sorts.
+ const prev=structuredClone(project);prev.sections[0].blocks[1].content.prompt='Use your answer to the previous question.';
+ const r=orderCandidate(prev).project;
+ assert.deepEqual(r.sections[2].blocks.map(b=>b.id),['e','f']);assert.deepEqual(r.sections[1].blocks.map(b=>b.id),['d','c']);
+ // A question another question cites by number is not moved while the renumbering cannot run.
+ const cited=structuredClone(project);cited.sections[1].blocks=[v('c',40),v('d',10),v('g',30,'Repeat Question 1 for y.')];
+ const c=orderCandidate(cited);assert.deepEqual(c.project.sections[1].blocks.map(b=>b.id),['c','d','g']);
+ assert.ok(c.plan.sections[1].segments[0].holds.some(h=>['reference-renumbering-blocked','before-source-counter-identity-unverified'].includes(h.kind)));
+});
+test('an unusable type-map link holds a question only without a current audit type check (11 November 2026)', async()=>{
+ const {unusableMapHolds,holdComments}=await import('../pedagogy/audit-v2.mjs');
+ const holds=[{id:'a',kind:'review-context-unverified',reason:'review project differs'},{id:'b',kind:'review-context-unverified',reason:'Recorded review snapshot absent'},{id:'c',kind:'review-context-unverified',reason:'reviewed question changed or absent'},{id:'d',kind:'rating-unverified'}];
+ assert.deepEqual(unusableMapHolds(holds,new Set(['a','b','c'])).map(h=>h.id),['c','d'],'a changed question still holds; checked map links do not');
+ const left=unusableMapHolds(holds,new Set());
+ assert.deepEqual(left.map(h=>h.kind),['review-map-other-booklet','review-map-snapshot-missing','review-context-unverified','rating-unverified']);
+ const [cm]=holdComments({sections:[{sectionId:'s',segments:[{status:'held',originalIds:['a','z'],holds:[left[0]]}]}]},{});
+ assert.match(cm.note,/belongs to another booklet/);
+});
+test('greys and pure hues in audit-made figures become house colours; label text is left alone (11 November 2026)', async()=>{
+ const {houseTints}=await import('../pedagogy/audit-v2.mjs');
+ const code=String.raw`\begin{tikzpicture}
+\draw[gray!45, thick] (0,0)--(1,0);
+\draw[draw=blue,fill=red!20] (0,0) circle (1);
+\node[text=black] at (0,0) {red ball};
+\node at (1,1) {\color{red}$x$};
+\end{tikzpicture}`;
+ const p={sections:[{blocks:[{id:'v2-a',content:{questionDiagrams:[{format:'tikz',code}]}}]}]};
+ houseTints(p);const out=p.sections[0].blocks[0].content.questionDiagrams[0].code;
+ assert.match(out,/\\draw\[housegrid, thick\]/);assert.match(out,/draw=houseblue,fill=houseredFill/);
+ assert.match(out,/\{red ball\}/,'label text keeps its words');assert.match(out,/text=black/,'black stays black');
+ assert.match(out,/\\color\{housered\}/);assert.match(out,/\\definecolor\{houseblue\}\{HTML\}\{268CFF\}/);assert.match(out,/\\definecolor\{housegrid\}\{HTML\}\{CCCCCC\}/);
+});
+test('an applied change confirmed in the candidate is saved resolved; one not found or partly applied stays open (11 November 2026)', async()=>{
+ const {settleAppliedComments,COMMENT_KIND}=await import('../pedagogy/audit-v2.mjs');
+ const flag=(id,targetId,extra={})=>({id,kind:COMMENT_KIND,targetId,note:'[Pedagogy audit v2 · Applied automatically · x] y',autoApplied:{at:'t',what:'Added.'},...extra});
+ const candidate={sections:[{id:'s',blocks:[q('a','Find x.','$1$'),q('v2-new','Solve the new equation for the variable.','$2$')]}],studio:{flags:[flag('f1','a'),flag('f2','a'),flag('f3','a'),flag('f4','gone'),flag('f5','a',{note:'Not applied automatically: x'})]}};
+ const proposals={f1:{payloads:[{op:'insert',block:{id:'v2-new'},applied:true,autoApply:true}]},f2:{payloads:[{op:'insert',block:{id:'v2-missing',content:{prompt:'Completely different words entirely here'}},applied:true,autoApply:true}]},f3:{payloads:[{op:'insert',block:{id:'v2-new'},applied:true,autoApply:true},{op:'insert',block:{id:'v2-other'},autoApply:true}]}};
+ const r=settleAppliedComments(candidate,proposals,{at:'now'});
+ assert.deepEqual(r.resolved,['f1']);assert.deepEqual(r.left.map(x=>x.id).sort(),['f2','f3','f4','f5']);
+ assert.equal(candidate.studio.flags[0].resolved,true);assert.match(candidate.studio.flags[0].resolution,/confirmed in the saved booklet/);
+});
+test('a new count question is taken out before saving when its type has enough without it, unless it bridges a jump (11 November 2026)', async()=>{
+ const {surplusCountQuestions}=await import('../pedagogy/audit-v2.mjs');const v=await ratedQ();
+ const slot=b=>{b.sourceReview={origin:{generatedBy:'pedagogy-audit-v2'},generation:{kind:'slot',slot:{reason:'type-count'}}};return b;};
+ const extra=slot(v('v2-c',22)),bridge=slot(v('v2-d',40));
+ const project={id:'p',topics:[{id:'t',title:'T'}],sections:[{id:'s',phase:'practice',topicId:'t',title:'Exercise',blocks:[v('a',20),v('b',21),extra,v('c',23),bridge,v('e',52)]}]};
+ const types=new Map(['a','b','c','v2-c','v2-d','e'].map(id=>[id,{type:'x',current:true}]));
+ const state={project,progressions:[],types};
+ const out=surplusCountQuestions(project,state,{types:[{type:'x',topicId:'t',taught:true,role:'core'}],exampleMatches:[],spread:[]},[extra,bridge]);
+ assert.deepEqual(out,['v2-c'],'three items without it; the 40 bridges 23 to 52');
+ assert.deepEqual(project.sections[0].blocks.map(b=>b.id),['a','b','c','v2-d','e']);
+});
+test('worked examples and guided practice give their final answers for a blind solve (11 November 2026)', async()=>{
+ const {teachingAnswers}=await import('../pedagogy/audit-v2.mjs');
+ const doc=text=>({format:'maths-editor-document-v1',version:1,blocks:[{id:'x',type:'paragraph',inlines:[{type:'math',latex:text,display:true}]}]});
+ const we={id:'w',type:'worked-example',pedagogyRole:'example',examples:[{id:'e1',prompt:doc('\\frac{5x}{13}+\\frac{3x}{13}'),theorySolution:doc('=\\frac{5x+3x}{13}=\\frac{8x}{13}')},{id:'e2',prompt:doc('Show it'),theorySolution:doc('=\\mathrm{RHS}')}]};
+ assert.deepEqual(teachingAnswers(we),[{nodeId:'e1',answer:'$\\frac{8x}{13}$'}],'the last result; a proof ending in RHS has none');
+ const g={id:'g',type:'question',pedagogyRole:'guided-practice',content:{id:'g-root',type:'group',children:[{id:'ga',type:'part',prompt:'a',answer:{short:'$3x$',worked:'x'}}]}};
+ assert.deepEqual(teachingAnswers(g),[{nodeId:'ga',answer:'$3x$'}]);
+});
+test('a passage with no editable text or an annotated equation is comment-only; others give their line count (11 November 2026)', async()=>{
+ const {theoryEditable}=await import('../pedagogy/audit-v2-apply.mjs');
+ const docOf=blocks=>({format:'maths-editor-document-v1',version:1,blocks});
+ assert.equal(theoryEditable({id:'a',type:'image'}).rewritable,false);
+ assert.equal(theoryEditable({id:'b',type:'theory',content:docOf([{id:'e',type:'annotated-equation'}])}).rewritable,false);
+ const ok=theoryEditable({id:'c',type:'theory',content:docOf([{id:'p1',type:'paragraph',inlines:[{type:'text',text:'One.'}]},{id:'p2',type:'paragraph',inlines:[{type:'text',text:'Two.'}]}])});
+ assert.equal(ok.rewritable,true);assert.equal(ok.lines,2);
 });

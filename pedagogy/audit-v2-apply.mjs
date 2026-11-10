@@ -193,6 +193,18 @@ function leavesOf(doc){
   else if(n.type!=='spacer')bad??=`a ${n.type==='annotated-equation'?'annotated equation':n.type} in the block`;});
  walk(doc.blocks);return {leaves:out,bad};
 }
+// Whether the apply can place a rewrite of this teaching block (11 November 2026: 77 confirmed Stage 5 rewrites
+// stayed comments). Not rewritable: no editable text document, or every text document holds an annotated equation or
+// another block that cannot be rewritten. Lines: the lines and table cells a line-by-line rewrite must keep.
+export function theoryEditable(block){
+ const host=textHost(block,null);
+ if(host.error)return {rewritable:false,why:'no editable text'};
+ if(host.string)return {rewritable:true};
+ const ok=host.docs.map(d=>({d,...leavesOf(d)})).filter(x=>!x.bad);
+ if(!ok.length)return {rewritable:false,why:leavesOf(host.docs[0]).bad};
+ if(ok.every(x=>x.leaves.length&&x.leaves.every(l=>l.image)))return {rewritable:false,why:'text in an image'};
+ return {rewritable:true,lines:ok.length===1?sourceTokens(toSource(ok[0].d)).length:null};
+}
 function byLines(doc,replacement){
  const {leaves,bad}=leavesOf(doc);if(bad)return {error:bad+' cannot be rewritten automatically'};
  const want=sourceTokens(toSource(doc)),counts=leaves.map(l=>sourceTokens(paragraphSource(l.node)).length);
