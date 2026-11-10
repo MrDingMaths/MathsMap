@@ -57,7 +57,15 @@ const parseJson=text=>{const s=String(text??'');const a=s.indexOf('{'),b=s.lastI
   // A worked example nested in "content" came back one brace short, twice in a row (Probability and Equations 1B,
   // 9 November 2026): the parser stops where the missing brace belongs, so up to two are inserted there.
   let t=body;for(let k=0;k<2;k++){try{return JSON.parse(t);}catch(err){const m=/Expected ',' or '\}' after property value in JSON at position (\d+)/.exec(err.message);if(!m)break;t=t.slice(0,+m[1])+'}'+t.slice(+m[1]);}}
-  try{return JSON.parse(t);}catch{throw e;}}}};
+  try{return JSON.parse(t);}catch{
+   // A reply that sends a JSON object, then a note ("Wait — that output is malformed … Corrected full JSON
+   // follows.") and a second object (Quartiles and Box Plots, Stage 5, 9 November 2026): the last object that
+   // parses on its own is the reply.
+   const starts=[...body.matchAll(/(^|\n)\{/g)].map(m=>m.index+(m[1]?1:0)).reverse();
+   for(const at of starts){const tail=body.slice(at),end=tail.lastIndexOf('}');for(const cut of [tail.length,end+1]){try{return JSON.parse(tail.slice(0,cut));}catch{}}
+    const first=tail.split(/\n\s*\n/)[0];try{return JSON.parse(first);}catch{}}
+   throw e;}}}};
+export const parseReplyJson=parseJson;
 // ---- reply reuse (James, 7 November 2026) ---------------------------------------------
 // A failed run must never cost its successful calls again: the first Area 1 run spent $12.18 and
 // failed at proposal drafting, and nothing could be reused. Every accepted reply is kept, keyed by the
@@ -647,7 +655,11 @@ export function houseTints(project,alsoIds=new Set()){
   (function walk(x){if(!x||typeof x!=='object')return;if(x.format==='tikz'&&typeof x.code==='string'){const used=new Set();
     // A tint mixed explicitly with white (orange!20!white, Volume j8 redraft, 9 November 2026) is the same tint.
     const code=x.code.replace(/\b(blue|cyan|red|pink|magenta|green|orange|yellow|purple|violet)!([1-4]\d|[5-9])(?:!white)?(?![\d!])/g,(m,hue)=>{used.add(hue);n++;return 'house'+hue+'Fill';});
-    if(used.size){const defs=[...used].map(h=>`\\definecolor{house${h}Fill}{HTML}{${HOUSE_FILLS[h]}}`).join('\n');x.code=code.replace(/(\\begin\{tikzpicture\}(?:\[[^\]]*\])?)/,`$1\n${defs}`);}}
+    const defs=[...used].map(h=>`\\definecolor{house${h}Fill}{HTML}{${HOUSE_FILLS[h]}}`);
+    // The house grid colour is defined only in the graph template; a drafted figure that names it on its own
+    // failed to compile and stopped the render (Quartiles and Box Plots slot 12, Stage 5, 10 November 2026).
+    if(/\bhousegrid\b/.test(code)&&!/\\definecolor\{housegrid\}/.test(code)){defs.push('\\definecolor{housegrid}{HTML}{CCCCCC}');n++;}
+    if(defs.length)x.code=code.replace(/(\\begin\{tikzpicture\}(?:\[[^\]]*\])?)/,`$1\n${defs.join('\n')}`);}
    for(const v of Object.values(x))walk(v);})(b);}
  return n;}
 // TikZ's default grid step is 1 cm on the page, not one x unit. A drafted graph that rescales its axes
@@ -840,6 +852,7 @@ export const WORKING_BLUE='#268cff';
 // Working written only as \text{} rows of an aligned display (Rounding Decimals j5) prints in the
 // maths font; it becomes plain sentences, one per line.
 export function textRows(source){
+ source=unnestTextMath(String(source));
  // A row break's spacing hint (\\[2mm], \\[6pt]) misaligns the rows in the booklet renderer, so it is
  // dropped from every aligned display, not only those rewritten below (Formulas j4, 8 November 2026).
  source=String(source).replace(/\\begin\{(align\*?|aligned)\}([\s\S]*?)\\end\{\1\}/g,(whole,env,body)=>`\\begin{${env}}${body.replace(/\\\\\s*\[[^\]]*\]/g,'\\\\')}\\end{${env}}`);
@@ -864,6 +877,24 @@ export function textRows(source){
 }
 // Short parts sit side by side, as in the booklet's own questions (8 November 2026: new review
 // items had no layout and listed one-line parts down half a page).
+// Columns a question's parts can have when a part carries a figure. A figure scales down to its column but its
+// labels keep their size, so a figure more than 1.5 times its column's width crowds its labels: the 170 mm text
+// width shared out so no figure is squeezed past that. No figure or no width: no limit.
+export function figureColumns(content){
+ const widths=(content?.children??[]).flatMap(p=>(p.questionDiagrams??[]).map(d=>Number(d.widthMm)||0)).filter(Boolean);
+ const figures=widths.length?Math.max(1,Math.floor(170*1.5/Math.max(...widths))):Infinity;
+ // A table in a part's prompt does not scale down at all: it needs its full width plus the part label's
+ // gutter. An 84 mm table of values in one of three columns printed its numbers across the cell borders
+ // (Features of Quadratics 1 slot 5, Stage 5, 10 November 2026).
+ // Its set width overstates it (a 111 mm frequency table with short cells printed well in half the page,
+ // Grouped Data slot 5), so the need is its content: each column's longest cell at 2 mm a character plus padding.
+ const cellText=c=>(c?.blocks??[]).flatMap(q=>q.inlines??[]).map(x=>x.type==='math'?String(x.latex??'').replace(/\\[a-zA-Z]+/g,'x').replace(/[{}^_]/g,''):x.type==='cloze'?'x'.repeat(Math.ceil((Number(x.width)||10)/2)):String(x.text??'')).join('');
+ const need=t=>{const cols=Math.max(0,...(t.rows??[]).map(r=>r.length));let mm=0;for(let c=0;c<cols;c++)mm+=Math.max(0,...(t.rows??[]).map(r=>cellText(r[c]).length))*2+6;return mm;};
+ // Borderless working (a²+b² = …+… scaffolds, Pythagoras slot 5) wraps its blanks and prints well in half the page.
+ const tables=(content?.children??[]).flatMap(p=>(p.prompt?.blocks??[]).filter(b=>b.type==='table'&&b.border).map(t=>need(t))).filter(Boolean);
+ const tabled=tables.length?Math.max(1,Math.floor(170/(Math.max(...tables)+6))):Infinity;
+ return Math.min(figures,tabled);
+}
 export function partLayout(content){
  const parts=content?.children??[];if(parts.length<2||content.layout)return content;
  const text=p=>typeof p.prompt==='string'?p.prompt:(()=>{try{return toSource(p.prompt);}catch{return 'x'.repeat(99);}})();
@@ -931,6 +962,54 @@ export function teachingBlocks(project,{workedExample,guided,stamp}){
  if(guided){const g=fillEmptySteps(structuredClone(guided),rawSteps);g.pedagogyRole='guided-practice';g.sourceAtom={id:g.id+'-atom',kind:'guided-practice',label:'Guided practice',order:3};g.flow={...(g.flow??{}),keepTogether:true,sourcePageBreakBefore:false};unletterLoneGuided(g);out.push(g);}
  return out;
 }
+// Maths written inside \text{} with dollars ("\text{$y$-intercept: }") ends the surrounding maths span at
+// the inner "$", and the worked edition fails to render (Bivariate Data Analysis 2 slot 1, Stage 5,
+// 9 November 2026). The inner maths leaves the \text{}: \text{}y\text{-intercept: }.
+// Duplicate judgements never replace a past exam question: the replacement moves to the pair's other,
+// non-exam question; otherwise the judgement is returned to be dropped.
+// A long lettered exercise can be one question continued across blocks (flow.continuationOf, the stem hidden):
+// Circle Geometry 1 Exercise 6 runs p, q, … zzz. New questions placed inside such a run printed as numbered
+// questions (6, 9, 10 …) among the letters, or copied a neighbour's letter (two "nn"). Each new single question
+// inside the run joins it as a fragment, and the run is lettered in one sequence from its first letter
+// (a … z, aa … zz, aaa …), as the part-label rule asks (Stage 5, 10 November 2026). Returns the blocks changed.
+const runLabel=k=>String.fromCharCode(97+k%26).repeat(Math.floor(k/26)+1);
+const runIndex=l=>/^([a-z])\1*$/.test(l??'')?(l.length-1)*26+(l.charCodeAt(0)-97):-1;
+export function joinContinuedRuns(section){
+ const blocks=section?.blocks??[],changed=new Set();
+ for(const head of new Set(blocks.map(b=>b.flow?.continuationOf).filter(Boolean))){
+  const at=blocks.map((b,i)=>b.flow?.continuationOf===head?i:-1).filter(i=>i>=0);if(at.length<3)continue;
+  const first=blocks[at[0]],stem=first.content?.prompt??'';
+  for(let i=at[0];i<=at.at(-1);i++){const b=blocks[i];if(b.flow?.continuationOf||!b.id.startsWith('v2-')||b.type!=='question'||!b.content)continue;
+   const c=b.content,kids=c.children??[];if(kids.length>1)continue;const k=kids[0]??{};
+   const part={...Object.fromEntries(Object.entries(c).filter(([key])=>!['id','type','label','prompt','children','layout','columns'].includes(key))),...k,
+    id:k.id??c.id+'-part',type:'part',label:'',prompt:String(k.prompt??'').trim()?k.prompt:c.prompt,
+    questionDiagrams:[...(c.questionDiagrams??[]),...(k.questionDiagrams??[])]};
+   if(!part.questionDiagrams.length)delete part.questionDiagrams;
+   b.content={id:c.id,type:first.content.type,label:'',prompt:stem,children:[part]};
+   b.flow={...(b.flow??{}),continuationOf:head,hideRepeatedStem:true};changed.add(b.id);}
+  const run=blocks.slice(at[0],at.at(-1)+1).filter(b=>b.flow?.continuationOf===head&&(b.content?.children??[]).length===1);
+  let k=Math.max(0,runIndex(run[0]?.content.children[0].label));
+  for(const b of run){const p=b.content.children[0],want=runLabel(k++);if(p.label!==want){p.label=want;changed.add(b.id);}}
+ }
+ return [...changed];
+}
+export function keepExamQuestions(judgements,examIds){
+ const dropped=[];
+ for(const j of judgements.filter(j=>j.kind==='duplicate')){const target=j.row.replace;if(!examIds.has(target))continue;
+  const other=(j.row.ids??[]).find(x=>x!==target&&!examIds.has(x));
+  if(other&&!j.repeatedPart){j.row.replace=other;continue;}
+  dropped.push(j.id);}
+ return dropped;
+}
+export function unnestTextMath(s){
+ if(typeof s!=='string'||!s.includes('\\text{'))return s;
+ let prev;do{prev=s;s=s.replace(/\\text\{([^{}$]*)\$([^$]*)\$([^{}]*)\}/g,(m,a,b,c)=>(a?`\\text{${a}}`:'')+b+(c?`\\text{${c}}`:''));}while(s!==prev);
+ return s;
+}
+function unnestAnswers(node){
+ for(const n of new Set([node,...nodesOf(node)])){if(typeof n.prompt==='string')n.prompt=unnestTextMath(n.prompt);
+  if(n.answer&&typeof n.answer==='object')for(const k of ['short','worked'])if(typeof n.answer[k]==='string')n.answer[k]=unnestTextMath(n.answer[k]);}
+}
 export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill,type,kind='slot',typeOfId=null}){
  // A later run reuses slot names, so an id already in the booklet gets a suffix (6 November 2026:
  // the second Similar Triangles run drafted a second "slot-1-lower" and the sort refused the clash).
@@ -942,6 +1021,7 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
  for(const node of nodesOf(content))if(Array.isArray(node.dependsOn))node.dependsOn=node.dependsOn.map(d=>renamed.get(String(d))??d);
  // An empty "children" array printed a lone part label "a" (Data Visualisation 1 guided practice, 9 November 2026).
  for(const node of new Set([content,...nodesOf(content)]))if(Array.isArray(node.children)&&!node.children.length)delete node.children;
+ unnestAnswers(content);
  // A question drafted as one part becomes the question itself, for the same reason.
  {const only=content.children?.length===1?content.children[0]:null;
   if(only&&!(only.children??[]).length&&typeof only.prompt==='string'&&(content.prompt==null||typeof content.prompt==='string')&&!content.answer){
@@ -962,7 +1042,10 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
  // The sibling's arrangement goes on the block's own content (it went on a discarded copy, so the length-based
  // grid stood while layoutFrom claimed the sibling), with no more columns than the parts' length allows.
  if(sibling&&!content.layout&&(content.children??[]).length>1&&(content.children??[]).every(c=>!(c.children??[]).length)){
-  const fit=partLayout(content),cap=fit.layout==='grid'?fit.columns:fit.layout?1:Infinity;
+  const fit=partLayout(content);let cap=fit.layout==='grid'?fit.columns:fit.layout?1:Infinity;
+  // A part's figure needs its own width: a 95 mm outcome table in one of three columns printed its labels
+  // across the cell borders (Multistage Probability 2 slot 3, Stage 5, 9 November 2026).
+  cap=Math.min(cap,figureColumns(content));
   block.content={...content,layout:sibling.layout,...(sibling.columns!=null?{columns:Math.max(1,Math.min(sibling.columns,content.children.length,cap))}:{})};
   if(block.content.layout==='grid'&&block.content.columns===1){delete block.content.columns;block.content.layout='list';}
   block.sourceReview.layoutFrom=sibling.id;}
@@ -976,7 +1059,10 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
 const MARKUP=/\t|\[\[[^|\]\n]*\|\d+\]\]|\*\*[^*\n]+\*\*|(^|[^\w\\])_[^_\n]+_(?!\w)/;
 // A row label that is one variable, in maths or not: x, $y$, $t_1$, $h_{n}$.
 export const isVariableLabel=c=>/^\s*\$?\s*[A-Za-z](?:_\{?\w+\}?)?\s*\$?\s*$/.test(String(c??''));
-const variableName=c=>String(c??'').replace(/[\s$]/g,'');
+// A row label that is the variable's equation, in maths or not: "$y=x^2-8x+10$" or "y=x^{2}-8x+10"
+// (Features of Quadratics 1 j2, Stage 5, 10 November 2026: printed borderless, the label ran into the first value).
+export const isEquationLabel=c=>/^\s*\$?\s*[A-Za-z](?:_\{?\w+\}?)?\s*=\s*[^=$\t]*[\w})]\s*\$?\s*$/.test(String(c??''))&&!/[A-Za-z]{3}/.test(String(c??'').replace(/\\[a-zA-Z]+/g,''));
+const variableName=c=>String(c??'').replace(/[\s$]/g,'').split('=')[0];
 export function promptFromSource(text,id){
  const outsideMath=String(text).replace(/\$\$[\s\S]*?\$\$|\$[^$\n]*\$/g,'');
  if(!MARKUP.test(outsideMath))return text;
@@ -986,8 +1072,18 @@ export function promptFromSource(text,id){
   if(!lines[i].includes('\t')){prose.push(lines[i++]);continue;}
   flush();const rows=[];while(i<lines.length&&lines[i].includes('\t'))rows.push(lines[i++].split('\t'));
   const cols=Math.max(...rows.map(r=>r.length)),align=c=>cols===3?['right','center','left'][c]:'left';
-  const mm=cell=>{const cloze=/\[\[([^|\]]*)\|(\d+)\]\]/.exec(cell);return cloze?Math.max(Number(cloze[2]),clozeHandwritingMm(cloze[1]))+2:Math.max(6,2*String(cell).replace(/\$|\\[a-z]+/gi,'').length+3);};
-  const widths=Array.from({length:cols},(_,c)=>Math.max(...rows.map(r=>mm(r[c]??''))));
+  // A cell's width counts every blank in it and the text around them. Counting only the first blank made
+  // "= [[…]]×([[…]]+[[…]])[[…]]" a 26 mm column, and the scaffold wrapped into a narrow stack
+  // (Compound Interest slots 6 and 16, Stage 5 pilot, 9 November 2026).
+  const mm=cell=>{const s=String(cell),blanks=[...s.matchAll(/\[\[([^|\]]*)\|(\d+)\]\]/g)],rest=s.replace(/\[\[[^\]]*\]\]/g,'').replace(/\$|\\[a-z]+/gi,'');
+   const blankMm=blanks.reduce((a,m)=>a+Math.max(Number(m[2]),clozeHandwritingMm(m[1]))+2,0);
+   // Printed maths spaces its relations and operators: "y=2-5x" counted 15 mm and four such equations
+   // printed on top of each other (Gradient-Intercept Form slot 1, Stage 5, 9 November 2026).
+   const ops=(s.replace(/\[\[[^\]]*\]\]/g,'').match(/\$[^$]*\$/g)??[]).join('').replace(/^\s*-|\{-/g,'').match(/[=+\-<>]|\\times|\\div|\\le|\\ge|\\pm/g)?.length??0;
+   const textMm=rest.trim()?2*rest.length+3+2.5*ops:0;
+   return blanks.length?blankMm+textMm:Math.max(6,2*rest.length+3+2.5*ops);};
+  // A row of four or more items laid side by side needs a gutter between them (the same slot).
+  const widths=Array.from({length:cols},(_,c)=>Math.max(...rows.map(r=>mm(r[c]??'')))+(cols>=4?4:0));
   // A first row of plain headings (words, no digits or blanks) is a real table, in the booklets' shaded-header style;
   // otherwise the rows are aligned working and stay borderless (Computation with Integers 2 j2, 8 November 2026).
   // Every heading has a letter and no digit or blank, and one is a word: "Pets / f / c.f." counts (Data
@@ -1007,16 +1103,28 @@ export function promptFromSource(text,id){
   // A table of values labelled by its variables ("$x$ | 0 | 1 | 2" over "$y$ | 1 | 3 | 5") is the same table:
   // the labels are distinct single letters and no value cell holds "=", so aligned working ("$x$ | = | 5")
   // stays borderless (Linear Relationships 1 j9, j10 and slots 12–14 printed as bare rows, 8 November 2026).
-  const variables=rows.every(r=>isVariableLabel(r[0]))&&new Set(rows.map(r=>variableName(r[0]))).size===rows.length&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
-  const acrossOnly=!options&&!headRow&&rows.length>1&&cols>=3&&(rows.every(r=>words(r[0]))||variables)&&!stemLeaf;
-  const headed=headRow||acrossOnly,shaded=(k,c)=>headRow?k===0:acrossOnly&&c===0;
+  const variables=rows.every(r=>isVariableLabel(r[0])||isEquationLabel(r[0]))&&new Set(rows.map(r=>variableName(r[0]))).size===rows.length&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
+  // Labels may mix variables and words ("x | 1 | 2" over "y | …" over "Coordinate | (1,2) | …", Graphing Lines
+  // slots 1 and 3, Stage 5, 9 November 2026): printed borderless, the rows fell out of line.
+  const mixed=rows.every(r=>words(r[0])||isVariableLabel(r[0]))&&rows.some(r=>isVariableLabel(r[0]))&&new Set(rows.map(r=>variableName(r[0]))).size===rows.length&&rows.some(r=>words(r[0]))&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
+  const acrossOnly=!options&&!headRow&&rows.length>1&&cols>=3&&(rows.every(r=>words(r[0]))||variables||mixed)&&!stemLeaf;
+  // A two-way table: blank corner, a heading in every other cell of the first row and first column ("" | 2 | 4 | …
+  // over "2 | (2,2) | …"). Both headings are shaded, as in the booklets (Multistage Probability slots 1 and 2,
+  // Stage 5, 9 November 2026: printed borderless, the outcomes fell out of line).
+  const blank=c=>!String(c??'').trim(),twoWay=!options&&!stemLeaf&&rows.length>=3&&cols>=3&&blank(rows[0][0])&&rows[0].slice(1).every(c=>!blank(c))&&rows.slice(1).every(r=>!blank(r[0]))&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
+  const headed=headRow||acrossOnly||twoWay,shaded=(k,c)=>twoWay?(k===0)!==(c===0):headRow?k===0:acrossOnly&&c===0;
   const al=c=>headed?'center':align(c);
   // Bold headings with 2 mm padding need about 2.4 mm a character, or "Numbers" wraps mid-word.
   // The header style's 2 mm padding each side comes out of every column, blanks included (Data Visualisation 1-2).
   if(headed)widths.forEach((w,c)=>{widths[c]=w+4;});
   if(headRow)widths.forEach((w,c)=>{const h=String(rows[0][c]??'').replace(/\$[^$]*\$/g,'-');widths[c]=Math.max(w,Math.max(...h.split(/\s+/).map(x=>x.length))*2.4+6);});
   if(acrossOnly)widths[0]=Math.max(widths[0],...rows.map(r=>Math.max(...String(r[0]??'').replace(/\$[^$]*\$/g,'-').split(/\s+/).map(x=>x.length))*2.4+6));
-  blocks.push({type:'table',border:headed,padding:headed?2:0,widthMm:Math.round(widths.reduce((a,b)=>a+b,0)),widths,rows:rows.map((r,k)=>Array.from({length:cols},(_,c)=>({type:'cell',align:al(c),verticalAlign:'middle',...(shaded(k,c)?{header:true,background:'#d3e8fc',bold:true}:{}),blocks:[{type:'paragraph',align:al(c),inlines:inlinesFromSource(r[c]??'')}]})))});
+  // An equation label prints as spaced maths, dollars or not, with the shaded column's padding.
+  if(acrossOnly)widths[0]=Math.max(widths[0],...rows.filter(r=>isEquationLabel(r[0])).map(r=>mm('$'+String(r[0]).replace(/\$/g,'').trim()+'$')+6));
+  // Borderless working with blanks gets the house scaffolds' writing rows (8–12 mm); with none set the
+  // rows closed up under the blanks (Compound Interest slot 6, Stage 5 pilot, 9 November 2026).
+  const writing=!headed&&rows.some(r=>r.some(c=>/\[\[[^|\]]*\|\d+\]\]/.test(String(c??''))));
+  blocks.push({type:'table',border:headed,padding:headed?2:0,widthMm:Math.round(widths.reduce((a,b)=>a+b,0)),widths,...(writing?{rowHeights:rows.map(()=>10)}:{}),rows:rows.map((r,k)=>Array.from({length:cols},(_,c)=>({type:'cell',align:al(c),verticalAlign:'middle',...(shaded(k,c)?{header:true,background:'#d3e8fc',bold:true}:{}),blocks:[{type:'paragraph',align:al(c),inlines:inlinesFromSource(r[c]??'')}]})))});
  }
  flush();
  // A blank is never narrower than the house handwriting width for its answer (the page check's rule).
@@ -1238,6 +1346,11 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  const samePart=j=>j.kind==='duplicate'&&j.row.ids[0]===j.row.ids[1];
  // Every approvable finding is drafted now, so applying an approved comment needs no drafting call (6 November 2026).
  for(const j of judgements.filter(samePart)){j.row.replace=j.row.ids[0];j.row.replaceNodes=(j.row.nodes??[]).slice(1);j.repeatedPart=true;}
+ // A past exam question is never replaced: the replacement goes to the other question of the pair, and a
+ // pair of exam questions (or a repeated part of one) is left alone. Earning Money 2's 2021 HSC question
+ // p56-q13 was replaced with a drafted one and lost its title (Stage 5, 9 November 2026).
+ for(const id of keepExamQuestions(judgements,new Set(bookletIndex(candidate).filter(r=>r.exam).map(r=>r.block.id)))){
+  report.dropped.push({judgement:id,reason:'duplicate of a past exam question: the exam question is kept'});verdicts.set(id,{...(verdicts.get(id)??{}),verdict:'refuted',reason:'exam question kept'});}
  for(const j of judgements.filter(j=>j.kind==='duplicate'&&!j.repeatedPart))j.row.replaceNodes=(j.row.nodes??[]).filter(n=>(ownerOf.get(String(n))??n)===j.row.replace);
  const confirmed=judgements.filter(j=>['confirmed','unverified'].includes(verdictOf(j))&&['duplicate','bridges','missing','prerequisites','extensions','variations'].includes(j.kind));
  const drafted=new Set(confirmed.map(j=>j.id));
@@ -1523,6 +1636,20 @@ export async function applyAuditV2(args){
  const runDir=args.runDir??path.join(base,fs.readdirSync(base).filter(n=>/^\d{8}-\d{6}$/.test(n)&&fs.existsSync(path.join(base,n,'candidate.json'))).sort().at(-1));
  try{return await applyAuditV2Once({...args,runDir});}
  catch(e){
+  // Bank sync could not fit a changed question's new diagram into the bank question's saved layout (Circle
+  // Trigonometry 2 p38-q3, a part replaced with a figured part, Stage 5, 10 November 2026). That change stays a
+  // comment with the reason, and the apply runs once more.
+  const bankRef=/Bank sync could not (?:place new diagram|preserve layout references); review (\S+)/.exec(e.message)?.[1];
+  if(bankRef&&!args.bankRetried){
+   const reportFile=path.join(runDir,'report.json'),report=read(reportFile),beforeAuto=path.join(runDir,'candidate-before-auto.json');
+   const start=read(fs.existsSync(beforeAuto)?beforeAuto:path.join(runDir,'candidate.json'));
+   const owner=start.sections.flatMap(s=>s.blocks??[]).filter(b=>b.content?.id&&bankRef.startsWith(b.content.id)).sort((a,b)=>b.content.id.length-a.content.id.length)[0];
+   let marked=0;
+   if(owner)for(const entry of Object.values(report.proposals??{}))for(const p of entry.payloads??[])
+    if(p.blockId===owner.id&&['replace-node','theory','set-field'].includes(p.op)&&!p.notApplied){p.notApplied='the question bank could not place its new diagram in the bank question\'s layout';marked++;}
+   if(marked){write(reportFile,report);(args.log??console.error)(`bank sync: the change to ${owner.id} left as a comment; applying again`);
+    return applyAuditV2({...args,runDir,bankRetried:true});}
+  }
   if(args.retried||!/Render check failed/.test(e.message))throw e;
   const culprits=renderCulprits(runDir);if(!culprits)throw e;
   const reportFile=path.join(runDir,'report.json'),report=read(reportFile);
@@ -1544,6 +1671,14 @@ export async function applyAuditV2(args){
 // threw or left editions incomplete is never forgiven.
 const UNFORGIVABLE_FAILURES=new Set(['exception','incomplete-editions']);
 const failureKey=f=>[f.edition??'',f.kind??'',f.message??''].join('|');
+// True when the figure's owner block (the block whose JSON names the diagram id, or the id's own block
+// prefix) is the same in the live booklet and the candidate.
+export function unchangedFigure(diagramId,live,candidate){
+ if(!diagramId)return false;const id=String(diagramId).replace(/-(short|worked|student)(-inline)?$/,'');
+ const owner=p=>(p.sections??[]).flatMap(s=>s.blocks??[]).find(b=>id.startsWith(b.id+'-')||JSON.stringify(b).includes('"id":'+JSON.stringify(id)));
+ const a=owner(live),b=owner(candidate);
+ return !!a&&!!b&&a.id===b.id&&JSON.stringify(a.content)===JSON.stringify(b.content);
+}
 export function baselineVerdict(cand,base){
  const keyOf=i=>i.printed?['printed',i.kind,i.text].join('|'):[i.kind,i.requiredMm,Math.round((i.availableMm??0)*10)/10].join('|');
  const fresh=[];
@@ -1608,7 +1743,7 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
   const r=await applyComments({projectId,auto:true,candidateIn:candidate,proposals:{comments:proposals},workDir:path.join(runDir,'auto-apply'),root,log});
   candidate={...r.candidate,revision:report.revision};auto=r.report;
   const replaced=new Set(auto.applied.filter(a=>a.op==='replace-node').map(a=>a.what.split(' ')[0]));
-  houseTints(candidate,replaced);gridSteps(candidate,replaced);
+  houseTints(candidate,replaced);gridSteps(candidate,replaced);for(const s of candidate.sections??[])joinContinuedRuns(s);
   for(const k of auto.appliedKeys){const i=k.indexOf('|'),id=k.slice(0,i),key=k.slice(i+1);const p=proposals[id]?.payloads?.find(x=>x.key===key&&x.autoApply);if(p)p.applied=true;}
   report.proposals=proposals;
   write(candidateFile,candidate);write(path.join(runDir,'auto-apply.json'),auto);
@@ -1616,7 +1751,7 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
  }
  // Audit-made figures are normalised on every apply, not only when proposals were auto-applied: a run with
  // only slot questions skipped it (8 November 2026).
- else{houseTints(candidate);gridSteps(candidate);write(candidateFile,candidate);}
+ else{houseTints(candidate);gridSteps(candidate);for(const s of candidate.sections??[])joinContinuedRuns(s);write(candidateFile,candidate);}
  const {publishProject,publicationDiff}=await import('../scripts/booklet/publish-project.mjs');
  const diff=publicationDiff(live,candidate),printed=[...diff.added,...diff.changed].filter(id=>{const a=live.sections.flatMap(s=>s.blocks??[]).find(b=>b.id===id),b=candidate.sections.flatMap(s=>s.blocks??[]).find(x=>x.id===id);return !a||contentFingerprint(a)!==contentFingerprint(b)||JSON.stringify(a.content)!==JSON.stringify(b.content);});
  const t0=Date.now(),record={render:null,publish:null};
@@ -1655,6 +1790,10 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
     const liveIds=new Set(live.sections.flatMap(s=>(s.blocks??[]).map(b=>b.id)));const baseOut=out+'-live';
     const b=spawnSync(process.execPath,['scripts/booklet/check-feedback-pages.mjs','--project-file',path.join(root,'booklets','projects',projectId+'.json'),'--blocks',ids.filter(id=>liveIds.has(id)).join(','),'--editions',answers,...(answers!=='student'?['--full-development-reason','Pedagogy audit v2 baseline: the issues the live booklet already has.']:[]),'--out',baseOut],{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024,timeout:1800000});
     const base=issuesOf(path.join(baseOut,'feedback-pages.json')),v=base?baselineVerdict(cand,base):null;
+    // An issue in a figure whose block the audit left unchanged is not the audit's, wherever the reflow put it:
+    // two exam graphs' "unclassified-graph-stroke" on short page 5 failed Features of Quadratics 2 (Stage 5,
+    // 9 November 2026) though neither question changed.
+    if(v)v.fresh=v.fresh.filter(i=>!unchangedFigure(i.diagramId??i.id,live,candidate));
     record.render.baseline={exitCode:b.status,out:rel(baseOut),newIssues:v?v.fresh:null,newFailures:v?v.newFailures:null,preexistingFailures:v?v.preexisting:null};write(path.join(runDir,'render.json'),record.render);
     if(v&&!v.fresh.length&&!v.newFailures.length){log('render check: '+Object.values(cand.issues).flat().length+' layout issues'+(v.preexisting.length?' and '+v.preexisting.length+' check failures ('+v.preexisting.map(f=>f.split('|').slice(0,2).join(' ')).join(', ')+')':'')+', all already in the live booklet');record.render.passedOnBaseline=true;}
     else throw Error('Render check failed with '+(v?v.fresh.length+' new layout issues and '+v.newFailures.length+' new check failures':'no baseline')+'; see '+rel(path.join(runDir,'render.json')));}

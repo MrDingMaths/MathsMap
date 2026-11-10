@@ -258,8 +258,29 @@ test('a replaced part is written bare like its siblings', async()=>{
  assert.equal(bareLikeSiblings('Simplify $\\frac{3n}{8n}$.','Simplify these expressions.',['$\\frac{5a}{9a}$','$\\frac{2ab}{5a}$']),'$\\frac{3n}{8n}$');
  assert.equal(bareLikeSiblings('Convert $22$ m/s to kilometres per hour.','Convert these units of speed to kilometres per hour.',['$8$ m/s','$12.5$ m/s']),'$22$ m/s');
  assert.equal(bareLikeSiblings('Simplify $2x+3x$.','Find the value of each.',['$5$']),'Simplify $2x+3x$.','a stem with another command keeps the verb');
+ // The stem's words around one item (Circle Trigonometry 1, 10 November 2026).
+ assert.equal(bareLikeSiblings('Find the reference angle, or related angle, of the angle of inclination $\\theta=130^\\circ$.','Find the reference angle, or related angle, of these angles of inclination. A sketch will help.',['$\\theta=160^\\circ$','$\\theta=250^\\circ$']),'$\\theta=130^\\circ$');
+ assert.equal(bareLikeSiblings('Rewrite the angle of inclination $-200^\\circ$ as an angle $0^\\circ\\le\\theta<360^\\circ$.','Rewrite these angles of inclination as an angle $0^\\circ\\le\\theta<360^\\circ$.',['$361^\\circ$','$-10^\\circ$']),'$-200^\\circ$');
+ assert.equal(bareLikeSiblings('A rope is cut at $45^\\circ$ to the ground.','Find each angle.',['$30^\\circ$']),'A rope is cut at $45^\\circ$ to the ground.','new words are kept');
+ assert.equal(bareLikeSiblings('Find the distance between $(0,0)$ and $(6,-8)$ without drawing the interval. Answer in exact form.','Find the distance between each pair of points without drawing the interval. Answer in exact form.',['$(0,0)$ and $(6,8)$','$(1,1)$ and $(7,9)$']),'$(0,0)$ and $(6,-8)$');
+ assert.equal(bareLikeSiblings('Find the distance between $(0,0)$ and $(6,-8)$ on the map.','Find the distance between each pair of points.',['$(0,0)$ and $(6,8)$']),'Find the distance between $(0,0)$ and $(6,-8)$ on the map.','a tail of new words is kept');
+ // A stem ending mid-phrase (Angle Sums of Polygons p17-q5 b, 10 November 2026).
+ const stem='Work out the size of each exterior angle of a:',sibs=['Regular heptagon. Give your answer to 2 decimal places.','Regular 30-sided polygon.'];
+ assert.equal(bareLikeSiblings('Find the size of each exterior angle of a regular 9-sided polygon.',stem,sibs),'Regular 9-sided polygon.');
+ assert.equal(bareLikeSiblings('Regular octagon.',stem,sibs),'Regular octagon.','a bare completion is left alone');
+ assert.equal(bareLikeSiblings('Find the area of a circle.','Find each of a:',['Square.']),'Find the area of a circle.','two shared words are not a restatement');
  assert.equal(bareLikeSiblings('Simplify $2x$.','Simplify these.',['Simplify $3x$.','Simplify $4x$.']),'Simplify $2x$.','worded siblings keep it');
  assert.equal(bareLikeSiblings('Find the unknown value.\n\n$\\frac{5}{9}=\\frac{x}{18}$','Find the unknown values.',['$1$','$2$']),'Find the unknown value.\n\n$\\frac{5}{9}=\\frac{x}{18}$','words after the verb stay');
+ // Algebraic Fractions p5-q1 e (Stage 5, 9 November 2026): the verb is the stem's second command.
+ assert.equal(bareLikeSiblings('Subtract these fractions. $\\frac{9m}{14}-\\frac{4m}{14}$','Add and subtract these fractions.',['$\\frac{3x}{10}+\\frac{4x}{10}$','$\\frac{7p}{13}-\\frac{2p}{13}$']),'$\\frac{9m}{14}-\\frac{4m}{14}$');
+ assert.equal(bareLikeSiblings('Subtract $\\frac{9m}{14}-\\frac{4m}{14}$.','Add and subtract these fractions.',['$\\frac{3x}{10}$','$\\frac{7p}{13}$']),'$\\frac{9m}{14}-\\frac{4m}{14}$');
+ assert.equal(bareLikeSiblings('Subtract these fractions. $1-x$','Simplify these.',['$1$','$2$']),'Subtract these fractions. $1-x$','a verb the stem does not use stays');
+ assert.equal(bareLikeSiblings('Evaluate, without using a calculator.\n\n$\\frac{1}{7^2}$','Evaluate, without using a calculator.',['$3^{-2}$','$\\frac{1}{5^3}$']),'$\\frac{1}{7^2}$','the stem sentence on its own line goes');
+ // Expanding Expressions p7-q5 b (Stage 5): a document whose first paragraph restates the stem.
+ const doc={format:'maths-editor-document-v1',version:1,blocks:[{id:'d1',type:'paragraph',inlines:[{type:'text',text:'Decide what goes in the blank to make the following true.'}]},{id:'d2',type:'paragraph',inlines:[{type:'math',latex:'4('},{type:'cloze',answer:'$y$',width:9},{type:'math',latex:'+5)=4y+20'}]}]};
+ const sibling={format:'maths-editor-document-v1',version:1,blocks:[{id:'s',type:'paragraph',inlines:[{type:'math',latex:'3('},{type:'cloze',answer:'$x$',width:9},{type:'math',latex:'+2)=3x+6'}]}]};
+ const out=bareLikeSiblings(doc,'Decide what goes in each blank to make the following true.',[sibling,sibling]);
+ assert.deepEqual(out.blocks.map(b=>b.id),['d2']);
 });
 
 test('empty guided practice steps take the example step instructions', async()=>{
@@ -300,6 +321,169 @@ test('drafted prompts in editor source text become editor documents', ()=>{
  assert.deepEqual(table.rows[0].map(c=>c.align),['right','center','left']);
  assert.ok(table.rows[1][0].blocks[0].inlines[0].width>=13,'a blank is at least the handwriting width of its answer');
  assert.ok(cloze.blocks.every(b=>b.id.startsWith('v2-a-p-d')),'ids are stable and scoped to the part');
+});
+
+test('maths inside \\text{} leaves the text so the span renders (Stage 5, 9 November 2026)', async()=>{
+ const {unnestTextMath}=await import('../pedagogy/audit-v2.mjs');
+ const s=String.raw`$\begin{align*}\text{gradient: }&1.8\to1.5\\\text{$y$-intercept: }&220\to260\end{align*}$`;
+ const out=unnestTextMath(s);
+ assert.equal(out,String.raw`$\begin{align*}\text{gradient: }&1.8\to1.5\\y\text{-intercept: }&220\to260\end{align*}$`);
+ assert.equal((out.match(/\$/g)??[]).length,2,'only the outer dollars remain');
+ assert.equal(unnestTextMath(String.raw`$\text{area}=6$`),String.raw`$\text{area}=6$`);
+});
+
+test('a reply with a corrected second JSON object is read from the second (Stage 5, 9 November 2026)', async()=>{
+ const {parseReplyJson}=await import('../pedagogy/audit-v2.mjs');
+ const reply='{"drafts":[{"requestId":"j6"}]}\n\nWait — that output is malformed: j7 must be included. Corrected full JSON follows.\n\n{"drafts":[{"requestId":"j6"},{"requestId":"j7"}]}';
+ assert.deepEqual(parseReplyJson(reply).drafts.map(d=>d.requestId),['j6','j7']);
+ assert.deepEqual(parseReplyJson('{"a":1}'),{a:1});
+});
+
+test('a part is replaced only by one item with an answer (Stage 5, 9 November 2026)', async()=>{
+ const {singlePartDraft}=await import('../pedagogy/audit-v2-apply.mjs');
+ assert.equal(singlePartDraft({prompt:'$b^5\\times b^3$',answer:{short:'$b^8$'}}),true);
+ assert.equal(singlePartDraft({prompt:'Each line …',children:[{answer:{short:'x'}},{answer:{short:'y'}}]}),false,'a whole question with parts');
+ assert.equal(singlePartDraft({prompt:'Each line …'}),false,'no answer');
+});
+
+test('a theory rewrite that merges paragraphs drops only their arrangement items (Stage 5, 9 November 2026)', async()=>{
+ const {pruneArrangement}=await import('../pedagogy/audit-v2-apply.mjs');
+ const block={id:'p4-teaching',content:{blocks:[{id:'p4-a',type:'paragraph'},{id:'p4-c',type:'paragraph'}]}};
+ const lay={arrangement:{root:{type:'group',children:[{type:'item',ref:'p4-teaching/content#p4-a'},{type:'group',children:[{type:'item',ref:'p4-teaching/content#p4-b'},{type:'item',ref:'p4-teaching/content#p4-c'}]},{type:'item',ref:'p4-teaching/label'}]}}};
+ const candidate={settings:{layoutOverrides:{blockLayouts:{'p4-teaching':lay}}}};
+ assert.equal(pruneArrangement(candidate,block),1);
+ assert.deepEqual(JSON.stringify(lay).match(/#p4-\w/g),['#p4-a','#p4-c']);
+ assert.ok(JSON.stringify(lay).includes('p4-teaching/label'),'refs without a document id stay');
+});
+
+test('a figure issue in an unchanged block is not the audit\'s (Stage 5, 9 November 2026)', async()=>{
+ const {unchangedFigure}=await import('../pedagogy/audit-v2.mjs');
+ const blk=(id,code)=>({id,type:'question',content:{id:id+'-root',answer:{diagrams:[{id:id+'-plot',code}]}}});
+ const live={sections:[{blocks:[blk('exam-mb-1','a'),blk('v2-slot-6','b')]}]};
+ const cand={sections:[{blocks:[blk('exam-mb-1','a'),blk('v2-slot-6','c')]}]};
+ assert.equal(unchangedFigure('exam-mb-1-plot-worked',live,cand),true);
+ assert.equal(unchangedFigure('v2-slot-6-plot',live,cand),false,'a changed block keeps its issue');
+ assert.equal(unchangedFigure('v2-new-plot',live,{sections:[{blocks:[blk('v2-new','x')]}]}),false,'a new block keeps its issue');
+ assert.equal(unchangedFigure(undefined,live,cand),false);
+});
+
+test('a duplicate never replaces a past exam question (Stage 5, 9 November 2026)', async()=>{
+ const {keepExamQuestions}=await import('../pedagogy/audit-v2.mjs');
+ const exam=new Set(['p56-q13','exam-2']);
+ const moved={id:'d1',kind:'duplicate',row:{ids:['p52-q4','p56-q13'],replace:'p56-q13'}};
+ const both={id:'d2',kind:'duplicate',row:{ids:['p56-q13','exam-2'],replace:'exam-2'}};
+ const part={id:'d3',kind:'duplicate',repeatedPart:true,row:{ids:['exam-2','exam-2'],replace:'exam-2'}};
+ const plain={id:'d4',kind:'duplicate',row:{ids:['a','b'],replace:'b'}};
+ assert.deepEqual(keepExamQuestions([moved,both,part,plain],exam),['d2','d3']);
+ assert.equal(moved.row.replace,'p52-q4','the practice question is replaced instead');
+ assert.equal(plain.row.replace,'b');
+});
+
+test('drafting contracts ask for spaced axis tick labels (Stage 5, 9 November 2026)', async()=>{
+ const {proposalContract,draftContract,AXIS_LABELS}=await import('../pedagogy/audit-v2-prompts.mjs');
+ assert.ok(proposalContract({}).includes(AXIS_LABELS));
+ assert.ok(draftContract({}).includes(AXIS_LABELS));
+});
+
+test('a part figure limits the columns its question can have (Stage 5, 9 November 2026)', async()=>{
+ const {figureColumns}=await import('../pedagogy/audit-v2.mjs');
+ assert.equal(figureColumns({children:[{questionDiagrams:[{widthMm:100}]},{},{}]}),2,'a 100 mm table fits two columns, not three');
+ assert.equal(figureColumns({children:[{questionDiagrams:[{widthMm:60}]},{questionDiagrams:[{}]}]}),4);
+ assert.equal(figureColumns({children:[{questionDiagrams:[{widthMm:140}]}]}),1);
+ assert.equal(figureColumns({children:[{},{}]}),Infinity);
+});
+
+test('a part table limits the columns its question can have (Stage 5, 10 November 2026)', async()=>{
+ const {figureColumns}=await import('../pedagogy/audit-v2.mjs');
+ const cell=s=>({blocks:[{type:'paragraph',inlines:[{type:'math',latex:s}]}]});
+ const table=(...rows)=>({prompt:{blocks:[{type:'paragraph',inlines:[]},{type:'table',border:true,widthMm:111,rows:rows.map(r=>r.map(cell))}]}});
+ const scaffold={prompt:{blocks:[{type:'table',border:false,rows:[['a^2+b^2=','\\text{blank blank blank}+\\text{blank blank blank}'].map(cell)]}]}};
+ assert.equal(figureColumns({children:[scaffold,{}]}),Infinity,'borderless working is not limited');
+ const values=table(['x','-4','-3','-2','-1','0','1','2'],['y','','','','','','','']);
+ assert.equal(figureColumns({children:[values,{},{}]}),2,'an eight-column table of values does not fit a third of the page (Features of Quadratics 1 slot 5)');
+ const freq=table(['Time','Frequency','c.f.'],['20<t\\leq30','5',''],['30<t\\leq40','9','']);
+ assert.equal(figureColumns({children:[freq,{}]}),2,'a 111 mm frequency table with short cells fits half the page (Grouped Data slot 5)');
+ assert.equal(figureColumns({children:[table(['x','1']),{questionDiagrams:[{widthMm:100}]}]}),2,'the narrower limit wins');
+});
+
+test('new questions inside a continued lettered run join it and the run is relettered (Stage 5, 10 November 2026)', async()=>{
+ const {joinContinuedRuns}=await import('../pedagogy/audit-v2.mjs');
+ const frag=(id,l)=>({id,type:'question',flow:{continuationOf:'q1',hideRepeatedStem:true},content:{id:id+'-root',type:'group',label:'',prompt:'Find the values of the pronumerals.',children:[{id:id+'-p',type:'part',label:l,prompt:'Find the values of the pronumerals.'}]}});
+ const fresh={id:'v2-slot-1',type:'question',content:{id:'v2-slot-1-root',type:'question',label:null,prompt:'Find $x$.',answer:{short:'$5$'},questionDiagrams:[{id:'d'}]}};
+ const copied={id:'v2-slot-2',type:'question',content:{id:'v2-slot-2-root',type:'question',label:null,prompt:'Find the values of the pronumerals.',children:[{id:'v2-slot-2-part',type:'part',label:'z',prompt:'',answer:{short:'$1$'}}]}};
+ const after={id:'q2',type:'question',content:{id:'q2-root',type:'question',prompt:'Next.'}};
+ const s={blocks:[frag('a1','y'),fresh,frag('a2','z'),copied,frag('a3','aa'),after]};
+ joinContinuedRuns(s);
+ assert.deepEqual(s.blocks.slice(0,5).map(b=>b.content.children[0].label),['y','z','aa','bb','cc'],'Circle Geometry 1 printed 6, 9, 10 and a second nn among the letters');
+ assert.equal(s.blocks[1].flow.continuationOf,'q1');assert.equal(s.blocks[1].content.children[0].prompt,'Find $x$.');assert.equal(s.blocks[1].content.children[0].answer.short,'$5$');
+ assert.equal(s.blocks[3].content.children[0].prompt,'Find the values of the pronumerals.','an empty part takes the question prompt');
+ assert.equal(s.blocks[5].content.prompt,'Next.','a question after the run is left alone');
+});
+
+test('a duplicate replacing a one-part lettered block keeps the part and its label (Stage 5, 10 November 2026)', async()=>{
+ const {keepPartShell}=await import('../pedagogy/audit-v2-apply.mjs');
+ const old={id:'p41-q1-vvv-root',type:'group',label:'',children:[{id:'p41-vvv',type:'part',label:'vvv',prompt:'Find $x$.',questionDiagrams:[{id:'d1'}]}]};
+ const src={id:'new',type:'question',prompt:'Find $y$.',answer:{short:'$4$'},questionDiagrams:[{id:'n1'}]};
+ const next=keepPartShell(old,src);
+ assert.equal(next.id,'p41-q1-vvv-root');assert.equal(next.type,'group');
+ assert.deepEqual(next.children.map(c=>[c.id,c.label,c.prompt,c.answer.short]),[['p41-vvv','vvv','Find $y$.','$4$']],'Circle Geometry 2 vv, hhh and vvv lost their labels');
+ assert.equal(keepPartShell({children:[{label:''}]},src),null,'an unlabelled part is not a shell');
+ assert.equal(keepPartShell(old,{children:[{},{}]}),null,'a new question with parts replaces the block');
+});
+
+test('a drafted figure that names the house grid colour defines it (Stage 5, 10 November 2026)', async()=>{
+ const {houseTints}=await import('../pedagogy/audit-v2.mjs');
+ const fig=code=>({id:'v2-q',content:{questionDiagrams:[{format:'tikz',code}]}});
+ const a=fig('\\begin{tikzpicture}[x=0.4cm]\n\\draw[housegrid,step=1] (0,0) grid (4,3);\n\\end{tikzpicture}');
+ const b=fig('\\begin{tikzpicture}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\draw[housegrid] (0,0) grid (4,3);\n\\end{tikzpicture}');
+ houseTints({sections:[{blocks:[a,b]}]});
+ assert.match(a.content.questionDiagrams[0].code,/^\\begin\{tikzpicture\}\[x=0\.4cm\]\n\\definecolor\{housegrid\}\{HTML\}\{CCCCCC\}/,'Quartiles slot 12 failed to compile');
+ assert.equal(b.content.questionDiagrams[0].code.match(/definecolor/g).length,1,'defined once');
+});
+
+test('a table of values labelled by its equation is a bordered table (Stage 5, 10 November 2026)', ()=>{
+ const t=promptFromSource('The table shows some values of $y=x^2-8x+10$.\n$x$\t$0$\t$1$\t$2$\t$3$\n$y=x^{2}-8x+10$\t$10$\t$3$\t$-2$\t$-5$','q').blocks.find(b=>b.type==='table');
+ assert.equal(t.border,true,'Features of Quadratics 1 j2 printed borderless and its label ran into the first value');
+ assert.ok(t.rows[1][0].header,'the label column is shaded');
+ assert.ok(t.widths[0]>=38,`the equation label column is wide enough (got ${t.widths[0]})`);
+ const bare=promptFromSource('Values.\nx\t0\t1\t2\t3\ny=x^{2}-8x+10\t10\t3\t-2\t-5','r').blocks.find(b=>b.type==='table');
+ assert.equal(bare.border,true,'the label as sent, with no dollars');
+ assert.ok(bare.widths[0]>=38,`the bare equation label column is wide enough (got ${bare.widths[0]})`);
+ const words=promptFromSource('Values.\nx\t0\t1\t2\nArea=length\t1\t2\t3','s').blocks.find(b=>b.type==='table');
+ assert.ok(words,'a word equation still makes a table');
+ const working=promptFromSource('Solve.\n$2x+3$\t$=$\t$11$\n$2x$\t$=$\t$8$','w').blocks.find(b=>b.type==='table');
+ assert.equal(working.border,false,'aligned working stays borderless');
+});
+
+test('a two-way table with a blank corner is bordered with both headings shaded (Stage 5, 9 November 2026)', ()=>{
+ const t=promptFromSource('Products.\n\t$1$\t$2$\t$3$\n$1$\t$1$\t$2$\t$3$\n$2$\t$2$\t$4$\t$6$\n$3$\t$3$\t$6$\t$9$','t').blocks.find(b=>b.type==='table');
+ assert.equal(t.border,true);
+ assert.ok(!t.rows[0][0].header,'the corner is not shaded');
+ assert.ok(t.rows[0][1].header&&t.rows[1][0].header&&!t.rows[1][1].header);
+});
+
+test('a row of equations is wide enough to print apart (Stage 5, 9 November 2026)', ()=>{
+ const t=promptFromSource('Consider these four graphs:\n$y=2-5x$\t$y=5x-2$\t$y=5x+2$\t$y=-2x-5$','e').blocks.find(b=>b.type==='table');
+ assert.ok(t.widths.every(w=>w>=24),`each equation column is at least 24 mm (got ${t.widths})`);
+});
+
+test('a table labelled by variables and a word is a bordered table (Stage 5, 9 November 2026)', ()=>{
+ const doc=promptFromSource('Identify the coordinates from the table of values.\n$x$\t$1$\t$2$\t$3$\n$y$\t$5$\t$7$\t[[$9$|8]]\nCoordinate\t$(1,5)$\t[[$(2,7)$|14]]\t$(3,9)$','g');
+ const t=doc.blocks.find(b=>b.type==='table');
+ assert.equal(t.border,true);
+ assert.ok(t.rows.every(r=>r[0].header&&r[0].background==='#d3e8fc'),'the label column is shaded');
+ const working=promptFromSource('$x$\t$=$\t$5$\n$y$\t$=$\t$3$\nso\t$=$\t$8$','w').blocks.find(b=>b.type==='table');
+ assert.equal(working.border,false,'aligned working stays borderless');
+});
+
+test('a scaffold cell with several blanks is as wide as all of them (Stage 5 pilot, 9 November 2026)', ()=>{
+ const doc=promptFromSource('$1200 at 7% for 3 years.\n$FV$\t$=PV(1+r)^n$\n\t$=$[[$1200$|18]]$\\times($[[$1$|9]]$+$[[$0.07$|15]]$)$[[$3$|9]]\n\t$=$[[$1470.05$|24]]','s');
+ const table=doc.blocks.find(b=>b.type==='table');
+ assert.ok(table.widths[1]>=18+9+15+9+8,`the working column holds four blanks (got ${table.widths[1]} mm)`);
+ assert.ok(table.widthMm>=table.widths[0]+table.widths[1]-1);
+ assert.deepEqual(table.rowHeights,[10,10,10],'working rows with blanks get writing height');
+ const single=promptFromSource('a\t[[$5$|12]]','s').blocks.find(b=>b.type==='table');
+ assert.equal(single.widths[1],14,'a lone blank keeps its width plus 2 mm');
 });
 
 test('a drafted question takes the layout of a same-type sibling', ()=>{
@@ -511,4 +695,21 @@ test('teachingBlocks keeps the working out of the prompt, with or without a figu
     assert.ok(JSON.stringify(e.theorySolution).includes('a=3')||JSON.stringify(e.theorySolution).includes('a&=3'));
     assert.equal(e.solutionOwnStyle===true,!figure,'only working that used to print in the prompt keeps its formatting');
   }
+});
+
+test('key ideas statements with maths outside $…$ are caught; units and words are not (10 November 2026)', async ()=>{
+  const {bareMaths}=await import('../pedagogy/audit-v2-prompts.mjs');
+  for(const t of ['For y = k·a^x + c, the curve shows exponential [[growth]].','The asymptotes of y = k/x are the lines x = [[0]].',
+    'A circle with radius r has equation x² + y² = [[r²]].','related by m = [[tan θ]].','use θ = tan⁻¹(m).'])assert.ok(bareMaths(t),t);
+  for(const t of ['To change km/h to m/s, multiply the distance by [[1000]].','For $y=ka^{x}+c$, growth when $a>1$.',
+    'A pie chart is a [[circle]].','the asymptote is $x=$ [[$b$]]','The answer is [[x = 2]].'])assert.ok(!bareMaths(t),t);
+});
+
+test('a replaced part that repeats the stem\'s later lines word for word keeps only its item (10 November 2026)', async ()=>{
+  const {bareLikeSiblings}=await import('../pedagogy/audit-v2-apply.mjs');
+  const stem='Sketch the following circles.\nLabel the coordinates of the centre and intercepts, if any. Check your sketch using DESMOS.';
+  const sib=['$(x+1)^2+y^2=9$','$x^2+(y-4)^2=36$','$(x-3)^2+(y+1)^2=1$'];
+  assert.equal(bareLikeSiblings('Sketch the circle $(x+3)^2+y^2=9$.\nLabel the coordinates of the centre and intercepts, if any. Check your sketch using DESMOS.',stem,sib),'$(x+3)^2+y^2=9$');
+  const own='Sketch the circle $(x+3)^2+y^2=9$.\nThen find its area.';
+  assert.equal(bareLikeSiblings(own,stem,sib),own);
 });

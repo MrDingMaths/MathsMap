@@ -1,5 +1,7 @@
 # Standing booklet conventions
 
+Key ideas in every conceptual lesson (James, 8 November 2026): every lesson that teaches something conceptual (a definition, property, rule, relationship or why a method works) ends its teaching with a Key ideas box: 2 to 4 numbered cloze statements in the lesson's own terms, kept together on one page. Lessons that only rehearse skills, such as mixed practice, need none. This applies to all booklets; pedagogy audit v2 checks and adds them ([details](booklet-pedagogy-audit-v2.md#key-ideas-in-every-conceptual-lesson-8-november-2026)).
+
 29 October: follow [edge-marker placement and audit requirements](geometry-edge-markers.md) and [exam-mark removal and exercise ordering](booklet-exam-marks-and-order.md). These apply to current content within their stated scope, preserving source evidence, mathematical meaning and review boundaries.
 
 For theory imports, authoring and authorised audits or repairs, follow the [theory-text principles](booklet-cross-session-rules.md#theory-text-source-fidelity-and-cognitive-load-22-october-2026-user-approved) (22 October 2026): preserve source teaching, use simple language, remove unnecessary load and retain essential support. Apply them within existing review stages and preserve explicit local exceptions.

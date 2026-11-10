@@ -52,22 +52,94 @@ const paragraphSource=p=>toSource({format:'maths-editor-document-v1',version:1,b
 // Simplifying Expressions p37 Q4a "Simplify 3n/8n." and Rates 1 Q2b "Convert 22 m/s to kilometres per hour."
 // sat among bare siblings (8 November 2026).
 const textOf=p=>typeof p==='string'?p:(()=>{try{return toSource(p);}catch{return '';}})();
+// A rewrite that merges paragraphs removes ids the block's saved arrangement names; the page check then
+// refuses the booklet ("missing-arrangement-ref"). Only the dangling items leave the arrangement, so the rest
+// of the teacher's layout holds (Features of Quadratics 1 p4-teaching, Stage 5, 9 November 2026).
+export const singlePartDraft=leaf=>!(leaf?.children??[]).length&&!!String(leaf?.answer?.short??'').trim();
+export function pruneArrangement(candidate,block){
+ const has=id=>JSON.stringify(block).includes(`"id":${JSON.stringify(id)}`);let removed=0;
+ for(const host of [candidate.settings?.layoutOverrides?.blockLayouts,block.presentation?.layoutOverrides?.blockLayouts]){const lay=host?.[block.id];if(!lay)continue;
+  (function walk(v){if(!v||typeof v!=='object')return;if(Array.isArray(v)){for(let i=v.length-1;i>=0;i--){const ref=v[i]?.ref;if(typeof ref==='string'&&ref.includes('#')&&!has(ref.split('#').pop())){v.splice(i,1);removed++;}}v.forEach(walk);return;}Object.values(v).forEach(walk);})(lay);}
+ return removed;
+}
+// A block that holds one labelled part of a long lettered exercise ("vv" of Circle Geometry 2 p39, a group
+// with a single part) keeps that shell when a duplicate replaces it: the new question goes into the part,
+// which keeps its id and label. Replacing the whole block dropped the labels vv, hhh and vvv (Stage 5,
+// 10 November 2026). Returns null when the old block is not such a shell or the new question has parts.
+export function keepPartShell(old,src){
+ const kids=old?.children??[];if(kids.length!==1||!String(kids[0].label??'').trim()||(src?.children??[]).length)return null;
+ const part=kids[0],next=structuredClone(old);
+ next.children=[{...Object.fromEntries(Object.entries(structuredClone(src)).filter(([k])=>!['id','type','label','layout','columns'].includes(k))),id:part.id,type:part.type??'part',label:part.label}];
+ return next;
+}
 export function bareLikeSiblings(prompt,stem,siblings){
  const stemText=textOf(stem).trim(),verb=/^\s*([A-Z][a-z]+)\s+/.exec(textOf(prompt))?.[1];
- if(!verb||!new RegExp('^'+verb+'\\b','i').test(stemText))return prompt;
+ // A first line that is the stem's own sentence ("Evaluate, without using a calculator." then the maths on the
+ // next line) goes when the siblings are bare (Negative Indices p16-q5 l, Stage 5, 9 November 2026).
+ if(typeof prompt==='string'){const norm=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),lines=prompt.split(/\n+/),sib=siblings.map(textOf).filter(Boolean);
+  if(lines.length>1&&norm(lines[0])&&norm(lines[0])===norm(stemText.split(/(?<=[.?!:])\s/)[0]??'')&&sib.length&&sib.filter(s=>/^\s*\$/.test(s)).length*2>=sib.length){const rest=lines.slice(1).join('\n').trim();if(/^\$/.test(rest)&&!/\n/.test(rest))return rest;}}
+ // A stem that ends mid-phrase ("Work out the size of each exterior angle of a:") is completed by each part
+ // ("Regular heptagon."). A part that repeats the phrase, under any verb ("Find the size of each exterior angle
+ // of a regular 9-sided polygon."), keeps only its completion (Angle Sums of Polygons p17-q5 b i, Stage 5,
+ // 10 November 2026). The repeated words are the stem's last three or more words, which no sibling repeats.
+ if(typeof prompt==='string'&&/:\s*$/.test(stemText)){const words=stemText.replace(/:\s*$/,'').split(/\s+/),sib=siblings.map(textOf).filter(Boolean),low=prompt.toLowerCase();
+  for(let k=1;k<=words.length-3;k++){const phrase=words.slice(k).join(' ').toLowerCase(),at=low.indexOf(phrase);if(at<0)continue;
+   if(sib.some(s=>s.toLowerCase().includes(phrase)))break;
+   const rest=prompt.slice(at+phrase.length).trim();if(rest&&!/\n/.test(rest))return rest[0].toUpperCase()+rest.slice(1);break;}}
+ // A part that restates the stem's words around its one item ("Find the reference angle, or related angle, of
+ // the angle of inclination $\theta=130^\circ$." under "Find the reference angle, or related angle, of these
+ // angles of inclination." beside bare "$\theta=160^\circ$") keeps only that item, when siblings are bare maths,
+ // at least four in five of its words are the stem's, and one maths span is left once those the stem already
+ // shows ("$0^\circ\le\theta<360^\circ$") are set aside (Circle Trigonometry 1 Exercises 4 and 6, Stage 5,
+ // 10 November 2026).
+ // A part whose later lines repeat the stem's later lines word for word ("Sketch the circle $(x+3)^2+y^2=9$.\nLabel
+ // the coordinates of the centre and intercepts, if any. Check your sketch using DESMOS." under "Sketch the following
+ // circles.\nLabel the coordinates …") drops them, and its first line is read by the rules below (Further Non-linear
+ // Relationships 1 Exercise 5 Q3a, Stage 5, 10 November 2026). Lines of three or more words only.
+ if(typeof prompt==='string'&&/\n/.test(prompt.trim())){const norm=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),stemNorm=' '+norm(stemText)+' ';
+  const lines=prompt.trim().split(/\n+/),kept=lines.filter((l,i)=>i===0||!(norm(l).split(' ').length>=3&&stemNorm.includes(' '+norm(l)+' ')));
+  if(kept.length===1&&kept.length<lines.length){const once=bareLikeSiblings(kept[0],stem,siblings);if(once!==kept[0])return once;}}
+ if(typeof prompt==='string'&&!/\n/.test(prompt.trim())){const sib=siblings.map(textOf).filter(Boolean),stemMaths=new Set((stemText.match(/\$[^$]+\$/g)??[]).map(m=>m.replace(/\s/g,'')));
+  const spans=(prompt.match(/\$[^$]+\$/g)??[]).filter(m=>!stemMaths.has(m.replace(/\s/g,''))),words=prompt.replace(/\$[^$]+\$/g,' ').toLowerCase().match(/[a-z]+/g)??[];
+  const stemWords=new Set((stemText.replace(/\$[^$]+\$/g,' ').toLowerCase().match(/[a-z]+/g)??[]).flatMap(w=>[w,w.replace(/s$/,'')]));
+  if(spans.length===1&&words.length>=3&&words.filter(w=>stemWords.has(w)||stemWords.has(w.replace(/s$/,''))).length*5>=words.length*4&&sib.length&&sib.filter(s=>/^\s*\$[^$]+\$\s*\.?\s*$/.test(s)).length*2>=sib.length)return spans[0];
+  // The stem's opening words and its closing words around the items ("Find the distance between $(0,0)$ and
+  // $(6,-8)$ without drawing the interval. Answer in exact form." under "Find the distance between each pair of
+  // points without drawing the interval. Answer in exact form.") go when three or more words match at each end
+  // that has them and the rest starts with maths, as the siblings do (Coordinate Geometry Formulas, 10 November 2026).
+  const norm=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),pw=prompt.split(/(\s+)/),stemNorm=norm(stemText).split(' ');
+  const firstMath=prompt.indexOf('$');
+  if(firstMath>0&&sib.length&&sib.filter(s=>/^\s*\$/.test(s)).length*2>=sib.length){
+   const head=norm(prompt.slice(0,firstMath)).split(' ').filter(Boolean);let k=0;while(k<head.length&&head[k]===stemNorm[k])k++;
+   if(k===head.length&&k>=3){let rest=prompt.slice(firstMath);const lastMath=rest.lastIndexOf('$'),tail=norm(rest.slice(lastMath+1)).split(' ').filter(Boolean);
+    let j=0;while(j<tail.length&&tail[tail.length-1-j]===stemNorm[stemNorm.length-1-j])j++;
+    if(!tail.length||(j===tail.length&&j>=3)){rest=rest.slice(0,lastMath+1).trim();if(/^\$/.test(rest))return rest;}}}}
+ // The verb may be any command in the stem's first sentence: "Add and subtract these fractions." covers a
+ // drafted "Subtract these fractions. $…$" (Algebraic Fractions p5-q1 e, Stage 5, 9 November 2026).
+ const stemCommand=stemText.split(/[.?!:]/)[0]??'';
+ if(!verb||!new RegExp('^'+verb+'\\b','i').test(stemText)&&!new RegExp('^[^$]*\\b'+verb+'\\b','i').test(stemCommand))return prompt;
  const sib=siblings.map(textOf).filter(Boolean);if(!sib.length)return prompt;
  const bare=sib.filter(s=>!/^\s*[A-Za-z]{3,}\s/.test(s)||/^\s*\$/.test(s)).length;
  if(bare*2<sib.length)return prompt;
- const trim=s=>{let t=s.replace(new RegExp('^\\s*'+verb+'\\s+'),'');
+ const trim=s=>{
+  // A whole instruction sentence before the maths ("Subtract these fractions. $…$") goes.
+  const sentence=new RegExp('^\\s*'+verb+'\\b[^$.\\n]*\\.[ \\t]*(?=\\$)').exec(s);if(sentence)return s.slice(sentence[0].length).replace(/(\$)\s*\.\s*$/,'$1').trim();
+  let t=s.replace(new RegExp('^\\s*'+verb+'\\s+'),'');
   // The stem's own tail ("… to kilometres per hour") is not repeated.
   const tail=/\s(to|as|in)\s[^.$]+\.?\s*$/.exec(t);if(tail&&stemText.toLowerCase().includes(tail[0].trim().replace(/\.$/,'').toLowerCase()))t=t.slice(0,tail.index);
   return t.replace(/(\$)\s*\.\s*$/,'$1').trim();};
  // Only a command over maths is trimmed: "Find the unknown value …" keeps its words (Comparing Fractions).
  if(typeof prompt==='string'){const t=trim(prompt);return /^\$/.test(t)&&!/\n/.test(t)?t:prompt;}
- const copy=structuredClone(prompt),paras=(copy?.blocks??[]).filter(b=>b.type==='paragraph');
- if(paras.length!==1)return prompt;
- const inl=paras[0].inlines??[],first=inl[0];if(first?.type!=='text'||!new RegExp('^\\s*'+verb+'\\s+').test(first.text))return prompt;
- first.text=first.text.replace(new RegExp('^\\s*'+verb+'\\s+'),'');
+ const copy=structuredClone(prompt);
+ // A leading paragraph of words alone that repeats the stem's command ("Decide what goes in the blank to make
+ // the following true." over a bare equation) goes (Expanding Expressions p7-q5 b, Stage 5, 9 November 2026).
+ let shifted=false;
+ {const first=copy?.blocks?.[0],words=first?.type==='paragraph'&&(first.inlines??[]).every(x=>x.type==='text')?(first.inlines??[]).map(x=>x.text).join('').trim():'';
+  if(words&&(copy.blocks.length>1)&&new RegExp('^'+verb+'\\b').test(words)&&/[.:]$/.test(words)){copy.blocks.shift();shifted=true;}}
+ const paras=(copy?.blocks??[]).filter(b=>b.type==='paragraph');
+ if(paras.length!==1)return shifted?copy:prompt;
+ const inl=paras[0].inlines??[],first=inl[0];if(first?.type!=='text'||!new RegExp('^\\s*'+verb+'\\s+').test(first.text))return shifted?copy:prompt;
+ first.text=new RegExp('^\\s*'+verb+'\\b[^.]*\\.\\s*$').test(first.text)?'':first.text.replace(new RegExp('^\\s*'+verb+'\\s+'),'');
  if(first.text.trim()||inl[1]?.type!=='math')return prompt;
  const last=inl.at(-1);if(last?.type==='text'&&/^\s*\.\s*$/.test(last.text)&&inl.at(-2)?.type==='math')inl.pop();
  if(!first.text)inl.shift();
@@ -298,7 +370,7 @@ export async function applyComments({projectId,comments,dryRun=false,projectFile
   if(pay.op==='replace-node'){const f=findBlock(candidate,pay.blockId);if(!f){fail('block '+pay.blockId+' not found');continue;}
    const src=pay.content,leaf=(src.children??[]).length===1?src.children[0]:src;
    const whole=!pay.nodeIds.length||pay.nodeIds.includes(pay.blockId)||pay.nodeIds.includes(f.block.content?.id);
-   if(whole){const oldDiagrams=diagramsIn(f.block.content),next={...structuredClone(src),id:f.block.content?.id??src.id,label:f.block.content?.label??null};
+   if(whole){const oldDiagrams=diagramsIn(f.block.content),next=keepPartShell(f.block.content,src)??{...structuredClone(src),id:f.block.content?.id??src.id,label:f.block.content?.label??null};
     // A saved arrangement names the old question's diagrams (Area 2 p20-q5, 8 November 2026). With as
     // many new diagrams as old, each new one takes its predecessor's id so the arrangement holds;
     // otherwise the block's stale arrangement is dropped and the default layout is used.
@@ -313,6 +385,9 @@ export async function applyComments({projectId,comments,dryRun=false,projectFile
       const refs=[];(function walk(x){if(!x||typeof x!=='object')return;if(typeof x.ref==='string')refs.push(x.ref);for(const v of Object.values(x))walk(v);})(lay);
       if(refs.some(r=>{const [base,rest]=r.split('/');const doc=(rest??'').split('#')[1];return !has(base)||(doc&&!has(doc));}))delete host[pay.blockId];}}
     f.block.content=next;delete f.block.title;f.block.classification={...f.block.classification,...pay.classification,primarySkillId:f.block.classification?.primarySkillId??pay.classification?.primarySkillId};changedHosts.add(pay.blockId);done(`${pay.blockId} replaced with a new question.`);continue;}
+   // A part is replaced by one item with an answer. A draft of a whole question with several parts put its stem
+   // on the part and emptied the answer (Index Laws index-t7-q5 a, Stage 5, 9 November 2026); it stays a comment.
+   if(!singlePartDraft(leaf)){fail('the draft is not a single part with an answer, so it cannot replace '+pay.nodeIds.join(', '));continue;}
    let ok=true;for(const nodeId of pay.nodeIds){const node=nodesOf(f.block).find(n=>n.id===nodeId);if(!node){ok=false;break;}const before=node.prompt;
     const parent=nodesOf(f.block).find(n=>(n.children??[]).some(c=>c.id===nodeId));
     node.prompt=bareLikeSiblings(leaf.prompt,parent?.prompt,(parent?.children??[]).filter(c=>c.id!==nodeId).map(c=>c.prompt));node.answer={short:leaf.answer?.short??'',worked:leaf.answer?.worked??'',provenance:{short:'authored',worked:'authored'}};if(leaf.questionDiagrams?.length)node.questionDiagrams=leaf.questionDiagrams;
@@ -345,7 +420,7 @@ export async function applyComments({projectId,comments,dryRun=false,projectFile
    // plain-text note "For the other prisms …" went to the box's formula display and replaced V = lwh, which has
    // no words, so the box lost its formula and printed the note twice (8 November 2026).
    if(target!==f&&!siblingRewriteFits(target.block.content,pay.replacement)){fail(`the rewrite does not resemble the text of ${target.block.id}, the only sibling it fits`);continue;}
-   f.section.blocks[target.index]=r.block;changedHosts.add(target.block.id);done(target===f?'Replacement text applied.':`Replacement text applied to ${target.block.id}, which holds this box's text.`);continue;}
+   f.section.blocks[target.index]=r.block;pruneArrangement(candidate,r.block);changedHosts.add(target.block.id);done(target===f?'Replacement text applied.':`Replacement text applied to ${target.block.id}, which holds this box's text.`);continue;}
   if(pay.op==='bold'){const f=findBlock(candidate,pay.blockId);if(!f){fail('block not found');continue;}let next=f.block;const terms=[];for(const t of pay.terms){const r=boldTerm(next,t);if(r){next=r;terms.push(t);}}if(!terms.length){fail('no term found to bold');continue;}f.section.blocks[f.index]=next;done('Bolded '+terms.join(', ')+'.');continue;}
   if(pay.op==='rating'){const f=findBlock(candidate,pay.blockId);if(!f||!verifiedRating(f.block,pay.classification)){fail('the rating no longer matches the question');continue;}f.block.classification={...f.block.classification,...pay.classification,assessment:{...pay.classification.assessment,approvedBy:'James',approvedAt:now()}};done(`Rating ${pay.classification.reasoningScore} accepted.`);continue;}
   // New teaching: a worked example and its guided practice, after the named teaching block and

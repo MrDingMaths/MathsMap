@@ -658,6 +658,14 @@ Where the implementation departs from, or fills in, the plan:
   Replayed on the batch 1 runs (`roles-preview.mjs`), slots fall from 6 / 42 / 85 to 4 / 17 / 21 and drafts from 12 / 30 / 50 to 4 / 19 / 27, with 1 / 8 / 15 types labelled enrichment. James agreed the labels, and the earlier insertions were pruned to the rule the same day (`.booklet-work/pedagogy-audit-v2/prune-to-count-rule.mjs`; approved proposals and difficulty-jump pairs untouched): Rounding Decimals r90 (10 → 4), Equations 1A r469 (19 → 9), Area 1 r292 (30 → 12), Differentiation with Logarithmic Functions r19 (6 → 4). Similar Triangles holds only jump insertions and is unchanged.
 - Not yet implemented: pagination-departure page evidence (Stage 2) and the keep/delete tally across booklets (learning from decisions).
 
+### Worked-example working moved (James, 9 November 2026)
+
+The 24 audit-made worked examples that had a figure and kept their working in the prompt (applied on 8 November, before the `theorySolution` fix) printed the figure after the working. Their working now sits in `theorySolution`, so the figure prints between the question and the working.
+- **Scope:** every `v2-` worked example whose example has `questionDiagrams` and no `theorySolution`: 24 examples in 12 Stage 4 booklets (Angle Relationships 1 and 2, Area of Circles and Sectors, Area of Quadrilaterals, Comparing Fractions, Computation with Integers 1, Data Visualisation 1 and 1–2, Length 1 and 2, Pythagoras' Theorem, Volume). The 70 audit-made examples without a figure were left alone.
+- **Split rule:** the question is the leading plain paragraphs; the working starts at the first block with a coloured inline or a list (`review-tools/move-working-20261109/patch.mjs`, run through `settle-comments.mjs`: one revision-checked save per booklet and a page check of the student, short and worked editions).
+- **Result:** all 12 saved and passed the page check; a rescan finds no figure example with its working in the prompt. Rendered pages looked at for Angle Relationships 2, Length 2 and Volume.
+- Run these tools from PowerShell, not Git Bash (wrong `pdftotext`).
+
 ### Working always in theorySolution ("Show theory solutions", 10 November 2026)
 
 "Show theory solutions" hides only an example's solution fields, so the working of the 70 audit-made examples without a figure, kept in the prompt, still printed with the box unticked (Polynomials 1A j5).
@@ -665,3 +673,8 @@ Where the implementation departs from, or fills in, the plan:
 - **Existing booklets, imports included:** `.booklet-work/show-theory-solutions-20261110/move-working.mjs` moved the trailing working blocks of 317 examples in 89 booklets. Working means every inline is blue (`#268cff`) or red (`#ef6068`). The script renamed 180 saved-arrangement refs (`…/prompt#node` → `…/theorySolution#node`), then `mark-own-style.mjs` set `solutionOwnStyle`. Both made revision-checked saves. Sampled pages render identically with solutions shown, and page counts are unchanged.
 - **Left for a hand decision** (`run-apply-main/report.json`, `skipped`): question and working on one line or in one table (72), question text after the working (51), plain-text prompts (11), definition panels (46), and working that would print below a figure without a saved arrangement (33).
 - **Guard:** `structuralPreflight` reports `working-in-prompt` for the pattern that moves cleanly (`scripts/booklet/worked-example-working.mjs`).
+
+### Stage 5 batch 2 fixes (10 November 2026)
+
+- **Key ideas maths in `$…$`:** two replies wrote statements with bare maths ("For y = k·a^x + c"), which printed as plain text (Further Non-linear Relationships 1, five boxes; Circle Trigonometry 2, three). The prompt now asks for `$…$` with blanks outside the dollars (`$x=$ [[$b$]]`), and `validateAudit` rejects a reply whose key ideas carry bare maths (`bareMaths` in `audit-v2-prompts.mjs`: a letter beside a relation, a power, square, root or dot; units such as "km/h" do not count). Checked on all 744 statements audited so far: 15 flagged, all real. The 8 boxes were rebuilt with the same wording (`review-tools/repair-keyideas.mjs --items review-tools/keyideas-maths-20261110.json`).
+- **Restated stem, fifth shape:** a replaced part that repeats the stem's later lines word for word ("Sketch the circle $(x+3)^2+y^2=9$.\nLabel the coordinates … DESMOS." under "Sketch the following circles.\nLabel the coordinates …") drops those lines and keeps its item (`bareLikeSiblings`; Further Non-linear Relationships 1 Exercise 5 Q3a). A part that adds its own instruction is left alone.
