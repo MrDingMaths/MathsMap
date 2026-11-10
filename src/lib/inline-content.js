@@ -171,6 +171,39 @@ export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
     : [`$${terms[0]}=${terms[1]}$`, ...terms.slice(2).map((term) => `$=${term}$`)].join('\n');
 }
 
+// Display maths (`$$…$$`) is its own line. Transcriptions often butt it against
+// prose with no line break ("…5t^2$$Let $x=…$", "Hence$$…"), and the renderer
+// draws `$$…$$` at text size in its line, so the prose ran straight into the
+// expression. Break the line at each such join instead. Punctuation that
+// closes the expression (`$$x=1$$.`) stays with it, a join that already has a
+// space stays as it is, and table rows are left alone. `$` and `$$` are
+// scanned in order so `$a$$b$` is two inline runs, not a display block.
+export function separateDisplayMaths(value) {
+  const s = String(value ?? '');
+  if (!s.includes('$$')) return s;
+  let out = '', from = 0, inline = false;
+  const tableRow = at => /^\s*\|/.test(s.slice(s.lastIndexOf('\n', at - 1) + 1, at));
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '\\') { i++; continue; }
+    if (s[i] !== '$') continue;
+    if (inline) { inline = false; continue; }
+    if (s[i + 1] !== '$') { inline = true; continue; }
+    let j = i + 2;
+    while (j < s.length && !(s[j] === '$' && s[j + 1] === '$')) j += s[j] === '\\' ? 2 : 1;
+    if (j >= s.length) break; // unclosed: leave the rest untouched
+    let end = j + 2;
+    if (!tableRow(i)) {
+      out += s.slice(from, i);
+      if (out && !/[\s([{]$/.test(out)) out += '\n';
+      while (end < s.length && /[.,;:!?)\]]/.test(s[end])) end++;
+      out += s.slice(i, end) + (end < s.length && !/\s/.test(s[end]) ? '\n' : '');
+      from = end;
+    }
+    i = end - 1;
+  }
+  return out + s.slice(from);
+}
+
 // Split a text part's value into render blocks. Consecutive whole-line maths
 // runs (2+) collapse into one `aligned` block; everything else stays as its own
 // line (or a blank spacer), preserving today's behaviour for prose and singles.
@@ -184,7 +217,7 @@ export function groupTextBlocks(value, { alignRelations = true, nativeTables = f
   };
   // Display maths may span physical source lines. Keep its delimiters together
   // so the renderer receives one expression rather than fragments of raw TeX.
-  const lines=String(value ?? '').replace(/(?<!\\)\$\$([\s\S]*?)(?<!\\)\$\$/g,block=>block.replace(/\r?\n/g,' ')).split(/\r?\n/);
+  const lines=separateDisplayMaths(value).replace(/(?<!\\)\$\$([\s\S]*?)(?<!\\)\$\$/g,block=>block.replace(/\r?\n/g,' ')).split(/\r?\n/);
   for (let index=0;index<lines.length;index++) {
     const line=lines[index];
     if(nativeTables&&tableCells(line)&&/^\s*\|[\s:|\-]+\|\s*$/.test(lines[index+1]??'')){
