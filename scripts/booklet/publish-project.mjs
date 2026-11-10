@@ -11,6 +11,7 @@ import {createHash} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {prepareProjectWrite} from './project-studio-server.mjs';
 import {saveThroughStudio} from '../../polish/run.mjs';
+import {structuralPreflight} from './feedback-preflight.mjs';
 
 const hash=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
@@ -59,12 +60,24 @@ export function publicationDiff(before,after){
  };
 }
 
+// A saved arrangement that names content the block no longer has prints that block wrongly and fails the
+// page check the next time anyone edits it. Edits that moved or removed content without updating both
+// arrangement copies left 89 such refs in 22 booklets (11 November 2026). A save may not add one; refs the
+// live booklet already has are left for their own repair.
+export function newMissingArrangementRefs(before,candidate){
+ const key=i=>i.blockId+'|'+i.path+'|'+i.ref,missing=p=>structuralPreflight(p).issues.filter(i=>i.kind==='missing-arrangement-ref');
+ const had=new Set(missing(before).map(key));
+ return missing(candidate).filter(i=>!had.has(key(i)));
+}
+
 export async function publishProject({candidateFile,expectedRevision,apply=false,allowBank=false,record,ledger,note,root=process.cwd(),save=saveThroughStudio}){
  const candidate=read(candidateFile),liveFile=path.join(root,'booklets/projects',candidate.id+'.json');
  if(!/^[a-zA-Z0-9._-]+$/.test(candidate.id??''))throw Error('Candidate has no valid project id');
  if(!Number.isSafeInteger(expectedRevision))throw Error('--expected-revision N is required');
  const before=read(liveFile);
  if(before.revision!==expectedRevision)throw Error(`Live revision is ${before.revision}, not ${expectedRevision}: rebuild the candidate on the current booklet`);
+ const dangling=newMissingArrangementRefs(before,candidate);
+ if(dangling.length)throw Object.assign(Error('This save would leave saved arrangements naming content that is not there; rename or drop these refs in both arrangement copies first: '+dangling.map(i=>i.blockId+' '+i.ref).join(', ')),{dangling});
  const prepared=await prepareProjectWrite(before,candidate,{checkpoint:false,projectRoot:path.join(root,'booklets/projects'),bankRoot:path.join(root,'booklets/question-bank')});
  const bankWrites=prepared.entries.map(([file])=>path.relative(root,file).replaceAll('\\','/')).filter(file=>file.includes('question-bank'));
  const summary={projectId:candidate.id,from:expectedRevision,to:expectedRevision+1,diff:publicationDiff(before,candidate),bankWrites,note:note??null};

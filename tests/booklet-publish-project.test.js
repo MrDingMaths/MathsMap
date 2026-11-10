@@ -40,3 +40,15 @@ test('the diff names added, removed, changed and reordered blocks',()=>{
  const diff=publicationDiff(before,after);
  assert.deepEqual([diff.added,diff.removed,diff.changed,diff.reordered],[['d'],['b'],['a'],true]);
 });
+
+test('a save that would add a missing arrangement ref is refused, even as a dry run; refs already live are not',async t=>{
+ const f=fixture(t),live=JSON.parse(fs.readFileSync(f.live,'utf8'));
+ const text={id:'b',type:'rich-text',content:{format:'maths-editor-document-v1',version:1,blocks:[{id:'t',type:'paragraph',inlines:[{type:'text',text:'Kept.'}]}]}};
+ const arrangement=ref=>({version:1,root:{id:'layout',type:'group',direction:'stack',children:[{id:'item',type:'item',ref}]}});
+ const broken=structuredClone(live);broken.sections[0].blocks.push({...text,presentation:{layoutOverrides:{blockLayouts:{b:{arrangement:arrangement('gone/prompt#x')}}}}});
+ fs.writeFileSync(f.candidateFile,JSON.stringify(broken));
+ await assert.rejects(publishProject({candidateFile:f.candidateFile,expectedRevision:4,root:f.root,save:f.save}),/naming content that is not there.*b gone\/prompt#x/);
+ // The same ref already in the live booklet: an unrelated edit still saves.
+ fs.writeFileSync(f.live,JSON.stringify(broken));const next=structuredClone(broken);next.title='Renamed';fs.writeFileSync(f.candidateFile,JSON.stringify(next));
+ assert.equal((await publishProject({candidateFile:f.candidateFile,expectedRevision:4,root:f.root,save:f.save})).dryRun,true);
+});
