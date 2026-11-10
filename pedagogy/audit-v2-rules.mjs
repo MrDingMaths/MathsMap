@@ -65,7 +65,8 @@ export function contentRules(live,candidate,made){
   // Circle Geometry 2 "vv") and now has none. A whole question replaced by one new question loses its parts by design.
   if(before){for(const {node} of nodesOf(block)){const l=liveNodes.get(node.id);if(l&&String(l.label??'').trim()&&!String(node.label??'').trim())flag(block.id,`${node.id} lost its label "${l.label}"`);}
    const kids=before.content?.children??[],shell=kids.length===1&&String(kids[0].label??'').trim();
-   if(shell&&!labelsIn(block).includes(shell))flag(block.id,`lost its part label ${shell}`);}
+   // A run relettered after a removal earlier in it (Circle Geometry 1, "y" now "t") keeps a letter: only none is lost.
+   if(shell&&!labelsIn(block).some(l=>String(l??'').trim()))flag(block.id,`lost its part label ${shell}`);}
  }
  // 4. Long lettered runs (aa, ccc …): a new repeat, or a new numbered question inside the run.
  const liveSections=new Map((live.sections??[]).map(s=>[s.id,s]));

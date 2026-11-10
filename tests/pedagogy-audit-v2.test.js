@@ -821,6 +821,9 @@ test('content rules hold back what the audit wrote wrong, and only that (10 Nove
   const shell={id:'vv-block',type:'question',content:{id:'vv-root',type:'group',label:'',children:[part('vv','vv','$x$')]}};
   const swapped={id:'vv-block',type:'question',content:{id:'vv-root',type:'question',label:'',prompt:'Find the values of the pronumerals.'}};
   assert.match(contentRules(book([shell]),book([swapped]),new Set(['vv-block'])).get('vv-block'),/lost its part label vv/);
+  // A run relettered after a removal earlier in it keeps a letter, which is not a loss (Circle Geometry 1, "y" now "t").
+  const relettered={id:'vv-block',type:'question',content:{id:'vv-root',type:'group',label:'',children:[part('vv','tt','$x$')]}};
+  assert.equal(contentRules(book([shell]),book([relettered]),new Set(['vv-block'])).size,0);
   const many=q('p17-q10','Simplify',[part('a','a','$1$'),part('b','b','$2$')],'6'),one={id:'p17-q10',type:'question',content:{id:'p17-q10-root',type:'question',label:'6',prompt:'Simplify $\\frac{4-x^2}{3x-6}$'}};
   assert.equal(contentRules(book([many]),book([one]),new Set(['p17-q10'])).size,0);
   // 4. A repeated long label, or a numbered question, inside a long lettered run.

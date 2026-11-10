@@ -701,4 +701,6 @@ From the Stage 5 cost review (`docs/pedagogy-audit-v2-stage5-report-20261110.md`
 - **Recount survives a settle.** `recount-20261108.mjs` stores a fingerprint of what it counts (`review-tools/count-shape.mjs`: each section's question blocks, parts and types). `remove-count-slots.mjs` accepts a recount whose fingerprint still matches, instead of demanding the same revision, which forced a second recount and roles call after every settle.
 - **Settled booklets can be settled again.** `settle-20261108/applied-patches.json` records each settle patch by content hash once saved (backfilled for every patch applied so far). `build-decisions.mjs` leaves an applied patch out, so `settle-all.ps1` no longer re-runs old patches. A later repair is a new patch file.
 
+- **Lettered runs kept in sequence.** `review-tools/scan-runs.mjs` (in `after-booklet.ps1`) reports a continued lettered run whose letters break since the audit's "before" (exam questions and teaching blocks left out). It found that the slot-order swap had moved two parts inside Circle Geometry 1's run ("w y x z"); their letters were swapped back. The content rules no longer count a relettered run part ("y" now "t" after a removal earlier in the run) as a lost label: only a part left with no letter is.
+
 The review tools live in `.booklet-work/pedagogy-audit-v2/review-tools/`, which git does not track.
