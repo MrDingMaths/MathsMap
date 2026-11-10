@@ -704,3 +704,11 @@ From the Stage 5 cost review (`docs/pedagogy-audit-v2-stage5-report-20261110.md`
 - **Lettered runs kept in sequence.** `review-tools/scan-runs.mjs` (in `after-booklet.ps1`) reports a continued lettered run whose letters break since the audit's "before" (exam questions and teaching blocks left out). It found that the slot-order swap had moved two parts inside Circle Geometry 1's run ("w y x z"); their letters were swapped back. The content rules no longer count a relettered run part ("y" now "t" after a removal earlier in the run) as a lost label: only a part left with no letter is.
 
 The review tools live in `.booklet-work/pedagogy-audit-v2/review-tools/`, which git does not track.
+
+### Stage 4 and 5 comments settled (James, 11 November 2026)
+
+Every open comment in the Stage 4 and 5 masters was settled; one is left for James. Results: [comments report](pedagogy-audit-v2-stage45-comments-20261111.md). Tools are in `.booklet-work/pedagogy-audit-v2/settle-20261111/`: `spec.patch.mjs` and `spec2.patch.mjs` apply JSON edit specs through `settle-comments.mjs`, and `fix-payloads*.mjs` repair stored drafts. Redrafts live in `review-tools/redraft-20261111/`. `custom-draft.mjs` drafts any request list, James's own requests included, with the audit's contract and blind solve.
+- **Replacement parts are new content.** A single item replacing a repeated part is drafted by `claude-sonnet-5-5`, even when it is one expression, and the question is re-rated by comparison.
+- **A guided practice with figure parts goes two to a row.** One to a row with full working space, three figure parts ran past the footer even at the top of a page. A page break does not help, and apply-comments ignores `flow.pageBreakBefore` on a payload anyway.
+- **Worked-example step figures are separate figures.** Drafted step drawings came as overlays on one scale, so only the finished drawing printed. For "show two steps", each step is a whole figure placed beside its step text in a saved arrangement (Quartiles t1).
+- **Write JSON specs with the file tool.** Bash heredocs and `node -e` strings halved the LaTeX backslashes, as the 9 Nov note says. `JSON.parse` does not catch `\ne`, `\frac` or `\theta`, which become control characters.

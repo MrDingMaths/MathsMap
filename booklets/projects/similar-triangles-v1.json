@@ -6341,8 +6341,14 @@
               "model": "gpt-6.1-sol",
               "assessedAt": "2026-10-21T05:48:36.551Z",
               "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "9b883548941737f868839f84ec9ba3d3de2caf0c1b0937226b64da3b3ddc8e3f",
-              "evidence": ".booklet-work/reasoning-ratings/calls/similar-triangles-v1/5f8806c11129f5646b1d0df3f61f4cf66cb872b5c546dc86ffd9c416789b0ace-1792561694957/last-message.txt"
+              "taskHash": "0f3a72b840396aa832241319a545b6ed7da052e7f11a5069f7c0c3a06ef21a59",
+              "evidence": ".booklet-work/reasoning-ratings/calls/similar-triangles-v1/5f8806c11129f5646b1d0df3f61f4cf66cb872b5c546dc86ffd9c416789b0ace-1792561694957/last-message.txt",
+              "originalTaskHash": "9b883548941737f868839f84ec9ba3d3de2caf0c1b0937226b64da3b3ddc8e3f",
+              "settleCorrection": {
+                "kind": "settle-correction-20261111",
+                "previousTaskHash": "9b883548941737f868839f84ec9ba3d3de2caf0c1b0937226b64da3b3ddc8e3f",
+                "reason": "An impossible extra given (80°) was removed from part d's figure; it was not used by the SAS answer, so the demand is unchanged."
+              }
             },
             "archetype": "similarity-tests",
             "archetypeReview": {
@@ -6522,11 +6528,11 @@
                     "widthMm": 44.4,
                     "role": "question",
                     "reviewStatus": "needs-review",
-                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 p5-q3-d-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0.8,1.5);\\coordinate (B) at ({0.8-0.96*cos(60)},{1.5-0.96*sin(60)});\\coordinate (C) at (0.8,-0.1);\n\\coordinate (D) at (2.15,1.5);\\coordinate (E) at (3.55,1.35);\\coordinate (F) at (2.8,-1.1);\n\\draw (A)--node[left] {$3$}(B)--(C)--node[right] {$5$}cycle;\n\\draw (D)--(E)--node[right] {$9$}(F)--node[left] {$15$}cycle;\n\\node (anglelabel) at (1.45,0.9) {$30^\\circ$};\\draw[->,line width=0.4pt] (anglelabel.west) to[bend left=15] ($(A)+( -0.10,-0.25)$);\n\\node[anchor=north east] at ($(E)+(-0.06,-0.08)$) {$80^\\circ$};\\node[anchor=north] at ($(F)+(0,-0.12)$) {$30^\\circ$};\n\\end{tikzpicture}",
+                    "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5 p5-q3-d-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0.8,1.5);\\coordinate (B) at ({0.8-0.96*cos(60)},{1.5-0.96*sin(60)});\\coordinate (C) at (0.8,-0.1);\n\\coordinate (D) at (2.15,1.5);\\coordinate (E) at (3.55,1.35);\\coordinate (F) at (2.8,-1.1);\n\\draw (A)--node[left] {$3$}(B)--(C)--node[right] {$5$}cycle;\n\\draw (D)--(E)--node[right] {$9$}(F)--node[left] {$15$}cycle;\n\\node (anglelabel) at (1.45,0.9) {$30^\\circ$};\\draw[->,line width=0.4pt] (anglelabel.west) to[bend left=15] ($(A)+( -0.10,-0.25)$);\n\\node[anchor=north] at ($(F)+(0,-0.12)$) {$30^\\circ$};\n\\end{tikzpicture}",
                     "spec": {
                       "sourcePage": 5,
                       "sourceRegion": "Question 3d",
-                      "description": "Upright narrow triangle beside an inverted triangle. A leader arrow identifies the left included 30° angle. The additional right-triangle 80° given is retained.",
+                      "description": "Upright narrow triangle beside an inverted triangle. A leader arrow identifies the left included 30° angle. The source's 80° at E is left out (11 Nov 2026): it contradicts EF = 9, DF = 15 and the included 30°, which give ∠DEF ≈ 118°.",
                       "mathematics": "Sides meeting the left 30° angle are 3 and 5; sides meeting the right 30° angle are 9 and 15, respectively.",
                       "answerVisibility": "Only supplied sides, angles and the angle leader are visible."
                     }
@@ -6820,7 +6826,7 @@
           "snapshotKind": "bank",
           "bankRef": {
             "id": "q-de828635-d6ef-4fea-993c-b42417e7a3aa",
-            "revision": "b722b49569df87b384f78a7bed435ef763c6ff756e00e4de705a1ae854d05766"
+            "revision": "8aaac3de128cb140ef462cb9e09d742164fc2a8edab050bcf192f302a3fbcf82"
           },
           "sourceLayoutEvidence": {
             "pageBreakBefore": true
@@ -13266,9 +13272,11 @@
         "id": "0e95e247-c914-45b1-9f68-c5d40a3868c6",
         "targetId": "p5-q3-d",
         "note": "The supplied 80° conflicts with EF=9, DF=15 and included EFD=30°: these imply DEF≈118.0°. Please decide the intended given; preserve the current question and answer until confirmed. The SAS ratio reasoning itself is valid.",
-        "resolved": false,
+        "resolved": true,
         "at": "2026-10-30T06:05:16.340Z",
-        "scope": "local"
+        "scope": "local",
+        "resolvedAt": "2026-11-10T13:27:01.585Z",
+        "resolution": "Decided 11 Nov 2026: the 80° at E is removed from the figure. It cannot be true with EF = 9, DF = 15 and the included 30° (∠DEF ≈ 118°), and the SAS answer never used it. Question and answer otherwise unchanged."
       },
       {
         "id": "00301cbc-b4b0-4837-b651-605a8ce2677f",
@@ -15454,10 +15462,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 45,
+  "revision": 46,
   "assets": [],
   "createdAt": "2026-10-08T11:53:03.284Z",
-  "updatedAt": "2026-11-10T11:11:46.552Z",
+  "updatedAt": "2026-11-10T13:27:25.505Z",
   "library": {
     "category": "master",
     "courseId": "s5-path",
