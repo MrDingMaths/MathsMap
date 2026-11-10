@@ -1,5 +1,7 @@
 # Handoff: finish the exam pass, paused 9 November 2026
 
+> **Closed 10 November 2026 at James's request.** The exam pass is complete for all 210 live masters; see [exam pass closed](booklet-exam-completion.md#exam-pass-closed-10-november-2026). The notes below are the history of how it got there. Do not resume or rerun it.
+
 James asked on 9 November 2026 to finish the exam pass for every booklet master. This has three parts:
 
 - Use `gpt-6.1-sol` low for every Codex call ("Instead of terra 6.1 high, all codex calls should use sol 6.1 low").

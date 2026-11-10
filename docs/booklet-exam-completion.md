@@ -101,6 +101,30 @@ node pedagogy/exam-figures.mjs save --projects ID,ID --approved-by "QUOTE"
 - **TeX line breaks.** `\\[` followed by anything other than a length is written `\\{}[`, so a bracket after a line break is not read as row spacing.
 - Each redraw is saved with the width it was drawn at, from the preview viewBox. Drawing scaffolds keep at least 78 mm (`spec.sizing.purpose: "drawing"`). Before the rating step, a mechanical label-collision check (`pedagogy/figure-label-check.mjs`) sends a collided redraw back to Sonnet once without a check call (it does not use a fix round). Status and resume steps for the paused run are in the [handoff](handoff-exam-figure-pass-20261107.md).
 
+### Exam pass closed (10 November 2026)
+
+James closed the exam pass on 10 November 2026 ("close out the exam pass"). Final commits: c0103f2f, e944881a and 1ebea077. All 210 live masters were checked against the live booklets:
+
+- **Closure.** Every master's newest closure record closes, rebased to the live revision. That includes five masters that have no exam proposal; their batch records close (graph-regions, linear-equations-with-fractions, s6adv-sequences-and-series-1, simple-cubic-equations, volume-of-composite-solids). The orphan proposal for the removed `s6adv-working-with-functions-7-constructing-and-using-functions-v1` was dropped.
+- **Ratings.** No Exam question lacks a verified rating.
+- **Regroup.** No exam question is left in an exercise. The only exceptions are the three scaffolded rewrites listed in `exam-regroup-20261109/holds.json` (inequalities p20-q11, radians p19-q26 and p18-q23).
+- **Figure pass.** Every booklet ended saved or in a finished state. The second sweep is done.
+
+The checks are in `.booklet-work/exam-figures-20261107/tools-20261109/`:
+- `closure-all.mjs` covers every live master (`closure-survey.mjs` only reads masters that have a proposal);
+- `exam-audit.mjs` checks closure, ratings, regroup and figure state;
+- `deferred-why.mjs` explains the deferred rows.
+
+**Deferred by design, not part of this pass.** About 2,370 figure rows still carry a `deferred-20261107` basis in the closure records, which closure accepts:
+- about 1,100 are already printed, either in that master or in another master that shares the subtopic (the record was not rewritten);
+- about 950 were decided by the 4 November pass, mostly as represented;
+- about 50 failed the checker after three fix rounds, or were held for source defects;
+- about 280 are figure or image questions left for a later redraw pass. About 100 of these are printed elsewhere; about 160 could not be checked against the local MathsBase snapshots.
+
+A later redraw pass starts from those rows. It is a new task, not a reopening of this one.
+
+**Page review.** Every save after 19:00 on 10 November was page-reviewed, as were the hold moves and the figure fixes. The 27 figure-pass saves made on 10 November between 07:37 and 13:24 were reviewed by that session, and only spot-checked afterwards.
+
 ### Sol 6.1 low for every exam-pass Codex call (9 November 2026, user requested)
 
 James: "Instead of terra 6.1 high, all codex calls should use sol 6.1 low." From 9 November the batch rating, the figure check and the figure fix all run on `gpt-6.1-sol` low, passed explicitly as a recorded review fallback (`examPassConfiguration()` in `exam-batch.mjs`), never as an automatic fallback. This supersedes the AGENTS.md models row "Exam questions: checks and difficulty ratings" for this pass only; other reviews keep their settings. Check replies Terra gave before 9 November stay cached and keep Terra as their recorded rater.
