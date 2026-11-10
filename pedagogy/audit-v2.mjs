@@ -1011,6 +1011,14 @@ function unnestAnswers(node){
  for(const n of new Set([node,...nodesOf(node)])){if(typeof n.prompt==='string')n.prompt=unnestTextMath(n.prompt);
   if(n.answer&&typeof n.answer==='object')for(const k of ['short','worked'])if(typeof n.answer[k]==='string')n.answer[k]=unnestTextMath(n.answer[k]);}
 }
+// A question or part without parts prints its drawn answer only from answer.solutionDiagrams: a shared diagram
+// there never prints (Further Parabolas 1 slot-1-upper, Stage 5 batch 3, 10 November 2026; the exam pass has the
+// same rule in exam-figures.mjs). Moves it into the answer; returns how many moved.
+export function answerFiguresOnLeaves(content){let moved=0;
+ for(const node of new Set([content,...nodesOf(content)]))if(node&&typeof node==='object'&&!(node.children??[]).length&&Array.isArray(node.sharedSolutionDiagrams)){
+  if(node.sharedSolutionDiagrams.length){node.answer={...(node.answer??{}),solutionDiagrams:[...(node.answer?.solutionDiagrams??[]),...node.sharedSolutionDiagrams.map(d=>({...d,role:'solution'}))]};moved+=node.sharedSolutionDiagrams.length;}
+  delete node.sharedSolutionDiagrams;}
+ return moved;}
 export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill,type,kind='slot',typeOfId=null}){
  // A later run reuses slot names, so an id already in the booklet gets a suffix (6 November 2026:
  // the second Similar Triangles run drafted a second "slot-1-lower" and the sort refused the clash).
@@ -1027,9 +1035,10 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
  {const only=content.children?.length===1?content.children[0]:null;
   if(only&&!(only.children??[]).length&&typeof only.prompt==='string'&&(content.prompt==null||typeof content.prompt==='string')&&!content.answer){
    content.prompt=[content.prompt,only.prompt].filter(s=>s&&String(s).trim()).join('\n\n');content.questionDiagrams=[...(content.questionDiagrams??[]),...(only.questionDiagrams??[])];
-   for(const k of ['answer','answerSpaceMm','solutionDiagrams','responseSpace'])if(only[k]!==undefined)content[k]=only[k];delete content.children;}}
+   for(const k of ['answer','answerSpaceMm','solutionDiagrams','responseSpace','sharedSolutionDiagrams'])if(only[k]!==undefined)content[k]=only[k];delete content.children;}}
  // A drawn answer lives in the answer, as in the booklets (answer.solutionDiagrams); a draft that put it on the part is moved (9 November 2026).
  for(const node of new Set([content,...nodesOf(content)]))if(Array.isArray(node.solutionDiagrams)&&node.type&&['question','part'].includes(node.type)){if(node.solutionDiagrams.length)node.answer={...(node.answer??{}),solutionDiagrams:[...(node.answer?.solutionDiagrams??[]),...node.solutionDiagrams.map(d=>({...d,role:'solution'}))]};delete node.solutionDiagrams;}
+ answerFiguresOnLeaves(content);
  // The question's own prompt too (Data Visualisation 1 slot 5: its tab-separated table printed as spaces).
  // Converted before partLayout, which copies the root when it sets a grid: converting afterwards changed the
  // discarded original, and a gridded question's table printed as bare rows (Linear Relationships 1
@@ -1651,19 +1660,35 @@ export async function applyAuditV2(args){
    if(marked){write(reportFile,report);(args.log??console.error)(`bank sync: the change to ${owner.id} left as a comment; applying again`);
     return applyAuditV2({...args,runDir,bankRetried:true});}
   }
+  // Content rules: the blocks that broke one are held back, and the apply runs once more. A block the audit did not
+  // make (a teacher block only relettered) cannot be held back: the apply stops and nothing is saved.
+  if(e.contentRules&&!args.rulesRetried){const left=holdBack(runDir,e.contentRules,'it broke a content rule',{all:true});
+   if(left.length)throw Error('Content rules broken by blocks the audit did not make; nothing saved: '+left.map(([id,why])=>id+': '+why).join('; '));
+   (args.log??console.error)('content rules: '+[...e.contentRules.keys()].join(', ')+' held back and left as comments; applying again');
+   return applyAuditV2({...args,runDir,rulesRetried:true});}
   if(args.retried||!/Render check failed/.test(e.message))throw e;
   const culprits=renderCulprits(runDir);if(!culprits)throw e;
-  const reportFile=path.join(runDir,'report.json'),report=read(reportFile);
-  const beforeAuto=path.join(runDir,'candidate-before-auto.json'),start=read(fs.existsSync(beforeAuto)?beforeAuto:path.join(runDir,'candidate.json'));
-  for(const [blockId,why] of culprits){let payload=false;
-   for(const entry of Object.values(report.proposals??{}))for(const p of entry.payloads??[])
-    if(p.block?.id===blockId||(p.blocks??[]).some(b=>b.id===blockId)||(p.blockId===blockId&&['replace-node','theory','set-field'].includes(p.op))){p.notApplied='it did not print cleanly in the booklet ('+why+')';payload=true;}
-   // One of the audit's own new questions: removed, and noted on the comment that lists it.
-   if(!payload){for(const s of start.sections)s.blocks=(s.blocks??[]).filter(b=>b.id!==blockId);
-    for(const f of start.studio?.flags??[])if(String(f.note).includes(blockId))f.note+=`\nTaken out before saving: ${blockId} did not print cleanly (${why}).`;
-    report.applied.newQuestions=(report.applied?.newQuestions??[]).filter(q=>(q.id??q)!==blockId);(report.dropped??=[]).push({slot:blockId,reason:'did not print cleanly ('+why+')'});}}
-  write(beforeAuto,start);write(reportFile,report);(args.log??console.error)('render check: '+[...culprits.keys()].join(', ')+' taken out and left as comments; applying again');
+  holdBack(runDir,culprits,'it did not print cleanly in the booklet');
+  (args.log??console.error)('render check: '+[...culprits.keys()].join(', ')+' taken out and left as comments; applying again');
   return applyAuditV2Once({...args,runDir,retried:true});}
+}
+// Holds back blocks (Map id → why) before the apply runs again: a change to an existing block stays a comment with the
+// reason; one of the audit's own new questions (a v2- block) is taken out and noted on the comment that lists it.
+// Returns the blocks it could not hold back; with all, nothing is written unless every block was held back.
+export function holdBack(runDir,blocks,reason,{all=false}={}){
+ const reportFile=path.join(runDir,'report.json'),report=read(reportFile);
+ const beforeAuto=path.join(runDir,'candidate-before-auto.json'),start=read(fs.existsSync(beforeAuto)?beforeAuto:path.join(runDir,'candidate.json'));
+ const left=[];
+ for(const [blockId,why] of blocks){let payload=false;
+  for(const entry of Object.values(report.proposals??{}))for(const p of entry.payloads??[])
+   if(p.block?.id===blockId||(p.blocks??[]).some(b=>b.id===blockId)||(p.blockId===blockId&&['replace-node','theory','set-field'].includes(p.op))){p.notApplied=reason+' ('+why+')';payload=true;}
+  if(payload)continue;
+  if(!String(blockId).startsWith('v2-')||!start.sections.some(s=>(s.blocks??[]).some(b=>b.id===blockId))){left.push([blockId,why]);continue;}
+  for(const s of start.sections)s.blocks=(s.blocks??[]).filter(b=>b.id!==blockId);
+  for(const f of start.studio?.flags??[])if(String(f.note).includes(blockId))f.note+=`\nTaken out before saving: ${blockId}: ${reason} (${why}).`;
+  report.applied.newQuestions=(report.applied?.newQuestions??[]).filter(q=>(q.id??q)!==blockId);(report.dropped??=[]).push({slot:blockId,reason:reason+' ('+why+')'});}
+ if(!all||!left.length){write(beforeAuto,start);write(reportFile,report);}
+ return left;
 }
 // Page-check failures the live booklet already has are not the audit's. Layout issues are matched one for one by
 // kind and size (printed ones by text, since their page numbers are PDF positions); any other check failure
@@ -1738,6 +1763,10 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
  // that took out a block without auto-applied proposals rendered the old candidate.json again (Data
  // Visualisation 1 count top-up, 8 November 2026).
  if(!fs.existsSync(beforeAuto))write(beforeAuto,candidate);
+ // Runs drafted before answerFiguresOnLeaves re-apply with it: the audit's own blocks and payloads.
+ {let moved=0;for(const b of (candidate.sections??[]).flatMap(x=>x.blocks??[]))if(String(b.id).startsWith('v2-')&&b.content)moved+=answerFiguresOnLeaves(b.content);
+  for(const e of Object.values(report.proposals??{}))for(const p of e.payloads??[])for(const b of [p.block,...(p.blocks??[])])if(b?.content)moved+=answerFiguresOnLeaves(b.content);
+  if(moved){write(beforeAuto,candidate);write(path.join(runDir,'report.json'),report);log('answer figures: '+moved+' shared diagram(s) on questions without parts moved into their answers');}}
  if(autoApply&&Object.values(report.proposals??{}).some(e=>e.payloads?.some(p=>p.autoApply))){
   const {applyComments}=await import('./audit-v2-apply.mjs');
   const proposals=structuredClone(report.proposals);
@@ -1755,6 +1784,11 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
  else{houseTints(candidate);gridSteps(candidate);for(const s of candidate.sections??[])joinContinuedRuns(s);write(candidateFile,candidate);}
  const {publishProject,publicationDiff}=await import('../scripts/booklet/publish-project.mjs');
  const diff=publicationDiff(live,candidate),printed=[...diff.added,...diff.changed].filter(id=>{const a=live.sections.flatMap(s=>s.blocks??[]).find(b=>b.id===id),b=candidate.sections.flatMap(s=>s.blocks??[]).find(x=>x.id===id);return !a||contentFingerprint(a)!==contentFingerprint(b)||JSON.stringify(a.content)!==JSON.stringify(b.content);});
+ // Content rules before any render or save (10 November 2026): a block the audit added or changed that prints maths
+ // as plain text, restates its stem, loses a label or breaks a lettered run is held back by applyAuditV2.
+ {const {contentRules}=await import('./audit-v2-rules.mjs'),broken=contentRules(live,candidate,new Set(printed));
+  write(path.join(runDir,'rules.json'),{checked:printed.length,broken:[...broken].map(([id,why])=>({id,why}))});
+  if(broken.size)throw Object.assign(Error('Content rules: '+[...broken].map(([id,why])=>id+': '+why).join('; ')),{contentRules:broken});}
  const t0=Date.now(),record={render:null,publish:null};
  // One render of changed pages (comment-only changes need none).
  if(printed.length||diff.reordered){

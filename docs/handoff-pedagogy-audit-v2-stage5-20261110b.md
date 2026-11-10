@@ -19,6 +19,13 @@ Continues `docs/handoff-pedagogy-audit-v2-stage5-20261110.md`. Paused at James's
 
 Both recorded in `docs/booklet-pedagogy-audit-v2.md` ("Stage 5 batch 2 fixes").
 
+## Content rules before saving (added after the pause, 10 November)
+
+The apply now checks every block it added or changed against four rules before its page check (`pedagogy/audit-v2-rules.mjs`): no maths as plain text, no part restating its stem, no lost label, no broken long lettered run. A breaking block is held back (its change stays a comment, or its new question is taken out) and the apply runs again; each run writes `rules.json`. Details in `docs/booklet-pedagogy-audit-v2.md`. 88 of 88 pedagogy tests pass; an end-to-end run on a copy held back a planted defect, re-applied clean and stopped at the page check.
+
+- **The remaining batch 3 booklets are the first live use.** After each, read its `rules.json` and the "content rules" lines in `batch3-*.log`; a held-back new question leaves a count gap that `after-booklet.ps1` lists for top-up.
+- **Six defects found by the rules in booklets already saved**, to repair in the batch 3 settle (`repair-restated-parts.patch.mjs` where it applies; check each renders bare): Linear Relationships 1 p14 Q2e, Quartiles and Box Plots p14 Q4g, Surface Area of Prisms and Cylinders p15 Q2b, Length 2 p56 Q5a (restated stems); Compound Interest and Depreciation p23 guided g ("depreciation = V₀ − S" as plain text); Rearrange Formulas p10 Q4b (a different formula, $V=\frac13\pi r^2h$, under the stem's $K=\frac12mv^2$: by hand).
+
 ## To do on resume, in order
 
 1. Fix and re-apply Further Parabolas 1 (above).

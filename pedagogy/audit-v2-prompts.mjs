@@ -18,7 +18,7 @@ export function planSection(heading,{root=ROOT}={}){
 export const writingRules=options=>planSection('Writing rules for new questions',options);
 export const theoryRules=options=>planSection('Theory style rules',options);
 
-const NATIVE='Native content format. A question is {"id","type":"question","label":null,"prompt":"text with $inline$ or $$display$$ LaTeX","children":[parts],"answer":{"short","worked"},"questionDiagrams":[diagram]}; a part is {"id","type":"part","label":"a","prompt","answerSpaceMm":number,"answer":{"short","worked"},"questionDiagrams":[diagram]}. A question with parts puts its answers on the parts. "worked" is concise aligned working, for example $$\\begin{align*}y&=…\\\\y\'&=…\\end{align*}$$. A diagram is {"id","format":"tikz","widthMm":number,"code":"complete TikZ picture"} with every given marked on it; size it like the booklet\'s existing diagrams of the same kind.';
+const NATIVE='Native content format. A question is {"id","type":"question","label":null,"prompt":"text with $inline$ or $$display$$ LaTeX","children":[parts],"answer":{"short","worked"},"questionDiagrams":[diagram]}; a part is {"id","type":"part","label":"a","prompt","answerSpaceMm":number,"answer":{"short","worked"},"questionDiagrams":[diagram]}. A question with parts puts its answers on the parts. A drawn answer (a sketch, a plotted graph) goes in its own answer as "answer":{"short","worked","solutionDiagrams":[diagram]}; only a question with parts may share one drawing across them, as "sharedSolutionDiagrams". "worked" is concise aligned working, for example $$\\begin{align*}y&=…\\\\y\'&=…\\end{align*}$$. A diagram is {"id","format":"tikz","widthMm":number,"code":"complete TikZ picture"} with every given marked on it; size it like the booklet\'s existing diagrams of the same kind.';
 const COMMENT='Studio comments are read by the teacher who decides. Write them plainly: the finding in one sentence, then the exact proposed text or question. No internal ids beyond the block named, no hedging.';
 
 export function auditContract(options){return [
@@ -165,9 +165,10 @@ export function validateAudit(result,ctx){
  return result;
 }
 // Maths written as plain text outside $…$ and blanks: a lone letter beside a relation ("y = c", "a > 1"),
-// or a power, square, root or dot product. Units ("km/h to m/s") and words do not count.
+// or a power, square, root or dot product. Units ("km/h to m/s", "60 m²"), money ("\$6") and words do not count.
 export function bareMaths(text){
- const outside=String(text??'').replace(/\[\[[^\]]*\]\]/g,' ').replace(/\$[^$]*\$/g,' ');
+ const outside=String(text??'').replace(/\\\$/g,' ').replace(/\[\[[^\]]*\]\]/g,' ').replace(/\$\$[\s\S]*?\$\$/g,' ').replace(/\$[^$]*\$/g,' ')
+  .replace(/\b(?:mm|cm|km|m)[²³]/g,' ');
  return /(?:^|[^\p{L}])\p{L}\s*[=<>≤≥≠]|[=<>≤≥≠]\s*[−-]?\p{L}(?![\p{L}])|[\p{L})]\s*\^|[²³√·⁻]/u.test(outside);
 }
 // partial (8 November 2026): a reply that settles some judgements is kept, and only the missing

@@ -230,6 +230,23 @@ test('a new block never reuses an id already in the booklet', ()=>{
  assert.equal(first.id,'v2-s-slot-1-lower');assert.equal(second.id,'v2-s-slot-1-lower-2');assert.equal(second.content.id,'v2-s-slot-1-lower-2-root');
 });
 
+test('a shared answer drawing on a question without parts moves into its answer', async()=>{
+ // Further Parabolas 1 slot-1-upper (10 November 2026): the graph never printed and the answer check failed.
+ const {answerFiguresOnLeaves}=await import('../pedagogy/audit-v2.mjs');
+ const graph=id=>({id,format:'tikz',code:'\\begin{tikzpicture}\\end{tikzpicture}'});
+ const slot={id:'slot-1-upper',sectionId:'s'},project={sections:[{id:'s',blocks:[]}]};
+ const leaf=newBlock({content:{type:'question',prompt:'Sketch $y=x^2$.',answer:{short:'s',worked:'w'},sharedSolutionDiagrams:[graph('g')]}},slot,{project,score:null});
+ assert.equal(leaf.content.sharedSolutionDiagrams,undefined);
+ assert.deepEqual(leaf.content.answer.solutionDiagrams.map(d=>[d.id.split('-').at(-1),d.role]),[['g','solution']]);
+ const parts={type:'question',prompt:'Sketch $y=x^2$:',sharedSolutionDiagrams:[graph('h')],children:[{id:'a',type:'part',label:'a',prompt:'vertex:',answer:{short:'1',worked:'1'}},{id:'b',type:'part',label:'b',prompt:'intercepts:',answer:{short:'2',worked:'2'}}]};
+ const grouped=newBlock({content:parts},{id:'slot-1-lower',sectionId:'s'},{project,score:null});
+ assert.deepEqual(grouped.content.sharedSolutionDiagrams.map(d=>d.id.split('-').at(-1)),['h'],'a question with parts keeps its shared drawing');
+ const one=newBlock({content:{type:'question',prompt:'Sketch:',children:[{id:'a',type:'part',label:'a',prompt:'$y=x^2$',answer:{short:'s',worked:'w'},sharedSolutionDiagrams:[graph('k')]}]}},{id:'slot-2',sectionId:'s'},{project,score:null});
+ assert.equal(one.content.children,undefined);assert.deepEqual(one.content.answer.solutionDiagrams.map(d=>d.id.split('-').at(-1)),['k'],'a one-part draft keeps its drawing');
+ const saved={id:'q',type:'question',answer:{short:'s',worked:'w'},sharedSolutionDiagrams:[graph('m')]};
+ assert.equal(answerFiguresOnLeaves(saved),1);assert.equal(answerFiguresOnLeaves(saved),0,'idempotent');
+});
+
 test('a drafted grid under rescaled axes gets one line per unit', async()=>{
  const {gridSteps}=await import('../pedagogy/audit-v2.mjs');
  const fig=code=>({sections:[{id:'s',blocks:[{id:'v2-s-slot-3',content:{questionDiagrams:[{format:'tikz',code}]}}]}]});
@@ -712,4 +729,57 @@ test('a replaced part that repeats the stem\'s later lines word for word keeps o
   assert.equal(bareLikeSiblings('Sketch the circle $(x+3)^2+y^2=9$.\nLabel the coordinates of the centre and intercepts, if any. Check your sketch using DESMOS.',stem,sib),'$(x+3)^2+y^2=9$');
   const own='Sketch the circle $(x+3)^2+y^2=9$.\nThen find its area.';
   assert.equal(bareLikeSiblings(own,stem,sib),own);
+});
+
+test('content rules hold back what the audit wrote wrong, and only that (10 November 2026)', async ()=>{
+  const {contentRules}=await import('../pedagogy/audit-v2-rules.mjs');
+  const doc=text=>({blocks:[{type:'paragraph',inlines:[{type:'text',text}]}]});
+  const part=(id,label,prompt)=>({id,type:'part',label,prompt});
+  const q=(id,stem,parts,label='')=>({id,type:'question',content:{id:id+'-root',type:'group',label,prompt:stem,children:parts}});
+  const book=blocks=>({sections:[{id:'s',blocks}]});
+  // 1. Maths as plain text; money, units and maths in $…$ pass.
+  const ki=q('v2-ki','',[part('k1','1',doc('For y = k/x the asymptote is [[x = 0]].'))]);
+  assert.match(contentRules(book([]),book([ki]),new Set(['v2-ki'])).get('v2-ki'),/plain text/);
+  const ok=q('v2-ok','',[part('k1','1',doc('It costs $6 to lay 60 m² of paving.')),part('k2','2',{blocks:[{type:'paragraph',inlines:[{type:'text',text:'For '},{type:'math',latex:'y=k/x'}]}]})]);
+  assert.equal(contentRules(book([]),book([ok]),new Set(['v2-ok'])).size,0);
+  // 2. A replaced part restating its stem among bare siblings; a context phrase in a new sentence passes.
+  const stem='Find the distance between each pair of points without drawing the interval.';
+  const live=q('p12-q2',stem,[part('a','a','$(0,0)$ and $(3,4)$'),part('b','b','$(1,1)$ and $(4,5)$'),part('d','d','$(2,2)$ and $(5,6)$')]);
+  const bad=structuredClone(live);bad.content.children[2].prompt='Find the distance between $(0,0)$ and $(6,-8)$ without drawing the interval.';
+  assert.match(contentRules(book([live]),book([bad]),new Set(['p12-q2'])).get('p12-q2'),/restates its stem/);
+  const ctx=q('v2-dots','The difference of two squares can also be used on numbers.',[part('a','a','Evaluate $51^2-49^2$.'),part('c','c','Use the difference of two squares to write $2^8-1$ as a product of three whole numbers.')]);
+  assert.equal(contentRules(book([]),book([ctx]),new Set(['v2-dots'])).size,0);
+  // Teacher text the audit did not change is never judged.
+  const teacher=q('p5','',[part('t','a','Let y = 2x.')]);
+  assert.equal(contentRules(book([teacher]),book([structuredClone(teacher)]),new Set(['p5'])).size,0);
+  // 3. A one-part shell losing its label; a whole question replaced by one new question passes.
+  const shell={id:'vv-block',type:'question',content:{id:'vv-root',type:'group',label:'',children:[part('vv','vv','$x$')]}};
+  const swapped={id:'vv-block',type:'question',content:{id:'vv-root',type:'question',label:'',prompt:'Find the values of the pronumerals.'}};
+  assert.match(contentRules(book([shell]),book([swapped]),new Set(['vv-block'])).get('vv-block'),/lost its part label vv/);
+  const many=q('p17-q10','Simplify',[part('a','a','$1$'),part('b','b','$2$')],'6'),one={id:'p17-q10',type:'question',content:{id:'p17-q10-root',type:'question',label:'6',prompt:'Simplify $\\frac{4-x^2}{3x-6}$'}};
+  assert.equal(contentRules(book([many]),book([one]),new Set(['p17-q10'])).size,0);
+  // 4. A repeated long label, or a numbered question, inside a long lettered run.
+  const run=['mm','nn','oo'].map(l=>({id:'r-'+l,type:'question',content:{id:'r-'+l+'-root',type:'part',label:l,prompt:'$x$'}}));
+  const dup={id:'v2-slot',type:'question',content:{id:'v2-slot-root',type:'part',label:'nn',prompt:'$y$'}};
+  assert.match(contentRules(book(run),book([...run,dup]),new Set(['v2-slot'])).get('v2-slot'),/repeats the label nn/);
+  const num={id:'v2-num',type:'question',content:{id:'v2-num-root',type:'question',label:'6',prompt:'$y$'}};
+  assert.match(contentRules(book(run),book([...run,num]),new Set(['v2-num'])).get('v2-num'),/numbered 6/);
+});
+
+test('holdBack turns a change back into a comment and takes out a new question (10 November 2026)', async ()=>{
+  const {holdBack}=await import('../pedagogy/audit-v2.mjs');
+  const fs=await import('node:fs'),os=await import('node:os'),path=await import('node:path');
+  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'holdback-'));
+  const w=(f,v)=>fs.writeFileSync(path.join(dir,f),JSON.stringify(v));const r=f=>JSON.parse(fs.readFileSync(path.join(dir,f),'utf8'));
+  w('report.json',{applied:{newQuestions:['v2-new']},proposals:{c1:{payloads:[{op:'replace-node',blockId:'p1'}]}}});
+  w('candidate-before-auto.json',{sections:[{id:'s',blocks:[{id:'p1'},{id:'v2-new'},{id:'p9'}]}],studio:{flags:[{note:'adds v2-new'}]}});
+  assert.deepEqual(holdBack(dir,new Map([['p1','x'],['v2-new','y']]),'it broke a content rule',{all:true}),[]);
+  assert.match(r('report.json').proposals.c1.payloads[0].notApplied,/content rule \(x\)/);
+  assert.deepEqual(r('candidate-before-auto.json').sections[0].blocks.map(b=>b.id),['p1','p9']);
+  assert.deepEqual(r('report.json').applied.newQuestions,[]);
+  // A teacher block it cannot hold back: nothing is written.
+  const before=fs.readFileSync(path.join(dir,'report.json'),'utf8');
+  assert.deepEqual(holdBack(dir,new Map([['p9','z']]),'it broke a content rule',{all:true}).map(x=>x[0]),['p9']);
+  assert.equal(fs.readFileSync(path.join(dir,'report.json'),'utf8'),before);
+  fs.rmSync(dir,{recursive:true,force:true});
 });
