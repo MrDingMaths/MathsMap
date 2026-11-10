@@ -66,7 +66,7 @@ All found by the content rules, repaired through `settle-comments.mjs` (decision
 
 ## Decisions for James
 
-1. **Slot pairs printed harder first (all three batches).** A difficulty-jump slot's two versions were each inserted straight after the same question, so the "upper" version printed before the "lower" one. Fixed for future runs (`afterInserted`). Already saved: 76 pairs are upper-first, and in 58 of them (29 booklets) the harder question comes first. List: `.booklet-work/pedagogy-audit-v2/slot-order-20261110.json`. Swapping them is mechanical (one `order` per section, then a page check), but it touches booklets already approved. Go ahead?
+1. **Slot pairs printed harder first (all three batches): done.** A difficulty-jump slot's two versions were each inserted straight after the same question, so the harder one printed first. Fixed for future runs (`afterInserted`). James approved the swap (10 November): 58 pairs in 29 booklets now stand in score order, each booklet saved through `settle-comments.mjs` with its page check (all passed). Decisions: `.booklet-work/pedagogy-audit-v2/settle-20261110b/slot-order/`. No question refers to a swapped one by number.
 2. **Angle labels without arcs in batches 1 and 2.** Angle Relationships 2 (4 blocks, 16 figures) and Circle Trigonometry 1 (4 blocks) label angles with no arc. The labels sit close to their vertex, and these passed review. Add arcs there too?
 
 ## For James (teacher content, unchanged by the audit)
@@ -77,8 +77,13 @@ All found by the content rules, repaired through `settle-comments.mjs` (decision
 - Further Parabolas 2 p6: "The discriminantΔ" runs together.
 - Graphs of Rates of Change 1 p25 Q7: the "M (mph)" axis title sits on the tick numbers.
 - Multistep Linear Equations p21: the steps are numbered 5–8 (the list starts at 5).
+- Graphs of Rates of Change 2, short answers 2a, 2b and 5a: the y-axis title runs into the tick numbers (the same fix as the audit's 3b: move the title left).
 - Inequalities: number-line circles are about 1 mm across, so open and closed are hard to tell apart (the audit's new ones copy the teacher's size).
 
 ## Split-box detector (batches 2 and 3)
 
 All 50 booklets of batches 2 and 3 were checked (`split-arranged.mjs` → `split-text-loss.mjs` → `split-suspect-pages.mjs`; results in `.booklet-work/pedagogy-audit-v2/split-*-20261110b/c.*`). 77 arranged blocks span two or more pages, and 23 were flagged. Each flagged pair of pages was looked at: none has lost content. The flags were the next question repeating the same stem ("Simplify these expressions."), a box continued by design ("Question 6 continued", a continued Interpret box), or parts that are maths or handwritten images the text match cannot read, which print on the next page.
+
+## Found after the report by the new figure findings
+
+The workflow review (see "Workflow changes before Stage 6" in `docs/booklet-pedagogy-audit-v2.md`) made the apply record figure findings in the audit's own figures. Run over batch 3, they named two defects the page review had missed, both repaired and looked at: Non-right-angled Trigonometry 2 Exercise 4 Q16 (the "O" sat on a diagonal) and Graphs of Rates of Change 2 short answer 3b (the axis title ran into the tick numbers).
