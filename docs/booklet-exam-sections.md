@@ -146,7 +146,7 @@ node scripts/booklet/regroup-exam-sections.mjs --out .booklet-work/RUN/exam-cand
 ```
 
 This writes candidates and before-snapshots only; it has no apply/publish mode.
-Only active Stage 5/6 masters are eligible. Class copies, import reviews,
+Only active Stage 4/5/6 masters are eligible (Stage 4 from 9 November 2026; NAPLAN titles never move). Class copies, import reviews,
 exemplars and archives are excluded. Whole explicit Exam sections preserve all
 instructions. Individual questions move only as safe logical units; ambiguous
 shared instructions, unlabelled linked follow-ups, cross-section dependencies

@@ -17,9 +17,13 @@ export function sourceFromBookletTitle(block) {
   return {provider:'HSC',paper,...(year?{year}:{}),label:year?`HSC ${paper} ${year}`:`HSC ${paper} Sample Question`,origin:'booklet'};
 }
 
+// Stage 4 masters joined on 9 November 2026 (James: "Stage 4 booklets still have exam questions in the exercises, I
+// want them moved to the exam section"). NAPLAN titles never match: only HSC titles and HSC/HSC-trial/PLC sources move.
+// A question that is already an Exam owner (same MathsBase id, or the same prompt text) is held, never doubled.
+const promptText=block=>JSON.stringify([block.content?.prompt,...(block.content?.children??[]).map(c=>c.prompt)]).toLowerCase().replace(/\*\*[^*]*\*\*/g,'').replace(/[^a-z0-9]+/g,'');
 export function existingExamCandidate(project,{courses=[],excludedIds=[]}={}) {
   const stage=courses.find(c=>c.id===project.library?.courseId)?.stage;
-  const excluded=project.library?.category!=='master'||project.library?.archivedAt||![5,6].includes(stage)||excludedIds.includes(project.id)||project.library?.exemplar||project.exemplar||/\bexemplar\b/i.test(`${project.id} ${project.title}`);
+  const excluded=project.library?.category!=='master'||project.library?.archivedAt||![4,5,6].includes(stage)||excludedIds.includes(project.id)||project.library?.exemplar||project.exemplar||/\bexemplar\b/i.test(`${project.id} ${project.title}`);
   if(excluded)return {project:null,report:{projectId:project.id,status:'excluded'}};
   const candidate=structuredClone(project),topics=new Map((candidate.topics??[]).map(t=>[t.id,t.title]));
   const isExam=s=>s.role==='exam'||/^exam (?:questions|practice)$/i.test(topics.get(s.topicId)??s.title??'');
@@ -58,8 +62,12 @@ export function existingExamCandidate(project,{courses=[],excludedIds=[]}={}) {
     const units=exerciseUnits(section);
     if(units.unresolved){held.push({sectionId:section.id,reason:'cross-section or unresolved dependency requires review'});continue;}
     const remove=new Set();
+    const owners=examSections.flatMap(s=>s.blocks).filter(b=>b.type==='question');
+    const sameAs=block=>owners.find(o=>{const a=promptText(o),b=promptText(block),id=block.sourceReview?.origin?.externalId;return (id&&o.sourceReview?.origin?.externalId===id)||(a.length>=40&&b.length>=40&&(a.includes(b.slice(0,80))||b.includes(a.slice(0,80))));});
     for(const unit of units.groups.filter(u=>u.blocks.some(b=>selected.has(b.id)))){
       if(unit.blocks.some(b=>b.type!=='question'||!selected.has(b.id)||hasUnsupportedSource(b))){held.push({ids:unit.blocks.map(b=>b.id),reason:'linked question or meaningful instruction has ambiguous exam scope; unit held'});continue;}
+      const dup=unit.blocks.map(b=>[b,sameAs(b)]).find(([,o])=>o);
+      if(dup){held.push({ids:unit.blocks.map(b=>b.id),reason:`same question as existing Exam owner ${dup[1].id}; unit held`});continue;}
       for(const block of unit.blocks){label(block);remove.add(block.id);newExamBlocks.push(block);moved.push({id:block.id,from:section.id});}
     }
     section.blocks=section.blocks.filter(b=>!remove.has(b.id));

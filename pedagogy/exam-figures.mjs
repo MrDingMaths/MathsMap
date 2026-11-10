@@ -10,7 +10,8 @@
 //                               questions; up to PER_ARCHETYPE per archetype, so only new task types are drawn
 //   author   Sonnet + images    adapt each selected row and redraw its figures as TikZ (or hold it)
 //   preview  Studio             compile every redrawn figure to PNG (scripts/shoot-tikz.mjs)
-//   rate     Terra + images     fidelity of text and figure against the source images, answers, difficulty
+//   rate     Sol low + images   fidelity of text and figure against the source images, answers, difficulty
+//   fix      Sol low + images   the checker fixes what it rejected, up to FIX_ROUNDS fix-and-recheck rounds
 //   build    script             blocks with questionDiagrams/solutionDiagrams, closure record and check
 import fs from 'node:fs';
 import path from 'node:path';
@@ -27,11 +28,13 @@ import {buildClosureSkeleton, checkClosure, defaultBindings, setDisposition} fro
 import {markTokens} from './exam-marks.mjs';
 import {reconstructionPrompt} from '../scripts/booklet/candidate-validation.mjs';
 import {REASONING_PROMPT, REASONING_RUBRIC, reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
-import {RUN as BATCH_RUN, PER_ARCHETYPE, nativeContent, buildScreen, poolRows, examOwners, bookletView, answerSamples, anchorsFor, codexBinary, saveBooklet} from './exam-batch.mjs';
+import {requireProgrammeExamSection} from './programme-exam.mjs';
+import {RUN as BATCH_RUN, PER_ARCHETYPE, RATER, examPassConfiguration, withExamSection, nativeContent, buildScreen, poolRows, examOwners, bookletView, answerSamples, anchorsFor, codexBinary, saveBooklet} from './exam-batch.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const FIG = '.booklet-work/exam-figures-20261107';
-const RATER = {model: 'gpt-6.1-terra', effort: 'high'}, RATE_VERSION = 'rate-v3', REPAIR_ROUNDS = 1;
+// RATER (Sol 6.1 low, 9 November 2026) comes from exam-batch.mjs. TERRA only finds check replies cached before then.
+const TERRA = {model: 'gpt-6.1-terra', effort: 'high'}, RATE_VERSION = 'rate-v3', FIX_ROUNDS = 3, FIX_VERSION = 'fix-v1';
 const AUTHOR_ROWS = 3, AUTHOR_IMAGES = 10, RATE_ROWS = 3;
 const DEFER = 'scope:deferred-20261107';
 const read = f => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
@@ -208,8 +211,9 @@ function authorBatches(selected, rowById, index) {
   return batches;
 }
 // feedback: {key: {issues, previous}} for a repair round after the checker rejected a redraw.
-async function author(id, project, batch, rowById, index, verification, feedback = {}) {
-  const key = sha(JSON.stringify(batch.map(s => [s.id, s.archetype, feedback[s.key] ?? null])) + 'author-v1');
+// salt: a retry of a failed call gets its own cache key (the failed call left no draft, but a bad reply did).
+async function author(id, project, batch, rowById, index, verification, feedback = {}, salt = '') {
+  const key = sha(JSON.stringify(batch.map(s => [s.id, s.archetype, feedback[s.key] ?? null])) + 'author-v1' + salt);
   const work = path.join(dirOf(id), 'author', key.slice(0, 16)), draftFile = path.join(work, 'draft.json');
   if (fs.existsSync(draftFile)) return read(draftFile).result;
   if (fs.existsSync(work)) fs.renameSync(work, work + '-failed-' + Date.now());
@@ -310,7 +314,7 @@ export function figureSizing(prompt, natural) {
   return DRAWING_PROMPT.test(text) ? {widthMm: Math.max(natural, DRAWING_MIN_MM), sizing: {purpose: 'drawing'}} : {widthMm: natural};
 }
 
-// ---- rate (Terra with images) ---------------------------------------------------------------------
+// ---- rate (Sol low with images) -------------------------------------------------------------------
 function ratePrompt(project, items, anchors, labels) {
   return `Do not run any commands or open files: everything you need is in this message and its attached images.
 You are the independent checker and difficulty rater for new Exam questions in the MathsMap booklet "${project.title}".
@@ -334,6 +338,26 @@ Items: ${JSON.stringify(items)}
 Reply with ONLY JSON: {"items": [{"id": "...", "accept": true, "issues": [], "reasoningScore": 0, "difficultyReason": "..."}]}`;
 }
 
+// ---- fix (Sol low with images) -------------------------------------------------------------------
+// The checker fixes what it rejected (James, 8 November 2026), under the same authoring rules and TikZ manual as
+// Sonnet so the fix keeps house style. The fixed text comes first so fix calls share one prefix.
+function fixPrompt(project, items, labels) {
+  return [`Do not run any commands or open files: everything you need is in this message and its attached images.
+You fix new Exam questions for the MathsMap booklet "${project.title}". Each item is a real exam question that needs a
+figure: its source text and solution, the source figure images, the current adaptation and its TikZ redraws (with
+their renders where they compiled), and the issues an independent check found. Fix EVERY issue: redraw from the source
+again where a figure is wrong, correct the text or answers where they are wrong, and keep everything else exactly as it
+is. If an issue is a real defect in the source itself (a needed given is missing, the figure contradicts the text), do
+not guess: hold the item with that reason.
+The authoring rules the adaptation must follow:`, AUTHOR_INSTRUCTIONS, reconstructionPrompt('diagrams', 4), 'TikZ manual:\n' + reconstructionPrompt('tikz', 4),
+  `The attached images, in order:
+${labels.join('\n')}
+Answer notation: use the booklet's own, shown in these samples of its answers: ${JSON.stringify(answerSamples(project, 8))}
+Items: ${JSON.stringify(items)}
+Reply with ONLY JSON: {"items": [{"id": "...", "content": CONTENT, "diagrams": [DIAGRAM, ...]} or {"id": "...", "hold": "specific reason"}]},
+every item id exactly once. CONTENT and DIAGRAM as in the authoring rules; return the whole item (every figure), not only the changed parts.`].join('\n\n');
+}
+
 // ---- build ----------------------------------------------------------------------------------------
 // "\text{($k$ is a constant)}" inside $...$: the editor splits maths on "$", so nested dollars break the formula
 // (7 November 2026, Fundamental Theorem of Calculus). Lift the inner maths out of \text.
@@ -343,7 +367,9 @@ export function unnestTextDollars(s) {
 const unnestContent = c => {
   if (!c || typeof c !== 'object') return c;
   const out = Array.isArray(c) ? [] : {};
-  for (const [k, v] of Object.entries(c)) out[k] = typeof v === 'string' ? unnestTextDollars(v) : unnestContent(v);
+  // "\\[\ln x]_1^Q" after a line break reads as a row-spacing argument and KaTeX fails ("Invalid size", 9 November 2026,
+  // continuous random variables 2): "\\{}[" keeps the bracket literal.
+  for (const [k, v] of Object.entries(c)) out[k] = typeof v === 'string' ? unnestTextDollars(v).replace(/(?<!\\)\\\\\[(?!\s*-?[\d.]+\s*(?:pt|em|ex|mm|cm|mu|in|bp)\s*\])/g, '\\\\{}[') : unnestContent(v);
   return out;
 };
 function figureBlock(row, item, rating, {archetype, evidence, sourceImages}) {
@@ -353,19 +379,22 @@ function figureBlock(row, item, rating, {archetype, evidence, sourceImages}) {
   const counts = {};
   for (const d of item.diagrams) {
     const node = nodes.get(String(d.node ?? 'root')) ?? (() => { throw Error(`${id}: diagram for unknown node ${d.node}`); })();
-    const role = d.role === 'solution' ? 'solution' : 'question', field = role === 'solution' ? 'solutionDiagrams' : 'questionDiagrams';
+    const role = d.role === 'solution' ? 'solution' : 'question';
     const n = counts[node.id + role] = (counts[node.id + role] ?? 0) + 1;
     const size = role === 'question' ? figureSizing(node.prompt, d.widthMm) : d.widthMm ? {widthMm: d.widthMm} : null;
-    (node[field] ??= []).push({id: `${node.id}-${role}-diagram-${n}`, format: 'tikz', role, code: d.code, ...(size ? {widthMm: size.widthMm} : {}),
+    // The question model reads a leaf's solution figures from answer.solutionDiagrams and a group's from
+    // sharedSolutionDiagrams; a node-level solutionDiagrams is dropped and never prints (found 9 November 2026).
+    const list = role === 'question' ? (node.questionDiagrams ??= []) : node.children?.length ? (node.sharedSolutionDiagrams ??= []) : ((node.answer ??= {short: null, worked: ''}).solutionDiagrams ??= []);
+    list.push({id: `${node.id}-${role}-diagram-${n}`, format: 'tikz', role, code: d.code, ...(size ? {widthMm: size.widthMm} : {}),
       spec: {sourceImageLabel: `Source ${d.spec?.source ?? 'figure'} for ${row.id}${sourceImages.length ? ' (' + sourceImages.join(', ') + ')' : ''}`, description: d.spec?.description ?? '', mathematics: d.spec?.mathematics ?? '', answerVisibility: d.spec?.answerVisibility ?? '', ...(size?.sizing ? {sizing: size.sizing} : {})}});
   }
   const block = {id, type: 'question', pedagogyRole: 'practice', snapshotKind: 'local', bankRef: null, title: '', content,
     sourceReview: {origin: {provider: 'MathsBase', externalId: row.id, sourceCode: row.source, sourceQuestionSha256: sha(row.question_text ?? ''), sourceSolutionSha256: sha(row.solution_text ?? ''), readSnapshot: row.readSnapshot ?? BATCH_RUN + '/s4-rows.json', sourceImages},
       wholeSource: true, markTokensRemoved: markTokens(row.question_text ?? '').filter(t => t.standalone && !t.inMath).map(t => t.token),
-      generation: {model: NEW_CONTENT_MODEL, kind: 'exam-figure-adaptation', run: FIG}, status: 'independent-content-accepted'},
+      generation: {model: NEW_CONTENT_MODEL, kind: 'exam-figure-adaptation', run: FIG, ...(item.revisedBy ? {revisedBy: item.revisedBy} : {})}, status: 'independent-content-accepted'},
     classification: {primarySkillId: null, secondarySkillIds: [], archetype}};
   block.classification = {...block.classification, reasoningScore: rating.reasoningScore, difficulty: difficultyBandForScore(rating.reasoningScore), difficultyReason: String(rating.difficultyReason).trim(),
-    assessment: {model: RATER.model, effort: RATER.effort, assessedAt: rating.assessedAt, rubricVersion: REASONING_RUBRIC, taskHash: reasoningTaskHash(block), evidence}};
+    assessment: {model: (rating.rater ?? RATER).model, effort: (rating.rater ?? RATER).effort, assessedAt: rating.assessedAt, rubricVersion: REASONING_RUBRIC, taskHash: reasoningTaskHash(block), evidence}};
   return block;
 }
 
@@ -397,129 +426,23 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
   state.select = {file: selectFile, selected: selected.length, decisions: Object.fromEntries(['selected', 'represented', 'duplicate', 'out-of-scope', 'faulty'].map(k => [k, selection.filter(r => r.decision === k).length]))};
   say(`selected ${selected.length} of ${pool.length} figure rows`);
   if (until === 'select' || !selected.length) { write(path.join(dir, 'state.json'), {...state, status: selected.length ? 'selected' : 'nothing-selected'}); return {...state, status: selected.length ? 'selected' : 'nothing-selected'}; }
-  // author -> preview -> rate, then one repair round for the redraws the checker rejected
+  // author -> preview -> label check -> check, then up to FIX_ROUNDS checker fixes of whatever is still wrong
   const index = await fetchImages(id, selected.map(s => rowById.get(s.id)));
   // The selection call is the exact-model evidence (callSonnet rejects any other model in its reply).
   const verification = {passed: true, requestedModel: NEW_CONTENT_MODEL, models: [NEW_CONTENT_MODEL], evidence: selectFile};
-  const anchors = anchorsFor(project), authored = new Map(), holds = new Map(), accepted = new Map(), rejected = new Map();
   process.env.BOOKLET_CODEX_BIN ??= codexBinary();
-  const {runAstraTask} = await import('../scripts/booklet/codex-transcription.mjs');
-  let todo = selected, feedback = {};
-  const labelReturned = new Set(), terraRepairs = new Map();
-  state.rounds = [];
-  // One round more than REPAIR_ROUNDS so a row sent back for labels still gets its checker-driven repair.
-  for (let round = 0; round <= REPAIR_ROUNDS + 1 && todo.length; round++) {
-    const got = new Map();
-    const replies = await pool3(authorBatches(todo, rowById, index), b => author(id, project, b, rowById, index, verification, feedback).catch(e => ({error: e.message, keys: b.map(s => s.key)})));
-    for (const r of replies) {
-      if (r.error) { for (const k of r.keys) holds.set(k, 'author call failed: ' + r.error.slice(0, 200)); continue; }
-      for (const h of r.holds ?? []) holds.set(h.id, h.reason);
-      for (const it of r.items ?? []) {
-        try {
-          if (!it.content?.prompt || !Array.isArray(it.diagrams) || !it.diagrams.length) throw Error('content or diagrams missing');
-          const s = todo.find(x => x.key === it.id);
-          if (!s) throw Error('unknown row key');
-          it.diagrams = it.diagrams.map((d, i) => ({...d, code: normaliseDiagram(d, `${s.key} figure ${i + 1}`)}));
-          got.set(it.id, it); holds.delete(it.id);
-        } catch (e) { holds.set(it.id, 'author reply: ' + e.message); }
-      }
-    }
-    for (const s of todo) if (!got.has(s.key) && !holds.has(s.key)) holds.set(s.key, 'missing from author reply');
-    const log1 = {round, authored: got.size, held: todo.length - got.size};
-    say(`round ${round}: authored ${got.size} of ${todo.length}`);
-    if (until === 'author') { state.rounds.push(log1); write(path.join(dir, 'state.json'), {...state, holds: Object.fromEntries(holds), status: 'authored'}); return {...state, status: 'authored'}; }
-    // preview
-    const diagrams = [...got.values()].flatMap(it => it.diagrams.map((d, i) => ({id: `${it.id}-d${i + 1}`, code: d.code})));
-    // Source figures that are already TikZ are rendered too, so the checker compares pictures with pictures.
-    for (const k of got.keys()) for (const f of figuresOf(rowById.get(idOf.get(k))).filter(f => f.kind === 'tikz')) diagrams.push({id: `${k}-s${f.n}`, code: f.code});
-    const manifest = diagrams.length ? preview(id, diagrams, round) : [];
-    const png = new Map(manifest.filter(m => m.png && !['fail', 'error', 'pending'].includes(m.status)).map(m => [m.field, path.join(dir, round ? 'preview-r' + round : 'preview', m.png)]));
-    // A figure that does not compile goes to the repair round with the reason; after the last round it is held.
-    const compileFail = {};
-    const natural = new Map(manifest.map(m => [m.field, naturalWidthMm(m)]));
-    for (const [k, it] of [...got]) {
-      it.pngs = it.diagrams.map((_, i) => png.get(`${k}-d${i + 1}`));
-      it.diagrams.forEach((d, i) => { d.widthMm = natural.get(`${k}-d${i + 1}`) ?? undefined; });
-      const bad = it.pngs.map((p, i) => p ? null : i + 1).filter(Boolean);
-      if (bad.length) { got.delete(k); holds.set(k, 'TikZ did not compile in Studio'); compileFail[k] = {issues: bad.map(n => `Figure ${n} did not compile in Studio's TikZ (check \\foreach inside a PGFPlots axis, undefined macros, missing libraries)`), previous: {content: it.content, diagrams: it.diagrams.map(({pngs, ...d}) => d)}}; }
-    }
-    log1.compiled = got.size;
-    if (until === 'preview') { state.rounds.push(log1); write(path.join(dir, 'state.json'), {...state, holds: Object.fromEntries(holds), status: 'previewed'}); return {...state, status: 'previewed'}; }
-    // Mechanical label check before the checker ("All three" speed-ups, 7 November 2026): a redraw with a label
-    // collision goes straight back to its author once, without a Terra call. Its later Terra repair is not used up.
-    const labelBack = {};
-    if (got.size && round < REPAIR_ROUNDS + 1) try {
-      const {labelCollisions} = await import('./figure-label-check.mjs');
-      const input = path.join(ROOT, 'public/.audit-input', `exam-figures-${id}-r${round}.json`);
-      const found = await labelCollisions(input);
-      for (const [k, it] of [...got]) {
-        if (labelReturned.has(k)) continue;
-        const issues = it.diagrams.flatMap((d, i) => (found[`${k}-d${i + 1}`]?.issues ?? []).map(t => `${d.role === 'solution' ? 'Solution' : 'Question'} figure ${i + 1}: ${t}. Move the label clear (above, below or beside the line, or along the axis away from the curve) and keep every label.`));
-        if (!issues.length) continue;
-        labelReturned.add(k); got.delete(k);
-        labelBack[k] = {issues, previous: {content: it.content, diagrams: it.diagrams.map(({pngs, ...d}) => d)}};
-      }
-    } catch (e) { say(`label check skipped: ${e.message.slice(0, 160)}`); }
-    log1.labelReturned = Object.keys(labelBack).length;
-    if (log1.labelReturned) say(`round ${round}: ${log1.labelReturned} sent back for label collisions`);
-    // rate
-    const keys = [...got.keys()], chunks = [];
-    for (let i = 0; i < keys.length; i += RATE_ROWS) chunks.push(keys.slice(i, i + RATE_ROWS));
-    const rateReplies = await pool3(chunks, async chunk => {
-      const items = [], images = [], labels = [];
-      for (const k of chunk) {
-        const r = rowById.get(idOf.get(k)), it = got.get(k);
-        for (const f of figuresOf(r)) {
-          if (f.kind === 'image') { const img = index[`${r.id}-${f.n}`]; images.push(path.join(ROOT, img.path)); labels.push(`Image ${images.length}: item ${k}, SOURCE figure ${f.n}`); }
-          else if (png.get(`${k}-s${f.n}`)) { images.push(png.get(`${k}-s${f.n}`)); labels.push(`Image ${images.length}: item ${k}, SOURCE figure ${f.n} (the bank's TikZ, rendered)`); }
-        }
-        it.diagrams.forEach((d, i) => { images.push(it.pngs[i]); labels.push(`Image ${images.length}: item ${k}, REDRAWN ${d.role} figure ${i + 1} (${d.spec?.source ?? ''}, on ${d.node})`); });
-        items.push({id: k, sourceCode: r.source, sourceQuestion: placeholders(r, 'question_text'), sourceSolution: placeholders(r, 'solution_text'), adaptation: it.content, redrawnFigures: it.diagrams.map(d => ({node: d.node, role: d.role, spec: d.spec, tikz: d.code}))});
-      }
-      const key = sha(JSON.stringify(items) + RATER.model + RATER.effort + RATE_VERSION), file = path.join(dir, 'rate', 'chunk-' + key.slice(0, 16) + '.json');
-      if (fs.existsSync(file)) return read(file);
-      for (let attempt = 1; ; attempt++) {
-        // An unparseable reply (7 November 2026: "reasoningScore": fifty) is retried like an incomplete one, instead
-        // of failing the whole booklet.
-        let reply;
-        try { reply = await runAstraTask({cwd: dir, runDir: dir, prompt: ratePrompt(project, items, anchors, labels), images, out: path.join(dir, 'rate', `call-${key.slice(0, 8)}-${attempt}-${Date.now()}`), profile: 'review', stage: 'exam-figure-rate'}); }
-        catch (e) {
-          // Only a garbled reply is retried. Anything else (Codex exiting, a usage limit) fails the booklet loudly, so
-          // its rows are never recorded as rejected (7 November 2026: a usage limit turned 86 rows into "rating failed").
-          if (!(e instanceof SyntaxError || /JSON/i.test(e.message))) throw e;
-          if (attempt === 2) return {error: 'Terra reply unusable twice: ' + e.message.slice(0, 120), items: chunk.map(k => ({id: k, accept: false, issues: ['rating failed']}))};
-          continue;
-        }
-        const res = reply.result, want = new Set(chunk);
-        // A rejected item may come back without a score (7 November 2026: null for a blocked task).
-        if (Array.isArray(res?.items) && res.items.length === want.size && res.items.every(i => want.has(i.id) && (i.accept !== true || (Number.isInteger(i.reasoningScore) && String(i.difficultyReason ?? '').trim())))) {
-          const kept = {key, assessedAt: now(), metrics: reply.metrics, items: res.items};
-          write(file, kept);
-          return kept;
-        }
-        if (attempt === 2) return {error: 'Terra reply incomplete twice', items: chunk.map(k => ({id: k, accept: false, issues: ['rating failed']}))};
-      }
-    });
-    const next = {...compileFail, ...labelBack};
-    for (const r of rateReplies) for (const i of r.items) {
-      const evidence = r.key ? posix(path.join(dir, 'rate', 'chunk-' + r.key.slice(0, 16) + '.json')) : null;
-      if (i.accept === true && evidence) { accepted.set(i.id, {...i, assessedAt: r.assessedAt, evidence}); authored.set(i.id, got.get(i.id)); rejected.delete(i.id); }
-      else {
-        rejected.set(i.id, i.issues ?? []);
-        // Each row gets REPAIR_ROUNDS repairs driven by the checker; a label send-back does not count.
-        const used = terraRepairs.get(i.id) ?? 0;
-        if (r.key && used < REPAIR_ROUNDS) { terraRepairs.set(i.id, used + 1); next[i.id] = {issues: i.issues ?? [], previous: {content: got.get(i.id).content, diagrams: got.get(i.id).diagrams.map(({pngs, ...d}) => d)}}; }
-      }
-    }
-    // A compile failure uses one of the row's repairs, like a checker rejection.
-    for (const k of Object.keys(compileFail)) { const used = terraRepairs.get(k) ?? 0; if (used < REPAIR_ROUNDS) terraRepairs.set(k, used + 1); else delete next[k]; }
-    log1.accepted = rateReplies.flatMap(r => r.items).filter(i => i.accept === true).length;
-    state.rounds.push(log1);
-    say(`round ${round}: Terra accepted ${log1.accepted} of ${keys.length}`);
-    todo = selected.filter(s => next[s.key]); feedback = next;
-  }
+  const codex = await import('../scripts/booklet/codex-transcription.mjs');
+  const io = figureIO({id, project, dir, rowById, idOf, index, anchors: anchorsFor(project), verification, codex, say});
+  const res = await figureRounds({selected, until, say, ...io});
+  state.rounds = res.rounds;
+  if (res.stopAt) { write(path.join(dir, 'state.json'), {...state, holds: Object.fromEntries(res.holds), status: res.stopAt}); return {...state, status: res.stopAt}; }
+  const {authored, holds, accepted, rejected} = res;
+  // Page review (9 November 2026): drops.json {"<MathsBase row id>": "reason"} holds an accepted row that review
+  // found to repeat another question, so the rebuild leaves it out and its closure row records why.
+  const dropsFile = path.join(dir, 'drops.json'), drops = fs.existsSync(dropsFile) ? read(dropsFile) : {};
+  for (const k of [...accepted.keys()]) if (drops[idOf.get(k)]) { accepted.delete(k); holds.set(k, `page review: ${drops[idOf.get(k)]}`); }
   state.author = {authored: authored.size, holds: Object.fromEntries(holds)};
-  state.rate = {accepted: accepted.size, rejected: [...rejected].map(([id, issues]) => ({id, issues}))};
+  state.rate = {accepted: accepted.size, fixed: res.fixed, fixHeld: res.fixHeld, noProgress: res.noProgress, rejected: [...rejected].filter(([k]) => !accepted.has(k)).map(([id, issues]) => ({id, issues}))};
   if (until === 'rate' || !accepted.size) { write(path.join(dir, 'state.json'), {...state, status: accepted.size ? 'rated' : 'none-accepted'}); return {...state, status: accepted.size ? 'rated' : 'none-accepted'}; }
   // build
   const blocks = [...accepted.keys()].map(k => {
@@ -530,9 +453,21 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
   const section = (project.sections ?? []).find(s => s.role === 'exam');
   const own = section ? section.blocks.filter(b => b.type === 'question') : [];
   const ordered = [...own, ...blocks].sort((a, b) => (a.classification?.reasoningScore ?? 0) - (b.classification?.reasoningScore ?? 0));
-  const next = {...structuredClone(section), blocks: [...section.blocks.filter(b => b.type !== 'question'), ...ordered]};
+  // A Stage 4 booklet whose text-only batch added nothing has no Exam section yet (9 November 2026): create it as the batch does.
+  const sectionId = section?.id ?? id + '-exam-questions';
+  const next = section ? {...structuredClone(section), blocks: [...section.blocks.filter(b => b.type !== 'question'), ...ordered]}
+    : requireProgrammeExamSection({id: sectionId, topicId: sectionId, title: 'Exam questions', phase: 'practice', role: 'exam', pageBreakBefore: true, workingSpace: 'none', blocks: ordered});
   for (const b of next.blocks) if (b.type === 'question' && !b.source) b.source = approvedMathsBaseSource(b.sourceReview.origin.sourceCode);
-  const candidate = {...structuredClone(project), sections: project.sections.map(s => s.id === section.id ? next : s)};
+  const candidate = section ? {...structuredClone(project), sections: project.sections.map(s => s.id === section.id ? next : s)} : withExamSection(project, next);
+  // A solution figure wider than the worked-answer cap (55 mm) keeps its authored width there (up to MAX_FIGURE_MM): at the cap
+  // the figure-pass graphs crowded their tick and point labels (page review, 10 November 2026).
+  const ca = ((candidate.settings ??= {}).compactAnswers ??= {}), answerWidths = (ca.diagramWidths ??= {}), cap = ca.workedDiagramMm ?? 55;
+  const solutionFigures = n => [...(n.sharedSolutionDiagrams ?? []), ...(n.answer?.solutionDiagrams ?? []), ...(n.children ?? []).flatMap(solutionFigures)];
+  // Graphs (colour metadata kind "graph") carry tick and point labels, so they get at least 62 mm.
+  for (const d of blocks.flatMap(b => solutionFigures(b.content))) {
+    const want = Math.min(MAX_FIGURE_MM, /"kind":"graph"/.test(d.code ?? '') ? Math.max(Number(d.widthMm) || 0, 62) : Number(d.widthMm));
+    if (answerWidths[d.id] == null && want > cap) answerWidths[d.id] = {worked: want};
+  }
   const candidateFile = path.join(dir, `candidate.r${project.revision}.json`);
   write(candidateFile, candidate);
   // closure: the screen of the live revision; earlier decisions carried over, figure rows decided here
@@ -568,6 +503,241 @@ export async function runFigures(id, {until = 'build', used = new Set(), log = c
   say(`${state.status}: ${blocks.length} figure questions`);
   return state;
 }
+// ---- rounds ---------------------------------------------------------------------------------------
+// Round 0 is Sonnet's draft, with one label send-back to Sonnet. Each later round is a checker fix (James, 8 November
+// 2026: the checker fixes a rejected figure itself, up to 3 fix-and-recheck rounds; Sol 6.1 low from 9 November). A fix
+// that does not compile or has a label collision uses up its round without a check call; the rest get a fresh,
+// stateless check. A row stops after FIX_ROUNDS fixes, or when a check repeats the previous check's issues.
+// All model and Studio calls are injected (figureIO), so the loop can be tested offline.
+export async function figureRounds({selected, until = 'build', say = () => {}, batchesOf, author, compile, labels, rate, fix, sleep = ms => new Promise(r => setTimeout(r, ms))}) {
+  const holds = new Map(), accepted = new Map(), authored = new Map(), rejected = new Map(), rounds = [], rows = new Map();
+  const stats = {fixed: 0, fixHeld: 0, noProgress: 0};
+  const rowState = k => rows.get(k) ?? rows.set(k, {fixRounds: 0, lastCheck: null}).get(k);
+  const previous = it => ({content: it.content, diagrams: it.diagrams.map(({pngs, ...d}) => d)});
+  const callAuthor = async (batch, feedback, salt) => {
+    for (let wait = 1; ; wait++) {
+      try { return await author(batch, feedback, salt); }
+      catch (e) {
+        // Busy worker slots are another session's calls, not a fault of the row (9 November 2026: 9 rows held).
+        if (/worker slots are busy/i.test(e.message) && wait <= 30) { say('worker slots busy; waiting 60 s'); await sleep(60000); continue; }
+        throw e;
+      }
+    }
+  };
+  const authorAll = async (todo, feedback) => {
+    const got = new Map(), retry = [];
+    const take = (r, batch) => {
+      const need = [];
+      for (const h of r.holds ?? []) if (batch.some(s => s.key === h.id)) holds.set(h.id, h.reason);
+      for (const it of r.items ?? []) {
+        const s = batch.find(x => x.key === it.id);
+        if (!s) continue;
+        try {
+          if (!it.content?.prompt || !Array.isArray(it.diagrams) || !it.diagrams.length) throw Error('content or diagrams missing');
+          it.diagrams = it.diagrams.map((d, i) => ({...d, code: normaliseDiagram(d, `${s.key} figure ${i + 1}`)}));
+          got.set(it.id, it); holds.delete(it.id);
+        } catch (e) { holds.set(it.id, 'author reply: ' + e.message); need.push(s); }
+      }
+      for (const s of batch) if (!got.has(s.key) && !holds.has(s.key)) { holds.set(s.key, 'missing from author reply'); need.push(s); }
+      return need;
+    };
+    const first = await pool3(batchesOf(todo), b => callAuthor(b, feedback).then(r => ({r, b}), e => ({e, b})));
+    for (const {r, e, b} of first) {
+      if (e) { for (const s of b) holds.set(s.key, 'author call failed: ' + e.message.slice(0, 200)); retry.push(...b); }
+      else retry.push(...take(r, b));
+    }
+    // One retry per failed row, alone, so one bad row cannot sink its batchmates (9 November 2026: 112 rows across
+    // the pass were held because a Sonnet author call failed and never reached the checker).
+    if (retry.length) {
+      say(`retrying ${retry.length} author rows alone`);
+      const again = await pool3(retry, s => callAuthor([s], feedback, 'retry-1').then(r => ({r, b: [s]}), e => ({e, b: [s]})));
+      for (const {r, e, b} of again) { if (e) holds.set(b[0].key, 'author call failed twice: ' + e.message.slice(0, 200)); else take(r, b); }
+    }
+    return got;
+  };
+  const check = async (items, log) => {
+    const next = new Map();
+    if (!items.size) return next;
+    for (const r of await rate(items)) for (const i of r.items) {
+      const it = items.get(i.id), st = rowState(i.id);
+      if (!it) continue;
+      if (i.accept === true && r.file) {
+        if (st.fixRounds) { it.revisedBy = {...it.fixRater, kind: 'exam-figure-fix', rounds: st.fixRounds, evidence: it.fixEvidence}; stats.fixed++; }
+        accepted.set(i.id, {...i, assessedAt: r.assessedAt, evidence: r.file, rater: r.rater}); authored.set(i.id, it); rejected.delete(i.id); log.accepted++;
+        continue;
+      }
+      const issues = i.issues ?? [];
+      rejected.set(i.id, issues);
+      if (!r.file) continue; // the check failed twice: nothing to fix against
+      const same = st.lastCheck && JSON.stringify([...issues].sort()) === JSON.stringify([...st.lastCheck].sort());
+      st.lastCheck = issues;
+      if (same) { stats.noProgress++; log.noProgress++; continue; }
+      next.set(i.id, {issues, current: it});
+    }
+    return next;
+  };
+  // round 0: Sonnet
+  let got = await authorAll(selected, {});
+  const log0 = {round: 0, authored: got.size, held: selected.length - got.size, accepted: 0, noProgress: 0};
+  say(`round 0: authored ${got.size} of ${selected.length}`);
+  if (until === 'author') { rounds.push(log0); return {stopAt: 'authored', holds, rounds}; }
+  let queue = new Map();
+  for (const [k, issues] of Object.entries(await compile(0, got))) { queue.set(k, {issues, current: got.get(k)}); got.delete(k); }
+  log0.compiled = got.size;
+  if (until === 'preview') { rounds.push(log0); return {stopAt: 'previewed', holds, rounds}; }
+  // Mechanical label check before the checker ("All three" speed-ups, 7 November 2026): a collided redraw goes back to
+  // Sonnet once, without a check call and without using a fix round.
+  const hits = await labels(0, got);
+  log0.labelReturned = Object.keys(hits).length;
+  if (log0.labelReturned) {
+    say(`round 0: ${log0.labelReturned} sent back for label collisions`);
+    const back = selected.filter(s => hits[s.key]), old = new Map(back.map(s => [s.key, got.get(s.key)]));
+    for (const s of back) got.delete(s.key);
+    const redone = await authorAll(back, Object.fromEntries(back.map(s => [s.key, {issues: hits[s.key], previous: previous(old.get(s.key))}])));
+    for (const [k, issues] of Object.entries(await compile(1, redone))) { queue.set(k, {issues, current: redone.get(k)}); redone.delete(k); }
+    for (const [k, it] of redone) got.set(k, it);
+    // A send-back that came back unusable keeps its first version, which the checker fixes for the label issues.
+    // A row Sonnet chose to hold on the send-back stays held.
+    for (const s of back) {
+      if (redone.has(s.key) || queue.has(s.key) || !/^(author reply|missing|author call)/.test(holds.get(s.key) ?? '')) continue;
+      holds.delete(s.key); queue.set(s.key, {issues: hits[s.key], current: old.get(s.key)});
+    }
+  }
+  for (const [k, v] of await check(got, log0)) queue.set(k, v);
+  rounds.push(log0);
+  say(`round 0: accepted ${log0.accepted} of ${got.size} checked`);
+  // rounds 1..FIX_ROUNDS: checker fixes
+  for (let round = 1; round <= FIX_ROUNDS && queue.size; round++) {
+    const log = {round, fixing: queue.size, fixHeld: 0, unusable: 0, compileFailed: 0, labelHits: 0, checked: 0, accepted: 0, noProgress: 0};
+    const replies = await fix(queue), items = new Map(), next = new Map();
+    for (const [k, q] of queue) {
+      rowState(k).fixRounds++;
+      const f = replies.get(k);
+      if (!f || f.error) { rejected.set(k, q.issues); log.unusable++; continue; }
+      if (f.hold) { holds.set(k, 'checker fix held: ' + String(f.hold).slice(0, 300)); rejected.set(k, q.issues); stats.fixHeld++; log.fixHeld++; continue; }
+      try { items.set(k, {content: f.content, diagrams: f.diagrams.map((d, i) => ({...d, code: normaliseDiagram(d, `${k} figure ${i + 1}`)})), fixEvidence: f.evidence, fixRater: f.rater}); }
+      catch (e) { next.set(k, {issues: [e.message], current: {content: f.content, diagrams: f.diagrams}}); log.compileFailed++; }
+    }
+    for (const [k, issues] of Object.entries(await compile('f' + round, items))) { next.set(k, {issues, current: items.get(k)}); items.delete(k); log.compileFailed++; }
+    for (const [k, issues] of Object.entries(await labels('f' + round, items))) { next.set(k, {issues, current: items.get(k)}); items.delete(k); log.labelHits++; }
+    log.checked = items.size;
+    for (const [k, v] of await check(items, log)) next.set(k, v);
+    for (const [k, v] of next) rejected.set(k, v.issues);
+    rounds.push(log);
+    say(`fix round ${round}: ${log.accepted} of ${log.fixing} accepted (${log.fixHeld} held, ${log.compileFailed} compile, ${log.labelHits} labels, ${log.noProgress} no progress)`);
+    queue = next;
+  }
+  return {authored, holds, accepted, rejected, rounds, ...stats};
+}
+
+// Real calls for figureRounds: Sonnet authoring, Studio compile and label check, Sol low check and fix.
+export function figureIO({id, project, dir, rowById, idOf, index, anchors, verification, codex, say}) {
+  const sourceOf = k => rowById.get(idOf.get(k));
+  const tagDir = tag => path.join(dir, tag ? 'preview-r' + tag : 'preview');
+  // Source images, the bank's TikZ source renders and the current redraws, labelled in order.
+  const evidence = (k, it, images, labels, which = 'REDRAWN') => {
+    const r = sourceOf(k);
+    for (const f of figuresOf(r)) {
+      if (f.kind === 'image') { const img = index[`${r.id}-${f.n}`]; images.push(path.join(ROOT, img.path)); labels.push(`Image ${images.length}: item ${k}, SOURCE figure ${f.n}`); }
+      else if (it.srcPngs?.[f.n]) { images.push(it.srcPngs[f.n]); labels.push(`Image ${images.length}: item ${k}, SOURCE figure ${f.n} (the bank's TikZ, rendered)`); }
+    }
+    (it.diagrams ?? []).forEach((d, i) => { if (it.pngs?.[i]) { images.push(it.pngs[i]); labels.push(`Image ${images.length}: item ${k}, ${which} ${d.role} figure ${i + 1} (${d.spec?.source ?? ''}, on ${d.node})`); } });
+    return {id: k, sourceCode: r.source, sourceQuestion: placeholders(r, 'question_text'), sourceSolution: placeholders(r, 'solution_text')};
+  };
+  const chunked = keys => { const out = []; for (let i = 0; i < keys.length; i += RATE_ROWS) out.push(keys.slice(i, i + RATE_ROWS)); return out; };
+  const call = (stage, prompt, images, key, attempt) => codex.runAstraTask({cwd: dir, runDir: dir, prompt, images, out: path.join(dir, stage === 'exam-figure-fix' ? 'fix' : 'rate', `call-${key.slice(0, 8)}-${attempt}-${Date.now()}`),
+    profile: 'review', configuration: examPassConfiguration(), stage, ...(prompt.length > codex.REVIEW_PROMPT_LIMIT ? {oversizeReason: 'TikZ manual needed for house-style fixes'} : {})});
+  // Only a garbled reply is retried. Anything else (Codex exiting, a usage limit) fails the booklet loudly, so its rows
+  // are never recorded as rejected (7 November 2026: a usage limit turned 86 rows into "rating failed").
+  const garbled = e => e instanceof SyntaxError || /JSON/i.test(e.message);
+  return {
+    batchesOf: todo => authorBatches(todo, rowById, index),
+    author: (batch, feedback, salt) => author(id, project, batch, rowById, index, verification, feedback, salt),
+    async compile(tag, items) {
+      const diagrams = [...items].flatMap(([k, it]) => it.diagrams.map((d, i) => ({id: `${k}-d${i + 1}`, code: d.code})));
+      // Source figures that are already TikZ are rendered too, so the checker compares pictures with pictures.
+      for (const k of items.keys()) for (const f of figuresOf(sourceOf(k)).filter(f => f.kind === 'tikz')) diagrams.push({id: `${k}-s${f.n}`, code: f.code});
+      if (!diagrams.length) return {};
+      const manifest = preview(id, diagrams, tag);
+      const png = new Map(manifest.filter(m => m.png && !['fail', 'error', 'pending'].includes(m.status)).map(m => [m.field, path.join(tagDir(tag), m.png)]));
+      const natural = new Map(manifest.map(m => [m.field, naturalWidthMm(m)])), failures = {};
+      for (const [k, it] of items) {
+        it.pngs = it.diagrams.map((_, i) => png.get(`${k}-d${i + 1}`));
+        it.srcPngs = Object.fromEntries(figuresOf(sourceOf(k)).filter(f => f.kind === 'tikz' && png.get(`${k}-s${f.n}`)).map(f => [f.n, png.get(`${k}-s${f.n}`)]));
+        it.diagrams.forEach((d, i) => { d.widthMm = natural.get(`${k}-d${i + 1}`) ?? undefined; });
+        const bad = it.pngs.map((p, i) => p ? null : i + 1).filter(Boolean);
+        if (bad.length) failures[k] = bad.map(n => `Figure ${n} did not compile in Studio's TikZ (check \\foreach inside a PGFPlots axis, undefined macros, missing libraries)`);
+      }
+      return failures;
+    },
+    async labels(tag, items) {
+      if (!items.size) return {};
+      try {
+        const {labelCollisions} = await import('./figure-label-check.mjs');
+        const found = await labelCollisions(path.join(ROOT, 'public/.audit-input', `exam-figures-${id}-r${tag}.json`)), out = {};
+        for (const [k, it] of items) {
+          const issues = it.diagrams.flatMap((d, i) => (found[`${k}-d${i + 1}`]?.issues ?? []).map(t => `${d.role === 'solution' ? 'Solution' : 'Question'} figure ${i + 1}: ${t}. Move the label clear (above, below or beside the line, or along the axis away from the curve) and keep every label.`));
+          if (issues.length) out[k] = issues;
+        }
+        return out;
+      } catch (e) { say(`label check skipped: ${e.message.slice(0, 160)}`); return {}; }
+    },
+    async rate(items) {
+      return pool3(chunked([...items.keys()]), async chunk => {
+        const rows = [], images = [], labels = [];
+        for (const k of chunk) { const it = items.get(k); rows.push({...evidence(k, it, images, labels), adaptation: it.content, redrawnFigures: it.diagrams.map(d => ({node: d.node, role: d.role, spec: d.spec, tikz: d.code}))}); }
+        const key = sha(JSON.stringify(rows) + RATER.model + RATER.effort + RATE_VERSION);
+        // Check replies Terra already gave for exactly these items stay valid, with Terra as their recorded rater.
+        for (const [k, rater] of [[key, RATER], [sha(JSON.stringify(rows) + TERRA.model + TERRA.effort + RATE_VERSION), TERRA]]) {
+          const file = path.join(dir, 'rate', 'chunk-' + k.slice(0, 16) + '.json');
+          if (fs.existsSync(file)) { const kept = read(file); return {...kept, file: posix(file), rater: kept.rater ?? rater}; }
+        }
+        const file = path.join(dir, 'rate', 'chunk-' + key.slice(0, 16) + '.json'), want = new Set(chunk);
+        for (let attempt = 1; ; attempt++) {
+          let reply;
+          try { reply = await call('exam-figure-rate', ratePrompt(project, rows, anchors, labels), images, key, attempt); }
+          catch (e) {
+            if (!garbled(e)) throw e;
+            if (attempt === 2) return {error: 'checker reply unusable twice: ' + e.message.slice(0, 120), items: chunk.map(k => ({id: k, accept: false, issues: ['rating failed']}))};
+            continue;
+          }
+          const res = reply.result;
+          // A rejected item may come back without a score (7 November 2026: null for a blocked task).
+          if (Array.isArray(res?.items) && res.items.length === want.size && res.items.every(i => want.has(i.id) && (i.accept !== true || (Number.isInteger(i.reasoningScore) && String(i.difficultyReason ?? '').trim())))) {
+            const kept = {key, rater: {...RATER}, assessedAt: now(), metrics: reply.metrics, items: res.items};
+            write(file, kept);
+            return {...kept, file: posix(file)};
+          }
+          if (attempt === 2) return {error: 'checker reply incomplete twice', items: chunk.map(k => ({id: k, accept: false, issues: ['rating failed']}))};
+        }
+      });
+    },
+    async fix(queue) {
+      const out = new Map();
+      await pool3(chunked([...queue.keys()]), async chunk => {
+        const rows = [], images = [], labels = [];
+        for (const k of chunk) { const {issues, current} = queue.get(k); rows.push({...evidence(k, current, images, labels, 'CURRENT'), currentAdaptation: current.content, currentFigures: (current.diagrams ?? []).map(d => ({node: d.node, role: d.role, spec: d.spec, tikz: d.code})), issues}); }
+        const key = sha(JSON.stringify(rows) + RATER.model + RATER.effort + FIX_VERSION), file = path.join(dir, 'fix', 'chunk-' + key.slice(0, 16) + '.json');
+        const valid = res => Array.isArray(res?.items) && res.items.length === chunk.length && chunk.every(k => res.items.filter(i => i.id === k).length === 1)
+          && res.items.every(i => (typeof i.hold === 'string' && i.hold.trim()) || (i.content?.prompt && Array.isArray(i.diagrams) && i.diagrams.length));
+        let kept = fs.existsSync(file) ? read(file) : null;
+        for (let attempt = 1; !kept; attempt++) {
+          let reply;
+          try { reply = await call('exam-figure-fix', fixPrompt(project, rows, labels), images, key, attempt); }
+          catch (e) { if (!garbled(e)) throw e; if (attempt === 2) break; continue; }
+          if (valid(reply.result)) { kept = {key, rater: {...RATER}, at: now(), metrics: reply.metrics, items: reply.result.items}; write(file, kept); }
+          else if (attempt === 2) break;
+        }
+        for (const k of chunk) {
+          const i = kept?.items.find(x => x.id === k);
+          out.set(k, !i ? {error: 'fix reply unusable twice'} : {...(i.hold ? {hold: i.hold} : {content: i.content, diagrams: i.diagrams}), evidence: posix(file), rater: kept.rater ?? {...RATER}});
+        }
+      });
+      return out;
+    },
+  };
+}
+
 async function pool3(items, fn) { const out = []; let i = 0; await Promise.all(Array.from({length: Math.min(3, items.length)}, async () => { while (i < items.length) { const k = i++; out[k] = await fn(items[k]); } })); return out; }
 
 // ---- CLI ------------------------------------------------------------------------------------------

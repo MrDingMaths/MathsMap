@@ -5,7 +5,7 @@
 // Steps per booklet (each cached, so a rerun pays for nothing twice):
 //   screen  script   MathsBase rows for the booklet's subtopics -> screen file in the closure format
 //   select  Sonnet   classify every eligible row, keep up to PER_ARCHETYPE per archetype, adapt to native JSON
-//   rate    Terra    independent fidelity/answer check and 0-100 difficulty rating, one call per booklet
+//   rate    Sol low  independent fidelity/answer check and 0-100 difficulty rating, one call per booklet
 //   build   script   Exam section (role exam, workingSpace none), ordered by rating, plus closure record and check
 // Render (check-feedback-pages.mjs) and save (exam-publish.mjs) are separate commands. See docs/booklet-exam-completion.md.
 import fs from 'node:fs';
@@ -19,11 +19,15 @@ import {requireProgrammeExamSection} from './programme-exam.mjs';
 import {buildClosureSkeleton, checkClosure, defaultBindings, setDisposition} from './exam-closure.mjs';
 import {markTokens} from './exam-marks.mjs';
 import {REASONING_PROMPT, REASONING_RUBRIC, reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
+import {reviewConfiguration} from '../scripts/booklet/transcription-settings.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const RUN = '.booklet-work/exam-batch-20261107';
 export const PER_ARCHETYPE = 2;
-const RATER = {model: 'gpt-6.1-terra', effort: 'high'}, RATE_CHUNK = 12;
+// Every Codex call in the exam pass uses Sol 6.1 low (James, 9 November 2026: "Instead of terra 6.1 high, all codex
+// calls should use sol 6.1 low"). Passed explicitly: runAstraTask otherwise uses the review default (Terra high).
+export const RATER = {model: 'gpt-6.1-sol', effort: 'low'}, RATE_CHUNK = 12;
+export const examPassConfiguration = () => reviewConfiguration({reviewFallback: {model: RATER.model, effort: RATER.effort, reason: '9 November 2026 user request: every Codex call in the exam pass uses Sol 6.1 low'}});
 const read = f => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^﻿/, ''));
 const write = (f, v) => { fs.mkdirSync(path.dirname(f), {recursive: true}); fs.writeFileSync(f, typeof v === 'string' ? v : JSON.stringify(v, null, 1) + '\n'); };
 const sha = v => createHash('sha256').update(v).digest('hex');
@@ -305,7 +309,7 @@ export async function runBooklet(id, {mode = 's4', until = 'build', used = new S
   const eligible = screenNow.questionReferences.filter(ref => ref.status === 'allowed-label-ready').map(ref => rowById.get(ref.id))
     .filter(r => !hasImage(r.question_text) && !hasImage(r.solution_text) && !used.has(r.id) && !text.includes(r.id));
   state.pool = {total: screenNow.questionReferences.length, eligible: eligible.length};
-  if (!eligible.length) { write(path.join(dir, 'state.json'), {...state, status: 'no-eligible-rows'}); return {...state, status: 'no-eligible-rows'}; }
+  if (!eligible.length) return recordOnly({dir, state, status: 'no-eligible-rows', project, liveSha, screenFile, screenNow, rows: rowById, selection: {rows: []}, mode, eligible, used, text});
   // select
   const ctx = {workDir: path.join(dir, 'select'), runDir: dir, calls: [], log: m => log(`[${id}] ${m}`)};
   // Short row keys: long ids get garbled in replies (pilot, 7 November 2026) and cost tokens.
@@ -319,7 +323,8 @@ export async function runBooklet(id, {mode = 's4', until = 'build', used = new S
   const selection = {rows: reply.rows.map(r => ({...r, key: r.id, id: idOf.get(r.id)}))};
   const selected = selection.rows.filter(r => r.decision === 'selected');
   state.select = {file: selectFile, selected: selected.length, decisions: Object.fromEntries(['selected', 'represented', 'duplicate', 'out-of-scope', 'faulty'].map(k => [k, selection.rows.filter(r => r.decision === k).length]))};
-  if (until === 'select' || !selected.length) { write(path.join(dir, 'state.json'), state); return {...state, status: selected.length ? 'selected' : 'nothing-selected'}; }
+  if (until === 'select') { write(path.join(dir, 'state.json'), state); return {...state, status: 'selected'}; }
+  if (!selected.length) return recordOnly({dir, state, status: 'nothing-selected', project, liveSha, screenFile, screenNow, rows: rowById, selection, mode, eligible, used, text});
   // rate
   const rateFile = path.join(dir, 'rate', 'result.json');
   const items = selected.map(s => { const r = rowById.get(s.id); return {id: s.id, sourceCode: r.source, sourceQuestion: r.question_text, sourceSolution: r.solution_text, adaptation: s.content}; });
@@ -337,11 +342,11 @@ export async function runBooklet(id, {mode = 's4', until = 'build', used = new S
       if (fs.existsSync(file)) return read(file);
       const ids = new Set(chunk.map(i => i.id));
       for (let attempt = 1; ; attempt++) {
-        const reply = await runAstraTask({cwd: dir, runDir: dir, prompt: ratePrompt(project, chunk, anchors), out: path.join(dir, 'rate', `call-${key.slice(0, 8)}-${attempt}-${Date.now()}`), profile: 'review', stage: 'exam-batch-rate'});
+        const reply = await runAstraTask({cwd: dir, runDir: dir, prompt: ratePrompt(project, chunk, anchors), out: path.join(dir, 'rate', `call-${key.slice(0, 8)}-${attempt}-${Date.now()}`), profile: 'review', configuration: examPassConfiguration(), stage: 'exam-batch-rate'});
         const result = reply.result;
         const ok = Array.isArray(result?.items) && result.items.length === ids.size && result.items.every(i => ids.has(i.id) && Number.isInteger(i.reasoningScore) && i.reasoningScore >= 0 && i.reasoningScore <= 100 && String(i.difficultyReason ?? '').trim());
         if (ok) { const kept = {key, assessedAt: now(), metrics: reply.metrics, items: result.items}; write(file, kept); return kept; }
-        if (attempt === 2) throw Error(`[${id}] Terra reply incomplete twice`);
+        if (attempt === 2) throw Error(`[${id}] rater reply incomplete twice`);
       }
     }));
     rated = {key: rateKey, model: RATER.model, effort: RATER.effort, assessedAt: replies.map(r => r.assessedAt).sort().at(-1), metrics: replies.map(r => r.metrics), items: replies.flatMap(r => r.items)};
@@ -352,7 +357,7 @@ export async function runBooklet(id, {mode = 's4', until = 'build', used = new S
   // build
   const accepted = new Map(rated.items.filter(i => i.accept).map(i => [i.id, i]));
   const blocks = selected.filter(s => accepted.has(s.id)).map(s => nativeBlock(rowById.get(s.id), s, {...accepted.get(s.id), assessedAt: rated.assessedAt}, {evidence: posix(rateFile), archetype: s.archetype}));
-  if (!blocks.length) { Object.assign(state, {status: 'none-accepted'}); write(path.join(dir, 'state.json'), state); return state; }
+  if (!blocks.length) return recordOnly({dir, state, status: 'none-accepted', project, liveSha, screenFile, screenNow, rows: rowById, selection, mode, eligible, used, text, accepted});
   const prior = mode === 'topup' ? examOwners(project) : [];
   const existingSection = (project.sections ?? []).find(s => s.role === 'exam');
   // Only the first Exam section's own questions are re-ordered with the new ones; a booklet with a second
@@ -384,6 +389,18 @@ export function codexBinary() {
 }
 export const examOwners = project => (project.sections ?? []).filter(s => s.role === 'exam').flatMap(s => s.blocks ?? []).filter(b => b.type === 'question');
 
+// Nothing to add (9 November 2026): the booklet still gets a closure record on its live revision, so its deferred
+// figure rows reach the figure pass (exam-figures.mjs reads state.closureRecord). No candidate, no save.
+async function recordOnly({dir, state, status, project, liveSha, screenFile, screenNow, rows, selection, mode, eligible, used, text, accepted = new Map()}) {
+  const prior = mode === 'topup' ? examOwners(project) : [];
+  const record = closureRecord({project, liveSha, screenFile, screenNow, rows, selection, accepted, blocks: [], prior, eligible, used, text});
+  const recordFile = path.join(dir, `closure.r${project.revision}.json`);
+  write(recordFile, record);
+  const check = checkClosure({record, project, projectSha256: liveSha, candidate: project, screenRows: screenNow.questionReferences.map(r => ({id: r.id, status: r.status})), screenSha256: sha(fs.readFileSync(screenFile)), ...(await defaultBindings())});
+  Object.assign(state, {status, closureRecord: posix(recordFile), closure: {closed: check.closed, blocking: check.blocking.slice(0, 20), coverage: check.coverage}, newOwners: []});
+  write(path.join(dir, 'state.json'), state);
+  return state;
+}
 function closureRecord({project, liveSha, screenFile, screenNow, rows, selection, accepted, blocks, prior, used, text}) {
   const record = buildClosureSkeleton({projectId: project.id, project, projectSha256: liveSha, screenRows: screenNow.questionReferences.map(r => ({id: r.id, status: r.status, sourceCode: r.key})), screen: {file: posix(screenFile), sha256: sha(fs.readFileSync(screenFile))}});
   const decision = new Map(selection.rows.map(r => [r.id, r]));
