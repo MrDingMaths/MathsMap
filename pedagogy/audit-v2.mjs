@@ -19,7 +19,7 @@ import {planScoreOrder,scoreOrderCandidate,reviewedMethodSupport} from '../polis
 import {resolveExerciseReferences} from '../polish/exercise-references.mjs';
 import {teacherBlocks,nodesOf} from '../polish/guards.mjs';
 import {sequences,canonicalRunDir} from './review.mjs';
-import {theoryEditable} from './audit-v2-apply.mjs';
+import {theoryEditable,theoryOnto} from './audit-v2-apply.mjs';
 import {MODEL,EFFORT,LIMITS,contentFingerprint,wordingFingerprint,bookletIndex,scoreOf,practiceItems,practiceItemCount,duplicatePairs,spellBlock,boldTerm,deriveComparisonScore,bandFor,jumpSlots,slotWindow,diagramBlindHash,diagramEquivalent} from './audit-v2-plan.mjs';
 import {auditContract,challengeContract,draftContract,proposalContract,solveContract,ratingContract,equivalenceContract,roleContract,roleGroupContract,variationContract,validateVariations,validateRoles,validateRoleGroups,validateAudit,validateVerdicts,validateDrafts,validateSolve,validatePlacements,validateEquivalence} from './audit-v2-prompts.mjs';
 
@@ -416,7 +416,25 @@ export function runTypeChecked(candidate,state,{root=ROOT}={}){
  for(const r of bookletIndex(candidate))if(state?.auditTypeFp?.get(r.block.id)===contentFingerprint(r.block))out.add(r.block.id);
  return out;
 }
+// An audit keep run whose questions an earlier sort split apart (Stage 4–5, found 11 November 2026: 21 Stage 4
+// exercises held as "noncontiguous-semantic-unit", e.g. Indices p77-q17/p77-q18 eighteen questions apart) is put back
+// together, in its kept order, at its first member's place, so the planner can sort it as one unit. Only when every
+// block between them is a question of the same section (no heading or teaching block is crossed).
+export function gatherKeepRuns(project,keep=[]){
+ let out=project,gathered=[];
+ for(const k of keep){const ids=k.ids??[];if(ids.length<2)continue;
+  const s=out.sections.find(x=>(x.blocks??[]).some(b=>b.id===ids[0]));if(!s||!ids.every(id=>s.blocks.some(b=>b.id===id)))continue;
+  const pos=ids.map(id=>s.blocks.findIndex(b=>b.id===id)),lo=Math.min(...pos),hi=Math.max(...pos);
+  if(hi-lo===ids.length-1&&pos.every((p,i)=>!i||p===pos[i-1]+1))continue;
+  if(s.blocks.slice(lo,hi+1).some(b=>b.type!=='question'))continue;
+  if(out===project)out=structuredClone(project);
+  const sec=out.sections.find(x=>x.id===s.id),members=ids.map(id=>sec.blocks.find(b=>b.id===id)),rest=sec.blocks.filter(b=>!ids.includes(b.id));
+  const at=rest.indexOf(sec.blocks.slice(0,lo).filter(b=>!ids.includes(b.id)).at(-1))+1;
+  sec.blocks=[...rest.slice(0,at),...members,...rest.slice(at)];gathered.push({sectionId:s.id,ids});}
+ return {project:out,gathered};
+}
 export function orderCandidate(candidate,{keep=[],deliberate=[],progressions=[],original=null,typeChecked=null}={}){
+ const gather=gatherKeepRuns(candidate,keep.filter(k=>(k.ids??[]).length>1));candidate=gather.project;
  // Support from a teaching block is coverage only: teaching always precedes its exercise and sorting never moves it.
  const teachingIds=new Set((candidate.sections??[]).filter(s=>s.phase==='teaching').flatMap(s=>(s.blocks??[]).map(b=>b.id)));
  // Bolding is presentation-only: reviewed method evidence is checked against the teaching before it.
@@ -444,8 +462,9 @@ export function orderCandidate(candidate,{keep=[],deliberate=[],progressions=[],
  // exercise. Each exercise is now sorted on its own holds (11 November 2026: a reference elsewhere held 24 Stage 5
  // and 34 Stage 6 booklets whole). Without renumbering, an exercise is left as it is when a printed reference sits in
  // it or points into it, or a same-topic reference names a question by number or position ("the previous question").
- if(referenceResolution.holds.length)return applyLocalSegments(candidate,plan,referenceResolution);
- return {project:scoreOrderCandidate(candidate,plan),plan};
+ const done=r=>(gather.gathered.length&&(r.plan={...r.plan,gatheredKeepRuns:gather.gathered}),r);
+ if(referenceResolution.holds.length)return done(applyLocalSegments(candidate,plan,referenceResolution));
+ return done({project:scoreOrderCandidate(candidate,plan),plan});
 }
 // Map links that cannot be used (a "-2" split booklet's questions point at the parent's map; a snapshot absent or
 // not found) hold a question only when the audit has no current type check for it (James, 11 November 2026). The
@@ -1313,7 +1332,11 @@ const fieldGet=(node,field)=>field==='prompt'?node.prompt:node.answer?.[field];
 function fieldSet(node,field,value){if(field==='prompt')node.prompt=value;else node.answer={...node.answer,[field]:value};}
 
 // ---- the run -------------------------------------------------------------------------
-export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,allowNonMaster=false,freshCalls=false,topUp=false,log=console.error}={}){
+// retrofit (Stage 4–5 booklets already audited, James 11 November 2026): the count top-up's reuse of the earlier
+// audit, but with no variation call; difficulty-jump and count slots only in exercises this run newly sorts (D5).
+// What the run did not re-check (errors, types, Key ideas, open comments) is neither recorded nor superseded.
+export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,allowNonMaster=false,freshCalls=false,topUp=false,retrofit=false,log=console.error}={}){
+ if(retrofit)topUp=true;
  // A PAUSE file stops new audits before any model call; runs already started and --apply are unaffected.
  if(!dryRun&&fs.existsSync(path.join(root,'.booklet-work','pedagogy-audit-v2','PAUSE')))throw Error('Paused: .booklet-work/pedagogy-audit-v2/PAUSE exists; remove it to resume');
  const t0=Date.now(),project=read(projectFile),stamp=now().replace(/[-:]/g,'').replace(/\..*/,'').replace('T','-');
@@ -1375,9 +1398,11 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   const was=read(path.join(prior,'audit.json'));report.topUp=true;report.priorRun=rel(prior);
   for(const k of ['archetypes','types','keep'])audit[k]=was[k]??[];
   audit.duplicates=(was.duplicates??[]).filter(d=>d.verdict==='deliberate');
-  for(const row of audit.archetypes)state.types.set(row.id,{type:row.type,current:true,source:'audit-v2'});
+  // A retrofit takes types only from the saved record (current content); the earlier run's archetypes may be stale.
+  if(retrofit){report.retrofit=true;for(const [id,t] of state.types)if(t.source==='audit-v2')audit.archetypes.some(a=>a.id===id)||audit.archetypes.push({id,type:t.type});audit.archetypes=audit.archetypes.filter(a=>state.types.get(a.id)?.type===a.type);}
+  else for(const row of audit.archetypes)state.types.set(row.id,{type:row.type,current:true,source:'audit-v2'});
   for(const [id,t] of state.types)if(!audit.types.some(x=>x.type===t.type))audit.types.push({type:t.type,topicId:bookletIndex(candidate).find(r=>r.block.id===id)?.section.topicId,taught:true,taughtBy:[],description:'stored type'});
-  for(const packet of auditPackets(state,candidate,{root,variationsOnly:true})){
+  if(!retrofit)for(const packet of auditPackets(state,candidate,{root,variationsOnly:true})){
    try{const {value,file}=await callSonnet(ctx,{stage:'variations',system:packet.system,prompt:packet.prompt,validate:r=>validateVariations(r,packet.ctx)});audit.variations.push(...value.variations);(report.auditCalls??=[]).push(file);}
    catch(error){if(!error.blocker)throw error;report.blockers.push({stage:'variations',topics:packet.topics,reason:error.message});}
   }
@@ -1408,9 +1433,13 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   // not exist on a first run, so Stage 4 never counted them.
   state.auditTypeFp=new Map(bookletIndex(candidate).filter(r=>audit.archetypes.some(a=>a.id===r.block.id)).map(r=>[r.block.id,contentFingerprint(r.block)]));
   ordered=orderCandidate(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project,typeChecked:runTypeChecked(candidate,state)});candidate=ordered.project;
-  gaps=gapPlan(candidate,state,{audit,countsOnly:topUp});report.undraftable=gaps.undraftable;
+  gaps=gapPlan(candidate,state,{audit,countsOnly:topUp&&!retrofit});report.undraftable=gaps.undraftable;
+  // A retrofit drafts only for exercises whose order this run changed (D5, James 11 November 2026).
+  if(retrofit){const was=new Map(project.sections.map(s=>[s.id,(s.blocks??[]).map(b=>b.id).join()]));
+   const resorted=new Set(candidate.sections.filter(s=>was.has(s.id)&&was.get(s.id)!==(s.blocks??[]).map(b=>b.id).join()).map(s=>s.id));
+   report.resortedSections=[...resorted];gaps.slots=gaps.slots.filter(s=>resorted.has(s.sectionId));}
   // Top-up questions get their own ids, so they never take the id of a count question removed earlier.
-  if(topUp)for(const s of gaps.slots)s.id='topup-'+s.id;
+  if(topUp)for(const s of gaps.slots)s.id=(retrofit?'retro-':'topup-')+s.id;
  })();
  // Stage 5a: challenge of teaching judgements.
  const judgements=[];
@@ -1718,6 +1747,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  {const ch=sortChallengeSections(candidate,{keep:audit.keep,deliberate,progressions:state.progressions,original:project,typeChecked:runTypeChecked(candidate,state)});candidate=ch.project;report.challengeOrder=ch.report;
   const sortedIds=new Set(ch.report.filter(r=>r.status==='sorted').flatMap(r=>r.ids));ordered={...ordered,plan:{...ordered.plan,sections:ordered.plan.sections.map(s=>s.role!=='challenge'?s:{...s,segments:s.segments.map(g=>g.originalIds.some(id=>sortedIds.has(id))?{...g,status:'sorted',holds:[]}:g)})}};}
  for(const c of holdComments(ordered.plan,candidate))addComment(c);
+ if(retrofit){const x=retrofitExtras(project,candidate,ordered.plan,{root});report.retrofitOrder=x.order;report.retrofitHoldRewords=x.reworded;report.retrofitTheory=x.theory;for(const c of x.comments)addComment(c);}
  // Changes applied automatically get comments too, so every change can be reviewed in Studio
  // (James, 8 November 2026): one summary per exercise for new questions, Challenge moves, bolding
  // and spelling, and one comment per corrected block. They carry no payload and apply-comments skips them.
@@ -1762,6 +1792,8 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   if(k.startsWith('error-'))return state.stale.error.includes(t);
   if(/duplicate/.test(k))return state.stale.duplicate.includes(t);
   if(topUp&&k==='type-gaps')return true;
+  // A retrofit re-checks only order and the teaching solve.
+  if(retrofit)return k==='ordering-hold';
   return sentBlocks.has(t);};
  const superseded=(candidate.studio?.flags??[]).filter(f=>f.kind===COMMENT_KIND&&!f.resolved&&!f.autoApplied&&rechecked(f));
  const withdrawn=[...state.v1Comments,...superseded].map(f=>f.id);
@@ -1779,8 +1811,12 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  report.withdrawnV1=state.v1Comments.map(f=>({id:f.id,kind:f.kind,targetId:f.targetId,note:f.note}));
  // Fingerprints now checked, per check, recorded only against content each check ran on.
  const checks={},finalRows=bookletIndex(candidate),corrected=new Map((report.applied.corrections??[]).map(c=>[c.id,c]));
- const sentAudit=new Set(auditPackets(state,structuredClone(project),{root}).flatMap(p=>[...p.ctx.ids]));
- for(const r of finalRows){const id=r.block.id,fp=contentFingerprint(r.block),row={};
+ const sentAudit=retrofit?new Set():new Set(auditPackets(state,structuredClone(project),{root}).flatMap(p=>[...p.ctx.ids]));
+ // A retrofit keeps each block's earlier checks and adds only what it ran (types from the record, the teaching solve).
+ if(retrofit){for(const r of finalRows){const id=r.block.id,fp=contentFingerprint(r.block),row={...(state.record.checks?.[id]??{})};
+   if(r.question&&state.types.get(id)?.current&&!corrected.has(id))row.type=fp;
+   if(solvedTeaching.has(id)&&!corrected.has(id))row.solve=fp;checks[id]=row;}}
+ else for(const r of finalRows){const id=r.block.id,fp=contentFingerprint(r.block),row={};
   const wasChanged=corrected.has(id),beforeBlock=state.rows.find(x=>x.block.id===id)?.block,wordingSame=beforeBlock&&wordingFingerprint(beforeBlock)===wordingFingerprint(r.block);
   if(r.question&&state.types.get(id)?.current&&(!wasChanged||wordingSame))row.type=fp;
   if(solvedTeaching.has(id)&&!wasChanged)row.solve=fp;
@@ -1789,7 +1825,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   if(r.kind==='teaching'&&(!state.stale.theory.includes(id)||audit.theory.some(t=>t.id===id)))row.theory=fp;
   checks[id]=row;}
  // Lessons judged for Key ideas, against their final teaching.
- const judged=new Set(auditPackets(state,structuredClone(project),{root}).flatMap(p=>[...p.ctx.staleKeyIdeas])),blockedTopics=new Set((report.blockers??[]).filter(b=>b.stage==='audit').flatMap(b=>b.topics??[]));
+ const judged=retrofit?new Set():new Set(auditPackets(state,structuredClone(project),{root}).flatMap(p=>[...p.ctx.staleKeyIdeas])),blockedTopics=new Set((report.blockers??[]).filter(b=>b.stage==='audit').flatMap(b=>b.topics??[]));
  for(const [t,l] of keyIdeasLessons(candidate))if(judged.has(t)&&!blockedTopics.has(t))checks['keyideas|'+t]={keyIdeas:l.fp};
  report.record={checks,types:Object.fromEntries([...state.types].filter(([,t])=>t.current).map(([id,t])=>[id,t.type])),exampleMatches:Object.fromEntries(audit.exampleMatches.map(m=>[m.exampleId,m.followedBy])),keep:audit.keep};
  }catch(error){report.blockers.push({stage:'run',reason:error.message,stack:String(error.stack).slice(0,1500)});}
@@ -1855,6 +1891,43 @@ export async function applyAuditV2(args){
   holdBack(runDir,culprits,'it did not print cleanly in the booklet');
   (args.log??console.error)('render check: '+[...culprits.keys()].join(', ')+' taken out and left as comments; applying again');
   return applyAuditV2Once({...args,runDir,retried:true});}
+}
+// The Stage 4–5 retrofit's bookkeeping, in the same save (11 November 2026):
+// - one comment per booklet listing each re-sorted exercise's old and new order (James has reviewed these booklets);
+// - resolved ordering-hold comments whose resolution blamed a type re-check get the real cause appended;
+// - open theory rewrites the apply could not place are tried again on the current text, and placed and resolved
+//   when they now fit (only those the audit was allowed to apply automatically).
+export function retrofitExtras(project,candidate,plan,{root=ROOT,at=now()}={}){
+ const before=new Map(project.sections.map(s=>[s.id,(s.blocks??[]).map(b=>b.id)]));
+ const order=[];
+ for(const s of candidate.sections){const was=before.get(s.id);if(!was)continue;const nowIds=(s.blocks??[]).map(b=>b.id);if(was.join()===nowIds.join())continue;
+  const kept=nowIds.filter(id=>was.includes(id)),old=was.filter(id=>nowIds.includes(id));if(kept.join()===old.join())continue;
+  order.push({sectionId:s.id,title:s.title??s.id,from:old,to:kept});}
+ const comments=[];
+ if(order.length){const first=candidate.sections.find(s=>s.id===order[0].sectionId)?.blocks?.find(b=>b.type==='question');
+  if(first)comments.push({targetId:first.id,kind:'retrofit-order',key:'retrofit-order|'+candidate.id,note:`[Pedagogy audit v2 · Re-sorted by difficulty] Exercises left in their order by a hold that is no longer applied (a reference elsewhere in the booklet, or a type-map link) were sorted on 11 November 2026:\n${order.map(o=>`- ${o.title}: was ${o.from.join(', ')}; now ${o.to.join(', ')}`).join('\n')}\nSay if any exercise should keep its old order.`});}
+ const segOf=id=>plan.sections.flatMap(s=>s.segments).find(g=>g.originalIds.includes(id));
+ const reworded=[];
+ for(const f of candidate.studio?.flags??[]){
+  if(f.kind!==COMMENT_KIND||!f.resolved||f.findingKind!=='ordering-hold'||!/type re-?checked|re-checked/i.test(f.resolution??''))continue;
+  if(/Corrected 11 November 2026/.test(f.resolution))continue;
+  const ids=(/sorted by difficulty: ([^.]+)\./.exec(f.note??'')||[])[1]?.split(', ').map(x=>x.trim())??[],seg=ids.length?segOf(ids[0]):null;
+  const cause=(/Held by: ([^\n]*?)\. What would release/.exec(f.note??'')||[])[1]??'see the hold';
+  const nowState=!seg?'the exercise has changed since':seg.status==='held'?'it is still held by '+[...new Set(seg.holds.map(h=>h.kind))].join(', '):seg.changed?'it is now sorted':'it is already in difficulty order';
+  f.resolution+=` Corrected 11 November 2026: the hold came from ${cause}, not from a question type left unchecked; ${nowState}.`;reworded.push(f.id);}
+ const theory=[];
+ const pf=proposalsFile(candidate.id,{root}),store=fs.existsSync(pf)?read(pf).comments??{}:{};
+ const byId=new Map(candidate.sections.flatMap(s=>(s.blocks??[]).map(b=>[b.id,b])));
+ for(const f of candidate.studio?.flags??[]){
+  if(f.kind!==COMMENT_KIND||f.resolved||!/^theory-/.test(f.findingKind??''))continue;
+  const p=(store[f.id]?.payloads??[]).find(x=>x.op==='theory'&&x.replacement);if(!p){theory.push({id:f.id,status:'no stored rewrite'});continue;}
+  const b=byId.get(p.blockId);if(!b){theory.push({id:f.id,status:'block gone'});continue;}
+  if(!p.autoApply){theory.push({id:f.id,status:'needs James (not auto-applicable)'});continue;}
+  const ed=theoryEditable(b);if(!ed.rewritable){theory.push({id:f.id,status:'comment-only: '+ed.why});continue;}
+  const r=theoryOnto(b,p.replacement,{nodeId:p.nodeId});if(r.error){theory.push({id:f.id,status:'still not placeable: '+r.error.slice(0,120)});continue;}
+  for(const s of candidate.sections){const i=(s.blocks??[]).findIndex(x=>x.id===b.id);if(i>=0)s.blocks[i]=r.block;}
+  f.resolved=true;f.resolvedAt=at;f.resolution='Applied 11 November 2026 (Stage 4–5 retrofit): the confirmed rewrite now places on the passage\'s existing text.';theory.push({id:f.id,blockId:b.id,status:'placed'});}
+ return {order,comments,reworded,theory};
 }
 // Settle inside the apply (James, 11 November 2026): an "Applied automatically" comment whose change is confirmed in
 // the candidate that is about to be saved is saved resolved, so Studio shows only comments that need a decision. The
@@ -2095,7 +2168,7 @@ export async function auditV2Main(args){
  const id=value('--project');if(!id)throw Error('audit-v2 needs --project ID');
  if(args[0]==='apply-comments')return (await import('./audit-v2-apply.mjs')).applyCommentsMain(args.slice(1));
  if(flag('--apply'))return applyAuditV2({projectId:id,runDir:value('--run')&&path.resolve(value('--run')),autoApply:!flag('--no-auto-apply')});
- const {report,workDir}=await runAuditV2({projectFile:path.join(ROOT,'booklets','projects',id+'.json'),topics:(value('--topics')??'').split(',').filter(Boolean),dryRun:flag('--dry-run'),allowNonMaster:flag('--allow-non-master'),freshCalls:flag('--fresh-calls'),topUp:flag('--top-up-counts')});
+ const {report,workDir}=await runAuditV2({projectFile:path.join(ROOT,'booklets','projects',id+'.json'),topics:(value('--topics')??'').split(',').filter(Boolean),dryRun:flag('--dry-run'),allowNonMaster:flag('--allow-non-master'),freshCalls:flag('--fresh-calls'),topUp:flag('--top-up-counts'),retrofit:flag('--retrofit')});
  if(!workDir)return report;
  return {projectId:report.projectId,run:rel(workDir),elapsedSeconds:report.elapsedSeconds,totals:report.totals,applied:{moves:report.moves?.length??0,newQuestions:report.applied?.newQuestions?.length??0,corrections:report.applied?.corrections?.length??0,ratings:report.applied?.ratings?.length??0},comments:report.comments?.length??0,blockers:report.blockers,report:rel(path.join(workDir,'report.md'))};
 }

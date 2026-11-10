@@ -27,6 +27,8 @@ function targets(){
 }
 function done(id){
  // A count top-up (8 November 2026) runs once per booklet, whatever the audit record says.
+ // A retrofit (11 November 2026) likewise runs once per booklet.
+ if(flag('--retrofit')){if(fs.existsSync(ledger)&&fs.readFileSync(ledger,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)).some(r=>r.projectId===id&&r.retrofit&&r.status==='applied'))return 'retrofit already applied';return null;}
  if(flag('--top-up-counts')){if(fs.existsSync(ledger)&&fs.readFileSync(ledger,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)).some(r=>r.projectId===id&&r.topUp&&r.status==='applied'))return 'count top-up already applied';return null;}
  const live=read(path.join(projectsDir,id+'.json')),rec=recordFile(id,{root:ROOT});
  if(fs.existsSync(rec)&&read(rec).checkedRevision===live.revision)return 'audit record already checked revision '+live.revision;
@@ -42,11 +44,11 @@ let applyQueue=Promise.resolve();
 const applyLock=()=>{let release;const next=new Promise(r=>release=r),wait=applyQueue;applyQueue=wait.then(()=>next);return wait.then(()=>release);};
 async function one(id){
  const skip=!flag('--force')&&!flag('--dry-run')&&done(id);if(skip){log({projectId:id,status:'skipped',note:skip});return;}
- const audit=await run(['--project',id,...(flag('--dry-run')?['--dry-run']:[]),...(flag('--top-up-counts')?['--top-up-counts']:[])]);
+ const audit=await run(['--project',id,...(flag('--dry-run')?['--dry-run']:[]),...(flag('--top-up-counts')?['--top-up-counts']:[]),...(flag('--retrofit')?['--retrofit']:[])]);
  if(flag('--dry-run')){log({projectId:id,status:audit.code===0?'dry-run':'dry-run-failed',result:audit.json,note:audit.code?audit.err.slice(-400):undefined});return;}
  const r=audit.json;
  if(audit.code!==0||!r?.run||r.blockers?.length){log({projectId:id,status:'blocked',run:r?.run,blockers:r?.blockers,totals:r?.totals,note:audit.err.slice(-400)});return;}
- log({projectId:id,status:'audited',...(flag('--top-up-counts')?{topUp:true}:{}),run:r.run,totals:r.totals,applied:r.applied,comments:r.comments});
+ log({projectId:id,status:'audited',...(flag('--top-up-counts')?{topUp:true}:{}),...(flag('--retrofit')?{retrofit:true}:{}),run:r.run,totals:r.totals,applied:r.applied,comments:r.comments});
  if(flag('--no-apply'))return;
  // One apply at a time: an apply refuses to start while another page check runs (8 November 2026).
  const release=await applyLock();let apply;try{apply=await run(['--project',id,'--apply','--run',r.run]);}finally{release();}
@@ -54,7 +56,7 @@ async function one(id){
  // What the run left (11 November 2026): jumps over 15 and core types short of the minimum, so a second pass can be
  // scheduled from the ledger instead of by reading every report.
  let remaining=null;try{const rep=read(path.join(path.isAbsolute(r.run)?r.run:path.join(ROOT,r.run),'report.json')).remaining??{};remaining={jumpsOver15:(rep.jumpsOver15??[]).length,countGapsOpen:(rep.deficits??[]).length,slotsStillOpen:rep.slotsStillOpen??null};}catch{}
- log({projectId:id,status:'applied',...(flag('--top-up-counts')?{topUp:true}:{}),run:r.run,revision:apply.json.revision,autoApplied:apply.json.autoApplied,render:apply.json.render,remaining});
+ log({projectId:id,status:'applied',...(flag('--top-up-counts')?{topUp:true}:{}),...(flag('--retrofit')?{retrofit:true}:{}),run:r.run,revision:apply.json.revision,autoApplied:apply.json.autoApplied,render:apply.json.render,remaining});
 }
 
 const list=targets().slice(0,Number(value('--limit')??1e9)),parallel=Math.max(1,Number(value('--parallel')??3));

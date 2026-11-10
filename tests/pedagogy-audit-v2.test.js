@@ -938,3 +938,23 @@ test('a passage with no editable text or an annotated equation is comment-only; 
  const ok=theoryEditable({id:'c',type:'theory',content:docOf([{id:'p1',type:'paragraph',inlines:[{type:'text',text:'One.'}]},{id:'p2',type:'paragraph',inlines:[{type:'text',text:'Two.'}]}])});
  assert.equal(ok.rewritable,true);assert.equal(ok.lines,2);
 });
+test('an audit keep run split by an earlier sort is put back together, never across a heading (11 November 2026)', async()=>{
+ const {gatherKeepRuns}=await import('../pedagogy/audit-v2.mjs');
+ const p={sections:[{id:'s',blocks:[q('a','A','1'),q('k1','K1','1'),q('b','B','1'),q('c','C','1'),q('k2','K2','1'),q('d','D','1')]}]};
+ const r=gatherKeepRuns(p,[{ids:['k1','k2']}]);
+ assert.deepEqual(r.project.sections[0].blocks.map(b=>b.id),['a','k1','k2','b','c','d']);assert.equal(r.gathered.length,1);
+ assert.deepEqual(p.sections[0].blocks.map(b=>b.id),['a','k1','b','c','k2','d'],'the input is not changed');
+ const h=structuredClone(p);h.sections[0].blocks.splice(2,0,{id:'h',type:'heading'});
+ assert.equal(gatherKeepRuns(h,[{ids:['k1','k2']}]).gathered.length,0);
+});
+test('the retrofit lists each re-sorted exercise and corrects hold resolutions that blamed a type check (11 November 2026)', async()=>{
+ const {retrofitExtras,COMMENT_KIND}=await import('../pedagogy/audit-v2.mjs');
+ const project={id:'p',sections:[{id:'s',title:'Exercise 1',blocks:[q('a','A','1'),q('b','B','1')]}]};
+ const candidate=structuredClone(project);candidate.sections[0].blocks.reverse();
+ candidate.studio={flags:[{id:'f',kind:COMMENT_KIND,findingKind:'ordering-hold',resolved:true,resolution:'Teacher order kept, because a changed question has not had its type re-checked.',note:'[Pedagogy audit v2 · Ordering hold] These questions were left in their current order instead of being sorted by difficulty: a, b. Hold: printed-reference. Held by: "previous question" in x (outside this exercise). What would release it: y.'}]};
+ const plan={sections:[{sectionId:'s',segments:[{originalIds:['a','b'],proposedIds:['b','a'],status:'sorted',changed:true,holds:[]}]}]};
+ const x=retrofitExtras(project,candidate,plan,{root:'C:/nonexistent'});
+ assert.deepEqual(x.order,[{sectionId:'s',title:'Exercise 1',from:['a','b'],to:['b','a']}]);
+ assert.match(x.comments[0].note,/Exercise 1: was a, b; now b, a/);
+ assert.match(candidate.studio.flags[0].resolution,/Corrected 11 November 2026: the hold came from "previous question" in x \(outside this exercise\), not from a question type left unchecked; it is now sorted\./);
+});
