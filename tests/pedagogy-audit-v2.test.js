@@ -496,3 +496,19 @@ test('ordering-hold comments say what held the exercise and whether it is outsid
  assert.match(c.note,/rewording or settling the printed reference/);
  assert.doesNotMatch(c.note,/release it: [^.]*unresolved-relative-or-cross-scope-reference/);
 });
+
+// "Show theory solutions" hides only solution fields: drafted working must never sit in the prompt
+// (Polynomials 1A j5 printed its working with the box unticked, 10 November 2026).
+test('teachingBlocks keeps the working out of the prompt, with or without a figure', async () => {
+  const {teachingBlocks,WORKING_BLUE}=await import('../pedagogy/audit-v2.mjs');
+  const project={sections:[{id:'s',blocks:[]}]};
+  for(const figure of [false,true]){
+    const [example]=teachingBlocks(project,{stamp:'t'+figure,workedExample:{prompt:'Find $a$ if $2a=6$.',steps:'$$\\begin{align*}2a&=6\\\\a&=3\\end{align*}$$',
+      ...(figure?{questionDiagrams:[{id:'d',format:'tikz',code:'\\begin{tikzpicture}\\draw (0,0)--(1,0);\\end{tikzpicture}',widthMm:40}]}:{})}});
+    const e=example.examples[0];
+    assert.ok(!JSON.stringify(e.prompt).includes(WORKING_BLUE),'prompt has no working');
+    assert.ok(e.theorySolution?.blocks?.length,'working is in theorySolution');
+    assert.ok(JSON.stringify(e.theorySolution).includes('a=3')||JSON.stringify(e.theorySolution).includes('a&=3'));
+    assert.equal(e.solutionOwnStyle===true,!figure,'only working that used to print in the prompt keeps its formatting');
+  }
+});

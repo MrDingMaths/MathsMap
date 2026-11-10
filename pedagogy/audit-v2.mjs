@@ -913,16 +913,18 @@ export function teachingBlocks(project,{workedExample,guided,stamp}){
  // A prompt with tab-separated rows becomes a table, as in drafted questions (Data Visualisation 1 j13).
  const asDoc=promptFromSource(String(workedExample.prompt??''),id+'-q');
  const question=typeof asDoc==='string'?fromSource(asDoc).blocks:asDoc.blocks,working=steps?blueWorking(fromSource(textRows(steps)).blocks):[];
- // An example with a figure keeps its working in theorySolution, as the house examples do, so the figure prints
- // between the question and the working, not after the working (9 November 2026, Data Analysis 2 ogive).
+ // The working is always theorySolution, never part of the prompt: "Show theory solutions" hides only the
+ // solution fields, and working appended to the prompt stayed printed in the students' edition (Polynomials 1A
+ // j5, 10 November 2026). It also prints a figure between the question and the working (Data Analysis 2 ogive).
+ const doc=normalizeDocument({blocks:question}),solutionDoc=working.length?normalizeDocument({blocks:working}):null;
+ // Without a figure the working printed as part of the prompt; solutionOwnStyle keeps that formatting.
  const figured=!!(workedExample.questionDiagrams?.length||workedExample.solutionDiagrams?.length);
- const doc=normalizeDocument({blocks:figured?question:[...question,...working]}),solutionDoc=figured&&working.length?normalizeDocument({blocks:working}):null;
  // Figure ids are the example's own; a finished drawing that completes the question figure is an overlay on it
  // (overlayOf), so the figure prints once with the drawing on it.
  const qIds=new Map((workedExample.questionDiagrams??[]).map((d,k)=>[String(d.id),id+'-diagram'+(k?'-'+(k+1):'')]));
  const example={id,type:'worked-example',sourceAtom:{id:id+'-atom',kind:'example',label:'Example',visibleSubtitle:exampleTitle(workedExample),order:2},pedagogyRole:'example',presentation:{layout:'columns',columns:1,numberSteps:false},
   // The draft's figure goes with the example (Area 2 j7–j9 printed "this sector" with no figure, 8 November 2026).
-  examples:[{id:id+'-1',label:'',prompt:{format:DOCUMENT_FORMAT,version:DOCUMENT_VERSION,...doc},...(solutionDoc?{theorySolution:{format:DOCUMENT_FORMAT,version:DOCUMENT_VERSION,...solutionDoc}}:{}),...(workedExample.questionDiagrams?.length?{questionDiagrams:workedExample.questionDiagrams.map((d,k)=>({...structuredClone(d),id:id+'-diagram'+(k?'-'+(k+1):''),role:'question'}))}:{}),
+  examples:[{id:id+'-1',label:'',prompt:{format:DOCUMENT_FORMAT,version:DOCUMENT_VERSION,...doc},...(solutionDoc?{theorySolution:{format:DOCUMENT_FORMAT,version:DOCUMENT_VERSION,...solutionDoc},...(figured?{}:{solutionOwnStyle:true})}:{}),...(workedExample.questionDiagrams?.length?{questionDiagrams:workedExample.questionDiagrams.map((d,k)=>({...structuredClone(d),id:id+'-diagram'+(k?'-'+(k+1):''),role:'question'}))}:{}),
   // A drawing answer's finished drawing prints with the working (9 November 2026: Rates 2, Data Analysis 2 and others asked students to draw with no drawn model).
   ...(workedExample.solutionDiagrams?.length?{solutionDiagrams:workedExample.solutionDiagrams.map((d,k)=>{const o={...structuredClone(d),id:id+'-solution-diagram'+(k?'-'+(k+1):''),role:'solution'};if(o.overlayOf!=null){if(qIds.has(String(o.overlayOf)))o.overlayOf=qIds.get(String(o.overlayOf));else delete o.overlayOf;}return o;})}:{})}],flow:{keepTogether:true,sourcePageBreakBefore:false},snapshotKind:'local',bankRef:null};
  const out=[example];

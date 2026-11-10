@@ -657,3 +657,11 @@ Where the implementation departs from, or fills in, the plan:
 
   Replayed on the batch 1 runs (`roles-preview.mjs`), slots fall from 6 / 42 / 85 to 4 / 17 / 21 and drafts from 12 / 30 / 50 to 4 / 19 / 27, with 1 / 8 / 15 types labelled enrichment. James agreed the labels, and the earlier insertions were pruned to the rule the same day (`.booklet-work/pedagogy-audit-v2/prune-to-count-rule.mjs`; approved proposals and difficulty-jump pairs untouched): Rounding Decimals r90 (10 → 4), Equations 1A r469 (19 → 9), Area 1 r292 (30 → 12), Differentiation with Logarithmic Functions r19 (6 → 4). Similar Triangles holds only jump insertions and is unchanged.
 - Not yet implemented: pagination-departure page evidence (Stage 2) and the keep/delete tally across booklets (learning from decisions).
+
+### Working always in theorySolution ("Show theory solutions", 10 November 2026)
+
+"Show theory solutions" hides only an example's solution fields, so the working of the 70 audit-made examples without a figure, kept in the prompt, still printed with the box unticked (Polynomials 1A j5).
+- **Drafter:** `teachingBlocks` now always puts the working in `theorySolution`. Without a figure it also sets `solutionOwnStyle: true`, so the working keeps the formatting it had in the prompt (test in `tests/pedagogy-audit-v2.test.js`).
+- **Existing booklets, imports included:** `.booklet-work/show-theory-solutions-20261110/move-working.mjs` moved the trailing working blocks of 317 examples in 89 booklets. Working means every inline is blue (`#268cff`) or red (`#ef6068`). The script renamed 180 saved-arrangement refs (`…/prompt#node` → `…/theorySolution#node`), then `mark-own-style.mjs` set `solutionOwnStyle`. Both made revision-checked saves. Sampled pages render identically with solutions shown, and page counts are unchanged.
+- **Left for a hand decision** (`run-apply-main/report.json`, `skipped`): question and working on one line or in one table (72), question text after the working (51), plain-text prompts (11), definition panels (46), and working that would print below a figure without a saved arrangement (33).
+- **Guard:** `structuralPreflight` reports `working-in-prompt` for the pattern that moves cleanly (`scripts/booklet/worked-example-working.mjs`).

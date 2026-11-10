@@ -120,7 +120,7 @@
 {/snippet}
 
 {#snippet exampleSolution(example, numbered = true, showTheorySolutions = true)}
-  <div class="theory-solution" class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}>
+  <div class="theory-solution" class:own-style={example.solutionOwnStyle} class:copy-space={!showTheorySolutions} aria-hidden={!showTheorySolutions} inert={!showTheorySolutions}>
     {#each example.steps?.length ? example.steps : [example.theorySolution] as step, stepIndex}
       {@const stepPointer = example.steps?.length ? '/steps/' + stepIndex : '/theorySolution'}
       {#if step}<div class:unnumbered={!numbered} class="theory-step">{#if numbered}<b>{stepIndex + 1}.</b>{/if}<EditableBookletText value={mathLine(step)} rootId={example.id} pointer={stepPointer} {...editProps()} edited={isEdited(example.id, stepPointer)} /></div>{/if}
@@ -347,7 +347,7 @@
   .inside-atom { margin:0; }
   .example-row { display:grid; grid-template-columns:minmax(28mm,.55fr) minmax(0,1.45fr); gap:4mm; padding:1.4mm 0; border-top:.2mm solid var(--booklet-border); }
   .example-row:first-child { border-top:0; }
-  .theory-solution { line-height:1.8; color:var(--booklet-blue); font-weight:400; }
+  .theory-solution { line-height:1.8; color:var(--booklet-blue); font-weight:400; } .theory-solution.own-style { line-height:inherit; color:inherit; }
   .theory-step { display:grid; grid-template-columns:5mm minmax(0,1fr); align-items:baseline; margin-bottom:.6mm; }
   .theory-step.unnumbered { grid-template-columns:minmax(0,1fr); }
   .example-columns { display:grid; grid-template-columns:repeat(var(--example-columns),minmax(0,1fr)); }

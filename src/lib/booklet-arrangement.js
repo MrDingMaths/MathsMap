@@ -176,6 +176,9 @@ export function arrangementCatalog(block,overrides={},widthMm=180){
  function example(e,index){
    const label=add(e.id+'/label',{kind:'label',ownerId:e.id,value:labels[e.id]??e.label??String.fromCharCode(97+index),title:'Example '+(labels[e.id]??e.label??String.fromCharCode(97+index))});
    const steps=e.steps?.length?e.steps.map((_,i)=>group(e.id+':step:'+i,[...(block.presentation?.numberSteps===true?[add(e.id+'/step-label/'+i,{kind:'label',ownerId:e.id,value:String(i+1)+'.',role:'solution',title:'Step '+(i+1)})]:[]),...field(e,'steps/'+i,'solution')])).flat():field(e,'theorySolution','solution');
+   // Working moved out of the prompt keeps the prompt's formatting (solutionOwnStyle): the toggle still hides it,
+   // but the legacy solution styling (line-height 1.8, blue default) would reflow it (10 November 2026).
+   if(e.solutionOwnStyle)for(const item of steps)if(entries.get(item.ref))entries.get(item.ref).ownStyle=true;
    const numberLine=e.numberLineTikz?[add(e.id+'/numberLineTikz',{kind:'diagram',ownerId:e.id,field:'numberLineTikz',value:{id:e.id+'/numberLineTikz',format:'tikz',code:e.numberLineTikz,widthMm:70},role:'solution',title:'Number line'})]:[];
    const bases=diagrams(e),solutions=diagrams(e,'solutionDiagrams','solution');
    const separate=solutions.filter(i=>{const overlay=entries.get(i.ref),base=entries.get(overlay.value.overlayOf);if(base&&bases.some(n=>n.ref===base.ref)){base.overlays??=[];base.overlays.push(overlay.value);overlay.role='solution-overlay';return false;}return true;});

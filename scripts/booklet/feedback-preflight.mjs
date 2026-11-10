@@ -4,6 +4,7 @@ import {pathToFileURL} from 'node:url';
 import {isDeepStrictEqual} from 'node:util';
 import {normalizeEditableProject} from '../../src/lib/editable-booklet-model.js';
 import {resolveArrangement} from '../../src/lib/booklet-arrangement.js';
+import {workingInPrompt} from './worked-example-working.mjs';
 
 const blocks=p=>(p.sections??[]).flatMap(s=>s.blocks??[]);
 const escape=s=>String(s).replaceAll('~','~0').replaceAll('/','~1');
@@ -90,6 +91,7 @@ export function structuralPreflight(project,{blockIds=[]}={}){
    if(Object.keys(widths).length)row.widths.push({source,path:at,...widths});
    });
   }
+  for(const w of workingInPrompt(block,project.settings?.layoutOverrides?.blockLayouts??{}))issues.push({blockId:id,kind:'working-in-prompt',ref:w.exampleId,message:'Worked-example working is in the prompt, so "Show theory solutions" cannot hide it: move it to theorySolution'});
   row.presentation=block.presentation??null;
   rows.push(row);
  }
