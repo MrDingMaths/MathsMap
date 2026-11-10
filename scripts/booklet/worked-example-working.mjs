@@ -41,8 +41,26 @@ export function workingInPrompt(block, layouts = {}) {
     const kinds = (e.prompt?.blocks ?? []).map(workingKind), at = kinds.indexOf('working');
     if (at < 0 || kinds.slice(0, at).includes('mixed') || kinds.slice(at).some(k => k === 'question' || k === 'mixed')) continue;
     // Without a saved arrangement, working after a figure would reorder; that stays a hand decision.
-    if (!layouts[block.id]?.arrangement && block.presentation?.layout !== 'worked-rows' && ((e.questionDiagrams ?? []).length || (e.diagrams ?? []).length)) continue;
+    if (!layouts[block.id]?.arrangement && !block.presentation?.layoutOverrides?.blockLayouts?.[block.id]?.arrangement && block.presentation?.layout !== 'worked-rows' && ((e.questionDiagrams ?? []).length || (e.diagrams ?? []).length)) continue;
     found.push({ exampleId: e.id, nodeIds: e.prompt.blocks.slice(at).map(b => b.id) });
   }
   return found;
+}
+
+// A block's arrangement can be saved twice: in settings.layoutOverrides.blockLayouts and in the block's own
+// presentation.layoutOverrides.blockLayouts, which is merged over the settings copy on load and so is the one
+// that prints. Moving working renamed only the settings copy, leaving 66 stale "<example>/prompt#<node>" refs in
+// 19 booklets (11 November 2026). Renames { from: to } refs in both copies; returns the number renamed.
+export function renameArrangementRefs(project, block, renames) {
+  let renamed = 0;
+  for (const host of [project?.settings?.layoutOverrides?.blockLayouts, block?.presentation?.layoutOverrides?.blockLayouts]) {
+    const arrangement = host?.[block.id]?.arrangement;
+    if (arrangement) (function walk(x) {
+      if (Array.isArray(x)) return x.forEach(walk);
+      if (!x || typeof x !== 'object') return;
+      if (typeof x.ref === 'string' && Object.hasOwn(renames, x.ref)) { x.ref = renames[x.ref]; renamed++; }
+      Object.values(x).forEach(walk);
+    })(arrangement);
+  }
+  return renamed;
 }

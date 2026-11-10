@@ -23,3 +23,13 @@ test('red step headings and \\color maths count as working', () => {
   assert.equal(workingKind(para('m',{type:'math',latex:'\\color{#268cff}x=2'})),'working');
   assert.equal(workingKind(para('q',text('Solve'))),'question');
 });
+
+test('moved working is renamed in both saved arrangement copies', async () => {
+  const {renameArrangementRefs}=await import('../scripts/booklet/worked-example-working.mjs');
+  const arrangement=()=>({version:1,root:{id:'r',type:'group',direction:'stack',children:[{id:'i1',type:'item',ref:'e/prompt#q'},{id:'i2',type:'item',ref:'e/prompt#w'}]}});
+  const b={...block([]),presentation:{layout:'columns',layoutOverrides:{blockLayouts:{b:{arrangement:arrangement()}}}}};
+  const project={settings:{layoutOverrides:{blockLayouts:{b:{arrangement:arrangement()}}}}};
+  assert.equal(renameArrangementRefs(project,b,{'e/prompt#w':'e/theorySolution#w'}),2);
+  for(const a of [project.settings.layoutOverrides.blockLayouts.b.arrangement,b.presentation.layoutOverrides.blockLayouts.b.arrangement])
+    assert.deepEqual(a.root.children.map(c=>c.ref),['e/prompt#q','e/theorySolution#w']);
+});
