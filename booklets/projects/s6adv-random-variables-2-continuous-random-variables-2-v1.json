@@ -43,7 +43,14 @@
       "gutterMm": 8,
       "shortDiagramMm": 45,
       "workedDiagramMm": 55,
-      "diagramWidths": {}
+      "diagramWidths": {
+        "exam-mb-180a6bf0-c6c1-4ae0-b920-c3de515878e7-a-solution-diagram-1": {
+          "worked": 62
+        },
+        "exam-mb-75d213fb-7e3e-4b0f-8a36-54aa7e469738-b-solution-diagram-1": {
+          "worked": 67
+        }
+      }
     },
     "houseStyleVersion": "1.1.0",
     "preserveSourcePages": false,
@@ -13562,6 +13569,202 @@
           }
         },
         {
+          "id": "exam-mb-180a6bf0-c6c1-4ae0-b920-c3de515878e7",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-180a6bf0-c6c1-4ae0-b920-c3de515878e7-root",
+            "type": "question",
+            "label": null,
+            "prompt": "A continuous random variable $X$ has a probability density function given by\n$$f(x) = \\begin{cases} 0 & x < 1 \\\\ \\dfrac{1}{x} & 1 \\leq x \\leq e \\\\ 0 & x > e \\end{cases}$$",
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-180a6bf0-c6c1-4ae0-b920-c3de515878e7-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Find the mode of the given probability density function.\nJustify your answer.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "The mode is $x=1$. Since $f'(x)=-\\dfrac{1}{x^2}<0$, $f$ is strictly decreasing on $[1,e]$, so its maximum is at $x=1$.",
+                  "worked": "The mode is the value of $x$ that maximises $f(x)$ on $[1,e]$, where $f(x)=\\dfrac{1}{x}$.\n$$\\begin{align*}f'(x)&=-\\frac{1}{x^2}\\end{align*}$$\nSince $f'(x)<0$ for all $x$ in the domain, $f(x)$ is strictly decreasing on $[1,e]$. The maximum occurs at the start of the interval, $x=1$.\nThe mode is $1$.",
+                  "solutionDiagrams": [
+                    {
+                      "id": "exam-mb-180a6bf0-c6c1-4ae0-b920-c3de515878e7-a-solution-diagram-1",
+                      "format": "tikz",
+                      "role": "solution",
+                      "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"r2 figure 1\"}\n\\begin{tikzpicture}\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt},every tick label/.append style={fill=white,inner sep=1pt}}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{mmblue}{HTML}{268CFF}\n\\begin{axis}[width=6cm,height=4cm,axis lines=middle,axis line style={line width=0.5pt,-{Stealth[length=2mm]}},xmin=-1.5,xmax=3.6,ymin=-0.4,ymax=1.5,xtick={1,2.71828},xticklabels={$1$,$e$},ytick=\\empty,major tick style={line width=0.4pt,black},tick label style={font=\\fontsize{8.5}{10}\\selectfont},label style={font=\\fontsize{10}{12}\\selectfont},xlabel={$x$},ylabel={$f(x)$},xlabel style={at={(ticklabel* cs:1)},anchor=west},ylabel style={at={(ticklabel* cs:1)},anchor=south,rotate=0},samples=60,clip=true]\n\\addplot[line width=0.8pt,color=mmblue,domain=1:2.71828] {1/x};\n\\addplot[only marks,mark=*,mark size=1.5pt,mark options={fill=black,draw=black,line width=0.4pt}] coordinates {(1,1) (2.71828,0.36788)};\n\\end{axis}\n\\end{tikzpicture}",
+                      "widthMm": 50,
+                      "spec": {
+                        "sourceImageLabel": "Source figure 1 for 180a6bf0-c6c1-4ae0-b920-c3de515878e7 (.booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/images/180a6bf0-c6c1-4ae0-b920-c3de515878e7-1.png)",
+                        "description": "Sketch of y=f(x)=1/x on the domain [1,e], with filled dots at both endpoints. Axes carry arrowheads and labels x and f(x); the x-axis shows tick labels 1 and e only. There is no numerical y scale.",
+                        "mathematics": "Curve y=1/x for 1<=x<=e, endpoints (1,1) and (e,1/e), strictly decreasing, so the maximum (mode) is at x=1. Model: bounds x in [-1.5,3.6], y in [-0.4,1.5]; one curve (blue); points (1,1) and (e,1/e); ticks only at x=1 and x=e; tickLabels on x only, no y ticks.",
+                        "answerVisibility": "Solution-side sketch supporting the mode; the mode value is not annotated. The source figure has no y scale, so none is added."
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "exam-mb-180a6bf0-c6c1-4ae0-b920-c3de515878e7-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Calculate the value of the 25th percentile $(Q_1)$ of this distribution.\nGive your answer correct to 3 decimal places.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$Q_1=e^{0.25}\\approx1.284$",
+                  "worked": "$Q_1$ satisfies $\\displaystyle\\int_1^{Q_1}f(x)\\,dx=0.25$.\n$$\\begin{align*}\\int_{1}^{Q_1}\\frac{1}{x}\\,dx&=0.25\\\\{}[\\ln x]_{1}^{Q_1}&=0.25\\\\\\ln(Q_1)-\\ln(1)&=0.25\\\\\\ln(Q_1)&=0.25\\\\Q_1&=e^{0.25}\\\\Q_1&\\approx1.284\\end{align*}$$"
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "180a6bf0-c6c1-4ae0-b920-c3de515878e7",
+              "sourceCode": "HSC.ADV.2025 Q21",
+              "sourceQuestionSha256": "1f106ad1ea3e7df00b72308a73ca14640ba247c5df7c423f85020a9ae4c25c89",
+              "sourceSolutionSha256": "737a9f0364fa9644795184071818d72d7c11eb92d571508d413b1c1087c93034",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/313.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/images/180a6bf0-c6c1-4ae0-b920-c3de515878e7-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[2]",
+              "[3]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+              "blockId": "exam-mb-1a2895ef-bba2-4962-a0ab-04cd83454070"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "mode-and-quantile",
+            "reasoningScore": 31,
+            "difficulty": "Development",
+            "difficultyReason": "Requires justifying an endpoint mode using decreasing density, then expressing a percentile as an integral and solving the resulting logarithmic equation.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "assessedAt": "2026-11-09T11:00:56.238Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "d06cb46e98756649a6e2ca702cf183e661587d084d93ac54a356fb04fb5e3856",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/rate/chunk-3341638438778183.json"
+            }
+          },
+          "source": {
+            "provider": "HSC",
+            "paper": "Advanced",
+            "year": "2025",
+            "label": "HSC Advanced 2025",
+            "origin": "MathsBase"
+          }
+        },
+        {
+          "id": "exam-mb-c588129f-b252-4fb1-909c-474db956af9a",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-c588129f-b252-4fb1-909c-474db956af9a-root",
+            "type": "question",
+            "label": null,
+            "prompt": "The cumulative distribution function for the continuous random variable $X$ is graphed below.\nWhat is the mode of the probability density function?\n(A) A\n(B) B\n(C) C\n(D) D",
+            "answerSpaceMm": 0,
+            "answer": {
+              "short": "(B)\nThe PDF is the derivative of the CDF, so the mode is where the CDF has its greatest slope.",
+              "worked": "The probability density function is the derivative of the cumulative distribution function. Its mode occurs where the cumulative distribution function has the greatest slope. From the graph, the greatest slope occurs at B.\nThe answer is (B)."
+            },
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-c588129f-b252-4fb1-909c-474db956af9a-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"r3 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10pt}{12pt}\\selectfont}]\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt},every tick label/.append style={fill=white,inner sep=1pt}}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathdeclarefunction{cdfproxy}{1}{\\pgfmathparse{(0.13*#1+0.95*(1/(1+exp(-(#1-1.3)/0.55))-1/(1+exp(1.3/0.55)))+3*(1/(1+exp(-(#1-5.55)/0.4))-1/(1+exp(5.55/0.4))))/5.2}}\n\\begin{axis}[width=7cm,height=5cm,scale only axis,axis lines=left,axis line style={black,line width=0.5pt,-},xmin=0,xmax=10,ymin=0,ymax=1.04,xtick=\\empty,ytick=\\empty,scaled ticks=false,clip=true,clip mode=individual]\n\\addplot[black,line width=0.8pt,domain=0:10,samples=160]{cdfproxy(x)};\n\\addplot[black,line width=0.4pt,densely dashed,domain=0:1,samples=2]({3.7},{x*cdfproxy(3.7)});\n\\addplot[black,line width=0.4pt,densely dashed,domain=0:1,samples=2]({5.55},{x*cdfproxy(5.55)});\n\\addplot[black,line width=0.4pt,densely dashed,domain=0:1,samples=2]({6.35},{x*cdfproxy(6.35)});\n\\addplot[black,line width=0.4pt,densely dashed,domain=0:1,samples=2]({10},{x*cdfproxy(10)});\n\\coordinate (Afoot) at (axis cs:3.7,0);\n\\coordinate (Bfoot) at (axis cs:5.55,0);\n\\coordinate (Cfoot) at (axis cs:6.35,0);\n\\coordinate (Dfoot) at (axis cs:10,0);\n\\end{axis}\n\\node[below=3pt] at (Afoot) {$A$};\n\\node[below=3pt] at (Bfoot) {$B$};\n\\node[below=3pt] at (Cfoot) {$C$};\n\\node[below=3pt] at (Dfoot) {$D$};\n\\end{tikzpicture}",
+                "widthMm": 74,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for c588129f-b252-4fb1-909c-474db956af9a (.booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/images/c588129f-b252-4fb1-909c-474db956af9a-1.png)",
+                  "description": "Unscaled, unlabelled Cartesian axes without arrowheads. An increasing curve starts at the origin, rises initially, flattens near A, rises most steeply near B, bends over through C and rises gently towards D. Dashed vertical guides join A, B, C and D to the curve. All four letter labels are outside the clipped plot area.",
+                  "mathematics": "A smooth analytic proxy reproduces the source's qualitative CDF shape; its equation and illustrative coordinates are not source givens. The greatest slope occurs near B.",
+                  "answerVisibility": "No numerical scales, equation, slope annotation or highlighted answer is shown."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "c588129f-b252-4fb1-909c-474db956af9a",
+              "sourceCode": "HSC.BHHS.Y12.ADV.2024 Q8",
+              "sourceQuestionSha256": "0faaff1036164dab863e4ea10835605725b286b51b17a9219219c84ca3136e0f",
+              "sourceSolutionSha256": "2cc1f490e43c5addbfe89d4ff1a5962417c4b7818d0243191d1910886181dc6e",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/313.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/images/c588129f-b252-4fb1-909c-474db956af9a-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[1]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107",
+              "revisedBy": {
+                "model": "gpt-6.1-sol",
+                "effort": "low",
+                "kind": "exam-figure-fix",
+                "rounds": 1,
+                "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/fix/chunk-3f5ffd0ac0900152.json"
+              }
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+              "blockId": "exam-mb-1a2895ef-bba2-4962-a0ab-04cd83454070"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "mode-from-cdf",
+            "reasoningScore": 32,
+            "difficulty": "Development",
+            "difficultyReason": "Connect the PDF to the derivative of the CDF, then identify B as the location of greatest slope rather than greatest height.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "assessedAt": "2026-11-09T11:02:32.853Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "e392cb2ffbcc8bb91cfaf376c16ebd98808999332a48653487f910ad0bc517c9",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/rate/chunk-7be57d43f7de8693.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-trial",
+            "paper": "BHHS Y12 ADV",
+            "year": "2024",
+            "label": "BHHS Y12 ADV 2024",
+            "origin": "MathsBase"
+          }
+        },
+        {
           "id": "exam-mb-b4c25b1c-406e-42e0-94c9-5ae7acf2955d",
           "type": "question",
           "pedagogyRole": "practice",
@@ -14343,6 +14546,128 @@
           }
         },
         {
+          "id": "exam-mb-75d213fb-7e3e-4b0f-8a36-54aa7e469738",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-75d213fb-7e3e-4b0f-8a36-54aa7e469738-root",
+            "type": "question",
+            "label": null,
+            "prompt": "Consider the function below.\n$$f(x)=\\begin{cases}\\dfrac{x}{2}, & 0\\leq x\\leq 1, \\\\ \\dfrac{2}{3}-\\dfrac{x}{6}, & 1<x\\leq 4, \\\\ 0, & \\text{elsewhere.}\\end{cases}$$\nYou may assume that $f(x)\\geq 0$ for all $x$ in $(-\\infty,\\infty)$.",
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-75d213fb-7e3e-4b0f-8a36-54aa7e469738-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Prove the other property required to show that $f(x)$ is a valid density function for a continuous random variable $X$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$\\displaystyle\\int_{-\\infty}^{\\infty}f(x)\\,dx=1$, so $f(x)$ is a valid density function.\nThe total area under the curve must equal $1$.",
+                  "worked": "For $f(x)$ to be a valid probability density function, the total area under the curve must be $1$.\n$$\\begin{align*}\\int_{-\\infty}^{\\infty}f(x)\\,dx&=\\int_0^1\\frac{x}{2}\\,dx+\\int_1^4\\left(\\frac{2}{3}-\\frac{x}{6}\\right)dx\\\\&=\\left[\\frac{x^2}{4}\\right]_0^1+\\left[\\frac{2x}{3}-\\frac{x^2}{12}\\right]_1^4\\\\&=\\frac{1}{4}+\\left(\\frac{8}{3}-\\frac{16}{12}\\right)-\\left(\\frac{2}{3}-\\frac{1}{12}\\right)\\\\&=\\frac{1}{4}+\\frac{4}{3}-\\frac{7}{12}\\\\&=1\\end{align*}$$\nHence $f(x)$ is a valid density function."
+                }
+              },
+              {
+                "id": "exam-mb-75d213fb-7e3e-4b0f-8a36-54aa7e469738-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Sketch $y=f(x)$, showing each point where the rule defining $y=f(x)$ changes.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "A straight line from $(0,0)$ to $\\left(1,\\tfrac{1}{2}\\right)$, then a straight line down to $(4,0)$, with $y=0$ elsewhere.",
+                  "worked": "The rule changes at $x=0$, $x=1$ and $x=4$. At these points $f(0)=0$, $f(1)=\\dfrac{1}{2}$ and $f(4)=0$. The graph is $y=0$ for $x<0$, a line up to $\\left(1,\\tfrac{1}{2}\\right)$, a line down to $(4,0)$, then $y=0$ for $x>4$.",
+                  "solutionDiagrams": [
+                    {
+                      "id": "exam-mb-75d213fb-7e3e-4b0f-8a36-54aa7e469738-b-solution-diagram-1",
+                      "format": "tikz",
+                      "role": "solution",
+                      "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"r4 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10pt}{12pt}\\selectfont}]\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt},every tick label/.append style={fill=white,inner sep=1pt}}\n\\usetikzlibrary{arrows.meta}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{axis}[width=6cm,height=3.2cm,scale only axis,axis lines=middle,axis line style={black,line width=0.5pt,-{Stealth[length=2mm]}},xmin=-0.4,xmax=4.6,ymin=-0.05,ymax=0.75,xtick={1,4},ytick={0.5},yticklabels={$\\frac{1}{2}$},scaled ticks=false,tick label style={font=\\fontsize{8.5pt}{10pt}\\selectfont,fill=white,inner sep=1pt},x tick label style={yshift=-3pt},major tick length=0pt,tick style={line width=0.4pt},clip=true,clip mode=individual]\n\\addplot[black,line width=0.8pt,domain=-0.35:0,samples=2]{0};\n\\addplot[black,line width=0.8pt,domain=0:1,samples=2]{x/2};\n\\addplot[black,line width=0.8pt,domain=1:4,samples=2]{2/3-x/6};\n\\addplot[black,line width=0.8pt,domain=4:4.45,samples=2]{0};\n\\addplot[only marks,mark=*,mark size=1.5pt,mark options={fill=black,draw=black,line width=0.4pt}] coordinates {(0,0) (1,0.5) (4,0)};\n\\coordinate (peak) at (axis cs:1,0.5);\n\\coordinate (xend) at (axis cs:4.6,0);\n\\coordinate (yend) at (axis cs:0,0.75);\n\\end{axis}\n\\node[above right=2pt] at (peak) {$\\left(1,\\frac{1}{2}\\right)$};\n\\node[right=3pt] at (xend) {$x$};\n\\node[above=3pt] at (yend) {$y$};\n\\end{tikzpicture}",
+                      "widthMm": 67,
+                      "spec": {
+                        "sourceImageLabel": "Source figure 1 for 75d213fb-7e3e-4b0f-8a36-54aa7e469738",
+                        "description": "Complete piecewise density sketch with filled circular points at (0,0), (1,1/2) and (4,0), horizontal zero segments outside [0,4], and axes labelled x and y. Axis labels and the peak coordinate are placed outside the clipping scope. The source origin numeral is omitted under house style.",
+                        "mathematics": "f(x)=x/2 on [0,1], f(x)=2/3-x/6 on (1,4], and f(x)=0 elsewhere. The source coordinate frame and mathematical points are preserved.",
+                        "answerVisibility": "Solution-only sketch on part b."
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "exam-mb-75d213fb-7e3e-4b0f-8a36-54aa7e469738-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "Find the median of $X$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$4-\\sqrt{6}$\nSince $\\int_0^1 f(x)\\,dx=\\tfrac14<\\tfrac12$, the median lies in $1<m\\le4$; solve $F(m)=\\tfrac12$ there.",
+                  "worked": "Let the median be $m$. Since $\\displaystyle\\int_0^1\\frac{x}{2}\\,dx=\\frac{1}{4}$, the median lies in $1<m\\leq 4$.\n$$\\begin{align*}\\frac{1}{4}+\\int_1^m\\left(\\frac{2}{3}-\\frac{x}{6}\\right)dx&=\\frac{1}{2}\\\\\\frac{1}{4}+\\left[\\frac{2x}{3}-\\frac{x^2}{12}\\right]_1^m&=\\frac{1}{2}\\\\\\frac{1}{4}+\\frac{2m}{3}-\\frac{m^2}{12}-\\frac{7}{12}&=\\frac{1}{2}\\\\\\frac{2m}{3}-\\frac{m^2}{12}-\\frac{1}{3}&=\\frac{1}{2}\\\\8m-m^2-4&=6\\\\m^2-8m+10&=0\\\\m&=4\\pm\\sqrt{6}\\end{align*}$$\nSince $1<m\\leq 4$, the median is $4-\\sqrt{6}$."
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "75d213fb-7e3e-4b0f-8a36-54aa7e469738",
+              "sourceCode": "HSC.MER.Y12.ADV.2020 Q33",
+              "sourceQuestionSha256": "655232cca092213480e13406d7e4e395df96799f1188441cc361199a2e166b1e",
+              "sourceSolutionSha256": "34d1a9b5cf45b156bf225fcc929e5d59e9258653a12ac6e417973cb71988357c",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/313.json",
+              "sourceImages": []
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[2]",
+              "[2]",
+              "[3]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107",
+              "revisedBy": {
+                "model": "gpt-6.1-sol",
+                "effort": "low",
+                "kind": "exam-figure-fix",
+                "rounds": 1,
+                "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/fix/chunk-3f5ffd0ac0900152.json"
+              }
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+              "blockId": "exam-mb-76c16603-6828-4377-ad21-56807e4b190b"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "piecewise-cdf",
+            "reasoningScore": 42,
+            "difficulty": "Development",
+            "difficultyReason": "Integrate the piecewise density and sketch its linear sections, then locate the median's interval using accumulated probability, form a quadratic and select the root within the support.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "assessedAt": "2026-11-09T11:02:32.853Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "a38ef25afcab7f9b0bc6c9030e08781374c72c14d1632e3d282268ea568f7613",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/rate/chunk-7be57d43f7de8693.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-school",
+            "paper": "Y12 Advanced",
+            "year": "2020",
+            "label": "Meriden Y12 Advanced 2020",
+            "origin": "MathsBase"
+          }
+        },
+        {
           "id": "exam-a1c02bac-cf28-4dff-b989-879cebd1c3e1",
           "type": "question",
           "title": "",
@@ -14460,6 +14785,150 @@
               "projectId": "s6adv-random-variables-2-continuous-random-variables-v1",
               "blockId": "exam-mb-197c63ce-181c-44a6-af03-8a3509ec5d0f"
             }
+          }
+        },
+        {
+          "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd",
+          "type": "question",
+          "pedagogyRole": "practice",
+          "snapshotKind": "local",
+          "bankRef": null,
+          "title": "",
+          "content": {
+            "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd-root",
+            "type": "question",
+            "label": null,
+            "prompt": "Liz is having a rare book restored at Binding Repairs.\nShe drops the book off in the morning and is told that the book will be ready for pickup sometime between $1$ pm and $5$ pm that day.\nLet the random variable $B$ represent the time after noon $(12$ pm$)$ that Liz's book is ready for collection.\nThe probability density function for $B$ is shown in the graph below.\nThe probability of a book being ready for collection between $2$ pm and $3$ pm is $0.2$.",
+            "answerSpaceMm": 0,
+            "children": [
+              {
+                "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd-a",
+                "type": "part",
+                "label": "a",
+                "prompt": "Determine the value of $k$.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$k=0.6$",
+                  "worked": "The total area under the PDF is $1$.\n$$\\begin{align*}3(0.2)+\\frac{1}{2}(0.2+k)(1)&=1\\\\0.6+0.1+\\frac{k}{2}&=1\\\\\\frac{k}{2}&=0.3\\\\k&=0.6\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "An incomplete expression for the probability density function of $B$ is given below.\nFill in the box to complete the missing part of the expression.\n$$f(b)=\\begin{cases}0.2,&1\\leq b<4\\\\\\square,&4\\leq b\\leq5\\\\0,&\\text{otherwise}\\end{cases}$$",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$0.4b-1.4$",
+                  "worked": "The segment for $4\\leq b\\leq5$ passes through $(4,0.2)$ and $(5,0.6)$.\n$$\\begin{align*}m&=\\frac{0.6-0.2}{5-4}\\\\m&=0.4\\end{align*}$$\nUsing $f(b)=0.4b+c$:\n$$\\begin{align*}0.2&=0.4(4)+c\\\\c&=-1.4\\end{align*}$$\nThe missing expression is $0.4b-1.4$."
+                }
+              },
+              {
+                "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd-c",
+                "type": "part",
+                "label": "c",
+                "prompt": "Determine the median time that Liz's book will be ready for collection.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$3.5$ hours after noon ($3{:}30$ pm).",
+                  "worked": "For $1\\leq b<4$, the cumulative probability is $0.2(b-1)$. The median occurs when this equals $0.5$.\n$$\\begin{align*}0.2(b-1)&=0.5\\\\b-1&=2.5\\\\b&=3.5\\end{align*}$$\nThe median time is $3.5$ hours after noon, which is $3{:}30$ pm."
+                }
+              },
+              {
+                "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd-d",
+                "type": "part",
+                "label": "d",
+                "prompt": "Andrew is also having a book restored but he uses a different company called Folio Fixers.\nHe drops his book off in the morning and is told that his book will be ready for collection sometime between $1$ pm and $5$ pm that day.\nLet the random variable $A$ represent the time after noon $(12$ pm$)$ that Andrew's book is ready for collection.\nThe cumulative distribution function for $A$ is given by\n$$P(A\\leq a)=\\begin{cases}0,&a<1\\\\\\dfrac{10a-a^2-9}{16},&1\\leq a\\leq5\\\\1,&a>5\\end{cases}$$\nDetermine the probability that Andrew's book will be ready to collect by $4$ pm.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$\\dfrac{15}{16}$",
+                  "worked": "$$\\begin{align*}P(A\\leq4)&=\\frac{10(4)-4^2-9}{16}\\\\&=\\frac{15}{16}\\end{align*}$$"
+                }
+              },
+              {
+                "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd-e",
+                "type": "part",
+                "label": "e",
+                "prompt": "Determine the probability that Andrew's book will be ready to collect by $3$ pm given that it is ready to collect by $4$ pm.",
+                "answerSpaceMm": 0,
+                "answer": {
+                  "short": "$0.8$",
+                  "worked": "$$\\begin{align*}P(A\\leq3\\mid A\\leq4)&=\\frac{P(A\\leq3)}{P(A\\leq4)}\\\\&=\\frac{\\frac{10(3)-3^2-9}{16}}{\\frac{15}{16}}\\\\&=\\frac{\\frac{12}{16}}{\\frac{15}{16}}\\\\&=\\frac{12}{15}\\\\&=0.8\\end{align*}$$"
+                }
+              }
+            ],
+            "questionDiagrams": [
+              {
+                "id": "exam-mb-8afa4f28-c760-4efd-8368-c0182a44cfcd-root-question-diagram-1",
+                "format": "tikz",
+                "role": "question",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"plotted PDF series\"}],\"reference\":\"r7 figure 1\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\pgfplotsset{every tick/.append style={black,line width=0.4pt},every tick label/.append style={fill=white,inner sep=1pt}}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\begin{axis}[width=7cm, height=5cm, scale only axis, axis lines=left,\n  axis line style={-{Stealth[length=2mm]}, line width=0.5pt, black},\n  xmin=0, xmax=5.6, ymin=0, ymax=0.72,\n  xtick={1,2,3,4,5}, ytick={0.6}, yticklabels={$k$},\n  xmajorgrids=true, ymajorgrids=false,\n  major grid style={line width=0.25pt, draw=gridGrey},\n  tick style={line width=0.4pt, black},\n  tick label style={font=\\fontsize{8.5}{10}\\selectfont},\n  yticklabel style={font=\\fontsize{10}{12}\\selectfont},\n  clip=false, samples=2]\n\\addplot[black, dashed, line width=0.4pt, domain=0:5] {0.6};\n\\addplot[seriesBlue, line width=0.8pt, domain=1:4] {0.2};\n\\addplot[seriesBlue, line width=0.8pt, domain=4:5] {0.4*x-1.4};\n\\node[anchor=west] at (axis cs:5.7,0) {$b$};\n\\node[anchor=south] at (axis cs:0,0.75) {$f(b)$};\n\\end{axis}\n\\end{tikzpicture}",
+                "widthMm": 81,
+                "spec": {
+                  "sourceImageLabel": "Source figure 1 for 8afa4f28-c760-4efd-8368-c0182a44cfcd (.booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/images/8afa4f28-c760-4efd-8368-c0182a44cfcd-1.png)",
+                  "description": "Graph of the PDF f(b) against b. Vertical grey grid lines at b = 1, 2, 3, 4, 5. A horizontal segment from b = 1 to b = 4 at an unlabelled height, then a straight segment rising to the point at b = 5 whose height is k, marked by a dashed horizontal line from the f(b) axis labelled k.",
+                  "mathematics": "f(b) is constant on [1,4) and linear on [4,5], reaching height k at b = 5. Plotted with relative heights 0.2 and 0.6 (matching the source proportions); only k is labelled on the vertical axis.",
+                  "answerVisibility": "Heights of the horizontal segment and the value of k are not labelled; the second-piece equation is not shown.",
+                  "sizing": {
+                    "purpose": "drawing"
+                  }
+                }
+              }
+            ]
+          },
+          "sourceReview": {
+            "origin": {
+              "provider": "MathsBase",
+              "externalId": "8afa4f28-c760-4efd-8368-c0182a44cfcd",
+              "sourceCode": "HSC.NSG.Y12.ADV.2025 Q24",
+              "sourceQuestionSha256": "57233e80b55f1d72443e3d78d297c6634ef136fe24b0e24ea58b818371bd2d60",
+              "sourceSolutionSha256": "d523b795f7e35d38a0bd36ba5a92b3e8f69679b85c8f966cc99edf4e82b7c91b",
+              "readSnapshot": ".booklet-work/end-goal-20261028/phase4/external-read-campaign/subtopics/313.json",
+              "sourceImages": [
+                ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/images/8afa4f28-c760-4efd-8368-c0182a44cfcd-1.png"
+              ]
+            },
+            "wholeSource": true,
+            "markTokensRemoved": [
+              "[1]",
+              "[1]",
+              "[1]",
+              "[1]",
+              "[2]"
+            ],
+            "generation": {
+              "model": "claude-sonnet-5-5",
+              "kind": "exam-figure-adaptation",
+              "run": ".booklet-work/exam-figures-20261107"
+            },
+            "status": "independent-content-accepted",
+            "additionTo": {
+              "projectId": "s6adv-random-variables-2-continuous-random-variables-2-v1",
+              "blockId": "exam-mb-76c16603-6828-4377-ad21-56807e4b190b"
+            }
+          },
+          "classification": {
+            "primarySkillId": null,
+            "secondarySkillIds": [],
+            "archetype": "piecewise-cdf",
+            "reasoningScore": 43,
+            "difficulty": "Development",
+            "difficultyReason": "Requires normalising graphical areas, finding a linear density segment, locating the median within the constant segment, and translating nested time events into a conditional-probability ratio.",
+            "assessment": {
+              "model": "gpt-6.1-sol",
+              "effort": "low",
+              "assessedAt": "2026-11-09T11:00:56.238Z",
+              "rubricVersion": "mathsmap-cognitive-demand-v1",
+              "taskHash": "8d3d37fe3e65eef6242995b387b78b13652814ac6e1cdf9b0e387587b9f337bd",
+              "evidence": ".booklet-work/exam-figures-20261107/s6adv-random-variables-2-continuous-random-variables-2-v1/rate/chunk-3341638438778183.json"
+            }
+          },
+          "source": {
+            "provider": "HSC-school",
+            "paper": "Y12 Advanced",
+            "year": "2025",
+            "label": "North Sydney Girls High School Y12 Advanced 2025",
+            "origin": "MathsBase"
           }
         },
         {
@@ -23791,10 +24260,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 2,
+  "revision": 4,
   "assets": [],
   "createdAt": "2026-11-06T11:03:37.978Z",
-  "updatedAt": "2026-11-07T03:02:03.640Z",
+  "updatedAt": "2026-11-09T22:38:37.876Z",
   "library": {
     "category": "master",
     "courseId": "s6-adv12",

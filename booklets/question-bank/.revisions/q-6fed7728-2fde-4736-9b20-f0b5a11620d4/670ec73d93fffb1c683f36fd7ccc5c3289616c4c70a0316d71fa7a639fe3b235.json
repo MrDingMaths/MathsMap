@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6fed7728-2fde-4736-9b20-f0b5a11620d4",
+  "status": "approved",
+  "title": "2009 HSC Standard 2 Band 4",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-triangle",
+      "round-decimals"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Combine the two marked lengths to obtain the quadrant radius, recognise the unshaded region as a right triangle with legs of 4 cm, and subtract its area from the quadrant before rounding.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:15:08.063Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5a993f408548e05f4e42e970aebd54573b95d685cbcbe2d36dbf032fbc8c07cc",
+      "evidence": ".booklet-work/reasoning-ratings/calls/area-circles-sectors-v1/fd9ca9a19321aae9e1cc776d17f368cf0676ece4b5d1838fade7bb58aa419295-1792556081290/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q5-response",
+    "type": "question",
+    "label": "5",
+    "prompt": "What is the area of the shaded part of this shape, correct to the nearest square centimetre?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"measuredRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Identifies the requested region between the chord and the quadrant arc\"}],\"reference\":\"source page 20 p20-q5-diagram\"}\n\\usetikzlibrary{calc,arrows.meta}\n\\begin{tikzpicture}[x=4mm,y=4mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{measuredRegion}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (L4) at (135:4);\n\\coordinate (L8) at (135:8);\n\\coordinate (R4) at (45:4);\n\\coordinate (R8) at (45:8);\n\\fill[measuredRegion] (L4)--(L8) arc[start angle=135,end angle=45,radius=8]--(R4)--cycle;\n\\draw[black,line width=0.8pt] (O)--(L8) arc[start angle=135,end angle=45,radius=8]--cycle;\n\\draw[black,line width=0.8pt] (L4)--(R4);\n\\coordinate (QL) at ($(O)!0.14!(L4)$);\n\\coordinate (QR) at ($(O)!0.14!(R4)$);\n\\coordinate (QC) at ($(QL)+(QR)-(O)$);\n\\draw[black,line width=0.4pt] (QL)--(QC)--(QR);\n\\coordinate (DL0) at ($(O)+(225:0.85)$);\n\\coordinate (DL4) at ($(L4)+(225:0.85)$);\n\\coordinate (DL8) at ($(L8)+(225:0.85)$);\n\\coordinate (DR0) at ($(O)+(315:0.85)$);\n\\coordinate (DR4) at ($(R4)+(315:0.85)$);\n\\coordinate (DR8) at ($(R8)+(315:0.85)$);\n\\draw[black,line width=0.4pt,densely dashed,{Latex[length=1.5mm]}-{Latex[length=1.5mm]}] (DL0)--node[midway,fill=white,inner sep=1.5pt] {$4$} (DL4);\n\\draw[black,line width=0.4pt,densely dashed,{Latex[length=1.5mm]}-{Latex[length=1.5mm]}] (DL4)--node[midway,fill=white,inner sep=1.5pt] {$4$} (DL8);\n\\draw[black,line width=0.4pt,densely dashed,{Latex[length=1.5mm]}-{Latex[length=1.5mm]}] (DR0)--node[midway,fill=white,inner sep=1.5pt] {$4$} (DR4);\n\\draw[black,line width=0.4pt,densely dashed,{Latex[length=1.5mm]}-{Latex[length=1.5mm]}] (DR4)--node[midway,fill=white,inner sep=1.5pt] {$4$} (DR8);\n\\foreach \\P in {DL0,DL4,DL8} {\\draw[black,line width=0.4pt] ($(\\P)+(45:0.20)$)--($(\\P)+(225:0.20)$);}\n\\foreach \\P in {DR0,DR4,DR8} {\\draw[black,line width=0.4pt] ($(\\P)+(135:0.20)$)--($(\\P)+(315:0.20)$);}\n\\node[black,anchor=west,align=center,text width=30mm] at (7.6,6.9) {NOT TO\\\\SCALE};\n\\node[black,anchor=west,align=center,text width=36mm] at (7.6,3.7) {All measurements\\\\are in centimetres.};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 98,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 5, middle section",
+          "description": "A quadrant with its centre at the lower vertex and radial sides extending upwards left and right. Each radius has two segments labelled 4. A horizontal chord joins the radial midpoints. Only the region between this chord and the outer arc is shaded. External segmented dimension arrows, a central right-angle marker and the source measurement notes are retained.",
+          "mathematics": "The two radii have length 4 + 4 = 8 cm and enclose 90 degrees. The excluded central triangle has perpendicular legs of 4 cm.",
+          "answerVisibility": "Question givens and shaded target region only; no supplied answer or solution annotations."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$42\\text{ cm}^2$ (nearest square centimetre), from $\\frac14\\pi(8)^2-\\frac12(4)(4)$.",
+      "worked": "The sector radius is $4+4=8$ cm. Subtract the central right-angled triangle from the quadrant.\n$$\\begin{align*}\nA_{\\text{shaded}} &= \\frac14\\pi(8)^2-\\frac{4\\times4}{2} \\\\\nA_{\\text{shaded}} &= 16\\pi-8 \\\\\nA_{\\text{shaded}} &\\approx 42.27\\text{ cm}^2 \\\\\nA_{\\text{shaded}} &\\approx 42\\text{ cm}^2\n\\end{align*}$$\nThe area is $42\\text{ cm}^2$ to the nearest square centimetre.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 52
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q5-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p20-q5-prompt-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q5-label-item",
+                      "type": "item",
+                      "ref": "p20-q5-response/label",
+                      "width": 7,
+                      "weight": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p20-q5-prompt-item",
+                      "type": "item",
+                      "ref": "p20-q5-response/prompt",
+                      "width": 163,
+                      "weight": 100,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p20-q5-diagram-working-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p20-q5-diagram-item",
+                      "type": "item",
+                      "ref": "p20-q5-diagram",
+                      "width": 98,
+                      "weight": 98,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p20-q5-working-item",
+                      "type": "item",
+                      "ref": "p20-q5-response/space",
+                      "width": 64,
+                      "weight": 64,
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 6,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 4
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p20-q5"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-10-21T10:42:49.018Z",
+  "updatedAt": "2026-10-21T10:42:49.018Z"
+}
