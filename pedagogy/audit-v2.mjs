@@ -292,6 +292,7 @@ const withRebinds=(project,rebinds)=>{if(!rebinds.length)return project;const by
 
 // ---- Stage 0: preflight ------------------------------------------------------------
 const isGuided=b=>b?.type==='question'&&b.pedagogyRole==='guided-practice';
+export const NO_RESULT=/cannot be (solved|determined|found)|not (given|enough information|determinable)|insufficient (information|data)|no (data|information) (is )?given|unable to/i;
 // The booklet's answer for each part of a worked example or guided practice: an example's whole worked solution, a
 // guided practice part's short answer and working. Solved blind and checked for a contradicted result part by part
 // (consistencyContract): the pilot's comparison with the last line flagged notes and partial lists (11 November 2026).
@@ -478,7 +479,9 @@ export function unusableMapHolds(holds,checked){
  }
  return out;
 }
-const NAMES_QUESTION=/\b(?:questions?|Q)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier|last)\s+(?:question|part|exercise)|\b(?:answer|result)\s+(?:as\s+)?(?:above|below)|\bas above\b/i;
+// "questions. 300 students" (Binomial Distributions 2 p41, 11 November 2026) is not a question number: a number must follow
+// the word directly.
+const NAMES_QUESTION=/\bquestions?\s+\d|\bQ\.?\s*\d|\b(?:previous|preceding|next|following|earlier|last)\s+(?:question|part|exercise)|\b(?:answer|result)\s+(?:as\s+)?(?:above|below)|\bas above\b/i;
 // "Q1 and Q2", "\mathrm{Q4}" in trigonometry are quadrants, not questions (Stage 6 pilot, 11 November 2026: worked
 // examples' quadrant notes held their lessons' exercises).
 export const quadrantOnly=t=>!/\bquestions?\b/i.test(t)&&[...String(t).matchAll(/\bQ\s*\.?\s*(\d+)/g)].every(m=>/^Q[1-4]$/.test(m[0]));
@@ -1626,7 +1629,9 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
     // a closed range for tan⁻¹ under a correct short answer): it must not contradict the independent solve.
     if(it.kind==='new'){const c=it.draft.content??it.draft.workedExample?.guidedPractice;answerNodes(c).forEach((n,k)=>{const a=answers.get(String(n.id))??[...answers.values()][k]??'';pairs.push({id:it.id+'#'+k,item:it,a,b:n.answer.short||n.answer.worked});
      if(n.answer.short&&n.answer.worked&&a)pairs.push({id:it.id+'#w'+k,item:it,a,b:n.answer.worked,consistency:true});});}
-    else if(it.kind==='check'){for(const t of teachingAnswers(it.block)){const a=answers.get(t.nodeId);if(a)pairs.push({id:it.id+'#'+t.nodeId,item:it,a,b:t.answer,nodeId:t.nodeId,consistency:true});}}
+    // A solver that gives no result ("Cannot be solved: the distribution is not given", Binomial Distributions 2 p42,
+    // whose context sits in the block before) has checked nothing: the part is left for a later run, not flagged.
+    else if(it.kind==='check'){for(const t of teachingAnswers(it.block)){const a=answers.get(t.nodeId);if(a&&!NO_RESULT.test(String(a)))pairs.push({id:it.id+'#'+t.nodeId,item:it,a,b:t.answer,nodeId:t.nodeId,consistency:true});}}
     else{const node=nodesOf(it.block).find(n=>n.id===it.targetNode)??it.block.content;const solved=answers.get(String(it.targetNode))??[...answers.values()].at(-1)??'';pairs.push({id:it.id+'#new',item:it,a:solved,b:it.claim.field==='short'?it.claim.correction:it.claim.correction.split('\\\\').at(-1)},{id:it.id+'#old',item:it,a:solved,b:it.claim.field==='short'?fieldGet(node,'short'):String(fieldGet(node,it.claim.field)??'').split('\\\\').at(-1)});}}
    const checkPairs=pairs.filter(p=>p.consistency);
    const eq=new Map([...await compareAnswers(ctx,pairs.filter(p=>!p.consistency)),...(checkPairs.length?await compareAnswers(ctx,checkPairs,{system:consistencyContract(),stage:'consistency'}):[])]);

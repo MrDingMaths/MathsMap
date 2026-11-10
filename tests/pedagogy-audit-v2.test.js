@@ -879,6 +879,9 @@ test('a printed reference holds only its own exercise, or a same-topic one when 
  const {quadrantOnly}=await import('../pedagogy/audit-v2.mjs');
  assert.equal(quadrantOnly('sin is positive, so Q1 and Q2'),true);assert.equal(quadrantOnly(String.raw`\therefore\mathrm{Q4}`),true);
  assert.equal(quadrantOnly('see Q7'),false);assert.equal(quadrantOnly('Question 2, in Q1'),false);
+ // A count of questions followed by a sentence is not a question reference.
+ const quiz=structuredClone(project);quiz.sections[0].blocks[1].content.prompt='A quiz has 20 multiple-choice questions. 300 students guess. Use the diagram below.';
+ assert.deepEqual(orderCandidate(quiz).project.sections[2].blocks.map(b=>b.id),['f','e']);
  const c=orderCandidate(cited);assert.deepEqual(c.project.sections[1].blocks.map(b=>b.id),['c','d','g']);
  assert.ok(c.plan.sections[1].segments[0].holds.some(h=>['reference-renumbering-blocked','before-source-counter-identity-unverified'].includes(h.kind)));
 });
