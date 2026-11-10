@@ -10,6 +10,7 @@ import {
   validateProcedureLabels,
   unknownKeys,
   isStructureSlug,
+  separateDisplayMaths,
   PRACTICE_CARD_KEYS,
   QUIZ_QUESTION_KEYS
 } from '../src/lib/inline-content.js';
@@ -136,4 +137,15 @@ test('simultaneous equation prompts keep independent left-aligned lines',()=>{
   {kind:'line',value:'$3x - 2y = 5$'}
  ]);
  assert.match(groupTextBlocks(source)[0].value,/begin\{aligned\}/,'worked-solution alignment remains available');
+});
+
+test('display maths butted against prose starts and ends its own line', () => {
+  const lines = groupTextBlocks('$$x=t,\\quad y=10t-5t^2$$Let $x=1$: $t=1$').map(block => block.value);
+  assert.deepEqual(lines, ['$$x=t,\\quad y=10t-5t^2$$', 'Let $x=1$: $t=1$']);
+  assert.equal(separateDisplayMaths('Hence$$a=1$$'), 'Hence\n$$a=1$$');
+  assert.equal(separateDisplayMaths('$$a$$$$b$$'), '$$a$$\n$$b$$');
+  // Closing punctuation stays with the expression; spaced joins, inline runs and table rows are unchanged.
+  assert.equal(separateDisplayMaths('$$a=1.$$.Then'), '$$a=1.$$.\nThen');
+  for (const same of ['$$a$$, so', '$$a$$ Angles at a point.', 'Since $$x$$', '($$x$$)', '$a$$b$c', '| $$a$$b |', 'cost \\$$5$ and', '$$\\text{\\$}5$$, so'])
+    assert.equal(separateDisplayMaths(same), same);
 });
