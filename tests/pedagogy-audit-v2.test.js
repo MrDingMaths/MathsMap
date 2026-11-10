@@ -223,6 +223,19 @@ test('a change confined to diagram drawing code is not a change to the question'
  assert.equal(diagramBlindHash(inline('\\draw (0,0);')),diagramBlindHash(inline('\\draw (1,0);')),'inline TikZ in a prompt too');
 });
 
+test('figure findings are kept only for figures the audit made or changed', async()=>{
+ // Simultaneous Equations 2 (10 November 2026): one finding on the audit's annulus among ~90 on exam and teacher figures.
+ const {figureFindings}=await import('../pedagogy/audit-v2.mjs');
+ const fs=await import('node:fs'),os=await import('node:os'),path=await import('node:path');
+ const fig=(id,code)=>({id,type:'question',content:{id:id+'-root',type:'question',prompt:'P',questionDiagrams:[{id:id+'-d',format:'tikz',code}]}});
+ const live={sections:[{id:'s',blocks:[fig('p1-q1','a')]}]},candidate={sections:[{id:'s',blocks:[fig('p1-q1','a'),fig('v2-s-slot-1','b')]}]};
+ const file=path.join(fs.mkdtempSync(path.join(os.tmpdir(),'ff-')),'feedback-pages.json');
+ fs.writeFileSync(file,JSON.stringify({editionsReport:{student:{diagramVisualFindings:[
+  {page:3,diagramId:'p1-q1-d',kind:'diagram-label-stroke'},{page:4,diagramId:'v2-s-slot-1-d',kind:'diagram-label-stroke'},{page:4,diagramId:'v2-s-slot-1-d',kind:'diagram-label-stroke'}]}}}));
+ assert.deepEqual(figureFindings(file,live,candidate),[{edition:'student',page:4,blockId:'v2-s-slot-1',diagramId:'v2-s-slot-1-d',kind:'diagram-label-stroke'}]);
+ assert.deepEqual(figureFindings(file+'.missing',live,candidate),[],'no report, no findings');
+});
+
 test('a new block never reuses an id already in the booklet', ()=>{
  const draft={content:{type:'question',prompt:'P',answer:{short:'1',worked:'x'}}},slot={id:'slot-1-lower',sectionId:'s'};
  const first=newBlock(draft,slot,{project:{sections:[{id:'s',blocks:[]}]},score:null});

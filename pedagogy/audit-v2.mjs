@@ -1726,6 +1726,19 @@ export function holdBack(runDir,blocks,reason,{all=false}={}){
 // threw or left editions incomplete is never forgiven.
 const UNFORGIVABLE_FAILURES=new Set(['exception','incomplete-editions']);
 const failureKey=f=>[f.edition??'',f.kind??'',f.message??''].join('|');
+// Figure findings of the page check (a label on a line, past the figure's edge, or on another label) in figures the
+// audit made or changed. They do not fail the check, since teacher figures have them too, but they were the figure
+// defects found by eye in batch 3 (Simultaneous Equations 2 annulus "4 cm", Non-right-angled Trigonometry 2 bearing
+// labels, 10 November 2026). The apply writes them to render.json; review-run.ps1 shows their pages first.
+export function figureFindings(feedbackFile,live,candidate){
+ let j;try{j=read(feedbackFile);}catch{return [];}
+ const blocks=(candidate.sections??[]).flatMap(s=>s.blocks??[]),out=[],seen=new Set();
+ const ownerOf=id=>blocks.find(b=>id.startsWith(b.id+'-'))??blocks.find(b=>JSON.stringify(b).includes('"id":'+JSON.stringify(id)));
+ for(const [edition,v] of Object.entries(j.editionsReport??{}))for(const x of v.diagramVisualFindings??[]){
+  const id=String(x.diagramId??'').replace(/-(short|worked|student)(-inline)?$/,'');if(!id||unchangedFigure(id,live,candidate))continue;
+  const key=[edition,id,x.kind].join('|');if(seen.has(key))continue;seen.add(key);
+  out.push({edition,page:x.page,blockId:ownerOf(id)?.id??null,diagramId:id,kind:x.kind});}
+ return out;}
 // True when the figure's owner block (the block whose JSON names the diagram id, or the id's own block
 // prefix) is the same in the live booklet and the candidate.
 export function unchangedFigure(diagramId,live,candidate){
@@ -1792,9 +1805,10 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
  // that took out a block without auto-applied proposals rendered the old candidate.json again (Data
  // Visualisation 1 count top-up, 8 November 2026).
  if(!fs.existsSync(beforeAuto))write(beforeAuto,candidate);
- // Runs drafted before answerFiguresOnLeaves re-apply with it: the audit's own blocks and payloads.
- {let moved=0;for(const b of (candidate.sections??[]).flatMap(x=>x.blocks??[]))if(String(b.id).startsWith('v2-')&&b.content)moved+=answerFiguresOnLeaves(b.content)+tableRowsAsScaffold(b.content)+arcsOnAngleLabels(b.content);
-  for(const e of Object.values(report.proposals??{}))for(const p of e.payloads??[])for(const b of [p.block,...(p.blocks??[])])if(b?.content)moved+=answerFiguresOnLeaves(b.content)+tableRowsAsScaffold(b.content)+arcsOnAngleLabels(b.content);
+ // Runs drafted before answerFiguresOnLeaves re-apply with it: the audit's own blocks and payloads. Arcs are added
+ // across the whole block, since a worked example's figures sit under examples, not content.
+ {let moved=0;for(const b of (candidate.sections??[]).flatMap(x=>x.blocks??[]))if(String(b.id).startsWith('v2-')&&b.content)moved+=answerFiguresOnLeaves(b.content)+tableRowsAsScaffold(b.content)+arcsOnAngleLabels(b);
+  for(const e of Object.values(report.proposals??{}))for(const p of e.payloads??[])for(const b of [p.block,...(p.blocks??[])])if(b?.content)moved+=answerFiguresOnLeaves(b.content)+tableRowsAsScaffold(b.content)+arcsOnAngleLabels(b);
   if(moved){write(beforeAuto,candidate);write(path.join(runDir,'report.json'),report);log('answer shape: '+moved+' fix(es): shared drawings moved into answers, blank table rows unlabelled, angle labels given arcs');}}
  if(autoApply&&Object.values(report.proposals??{}).some(e=>e.payloads?.some(p=>p.autoApply))){
   const {applyComments}=await import('./audit-v2-apply.mjs');
@@ -1841,6 +1855,8 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
   // section and comments by design; the audit's own diff is checked by publish-project.
   ['scripts/booklet/check-feedback-pages.mjs','--project-file',candidateFile,'--blocks',ids.join(','),'--editions',answers,...(answers!=='student'?['--full-development-reason','Pedagogy audit v2 added or corrected practice answers; a short answer edition can be selected in full.']:[]),'--out',out],{cwd:root,encoding:'utf8',maxBuffer:64*1024*1024,timeout:1800000});
   record.render={exitCode:r.status,seconds:Math.round((Date.now()-t0)/1000),out:rel(out),stdout:String(r.stdout).slice(-4000),stderr:String(r.stderr).slice(-4000)};
+  record.render.figureFindings=figureFindings(path.join(out,'feedback-pages.json'),live,read(candidateFile));
+  if(record.render.figureFindings.length)log('render check: '+record.render.figureFindings.length+' figure finding(s) in the audit\'s figures, listed in render.json for review');
   write(path.join(runDir,'render.json'),record.render);
   // Layout issues the live booklet already has are not the audit's: an applied change reflows pages, which
   // brings their old issues into the check (Computation with Integers 2: five short clozes on untouched
