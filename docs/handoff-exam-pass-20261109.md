@@ -26,6 +26,43 @@ The session paused at a checkpoint at James's request. **Nothing is running. Not
   - further-rates-of-change Q26: the "1 m" label touches its edge.
   - Existing figures that print unreadably or crowded: bivariate-data-analysis-2 Q35a, further-non-linear-relationships Q17b, and the Normanhurst 2024 option graphs in further-transformations Q6.
 
+### Holds resolved, 10 November 2026 (James: "drop the proposal", "figure out all these holds")
+
+- **Orphan proposal dropped.** `exam-proposals/s6adv-working-with-functions-7-constructing-and-using-functions-v1.json` was renamed `.json.dropped-20261110` and the reason recorded in `DROPPED.md`, so every reader skips it.
+- **Moved to Exam** (`.booklet-work/exam-holds-20261110/holds.mjs`, which uses the regroup's labelling and Exam ordering). Each question was held only because it shared a unit with practice, or because its HSC title had no paper:
+  - data-visualisation-1 p9-q13 (HSC Standard 2 2018). The page break before it stays in the exercise.
+  - equations-with-algebraic-fractions p15-q3 (HSC Standard 2 2018). The method note stays with the practice question p15-q4.
+  - properties-of-geometrical-figures-stage5-a-2 p53-q5 (HSC Sample Question). p51-q2 and p52-q4 are textbook practice and stay.
+  - logarithmic-functions p19-q20 ("Solve 2log₃5 − log₃2 + log₃x = 2") and p26-q16 ("5^x = 4", multiple choice). Both are old 2U Mathematics papers, retitled "2017 HSC Advanced" and "2013 HSC Advanced"; the bank copies were updated with `--allow-bank`.
+  - introduction-to-differentiation-1 p19-q9 (HSC Advanced Sample Question). The rest of that exercise is practice.
+- **Exercise duplicates removed.** The Exam already prints each of these questions, so the exercise copy was dropped:
+  - graphs-of-rates-of-change p17-q8;
+  - properties-of-geometrical-figures-stage5-a-2 s5-p37-q16 and p40-q13;
+  - further-rates-of-change p26-q15;
+  - introduction-to-differentiation-3 p19-q19;
+  - probability-and-data-3 p17-q25;
+  - area-circles-sectors p20-q5, the open-response copy of HSC Standard 2 2009 Q11 (Exam Q16, 42 cm²). A fresh regroup plan found it after the other holds were resolved. The plan's only remaining candidates are the three scaffolded versions below, which `holds.json` keeps in their exercises.
+- **Kept as practice.** These exercise versions are scaffolded rewrites of an Exam question, not copies:
+  - inequalities p20-q11 (the 2024 question in guided steps);
+  - radians p19-q26 (extends the 2009 question);
+  - radians p18-q23 (the original HSC 2008 version, where the Exam has the NSG 2025 rewrite).
+
+### Page-review defects fixed, 10 November 2026 (James: "fix the ones worth fixing")
+
+The edits are in `.booklet-work/figure-fixes-20261110/` (`make-edits.mjs` writes `edits.json`, and `fixes.mjs` builds and saves). Each booklet got a scoped render that passed and a page review. The six Exam owners whose content changed were re-rated (Sol low), which restored closure.
+
+- **bivariate-data-analysis-2 Q35a.** The source plotting grid (a small raster) and its solution are now native TikZ grids at 100 mm, ruled as in the source.
+- **further-transformations Q4.** Option panels A, B and D are zoomed to the curve (x window ±1.15) and enlarged: panels 5.2 × 4.4 cm, figure 120 mm.
+- **further-transformations Q6.** Option graphs are drawn at 1.2 cm per unit, up from 0.8 cm, and the figure is 122 mm.
+- **further-non-linear-relationships Q17.** The solution sketch is now 62 mm, up from 46 mm.
+- **quartiles-and-box-plots Q35.** The scale is labelled 0 to 22 on one row.
+- **further-rates-of-change Q26.** The right-hand "1 m" label is clear of its edge.
+- **inverse-trigonometric-functions Q4.** "Shown above" now reads "shown below".
+
+Not changed:
+- **The source label inside part (a), or under the diagram.** This is deliberate code: `sourceAttributionPromptId` in `src/lib/question-source.js` makes the first visible prompt the label's print slot. Fixing it is a heading-layout change in the shared renderer, so it is left as a separate task.
+- **Grey and red palette strokes on older redraws.** The QA flags them, but they print legibly.
+
 ## Update, 9 November 2026 evening (second session)
 
 Stopped at 18:42 because Codex hit its usage limit ("try again at 9:38 PM"). **Nothing is running and nothing is committed.** Done since the first pause:
