@@ -8,6 +8,24 @@ James asked on 9 November 2026 to finish the exam pass for every booklet master.
 
 The session paused at a checkpoint at James's request. **Nothing is running. Nothing is committed, and `npm run repo:check` has not been run.**
 
+## Done, 10 November 2026 evening
+
+**The exam pass is complete.** The final closure survey (`dupfix-20261110/survey-final.txt`) closes 205 of 206 masters after rebase. The one left is the orphan proposal for `s6adv-working-with-functions-7-constructing-and-using-functions-v1`, whose booklet was removed in 4191d649.
+
+- **Re-rates.** `rate-studio-questions.mjs --apply` filled the last unbound Exam ratings: 1 each in congruence, inverse-functions-2, optimisation, rates-of-change and curve-sketching, and 2 in quartiles-and-box-plots.
+- **Second sweep.** The sweep finished. The first resume failed because the Studio server on 5173 was down (`TikZ preview failed: CONNECTION_REFUSED`). It was restarted with `mathsmap-dev` and `rolling.mjs` was run again.
+  - Saved: working-with-functions-5 (1 question), curve-sketching (6), further-rates-of-change (3), area-between-curves-and-volumes-of-revolution-2 (12), quartiles-and-box-plots (8), area-between-curves-and-volumes-of-revolution (7), projectile-motion (6), volume (2), surface-area-pyramids-cones-spheres (3), inverse-trigonometric-functions (2).
+  - 3d-trigonometry: no figures accepted.
+  - **A rolling "closure-blocked" or "error" line can be stale.** When a run fails before closure, `rolling.mjs` reports the old `state.json` status, so read the booklet's `rolling.log`.
+- **Page review.** Contact sheets for every save. `fig-dups2.mjs` found no duplicates; the one flag was a parabola question against an inverse-cosine question. `widths.mjs report` shows 0 changes.
+- **Not defects.** The small red marks beside some question numbers are the chilli difficulty icon.
+- **For James** (beyond "Known issues" below):
+  - Display maths followed straight by text runs together ("≈ 0.571Since…", "5t²Let"), 489 cases. This needs a shared `src/` renderer fix.
+  - inverse-trigonometric-functions Q4 says "the graph shown above", but the graph prints below the options.
+  - quartiles-and-box-plots Q35 prints odd scale labels on a staggered second row.
+  - further-rates-of-change Q26: the "1 m" label touches its edge.
+  - Existing figures that print unreadably or crowded: bivariate-data-analysis-2 Q35a, further-non-linear-relationships Q17b, and the Normanhurst 2024 option graphs in further-transformations Q6.
+
 ## Update, 9 November 2026 evening (second session)
 
 Stopped at 18:42 because Codex hit its usage limit ("try again at 9:38 PM"). **Nothing is running and nothing is committed.** Done since the first pause:
