@@ -21,7 +21,7 @@ import {teacherBlocks,nodesOf} from '../polish/guards.mjs';
 import {sequences,canonicalRunDir} from './review.mjs';
 import {theoryEditable,theoryOnto} from './audit-v2-apply.mjs';
 import {MODEL,EFFORT,LIMITS,contentFingerprint,wordingFingerprint,bookletIndex,scoreOf,practiceItems,practiceItemCount,duplicatePairs,spellBlock,boldTerm,deriveComparisonScore,bandFor,jumpSlots,slotWindow,diagramBlindHash,diagramEquivalent} from './audit-v2-plan.mjs';
-import {auditContract,challengeContract,draftContract,proposalContract,solveContract,ratingContract,equivalenceContract,roleContract,roleGroupContract,variationContract,validateVariations,validateRoles,validateRoleGroups,validateAudit,validateVerdicts,validateDrafts,validateSolve,validatePlacements,validateEquivalence} from './audit-v2-prompts.mjs';
+import {consistencyContract,auditContract,challengeContract,draftContract,proposalContract,solveContract,ratingContract,equivalenceContract,roleContract,roleGroupContract,variationContract,validateVariations,validateRoles,validateRoleGroups,validateAudit,validateVerdicts,validateDrafts,validateSolve,validatePlacements,validateEquivalence} from './audit-v2-prompts.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^\uFEFF/,''));
@@ -226,9 +226,11 @@ function storedTypes(project,rows,root){
   let snap=snapshots.get(review.mapFile);
   if(snap===undefined){snap=null;try{const file=path.resolve(root,review.mapFile),map=read(file),dir=path.dirname(file);const want=String(map.snapshotSha256??review.snapshotSha256??'').toLowerCase();
    const candidates=[map.snapshot,map.metadataRatingProjection?.projectedSnapshot,...fs.readdirSync(dir).filter(n=>n.endsWith('.json')).map(n=>path.join(dir,n))].filter(Boolean);
-   for(const c of candidates){const f=path.resolve(root,c);if(!fs.existsSync(f))continue;const bytes=fs.readFileSync(f);if(want&&createHash('sha256').update(bytes).digest('hex')!==want)continue;const s=JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));if((s.id===project.id||s.id===parentOf(project))&&Array.isArray(s.sections)){snap=new Map(s.sections.flatMap(x=>(x.blocks??[]).map(b=>[b.id,b])));break;}}}catch{}snapshots.set(review.mapFile,snap);}
+   for(const c of candidates){const f=path.resolve(root,c);if(!fs.existsSync(f))continue;const bytes=fs.readFileSync(f);if(want&&createHash('sha256').update(bytes).digest('hex')!==want)continue;const s=JSON.parse(bytes.toString('utf8').replace(/^\uFEFF/,''));if((s.id===project.id||s.id===parentOf(project))&&Array.isArray(s.sections)){snap=new Map(s.sections.flatMap(x=>(x.blocks??[]).map(b=>[b.id,b])));snap.owner=s.id;break;}}}catch{}snapshots.set(review.mapFile,snap);}
   const old=snap?.get(block.id);
-  out.set(block.id,{type,current:!!old&&contentFingerprint(old)===contentFingerprint(block),source:review.mapFile,snapshot:!!snap});
+  // A split booklet's questions are typed by the map of the booklet they came from: the order step cannot use that
+  // link, so they also go to the audit's own type check (D2, James 11 November 2026).
+  out.set(block.id,{type,current:!!old&&contentFingerprint(old)===contentFingerprint(block),source:review.mapFile,snapshot:!!snap,otherBooklet:!!snap&&snap.owner!==project.id});
  }
  return out;
 }
@@ -290,19 +292,12 @@ const withRebinds=(project,rebinds)=>{if(!rebinds.length)return project;const by
 
 // ---- Stage 0: preflight ------------------------------------------------------------
 const isGuided=b=>b?.type==='question'&&b.pedagogyRole==='guided-practice';
-// The booklet's answer for each part of a worked example or guided practice: an example's last line of working (the
-// part after its last "="), a guided practice part's short answer. Solved blind and compared part by part.
+// The booklet's answer for each part of a worked example or guided practice: an example's whole worked solution, a
+// guided practice part's short answer and working. Solved blind and checked for a contradicted result part by part
+// (consistencyContract): the pilot's comparison with the last line flagged notes and partial lists (11 November 2026).
 export function teachingAnswers(block){
- if(isGuided(block))return answerNodes(block.content).map(n=>({nodeId:String(n.id),answer:n.answer?.short||n.answer?.worked||''})).filter(x=>x.answer);
- // A step number ("4.", "{\color{#ef6068}2.}\quad") is dropped; a sentence is kept whole; maths keeps what follows its last "=".
- const finalOf=s=>{
-  const lines=String(s??'').replace(/\\(begin|end)\{[^}]*\}/g,'\n').split(/\\\\|\n/).map(x=>x.replace(/&/g,'').trim()).filter(x=>x.replace(/\$/g,'').trim());
-  const t=(lines.at(-1)??'').split('\t').map(x=>x.trim()).filter(x=>x.replace(/\$/g,'').trim()).at(-1)?.replace(/^\$*\s*(?:\{?\\color\{#[0-9a-fA-F]{6}\}\{?)?\s*\d+[.)]\s*\}?\}?\s*(?:\\quad|\\qquad)?\s*/,m=>m.startsWith('$')?'$':'').trim();
-  // A proof ends on "= RHS": there is no final answer to compare.
-  const bare=(t??'').replace(/\$/g,'').trim();if(!bare||/^(\\mathrm\{|\\text\{)?\s*(LHS|RHS)\s*\}?$/.test(bare))return '';
-  if(/[A-Za-z]{3,}\s+[A-Za-z]{2,}/.test(bare.replace(/\\[A-Za-z]+(\{[^}]*\})?/g,' ')))return t;
-  const i=bare.lastIndexOf('=');const v=(i>=0?bare.slice(i+1):bare).trim();return v&&!/^(\\mathrm\{|\\text\{)?\s*(LHS|RHS)\s*\}?$/.test(v)?'$'+v+'$':'';};
- return (auditView(block).examples??[]).map(e=>({nodeId:String(e.id),answer:finalOf(e.theorySolution)})).filter(x=>x.answer&&x.answer!=='$$');
+ if(block?.type==='question')return answerNodes(block.content).map(n=>({nodeId:String(n.id),answer:[n.answer?.short,n.answer?.worked].filter(x=>String(x??'').trim()).join('\nWorking: ')})).filter(x=>x.answer);
+ return (auditView(block).examples??[]).map(e=>({nodeId:String(e.id),answer:String(e.theorySolution??'').trim()})).filter(x=>x.answer.replace(/\$/g,'').trim());
 }
 export function preflight(project,{root=ROOT,topics=[],allowNonMaster=false}={}){
  const master=isMaster(project.id,root,project);
@@ -319,7 +314,7 @@ export function preflight(project,{root=ROOT,topics=[],allowNonMaster=false}={})
   if(r.question){
    if(!verifiedRating(r.block))stale.rating.push(id);
    if(checked(id,'type')&&record.types?.[id])types.set(id,{type:record.types[id],current:true,source:'audit-v2'});
-   else if(stored.get(id)?.current)types.set(id,{type:stored.get(id).type,current:true,source:'stored-map'});
+   else if(stored.get(id)?.current){types.set(id,{type:stored.get(id).type,current:true,source:'stored-map'});if(stored.get(id).otherBooklet)stale.type.push(id);}
    else stale.type.push(id);
    if(!checked(id,'duplicate'))stale.duplicate.push(id);
   }
@@ -327,6 +322,8 @@ export function preflight(project,{root=ROOT,topics=[],allowNonMaster=false}={})
   // Worked examples and guided practice are blind-solved whether or not the audit claims an error (11 November 2026:
   // three teacher errors on Stage 5 pages were found by eye with no claim). Re-solved only when their content changes.
   if((r.example||isGuided(r.block))&&!checked(id,'solve'))stale.solve.push(id);
+  // The audit's own saved questions get the same check once (their worked solutions were never compared).
+  else if(r.question&&id.startsWith('v2-')&&!checked(id,'solve'))stale.solve.push(id);
   if(r.kind==='teaching'&&!checked(id,'theory'))stale.theory.push(id);
  }
  // Lessons with teaching but no Key ideas box (James, 8 November 2026): re-judged whenever the
@@ -482,6 +479,9 @@ export function unusableMapHolds(holds,checked){
  return out;
 }
 const NAMES_QUESTION=/\b(?:questions?|Q)\s*\.?\s*\d|\b(?:previous|preceding|next|following|earlier|last)\s+(?:question|part|exercise)|\b(?:answer|result)\s+(?:as\s+)?(?:above|below)|\bas above\b/i;
+// "Q1 and Q2", "\mathrm{Q4}" in trigonometry are quadrants, not questions (Stage 6 pilot, 11 November 2026: worked
+// examples' quadrant notes held their lessons' exercises).
+export const quadrantOnly=t=>!/\bquestions?\b/i.test(t)&&[...String(t).matchAll(/\bQ\s*\.?\s*(\d+)/g)].every(m=>/^Q[1-4]$/.test(m[0]));
 // The planner's segments, applied one by one when the booklet has unsettled printed references. A reference hold is
 // local to a segment when its block or target is in it, or it sits in the same topic and names a question.
 export function applyLocalSegments(candidate,plan,referenceResolution){
@@ -497,7 +497,8 @@ export function applyLocalSegments(candidate,plan,referenceResolution){
     if(!refKeys.has(JSON.stringify(h)))return true;
     if([h.id,...(h.ids??[]),h.targetId].some(x=>ids.has(x)))return true;
     const home=sectionOf.get(h.id);
-    return !!home&&topicOfSection.get(home)===topic&&(h.number!=null||/numbered|range/.test(h.kind)||NAMES_QUESTION.test(String(h.quote??h.text??'')));
+    const quote=String(h.quote??h.text??'');
+    return !!home&&topicOfSection.get(home)===topic&&(h.number!=null||/numbered|range/.test(h.kind)||NAMES_QUESTION.test(quote)&&!quadrantOnly(quote));
    });
    const changed=seg.originalIds.some((id,i)=>id!==seg.proposedIds[i]);
    const bound=changed?seg.originalIds.filter(id=>tied.has(id)):[];
@@ -829,7 +830,13 @@ export function keyIdeasBlock(project,topicId,items,{stamp}){
  // The box numbers its statements itself; a drafted "1. " or "(a) " printed twice ("1. 1. A scale is …",
  // Ratios 2, three boxes, 8 November 2026).
  const unnumber=t=>String(t).replace(/^\s*(?:\(?\d{1,2}[.)]|\(?[a-z][.)])\s+/i,'');
- const children=items.map(unnumber).map(lift).map((text,i)=>{const answers=[...String(text).matchAll(/\[\[([^\]|]+)(?:\|\d+)?\]\]/g)].map(m=>m[1].trim());
+ // Absolute-value bars in a blank's answer ("trig⁻¹([[|value|]])", Stage 6 pilot, 11 November 2026) collide with the
+ // blank's "|width"; they become \lvert…\rvert, in maths.
+ // Inside maths the answer stays bare (lift adds its dollars); in text it is written as maths.
+ const bars=t=>String(t).replace(/\[\[((?:(?!\]\]).)*?\|(?:(?!\]\]).)*?)\]\]/g,(m,a,offset,whole)=>{const w=/\|(\d+)$/.exec(a),body=w?a.slice(0,w.index):a;if(!body.includes('|'))return m;
+  const inMath=(whole.slice(0,offset).match(/\$/g)??[]).length%2===1;
+  const inner=body.replace(/^\$|\$$/g,'').replace(/\|([^|]*)\|/g,'\\lvert $1\\rvert ').replace(/\|/g,'\\vert ').trim();return '[['+(inMath?inner:'$'+inner+'$')+(w?'|'+w[1]:'')+']]';});
+ const children=items.map(unnumber).map(bars).map(lift).map((text,i)=>{const answers=[...String(text).matchAll(/\[\[([^\]|]+)(?:\|\d+)?\]\]/g)].map(m=>m[1].trim());
   const source=String(text).replace(/\[\[([^\]|]+)(?:\|\d+)?\]\]/g,(m,a)=>'[['+a.trim()+'|0]]');
   const inlines=inlinesFromSource(source).map(n=>n.type==='cloze'?{type:'cloze',answer:n.answer}:n);
   const prompt=normalizeDocument({blocks:[{id:id+'-part-'+(i+1)+'-paragraph',type:'paragraph',...keep,inlines}]});
@@ -950,12 +957,12 @@ const mergeMaps=maps=>new Map(maps.flatMap(m=>[...(m??new Map())]));
 // ---- answer comparison ---------------------------------------------------------------
 const normAnswer=s=>String(s??'').replace(/\\left|\\right|\\displaystyle|\\,|\\;|\\!|\s|\$|\.$/g,'').replace(/\\dfrac|\\tfrac/g,'\\frac').replace(/^(?:y'|f'\(x\)|dy\/dx|\\frac\{dy\}\{dx\})=/,'').replace(/;$/,'');
 export function answerNodes(content){return nodesOf(content).filter(n=>n.answer&&(n.answer.short||n.answer.worked)&&!(n.children??[]).some(c=>c.answer));}
-export async function compareAnswers(ctx,pairs){
+export async function compareAnswers(ctx,pairs,{system:contract=null,stage:callStage='equivalence'}={}){
  const out=new Map(),pending=[];
  for(const p of pairs){if(normAnswer(p.a)&&normAnswer(p.a)===normAnswer(p.b))out.set(p.id,{equivalent:true,how:'script'});else pending.push(p);}
  if(pending.length){
-  const system=equivalenceContract(),prompt=list=>JSON.stringify({pairs:list.map(p=>({id:p.id,A:p.a,B:p.b}))});
-  const parts=await splitByCap(pending,list=>system.length+prompt(list).length,async list=>(await callSonnet(ctx,{stage:'equivalence',system,prompt:prompt(list),validate:r=>validateEquivalence(r,list.map(p=>p.id))})).value);
+  const system=contract??equivalenceContract(),prompt=list=>JSON.stringify({pairs:list.map(p=>({id:p.id,A:p.a,B:p.b}))});
+  const parts=await splitByCap(pending,list=>system.length+prompt(list).length,async list=>(await callSonnet(ctx,{stage:callStage,system,prompt:prompt(list),validate:r=>validateEquivalence(r,list.map(p=>p.id))})).value);
   const value=mergeMaps(parts.map(p=>p.value));
   for(const p of pending)out.set(p.id,value.has(p.id)?{equivalent:value.get(p.id)?.equivalent===true,how:'model',reason:value.get(p.id)?.reason}:{equivalent:false,how:'over-cap',reason:'the answers were too long to compare within the prompt cap'});
  }
@@ -1615,10 +1622,14 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
    round=round.filter(i=>!out.over.has(i.id));
    const pairs=[];
    for(const it of round){const sol=out.solutions.get(it.id),answers=new Map((sol?.answers??[]).map(a=>[String(a.nodeId),a.answer]));
-    if(it.kind==='new'){const c=it.draft.content??it.draft.workedExample?.guidedPractice;answerNodes(c).forEach((n,k)=>pairs.push({id:it.id+'#'+k,item:it,a:answers.get(String(n.id))??[...answers.values()][k]??'',b:n.answer.short||n.answer.worked}));}
-    else if(it.kind==='check'){for(const t of teachingAnswers(it.block)){const a=answers.get(t.nodeId);if(a)pairs.push({id:it.id+'#'+t.nodeId,item:it,a,b:t.answer,nodeId:t.nodeId});}}
+    // A new question's worked solution is checked too (11 November 2026: Inverse Trigonometric Functions slot-2 gave
+    // a closed range for tan⁻¹ under a correct short answer): it must not contradict the independent solve.
+    if(it.kind==='new'){const c=it.draft.content??it.draft.workedExample?.guidedPractice;answerNodes(c).forEach((n,k)=>{const a=answers.get(String(n.id))??[...answers.values()][k]??'';pairs.push({id:it.id+'#'+k,item:it,a,b:n.answer.short||n.answer.worked});
+     if(n.answer.short&&n.answer.worked&&a)pairs.push({id:it.id+'#w'+k,item:it,a,b:n.answer.worked,consistency:true});});}
+    else if(it.kind==='check'){for(const t of teachingAnswers(it.block)){const a=answers.get(t.nodeId);if(a)pairs.push({id:it.id+'#'+t.nodeId,item:it,a,b:t.answer,nodeId:t.nodeId,consistency:true});}}
     else{const node=nodesOf(it.block).find(n=>n.id===it.targetNode)??it.block.content;const solved=answers.get(String(it.targetNode))??[...answers.values()].at(-1)??'';pairs.push({id:it.id+'#new',item:it,a:solved,b:it.claim.field==='short'?it.claim.correction:it.claim.correction.split('\\\\').at(-1)},{id:it.id+'#old',item:it,a:solved,b:it.claim.field==='short'?fieldGet(node,'short'):String(fieldGet(node,it.claim.field)??'').split('\\\\').at(-1)});}}
-   const eq=await compareAnswers(ctx,pairs);
+   const checkPairs=pairs.filter(p=>p.consistency);
+   const eq=new Map([...await compareAnswers(ctx,pairs.filter(p=>!p.consistency)),...(checkPairs.length?await compareAnswers(ctx,checkPairs,{system:consistencyContract(),stage:'consistency'}):[])]);
    for(const it of round){
     const mine=pairs.filter(p=>p.item===it),ok=mine.length&&mine.every(p=>eq.get(p.id)?.equivalent);
     // A teaching answer the blind solve disagrees with is a comment for James: there is no claimed correction to
@@ -1626,7 +1637,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
     if(it.kind==='check'){const bad=mine.filter(p=>!eq.get(p.id)?.equivalent);
      (report.teachingSolve??=[]).push({id:it.block.id,parts:mine.length,mismatches:bad.map(p=>({nodeId:p.nodeId,booklet:p.b,solved:p.a,reason:eq.get(p.id)?.reason??null}))});
      if(mine.length)solvedTeaching.add(it.block.id);
-     if(bad.length)addComment({targetId:it.block.id,kind:'error-solve-mismatch',key:'solve|'+it.block.id,note:`[Pedagogy audit v2 · Possible error found by a blind solve] An independent solve of this ${it.block.type==='worked-example'?'worked example':'guided practice'} gives a different final answer from the booklet:\n${bad.map(p=>`- ${p.nodeId}: booklet ${p.b}; independent solve ${p.a}`).join('\n')}\nNothing was changed. Check the working and correct it, or delete this comment.`});
+     if(bad.length)addComment({targetId:it.block.id,kind:'error-solve-mismatch',key:'solve|'+it.block.id,note:`[Pedagogy audit v2 · Possible error found by a blind solve] An independent solve of this ${it.block.type==='worked-example'?'worked example':isGuided(it.block)?'guided practice':'question'} gives a different final answer from the booklet:\n${bad.map(p=>`- ${p.nodeId}: booklet ${p.b}; independent solve ${p.a}`).join('\n')}\nNothing was changed. Check the working and correct it, or delete this comment.`});
      continue;}
     if(it.kind==='claim'){const yes=eq.get(it.id+'#new')?.equivalent,no=eq.get(it.id+'#old')?.equivalent;
      if(yes&&!no){const p=out.placements.get(it.id);corrections.push({...it,placement:p,solveFile:ctx.calls.at(-1)?.id});}

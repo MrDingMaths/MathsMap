@@ -96,6 +96,12 @@ export function ratingContract(){return [
  'Return one JSON object and nothing else: {"placements":[{"id":"target id","harderThan":"ref id or null","easierThan":"ref id or null","equalTo":"ref id or null","closerTo":"harderThan|easierThan|middle","difficultyReason":"specific, task-based"}]}'
 ].join('\n\n');}
 
+// Teaching blind solve (11 November 2026): an independent solver's results against the booklet's whole worked
+// solution. Comparing with the solution's last line flagged notes and partial lists in all six pilot mismatches.
+export function consistencyContract(){return [
+ 'Each pair gives A, an independent solver\'s final results for one worked example or guided practice part, and B, the booklet\'s own worked solution or answer for it, without the question. Say whether they agree ("equivalent": true) or the booklet states a result that contradicts A ("equivalent": false). B may show working, give its results in another order or form, add notes, or state fewer results than A: none of that is a disagreement. A says there are several solutions where B gives one of them: agreement. Only a value, expression, sign or statement in B that is mathematically different from the corresponding result in A is a disagreement; name it in "reason".',
+ 'Return one JSON object and nothing else: {"pairs":[{"id":"pair id","equivalent":true,"reason":"short"}]}'
+].join('\n\n');}
 // Answers only, no questions: equivalence of a solver's answer and a key, part by part.
 export function equivalenceContract(){return [
  'Each pair gives two final answers to the same mathematics question part, A and B, without the question. Say whether they are mathematically equivalent as final answers (same value, set, expression or statement, allowing equivalent algebraic forms and harmless notation). If either is incomplete or they differ, they are not equivalent.',

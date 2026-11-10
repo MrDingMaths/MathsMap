@@ -876,6 +876,9 @@ test('a printed reference holds only its own exercise, or a same-topic one when 
  assert.deepEqual(r.sections[2].blocks.map(b=>b.id),['e','f']);assert.deepEqual(r.sections[1].blocks.map(b=>b.id),['d','c']);
  // A question another question cites by number is not moved while the renumbering cannot run.
  const cited=structuredClone(project);cited.sections[1].blocks=[v('c',40),v('d',10),v('g',30,'Repeat Question 1 for y.')];
+ const {quadrantOnly}=await import('../pedagogy/audit-v2.mjs');
+ assert.equal(quadrantOnly('sin is positive, so Q1 and Q2'),true);assert.equal(quadrantOnly(String.raw`\therefore\mathrm{Q4}`),true);
+ assert.equal(quadrantOnly('see Q7'),false);assert.equal(quadrantOnly('Question 2, in Q1'),false);
  const c=orderCandidate(cited);assert.deepEqual(c.project.sections[1].blocks.map(b=>b.id),['c','d','g']);
  assert.ok(c.plan.sections[1].segments[0].holds.some(h=>['reference-renumbering-blocked','before-source-counter-identity-unverified'].includes(h.kind)));
 });
@@ -926,9 +929,10 @@ test('worked examples and guided practice give their final answers for a blind s
  const {teachingAnswers}=await import('../pedagogy/audit-v2.mjs');
  const doc=text=>({format:'maths-editor-document-v1',version:1,blocks:[{id:'x',type:'paragraph',inlines:[{type:'math',latex:text,display:true}]}]});
  const we={id:'w',type:'worked-example',pedagogyRole:'example',examples:[{id:'e1',prompt:doc('\\frac{5x}{13}+\\frac{3x}{13}'),theorySolution:doc('=\\frac{5x+3x}{13}=\\frac{8x}{13}')},{id:'e2',prompt:doc('Show it'),theorySolution:doc('=\\mathrm{RHS}')}]};
- assert.deepEqual(teachingAnswers(we),[{nodeId:'e1',answer:'$\\frac{8x}{13}$'}],'the last result; a proof ending in RHS has none');
+ const t=teachingAnswers(we);
+ assert.deepEqual(t.map(x=>x.nodeId),['e1','e2']);assert.match(t[0].answer,/=\\frac\{5x\+3x\}\{13\}=\\frac\{8x\}\{13\}/,'the whole worked solution, not its last line');
  const g={id:'g',type:'question',pedagogyRole:'guided-practice',content:{id:'g-root',type:'group',children:[{id:'ga',type:'part',prompt:'a',answer:{short:'$3x$',worked:'x'}}]}};
- assert.deepEqual(teachingAnswers(g),[{nodeId:'ga',answer:'$3x$'}]);
+ assert.deepEqual(teachingAnswers(g),[{nodeId:'ga',answer:'$3x$\nWorking: x'}]);
 });
 test('a passage with no editable text or an annotated equation is comment-only; others give their line count (11 November 2026)', async()=>{
  const {theoryEditable}=await import('../pedagogy/audit-v2-apply.mjs');
