@@ -142,9 +142,19 @@ export function planScoreOrder(project,{supportEdges=[],contextHolds=[],semantic
    for(const u of units){u.difficultyKey=Math.max(...u.scores.filter(Number.isFinite));const positions=u.ids.map(id=>ids.indexOf(id));if(positions.some((p,i)=>i&&p!==positions[i-1]+1))holds.push({ids:u.ids,kind:'noncontiguous-semantic-unit'});}
    for(let i=0;i<rows.length;i++)if(rows[i].flow?.keepWithNext&&i+1<rows.length&&root(rows[i].id)!==root(rows[i+1].id))holds.push({ids:[rows[i].id,rows[i+1].id],kind:'layout-pin-needs-pagination-evidence'});
    for(const row of layoutRows)if(row.some(id=>idSet.has(id))&&new Set(row.map(id=>parent.has(id)?root(id):id)).size>1)holds.push({ids:row,kind:'layout-row-needs-pagination-evidence'});
-   const sorted=units.slice().sort((a,b)=>a.difficultyKey-b.difficultyKey||a.sourceIndex-b.sourceIndex),proposedIds=sorted.flatMap(u=>u.ids),newPos=new Map(proposedIds.map((id,i)=>[id,i]));
-   for(const e of edges.filter(e=>idSet.has(e.after))){if(!allBlocks.has(e.before))holds.push({...e,kind:'unresolved-context-edge'});else if(idSet.has(e.before)){if(newPos.get(e.before)>=newPos.get(e.after))holds.push({...e,kind:'method-support-order'});}else if(absolute.get(e.before)>=absolute.get(e.after))holds.push({...e,kind:'method-support-context-uncertain'});}
-   const changed=ids.some((id,i)=>id!==proposedIds[i]),status=holds.length?'held':changed?'unsorted':'already-ordered';segments.push({originalIds:ids,proposedIds,status,changed:changed&&!holds.length,units:units.map(({id,ids,difficultyKey})=>({id,ids,difficultyKey})),holds});
+   // Method support inside the segment constrains the sort instead of holding it (10 November 2026, user requested):
+   // the easiest question whose supporting questions are already placed goes next, so a supported question never
+   // moves ahead of its support and the rest of the exercise still sorts. Support that points backwards in the
+   // current order (mutual support, Monic Quadratic Equations p5-q2/p5-q3) is not a sequence the booklet keeps, so
+   // only forward support constrains; that leaves no cycles, and the cycle hold is a guard.
+   const byDifficulty=(a,b)=>a.difficultyKey-b.difficultyKey||a.sourceIndex-b.sourceIndex,unitOf=new Map(units.flatMap(u=>u.ids.map(id=>[id,u]))),inner=edges.filter(e=>idSet.has(e.after)&&idSet.has(e.before)&&unitOf.get(e.before)!==unitOf.get(e.after)&&unitOf.get(e.before).sourceIndex<unitOf.get(e.after).sourceIndex),needs=new Map(units.map(u=>[u,new Set()]));
+   for(const e of inner)needs.get(unitOf.get(e.after)).add(unitOf.get(e.before));
+   const plainSort=units.slice().sort(byDifficulty),placed=new Set();let sorted=[];
+   while(sorted.length<units.length){const next=plainSort.find(u=>!placed.has(u)&&[...needs.get(u)].every(n=>placed.has(n)));if(!next)break;sorted.push(next);placed.add(next);}
+   if(sorted.length<units.length){sorted=plainSort;for(const e of inner)holds.push({...e,ids:[e.before,e.after],kind:'method-support-cycle'});}
+   const proposedIds=sorted.flatMap(u=>u.ids),plainIds=plainSort.flatMap(u=>u.ids),supportKept=inner.filter(e=>plainIds.indexOf(e.before)>plainIds.indexOf(e.after)).map(e=>({before:e.before,after:e.after,kind:e.kind}));
+   for(const e of edges.filter(e=>idSet.has(e.after))){if(!allBlocks.has(e.before))holds.push({...e,kind:'unresolved-context-edge'});else if(!idSet.has(e.before)&&absolute.get(e.before)>=absolute.get(e.after))holds.push({...e,kind:'method-support-context-uncertain'});}
+   const changed=ids.some((id,i)=>id!==proposedIds[i]),status=holds.length?'held':changed?'unsorted':'already-ordered';segments.push({originalIds:ids,proposedIds,status,changed:changed&&!holds.length,units:units.map(({id,ids,difficultyKey})=>({id,ids,difficultyKey})),...(supportKept.length?{supportKept}:{}),holds});
   };
   for(const b of blocks){if(sortableQuestion(b,section))run.push(b);else finish();}finish();const byFirst=new Map(segments.filter(s=>s.changed).map(s=>[s.originalIds[0],s])),skip=new Set();const plannedIds=[];for(const b of blocks){if(skip.has(b.id))continue;const s=byFirst.get(b.id);if(s){plannedIds.push(...s.proposedIds);s.originalIds.slice(1).forEach(id=>skip.add(id));}else plannedIds.push(b.id);}
   sections.push({sectionId:section.id,role,originalIds:blocks.map(b=>b.id),plannedIds,barriers,segments,status:!segments.length?'protected-only':segments.some(s=>s.status==='held')?'held':segments.some(s=>s.changed)?'unsorted':'already-ordered',changed:segments.some(s=>s.changed)});
