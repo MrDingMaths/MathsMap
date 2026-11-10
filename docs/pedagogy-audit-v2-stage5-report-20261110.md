@@ -67,7 +67,7 @@ All found by the content rules, repaired through `settle-comments.mjs` (decision
 ## Decisions for James
 
 1. **Slot pairs printed harder first (all three batches): done.** A difficulty-jump slot's two versions were each inserted straight after the same question, so the harder one printed first. Fixed for future runs (`afterInserted`). James approved the swap (10 November): 58 pairs in 29 booklets now stand in score order, each booklet saved through `settle-comments.mjs` with its page check (all passed). Decisions: `.booklet-work/pedagogy-audit-v2/settle-20261110b/slot-order/`. No question refers to a swapped one by number.
-2. **Angle labels without arcs in batches 1 and 2.** Angle Relationships 2 (4 blocks, 16 figures) and Circle Trigonometry 1 (4 blocks) label angles with no arc. The labels sit close to their vertex, and these passed review. Add arcs there too?
+2. **Angle labels without arcs in batches 1 and 2: done.** Circle Trigonometry 1's four blocks got their arcs. Angle Relationships 2's four are "draw an arc" questions, where the teacher marks the given angle with its letter alone, so after a look at the pages James had them left without (10 November). The audit no longer adds arcs to such questions.
 
 ## For James (teacher content, unchanged by the audit)
 
