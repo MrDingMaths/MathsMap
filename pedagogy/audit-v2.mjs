@@ -1033,7 +1033,10 @@ export function tableRowsAsScaffold(content){
 // A labelled angle is marked with its arc, as in the teacher's figures. A \pic angle label without "draw" printed
 // the label alone, 1 cm into the triangle, so the angle it named was unclear (Non-right-angled Trigonometry 2
 // Exercise 3 Q3 θ, 10 November 2026). Adds "draw" to each such \pic in the TikZ figures under node; returns how many.
+// Not where the student draws the arc: "Draw an arc showing the angle corresponding to $p$." marks the given angle
+// with its letter alone, as the teacher's own questions there do (Angle Relationships 2 Exercise 2, 10 November 2026).
 export function arcsOnAngleLabels(node){let added=0;
+ if(/draw an arc|draw the arc|label the (missing )?angle arc/i.test(JSON.stringify(node)))return 0;
  const fix=code=>code.replace(/\\pic\[([^\]]*)\]/g,(m,opts)=>/"/.test(opts)&&!/(^|,)\s*draw\b/.test(opts)?(added++,'\\pic[draw,'+opts+']'):m);
  (function walk(v){if(!v||typeof v!=='object')return;if(Array.isArray(v)){v.forEach(walk);return;}
   if(typeof v.code==='string'&&(v.format==null||v.format==='tikz'))v.code=fix(v.code);for(const x of Object.values(v))walk(x);})(node);

@@ -264,6 +264,9 @@ test('a labelled angle in a drafted figure is drawn with its arc', async()=>{
  assert.ok(out.includes(String.raw`\pic[draw,"$x$"]`)&&!out.includes('draw,draw'),'an arc already drawn is left alone');
  assert.ok(out.includes(String.raw`\pic[angle radius=3mm] {right angle`),'an unlabelled pic is left alone');
  assert.equal(arcsOnAngleLabels(made.content),0,'idempotent');
+ // Angle Relationships 2 Exercise 2: where the student draws the arc, the given angle keeps its letter alone.
+ const drawIt={type:'question',prompt:'Draw an arc showing the angle corresponding to $p$.',questionDiagrams:[{id:'e',format:'tikz',code:String.raw`\pic["$p$",angle radius=4mm] {angle=A--B--C};`}]};
+ assert.equal(arcsOnAngleLabels(drawIt),0);assert.ok(!drawIt.questionDiagrams[0].code.includes('draw,'));
 });
 
 test('blank parts under a table prompt become unlabelled scaffold rows', async()=>{
