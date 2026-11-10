@@ -230,6 +230,45 @@ test('a new block never reuses an id already in the booklet', ()=>{
  assert.equal(first.id,'v2-s-slot-1-lower');assert.equal(second.id,'v2-s-slot-1-lower-2');assert.equal(second.content.id,'v2-s-slot-1-lower-2-root');
 });
 
+test('new questions after one anchor go in score order', async()=>{
+ // 10 November 2026: a slot's upper version went straight after the anchor, ahead of its lower version.
+ const {afterInserted}=await import('../pedagogy/audit-v2.mjs');
+ const q=(id,score)=>({id,classification:{reasoningScore:score}});
+ const anchor=q('p1',20),next=q('p2',50),lower=q('lower',30);
+ const blocks=[anchor,lower,next];
+ assert.equal(afterInserted(blocks,0,[lower],38),2,'the harder version goes after the easier one already inserted');
+ assert.equal(afterInserted(blocks,0,[lower],25),1,'an easier version goes before it');
+ assert.equal(afterInserted(blocks,0,[],38),1,'teacher questions are never stepped over');
+});
+
+test('a labelled angle in a drafted figure is drawn with its arc', async()=>{
+ // Non-right-angled Trigonometry 2 Exercise 3 Q3 (10 November 2026): θ printed alone, 1 cm into the triangle.
+ const {arcsOnAngleLabels}=await import('../pedagogy/audit-v2.mjs');
+ const code=String.raw`\pic["$\theta$",angle radius=0.6cm] {angle=R--P--Q};\pic[draw,"$x$"] {angle=A--B--C};\pic[angle radius=3mm] {right angle=A--B--C};`;
+ const made=newBlock({content:{type:'question',prompt:'Find $\\theta$.',answer:{short:'1',worked:''},questionDiagrams:[{id:'d',format:'tikz',code}]}},{id:'slot-12',sectionId:'s'},{project:{sections:[{id:'s',blocks:[]}]},score:null});
+ const out=made.content.questionDiagrams[0].code;
+ assert.ok(out.includes(String.raw`\pic[draw,"$\theta$",angle radius=0.6cm]`),'the bare label gains its arc');
+ assert.ok(out.includes(String.raw`\pic[draw,"$x$"]`)&&!out.includes('draw,draw'),'an arc already drawn is left alone');
+ assert.ok(out.includes(String.raw`\pic[angle radius=3mm] {right angle`),'an unlabelled pic is left alone');
+ assert.equal(arcsOnAngleLabels(made.content),0,'idempotent');
+});
+
+test('blank parts under a table prompt become unlabelled scaffold rows', async()=>{
+ // Further Quadratic Equations Exercise 5 Q2 and Q3 (10 November 2026) printed a bare "a b c …" under the table.
+ const {tableRowsAsScaffold}=await import('../pedagogy/audit-v2.mjs');
+ const doc=types=>({format:'maths-editor-document-v1',version:1,blocks:types.map((type,k)=>({id:'d'+k,type,...(type==='table'?{rows:[]}:{inlines:[]})}))});
+ const rows=n=>Array.from({length:n},(_,k)=>({id:'r'+k,type:'part',answer:{short:String(k),worked:''}}));
+ const slot={id:'slot-19',sectionId:'s'},project={sections:[{id:'s',blocks:[]}]};
+ const made=newBlock({content:{type:'question',prompt:doc(['paragraph','table']),children:rows(3)}},slot,{project,score:null});
+ assert.deepEqual(made.content.children.map(c=>[c.label,c.prompt,c.responseSpace,c.answerSpaceMm]),Array(3).fill(['','','scaffold',0]));
+ assert.equal(made.content.responseSpace,'scaffold');assert.equal(made.content.layout,undefined);
+ const prose={type:'question',prompt:doc(['paragraph']),children:rows(2)};
+ assert.equal(tableRowsAsScaffold(prose),0,'no table, no change');
+ const asked={type:'question',prompt:doc(['paragraph','table']),children:[{id:'a',type:'part',label:'a',prompt:'Find $a$.',answer:{short:'1',worked:''}}]};
+ assert.equal(tableRowsAsScaffold(asked),0,'a part with its own prompt keeps its letter');
+ assert.equal(tableRowsAsScaffold(made.content),0,'idempotent');
+});
+
 test('a shared answer drawing on a question without parts moves into its answer', async()=>{
  // Further Parabolas 1 slot-1-upper (10 November 2026): the graph never printed and the answer check failed.
  const {answerFiguresOnLeaves}=await import('../pedagogy/audit-v2.mjs');
@@ -267,6 +306,16 @@ test('views print each table cell on one line', async()=>{
  // Probability j9: two-line headings split the row in source text.
  assert.equal(toSource(oneLineCells(doc)),'Red counter chosen\tGreen counter chosen\n24\t11');
  assert.equal(doc.blocks[0].rows[0][0].blocks[0].inlines.length,3,'the booklet document is not changed');
+});
+
+test('a replaced figure part that restates the stem prints its figure alone, like its siblings', async()=>{
+ // General and Point-Gradient Form p13-q2 d and f (Stage 5 batch 3, 10 November 2026).
+ const {bareLikeSiblings}=await import('../pedagogy/audit-v2-apply.mjs');
+ const stem='Find the equation of these lines using an appropriate method.',mine='Find the equation of this line using an appropriate method.';
+ assert.equal(bareLikeSiblings(mine,stem,['','','',mine,''],{figure:true}),'','siblings bare or restating alike');
+ assert.equal(bareLikeSiblings(mine,stem,['','',''],{figure:false}),mine,'no figure: the prompt is all the part has');
+ assert.equal(bareLikeSiblings('Find the gradient of this line.',stem,['',''],{figure:true}),'Find the gradient of this line.','a different task stays');
+ assert.equal(bareLikeSiblings(mine,stem,['Find the $y$-intercept.',''],{figure:true}),mine,'a sibling with its own task keeps the instruction');
 });
 
 test('a replaced part is written bare like its siblings', async()=>{

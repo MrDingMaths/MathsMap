@@ -72,8 +72,18 @@ export function keepPartShell(old,src){
  next.children=[{...Object.fromEntries(Object.entries(structuredClone(src)).filter(([k])=>!['id','type','label','layout','columns'].includes(k))),id:part.id,type:part.type??'part',label:part.label}];
  return next;
 }
-export function bareLikeSiblings(prompt,stem,siblings){
+export function bareLikeSiblings(prompt,stem,siblings,{figure=false}={}){
  const stemText=textOf(stem).trim(),verb=/^\s*([A-Z][a-z]+)\s+/.exec(textOf(prompt))?.[1];
+ // Siblings that are figures alone under a whole instruction stem: a replaced part with its own figure whose one
+ // sentence only restates the stem ("Find the equation of this line using an appropriate method." under "Find the
+ // equation of these lines using an appropriate method.") prints its figure alone too (General and Point-Gradient
+ // Form p13-q2 d and f, Stage 5 batch 3, 10 November 2026). Every one of its words is the stem's, read with
+ // this/these and singular/plural alike; a prompt holding maths keeps it.
+ if(figure&&typeof prompt==='string'&&!/\$/.test(prompt)&&stemText){
+  const ws=t=>(t.replace(/\$[^$]+\$/g,' ').toLowerCase().match(/[a-z]+/g)??[]).map(w=>w==='this'?'these':w==='that'?'those':w.replace(/s$/,''));
+  const sw=new Set(ws(stemText)),restates=t=>{const pw=ws(t);return !/\$/.test(t)&&pw.length>=3&&pw.every(w=>sw.has(w));};
+  // Siblings are bare figures, or replaced parts restating the stem the same way (both d and f there).
+  const sib=siblings.map(x=>textOf(x).trim());if(restates(prompt)&&sib.some(x=>!x)&&sib.every(x=>!x||restates(x)))return '';}
  // A first line that is the stem's own sentence ("Evaluate, without using a calculator." then the maths on the
  // next line) goes when the siblings are bare (Negative Indices p16-q5 l, Stage 5, 9 November 2026).
  if(typeof prompt==='string'){const norm=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim(),lines=prompt.split(/\n+/),sib=siblings.map(textOf).filter(Boolean);
@@ -390,7 +400,7 @@ export async function applyComments({projectId,comments,dryRun=false,projectFile
    if(!singlePartDraft(leaf)){fail('the draft is not a single part with an answer, so it cannot replace '+pay.nodeIds.join(', '));continue;}
    let ok=true;for(const nodeId of pay.nodeIds){const node=nodesOf(f.block).find(n=>n.id===nodeId);if(!node){ok=false;break;}const before=node.prompt;
     const parent=nodesOf(f.block).find(n=>(n.children??[]).some(c=>c.id===nodeId));
-    node.prompt=bareLikeSiblings(leaf.prompt,parent?.prompt,(parent?.children??[]).filter(c=>c.id!==nodeId).map(c=>c.prompt));node.answer={short:leaf.answer?.short??'',worked:leaf.answer?.worked??'',provenance:{short:'authored',worked:'authored'}};if(leaf.questionDiagrams?.length)node.questionDiagrams=leaf.questionDiagrams;
+    node.prompt=bareLikeSiblings(leaf.prompt,parent?.prompt,(parent?.children??[]).filter(c=>c.id!==nodeId).map(c=>c.prompt),{figure:!!leaf.questionDiagrams?.length});node.answer={short:leaf.answer?.short??'',worked:leaf.answer?.worked??'',provenance:{short:'authored',worked:'authored'}};if(leaf.questionDiagrams?.length)node.questionDiagrams=leaf.questionDiagrams;
     (f.block.sourceReview??={}).corrections=[...(f.block.sourceReview.corrections??[]),{at:now(),targetId:nodeId,kind:'approved-departure',approvedBy:'James',comment:flag.id,before,reason:'Repeated item replaced (pedagogy audit v2).'}];}
    if(!ok){fail('a repeated part was not found');continue;}
    // A replaced part's new prompt drops the document ids its saved arrangement names (Data Visualisation 1

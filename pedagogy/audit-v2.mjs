@@ -1019,6 +1019,31 @@ export function answerFiguresOnLeaves(content){let moved=0;
   if(node.sharedSolutionDiagrams.length){node.answer={...(node.answer??{}),solutionDiagrams:[...(node.answer?.solutionDiagrams??[]),...node.sharedSolutionDiagrams.map(d=>({...d,role:'solution'}))]};moved+=node.sharedSolutionDiagrams.length;}
   delete node.sharedSolutionDiagrams;}
  return moved;}
+// A question whose prompt holds a table and whose parts are blank (no prompt, no figure) answers in the table, one
+// part per row, as the teacher's own table questions do: unlabelled scaffold rows with no answer space. A draft that
+// left the rows unlabelled printed a bare "a b c …" under the table (Further Quadratic Equations Exercise 5 Q2 and
+// Q3, 10 November 2026). Returns how many rows it set.
+export function tableRowsAsScaffold(content){
+ const blank=p=>p==null||(typeof p==='string'&&!p.trim());
+ const kids=content?.children??[];if(!kids.length||(content.questionDiagrams??[]).length||!(content.prompt?.blocks??[]).some(b=>b.type==='table'))return 0;
+ if(!kids.every(k=>blank(k.prompt)&&!(k.questionDiagrams??[]).length&&!(k.children??[]).length))return 0;
+ let set=0;for(const k of kids){if(k.label!==''||k.responseSpace!=='scaffold'||k.answerSpaceMm!==0)set++;k.label='';k.prompt='';k.responseSpace='scaffold';k.answerSpaceMm=0;}
+ if(set){content.responseSpace='scaffold';content.answerSpaceMm=0;delete content.layout;delete content.columns;}
+ return set;}
+// A labelled angle is marked with its arc, as in the teacher's figures. A \pic angle label without "draw" printed
+// the label alone, 1 cm into the triangle, so the angle it named was unclear (Non-right-angled Trigonometry 2
+// Exercise 3 Q3 θ, 10 November 2026). Adds "draw" to each such \pic in the TikZ figures under node; returns how many.
+export function arcsOnAngleLabels(node){let added=0;
+ const fix=code=>code.replace(/\\pic\[([^\]]*)\]/g,(m,opts)=>/"/.test(opts)&&!/(^|,)\s*draw\b/.test(opts)?(added++,'\\pic[draw,'+opts+']'):m);
+ (function walk(v){if(!v||typeof v!=='object')return;if(Array.isArray(v)){v.forEach(walk);return;}
+  if(typeof v.code==='string'&&(v.format==null||v.format==='tikz'))v.code=fix(v.code);for(const x of Object.values(v))walk(x);})(node);
+ return added;}
+// Where a new question goes after the block at index at: past the new questions already put there with a score at
+// or below its own, so that new questions after one anchor stand in score order.
+export function afterInserted(blocks,at,inserted,score){
+ const mine=new Set(inserted);let i=at+1;
+ while(i<blocks.length&&mine.has(blocks[i])&&(blocks[i].classification?.reasoningScore??-Infinity)<=score)i++;
+ return i;}
 export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill,type,kind='slot',typeOfId=null}){
  // A later run reuses slot names, so an id already in the booklet gets a suffix (6 November 2026:
  // the second Similar Triangles run drafted a second "slot-1-lower" and the sort refused the clash).
@@ -1059,6 +1084,8 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
   block.content={...content,layout:sibling.layout,...(sibling.columns!=null?{columns:Math.max(1,Math.min(sibling.columns,content.children.length,cap))}:{})};
   if(block.content.layout==='grid'&&block.content.columns===1){delete block.content.columns;block.content.layout='list';}
   block.sourceReview.layoutFrom=sibling.id;}
+ arcsOnAngleLabels(block.content);
+ tableRowsAsScaffold(block.content);
  if(score!=null)setComparisonRating(block,score,placement,refs,evidence);
  return block;
 }
@@ -1489,7 +1516,9 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   const block=newBlock(it.draft,slot,{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});
   state.types.set(block.id,{type:slot.type,current:true,source:'audit-v2'});
   const section=candidate.sections.find(s=>s.id===slot.sectionId),at=section.blocks.findIndex(b=>b.id===slot.after);
-  section.blocks.splice(at<0?section.blocks.length:at+1,0,block);inserted.push(block);
+  // New questions after the same question go in score order: a slot's lower version was inserted first and its upper
+  // version then went straight after the anchor, ahead of it (76 pairs printed harder first, found 10 November 2026).
+  section.blocks.splice(at<0?section.blocks.length:afterInserted(section.blocks,at,inserted,d.score),0,block);inserted.push(block);
   (report.applied.newQuestions??=[]).push({id:block.id,slot:slot.id,reason:slot.reason,type:slot.type,score:d.score,range:slot.range});
  }
  // Solved corrections.
@@ -1764,9 +1793,9 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
  // Visualisation 1 count top-up, 8 November 2026).
  if(!fs.existsSync(beforeAuto))write(beforeAuto,candidate);
  // Runs drafted before answerFiguresOnLeaves re-apply with it: the audit's own blocks and payloads.
- {let moved=0;for(const b of (candidate.sections??[]).flatMap(x=>x.blocks??[]))if(String(b.id).startsWith('v2-')&&b.content)moved+=answerFiguresOnLeaves(b.content);
-  for(const e of Object.values(report.proposals??{}))for(const p of e.payloads??[])for(const b of [p.block,...(p.blocks??[])])if(b?.content)moved+=answerFiguresOnLeaves(b.content);
-  if(moved){write(beforeAuto,candidate);write(path.join(runDir,'report.json'),report);log('answer figures: '+moved+' shared diagram(s) on questions without parts moved into their answers');}}
+ {let moved=0;for(const b of (candidate.sections??[]).flatMap(x=>x.blocks??[]))if(String(b.id).startsWith('v2-')&&b.content)moved+=answerFiguresOnLeaves(b.content)+tableRowsAsScaffold(b.content)+arcsOnAngleLabels(b.content);
+  for(const e of Object.values(report.proposals??{}))for(const p of e.payloads??[])for(const b of [p.block,...(p.blocks??[])])if(b?.content)moved+=answerFiguresOnLeaves(b.content)+tableRowsAsScaffold(b.content)+arcsOnAngleLabels(b.content);
+  if(moved){write(beforeAuto,candidate);write(path.join(runDir,'report.json'),report);log('answer shape: '+moved+' fix(es): shared drawings moved into answers, blank table rows unlabelled, angle labels given arcs');}}
  if(autoApply&&Object.values(report.proposals??{}).some(e=>e.payloads?.some(p=>p.autoApply))){
   const {applyComments}=await import('./audit-v2-apply.mjs');
   const proposals=structuredClone(report.proposals);
