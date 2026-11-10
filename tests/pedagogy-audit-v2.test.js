@@ -534,6 +534,8 @@ test('a table of values labelled by its equation is a bordered table (Stage 5, 1
  const bare=promptFromSource('Values.\nx\t0\t1\t2\t3\ny=x^{2}-8x+10\t10\t3\t-2\t-5','r').blocks.find(b=>b.type==='table');
  assert.equal(bare.border,true,'the label as sent, with no dollars');
  assert.ok(bare.widths[0]>=38,`the bare equation label column is wide enough (got ${bare.widths[0]})`);
+ const two=promptFromSource('Plot these graphs on the same axis.\n$x$\t$-2$\t$-1$\t$0$\t$1$\t$2$\n$y=3^{-x}$\t\t\t\t\t\n$y=-3^x$\t\t\t\t\t','u').blocks.find(b=>b.type==='table');
+ assert.equal(two.border,true,'two equations in y are two rows of one table of values');
  const words=promptFromSource('Values.\nx\t0\t1\t2\nArea=length\t1\t2\t3','s').blocks.find(b=>b.type==='table');
  assert.ok(words,'a word equation still makes a table');
  const working=promptFromSource('Solve.\n$2x+3$\t$=$\t$11$\n$2x$\t$=$\t$8$','w').blocks.find(b=>b.type==='table');

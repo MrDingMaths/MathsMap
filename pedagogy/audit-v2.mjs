@@ -1290,7 +1290,10 @@ export function promptFromSource(text,id){
   // A table of values labelled by its variables ("$x$ | 0 | 1 | 2" over "$y$ | 1 | 3 | 5") is the same table:
   // the labels are distinct single letters and no value cell holds "=", so aligned working ("$x$ | = | 5")
   // stays borderless (Linear Relationships 1 j9, j10 and slots 12–14 printed as bare rows, 8 November 2026).
-  const variables=rows.every(r=>isVariableLabel(r[0])||isEquationLabel(r[0]))&&new Set(rows.map(r=>variableName(r[0]))).size===rows.length&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
+  // Two equations in y ("$y=3^{-x}$" and "$y=-3^x$" over one "$x$" row, Features of Quadratics and Exponentials 2 retrofit,
+  // 11 November 2026) are different rows: an equation label counts by its whole text, not by its variable.
+  const rowKey=c=>isEquationLabel(c)?'eq:'+String(c??'').replace(/\$|\s/g,''):variableName(c);
+  const variables=rows.every(r=>isVariableLabel(r[0])||isEquationLabel(r[0]))&&new Set(rows.map(r=>rowKey(r[0]))).size===rows.length&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
   // Labels may mix variables and words ("x | 1 | 2" over "y | …" over "Coordinate | (1,2) | …", Graphing Lines
   // slots 1 and 3, Stage 5, 9 November 2026): printed borderless, the rows fell out of line.
   const mixed=rows.every(r=>words(r[0])||isVariableLabel(r[0]))&&rows.some(r=>isVariableLabel(r[0]))&&new Set(rows.map(r=>variableName(r[0]))).size===rows.length&&rows.some(r=>words(r[0]))&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
