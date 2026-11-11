@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {contentFingerprint,wordingFingerprint,australianSpelling,spellBlock,boldTerm,deriveComparisonScore,jumpSlots,slotWindow,duplicatePairs,diagramBlindHash,diagramEquivalent,practiceItemCount,LIMITS,MODEL,EFFORT} from '../pedagogy/audit-v2-plan.mjs';
-import {validateAudit,validateRoleGroups,writingRules,theoryRules} from '../pedagogy/audit-v2-prompts.mjs';
+import {validateAudit,validateRoleGroups,validateSolve,writingRules,theoryRules} from '../pedagogy/audit-v2-prompts.mjs';
 import {challengeMoves,sortChallengeSections,unletterLoneGuided,laterLessons,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText} from '../pedagogy/audit-v2.mjs';
 
 const rating=score=>({reasoningScore:score,difficulty:'Foundation',difficultyReason:'x'});
@@ -966,4 +966,11 @@ test('the retrofit lists each re-sorted exercise and corrects hold resolutions t
  assert.deepEqual(x.order,[{sectionId:'s',title:'Exercise 1',from:['a','b'],to:['b','a']}]);
  assert.match(x.comments[0].note,/Exercise 1: was a, b; now b, a/);
  assert.match(candidate.studio.flags[0].resolution,/Corrected 11 November 2026: the hold came from "previous question" in x \(outside this exercise\), not from a question type left unchecked; it is now sorted\./);
+});
+test('a teaching check id returned without its prefix is recovered, and a missing check never blocks the call', ()=>{
+ const items=[{id:'w-p5-guided',kind:'check'},{id:'w-v2-example-j3',kind:'check'},{id:'w-v2-q1',kind:'check'},{id:'slot-1',kind:'new'}];
+ const r=validateSolve({solutions:[{id:'w-p5-guided',answers:[]},{id:'v2-example-j3-1',answers:[{nodeId:'a',answer:'4'}]},{id:'slot-1',answers:[]}]},items);
+ assert.equal(r.solutions.get('w-v2-example-j3').answers[0].answer,'4');
+ assert.equal(r.solutions.has('w-v2-q1'),false);
+ assert.throws(()=>validateSolve({solutions:[{id:'w-p5-guided'}]},items),/no solution for slot-1/);
 });

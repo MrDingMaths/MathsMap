@@ -200,7 +200,16 @@ export function validateDrafts(result,requestIds){
 }
 export function validateSolve(result,items){
  const solutions=new Map(list(result?.solutions).map(row=>[String(row.id),row])),errors=[];
- for(const item of items)if(!solutions.has(item.id))errors.push('no solution for '+item.id);
+ // A teaching check's id ("w-" + block id) sometimes comes back without its prefix, or with a "-1" suffix
+ // (Standard Deviation 1 and Simplifying Expressions, 11 November 2026: "v2-example-j3-1" for
+ // "w-v2-example-j3"). A returned id that names no item is matched to the one missing check it starts with.
+ const itemIds=new Set(items.map(item=>item.id)),spare=[...solutions.keys()].filter(id=>!itemIds.has(id));
+ for(const item of items.filter(item=>item.kind==='check'&&!solutions.has(item.id))){const base=item.id.replace(/^w-/,'');
+  const hits=spare.filter(id=>id===base||id.startsWith(base+'-'));
+  if(hits.length===1&&!items.some(other=>other!==item&&other.kind==='check'&&!solutions.has(other.id)&&other.id.replace(/^w-/,'').startsWith(base+'-'))){solutions.set(item.id,{...solutions.get(hits[0]),id:item.id});spare.splice(spare.indexOf(hits[0]),1);}}
+ // A teaching check left unsolved has checked nothing and is left for a later run, like a "Cannot be solved"
+ // reply; it never blocks the new questions in the same call.
+ for(const item of items)if(!solutions.has(item.id)&&item.kind!=='check')errors.push('no solution for '+item.id);
  const placements=new Map(list(result?.placements).map(row=>[String(row.id),row]));
  // Only new items must be placed. A corrected question (error claim) may come back unplaced: it then
  // keeps its rating. Requiring it blocked Angle Relationships 1 on 8 November 2026 (e1, e2).
