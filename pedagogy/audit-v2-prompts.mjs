@@ -73,7 +73,7 @@ export function draftContract(options){return [
  'Difficulty: a request with "placeBetween" must be clearly harder than placeBetween.harderThan and clearly easier than placeBetween.easierThan (both are in "views", with their scores). Afterwards an independent rater, who never sees this request, places your question among rated questions; it is accepted only if its score lands within acceptRange, which runs between those two. Judge demand against those two questions by the rubric (decisions, representation changes, unsignposted insight, scaffolding), not by length or arithmetic bulk. Without "placeBetween", aim for targetScore. A request with "variant" is one of two versions for the same slot (the other is "sameSlotAs"): for "lower", write a question only a little harder than placeBetween.harderThan (the bottom of acceptRange); for "upper", one a little easier than placeBetween.easierThan (the top of acceptRange). Both may be used, so make the two genuinely different questions (situation, figure and numbers), not one question at two sizes. New questions usually come out harder than intended: when unsure, choose the simpler option.',
  'Rating rubric:',REASONING_PROMPT,
  'Diagram spacing: where a diagram shows two or more separate figures side by side, leave at least 1.2 cm of clear space between the nearest vertices of neighbouring figures, so that facing vertex labels (such as B and D) never touch.',
- 'For each draft also give: skill (the existing skill id of the type\'s questions), workingSpace (one estimate per part: {"targetId","mathematicalRows","answerSpaceMm"}) and, for any diagram, its widthMm. '+AXIS_LABELS+' If a request cannot be met within these rules, return it in "blocked" with the reason instead of a weaker question.',
+ 'For each draft also give: skill (exactly one id from the request payload\'s "allowedSkills", the one the type\'s existing questions carry; never invent an id), workingSpace (one estimate per part: {"targetId","mathematicalRows","answerSpaceMm"}) and, for any diagram, its widthMm. '+AXIS_LABELS+' If a request cannot be met within these rules, return it in "blocked" with the reason instead of a weaker question.',
  'Return one JSON object and nothing else: {"drafts":[{"requestId":"","content":{native question},"skill":"","workingSpace":[{"targetId":"","mathematicalRows":0,"answerSpaceMm":0}],"selfCheck":"one line"}],"blocked":[{"requestId":"","reason":""}]}'
 ].join('\n\n');}
 // Proposal drafts that become comments carry their teaching text too.
@@ -194,8 +194,11 @@ export function validateDrafts(result,requestIds){
  for(const row of drafts)if(row.content?.workedExample&&!row.workedExample){row.workedExample=row.content.workedExample;for(const k of ['skill','workingSpace','selfCheck'])if(row.content[k]!==undefined&&row[k]===undefined)row[k]=row.content[k];delete row.content;}
  for(const row of drafts){const c=row.content??row.workedExample;if(!requestIds.includes(row.requestId)||!c)errors.push('bad draft '+row.requestId);}
  const answered=new Set([...drafts.map(row=>row.requestId),...blocked.map(row=>row.requestId)]);
- for(const id of requestIds)if(!answered.has(id))errors.push('no draft for '+id);
- if(errors.length)throw Error('Draft reply: '+errors.join('; '));
+ // A request left out of an otherwise good reply is dropped, not a blocker (Optimisation 2B slot-6,
+ // 11 November 2026: omitted on both attempts, and the whole run blocked). A reply with no drafts still fails.
+ const missing=requestIds.filter(id=>!answered.has(id));
+ if(errors.length||(missing.length&&!drafts.length))throw Error('Draft reply: '+[...errors,...missing.map(id=>'no draft for '+id)].join('; '));
+ for(const id of missing)blocked.push({requestId:id,reason:'the drafter returned no draft for it'});
  return {drafts,blocked};
 }
 export function validateSolve(result,items){
@@ -243,6 +246,9 @@ export function validateRoleGroups(result,needRole,known){
 export function validateEquivalence(result,ids){
  const rows=new Map(list(result?.pairs).map(row=>[String(row.id),row]));
  const missing=ids.filter(id=>!rows.has(id));
- if(missing.length)throw Error('Equivalence reply: missing '+missing.join(','));
+ // A pair left out of an otherwise good reply counts as not equivalent, not a blocker (Piecewise-defined
+ // Functions slot-2-upper#0, 11 November 2026: omitted on both attempts, and the whole run blocked).
+ if(missing.length&&!ids.some(id=>rows.has(id)))throw Error('Equivalence reply: missing '+missing.join(','));
+ for(const id of missing)rows.set(id,{id,equivalent:false,reason:'the checker returned no verdict for this pair'});
  return rows;
 }

@@ -1239,6 +1239,24 @@ export function afterInserted(blocks,at,inserted,score){
  const mine=new Set(inserted);let i=at+1;
  while(i<blocks.length&&mine.has(blocks[i])&&(blocks[i].classification?.reasoningScore??-Infinity)<=score)i++;
  return i;}
+// A new question's skill is always a real skill (11 November 2026: 211 audit-added questions carried invented ids
+// such as "surd-laws", so the bank import left them out). The drafter is given the booklet's own skill ids; an id
+// it returns that is not in data/skills.json falls back to the skill of the questions beside the slot.
+let knownSkills=null;
+export const knownSkillIds=()=>knownSkills??=new Set(JSON.parse(fs.readFileSync(path.join(ROOT,'data','skills.json'),'utf8')).map(s=>s.id));
+// The booklet's existing skills, most-used first (audit-added questions are not a source).
+export function bookletSkillIds(project,known=knownSkillIds()){
+ const n=new Map();for(const s of project?.sections??[])for(const b of s.blocks??[]){if(b.type!=='question'||b.sourceReview?.origin?.generatedBy==='pedagogy-audit-v2')continue;const id=b.classification?.primarySkillId;if(known.has(id))n.set(id,(n.get(id)??0)+1);}
+ return [...n].sort((a,b)=>b[1]-a[1]).map(x=>x[0]);}
+export function resolveSkill(project,slot,wanted,type,typeOfId,known=knownSkillIds()){
+ if(known.has(wanted))return wanted;
+ const section=(project?.sections??[]).find(s=>s.id===slot?.sectionId),own=b=>b.type==='question'&&b.sourceReview?.origin?.generatedBy!=='pedagogy-audit-v2'&&known.has(b.classification?.primarySkillId);
+ const mine=(section?.blocks??[]).filter(own),skillOf=b=>b?.classification?.primarySkillId;
+ const sameType=type&&typeOfId?mine.filter(b=>typeOfId(b.id)===type):[];
+ for(const b of sameType)return skillOf(b);
+ for(const id of [slot?.after,slot?.before,slot?.neighbours?.harderThan,slot?.neighbours?.easierThan]){const b=mine.find(x=>x.id===id);if(b)return skillOf(b);}
+ const count=new Map();for(const b of mine)count.set(skillOf(b),(count.get(skillOf(b))??0)+1);
+ return [...count].sort((a,b)=>b[1]-a[1])[0]?.[0]??bookletSkillIds(project,known)[0]??null;}
 export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill,type,kind='slot',typeOfId=null}){
  // A later run reuses slot names, so an id already in the booklet gets a suffix (6 November 2026:
  // the second Similar Triangles run drafted a second "slot-1-lower" and the sort refused the clash).
@@ -1265,7 +1283,7 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
  // slot-11-lower, 8 November 2026).
  for(const node of new Set([content,...nodesOf(content)]))if(typeof node.prompt==='string')node.prompt=promptFromSource(node.prompt,node.id);
  const block={id,type:'question',pedagogyRole:'practice',snapshotKind:'local',bankRef:null,title:'',content:partLayout(content),
-  classification:{primarySkillId:skill??draft.skill??null,secondarySkillIds:[],archetype:type},
+  classification:{primarySkillId:resolveSkill(project,slot,skill??draft.skill,type,typeOfId),secondarySkillIds:[],archetype:type},
   sourceReview:{origin:{projectId:project.id,blockId:id,generatedBy:'pedagogy-audit-v2'},generation:{model:MODEL,effort:EFFORT,kind,slot:{id:slot.id,reason:slot.reason,target:slot.target,range:slot.range},evidence},workingSpaceEstimate:{method:'solution-steps',estimates:(draft.workingSpace??[]).map(w=>({...w,targetId:content.id===w.targetId?content.id:nodesOf(content).find(x=>x.id.endsWith('-'+String(w.targetId).replace(/[^\w-]/g,'')))?.id??w.targetId}))}}};
  for(const node of nodesOf(content)){const est=block.sourceReview.workingSpaceEstimate.estimates.find(w=>w.targetId===node.id);if(est&&Number.isFinite(est.answerSpaceMm)&&!(node.children??[]).length)node.answerSpaceMm=est.answerSpaceMm;}
  const sibling=layoutSibling(project,slot,type,typeOfId);
@@ -1590,7 +1608,7 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
  const draftPrompt=requests=>{const rows=blocksNow(),views={},exercises={};
   const add=id=>{const r=rows.get(id);if(r&&!views[id])views[id]=studentView(r.block);};
   for(const q of requests){(q.workedExamples??[]).forEach(add);(q.existing??[]).forEach(e=>add(e.id));if(q.replacing)add(q.replacing);for(const n of Object.values(q.placeBetween??{}))if(n)add(n.id);if(q.exerciseId&&q.proposal&&!exercises[q.exerciseId]){const sec=candidate.sections.find(x=>x.id===q.exerciseId);if(sec)exercises[q.exerciseId]=(sec.blocks??[]).map(b=>auditView(b,{answers:false}));}}
-  return JSON.stringify({styleSheet:styleSheet(candidate,bookletIndex(candidate)),views,exercises,requests});};
+  return JSON.stringify({styleSheet:styleSheet(candidate,bookletIndex(candidate)),allowedSkills:bookletSkillIds(candidate),views,exercises,requests});};
  // At most LIMITS.draftsPerCall requests per drafting call (6 November 2026): pilot 2's
  // nine-request proposal reply ran to 38,000 output tokens and came back as broken JSON.
  // An over-cap chunk is halved, like the challenge (7 November 2026: five Area 1 proposals carrying their

@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {contentFingerprint,wordingFingerprint,australianSpelling,spellBlock,boldTerm,deriveComparisonScore,jumpSlots,slotWindow,duplicatePairs,diagramBlindHash,diagramEquivalent,practiceItemCount,LIMITS,MODEL,EFFORT} from '../pedagogy/audit-v2-plan.mjs';
-import {validateAudit,validateRoleGroups,validateSolve,writingRules,theoryRules,auditContract,challengeContract} from '../pedagogy/audit-v2-prompts.mjs';
-import {challengeMoves,sortChallengeSections,unletterLoneGuided,laterLessons,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText,prerequisiteNotNeeded,additionNotNeeded,unneededReviewItems,bookletCourse,relocateQuestions} from '../pedagogy/audit-v2.mjs';
+import {validateAudit,validateRoleGroups,validateSolve,validateDrafts,validateEquivalence,writingRules,theoryRules,auditContract,challengeContract} from '../pedagogy/audit-v2-prompts.mjs';
+import {resolveSkill,bookletSkillIds,challengeMoves,sortChallengeSections,unletterLoneGuided,laterLessons,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText,prerequisiteNotNeeded,additionNotNeeded,unneededReviewItems,bookletCourse,relocateQuestions} from '../pedagogy/audit-v2.mjs';
 
 const rating=score=>({reasoningScore:score,difficulty:'Foundation',difficultyReason:'x'});
 const q=(id,prompt,short,extra={})=>({id,type:'question',classification:rating(10),content:{id:id+'-root',type:'question',label:'1',prompt,answer:{short,worked:'$$x$$'}},...extra});
@@ -1027,4 +1027,35 @@ test('a confirmed move to a later lesson takes routine questions to that lesson\
  assert.equal(target.id,'ex-b');assert.deepEqual(moved,[{id:'a2',from:'ex-a'}]);
  assert.deepEqual(project.sections.map(s=>s.blocks.map(b=>b.id)),[['a1'],['b1','a2']]);
  assert.equal(relocateQuestions(project,{toTopicId:'none',ids:['a1']}).target,null);
+});
+
+test('a draft request left out of a good reply is dropped, not a blocker (Optimisation 2B slot-6, 11 November 2026)', () => {
+ const good={drafts:[{requestId:'slot-1',content:{prompt:'x'}}],blocked:[]};
+ const {drafts,blocked}=validateDrafts(good,['slot-1','slot-6']);
+ assert.equal(drafts.length,1);
+ assert.deepEqual(blocked.map(b=>b.requestId),['slot-6']);
+ assert.throws(()=>validateDrafts({drafts:[],blocked:[]},['slot-1']),/no draft for slot-1/);
+ // Every request declined is a valid reply (Introduction to Differentiation 2B, 11 November 2026).
+ assert.deepEqual(validateDrafts({drafts:[],blocked:[{requestId:'slot-1',reason:'r'}]},['slot-1']).blocked.map(b=>b.requestId),['slot-1']);
+ assert.throws(()=>validateDrafts({drafts:[{requestId:'slot-9',content:{}}]},['slot-1']),/bad draft slot-9/);
+});
+
+test('a pair left out of a good equivalence reply counts as not equivalent, not a blocker (Piecewise-defined Functions, 11 November 2026)', () => {
+ const rows=validateEquivalence({pairs:[{id:'a',equivalent:true}]},['a','slot-2-upper#0']);
+ assert.equal(rows.get('a').equivalent,true);
+ assert.equal(rows.get('slot-2-upper#0').equivalent,false);
+ assert.throws(()=>validateEquivalence({pairs:[]},['a']),/missing a/);
+});
+
+test('a new question carries a real skill: an invented id falls back to the skill beside the slot',()=>{
+ const q=(id,skill,extra={})=>({id,type:'question',classification:{primarySkillId:skill},content:{},...extra});
+ const project={id:'p',sections:[{id:'s',blocks:[q('a','order-large-numbers'),q('b','name-millions-place-value'),q('c','order-large-numbers')]}]};
+ const slot={id:'slot-1',sectionId:'s',after:'b'};
+ assert.equal(resolveSkill(project,slot,'order-large-numbers',null,null),'order-large-numbers');
+ assert.equal(resolveSkill(project,slot,'surd-laws',null,null),'name-millions-place-value');
+ assert.equal(resolveSkill(project,{...slot,after:null},'surd-laws',null,null),'order-large-numbers');
+ assert.equal(resolveSkill(project,slot,undefined,'t',id=>id==='c'?'t':'u'),'order-large-numbers');
+ assert.deepEqual(bookletSkillIds(project),['order-large-numbers','name-millions-place-value']);
+ const block=newBlock({content:{type:'question',prompt:'x'},skill:'surd-laws'},slot,{project,score:null});
+ assert.equal(block.classification.primarySkillId,'name-millions-place-value');
 });
