@@ -1,5 +1,5 @@
 // Rolling batch driver for pedagogy audit v2 (8 November 2026).
-//   node pedagogy/audit-v2-batch.mjs --stage4 [--projects a,b] [--parallel 3] [--dry-run] [--no-apply] [--limit N] [--top-up-counts]
+//   node pedagogy/audit-v2-batch.mjs --stage4 [--projects a,b] [--parallel 3] [--dry-run] [--no-apply] [--limit N] [--top-up-counts] [--batch NAME]
 // For each booklet: audit run, then --apply (one render, one save; verified findings are applied
 // and still leave a comment for review). Booklets run side by side, up to --parallel at a time; the
 // three-worker limit applies per booklet, so booklets do not compete for it. Resumable: a booklet
@@ -11,13 +11,16 @@ import path from 'node:path';
 import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {isStage4Master,recordFile} from './audit-v2.mjs';
+import {skipReason} from './audit-v2-batch-skip.mjs';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const args=process.argv.slice(2),value=n=>{const i=args.indexOf(n);return i<0?undefined:args[i+1];},flag=n=>args.includes(n);
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^﻿/,''));
 const projectsDir=path.join(ROOT,'booklets','projects');
 const ledger=path.join(ROOT,'.booklet-work','pedagogy-audit-v2',flag('--dry-run')?'batch-dry-run.jsonl':'batch.jsonl');
-const log=row=>{fs.mkdirSync(path.dirname(ledger),{recursive:true});fs.appendFileSync(ledger,JSON.stringify({at:new Date().toISOString(),...row})+'\n');console.error(`[${row.projectId}] ${row.status}${row.note?': '+row.note:''}`);};
+// --batch NAME tags every ledger row; a booklet this batch already applied is skipped whatever its revision.
+const BATCH=value('--batch');
+const log=row=>{fs.mkdirSync(path.dirname(ledger),{recursive:true});fs.appendFileSync(ledger,JSON.stringify({at:new Date().toISOString(),...row,...(BATCH?{batch:BATCH}:{})})+'\n');console.error(`[${row.projectId}] ${row.status}${row.note?': '+row.note:''}`);};
 
 function targets(){
  const named=(value('--projects')??'').split(',').filter(Boolean);
@@ -26,14 +29,11 @@ function targets(){
  return fs.readdirSync(projectsDir).filter(f=>f.endsWith('.json')).map(f=>{try{const p=read(path.join(projectsDir,f));return isStage4Master(p)?p.id??f.slice(0,-5):null;}catch{return null;}}).filter(Boolean).sort();
 }
 function done(id){
- // A count top-up (8 November 2026) runs once per booklet, whatever the audit record says.
- // A retrofit (11 November 2026) likewise runs once per booklet.
- if(flag('--retrofit')){if(fs.existsSync(ledger)&&fs.readFileSync(ledger,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)).some(r=>r.projectId===id&&r.retrofit&&r.status==='applied'))return 'retrofit already applied';return null;}
- if(flag('--top-up-counts')){if(fs.existsSync(ledger)&&fs.readFileSync(ledger,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)).some(r=>r.projectId===id&&r.topUp&&r.status==='applied'))return 'count top-up already applied';return null;}
+ const rows=fs.existsSync(ledger)?fs.readFileSync(ledger,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l.replace(/^﻿/,''))):[];
+ const mode=flag('--retrofit')?'retrofit':flag('--top-up-counts')?'top-up':'audit';
+ if(mode!=='audit')return skipReason({id,rows,mode});
  const live=read(path.join(projectsDir,id+'.json')),rec=recordFile(id,{root:ROOT});
- if(fs.existsSync(rec)&&read(rec).checkedRevision===live.revision)return 'audit record already checked revision '+live.revision;
- if(fs.existsSync(ledger)){const rows=fs.readFileSync(ledger,'utf8').trim().split('\n').filter(Boolean).map(l=>JSON.parse(l)).filter(r=>r.projectId===id&&r.status==='applied');if(rows.some(r=>r.revision===live.revision))return 'applied at revision '+live.revision;}
- return null;
+ return skipReason({id,rows,mode,batch:BATCH,liveRevision:live.revision,recordRevision:fs.existsSync(rec)?read(rec).checkedRevision:null});
 }
 function run(cmd){
  return new Promise(resolve=>{const child=spawn(process.execPath,['pedagogy/review.mjs','audit-v2',...cmd],{cwd:ROOT,windowsHide:true});let out='',err='';

@@ -219,10 +219,12 @@ export function boldTerm(block,term){
   if(Array.isArray(value)){
    for(let i=0;i<value.length&&!done;i++){const inline=value[i];
     if(inline?.type==='text'&&typeof inline.text==='string'&&!(inline.marks??[]).includes('bold')){const m=inline.text.match(pattern);if(m){const before=inline.text.slice(0,m.index),after=inline.text.slice(m.index+m[0].length),base={...inline};delete base.text;value.splice(i,1,...[before&&{...base,text:before},{...base,text:m[0],marks:[...new Set([...(inline.marks??[]),'bold'])]},after&&{...base,text:after}].filter(Boolean));done=true;}}
-    else visit(inline);}
+    else if(inline?.type!=='text')visit(inline);}
    return;
   }
-  if(value.type==='math'||['tikz','svg'].includes(value.format))return;
+  // An editor text inline is never prose source: an already bold inline fell through to the string branch, which
+  // wrote "**limiting value**" into its text (Differential Equations p51 and 8 other teacher boxes, 11 November 2026).
+  if(value.type==='text'||value.type==='math'||['tikz','svg'].includes(value.format))return;
   for(const [key,child]of Object.entries(value)){
    if(done||['sourceReview','classification','sourceAtom','flow','presentation','id'].includes(key))continue;
    if(typeof child==='string'&&PROSE_KEYS.has(key)){const parts=child.split(/(\$\$[\s\S]*?\$\$|\$[^$]*\$|\*\*[^*]*\*\*)/);for(let i=0;i<parts.length&&!done;i+=2){const m=parts[i].match(pattern);if(m){parts[i]=parts[i].slice(0,m.index)+'**'+m[0]+'**'+parts[i].slice(m.index+m[0].length);done=true;}}if(done)value[key]=parts.join('');}

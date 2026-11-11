@@ -178,6 +178,12 @@ function textHost(block,nodeId){
  if(isDoc(block.content))docs.push(block.content);else walk(block);
  // A node id names the part rewritten: its document, or one paragraph of it.
  if(nodeId)for(const d of docs){let node=null;visitDocument(d,n=>{if(n.id===nodeId)node=n;});if(node)return node.type==='paragraph'&&d.blocks.length>1?{docs:[d],paragraph:node}:{docs:[d]};}
+ // A node id naming a part with a plain-string prompt is that part's prompt, never the stem: a wording fix for
+ // part b ("How long it would take 2 people …") replaced the stem that held the question's data, "3 painters can
+ // paint a fence in 12 hours" (Direct and Inverse Variation p13-guided-block, Stage 6, 11 November 2026).
+ if(nodeId&&block.content&&nodeId!==block.content.id){let node=null;(function walk(n){if(!n||typeof n!=='object'||node)return;if(n.id===nodeId){node=n;return;}for(const c of n.children??[])walk(c);})(block.content);
+  if(node)return typeof node.prompt==='string'&&node.prompt.trim()?{string:true,nodeId}:{error:`node ${nodeId} has no editable text`};
+  if(!docs.length)return {error:`node ${nodeId} is not in this block`};}
  if(docs.length)return {docs};
  if(typeof block.content?.prompt==='string'&&block.content.prompt.trim())return {string:true};
  return {error:'the block has no editable text document'};
@@ -254,7 +260,8 @@ function rebuild(doc,replacement,blockId){
 export function theoryOnto(block,replacement,{nodeId=null}={}){
  const copy=structuredClone(block),host=textHost(copy,nodeId);
  if(host.error)return {error:host.error};
- if(host.string){copy.content.prompt=String(replacement);return {block:copy};}
+ if(host.string){let target=copy.content;if(host.nodeId)(function walk(n){if(!n||typeof n!=='object')return;if(n.id===host.nodeId){target=n;return;}for(const c of n.children??[])walk(c);})(copy.content);
+  target.prompt=String(replacement);return {block:copy};}
  if(host.paragraph){
   if(String(replacement).replace(/\r/g,'').split(/\n[ \t]*\n/).filter(c=>c.trim()).length>1)return {error:`the rewrite of paragraph ${host.paragraph.id} has several paragraphs`};
   const inlines=carryStyles(host.paragraph.inlines??[],inlinesFromSource(String(replacement).trim()));

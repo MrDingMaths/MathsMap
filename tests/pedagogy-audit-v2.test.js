@@ -1059,3 +1059,88 @@ test('a new question carries a real skill: an invented id falls back to the skil
  const block=newBlock({content:{type:'question',prompt:'x'},skill:'surd-laws'},slot,{project,score:null});
  assert.equal(block.classification.primarySkillId,'name-millions-place-value');
 });
+
+test('the batch skips a booklet its own named batch already applied, whatever the revision', async ()=>{
+ const {skipReason}=await import('../pedagogy/audit-v2-batch-skip.mjs');
+ const rows=[{projectId:'a',status:'applied',revision:5,batch:'stage6'},{projectId:'b',status:'applied',revision:3},{projectId:'c',status:'blocked',batch:'stage6'},{projectId:'d',status:'applied',revision:2,batch:'stage6',retrofit:true}];
+ // A later repair moved the revision: the same batch still skips it, another batch or no batch audits it again.
+ assert.equal(skipReason({id:'a',rows,batch:'stage6',liveRevision:7,recordRevision:5}),'applied earlier in batch stage6');
+ assert.equal(skipReason({id:'a',rows,batch:'other',liveRevision:7,recordRevision:5}),null);
+ assert.equal(skipReason({id:'a',rows,liveRevision:7,recordRevision:5}),null);
+ // Untagged rows and blocked rows never count for a batch; a retrofit row does not count for a full audit.
+ assert.equal(skipReason({id:'b',rows,batch:'stage6',liveRevision:4}),null);
+ assert.equal(skipReason({id:'c',rows,batch:'stage6',liveRevision:1}),null);
+ assert.equal(skipReason({id:'d',rows,batch:'stage6',liveRevision:9}),null);
+ // The existing revision rules are unchanged.
+ assert.equal(skipReason({id:'b',rows,liveRevision:3}),'applied at revision 3');
+ assert.equal(skipReason({id:'x',rows,liveRevision:4,recordRevision:4}),'audit record already checked revision 4');
+ assert.equal(skipReason({id:'d',rows,mode:'retrofit'}),'retrofit already applied');
+ assert.equal(skipReason({id:'a',rows,mode:'top-up'}),null);
+});
+
+test('a new question inside an unmarked lettered run moves to just after the run (Trigonometric Identities, 11 November 2026)', async ()=>{
+ const {moveOutOfLetteredRuns}=await import('../pedagogy/audit-v2-runs.mjs');
+ const part=l=>({id:'k'+l,type:'part',label:l,prompt:'x'});
+ const head={id:'p33-q3',type:'question',content:{label:'3',children:'abcdefgh'.split('').map(part)}};
+ const i={id:'p34-i-block',type:'question',content:{label:'',children:[part('i')]}};
+ const j={id:'p34-j-block',type:'question',content:{label:'j',prompt:'Prove'}};
+ const s18={id:'v2-x-slot-18',type:'question',content:{label:null,children:[part('a'),part('b')]}};
+ const s19={id:'v2-x-slot-19',type:'question',content:{label:null,children:[part('a'),part('b')]}};
+ const next={id:'p35-q4',type:'question',content:{label:'4',children:[part('a')]}};
+ const section={blocks:[head,s18,i,s19,j,next]};
+ assert.deepEqual(moveOutOfLetteredRuns(section),['v2-x-slot-18','v2-x-slot-19']);
+ assert.deepEqual(section.blocks.map(b=>b.id),['p33-q3','p34-i-block','p34-j-block','v2-x-slot-18','v2-x-slot-19','p35-q4']);
+ // Nothing moves when the run is whole, or when the new question sits between two separate questions.
+ assert.deepEqual(moveOutOfLetteredRuns(section),[]);
+ const apart={blocks:[head,s18,next]};assert.deepEqual(moveOutOfLetteredRuns(apart),[]);
+ // A question already joined to a marked run stays where joinContinuedRuns put it.
+ const joined={id:'v2-joined',type:'question',flow:{continuationOf:'p33-q3'},content:{label:'',children:[part('i')]}};
+ const j2={id:'p34-j',type:'question',content:{label:'',children:[part('j')]}};
+ const marked={blocks:[head,joined,j2]};assert.deepEqual(moveOutOfLetteredRuns(marked),[]);
+});
+
+test('a wording fix named for a part with a plain prompt replaces that part, never the stem (Direct and Inverse Variation, 11 November 2026)', async ()=>{
+ const {theoryOnto}=await import('../pedagogy/audit-v2-apply.mjs');
+ const block={id:'p13-guided-block',type:'question',content:{id:'p13-guided-root',type:'group',label:'',prompt:'3 painters can paint a fence in 12 hours. Find:',children:[
+  {id:'p13-guided-part-a',type:'part',label:'a',prompt:'How many painters are needed to paint the fence in 9 hours.'},
+  {id:'p13-guided-part-b',type:'part',label:'b',prompt:'How long it would take 2 people to paint the fence.'}]}};
+ const r=theoryOnto(block,'How long would it take 2 painters to paint the fence?',{nodeId:'p13-guided-part-b'});
+ assert.equal(r.block.content.prompt,'3 painters can paint a fence in 12 hours. Find:');
+ assert.equal(r.block.content.children[1].prompt,'How long would it take 2 painters to paint the fence?');
+ assert.equal(r.block.content.children[0].prompt,block.content.children[0].prompt);
+ // A node the block does not hold is an error, not the stem; the root's own id still names the stem.
+ assert.ok(theoryOnto(block,'x',{nodeId:'p13-other'}).error);
+ assert.equal(theoryOnto(block,'New stem.',{nodeId:'p13-guided-root'}).block.content.prompt,'New stem.');
+ assert.equal(theoryOnto(block,'New stem.').block.content.prompt,'New stem.');
+});
+
+test('distribution and slope tables labelled by a function or derivative are bordered tables (Stage 6, 11 November 2026)', async ()=>{
+ const {promptFromSource,isFunctionLabel}=await import('../pedagogy/audit-v2.mjs');
+ for(const l of ['$P(X=x)$','$P(x)$',"$f'(x)$","$f''(x)$","$y'$","$y''$",'$\\frac{dy}{dx}$','$\\dfrac{d^2y}{dx^2}$'])assert.ok(isFunctionLabel(l),l);
+ for(const l of ['Month','$x$','$y=2x$','$P(X=x)=0.2$','Slope'])assert.ok(!isFunctionLabel(l),l);
+ const table=s=>promptFromSource(s,'t').blocks.find(b=>b.type==='table');
+ const dist=table('Draw a histogram.\n$x$\t0\t1\t2\t3\n$P(X=x)$\t0.15\t0.35\t0.3\t0.2');
+ assert.equal(dist.border,true);assert.equal(dist.rows[1][0].header,true);assert.ok(!dist.rows[1][1].header);
+ const slope=table("$x$\t-1\t0\t1\n$\\frac{dy}{dx}$\t+9\t0\t-3\nSlope\t/\t-\t\\\\");
+ assert.equal(slope.border,true);
+ // Aligned working stays borderless.
+ assert.equal(table('$x$\t$=$\t$5$\n$y$\t$=$\t$2$').border,false);
+ // An answer with a two-way table (blank corner) converts to a shaded table.
+ const adj=table('Rows: From; columns: To.\n\n\tP\tQ\tR\nP\t–\t7\t4\nQ\t7\t–\t5\nR\t4\t5\t–');
+ assert.equal(adj.border,true);assert.equal(adj.rows[0][1].header,true);assert.equal(adj.rows[1][0].header,true);
+ // A corner naming both headings ("$y/x$", a slope-field grid to complete) is still a two-way table.
+ const grid=table('Complete the table.\n$y/x$\t$-2$\t$-1$\t$0$\n$2$\t\t\t\n$1$\t\t\t\n$0$\t\t\t');
+ assert.equal(grid.border,true);assert.equal(grid.rows.length,4);assert.equal(grid.rows[0][1].header,true);assert.equal(grid.rows[2][0].header,true);
+});
+
+test('bolding a term already bold in an editor document leaves the text alone (Differential Equations p51, 11 November 2026)', ()=>{
+ const block={id:'b',type:'callout',content:{format:'maths-editor-document-v1',version:1,blocks:[
+  {id:'p1',type:'paragraph',inlines:[{type:'text',text:'approaches a '},{type:'text',text:'limiting value ',marks:['bold']},{type:'text',text:'P.'}]},
+  {id:'p2',type:'paragraph',inlines:[{type:'text',text:'This limiting value can represent'}]}]}};
+ const r=boldTerm(block,'limiting value');
+ // The first unbolded occurrence is bolded as its own inline; no literal asterisks anywhere.
+ assert.ok(!JSON.stringify(r??block).includes('**'));
+ if(r)assert.deepEqual(r.content.blocks[1].inlines.map(i=>[i.text,(i.marks??[]).includes('bold')]),[['This ',false],['limiting value',true],[' can represent',false]]);
+ // A plain-string prompt still takes markdown bold.
+ assert.equal(boldTerm({id:'q',type:'question',content:{prompt:'Find the limiting value.'}},'limiting value').content.prompt,'Find the **limiting value**.');
+});

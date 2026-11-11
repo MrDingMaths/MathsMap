@@ -20,6 +20,7 @@ import {resolveExerciseReferences} from '../polish/exercise-references.mjs';
 import {teacherBlocks,nodesOf} from '../polish/guards.mjs';
 import {sequences,canonicalRunDir} from './review.mjs';
 import {theoryEditable,theoryOnto} from './audit-v2-apply.mjs';
+import {moveOutOfLetteredRuns} from './audit-v2-runs.mjs';
 import {MODEL,EFFORT,LIMITS,contentFingerprint,wordingFingerprint,bookletIndex,scoreOf,practiceItems,practiceItemCount,duplicatePairs,spellBlock,boldTerm,deriveComparisonScore,bandFor,jumpSlots,slotWindow,diagramBlindHash,diagramEquivalent} from './audit-v2-plan.mjs';
 import {consistencyContract,auditContract,challengeContract,draftContract,proposalContract,solveContract,ratingContract,equivalenceContract,roleContract,roleGroupContract,variationContract,validateVariations,validateRoles,validateRoleGroups,validateAudit,validateVerdicts,validateDrafts,validateSolve,validatePlacements,validateEquivalence} from './audit-v2-prompts.mjs';
 
@@ -1167,6 +1168,9 @@ export function teachingBlocks(project,{workedExample,guided,stamp}){
 // (a … z, aa … zz, aaa …), as the part-label rule asks (Stage 5, 10 November 2026). Returns the blocks changed.
 const runLabel=k=>String.fromCharCode(97+k%26).repeat(Math.floor(k/26)+1);
 const runIndex=l=>/^([a-z])\1*$/.test(l??'')?(l.length-1)*26+(l.charCodeAt(0)-97):-1;
+// A new question inside a lettered run that joinContinuedRuns did not join (a run marked only by its letters, or a
+// question with several parts) moves to just after the run (moveOutOfLetteredRuns, 11 November 2026).
+function outOfRuns(candidate){const moved=(candidate.sections??[]).flatMap(s=>moveOutOfLetteredRuns(s));if(moved.length)console.error('lettered runs: moved '+moved.join(', ')+' after the run they sat inside');return moved;}
 export function joinContinuedRuns(section){
  const blocks=section?.blocks??[],changed=new Set();
  for(const head of new Set(blocks.map(b=>b.flow?.continuationOf).filter(Boolean))){
@@ -1282,6 +1286,10 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
  // discarded original, and a gridded question's table printed as bare rows (Linear Relationships 1
  // slot-11-lower, 8 November 2026).
  for(const node of new Set([content,...nodesOf(content)]))if(typeof node.prompt==='string')node.prompt=promptFromSource(node.prompt,node.id);
+ // Answers with tab-separated rows too: a plain answer printed its rows run together ("Month Balance at start ($)
+ // Interest …", Financial Maths 5a; Network Concepts 2a, Stage 6, 11 November 2026). Only tab rows convert, so an
+ // answer's own markup is left as the answer renderer reads it.
+ for(const node of new Set([content,...nodesOf(content)]))for(const k of ['short','worked'])if(typeof node.answer?.[k]==='string'&&node.answer[k].split('\n').some(l=>l.includes('\t')))node.answer[k]=promptFromSource(node.answer[k],node.id+'-'+k);
  const block={id,type:'question',pedagogyRole:'practice',snapshotKind:'local',bankRef:null,title:'',content:partLayout(content),
   classification:{primarySkillId:resolveSkill(project,slot,skill??draft.skill,type,typeOfId),secondarySkillIds:[],archetype:type},
   sourceReview:{origin:{projectId:project.id,blockId:id,generatedBy:'pedagogy-audit-v2'},generation:{model:MODEL,effort:EFFORT,kind,slot:{id:slot.id,reason:slot.reason,target:slot.target,range:slot.range},evidence},workingSpaceEstimate:{method:'solution-steps',estimates:(draft.workingSpace??[]).map(w=>({...w,targetId:content.id===w.targetId?content.id:nodesOf(content).find(x=>x.id.endsWith('-'+String(w.targetId).replace(/[^\w-]/g,'')))?.id??w.targetId}))}}};
@@ -1299,6 +1307,9 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
   block.sourceReview.layoutFrom=sibling.id;}
  arcsOnAngleLabels(block.content);
  tableRowsAsScaffold(block.content);
+ // A short-answer table wider than the answer column prints across the page (needsFullPageShortTable), as the
+ // teacher's do; left in the column its headings broke mid-word ("Mo nth", Financial Maths 5a, 11 November 2026).
+ if([block.content,...nodesOf(block.content)].some(n=>(n?.answer?.short?.blocks??[]).some(b=>b.type==='table'&&Number(b.widthMm)>88)))block.presentation={...(block.presentation??{}),shortAnswerTableFullWidth:true};
  if(score!=null)setComparisonRating(block,score,placement,refs,evidence);
  return block;
 }
@@ -1312,6 +1323,12 @@ export const isVariableLabel=c=>/^\s*\$?\s*[A-Za-z](?:_\{?\w+\}?)?\s*\$?\s*$/.te
 // A row label that is the variable's equation, in maths or not: "$y=x^2-8x+10$" or "y=x^{2}-8x+10"
 // (Features of Quadratics 1 j2, Stage 5, 10 November 2026: printed borderless, the label ran into the first value).
 export const isEquationLabel=c=>/^\s*\$?\s*[A-Za-z](?:_\{?\w+\}?)?\s*=\s*[^=$\t]*[\w})]\s*\$?\s*$/.test(String(c??''))&&!/[A-Za-z]{3}/.test(String(c??'').replace(/\\[a-zA-Z]+/g,''));
+// A row label that is a function or derivative of the variable: "$P(X=x)$", "$f'(x)$", "$y''$", "$\frac{dy}{dx}$"
+// (Discrete Random Variables distribution tables and Curve Sketching slope tables printed as bare rows, Stage 6,
+// 11 November 2026).
+export const isFunctionLabel=c=>{const s=String(c??'').replace(/[\s$]/g,'').replace(/\\[dt]?frac/g,'\\frac');
+ return /^[A-Za-z](?:'{1,2}|\^\{?\(\d\)\}?)?\([^()]{1,12}\)$/.test(s)||/^[A-Za-z]'{1,2}$/.test(s)||/^\\frac\{d(?:\^2)?[A-Za-z]\}\{d[A-Za-z](?:\^2)?\}$/.test(s);};
+export const isCornerLabel=c=>/^\$?\s*[A-Za-z]\s*(?:\/|\\backslash|\\setminus)\s*[A-Za-z]\s*\$?$/.test(String(c??'').trim());
 const variableName=c=>String(c??'').replace(/[\s$]/g,'').split('=')[0];
 export function promptFromSource(text,id){
  const outsideMath=String(text).replace(/\$\$[\s\S]*?\$\$|\$[^$\n]*\$/g,'');
@@ -1356,15 +1373,17 @@ export function promptFromSource(text,id){
   // Two equations in y ("$y=3^{-x}$" and "$y=-3^x$" over one "$x$" row, Features of Quadratics and Exponentials 2 retrofit,
   // 11 November 2026) are different rows: an equation label counts by its whole text, not by its variable.
   const rowKey=c=>isEquationLabel(c)?'eq:'+String(c??'').replace(/\$|\s/g,''):variableName(c);
-  const variables=rows.every(r=>isVariableLabel(r[0])||isEquationLabel(r[0]))&&new Set(rows.map(r=>rowKey(r[0]))).size===rows.length&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
+  const variables=rows.every(r=>isVariableLabel(r[0])||isEquationLabel(r[0])||isFunctionLabel(r[0]))&&new Set(rows.map(r=>rowKey(r[0]))).size===rows.length&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
   // Labels may mix variables and words ("x | 1 | 2" over "y | …" over "Coordinate | (1,2) | …", Graphing Lines
   // slots 1 and 3, Stage 5, 9 November 2026): printed borderless, the rows fell out of line.
-  const mixed=rows.every(r=>words(r[0])||isVariableLabel(r[0]))&&rows.some(r=>isVariableLabel(r[0]))&&new Set(rows.map(r=>variableName(r[0]))).size===rows.length&&rows.some(r=>words(r[0]))&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
+  const mixed=rows.every(r=>words(r[0])||isVariableLabel(r[0])||isFunctionLabel(r[0]))&&rows.some(r=>isVariableLabel(r[0]))&&new Set(rows.map(r=>variableName(r[0]))).size===rows.length&&rows.some(r=>words(r[0]))&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
   const acrossOnly=!options&&!headRow&&rows.length>1&&cols>=3&&(rows.every(r=>words(r[0]))||variables||mixed)&&!stemLeaf;
   // A two-way table: blank corner, a heading in every other cell of the first row and first column ("" | 2 | 4 | …
   // over "2 | (2,2) | …"). Both headings are shaded, as in the booklets (Multistage Probability slots 1 and 2,
   // Stage 5, 9 November 2026: printed borderless, the outcomes fell out of line).
-  const blank=c=>!String(c??'').trim(),twoWay=!options&&!stemLeaf&&rows.length>=3&&cols>=3&&blank(rows[0][0])&&rows[0].slice(1).every(c=>!blank(c))&&rows.slice(1).every(r=>!blank(r[0]))&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
+  // The corner may name both headings, "$y/x$" (a slope-field grid, Differential Equations slot-6, Stage 6,
+  // 11 November 2026: printed as bare rows with the y values stacked in one column).
+  const blank=c=>!String(c??'').trim(),corner=c=>blank(c)||isCornerLabel(c),twoWay=!options&&!stemLeaf&&rows.length>=3&&cols>=3&&corner(rows[0][0])&&rows[0].slice(1).every(c=>!blank(c))&&rows.slice(1).every(r=>!blank(r[0]))&&rows.every(r=>r.slice(1).every(c=>!/=/.test(String(c??''))));
   const headed=headRow||acrossOnly||twoWay,shaded=(k,c)=>twoWay?(k===0)!==(c===0):headRow?k===0:acrossOnly&&c===0;
   const al=c=>headed?'center':align(c);
   // Bold headings with 2 mm padding need about 2.4 mm a character, or "Numbers" wraps mid-word.
@@ -1373,7 +1392,7 @@ export function promptFromSource(text,id){
   if(headRow)widths.forEach((w,c)=>{const h=String(rows[0][c]??'').replace(/\$[^$]*\$/g,'-');widths[c]=Math.max(w,Math.max(...h.split(/\s+/).map(x=>x.length))*2.4+6);});
   if(acrossOnly)widths[0]=Math.max(widths[0],...rows.map(r=>Math.max(...String(r[0]??'').replace(/\$[^$]*\$/g,'-').split(/\s+/).map(x=>x.length))*2.4+6));
   // An equation label prints as spaced maths, dollars or not, with the shaded column's padding.
-  if(acrossOnly)widths[0]=Math.max(widths[0],...rows.filter(r=>isEquationLabel(r[0])).map(r=>mm('$'+String(r[0]).replace(/\$/g,'').trim()+'$')+6));
+  if(acrossOnly)widths[0]=Math.max(widths[0],...rows.filter(r=>isEquationLabel(r[0])||isFunctionLabel(r[0])).map(r=>mm('$'+String(r[0]).replace(/\$/g,'').trim()+'$')+6));
   // Borderless working with blanks gets the house scaffolds' writing rows (8–12 mm); with none set the
   // rows closed up under the blanks (Compound Interest slot 6, Stage 5 pilot, 9 November 2026).
   const writing=!headed&&rows.some(r=>r.some(c=>/\[\[[^|\]]*\|\d+\]\]/.test(String(c??''))));
@@ -2184,7 +2203,7 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
   const r=await applyComments({projectId,auto:true,candidateIn:candidate,proposals:{comments:proposals},workDir:path.join(runDir,'auto-apply'),root,log});
   candidate={...r.candidate,revision:report.revision};auto=r.report;
   const replaced=new Set(auto.applied.filter(a=>a.op==='replace-node').map(a=>a.what.split(' ')[0]));
-  houseTints(candidate,replaced);gridSteps(candidate,replaced);for(const s of candidate.sections??[])joinContinuedRuns(s);
+  houseTints(candidate,replaced);gridSteps(candidate,replaced);for(const s of candidate.sections??[])joinContinuedRuns(s);outOfRuns(candidate);
   for(const k of auto.appliedKeys){const i=k.indexOf('|'),id=k.slice(0,i),key=k.slice(i+1);const p=proposals[id]?.payloads?.find(x=>x.key===key&&x.autoApply);if(p)p.applied=true;}
   report.proposals=proposals;
   write(candidateFile,candidate);write(path.join(runDir,'auto-apply.json'),auto);
@@ -2192,7 +2211,7 @@ async function applyAuditV2Once({projectId,runDir,root=ROOT,log=console.error,au
  }
  // Audit-made figures are normalised on every apply, not only when proposals were auto-applied: a run with
  // only slot questions skipped it (8 November 2026).
- else{houseTints(candidate);gridSteps(candidate);for(const s of candidate.sections??[])joinContinuedRuns(s);write(candidateFile,candidate);}
+ else{houseTints(candidate);gridSteps(candidate);for(const s of candidate.sections??[])joinContinuedRuns(s);outOfRuns(candidate);write(candidateFile,candidate);}
  // Applied changes confirmed in the candidate are saved resolved (James, 11 November 2026); the report keeps them.
  {const settled=settleAppliedComments(candidate,report.proposals??{});report.settled=settled;write(path.join(runDir,'report.json'),report);write(candidateFile,candidate);
   log(`settle: ${settled.resolved.length} applied comment(s) saved resolved, ${settled.left.length} left open`);}
