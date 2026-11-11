@@ -800,7 +800,11 @@ export function houseTints(project,alsoIds=new Set()){
     // The house grid colour is defined only in the graph template; a drafted figure that names it on its own
     // failed to compile and stopped the render (Quartiles and Box Plots slot 12, Stage 5, 10 November 2026).
     if(/\bhousegrid\b/.test(code)&&!/\\definecolor\{housegrid\}/.test(code)){defs.push('\\definecolor{housegrid}{HTML}{CCCCCC}');n++;}
-    if(defs.length)x.code=code.replace(/(\\begin\{tikzpicture\}(?:\[[^\]]*\])?)/,`$1\n${defs.join('\n')}`);}
+    // The TikZ compiler has no pound sign: a drafted "British pounds (\pounds)" axis label hung the render
+    // (Graphs of Rates of Change slot 2, 11 November 2026). The teacher's figures write GBP.
+    const pounds=code.replace(/(?:\\(?:pounds|textsterling)(?![A-Za-z])|£)(\s*\d)?/g,(m,d)=>d?'GBP '+d.trim():'GBP');if(pounds!==code){code=pounds;n++;}
+    if(defs.length)code=code.replace(/(\\begin\{tikzpicture\}(?:\[[^\]]*\])?)/,`$1\n${defs.join('\n')}`);
+    if(code!==x.code)x.code=code;}
    for(const v of Object.values(x))walk(v);})(b);}
  return n;}
 // TikZ's default grid step is 1 cm on the page, not one x unit. A drafted graph that rescales its axes
@@ -1698,7 +1702,9 @@ export async function runAuditV2({projectFile,root=ROOT,topics=[],dryRun=false,a
   if(duplicatePairs([...existingQuestions,...inserted,temp]).some(p=>p.ids.includes(temp.id))){report.dropped.push({slot:it.id,reason:'duplicates an existing or new question'});continue;}
   const describe=()=>{const c=temp.content,parts=(c.children??[]).map(p=>`${p.label??''}) ${partText(p)}`);return `Proposed question: ${c.prompt??''}${parts.length?'\n'+parts.join('\n'):''}${(c.questionDiagrams??[]).length?'\n(with a diagram)':''}\nAnswers: ${answerNodes(c).map(n=>(n.label&&n!==c?n.label+') ':'')+n.answer.short).join('; ')}`;};
   if(proposal){const j=it.draft.judgement,c=verdicts.get(j.id);if(d.score!=null)setComparisonRating(temp,d.score,it.placement,refScores,evidence);addComment({targetId:proposalTarget(j),kind:proposalKind(j),key:'prop|'+j.id,payload:autoFlag(proposalPayload(j,temp,{rows:bookletIndex(candidate),ownerOf,workedExample:it.draft.workedExample,project:candidate}),verdictOf(j)==='confirmed'&&!(j.kind==='duplicate'&&state.protectedIds.has(j.row.replace))),note:`[Pedagogy audit v2 · ${proposalLabel(j)}${verdictOf(j)==='unverified'?' · unverified':''}] ${c?.comment||findingReason(j)}${verdictOf(j)==='unverified'?unverifiedNote(c):''}${j.kind==='duplicate'?` Replace ${(j.row.replaceNodes??[]).join(', ')} with the question below.`:''}\n${it.draft.workedExample?'Worked example: '+it.draft.workedExample.prompt+'\n'+it.draft.workedExample.steps+'\nGuided practice:\n':''}${describe()}${d.score!=null?`\nComparison score: ${d.score}.`:''}`});continue;}
-  if(d.score==null){report.blockers.push({stage:'solve',id:it.id,reason:'placement '+d.how});continue;}
+  // A new question whose placement gives no score is dropped, like one scored outside its slot; it used to block the
+  // whole run and lose every other finding (Surface Area of Prisms and Cylinders slot-6, 11 November 2026).
+  if(d.score==null){report.dropped.push({slot:it.id,reason:'placement gives no score ('+d.how+')',draft:stripAnswers(temp.content)});continue;}
   if(d.score<slot.range[0]||d.score>slot.range[1]){report.dropped.push({slot:slot.id,reason:`scored ${d.score}, outside the slot range ${slot.range.join('–')}`,draft:stripAnswers(temp.content)});continue;}
   if(slot.commentOnly||d.score>=LIMITS.appliedBelow){const held=newBlock(it.draft,{...slot,id:slot.id+'-'+stamp.slice(-6)},{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});addComment({targetId:slot.after??slot.before??candidate.sections.find(s=>s.id===slot.sectionId)?.blocks?.[0]?.id,kind:'slot-comment-only',key:'slot|'+slot.id,payload:{op:'insert',sectionId:slot.sectionId,after:slot.after??null,block:held},note:`[Pedagogy audit v2 · New question to decide] For the ${slot.reason.replace(/-/g,' ')} gap (${slot.type}). Comparison score ${d.score}, between ${it.placement.harderThan??'—'} and ${it.placement.easierThan??'—'}: ${it.placement.difficultyReason}\n${describe()}`});continue;}
   const block=newBlock(it.draft,slot,{project:candidate,score:d.score,placement:it.placement,refs:refScores,evidence,type:slot.type,skill:it.draft.skill,typeOfId:id=>typeOf(state,id)});

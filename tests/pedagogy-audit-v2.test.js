@@ -974,3 +974,10 @@ test('a teaching check id returned without its prefix is recovered, and a missin
  assert.equal(r.solutions.has('w-v2-q1'),false);
  assert.throws(()=>validateSolve({solutions:[{id:'w-p5-guided'}]},items),/no solution for slot-1/);
 });
+test('a pound sign in an audit-made figure is written GBP, which the TikZ compiler can render', async ()=>{
+ const {houseTints}=await import('../pedagogy/audit-v2.mjs');
+ const fig={format:'tikz',code:'\\begin{tikzpicture}\n\\node at (0,0) {British pounds (\\pounds)};\n\\node at (1,0) {\\pounds 5 and £20};\n\\end{tikzpicture}'};
+ const teacher={format:'tikz',code:'\\node {\\pounds};'};
+ houseTints({sections:[{blocks:[{id:'v2-x',content:{questionDiagrams:[fig]}},{id:'p1',content:{questionDiagrams:[teacher]}}]}]});
+ assert.match(fig.code,/British pounds \(GBP\)/);assert.match(fig.code,/GBP 5 and GBP 20/);assert.equal(teacher.code,'\\node {\\pounds};');
+});
