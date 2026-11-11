@@ -29,12 +29,22 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
   // goes through the normal path, whose measurement the search has already cached.
   // It stops before a forced worked page break.
   let known=0,perPage=8;
+  const keepWorked=block=>block.flow?.keepTogether||block.flow?.workedKeepTogether===true;
+  const breakBeforePart=(block,fragment)=>block.flow?.workedBreakBeforePartIds?.some(id=>{
+    let node=fragment.content;
+    while(node){if(node.id===id)return true;node=node.children?.[0];}
+    return false;
+  });
   async function lookahead(i,f){
     const upcoming=[];
     for(let j=i;j<units.length&&upcoming.length<64;j++){
-      if(j>i&&units[j].blocks[0].flow?.workedPageBreakBefore===true)break;
+      if(j>i&&(units[j].blocks[0].flow?.workedPageBreakBefore===true||keepWorked(units[j].blocks[0])))break;
       const list=fragmentsOf(j);
-      for(let g=j===i?f:0;g<list.length&&upcoming.length<64;g++)upcoming.push({block:list[g],section:units[j].section,labelWidthMm:widths.get(units[j].section.topicId)});
+      for(let g=j===i?f:0;g<list.length&&upcoming.length<64;g++){
+        if((j>i||g>f)&&breakBeforePart(units[j].blocks[0],list[g]))break;
+        upcoming.push({block:list[g],section:units[j].section,labelWidthMm:widths.get(units[j].section.topicId)});
+      }
+      if(upcoming.length&&units[j].blocks[0].flow?.workedBreakBeforePartIds?.length)break;
     }
     const base=columns[column].length,trial=async n=>{columns[column].push(...upcoming.slice(0,n));const size=await measure(make());check();columns[column].length=base;return fitsColumn(size);};
     let low=0,high=upcoming.length,n=Math.min(high,Math.max(2,perPage-base));
@@ -55,8 +65,20 @@ export async function paginateCompactAnswers(project,edition,measure,{cancelled=
     // Flush once per owning block, before any of its answer fragments.
     if(block.flow?.workedPageBreakBefore===true)flush();
       const fragments=fragmentsOf(i);
+      if(keepWorked(block)&&!block.flow?.workedBreakBeforePartIds?.length&&fragments.length>1&&columns[column].length){
+        const group=fragments.map(fragment=>({block:fragment,section,labelWidthMm:widths.get(section.topicId)}));
+        const priorColumn=columns[column];
+        columns[column]=[...priorColumn,...group];
+        const here=await measure(make());check();
+        if(fitsColumn(here)){known=0;continue;}
+        columns[column]=group;
+        const fresh=await measure({...make(),showAnswerHeading:false});check();
+        columns[column]=priorColumn;
+        if(fitsColumn(fresh)){flush();columns[column].push(...group);continue;}
+      }
       for(let f=0;f<fragments.length;f++){
         const fragment=fragments[f];
+        if(breakBeforePart(block,fragment))flush();
         check();
         const entry={block:fragment,section,labelWidthMm:widths.get(section.topicId)};
         if(!known&&count===1)known=await lookahead(i,f);

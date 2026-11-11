@@ -1,6 +1,7 @@
 // One opt-in entry point; all review credit remains in the canonical APIs.
 import fs from 'node:fs';
 import {dispatchPinnedCli} from './frozen-runtime-pin.mjs';
+import {applyDerivedContinuations} from './import-v2-authoring.mjs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {nextBoundedWork,runBoundedStage,recordBoundedStage,cancelBoundedStage} from './bounded-stages.mjs';
@@ -123,7 +124,9 @@ export async function main(args=process.argv.slice(2)){
   else{result=await runLeanImportPool(runs,{poolDir,concurrency:Number(values['--concurrency']??3),retryDiagnosis:values['--regenerate-reason'],checkpoint:async(all,reason)=>writeCheckpoint(poolDir,reason,all.map(o=>o.runDir))});writeCheckpoint(poolDir,'command-finished',runs.map(o=>o.runDir),{status:result.status});}
  }else if(['author','inventory'].includes(command)){
   const loaded=loadRun(values['--run-id']);requireCurrentTranscription(loaded.manifest);if(!isLeanReview(loaded.manifest))throw Error('Lean authoring requires a three-pass run');
-  const runner=runnerForManifest(loaded.manifest,poolDir),config=read(values['--config']),pages=parsePageSelection(values['--pages']);
+  const runner=runnerForManifest(loaded.manifest,poolDir),pages=parsePageSelection(values['--pages']);let config=read(values['--config']);
+  // Import v2 textbook: page-break continuations derived from the inventory flags, written to the run config.
+  if(command==='author'){const derived=applyDerivedContinuations({runDir:loaded.runDir,manifest:loaded.manifest,config,configFile:values['--config']});config=derived.config;for(const pair of derived.added)console.error('Derived continuation '+pair.from+'->'+pair.to+': '+pair.entryIds.join(', '));for(const warning of derived.warnings)console.error('Continuation warning: '+warning);}
   const timer=setInterval(()=>{try{writeCheckpoint(poolDir,'active-time',[loaded.runDir],{command});}catch{}},1800000);
   try{result=await runSemanticPackets({...loaded,config,stage:command,pages,attempt:Number(values['--attempt']??1),concurrency:Number(values['--concurrency']??3),regenerationReason:values['--regenerate-reason']??null,retryReason:values['--retry-reason']??null,repairFrom:values['--repair-from']?Number(values['--repair-from']):null},{runner:prepared=>withWorkerSlot(loaded.runDir,{stage:command,runDir:loaded.runDir},()=>runner({...prepared,stage:command,profile:'transcription'}))});}finally{clearInterval(timer);}
   writeCheckpoint(poolDir,'command-finished',[loaded.runDir],{command});

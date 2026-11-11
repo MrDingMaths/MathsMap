@@ -153,3 +153,123 @@ test('hand-off seeds the audit with fingerprints of checked blocks and merges wi
   assert.equal(textbook.auditChecks,null,'textbooks are never audited');
  }finally{fs.rmSync(root,{recursive:true,force:true});}
 });
+
+// Pilot fixes (11 November 2026, textbook-track pilot).
+import {normalizePracticeInventory,validatePracticeInventory,EMBEDDED_RETENTION_REASON,RUNNING_HEADER_REASON,TOPIC_HEADING_REASON} from '../scripts/booklet/practice-only-scope.mjs';
+import {deriveContinuations,mergeContinuations,assignmentLimits,TEXTBOOK_ASSIGNMENT_DEFAULTS} from '../scripts/booklet/import-v2-authoring.mjs';
+import {createAssignmentPlan,assignmentPayload} from '../scripts/booklet/author-assignments.mjs';
+
+test('practice-only inventory normalises recognisable exclusion wording and checks embedded conflicts at acceptance',()=>{
+ const inventory={pageNumber:28,entries:[
+  {id:'q11',kind:'question',description:'Prove that 28 is perfect.'},
+  {id:'q11-definition',kind:'teaching',parentId:'q11',embeddedInQuestion:'q11',exclusionReason:'Embedded definition retained once in question 11; not a separate selectable item.'},
+  {id:'header',kind:'cover',exclusionReason:'Running publication header and page number; retain as provenance.'},
+  {id:'fractions-heading',kind:'teaching',description:'Fractions',presentation:{headingRole:'main topic band'}}]};
+ const normal=normalizePracticeInventory(inventory),by=id=>normal.entries.find(e=>e.id===id);
+ assert.equal(by('q11-definition').exclusionReason,EMBEDDED_RETENTION_REASON);
+ assert.equal(by('header').exclusionReason,RUNNING_HEADER_REASON);
+ assert.equal(by('fractions-heading').exclusionReason,TOPIC_HEADING_REASON);
+ assert.doesNotThrow(()=>validatePracticeInventory(inventory));
+ // A heading that reads as an instruction, or carries no heading marker, is still a finding.
+ assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Find the value',presentation:{headingRole:'band'}}]}),/exclude standalone/);
+ assert.throws(()=>validatePracticeInventory({entries:[{id:'h',kind:'teaching',description:'Fractions'}]}),/exclude standalone/);
+ // An embedded item excluded for an unrelated reason fails at inventory, not first at authoring.
+ assert.throws(()=>validatePracticeInventory({entries:[{id:'q',kind:'question'},{id:'d',kind:'teaching',embeddedInQuestion:'q',exclusionReason:'Omit all supplied working'}]}),/Conflicting embedded/);
+});
+
+test('page-break continuations are derived from inventory flags; declared pairs win',()=>{
+ const page=(pageNumber,entries)=>({pageNumber,entries});
+ const inventories=[
+  page(15,[{id:'p15-q18',kind:'question'},{id:'p15-q19',kind:'question',continuesOnNextPage:true}]),
+  page(16,[{id:'p16-q19-cont',kind:'question',continuesFromPreviousPage:true},{id:'p16-q20',kind:'question'}]),
+  page(17,[{id:'p17-q1',kind:'question'}]),
+  page(18,[{id:'p18-cont',kind:'question',continuesFromPreviousPage:true}]),
+  page(19,[{id:'p19-q9',kind:'question',continuesOnNextPage:true}])];
+ const {continuations,warnings}=deriveContinuations(inventories);
+ assert.deepEqual(continuations.map(c=>[c.from,c.to,c.entryIds]),[[15,16,['p15-q19','p16-q19-cont']],[17,18,['p17-q1','p18-cont']]]);
+ assert.equal(warnings.length,1);assert.match(warnings[0],/Page 19 continues onto page 20/);
+ const declared=[{from:15,to:16,entryIds:['p15-q19','p16-x']}];
+ assert.deepEqual(mergeContinuations(declared,continuations).map(c=>c.from+'-'+c.to),['15-16','17-18']);
+ assert.equal(mergeContinuations(declared,continuations)[0].entryIds[1],'p16-x');
+});
+
+test('v2 textbook assignments are larger; reviewer-rated prompts carry no rating request',()=>{
+ const v2={importPolicy:IMPORT_POLICY},textbook={contentScope:'practice-only'};
+ assert.deepEqual(assignmentLimits(v2,textbook),TEXTBOOK_ASSIGNMENT_DEFAULTS);
+ assert.deepEqual(assignmentLimits({},textbook),{});
+ assert.equal(assignmentLimits(v2,{...textbook,assignmentLimits:{maxQuestions:3}}).maxQuestions,3);
+ const inventory={pageNumber:5,entries:[{id:'q1',kind:'question'},{id:'q2',kind:'question'}]};
+ const plan=createAssignmentPlan([inventory]);
+ const sections=[{name:'contract',text:'CONTRACT'},{name:'reasoning-rating',text:'Do not rate difficulty.'},{name:'classification',text:'CLASSIFY'},{name:'supplement',text:'NOTE'}];
+ const task=reviewerRates=>({page:5,inventory,packetRoot:path.join('run','semantic-packets'),promptSections:sections,images:[],evidence:[],contextPages:[],teacherPages:[],reviewerRates});
+ const rated=assignmentPayload(plan.assignments[0],[task(true)]),legacy=assignmentPayload(plan.assignments[0],[task(false)]);
+ assert.match(rated.prompt,/Do not rate difficulty/);assert.doesNotMatch(legacy.prompt,/Do not rate difficulty/);
+ assert.ok(rated.prompt.indexOf('CONTRACT')<rated.prompt.indexOf('Author only the assigned')&&rated.prompt.indexOf('Author only the assigned')<rated.prompt.indexOf('CLASSIFY'));
+ assert.deepEqual(Object.keys(rated.context.guidance[0]).sort(),['id','name','page']);
+ assert.ok('path' in legacy.context.guidance[0]);
+ assert.match(rated.prompt,/Empty response cells in a source table or grid stay empty/);assert.doesNotMatch(legacy.prompt,/Empty response cells in a source table/);
+});
+
+test('v2 content reviewers change source wording only for correctness',()=>{
+ const batch={rows:[],section:{id:'s',blocks:[]}};
+ assert.match(contentPrompt({project:{title:'t',sections:[]},batch:{...batch,reviewerRates:true}}),/Never reword a correct, answerable task for readability/);
+ assert.doesNotMatch(contentPrompt({project:{title:'t',sections:[]},batch}),/Never reword a correct, answerable task/);
+});
+
+test('canonical exclusion wording is idempotent when the reason is also nested in presentation',()=>{
+ const inventory={entries:[{id:'header',kind:'footer',exclusionReason:'Running header; page number.',presentation:{exclusionReason:'Running header; page number.'}}]};
+ const once=normalizePracticeInventory(inventory);
+ assert.equal(once.entries[0].presentation.exclusionReason,RUNNING_HEADER_REASON);
+ assert.doesNotThrow(()=>normalizePracticeInventory(once));
+});
+
+import {braceRowBrackets} from '../scripts/booklet/house-authoring.mjs';
+import {renderMath} from '../src/lib/render-math.js';
+test('aligned rows starting with a square bracket are braced so they render; spacing arguments are kept',()=>{
+ const worked='$$\\begin{aligned}[(14-8)\\div2+4]\\times2&=[6\\div2+4]\\times2\\\\[(14-8)\\div2+4]\\times2&=14\\end{aligned}$$';
+ const fixed=braceRowBrackets(worked);
+ assert.match(fixed,/\\\\\{\[\}\(14-8\)/);
+ assert.equal(braceRowBrackets('a\\\\[4pt]b'),'a\\\\[4pt]b');
+ assert.deepEqual(braceRowBrackets({x:[worked]}),{x:[fixed]});
+ assert.ok(renderMath(worked).includes('katex-error'));assert.ok(!renderMath(fixed).includes('katex-error'));
+});
+
+import {mergeAssignmentPackets} from '../scripts/booklet/author-assignments.mjs';
+test('a mapping to another assignment entry with no authored content is dropped and recorded',()=>{
+ const inventory={pageNumber:27,entries:[{id:'cont',kind:'question'},{id:'q1',kind:'question'}]};
+ const block=id=>({id:id+'-block',type:'question',content:{id:id+'-root'}});
+ const fragment=(ids,blocks,mappings)=>({assignment:{inventoryIds:ids,entries:ids.map(id=>({id,pageNumber:27,kind:'question'}))},packet:{pageNumber:27,sections:[{id:'s-'+ids[0],blocks}],inventoryMappings:mappings}});
+ const a=fragment(['cont'],[block('cont')],[{inventoryId:'cont',targetId:'cont-root'}]);
+ const b=fragment(['q1'],[block('q1')],[{inventoryId:'q1',targetId:'q1-root'},{inventoryId:'cont',targetId:'cont-root'}]);
+ const merged=mergeAssignmentPackets(inventory,[a,b]);
+ assert.equal(merged.inventoryMappings.filter(m=>m.inventoryId==='cont').length,1);
+ assert.equal(merged.findings.filter(f=>f.kind==='dropped-foreign-mapping').length,1);
+ const authored=fragment(['q1'],[block('q1'),block('cont')],[{inventoryId:'q1',targetId:'q1-root'},{inventoryId:'cont',targetId:'cont-root'}]);
+ assert.throws(()=>mergeAssignmentPackets(inventory,[a,authored]),/Out-of-assignment/);
+});
+
+import {localRepairHint,LOCAL_REPAIR_ROUTE} from '../scripts/booklet/author-assignments.mjs';
+test('a failed assignment names the local patch repair route with a ready request',()=>{
+ const hint=localRepairHint({runDir:path.join('work','run-1'),assignment:{id:'assignment-abc',pages:[17]},attempt:3,error:'Author assignment text repair required'});
+ assert.deepEqual(hint.request,{page:17,fromAttempt:3,assignmentId:'assignment-abc',targets:[{targetId:'BLOCK_OR_NODE_ID',fields:['/FIELD']}]});
+ assert.match(hint.summary,/local-repair-hint\.json/);
+ assert.ok(hint.steps.some(step=>step.includes('attempt-context --run-id run-1'))&&hint.steps.some(step=>step.includes('repair-attempt --run-id run-1')&&step.includes('--attempt 4')));
+ assert.match(LOCAL_REPAIR_ROUTE,/attempt-context[\s\S]*repair-attempt/);
+});
+
+import os from 'node:os';
+import {unrepairedVisualFindings} from '../scripts/booklet/import-finish.mjs';
+import {blockContentStamps} from '../scripts/booklet/lean-visual-evidence.mjs';
+test('finish prints another v2 export only after every outstanding visual finding was repaired',t=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'finish-budget-'));t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ const dir=path.join(root,'lean-review'),exportDir=path.join(root,'exports','1');fs.mkdirSync(dir,{recursive:true});fs.mkdirSync(exportDir,{recursive:true});
+ const project={settings:{},sections:[{id:'s',blocks:[{id:'a',prompt:'A'},{id:'b',prompt:'B'}]}]};
+ fs.writeFileSync(path.join(exportDir,'report.json'),JSON.stringify({report:{p:{student:{}}}}));
+ fs.writeFileSync(path.join(exportDir,'visual-plan.json'),JSON.stringify({student:{pending:[{page:1,hash:'h1',blocks:['a']},{page:2,hash:'h2',blocks:['b']}]}}));
+ fs.writeFileSync(path.join(dir,'reviewed.json'),JSON.stringify({questions:{},pages:{'student:h1':{outcome:'needs-change',finding:'gap',blocks:['a']},'student:h2':{outcome:'accepted',blocks:['b']}}}));
+ const state={exports:[{dir:exportDir,blockStamps:blockContentStamps(project)}]};
+ assert.deepEqual(unrepairedVisualFindings({state,projectId:'p',stamps:blockContentStamps(project),dir}).map(r=>r.page),[1]);
+ const repaired={...project,sections:[{id:'s',blocks:[{id:'a',prompt:'A, repaired'},{id:'b',prompt:'B'}]}]};
+ assert.deepEqual(unrepairedVisualFindings({state,projectId:'p',stamps:blockContentStamps(repaired),dir}),[]);
+ assert.deepEqual(unrepairedVisualFindings({state:{exports:[{dir:exportDir}]},projectId:'p',stamps:blockContentStamps(project),dir}),[],'exports recorded before v2 stamps are not gated');
+});

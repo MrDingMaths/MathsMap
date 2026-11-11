@@ -1,6 +1,7 @@
 // Review an exact field patch against a preserved attempt; no external generation.
 import fs from 'node:fs';
 import {restorePacketRatings,bindRepairAssessment} from './reasoning-ratings.mjs';
+import {assignmentLimits as v2AssignmentLimits} from './import-v2-authoring.mjs';
 import path from 'node:path';
 import {isDeepStrictEqual} from 'node:util';
 import {contentNodes} from '../../src/lib/booklet-content-verification.js';
@@ -61,7 +62,7 @@ function sourceAttempt(options,request){
   const tasks=createSemanticTasks({...options,stage:'author',pages:[...planningPages].sort((a,b)=>a-b)});
   const task=tasks.find(t=>t.page===page);if(!task)throw Error('Missing repair page task');
   const blockers=tasks.flatMap(t=>t.blockers);if(blockers.length)throw Error('Repair is blocked: '+blockers.join('; '));
-  const plan=planTaskAssignments(tasks,{...options.config.assignmentLimits,continuations:continuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).every(p=>planningPages.has(p)))});
+  const plan=planTaskAssignments(tasks,{...v2AssignmentLimits(options.manifest,options.config),continuations:continuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).every(p=>planningPages.has(p)))});
   const assignment=plan.assignments.find(a=>a.id===request.assignmentId);
   if(!assignment)throw Error('Assignment source inputs changed');
   const payload=assignmentPayload(assignment,tasks),sameInputs=payload.inputHash===snapshot.inputHash;

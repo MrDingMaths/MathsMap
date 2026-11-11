@@ -131,10 +131,16 @@ export function mergeAssignmentPackets(inventory,fragments){
  const result={pageNumber:inventory.pageNumber,sections:[],inventoryMappings:[],findings:[],corrections:[],answerEvidence:[]},owned=new Set(),seenMappings=new Set(),sectionIds=new Set();
  const order=new Map(inventory.entries.map((e,i)=>[e.id,i]));
  const first=f=>Math.min(...f.assignment.inventoryIds.filter(id=>order.has(id)).map(id=>order.get(id)));
- for(const {assignment,packet}of [...fragments].sort((a,b)=>first(a)-first(b))){
+ for(let {assignment,packet}of [...fragments].sort((a,b)=>first(a)-first(b))){
   const expected=new Set(assignment.entries.filter(e=>e.pageNumber===inventory.pageNumber).map(e=>e.id));
   for(const id of expected){if(owned.has(id))throw Error('Duplicate assignment ownership: '+id);owned.add(id);}
   if(packet.pageNumber!==inventory.pageNumber)throw Error('Assignment returned the wrong source page');
+  // A mapping to an entry owned by another assignment is dropped (and recorded) when
+  // this packet authored nothing for it; authored foreign content is still an error.
+  const authoredIds=new Set();JSON.stringify(packet.sections??[],(key,value)=>{if(key==='id'&&typeof value==='string')authoredIds.add(value);return value;});
+  const foreign=(packet.inventoryMappings??[]).filter(m=>!expected.has(m.inventoryId)&&order.has(m.inventoryId));
+  for(const m of foreign)if(authoredIds.has(m.targetId))throw Error('Out-of-assignment inventory mapping: '+m.inventoryId);
+  if(foreign.length)packet={...packet,inventoryMappings:packet.inventoryMappings.filter(m=>expected.has(m.inventoryId)),findings:[...(packet.findings??[]),...foreign.map(m=>({kind:'dropped-foreign-mapping',inventoryId:m.inventoryId,targetId:m.targetId,note:'Mapped by an assignment that does not own this entry and authored no content for it; dropped.'}))]};
   for(const m of packet.inventoryMappings??[]){
    if(!expected.has(m.inventoryId))throw Error('Out-of-assignment inventory mapping: '+m.inventoryId);
    const key=JSON.stringify([m.inventoryId,m.targetId,m.field??null]);if(seenMappings.has(key))throw Error('Duplicate inventory mapping: '+m.inventoryId);seenMappings.add(key);
@@ -180,13 +186,16 @@ export function assignmentPayload(assignment,tasks){
   const id='context-'+hash(text),file=path.resolve(t.packetRoot,'evidence',id+'.txt');
   return {id,page:t.page,name:s.name,path:file,hash:hash(text),text};
  }));
- const contracts=relevant[0].promptSections.filter(s=>['contract','three-pass-precedence','content-scope','early-review','execution','schema','solutions','first-pass-patterns','classification','working-space','native-grouping','practice-answer-evidence','shared-diagrams','house-authoring','palette'].includes(s.name)).map(s=>({...s,text:s.text.replace('Transcribe only the supplied source page','Transcribe only the assigned complete questions or activities from the supplied source pages')}));
+ // Import v2: reviewer-rated runs carry the no-rating contract, compact guidance
+ // metadata and a static-first prompt so more of each call is cached.
+ const v2=relevant.some(t=>t.reviewerRates);
+ const contracts=relevant[0].promptSections.filter(s=>(v2&&s.name==='reasoning-rating')||['contract','three-pass-precedence','content-scope','early-review','execution','schema','solutions','first-pass-patterns','classification','working-space','native-grouping','practice-answer-evidence','shared-diagrams','house-authoring','palette'].includes(s.name)).map(s=>({...s,text:s.text.replace('Transcribe only the supplied source page','Transcribe only the assigned complete questions or activities from the supplied source pages')}));
  const categoryHeadings=relevant.flatMap(t=>assignmentCategoryHeadings(t.inventory,assignment.inventoryIds));
  const categoryGroups=new Set(categoryHeadings.map(h=>h.sourceGroupId));
  const context={assignment:{id:assignment.id,pages:assignment.pages,inventory:assignment.entries,...(assignment.continuations?{continuations:assignment.continuations}:{})},evidence:[...evidence.values()],
   teaching:relevant.map(t=>({page:t.page,teachingPages:t.contextPages,teacherPages:t.teacherPages,...(t.teachingSelections?{selections:t.teachingSelections}:{})})),
   topics:relevant.map(t=>({page:t.page,topic:t.topic})),
-  guidance:resources.map(({text,...r})=>r),
+  guidance:v2?resources.map(({id,page,name})=>({id,page,name})):resources.map(({text,...r})=>r),
   categoryHeadings,
   groups:relevant.flatMap(t=>(t.inventory.groups??[]).filter(g=>categoryGroups.has(g.id)||memberList(g.questionIds??g.inventoryIds??g.entryIds??g.members??g.entries).some(id=>targets.has(id))||assignment.entries.some(e=>e.parentId===g.id||e.continuationOf===g.id||e.sharedContextIds?.includes(g.id)||e.sharedWith?.includes(g.id))).map(g=>categoryGroups.has(g.id)?g:{...g,questionIds:memberList(g.questionIds).filter(id=>targets.has(id)),inventoryIds:memberList(g.inventoryIds).filter(id=>targets.has(id))})),
   decisions:relevant.flatMap(t=>(t.editorial?.corrections??[]).map(c=>({id:c.id,reason:c.reason,patches:c.patches.filter(p=>targets.has(p.targetId)||t.contextPages.includes(p.page)&&!assignment.pages.includes(p.page))})).filter(c=>c.patches.length)),
@@ -203,8 +212,13 @@ export function assignmentPayload(assignment,tasks){
  const categoryRules=' categoryHeadings is derived from the FULL source inventory before assignment scoping. Only ownsHeading:true authorises one native editable category-heading paragraph in the first owning question prompt, arranged above its numbered question. Preserve source alignment. Category headings are not template-owned main-topic or teaching-activity headings, and a section title is insufficient because compact organisation replaces it. Keep the original group members and firstQuestionInventoryId as context even when they are outside this assignment; never infer a new first owner from an assignment slice. ownsHeading:false or status:continuation means do not repeat the category heading. status:needs-review requires an explicit finding, never an invented boundary. Record sourceReview.sourceCategoryHeading:{sourceGroupId,targetId:paragraphID,label,placement}; add sourceInventoryId only when categoryHeadings provides a real inventory heading entry, and map that entry to paragraphID with field:"/inlines". Group-only metadata creates no inventory ID. headerOwnedByTemplate applies only to main/topic and teaching-group headings; it never removes this native practice heading.';
  const graphGuidance=assignment.entries.some(entry=>/\b(?:graph|axes|asymptote|cartesian|coordinate grid)\b/i.test(JSON.stringify(entry)))?' Graph sizing: start routine supplied question graphs around 70 mm wide and simple short-answer graphs around 50 mm; increase width for legibility or required student drawing space. Never stretch to fill a column, shrink 10 pt labels or discard mathematical features. Preserve meaningful pairs, manual overrides and independent short/worked widths. These are reference sizes, not caps.':'';
  const difficultyRules=assignment.entries.some(e=>difficultyHeading(e)&&!e.exclusionReason)?' Source FOUNDATION, DEVELOPMENT and MASTERY headings are editor-only difficulty metadata, not teaching activities or printable headings. Map each assigned difficulty heading to its first owning question block and field "/classification/difficulty"; preserve the source category for subsequent questions.':'';
- const prompt=contracts.map(s=>s.text).join('\n\n')+'\n\n'+guidance+'\n\n'+rules.replace(/\nTopics:.*$/,'')+'\n'+decisionRules+continuationRules+categoryRules+graphGuidance+difficultyRules+'\n\n'+JSON.stringify(context);
- const images=[...new Set(relevant.flatMap(t=>t.images))],dependencies={context,contracts,rules,decisionRules,continuationRules,categoryRules,...(graphGuidance?{graphGuidance}:{}),...(difficultyRules?{difficultyRules}:{}),guidance,continuationImplementation:bytes(new URL('./packet-continuations.mjs',import.meta.url)),generation:relevant.map(t=>t.generationDependencies),images:images.map(f=>[f,bytes(f)])};
+ const legacyPrompt=contracts.map(s=>s.text).join('\n\n')+'\n\n'+guidance+'\n\n'+rules.replace(/\nTopics:.*$/,'')+'\n'+decisionRules+continuationRules+categoryRules+graphGuidance+difficultyRules+'\n\n'+JSON.stringify(context);
+ const staticContracts=contracts.filter(s=>s.name!=='classification'),classification=contracts.filter(s=>s.name==='classification');
+ // Import v2 (12 November 2026 pilot review): reviewers removed dots the author
+ // had added to cells the source leaves empty.
+ const emptyCellRules=v2?' Empty response cells in a source table or grid stay empty native cells: the cell borders mark the response, so add no cloze dots, boxes or placeholder text. Keep every cell, given value and keyed answer.':'';
+ const prompt=!v2?legacyPrompt:[staticContracts.map(s=>s.text).join('\n\n'),decisionRules+categoryRules+emptyCellRules,rules.replace(/\nTopics:.*$/,''),classification.map(s=>s.text).join('\n\n'),guidance,continuationRules+graphGuidance+difficultyRules,JSON.stringify(context)].filter(Boolean).join('\n\n');
+ const images=[...new Set(relevant.flatMap(t=>t.images))],dependencies={context,contracts,rules,decisionRules,continuationRules,categoryRules,...(graphGuidance?{graphGuidance}:{}),...(difficultyRules?{difficultyRules}:{}),...(emptyCellRules?{emptyCellRules}:{}),guidance,continuationImplementation:bytes(new URL('./packet-continuations.mjs',import.meta.url)),generation:relevant.map(t=>t.generationDependencies),images:images.map(f=>[f,bytes(f)])};
  return {prompt,images,context,resources,inputHash:hash(dependencies),promptStats:{characters:prompt.length,imageCount:images.length,inlineGuidanceCharacters:guidance.length+graphGuidance.length+difficultyRules.length,sections:{contract:contracts.reduce((n,s)=>n+s.text.length,0),assignment:JSON.stringify(context).length+guidance.length+graphGuidance.length+difficultyRules.length}}};
 }
 
@@ -239,7 +253,7 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
    // the earlier attempt directory stays as evidence and other caches are kept.
    if(fs.existsSync(cacheFile)&&!regenerationReason?.includes(assignment.id)){const cache=read(cacheFile);if(cache.inputHash===payload.inputHash&&fs.existsSync(cache.result.path)&&bytes(cache.result.path)===cache.result.hash){log(JSON.stringify({assignment:assignment.id,cached:true}));const packets=read(cache.result.path).packets;for(const packet of packets)restorePacketRatings(packet,{runDir,out:path.dirname(cache.result.path)});if(bytes(cache.result.path)!==cache.result.hash)throw Error('Cached assignment changed during rating restoration');return packets;}}
    const out=path.join(dir,String(attempt));if(fs.existsSync(out))throw Error('Assignment attempt already exists; use a newer attempt or exact-field repair');
-   if(fs.readdirSync(dir).some(n=>/^\d+$/.test(n))&&!regenerationReason)throw Error('Assignment retry needs a reason why targeted repair is insufficient');
+   if(fs.readdirSync(dir).some(n=>/^\d+$/.test(n))&&!regenerationReason)throw Error('Assignment retry needs a reason why targeted repair is insufficient. '+LOCAL_REPAIR_ROUTE);
    const promptView={prompt:payload.prompt,savedCharacters:0};
    const recoveryFile=path.join(runDir,'author-recovery-guidance.json'),recovery=fs.existsSync(recoveryFile)?read(recoveryFile):null;
    const useRecovery=recovery?.pages?.some(page=>assignment.pages.includes(page));
@@ -268,9 +282,28 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
       if(!tasks.some(task=>task.reviewerRates))for(const packet of packets)stampPacketRatings(packet,metrics,path.relative(process.cwd(),path.join(out,'generation.json')).replaceAll('\\','/'));
     const resultFile=path.join(out,'result.json');fs.writeFileSync(resultFile,JSON.stringify({packets},null,2));
     fs.writeFileSync(cacheFile,JSON.stringify({inputHash:payload.inputHash,result:{path:resultFile,hash:bytes(resultFile)}}));ok=true;events.end();return packets;
-   }catch(e){error=e.message;metrics??=e.metrics;throw e;}finally{events.finish({ok,error,metrics});}
+   }catch(e){
+    // Output that failed validation can usually be fixed exactly, with no model call:
+    // leave a ready-to-fill local repair request beside it and name the route in the error.
+    if(fs.existsSync(path.join(out,'generation.json'))){const hint=localRepairHint({runDir,assignment,attempt,error:e.message,out});fs.writeFileSync(path.join(out,'local-repair-hint.json'),JSON.stringify(hint,null,2));e.message+=' | '+hint.summary;}
+    error=e.message;metrics??=e.metrics;throw e;}finally{events.finish({ok,error,metrics});}
   },{timeoutMs:1800000});
   return {assignment,packets};
+}
+
+// The exact-field repair route for a failed assignment attempt (scripts/booklet/local-attempt-repair.mjs).
+export const LOCAL_REPAIR_ROUTE='For an exact fix to the failed output (no model call), use the local patch repair: node scripts/booklet/run-workflow.mjs attempt-context --run-id RUN --config CONFIG --input REQUEST.json, then repair-attempt --run-id RUN --config CONFIG --attempt NEXT --input PATCHES.json. Regenerate (--regenerate-reason naming the assignment) only when the content must be rewritten.';
+export function localRepairHint({runDir,assignment,attempt,error,out=path.join(runDir,'semantic-packets','assignments',assignment.id,String(attempt))}){
+ const run=path.basename(runDir);
+ return {route:'local-attempt-repair',error,
+  request:{page:assignment.pages[0],fromAttempt:attempt,assignmentId:assignment.id,targets:[{targetId:'BLOCK_OR_NODE_ID',fields:['/FIELD']}]},
+  pages:assignment.pages,
+  steps:[
+   'Fill request.targets with the exact targetId and field paths named in the error (one request per failing page; set page accordingly).',
+   `node scripts/booklet/run-workflow.mjs attempt-context --run-id ${run} --config CONFIG --input REQUEST.json > CONTEXT.json`,
+   'Write PATCHES.json: {context: <CONTEXT.json>, patches:[{targetId,field,original,corrected,reason}], review:{reviewer,note,artifacts:[{path,hash}]}}. To drop a whole authored block, patch its parent field.',
+   `node scripts/booklet/run-workflow.mjs repair-attempt --run-id ${run} --config CONFIG --attempt ${attempt+1} --input PATCHES.json`],
+  summary:`Local patch repair available: see ${path.relative(process.cwd(),path.join(out,'local-repair-hint.json')).replaceAll('\\','/')}. ${LOCAL_REPAIR_ROUTE}`};
 }
 
 export function createAuthorAssignmentQueue(options){

@@ -8,6 +8,45 @@ export function validateContentScope(scope) {
 
 export const PRACTICE_ONLY_PROMPT = `CONTENT SCOPE: practice-only. Include every printed practice/review question, including Concept Check, Essential Problems, Additional Practice, Enrichment and chapter review sets. These are selectable practice questions, never theory-review, sourceAtom.kind=review or pedagogyRole=review. One question block per shared source task: put a shared instruction or definition once on the parent and related items in editable a, b, c parts, even when the source numbers them individually. Preserve meaningful source-group boundaries, exercise/category boundaries and existing nested parts. Inventory every printed item independently and give items under one shared instruction the same sharedStemId; map each to its distinct child node. Use a native grid with source-informed columns reduced as needed for readable expressions and working. Preserve original printed numbers in provenance and renumber displayed questions within each exercise. Generate/review worked solutions first; estimate each part's answerSpaceMm from mathematical rows (including TeX row separators), wrapping at cell width, fractions, diagrams and handwriting allowance using booklet-working-space.js. Save editable estimates with sourceReview.workingSpaceEstimate; preserve explicit manual overrides. Tick-only/inline/cloze responses need no full working area. Check representative grids at final size. Preserve the printed exercise, category, question label, PDF page and printed page in sourceReview.sourceIdentity. Preserve source numerical order, including multi-column pages. Standalone theory, definitions, summaries and worked examples are reference evidence only: inventory each with an explicit exclusionReason, never author them into sections. On mixed pages inspect and select only question regions. Definitions, instructions and supplied working embedded in an actual question remain part of that question. Mark such inventory entries embeddedInQuestion with the actual question inventory ID. Inventory every question/subpart/diagram and excluded teaching region independently from pixels; OCR is supporting evidence. For each question record inspected teaching PDF pages, the taught method and individual mapping rationale in sourceReview.teachingContext. Independently solve first, then compare against the supplied answer evidence by exercise, printed question label, stem and mathematical content, never page number alone. Record answerEvidence with questionId, teacherReference, matchEvidence and conflict; an absent/ambiguous/contradictory match is a finding. Keep original printed errors separate from OCR errors; propose corrections without rewriting original evidence.`;
 
+// Exclusion wording the authoring checks accept. Inventory normalisation maps
+// recognisable variants onto these, so a page is not rejected for phrasing alone.
+const embeddedRetention=e=>e.embeddedInQuestion&&e.exclusionReason&&[
+ /^Retain within (?:the )?question parent; do not create a separate teaching block\.?$/i,
+ /^Embedded question context; retain in the parent stem rather than authoring a standalone teaching section\.?$/i,
+ /^Inventory separately for coverage, but retain within the parent question rather than authoring a separate teaching section\.?$/i,
+ /^Inventory separately as embedded reference content; retain in the parent question rather than authoring a standalone teaching section\.?$/i,
+ /^Embedded instruction context; retain within the question, not as a standalone teaching section\.?$/i,
+ /^Embedded definition is retained once in the question parent; not a separate teaching section\.?$/i,
+ /^Embedded formula and (?:variable )?definitions are retained once in (?:the parent question|question \d+), not authored as standalone teaching\.?$/i,
+ /^Embedded shared requirement, retained once in the parent question\.?$/i,
+ /^Retained in the parent question stem; do not duplicate as standalone teaching\.?$/i,
+ /^Retain within question \d+(?:\([a-z]+\))*; do not author as a separate teaching block\.?$/i,
+ /^Inventoried separately for coverage; retain within the question rather than authoring a separate teaching block\.?$/i,
+ /^Inventoried separately for coverage; the definition and both example sequences remain embedded in question \d+\.?$/i,
+ /^Already retained in the question stem; do not author a separate teaching block\.?$/i,
+ /^Represent once within the parent question, not as a separate teaching block\.?$/i,
+ /^Represent once within the parent question, not as standalone theory\.?$/i,
+ /^Embedded demonstration retained in question \d+; no separate authored example block\.?$/i,
+ /^Embedded question scaffold, not a separate teaching block\.?$/i,
+ /^Retain within question \d+; do not author as a standalone teaching block\.?$/i
+].some(pattern=>pattern.test(e.exclusionReason.trim()));
+// A source navigation cue is intentionally omitted, unlike a retained
+// definition. Keep this bounded to the observed independently inventoried
+// margin reference; ordinary substantive embedded content cannot use it.
+const omittedExampleReference=e=>e.kind==='teaching'&&e.embeddedInQuestion&&
+ /^Margin cross-reference: Example \d+[a-z]?\.$/i.test(e.description??'')&&
+ e.exclusionReason==='Reference to teaching elsewhere, not a worked example or additional practice task on this page.';
+export const EMBEDDED_RETENTION_REASON='Embedded definition is retained once in the question parent; not a separate teaching section.';
+export const RUNNING_HEADER_REASON='Publisher running header and page number: navigation furniture, not question content.';
+export const TOPIC_HEADING_REASON='Topic heading retained as exercise metadata; not a selectable question.';
+const publisherFurniture=reason=>/publisher.*(?:navigation|furniture)|(?:navigation|furniture).*publisher/i.test(reason??'');
+// A bare heading: the inventory marks it as a heading AND it is a short title with no
+// sentence punctuation, numbers, maths or instruction verbs. Anything else stays a finding,
+// so a disguised instruction is never excluded automatically.
+const headingLike=e=>Object.entries(e.presentation??{}).some(([key,value])=>/heading/i.test(key)||typeof value==='string'&&/\bheading\b/i.test(value))&&
+  typeof e.description==='string'&&e.description.trim().split(/\s+/).length<=6&&!/[.?!:;=$\\\d]/.test(e.description)&&
+  !/\b(?:instruction|find|calculate|show|prove|explain|write|complete|evaluate|simplify|solve|express|work out)\b/i.test(e.description);
+
 // The inventory envelope permits presentation metadata. Canonicalise explicit
 // scope declarations without changing the independently observed source content.
 export function normalizePracticeInventory(inventory) {
@@ -33,6 +72,14 @@ export function normalizePracticeInventory(inventory) {
       /^\d+[A-Z]\s+Exercises$/i.test(e.sourceLabel??'')&&(e.presentation?.role==='Practice exercise boundary'||
         e.description===e.sourceLabel&&e.presentation?.headingKind==='main topic band'&&/^evidence\/pages\/page-\d+\.png$/.test(e.presentation?.sourceReference??'')))
       e.exclusionReason='Printed exercise boundary is retained in exercise identity and replaced by the house exercise heading.';
+    // Import v2: canonical wording for recognisable exclusions (see the module constants).
+    // The nested presentation copy changes with it, so normalising twice stays consistent.
+    const canonical=reason=>{e.exclusionReason=reason;if(e.presentation?.exclusionReason!==undefined)e.presentation.exclusionReason=reason;};
+    if(e.embeddedInQuestion&&e.exclusionReason&&!embeddedRetention(e)&&!omittedExampleReference(e)&&
+      /\b(?:retain(?:ed)?|embedded|within|stem|parent|kept)\b/i.test(e.exclusionReason))canonical(EMBEDDED_RETENTION_REASON);
+    if(['cover','footer'].includes(e.kind)&&e.exclusionReason&&!publisherFurniture(e.exclusionReason)&&
+      /running|header|page number|footer|furniture|pagination/i.test(e.exclusionReason))canonical(RUNNING_HEADER_REASON);
+    if(e.kind==='teaching'&&!e.parentId&&!e.exclusionReason&&!e.embeddedInQuestion&&headingLike(e))canonical(TOPIC_HEADING_REASON);
   }
   return result;
 }
@@ -46,6 +93,8 @@ export function validatePracticeInventory(inventory) {
     if(e.embeddedInQuestion&&!questions.has(e.embeddedInQuestion))throw Error('Unknown embedded question: '+e.id);
     if(['teaching','example','syllabus','summary','definition'].includes(e.kind)&&!e.embeddedInQuestion&&!e.exclusionReason?.trim())throw Error('Practice-only inventory must exclude standalone teaching: '+e.id);
     if(['question','part'].includes(e.kind)&&e.exclusionReason&&!excludedTeachingAncestor(e))throw Error('Practice-only cannot exclude a practice question or part: '+e.id);
+    // Supplied answers are reference evidence by design, never student content.
+    if(e.kind!=='answer'&&e.embeddedInQuestion&&e.exclusionReason&&!embeddedRetention(e)&&!omittedExampleReference(e))throw Error('Conflicting embedded content exclusion: '+e.id);
   }
 }
 
@@ -57,33 +106,6 @@ export function validatePracticeAuthor(result,inventory,{continuations=[],ancest
     if(s.phase!=='practice'||isTheoryReview({},s))throw Error('Practice-only author sections must be practice');
     for(const b of s.blocks)if(b.type!=='question'||b.pedagogyRole||isTheoryReview(b,s))throw Error('Practice-only author contains teaching/non-selectable content: '+b.id);
   }
-  const embeddedRetention=e=>e.embeddedInQuestion&&e.exclusionReason&&[
-   /^Retain within (?:the )?question parent; do not create a separate teaching block\.?$/i,
-   /^Embedded question context; retain in the parent stem rather than authoring a standalone teaching section\.?$/i,
-   /^Inventory separately for coverage, but retain within the parent question rather than authoring a separate teaching section\.?$/i,
-   /^Inventory separately as embedded reference content; retain in the parent question rather than authoring a standalone teaching section\.?$/i,
-   /^Embedded instruction context; retain within the question, not as a standalone teaching section\.?$/i,
-   /^Embedded definition is retained once in the question parent; not a separate teaching section\.?$/i,
-   /^Embedded formula and (?:variable )?definitions are retained once in (?:the parent question|question \d+), not authored as standalone teaching\.?$/i,
-   /^Embedded shared requirement, retained once in the parent question\.?$/i,
-   /^Retained in the parent question stem; do not duplicate as standalone teaching\.?$/i,
-   /^Retain within question \d+(?:\([a-z]+\))*; do not author as a separate teaching block\.?$/i,
-   /^Inventoried separately for coverage; retain within the question rather than authoring a separate teaching block\.?$/i,
-   /^Inventoried separately for coverage; the definition and both example sequences remain embedded in question \d+\.?$/i,
-   /^Already retained in the question stem; do not author a separate teaching block\.?$/i,
-   /^Represent once within the parent question, not as a separate teaching block\.?$/i,
-   /^Represent once within the parent question, not as standalone theory\.?$/i,
-   /^Embedded demonstration retained in question \d+; no separate authored example block\.?$/i,
-   /^Embedded question scaffold, not a separate teaching block\.?$/i,
-   /^Retain within question \d+; do not author as a standalone teaching block\.?$/i
-  ].some(pattern=>pattern.test(e.exclusionReason.trim()));
-  // A source navigation cue is intentionally omitted, unlike a retained
-  // definition. Keep this bounded to the observed independently inventoried
-  // margin reference; ordinary substantive embedded content cannot use it.
-  const omittedExampleReference=e=>e.kind==='teaching'&&e.embeddedInQuestion&&
-   /^Margin cross-reference: Example \d+[a-z]?\.$/i.test(e.description??'')&&
-   e.exclusionReason==='Reference to teaching elsewhere, not a worked example or additional practice task on this page.';
-  for(const e of inventory.entries)if(e.embeddedInQuestion&&e.exclusionReason&&!embeddedRetention(e)&&!omittedExampleReference(e))throw Error('Conflicting embedded content exclusion: '+e.id);
   const excluded=new Set(inventory.entries.filter(e=>e.exclusionReason&&!embeddedRetention(e)&&
    (e.kind!=='cover'||/publisher.*(?:navigation|furniture)|(?:navigation|furniture).*publisher/i.test(e.exclusionReason))).map(e=>e.id));
   // Some preserved inventories put reference-only answer/footer notes inside

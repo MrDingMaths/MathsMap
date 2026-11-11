@@ -125,6 +125,7 @@ One coordinator command, as today: `node scripts/booklet/lean-review.mjs finish 
 - Exam questions are transcribed where the source puts them, with their mark allocations as printed. The inventory's mark-token and exam-title flags carry through to the blocks (Stage 6).
 - Layout follows [Decision 10](#decisions-to-be-confirmed-by-james): source structure for teaching blocks, presets for practice with recorded meaningful arrangements.
 - **Early sample:** `lean-import.mjs sample` on the first assembled topic with an exercise, plus one example of every diagram family and arrangement the inventory found (export 1 of 3), then `lean-review.mjs sample-review`. Findings go back into the author instructions for the remaining pages.
+- **A failed author assignment, in this order:** (1) if the output needs an exact fix (a field, a label, a stray block or mapping), use the **local patch repair**, which makes no model call: `node scripts/booklet/run-workflow.mjs attempt-context`, then `repair-attempt`. Every failed assignment with output leaves a ready request in `local-repair-hint.json` beside it, and the error names the route. Don't change that page's config notes in between, or the repair context goes stale. (2) Regenerate with `--regenerate-reason` only when the content must be rewritten. `--repair-from` is the older page-level mapping repair; it doesn't apply to assignments.
 - **Done:** every inventory entry is mapped and the sample is accepted. **Recorded:** candidate, sample review.
 
 ### Stage 4. Preparation (script, inside `finish`)
@@ -425,7 +426,51 @@ Everything below is gated on `importPolicy: "import-v2"`, which `scripts/booklet
 | Exam tags (Stage 6) | `import-exam-tags.mjs`, called in `finish` preparation | `sourceReview.exam` holds `title`, `naplan`, `markTokens` (path, text, index; prompts only, never answers) and `sourceSection`. Found by pattern, or from an inventory entry's `examTitle`. Metadata only: printed content and review hashes are unchanged. |
 | Hand-off (Stage 11) | `import-handoff.mjs`, called when `finish` is deliverable | Writes `booklets/provenance/import/<id>.json` (rows keyed by the audit's `contentFingerprint`) and, for the booklet track, merges `checks[id].error/solve` into the audit record without overwriting the audit's own rows. Only blocks whose lean-table hash still matches are handed off. |
 
-Not yet done: chunk-level lint is unchanged (it already runs per author assignment); the bank-assessments-from-blocks change, sheets on demand, and the two pilots. Decisions 15–16 and the doc headers are separate sessions.
+**Textbook-pilot fixes (11 November 2026, Enrichment Maths pilot; tests in `tests/booklet-import-v2.test.js`):**
+
+| Fix | Where | Notes |
+|---|---|---|
+| Track recorded at intake | `transcription.mjs` `prepare --config FILE` / `--track` | `contentScope: "practice-only"` records `track: "textbook"`. Before this, every prepared run recorded `booklet`. |
+| One set of exclusion rules | `practice-only-scope.mjs` | Recognisable wording for embedded definitions, running headers and marked topic headings is mapped to the accepted phrase. The embedded-conflict check runs at inventory acceptance, not first at authoring. Supplied answers are exempt. Vague headings and instruction-like text still fail. |
+| No rating request reaches authors | `author-assignments.mjs`, `semantic-workflow.mjs` | Assignment prompts now carry the v2 `reasoning-rating` section, and the classification contract drops rating fields for v2. Authors still estimate `answerSpaceMm`, because the practice-only validator requires `workingSpaceEstimate`. |
+| Smaller, cache-friendlier prompt | `author-assignments.mjs`, `semantic-workflow.mjs` | v2 only: fixed contracts and rules first; compact guidance metadata; per-topic `classificationSkillIds` on config topics. Earlier runs keep their prompts and hashes. |
+| Larger textbook assignments | `import-v2-authoring.mjs` | v2 textbook default `maxQuestions: 8`, `maxCharacters: 48000`; a run's config overrides it. |
+| Page-break continuations | `import-v2-authoring.mjs`, `lean-import.mjs author` | Inventory flags `continuesFromPreviousPage` / `continuesOnNextPage`. `author` derives the pairs into the run config, and declared pairs win. Unpaired flags are reported, not guessed. |
+| Foreign mapping | `author-assignments.mjs` `mergeAssignmentPackets` | A mapping to an entry another assignment owns, with no authored content, is dropped and recorded. Authored duplicates still fail. |
+| TeX row brackets | `house-authoring.mjs` `braceRowBrackets` | `\\[` starting an aligned row becomes `\\{[}`; spacing arguments such as `\\[4pt]` are kept. |
+| Local patch repair is offered | `author-assignments.mjs` `localRepairHint` | See Stage 3. |
+| Assembly without author ratings | `assemble-semantic-packets.mjs` | v2 assembly validates with `reviewerRates`, as authoring already did. Before this, every v2 candidate failed assembly. |
+| Textbook without teaching pages | `lean-review.mjs` practice evidence | A textbook run prepared with no `--context-pages` uses each question's own pages as its method evidence (the notes sit on the exercise pages). Before this, content review refused questions with an empty `teachingContext.pdfPages`. |
+| Reviewer never fails a block for file access | `lean-review.mjs` content prompt | The script pins and hash-checks every original before the call. Reviewers are told so and judge from the images; read-only workers cannot run commands. |
+| Cross-page questions republish together | `semantic-workflow.mjs` `runSemanticPackets` | v2 authoring of one page also publishes every page in its continuation chain, so both copies of a continued block come from one attempt ("Continuation copies disagree" at assembly). |
+
+Page notes in `config.pageEvidence` reach both inventory and authoring prompts. Write a note for the stage that is about to run, and replace inventory notes before authoring.
+
+**Textbook pilot result (`enrichment-joshua-ch01a-20261111-r2`, 20 source pages, 138 blocks; finished 12 November 00:03 with no blockers, about 4.4 h):**
+
+| Measure | Pilot | Target |
+|---|---|---|
+| Inventory / author calls | 29 / about 60; 8 of 20 pages failed first authoring | — |
+| Sample exports / sample review calls | 4 / 46 | 1 |
+| Content review calls; rating rows | 64; 140 for 138 blocks (one rater) | met |
+| Reviewer `answerSpaceMm` patches; shading calls | 0; 3 | met |
+| `finish` exports | 11 (4 failed) | 3 |
+| Visual page inspections | 1,118 in 194 calls; 13.6% needed a change | about one per page per edition |
+| Reviewer rewrites of correct source wording | 15 (`clarify-*`) | 0 |
+
+Fixed during and after the pilot (Codex, 11–12 November): `finish` writes exports under `streamlined-exports/` (exports 1–2 failed the output-path gate); practice-only compose keeps source order (`preserveSourceOrder`) and never grids a `layout: "list"` question; a review is reused when only the checked footer differs and the body pixels match (`lean-visual-evidence.mjs`); `check-compact-exercises --development --target-blocks ID[,ID]` renders the pages of named blocks and their neighbours to check a repair before a full export.
+
+**Pilot review fixes (James, 12 November 2026; tests in `tests/booklet-lean-visual-evidence.test.js` and `tests/booklet-import-v2.test.js`):**
+
+| Fix | Where | Notes |
+|---|---|---|
+| Acceptance carries across a reflow | `lean-visual-evidence.mjs` `pageBlockStamp`, `carryUnchangedBlockReviews`; `lean-review.mjs` `visualPlan`, `prepareExportVisualPlan` | v2 only. Each visual plan row gets a stamp of its blocks' JSON, their own layout overrides, every other setting, section metadata and the renderer, and each review records it. A re-rendered page with the same blocks and stamp keeps an earlier acceptance. Never carried: the cover, pages that start or end inside a split block, pages with a finding, an automated issue, a sizing review or a contradictory earlier outcome, and neighbours of any page still to be inspected. A pilot replay suggests about a quarter of the 1,118 inspections would have carried. |
+| One batched repair per export | `import-finish.mjs` `unrepairedVisualFindings` | v2 records block stamps on each export. A new export is refused while an outstanding visual finding of the last checked export names only unchanged blocks. Exports beyond three are logged and marked `overBudget`; the result reports `exportBudget`. |
+| Generated cover not sent to the model | `lean-review.mjs` `visualPlan` | v2 only, unless it is flagged; DOM and PDF checks cover it (15 pilot inspections). |
+| Empty source cells stay empty | `author-assignments.mjs` | v2 author prompt: no cloze dots, boxes or placeholders in empty table or grid response cells (the pilot reviewer removed them twice). |
+| Correctness-only wording changes | `lean-review.mjs` content prompt | **Decided (James, 12 November 2026):** the v2 reviewer changes source wording only when it is wrong, contradicts the key, or cannot be answered as printed; clarity rewrites wait for audit v2. |
+
+Not yet done: chunk-level lint is unchanged (it already runs per author assignment); the bank-assessments-from-blocks change, sheets on demand, and the booklet-track pilot. The textbook pilot ran on 11–12 November (results above); the fixes since then are not yet measured on a second textbook part. Decisions 15–16 and the doc headers are separate sessions.
 
 ### Pilots
 

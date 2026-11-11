@@ -56,6 +56,10 @@
   .booklet-content :global(.katex-display) { text-align:left; margin:.5em 0; }
   .document-content :global(.katex-display) { text-align:inherit; margin:.5em 0; }
   .document-content :global(.document-tikz svg) { width:100%; max-width:100%; height:auto; }
+  /* Insertion gaps between fractional operands sit on the equation axis. */
+  .document-content :global([data-math]:has(.mfrac) + [data-cloze][data-lines="1"]:is([data-cloze="$+$"], [data-cloze="$-$"], [data-cloze*="times"], [data-cloze*="div"]):has(+ [data-math] .mfrac)) {
+    --document-cloze-bottom: .7em;
+  }
   .booklet-content :global(.katex-display > .katex), .document-content :global(.katex-display > .katex) { display:inline-block; }
   .theory-rules { margin:0; padding-left:7mm; list-style-position:outside; }.theory-rule { display:list-item; padding:0; }
   .theory-rule + .theory-rule { margin-top: 6mm; }

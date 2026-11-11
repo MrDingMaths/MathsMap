@@ -247,7 +247,7 @@ export function gridCandidates(section, limits = OPTIMISER_LIMITS) {
   return section.blocks.filter(block => {
     if (!isPractice(block) || block.type !== 'question' || spacingProtected(block)) return false;
     const root = block.content, parts = root?.children;
-    if (!parts || parts.length < limits.gridMinParts || parts.length > limits.gridMaxParts || root.layout === 'grid') return false;
+    if (!parts || parts.length < limits.gridMinParts || parts.length > limits.gridMaxParts || root.layout === 'grid' || root.layout === 'list') return false;
     if (root.questionDiagrams?.length || root.representations) return false;
     // A figure part (a graph to read, its answer below) is not short text, but two half-column graphs sit side by
     // side (logarithms Exercise 6 Q11: four graphs stacked in one column left the right half of the page empty).
@@ -307,7 +307,7 @@ function stampAutoOrder(project, sectionIndex, units, order, moves, at) {
 
 // ---- optimiser ---------------------------------------------------------------------
 
-export async function optimisePagination(source, {paginate, guard = null, named = false, trials = OPTIMISER_LIMITS.trials, gapMm = OPTIMISER_LIMITS.gapMm, now = () => new Date().toISOString(), onprogress = null, shouldStop = () => false, sectionIds = null, resourceView = null} = {}) {
+export async function optimisePagination(source, {paginate, guard = null, named = false, trials = OPTIMISER_LIMITS.trials, gapMm = OPTIMISER_LIMITS.gapMm, now = () => new Date().toISOString(), onprogress = null, shouldStop = () => false, sectionIds = null, resourceView = null, preserveSourceOrder = false} = {}) {
   assertSharedResourceView(source,resourceView);
   if (typeof paginate !== 'function') throw Error('optimisePagination needs a paginate callback');
   if (hasTeacherReview(source) && !named) throw Error(`${source.id ?? 'This booklet'} has teacher comments; it changes only when named explicitly.`);
@@ -411,7 +411,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     // Move 2: best-fit pull of a later unit into the first useful trailing gap.
     const tried = new Set(), bandSeen = new Set();
     let progressed = true;
-    while (progressed && used < trials && !shouldStop()) {
+    while (!preserveSourceOrder && progressed && used < trials && !shouldStop()) {
       progressed = false;
       const pages = best.pageList;
       for (let p = 0; p < pages.length - 1 && !progressed && used < trials; p++) {
@@ -459,7 +459,7 @@ export async function optimisePagination(source, {paginate, guard = null, named 
     // with a band-limited move of that unit to an earlier position (nearest first); kept only if a page goes.
     const orphan = orphanUnit(units, best.pageList, new Set(owned()));
     let orphanSkipped = false;
-    if (orphan && best.pages > 1) {
+    if (!preserveSourceOrder && orphan && best.pages > 1) {
       const from = order.indexOf(orphan.index), floor = tightenToFloor(project, index);
       const orphanBase = floor.changes.length ? floor.project : project;
       // The pages before the last one must hold the question's whole height: what they have free, plus what the

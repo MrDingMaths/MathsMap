@@ -135,6 +135,8 @@ const rendererSignatures=new Map();
 const development=process.argv.includes('--development'),reviewOnly=process.argv.includes('--review-only'),draft=process.argv.includes('--draft')||reviewOnly;
 if(reviewOnly&&(development||preflight))throw Error('--review-only requires complete edition checks');
 const fullDevelopmentReason=arg('--full-development-reason');
+const targetedBlocks=arg('--target-blocks')?.split(',').map(id=>id.trim()).filter(Boolean);
+if(process.argv.includes('--target-blocks')&&(!development||!targetedBlocks?.length||projects.length!==1||process.argv.includes('--force')))throw Error('Use --target-blocks ID[,ID] with one project and --development.');
 if(fullDevelopmentReason!==undefined&&(!development||!fullDevelopmentReason.trim()||fullDevelopmentReason.trim().startsWith('--')))throw Error('Use --full-development-reason with a nonempty reason and --development.');
 if(candidateFile&&projects.length!==1)throw Error('Use one project with --project-file');
 if(editions.some(e=>!['student','short','worked','with-short','with-worked'].includes(e))||new Set(editions).size!==editions.length)throw Error('Select distinct supported editions');
@@ -192,7 +194,7 @@ try{
   const runtime=rendererSignatures.get(lean),qaRuntime=lean?qaSignature():undefined;
   requireLeanFinalEditions(record,editions,{development,preflight,draft,reviewOnly});
   if(reviewOnly)requireReviewOnlyLocalProject(record,{candidateFile,runDir,out});
-  if(development)for(const edition of editions){
+  if(development&&!targetedBlocks)for(const edition of editions){
    const baseline=readPageManifest(`${out}/${id}-${edition}.development.pages.json`)??readPageManifest(`${out}/${id}-${edition}.full.pages.json`);
    requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!baseline,baselineRenderer:baseline?.renderer,currentRenderer:runtime,reason:fullDevelopmentReason});
   }
@@ -324,8 +326,18 @@ try{
    }
    if(development){
     const previous=readPageManifest(hashFile)?.pages??fullManifest?.pages;
-    const selected=process.argv.includes('--force')?hashes.map(p=>p.page):affectedPages(previous,hashes);
-    requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!previous,selectedPages:selected.length,totalPages:hashes.length,reason:fullDevelopmentReason});
+    let selected;
+    if(targetedBlocks){
+     const targets=new Set(targetedBlocks);
+     const hits=hashes.filter(row=>row.blocks.some(block=>targets.has(block)));
+     const found=new Set(hits.flatMap(row=>row.blocks));
+     const missing=targetedBlocks.filter(block=>!found.has(block));
+     if(missing.length)throw Error('Target blocks missing from '+edition+': '+missing.join(', '));
+     selected=[...new Set(hits.flatMap(({page})=>[page-1,page,page+1]).filter(page=>page>=1&&page<=hashes.length))].sort((a,b)=>a-b);
+    }else{
+     selected=process.argv.includes('--force')?hashes.map(p=>p.page):affectedPages(previous,hashes);
+     requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!previous,selectedPages:selected.length,totalPages:hashes.length,reason:fullDevelopmentReason});
+    }
     const issues=qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).filter(i=>selected.includes(i.page));
     let printed=[];
     if(selected.length){
@@ -340,7 +352,7 @@ try{
     writeReport();
     // A failed subset is never a reusable baseline or a full-edition cache hit.
     assert.deepEqual(issues,[]);assert.deepEqual(printed.flatMap(p=>p.issues),[]);assert.deepEqual(errors,[]);
-    fs.writeFileSync(hashFile,JSON.stringify({mode:'development',projectHash,edition,renderer:runtime,pages:hashes},null,2));
+    if(!targetedBlocks)fs.writeFileSync(hashFile,JSON.stringify({mode:'development',projectHash,edition,renderer:runtime,pages:hashes},null,2));
     console.log(`${kind} ${edition}: ${selected.length}/${hashes.length} affected/neighbour pages exported; final acceptance unchanged`);
     await page.emulateMedia({media:'screen'});continue;
    }

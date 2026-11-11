@@ -16,6 +16,7 @@ import {coalescePacketContinuations,mergeQuestionFragments} from './packet-conti
 import {projectPracticeCategoryMappings} from './practice-category-headings.mjs';
 import {reconcileReviewedCategoryLayouts} from './reviewed-category-layout.mjs';
 import {isLeanReview} from './lean-profile.mjs';
+import {importV2} from './import-completion.mjs';
 import {reviewEnabled,liveWorkflow,effectiveInventory,effectiveAuthor,workflowFlags,materializeCorrections,workflowForPages,synchronizeInventoryAmbiguities,REVIEW_POLICY} from './workflow-review.mjs';
 const args=process.argv.slice(2),arg=(n,f)=>args.includes(n)?args[args.indexOf(n)+1]:f;
 const runId=arg('--run-id'),projectId=arg('--project-id',runId),selected=parsePageSelection(arg('--pages',''));
@@ -42,7 +43,8 @@ for(const page of selected){
   if(inventory.pageNumber!==prior)throw Error('Wrong continuation inventory page');
   return inventory;
  });
- validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow,practiceContinuations,practiceAncestorInventories});
+ // Import v2 (Decision 11): authors don't rate, so assembly validates without author ratings.
+ validateSemanticResult(packet,{stage:'author',page,inventory:inv,contentScope:config.contentScope,reviewed:!!workflow,reviewerRates:importV2(manifest),practiceContinuations,practiceAncestorInventories});
  inventories.set(page,inv);rawPackets.push(packet);
 }
 const packets=mergeQuestionFragments(coalescePacketContinuations(rawPackets,{continuations:config.assignmentLimits?.continuations}),config.questionFragmentGroups);

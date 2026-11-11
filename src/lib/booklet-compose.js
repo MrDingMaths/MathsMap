@@ -314,7 +314,7 @@ const columnWidthMm = (columns, limits) => (limits.textWidthMm - (columns - 1) *
 // C1: a list of short parts becomes a grid with as many columns as the longest prompt allows.
 export function gridColumnsFor(block, limits = COMPOSE_LIMITS) {
   const root = block.content, parts = root?.children;
-  if (!parts || parts.length < limits.gridMinParts || parts.length > limits.gridMaxParts || root.layout === 'grid') return null;
+  if (!parts || parts.length < limits.gridMinParts || parts.length > limits.gridMaxParts || root.layout === 'grid' || root.layout === 'list') return null;
   if (root.questionDiagrams?.length || root.representations || parts.some(p => p.children?.length || p.questionDiagrams?.length || p.dependsOn?.length)) return null;
   if (parts.some(p => /\\begin|"type":"table"/.test(plain(p.prompt)))) return null;
   const longest = Math.max(...parts.map(p => visibleChars(p.prompt)));
@@ -518,7 +518,7 @@ export async function composeBooklet(source, {paginate, guard = null, includeRev
   if (enabled('exercises') && !shouldStop()) {
     onprogress?.({phase: 'exercises', trials});
     try {
-      const optimised = await optimisePagination(project, {paginate, guard, named: true, now, shouldStop, onprogress: p => onprogress?.({phase: 'exercises', ...p, trials: trials + p.trials})});
+      const optimised = await optimisePagination(project, {paginate, guard, named: true, preserveSourceOrder: project.source?.contentScope === 'practice-only', now, shouldStop, onprogress: p => onprogress?.({phase: 'exercises', ...p, trials: trials + p.trials})});
       trials += optimised.trials;
       if (optimised.moves.length) {
         const result = await paginate(optimised.project, {blockIds: blocksOf(optimised.project).map(b => b.id)});
@@ -532,7 +532,7 @@ export async function composeBooklet(source, {paginate, guard = null, includeRev
   // Phase 5: fill (D).
   if (enabled('fill') && !shouldStop()) {
     onprogress?.({phase: 'fill', trials});
-    const filled = await fillPages(project, map, {paginate, protectedIds, limits, check: candidate => polishSafetyIssues(project, candidate, {reference: source, protectedIds, spacing: true}).filter(i => !/below its floor/.test(i) && !/changed teacher\/unknown working space/.test(i) && !(includeReviewed && /increased reviewed working space/.test(i)))});
+    const filled = await fillPages(project, map, {paginate, protectedIds, limits, check: candidate => polishSafetyIssues(project, candidate, {reference: source, protectedIds, spacing: true}).filter(i => !/below its floor/.test(i) && !(includeReviewed && /increased reviewed working space/.test(i)))});
     trials += filled.trials;
     if (filled.changes.length) { project = filled.project; map = filled.map; changes.push(...filled.changes); }
     rejected.push(...filled.rejected);

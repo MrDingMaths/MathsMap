@@ -90,3 +90,15 @@ test('mixed authored/context pages are rendered only once', t => {
   assert.deepEqual(manifest.contextPages, [8, 9]);
   assert.deepEqual(f.calls.filter(call => call.name === 'pdftoppm').map(call => call.args[1]), ['8', '9', '10']);
 });
+
+test('import v2 preparation records the textbook track from a practice-only content scope', t => {
+  const f = fixture(t);
+  assert.equal(f.prepare({}).manifest.track, 'booklet');
+  const textbook = fixture(t).prepare({ contentScope: 'practice-only', teacherPdf: f.files.teacherPdf, teacherPages: '2' }).manifest;
+  assert.equal(textbook.importPolicy, 'import-v2');
+  assert.equal(textbook.track, 'textbook');
+  assert.equal(textbook.contentScope, 'practice-only');
+  assert.equal(fixture(t).prepare({ track: 'textbook' }).manifest.track, 'textbook');
+  assert.throws(() => fixture(t).prepare({ contentScope: 'teaching' }), /Unsupported contentScope/);
+  assert.throws(() => fixture(t).prepare({ track: 'novel' }), /Unknown track/);
+});

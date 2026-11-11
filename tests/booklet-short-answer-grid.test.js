@@ -8,7 +8,7 @@ import {fromSource} from '../src/lib/document-content.js';
 
 const block=(id,short='$315^\\circ$')=>({id,type:'question',content:{id:id+'root',answer:{short,worked:'Full working.'}}});
 const fixture=()=>normalizeEditableProject({id:'answer-grid',title:'Answers',settings:{paginationMode:'flexible',exerciseOrganisation:'topic',compactAnswers:{}},topics:[{id:'t',title:'Angles'}],sections:[{id:'s',topicId:'t',phase:'practice',blocks:Array.from({length:30},(_,i)=>block('q'+i))}]});
-const measure=async page=>page.shortAnswerProbe?{height:0,capacity:64,answerColumnWidthMm:86,answerWidthsMm:page.blocks.map(b=>b.content.answer.short.includes('wide')?55:18)}:{height:Math.max(0,...page.columns.map(c=>shortAnswerRows(c).length*20)),capacity:64};
+const measure=async page=>page.shortAnswerProbe?{height:0,capacity:64,answerColumnWidthMm:86,answerWidthsMm:page.blocks.map(b=>b.content.answer?.short?.includes('wide')?55:18)}:{height:Math.max(0,...page.columns.map(c=>shortAnswerRows(c).length*20)),capacity:64};
 
 test('maths and short literal answers can share; explanations, rich structures and diagrams stay full width',()=>{
   for(const value of ['$315^\\circ$','$\\frac{x+2}{x-1}$','True','True.','9 people.','12 cm','Line CD or DC',fromSource('$x=2$')])assert.equal(canShareShortAnswer(block('q',value)),true);
@@ -111,4 +111,17 @@ test('parts of a multipart question start a new row; single answers still share 
   // An answer too wide for the narrower cell still takes the room it needs.
   const wide=[entry('q4'),entry('q4'),entry('q4'),entry('q4'),entry('q4')];
   assert.deepEqual(packShortAnswerRows(wide,[18,18,18,30,18],86).map(r=>[r.length,r[0].shortColumns]),[[3,3],[2,2]]);
+});
+
+test('a multipart answer marked keepTogether moves to fresh space when the full group fits',async()=>{
+ const p=fixture(),group={...block('group'),flow:{keepTogether:true},content:{id:'group-root',children:Array.from({length:5},(_,i)=>({...block('part-'+i).content,label:String.fromCharCode(97+i),type:'part'}))}};
+ p.sections[0].blocks.splice(8,0,group);
+ const check=async(edition,measure)=>{
+  const {pages}=await paginateFlow(p,edition,measure);
+  const placements=pages.flatMap((page,i)=>page.columns.flatMap((entries,column)=>entries.filter(e=>e.block.id==='group').map(()=>i+':'+column)));
+  assert.equal(placements.length,5);
+  assert.equal(new Set(placements).size,1);
+ };
+ await check('short',measure);
+ await check('worked',page=>({height:page.blocks.length*20,capacity:100}));
 });

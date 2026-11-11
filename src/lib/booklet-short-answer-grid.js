@@ -143,6 +143,7 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
     batch.forEach(({index},j)=>{const width=result.answerWidthsMm?.[j];if(Number.isFinite(width)&&width>0)widths[index]=width;});
   }
   const rows=packShortAnswerRows(entries,widths,columnWidthMm);
+  const keepKey=row=>row?.[0]?.block.flow?.keepTogether?row[0].block.id:null;
   const rowMetadata={metadata,columnWidthMm,fullWidthTableBands:1},rowUnits=rows.map(row=>({blocks:row.map(e=>e.block)}));
   const cached=reuse.get('short-grid-rows',rowMetadata,rowUnits,false);
   let columns=[[],[]],bands=[],column=0,begin=0;
@@ -162,7 +163,7 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
   const nextColumn=()=>{perColumn=Math.max(2,columnRows);columnRows=0;known=0;};
   async function lookahead(i){
     const upcoming=[];
-    for(let j=i;j<rows.length&&upcoming.length<128;j++){if(rows[j].length===1&&needsFullPageShortTable(rows[j][0].block,columnWidthMm))break;upcoming.push(rows[j]);}
+    for(let j=i;j<rows.length&&upcoming.length<128;j++){if(j>i&&keepKey(rows[j]))break;if(rows[j].length===1&&needsFullPageShortTable(rows[j][0].block,columnWidthMm))break;upcoming.push(rows[j]);}
     const base=columns[column].length,trial=async n=>{columns[column].push(...upcoming.slice(0,n).flat());const size=await measure(make());check();columns[column].length=base;return fitsShort(size);};
     let low=0,high=upcoming.length,n=Math.min(high,Math.max(2,perColumn-columnRows));
     if(n<2)return 0;
@@ -190,6 +191,31 @@ export async function paginateShortAnswerGrid(project,edition,measure,{cancelled
       }
       onprogress({complete:i+1,total:rows.length,pages:pages.length});
       continue;
+    }
+    const key=keepKey(row);
+    if(key&&key!==keepKey(rows[i-1])){
+      let end=i+1;
+      while(keepKey(rows[end])===key&&!rows[end].some(e=>needsFullPageShortTable(e.block,columnWidthMm)))end++;
+      if(end>i+1){
+        const group=rows.slice(i,end).flat(),priorColumn=columns[column];
+        columns[column]=[...priorColumn,...group];
+        const here=await measure(make());check();
+        if(!fitsShort(here)){
+          columns[column]=priorColumn;
+          const probe=make();
+          const fresh=await measure({...probe,columns:[group,[]],blocks:group.map(e=>e.block),section:group[0].section,answerBands:undefined,showAnswerHeading:false});check();
+          if(fitsShort(fresh)&&(bands.length||columns.some(c=>c.length))){
+            if(column===0&&columns[0].length&&!bands.length){column=1;nextColumn();columns[column].push(...group);const there=await measure(make());check();if(!fitsShort(there)){columns[column]=[];flush();columns[0].push(...group);}}
+            else {flush();columns[0].push(...group);}
+          } else end=i+1;
+        }
+        if(end>i+1){
+          // Checkpoints resume only at group boundaries.
+          for(let j=i+1;j<end;j++)cached.entry.checkpoints.push(null);
+          columnRows+=end-i;known=0;i=end-1;
+          onprogress({complete:i+1,total:rows.length,pages:pages.length});continue;
+        }
+      }
     }
     if(!known)known=await lookahead(i);
     if(known){columns[column].push(...row);known--;columnRows++;onprogress({complete:i+1,total:rows.length,pages:pages.length});continue;}

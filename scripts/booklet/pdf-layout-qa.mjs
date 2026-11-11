@@ -41,7 +41,9 @@ export function inspectPrintedPdf(file) {
   const issues=body.filter(w=>w.left<-.5||w.right>width+.5||w.top<-.5||w.bottom>height+.5).map(w=>({kind:'pdf-page-overflow',text:w.text}));
   const clearanceMm=footer.length&&body.length?(Math.min(...footer.map(w=>w.top))-Math.max(...body.map(w=>w.bottom)))*25.4/72:null;
   if(clearanceMm!==null&&clearanceMm<3)issues.push({kind:'pdf-footer-clearance',clearanceMm});
-  pages.push({page:pages.length+1,clearanceMm,issues});
+  const footerText=footer.sort((a,b)=>a.left-b.left).map(w=>w.text).join(' ');
+  const numbering=/\bPage (\d+) of (\d+)$/.exec(footerText);
+  pages.push({page:pages.length+1,clearanceMm,issues,...(numbering?{footerPage:Number(numbering[1]),footerTotal:Number(numbering[2])}:{})});
  }
  if(!pages.length)throw Error('PDF geometry validation returned no pages');
  return pages;

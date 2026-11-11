@@ -69,4 +69,16 @@ export function materializeHouseAuthoring(packet,{enabled=false}={}) {
  return result;
 }
 
-export const authorMaterializer=config=>packet=>materializeAuthorDiagrams(materializeHouseAuthoring(packet,{enabled:HOUSE_AUTHORING_VALUES.includes(config.authoringPreferences)}),{enabled:config.authoringFormat===SHARED_DIAGRAM_FORMAT});
+// A TeX row that starts with "[" after "\\" is read as \\[<dimension>] row spacing and
+// fails the renderer (lint blocks it), so no accepted text contains it. Brace the
+// bracket; a genuine spacing argument such as \\[4pt] is left alone.
+const ROW_BRACKET=/\\\\\[(?!\s*-?\d*\.?\d+\s*(?:pt|em|ex|mm|cm|bp|pc|in|mu)\s*\])/g;
+// Returns the same object when nothing changes, so unchanged packets keep their identity.
+export function braceRowBrackets(value){
+  if(typeof value==='string')return value.includes('\\\\[')?value.replace(ROW_BRACKET,'\\\\{[}'):value;
+  if(Array.isArray(value)){const next=value.map(braceRowBrackets);return next.some((item,i)=>item!==value[i])?next:value;}
+  if(value&&typeof value==='object'){const entries=Object.entries(value),next=entries.map(([key,item])=>[key,braceRowBrackets(item)]);return next.some(([,item],i)=>item!==entries[i][1])?Object.fromEntries(next):value;}
+  return value;
+}
+const withBracedRows=packet=>{const sections=packet?.sections?braceRowBrackets(packet.sections):undefined;return sections&&sections!==packet.sections?{...packet,sections}:packet;};
+export const authorMaterializer=config=>packet=>materializeAuthorDiagrams(materializeHouseAuthoring(withBracedRows(packet),{enabled:HOUSE_AUTHORING_VALUES.includes(config.authoringPreferences)}),{enabled:config.authoringFormat===SHARED_DIAGRAM_FORMAT});

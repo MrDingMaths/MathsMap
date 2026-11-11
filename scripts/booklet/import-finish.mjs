@@ -7,7 +7,8 @@ import {isDeepStrictEqual} from 'node:util';
 import {COMPLETION_PROFILE,completionPolicy,assessCompletion,completionHash,importV2} from './import-completion.mjs';
 import {validateImport} from './import-validation.mjs';
 import {withReviewConfiguration,importReviewConfiguration} from './transcription-settings.mjs';
-import {openProject,runContentReview,runLeanExport,runVisualReview,reviewStatus,loadReviewed,saveReviewed,runShadingReview,runImagePreflight,prepareExportVisualPlan,pendingBlocks,reviewableBlocks,contentHash,visualPlan} from './lean-review.mjs';
+import {openProject,runContentReview,runLeanExport,runVisualReview,reviewStatus,loadReviewed,saveReviewed,runShadingReview,runImagePreflight,prepareExportVisualPlan,pendingBlocks,reviewableBlocks,contentHash,visualPlan,outstandingFindings} from './lean-review.mjs';
+import {blockContentStamps} from './lean-visual-evidence.mjs';
 import {overlayVisualEvidence,visualOutcomeReader} from './lean-visual-evidence.mjs';
 import {teacherBlocks,polishSafetyIssues,layoutSafetyIssues} from '../../polish/guards.mjs';
 import {acceptedSnapshot} from './lean-review.mjs';
@@ -236,8 +237,17 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   let entry=selection.entry;
   if(!entry){
    if(state.exports.length>=2&&!regenerationReason?.trim()){errors.push('Two finish exports used; diagnose remaining findings and supply a named regeneration cause');break;}
-   const exportDir=path.resolve(out??path.join(workDir,'exports'),String(state.exports.length+1));
-   entry={dir:exportDir,projectHash:currentHash,...(regenerationReason?{regenerationReason}:{})};state.exports.push(entry);persist();
+   // Import v2 (12 November 2026 pilot review): one batched repair per export.
+   // Every block named by an outstanding visual finding of the last checked
+   // export must have changed before another export is printed.
+   const stamps=importV2(manifest)?blockContentStamps(read(file)):null;
+   if(stamps){
+    const unrepaired=unrepairedVisualFindings({state,projectId,stamps,dir});
+    if(unrepaired.length){errors.push('Repair every outstanding visual finding in one batch before another export; unchanged since export '+state.exports.length+': '+unrepaired.map(row=>row.edition+' p'+row.page+' ('+row.blocks.join(', ')+')').join('; '));break;}
+    if(state.exports.length>=FINISH_EXPORT_BUDGET)log('Finish export '+(state.exports.length+1)+' exceeds the budget of '+FINISH_EXPORT_BUDGET+': '+regenerationReason);
+   }
+   const exportDir=path.resolve(out??path.join(runDir,'streamlined-exports'),String(state.exports.length+1));
+   entry={dir:exportDir,projectHash:currentHash,...(regenerationReason?{regenerationReason}:{}),...(stamps?{blockStamps:stamps}:{}),...(stamps&&state.exports.length>=FINISH_EXPORT_BUDGET?{overBudget:true}:{})};state.exports.push(entry);persist();
    try{await(deps.export??runLeanExport)({runDir,projectId,projectFile:file,out:exportDir,visibilityReviews,regenerationReason,previousExportDir:selection.previousExportDir});}
    catch(error){
     entry.exportError=error.message;persist();
@@ -246,6 +256,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
    }
   }
   if(!hasFinishExportReport(entry,projectId)){errors.push('Export did not commit a readable report: '+entry.dir);break;}
+  if(entry.exportError&&state.steps.repaired)break;
   if(!entry.exportError){const shading=await(deps.shading??runShadingReview)({runDir,projectFile:file,exportDir:entry.dir,concurrency,runner});errors.push(...(shading.errors??[]));}
   await(deps.visual??runVisualReview)({runDir,projectFile:file,exportDir:entry.dir,concurrency,runner});
   const status=await(deps.status??finishStatus)({runDir,projectFile:file,exportDir:entry.dir});
@@ -281,7 +292,17 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   (deps.writeHandoff??writeImportHandoff)(handoff,{root:path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..')});
  }
  state.completion=status.completion;persist();
- return {...status,projectFile:file,exports:state.exports.map(e=>e.dir),saved:status.deliverable||saveProgress,validation};
+ return {...status,projectFile:file,exports:state.exports.map(e=>e.dir),exportBudget:{used:state.exports.length,budget:FINISH_EXPORT_BUDGET},saved:status.deliverable||saveProgress,validation};
+}
+const FINISH_EXPORT_BUDGET=3;
+// Outstanding needs-change pages of the last export with a readable report whose
+// blocks all still carry the stamps recorded when that export was made.
+export function unrepairedVisualFindings({state,projectId,stamps,dir}){
+ const last=state.exports.findLast(entry=>hasFinishExportReport(entry,projectId));
+ if(!last?.blockStamps)return [];
+ // The plan rows carry the raster proof the outcome reader needs.
+ const planFile=path.join(last.dir,'visual-plan.json');if(!fs.existsSync(planFile))return [];
+ return outstandingFindings(loadReviewed(dir),read(planFile)).filter(row=>row.blocks.length&&row.blocks.every(id=>{const key=typeof id==='string'?id:id.id;return last.blockStamps[key]!==undefined&&last.blockStamps[key]===stamps[key];})).map(row=>({...row,blocks:row.blocks.map(id=>typeof id==='string'?id:id.id)}));
 }
 async function finishStatus(options){
  // Content acceptance may finish after immutable PDFs were checked. Recompute

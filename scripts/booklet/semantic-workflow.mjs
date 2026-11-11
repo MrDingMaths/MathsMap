@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import {REASONING_PROMPT,validatePacketRatings,stampPacketRatings,restorePacketRatings} from './reasoning-ratings.mjs';
 import {isLeanReview,LEAN_EDITORIAL_PROMPT} from './lean-profile.mjs';
 import {importV2} from './import-completion.mjs';
+import {assignmentLimits as v2AssignmentLimits,CONTINUATION_FLAGS_PROMPT,v2Textbook} from './import-v2-authoring.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {runCodexTranscription} from './codex-transcription.mjs';
@@ -102,6 +103,7 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
   if(stage==='author')add('source-presentation',presentationContractForRun(manifest));
   if(isLeanReview(manifest))add('three-pass-precedence',LEAN_EDITORIAL_PROMPT+' Author questions, worked and short answers and classifications together. Check a small initial difficult-layout sample, repair shared problems, then continue. No pattern approval records. The independent content review follows authoring.');
   if(config.contentScope==='practice-only')add('content-scope',PRACTICE_ONLY_PROMPT);
+  if(stage==='inventory'&&v2Textbook(manifest,config))add('page-breaks',CONTINUATION_FLAGS_PROMPT);
   if(reviewed&&!isLeanReview(manifest)){
    add('early-review','Retain redundant measurements: unused is not a defect. Check mathematical consistency against diagram relationships and stated precision before proposing a correction; do not silently repair source evidence. Record uncertain precision or unsupported mathematics for review. Editorial decisions are reviewed together before bulk authoring.');
    if(stage==='inventory')add('review-schema','Also return layoutPatterns:[{id,description}] for every distinct final-size layout pattern (stable IDs shared across pages, including plain/cover). Triangle diagrams require entry.mathematicalModel:{type:"triangle",sides:{a:MEASUREMENT,b:MEASUREMENT,c:MEASUREMENT},angles:{A:MEASUREMENT,B:MEASUREMENT,C:MEASUREMENT}}; omit unknowns, never guess. a=BC,b=CA,c=AB. MEASUREMENT={value,unit?,quantum} for stated rounding increment, or {value,exact:true} only with source support. Preserve redundant givens and vertex/label pairings in description. Other asserted numeric equalities may use mathematicalChecks:[{left,right,quantum|exact:true}] with decimal arithmetic +-*/(). Unsupported relationships remain findings for manual review.');
@@ -112,10 +114,10 @@ function buildSemanticTasks({runDir,manifest,config,stage,pages,attempt=1,repres
   else if(stage==='author')add('reasoning-rating',REASONING_PROMPT+' Every practice block must have classification:{...existingSkillFields,reasoningScore:integer,difficulty:"Foundation|Development|Mastery|Challenge",difficultyReason:"individual rationale"}. This is mandatory even without classificationSkillIds. Reuse placeholders need their own score and rationale unless the candidate has a verifiable current assessment. The coordinator records model provenance; do not invent it.');
   if(stage==='author'&&isLeanReview(manifest)){
    add('compact-defaults',COMPACT_IMPORT_PROMPT);
-   const selected=new Set(config.classificationSkillIds??[]),catalog=JSON.parse(read(new URL('../../data/skills.json',import.meta.url))),skills=catalog.filter(skill=>selected.has(skill.id));
+   const selected=new Set(topic?.classificationSkillIds??config.classificationSkillIds??[]),catalog=JSON.parse(read(new URL('../../data/skills.json',import.meta.url))),skills=catalog.filter(skill=>selected.has(skill.id));
    const missing=[...selected].filter(id=>!skills.some(skill=>skill.id===id));
    if(missing.length)throw Error('Unknown authoring classification skills: '+missing.join(', '));
-   add('classification','Author every practice question block with classification:{primarySkillId:existingCatalogueID,secondarySkillIds:[],reasoningScore:0to100,difficulty:"Foundation|Development|Mastery|Challenge",difficultyReason:conciseSourceSupportedReason}. Choose the closest source-supported skill and the most advanced directly assessed skill; do not invent taxonomy IDs. Teaching blocks retain taught-method references. Difficulty labels are editor metadata and original source identities, never printed practice-category paragraphs. Foundation, Development and Mastery do not create native category headings. The selected existing taxonomy definitions follow: '+JSON.stringify(skills.map(({id,title,blurb,stage})=>({id,title,blurb,stage}))));
+   add('classification','Author every practice question block with classification:{primarySkillId:existingCatalogueID,secondarySkillIds:[]'+(importV2(manifest)?'} with no reasoningScore, difficulty or difficultyReason (the independent content reviewer rates)':',reasoningScore:0to100,difficulty:"Foundation|Development|Mastery|Challenge",difficultyReason:conciseSourceSupportedReason}')+'. Choose the closest source-supported skill and the most advanced directly assessed skill; do not invent taxonomy IDs. Teaching blocks retain taught-method references. Difficulty labels are editor metadata and original source identities, never printed practice-category paragraphs. Foundation, Development and Mastery do not create native category headings. The selected existing taxonomy definitions follow: '+JSON.stringify(skills.map(({id,title,blurb,stage})=>({id,title,blurb,stage}))));
    add('working-space','Generate the worked solution before estimating handwriting space for each response leaf. Use the solution steps, actual grid cell width, wrapped prose, TeX rows, fractions and required student drawings, following estimateWorkedWritingSpace in src/lib/booklet-working-space.js. Save editable answerSpaceMm and sourceReview.workingSpaceEstimate:{method:"solution-steps",estimates:[{targetId,widthMm,mathematicalRows,answerSpaceMm}]}; preserve manual overrides. Cloze-only and inline responses need 0 extra space, but every native cloze must remain large enough for handwriting. These are authored estimates, not source measurements. Retain meaningful source grids and scaffold orientation. Do not expose estimates or review notes in printed content.');
    add('native-grouping','Use globally distinct IDs for the owning block, its content root and every nested node; block.id must differ from content.id. An executable response row contains at most one numbered response label; give multipart responses their own rows inside a shared stack/grid. Native table box annotations enclose only cellId; toCellId is an arrow endpoint, not a box range. To frame complete multi-row student work, place the unchanged native work table inside one outer native cell and box that outer cell. Preserve all work, correctness marks and source relationships inside the frame.');
   }
@@ -321,6 +323,13 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
  if(retryReason!==null&&(!['source-correction','content-repair','mapping-repair','renderer-change','infrastructure','input-change','validation-repair'].includes(retryReason)))throw Error('Unsupported retry reason');
  attempt=positive(attempt,'Attempt');concurrency=workerConcurrency(concurrency);
  if(regenerationReason!==null&&(typeof regenerationReason!=='string'||!regenerationReason.trim()))throw Error('Explain why targeted repair is insufficient');
+ // Import v2: authoring a page republishes every page of its cross-page questions, so both
+ // copies of a continued block come from the same assignment attempt (assembly requires that).
+ if(stage==='author'&&importV2(manifest)&&repairFrom===null&&!pageReplay){
+  const chain=config.assignmentLimits?.continuations??manifest.continuations??[],closure=new Set(pages);let grew=true;
+  while(grew){grew=false;for(const pair of chain){const ends=Array.isArray(pair)?pair:[pair.from,pair.to];if(ends.some(p=>closure.has(p)))for(const p of ends)if(!closure.has(p)&&(manifest.selectedPages??[]).includes(p)){closure.add(p);grew=true;}}}
+  pages=[...closure].sort((a,b)=>a-b);
+ }
  const tasks=createSemanticTasks({runDir,manifest,config,stage,pages,attempt,representative}),states=tasks.map(task=>({task,cache:semanticCacheInfo(task),originalHash:fs.existsSync(task.resultFile)?fileHash(task.resultFile):null}));
  const assigned=!!manifest.pipelinePolicy&&stage==='author'&&repairFrom===null&&!pageReplay;
  if(localReplay&&assigned)throw Error('Local replay cannot dispatch authoring assignments; select explicit pageReplay');
@@ -330,7 +339,7 @@ export async function runSemanticPackets({runDir,manifest,config,stage,pages,att
   const selected=new Set(pages);let changed=true;
   while(changed){changed=false;for(const pair of assignmentContinuations){const values=Array.isArray(pair)?pair:[pair.from,pair.to];if(values.some(p=>selected.has(p)))for(const p of values)if(!selected.has(p)){selected.add(p);changed=true;}}}
   assignmentTasks=createSemanticTasks({runDir,manifest,config,stage,pages:[...selected].sort((a,b)=>a-b),attempt,representative});
-  assignmentPlan=planTaskAssignments(assignmentTasks,{...config.assignmentLimits,continuations:assignmentContinuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>selected.has(p)))});
+  assignmentPlan=planTaskAssignments(assignmentTasks,{...v2AssignmentLimits(manifest,config),continuations:assignmentContinuations.filter(pair=>(Array.isArray(pair)?pair:[pair.from,pair.to]).some(p=>selected.has(p)))});
   for(const a of assignmentPlan.assignments){const payload=assignmentPayload(a,assignmentTasks);a.variableCharacters=payload.promptStats.sections.assignment;a.oversized ||= a.variableCharacters>assignmentPlan.limits.maxCharacters;if(a.oversized)a.exception??='Indivisible question/activity plus required evidence exceeds the budget; retained in full';}
  }
  if(repairFrom!==null){

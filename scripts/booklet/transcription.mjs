@@ -3,6 +3,7 @@ import {compatiblePracticeSchema} from './practice-schema-compatibility.mjs';
 import {compatibleSourcePresentation} from './source-presentation-compatibility.mjs';
 import {LEAN_REVIEW_PROFILE} from './lean-profile.mjs';
 import {COMPLETION_PROFILE,IMPORT_POLICY} from './import-completion.mjs';
+import {validateContentScope} from './practice-only-scope.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
@@ -181,8 +182,11 @@ export function assertPinnedInputs(runDir) {
   return manifest;
 }
 
-export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = null, pages, contextPages = [], teacherPages = null, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY, reasoningOverride, benchmarkArm }, { command = runCommand, checkTooling = assertTooling } = {}) {
-  const configuration = transcriptionConfiguration({reasoningOverride, benchmarkArm});
+export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = null, pages, contextPages = [], teacherPages = null, runId = null, workRoot = WORK_ROOT, continuations = [], concurrency = DEFAULT_CONCURRENCY, reasoningOverride, benchmarkArm, contentScope, track }, { command = runCommand, checkTooling = assertTooling } = {}) {
+  // Import v2 track: from an explicit track or the semantic config's contentScope (practice-only = textbook).
+  validateContentScope(contentScope);
+  if (track !== undefined && !['booklet', 'textbook'].includes(track)) throw new Error(`Unknown track: ${track}`);
+  const configuration = { ...transcriptionConfiguration({reasoningOverride, benchmarkArm}), ...(contentScope ? { contentScope } : {}), ...(track ? { track } : {}) };
   concurrency = Number(concurrency);
   if (!Number.isInteger(concurrency) || concurrency < 1) throw new Error('Concurrency must be a positive integer');
   const selection = (value, name) => {
@@ -678,7 +682,7 @@ function parseArgs(argv) {
 }
 
 function usage() {
-  console.log('Source evidence: prepare --pdf FILE [--docx FILE] --pages 1-3 [--context-pages 4-5] --run-id ID [--concurrency 3] [--reasoning-effort medium --reasoning-override-reason REASON] [--teacher-pdf FILE] [--teacher-docx FILE] [--teacher-pages 1-8]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
+  console.log('Source evidence: prepare --pdf FILE [--docx FILE] --pages 1-3 [--context-pages 4-5] --run-id ID [--concurrency 3] [--reasoning-effort medium --reasoning-override-reason REASON] [--teacher-pdf FILE] [--teacher-docx FILE] [--teacher-pages 1-8] [--config SEMANTIC_CONFIG.json (contentScope practice-only records track textbook)] [--track booklet|textbook]\nLegacy result collection: merge --run-id ID\nvalidate --run-id ID\nstatus --run-id ID');
 }
 
 export async function main(argv = process.argv.slice(2)) {
@@ -687,7 +691,8 @@ export async function main(argv = process.argv.slice(2)) {
   let output;
   if (args.command === 'prepare') {
     const continuations = args.continuations ? (readJson(path.resolve(args.continuations)).continuations ?? readJson(path.resolve(args.continuations))) : [];
-    output = prepareRun({ pdf: args.pdf ? path.resolve(args.pdf) : null, docx: args.docx ? path.resolve(args.docx) : null, teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, contextPages: args.contextPages, teacherPages: args.teacherPages ?? null, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY, reasoningOverride: args.reasoningEffort ? {effort:args.reasoningEffort,reason:args.reasoningOverrideReason} : undefined });
+    const semanticConfig = args.config ? readJson(path.resolve(args.config)) : {};
+    output = prepareRun({ pdf: args.pdf ? path.resolve(args.pdf) : null, docx: args.docx ? path.resolve(args.docx) : null, teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, contextPages: args.contextPages, teacherPages: args.teacherPages ?? null, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY, reasoningOverride: args.reasoningEffort ? {effort:args.reasoningEffort,reason:args.reasoningOverrideReason} : undefined, contentScope: semanticConfig.contentScope, track: args.track ?? semanticConfig.track });
   } else {
     if (!args.runId) throw new Error('--run-id is required');
     if (args.command === 'merge') output = mergeLane(args.runId, { lane: args.lane ?? 'exact' });
