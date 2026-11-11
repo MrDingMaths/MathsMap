@@ -15,6 +15,10 @@ merely loading an existing project does not move anything.
 Question blocks and canonical bank records may optionally carry a `source`
 object with `provider`, `paper`, `year`, `label`, `origin`. The `label` prints
 at the start of the question. Missing source labels leave rendering unchanged.
+A question with no shared stem prints its label on its own line beside the
+question number, and its first part starts on the next line, as after a stem
+(James, 11 November 2026: it had printed inside part a; `stemlessSource`,
+`arrangementStemSource`).
 Files, crops and extraction provenance continue to belong in import evidence,
 not in canonical bank records. These optional fields do not publish questions.
 

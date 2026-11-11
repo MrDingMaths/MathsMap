@@ -16,6 +16,13 @@ export function sourceAttributionPromptId(question) {
   const first=node=>!node?null:hasVisibleContent(node.prompt)?node.id??null:(node.children??[]).map(first).find(Boolean)??null;
   return first(question?.content);
 }
+// A stemless question prints its source on its own line beside the question
+// number, and its first part starts on the next line, as after a stem
+// (James, 11 November 2026: not inside part a).
+export function stemlessSource(question) {
+  const source=printedQuestionSource(question),owner=source&&sourceAttributionPromptId(question);
+  return owner&&owner!==question?.content?.id?source:'';
+}
 
 // Deliberately narrow whitelist. Unknown HSC/PLC codes are held for mapping.
 export function mathsBaseSource(code) {

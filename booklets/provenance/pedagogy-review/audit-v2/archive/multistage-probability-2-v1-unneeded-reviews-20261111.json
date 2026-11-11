@@ -1,0 +1,189 @@
+{
+ "projectId": "multistage-probability-2-v1",
+ "revision": 16,
+ "at": "2026-11-11T06:17:45.128Z",
+ "rule": "James, 11 November 2026: no opening-review item for a skill students in the course already have, or that only Challenge or Exam questions need.",
+ "removed": [
+  {
+   "sectionId": "assignment-c0dbd659551ff5779fea-p25-information-section",
+   "index": 0,
+   "reason": "Converting a percentage to a decimal and finding 1 − p is routine Stage 4 and early Stage 5 work, so students in Stage 5 Core rarely lack it.",
+   "neededBy": [
+    {
+     "id": "p31-q6",
+     "where": "routine",
+     "section": "Exercise"
+    }
+   ],
+   "block": {
+    "id": "v2-proposal-j5-104829",
+    "type": "question",
+    "pedagogyRole": "review",
+    "snapshotKind": "local",
+    "bankRef": null,
+    "title": "",
+    "content": {
+     "id": "v2-proposal-j5-104829-root",
+     "type": "question",
+     "label": null,
+     "prompt": "The probability that a train arrives late is 7%.",
+     "children": [
+      {
+       "id": "v2-proposal-j5-104829-j5-q-a",
+       "type": "part",
+       "label": "a",
+       "prompt": "Write this probability as a decimal.",
+       "answerSpaceMm": 12,
+       "answer": {
+        "short": "$0.07$",
+        "worked": "$$7\\%=\\frac{7}{100}=0.07$$"
+       }
+      },
+      {
+       "id": "v2-proposal-j5-104829-j5-q-b",
+       "type": "part",
+       "label": "b",
+       "prompt": "Find the probability that the train does not arrive late.",
+       "answerSpaceMm": 14,
+       "answer": {
+        "short": "$0.93$",
+        "worked": "$$\\begin{align*}P(\\text{not late})&=1-0.07\\\\&=0.93\\end{align*}$$"
+       }
+      }
+     ],
+     "layout": "grid",
+     "columns": 2
+    },
+    "classification": {
+     "primarySkillId": "probability-independent-events",
+     "secondarySkillIds": [],
+     "archetype": null
+    },
+    "sourceReview": {
+     "origin": {
+      "projectId": "multistage-probability-2-v1",
+      "blockId": "v2-proposal-j5-104829",
+      "generatedBy": "pedagogy-audit-v2"
+     },
+     "generation": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "kind": "prerequisites",
+      "slot": {
+       "id": "j5-104829"
+      },
+      "evidence": ".booklet-work/pedagogy-audit-v2/multistage-probability-2-v1/20261109-104829/calls/10-solve-1.json"
+     },
+     "workingSpaceEstimate": {
+      "method": "solution-steps",
+      "estimates": [
+       {
+        "targetId": "v2-proposal-j5-104829-j5-q-a",
+        "mathematicalRows": 1,
+        "answerSpaceMm": 12
+       },
+       {
+        "targetId": "v2-proposal-j5-104829-j5-q-b",
+        "mathematicalRows": 1,
+        "answerSpaceMm": 14
+       }
+      ]
+     },
+     "addition": {
+      "approvedBy": "James (standing approval of verified findings, 8 November 2026)",
+      "date": "2026-11-09",
+      "comment": "1fdb7ce9-855f-4faf-8b74-b2c480db449f",
+      "reason": "Verified pedagogy audit v2 finding, applied automatically."
+     }
+    },
+    "sourceAtom": {
+     "id": "independent-trees-v2-review",
+     "kind": "review",
+     "label": "Review",
+     "order": 0
+    }
+   }
+  },
+  {
+   "sectionId": "assignment-c0dbd659551ff5779fea-p25-information-section",
+   "index": 0,
+   "reason": "Q22 itself says a two-way table is useful, and listing two-dice outcomes in a table is earlier-year probability work that students already practise, so a review is not needed.",
+   "neededBy": [
+    {
+     "id": "p38-q22",
+     "where": "routine",
+     "section": "Exercise"
+    }
+   ],
+   "block": {
+    "id": "v2-proposal-j6-104829",
+    "type": "question",
+    "pedagogyRole": "review",
+    "snapshotKind": "local",
+    "bankRef": null,
+    "title": "",
+    "content": {
+     "id": "v2-proposal-j6-104829-root",
+     "type": "question",
+     "label": null,
+     "prompt": "Two fair dice are rolled. The table shows the sum of the two numbers for each outcome.\n\nFind the probability that the sum is greater than 9.",
+     "answer": {
+      "short": "$\\frac16$",
+      "worked": "$$\\begin{align*}\\text{Sums of }10,11,12&:\\ 3+2+1=6\\text{ cells}\\\\P(\\text{sum}>9)&=\\frac{6}{36}\\\\&=\\frac16\\end{align*}$$"
+     },
+     "questionDiagrams": [
+      {
+       "id": "v2-proposal-j6-104829-j6-q-table",
+       "format": "tikz",
+       "widthMm": 55,
+       "code": "\\begin{tikzpicture}[x=7mm,y=7mm]\n\\draw[step=1] (0,0) grid (6,6);\n\\draw[thick] (0,0) rectangle (6,6);\n\\draw[thick] (0,6) -- (6,6) -- (6,7) -- (0,7) -- cycle;\n\\draw[thick] (-1,0) rectangle (0,6);\n\\draw (0,7) -- (0,6);\n\\foreach \\j in {1,...,6}{\\node at (\\j-0.5,6.5) {\\textbf{\\j}};}\n\\foreach \\i in {1,...,6}{\\node at (-0.5,6.5-\\i) {\\textbf{\\i}};}\n\\foreach \\i in {1,...,6}{\\foreach \\j in {1,...,6}{\\pgfmathtruncatemacro{\\s}{\\i+\\j}\\node at (\\j-0.5,6.5-\\i) {\\s};}}\n\\node at (-0.5,6.5) {$+$};\n\\node[above] at (3,7.1) {\\small 2nd die};\n\\node[rotate=90,left] at (-1.15,3) {\\small 1st die};\n\\end{tikzpicture}"
+      }
+     ]
+    },
+    "classification": {
+     "primarySkillId": "probability-independent-events",
+     "secondarySkillIds": [],
+     "archetype": null
+    },
+    "sourceReview": {
+     "origin": {
+      "projectId": "multistage-probability-2-v1",
+      "blockId": "v2-proposal-j6-104829",
+      "generatedBy": "pedagogy-audit-v2"
+     },
+     "generation": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "kind": "prerequisites",
+      "slot": {
+       "id": "j6-104829"
+      },
+      "evidence": ".booklet-work/pedagogy-audit-v2/multistage-probability-2-v1/20261109-104829/calls/10-solve-1.json"
+     },
+     "workingSpaceEstimate": {
+      "method": "solution-steps",
+      "estimates": [
+       {
+        "targetId": "j6-q",
+        "mathematicalRows": 2,
+        "answerSpaceMm": 25
+       }
+      ]
+     },
+     "addition": {
+      "approvedBy": "James (standing approval of verified findings, 8 November 2026)",
+      "date": "2026-11-09",
+      "comment": "d87723ca-b816-400a-974e-54419a926e17",
+      "reason": "Verified pedagogy audit v2 finding, applied automatically."
+     }
+    },
+    "sourceAtom": {
+     "id": "independent-trees-v2-review",
+     "kind": "review",
+     "label": "Review",
+     "order": 0
+    }
+   }
+  }
+ ]
+}

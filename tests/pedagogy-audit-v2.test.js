@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {contentFingerprint,wordingFingerprint,australianSpelling,spellBlock,boldTerm,deriveComparisonScore,jumpSlots,slotWindow,duplicatePairs,diagramBlindHash,diagramEquivalent,practiceItemCount,LIMITS,MODEL,EFFORT} from '../pedagogy/audit-v2-plan.mjs';
-import {validateAudit,validateRoleGroups,validateSolve,writingRules,theoryRules} from '../pedagogy/audit-v2-prompts.mjs';
-import {challengeMoves,sortChallengeSections,unletterLoneGuided,laterLessons,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText} from '../pedagogy/audit-v2.mjs';
+import {validateAudit,validateRoleGroups,validateSolve,writingRules,theoryRules,auditContract,challengeContract} from '../pedagogy/audit-v2-prompts.mjs';
+import {challengeMoves,sortChallengeSections,unletterLoneGuided,laterLessons,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText,prerequisiteNotNeeded,additionNotNeeded,unneededReviewItems,bookletCourse,relocateQuestions} from '../pedagogy/audit-v2.mjs';
 
 const rating=score=>({reasoningScore:score,difficulty:'Foundation',difficultyReason:'x'});
 const q=(id,prompt,short,extra={})=>({id,type:'question',classification:rating(10),content:{id:id+'-root',type:'question',label:'1',prompt,answer:{short,worked:'$$x$$'}},...extra});
@@ -980,4 +980,51 @@ test('a pound sign in an audit-made figure is written GBP, which the TikZ compil
  const teacher={format:'tikz',code:'\\node {\\pounds};'};
  houseTints({sections:[{blocks:[{id:'v2-x',content:{questionDiagrams:[fig]}},{id:'p1',content:{questionDiagrams:[teacher]}}]}]});
  assert.match(fig.code,/British pounds \(GBP\)/);assert.match(fig.code,/GBP 5 and GBP 20/);assert.equal(teacher.code,'\\node {\\pounds};');
+});
+
+test('a prerequisite only Challenge or Exam questions need is not an opening review item (James, 11 November 2026)', ()=>{
+ const review=(id,extra={})=>({...q(id,'Expand $(x-4)^2$.','$x^2-8x+16$'),pedagogyRole:'review',sourceReview:{origin:{generatedBy:'pedagogy-audit-v2'},generation:{kind:'prerequisites'},addition:{comment:'f1',...extra}}});
+ const project={id:'p',settings:{cover:{course:'Mathematics Extension 1 Year 11'}},topics:[{id:'t',title:'T'},{id:'challenge',title:'Challenge'}],studio:{flags:[{id:'f1',targetId:'hard'},{id:'f2',targetId:'easy'}]},sections:[
+  {id:'teach',phase:'teaching',topicId:'t',title:'T',blocks:[review('r1'),review('r2',{comment:'f2'}),review('r3',{neededBy:['easy','hard']}),{...review('r4'),sourceReview:{origin:{generatedBy:'feedback-repair'},generation:{kind:'prerequisites'},addition:{comment:'f1'}}}]},
+  {id:'ex',phase:'practice',topicId:'t',title:'Exercise',blocks:[q('easy','Easy','$1$')]},
+  {id:'ch',phase:'practice',role:'challenge',topicId:'challenge',title:'Challenge exercise',blocks:[q('hard','Hard','$1$')]}]};
+ assert.match(prerequisiteNotNeeded(project,['hard']),/hard \(Challenge\)/);
+ assert.match(prerequisiteNotNeeded(project,['gone']),/no longer in the booklet/);
+ assert.equal(prerequisiteNotNeeded(project,['hard','easy']),null);
+ assert.equal(prerequisiteNotNeeded(project,[]),null);
+ // r1 serves only the Challenge question (via its comment); r3 also serves a routine one; r4 is a teacher-approved repair.
+ assert.deepEqual(unneededReviewItems(project).map(r=>r.id),['r1']);
+ assert.equal(bookletCourse(project),'Mathematics Extension 1 Year 11');
+ assert.equal(bookletCourse({library:{courseId:'s6-ext1-11'}}),'s6-ext1-11');
+ assert.match(auditContract({}),/never a skill only Challenge or Exam questions need/);
+ assert.match(auditContract({}),/an assumed prerequisite is no finding/);
+ assert.match(challengeContract(),/Reject a prerequisite that students in this course/);
+});
+
+test('additions for questions on their way to Challenge are not made, and are withdrawn when the questions move (James, 11 November 2026)', ()=>{
+ const added=(id,neededBy,type='question')=>({...q(id,'Added','$1$'),type,sourceReview:{origin:{generatedBy:'pedagogy-audit-v2'},addition:{comment:'c',neededBy}}});
+ const exam={...q('x','HSC question','$1$'),title:'2021 HSC Extension 1 Band 4'};
+ const project={id:'p',topics:[{id:'t',title:'T'},{id:'challenge',title:'Challenge'}],sections:[
+  {id:'teach',phase:'teaching',topicId:'t',title:'T',blocks:[added('we',['hard'],'worked-example')]},
+  {id:'ex',phase:'practice',topicId:'t',title:'Exercise',blocks:[q('easy','Easy','$1$'),q('rated','Rated 62 in this run','$1$'),added('bridge',['hard']),added('lead',['x']),added('kept',['easy','hard'])]},
+  {id:'exam',phase:'practice',role:'exam',topicId:'t',title:'Exam questions',blocks:[exam]},
+  {id:'ch',phase:'practice',role:'challenge',topicId:'challenge',title:'Challenge exercise',blocks:[q('hard','Hard','$1$')]}]};
+ // A question rated 60 or more in this run waits for James on its way to Challenge: nothing is added for it.
+ assert.match(additionNotNeeded(project,['rated'],{pending:new Set(['rated'])}),/on its way to Challenge/);
+ assert.equal(additionNotNeeded(project,['rated']),null);
+ // Exam questions still count for bridges, extensions, variations and new teaching; not for review items.
+ assert.equal(additionNotNeeded(project,['x']),null);
+ assert.match(prerequisiteNotNeeded(project,['x']),/Exam/);
+ // Withdrawal covers new teaching and added questions whose questions are all in Challenge.
+ assert.deepEqual(unneededReviewItems(project).map(r=>[r.id,r.kind]),[['we','teaching'],['bridge','question']]);
+});
+
+test('a confirmed move to a later lesson takes routine questions to that lesson\'s exercise', ()=>{
+ const project={id:'p',topics:[{id:'a',title:'A'},{id:'b',title:'B'}],sections:[
+  {id:'ex-a',phase:'practice',topicId:'a',title:'Exercise',blocks:[q('a1','A1','$1$'),q('a2','A2 needs lesson B','$1$')]},
+  {id:'ex-b',phase:'practice',topicId:'b',title:'Exercise',blocks:[q('b1','B1','$1$')]}]};
+ const {target,moved}=relocateQuestions(project,{toTopicId:'b',ids:['a2']});
+ assert.equal(target.id,'ex-b');assert.deepEqual(moved,[{id:'a2',from:'ex-a'}]);
+ assert.deepEqual(project.sections.map(s=>s.blocks.map(b=>b.id)),[['a1'],['b1','a2']]);
+ assert.equal(relocateQuestions(project,{toTopicId:'none',ids:['a1']}).target,null);
 });

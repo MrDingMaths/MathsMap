@@ -25,7 +25,7 @@ For each exercise in a booklet:
 9. Confirmed errors are corrected automatically, after a blind solve agrees.
 10. Bridges are scaffolded questions that gently raise difficulty, in the booklet's tone and notation. Cues, one-off hints and mid-exercise worked examples are not used as bridges.
 11. Extension prompts guide students to a named insight.
-12. Prerequisites that an exercise needs are proposed as retrieval items for the topic's opening review, never as new worked examples.
+12. Prerequisites that an exercise needs are proposed as retrieval items for the topic's opening review, never as new worked examples. Only for routine exercise questions, and only for a skill students in the booklet's course commonly still lack ([James, 11 November 2026](#unneeded-opening-review-items-james-11-november-2026)).
 13. Theory sections are checked for watertight definitions and the theory style rules.
 14. A challenge pass confirms the teaching judgements. Confirmed ones become Studio comments.
 
@@ -757,3 +757,26 @@ Found in the Stage 6 pilot, the Stage 4–5 retrofit pilot and the retrofit batc
 - **A retrofit marks the record checked at its revision without re-checking stale types.** Booklets whose exercises stay held by a stale type check are re-audited with `audit-v2-batch.mjs --force`.
 
 Review tools (`.booklet-work/pedagogy-audit-v2/review-tools/`): `scan-runs.mjs` reads lettered parts inside an unlabelled group in place (Angle Relationships p9-q5: a–d in a group, then e), and `settle-retrofit-solve-20261111.mjs` records how each retrofit blind-solve comment was settled.
+
+### Unneeded opening-review items (James, 11 November 2026)
+
+James found Review items in Polynomials 1A that students did not need. Three of the five served only questions now in Challenge. j10 rehearsed simultaneous equations for p13-q8, which the same run moved to Challenge. Others rehearsed skills students in the course already have, such as expanding $(x-4)^2$ in Year 11 Extension 1. The audit was never told the course, and it turned findings it called "assumed prerequisite" into questions.
+
+- **Rule.** An opening-review item rehearses a skill from earlier years that:
+  - this lesson's routine exercise questions use as a step;
+  - students in this course commonly still lack.
+
+  It is never for a skill practised routinely in the years just before the course, never for a skill only Challenge or Exam questions need, and never for an assumed skill. The audit and challenge prompts now carry the booklet's course (`bookletCourse`: `settings.cover.course`, else `library.courseId`) and this rule.
+- **Guard.** `prerequisiteNotNeeded` drops a prerequisite finding whose questions are all in Challenge or Exam, or no longer exist. It runs after the run's Challenge moves, and drops are listed in the report as `droppedPrerequisites`.
+- **Later moves.** Every new addition (review item, new teaching, bridge, extension, variation) records the questions it serves in `sourceReview.addition.neededBy`. Older review items use their comment's target. At each run's Challenge-move step, `unneededReviewItems` finds additions whose questions have all moved. The run takes them out with a resolved "… removed" comment (`report.withdrawnReviewItems`). Exam questions still count for new teaching and for lead-ins. James's example: 1A's worked example on comparing coefficients serves only p7-q13, which the 9 November boundary change (65, then 60) moved to Challenge after the run.
+- **Order within a run** (James, 11 November 2026: "what else is out of order and can create extra work?").
+  - Challenge moves (Stage 2) come before ratings (Stage 1). A question first rated 60 or more in the run waits for James and stays in its exercise, so the topic audit had treated it as routine. Such questions (`state.pendingHigh`) now count as on their way to Challenge: no prerequisite, bridge, extension, variation or new teaching is made for them alone (`report.droppedFindings`).
+  - Moves to a later lesson were confirmed in Stage 5a, after Stage 4 had planned and drafted count slots. A moved question left slots in its old exercise and none in its new one. Now Stage 3c checks relocations (`challengeSend`, the Stage 5a checker lifted out) and makes them before the gap plan; Stage 5a reuses their verdicts.
+- **Earlier additions now serving only Challenge or Exam questions.** 43 such additions in 32 masters: 18 bridges, 14 extensions, 3 variations and 8 new teaching items. James chose comments only, so each has an open "for your decision" comment and nothing was removed (`review-tools/repair-unneeded-reviews-20261111/comment-additions.mjs`).
+- **Repair.** `review-tools/repair-unneeded-reviews-20261111/repair.mjs` runs `scan`, then `check`, then `apply --save`. It covered 358 audit-added items in 132 masters; teacher-approved items (`feedback-repair`) are never touched.
+  - 13 items served only Challenge or Exam questions and were removed outright.
+  - For the other 345, one `claude-sonnet-5-5` medium call per booklet judged each item under the rule ($2.87 in all). It removed 212 and kept 133.
+  - Each booklet had one revision-checked save, after a page check of its student and worked editions. Diagram colour findings already in the booklet do not stop the save. Neither do issue kinds that a separate check found on the unchanged booklet (`--accept`: graph tick overlaps, column overflow, a wrapped table label, answer coverage in 12 booklets). A page break left at the start of its section is removed with the item.
+  - Saved: 221 items removed from 109 masters, plus the same 4 from the 9.1 class copy of Polynomials 1A.
+  - Held: Stage 4 Indices (3 items) and Non-right-angled Trigonometry 2 (1). Their page check failed with "reading 'flow'": another session's unsaved `exerciseBreakRemovable` (`src/lib/booklet-workspace.js`) matches an empty section when a page has no first block. Run `repair.mjs apply --save --only stage4-indices-v1,non-right-angled-trigonometry-2-v1` once that is fixed.
+  - Removed blocks are archived in `booklets/provenance/pedagogy-review/audit-v2/archive/ID-unneeded-reviews-20261111.json`, and each comment notes the removal and its reason. The 9.1 class copy of Polynomials 1A follows its master.

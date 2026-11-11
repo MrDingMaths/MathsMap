@@ -465,12 +465,14 @@ export async function applyComments({projectId,comments,dryRun=false,projectFile
    // Only a Key ideas box after the named block closes the lesson. One that opens it (Angle Relationships 1
    // p22-key-ideas, a rule box) is not a limit: clamping to it put j13 at the start of the lesson.
    const from=at&&at.section===section?at.index:-1,ki=section.blocks.findIndex((b,i)=>i>from&&keyIdeas(b));if(ki>=0&&index>ki)index=ki;
-   for(const b of blocks)(b.sourceReview??={}).addition={approvedBy:auto?'James (standing approval of verified findings, 8 November 2026)':'James',date:now().slice(0,10),comment:flag.id,reason:auto?'Verified pedagogy audit v2 new teaching, applied automatically.':'Approved pedagogy audit v2 comment.'};
+   for(const b of blocks)(b.sourceReview??={}).addition={approvedBy:auto?'James (standing approval of verified findings, 8 November 2026)':'James',date:now().slice(0,10),comment:flag.id,reason:auto?'Verified pedagogy audit v2 new teaching, applied automatically.':'Approved pedagogy audit v2 comment.',...(pay.neededBy?.length?{neededBy:[...pay.neededBy]}:{})};
    section.blocks.splice(index,0,...blocks);blocks.forEach(b=>{inserted.add(b.id);teachingAnchor.set(b.id,pay.after);});
    done(`Worked example${blocks.length>1?' and guided practice':''} added ${at?(keyIdeas(at.block)?'before ':'after ')+pay.after:pre?'before '+pay.before:'to the lesson'}.`);continue;}
   if(pay.op==='insert'||pay.op==='review'){
    const block=structuredClone(pay.block);if(findBlock(candidate,block.id)){fail('a block with id '+block.id+' already exists');continue;}
    (block.sourceReview??={}).addition={approvedBy:auto?'James (standing approval of verified findings, 8 November 2026)':'James',date:now().slice(0,10),comment:flag.id,reason:auto?'Verified pedagogy audit v2 finding, applied automatically.':'Approved pedagogy audit v2 comment.'};
+   // The questions an addition serves, so a later Challenge move can withdraw it (11 November 2026).
+   if(pay.neededBy?.length)block.sourceReview.addition.neededBy=[...pay.neededBy];
    if(pay.op==='review'){const e=addToReview(candidate,pay.topicId,block);if(e){fail(e);continue;}inserted.add(block.id);done('Added to the opening Review box.');continue;}
    const routineOver=['proposal-extensions','proposal-variation'].includes(flag.findingKind)&&scoreOf(block)!=null&&scoreOf(block)>LIMITS.routineCeiling;
    if(routineOver){challengeSection(candidate).blocks.push(block);inserted.add(block.id);done(`Added to the Challenge exercise (rated ${scoreOf(block)}).`);continue;}

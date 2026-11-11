@@ -10,7 +10,7 @@ import {normalizeEditableProject} from '../src/lib/editable-booklet-model.js';
 import {flowEditionSections} from '../src/lib/booklet-flow.js';
 import {sectionShowsWorkingSpace} from '../src/lib/booklet-section-options.js';
 import {visibleImportedQuestionTitle} from '../src/lib/booklet-preview.js';
-import {withoutWorkingSpace,arrangementExamTitle} from '../src/lib/booklet-arrangement.js';
+import {withoutWorkingSpace,arrangementExamTitle,arrangementStemSource} from '../src/lib/booklet-arrangement.js';
 import {createProgrammeExamSection} from '../pedagogy/programme-exam.mjs';
 
 test('retained Sydney Grammar 2019 grouped-data source keeps exact year and course',()=>{
@@ -124,7 +124,11 @@ test('printed source round-trips without accepting extraction provenance',()=>{
   assert.equal(arrangementExamTitle(block,{ownerId:'root',editorKey:'root/prompt#table'}),'');
   const multipart={...block,content:{id:'root',prompt:'',children:[{id:'part-a',prompt:'First task.'},{id:'part-b',prompt:'Next task.'}]}};
   assert.equal(sourceAttributionPromptId(multipart),'part-a');
-  assert.equal(arrangementExamTitle(multipart,{ownerId:'part-a',editorKey:'part-a/prompt'}),'HSC Advanced 2011');
+  // Stemless: the source has its own line beside the number, never inside part a (James, 11 November 2026).
+  assert.equal(arrangementExamTitle(multipart,{ownerId:'part-a',editorKey:'part-a/prompt'}),'');
+  assert.equal(arrangementStemSource(multipart,{type:'item',ref:'root/label'}),'HSC Advanced 2011');
+  assert.equal(arrangementStemSource(multipart,{type:'item',ref:'part-a/label'}),'');
+  assert.equal(arrangementStemSource(block,{type:'item',ref:'root/label'}),'');
   assert.equal(arrangementExamTitle(multipart,{ownerId:'part-b',editorKey:'part-b/prompt'}),'');
 });
 test('whitelist labels official/PLC sources and holds unknown trial names',()=>{
