@@ -1,10 +1,12 @@
 // Coordinate existing author/content/render/repair operations; no extra model-review stage.
 import fs from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {isDeepStrictEqual} from 'node:util';
-import {COMPLETION_PROFILE,completionPolicy,assessCompletion,completionHash} from './import-completion.mjs';
+import {COMPLETION_PROFILE,completionPolicy,assessCompletion,completionHash,importV2} from './import-completion.mjs';
 import {validateImport} from './import-validation.mjs';
+import {withReviewConfiguration,importReviewConfiguration} from './transcription-settings.mjs';
 import {openProject,runContentReview,runLeanExport,runVisualReview,reviewStatus,loadReviewed,saveReviewed,runShadingReview,runImagePreflight,prepareExportVisualPlan,pendingBlocks,reviewableBlocks,contentHash,visualPlan} from './lean-review.mjs';
 import {overlayVisualEvidence,visualOutcomeReader} from './lean-visual-evidence.mjs';
 import {teacherBlocks,polishSafetyIssues,layoutSafetyIssues} from '../../polish/guards.mjs';
@@ -55,7 +57,7 @@ export async function adoptCompletionProfile(runDir,{adopt=false,direct=false,ha
  return manifest;
 }
 
-export async function prepareFinishCandidate({file,runDir,direct=false,log=()=>{}},{normalise,dependencies}={}){
+export async function prepareFinishCandidate({file,runDir,direct=false,examTags=false,log=()=>{}},{normalise,dependencies}={}){
  const before=read(file),protectedIds=teacherBlocks(before);
  if(!direct){
   normalise??=(await import('../../polish/normalise.mjs')).normaliseProject;
@@ -67,20 +69,26 @@ export async function prepareFinishCandidate({file,runDir,direct=false,log=()=>{
  dependencies??=(await import('../../polish/dependencies.mjs')).runDependencies;
  const links=await dependencies({project:read(file),runDir,model:false,log});
  const unsafe=polishSafetyIssues(before,links.project,{protectedIds});if(unsafe.length)throw Error(unsafe.join('; '));
+ // Import pipeline v2, Stage 6: exam hand-off tags only (metadata; no content change).
+ if(examTags){const {tagExamQuestions}=await import('./import-exam-tags.mjs');const tagged=tagExamQuestions(links.project);if(tagged)log('Exam hand-off tags: '+tagged+' questions');}
  write(file,links.project);
  return {prepared:true};
 }
 
 // Measure only after substantive content/scaffold corrections have settled.
-export async function layoutFinishCandidate({file,direct=false,log=()=>{}},{paginate,wrapped}={}){
+export async function layoutFinishCandidate({file,direct=false,compose=false,log=()=>{}},{paginate,wrapped}={}){
  const before=read(file),protectedIds=teacherBlocks(before);
  // Wrapped maths is measured and repaired before final rendering, using the existing bounded tool.
  wrapped??=(await import('../../checks/wrapped-math.mjs')).runWrappedMath;
  const wrap=await wrapped({project:read(file),file,apply:true,log});
  if(wrap.report?.after?.wrapped)throw Error('Wrapped mathematics remains: '+wrap.report.after.wrapped);
  if(!direct){
+  // Import pipeline v2 (Decision 8): the Paginate booklet pass of the 11 November
+  // pagination principles; recorded runs keep the optimiser they were measured with.
+  if(compose)paginate??=(await import('../../paginate/compose.mjs')).driveCompose;
   paginate??=(await import('../../paginate/optimise.mjs')).driveStudio;
   const trial=await paginate(read(file),{apply:true,named:true,log});
+  if(trial.pageErrors?.length)throw Error('Pagination page errors: '+trial.pageErrors.slice(0,3).join('; '));
   if(trial.project){const unsafe=polishSafetyIssues(before,trial.project,{protectedIds});if(unsafe.length)throw Error(unsafe.join('; '));write(file,trial.project);}
  }
  return {laidOut:true};
@@ -131,7 +139,38 @@ export function finishPublishSafetyIssues(original,current,reviewed){
  return [...new Set([...polishSafetyIssues(reference,current,{reference:original,protectedIds,spacing:false}),...extra])];
 }
 
+// Keyed as the lean table keys accepted diagrams (sha256 of the code).
+const codeKey=code=>createHash('sha256').update(code).digest('hex');
+// Native TikZ in the candidate, by node id. Accepted diagrams in the lean table are skipped.
+export function candidateTikz(project,accepted={}){
+ const rows=[],walk=node=>{if(Array.isArray(node))return node.forEach(walk);if(!node||typeof node!=='object')return;
+  if(node.format==='tikz'&&typeof node.code==='string'&&node.id&&accepted[codeKey(node.code)]?.status!=='accepted')rows.push({id:String(node.id),code:node.code});
+  for(const value of Object.values(node))walk(value);};
+ walk(project.sections??[]);return rows;
+}
+// Studio's own label inspection (pedagogy/figure-label-check.mjs) on the candidate's
+// unaccepted diagrams. Checked code is remembered, so a resume repeats nothing. If
+// Studio cannot be reached the check is skipped with a log line, never a blocker.
+export async function diagramLabelCheck({file,runDir,checked={},log=()=>{},check}={}){
+ const project=read(file),reviewed=loadReviewed(path.join(runDir,'lean-review')),rows=candidateTikz(project,reviewed.diagrams??{});
+ const pending=rows.filter(row=>!checked[codeKey(row.code)]),next={...checked},collisions=[];
+ for(const row of rows){const prior=checked[codeKey(row.code)];if(prior?.issues?.length)collisions.push({id:row.id,issues:prior.issues});}
+ if(!pending.length)return {checked:next,collisions};
+ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),input=path.join(root,'public','.audit-input','import-labels-'+project.id+'.json');
+ fs.mkdirSync(path.dirname(input),{recursive:true});fs.writeFileSync(input,JSON.stringify(pending.map(row=>({skillId:project.id,source:project.id,field:row.id,code:row.code}))));
+ let found;
+ try{found=await(check??(async file=>(await import('../../pedagogy/figure-label-check.mjs')).labelCollisions(file)))(input);}
+ catch(error){log('Diagram label check skipped (Studio unavailable): '+error.message);return {checked,collisions,skipped:error.message};}
+ finally{fs.rmSync(input,{force:true});}
+ for(const row of pending){const issues=found?.[row.id]?.issues??[];next[codeKey(row.code)]={issues};if(issues.length)collisions.push({id:row.id,issues});}
+ return {checked:next,collisions};
+}
+// Every review call finish makes, including the first-pass and polish repair checks
+// it runs, uses the import configuration (import pipeline v2, Decision 12).
 export async function finishImport(options,deps={}){
+ return withReviewConfiguration(importReviewConfiguration(),()=>finishImportScoped(options,deps));
+}
+async function finishImportScoped(options,deps={}){
  return withRunLock(options.runDir,'lean-finish',()=>finishCandidate(options,deps),{timeoutMs:60000});
 }
 async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,runner,visibilityReviews,adopt=false,direct=false,saveProgress=false,sampleDir,regenerationReason,log=()=>{}},deps={}){
@@ -159,11 +198,17 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   return {projectFile:file,deliverable:false,completion,saved,...extra};
  };
  const stamp=()=>{const reviewed=loadReviewed(dir);reviewed.workflow??={};reviewed.workflow[projectId]={...reviewed.workflow[projectId],profile:COMPLETION_PROFILE,preparedHash:completionHash(read(file)),projectHash:completionHash(read(file)),errors};saveReviewed(dir,reviewed);};
- if(!state.steps.prepared){await(deps.prepare??prepareFinishCandidate)({file,runDir,direct:policy.direct,log},deps.prepareDeps);state.steps.prepared=true;persist();}
+ if(!state.steps.prepared){await(deps.prepare??prepareFinishCandidate)({file,runDir,direct:policy.direct,examTags:importV2(manifest),log},deps.prepareDeps);state.steps.prepared=true;persist();}
+ // Import pipeline v2 (inefficiency 5): label collisions in new TikZ are found before any review call.
+ if(importV2(manifest)&&!policy.direct){
+  const labels=await(deps.labels??diagramLabelCheck)({file,runDir,checked:state.steps.diagramLabels,log});
+  state.steps.diagramLabels=labels.checked;persist();
+  if(labels.collisions.length)return incomplete(assessCompletion({errors:labels.collisions.map(row=>'Diagram label collision in '+row.id+': '+row.issues.join('; '))}),{diagramLabels:labels});
+ }
  const settleLayout=async()=>{
   const current=projectReviewHash(read(file));
   if(state.steps.layoutHash===current)return;
-  await(deps.layout??layoutFinishCandidate)({file,runDir,direct:policy.direct,log},deps.layoutDeps);
+  await(deps.layout??layoutFinishCandidate)({file,runDir,direct:policy.direct,compose:importV2(manifest),log},deps.layoutDeps);
   state.steps.layoutHash=projectReviewHash(read(file));persist();
  };
  const currentContentCompletion=(errors=[])=>{
@@ -228,6 +273,13 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  }
  // Only the checked current candidate can be published. Progress saves remain explicitly incomplete.
  if(status.deliverable||saveProgress){await publish();stamp();}
+ // Import pipeline v2, Stage 11: hand-off records for the audit and the bank (deliverable only).
+ if(status.deliverable&&importV2(manifest)){
+  const {buildImportHandoff,writeImportHandoff}=await import('./import-handoff.mjs');
+  const correctionFile=path.join(dir,'corrections.jsonl'),corrections=fs.existsSync(correctionFile)?fs.readFileSync(correctionFile,'utf8').split('\n').filter(Boolean).map(line=>{try{return JSON.parse(line);}catch{return null;}}).filter(Boolean):[];
+  const handoff=buildImportHandoff({project:read(file),reviewed:loadReviewed(dir),corrections,currentHash:contentHash,runId:path.basename(runDir),configuration:importReviewConfiguration(),track:manifest.track??'booklet'});
+  (deps.writeHandoff??writeImportHandoff)(handoff,{root:path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..')});
+ }
  state.completion=status.completion;persist();
  return {...status,projectFile:file,exports:state.exports.map(e=>e.dir),saved:status.deliverable||saveProgress,validation};
 }

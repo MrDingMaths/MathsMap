@@ -1,5 +1,7 @@
 # Direct compact import
 
+> "Prepare and create" and "Verification and corrections" are superseded for new imports (11 November 2026) by [import pipeline v2](booklet-import-pipeline-v2.md); the data-shape sections stay as reference. Presentation evidence is retired for new imports. Historical runs keep these rules.
+
 For imported theory and worked explanations, apply the [theory-text principles](booklet-cross-session-rules.md#theory-text-source-fidelity-and-cognitive-load-22-october-2026-user-approved) during authoring and the existing content review. Preserve the source's teaching intent and method; avoid substantial rewrites, unsupported expansion and duplicated instructions or narration. Retain essential support and original evidence. This adds no approval or review stage.
 
 > Future runs with `textbook-three-pass-v1` use [three-pass imports](booklet-three-pass-import.md), which supersede conflicting approval stages and exhaustive visual/audit requirements here. Historical runs keep their existing policy.

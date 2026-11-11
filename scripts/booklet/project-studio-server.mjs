@@ -200,7 +200,7 @@ export async function prepareProjectWrite(previous,raw,{projectRoot=PROJECT_ROOT
   });
   preserveSourceLineage(previous,project,{runDir:project.runId||project.source?.runId?path.join(path.resolve(projectRoot,'../..'),'.booklet-work/full-imports',project.runId??project.source.runId):undefined});
   await hydrateBankRevisions(project, bankRoot);
-  const entries=await prepareAutomaticSync(project,bankRoot);
+  const entries=await prepareAutomaticSync(project,bankRoot,{projectRoot});
   await refreshBankRatings(project,bankRoot);
   const checkpoints = await projectCheckpointEntries(projectRoot, previous, {force:checkpoint});
   entries.push(...checkpoints,[fileFor(projectRoot,project.id),project]);

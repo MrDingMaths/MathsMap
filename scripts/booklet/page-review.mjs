@@ -43,12 +43,19 @@ function normaliseEditorHostIds(html){
  }
  return result+html.slice(copied);
 }
-export function renderedPageHashes(pages,{renderer,settings,assets}){
+// Page hash version 2 (import pipeline v2, inefficiency 1): the footer ("Page N of M",
+// revision) and answer-diagram widths, which print in the page's own HTML, leave the
+// hash, so a page count, save or one width no longer re-inspects whole editions.
+// Footer text keeps its automated numbering and navigation checks. Opt-in per run.
+export const stripPageFooter=html=>String(html).replace(/<footer class="booklet-footer"[\s\S]*?<\/footer>/g,'<footer class="booklet-footer"></footer>');
+export function renderedPageHashes(pages,{renderer,settings,assets,pageHashVersion=1}){
  const global=structuredClone(settings);delete global.flowEdition;
+ if(pageHashVersion>=2&&global.compactAnswers)delete global.compactAnswers.diagramWidths;
+ const body=html=>pageHashVersion>=2?stripPageFooter(html):html;
  // Asset reads finish asynchronously; map insertion order is not printed content.
  const prototype=assets&&typeof assets==='object'?Object.getPrototypeOf(assets):undefined;
  const orderedAssets=prototype===Object.prototype||prototype===null?Object.fromEntries(Object.keys(assets).sort().map(key=>[key,assets[key]])):assets;
- return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:normaliseEditorHostIds(normaliseSvgPaintScopes(p.html)),renderer,settings:global,assets:orderedAssets}),...(p.isBlank?{isBlank:true}:{}),...(p.mode?{mode:p.mode,isAnswer:p.isAnswer,isCover:p.isCover,answerSectionStart:p.answerSectionStart}:{})}));
+ return pages.map((p,i)=>({page:i+1,blocks:p.blocks,hash:hash({html:normaliseEditorHostIds(normaliseSvgPaintScopes(body(p.html))),renderer,settings:global,assets:orderedAssets,...(pageHashVersion>=2?{pageHashVersion}:{})}),...(p.isBlank?{isBlank:true}:{}),...(p.mode?{mode:p.mode,isAnswer:p.isAnswer,isCover:p.isCover,answerSectionStart:p.answerSectionStart}:{})}));
 }
 // Compare physical positions, not source-page IDs: pagination may shift a tail.
 export function affectedPages(previous,current){

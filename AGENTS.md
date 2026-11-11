@@ -19,7 +19,7 @@ This file is the always-on summary. The full rules, word for word, are in [docs/
 | New content (backfill, bridges, worked examples, guided practice) | `claude-sonnet-5-5`, exactly; never substitute |
 | Pedagogy audit v2 (booklet masters), every call | `claude-sonnet-5-5` medium |
 | Exam questions: checks and difficulty ratings ([batch](docs/booklet-exam-completion.md#batch-exam-completion-7-november-2026-user-requested)) | `gpt-6.1-terra` high |
-| Booklet imports: reviews, ratings, challenges; difficulty-only rating calls | `gpt-6.1-sol` low |
+| Booklet and textbook imports (including the source's exam questions): reviews, ratings; difficulty-only rating calls | `gpt-6.1-sol` low |
 | Other booklet reviews, ratings, challenges | `gpt-6.1-terra` high |
 | Everything else | its existing setting |
 
@@ -30,7 +30,7 @@ A Sol low fallback must be explicit, never automatic. [Detail](docs/agent-rules.
 | Task | Read |
 | --- | --- |
 | Any booklet or question-bank work | [standing conventions](docs/booklet-standing-conventions.md), [cross-session rules](docs/booklet-cross-session-rules.md) |
-| New booklet import | [three-pass import, streamlined completion](docs/booklet-three-pass-import.md#streamlined-completion-24-october-2026), [transcription checklist](docs/booklet-transcription-feedback-checklist.md), [direct compact workflow](docs/booklet-direct-compact-import.md); `lean-review.mjs finish` completes an import |
+| New booklet import | [import pipeline v2](docs/booklet-import-pipeline-v2.md) only; it links every rule it still uses. `lean-review.mjs finish` completes an import |
 | Feedback repair on named blocks | [lean local repairs](docs/agent-rules.md#lean-local-feedback-repairs-5-october-2026), [change runbook](docs/booklet-change-runbook.md) |
 | Verification scope | [verification cuts](docs/booklet-verification-cuts-20261030.md), else [lean acceptance](docs/booklet-lean-acceptance.md) |
 | Layout, clozes, tables, diagrams, avatars, alignment | [agent rules](docs/agent-rules.md#preset-arrangements-templated-diagrams-and-avatars-4-october-2026) and the sections after it; [diagram sizing](docs/booklet-diagram-sizing.md); 3D diagrams: [visibility contract](docs/solid-visibility.md) |

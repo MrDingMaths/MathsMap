@@ -4,7 +4,7 @@ James requested these rules for current booklets and future imports. They apply 
 
 30 October: follow the [approved verification cuts](booklet-verification-cuts-20261030.md). Strictly source-proven mark-only changes need an exact scoped diff/inverse and guarded save/readback, without routine visual rendering, pagination, answer/Worked renders or repeated maths/rating review. Mixed changes use the substantive route.
 
-Exam questions remain in Exam questions regardless of reasoning score. The practice-to-Challenge threshold of 65 never reclassifies an Exam question, and a score of 65 or above is not an exclusion criterion for otherwise eligible Exam sources. Preserve source/syllabus eligibility and semantic dependencies.
+Exam questions remain in Exam questions regardless of reasoning score. The practice-to-Challenge threshold of 65 *(superseded 11 November 2026: the threshold is 60, from audit v2; see [import pipeline v2](booklet-import-pipeline-v2.md))* never reclassifies an Exam question, and a score of 65 or above is not an exclusion criterion for otherwise eligible Exam sources. Preserve source/syllabus eligibility and semantic dependencies.
 
 Remove genuine exam mark allocations, including multipart allocations such as `[3]`, from displayed questions. Preserve mathematical brackets, intervals, indices, references, source labels and all meaningful notation. Retain the original source unchanged. Removal requires source evidence identifying the token as a mark allocation, an exact inverse transformation and a retained adaptation proof. Ambiguous tokens remain held for source inspection; a blanket bracket-removal regular expression is prohibited.
 

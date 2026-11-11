@@ -1,4 +1,4 @@
-import {reviewConfiguration} from './transcription-settings.mjs';
+import {importReviewConfiguration} from './transcription-settings.mjs';
 // Inspect the existing early sample. This records the inspection, never another export.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -52,7 +52,7 @@ export async function reviewImportSample({runDir,projectFile,sampleDir,runner}){
    const out=path.join(runDir,'lean-review','calls','sample-'+edition+'-'+row.page+'-'+Date.now());
    const source=[...new Set(row.blocks.flatMap(id=>sourcePagesFor(blocks.get(id)??{}).own))].map(page=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png'));
    if(source.length>8||source.some(file=>!fs.existsSync(file)))throw Error('Early sample needs complete focused source images');
-   const {result}=await runner({cwd:process.cwd(),runDir,prompt:VISUAL_CONTRACT+' '+FEEDBACK_CHECKS+'\n\n'+JSON.stringify({edition,pages:[{page:row.page,blocks:row.blocks}],sourceImages:source.length}),images:[row.image,...source],out,profile:'review',configuration:reviewConfiguration(),stage:'lean-sample'});
+   const {result}=await runner({cwd:process.cwd(),runDir,prompt:VISUAL_CONTRACT+' '+FEEDBACK_CHECKS+'\n\n'+JSON.stringify({edition,pages:[{page:row.page,blocks:row.blocks}],sourceImages:source.length}),images:[row.image,...source],out,profile:'review',configuration:importReviewConfiguration(),stage:'lean-sample'});
    failures.push(...recordVisualResult({batch:{edition,rows:[{...page}]},result,state}));
    if(!result.pages?.some(p=>p.page===row.page))failures.push({finding:'Sample page received no verdict'});
   }

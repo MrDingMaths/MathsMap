@@ -1,5 +1,7 @@
 # Lean import runtime
 
+> Superseded for new imports (11 November 2026) by [import pipeline v2](booklet-import-pipeline-v2.md). Historical runs keep these rules.
+
 ## Pinned execution while live Studio changes (28 October 2026)
 
 For an import campaign that must remain independent of live renderer edits, create

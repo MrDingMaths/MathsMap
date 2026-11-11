@@ -1,6 +1,7 @@
 // Read-only browser/PDF acceptance check. Generated evidence stays local.
 import fs from 'node:fs';
 import path from 'node:path';
+import {importV2} from './import-completion.mjs';
 import {pathToFileURL} from 'node:url';
 import {randomUUID} from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -140,6 +141,11 @@ if(editions.some(e=>!['student','short','worked','with-short','with-worked'].inc
 if(preflight&&!['student','short','worked'].every(e=>editions.includes(e)))throw Error('Diagram preflight requires student, short and worked compositions');
 const reportFile=out+(preflight?'/diagram-preflight.json':development?'/development-report.json':'/report.json');
 const runDir=arg('--run-dir'),phaseId=trackProcessPhase(runDir,'render-export',{artifact:reportFile,projects,editions,preflight,development,draft});
+// Import pipeline v2 runs use page hash version 2; every other run keeps its recorded hashes.
+function pageHashVersion(){
+ const file=runDir&&path.join(runDir,'manifest.json');
+ try{return file&&fs.existsSync(file)&&importV2(JSON.parse(fs.readFileSync(file,'utf8').replace(/^﻿/,'')))?2:1;}catch{return 1;}
+}
 if(process.argv.includes('--visibility-reviews')&&arg('--visibility-reviews')===undefined)throw Error('--visibility-reviews requires a review JSON file');
 const visibilityInput=readSolidVisibilityReviews({file:arg('--visibility-reviews')});
 const runStarted=Date.now(),runMeasurements={startedAt:new Date(runStarted).toISOString(),projectLoads:[],exports:[],editions:[],note:'Durations exclude manual visual review. TikZ counters are cumulative snapshots, not inferred cache reuse. Pagination timings include layout settling. Compilation timings sum actual event-reported engine durations, which may overlap wall time; inspection timing is separate. Missing event durations remain null.'};
@@ -297,7 +303,7 @@ try{
     const isAnswer=!!e.querySelector('.compact-answer,.answer-columns,.answer-item,[id*="answer-section-"]');
     return {...base,isAnswer,mode:edition.startsWith('with-')?(isAnswer?(edition.endsWith('worked')?'worked':'short'):'student'):edition,isCover:!!e.querySelector('.booklet-cover,.project-cover'),answerSectionStart:!!e.querySelector('[id*="answer-section-"]')};
    }),{lean,edition});
-   const hashes=renderedPageHashes(domPages,{renderer:runtime,settings:record.settings,assets});
+   const hashes=renderedPageHashes(domPages,{renderer:runtime,settings:record.settings,assets,pageHashVersion:pageHashVersion()});
    if(preflight){
     const renderMs=Date.now()-started,exportStarted=Date.now();
     await page.pdf({path:file,format:'A4',printBackground:true,preferCSSPageSize:true,margin:{top:0,bottom:0,left:0,right:0}});
@@ -337,6 +343,16 @@ try{
     fs.writeFileSync(hashFile,JSON.stringify({mode:'development',projectHash,edition,renderer:runtime,pages:hashes},null,2));
     console.log(`${kind} ${edition}: ${selected.length}/${hashes.length} affected/neighbour pages exported; final acceptance unchanged`);
     await page.emulateMedia({media:'screen'});continue;
+   }
+   // Import pipeline v2 (inefficiency 2): a final export whose DOM already fails is
+   // not printed. The report keeps every DOM finding for the repair round.
+   if(!draft){
+    const domIssues=qa.flatMap(p=>p.issues.map(i=>({page:p.page,...i})));
+    if(domIssues.length||info.columnOverflow.length||!info.links.every(l=>l.exists)){
+     report[kind][edition]={...info,qa,printed:[],issues:domIssues,diagrams,timings,skippedPrinting:'DOM layout/style checks failed before printing'};
+     writeReport();
+     assert.deepEqual(domIssues,[],'DOM layout/style checks');assert.deepEqual(info.columnOverflow,[],'Answer content fits its column');assert.ok(info.links.every(l=>l.exists),'All printed references have destinations');
+    }
    }
    const reusePrintedPdf=lean&&pdfReusable&&!process.argv.includes('--force')&&fullManifest.pages.length===hashes.length&&hashes.every((entry,i)=>entry.hash===fullManifest.pages[i].hash);
    if(!reusePrintedPdf){

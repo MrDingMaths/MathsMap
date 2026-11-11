@@ -456,3 +456,45 @@ test('accidental disconnection can be reconnected without changing content, or p
  assert.equal(sharedHash(published.sections[0].blocks[0]),sharedHash(await f.readBank()));
  assert.deepEqual(published.sections[0].blocks[0].content,saved.sections[0].blocks[0].content);
 });
+
+// Decision 16: masters override textbooks.
+async function textbookFixture(t){
+ const f=await fixture(t),textbook=await updateProjectLibrary(f.project.id,{category:'textbook'},{...f.options,expectedRevision:f.project.revision});
+ const master=async id=>duplicateBookletProject(textbook.id,{...f.options,copyId:id,library:{category:'master',courseId:'s4'}});
+ const edit=async(id,text)=>{const p=await loadBookletProject(id,f.options);p.sections[0].blocks[0].content.answer.worked=text;return saveBookletProject(p,{...f.options,expectedRevision:p.revision});};
+ const links=async()=>JSON.parse(await fs.readFile(path.join(f.bankRoot,'.sync','links.json'),'utf8'))[f.bank.id];
+ return{...f,textbook,master,edit,links};
+}
+test('the first master edit of a textbook question publishes it and takes ownership',async t=>{
+ const f=await textbookFixture(t),m=await f.master('master-a'),before=await f.readBank();
+ await f.edit(m.id,'$x=2$ (master)');
+ assert.equal((await f.readBank()).content.answer.worked,'$x=2$ (master)');
+ assert.equal((await f.links()).projectId,m.id);
+ assert.deepEqual(JSON.parse(await fs.readFile(path.join(f.bankRoot,'.revisions',before.id,revisionHash(before)+'.json'),'utf8')),before);
+ assert.equal((await getProjectBankSync(m.id,f.options)).items[0].owner,true);
+ const item=(await getProjectBankSync(f.textbook.id,f.options)).items[0];assert.equal(item.owner,false);assert.equal(item.state,'update');
+});
+test('a textbook never takes ownership back from a master',async t=>{
+ const f=await textbookFixture(t),m=await f.master('master-a');await f.edit(m.id,'master text');
+ await f.edit(f.textbook.id,'textbook text');
+ assert.equal((await f.readBank()).content.answer.worked,'master text');assert.equal((await f.links()).projectId,m.id);
+});
+test('between two masters the first edit owns the question',async t=>{
+ const f=await textbookFixture(t),a=await f.master('master-a'),b=await f.master('master-b');
+ await f.edit(a.id,'first');await f.edit(b.id,'second');
+ assert.equal((await f.readBank()).content.answer.worked,'first');assert.equal((await f.links()).projectId,a.id);
+ assert.equal((await getProjectBankSync(b.id,f.options)).items[0].owner,false);
+});
+test('a question edited in both the master and the bank still pauses for a decision',async t=>{
+ const f=await textbookFixture(t),m=await f.master('master-a');
+ await writeTransaction([[path.join(f.bankRoot,f.bank.id+'.json'),{...f.bank,content:{...f.bank.content,answer:{...f.bank.content.answer,worked:'bank edit'}}}]]);
+ await f.edit(m.id,'master edit');
+ assert.equal((await f.readBank()).content.answer.worked,'bank edit');assert.equal((await f.links()).projectId,f.textbook.id);
+ assert.equal((await getProjectBankSync(m.id,f.options)).items[0].state,'conflict');
+});
+test('an unedited master save changes neither the bank nor ownership',async t=>{
+ const f=await textbookFixture(t),m=await f.master('master-a'),before=await f.readBank(),linksBefore=await f.links();
+ const p=await loadBookletProject(m.id,f.options);p.sections[0].blocks[0].content.answerSpaceMm=55;
+ await saveBookletProject(p,{...f.options,expectedRevision:p.revision});
+ assert.deepEqual(await f.readBank(),before);assert.deepEqual(await f.links(),linksBefore);
+});

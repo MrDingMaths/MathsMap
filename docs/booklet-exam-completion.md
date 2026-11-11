@@ -134,3 +134,15 @@ James: "Instead of terra 6.1 high, all codex calls should use sol 6.1 low." From
 James: "Stage 4 booklets still have exam questions in the exercises, I want them moved to the exam section", with the top-up booklets, to finish the exam pass for every master. `scripts/booklet/regroup-exam-sections.mjs` now covers Stage 4 masters as well. NAPLAN-titled questions stay in practice. A question that is already an Exam owner (the same MathsBase id or the same prompt text) is held, never doubled. The run folder `.booklet-work/exam-regroup-20261109/` holds `apply.mjs` (`plan`, `build`, `save`) and `render.ps1`. Build orders the Exam section by verified difficulty, keeping logical units together. Render covers the moved questions and their former neighbours. Save publishes through `publish-project.mjs` with the ledger, refusing a live booklet changed since the build. Ratings move with the questions unchanged.
 
 **Gap between Exam questions.** Every booklet prints a 10 mm gap between consecutive questions in an Exam section, but not above the first question on a page (`EXAM_QUESTION_GAP_MM`, `src/lib/booklet-section-options.js`). Pagination measures the rendered page, so it counts the gap too. No project data changes.
+
+## Per new master (11 November 2026, user approved)
+
+A booklet imported after 10 November, when the campaign above closed, runs this pass once. It runs after import and before the audit (see [import pipeline v2](booklet-import-pipeline-v2.md#hand-off-to-the-exam-pass)), and import changes none of its content. For one project, with the same tools and guards as above:
+
+```text
+node scripts/booklet/regroup-exam-sections.mjs --out .booklet-work/RUN/exam-candidates   # stages candidates and before-snapshots only; see booklet-exam-sections.md
+node pedagogy/exam-batch.mjs run --projects ID --mode topup
+node pedagogy/exam-figures.mjs run --projects ID
+```
+
+Save through `pedagogy/exam-publish.mjs` as in "Saves and commits". The pass uses `gpt-6.1-sol` low for ratings and checks, from 9 November. On textbook chapters run only the mark-removal step, never regrouping or top-up.

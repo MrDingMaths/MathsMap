@@ -43,17 +43,43 @@ export async function refreshBankRatings(project,bankRoot){
  }
  return project;
 }
-export async function prepareAutomaticSync(project,bankRoot){
- const links=await syncLinks(bankRoot),owned=ownedLinks(links,project.id),entries=[],updated=[];let changed=false;
+// Masters override textbooks: the first master save that edits a textbook-owned bank question takes ownership.
+const textbookCategories=new Set(['textbook','import-review']);
+const publishedQuestion=(block,current,projection)=>{
+ const next=normaliseQuestion({...current,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(projectBankQuestion(block,{policy:projection??null})).content,current.content),updatedAt:new Date().toISOString()});
+ reconcileSyncLayout(current,next,next.presentation);
+ const check=validateQuestion(next);if(!check.valid)throw new Error('Bank sync: '+check.errors.join('; '));
+ return next;
+};
+async function takeoverCandidate(project,block,links,bankRoot,projectRoot,categories){
+ const id=block.bankRef?.id,link=id&&links[id];if(!link||link.projectId===project.id)return null;
+ segment(id);const owner=link.projectId;
+ if(!categories.has(owner))categories.set(owner,await readSyncJson(path.join(projectRoot,segment(owner)+'.json')).then(p=>p?.library?.category??null,()=>null));
+ if(!textbookCategories.has(categories.get(owner)))return null;
+ const current=await readSyncJson(path.join(bankRoot,id+'.json'));if(!current)return null;
+ const projection=block.bankRef.projection??null,bankHash=sharedHash(current);
+ if(sharedHash(block,projection)===bankHash)return null;
+ if(block.bankRef.revision!==revisionHash(current)){ // the bank moved on: an update or conflict, never a takeover
+  const base=block.bankRef.revision?await readSyncJson(path.join(bankRoot,'.revisions',id,segment(block.bankRef.revision)+'.json')):null;
+  if(!base||sharedHash(base)!==bankHash)return null;
+ }
+ return {id,link,current,projection};
+}
+export async function prepareAutomaticSync(project,bankRoot,{projectRoot=null}={}){
+ const links=await syncLinks(bankRoot),owned=ownedLinks(links,project.id),entries=[],updated=[],categories=new Map(),takeover=!!projectRoot&&project.library?.category==='master';let changed=false;
  for(const block of blocks(project)){
-  const pair=owned.get(block.id);if(!pair)continue;
+  const pair=owned.get(block.id);
+  if(!pair){
+   const move=takeover?await takeoverCandidate(project,block,links,bankRoot,projectRoot,categories):null;if(!move)continue;
+   const next=publishedQuestion(block,move.current,move.projection);
+   entries.push([path.join(bankRoot,'.revisions',move.id,revisionHash(move.current)+'.json'),move.current],[path.join(bankRoot,'.revisions',move.id,revisionHash(move.current)+'.owner.json'),move.link],[path.join(bankRoot,move.id+'.json'),next]);updated.push(next);
+   registerOwner(links,project,block,next,move.projection);changed=true;block.bankRef.revision=revisionHash(next);continue;
+  }
   const[id,link]=pair;segment(id);const current=await readSyncJson(path.join(bankRoot,id+'.json'));if(!current)continue;
   const localHash=sharedHash(block,link.projection),bankHash=sharedHash(current);
   if(localHash===bankHash){if(block.bankRef?.id===id)block.bankRef.revision=revisionHash(current);if(link.sourceHash!==localHash||link.bankHash!==bankHash||link.bankRevision!==revisionHash(current)){registerOwner(links,project,block,current);changed=true;}continue;}
   if(localHash===link.sourceHash||bankHash!==link.bankHash)continue; // local save succeeds; conflicting question pauses.
-  const next=normaliseQuestion({...current,title:block.title??'',content:mergeQuestionContent(normaliseQuestion(projectBankQuestion(block,{policy:link.projection??null})).content,current.content),updatedAt:new Date().toISOString()});
-  reconcileSyncLayout(current,next,next.presentation);
-  const check=validateQuestion(next);if(!check.valid)throw new Error('Bank sync: '+check.errors.join('; '));
+  const next=publishedQuestion(block,current,link.projection);
   entries.push([path.join(bankRoot,'.revisions',id,revisionHash(current)+'.json'),current],[path.join(bankRoot,id+'.json'),next]);updated.push(next);
   registerOwner(links,project,block,next);changed=true;
   if(block.bankRef?.id===id)block.bankRef.revision=revisionHash(next);

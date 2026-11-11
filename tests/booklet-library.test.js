@@ -22,6 +22,16 @@ test('library groups by category, course order and title, with search and separa
   assert.equal(normalizeProjectLibrary().category,null);
 });
 
+test('textbook category groups after import reviews; acceptance fields appear only when valid',()=>{
+  const projects=[{id:'t',title:'Textbook',library:{category:'textbook',courseId:'adv',acceptedAt:'2026-11-11T00:00:00Z',acceptedRevision:7}},{id:'c',title:'Concept',library:{category:'import-review'}},{id:'u',title:'Legacy'}];
+  assert.deepEqual(groupLibraryProjects(projects,courses).map(g=>g.key),['import-review','textbook','unassigned']);
+  assert.equal(groupLibraryProjects(projects,courses)[1].label,'Textbooks');
+  assert.deepEqual(groupLibraryProjects(projects,courses,{query:'textbooks'}).flatMap(g=>g.projects).map(p=>p.id),['t']);
+  assert.deepEqual(normalizeProjectLibrary({category:'textbook',acceptedAt:'2026-11-11T00:00:00Z',acceptedRevision:7}),{category:'textbook',courseId:'',classLabel:'',archivedAt:null,acceptedAt:'2026-11-11T00:00:00Z',acceptedRevision:7});
+  assert.deepEqual(Object.keys(normalizeProjectLibrary({category:'import-review'})),['category','courseId','classLabel','archivedAt']);
+  assert.deepEqual(Object.keys(normalizeProjectLibrary({category:'textbook',acceptedAt:'soon',acceptedRevision:-1})),['category','courseId','classLabel','archivedAt']);
+});
+
 test('migration preserves manually classified and already migrated projects',()=>{
   const initial={id:'volume-v1',revision:4};
   assert.equal(libraryMigration([initial]).length,1);

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {reviewConfiguration} from './transcription-settings.mjs';
+import {importReviewConfiguration} from './transcription-settings.mjs';
 // Lean review route (approved 5 October 2026) for three-pass imports. It keeps
 // three things and nothing else:
 //   1. a revision-checked save of the project being reviewed;
@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import {launchChromium} from './browser-launch.mjs';
 import {dispatchPinnedCli} from './frozen-runtime-pin.mjs';
 import {difficultyBandForScore} from '../../src/lib/practice-question-model.js';
-import {REASONING_PROMPT,ratingCoverage,requireReasoningCoverage,practiceRatingBlocks,verifiedRating,stampPacketRatings} from './reasoning-ratings.mjs';
+import {REASONING_PROMPT,ratingCoverage,requireReasoningCoverage,practiceRatingBlocks,verifiedRating,validRawRating,stampPacketRatings} from './reasoning-ratings.mjs';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {isDeepStrictEqual} from 'node:util';
@@ -29,7 +29,7 @@ import {THEORY_TEXT_PROMPT,LEAN_IMPORT_PRINCIPLES,CURVED_SOLID_PROMPT} from './t
 import {DIAGRAM_SIZING_PROMPT,renderedDiagramSizingFindings} from '../../src/lib/booklet-diagram-sizing.js';
 import {leanShadingIssues} from './lean-shading.mjs';
 import {writeNativeReviewDetails} from './native-review-details.mjs';
-import {assessCompletion,completionPolicy,SOURCE_VISUAL_PROFILE,completionHash} from './import-completion.mjs';
+import {assessCompletion,completionPolicy,SOURCE_VISUAL_PROFILE,completionHash,importV2,REVIEW_SPACING_FIELDS} from './import-completion.mjs';
 import {FEEDBACK_CHECKS} from '../../polish/repair-routing.mjs';
 import {rasterEvidence,rasterEvidenceReader,retainPixelReviews,visualOutcomeReader,overlayVisualEvidence} from './lean-visual-evidence.mjs';
 
@@ -198,7 +198,9 @@ export function contentPrompt({project,batch,skills=[],reuse,evidence}){
  if(hasAssignedReuse)payload.reuseCandidates=batch.rows.filter(row=>row.reuse).map(row=>({id:row.block.id,...row.reuse}));
  if(evidence)payload.originalPdfEvidence=evidence;
  payload.exerciseContext=(batch.section.blocks??[]).map(block=>({id:block.id,flow:block.flow,prompt:block.content?.prompt??block.prompt,classification:block.classification}));
- const teachingFields=THEORY_TEXT_PROMPT+' '+LEAN_IMPORT_PRINCIPLES+' '+REASONING_PROMPT+' Check the supplied reasoning rating against this rubric as part of this same review; correct material rating errors with exact classification-field patches. Rating corrections are permitted metadata corrections and require no separate stage. For worked-example blocks, keep the task and givens in prompt and completed working in theorySolution or steps, preserving every source step, annotation and meaningful equation alignment. Question and part nodes render answers from answer.short and answer.worked; do not put their solutions in an unsupported theorySolution field. Provided working that students must interpret or critique is question data and stays in prompt. In a mixed source Example, supplied demonstration nodes explicitly recorded as response kind none are permanent source teaching, and may remain in prompt beside the separate student response. Do not move that supplied demonstration behind response answer controls as a schema-only correction; preserve its visibility and the source teaching relationship. Do not place completed answers in prompt merely to keep them visible. Check source tables and unlabelled response rows retain clear answer association, and duplicate source part labels have unambiguous displayed references with original identities retained. Check for missing part labels too: distinct response stages, including an initial drawing or table-completion task followed by other tasks, need visible a, b, c labels (nested tasks i, ii), with matching short/worked answer labels, never unexplained positional labels such as 11(1). Update references to renumbered parts. Preserve actual table cells, field captions and single-task scaffolds without inventing extra parts; retain explicit local exceptions.';
+ // Import pipeline v2 (Decision 11): the author leaves ratings out and this reviewer is the one rater.
+ const ratingTask=batch.reviewerRates?' You are the one rater for this import: the author did not rate. For every practice question in "blocks", after deriving its answers, return exact classification patches setting /classification/reasoningScore (integer) and /classification/difficultyReason (task-specific rationale), with original null when absent. Do not patch answerSpaceMm: working space is set by the estimator and pagination. A practice question passed without a rating is not reviewed.':' Check the supplied reasoning rating against this rubric as part of this same review; correct material rating errors with exact classification-field patches. Rating corrections are permitted metadata corrections and require no separate stage.';
+ const teachingFields=THEORY_TEXT_PROMPT+' '+LEAN_IMPORT_PRINCIPLES+' '+REASONING_PROMPT+ratingTask+' For worked-example blocks, keep the task and givens in prompt and completed working in theorySolution or steps, preserving every source step, annotation and meaningful equation alignment. Question and part nodes render answers from answer.short and answer.worked; do not put their solutions in an unsupported theorySolution field. Provided working that students must interpret or critique is question data and stays in prompt. In a mixed source Example, supplied demonstration nodes explicitly recorded as response kind none are permanent source teaching, and may remain in prompt beside the separate student response. Do not move that supplied demonstration behind response answer controls as a schema-only correction; preserve its visibility and the source teaching relationship. Do not place completed answers in prompt merely to keep them visible. Check source tables and unlabelled response rows retain clear answer association, and duplicate source part labels have unambiguous displayed references with original identities retained. Check for missing part labels too: distinct response stages, including an initial drawing or table-completion task followed by other tasks, need visible a, b, c labels (nested tasks i, ii), with matching short/worked answer labels, never unexplained positional labels such as 11(1). Update references to renumbered parts. Preserve actual table cells, field captions and single-task scaffolds without inventing extra parts; retain explicit local exceptions.';
  return CONTENT_CONTRACT+' '+DIAGRAM_SIZING_PROMPT+' '+DIAGRAM_REVIEW_CONTRACT+' '+CONTENT_RESULT_FIELDS+' '+teachingFields+' Companion blocks, when supplied, are unchanged context from the same teaching group. Use them to assess the complete source group; do not report their content as missing from an assigned block, return records or corrections for them, or repeat their accepted review.'+(evidence?' Original PDF evidence supplies teaching for practice-only imports. Inspect every linked teaching page needed to establish each taught method, including images beyond the attached previews. Independently derive every answer, then compare both answers against the original answer-book pages by chapter/exercise/question label AND mathematical content. Inspect all linked answer pages; a path/hash or previous author comparison is not verification. An explicit answerKeyAbsence is only an author/coordinator claim: independently inspect ALL attached searched answer pages against the full source task and verify that no matching keyed answer exists. If genuinely unkeyed, independently derive and review every answer from the original question and taught method; do not fabricate answer references or force unrelated key answers. Missing/changed original files or an unresolved match must fail; the absence assertion itself grants no acceptance. Original question and answer PDFs are immutable evidence. Resolve substantive discrepancies in the editable answers, retaining source defects in reviewer notes. Report unavailable or ambiguous evidence as failed, never acceptance.':'')+(hasAssignedReuse?' '+REUSE_CONTRACT:'')+'\n\n'+JSON.stringify(payload);
 }
 export function practiceContentEvidence(project,batch,runDir){
@@ -297,12 +299,14 @@ const findNode=(value,id)=>{
 };
 // Apply exact-field patches inside the reviewed blocks only. A patch whose
 // original no longer matches is rejected; an identical-value patch is dropped.
-export function applyCorrections(blocks,corrections=[]){
+export function applyCorrections(blocks,corrections=[],{blockedFields=[]}={}){
  const applied=[],rejected=[];
  for(const correction of corrections)for(const patch of correction.patches??[]){
   const row={correctionId:correction.id??null,reason:correction.reason??null,...patch};
   try{
    if(Object.hasOwn(patch,'replacement'))throw Error('use corrected for replacement values; replacement is not a supported patch field');
+   // Import pipeline v2: working space belongs to the estimator and pagination, not the content review.
+   if(blockedFields.includes(pointerParts(patch.field??'').at(-1))){rejected.push({...row,status:'not-required',error:'working space is set by the estimator and pagination'});continue;}
    const owner=blocks.find(block=>block.id===patch.targetId||findNode(block,patch.targetId));
    if(!owner)throw Error('target is outside the reviewed blocks');
    const node=owner.id===patch.targetId?owner:findNode(owner,patch.targetId),parts=pointerParts(patch.field);
@@ -331,7 +335,7 @@ export function acceptedSnapshot(block){
 export function recordContentResult({batch,result,state,dir}){
  const inputBlocks=new Map(batch.rows.map(row=>[row.block.id,structuredClone(row.block)]));
  const blocks=batch.rows.map(row=>row.block),records=new Map((result.records??[]).map(record=>[String(record.id).replace(/^question:/,''),record]));
- const {applied,rejected}=applyCorrections(blocks,result.corrections),stale=rejected.filter(row=>row.status==='rejected'),summary={passed:0,failed:0,pending:0,applied:applied.length,rejected:stale.length};
+ const {applied,rejected}=applyCorrections(blocks,result.corrections,{blockedFields:batch.reviewerRates?REVIEW_SPACING_FIELDS:[]}),stale=rejected.filter(row=>row.status==='rejected'),summary={passed:0,failed:0,pending:0,applied:applied.length,rejected:stale.length};
  for(const row of [...applied,...stale])logCorrection(dir,row);
  for(const block of blocks){
   const record=records.get(block.id),previous=state.questions[block.id],attempts=(previous?.attempts??0)+1;
@@ -352,6 +356,16 @@ export function recordContentResult({batch,result,state,dir}){
   const incompatible=reuse&&(record.taskPreserved===false||record.sourceEquivalent===false||record.taughtMethodEquivalent===false);
   const reuseIncomplete=incompatible||reuse&&!verifiedReuse&&record.mathematicsReviewed!==true;
   if(reuseIncomplete){state.questions[block.id]={...retained,hash:null,outcome:'pending',note:'Reuse source, classification or taught-method comparison was incomplete; full review required',attempts,at:now(),reuse:reuseReceipt(reuse,'fallback')};summary.pending++;continue;}
+  // Import pipeline v2 (Decision 11): the reviewer is the one rater, so a passed
+  // practice block without a rating is not reviewed yet; it goes back once, then fails.
+  // The script derives the band from the reviewer's score (the rubric decides it).
+  if(batch.reviewerRates&&Number.isInteger(block.classification?.reasoningScore))block.classification.difficulty=difficultyBandForScore(block.classification.reasoningScore);
+  const unrated=batch.reviewerRates&&record.outcome==='passed'&&practiceRatingBlocks({sections:[{...batch.section,blocks:[block]}]}).length&&!validRawRating(block.classification);
+  if(unrated){
+   if(attempts>=2){state.questions[block.id]={...retained,hash:contentHash(block),outcome:'failed',note:'Reviewer passed this practice question twice without rating it',attempts,at:now()};summary.failed++;}
+   else{state.questions[block.id]={...retained,hash:null,outcome:'pending',note:'Reviewer passed the question without rating it',attempts,at:now()};summary.pending++;}
+   continue;
+  }
   const outcome=record.outcome==='passed'?'passed':'failed';
   const reviewedExternalBinding=externalTeachingBinding(inputBlocks.get(block.id)??block);
   state.questions[block.id]={...retained,hash:contentHash(block),outcome,note:String(record.note??'').slice(0,600),attempts,at:now(),...(reviewedExternalBinding||previous?.externalTeachingBinding||externalTeachingBinding(block)?{externalTeachingBinding:reviewedExternalBinding}:{}),...(batch.practiceEvidence?{practiceEvidenceVersion:batch.practiceEvidence.version,practiceEvidenceBinding:batch.practiceEvidence.binding}:{}),...(reuse?{reuse:reuseReceipt(reuse,verifiedReuse?'verified':'full-review')}:{})};
@@ -392,6 +406,7 @@ export function splitExternalTeachingBatches(batches,{project,runDir,pageImage,l
 export async function runContentReview({runDir,projectFile,reuseProjectFile,reuseRunDir,concurrency=3,limit=Infinity,retryFailed=false,runner,skills,root=ROOT}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>3)throw Error('Use one to three workers');
  const dir=path.join(runDir,'lean-review'),handle=openProject(projectFile,{root}),state=loadReviewed(dir);
+ const manifestFile=path.join(runDir,'manifest.json'),reviewerRates=importV2(fs.existsSync(manifestFile)?read(manifestFile):{});
  const correctionFile=path.join(dir,'corrections.jsonl');
  if(fs.existsSync(correctionFile)&&retainLoggedTableLayoutReviews(handle.project,state,fs.readFileSync(correctionFile,'utf8').split('\n').filter(Boolean).map(JSON.parse)))saveReviewed(dir,state);
  if(!isLeanReview(handle.project))throw Error('The lean review route requires a three-pass project');
@@ -415,12 +430,12 @@ export async function runContentReview({runDir,projectFile,reuseProjectFile,reus
  const batches=splitExternalTeachingBatches(batchBlocks(reviewableBlocks(handle.project).filter(({block})=>needed.has(block.id))),{project:handle.project,runDir,pageImage}).slice(0,limit),totals={batches:batches.length,passed:0,failed:0,pending:0,applied:0,rejected:0,errors:[]};
  let saving=Promise.resolve();
  await pool(batches,concurrency,async(batch,index)=>{
-  batch.reuseContext=reuse;batch.projectId=handle.project.id;batch.project=handle.project;batch.teachingHash=sha(JSON.stringify(teachingFor(handle.project,batch.section)));
+  batch.reuseContext=reuse;batch.reviewerRates=reviewerRates;batch.projectId=handle.project.id;batch.project=handle.project;batch.teachingHash=sha(JSON.stringify(teachingFor(handle.project,batch.section)));
   for(const row of batch.rows)if(state.questions[row.block.id]?.reuse?.outcome!=='fallback'){const local=reuseCandidate(row.block,localReuse);row.reuse=local??reuseCandidate(row.block,reuse);row.reuseContext=local?localReuse:reuse;}
   const out=path.join(dir,'calls','content-'+Date.now()+'-'+index);
   try{
    const evidence=practiceContentEvidence(handle.project,batch,runDir);batch.practiceEvidence=evidence;
-   const {result,metrics}=await runner({cwd:root,runDir,prompt:contentPrompt({project:handle.project,batch,skills,reuse,evidence}),images:contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence}),out,profile:'review',configuration:reviewConfiguration(),stage:'lean-content'});
+   const {result,metrics}=await runner({cwd:root,runDir,prompt:contentPrompt({project:handle.project,batch,skills,reuse,evidence}),images:contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence}),out,profile:'review',configuration:importReviewConfiguration(),stage:'lean-content'});
    if(evidence)for(const ref of evidence.files)if(!fs.existsSync(ref.path)||sha(fs.readFileSync(ref.path))!==ref.hash)throw Error('Original review evidence changed during the call: '+ref.path);
    if(evidence&&batch.rows.some(({block})=>block.sourceReview?.teachingContext?.externalSources?.length)&&practiceContentEvidence(handle.project,batch,runDir).binding!==evidence.binding)throw Error('External original teaching references changed during the call');
    // Results are applied and saved one at a time.
@@ -452,6 +467,7 @@ export async function runContentReview({runDir,projectFile,reuseProjectFile,reus
 
 // A scoped fill review adds occurrence/source/context decisions to this same
 // table; it never repeats mathematical acceptance or changes booklet content.
+const readManifest=runDir=>{const file=path.join(runDir,'manifest.json');return fs.existsSync(file)?read(file):{};};
 export async function runShadingReview({runDir,projectFile,exportDir,teachingExportDir,teachingProjectFile,concurrency=3,runner,root=ROOT}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>3)throw Error('Use one to three workers');
  const {inventoryShading}=await import('./check-diagram-shading.mjs');
@@ -483,21 +499,24 @@ export async function runShadingReview({runDir,projectFile,exportDir,teachingExp
   const context=[];let node=project;
   for(const key of row.location.split('/').filter(Boolean)){node=node?.[key];if(node&&typeof node==='object')for(const field of ['prompt','title','alt'])if(node[field]!=null)context.push(node[field]);}
   row.nativeContext=context;
-  const last=batches.at(-1);
-  if(last&&last.blockId===block.id&&last.rows.length<4)last.rows.push(row);else batches.push({blockId:block.id,sourcePages:sourcePagesFor(block).own,rows:[row]});
+  // Import pipeline v2 (inefficiency 7): fills from neighbouring blocks share one
+  // call, up to eight occurrences, each still decided and recorded individually.
+  const last=batches.at(-1),limit=importV2(readManifest(runDir))?8:4;
+  if(last&&(limit>4||last.blockId===block.id)&&last.rows.length<limit){last.rows.push(row);if(!last.blockIds.includes(block.id)){last.blockIds.push(block.id);last.sourcePages=[...new Set([...last.sourcePages,...sourcePagesFor(block).own])];}}
+  else batches.push({blockId:block.id,blockIds:[block.id],sourcePages:sourcePagesFor(block).own,rows:[row]});
  }
  const errors=[];let accepted=0;
  // Rasterisation is serialized before model calls, retaining existing PDFs.
  for(const batch of batches){
   batch.images=[];batch.pages=[];
   for(const edition of ['student','worked']){
-   const entry=report[edition],pages=entry.pageHashes.filter(row=>(row.blocks??[]).includes(batch.blockId)).map(row=>row.page);
+   const entry=report[edition],pages=entry.pageHashes.filter(row=>(row.blocks??[]).some(id=>batch.blockIds.includes(id))).map(row=>row.page);
    if(!pages.length)continue;
    const rasters=await ensureSelectedPdfRasters(entry.pdf,entry.pageHashes.length,path.join(exportDir,'shading-rasters',edition),{pages});
    for(const image of rasters.images){batch.images.push(image.path);batch.pages.push({edition,page:image.page});}
   }
   if(teachingReport){
-   const pages=teachingReport.pageHashes.filter(row=>(row.blocks??[]).includes(batch.blockId)).map(row=>row.page);
+   const pages=teachingReport.pageHashes.filter(row=>(row.blocks??[]).some(id=>batch.blockIds.includes(id))).map(row=>row.page);
    if(pages.length){
     const rasters=await ensureSelectedPdfRasters(teachingReport.pdf,teachingReport.pageHashes.length,path.join(teachingExportDir,'shading-rasters','student'),{pages});
     for(const image of rasters.images){batch.images.push(image.path);batch.pages.push({edition:'student with teaching answers',page:image.page});}
@@ -509,7 +528,7 @@ export async function runShadingReview({runDir,projectFile,exportDir,teachingExp
  await pool(batches,concurrency,async(batch,index)=>{
   try{
    const payload={booklet:project.title,pages:batch.pages,sourcePages:batch.sourceImages.map(row=>row.page),imageOrder:'Rendered PDF pages first, then original source pages',occurrences:batch.rows.map(({occurrence,sourceHash,contextHash,code,image,candidates,nativeContext})=>({occurrence,sourceHash,contextHash,code,image,candidates,context:nativeContext}))};
-   const {result}=await runner({cwd:root,runDir,prompt:LEAN_SHADING_CONTRACT+'\n\n'+JSON.stringify(payload),images:[...batch.images,...batch.sourceImages.map(row=>row.path)],out:path.join(dir,'calls','shading-'+Date.now()+'-'+index),profile:'review',configuration:reviewConfiguration(),stage:'lean-shading'});
+   const {result}=await runner({cwd:root,runDir,prompt:LEAN_SHADING_CONTRACT+'\n\n'+JSON.stringify(payload),images:[...batch.images,...batch.sourceImages.map(row=>row.path)],out:path.join(dir,'calls','shading-'+Date.now()+'-'+index),profile:'review',configuration:importReviewConfiguration(),stage:'lean-shading'});
    const issues=recordLeanShading(batch.rows,result,state);errors.push(...issues);accepted+=batch.rows.filter(row=>!leanShadingIssues([row],state).length).length;
    saveReviewed(dir,state);
   }catch(error){errors.push(error.message);}
@@ -771,7 +790,7 @@ export async function runVisualReview({runDir,projectFile,exportDir,concurrency=
    const out=path.join(dir,'calls','visual-'+Date.now()+'-'+index);fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'batch.json'),JSON.stringify(batch,null,1)+'\n');
    const details=batch.rows.filter(row=>row.previousFindings?.length||state.pages[pageKey(batch.edition,row.hash)]?.finding).flatMap(row=>nativeDetails(plan[batch.edition].pdf,row.page,out));
    const prompt=VISUAL_CONTRACT+' '+FEEDBACK_CHECKS+' '+VISUAL_BREAK_POLICY+VISUAL_SOURCE_GUIDANCE+VISUAL_DETAIL_GUIDANCE+'\n\n'+JSON.stringify({booklet:project.title,edition:batch.edition,pages:batch.rows.map(row=>({page:row.page,blocks:row.blocks,imagePath:row.image,previousFinding:state.pages[pageKey(batch.edition,row.hash)]?.finding||undefined,previousFindings:row.previousFindings,sizingReviews:row.sizingReviews,diagramFindings:row.diagramFindings})),blocks:[...new Set(batch.rows.flatMap(row=>row.blocks.map(id=>typeof id==='string'?id:id.id)))].map(id=>{const block=blocks.get(id);return {id,classification:block?.classification,flow:block?.flow,sourceRefs:block?.sourceRefs};}),details,sourcePages:requiredSources,sourceImages:sources.length});
-   const {result}=await runner({cwd:root,runDir,prompt,images:[...batch.rows.map(row=>row.image),...details.map(row=>row.imagePath),...sources],out,profile:'review',configuration:reviewConfiguration(),stage:'lean-visual'});
+   const {result}=await runner({cwd:root,runDir,prompt,images:[...batch.rows.map(row=>row.image),...details.map(row=>row.imagePath),...sources],out,profile:'review',configuration:importReviewConfiguration(),stage:'lean-visual'});
    findings.push(...recordVisualResult({batch,result,state}));
    for(const row of batch.rows){const saved=state.pages[pageKey(batch.edition,row.hash)];if(saved)saved.sourceEvidenceHash=sourceEvidenceFor(row);}
    saveReviewed(dir,state);
@@ -941,7 +960,7 @@ export async function runImagePreflight({runDir,projectFile,runner,root=ROOT}){
      await page.locator('img').screenshot({path:preview});
     }finally{await browser?.close();}
    }
-   const {result}=await runner({cwd:root,runDir,prompt:prompt+'\nThe supplied source-page PNG is rendered directly from the authoritative original PDF and is the original-page evidence for this comparison; no filesystem lookup is needed. SVG assets are supplied as exact browser-rendered PNG previews. An authored vector reconstruction may replace source pixels when it preserves the assessed graph shape, axes, labels and relationships.',images:[preview,...sources],out:path.join(dir,'calls','image-preflight-'+Date.now()),profile:'review',configuration:reviewConfiguration(),stage:'lean-image-preflight'});
+   const {result}=await runner({cwd:root,runDir,prompt:prompt+'\nThe supplied source-page PNG is rendered directly from the authoritative original PDF and is the original-page evidence for this comparison; no filesystem lookup is needed. SVG assets are supplied as exact browser-rendered PNG previews. An authored vector reconstruction may replace source pixels when it preserves the assessed graph shape, axes, labels and relationships.',images:[preview,...sources],out:path.join(dir,'calls','image-preflight-'+Date.now()),profile:'review',configuration:importReviewConfiguration(),stage:'lean-image-preflight'});
    if(result.sourceHash!==row.sourceHash||result.outcome!=='accepted'||!result.reason?.trim())throw Error(result.reason||'Incomplete retained-image preflight');
    if(imageSourceHash(row.image,root)!==row.sourceHash||read(projectFile).revision!==project.revision)throw Error('Image or project changed during preflight');
    state.diagrams??={};state.diagrams[row.sourceHash]={status:'accepted',reason:result.reason,sourceHash:row.sourceHash,contextHash:row.contextHash,at:now()};saveReviewed(dir,state);accepted++;

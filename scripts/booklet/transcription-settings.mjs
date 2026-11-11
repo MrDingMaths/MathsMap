@@ -1,3 +1,4 @@
+import {AsyncLocalStorage} from 'node:async_hooks';
 // User-selected production transcription configuration. Benchmark arms remain independent.
 export const TRANSCRIPTION_DEFAULT = Object.freeze({provider:'codex',model:'gpt-6.1-sol',effort:'medium'});
 // Review defaults do not migrate historical authoring/transcription manifests.
@@ -23,8 +24,14 @@ export function requireCurrentTranscription(configuration) {
   return configuration;
 }
 
+// An entry point (an import's finish or lean-review command) may name the review
+// configuration for everything it runs; callers that ask for the default then get
+// that one. It is set explicitly by the entry point, never chosen after a failure.
+const scopedReview=new AsyncLocalStorage();
+export function withReviewConfiguration(configuration,work){return scopedReview.run(requireCurrentReview(configuration),work);}
 // A fallback is a deliberate recorded choice, never a response to a failed call.
 export function reviewConfiguration(record={}) {
+  if(!Object.keys(record).length&&scopedReview.getStore())return {...scopedReview.getStore()};
   if(record.benchmarkArm||record.reasoningOverride)throw new Error('Review uses Terra High; transcription overrides and benchmark arms are not review configuration. Preserve the historical configuration.');
   const fallback=record.reviewFallback;
   if(fallback&&(fallback.model!=='gpt-6.1-sol'||fallback.effort!=='low'||typeof fallback.reason!=='string'||!fallback.reason.trim()))
@@ -45,4 +52,10 @@ export function requireCurrentReview(configuration) {
 // compatibility envelope so historical call metrics remain readable.
 export function difficultyRatingConfiguration() {
   return reviewConfiguration({reviewFallback:{model:'gpt-6.1-sol',effort:'low',reason:'5 November 2026 user policy: use Sol 6.1 Low for difficulty ratings; preserve existing valid ratings. Other reviews retain Terra High.'}});
+}
+// Booklet-import reviews, ratings and checks (import pipeline v2, Decision 12).
+// The envelope keeps the recorded reviewFallback shape so call metrics and
+// requireCurrentReview read it unchanged; the reason states it is the policy.
+export function importReviewConfiguration() {
+  return reviewConfiguration({reviewFallback:{model:'gpt-6.1-sol',effort:'low',reason:'5 November 2026 user policy (import pipeline v2, Decision 12): booklet-import reviews and ratings use Sol 6.1 Low. Other reviews retain Terra High.'}});
 }

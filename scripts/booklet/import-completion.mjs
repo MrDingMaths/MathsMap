@@ -28,6 +28,13 @@ export function assessCompletion({required=[],completed=[],pending=0,failed=[],r
  blockers.push(...exportProblems,...errors.map(row=>typeof row==='string'?row:row.error??JSON.stringify(row)));
  return {ready:!blockers.length,blockers:[...new Set(blockers)],warnings:[...new Set(warnings)]};
 }
+// Import pipeline v2 (docs/booklet-import-pipeline-v2.md). Recorded on new run
+// manifests only; a run without it keeps its recorded authoring and review rules.
+export const IMPORT_POLICY='import-v2';
+export const importV2=(manifest={})=>manifest?.importPolicy===IMPORT_POLICY;
+// Working space belongs to the estimator and pagination (Decision 11 / inefficiency 4):
+// an import-v2 content review never patches it.
+export const REVIEW_SPACING_FIELDS=Object.freeze(['answerSpaceMm']);
 export function completionPolicy(manifest={}){
  return {enabled:manifest.completionProfile===COMPLETION_PROFILE,direct:manifest.completionRoute==='iceem-direct'};
 }

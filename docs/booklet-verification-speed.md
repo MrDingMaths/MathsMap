@@ -1,5 +1,7 @@
 # Booklet polish pipeline (23 October 2026, user approved)
 
+> Superseded for new imports (11 November 2026) by [import pipeline v2](booklet-import-pipeline-v2.md); polish is not part of import and stays for existing booklets. Historical runs keep these rules.
+
 ## Current completion workflow (24 October 2026)
 
 Imports use [streamlined completion](booklet-three-pass-import.md#streamlined-completion-24-october-2026), coordinated by `lean-review.mjs finish`. Its one five-edition export supplies automated checks and the one source-side Questions review, targeted answers and combined boundaries. No separate student export, second full residual review or final visual rereading is required. This supersedes the import stage sequence and residual-density hold described historically below. ICE-EM retains its explicit direct route.

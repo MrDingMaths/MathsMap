@@ -257,14 +257,15 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
     fs.writeFileSync(path.join(out,'generation.json'),JSON.stringify(reply.result,null,2));events.phase('validation');
     const packets=reply.result?.packets?.map(packet=>{
       const raw=structuredClone(packet);
-      normaliseAuthoredRatingBands(raw);validatePacketRatings(raw);
+      // Import pipeline v2: the author doesn't rate; the content reviewer does (Decision 11).
+      if(!tasks.some(task=>task.reviewerRates)){normaliseAuthoredRatingBands(raw);validatePacketRatings(raw);}
       return materialize(raw);
     });
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');
     for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p),inventory={...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)};
      mergeAssignmentPackets(inventory,[{assignment,packet}]);validate(packet,{...original,inventory});preflightAuthorAssignment(packet);}
     coalescePacketContinuations(packets,{continuations:assignment.continuations});
-      for(const packet of packets)stampPacketRatings(packet,metrics,path.relative(process.cwd(),path.join(out,'generation.json')).replaceAll('\\','/'));
+      if(!tasks.some(task=>task.reviewerRates))for(const packet of packets)stampPacketRatings(packet,metrics,path.relative(process.cwd(),path.join(out,'generation.json')).replaceAll('\\','/'));
     const resultFile=path.join(out,'result.json');fs.writeFileSync(resultFile,JSON.stringify({packets},null,2));
     fs.writeFileSync(cacheFile,JSON.stringify({inputHash:payload.inputHash,result:{path:resultFile,hash:bytes(resultFile)}}));ok=true;events.end();return packets;
    }catch(e){error=e.message;metrics??=e.metrics;throw e;}finally{events.finish({ok,error,metrics});}

@@ -1,5 +1,7 @@
 # AGENTS.md sections moved word for word (3 November 2026)
 
+> "Future imports: three-pass precedence" below is superseded for new imports (11 November 2026) by [import pipeline v2](booklet-import-pipeline-v2.md). Historical runs keep these rules.
+
 James asked for AGENTS.md to be trimmed on 3 November 2026. These sections were moved here unchanged except for heading level. They remain in force, but later sections of [agent rules](agent-rules.md) (the rest of `AGENTS.md`, moved there on 6 November 2026) supersede them where they conflict (for example Models, Streamlined imports, Lean imports, Lean local feedback repairs and the 30 October verification cuts).
 
 ## Skill-content campaign: booklet question types (4 October 2026)

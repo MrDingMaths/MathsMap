@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import {compatiblePracticeSchema} from './practice-schema-compatibility.mjs';
 import {compatibleSourcePresentation} from './source-presentation-compatibility.mjs';
 import {LEAN_REVIEW_PROFILE} from './lean-profile.mjs';
-import {COMPLETION_PROFILE} from './import-completion.mjs';
+import {COMPLETION_PROFILE,IMPORT_POLICY} from './import-completion.mjs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
@@ -260,7 +260,7 @@ export function prepareRun({ pdf, docx = null, teacherPdf = null, teacherDocx = 
   const manifest = {
     format: RUN_MANIFEST_FORMAT, version: 1, id, createdAt: new Date().toISOString(), status: 'prepared',
     ...configuration, concurrency, selectedPages, contextPages, teacherPages, continuations,
-    reviewProfile: LEAN_REVIEW_PROFILE, completionProfile: COMPLETION_PROFILE, exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
+    reviewProfile: LEAN_REVIEW_PROFILE, completionProfile: COMPLETION_PROFILE, importPolicy: IMPORT_POLICY, track: configuration.track ?? (configuration.contentScope === 'practice-only' ? 'textbook' : 'booklet'), exactResultFormat: EXACT_RESULT_FORMAT, workflowPolicy: 'review-first-v1', pipelinePolicy: 'pdf-import-efficient-v1',
     evidenceAuthority: 'Original PDF pages and their rendered images are authoritative. Extracted text and optional Word material are supporting evidence; verify mathematical symbols and labels visually.', source,
     pins: { model: hashValue(configuration.model), configuration: hashValue(configuration), files: pinFiles([...SCHEMA_FILES, PRESENTATION_CONTRACT, ...TAXONOMY_FILES]),
       runFiles: Object.fromEntries(runFiles.map(relative => [relative.replaceAll(path.sep, '/'), hashFile(path.join(runDir, relative))])) }, lanes: {},

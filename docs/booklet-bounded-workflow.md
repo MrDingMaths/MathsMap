@@ -1,5 +1,7 @@
 # Bounded Sol import, review and repair stages
 
+> Superseded for new imports (11 November 2026) by [import pipeline v2](booklet-import-pipeline-v2.md). Historical runs keep these rules.
+
 30 October 2026: future booklet review/rating calls and finding challenges use Terra 6.1 High under the [review policy](booklet-pedagogy-review.md#review-model-30-october-2026). Preserve completed/in-flight provenance; transcription, Anthropic generation and separate content-campaign settings remain unchanged. No automatic fallback or routine double-model pass.
 
 Worker-limit precedence (6 October 2026): allow three workers per booklet, shared across sessions through its canonical run directory. Different booklets have independent limits. The lean multi-booklet dispatcher leases each run separately and applies `--concurrency` per booklet. Reuse the same run for the same booklet; do not create another run to bypass its cap. This supersedes older shared-pool wording across booklets. Active leases stay intact and running dispatchers adopt this on their next launch.

@@ -1,5 +1,7 @@
 # Agent rules (full text)
 
+> The sections "Streamlined imports" (24 Oct), "Lean imports" (5 Oct), "Booklet polish pipeline" (23 Oct, for imports) and "Future imports" (28 Sep) are superseded for new imports (11 November 2026) by [import pipeline v2](booklet-import-pipeline-v2.md). Historical runs keep these rules.
+
 Moved word for word from `AGENTS.md` on 6 November 2026, when the user asked for that file to be slimmed. Only link paths changed, and the two untitled opening lines got a heading. Every section remains in force; where two sections conflict, the later-dated one wins unless it says otherwise. `AGENTS.md` now holds a short always-on summary and an index into this page and the other `docs/` guides; read the section here that matches your task.
 
 Earlier moves: [3 November 2026](agents-moved-20261103.md), [standing conventions (9 October)](booklet-standing-conventions.md), [campaign workflow (15 October)](content-campaign-efficient-workflow.md).
@@ -89,7 +91,7 @@ For healthy, non-interactive builds, tests, exports, scripts and delegated work,
 
 For future imports and authorised feedback repairs, source appearance is evidence, not a layout target. Reproduce content, order, mathematical structure and meaningful relationships; apply house style to everything else. See [the cross-session convention](booklet-cross-session-rules.md#preset-arrangements-templated-diagrams-and-avatars-4-october-2026).
 
-Lay out teaching and practice content with the shared arrangement presets. Use a custom arrangement only where position carries mathematical or instructional meaning, such as paired figures, matching activities, card placement or a diagram that working must sit beside, and record that meaning. Source placement alone is not a reason. Presets keep the per-part handwriting estimate and all instructional content. This supersedes source-relative placement as the default, including the Volume prevention wording; explicit local exceptions remain.
+Lay out teaching and practice content with the shared arrangement presets. Use a custom arrangement only where position carries mathematical or instructional meaning, such as paired figures, matching activities, card placement or a diagram that working must sit beside, and record that meaning. Source placement alone is not a reason. Presets keep the per-part handwriting estimate and all instructional content. This supersedes source-relative placement as the default, including the Volume prevention wording; explicit local exceptions remain. Teaching blocks take structure from the source and measurements from house style (22 October 2026).
 
 Where a source diagram belongs to a supported family (number line, fraction bar or grid, fraction circle, blank grid), author it from the shared parameter model. Reproduce its mathematical content exactly: range, ticks, marked values, shaded parts, labels and givens. Proportions and size follow the template. Use free-form TikZ for other diagrams and where a template would lose a mathematical feature.
 

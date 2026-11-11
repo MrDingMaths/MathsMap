@@ -1,6 +1,6 @@
 # Lean programme acceptance — 29 October 2026
 
-30 October 2026: future booklet review/rating calls and finding challenges use Terra 6.1 High under the [review policy](booklet-pedagogy-review.md#review-model-30-october-2026). Preserve completed/in-flight provenance; transcription, Anthropic generation and separate content-campaign settings remain unchanged. No automatic fallback or routine double-model pass.
+*(Superseded for new imports, 11 November 2026: import reviews and ratings use `gpt-6.1-sol` low; see [import pipeline v2](booklet-import-pipeline-v2.md).)* 30 October 2026: future booklet review/rating calls and finding challenges use Terra 6.1 High under the [review policy](booklet-pedagogy-review.md#review-model-30-october-2026). Preserve completed/in-flight provenance; transcription, Anthropic generation and separate content-campaign settings remain unchanged. No automatic fallback or routine double-model pass.
 
 30 October: [approved verification cuts](booklet-verification-cuts-20261030.md) supersede conflicting steps below, including routine visual checks for strictly mark-only changes. Comment-only saves remain nonprinting; additions, diagrams, pagination and writing space retain affected-output inspection.
 

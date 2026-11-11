@@ -1,5 +1,7 @@
 # Import efficiency: repairs, representatives and diagnostics
 
+> Superseded for new imports (11 November 2026) by [import pipeline v2](booklet-import-pipeline-v2.md), including the resumable-export guidance (three exports per booklet). Historical runs keep these rules.
+
 Implemented after Logarithms v1 and extended after Data Visualisation 1 v1,
 16 September 2026. Use with the [change
 runbook](booklet-change-runbook.md) and [review-first workflow](booklet-review-first-workflow.md).
