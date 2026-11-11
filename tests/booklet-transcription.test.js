@@ -56,6 +56,23 @@ test('resume guard refuses changed immutable evidence', () => {
   assert.throws(() => assertPinnedInputs(runDir), /Pinned input changed/);
 });
 
+test('import v2 verifies explicit and inferred textbook track configuration pins', () => {
+  const { runDir } = fakeRun();
+  const configuration = { provider: 'codex', model: 'gpt-6.1-sol', effort: 'medium', contentScope: 'practice-only' };
+  const file = path.join(runDir, 'manifest.json');
+  const manifest = {
+    ...configuration, importPolicy: 'import-v2', track: 'textbook',
+    pins: { model: hashValue(configuration.model), files: {}, runFiles: {} },
+  };
+  for (const pinned of [configuration, { ...configuration, track: 'textbook' }]) {
+    manifest.pins.configuration = hashValue(pinned);
+    writeJson(file, manifest);
+    assert.deepEqual(assertPinnedInputs(runDir), manifest);
+    writeJson(file, { ...manifest, track: 'booklet' });
+    assert.throws(() => assertPinnedInputs(runDir), /Pinned reasoning configuration changed/);
+  }
+});
+
 test('exact merge rejects missing pages and duplicate ids', () => {
   const missing = fakeRun();
   writeJson(path.join(missing.runDir, 'lanes', 'exact', 'task-001.result.json'), { pages: [{ id: 'page-1', pageNumber: 1, section: { id: 's1', role: 'front-matter' }, blocks: [] }] });

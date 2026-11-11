@@ -30,6 +30,7 @@
                   <div class="answer-row-grid" style={`grid-template-columns:repeat(${row[0].shortColumns??row.length},minmax(0,1fr));column-gap:${SHORT_ANSWER_GRID_GAP_MM}mm`}>
                     {#each row as entry}
                       <section class="answer-fragment" class:answer-width-probe={page.shortAnswerProbe} id={!page.shortAnswerProbe&&firstFragment(entry)?`${anchorPrefix}answer-${page.mode}-${entry.block.id}`:undefined} data-answer-fragment={entry.block.flow.answerFragment} data-answer-continuation={entry.block.flow.answerContinuation}>
+                        {#if page.mode==='worked'&&entry.block.flow.answerFragment===0&&entry.block.flow.practiceCategoryHeading}<div class="answer-category-heading">{entry.block.flow.practiceCategoryHeading}</div>{/if}
                         {#if entry.block.flow.answerContinuation==='solution-diagrams'}<div class="answer-continuation">Worked solution continued</div>{/if}
                         <PracticeQuestionRenderer question={resolvePreviewAssets(entry.block,assetUrl)} number={entry.block.sourceOrder} showSpaces={false} showTitle={false} showShortAnswers={page.mode==='short'} showWorkedSolutions={page.mode==='worked'} answerColumnsLimit={1} compactAnswerSettings={settings} answerLabelWidthMm={entry.labelWidthMm} answerLink={questionLink(entry)} answerAnchorPrefix={page.shortAnswerProbe?null:`${anchorPrefix}answer-${page.mode}-`} blockLayouts={project.settings.layoutOverrides.blockLayouts} diagramColourModes={project.settings.layoutOverrides.diagramColourModes} eagerDiagrams={true} {editMode} {onContentEdit}/>
                       </section>
@@ -53,6 +54,7 @@
   .answer-columns+.answer-columns{margin-top:3mm}
   .answer-row{break-inside:avoid;min-width:0}.answer-row-grid{display:grid;align-items:start;min-width:0}
   .answer-continuation{font-size:9.5pt;line-height:1.22;margin:0 0 1mm}
+  .answer-category-heading{font-size:9.5pt;font-weight:800;margin:1.5mm 0 .75mm}
   .answer-width-probe{width:max-content}
   .answer-width-probe :global(.answer-content){width:max-content;max-width:none}
   .answer-width-probe :global(p){white-space:nowrap}

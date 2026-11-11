@@ -171,6 +171,26 @@ export function setoutMathChain(value, { stackFirstTerm = false } = {}) {
     : [`$${terms[0]}=${terms[1]}$`, ...terms.slice(2).map((term) => `$=${term}$`)].join('\n');
 }
 
+export function compactWorkedEqualityChains(value) {
+  if (typeof value !== 'string') return value;
+  return value.replace(/\\begin\{(align\*?|aligned)\}([\s\S]*?)\\end\{\1\}/g, (original, environment, body) => {
+    const rows = body.split('\\\\');
+    const terms = rows.map(row => /^([^&]*)&\s*=([^&]+)$/.exec(row));
+    if (rows.length < 2 || terms.some(term => !term)) return original;
+    const comparable = term => term.replace(/\s/g, '').replace(/^\{\[\}/, '[');
+    let head = '', previous = '';
+    const formatted = rows.map((row, index) => {
+      const [, left, right] = terms[index];
+      const lhs = comparable(left);
+      const continuation = index > 0 && (lhs === head || lhs === previous && /[+*/^(-]|\\(?:d?frac|tfrac|sqrt)\b/.test(lhs));
+      if (lhs && !continuation) head = lhs;
+      previous = comparable(right);
+      return continuation ? row.slice(left.length) : row;
+    });
+    return `\\begin{${environment}}${formatted.join('\\\\')}\\end{${environment}}`;
+  });
+}
+
 // Display maths (`$$…$$`) is its own line. Transcriptions often butt it against
 // prose with no line break ("…5t^2$$Let $x=…$", "Hence$$…"), and the renderer
 // draws `$$…$$` at text size in its line, so the prose ran straight into the

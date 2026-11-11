@@ -173,8 +173,8 @@ function nestedPrefixed(label='Exercise 3A, 2'){
  i.entries.push(...['a','b'].map(id=>({id:'source-'+id,kind:'part',parentId:'q',sourceLabel:'2('+id+')',description:'Existing nested response'})));
  delete b.content.answer;b.content.layout='grid';b.content.columns=2;b.content.children=['a','b'].map(id=>({id:'part-'+id,type:'part',prompt:'Calculate.',answer:{short:'1',worked:'Substitute and simplify.'}}));b.sourceReview={workingSpaceEstimate:{method:'Reviewed solution-informed spacing'}};a.inventoryMappings.push(...['a','b'].map(id=>({inventoryId:'source-'+id,targetId:'part-'+id,field:'/prompt'})));return {i,a};
 }
-test('exercise-prefixed numeric source labels preserve one whole question with distinct nested parts',()=>{
- for(const label of ['Exercise3A,2','Exercise 5A, 1','Exercises 3A, Q2','Exercise 12B, Q42.','3AExercises,1','3A Exercises, Q2','3A 2','2','2.']){const {i,a}=nestedPrefixed(label);assert.doesNotThrow(()=>validatePracticeAuthor(a,i),label);assert.equal(i.entries[0].sourceLabel,label);}
+test('numbered source labels preserve one whole question with distinct nested parts',()=>{
+ for(const label of ['Exercise3A,2','Exercise 5A, 1','Exercises 3A, Q2','Exercise 12B, Q42.','3AExercises,1','3A Exercises, Q2','3A 2','2','2.','Question 2','Problem 2','Fundamentals 2']){const {i,a}=nestedPrefixed(label);assert.doesNotThrow(()=>validatePracticeAuthor(a,i),label);assert.equal(i.entries[0].sourceLabel,label);}
 });
 test('numeric-prefix recognition does not admit prose, ranges, multiple roots or duplicate part ownership',()=>{
  for(const label of ['Review3A,2','Exercise Review,2','Exercise3A, Algebra','Exercise3A,2–3','Exercise3A,2a','Exercise3A,2.5','Exercise3A2','Calculate the following','2–3']){const {i,a}=nestedPrefixed(label);assert.throws(()=>validatePracticeAuthor(a,i),/Shared-stem items require distinct part targets/,label);}

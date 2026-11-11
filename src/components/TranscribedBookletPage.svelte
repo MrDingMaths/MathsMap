@@ -151,6 +151,7 @@
   {@const bank=marked?bankMarker(block):null}
   {#if block.flow?.exerciseAnchorBefore&&firstPlacement(block)&&!(page.section?.headingStyle!=='none'&&page.showTopicHeading!==false)}<span id={`${anchorPrefix}exercise-topic-${block.flow.exerciseAnchorBefore}`}></span>{/if}
   {#if block.flow?.exerciseHeadingBefore&&!(page.showDifficultyHeading!==false&&page.section?.difficultyTitle===exerciseHeading(block.flow.exerciseHeadingBefore))}<BookletHeading kind="exercise">{exerciseHeading(block.flow.exerciseHeadingBefore)}</BookletHeading>{/if}
+  {#if block.flow?.practiceCategoryHeading&&firstPlacement(block)}<div class="practice-category-heading">{block.flow.practiceCategoryHeading}</div>{/if}
   {#if block.type === 'question'}
     {@const clozeStatements=keyIdeasClozeStatements(block)}
     {#if block.flow?.teachingLabel&&firstPlacement(block)}<span id={`${anchorPrefix}question-${block.id}`}></span>{#if usesTeachingLetters(block)&&presentation?.()?.teachingPresentationVersion!==1}<div class="teaching-activity-reference">{block.flow.teachingLabel}</div>{/if}{/if}
@@ -303,6 +304,7 @@
 </div>
 
 <style>
+  .practice-category-heading{font-weight:800;margin:1.5mm 0 .75mm}
   .heading-edit{outline:none;cursor:text;border-radius:2px}.heading-edit:hover,.heading-edit:focus{box-shadow:0 0 0 1px currentColor}
   .practice-continuation-label{font-size:9pt;font-weight:600;margin-bottom:2mm}
   .document-group{display:block;position:relative}.document-group.editable-group{display:block;position:relative}.group-selected{outline:2px solid var(--booklet-blue);outline-offset:3px}.document-group-tools{position:absolute;left:-10mm;top:0;display:grid;gap:2px;z-index:4;opacity:.15}.document-group:hover>.document-group-tools,.document-group-tools:focus-within,.group-selected>.document-group-tools{opacity:1}.document-group-tools button{box-sizing:border-box;width:7mm;height:7mm;padding:0;min-height:0;border:1px solid var(--booklet-border);border-radius:4px;background:var(--booklet-white);color:var(--booklet-ink);font:14px system-ui;cursor:pointer}.group-handle{cursor:grab!important}.document-group.drop-before::before{content:'';position:absolute;left:0;right:0;top:-1.5mm;border-top:3px solid var(--booklet-blue);pointer-events:none;z-index:5}.document-end-insert{font:12px system-ui;color:var(--booklet-muted);border:1px dashed var(--booklet-border);background:transparent;padding:4px;opacity:.35}.document-end-insert:hover,.document-end-insert:focus{opacity:1}@media print{.document-group{display:block!important;outline:none!important}.document-group-tools,.document-end-insert{display:none!important}}
@@ -313,7 +315,7 @@
      60–69, then one more per ten points; the reasoning score itself stays editor-only). */
   .practice[data-chillies]{--chilli:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23d92d20' d='M12.5 5C14.5 7.500 13.500 11.500 10 13.500 7.500 15 4 15 1.500 14 4.500 13 6.500 11 7.500 8.500 8.200 6.800 8.600 5.200 10 4.600 10.900 4.200 11.900 4.300 12.500 5z'/%3E%3Cpath fill='%233f8f3a' d='M10.500 4.700C10.500 3 11.400 1.800 13 1.200L13.800 2.600C12.800 3 12.300 3.800 12.300 5z'/%3E%3C/svg%3E")}
   .practice[data-chillies] :global(b[data-question-number]){position:relative}
-  .practice[data-chillies] :global(b[data-question-number]::after){content:'';position:absolute;left:0;top:calc(100% + .5mm);width:4.6mm;height:4.6mm;background:var(--chilli),var(--chilli),var(--chilli),var(--chilli);background-repeat:no-repeat;background-size:2.2mm 2.2mm;background-position:0 0,2.4mm 0,0 2.4mm,2.4mm 2.4mm;print-color-adjust:exact;-webkit-print-color-adjust:exact;pointer-events:none}
+  .practice[data-chillies] :global(b[data-question-number]::after){content:'';position:absolute;left:0;top:calc(100% + .5mm);width:5.4mm;height:5.4mm;background:var(--chilli),var(--chilli),var(--chilli),var(--chilli);background-repeat:no-repeat;background-size:2.6mm 2.6mm;background-position:0 0,2.8mm 0,0 2.8mm,2.8mm 2.8mm;print-color-adjust:exact;-webkit-print-color-adjust:exact;pointer-events:none}
   .practice[data-chillies="1"] :global(b[data-question-number]::after){background-image:var(--chilli)}.practice[data-chillies="2"] :global(b[data-question-number]::after){background-image:var(--chilli),var(--chilli)}.practice[data-chillies="3"] :global(b[data-question-number]::after){background-image:var(--chilli),var(--chilli),var(--chilli)}.compact-pages.preview-frame{height:auto;min-height:0!important;overflow:visible;width:210mm;}
 .compact-pages .preview-page{position:relative;left:0;transform:none;}
 .compact-pages .booklet-page{height:auto;min-height:0;overflow:visible;}

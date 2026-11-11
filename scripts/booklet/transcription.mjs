@@ -163,7 +163,14 @@ export function assertPinnedInputs(runDir) {
   // Historical runs remain verifiable; fresh execution still requires the current profile.
   if (![BOOKLET_AGY_MODEL, 'gpt-6-sol', TRANSCRIPTION_DEFAULT.model, ...(manifest.benchmarkArm ? [BENCHMARK_ARMS[manifest.benchmarkArm.id]?.model] : [])].includes(manifest.model) || manifest.pins.model !== hashValue(manifest.model)) throw new Error('Pinned model changed');
   if (manifest.model === TRANSCRIPTION_DEFAULT.model || manifest.benchmarkArm) requireCurrentTranscription(manifest);
-  if (manifest.pins.configuration && manifest.pins.configuration !== hashValue(transcriptionConfiguration(manifest))) throw new Error('Pinned reasoning configuration changed; prepare a fresh run');
+  const reasoning = transcriptionConfiguration(manifest);
+  const scoped = { ...reasoning, ...(manifest.contentScope ? { contentScope: manifest.contentScope } : {}) };
+  const defaultTrack = manifest.contentScope === 'practice-only' ? 'textbook' : 'booklet';
+  // Intake hashes an explicit track, but only records the resolved track in the manifest.
+  const configurations = manifest.importPolicy === IMPORT_POLICY
+    ? [{ ...scoped, track: manifest.track }, ...(manifest.track === defaultTrack ? [scoped] : [])]
+    : [reasoning];
+  if (manifest.pins.configuration && !configurations.some(configuration => manifest.pins.configuration === hashValue(configuration))) throw new Error('Pinned reasoning configuration changed; prepare a fresh run');
   const mismatches = [];
   for (const [relative, expected] of Object.entries(manifest.pins.files ?? {})) {
     const file = path.join(REPO_ROOT, relative);

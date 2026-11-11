@@ -243,7 +243,16 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
    const stamps=importV2(manifest)?blockContentStamps(read(file)):null;
    if(stamps){
     const unrepaired=unrepairedVisualFindings({state,projectId,stamps,dir});
-    if(unrepaired.length){errors.push('Repair every outstanding visual finding in one batch before another export; unchanged since export '+state.exports.length+': '+unrepaired.map(row=>row.edition+' p'+row.page+' ('+row.blocks.join(', ')+')').join('; '));break;}
+    const last=state.exports.findLast(entry=>hasFinishExportReport(entry,projectId));
+    const runtime=last&&path.join(last.dir,'runtime-manifest.json');
+    let rendererChanged=false;
+    if(unrepaired.length&&runtime&&fs.existsSync(runtime)){
+      const {snapshotDifferences,printRelevantChanges}=await import('./import-verification-runtime.mjs');
+      const frozen=read(runtime);
+      rendererChanged=printRelevantChanges(process.cwd(),frozen.files,snapshotDifferences(process.cwd(),frozen.files))
+        .some(file=>/^(?:src|public)\//.test(file));
+    }
+    if(unrepaired.length&&!rendererChanged){errors.push('Repair every outstanding visual finding in one batch before another export; unchanged since export '+state.exports.length+': '+unrepaired.map(row=>row.edition+' p'+row.page+' ('+row.blocks.join(', ')+')').join('; '));break;}
     if(state.exports.length>=FINISH_EXPORT_BUDGET)log('Finish export '+(state.exports.length+1)+' exceeds the budget of '+FINISH_EXPORT_BUDGET+': '+regenerationReason);
    }
    const exportDir=path.resolve(out??path.join(runDir,'streamlined-exports'),String(state.exports.length+1));

@@ -11,8 +11,9 @@
   import EditableBookletText from './EditableBookletText.svelte';
   import Tikz from './Tikz.svelte';
   import { estimateAnswerSpaceMm, allDiagrams } from '../lib/practice-question-model.js';
-  import { setoutMathChain } from '../lib/inline-content.js';
+  import { compactWorkedEqualityChains, setoutMathChain } from '../lib/inline-content.js';
   import { compactAnswerProseGlue } from '../lib/compact-answer-glue.js';
+  import { contentSource } from '../lib/document-content.js';
   import { isRewriteTableQuestion, shortAnswerDisplay, combinedExampleTikz, visibleImportedQuestionTitle } from '../lib/booklet-preview.js';
   import {compactAnswerDisplay,answerDiagramStyle,answerDiagramWidth,answerDisplayLabel,answerNodePath,answerNodeContext,isGivenFigureNode,firstAnswerNode} from '../lib/booklet-exercises.js';
   import {normaliseShortAnswer,SHORT_ANSWER_INK} from '../lib/short-answer-style.js';
@@ -30,6 +31,8 @@
   const questionArrangement = $derived(blockLayouts[question.id]?.arrangement ?? blockLayouts[question.presentation?.ownerId]?.arrangement);
   const sourceInPrompt = $derived(!!printedQuestionSource(question)&&!!sourceAttributionPromptId(question));
   const shortAnswerLabelBaseline = $derived(!!compactAnswerSettings && showShortAnswers && (blockLayouts[question.id]?.shortAnswerLabelAlign ?? blockLayouts[question.presentation?.ownerId]?.shortAnswerLabelAlign) === 'first-baseline');
+  const workedAnswerLabelBaseline = node => !!compactAnswerSettings && showWorkedSolutions &&
+    !!node.answer?.worked && !/^\s*(?:\$\$|\\\[)/.test(contentSource(node.answer.worked));
   const teachingResponses = $derived(!compactAnswerSettings&&(showShortAnswers||showWorkedSolutions)?teachingAnswerArrangement(arrangementQuestionBlock(question,number),questionArrangement,{blockLayouts,answerSpaces:answerSpaceOverrides,diagramWidths:diagramWidthOverrides},showShortAnswers?'short':'worked'):null);
   const letter = (index) => String.fromCharCode(97 + index);
   const shortValue = value => teachingAnswerCategory(question)||question.sourceAtom ? value : normaliseShortAnswer(value);
@@ -220,12 +223,12 @@
     </div>
     {@render sharedSolutionFigures(node)}
   {:else}
-    <article class="answer-item" class:short-answer-label-baseline={shortAnswerLabelBaseline} class:full-column-answer={compactAnswerSettings&&showShortAnswers&&question.presentation?.shortAnswerTableFullWidth===true&&node.answer?.short?.blocks?.some(block=>block.type==='table')} id={answerAnchorPrefix?answerAnchorPrefix+'part-'+node.id:undefined} data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath,node)}</a>{:else}{leafLabel(nextPath,node)}{/if}</div><div class="answer-content">
+    <article class="answer-item" class:answer-label-baseline={shortAnswerLabelBaseline || workedAnswerLabelBaseline(node)} class:full-column-answer={compactAnswerSettings&&showShortAnswers&&question.presentation?.shortAnswerTableFullWidth===true&&node.answer?.short?.blocks?.some(block=>block.type==='table')} id={answerAnchorPrefix?answerAnchorPrefix+'part-'+node.id:undefined} data-node-id={node.id} style={compactAnswerSettings?'':questionLayoutStyle(node,blockLayouts)}><div class="answer-label" style={compactAnswerSettings?`flex:0 0 ${answerLabelWidthMm}mm;width:${answerLabelWidthMm}mm`:''}>{#if answerLink}<a href={answerLink}>{leafLabel(nextPath,node)}</a>{:else}{leafLabel(nextPath,node)}{/if}</div><div class="answer-content">
       {#if groupAnswer}{@render groupedAnswerAnchors(node)}{/if}
       {#if nextContexts.length}<div class="answer-context"><EditableBookletText value={nextContexts.join(' · ')} rootId={node.id} pointer="/prompt" editMode={false} /></div>{/if}
       {#if showShortAnswers}{#if node.answer?.short}<EditableBookletText value={shortAnswerDisplay(shortValue(node.answer.short))} displayValue={compactAnswerSettings?compactAnswerDisplay(shortAnswerDisplay(shortValue(node.answer.short))):null} rootId={node.id} pointer="/answer/short" {editMode} edited={isEdited(node.id, '/answer/short')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{:else if !node.answer?.solutionDiagrams?.length&&!parent?.sharedSolutionDiagrams?.length}<span class="muted">No short answer supplied.</span>{/if}{/if}
       {#if showShortAnswers}{@render solutionFigures(node)}{/if}
-      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?compactAnswerProseGlue(setoutMathChain(node.answer.worked,{stackFirstTerm:false})):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{@render solutionFigures(node)}</div>{/if}
+      {#if showWorkedSolutions}<div class="worked-content">{#if node.answer?.worked}<EditableBookletText value={compactAnswerSettings||editMode ? node.answer.worked : setoutMathChain(node.answer.worked, { stackFirstTerm: true })} displayValue={compactAnswerSettings?compactAnswerProseGlue(compactWorkedEqualityChains(setoutMathChain(node.answer.worked))):null} rootId={node.id} pointer="/answer/worked" {editMode} edited={isEdited(node.id, '/answer/worked')} oncommit={onContentEdit} onrevert={onContentRevert} oneditingchange={onEditingChange} />{/if}{@render solutionFigures(node)}</div>{/if}
     </div></article>
     {#if groupAnswer}{@render sharedSolutionFigures(node)}{/if}
   {/if}
@@ -272,13 +275,15 @@
   .compact-answer .answer-item,.compact-answer .answer-children > .answer-item{display:flex!important;gap:2mm;padding:.8mm 0;border-bottom:.15mm solid var(--booklet-border)}
   .compact-answer .answer-label{flex:0 0 var(--answer-label-width);align-self:flex-start}
   .compact-answer .answer-content{flex:1;min-width:0}
-  .compact-answer .answer-item.short-answer-label-baseline{align-items:first baseline}
-  .compact-answer .short-answer-label-baseline > .answer-label{align-self:baseline}
+  .compact-answer .answer-item.answer-label-baseline{align-items:first baseline}
+  .compact-answer .answer-label-baseline > .answer-label{align-self:baseline}
   .compact-answer .answer-item.full-column-answer{display:block!important}
   .compact-answer .full-column-answer > .answer-label{margin-bottom:1mm}
   .compact-answer .answer-label a{color:inherit;text-decoration:none}
   .short-answer-key .answer-item,.short-answer-key .answer-children > .answer-item{border-bottom:0}
   .compact-answer .answer-content{text-align:left}
+  .compact-answer .worked-content{margin-top:0}
+  .compact-answer .worked-content :global(.text-line:has(.mfrac) + .text-line:has(.mfrac)){margin-top:2pt}
   .compact-answer :global(p){margin:.4mm 0!important;font-size:inherit!important;line-height:1.22!important}
   /* Native table paragraphs already carry the cell's editable alignment. */
   .compact-answer :global(p:not(table p)){text-align:left!important}
