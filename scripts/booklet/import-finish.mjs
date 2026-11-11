@@ -76,17 +76,17 @@ export async function prepareFinishCandidate({file,runDir,direct=false,examTags=
 }
 
 // Measure only after substantive content/scaffold corrections have settled.
-export async function layoutFinishCandidate({file,direct=false,compose=false,log=()=>{}},{paginate,wrapped}={}){
+export async function layoutFinishCandidate({file,direct=false,log=()=>{}},{paginate,wrapped}={}){
  const before=read(file),protectedIds=teacherBlocks(before);
  // Wrapped maths is measured and repaired before final rendering, using the existing bounded tool.
  wrapped??=(await import('../../checks/wrapped-math.mjs')).runWrappedMath;
  const wrap=await wrapped({project:read(file),file,apply:true,log});
  if(wrap.report?.after?.wrapped)throw Error('Wrapped mathematics remains: '+wrap.report.after.wrapped);
  if(!direct){
-  // Import pipeline v2 (Decision 8): the Paginate booklet pass of the 11 November
-  // pagination principles; recorded runs keep the optimiser they were measured with.
-  if(compose)paginate??=(await import('../../paginate/compose.mjs')).driveCompose;
-  paginate??=(await import('../../paginate/optimise.mjs')).driveStudio;
+  // The Paginate booklet pass of the 11 November pagination principles (import pipeline v2,
+  // Decision 8). Since 11 November it is the only Studio pagination action; the Optimise
+  // pagination button and paginate/optimise.mjs were retired.
+  paginate??=(await import('../../paginate/compose.mjs')).driveCompose;
   const trial=await paginate(read(file),{apply:true,named:true,log});
   if(trial.pageErrors?.length)throw Error('Pagination page errors: '+trial.pageErrors.slice(0,3).join('; '));
   if(trial.project){const unsafe=polishSafetyIssues(before,trial.project,{protectedIds});if(unsafe.length)throw Error(unsafe.join('; '));write(file,trial.project);}
@@ -208,7 +208,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  const settleLayout=async()=>{
   const current=projectReviewHash(read(file));
   if(state.steps.layoutHash===current)return;
-  await(deps.layout??layoutFinishCandidate)({file,runDir,direct:policy.direct,compose:importV2(manifest),log},deps.layoutDeps);
+  await(deps.layout??layoutFinishCandidate)({file,runDir,direct:policy.direct,log},deps.layoutDeps);
   state.steps.layoutHash=projectReviewHash(read(file));persist();
  };
  const currentContentCompletion=(errors=[])=>{

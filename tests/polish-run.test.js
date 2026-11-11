@@ -13,7 +13,7 @@ import {ROOT,workspace,temp,booklet,pagemap,finding,payloadOf} from './polish-fi
 const write=(file,value)=>{fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(value));};
 
 test('the steps run in the order of the plan',()=>{
- assert.deepEqual([...STEPS],['snapshot','normalise','blank-style','wrapped-math','dependencies','paginate','review','content','residual','supersede','breaks','export','sheets','pedagogy','report']);
+ assert.deepEqual([...STEPS],['snapshot','normalise','blank-style','wrapped-math','dependencies','paginate','review','content','residual','supersede','export','sheets','pedagogy','report']);
 });
 
 test('state: a rerun on the same input resumes; a changed input starts again',async t=>{

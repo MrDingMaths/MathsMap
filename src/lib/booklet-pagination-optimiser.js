@@ -39,6 +39,7 @@ import {isPractice, exerciseNumbers} from './booklet-flow.js';
 import {DIFFICULTIES} from './practice-question-model.js';
 import {bandIndex, reasoningScore, difficultyInversions} from './booklet-pagination-metrics.js';
 import {blockPages, newSplits, newIssues} from './booklet-layout-actions.js';
+import {newLayoutFaults, rememberFaults} from './booklet-layout-faults.js';
 import {workingSpaceFloor, importedAllowance, allowanceCopies, stillImportAllowance} from './booklet-working-space.js';
 import {hasTeacherReview, spacingProtected} from './booklet-import-spacing.js';
 import {findContent, regridParts, gridFigureParts} from './booklet-arrangement.js';
@@ -383,6 +384,9 @@ export async function optimisePagination(source, {paginate, guard = null, named 
       try { result = await paginate(candidate, focusOf()); } catch (error) { reject(originalSection.id, 'pagination-error', {label, message: error.message}); return null; }
       if ((result.issues ?? []).some(issue => issue.kind === 'oversized-content')) { reject(originalSection.id, 'oversized-content', {label}); return null; }
       if (newIssues(baseMap, result).length) { reject(originalSection.id, 'pagination-issue', {label}); return null; }
+      // A grid or reorder must not push content past the margin or overlap columns (faults the exercise already had are ignored).
+      const faults = newLayoutFaults(rememberFaults(new Set(), first), result);
+      if (faults.length) { reject(originalSection.id, 'layout-fault', {label, faults: faults.slice(0, 3).map(f => ({id: f.id, kind: f.kind}))}); return null; }
       const splits = newSplits(baseMap, result);
       if (splits.length) { reject(originalSection.id, 'new-split', {label, blocks: splits.slice(0, 5)}); return null; }
       if ((result.pages ?? []).length > (baseMap.pages ?? []).length) { reject(originalSection.id, 'page-gain', {label}); return null; }

@@ -33,6 +33,7 @@ A Sol low fallback must be explicit, never automatic. [Detail](docs/agent-rules.
 | New booklet import | [import pipeline v2](docs/booklet-import-pipeline-v2.md) only; it links every rule it still uses. `lean-review.mjs finish` completes an import |
 | Feedback repair on named blocks | [lean local repairs](docs/agent-rules.md#lean-local-feedback-repairs-5-october-2026), [change runbook](docs/booklet-change-runbook.md) |
 | Verification scope | [verification cuts](docs/booklet-verification-cuts-20261030.md), else [lean acceptance](docs/booklet-lean-acceptance.md) |
+| Pagination, page breaks, working space, fill | [pagination principles](docs/booklet-pagination-principles.md) |
 | Layout, clozes, tables, diagrams, avatars, alignment | [agent rules](docs/agent-rules.md#preset-arrangements-templated-diagrams-and-avatars-4-october-2026) and the sections after it; [diagram sizing](docs/booklet-diagram-sizing.md); 3D diagrams: [visibility contract](docs/solid-visibility.md) |
 | Part labels, sample answers, exam marks and order, vertex labels | [agent rules](docs/agent-rules.md#part-labels-run-in-one-sequence-11-october-2026-user-requested); [exam marks and order](docs/booklet-exam-marks-and-order.md) |
 | Bank publication and duplicates | [bank linking](docs/booklet-bank-auto-sync.md#duplicates-and-linking-9-october-2026-user-approved); no cross-booklet duplicate tooling ([retired](retired/cross-booklet-duplicates-20261027/README.md)) |

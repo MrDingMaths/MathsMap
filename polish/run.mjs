@@ -13,12 +13,11 @@
 //   blank-style   outlined blanks where the source leaves empty space become the parenthesised gap (polish/blank-style.mjs; one Sol low call per block, with its source page)
 //   wrapped-math  display formulas that wrap (checks/wrapped-math.mjs)
 //   dependencies  which questions must keep their order (polish/dependencies.mjs; one Sol low call per exercise)
-//   paginate      the pagination optimiser with the orphan pull (paginate/optimise.mjs)
+//   paginate      the Paginate booklet pass (paginate/compose.mjs; docs/booklet-pagination-principles.md), reviewed blocks untouched
 //   review        the full-book first-pass review beside the source pages, then its layout findings applied, at most 2 rounds
 //   content       content findings (roles, theory wording, answers, duplicates) repaired and independently checked
 //   residual      a second full-book review, report only; more than 1 finding per 10 pages gets one more apply round
 //   supersede     open first-pass / pedagogy-review comments of earlier runs closed as superseded
-//   breaks        forced exercise breaks worth removing, as Studio comments with a one-click button
 //   export        deterministic gates and the student PDF without --draft
 //   sheets        contact sheets of every Questions page
 //   pedagogy      extension and bridging-question suggestions as Studio comments (nothing applied)
@@ -35,11 +34,11 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {ROOT,read,write,now,isMain,parseArgs,runDirOf,changedBlocks} from '../checks/lib/common.mjs';
-import {teacherBlocks,openMachineFlagIds,supersedeMachineFlags,addBreakSuggestionFlags,KIND_BREAK} from './flags.mjs';
+import {teacherBlocks,openMachineFlagIds,supersedeMachineFlags} from './flags.mjs';
 import {assertPolishSafety,polishSafetyIssues} from './guards.mjs';
 import {assessCompletion,completionHash} from '../scripts/booklet/import-completion.mjs';
 
-export const STEPS=Object.freeze(['snapshot','normalise','blank-style','wrapped-math','dependencies','paginate','review','content','residual','supersede','breaks','export','sheets','pedagogy','report']);
+export const STEPS=Object.freeze(['snapshot','normalise','blank-style','wrapped-math','dependencies','paginate','review','content','residual','supersede','export','sheets','pedagogy','report']);
 const MODEL_STEPS=new Set(['blank-style','dependencies','review','content','residual','pedagogy']);
 export const RESIDUAL_PER_PAGES=10; // more than one layout finding per ten Questions pages holds the booklet
 const sha=file=>createHash('sha256').update(fs.readFileSync(file)).digest('hex').slice(0,16);
@@ -157,11 +156,15 @@ const impl={
   return {exercises:report.exercises,wording:report.regex,model:report.model,cache:report.cache,pairs:report.pairs.length,blocksChanged:report.changed.length,errors:report.errors};
  },
  async paginate(ctx){
-  const {driveStudio}=await import('../paginate/optimise.mjs'),project=read(ctx.work);
-  const out=await(ctx.deps.driveStudio??driveStudio)(project,{apply:true,named:true,log:ctx.log});
-  if(out.moves?.length&&out.project)write(ctx.work,out.project);
-  const rejections={};for(const row of out.rejected??[])rejections[row.reason]=(rejections[row.reason]??0)+1;
-  return {before:out.before,after:out.after,moves:out.moves?.length??0,byType:out.byType,trials:out.trials,rejections};
+  // Paginate booklet (11 November 2026): the Studio pass, never accepting changes to reviewed blocks.
+  const {driveCompose}=await import('../paginate/compose.mjs'),project=read(ctx.work);
+  const out=await(ctx.deps.driveCompose??driveCompose)(project,{acceptReviewed:false,log:ctx.log});
+  if(out.pageErrors?.length)throw Error('Pagination page errors: '+out.pageErrors.slice(0,3).join('; '));
+  if(out.changes?.length&&out.project)write(ctx.work,out.project);
+  const byType={},rejections={};
+  for(const row of out.changes??[])byType[row.kind]=(byType[row.kind]??0)+1;
+  for(const row of out.rejected??[])rejections[row.reason]=(rejections[row.reason]??0)+1;
+  return {before:out.before,after:out.after,moves:out.changes?.length??0,byType,trials:out.trials,rejections};
  },
  async review(ctx){
   const rv=await import('../first-pass/review.mjs'),queues=await import('../first-pass/queues.mjs'),{runApply,APPLY_AREAS}=await import('../first-pass/apply.mjs'),{feedbackStatus}=await import('../src/lib/booklet-feedback.js');
@@ -226,15 +229,6 @@ const impl={
    if(fs.existsSync(file)){const record=rv.loadProvenance(file,next),ids=new Set(closed.map(row=>row.findingId).filter(Boolean));for(const finding of record.findings??[])if(ids.has(finding.id))rv.setState(finding,'closed','superseded by polish '+date);rv.saveProvenance(file,record);}
   }
   return {closed:closed.length,kinds:closed.reduce((by,row)=>({...by,[row.kind]:(by[row.kind]??0)+1}),{})};
- },
- async breaks(ctx){
-  const {driveStudio}=await import('../paginate/optimise.mjs'),{exerciseNumbers}=await import('../src/lib/booklet-flow.js'),project=read(ctx.work);
-  const out=await(ctx.deps.driveStudio??driveStudio)(project,{suggestOnly:true,named:true,log:ctx.log}),found=out.breakSuggestions??[];
-  const numbers=exerciseNumbers(project),labels=Object.fromEntries(found.map(item=>[item.sectionId,numbers[item.topicId]?'Exercise '+numbers[item.topicId]:'this exercise']));
-  const {project:next,added}=addBreakSuggestionFlags(project,found,{labels});
-  write(ctx.work,next);write(path.join(ctx.polishDir,'break-suggestions.json'),{project:ctx.id,at:now(),minFreeMm:60,suggestions:found});
-  ctx.state.breakSuggestions=found;
-  return {found:found.length,flagged:added.length,estPagesSaved:found.reduce((n,item)=>n+item.estPagesSaved,0),savedMm:Math.round(found.reduce((n,item)=>n+(item.savedMm??0),0))};
  },
  async export(ctx){
   const project=read(ctx.work),dir=path.join(ctx.polishDir,'export'),pdf=path.join(dir,'student.pdf');

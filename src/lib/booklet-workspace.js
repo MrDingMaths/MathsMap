@@ -24,6 +24,13 @@ export function pageBoundaryKind(project, blockId) {
   return 'automatic';
 }
 
+// An exercise starts its page by default (a section break, not a manual or source break). The page's Remove button
+// is offered for it too: setPageBoundary(..., 'remove') opts the exercise out with exercisePageBreakBefore:false.
+export function exerciseBreakRemovable(project, blockId) {
+  const section = project.sections.find(s => s.blocks[0]?.id === blockId);
+  return !!section && section.phase === 'practice' && section.blocks[0].flow?.exercisePageBreakBefore !== false;
+}
+
 // Operate on logical teaching/question groups, never split a paired source activity.
 export function setPageBoundary(project, blockId, action) {
   const unit = logicalUnits(project).find(u => u.blocks.some(b => b.id === blockId));

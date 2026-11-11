@@ -29,7 +29,7 @@ powershell -File sweep/check-pages.ps1 -Project ID [-Editions student]
 - `summary` prints one line per unreviewed booklet: the revision saved, what the sweep fixed, anything still to fix, and what is left for the teacher. It writes `.booklet-work/pre-review-sweep/summary.txt`.
 - `compare.mjs` composes before/after images of the pages `check-pages.ps1` rendered whose rasters changed.
 - `--exclude ID,ID` leaves booklets with failed checks deferred during a batch. Release their unsaved sweep candidates when abandoning them. Comparisons remove stale page PNGs on recheck; an optional report prefix (for example `ratio-pages`) preserves separate before/after comparisons.
-- `pages` renders the Questions edition and lists forced page breaks and source page boundaries that leave more than 40% of the previous page empty. It changes nothing.
+- `pages` renders the Questions edition and lists forced page breaks and source page boundaries that leave more than 40% of the previous page empty. It changes nothing. (The reporting threshold for reviewers is now more than half empty mid-section: [pagination principles B6](booklet-pagination-principles.md#b-what-stays-together).)
 
 Each changed block gets a `sourceReview.feedbackRepairs` entry naming the rules applied.
 

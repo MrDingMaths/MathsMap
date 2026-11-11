@@ -137,7 +137,7 @@ export function challengeSplitCandidate(project,{archetypes,approvedCalibration=
   if(b.flow?.keepTogether===false||protectedIds.has(b.id)||semanticHeldIds.has(b.id)){report.splitHolds.push({id:b.id,reason:'explicit/protected user layout preserved'});continue;}
   b.flow={...b.flow,keepTogether:true};
  }
- report.paginationRequired={optimiser:'paginate/optimise.mjs',apply:true,named:true,checks:['no practice fragments','no added pages','no oversized blocks','forced exercise breaks retained'],status:'pending-render'};
+ report.paginationRequired={optimiser:'paginate/compose.mjs',apply:true,checks:['no practice fragments','no added pages','no oversized blocks','forced exercise breaks retained'],status:'pending-render'};
  report.candidateOnly=true;report.publicationHolds=[...report.scopeHolds,...report.highOwnedExamRemaining.map(h=>({kind:'high-owned-end-question-remaining',...h})),
  ...report.topics.flatMap(t=>[
   ...(t.sufficiencyStatus==='unassessable'?[{kind:'unassessable-sufficiency',topicId:t.topicId}]:[]),

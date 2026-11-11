@@ -619,7 +619,9 @@ Use the [revision 198 prevention rules](booklet-volume-feedback-r198.md) for sha
 
 Every exercise opening in a questions edition starts on a new page, including
 when teaching and practice sections are stored as joined. This supersedes the
-earlier mid-page exercise-start convention for current books and future imports.
+earlier mid-page exercise-start convention for current books and future imports
+(11 November 2026: mixed-review exception and all other paging rules in
+[pagination principles](booklet-pagination-principles.md)).
 Show the exercise heading once; checkpoints and continuations do not create
 additional exercise breaks. Compact answer pagination is unchanged.
 
