@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {contentFingerprint,wordingFingerprint,australianSpelling,spellBlock,boldTerm,deriveComparisonScore,jumpSlots,slotWindow,duplicatePairs,diagramBlindHash,diagramEquivalent,practiceItemCount,LIMITS,MODEL,EFFORT} from '../pedagogy/audit-v2-plan.mjs';
 import {validateAudit,validateRoleGroups,validateSolve,validateDrafts,validateEquivalence,writingRules,theoryRules,auditContract,challengeContract} from '../pedagogy/audit-v2-prompts.mjs';
-import {resolveSkill,bookletSkillIds,challengeMoves,sortChallengeSections,unletterLoneGuided,laterLessons,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText,prerequisiteNotNeeded,additionNotNeeded,unneededReviewItems,bookletCourse,relocateQuestions} from '../pedagogy/audit-v2.mjs';
+import {resolveSkill,bookletSkillIds,challengeMoves,sortChallengeSections,unletterLoneGuided,laterLessons,gapPlan,newBlock,studentView,promptFromSource,layoutSibling,reusableReply,splitByCap,typeKey,challengeTargets,partText,prerequisiteNotNeeded,additionNotNeeded,unneededReviewItems,bookletCourse,relocateQuestions,fieldSet,equationTagsInline} from '../pedagogy/audit-v2.mjs';
 
 const rating=score=>({reasoningScore:score,difficulty:'Foundation',difficultyReason:'x'});
 const q=(id,prompt,short,extra={})=>({id,type:'question',classification:rating(10),content:{id:id+'-root',type:'question',label:'1',prompt,answer:{short,worked:'$$x$$'}},...extra});
@@ -1143,4 +1143,18 @@ test('bolding a term already bold in an editor document leaves the text alone (D
  if(r)assert.deepEqual(r.content.blocks[1].inlines.map(i=>[i.text,(i.marks??[]).includes('bold')]),[['This ',false],['limiting value',true],[' can represent',false]]);
  // A plain-string prompt still takes markdown bold.
  assert.equal(boldTerm({id:'q',type:'question',content:{prompt:'Find the limiting value.'}},'limiting value').content.prompt,'Find the **limiting value**.');
+});
+
+test('a corrected answer with tab rows becomes a table; equation numbers sit beside the equation', ()=>{
+ // Curve Sketching 2 p58-q31 (Stage 6, 12 November 2026): the correction's sign table printed as two plain lines.
+ const node={id:'q',type:'question',prompt:'Sketch.',answer:{short:'Minimum.'}};
+ fieldSet(node,'worked','Find the turning point.\n\n$x$\t$1$\t$\\sqrt2$\t$2$\n$y\'$\t$-$\t$0$\t$+$\n\nIt is a minimum.');
+ assert.equal(typeof node.answer.worked,'object');
+ const table=node.answer.worked.blocks.find(b=>b.type==='table');
+ assert.ok(table&&table.border,'the sign table is bordered');assert.equal(node.answer.short,'Minimum.');
+ fieldSet(node,'short','$x=2$');assert.equal(node.answer.short,'$x=2$','a plain answer stays a string');
+ fieldSet(node,'prompt','Sketch\tthis.');assert.equal(node.prompt,'Sketch\tthis.','prompts are set as given');
+ // Arithmetic Sequences worked 19: \tag printed over the value in the answer column.
+ assert.equal(equationTagsInline(String.raw`$$\begin{align*}4a+14d&=50\tag{1}\\x&=1\qquad\tag{2}\end{align*}$$`),String.raw`$$\begin{align*}4a+14d&=50\qquad(1)\\x&=1\qquad(2)\end{align*}$$`);
+ const fresh={id:'q2',type:'question',prompt:'Solve.',answer:{}};fieldSet(fresh,'worked',String.raw`$$a+d=8\tag{1}$$`);assert.equal(fresh.answer.worked,String.raw`$$a+d=8\qquad(1)$$`);
 });

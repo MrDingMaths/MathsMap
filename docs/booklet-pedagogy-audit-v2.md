@@ -800,5 +800,19 @@ Repairs saved (scripts in `review-tools/`, each with page checks and revision-ch
 
 Left as they are:
 - **Surplus count questions** flagged by the after-booklet recount in five booklets stay, by James's decision (11 November 2026); the save-time recount uses the run's own type groups.
-- **Figures for a redraw pass**, all audit-made and listed in `.booklet-work/pedagogy-audit-v2/stage6-followups-20261111.md`: Normal Distribution 1 slot-12 answer curves, Network Concepts answer networks, a Venn answer, two crowded labels, Optimisation route figures drawn as boxes, and Area Between Curves 1 Q17b with no shading.
 - The full test suite has 42 failures in 26 files outside this work; the two in `booklet-exam-batch.test.js` fail the same way at the previous commit.
+
+**Follow-ups closed (12 November 2026)** with `review-tools/repair-stage6-followups-20261112.mjs`; details are in `.booklet-work/pedagogy-audit-v2/stage6-followups-20261111.md`.
+- **Answer figures print at their drawn width when their labels need it.** Most figure findings had one cause. A figure drawn wider than the short/worked defaults (45/55 mm) prints shrunk, but its labels stay at 10 pt, so they ran together: "Bathroom 2TV room", "34%34%", Venn numbers outside the circles, and network vertex dots shrunk to specks. The fixed figures were redrawn compactly or given an answer width (`settings.compactAnswers.diagramWidths`). Another 107 audit-made answer figures in 51 masters are drawn wider than 50 mm; none was flagged, and they are left as they are.
+- **Corrections convert tab rows** (`fieldSet`), as `newBlock` does. A correction's sign table printed as two plain lines (Curve Sketching 2 p58-q31).
+- **Equation numbers sit beside the equation** (`equationTagsInline`, in `newBlock` and `fieldSet`). `\tag` printed over the value in the answer column ("4a+14d = (10)", Arithmetic Sequences).
+- Also fixed:
+  - Optimisation route dimension lines (open, with no extension box)
+  - Area Between Curves 1 Q17b shading (the fill path drew nothing)
+  - 3D Trigonometry Q4 labels
+  - Compound Angles worked 13 (one LHS chain)
+  - Teacher-import defects, at James's request:
+    - Trig Identities p34 parts now print as 3i and 3j (`flow.continuationOf`).
+    - The repeated discriminant theory in Equations is removed (archived).
+    - Paddock labels, Discrete RV Q5 ticks and Circles 5h labels.
+- Left as they are: Curve Sketching's steps numbered from 0 (the teacher's own numbering), and the Inverse Functions 2 near-duplicate (James: keep both).

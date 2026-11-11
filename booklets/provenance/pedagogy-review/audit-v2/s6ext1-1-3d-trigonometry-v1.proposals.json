@@ -1,0 +1,2530 @@
+{
+ "version": 1,
+ "projectId": "s6ext1-1-3d-trigonometry-v1",
+ "comments": {
+  "d56b5e91-8541-4530-98aa-dce02e7517d0": {
+   "kind": "proposal-duplicate",
+   "payloads": [
+    {
+     "op": "replace-node",
+     "blockId": "p16-q10-block",
+     "nodeIds": [
+      "p16-q10-block"
+     ],
+     "content": {
+      "id": "v2-proposal-j1-091539-root",
+      "type": "question",
+      "label": null,
+      "prompt": "From a point $P$ due west of a wind turbine tower $85\\text{ m}$ tall on level ground, the angle of elevation of the top of the tower is $33^\\circ$. From a point $Q$ due south of the tower, the angle of elevation of the top of the tower is $48^\\circ$. Find the distance $PQ$ to the nearest metre.",
+      "questionDiagrams": [
+       {
+        "id": "v2-proposal-j1-091539-j1-q-figure",
+        "format": "tikz",
+        "widthMm": 60,
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"j1 replacement\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0); \\coordinate (T) at (0,2.6); \\coordinate (P) at (-2.4,-0.9); \\coordinate (Q) at (2.8,-0.5);\n\\draw (O)--(T) node[midway,right] {$85\\,\\mathrm{m}$};\n\\draw[densely dashed] (P)--(T)--(Q) (P)--(O)--(Q);\n\\draw (P)--(Q);\n\\draw[line width=0.4pt] ($(O)!0.27cm!(P)$)--($(O)!0.27cm!(P)+(O)!0.27cm!(Q)-(O)$)--($(O)!0.27cm!(Q)$);\n\\pic[draw,line width=0.4pt,angle radius=8mm,angle eccentricity=1.7,\"$33^\\circ$\"] {angle=O--P--T};\n\\pic[draw,line width=0.4pt,angle radius=8mm,angle eccentricity=1.5,\"$48^\\circ$\"] {angle=T--Q--O};\n\\node[left] at (P) {$P$}; \\node[right] at (Q) {$Q$};\n\\end{tikzpicture}"
+       }
+      ],
+      "answer": {
+       "short": "$152\\text{ m}$",
+       "worked": "Let $O$ be the foot of the tower.\n$$\\begin{align*}OP&=\\frac{85}{\\tan33^\\circ}\\\\OQ&=\\frac{85}{\\tan48^\\circ}\\\\PQ^2&=OP^2+OQ^2\\\\PQ&=\\sqrt{\\left(\\frac{85}{\\tan33^\\circ}\\right)^2+\\left(\\frac{85}{\\tan48^\\circ}\\right)^2}\\\\PQ&\\approx152\\text{ m}\\end{align*}$$"
+      }
+     },
+     "classification": {
+      "primarySkillId": "solve-3d-trig",
+      "secondarySkillIds": [],
+      "archetype": "perpendicular-ground-distance"
+     },
+     "autoApply": true,
+     "key": "prop|j1",
+     "targetFingerprint": "16eb65e3f6c5145d52af59508f15f5d633ad331dbfc9d0a35f6a5c50843fb639",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "de86566c-b569-447d-bafd-49d58d2e8484": {
+   "kind": "proposal-bridges",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-1521486cf40a511f179f-p10-practice",
+     "after": "p11-q6",
+     "neededBy": [
+      "p11-q5",
+      "p12-q8-block"
+     ],
+     "block": {
+      "id": "v2-f179f-p10-practice-j3-091539",
+      "type": "question",
+      "pedagogyRole": "practice",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-f179f-p10-practice-j3-091539-root",
+       "type": "question",
+       "label": null,
+       "prompt": "The diagram shows a rectangular prism.",
+       "questionDiagrams": [
+        {
+         "id": "v2-f179f-p10-practice-j3-091539-j3-q-figure",
+         "format": "tikz",
+         "widthMm": 50,
+         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"planeRed\",\"hex\":\"EF6068\",\"reason\":\"boundary of the plane ABGH\"}],\"reference\":\"j3 bridge\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{planeRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0);\\coordinate (B) at (2.4,0);\\coordinate (C) at (2.4,2.0);\\coordinate (D) at (0,2.0);\\coordinate (E) at (1.0,0.65);\\coordinate (F) at (3.4,0.65);\\coordinate (G) at (3.4,2.65);\\coordinate (H) at (1.0,2.65);\n\\draw[dashed] (A)--(E)--(F) (E)--(H);\n\\draw (A)--(B)--(C)--(D)--cycle (B)--(F)--(G)--(C) (G)--(H)--(D);\n\\draw[planeRed] (A)--(B)--(G)--(H);\n\\draw[planeRed,dashed] (H)--(A);\n\\path (A)--node[below] {$6\\text{ cm}$}(B);\n\\path (B)--node[below right] {$4\\text{ cm}$}(F);\n\\path (F)--node[right] {$5\\text{ cm}$}(G);\n\\node[below left] at (A) {$A$};\\node[below] at (B) {$B$};\\node[below left] at (C) {$C$};\\node[left] at (D) {$D$};\\node[above left,xshift=-1mm,yshift=1mm] at (E) {$E$};\\node[right] at (F) {$F$};\\node[above] at (G) {$G$};\\node[above] at (H) {$H$};\n\\end{tikzpicture}"
+        }
+       ],
+       "children": [
+        {
+         "id": "v2-f179f-p10-practice-j3-091539-j3-q-a",
+         "type": "part",
+         "label": "a",
+         "prompt": "Name the line where the plane $ABGH$ meets the base $ABFE$.",
+         "answerSpaceMm": 15,
+         "answer": {
+          "short": "$AB$",
+          "worked": "The plane $ABGH$ and the base $ABFE$ both contain $A$ and $B$, so they meet along $AB$."
+         }
+        },
+        {
+         "id": "v2-f179f-p10-practice-j3-091539-j3-q-b",
+         "type": "part",
+         "label": "b",
+         "prompt": "Name a line in the base and a line in the plane $ABGH$ that are both perpendicular to this line at $B$.",
+         "answerSpaceMm": 25,
+         "answer": {
+          "short": "$BF$ in the base and $BG$ in the plane $ABGH$.",
+          "worked": "$AB$ is perpendicular to the face $BFGC$, so $AB\\perp BF$ and $AB\\perp BG$. $BF$ lies in the base and $BG$ lies in the plane $ABGH$. (Equally, $AE$ and $AH$ at $A$.)"
+         }
+        },
+        {
+         "id": "v2-f179f-p10-practice-j3-091539-j3-q-c",
+         "type": "part",
+         "label": "c",
+         "prompt": "Hence find, to the nearest degree, the angle that the plane $ABGH$ makes with the base of the prism.",
+         "answerSpaceMm": 45,
+         "answer": {
+          "short": "$51^\\circ$",
+          "worked": "The required angle is $\\angle FBG$. In right-angled triangle $FBG$:\n$$\\begin{align*}\\tan\\angle FBG&=\\frac{FG}{BF}\\\\\\tan\\angle FBG&=\\frac{5}{4}\\\\\\angle FBG&=\\tan^{-1}\\left(\\frac{5}{4}\\right)\\\\\\angle FBG&\\approx51^\\circ\\end{align*}$$"
+         }
+        }
+       ]
+      },
+      "classification": {
+       "primarySkillId": "solve-3d-trig",
+       "secondarySkillIds": [],
+       "archetype": "plane-inclination"
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "s6ext1-1-3d-trigonometry-v1",
+        "blockId": "v2-f179f-p10-practice-j3-091539",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "bridges",
+        "slot": {
+         "id": "j3-091539"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/12-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "v2-f179f-p10-practice-j3-091539-j3-q-a",
+          "mathematicalRows": 1,
+          "answerSpaceMm": 15
+         },
+         {
+          "targetId": "v2-f179f-p10-practice-j3-091539-j3-q-b",
+          "mathematicalRows": 2,
+          "answerSpaceMm": 25
+         },
+         {
+          "targetId": "v2-f179f-p10-practice-j3-091539-j3-q-c",
+          "mathematicalRows": 4,
+          "answerSpaceMm": 45
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j3",
+     "targetFingerprint": "fb214c722ec1410d3dd29440b798717a37870c687ba7bbf54403e10110846b23",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "31476d6d-4755-4966-9c0f-5040ce9def00": {
+   "kind": "proposal-missing",
+   "payloads": [
+    {
+     "op": "teaching",
+     "sectionId": "assignment-23b2532695c72b04c46f-p4-guided",
+     "after": "p4-guided-block",
+     "neededBy": [
+      "p5-q2-block",
+      "p5-q3-block"
+     ],
+     "blocks": [
+      {
+       "id": "v2-example-j4",
+       "type": "worked-example",
+       "sourceAtom": {
+        "id": "v2-example-j4-atom",
+        "kind": "example",
+        "label": "Example",
+        "visibleSubtitle": "Find the slant height of a cone",
+        "order": 2
+       },
+       "pedagogyRole": "example",
+       "presentation": {
+        "layout": "columns",
+        "columns": 1,
+        "numberSteps": false
+       },
+       "examples": [
+        {
+         "id": "v2-example-j4-1",
+         "label": "",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "39ca4032-f0bb-445c-b33a-23e0967d0179",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Calculate the slant height ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "s",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " of this cone. Answer rounded to 1 d.p.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "theorySolution": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "8c264dd8-82dd-41a7-ae58-d47087262b2d",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The perpendicular height and the radius are the two shorter sides of a right-angled triangle inside the cone. The slant height ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "s",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is its hypotenuse.",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "break"
+             },
+             {
+              "type": "math",
+              "latex": "\\begin{aligned}s^2&=9^2+6^2\\\\s^2&=117\\\\s&=\\sqrt{117}\\\\s&\\approx10.8\\text{ cm}\\end{aligned}",
+              "display": true,
+              "colour": "#268cff"
+             }
+            ]
+           }
+          ]
+         },
+         "questionDiagrams": [
+          {
+           "id": "v2-example-j4-diagram",
+           "format": "tikz",
+           "widthMm": 45,
+           "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks the height and radius\"}],\"reference\":\"j4 worked example\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\\coordinate (V) at (0,1.6);\\coordinate (L) at (-1,0);\\coordinate (R) at (1,0);\n\\draw[dashed,line width=.4pt] (R) arc[start angle=0,end angle=180,x radius=1,y radius=.28];\n\\draw (L) arc[start angle=180,end angle=360,x radius=1,y radius=.28];\n\\draw (L)--(V)--(R);\n\\draw[constructionRed,dashed,line width=.4pt] (V)--(O)--(R);\n\\draw[<->,line width=.4pt] (-1.35,0)--node[left] {$9\\text{ cm}$}(-1.35,1.6);\n\\draw[<->,line width=.4pt] (0,-.6)--node[below] {$6\\text{ cm}$}(1,-.6);\n\\draw[line width=.4pt] (0,-.4)--(0,-.75) (1,-.4)--(1,-.75);\n\\path (V)--node[right] {$s\\text{ cm}$}(R);\n\\end{tikzpicture}",
+           "role": "question"
+          }
+         ]
+        }
+       ],
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       },
+       "snapshotKind": "local",
+       "bankRef": null
+      },
+      {
+       "id": "v2-proposal-j4-091539",
+       "type": "question",
+       "pedagogyRole": "guided-practice",
+       "snapshotKind": "local",
+       "bankRef": null,
+       "title": "",
+       "content": {
+        "id": "v2-proposal-j4-091539-root",
+        "type": "question",
+        "label": null,
+        "prompt": "Round each answer to 1 d.p.",
+        "children": [
+         {
+          "id": "v2-proposal-j4-091539-j4-gp-a",
+          "type": "part",
+          "label": "a",
+          "prompt": "Calculate the slant height $s$ of this cone.",
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j4-091539-j4-gp-a-cone",
+            "format": "tikz",
+            "widthMm": 45,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks the height and diameter\"}],\"reference\":\"j4 guided a\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (O) at (0,0);\\coordinate (V) at (0,1.4);\\coordinate (L) at (-1,0);\\coordinate (R) at (1,0);\n\\draw[dashed,line width=.4pt] (R) arc[start angle=0,end angle=180,x radius=1,y radius=.28];\n\\draw (L) arc[start angle=180,end angle=360,x radius=1,y radius=.28];\n\\draw (L)--(V)--(R);\n\\draw[constructionRed,dashed,line width=.4pt] (V)--(O) (L)--(R);\n\\draw[<->,line width=.4pt] (-1.35,0)--node[left] {$7\\text{ cm}$}(-1.35,1.4);\n\\draw[<->,line width=.4pt] (-1,-.6)--node[below] {$10\\text{ cm}$}(1,-.6);\n\\draw[line width=.4pt] (-1,-.4)--(-1,-.75) (1,-.4)--(1,-.75);\n\\path (V)--node[right] {$s\\text{ cm}$}(R);\n\\end{tikzpicture}"
+           }
+          ],
+          "answerSpaceMm": 35,
+          "answer": {
+           "short": "$8.6\\text{ cm}$",
+           "worked": "The radius is half the diameter: $r=\\dfrac{10}{2}=5\\text{ cm}$.\n$$\\begin{aligned}s^2&=7^2+5^2\\\\s^2&=74\\\\s&=\\sqrt{74}\\\\s&\\approx8.6\\text{ cm}\\end{aligned}$$"
+          }
+         },
+         {
+          "id": "v2-proposal-j4-091539-j4-gp-b",
+          "type": "part",
+          "label": "b",
+          "prompt": "Calculate the length of the longest rod that can fit inside this cylinder.",
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j4-091539-j4-gp-b-cyl",
+            "format": "tikz",
+            "widthMm": 45,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks the base diameter\"}],\"reference\":\"j4 guided b\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\draw (0,2.8) ellipse[x radius=1,y radius=.4];\n\\draw (-1,0)--(-1,2.8) (1,0)--(1,2.8);\n\\draw[dashed,line width=.4pt] (1,0) arc[start angle=0,end angle=180,x radius=1,y radius=.4];\n\\draw (-1,0) arc[start angle=180,end angle=360,x radius=1,y radius=.4];\n\\draw[constructionRed,dashed,line width=.4pt] (-1,0)--(1,0);\n\\draw (-1,0)--(1,2.8);\\path (-1,0)--node[right] {Rod}(1,2.8);\n\\draw[<->,line width=.4pt] (-1.4,0)--node[left] {$14\\text{ cm}$}(-1.4,2.8);\n\\draw[<->,line width=.4pt] (-1,-.8)--node[below] {$8\\text{ cm}$}(1,-.8);\n\\draw[line width=.4pt] (-1,-.5)--(-1,-.95) (1,-.5)--(1,-.95);\n\\end{tikzpicture}"
+           }
+          ],
+          "answerSpaceMm": 35,
+          "answer": {
+           "short": "$16.1\\text{ cm}$",
+           "worked": "The rod is the hypotenuse of a right-angled triangle whose shorter sides are the diameter and the height.\n$$\\begin{aligned}L^2&=8^2+14^2\\\\L^2&=260\\\\L&=\\sqrt{260}\\\\L&\\approx16.1\\text{ cm}\\end{aligned}$$"
+          }
+         },
+         {
+          "id": "v2-proposal-j4-091539-j4-gp-c",
+          "type": "part",
+          "label": "c",
+          "prompt": "Calculate the length of the longest rod that can fit inside this cylinder.",
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j4-091539-j4-gp-c-cyl",
+            "format": "tikz",
+            "widthMm": 45,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks the base radius\"}],\"reference\":\"j4 guided c\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\draw (0,1.9) ellipse[x radius=1,y radius=.4];\n\\draw (-1,0)--(-1,1.9) (1,0)--(1,1.9);\n\\draw[dashed,line width=.4pt] (1,0) arc[start angle=0,end angle=180,x radius=1,y radius=.4];\n\\draw (-1,0) arc[start angle=180,end angle=360,x radius=1,y radius=.4];\n\\draw[constructionRed,dashed,line width=.4pt] (0,0)--(1,0);\n\\draw (-1,0)--(1,1.9);\\path (-1,0)--node[right] {Rod}(1,1.9);\n\\draw[<->,line width=.4pt] (-1.4,0)--node[left] {$6\\text{ m}$}(-1.4,1.9);\n\\draw[<->,line width=.4pt] (0,-.8)--node[below] {$3.5\\text{ m}$}(1,-.8);\n\\draw[line width=.4pt] (0,-.5)--(0,-.95) (1,-.5)--(1,-.95);\n\\end{tikzpicture}"
+           }
+          ],
+          "answerSpaceMm": 40,
+          "answer": {
+           "short": "$9.2\\text{ m}$",
+           "worked": "The diameter is twice the radius: $d=2\\times3.5=7\\text{ m}$.\n$$\\begin{aligned}L^2&=7^2+6^2\\\\L^2&=85\\\\L&=\\sqrt{85}\\\\L&\\approx9.2\\text{ m}\\end{aligned}$$"
+          }
+         }
+        ]
+       },
+       "classification": {
+        "primarySkillId": "pythagoras-problems",
+        "secondarySkillIds": [],
+        "archetype": "axial-right-triangle"
+       },
+       "sourceReview": {
+        "origin": {
+         "projectId": "s6ext1-1-3d-trigonometry-v1",
+         "blockId": "v2-proposal-j4-091539",
+         "generatedBy": "pedagogy-audit-v2"
+        },
+        "generation": {
+         "model": "claude-sonnet-5-5",
+         "effort": "medium",
+         "kind": "missing",
+         "slot": {
+          "id": "j4-091539"
+         },
+         "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/12-solve-1.json"
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "v2-proposal-j4-091539-j4-gp-a",
+           "mathematicalRows": 4,
+           "answerSpaceMm": 35
+          },
+          {
+           "targetId": "v2-proposal-j4-091539-j4-gp-b",
+           "mathematicalRows": 4,
+           "answerSpaceMm": 35
+          },
+          {
+           "targetId": "v2-proposal-j4-091539-j4-gp-c",
+           "mathematicalRows": 5,
+           "answerSpaceMm": 40
+          }
+         ]
+        }
+       },
+       "sourceAtom": {
+        "id": "v2-proposal-j4-091539-atom",
+        "kind": "guided-practice",
+        "label": "Guided practice",
+        "order": 3
+       },
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       }
+      }
+     ],
+     "autoApply": true,
+     "key": "prop|j4",
+     "targetFingerprint": "738509643bf18b5cf628f78dfdd4fc0f31f28d37c7218c5921a8cef3b2dd74fd",
+     "applied": true,
+     "notApplied": "it did not print cleanly in the booklet (footer-overflow)"
+    },
+    {
+     "op": "teaching",
+     "sectionId": "assignment-23b2532695c72b04c46f-p4-guided",
+     "after": "p4-guided-block",
+     "neededBy": [
+      "p7-q7"
+     ],
+     "blocks": [
+      {
+       "id": "v2-example-j5",
+       "type": "worked-example",
+       "sourceAtom": {
+        "id": "v2-example-j5-atom",
+        "kind": "example",
+        "label": "Example",
+        "visibleSubtitle": "Find the height of a pyramid",
+        "order": 2
+       },
+       "pedagogyRole": "example",
+       "presentation": {
+        "layout": "columns",
+        "columns": 1,
+        "numberSteps": false
+       },
+       "examples": [
+        {
+         "id": "v2-example-j5-1",
+         "label": "",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "c7894d93-fe86-48d2-a708-07771da6dd3a",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Find the perpendicular height ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "EO",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " of this square pyramid, to 1 decimal place.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "theorySolution": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "0f800fbe-f0fa-44ef-85da-f032aa47c2c0",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The apex ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "E",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is directly above the centre ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "O",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " of the base, so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "EO",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is perpendicular to the base. ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "O",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is the midpoint of the base diagonal ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "DB",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "OB",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is half the diagonal. Triangle ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "EOB",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is right-angled at ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "O",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "break"
+             },
+             {
+              "type": "math",
+              "latex": "\\begin{aligned}DB^2&=8^2+8^2\\\\DB^2&=128\\\\OB^2&=\\left(\\frac{DB}{2}\\right)^2=\\frac{128}{4}=32\\\\EO^2&=EB^2-OB^2\\\\EO^2&=11^2-32\\\\EO^2&=89\\\\EO&=\\sqrt{89}\\approx9.4\\text{ cm}\\end{aligned}",
+              "display": true,
+              "colour": "#268cff"
+             }
+            ]
+           }
+          ]
+         },
+         "questionDiagrams": [
+          {
+           "id": "v2-example-j5-diagram",
+           "format": "tikz",
+           "widthMm": 55,
+           "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks the base diagonal and the height\"}],\"reference\":\"j5 worked example\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate(D) at(0,0.6);\\coordinate(C) at(2,-0.1);\\coordinate(B) at(3.25,1.1);\\coordinate(A) at(1.25,1.8);\\coordinate(E) at(1.625,4);\\coordinate(O) at(1.625,0.85);\n\\draw[dashed,line width=0.4pt] (D)--(A)--(B) (A)--(E);\n\\draw (D)--(C)--(B)--(E)--cycle (E)--(C);\n\\draw[constructionRed,dashed,line width=0.4pt] (D)--(B) (E)--(O);\n\\fill[constructionRed] (O) circle[radius=1.2pt];\n\\node[left] at(D){$D$};\\node[below] at(C){$C$};\\node[right] at(B){$B$};\\node[below] at(A){$A$};\\node[above] at(E){$E$};\\node[above left] at(O){$O$};\n\\draw[<->,line width=0.4pt] ($(D)+(0,-0.55)$)--($(C)+(0,-0.55)$) node[midway,below]{$8\\text{ cm}$};\n\\draw[<->,line width=0.4pt] ($(C)+(0.48,-0.40)$)--($(B)+(0.48,-0.40)$) node[midway,below right]{$8\\text{ cm}$};\n\\draw[<->,line width=0.4pt] ($(E)+(0.55,0.18)$)--($(B)+(0.55,0.18)$) node[midway,right]{$11\\text{ cm}$};\n\\end{tikzpicture}",
+           "role": "question"
+          }
+         ]
+        }
+       ],
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       },
+       "snapshotKind": "local",
+       "bankRef": null
+      },
+      {
+       "id": "v2-proposal-j5-091539",
+       "type": "question",
+       "pedagogyRole": "guided-practice",
+       "snapshotKind": "local",
+       "bankRef": null,
+       "title": "",
+       "content": {
+        "id": "v2-proposal-j5-091539-root",
+        "type": "question",
+        "label": null,
+        "prompt": "",
+        "children": [
+         {
+          "id": "v2-proposal-j5-091539-j5-gp-a",
+          "type": "part",
+          "label": "a",
+          "prompt": "$M$ is the midpoint of $BC$. Find the perpendicular height of this pyramid, to 1 decimal place.",
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j5-091539-j5-gp-a-pyramid",
+            "format": "tikz",
+            "widthMm": 55,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks the face height, the base segment OM and the height\"}],\"reference\":\"j5 guided a\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate(D) at(0,0.6);\\coordinate(C) at(2,-0.1);\\coordinate(B) at(3.25,1.1);\\coordinate(A) at(1.25,1.8);\\coordinate(E) at(1.625,4);\\coordinate(O) at(1.625,0.85);\\coordinate(M) at($(C)!0.5!(B)$);\n\\draw[dashed,line width=0.4pt] (D)--(A)--(B) (A)--(E);\n\\draw (D)--(C)--(B)--(E)--cycle (E)--(C);\n\\draw[constructionRed,dashed,line width=0.4pt] (E)--(O)--(M);\n\\draw[constructionRed] (E)--(M);\n\\fill[constructionRed] (O) circle[radius=1.2pt];\n\\node[left] at(D){$D$};\\node[below] at(C){$C$};\\node[right] at(B){$B$};\\node[below] at(A){$A$};\\node[above] at(E){$E$};\\node[above left] at(O){$O$};\\node[below right] at(M){$M$};\n\\draw[<->,line width=0.4pt] ($(D)+(0,-0.55)$)--($(C)+(0,-0.55)$) node[midway,below]{$10\\text{ cm}$};\n\\draw[<->,line width=0.4pt] ($(C)+(0.48,-0.40)$)--($(B)+(0.48,-0.40)$) node[midway,below right]{$10\\text{ cm}$};\n\\node (lab) at (3.85,2.8) {$12\\text{ cm}$};\n\\draw[->,line width=0.4pt] (lab.west)--($(E)!0.45!(M)$);\n\\end{tikzpicture}"
+           }
+          ],
+          "answerSpaceMm": 40,
+          "answer": {
+           "short": "$10.9\\text{ cm}$",
+           "worked": "$O$ is the centre of the base and $M$ is the midpoint of $BC$, so $OM=\\dfrac{10}{2}=5\\text{ cm}$. Triangle $EOM$ is right-angled at $O$.\n$$\\begin{aligned}EO^2&=EM^2-OM^2\\\\EO^2&=12^2-5^2\\\\EO^2&=119\\\\EO&=\\sqrt{119}\\approx10.9\\text{ cm}\\end{aligned}$$"
+          }
+         },
+         {
+          "id": "v2-proposal-j5-091539-j5-gp-b",
+          "type": "part",
+          "label": "b",
+          "prompt": "Find the perpendicular height of this rectangular-based pyramid, to 1 decimal place.",
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j5-091539-j5-gp-b-pyramid",
+            "format": "tikz",
+            "widthMm": 55,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks the base diagonal and the height\"}],\"reference\":\"j5 guided b\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate(D) at(0,0.5);\\coordinate(C) at(2.6,-0.1);\\coordinate(B) at(3.6,0.9);\\coordinate(A) at(1,1.5);\\coordinate(E) at(1.8,3.6);\\coordinate(O) at(1.8,0.7);\n\\draw[dashed,line width=0.4pt] (D)--(A)--(B) (A)--(E);\n\\draw (D)--(C)--(B)--(E)--cycle (E)--(C);\n\\draw[constructionRed,dashed,line width=0.4pt] (D)--(B) (E)--(O);\n\\fill[constructionRed] (O) circle[radius=1.2pt];\n\\node[left] at(D){$D$};\\node[below] at(C){$C$};\\node[right] at(B){$B$};\\node[above left] at(A){$A$};\\node[above] at(E){$E$};\\node[above left] at(O){$O$};\n\\draw[<->,line width=0.4pt] ($(D)+(0,-0.55)$)--($(C)+(0,-0.55)$) node[midway,below]{$12\\text{ cm}$};\n\\draw[<->,line width=0.4pt] ($(C)+(0.48,-0.40)$)--($(B)+(0.48,-0.40)$) node[midway,below right]{$6\\text{ cm}$};\n\\draw[<->,line width=0.4pt] ($(E)+(0.55,0.18)$)--($(B)+(0.55,0.18)$) node[midway,right]{$14\\text{ cm}$};\n\\end{tikzpicture}"
+           }
+          ],
+          "answerSpaceMm": 45,
+          "answer": {
+           "short": "$12.3\\text{ cm}$",
+           "worked": "$O$ is the midpoint of the base diagonal $DB$. Triangle $EOB$ is right-angled at $O$.\n$$\\begin{aligned}DB^2&=12^2+6^2\\\\DB^2&=180\\\\OB^2&=\\frac{180}{4}=45\\\\EO^2&=EB^2-OB^2\\\\EO^2&=14^2-45\\\\EO^2&=151\\\\EO&=\\sqrt{151}\\approx12.3\\text{ cm}\\end{aligned}$$"
+          }
+         }
+        ]
+       },
+       "classification": {
+        "primarySkillId": "pythagoras-multistep",
+        "secondarySkillIds": [],
+        "archetype": "pyramid-perpendicular-height"
+       },
+       "sourceReview": {
+        "origin": {
+         "projectId": "s6ext1-1-3d-trigonometry-v1",
+         "blockId": "v2-proposal-j5-091539",
+         "generatedBy": "pedagogy-audit-v2"
+        },
+        "generation": {
+         "model": "claude-sonnet-5-5",
+         "effort": "medium",
+         "kind": "missing",
+         "slot": {
+          "id": "j5-091539"
+         },
+         "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/12-solve-1.json"
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "v2-proposal-j5-091539-j5-gp-a",
+           "mathematicalRows": 4,
+           "answerSpaceMm": 40
+          },
+          {
+           "targetId": "v2-proposal-j5-091539-j5-gp-b",
+           "mathematicalRows": 6,
+           "answerSpaceMm": 45
+          }
+         ]
+        }
+       },
+       "sourceAtom": {
+        "id": "v2-proposal-j5-091539-atom",
+        "kind": "guided-practice",
+        "label": "Guided practice",
+        "order": 3
+       },
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       }
+      }
+     ],
+     "autoApply": true,
+     "key": "prop|j5",
+     "targetFingerprint": "738509643bf18b5cf628f78dfdd4fc0f31f28d37c7218c5921a8cef3b2dd74fd",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "8fc78d89-f777-404b-b932-a35ba742348f": {
+   "kind": "proposal-missing",
+   "payloads": [
+    {
+     "op": "teaching",
+     "sectionId": "assignment-f03316157d7191540deb-guided",
+     "after": "p9-guided-block",
+     "neededBy": [
+      "p12-q7-block",
+      "p11-q5",
+      "p12-q8-block"
+     ],
+     "blocks": [
+      {
+       "id": "v2-example-j6",
+       "type": "worked-example",
+       "sourceAtom": {
+        "id": "v2-example-j6-atom",
+        "kind": "example",
+        "label": "Example",
+        "visibleSubtitle": "Find the angle between a face and the base",
+        "order": 2
+       },
+       "pedagogyRole": "example",
+       "presentation": {
+        "layout": "columns",
+        "columns": 1,
+        "numberSteps": false
+       },
+       "examples": [
+        {
+         "id": "v2-example-j6-1",
+         "label": "",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "a469b89e-596a-4c43-8032-5b27ae562d65",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "math",
+              "latex": "M",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " is the midpoint of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "BC",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ". Find the angle between the face ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "EBC",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " and the base of this square pyramid, to the nearest degree.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "theorySolution": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "65ef165f-55ed-4171-93a7-25ccde1b6202",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The face ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "EBC",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " and the base meet along ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "BC",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ". Draw a line in each plane perpendicular to ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "BC",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " at ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "M",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ": ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "OM\\perp BC",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " in the base, since ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "O",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is the centre of the square, and ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "EM\\perp BC",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " in the face, since ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "EB=EC",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "7267410d-4b98-4cf6-84ca-c72be9e055f9",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The angle between the planes is ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "\\angle EMO",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", in right-angled triangle ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "EOM",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", where ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "OM=\\dfrac{10}{2}=5\\text{ cm}",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "break"
+             },
+             {
+              "type": "math",
+              "latex": "\\begin{aligned}\\tan\\angle EMO&=\\frac{EO}{OM}\\\\\\tan\\angle EMO&=\\frac{9}{5}\\\\\\angle EMO&=\\tan^{-1}\\left(\\frac{9}{5}\\right)\\\\\\angle EMO&\\approx61^\\circ\\end{aligned}",
+              "display": true,
+              "colour": "#268cff"
+             }
+            ]
+           }
+          ]
+         },
+         "questionDiagrams": [
+          {
+           "id": "v2-example-j6-diagram",
+           "format": "tikz",
+           "widthMm": 55,
+           "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks triangle EOM\"}],\"reference\":\"j6 worked example\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate(D) at(0,0.6);\\coordinate(C) at(2,-0.1);\\coordinate(B) at(3.25,1.1);\\coordinate(A) at(1.25,1.8);\\coordinate(E) at(1.625,4);\\coordinate(O) at(1.625,0.85);\\coordinate(M) at($(C)!0.5!(B)$);\n\\draw[dashed,line width=0.4pt] (D)--(A)--(B) (A)--(E);\n\\draw (D)--(C)--(B)--(E)--cycle (E)--(C);\n\\draw[constructionRed,dashed,line width=0.4pt] (E)--(O)--(M);\n\\draw[constructionRed] (E)--(M);\n\\fill[constructionRed] (O) circle[radius=1.2pt];\n\\node[left] at(D){$D$};\\node[below] at(C){$C$};\\node[right] at(B){$B$};\\node[below] at(A){$A$};\\node[above] at(E){$E$};\\node[above left] at(O){$O$};\\node[below right] at(M){$M$};\n\\draw[<->,line width=0.4pt] ($(D)+(0,-0.55)$)--($(C)+(0,-0.55)$) node[midway,below]{$10\\text{ cm}$};\n\\draw[<->,line width=0.4pt] ($(C)+(0.48,-0.40)$)--($(B)+(0.48,-0.40)$) node[midway,below right]{$10\\text{ cm}$};\n\\node (hl) at (0.15,3.2) {$9\\text{ cm}$};\n\\draw[->,line width=0.4pt] (hl.east)--($(E)!0.5!(O)$);\n\\end{tikzpicture}",
+           "role": "question"
+          }
+         ]
+        }
+       ],
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       },
+       "snapshotKind": "local",
+       "bankRef": null
+      },
+      {
+       "id": "v2-proposal-j6-091539",
+       "type": "question",
+       "pedagogyRole": "guided-practice",
+       "snapshotKind": "local",
+       "bankRef": null,
+       "title": "",
+       "content": {
+        "id": "v2-proposal-j6-091539-root",
+        "type": "question",
+        "label": null,
+        "prompt": "",
+        "children": [
+         {
+          "id": "v2-proposal-j6-091539-j6-gp-a",
+          "type": "part",
+          "label": "a",
+          "prompt": "Find the angle between the plane $RSTU$ and the base $QRSP$ of this rectangular prism, to the nearest degree.",
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j6-091539-j6-gp-a-prism",
+            "format": "tikz",
+            "widthMm": 50,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"planeRed\",\"hex\":\"EF6068\",\"reason\":\"boundary of the plane RSTU\"}],\"reference\":\"j6 guided a\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{planeRed}{HTML}{EF6068}\n\\coordinate (Q) at (0,0);\\coordinate (R) at (2.4,0);\\coordinate (V) at (2.4,1.5);\\coordinate (U) at (0,1.5);\\coordinate (P) at (1.0,0.7);\\coordinate (S) at (3.4,0.7);\\coordinate (W) at (3.4,2.2);\\coordinate (T) at (1.0,2.2);\n\\draw[dashed] (Q)--(P)--(S) (P)--(T);\n\\draw (Q)--(R)--(V)--(U)--cycle (R)--(S)--(W)--(V) (W)--(T)--(U);\n\\draw[planeRed] (U)--(R)--(S) (T)--(U);\n\\draw[planeRed,dashed] (S)--(T);\n\\path (Q)--node[below] {$8\\text{ cm}$}(R);\n\\path (R)--node[below right] {$5\\text{ cm}$}(S);\n\\path (Q)--node[left] {$6\\text{ cm}$}(U);\n\\node[below left] at (Q) {$Q$};\\node[below] at (R) {$R$};\\node[below left] at (V) {$V$};\\node[left] at (U) {$U$};\\node[above left,xshift=-1mm,yshift=1mm] at (P) {$P$};\\node[right] at (S) {$S$};\\node[above] at (W) {$W$};\\node[above] at (T) {$T$};\n\\end{tikzpicture}"
+           }
+          ],
+          "answerSpaceMm": 45,
+          "answer": {
+           "short": "$37^\\circ$",
+           "worked": "The plane $RSTU$ and the base meet along $RS$. $RS$ is perpendicular to the face $UVRQ$, so $QR\\perp RS$ in the base and $UR\\perp RS$ in the plane $RSTU$. The required angle is $\\angle QRU$.\n$$\\begin{aligned}\\tan\\angle QRU&=\\frac{UQ}{QR}\\\\\\tan\\angle QRU&=\\frac{6}{8}\\\\\\angle QRU&=\\tan^{-1}\\left(\\frac{3}{4}\\right)\\\\\\angle QRU&\\approx37^\\circ\\end{aligned}$$"
+          }
+         },
+         {
+          "id": "v2-proposal-j6-091539-j6-gp-b",
+          "type": "part",
+          "label": "b",
+          "prompt": "$M$ is the midpoint of $DC$. Find the angle between the face $ECD$ and the base of this rectangular-based pyramid, to the nearest degree.",
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j6-091539-j6-gp-b-pyramid",
+            "format": "tikz",
+            "widthMm": 55,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"marks triangle EOM\"}],\"reference\":\"j6 guided b\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate(D) at(0,0.5);\\coordinate(C) at(2.6,-0.1);\\coordinate(B) at(3.6,0.9);\\coordinate(A) at(1,1.5);\\coordinate(E) at(1.8,3.6);\\coordinate(O) at(1.8,0.7);\\coordinate(M) at($(D)!0.5!(C)$);\n\\draw[dashed,line width=0.4pt] (D)--(A)--(B) (A)--(E);\n\\draw (D)--(C)--(B)--(E)--cycle (E)--(C);\n\\draw[constructionRed,dashed,line width=0.4pt] (E)--(O)--(M);\n\\draw[constructionRed] (E)--(M);\n\\fill[constructionRed] (O) circle[radius=1.2pt];\n\\node[left] at(D){$D$};\\node[below] at(C){$C$};\\node[right] at(B){$B$};\\node[above left] at(A){$A$};\\node[above] at(E){$E$};\\node[above right] at(O){$O$};\\node[below] at(M){$M$};\n\\draw[<->,line width=0.4pt] ($(D)+(0,-0.8)$)--($(C)+(0,-0.8)$) node[midway,below]{$12\\text{ cm}$};\n\\draw[<->,line width=0.4pt] ($(C)+(0.48,-0.40)$)--($(B)+(0.48,-0.40)$) node[midway,below right]{$8\\text{ cm}$};\n\\node (hl) at (0.15,2.9) {$5\\text{ cm}$};\n\\draw[->,line width=0.4pt] (hl.east)--($(E)!0.5!(O)$);\n\\end{tikzpicture}"
+           }
+          ],
+          "answerSpaceMm": 45,
+          "answer": {
+           "short": "$51^\\circ$",
+           "worked": "The face $ECD$ and the base meet along $DC$. $OM\\perp DC$ in the base and $EM\\perp DC$ in the face, so the required angle is $\\angle EMO$. $OM$ is half of $CB$: $OM=\\dfrac{8}{2}=4\\text{ cm}$.\n$$\\begin{aligned}\\tan\\angle EMO&=\\frac{EO}{OM}\\\\\\tan\\angle EMO&=\\frac{5}{4}\\\\\\angle EMO&=\\tan^{-1}\\left(\\frac{5}{4}\\right)\\\\\\angle EMO&\\approx51^\\circ\\end{aligned}$$"
+          }
+         }
+        ]
+       },
+       "classification": {
+        "primarySkillId": "solve-3d-trig",
+        "secondarySkillIds": [],
+        "archetype": "plane-inclination"
+       },
+       "sourceReview": {
+        "origin": {
+         "projectId": "s6ext1-1-3d-trigonometry-v1",
+         "blockId": "v2-proposal-j6-091539",
+         "generatedBy": "pedagogy-audit-v2"
+        },
+        "generation": {
+         "model": "claude-sonnet-5-5",
+         "effort": "medium",
+         "kind": "missing",
+         "slot": {
+          "id": "j6-091539"
+         },
+         "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/12-solve-1.json"
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "v2-proposal-j6-091539-j6-gp-a",
+           "mathematicalRows": 5,
+           "answerSpaceMm": 45
+          },
+          {
+           "targetId": "v2-proposal-j6-091539-j6-gp-b",
+           "mathematicalRows": 5,
+           "answerSpaceMm": 45
+          }
+         ]
+        }
+       },
+       "sourceAtom": {
+        "id": "v2-proposal-j6-091539-atom",
+        "kind": "guided-practice",
+        "label": "Guided practice",
+        "order": 3
+       },
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       }
+      }
+     ],
+     "autoApply": true,
+     "key": "prop|j6",
+     "targetFingerprint": "836b7ed19eac0cb10f598328948918f44878f273bacf514fbf71617f0bab3de8",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "7fdfdaeb-a849-49e6-a267-3f6aff6402f3": {
+   "kind": "proposal-missing",
+   "payloads": [
+    {
+     "op": "teaching",
+     "sectionId": "assignment-f53e2caa75c56e90f0f6-p13-teaching",
+     "after": "p13-guided-block",
+     "neededBy": [
+      "p17-q12-block",
+      "p18-q13"
+     ],
+     "blocks": [
+      {
+       "id": "v2-example-j7",
+       "type": "worked-example",
+       "sourceAtom": {
+        "id": "v2-example-j7-atom",
+        "kind": "example",
+        "label": "Example",
+        "visibleSubtitle": "Solve for an unknown height using Pythagoras",
+        "order": 2
+       },
+       "pedagogyRole": "example",
+       "presentation": {
+        "layout": "columns",
+        "columns": 1,
+        "numberSteps": false
+       },
+       "examples": [
+        {
+         "id": "v2-example-j7-1",
+         "label": "",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "a73b7608-685f-480b-bea6-28b0b596b420",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "From ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "P",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ", due south of a vertical flagpole, the angle of elevation of the top of the flagpole is ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "24^\\circ",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           },
+           {
+            "id": "2032a9c8-6e19-4742-841d-96cf77c8205c",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "From ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "Q",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ", due east of the flagpole, the angle of elevation of the top is ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "38^\\circ",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ". ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "PQ=50\\text{ m}",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           },
+           {
+            "id": "64dd4d0c-c590-48b0-b145-1167e7ab0cc0",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Find the height ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "h",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " of the flagpole, to the nearest metre.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "theorySolution": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "e5029aa4-18dd-41a0-a1fa-096070d64af0",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Let ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "F",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " be the foot of the flagpole, so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "FT=h",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ". Write both ground distances in terms of ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "h",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "0ef003fd-d7c4-4502-b8ca-7b4f8105fd4d",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "math",
+              "latex": "\\begin{aligned}\\tan24^\\circ&=\\frac{h}{PF}\\\\PF&=\\frac{h}{\\tan24^\\circ}\\end{aligned}\\qquad\\begin{aligned}\\tan38^\\circ&=\\frac{h}{QF}\\\\QF&=\\frac{h}{\\tan38^\\circ}\\end{aligned}",
+              "display": true,
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "8dbe5fe4-6faa-4964-8f0e-397a95941dde",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "math",
+              "latex": "\\angle PFQ=90^\\circ",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " (due south and due east), so use Pythagoras’ theorem in ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "\\triangle PFQ",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "256c298e-a9fb-4347-9121-2644889bf149",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "math",
+              "latex": "\\begin{aligned}PF^2+QF^2&=PQ^2\\\\\\left(\\frac{h}{\\tan24^\\circ}\\right)^2+\\left(\\frac{h}{\\tan38^\\circ}\\right)^2&=50^2\\\\h^2\\left(\\frac{1}{\\tan^224^\\circ}+\\frac{1}{\\tan^238^\\circ}\\right)&=2500\\\\\\frac{h^2\\left(\\frac{1}{\\tan^224^\\circ}+\\frac{1}{\\tan^238^\\circ}\\right)}{\\color{#ef6068}{\\left(\\frac{1}{\\tan^224^\\circ}+\\frac{1}{\\tan^238^\\circ}\\right)}}&=\\frac{2500}{\\color{#ef6068}{\\left(\\frac{1}{\\tan^224^\\circ}+\\frac{1}{\\tan^238^\\circ}\\right)}}\\\\h&=\\frac{50}{\\sqrt{\\frac{1}{\\tan^224^\\circ}+\\frac{1}{\\tan^238^\\circ}}}\\end{aligned}",
+              "display": true,
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "d6d3a24d-ef12-48c6-a8c3-0bb3fa68d7d2",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "math",
+              "latex": "\\approx19",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " m",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           }
+          ]
+         },
+         "questionDiagrams": [
+          {
+           "id": "v2-example-j7-diagram",
+           "format": "tikz",
+           "widthMm": 60,
+           "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"unknown-height worked example\"}\n\\begin{tikzpicture}[line join=round,line cap=round,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (P) at (0,0);\\coordinate (Q) at (5.2,0);\\coordinate (F) at (2.4,1.4);\\coordinate (T) at (2.4,4.2);\n\\draw (P)--(Q) (P)--(T)--(Q) (F)--(T);\n\\draw[dashed,line width=0.4pt] (P)--(F)--(Q);\n\\path (F)--(T) node[midway,right] {$h$};\n\\path (P)--(Q) node[midway,below] {$50\\text{ m}$};\n\\node[below left] at (P) {$P$};\\node[below right] at (Q) {$Q$};\\node[above left] at (F) {$F$};\\node[above] at (T) {$T$};\n\\coordinate (U) at ($(F)!0.25cm!(P)$);\\coordinate (V) at ($(F)!0.25cm!(Q)$);\n\\draw[line width=0.4pt] (U)--($(U)+(V)-(F)$)--(V);\n\\pic[draw,line width=0.4pt,angle radius=12mm,angle eccentricity=1.6,\"$24^\\circ$\"] {angle=F--P--T};\n\\pic[draw,line width=0.4pt,angle radius=10mm,angle eccentricity=1.9,\"$38^\\circ$\"] {angle=T--Q--F};\n\\end{tikzpicture}",
+           "role": "question"
+          }
+         ]
+        }
+       ],
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       },
+       "snapshotKind": "local",
+       "bankRef": null
+      },
+      {
+       "id": "v2-proposal-j7-091539",
+       "type": "question",
+       "pedagogyRole": "guided-practice",
+       "snapshotKind": "local",
+       "bankRef": null,
+       "title": "",
+       "content": {
+        "id": "v2-proposal-j7-091539-root",
+        "type": "question",
+        "label": null,
+        "prompt": "Find the height $h$ of each tower, to the nearest metre.",
+        "children": [
+         {
+          "id": "v2-proposal-j7-091539-unknown-height-guided-a",
+          "type": "part",
+          "label": "a",
+          "prompt": "From $X$, due south of a vertical tower, the angle of elevation of the top is $31^\\circ$.\n\nFrom $Y$, due east of the tower, the angle of elevation of the top is $19^\\circ$. $XY=75\\text{ m}$.",
+          "answerSpaceMm": 70,
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j7-091539-unknown-height-guided-a-diagram",
+            "format": "tikz",
+            "widthMm": 60,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"unknown-height guided part a\"}\n\\begin{tikzpicture}[line join=round,line cap=round,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (P) at (0,0);\\coordinate (Q) at (5.2,0);\\coordinate (F) at (2.4,1.4);\\coordinate (T) at (2.4,4.2);\n\\draw (P)--(Q) (P)--(T)--(Q) (F)--(T);\n\\draw[dashed,line width=0.4pt] (P)--(F)--(Q);\n\\path (F)--(T) node[midway,right] {$h$};\n\\path (P)--(Q) node[midway,below] {$75\\text{ m}$};\n\\node[below left] at (P) {$X$};\\node[below right] at (Q) {$Y$};\\node[above left] at (F) {$F$};\\node[above] at (T) {$T$};\n\\coordinate (U) at ($(F)!0.25cm!(P)$);\\coordinate (V) at ($(F)!0.25cm!(Q)$);\n\\draw[line width=0.4pt] (U)--($(U)+(V)-(F)$)--(V);\n\\pic[draw,line width=0.4pt,angle radius=12mm,angle eccentricity=1.6,\"$31^\\circ$\"] {angle=F--P--T};\n\\pic[draw,line width=0.4pt,angle radius=10mm,angle eccentricity=1.9,\"$19^\\circ$\"] {angle=T--Q--F};\n\\end{tikzpicture}"
+           }
+          ],
+          "answer": {
+           "short": "$h\\approx22\\text{ m}$",
+           "worked": "$$\\begin{align*}XF&=\\frac{h}{\\tan31^\\circ}\\\\YF&=\\frac{h}{\\tan19^\\circ}\\\\XF^2+YF^2&=XY^2\\\\h^2\\left(\\frac{1}{\\tan^231^\\circ}+\\frac{1}{\\tan^219^\\circ}\\right)&=75^2\\\\h&=\\frac{75}{\\sqrt{\\frac{1}{\\tan^231^\\circ}+\\frac{1}{\\tan^219^\\circ}}}\\\\&\\approx22\\text{ m}\\end{align*}$$"
+          }
+         },
+         {
+          "id": "v2-proposal-j7-091539-unknown-height-guided-b",
+          "type": "part",
+          "label": "b",
+          "prompt": "From $A$, due north of a vertical communications tower on level ground, the angle of elevation of the top is $7^\\circ$.\n\nFrom $B$, due west of the tower, the angle of elevation of the top is $9^\\circ$. $AB=2\\text{ km}$.",
+          "answerSpaceMm": 70,
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j7-091539-unknown-height-guided-b-diagram",
+            "format": "tikz",
+            "widthMm": 60,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"unknown-height guided part b\"}\n\\begin{tikzpicture}[line join=round,line cap=round,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (P) at (0,0);\\coordinate (Q) at (5.2,0);\\coordinate (F) at (2.4,1.4);\\coordinate (T) at (2.4,4.2);\n\\draw (P)--(Q) (P)--(T)--(Q) (F)--(T);\n\\draw[dashed,line width=0.4pt] (P)--(F)--(Q);\n\\path (F)--(T) node[midway,right] {$h$};\n\\path (P)--(Q) node[midway,below] {$2\\text{ km}$};\n\\node[below left] at (P) {$A$};\\node[below right] at (Q) {$B$};\\node[above left] at (F) {$F$};\\node[above] at (T) {$T$};\n\\coordinate (U) at ($(F)!0.25cm!(P)$);\\coordinate (V) at ($(F)!0.25cm!(Q)$);\n\\draw[line width=0.4pt] (U)--($(U)+(V)-(F)$)--(V);\n\\pic[draw,line width=0.4pt,angle radius=12mm,angle eccentricity=1.6,\"$7^\\circ$\"] {angle=F--P--T};\n\\pic[draw,line width=0.4pt,angle radius=10mm,angle eccentricity=1.9,\"$9^\\circ$\"] {angle=T--Q--F};\n\\end{tikzpicture}"
+           }
+          ],
+          "answer": {
+           "short": "$h\\approx194\\text{ m}$",
+           "worked": "Work in kilometres.\n\n$$\\begin{align*}AF&=\\frac{h}{\\tan7^\\circ}\\\\BF&=\\frac{h}{\\tan9^\\circ}\\\\AF^2+BF^2&=AB^2\\\\h^2\\left(\\frac{1}{\\tan^27^\\circ}+\\frac{1}{\\tan^29^\\circ}\\right)&=2^2\\\\h&=\\frac{2}{\\sqrt{\\frac{1}{\\tan^27^\\circ}+\\frac{1}{\\tan^29^\\circ}}}\\\\&\\approx0.194\\text{ km}\\\\&=194\\text{ m}\\end{align*}$$"
+          }
+         }
+        ]
+       },
+       "classification": {
+        "primarySkillId": "solve-3d-trig",
+        "secondarySkillIds": [],
+        "archetype": "unknown-height-equation"
+       },
+       "sourceReview": {
+        "origin": {
+         "projectId": "s6ext1-1-3d-trigonometry-v1",
+         "blockId": "v2-proposal-j7-091539",
+         "generatedBy": "pedagogy-audit-v2"
+        },
+        "generation": {
+         "model": "claude-sonnet-5-5",
+         "effort": "medium",
+         "kind": "missing",
+         "slot": {
+          "id": "j7-091539"
+         },
+         "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/12-solve-1.json"
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "v2-proposal-j7-091539-unknown-height-guided-a",
+           "mathematicalRows": 5,
+           "answerSpaceMm": 70
+          },
+          {
+           "targetId": "v2-proposal-j7-091539-unknown-height-guided-b",
+           "mathematicalRows": 6,
+           "answerSpaceMm": 70
+          }
+         ]
+        }
+       },
+       "sourceAtom": {
+        "id": "v2-proposal-j7-091539-atom",
+        "kind": "guided-practice",
+        "label": "Guided practice",
+        "order": 3
+       },
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       }
+      }
+     ],
+     "autoApply": true,
+     "key": "prop|j7",
+     "targetFingerprint": "6bc65cc50048bffa3fa2a7a4b0e4f8ee63f03792be27467d988a9c0def8ec85f",
+     "applied": true,
+     "notApplied": "it did not print cleanly in the booklet (footer-overflow)"
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "54f7f3c6-bbfc-4d01-84f9-d4c057831c22": {
+   "kind": "proposal-variation",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-1521486cf40a511f179f-p10-practice",
+     "after": "p10-q2",
+     "neededBy": [
+      "p11-q6",
+      "p10-q3"
+     ],
+     "block": {
+      "id": "v2-f179f-p10-practice-j11-091539",
+      "type": "question",
+      "pedagogyRole": "practice",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-f179f-p10-practice-j11-091539-root",
+       "type": "question",
+       "label": null,
+       "prompt": "The diagram shows a rectangular prism with the diagonal $BH$.",
+       "questionDiagrams": [
+        {
+         "id": "v2-f179f-p10-practice-j11-091539-j11-prism-diagram",
+         "format": "tikz",
+         "widthMm": 55,
+         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"space diagonal BH\"}],\"reference\":\"line-inclination variation prism\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0); \\coordinate (B) at (3,0); \\coordinate (C) at (3,1.9); \\coordinate (D) at (0,1.9);\n\\coordinate (E) at (1.25,1.1); \\coordinate (F) at (4.25,1.1); \\coordinate (G) at (4.25,3); \\coordinate (H) at (1.25,3);\n\\draw (A)--(B)--(F)--(G)--(H)--(D)--cycle;\n\\path (A)--(B) node[midway,below] {$16\\text{ cm}$};\n\\path (B)--(F) node[midway,below right] {$12\\text{ cm}$};\n\\path (F)--(G) node[midway,right] {$14\\text{ cm}$};\n\\draw (D)--(C)--(B) (C)--(G);\n\\draw[dashed,line width=0.4pt] (A)--(E)--(F) (E)--(H);\n\\draw[constructionRed,dashed] (B)--(H);\n\\node[below left] at (A) {$A$}; \\node[below] at (B) {$B$}; \\node[above left] at (C) {$C$}; \\node[left] at (D) {$D$};\n\\node[left] at (E) {$E$}; \\node[right] at (F) {$F$}; \\node[above right] at (G) {$G$}; \\node[above left] at (H) {$H$};\n\\end{tikzpicture}"
+        }
+       ],
+       "children": [
+        {
+         "id": "v2-f179f-p10-practice-j11-091539-j11-prism-a",
+         "type": "part",
+         "label": "a",
+         "prompt": "Find, correct to the nearest degree, the angle that $BH$ makes with the base $ABFE$.",
+         "answerSpaceMm": 35,
+         "answer": {
+          "short": "$35^\\circ$",
+          "worked": "The projection of $BH$ onto the base is $BE$.\n$$\\begin{align*}BE^2&=16^2+12^2\\\\BE&=20\\text{ cm}\\\\\\tan\\angle HBE&=\\frac{14}{20}\\\\\\angle HBE&\\approx35^\\circ\\end{align*}$$"
+         }
+        },
+        {
+         "id": "v2-f179f-p10-practice-j11-091539-j11-prism-b",
+         "type": "part",
+         "label": "b",
+         "prompt": "Find, correct to the nearest degree, the angle that $BH$ makes with the front face $ABCD$.",
+         "answerSpaceMm": 35,
+         "answer": {
+          "short": "$29^\\circ$",
+          "worked": "$H$ is directly behind $D$, so the projection of $BH$ onto the front face is $BD$.\n$$\\begin{align*}BD^2&=16^2+14^2\\\\BD&=\\sqrt{452}\\text{ cm}\\\\\\tan\\angle HBD&=\\frac{12}{\\sqrt{452}}\\\\\\angle HBD&\\approx29^\\circ\\end{align*}$$"
+         }
+        },
+        {
+         "id": "v2-f179f-p10-practice-j11-091539-j11-prism-c",
+         "type": "part",
+         "label": "c",
+         "prompt": "Find, correct to the nearest degree, the angle that $BH$ makes with the right face $BCGF$.",
+         "answerSpaceMm": 35,
+         "answer": {
+          "short": "$41^\\circ$",
+          "worked": "$HG$ is perpendicular to the right face, so the projection of $BH$ onto it is $BG$.\n$$\\begin{align*}BG^2&=12^2+14^2\\\\BG&=\\sqrt{340}\\text{ cm}\\\\\\tan\\angle HBG&=\\frac{16}{\\sqrt{340}}\\\\\\angle HBG&\\approx41^\\circ\\end{align*}$$"
+         }
+        }
+       ],
+       "layout": "grid",
+       "columns": 2
+      },
+      "classification": {
+       "primarySkillId": "solve-3d-trig",
+       "secondarySkillIds": [],
+       "archetype": "line-inclination"
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "s6ext1-1-3d-trigonometry-v1",
+        "blockId": "v2-f179f-p10-practice-j11-091539",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "variations",
+        "slot": {
+         "id": "j11-091539"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/12-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "v2-f179f-p10-practice-j11-091539-j11-prism-a",
+          "mathematicalRows": 4,
+          "answerSpaceMm": 35
+         },
+         {
+          "targetId": "v2-f179f-p10-practice-j11-091539-j11-prism-b",
+          "mathematicalRows": 4,
+          "answerSpaceMm": 35
+         },
+         {
+          "targetId": "v2-f179f-p10-practice-j11-091539-j11-prism-c",
+          "mathematicalRows": 4,
+          "answerSpaceMm": 35
+         }
+        ]
+       },
+       "layoutFrom": "p10-q1"
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j11",
+     "targetFingerprint": "5cfb727514f3f05736baf7359aa811d9efee627b9edc18a36d4a5467014cd0af",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "2286da23-5d0a-415e-8ea4-b5210e884145": {
+   "kind": "proposal-extensions",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-ba1c4c39657004905fb8-p14-practice",
+     "after": "p14-q2-block",
+     "neededBy": [
+      "p17-q12-block",
+      "p18-q13"
+     ],
+     "block": {
+      "id": "v2-05fb8-p14-practice-j10-091539",
+      "type": "question",
+      "pedagogyRole": "practice",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-05fb8-p14-practice-j10-091539-root",
+       "type": "question",
+       "label": null,
+       "prompt": "From a point $A$ due south of the base $O$ of a vertical tower, the angle of elevation of the top $T$ of the tower is $32^\\circ$. A surveyor walks $150\\text{ m}$ due east to a point $B$, where the angle of elevation of $T$ is $21^\\circ$. The height of the tower is $h$ metres.",
+       "questionDiagrams": [
+        {
+         "id": "v2-05fb8-p14-practice-j10-091539-j10-diagram",
+         "format": "tikz",
+         "widthMm": 48,
+         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"j10 tower\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (3.8,0);\\coordinate (O) at (1.4,1.1);\\coordinate (T) at (1.4,4);\n\\draw (A)--(B)--(T)--cycle;\n\\draw[dashed,line width=0.4pt] (A)--(O)--(B) (O)--(T);\n\\coordinate (U) at ($(A)!0.25cm!(B)$);\\coordinate (V) at ($(A)!0.25cm!(O)$);\n\\draw[line width=0.4pt] (U)--($(U)+(V)-(A)$)--(V);\n\\pic[draw,line width=0.4pt,angle radius=8mm,\"$32^\\circ$\",angle eccentricity=2.0] {angle=O--A--T};\n\\pic[draw,line width=0.4pt,angle radius=8mm,\"$21^\\circ$\",angle eccentricity=2.0] {angle=T--B--O};\n\\path (A)--(B) node[midway,below] {$150\\text{ m}$};\n\\path (O)--(T) node[midway,right] {$h$};\n\\node[below left] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[above] at (T) {$T$};\\node[above right,inner sep=1pt] at (O) {$O$};\n\\end{tikzpicture}"
+        }
+       ],
+       "children": [
+        {
+         "id": "v2-05fb8-p14-practice-j10-091539-j10-a",
+         "type": "part",
+         "label": "a",
+         "prompt": "Find an expression for $AO$ in terms of $h$.",
+         "answerSpaceMm": 25,
+         "answer": {
+          "short": "$AO=\\dfrac{h}{\\tan32^\\circ}$",
+          "worked": "$$\\begin{align*}\\tan32^\\circ&=\\frac{h}{AO}\\\\AO&=\\frac{h}{\\tan32^\\circ}\\end{align*}$$"
+         }
+        },
+        {
+         "id": "v2-05fb8-p14-practice-j10-091539-j10-b",
+         "type": "part",
+         "label": "b",
+         "prompt": "Find an expression for $BO$ in terms of $h$.",
+         "answerSpaceMm": 25,
+         "answer": {
+          "short": "$BO=\\dfrac{h}{\\tan21^\\circ}$",
+          "worked": "$$\\begin{align*}\\tan21^\\circ&=\\frac{h}{BO}\\\\BO&=\\frac{h}{\\tan21^\\circ}\\end{align*}$$"
+         }
+        },
+        {
+         "id": "v2-05fb8-p14-practice-j10-091539-j10-c",
+         "type": "part",
+         "label": "c",
+         "prompt": "Find $h$ to the nearest metre.",
+         "answerSpaceMm": 65,
+         "answer": {
+          "short": "$h\\approx73\\text{ m}$",
+          "worked": "In the right-angled ground triangle $ABO$, $BO$ is the hypotenuse.\n$$\\begin{align*}AO^2+AB^2&=BO^2\\\\\\left(\\frac{h}{\\tan32^\\circ}\\right)^2+150^2&=\\left(\\frac{h}{\\tan21^\\circ}\\right)^2\\\\150^2&=h^2\\left(\\frac{1}{\\tan^221^\\circ}-\\frac{1}{\\tan^232^\\circ}\\right)\\\\h&=\\frac{150}{\\sqrt{\\frac{1}{\\tan^221^\\circ}-\\frac{1}{\\tan^232^\\circ}}}\\\\&\\approx73\\text{ m}\\end{align*}$$"
+         }
+        }
+       ],
+       "layout": "grid",
+       "columns": 2
+      },
+      "classification": {
+       "primarySkillId": "solve-3d-trig",
+       "secondarySkillIds": [],
+       "archetype": "unknown-height-equation"
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "s6ext1-1-3d-trigonometry-v1",
+        "blockId": "v2-05fb8-p14-practice-j10-091539",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "extensions",
+        "slot": {
+         "id": "j10-091539"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539/calls/12-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "v2-05fb8-p14-practice-j10-091539-j10-a",
+          "mathematicalRows": 2,
+          "answerSpaceMm": 25
+         },
+         {
+          "targetId": "v2-05fb8-p14-practice-j10-091539-j10-b",
+          "mathematicalRows": 2,
+          "answerSpaceMm": 25
+         },
+         {
+          "targetId": "v2-05fb8-p14-practice-j10-091539-j10-c",
+          "mathematicalRows": 6,
+          "answerSpaceMm": 65
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j10",
+     "targetFingerprint": "6cafab6a7aec589eba73889112df3c7ef97d44554a32c7cd530686bb1a476fb2",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "858aa916-06ac-4ecd-ab68-36fd392b2db7": {
+   "kind": "theory-definition",
+   "payloads": [
+    {
+     "op": "theory",
+     "blockId": "p3-definition-intro",
+     "replacement": "A **face diagonal** is a line segment joining two non-adjacent vertices of the same face of a 3D solid.",
+     "autoApply": true,
+     "key": "theory|p3-definition-intro",
+     "targetFingerprint": "5081a2a4dc62075812c12b79fa714422d132d57a718366f5754774a2eb602305",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "8b55abd6-ec34-437b-882a-89324b4c8fa7": {
+   "kind": "theory-wording",
+   "payloads": [
+    {
+     "op": "theory",
+     "blockId": "p3-definition-method",
+     "replacement": "The face diagonal is the **hypotenuse** of a right-angled triangle whose two shorter sides are edges of the rectangular prism.\n\nTo find the length of a face diagonal:\n\n1. Draw the relevant right-angled triangle.\n2. Use Pythagoras' theorem to find its hypotenuse.",
+     "autoApply": true,
+     "key": "theory|p3-definition-method",
+     "targetFingerprint": "1e99206be1e01821bb0b89a1a61fe8fb149874e8279a55834391d7e3f3c71b01",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "126ee77d-b0d2-4f13-8670-f31192318227": {
+   "kind": "theory-definition",
+   "payloads": [
+    {
+     "op": "theory",
+     "blockId": "p4-space-definition",
+     "nodeId": "p4-space-definition-body",
+     "replacement": "A **space diagonal** is a line segment joining two vertices of a 3D solid that do not lie on the same face, so it passes through the interior.\n\nhttps://www.geogebra.org/m/mpnd5fck",
+     "autoApply": true,
+     "key": "theory|p4-space-definition",
+     "targetFingerprint": "5458efd35c513d54ad0638869eafe5a1a9d4702880ebe48ba30115b292c4f746",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "c6671fd5-1dbd-4021-9c5c-b84e12f49cef": {
+   "kind": "theory-wording",
+   "payloads": [
+    {
+     "op": "theory",
+     "blockId": "p4-space-method",
+     "replacement": "The space diagonal is the hypotenuse of a right-angled triangle. One shorter side is an edge of the rectangular prism and the other is a face diagonal.\n\nTo find the length of a space diagonal:\n\n1. Draw two relevant right-angled triangles.\n2. Find the length of the face diagonal. Keep it exact.\n3. Use Pythagoras' theorem to find the space diagonal.",
+     "autoApply": true,
+     "key": "theory|p4-space-method",
+     "targetFingerprint": "9eff264c6f12e51e1ddc38437bbd1a1c3155f13b816c0040dbfd91503fb336d7",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "49fbb112-6c19-4254-817e-98fab101af9e": {
+   "kind": "key-ideas",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-23b2532695c72b04c46f-p4-guided",
+     "after": "p4-guided-block",
+     "block": {
+      "id": "v2-key-ideas-3d-pythagoras-091539",
+      "type": "question",
+      "sourceAtom": {
+       "id": "v2-key-ideas-3d-pythagoras-091539-atom",
+       "kind": "key-ideas",
+       "label": "Key ideas",
+       "order": 1
+      },
+      "pedagogyRole": "key-ideas",
+      "content": {
+       "id": "v2-key-ideas-3d-pythagoras-091539-root",
+       "type": "group",
+       "label": "",
+       "prompt": "",
+       "layout": "list",
+       "children": [
+        {
+         "id": "v2-key-ideas-3d-pythagoras-091539-part-1",
+         "type": "part",
+         "label": "1",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-3d-pythagoras-091539-part-1-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "A face diagonal is the ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "hypotenuse",
+              "width": 28,
+              "expectedResponse": "hypotenuse",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " of a right-angled triangle whose shorter sides are two edges of the prism.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "hypotenuse",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-3d-pythagoras-091539-part-2",
+         "type": "part",
+         "label": "2",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-3d-pythagoras-091539-part-2-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "A space diagonal is the hypotenuse of a right-angled triangle whose shorter sides are an edge and a ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "face diagonal",
+              "width": 33,
+              "expectedResponse": "face diagonal",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "face diagonal",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-3d-pythagoras-091539-part-3",
+         "type": "part",
+         "label": "3",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-3d-pythagoras-091539-part-3-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "When finding a space diagonal, keep the face diagonal in ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "exact",
+              "width": 17,
+              "expectedResponse": "exact",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " form.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "exact",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        }
+       ]
+      },
+      "flow": {
+       "keepTogether": true,
+       "sourcePageBreakBefore": false
+      },
+      "snapshotKind": "local",
+      "bankRef": null
+     },
+     "autoApply": true,
+     "key": "keyideas|3d-pythagoras",
+     "targetFingerprint": "738509643bf18b5cf628f78dfdd4fc0f31f28d37c7218c5921a8cef3b2dd74fd",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "db64e4b2-bb5c-4a77-a4a7-db83802d2944": {
+   "kind": "key-ideas",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-f03316157d7191540deb-guided",
+     "after": "p9-guided-block",
+     "block": {
+      "id": "v2-key-ideas-3d-trigonometry-091539",
+      "type": "question",
+      "sourceAtom": {
+       "id": "v2-key-ideas-3d-trigonometry-091539-atom",
+       "kind": "key-ideas",
+       "label": "Key ideas",
+       "order": 1
+      },
+      "pedagogyRole": "key-ideas",
+      "content": {
+       "id": "v2-key-ideas-3d-trigonometry-091539-root",
+       "type": "group",
+       "label": "",
+       "prompt": "",
+       "layout": "list",
+       "children": [
+        {
+         "id": "v2-key-ideas-3d-trigonometry-091539-part-1",
+         "type": "part",
+         "label": "1",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-3d-trigonometry-091539-part-1-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The angle between a space diagonal and a face is the angle between the diagonal and its ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "projection",
+              "width": 28,
+              "expectedResponse": "projection",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " on that face.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "projection",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-3d-trigonometry-091539-part-2",
+         "type": "part",
+         "label": "2",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-3d-trigonometry-091539-part-2-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Find the face diagonal first and keep it ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "exact",
+              "width": 17,
+              "expectedResponse": "exact",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "exact",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-3d-trigonometry-091539-part-3",
+         "type": "part",
+         "label": "3",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-3d-trigonometry-091539-part-3-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "In the second right-angled triangle, ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "\\tan\\theta",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " is the ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "height",
+              "width": 20,
+              "expectedResponse": "height",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " divided by the face diagonal.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "height",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        }
+       ]
+      },
+      "flow": {
+       "keepTogether": true,
+       "sourcePageBreakBefore": false
+      },
+      "snapshotKind": "local",
+      "bankRef": null
+     },
+     "autoApply": true,
+     "key": "keyideas|3d-trigonometry",
+     "targetFingerprint": "836b7ed19eac0cb10f598328948918f44878f273bacf514fbf71617f0bab3de8",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  },
+  "32e39d29-d8bc-4176-8404-31c89b26bfc4": {
+   "kind": "key-ideas",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-f53e2caa75c56e90f0f6-p13-teaching",
+     "after": "p13-guided-block",
+     "block": {
+      "id": "v2-key-ideas-s-involving-trigonometry-091539",
+      "type": "question",
+      "sourceAtom": {
+       "id": "v2-key-ideas-s-involving-trigonometry-091539-atom",
+       "kind": "key-ideas",
+       "label": "Key ideas",
+       "order": 1
+      },
+      "pedagogyRole": "key-ideas",
+      "content": {
+       "id": "v2-key-ideas-s-involving-trigonometry-091539-root",
+       "type": "group",
+       "label": "",
+       "prompt": "",
+       "layout": "list",
+       "children": [
+        {
+         "id": "v2-key-ideas-s-involving-trigonometry-091539-part-1",
+         "type": "part",
+         "label": "1",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-s-involving-trigonometry-091539-part-1-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Break a 3D scenario into ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "right-angled",
+              "width": 33,
+              "expectedResponse": "right-angled",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " 2D triangles.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "right-angled",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-s-involving-trigonometry-091539-part-2",
+         "type": "part",
+         "label": "2",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-s-involving-trigonometry-091539-part-2-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "For a tower of height ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "h",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " and angle of elevation ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "\\theta",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ", the ground distance is ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "$\\dfrac{h}{\\tan\\theta}$",
+              "width": 11,
+              "expectedResponse": "$\\dfrac{h}{\\tan\\theta}$",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "$\\dfrac{h}{\\tan\\theta}$",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-s-involving-trigonometry-091539-part-3",
+         "type": "part",
+         "label": "3",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-s-involving-trigonometry-091539-part-3-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Due south and due east from the tower's base make a ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "right angle",
+              "width": 28,
+              "expectedResponse": "right angle",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ", so Pythagoras gives the distance between the two points.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "right angle",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-s-involving-trigonometry-091539-part-4",
+         "type": "part",
+         "label": "4",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-s-involving-trigonometry-091539-part-4-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "For bearings problems, draw a ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "top-down",
+              "width": 24,
+              "expectedResponse": "top-down",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " view.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "top-down",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        }
+       ]
+      },
+      "flow": {
+       "keepTogether": true,
+       "sourcePageBreakBefore": false
+      },
+      "snapshotKind": "local",
+      "bankRef": null
+     },
+     "autoApply": true,
+     "key": "keyideas|3d-problems-involving-trigonometry",
+     "targetFingerprint": "6bc65cc50048bffa3fa2a7a4b0e4f8ee63f03792be27467d988a9c0def8ec85f",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/s6ext1-1-3d-trigonometry-v1/20261111-091539",
+   "revision": 17
+  }
+ }
+}

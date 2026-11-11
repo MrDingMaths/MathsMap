@@ -1,0 +1,1512 @@
+{
+ "version": 1,
+ "projectId": "further-transformations-v1",
+ "comments": {
+  "a7da23de-9503-49f5-a0ea-1dbef4da4d20": {
+   "kind": "proposal-duplicate",
+   "payloads": [
+    {
+     "op": "replace-node",
+     "blockId": "mixed-review-q-20906272-f8d7-423c-aa03-bc3d7c02e77c",
+     "nodeIds": [
+      "mixed-review-q-20906272-f8d7-423c-aa03-bc3d7c02e77c"
+     ],
+     "content": {
+      "id": "v2-proposal-j1-022101-root",
+      "type": "question",
+      "label": null,
+      "prompt": "Sketch the graph of\n\n$$y=\\frac{1}{4-x^2}$$\n\nby first sketching $y=4-x^2$.",
+      "answer": {
+       "short": "Vertical asymptotes $x=\\pm2$; horizontal asymptote $y=0$. The central branch is positive with minimum $(0,\\tfrac14)$; both outer branches are negative. Domain: $x\\ne\\pm2$.",
+       "worked": "Sketch $y=4-x^2$, with zeros $x=\\pm2$ and vertex $(0,4)$. Reciprocating gives vertical asymptotes $x=\\pm2$ and maps the vertex to $(0,\\tfrac14)$, which becomes a minimum.\n\nThe base is positive for $-2<x<2$ and negative outside, so the central branch is positive and the outer branches are negative. As $x\\to-2^+$ or $x\\to2^-$, $y\\to+\\infty$; as $x\\to-2^-$ or $x\\to2^+$, $y\\to-\\infty$. As $x\\to\\pm\\infty$, $y\\to0^-$. The graph is symmetric about the $y$-axis.",
+       "solutionDiagrams": [
+        {
+         "id": "v2-proposal-j1-022101-j1-reciprocal-replacement-solution",
+         "format": "tikz",
+         "widthMm": 82,
+         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"constructionGuide\",\"hex\":\"777777\",\"reason\":\"Distinguishes the preliminary parabola from the reciprocal graph.\"}],\"reference\":\"j1 replacement solution graph\"}\n\\begin{tikzpicture}[x=12mm,y=8mm,>=stealth]\n\\definecolor{constructionGuide}{HTML}{777777}\n\\path[use as bounding box] (-3.4,-3.4) rectangle (3.4,5.0);\n\\draw[black,line width=0.5pt,->] (-3.1,0)--(3.1,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.1)--(0,4.6) node[right] {$y$};\n\\draw[black,line width=0.4pt,dashed] (-2,-3.0)--(-2,4.4);\n\\draw[black,line width=0.4pt,dashed] (2,-3.0)--(2,4.4);\n\\draw[constructionGuide,line width=0.4pt,dashed,<->,domain=-2.4:2.4,samples=81] plot (\\x,{4-\\x*\\x});\n\\draw[black,line width=0.8pt,<->,domain=-3:-2.1,samples=60] plot (\\x,{1/(4-\\x*\\x)});\n\\draw[black,line width=0.8pt,<->,domain=-1.9:1.9,samples=100] plot (\\x,{1/(4-\\x*\\x)});\n\\draw[black,line width=0.8pt,<->,domain=2.1:3,samples=60] plot (\\x,{1/(4-\\x*\\x)});\n\\node[anchor=south east,inner sep=1pt] at (-2.05,0.05) {$-2$};\n\\node[anchor=south west,inner sep=1pt] at (2.05,0.05) {$2$};\n\\fill[black] (0,0.25) circle[radius=1.1pt];\n\\draw[black,line width=0.4pt,->] (0.3,0.75)--(0.05,0.3);\n\\node[anchor=west,inner sep=1pt] at (0.2,0.95) {$\\left(0,\\tfrac14\\right)$};\n\\end{tikzpicture}"
+        }
+       ]
+      },
+      "questionDiagrams": []
+     },
+     "classification": {
+      "primarySkillId": "reciprocal-function-graph",
+      "secondarySkillIds": [],
+      "archetype": "equation-to-reciprocal-sketch"
+     },
+     "autoApply": true,
+     "key": "prop|j1",
+     "targetFingerprint": "bbd2b2a7148ecc06efe25212849c867c32876aeabbbe5e24c4c1c3156974286b",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "9b423939-382e-42e3-8dc8-26541cc6aaef": {
+   "kind": "proposal-bridges",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-eef3f4cb0d4ed0a8a093-p19-restored-0",
+     "after": "p22-q5",
+     "block": {
+      "id": "v2-093-p19-restored-0-j4-022101",
+      "type": "question",
+      "pedagogyRole": "practice",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-093-p19-restored-0-j4-022101-root",
+       "type": "question",
+       "label": null,
+       "prompt": "The graph shown is $y=f(|x|)$, where $y=f(x)$ is a quadratic.",
+       "questionDiagrams": [
+        {
+         "id": "v2-093-p19-restored-0-j4-022101-j4-bridge-graph",
+         "format": "tikz",
+         "widthMm": 75,
+         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"given function curve\"}],\"reference\":\"j4 bridge graph\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.4cm,>=stealth]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-7.2,-5.2) rectangle (7.7,9.8);\n\\draw[black,line width=0.5pt,->] (-6.7,0)--(6.9,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-4.6)--(0,9.2) node[above] {$y$};\n\\foreach \\t in {-5,-1,1,5} {\\draw[black,line width=0.4pt] (\\t,-0.15)--(\\t,0.15);}\n\\draw[black,line width=0.4pt] (-0.1,5)--(0.1,5);\n\\node[anchor=north east,inner sep=1pt] at (-5.05,-0.1) {$-5$};\n\\node[anchor=south east,inner sep=1pt] at (-1.05,0.1) {$-1$};\n\\node[anchor=south west,inner sep=1pt] at (1.05,0.1) {$1$};\n\\node[anchor=north west,inner sep=1pt] at (5.05,-0.1) {$5$};\n\\node[anchor=south east,inner sep=1pt] at (-0.1,5.3) {$5$};\n\\draw[curveBlue,line width=0.8pt,<-,domain=-6.4:0,samples=100] plot (\\x,{\\x*\\x+6*\\x+5});\n\\draw[curveBlue,line width=0.8pt,->,domain=0:6.4,samples=100] plot (\\x,{\\x*\\x-6*\\x+5});\n\\end{tikzpicture}"
+        }
+       ],
+       "children": [
+        {
+         "id": "v2-093-p19-restored-0-j4-022101-j4-bridge-a",
+         "type": "part",
+         "label": "a",
+         "prompt": "Which half of the graph is also the graph of $y=f(x)$?",
+         "answerSpaceMm": 20,
+         "answer": {
+          "short": "The right-hand half ($x\\ge0$).",
+          "worked": "For $x\\ge0$, $|x|=x$, so $f(|x|)=f(x)$ and the right-hand half is the graph of $y=f(x)$. The left-hand half is only its reflection in the $y$-axis."
+         }
+        },
+        {
+         "id": "v2-093-p19-restored-0-j4-022101-j4-bridge-b",
+         "type": "part",
+         "label": "b",
+         "prompt": "Hence, find the equation of $f(x)$.",
+         "answerSpaceMm": 50,
+         "answer": {
+          "short": "$f(x)=(x-1)(x-5)=x^2-6x+5$.",
+          "worked": "From the right-hand half, $f(x)$ has zeros $1$ and $5$ and passes through $(0,5)$.\n$$\\begin{align*}f(x)&=a(x-1)(x-5)\\\\5&=a(-1)(-5)\\\\a&=1\\\\f(x)&=(x-1)(x-5)\\\\f(x)&=x^2-6x+5\\end{align*}$$"
+         }
+        }
+       ],
+       "layout": "grid",
+       "columns": 2
+      },
+      "classification": {
+       "primarySkillId": "find-equation-polynomial-graph",
+       "secondarySkillIds": [],
+       "archetype": "recover-quadratic-from-input-absolute"
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "further-transformations-v1",
+        "blockId": "v2-093-p19-restored-0-j4-022101",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "bridges",
+        "slot": {
+         "id": "j4-022101"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "v2-093-p19-restored-0-j4-022101-j4-bridge-a",
+          "mathematicalRows": 2,
+          "answerSpaceMm": 20
+         },
+         {
+          "targetId": "v2-093-p19-restored-0-j4-022101-j4-bridge-b",
+          "mathematicalRows": 5,
+          "answerSpaceMm": 50
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j4",
+     "targetFingerprint": "f47653be0e10f26ae7372a31318fa0c4284b5c5cb0ba757c7dc43a3519f02e91",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "5e739727-e227-4615-9d21-78e59ff93e1f": {
+   "kind": "proposal-bridges",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "further-transformations-mixed-review",
+     "after": "mixed-review-q-ecbd4610-9baf-4ad0-b847-1be6874a5360",
+     "block": {
+      "id": "v2-tions-mixed-review-j5-022101",
+      "type": "question",
+      "pedagogyRole": "practice",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-tions-mixed-review-j5-022101-root",
+       "type": "question",
+       "label": null,
+       "prompt": "Sketch the graph of $y=\\sqrt{4x^2-12x+9}$.",
+       "answer": {
+        "short": "$y=|2x-3|$: a V-shape with vertex $\\left(\\tfrac32,0\\right)$ and $y$-intercept $(0,3)$.",
+        "worked": "$$\\begin{align*}y&=\\sqrt{(2x-3)^2}\\\\y&=|2x-3|\\end{align*}$$\nSketch $y=2x-3$, with $x$-intercept $\\left(\\tfrac32,0\\right)$ and $y$-intercept $(0,-3)$. Reflect the part below the $x$-axis (for $x<\\tfrac32$) in the $x$-axis. This gives a sharp point at $\\left(\\tfrac32,0\\right)$ and $y$-intercept $(0,3)$.",
+        "solutionDiagrams": [
+         {
+          "id": "v2-tions-mixed-review-j5-022101-j5-bridge-solution",
+          "format": "tikz",
+          "widthMm": 64,
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"requested function graph\"}],\"reference\":\"j5 bridge solution graph\"}\n\\begin{tikzpicture}[x=1cm,y=0.6cm,>=stealth]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.8,-1.5) rectangle (4.6,6.4);\n\\draw[black,line width=0.5pt,->] (-1.4,0)--(4.0,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-1)--(0,5.8) node[above] {$y$};\n\\draw[black,line width=0.4pt] (1.5,-0.1)--(1.5,0.1);\n\\draw[black,line width=0.4pt] (-0.08,3)--(0.08,3);\n\\node[anchor=north,inner sep=2pt] at (1.5,-0.1) {$\\frac32$};\n\\node[anchor=south west,inner sep=1pt] at (0.1,3.15) {$3$};\n\\draw[curveBlue,line width=0.8pt,<->] (-0.9,4.8)--(1.5,0)--(3.2,3.4);\n\\end{tikzpicture}"
+         }
+        ]
+       },
+       "questionDiagrams": []
+      },
+      "classification": {
+       "primarySkillId": "graph-absolute-value-of-function",
+       "secondarySkillIds": [],
+       "archetype": "root-of-square-to-absolute"
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "further-transformations-v1",
+        "blockId": "v2-tions-mixed-review-j5-022101",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "bridges",
+        "slot": {
+         "id": "j5-022101"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "j5-bridge",
+          "mathematicalRows": 4,
+          "answerSpaceMm": 70
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j5",
+     "targetFingerprint": "c012237c6e39ab81fd0ae165fdb6c96490b35bc0db8badd947d45058400175ec",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "abea0cc2-6711-40a5-a225-43ebb0916ed4": {
+   "kind": "proposal-missing",
+   "payloads": [
+    {
+     "op": "teaching",
+     "sectionId": "assignment-273dc7fd7cb781fc9178-p7-teaching",
+     "after": "p7-guided-practice",
+     "blocks": [
+      {
+       "id": "v2-example-j6",
+       "type": "worked-example",
+       "sourceAtom": {
+        "id": "v2-example-j6-atom",
+        "kind": "example",
+        "label": "Example",
+        "visibleSubtitle": "Sketch the reciprocal of a function with a vertical asymptote",
+        "order": 2
+       },
+       "pedagogyRole": "example",
+       "presentation": {
+        "layout": "columns",
+        "columns": 1,
+        "numberSteps": false
+       },
+       "examples": [
+        {
+         "id": "v2-example-j6-1",
+         "label": "",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "dc6f6636-df4d-4db9-bf6c-02ae77e08e6a",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "math",
+              "latex": "y=f(x)",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " is given. Sketch ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=\\dfrac{1}{f(x)}",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " on the same axes.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "theorySolution": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "2a8047de-d21a-4491-8930-4aa15ee0ac42",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The graph of ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "f",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " has a vertical asymptote at ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "x=2",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "\\dfrac{1}{f(x)}",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is undefined at ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "x=2",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "ba35d842-4893-42b9-8fbb-623c9b8d3770",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "As ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "x\\to2^+",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "f(x)\\to+\\infty",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "\\dfrac{1}{f(x)}\\to0^+",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ". As ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "x\\to2^-",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "f(x)\\to-\\infty",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "\\dfrac{1}{f(x)}\\to0^-",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "04c842f6-4f1c-4bef-b553-45a1d52a0c91",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Both sides approach ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "0",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", so the reciprocal has an open circle at ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "(2,0)",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " on the ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "x",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": "-axis, not an asymptote.",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "6419f6a0-96d9-4f2f-84e5-7b9f68285ea4",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "As ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "x\\to+\\infty",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "f(x)\\to0^+",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "\\dfrac{1}{f(x)}\\to+\\infty",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ". As ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "x\\to-\\infty",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "f(x)\\to0^-",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ", so ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "\\dfrac{1}{f(x)}\\to-\\infty",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           },
+           {
+            "id": "0fd406ad-23ef-4a64-b856-345e096ea60a",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "Each branch of ",
+              "marks": [],
+              "colour": "#268cff"
+             },
+             {
+              "type": "math",
+              "latex": "f",
+              "display": false,
+              "colour": "#268cff"
+             },
+             {
+              "type": "text",
+              "text": " is decreasing, so each branch of the reciprocal is increasing. Join the open circle to these ends.",
+              "marks": [],
+              "colour": "#268cff"
+             }
+            ]
+           }
+          ]
+         },
+         "questionDiagrams": [
+          {
+           "id": "v2-example-j6-diagram",
+           "format": "tikz",
+           "widthMm": 70,
+           "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"givenGrey\",\"hex\":\"8A8A8A\",\"reason\":\"given function\"},{\"name\":\"asymptoteOrange\",\"hex\":\"EF8B2C\",\"reason\":\"vertical asymptote\"}],\"reference\":\"j6 worked example question\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm,>=stealth]\n\\definecolor{givenGrey}{HTML}{8A8A8A}\n\\definecolor{asymptoteOrange}{HTML}{EF8B2C}\n\\path[use as bounding box] (-3.3,-4.6) rectangle (8.2,5.4);\n\\draw[asymptoteOrange,dashed,line width=0.4pt] (2,-4.3)--(2,4.4);\n\\draw[black,line width=0.5pt,<->] (-3,0)--(5.6,0);\n\\draw[black,line width=0.5pt,<->] (0,-4.4)--(0,4.5);\n\\node[anchor=west] at (5.7,0) {$x$};\n\\node[anchor=south] at (0,4.5) {$y$};\n\\node[anchor=south] at (2,4.45) {$x=2$};\n\\draw[givenGrey,line width=0.8pt,<->,domain=2.25:5.2,samples=80] plot (\\x,{1/(\\x-2)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=-2.8:1.75,samples=80] plot (\\x,{1/(\\x-2)});\n\\node[anchor=north] at (-1.7,-0.55) {$y=f(x)$};\n\\end{tikzpicture}",
+           "role": "question"
+          }
+         ],
+         "solutionDiagrams": [
+          {
+           "id": "v2-example-j6-solution-diagram",
+           "overlayOf": "v2-example-j6-diagram",
+           "format": "tikz",
+           "widthMm": 70,
+           "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"reciprocal graph\"}],\"reference\":\"j6 worked example solution\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm,>=stealth]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3.3,-4.6) rectangle (8.2,5.4);\n\\draw[curveBlue,line width=0.8pt,<-] (-2,-4)--(2,0);\n\\draw[curveBlue,line width=0.8pt,->] (2,0)--(4.6,2.6);\n\\draw[curveBlue,fill=white,line width=0.8pt] (2,0) circle[radius=2pt];\n\\node[anchor=west] at (4.7,2.6) {$y=\\dfrac{1}{f(x)}$};\n\\end{tikzpicture}",
+           "role": "solution"
+          }
+         ]
+        }
+       ],
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       },
+       "snapshotKind": "local",
+       "bankRef": null
+      },
+      {
+       "id": "v2-proposal-j6-022101",
+       "type": "question",
+       "pedagogyRole": "guided-practice",
+       "snapshotKind": "local",
+       "bankRef": null,
+       "title": "",
+       "content": {
+        "id": "v2-proposal-j6-022101-root",
+        "type": "question",
+        "label": null,
+        "prompt": "$y=f(x)$ is given. Sketch $y=\\dfrac{1}{f(x)}$ on the same axes.",
+        "children": [
+         {
+          "id": "v2-proposal-j6-022101-j6-gp-a",
+          "type": "part",
+          "label": "a",
+          "prompt": "",
+          "answerSpaceMm": 20,
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j6-022101-j6-gp-a-q",
+            "format": "tikz",
+            "widthMm": 60,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"givenGrey\",\"hex\":\"8A8A8A\",\"reason\":\"given function\"},{\"name\":\"asymptoteOrange\",\"hex\":\"EF8B2C\",\"reason\":\"vertical asymptote\"}],\"reference\":\"j6 guided a question\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=stealth]\n\\definecolor{givenGrey}{HTML}{8A8A8A}\n\\definecolor{asymptoteOrange}{HTML}{EF8B2C}\n\\path[use as bounding box] (-5.5,-5.6) rectangle (6.4,5.2);\n\\draw[asymptoteOrange,dashed,line width=0.4pt] (-1,-4.3)--(-1,4.4);\n\\draw[black,line width=0.5pt,<->] (-5,0)--(5.6,0);\n\\draw[black,line width=0.5pt,<->] (0,-4.4)--(0,4.5);\n\\node[anchor=west] at (5.7,0) {$x$};\n\\node[anchor=south] at (0,4.5) {$y$};\n\\node[anchor=north] at (-1,-4.6) {$x=-1$};\n\\draw[givenGrey,line width=0.8pt,<->,domain=-5:-1.25,samples=80] plot (\\x,{-1/(\\x+1)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=-0.75:5.2,samples=80] plot (\\x,{-1/(\\x+1)});\n\\end{tikzpicture}"
+           }
+          ],
+          "answer": {
+           "short": "The line $y=-(x+1)$ with an open circle at $(-1,0)$: decreasing, through $(0,-1)$ and $(-2,1)$. No asymptote at $x=-1$.",
+           "worked": "The asymptote at $x=-1$ gives an open circle at $(-1,0)$. As $x\\to-1^-$, $f\\to+\\infty$, so $\\frac1f\\to0^+$; as $x\\to-1^+$, $f\\to-\\infty$, so $\\frac1f\\to0^-$. As $x\\to-\\infty$, $f\\to0^+$, so $\\frac1f\\to+\\infty$; as $x\\to+\\infty$, $f\\to0^-$, so $\\frac1f\\to-\\infty$. Each branch of $f$ is increasing, so the reciprocal is decreasing. The point $(0,-1)$ is unchanged.",
+           "solutionDiagrams": [
+            {
+             "id": "v2-proposal-j6-022101-j6-gp-a-sol",
+             "format": "tikz",
+             "widthMm": 60,
+             "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"givenGrey\",\"hex\":\"8A8A8A\",\"reason\":\"given function\"},{\"name\":\"asymptoteOrange\",\"hex\":\"EF8B2C\",\"reason\":\"vertical asymptote\"},{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"reciprocal graph\"}],\"reference\":\"j6 guided a solution\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=stealth]\n\\definecolor{givenGrey}{HTML}{8A8A8A}\n\\definecolor{asymptoteOrange}{HTML}{EF8B2C}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.5,-5.6) rectangle (6.4,5.2);\n\\draw[asymptoteOrange,dashed,line width=0.4pt] (-1,-4.3)--(-1,4.4);\n\\draw[black,line width=0.5pt,<->] (-5,0)--(5.6,0);\n\\draw[black,line width=0.5pt,<->] (0,-4.4)--(0,4.5);\n\\node[anchor=west] at (5.7,0) {$x$};\n\\node[anchor=south] at (0,4.5) {$y$};\n\\node[anchor=north] at (-1,-4.6) {$x=-1$};\n\\draw[givenGrey,line width=0.8pt,<->,domain=-5:-1.25,samples=80] plot (\\x,{-1/(\\x+1)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=-0.75:5.2,samples=80] plot (\\x,{-1/(\\x+1)});\n\\draw[curveBlue,line width=0.8pt,<-] (-4.5,3.5)--(-1,0);\n\\draw[curveBlue,line width=0.8pt,->] (-1,0)--(3,-4);\n\\draw[curveBlue,fill=white,line width=0.8pt] (-1,0) circle[radius=2pt];\n\\end{tikzpicture}"
+            }
+           ]
+          }
+         },
+         {
+          "id": "v2-proposal-j6-022101-j6-gp-b",
+          "type": "part",
+          "label": "b",
+          "prompt": "",
+          "answerSpaceMm": 20,
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j6-022101-j6-gp-b-q",
+            "format": "tikz",
+            "widthMm": 60,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"givenGrey\",\"hex\":\"8A8A8A\",\"reason\":\"given function\"}],\"reference\":\"j6 guided b question\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=stealth]\n\\definecolor{givenGrey}{HTML}{8A8A8A}\n\\path[use as bounding box] (-5.5,-1.2) rectangle (6.4,5.3);\n\\draw[black,line width=0.5pt,<->] (-5,0)--(5.6,0);\n\\draw[black,line width=0.5pt,<->] (0,-0.9)--(0,4.6);\n\\node[anchor=west] at (5.7,0) {$x$};\n\\node[anchor=south] at (0,4.6) {$y$};\n\\draw[givenGrey,line width=0.8pt,<->,domain=-5:-0.5,samples=80] plot (\\x,{1/(\\x*\\x)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=0.5:5,samples=80] plot (\\x,{1/(\\x*\\x)});\n\\end{tikzpicture}"
+           }
+          ],
+          "answer": {
+           "short": "The parabola $y=x^2$ with an open circle at the vertex $(0,0)$; through $(\\pm1,1)$ and $(\\pm2,4)$.",
+           "worked": "The asymptote at $x=0$ gives an open circle at $(0,0)$. $f\\to+\\infty$ on both sides of $x=0$, so $\\frac1f\\to0^+$ from both sides. As $x\\to\\pm\\infty$, $f\\to0^+$, so $\\frac1f\\to+\\infty$. $f$ increases for $x<0$ and decreases for $x>0$, so the reciprocal decreases for $x<0$ and increases for $x>0$. The points $(\\pm1,1)$ are unchanged. The result is a parabola with its vertex missing.",
+           "solutionDiagrams": [
+            {
+             "id": "v2-proposal-j6-022101-j6-gp-b-sol",
+             "format": "tikz",
+             "widthMm": 60,
+             "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"givenGrey\",\"hex\":\"8A8A8A\",\"reason\":\"given function\"},{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"reciprocal graph\"}],\"reference\":\"j6 guided b solution\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=stealth]\n\\definecolor{givenGrey}{HTML}{8A8A8A}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.5,-1.2) rectangle (6.4,5.3);\n\\draw[black,line width=0.5pt,<->] (-5,0)--(5.6,0);\n\\draw[black,line width=0.5pt,<->] (0,-0.9)--(0,4.6);\n\\node[anchor=west] at (5.7,0) {$x$};\n\\node[anchor=south] at (0,4.6) {$y$};\n\\draw[givenGrey,line width=0.8pt,<->,domain=-5:-0.5,samples=80] plot (\\x,{1/(\\x*\\x)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=0.5:5,samples=80] plot (\\x,{1/(\\x*\\x)});\n\\draw[curveBlue,line width=0.8pt,<->,domain=-2:2,samples=80] plot (\\x,{\\x*\\x});\n\\draw[curveBlue,fill=white,line width=0.8pt] (0,0) circle[radius=2pt];\n\\end{tikzpicture}"
+            }
+           ]
+          }
+         },
+         {
+          "id": "v2-proposal-j6-022101-j6-gp-c",
+          "type": "part",
+          "label": "c",
+          "prompt": "",
+          "answerSpaceMm": 20,
+          "questionDiagrams": [
+           {
+            "id": "v2-proposal-j6-022101-j6-gp-c-q",
+            "format": "tikz",
+            "widthMm": 60,
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"givenGrey\",\"hex\":\"8A8A8A\",\"reason\":\"given function\"},{\"name\":\"asymptoteOrange\",\"hex\":\"EF8B2C\",\"reason\":\"vertical asymptote\"}],\"reference\":\"j6 guided c question\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=stealth]\n\\definecolor{givenGrey}{HTML}{8A8A8A}\n\\definecolor{asymptoteOrange}{HTML}{EF8B2C}\n\\path[use as bounding box] (-4.8,-5.0) rectangle (7.1,5.4);\n\\draw[asymptoteOrange,dashed,line width=0.4pt] (2,-4.3)--(2,4.4);\n\\draw[black,line width=0.5pt,<->] (-4.5,0)--(6.3,0);\n\\draw[black,line width=0.5pt,<->] (0,-4.4)--(0,4.5);\n\\node[anchor=west] at (6.4,0) {$x$};\n\\node[anchor=south] at (0,4.5) {$y$};\n\\node[anchor=south] at (2,4.45) {$x=2$};\n\\draw[givenGrey,line width=0.8pt,<->,domain=-4:-0.12,samples=100] plot (\\x,{1/(\\x*\\x-2*\\x)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=0.134:1.866,samples=100] plot (\\x,{1/(\\x*\\x-2*\\x)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=2.12:6,samples=100] plot (\\x,{1/(\\x*\\x-2*\\x)});\n\\end{tikzpicture}"
+           }
+          ],
+          "answer": {
+           "short": "The parabola $y=x^2-2x$ with open circles at $(0,0)$ and $(2,0)$; vertex $(1,-1)$, through $(-1,3)$ and $(3,3)$.",
+           "worked": "The asymptotes at $x=0$ and $x=2$ give open circles at $(0,0)$ and $(2,0)$. The outer branches of $f$ are positive, so $\\frac1f\\to0^+$ at the asymptotes; the middle branch is negative, so $\\frac1f\\to0^-$ at both ends. As $x\\to\\pm\\infty$, $f\\to0^+$, so $\\frac1f\\to+\\infty$. The maximum $(1,-1)$ of the middle branch is unchanged and becomes a minimum. The result is the parabola $y=x^2-2x$ with its two $x$-intercepts missing.",
+           "solutionDiagrams": [
+            {
+             "id": "v2-proposal-j6-022101-j6-gp-c-sol",
+             "format": "tikz",
+             "widthMm": 60,
+             "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"givenGrey\",\"hex\":\"8A8A8A\",\"reason\":\"given function\"},{\"name\":\"asymptoteOrange\",\"hex\":\"EF8B2C\",\"reason\":\"vertical asymptote\"},{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"reciprocal graph\"}],\"reference\":\"j6 guided c solution\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=stealth]\n\\definecolor{givenGrey}{HTML}{8A8A8A}\n\\definecolor{asymptoteOrange}{HTML}{EF8B2C}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.8,-5.0) rectangle (7.1,5.4);\n\\draw[asymptoteOrange,dashed,line width=0.4pt] (2,-4.3)--(2,4.4);\n\\draw[black,line width=0.5pt,<->] (-4.5,0)--(6.3,0);\n\\draw[black,line width=0.5pt,<->] (0,-4.4)--(0,4.5);\n\\node[anchor=west] at (6.4,0) {$x$};\n\\node[anchor=south] at (0,4.5) {$y$};\n\\node[anchor=south] at (2,4.45) {$x=2$};\n\\draw[givenGrey,line width=0.8pt,<->,domain=-4:-0.12,samples=100] plot (\\x,{1/(\\x*\\x-2*\\x)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=0.134:1.866,samples=100] plot (\\x,{1/(\\x*\\x-2*\\x)});\n\\draw[givenGrey,line width=0.8pt,<->,domain=2.12:6,samples=100] plot (\\x,{1/(\\x*\\x-2*\\x)});\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.3:3.3,samples=100] plot (\\x,{\\x*\\x-2*\\x});\n\\draw[curveBlue,fill=white,line width=0.8pt] (0,0) circle[radius=2pt];\n\\draw[curveBlue,fill=white,line width=0.8pt] (2,0) circle[radius=2pt];\n\\end{tikzpicture}"
+            }
+           ]
+          }
+         }
+        ]
+       },
+       "classification": {
+        "primarySkillId": "reciprocal-function-graph",
+        "secondarySkillIds": [],
+        "archetype": "reciprocal-hole-at-asymptote"
+       },
+       "sourceReview": {
+        "origin": {
+         "projectId": "further-transformations-v1",
+         "blockId": "v2-proposal-j6-022101",
+         "generatedBy": "pedagogy-audit-v2"
+        },
+        "generation": {
+         "model": "claude-sonnet-5-5",
+         "effort": "medium",
+         "kind": "missing",
+         "slot": {
+          "id": "j6-022101"
+         },
+         "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+        },
+        "workingSpaceEstimate": {
+         "method": "solution-steps",
+         "estimates": [
+          {
+           "targetId": "v2-proposal-j6-022101-j6-gp-a",
+           "mathematicalRows": 3,
+           "answerSpaceMm": 20
+          },
+          {
+           "targetId": "v2-proposal-j6-022101-j6-gp-b",
+           "mathematicalRows": 3,
+           "answerSpaceMm": 20
+          },
+          {
+           "targetId": "v2-proposal-j6-022101-j6-gp-c",
+           "mathematicalRows": 3,
+           "answerSpaceMm": 20
+          }
+         ]
+        }
+       },
+       "sourceAtom": {
+        "id": "v2-proposal-j6-022101-atom",
+        "kind": "guided-practice",
+        "label": "Guided practice",
+        "order": 3
+       },
+       "flow": {
+        "keepTogether": true,
+        "sourcePageBreakBefore": false
+       }
+      }
+     ],
+     "autoApply": true,
+     "key": "prop|j6",
+     "targetFingerprint": "201b74d9c9d9ce77146aaa66c630b7fd1fc0301c099b6375576aac67a4a9504a",
+     "applied": true,
+     "notApplied": "it did not print cleanly in the booklet (booklet-palette)"
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "e00e9c2c-25fb-47dc-b5f7-3eba0b65678e": {
+   "kind": "proposal-prerequisites",
+   "payloads": [
+    {
+     "op": "review",
+     "topicId": "reciprocal-functions",
+     "block": {
+      "id": "v2-proposal-j7-022101",
+      "type": "question",
+      "pedagogyRole": "review",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-proposal-j7-022101-root",
+       "type": "question",
+       "label": null,
+       "prompt": "Sketch the graph of $y=(x+2)(x-1)^2$, labelling all intercepts.",
+       "answer": {
+        "short": "Zeros at $x=-2$ (crossing) and $x=1$ (touching); $y$-intercept $(0,2)$. Negative for $x<-2$ and positive for $x>-2$ (except $x=1$, where $y=0$).",
+        "worked": "The factor $(x+2)$ gives a zero at $x=-2$, where the graph crosses the $x$-axis. The squared factor $(x-1)^2$ gives a zero at $x=1$, where the graph touches the axis without crossing.\n\nWhen $x=0$, $y=(2)(-1)^2=2$, so the $y$-intercept is $(0,2)$.\n\nThe cubic has a positive leading coefficient, so $y\\to-\\infty$ as $x\\to-\\infty$ and $y\\to+\\infty$ as $x\\to+\\infty$. The sign changes only at $x=-2$: $y<0$ for $x<-2$ and $y>0$ for $x>-2$, $x\\ne1$.",
+        "solutionDiagrams": [
+         {
+          "id": "v2-proposal-j7-022101-j7-prerequisite-solution",
+          "format": "tikz",
+          "widthMm": 67,
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"requested function graph\"}],\"reference\":\"j7 prerequisite solution graph\"}\n\\begin{tikzpicture}[x=1cm,y=0.5cm,>=stealth]\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3.1,-4.4) rectangle (3.6,6.2);\n\\draw[black,line width=0.5pt,->] (-2.9,0)--(3.2,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-3.9)--(0,5.6) node[above] {$y$};\n\\draw[black,line width=0.4pt] (-2,-0.1)--(-2,0.1);\n\\draw[black,line width=0.4pt] (1,-0.1)--(1,0.1);\n\\node[anchor=south east,inner sep=1pt] at (-2.05,0.1) {$-2$};\n\\node[anchor=north,inner sep=2pt] at (1,-0.1) {$1$};\n\\draw[curveBlue,line width=0.8pt,<->,domain=-2.3:2.1,samples=100] plot (\\x,{(\\x+2)*(\\x-1)^2});\n\\fill[curveBlue] (0,2) circle[radius=1.4pt];\n\\node[anchor=south west,inner sep=1pt] at (0.2,2.6) {$(0,2)$};\n\\end{tikzpicture}"
+         }
+        ]
+       },
+       "questionDiagrams": []
+      },
+      "classification": {
+       "primarySkillId": "sketch-polynomial-graph",
+       "secondarySkillIds": [],
+       "archetype": null
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "further-transformations-v1",
+        "blockId": "v2-proposal-j7-022101",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "prerequisites",
+        "slot": {
+         "id": "j7-022101"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "j7-prerequisite",
+          "mathematicalRows": 6,
+          "answerSpaceMm": 75
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j7",
+     "targetFingerprint": "1eb9f2240fb3eae1707d20435159e50336066782a4e81344e50d68c9e461e758",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "bbdcc19b-dda5-46b1-b3c5-67a605a4e29c": {
+   "kind": "proposal-prerequisites",
+   "payloads": [
+    {
+     "op": "review",
+     "topicId": "reciprocal-functions",
+     "block": {
+      "id": "v2-proposal-j8-022101",
+      "type": "question",
+      "pedagogyRole": "review",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-proposal-j8-022101-root",
+       "type": "question",
+       "label": null,
+       "prompt": "Write $y<-2$ or $y\\ge1$ in interval notation.",
+       "answer": {
+        "short": "$(-\\infty,-2)\\cup[1,\\infty)$",
+        "worked": "$$\\begin{align*}y<-2&\\to(-\\infty,-2)\\quad\\text{(}-2\\text{ excluded, round bracket)}\\\\y\\ge1&\\to[1,\\infty)\\quad\\text{(}1\\text{ included, square bracket)}\\\\\\text{Together: }&(-\\infty,-2)\\cup[1,\\infty)\\end{align*}$$"
+       },
+       "questionDiagrams": []
+      },
+      "classification": {
+       "primarySkillId": "reciprocal-functions",
+       "secondarySkillIds": [],
+       "archetype": null
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "further-transformations-v1",
+        "blockId": "v2-proposal-j8-022101",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "prerequisites",
+        "slot": {
+         "id": "j8-022101"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "j8-q",
+          "mathematicalRows": 2,
+          "answerSpaceMm": 25
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j8",
+     "targetFingerprint": "ab82786e83c872440506d2720d2de93e4a28765b9153145b729bd20e9a5236d6",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "651701a9-e383-4ff0-9467-2f67e980ee52": {
+   "kind": "proposal-prerequisites",
+   "payloads": [
+    {
+     "op": "review",
+     "topicId": "absolute-value-functions",
+     "block": {
+      "id": "v2-proposal-j9-022101",
+      "type": "question",
+      "pedagogyRole": "review",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-proposal-j9-022101-root",
+       "type": "question",
+       "label": null,
+       "prompt": "Find the values of $x$ for which $x^3-9x<0$.",
+       "answer": {
+        "short": "$x<-3$ or $0<x<3$",
+        "worked": "$$\\begin{align*}x^3-9x&=x(x^2-9)\\\\&=x(x-3)(x+3)\\end{align*}$$ The zeros are $x=-3,0,3$. The cubic has a positive leading coefficient, so it is positive for $x>3$ and its sign alternates across each zero. It is negative for $0<x<3$ and for $x<-3$."
+       },
+       "questionDiagrams": []
+      },
+      "classification": {
+       "primarySkillId": "absolute-value-functions",
+       "secondarySkillIds": [],
+       "archetype": null
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "further-transformations-v1",
+        "blockId": "v2-proposal-j9-022101",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "prerequisites",
+        "slot": {
+         "id": "j9-022101"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "j9-q",
+          "mathematicalRows": 4,
+          "answerSpaceMm": 40
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j9",
+     "targetFingerprint": "14ef2c2faa184c07a36e319b5c1ab611377762a54b6887cdf948db4239923778",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "df703255-bf4d-4cc7-b580-4837252ad0f7": {
+   "kind": "proposal-prerequisites",
+   "payloads": [
+    {
+     "op": "review",
+     "topicId": "mixed-review",
+     "block": {
+      "id": "v2-proposal-j10-022101",
+      "type": "question",
+      "pedagogyRole": "review",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-proposal-j10-022101-root",
+       "type": "question",
+       "label": null,
+       "prompt": "Show that $$\\frac{x^2+1}{x^2+4}=1-\\frac{3}{x^2+4}$$",
+       "answer": {
+        "short": "Writing $x^2+1=(x^2+4)-3$ gives $1-\\dfrac{3}{x^2+4}$.",
+        "worked": "$$\\begin{align*}\\frac{x^2+1}{x^2+4}&=\\frac{(x^2+4)-3}{x^2+4}\\\\&=\\frac{x^2+4}{x^2+4}-\\frac{3}{x^2+4}\\\\&=1-\\frac{3}{x^2+4}\\end{align*}$$"
+       },
+       "questionDiagrams": []
+      },
+      "classification": {
+       "primarySkillId": "mixed-review",
+       "secondarySkillIds": [],
+       "archetype": null
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "further-transformations-v1",
+        "blockId": "v2-proposal-j10-022101",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "prerequisites",
+        "slot": {
+         "id": "j10-022101"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "j10-q",
+          "mathematicalRows": 3,
+          "answerSpaceMm": 30
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j10",
+     "targetFingerprint": "d678fd4b005b96084c883c9d8c6fb744618640cd44103c769ca32559dcd82565",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "ea169600-84f5-43ca-bdd9-e307716c8f13": {
+   "kind": "proposal-prerequisites",
+   "payloads": [
+    {
+     "op": "review",
+     "topicId": "mixed-review",
+     "block": {
+      "id": "v2-proposal-j11-022101",
+      "type": "question",
+      "pedagogyRole": "review",
+      "snapshotKind": "local",
+      "bankRef": null,
+      "title": "",
+      "content": {
+       "id": "v2-proposal-j11-022101-root",
+       "type": "question",
+       "label": null,
+       "prompt": "Simplify $\\sqrt{x^4-4x^2+4}$.",
+       "answer": {
+        "short": "$\\left|x^2-2\\right|$",
+        "worked": "$$\\begin{align*}\\sqrt{x^4-4x^2+4}&=\\sqrt{\\left(x^2-2\\right)^2}\\\\&=\\left|x^2-2\\right|\\end{align*}$$"
+       },
+       "questionDiagrams": []
+      },
+      "classification": {
+       "primarySkillId": "mixed-review",
+       "secondarySkillIds": [],
+       "archetype": null
+      },
+      "sourceReview": {
+       "origin": {
+        "projectId": "further-transformations-v1",
+        "blockId": "v2-proposal-j11-022101",
+        "generatedBy": "pedagogy-audit-v2"
+       },
+       "generation": {
+        "model": "claude-sonnet-5-5",
+        "effort": "medium",
+        "kind": "prerequisites",
+        "slot": {
+         "id": "j11-022101"
+        },
+        "evidence": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101/calls/15-solve-1.json"
+       },
+       "workingSpaceEstimate": {
+        "method": "solution-steps",
+        "estimates": [
+         {
+          "targetId": "j11-q",
+          "mathematicalRows": 2,
+          "answerSpaceMm": 25
+         }
+        ]
+       }
+      }
+     },
+     "autoApply": true,
+     "key": "prop|j11",
+     "targetFingerprint": "c012237c6e39ab81fd0ae165fdb6c96490b35bc0db8badd947d45058400175ec",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "6ae93459-0b28-4b78-956a-762354acbc08": {
+   "kind": "theory-definition",
+   "payloads": [
+    {
+     "op": "theory",
+     "blockId": "p4-key-ideas",
+     "replacement": "If $f(x)\\to0$ as $x\\to a$ from at least one side, then the line $x=a$ is a **vertical asymptote** of $y=\\frac{1}{f(x)}$.\n\nIf $f(x)\\to0^+$, then $\\frac{1}{f(x)}\\to+\\infty$.\nIf $f(x)\\to0^-$, then $\\frac{1}{f(x)}\\to-\\infty$.\n\nIf $f(x)\\to+\\infty$, then $\\frac{1}{f(x)}\\to0^+$.\nIf $f(x)\\to-\\infty$, then $\\frac{1}{f(x)}\\to0^-$.\n\nIf a point $(a,b)$ is given on $y=f(x)$, where $b\\ne0$, then the new point on $y=\\frac{1}{f(x)}$ is $\\left(a,\\frac{1}{b}\\right)$.",
+     "autoApply": true,
+     "key": "theory|p4-key-ideas",
+     "targetFingerprint": "51eea9301af24cf2098f4df75ffe1c68edaeebcfe95eef71c0fbc903d40f87c9",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  },
+  "b2ee30ab-1a79-40e3-b08e-de998cd0c06b": {
+   "kind": "key-ideas",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-33d2c4084dc64d085a6f-p18-teaching",
+     "after": "p18-input-absolute-guided-practice",
+     "block": {
+      "id": "v2-key-ideas-absolute-value-functions-022101",
+      "type": "question",
+      "sourceAtom": {
+       "id": "v2-key-ideas-absolute-value-functions-022101-atom",
+       "kind": "key-ideas",
+       "label": "Key ideas",
+       "order": 1
+      },
+      "pedagogyRole": "key-ideas",
+      "content": {
+       "id": "v2-key-ideas-absolute-value-functions-022101-root",
+       "type": "group",
+       "label": "",
+       "prompt": "",
+       "layout": "list",
+       "children": [
+        {
+         "id": "v2-key-ideas-absolute-value-functions-022101-part-1",
+         "type": "part",
+         "label": "1",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-absolute-value-functions-022101-part-1-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The graph of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=|f(x)|",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " keeps every point on or above the ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "x",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": "-axis and reflects every point below the ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "x",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": "-axis in the ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "$x$-axis",
+              "width": 20,
+              "expectedResponse": "$x$-axis",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "$x$-axis",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-absolute-value-functions-022101-part-2",
+         "type": "part",
+         "label": "2",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-absolute-value-functions-022101-part-2-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The graph of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=f(|x|)",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " keeps the points on and to the right of the ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": "-axis, removes the left-hand portion and reflects the right-hand portion in the ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "$y$-axis",
+              "width": 20,
+              "expectedResponse": "$y$-axis",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "$y$-axis",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-absolute-value-functions-022101-part-3",
+         "type": "part",
+         "label": "3",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-absolute-value-functions-022101-part-3-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The graph of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=f(|x|)",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " is always ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "symmetric",
+              "width": 26,
+              "expectedResponse": "symmetric",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " about the ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": "-axis.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "symmetric",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-absolute-value-functions-022101-part-4",
+         "type": "part",
+         "label": "4",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-absolute-value-functions-022101-part-4-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "x",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": "-intercepts of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=|f(x)|",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " are ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "the same as",
+              "width": 26,
+              "expectedResponse": "the same as",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " the ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "x",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": "-intercepts of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=f(x)",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "the same as",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        }
+       ]
+      },
+      "flow": {
+       "keepTogether": true,
+       "sourcePageBreakBefore": false
+      },
+      "snapshotKind": "local",
+      "bankRef": null
+     },
+     "autoApply": true,
+     "key": "keyideas|absolute-value-functions",
+     "targetFingerprint": "00a19c66534ee73c68f49518b27b9f098a86bd84b629ecc175e3869e47de8cb7",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-v1/20261111-022101",
+   "revision": 205
+  }
+ }
+}

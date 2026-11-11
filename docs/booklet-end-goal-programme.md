@@ -14,6 +14,8 @@ Progress lives in the per-master ledger `.booklet-work/end-goal-20261028/coverag
 
 ## Current state
 
+**12 November 2026: pedagogy audit v2 is closed for Stages 4–6.** All 89 Stage 6 masters are applied and reviewed, and the Stage 6 follow-ups are fixed. The Stage 4 and 5 masters were finished on 10 November. Details are in [Stage 6 batch](booklet-pedagogy-audit-v2.md#stage-6-batch-1112-november-2026).
+
 **10 November 2026: the exam pass is closed for all 210 live masters** (closure, ratings, regroup and figure pass). The status, checks and the deferred rows left for a later redraw pass are in [exam pass closed](booklet-exam-completion.md#exam-pass-closed-10-november-2026). The 30 October paragraph below is historical.
 
 30 October acceptance correction: a master containing saved Exam work is a presence count, not a completed Exam pass. The current acceptance census found 518 Exam question owners across 130 masters, including 51 singleton sections. Source coverage still requires disposition of the full eligible source pool and selection of up to two questions per unique in-scope archetype (one before 7 November 2026; see [batch Exam completion](booklet-exam-completion.md#batch-exam-completion-7-november-2026-user-requested)); representative-question assessments do not establish that coverage. Report presence, source-coverage acceptance, attribution and no-working-space acceptance separately.

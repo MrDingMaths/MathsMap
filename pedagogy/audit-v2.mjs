@@ -1289,7 +1289,7 @@ export function newBlock(draft,slot,{project,score,placement,refs,evidence,skill
  // Answers with tab-separated rows too: a plain answer printed its rows run together ("Month Balance at start ($)
  // Interest …", Financial Maths 5a; Network Concepts 2a, Stage 6, 11 November 2026). Only tab rows convert, so an
  // answer's own markup is left as the answer renderer reads it.
- for(const node of new Set([content,...nodesOf(content)]))for(const k of ['short','worked'])if(typeof node.answer?.[k]==='string'&&node.answer[k].split('\n').some(l=>l.includes('\t')))node.answer[k]=promptFromSource(node.answer[k],node.id+'-'+k);
+ for(const node of new Set([content,...nodesOf(content)]))for(const k of ['short','worked'])if(typeof node.answer?.[k]==='string'){node.answer[k]=equationTagsInline(node.answer[k]);if(node.answer[k].split('\n').some(l=>l.includes('\t')))node.answer[k]=promptFromSource(node.answer[k],node.id+'-'+k);}
  const block={id,type:'question',pedagogyRole:'practice',snapshotKind:'local',bankRef:null,title:'',content:partLayout(content),
   classification:{primarySkillId:resolveSkill(project,slot,skill??draft.skill,type,typeOfId),secondarySkillIds:[],archetype:type},
   sourceReview:{origin:{projectId:project.id,blockId:id,generatedBy:'pedagogy-audit-v2'},generation:{model:MODEL,effort:EFFORT,kind,slot:{id:slot.id,reason:slot.reason,target:slot.target,range:slot.range},evidence},workingSpaceEstimate:{method:'solution-steps',estimates:(draft.workingSpace??[]).map(w=>({...w,targetId:content.id===w.targetId?content.id:nodesOf(content).find(x=>x.id.endsWith('-'+String(w.targetId).replace(/[^\w-]/g,'')))?.id??w.targetId}))}}};
@@ -1424,7 +1424,17 @@ export function setComparisonRating(block,score,placement,refs,evidence){
 }
 export const stripAnswers=content=>JSON.parse(JSON.stringify(content,(k,v)=>['answer','solutionDiagrams'].includes(k)?undefined:v));
 const fieldGet=(node,field)=>field==='prompt'?node.prompt:node.answer?.[field];
-function fieldSet(node,field,value){if(field==='prompt')node.prompt=value;else node.answer={...node.answer,[field]:value};}
+// A corrected answer with tab rows becomes a table, as newBlock does for drafted answers; a correction's worked answer
+// printed its sign table as two plain lines (Curve Sketching 2 p58-q31, Stage 6, 12 November 2026).
+export function fieldSet(node,field,value){
+ if(field==='prompt'){node.prompt=value;return;}
+ if(typeof value==='string'&&['short','worked'].includes(field))value=equationTagsInline(value);
+ const tabRows=typeof value==='string'&&['short','worked'].includes(field)&&value.split('\n').some(l=>l.includes('\t'));
+ node.answer={...node.answer,[field]:tabRows?promptFromSource(value,`${node.id}-${field}`):value};}
+// Equation numbers are written beside the equation, as the teacher's answers do ("…=94\qquad (1)"). A \tag is
+// set at the far right of the display, and in an answer column it printed over the value ("4a+14d = (10)",
+// Arithmetic Sequences worked 19, Stage 6, 12 November 2026).
+export const equationTagsInline=text=>typeof text==='string'?text.replace(/(?:\\qquad\s*)?\\tag\*?\{([^{}]*)\}/g,'\\qquad($1)'):text;
 
 // ---- the run -------------------------------------------------------------------------
 // retrofit (Stage 4–5 booklets already audited, James 11 November 2026): the count top-up's reuse of the earlier

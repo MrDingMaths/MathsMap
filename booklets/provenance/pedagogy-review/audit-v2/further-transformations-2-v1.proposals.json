@@ -1,0 +1,439 @@
+{
+ "version": 1,
+ "projectId": "further-transformations-2-v1",
+ "comments": {
+  "b9ab4a48-750e-4fc5-8681-c06bf5fd0a4f": {
+   "kind": "proposal-duplicate",
+   "payloads": [
+    {
+     "op": "replace-node",
+     "blockId": "mixed-review-q-1f0d0fff-3211-42e7-a52c-ea035a289d1e",
+     "nodeIds": [
+      "mixed-review-q-1f0d0fff-3211-42e7-a52c-ea035a289d1e-p35-task20-23-c"
+     ],
+     "content": {
+      "id": "v2-proposal-j1-022101-root",
+      "type": "question",
+      "label": null,
+      "prompt": "Sketch $y=2^x+2^{1-x}$.",
+      "questionDiagrams": [],
+      "answer": {
+       "short": "U-shaped curve with $y$-intercept $(0,3)$ and no $x$-intercepts. It is symmetric about $x=\\frac12$, with minimum $\\left(\\frac12,2\\sqrt2\\right)$. Both ends rise.",
+       "worked": "Add the ordinates of $y=2^x$ and $y=2^{1-x}$ (through $(0,2)$ and $(1,1)$) at each $x$. Let $s(x)=2^x+2^{1-x}$.\n$$\\begin{align*}s(-1)&=\\frac12+4=\\frac92\\\\s(0)&=1+2=3\\\\s(1)&=2+1=3\\\\s(2)&=4+\\frac12=\\frac92\\end{align*}$$\nThe component ordinates swap at $x$ and $1-x$, so the sum is symmetric about $x=\\frac12$. Its lowest point is there:\n$$\\begin{align*}s\\left(\\tfrac12\\right)&=\\sqrt2+\\sqrt2\\\\&=2\\sqrt2\\end{align*}$$\nBoth ordinates are positive, so there are no $x$-intercepts. Join the points with a smooth curve; both ends rise.",
+       "solutionDiagrams": [
+        {
+         "id": "v2-proposal-j1-022101-j1-solution",
+         "format": "tikz",
+         "widthMm": 52,
+         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"componentBlue\",\"hex\":\"268CFF\",\"reason\":\"component y=2^x\"},{\"name\":\"componentRed\",\"hex\":\"EF6068\",\"reason\":\"component y=2^{1-x}\"},{\"name\":\"sumGreen\",\"hex\":\"4F9B63\",\"reason\":\"sum curve\"}],\"reference\":\"j1 replacement solution\"}\n\\begin{tikzpicture}[x=1cm,y=0.6cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{componentBlue}{HTML}{268CFF}\n\\definecolor{componentRed}{HTML}{EF6068}\n\\definecolor{sumGreen}{HTML}{4F9B63}\n\\path[use as bounding box] (-2.0,-0.7) rectangle (3.2,7.6);\n\\draw[black,line width=0.5pt,->] (-1.9,0)--(3.0,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,7.3) node[right] {$y$};\n\\draw[black,line width=0.4pt] (-0.08,3)--(0.08,3);\n\\node[black,anchor=east] at (-0.1,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\draw[componentBlue,opacity=0.65,dashed,line width=0.6pt,<->] plot[domain=-1.7:2.7,samples=120] (\\x,{pow(2,\\x)});\n\\draw[componentRed,opacity=0.65,dashed,line width=0.6pt,<->] plot[domain=-1.7:2.7,samples=120] (\\x,{pow(2,1-\\x)});\n\\draw[sumGreen,line width=0.8pt,<->] plot[domain=-1.7:2.7,samples=160] (\\x,{pow(2,\\x)+pow(2,1-\\x)});\n\\node[componentBlue,anchor=south] at (-1.35,0.95) {$2^x$};\n\\node[componentRed,anchor=south] at (2.45,0.95) {$2^{1-x}$};\n\\node[sumGreen] at (0.5,4.9) {$2^x+2^{1-x}$};\n\\end{tikzpicture}"
+        }
+       ]
+      }
+     },
+     "classification": {
+      "primarySkillId": "graph-sum-difference-functions",
+      "secondarySkillIds": [],
+      "archetype": "combine-exponential-components"
+     },
+     "autoApply": true,
+     "key": "prop|j1",
+     "targetFingerprint": "7985f5342ebbc46651dcd775273550e65621ede4e4ccb76dcf4eb6893a4b7973",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-2-v1/20261111-022101",
+   "revision": 4
+  },
+  "e82114a3-443b-4e2e-bfe7-1b9bec553a66": {
+   "kind": "proposal-duplicate",
+   "payloads": [
+    {
+     "op": "replace-node",
+     "blockId": "mixed-review-q-24b5ba6e-0b04-485b-8347-ff289a2b9eed",
+     "nodeIds": [
+      "mixed-review-q-24b5ba6e-0b04-485b-8347-ff289a2b9eed-p36-task32-35-b"
+     ],
+     "content": {
+      "id": "v2-proposal-j3-022101-root",
+      "type": "question",
+      "label": null,
+      "prompt": "Graph $y=\\sqrt{x}-\\dfrac{1}{x}$.",
+      "questionDiagrams": [],
+      "answer": {
+       "short": "Domain $x>0$, with vertical asymptote $x=0$ ($y\\to-\\infty$) and $x$-intercept $(1,0)$. The graph increases throughout, rising without bound and staying below $y=\\sqrt{x}$.",
+       "worked": "Sketch $y=\\sqrt{x}$ and $y=-\\frac1x$ (the reflection of $y=\\frac1x$ in the $x$-axis) lightly. The common domain is $x>0$. Add their ordinates.\n$$\\begin{align*}y\\left(\\tfrac14\\right)&=\\frac12-4=-\\frac72\\\\y\\left(\\tfrac12\\right)&=\\frac{\\sqrt2}{2}-2\\approx-1.3\\\\y(1)&=1-1=0\\\\y(4)&=2-\\frac14=\\frac74\\\\y(9)&=3-\\frac19=\\frac{26}{9}\\end{align*}$$\nFor the $x$-intercept:\n$$\\begin{align*}\\sqrt{x}&=\\frac1x\\\\x\\sqrt{x}&=1\\\\x&=1\\end{align*}$$\nNear $x=0$, $-\\frac1x\\to-\\infty$ dominates, so the graph falls without bound. For large $x$, $-\\frac1x\\to0$, so the graph follows $y=\\sqrt{x}$ from below. Both components increase, so the sum increases. Join the points smoothly.",
+       "solutionDiagrams": [
+        {
+         "id": "v2-proposal-j3-022101-j3-solution",
+         "format": "tikz",
+         "widthMm": 61,
+         "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sumBlue\",\"hex\":\"268CFF\",\"reason\":\"result curve; dashed pale curves are the components\"}],\"reference\":\"j3 replacement solution\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.7cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sumBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.5,-4.7) rectangle (9.6,3.7);\n\\draw[black,line width=0.5pt,->] (-0.3,0)--(9.3,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-4.4)--(0,3.4) node[above left] {$y$};\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,->] plot[domain=0.02:9,samples=100] (\\x,{sqrt(\\x)});\n\\draw[sumBlue,opacity=0.65,dashed,line width=0.8pt,<->] plot[domain=0.25:9,samples=120] (\\x,{-1/\\x});\n\\draw[sumBlue,line width=0.8pt,<->] plot[domain=0.22:9,samples=200] (\\x,{sqrt(\\x)-1/\\x});\n\\draw[black,line width=0.4pt] (1,-0.1)--(1,0.1);\n\\node[black,anchor=north,fill=white,inner sep=1pt] at (1,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}"
+        }
+       ]
+      }
+     },
+     "classification": {
+      "primarySkillId": "graph-sum-difference-functions",
+      "secondarySkillIds": [],
+      "archetype": "combine-equation-components-mixed"
+     },
+     "autoApply": true,
+     "key": "prop|j3",
+     "targetFingerprint": "6fd035fbde8677817fce056f262504234888e21a2ff458cb0ba4b896ded3713d",
+     "applied": true,
+     "notApplied": "it did not print cleanly in the booklet (unclassified-graph-stroke)"
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-2-v1/20261111-022101",
+   "revision": 4
+  },
+  "6c14448f-e9e3-483d-a094-ca2694901a22": {
+   "kind": "theory-definition",
+   "payloads": [
+    {
+     "op": "theory",
+     "blockId": "p28-sum-information",
+     "replacement": "To **add** two graphs $s(x)=f(x)+g(x)$:\n\n- If the graphs are given, add their $y$-coordinates (**ordinates**) at each $x$-value where both $f$ and $g$ are defined.\n- If the equations of $f(x)$ and $g(x)$ are given, you can also add the two functions algebraically to sketch $s(x)$.\n\nThis lesson focuses on adding the ordinates.",
+     "autoApply": true,
+     "key": "theory|p28-sum-information",
+     "targetFingerprint": "860828635bf785f5735ac9250990930f6bb8549e9fef0a2e7661080c97649921",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-2-v1/20261111-022101",
+   "revision": 4
+  },
+  "b9a73814-4573-4484-9deb-5f04d7d0286f": {
+   "kind": "key-ideas",
+   "payloads": [
+    {
+     "op": "insert",
+     "sectionId": "assignment-aaf83305ca35d5a39a19-p30-restored-0",
+     "after": "p30-teaching",
+     "block": {
+      "id": "v2-key-ideas-sum-difference-graphs-022101",
+      "type": "question",
+      "sourceAtom": {
+       "id": "v2-key-ideas-sum-difference-graphs-022101-atom",
+       "kind": "key-ideas",
+       "label": "Key ideas",
+       "order": 1
+      },
+      "pedagogyRole": "key-ideas",
+      "content": {
+       "id": "v2-key-ideas-sum-difference-graphs-022101-root",
+       "type": "group",
+       "label": "",
+       "prompt": "",
+       "layout": "list",
+       "children": [
+        {
+         "id": "v2-key-ideas-sum-difference-graphs-022101-part-1",
+         "type": "part",
+         "label": "1",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-sum-difference-graphs-022101-part-1-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "To graph ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=f(x)+g(x)",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ", add the ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "ordinates",
+              "width": 26,
+              "expectedResponse": "ordinates",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "f",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "g",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " at each common ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "x",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": "-value.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "ordinates",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-sum-difference-graphs-022101-part-2",
+         "type": "part",
+         "label": "2",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-sum-difference-graphs-022101-part-2-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "To graph ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "y=f(x)-g(x)",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ", subtract the ordinate of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "g",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " from that of ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "f",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": ", or add the ordinates of ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "$-g(x)$",
+              "width": 17,
+              "expectedResponse": "$-g(x)$",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "$-g(x)$",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-sum-difference-graphs-022101-part-3",
+         "type": "part",
+         "label": "3",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-sum-difference-graphs-022101-part-3-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "The sum or difference exists only where both ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "f",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+             },
+             {
+              "type": "math",
+              "latex": "g",
+              "display": false
+             },
+             {
+              "type": "text",
+              "text": " are defined, so its domain is the ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "intersection",
+              "width": 33,
+              "expectedResponse": "intersection",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": " of their domains.",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "intersection",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        },
+        {
+         "id": "v2-key-ideas-sum-difference-graphs-022101-part-4",
+         "type": "part",
+         "label": "4",
+         "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+           {
+            "id": "v2-key-ideas-sum-difference-graphs-022101-part-4-paragraph",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.5,
+            "indent": 0,
+            "inlines": [
+             {
+              "type": "text",
+              "text": "When one ordinate tends to zero, the sum approaches the ",
+              "marks": []
+             },
+             {
+              "type": "cloze",
+              "answer": "other graph",
+              "width": 28,
+              "expectedResponse": "other graph",
+              "lines": 1
+             },
+             {
+              "type": "text",
+              "text": ".",
+              "marks": []
+             }
+            ]
+           }
+          ]
+         },
+         "responseSpace": "scaffold",
+         "answerSpaceMm": 0,
+         "answer": {
+          "short": "other graph",
+          "worked": "",
+          "provenance": {
+           "short": "authored",
+           "worked": "authored"
+          }
+         }
+        }
+       ]
+      },
+      "flow": {
+       "keepTogether": true,
+       "sourcePageBreakBefore": false
+      },
+      "snapshotKind": "local",
+      "bankRef": null
+     },
+     "autoApply": true,
+     "key": "keyideas|sum-difference-graphs",
+     "targetFingerprint": "677ffb9870546401b8224f9676ae65e9e6b2cd6e9d0570db92ce05388aafb1be",
+     "applied": true
+    }
+   ],
+   "run": ".booklet-work/pedagogy-audit-v2/further-transformations-2-v1/20261111-022101",
+   "revision": 4
+  }
+ }
+}
