@@ -814,5 +814,6 @@ Left as they are:
   - Teacher-import defects, at James's request:
     - Trig Identities p34 parts now print as 3i and 3j (`flow.continuationOf`).
     - The repeated discriminant theory in Equations is removed (archived).
-    - Paddock labels, Discrete RV Q5 ticks and Circles 5h labels.
+    - Paddock labels, Discrete RV Q5 ticks, Circles 5h labels, and the answer widths of Normal Distribution Q15 and the Sets 15c Venn.
+  - The network vertex dots were never missing; they printed shrunk to specks.
 - Left as they are: Curve Sketching's steps numbered from 0 (the teacher's own numbering), and the Inverse Functions 2 near-duplicate (James: keep both).
