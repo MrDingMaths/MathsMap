@@ -165,6 +165,27 @@ test('v2 finish applies fixes at preparation and prints nothing while the pre-re
  assert.equal(exports,1);assert.equal(fixes,1,'fixes run once, with preparation');assert.equal(passed.deliverable,true);
 });
 
+test('finish keeps a named oversize exemption in its state and passes it to the prompt check and every content review',async t=>{
+ const runDir=tmp(t),p=project(),projectFile=path.join(runDir,'input.json'),manifest={id:'run',completionProfile:COMPLETION_PROFILE,importPolicy:IMPORT_POLICY,track:'textbook',source:{pdfHash:'s'}};
+ write(projectFile,p);write(path.join(runDir,'manifest.json'),manifest);
+ const questions=Object.fromEntries(p.sections.flatMap(s=>s.blocks).map(b=>[b.id,{hash:contentHash(b),outcome:'passed'}]));
+ saveReviewed(path.join(runDir,'lean-review'),{questions,pages:{},workflow:{p:{sample:{accepted:true,sourceKey:sampleSourceKey(manifest)}}}});
+ const seen={preReview:[],content:[]};
+ const deps={prepare:async()=>{},preflightFixes:()=>({counts:{}}),labels:async()=>({checked:{},collisions:[]}),
+  preReview:({oversize})=>{seen.preReview.push(oversize);return {blockers:oversize?.blocks?.includes('p61-q20')?[]:[{message:'Prompt size: p61-q20 is over the limit'}]};},
+  layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async({oversize})=>{seen.content.push(oversize);return {};},images:async()=>({errors:[]}),
+  preRender:async()=>({errors:[]}),shading:async()=>({errors:[]}),export:async({out})=>{write(path.join(out,'report.json'),{report:{p:{}}});},visual:async()=>{},status:async()=>({deliverable:true,completion:assessCompletion()}),writeHandoff:()=>{}};
+ const blocked=await finishImport({runDir,projectFile},deps);
+ assert.equal(blocked.deliverable,false);assert.match(blocked.completion.blockers.join(' '),/p61-q20/);assert.equal(seen.content.length,0);
+ const named=await finishImport({runDir,projectFile,oversize:{reason:'Long graph table',blocks:['p61-q20']}},deps);
+ assert.equal(named.deliverable,true);assert.deepEqual(seen.content.at(-1),{reason:'Long graph table',blocks:['p61-q20']});
+ const state=JSON.parse(fs.readFileSync(path.join(runDir,'lean-review/finish/state.json'),'utf8'));
+ assert.deepEqual(state.steps.oversize,{reason:'Long graph table',blocks:['p61-q20']});
+ seen.preReview.length=0;
+ await finishImport({runDir,projectFile},deps);
+ assert.deepEqual(seen.preReview[0],{reason:'Long graph table',blocks:['p61-q20']},'a later attempt reuses the stored exemption');
+});
+
 test('Ch 2 pilot: heading by group members, quote-mark cues, bare displays wrapped',()=>{
  const p=project();p.sections[1].blocks.push(question('p17-p1',17,undefined),question('p17-p2',17,undefined));
  const inv=[{pageNumber:17,groups:[{id:'g',kind:'challenge-problems',header:'Challenge Problems',entries:['p17-p1','p17-p2']}]}];

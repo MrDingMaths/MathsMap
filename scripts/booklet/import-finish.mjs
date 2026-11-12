@@ -201,7 +201,7 @@ export async function finishImport(options,deps={}){
 async function finishImportScoped(options,deps={}){
  return withRunLock(options.runDir,'lean-finish',()=>finishCandidate(options,deps),{timeoutMs:60000});
 }
-async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,runner,visibilityReviews,adopt=false,direct=false,saveProgress=false,sampleDir,regenerationReason,log=()=>{}},deps={}){
+async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,runner,visibilityReviews,adopt=false,direct=false,saveProgress=false,sampleDir,regenerationReason,oversize:oversizeOption,log=()=>{}},deps={}){
  const manifest=await(deps.adopt??adoptCompletionProfile)(runDir,{adopt,direct,hasActiveWork:deps.hasActiveWork,projectId:read(projectFile).id}),policy=completionPolicy(manifest);
  const handle=openProject(projectFile),original=structuredClone(handle.project);projectId??=original.id;
  if(sampleDir)await(deps.sample??reviewImportSample)({runDir,projectFile,sampleDir,runner});
@@ -213,6 +213,10 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  if(state&&state.inputHash!==hash(original))throw Error('Finish input changed: preserve this run and reconcile the newer revision before resuming');
  if(!state){state={inputHash:hash(original),steps:{},exports:[]};write(file,original);write(stateFile,state);}
  const persist=()=>write(stateFile,state),errors=[];
+ // A named prompt-size exemption is kept with the finish state, so every later attempt and
+ // re-review uses it without the coordinator running content by hand (simplification plan).
+ if(oversizeOption?.reason?.trim()){state.steps.oversize={reason:oversizeOption.reason.trim(),blocks:[...new Set(oversizeOption.blocks??[])]};persist();}
+ const oversize=state.steps.oversize;
  const publish=async()=>{
   const next=read(file),unsafe=finishPublishSafetyIssues(original,next,loadReviewed(dir));if(unsafe.length)throw Error(unsafe.join('; '));
   Object.keys(handle.project).forEach(key=>delete handle.project[key]);Object.assign(handle.project,next);
@@ -250,7 +254,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   // question references), evidence, prompt size and the labels placement could not clear.
   // No content review call starts while any is reported. finish --check lists the same and more.
   const {preReviewBlockers}=await import('./import-finish-check.mjs');
-  const pre=(deps.preReview??preReviewBlockers)({runDir,project:read(file),projectFile:file,manifest,config:readRunConfig(runDir),stages:['config','structure','evidence','prompt-size']});
+  const pre=(deps.preReview??preReviewBlockers)({runDir,project:read(file),projectFile:file,manifest,config:readRunConfig(runDir),stages:['config','structure','evidence','prompt-size'],oversize});
   const blockers=[...pre.blockers.map(row=>row.message),...labels.collisions.map(row=>'Diagram label collision in '+row.id+' (placement could not clear it): '+row.issues.join('; '))];
   if(blockers.length)return incomplete(assessCompletion({errors:blockers}),{preReview:pre.blockers,diagramLabels:labels});
  }
@@ -264,7 +268,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   const reviewed=loadReviewed(dir),candidate=read(file);
   return assessCompletion({pending:pendingBlocks(candidate,reviewed).length,failed:reviewableBlocks(candidate).filter(({block})=>reviewed.questions[block.id]?.hash===contentHash(block)&&reviewed.questions[block.id]?.outcome==='failed').map(({block})=>block.id),errors});
  };
- const content=await(deps.content??runContentReview)({runDir,projectFile:file,concurrency,runner});
+ const content=await(deps.content??runContentReview)({runDir,projectFile:file,concurrency,oversize,runner});
  const contentCompletion=currentContentCompletion(content.errors??[]);
  if(!contentCompletion.ready)return incomplete(contentCompletion);
  let validation=(deps.validate??validateImport)(read(file));
@@ -328,7 +332,7 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
   await(deps.repair??repairFinishFindings)({file,runDir,workDir,exportDir:entry.dir,concurrency,log});
   state.steps.repaired=true;persist();
   if(before===hash(read(file)))break;
-   const repairedContent=await(deps.content??runContentReview)({runDir,projectFile:file,concurrency,runner});
+   const repairedContent=await(deps.content??runContentReview)({runDir,projectFile:file,concurrency,oversize,runner});
    const repairedCompletion=currentContentCompletion(repairedContent.errors??[]);
    if(!repairedCompletion.ready)return incomplete(repairedCompletion);
    validation=(deps.validate??validateImport)(read(file));if(!validation.ok){errors.push(...validation.blockers);break;}
