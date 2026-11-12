@@ -1,0 +1,925 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d7bc24d4-7004-4a2b-9818-e6955234bc30",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "linear-representations",
+    "secondarySkillIds": [
+      "pattern-to-equation"
+    ],
+    "reasoningScore": 51,
+    "difficulty": "Mastery",
+    "difficultyReason": "Beyond extending and graphing the decreasing counts, determine when the shrinking foot stops projecting beyond the two-can-wide upright. This requires connecting the spatial change to a stopping condition that the total-can rule alone does not supply.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:16:00.268Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "042e0ebd439aa672dad0a793a469c6d88d55b79b1fc80bda804d676b90e8fe53",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch12-20261015/877ed6728e478920f4db7bec38b06098e58e51d6d54d0e8344bafa609b6d5071-1792559739591/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Tommy the terrible 2-year-old emptied the kitchen cupboards and used all the cans of food to make a tower as in diagram 1. When his mother discovered what he had done, she noticed the tower was in the shape of an ‘L’. Not wanting to miss an opportunity to teach Tommy the alphabet, she proceeded to pack the cans away four at a time as shown in the following diagrams.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q4-fig1",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15 Diagram 1\"}\n\\begin{tikzpicture}[x=4mm,y=3.5mm,line width=0.8pt,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (0,-0.8) rectangle (8,14.12);\n\\foreach \\x in {0,...,7}{\n\\pgfmathtruncatemacro{\\H}{ifthenelse(\\x<2,14,2)}\n\\foreach \\y in {0,...,\\numexpr\\H-1\\relax}{\n\\draw (\\x,\\y)--(\\x,\\y+1);\n\\draw (\\x+1,\\y)--(\\x+1,\\y+1);\n\\draw (\\x,\\y) arc[start angle=180,end angle=360,x radius=0.5,y radius=0.12];\n\\draw[dashed] (\\x+1,\\y) arc[start angle=0,end angle=180,x radius=0.5,y radius=0.12];\n}\n\\draw (\\x+0.5,\\H) ellipse [x radius=0.5,y radius=0.12];\n}\n\\node[below] at (4,-0.6) {Diagram 1};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 43,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 4, left tower",
+          "description": "An upright L made from individually outlined cylindrical cans, with a two-can-wide vertical arm and a two-can-high foot. Decorative purple gradients are replaced by unfilled black outlines.",
+          "mathematics": "Vertical arm: 2 by 14 cans. Foot: 8 by 2 cans including the overlap. Each can occurs once.",
+          "answerVisibility": "All can boundaries are permanent givens; no total is printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p15-q4-fig2",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15 Diagram 2\"}\n\\begin{tikzpicture}[x=4mm,y=3.5mm,line width=0.8pt,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (0,-0.8) rectangle (8,14.12);\n\\foreach \\x in {0,...,6}{\n\\pgfmathtruncatemacro{\\H}{ifthenelse(\\x<2,13,2)}\n\\foreach \\y in {0,...,\\numexpr\\H-1\\relax}{\n\\draw (\\x,\\y)--(\\x,\\y+1);\n\\draw (\\x+1,\\y)--(\\x+1,\\y+1);\n\\draw (\\x,\\y) arc[start angle=180,end angle=360,x radius=0.5,y radius=0.12];\n\\draw[dashed] (\\x+1,\\y) arc[start angle=0,end angle=180,x radius=0.5,y radius=0.12];\n}\n\\draw (\\x+0.5,\\H) ellipse [x radius=0.5,y radius=0.12];\n}\n\\node[below] at (4,-0.6) {Diagram 2};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 43,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 4, middle tower",
+          "description": "An upright L of unfilled, individually outlined cans, using the same can dimensions and baseline as Diagram 1.",
+          "mathematics": "Vertical arm: 2 by 13 cans. Foot: 7 by 2 cans including the overlap.",
+          "answerVisibility": "Permanent counting scaffold without a printed total."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p15-q4-fig3",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15 Diagram 3\"}\n\\begin{tikzpicture}[x=4mm,y=3.5mm,line width=0.8pt,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (0,-0.8) rectangle (8,14.12);\n\\foreach \\x in {0,...,5}{\n\\pgfmathtruncatemacro{\\H}{ifthenelse(\\x<2,12,2)}\n\\foreach \\y in {0,...,\\numexpr\\H-1\\relax}{\n\\draw (\\x,\\y)--(\\x,\\y+1);\n\\draw (\\x+1,\\y)--(\\x+1,\\y+1);\n\\draw (\\x,\\y) arc[start angle=180,end angle=360,x radius=0.5,y radius=0.12];\n\\draw[dashed] (\\x+1,\\y) arc[start angle=0,end angle=180,x radius=0.5,y radius=0.12];\n}\n\\draw (\\x+0.5,\\H) ellipse [x radius=0.5,y radius=0.12];\n}\n\\node[below] at (4,-0.6) {Diagram 3};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 43,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Question 4, right tower",
+          "description": "An upright L of unfilled, individually outlined cans, using the same can dimensions and baseline as the preceding figures.",
+          "mathematics": "Vertical arm: 2 by 12 cans. Foot: 6 by 2 cans including the overlap.",
+          "answerVisibility": "Permanent counting scaffold without a printed total."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p16-q4-a-node",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many cans of food did Tommy use to build his first tower?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "40 cans.",
+          "worked": "Count the vertical arm and then the part of the foot extending beyond it:\n$$\\begin{align*}\\text{Number of cans}&=2\\times14+6\\times2\\\\\\text{Number of cans}&=40.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p16-q4-b-node",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p16-q4-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Count the number of cans used to make each tower, and complete the table below.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p16-q4-values",
+              "type": "table",
+              "widthMm": 150,
+              "marginBefore": 2,
+              "marginAfter": 2,
+              "borderColour": "#cccccc",
+              "borderWidthMm": 0.26,
+              "rowHeights": [
+                10,
+                10
+              ],
+              "annotations": [],
+              "border": true,
+              "padding": 1,
+              "widths": [
+                2.6,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "rows": [
+                [
+                  {
+                    "id": "p16-q4-r1c0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r1c0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Diagram number ",
+                            "marks": []
+                          },
+                          {
+                            "type": "math",
+                            "latex": "(n)",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r1c1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r1c1-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "1",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r1c2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r1c2-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "2",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r1c3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r1c3-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "3",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r1c4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r1c4-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "4",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r1c5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r1c5-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "5",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r1c6",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r1c6-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "6",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "id": "p16-q4-r2c0",
+                    "type": "cell",
+                    "header": false,
+                    "align": "left",
+                    "verticalAlign": "middle",
+                    "background": "#d3e8fc",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r2c0-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "text",
+                            "text": "Number of cans ",
+                            "marks": []
+                          },
+                          {
+                            "type": "math",
+                            "latex": "(c)",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r2c1",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r2c1-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "40",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r2c2",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r2c2-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "36",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r2c3",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": [
+                      {
+                        "id": "p16-q4-r2c3-p",
+                        "type": "paragraph",
+                        "fontSize": null,
+                        "align": "left",
+                        "spaceBefore": 0,
+                        "spaceAfter": 2,
+                        "lineHeight": 1.4,
+                        "indent": 0,
+                        "inlines": [
+                          {
+                            "type": "math",
+                            "latex": "32",
+                            "display": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p16-q4-r2c4",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p16-q4-r2c5",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  },
+                  {
+                    "id": "p16-q4-r2c6",
+                    "type": "cell",
+                    "header": false,
+                    "align": "center",
+                    "verticalAlign": "middle",
+                    "background": "transparent",
+                    "colour": "inherit",
+                    "bold": false,
+                    "borderColour": null,
+                    "borderWidthMm": null,
+                    "border": null,
+                    "rotation": 0,
+                    "colspan": 1,
+                    "rowspan": 1,
+                    "blocks": []
+                  }
+                ]
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "For $n=4,5,6$: $c=28,24,20$ respectively.",
+          "worked": "Four cans are removed each time:\n$$\\begin{align*}c_4&=32-4=28\\\\c_5&=28-4=24\\\\c_6&=24-4=20.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p16-q4-c-node",
+        "type": "part",
+        "label": "c",
+        "prompt": "Plot the points $(n,c)$ for values of $n$ from 1 to 6, using your table of values.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(1,40)$, $(2,36)$, $(3,32)$, $(4,28)$, $(5,24)$, $(6,20)$, plotted with $n$ on the horizontal axis and $c$ on the vertical axis.",
+          "worked": "Use each diagram number as the horizontal coordinate and its number of cans as the vertical coordinate. Plot the six points separately.",
+          "solutionDiagrams": [
+            {
+              "id": "p16-q4-solution-plot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"teacher page 38 Exercise 12D question 4c\"}\n\\begin{tikzpicture}[x=9mm,y=1.5mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.25pt,xstep=1,ystep=4] (0,0) grid (6,44);\n\\draw[->,line width=0.5pt] (0,0)--(6.8,0) node[right] {$n$};\n\\draw[->,line width=0.5pt] (0,0)--(0,46) node[above] {$c$};\n\\foreach \\x in {1,...,6}{\\draw[line width=0.4pt] (\\x,0)--(\\x,0.6);\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0,4,...,40}{\\draw[line width=0.4pt] (0,\\y)--(0.12,\\y);\\node[left] at (0,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\foreach \\x/\\y in {1/40,2/36,3/32,4/28,5/24,6/20}{\\fill (\\x,\\y) circle[radius=1.4pt];}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 16,
+                "sourceRegion": "Question 4c; answer graph on teacher PDF page 38",
+                "description": "A complete solution graph with horizontal diagram number n, vertical number of cans c, one-unit horizontal grid steps and four-can vertical grid steps. Six discrete points; no connecting line.",
+                "mathematics": "(1,40), (2,36), (3,32), (4,28), (5,24), (6,20).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p16-q4-d-node",
+        "type": "part",
+        "label": "d",
+        "prompt": "Write a rule that tells us the number of cans needed to create each ‘L’.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$c=44-4n$.",
+          "worked": "Multiply the diagram number by $-4$ and add 44:\n$$\\begin{align*}c&=40-4(n-1)\\\\c&=44-4n.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p16-q4-e-node",
+        "type": "part",
+        "label": "e",
+        "prompt": "How many different ‘L’s can Tommy’s mother make before the tower loses its ‘L’ shape?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "6 different L shapes.",
+          "worked": "The foot is initially 8 cans wide and becomes one can narrower each time. In Diagram 6 it is 3 cans wide, so it still extends beyond the two-can-wide vertical arm. In Diagram 7 it is only 2 cans wide, leaving no projecting foot. Therefore Diagrams 1 to 6 are L shapes.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q4-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p15-q4-root/label",
+                  "type": "item",
+                  "ref": "p15-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p15-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p15-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p15-q4-pattern-comparison-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p15-q4-fig1",
+                      "type": "item",
+                      "ref": "p15-q4-fig1",
+                      "title": "Diagram"
+                    },
+                    {
+                      "id": "layout:p15-q4-fig2",
+                      "type": "item",
+                      "ref": "p15-q4-fig2",
+                      "title": "Diagram"
+                    },
+                    {
+                      "id": "layout:p15-q4-fig3",
+                      "type": "item",
+                      "ref": "p15-q4-fig3",
+                      "title": "Diagram"
+                    }
+                  ],
+                  "gap": 4
+                },
+                {
+                  "id": "p15-q4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p16-q4-a-node:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-a-node/label",
+                          "type": "item",
+                          "ref": "p16-q4-a-node/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p16-q4-a-node/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-a-node/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-a-node/space",
+                          "type": "item",
+                          "ref": "p16-q4-a-node/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q4-b-node:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-b-node/label",
+                          "type": "item",
+                          "ref": "p16-q4-b-node/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p16-q4-b-node/prompt#p16-q4-b-instruction",
+                          "type": "item",
+                          "ref": "p16-q4-b-node/prompt#p16-q4-b-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-b-node/prompt#p16-q4-values",
+                          "type": "item",
+                          "ref": "p16-q4-b-node/prompt#p16-q4-values",
+                          "title": "table"
+                        },
+                        {
+                          "id": "layout:p16-q4-b-node/space",
+                          "type": "item",
+                          "ref": "p16-q4-b-node/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q4-c-node:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-c-node/label",
+                          "type": "item",
+                          "ref": "p16-q4-c-node/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p16-q4-c-node/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-c-node/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-c-node/space",
+                          "type": "item",
+                          "ref": "p16-q4-c-node/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q4-d-node:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-d-node/label",
+                          "type": "item",
+                          "ref": "p16-q4-d-node/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p16-q4-d-node/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-d-node/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-d-node/space",
+                          "type": "item",
+                          "ref": "p16-q4-d-node/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p16-q4-e-node:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-e-node/label",
+                          "type": "item",
+                          "ref": "p16-q4-e-node/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p16-q4-e-node/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-e-node/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-e-node/space",
+                          "type": "item",
+                          "ref": "p16-q4-e-node/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 4",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:41:55.313Z",
+  "updatedAt": "2026-11-12T11:41:55.314Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch12-20261015",
+    "blockId": "p15-q4-block",
+    "sectionRole": "exercise"
+  }
+}
