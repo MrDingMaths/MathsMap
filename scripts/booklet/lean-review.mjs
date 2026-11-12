@@ -420,6 +420,40 @@ export function batchOversizeReason(batch,oversize){
  const reason=oversize?.reason?.trim(),blocks=new Set(oversize?.blocks??[]);
  return reason&&blocks.size&&batch.rows.length&&batch.rows.every(({block})=>blocks.has(block.id))?reason:undefined;
 }
+// The content review's own batches, evidence, images and prompts, built without a model call or
+// a save (finish --check, simplification plan item 3). Every problem that would stop a review
+// call is returned at once: missing or incomplete evidence, too many source images for one
+// question, and prompts over the review limit without a named oversize reason.
+export function contentReviewPlan({runDir,projectFile,project,state,oversize,skills,root=ROOT,promptLimit=200000}){
+ const problems=[],manifestFile=path.join(runDir,'manifest.json'),reviewerRates=importV2(fs.existsSync(manifestFile)?read(manifestFile):{});
+ skills??=fs.existsSync(path.join(root,'data/skills.json'))?read(path.join(root,'data/skills.json')):[];
+ const pageImage=page=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png');
+ const pending=pendingBlocks(project,state).filter(({block})=>!(state.questions[block.id]?.outcome==='failed'&&state.questions[block.id]?.hash===contentHash(block)));
+ const localIds=reviewableBlocks(project).filter(({block})=>state.questions[block.id]?.acceptedVersion).map(({block})=>block.id);
+ let localReuse=null;try{localReuse=localIds.length&&projectFile?loadReuseContext({projectFile,runDir,blockIds:localIds}):null;}catch{localReuse=null;}
+ let batches=[];
+ for(const batch of batchBlocks(pending)){
+  try{batches.push(...splitExternalTeachingBatches([batch],{project,runDir,pageImage}));}
+  catch(error){problems.push({stage:'evidence',blockIds:batch.rows.map(r=>r.block.id),message:error.message});}
+ }
+ let largest=0;
+ for(const batch of batches){
+  batch.reviewerRates=reviewerRates;batch.projectId=project.id;batch.project=project;
+  for(const row of batch.rows){row.reuse=reuseCandidate(row.block,localReuse);row.reuseContext=localReuse;}
+  const ids=batch.rows.map(r=>r.block.id);
+  try{
+   const evidence=practiceContentEvidence(project,batch,runDir);
+   contentImages(batch,pageImage,{supplementalImages:supplementalSourceImages(batch,runDir),evidence});
+   const size=contentPrompt({project,batch,skills,evidence}).length;largest=Math.max(largest,size);
+   if(size>promptLimit&&!batchOversizeReason(batch,oversize))problems.push({stage:'prompt-size',blockIds:ids,message:'Review prompt for '+ids.join(', ')+' would be '+size+' characters (limit '+promptLimit+'): split the block, or pass --oversize-reason with --oversize-blocks '+ids.join(',')});
+  }catch(error){
+   // A batch error names one block in its message; retry each row alone to find every one.
+   if(batch.rows.length>1)for(const row of batch.rows){try{practiceContentEvidence(project,{...batch,rows:[row]},runDir);}catch(single){problems.push({stage:'evidence',blockIds:[row.block.id],message:single.message});}}
+   else problems.push({stage:'evidence',blockIds:ids,message:error.message});
+  }
+ }
+ return {pending:pending.length,batches:batches.length,largestPrompt:largest,problems:[...new Map(problems.map(p=>[p.message,p])).values()]};
+}
 export async function runContentReview({runDir,projectFile,reuseProjectFile,reuseRunDir,concurrency=3,limit=Infinity,retryFailed=false,runner,skills,oversize,root=ROOT}){
  if(!Number.isInteger(concurrency)||concurrency<1||concurrency>3)throw Error('Use one to three workers');
  const dir=path.join(runDir,'lean-review'),handle=openProject(projectFile,{root}),state=loadReviewed(dir);
@@ -1028,7 +1062,7 @@ export async function main(args=process.argv.slice(2)){
  if(await dispatchPinnedCli(import.meta.url,args))return;
  const command=args[0],values={},flags=new Set();
  for(let i=1;i<args.length;i++){
-  if(['--retry-failed','--resume-checked-export','--adopt-streamlined','--iceem-direct','--save-progress'].includes(args[i])){flags.add(args[i]);continue;}
+  if(['--retry-failed','--resume-checked-export','--adopt-streamlined','--iceem-direct','--save-progress','--check','--no-render'].includes(args[i])){flags.add(args[i]);continue;}
   if(!['--run-id','--project','--project-file','--reuse-project','--reuse-run','--out','--exports','--teaching-exports','--teaching-project-file','--previous-exports','--repair-blocks','--concurrency','--limit','--visibility-reviews','--regenerate-reason','--corrections','--sample','--edition','--page','--decided-by','--reason','--evidence','--resolutions','--oversize-reason','--oversize-blocks'].includes(args[i])||args[i+1]===undefined)throw Error('Invalid option '+args[i]);
   values[args[i]]=args[++i];
  }
@@ -1036,7 +1070,9 @@ export async function main(args=process.argv.slice(2)){
  const projectFile=values['--project-file']??path.join(ROOT,'booklets/projects',values['--project']+'.json'),concurrency=Number(values['--concurrency']??3);
  const runner=async options=>(await import('./codex-transcription.mjs')).runAstraTask(options);
  let result;
- if(command==='finish')result=await(await import('./import-finish.mjs')).finishImport({runDir,projectFile,projectId:values['--project'],out:values['--out'],concurrency,runner,visibilityReviews:values['--visibility-reviews'],adopt:flags.has('--adopt-streamlined'),direct:flags.has('--iceem-direct'),saveProgress:flags.has('--save-progress'),sampleDir:values['--sample'],regenerationReason:values['--regenerate-reason']});
+ // finish --check: every blocker in one pass, no model call, nothing written (simplification plan item 3).
+ if(command==='finish'&&flags.has('--check'))result=await(await import('./import-finish-check.mjs')).finishCheck({runDir,projectFile,projectId:values['--project'],visibilityReviews:values['--visibility-reviews'],render:!flags.has('--no-render'),oversize:values['--oversize-reason']?{reason:values['--oversize-reason'],blocks:(values['--oversize-blocks']??'').split(',').filter(Boolean)}:undefined,log:message=>console.error(message)});
+ else if(command==='finish')result=await(await import('./import-finish.mjs')).finishImport({runDir,projectFile,projectId:values['--project'],out:values['--out'],concurrency,runner,visibilityReviews:values['--visibility-reviews'],adopt:flags.has('--adopt-streamlined'),direct:flags.has('--iceem-direct'),saveProgress:flags.has('--save-progress'),sampleDir:values['--sample'],regenerationReason:values['--regenerate-reason']});
  else if(command==='sample-review')result=await(await import('./import-sample-review.mjs')).reviewImportSample({runDir,projectFile,sampleDir:values['--sample'],regenerationReason:values['--regenerate-reason'],runner});
  else if(command==='resolve-sample')result=await(await import('./import-sample-review.mjs')).resolveImportSample({runDir,projectFile,sampleDir:values['--sample'],resolutionsFile:values['--resolutions'],visibilityReviews:values['--visibility-reviews']});
  else if(command==='content')result=await runContentReview({runDir,projectFile,reuseProjectFile:values['--reuse-project']?(values['--reuse-project'].endsWith('.json')?path.resolve(values['--reuse-project']):path.join(ROOT,'booklets/projects',values['--reuse-project']+'.json')):undefined,reuseRunDir:values['--reuse-run']?(fs.existsSync(values['--reuse-run'])?path.resolve(values['--reuse-run']):loadRun(values['--reuse-run']).runDir):undefined,concurrency,limit:values['--limit']?Number(values['--limit']):Infinity,retryFailed:flags.has('--retry-failed'),oversize:values['--oversize-reason']?{reason:values['--oversize-reason'],blocks:(values['--oversize-blocks']??'').split(',').filter(Boolean)}:undefined,runner});

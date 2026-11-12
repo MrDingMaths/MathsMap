@@ -16,7 +16,7 @@ import {repairRoute} from '../../polish/repair-routing.mjs';
 import {projectReviewHash} from './page-review.mjs';
 import {sampleSourceKey,reviewImportSample} from './import-sample-review.mjs';
 import {withRunLock,readRunEvents} from './run-observability.mjs';
-import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,structuralPreflightBlockers,readRunConfig} from './import-layout-preflight.mjs';
+import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,structuralPreflightBlockers,readRunConfig,resolveQuestionReferences} from './import-layout-preflight.mjs';
 import {effectiveInventory} from './workflow-review.mjs';
 import {importRunMetrics} from './import-run-metrics.mjs';
 
@@ -155,15 +155,39 @@ export function candidateTikz(project,accepted={}){
 // Studio's own label inspection (pedagogy/figure-label-check.mjs) on the candidate's
 // unaccepted diagrams. Checked code is remembered, so a resume repeats nothing. If
 // Studio cannot be reached the check is skipped with a log line, never a blocker.
-export async function diagramLabelCheck({file,runDir,checked={},log=()=>{},check}={}){
+// With place (simplification plan item 1), colliding diagrams go through deterministic label
+// placement (diagram-label-placer.mjs) and the placed code replaces the authored code in the
+// candidate, recorded in RUN/lean-review/label-placement.jsonl; only what placement cannot
+// clear is reported. It runs before content review, so the reviewer sees the placed code.
+export async function diagramLabelCheck({file,runDir,checked={},log=()=>{},check,place=false,placer}={}){
+ const first=await labelCheckOnce({file,runDir,checked,log,check});
+ if(!place||first.skipped||!first.collisions.length)return first;
+ const project=read(file),rows=candidateTikz(project,loadReviewed(path.join(runDir,'lean-review')).diagrams??{}),failing=new Set(first.collisions.map(row=>row.id));
+ let placed;
+ try{placed=await(placer??(async rows=>(await import('./diagram-label-placer.mjs')).placeDiagramLabels(rows,{log})))(rows.filter(row=>failing.has(row.id)));}
+ catch(error){log('Label placement skipped: '+error.message);return first;}
+ const changed=new Map(placed.results.filter(row=>row.changed).map(row=>[row.id,row]));
+ if(!changed.size)return {...first,placement:{tried:failing.size,changed:0,seconds:placed.seconds}};
+ const walk=node=>{if(Array.isArray(node))return node.forEach(walk);if(!node||typeof node!=='object')return;
+  if(node.format==='tikz'&&changed.has(node.id)&&typeof node.code==='string')node.code=changed.get(node.id).code;
+  for(const value of Object.values(node))walk(value);};
+ walk(project.sections??[]);write(file,project);
+ const record=path.join(runDir,'lean-review','label-placement.jsonl');fs.mkdirSync(path.dirname(record),{recursive:true});
+ fs.appendFileSync(record,[...changed.values()].map(row=>JSON.stringify({at:new Date().toISOString(),diagramId:row.id,before:row.before,after:row.after,moved:row.moved,skipped:row.skipped})).join('\n')+'\n');
+ log('Label placement: '+changed.size+' of '+failing.size+' colliding diagrams placed');
+ const second=await labelCheckOnce({file,runDir,checked:first.checked,log,check});
+ return {...second,placement:{tried:failing.size,changed:changed.size,seconds:placed.seconds}};
+}
+async function labelCheckOnce({file,runDir,checked={},log=()=>{},check}={}){
  const project=read(file),reviewed=loadReviewed(path.join(runDir,'lean-review')),rows=candidateTikz(project,reviewed.diagrams??{});
  const pending=rows.filter(row=>!checked[codeKey(row.code)]),next={...checked},collisions=[];
  for(const row of rows){const prior=checked[codeKey(row.code)];if(prior?.issues?.length)collisions.push({id:row.id,issues:prior.issues});}
  if(!pending.length)return {checked:next,collisions};
- const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),input=path.join(root,'public','.audit-input','import-labels-'+project.id+'.json');
+ // Studio serves public/ from its own checkout (MATHSMAP_STUDIO_ROOT when this runs from a worktree).
+ const root=process.env.MATHSMAP_STUDIO_ROOT?path.resolve(process.env.MATHSMAP_STUDIO_ROOT):path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),input=path.join(root,'public','.audit-input','import-labels-'+project.id+'.json');
  fs.mkdirSync(path.dirname(input),{recursive:true});fs.writeFileSync(input,JSON.stringify(pending.map(row=>({skillId:project.id,source:project.id,field:row.id,code:row.code}))));
  let found;
- try{found=await(check??(async file=>(await import('../../pedagogy/figure-label-check.mjs')).labelCollisions(file)))(input);}
+ try{found=await(check??(async file=>(await import('../../pedagogy/figure-label-check.mjs')).labelCollisions(file,{publicRoot:path.join(root,'public')})))(input);}
  catch(error){log('Diagram label check skipped (Studio unavailable): '+error.message);return {checked,collisions,skipped:error.message};}
  finally{fs.rmSync(input,{force:true});}
  for(const row of pending){const issues=found?.[row.id]?.issues??[];next[codeKey(row.code)]={issues};if(issues.length)collisions.push({id:row.id,issues});}
@@ -210,12 +234,25 @@ async function finishCandidate({runDir,projectFile,projectId,out,concurrency=3,r
  }
  // Import pipeline v2 (inefficiency 5): label collisions in new TikZ are found before any review call.
  if(importV2(manifest)&&!policy.direct){
-  // Structural problems (C8 nested questions, C9 partial answer-page search) stop before any review call.
-  const structural=structuralPreflightBlockers(read(file),manifest,{config:readRunConfig(runDir)});
-  if(structural.length)return incomplete(assessCompletion({errors:structural.map(row=>row.message)}),{structural});
-  const labels=await(deps.labels??diagramLabelCheck)({file,runDir,checked:state.steps.diagramLabels,log});
+  // Question references the script can decide are linked and recorded first (on every run, so a
+  // reviewer edit that breaks a record is re-resolved); the rest are blockers below.
+  const references=resolveQuestionReferences(read(file));
+  if(references.changes.length){
+   write(file,references.project);
+   const record=path.join(workDir,'reference-fixes.jsonl');fs.mkdirSync(workDir,{recursive:true});
+   fs.appendFileSync(record,references.changes.map(change=>JSON.stringify({at:new Date().toISOString(),...change})).join('\n')+'\n');
+   log('Question references recorded as follow-ups: '+references.changes.map(c=>c.blockId).join(', '));
+  }
+  // Labels first: placement edits diagram code, and the evidence and prompt checks below see the result.
+  const labels=await(deps.labels??diagramLabelCheck)({file,runDir,checked:state.steps.diagramLabels,log,place:true});
   state.steps.diagramLabels=labels.checked;persist();
-  if(labels.collisions.length)return incomplete(assessCompletion({errors:labels.collisions.map(row=>'Diagram label collision in '+row.id+': '+row.issues.join('; '))}),{diagramLabels:labels});
+  // Every pre-review blocker at once (simplification plan item 3): config, structure (C8, C9,
+  // question references), evidence, prompt size and the labels placement could not clear.
+  // No content review call starts while any is reported. finish --check lists the same and more.
+  const {preReviewBlockers}=await import('./import-finish-check.mjs');
+  const pre=(deps.preReview??preReviewBlockers)({runDir,project:read(file),projectFile:file,manifest,config:readRunConfig(runDir),stages:['config','structure','evidence','prompt-size']});
+  const blockers=[...pre.blockers.map(row=>row.message),...labels.collisions.map(row=>'Diagram label collision in '+row.id+' (placement could not clear it): '+row.issues.join('; '))];
+  if(blockers.length)return incomplete(assessCompletion({errors:blockers}),{preReview:pre.blockers,diagramLabels:labels});
  }
  const settleLayout=async()=>{
   const current=projectReviewHash(read(file));
@@ -348,7 +385,8 @@ export async function finishPreRenderGate({file,projectId,state,stamps,workDir,v
  const targets=renderRiskTargets(project,{changed});if(!targets.length){const first=(project.sections??[]).find(s=>s.phase==='practice'&&s.blocks?.length)?.blocks[0]?.id;if(first)targets.push(first);}
  const result=await render({file,projectId,targets,out:path.join(workDir,'preflight',String(state.exports.length+1)),visibilityReviews,log});
  const errors=result.issues.map(issue=>'Targeted render, '+issue.edition+' p'+issue.page+': '+issue.kind+(issue.targetId?' '+issue.targetId:'')+(issue.excessMm?' ('+issue.excessMm.toFixed(1)+' mm)':''));
- if(result.skipped.length)log('Targeted render skipped for '+result.skipped.map(row=>row.edition+': '+row.reason).join('; '));
+ // Fail closed (simplification plan item 3): an edition that did not render is not a pass.
+ for(const row of result.skipped)errors.push('Targeted render did not run for '+row.edition+': '+row.reason+' (Studio on 5173 must be running)');
  const outcome={errors,targets:result.targets.length,changed:changed.length,seconds:result.seconds,skipped:result.skipped.length};
  // Only a clean, complete check is remembered; a failing or skipped one reruns on resume.
  if(!errors.length&&!result.skipped.length)state.steps.preRender[key]=outcome;

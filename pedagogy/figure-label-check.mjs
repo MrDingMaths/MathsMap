@@ -9,8 +9,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
-export async function labelCollisions(inputFile, {base = 'http://localhost:5173', timeoutMs = 300000} = {}) {
-  const rel = path.relative(path.resolve('public'), path.resolve(inputFile)).replaceAll('\\', '/');
+// publicRoot: the public/ folder Studio serves (another checkout's when called from a worktree).
+export async function labelCollisions(inputFile, {base = 'http://localhost:5173', timeoutMs = 300000, publicRoot = path.resolve('public')} = {}) {
+  const rel = path.relative(publicRoot, path.resolve(inputFile)).replaceAll('\\', '/');
   if (rel.startsWith('..')) throw Error('input must be inside public/');
   const items = JSON.parse(fs.readFileSync(inputFile, 'utf8'));
   let browser;

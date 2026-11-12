@@ -15,6 +15,7 @@ import { normalizeTeachingModule, validateTeachingModule } from '../../src/lib/t
 import { sourcePresentationFlags } from '../../src/lib/source-presentation.js';
 import { validSourceRegion } from '../../src/lib/diagram-source-region.js';
 import { loadDraftPreview } from './transcription-preview.mjs';
+import { runConfigProblems } from './import-run-config.mjs';
 
 export const BOOKLET_AGY_MODEL = 'gemini-3.8-flash-high';
 // Source pages are independent after continuation groups have been identified.
@@ -700,6 +701,8 @@ export async function main(argv = process.argv.slice(2)) {
     const continuations = args.continuations ? (readJson(path.resolve(args.continuations)).continuations ?? readJson(path.resolve(args.continuations))) : [];
     const semanticConfig = args.config ? readJson(path.resolve(args.config)) : {};
     output = prepareRun({ pdf: args.pdf ? path.resolve(args.pdf) : null, docx: args.docx ? path.resolve(args.docx) : null, teacherPdf:args.teacherPdf ? path.resolve(args.teacherPdf) : null, teacherDocx:args.teacherDocx ? path.resolve(args.teacherDocx) : null, pages: args.pages, contextPages: args.contextPages, teacherPages: args.teacherPages ?? null, runId: args.runId, continuations, concurrency: args.concurrency ?? DEFAULT_CONCURRENCY, reasoningOverride: args.reasoningEffort ? {effort:args.reasoningEffort,reason:args.reasoningOverrideReason} : undefined, contentScope: semanticConfig.contentScope, track: args.track ?? semanticConfig.track });
+    // Import v2: report run-config problems now if the config already names its topics (simplification plan item 4).
+    if (semanticConfig.topics && output?.manifest) { const problems = runConfigProblems(semanticConfig, output.manifest, { stage: 'prepare' }); if (problems.length) output = { ...output, configProblems: problems }; }
   } else {
     if (!args.runId) throw new Error('--run-id is required');
     if (args.command === 'merge') output = mergeLane(args.runId, { lane: args.lane ?? 'exact' });

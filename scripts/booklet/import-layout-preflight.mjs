@@ -93,17 +93,23 @@ export function wrapBareDisplays(text){
  return wrapped?result:null;
 }
 
-// C6: a question that declares a dependency and refers to another question in
-// its wording needs a recorded dependency decision before printing.
+// One question-reference rule (simplification plan item 5, 13 November 2026): C6 (a declared
+// dependency whose wording points at another question) and C10 (the bank's dependency check)
+// were the same rule at two times. Before printing, this is the check; the pre-render gate
+// calls it under its old name.
 const REFERENCE=/\b(?:question|part)\s+\d*\s*\(?[a-z]{0,4}\)?\s*(?:of|from|in)\s+the\s+(?:preceding|previous)\b|\bpreceding\s+(?:question|investigation|exercise|task)\b|\bprevious\s+question\b|\bquestion\s+\d+\s*\([a-z]+\)/i;
 const textOf=value=>typeof value==='string'?value:JSON.stringify(value??'');
 export function layoutPreflightBlockers(project){
+ return questionReferenceBlockers(project);
+}
+function declaredReferenceBlockers(project,reported){
  const blockers=[];
  for(const {block} of practiceRows(project)){
+  if(reported.has(block.id))continue;
   const declared=(block.flow?.dependsOn??[]).length>0;let match=null;
   visit(block.content,node=>{match??=textOf(node.prompt).match(REFERENCE);});
   if(!declared||!match||block.sourceReview?.bankDependencyReview?.decision)continue;
-  blockers.push({check:'C6-cross-reference',blockId:block.id,message:'Cross-question reference in '+block.id+' ("'+match[0]+'"): check that the referenced label exists as printed in this booklet, then record sourceReview.bankDependencyReview'});
+  blockers.push({check:'question-reference',blockId:block.id,message:'Block '+block.id+' refers to another question ("'+match[0]+'"): name an earlier question in this exercise, reword it to be self-contained, or record sourceReview.bankDependencyReview'});
  }
  return blockers;
 }
@@ -163,6 +169,7 @@ export function answerKeyCoverageBlockers(project,manifest,{config}={}){
 // signature: dependencySignature(block)}, the block's flow.dependsOn names only earlier questions
 // in its own section, and every printed "Question N" is one of them at the number this booklet
 // prints. The bank's own dependency check is unchanged, so publication still treats it as a follow-up.
+const NUMBERED_REFERENCE=/^(?:questions?\s*|Q\s*)(\d+)$/i,PREVIOUS_REFERENCE=/^(?:previous|preceding)\s+question$/i;
 export function followUpReference(project,finding){
  const section=(project.sections??[]).find(s=>(s.blocks??[]).some(b=>b.id===finding.blockId));
  const questions=(section?.blocks??[]).filter(b=>b.type==='question'),index=questions.findIndex(b=>b.id===finding.blockId),block=questions[index];
@@ -171,12 +178,71 @@ export function followUpReference(project,finding){
  const printed=new Map();
  for(const id of targets){const at=questions.findIndex(b=>b.id===id);if(at<0||at>=index)return false;printed.set(at+1,id);}
  if(finding.external.some(id=>!targets.includes(id)))return false;
- return finding.references.every(ref=>{const match=/^(?:questions?\s*|Q\s*)(\d+)$/i.exec(ref.reference.trim());return !!match&&printed.has(Number(match[1]));});
+ return finding.references.every(ref=>{
+  const text=ref.reference.trim(),match=NUMBERED_REFERENCE.exec(text);
+  if(match)return printed.has(Number(match[1]));
+  // "the previous question" is the question printed just before this one.
+  return PREVIOUS_REFERENCE.test(text)&&printed.has(index);
+ });
+}
+// The source's own number for a block ("5" for 5G Question 5).
+const sourceNumber=block=>String(block.sourceReview?.sourceIdentity?.questionLabel??block.sourceReview?.sourceIdentity?.question??'').trim();
+// Replace `from` with `to` once in a node's student-facing prompt (string or editor document).
+function replaceInPrompt(node,from,to){
+ if(typeof node.prompt==='string'){if(!node.prompt.includes(from))return false;node.prompt=node.prompt.replace(from,to);return true;}
+ let done=false;
+ const walk=value=>{if(done||!value||typeof value!=='object')return;if(Array.isArray(value))return value.forEach(walk);
+  if(value.type==='text'&&typeof value.text==='string'&&value.text.includes(from)){value.text=value.text.replace(from,to);done=true;return;}
+  for(const key of ['blocks','inlines','slots','rows'])walk(value[key]);};
+ walk(node.prompt);return done;
+}
+// Fix what the script can decide: a reference to an earlier question of the same exercise
+// ("Question 5", "the previous question") is linked through flow.dependsOn, renumbered when
+// the booklet prints that question under another number, and recorded as a source follow-up
+// bound to the block's signature. Anything else (another exercise, a teaching box, a vague
+// reference) is left as a blocker for a person. Runs before content review, so nothing is stale.
+export function resolveQuestionReferences(input){
+ const project=structuredClone(input),changes=[];
+ for(const finding of questionDependencyFindings(project)){
+  if(finding.reviewed||followUpReference(project,finding))continue;
+  const section=project.sections.find(s=>s.id===finding.sectionId),questions=(section?.blocks??[]).filter(b=>b.type==='question');
+  const index=questions.findIndex(b=>b.id===finding.blockId),block=questions[index];if(!block)continue;
+  const earlier=questions.slice(0,index),targets=new Set(block.flow?.dependsOn??[]),rewrites=[];
+  let resolved=finding.external.every(id=>earlier.some(b=>b.id===id));
+  for(const ref of finding.references){
+   if(!resolved)break;
+   const text=ref.reference.trim(),match=NUMBERED_REFERENCE.exec(text);
+   // "Question 16 of Exercise 5B", "5B Question 16", "Chapter 4 Question 2": another exercise, left for a person.
+   const at=(ref.prompt??'').indexOf(ref.reference),before=at<0?'':ref.prompt.slice(Math.max(0,at-12),at),after=at<0?'':ref.prompt.slice(at+ref.reference.length,at+ref.reference.length+30);
+   if(/\b\d+[A-Z]\s*$|\b(?:exercise|chapter|section|box)\s*\S*\s*$/i.test(before)||/^\s*(?:\([a-z]+\)\s*)?(?:of|in|from)\s+(?:the\s+)?(?:exercise|chapter|section|box|\d+[A-Z]\b)/i.test(after)){resolved=false;break;}
+   if(match){
+    // The source's number first; a number already renumbered to a linked question is kept as printed.
+    const linked=earlier[Number(match[1])-1];
+    const target=[...earlier].reverse().find(b=>sourceNumber(b)===match[1])??(linked&&targets.has(linked.id)?linked:null);
+    if(!target){resolved=false;break;}
+    targets.add(target.id);
+    const printed=questions.indexOf(target)+1;
+    if(printed!==Number(match[1]))rewrites.push({nodeId:ref.nodeId,from:text,to:text.replace(match[1],String(printed))});
+   }else if(PREVIOUS_REFERENCE.test(text)&&earlier.length)targets.add(earlier.at(-1).id);
+   else resolved=false;
+  }
+  if(!resolved)continue;
+  const nodes=[];visit(block.content,node=>nodes.push(node));
+  if(!rewrites.every(rewrite=>{const node=nodes.find(n=>n.id===rewrite.nodeId)??block.content;return replaceInPrompt(node,rewrite.from,rewrite.to);}))continue;
+  block.flow={...block.flow,dependsOn:[...targets]};
+  const names=[...targets].map(id=>{const at=questions.findIndex(b=>b.id===id);return 'Question '+(at+1)+' ('+id+(sourceNumber(questions[at])?', source Question '+sourceNumber(questions[at]):'')+')';});
+  block.sourceReview={...block.sourceReview,bankDependencyReview:{decision:'follow-up',note:'Source follow-up to an earlier question of this exercise, recorded by the import reference check: '+names.join(', ')+(rewrites.length?'; the printed number was changed to this booklet\'s numbering':'')+'.',recordedBy:'import-reference-check'}};
+  block.sourceReview.bankDependencyReview.signature=dependencySignature(block);
+  changes.push({check:'question-reference',blockId:block.id,field:'/sourceReview/bankDependencyReview',value:'follow-up',evidence:{dependsOn:[...targets],rewrites}});
+ }
+ return {project,changes};
 }
 export function questionReferenceBlockers(project){
- return questionDependencyFindings(project).filter(f=>!f.reviewed&&!followUpReference(project,f)).map(f=>({check:'C10-question-reference',blockId:f.blockId,message:'Block '+f.blockId+' refers to other questions ('+[...f.external,...f.references.map(r=>r.reference)].join(', ')+'): reword it to be self-contained (booklet numbering differs from the source), or record sourceReview.bankDependencyReview'}));
+ const findings=questionDependencyFindings(project).filter(f=>!f.reviewed&&!followUpReference(project,f));
+ const blockers=findings.map(f=>({check:'question-reference',blockId:f.blockId,message:'Block '+f.blockId+' refers to other questions ('+[...f.external,...f.references.map(r=>r.reference)].join(', ')+'): the script could not link it to an earlier question of this exercise; reword it to be self-contained, or record sourceReview.bankDependencyReview'}));
+ return [...blockers,...declaredReferenceBlockers(project,new Set(blockers.map(b=>b.blockId)))];
 }
-// Structural checks to run before content review (C8, C9, C10).
+// Structural checks to run before content review (C8, C9, question references).
 export function structuralPreflightBlockers(project,manifest,options={}){
  return [...nestedQuestionBlockers(project),...answerKeyCoverageBlockers(project,manifest,options),...questionReferenceBlockers(project)];
 }
@@ -208,7 +274,9 @@ export async function targetedRenderCheck({file,projectId,targets,out,editions=[
    if(missing?.length){ids=ids.filter(id=>!missing.includes(id));continue;}
    const reportFile=path.join(dir,'development-report.json');
    const report=fs.existsSync(reportFile)?JSON.parse(fs.readFileSync(reportFile,'utf8')).report?.[projectId]?.[edition]:null;
-   if(!report){if(result.code!==0)skipped.push({edition,reason:(result.output??'').trim().split('\n').slice(-3).join(' ')});break;}
+   // Fail closed: a run that wrote no report for this edition checked nothing, whatever its
+   // exit code (Cambridge X11 Ch 5: an empty report passed the gate; export 1 then had 26 DOM issues).
+   if(!report){const lines=(result.output??'').trim().split('\n'),error=lines.find(line=>/^\w*Error\b|Error \[|^Error:/.test(line.trim()));skipped.push({edition,reason:(error??lines.slice(-3).join(' ')).trim().slice(0,400)||'no report for '+edition+(result.code===0?' (exit 0)':'')});break;}
    for(const issue of report.issues??[])issues.push({edition,...issue});
    // Printed pages follow selectedPages order; their issues carry no page of their own.
    for(const [i,page] of (report.printed??[]).entries())for(const issue of page.issues??[])issues.push({edition,printed:true,...issue,page:issue.page??report.selectedPages?.[i]??null});

@@ -51,6 +51,7 @@ Their bytes are compared with, or recorded in, accepted review receipts.
 | [booklet-direct-compact-import.md](booklet-direct-compact-import.md) | Base import workflow: source inventory, semantic content, compact project |
 | [booklet-practice-only-import.md](booklet-practice-only-import.md) | Practice-only PDF imports and shared-stem question groups |
 | [booklet-import-v2-ch01-efficiency.md](booklet-import-v2-ch01-efficiency.md) | Import v2 cost case study (Mastering Maths Adv 11 Ch 1): measured baseline, ranked changes, experiment results, next-chapter pilot plan |
+| [booklet-import-v2-simplification-plan.md](booklet-import-v2-simplification-plan.md) | Import v2 simplification (13 Nov 2026): Cambridge X11 Ch 5 timeline, gate and rule-conflict review, ranked cuts; items 1, 3, 4 and 5 implemented |
 | [booklet-change-runbook.md](booklet-change-runbook.md) | Booklet changes and feedback repairs: scope and minimum verification |
 | [booklet-cross-session-rules.md](booklet-cross-session-rules.md) | Register of transcription and rendering conventions |
 | [booklet-transcription-feedback-checklist.md](booklet-transcription-feedback-checklist.md) | Acceptance checklist for transcription runs |
