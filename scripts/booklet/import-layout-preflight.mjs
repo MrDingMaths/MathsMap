@@ -25,7 +25,8 @@ export function printedPracticeHeadings(inventories){
   const header=typeof group.header==='string'?group.header.trim():'';
   // Bracketed question subtitles ("[Recursions]"), inventory sentences and long phrases are not group headings.
   if(!header||header.length>40||header.split(/\s+/).length>4||/^\[.*\]$/.test(header)||/[.:;]$/.test(header)||TITLE.test(header)||NON_GROUP_KIND.test(group.kind??''))continue;
-  rows.push({page:inventory.pageNumber,header,groupId:group.id??null});
+  const members=[group.entries,group.inventoryIds,group.entryIds,group.members,group.memberIds,group.questionIds].find(Array.isArray)?.filter(id=>typeof id==='string')??[];
+  rows.push({page:inventory.pageNumber,header,groupId:group.id??null,members});
  }
  return rows;
 }
@@ -41,8 +42,10 @@ export function applyLayoutPreflightFixes(input,{headings=[]}={}){
  const project=structuredClone(input),changes=[],rows=practiceRows(project);
  // C1: the first block of each printed source group owns its heading.
  for(const heading of headings){
-  const index=rows.findIndex(({block},i)=>(pageOf(block)??0)>=heading.page&&same(block.sourceReview?.sourceIdentity?.category,heading.header)&&
+  let index=rows.findIndex(({block},i)=>(pageOf(block)??0)>=heading.page&&same(block.sourceReview?.sourceIdentity?.category,heading.header)&&
    !same(rows[i-1]?.block.sourceReview?.sourceIdentity?.category,heading.header));
+  // Blocks without a recorded category: the group's first inventoried member owns the heading.
+  if(index<0&&heading.members?.length)index=rows.findIndex(({block})=>heading.members.includes(block.id));
   if(index<0)continue;
   const block=rows[index].block;
   if(same(block.flow?.practiceCategoryHeading,heading.header)||promptStartsWith(block,heading.header))continue;
@@ -63,13 +66,30 @@ export function applyLayoutPreflightFixes(input,{headings=[]}={}){
   for(const paragraph of paragraphs)(paragraph.inlines??[]).forEach((inline,i)=>{
    const cue=paragraph.inlines[i-1];
    if(inline.type!=='cloze'||inline.joinPrevious)return;
-   const textCue=cue?.type==='text'&&/(?:^|\s)[A-Za-z]$/.test(cue.text??''),mathsCue=cue?.type==='math'&&!cue.display&&/=\s*$/.test(cue.latex??'');
+   // A printed initial after a space or a quote mark ("the ‘o") is a cue; a letter inside a word is not.
+   const textCue=cue?.type==='text'&&/(?:^|[^A-Za-z])[A-Za-z]$/.test(cue.text??''),mathsCue=cue?.type==='math'&&!cue.display&&/=\s*$/.test(cue.latex??'');
    if(!textCue&&!mathsCue)return;
    inline.joinPrevious=true;
    changes.push({check:'C2-cue-blank',blockId:block.id,field:'/joinPrevious',value:true,evidence:{nodeId:node.id,cue:textCue?cue.text.slice(-12):cue.latex}});
   });
  });
+ // C7: a display environment written without $$ prints as raw LaTeX; wrap it (text unchanged).
+ for(const {block} of rows)visit(block.content,node=>{
+  for(const key of ['short','worked']){
+   const value=node.answer?.[key];if(typeof value!=='string')continue;
+   const wrapped=wrapBareDisplays(value);if(wrapped===null)continue;
+   node.answer[key]=wrapped;
+   changes.push({check:'C7-bare-display',blockId:block.id,field:'/answer/'+key,value:'$$ delimiters',evidence:{nodeId:node.id}});
+  }
+ });
  return {project,changes};
+}
+const DISPLAY_ENV=/\\begin\{(align\*?|aligned|gather\*?|cases|array)\}[\s\S]*?\\end\{\1\}/g;
+// Outside $$...$$ and inline $...$, wrap each bare display environment in $$. Null when there is none.
+export function wrapBareDisplays(text){
+ let wrapped=0;
+ const result=text.split('$$').map((part,i)=>i%2?part:part.split(/(\$[^$]*\$)/).map((piece,j)=>j%2?piece:piece.replace(DISPLAY_ENV,env=>{wrapped++;return '$$'+env+'$$';})).join('')).join('$$');
+ return wrapped?result:null;
 }
 
 // C6: a question that declares a dependency and refers to another question in
@@ -109,7 +129,7 @@ export async function targetedRenderCheck({file,projectId,targets,out,editions=[
   let ids=[...targets];
   for(let attempt=0;attempt<2&&ids.length;attempt++){
    const dir=path.join(out,edition);fs.mkdirSync(dir,{recursive:true});
-   const result=await run(['scripts/booklet/check-compact-exercises.mjs','--development','--project',projectId,'--project-file',file,'--target-blocks',ids.join(','),'--editions',edition,'--out',dir,...(base?['--base',base]:[])]);
+   const result=await run(['scripts/booklet/check-compact-exercises.mjs','--development','--project',projectId,'--project-file',file,'--target-blocks',ids.join(','),'--editions',edition,'--all-dom-issues','--out',dir,...(base?['--base',base]:[])]);
    const missing=/Target blocks missing from \S+: ([^\n]+)/.exec(result.output??'')?.[1]?.split(',').map(id=>id.trim());
    if(missing?.length){ids=ids.filter(id=>!missing.includes(id));continue;}
    const reportFile=path.join(dir,'development-report.json');

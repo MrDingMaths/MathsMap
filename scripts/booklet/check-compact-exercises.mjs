@@ -135,6 +135,8 @@ const rendererSignatures=new Map();
 const development=process.argv.includes('--development'),reviewOnly=process.argv.includes('--review-only'),draft=process.argv.includes('--draft')||reviewOnly;
 if(reviewOnly&&(development||preflight))throw Error('--review-only requires complete edition checks');
 const fullDevelopmentReason=arg('--full-development-reason');
+// Import v2 pre-render gate: a targeted run can still report DOM issues from every page (the DOM pass covers the whole edition).
+const allDomIssues=process.argv.includes('--all-dom-issues')&&process.argv.includes('--target-blocks');
 const targetedBlocks=arg('--target-blocks')?.split(',').map(id=>id.trim()).filter(Boolean);
 if(process.argv.includes('--target-blocks')&&(!development||!targetedBlocks?.length||projects.length!==1||process.argv.includes('--force')))throw Error('Use --target-blocks ID[,ID] with one project and --development.');
 if(fullDevelopmentReason!==undefined&&(!development||!fullDevelopmentReason.trim()||fullDevelopmentReason.trim().startsWith('--')))throw Error('Use --full-development-reason with a nonempty reason and --development.');
@@ -338,7 +340,7 @@ try{
      selected=process.argv.includes('--force')?hashes.map(p=>p.page):affectedPages(previous,hashes);
      requireBoundedDevelopmentExport({projectId:id,edition,hasBaseline:!!previous,selectedPages:selected.length,totalPages:hashes.length,reason:fullDevelopmentReason});
     }
-    const issues=qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).filter(i=>selected.includes(i.page));
+    const issues=qa.flatMap((p,i)=>p.issues.map(issue=>({page:i+1,...issue}))).filter(i=>allDomIssues||selected.includes(i.page));
     let printed=[];
     if(selected.length){
      const printingStarted=Date.now();

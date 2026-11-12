@@ -339,7 +339,8 @@ export async function finishPreRenderGate({file,projectId,state,stamps,workDir,l
  if(state.steps.preRender[key])return state.steps.preRender[key];
  const last=state.exports.findLast(entry=>entry.blockStamps);
  const changed=last&&stamps?Object.keys(stamps).filter(id=>last.blockStamps[id]!==stamps[id]):[];
- const targets=renderRiskTargets(project,{changed});
+ // Always render at least one block: the DOM pass then checks every page of each edition.
+ const targets=renderRiskTargets(project,{changed});if(!targets.length){const first=(project.sections??[]).find(s=>s.phase==='practice'&&s.blocks?.length)?.blocks[0]?.id;if(first)targets.push(first);}
  const result=await render({file,projectId,targets,out:path.join(workDir,'preflight',String(state.exports.length+1)),log});
  const errors=result.issues.map(issue=>'Targeted render, '+issue.edition+' p'+issue.page+': '+issue.kind+(issue.targetId?' '+issue.targetId:'')+(issue.excessMm?' ('+issue.excessMm.toFixed(1)+' mm)':''));
  if(result.skipped.length)log('Targeted render skipped for '+result.skipped.map(row=>row.edition+': '+row.reason).join('; '));

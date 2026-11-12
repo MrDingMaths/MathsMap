@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck} from '../scripts/booklet/import-layout-preflight.mjs';
+import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,wrapBareDisplays} from '../scripts/booklet/import-layout-preflight.mjs';
 import {finishImport,finishPreRenderGate,applyFinishPreflightFixes} from '../scripts/booklet/import-finish.mjs';
 import {contentHash,saveReviewed} from '../scripts/booklet/lean-review.mjs';
 import {reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -132,4 +132,28 @@ test('v2 finish applies fixes at preparation and prints nothing while the pre-re
  gate={errors:[]};
  const passed=await finishImport({runDir,projectFile},deps);
  assert.equal(exports,1);assert.equal(fixes,1,'fixes run once, with preparation');assert.equal(passed.deliverable,true);
+});
+
+test('Ch 2 pilot: heading by group members, quote-mark cues, bare displays wrapped',()=>{
+ const p=project();p.sections[1].blocks.push(question('p17-p1',17,undefined),question('p17-p2',17,undefined));
+ const inv=[{pageNumber:17,groups:[{id:'g',kind:'challenge-problems',header:'Challenge Problems',entries:['p17-p1','p17-p2']}]}];
+ const part=p.sections[0].blocks[0].content.children[0];
+ part.prompt={format:'maths-editor-document-v1',version:1,blocks:[{id:'para',type:'paragraph',inlines:[{type:'text',text:'of the ‘o'},{type:'cloze',answer:'utside',width:20},{type:'text',text:' and ab'},{type:'cloze',answer:'c',width:9}]}]};
+ part.answer.worked=String.raw`Must be nonzero:`+'\n'+String.raw`\begin{align*}x+1&\ne0\\x&\ne-1\end{align*}`+'\n'+String.raw`Already $$\begin{align*}a&=b\end{align*}$$ and $x$.`;
+ const {project:after,changes}=applyLayoutPreflightFixes(p,{headings:printedPracticeHeadings(inv)});
+ const blocks=new Map(after.sections.flatMap(s=>s.blocks).map(b=>[b.id,b]));
+ assert.equal(blocks.get('p17-p1').flow.practiceCategoryHeading,'Challenge Problems');
+ assert.equal(blocks.get('p17-p2').flow?.practiceCategoryHeading,undefined);
+ const inl=blocks.get('q1').content.children[0].prompt.blocks[0].inlines;
+ assert.equal(inl[1].joinPrevious,true,'an initial after a quote mark is a cue');assert.equal(inl[3].joinPrevious,undefined,'a letter inside a word is not');
+ const worked=blocks.get('q1').content.children[0].answer.worked;
+ assert.equal(worked,String.raw`Must be nonzero:`+'\n'+String.raw`$$\begin{align*}x+1&\ne0\\x&\ne-1\end{align*}$$`+'\n'+String.raw`Already $$\begin{align*}a&=b\end{align*}$$ and $x$.`);
+ assert.equal(changes.filter(c=>c.check==='C7-bare-display').length,1);
+ assert.equal(wrapBareDisplays('No display $x$ here.'),null);
+});
+
+test('pre-render gate always renders at least one block so the whole-edition DOM pass runs',async t=>{
+ const dir=tmp(t),file=path.join(dir,'candidate.json');write(file,project());
+ const seen=[];await finishPreRenderGate({file,projectId:'p',state:{steps:{},exports:[]},stamps:null,workDir:dir,render:async({targets})=>{seen.push(targets);return {issues:[],skipped:[],seconds:0,targets};}});
+ assert.deepEqual(seen,[['q1']]);
 });
