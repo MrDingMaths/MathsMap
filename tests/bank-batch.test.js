@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {examLabel,recordedReview,classify,originOf} from '../pedagogy/bank-batch.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {examLabel,recordedReview,classify,originOf,planBatch} from '../pedagogy/bank-batch.mjs';
 import {contentFingerprint} from '../pedagogy/audit-v2-plan.mjs';
 import {REASONING_RUBRIC,reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
 
@@ -53,6 +56,19 @@ test('classify: an unrated or unmapped question is left out with every reason', 
 
 const rated=block=>{block.classification={primarySkillId:'function-notation',secondarySkillIds:[],reasoningScore:20,difficulty:'Foundation',difficultyReason:'Direct substitution.'};
  block.classification.assessment={model:'gpt-6.1-sol',assessedAt:'2026-10-21T00:00:00Z',rubricVersion:REASONING_RUBRIC,taskHash:reasoningTaskHash(block),evidence:'x'};return block;};
+
+test('a deferred earlier duplicate cannot consume an eligible question in the same booklet', async t=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'bank-plan-'));
+ t.after(()=>fs.rmSync(root,{recursive:true,force:true}));
+ for(const dir of ['booklets/projects','booklets/question-bank','data'])fs.mkdirSync(path.join(root,dir),{recursive:true});
+ fs.writeFileSync(path.join(root,'data/skills.json'),JSON.stringify([{id:'function-notation'}]));
+ const deferred=q('first','Find $f(1)$.');
+ const eligible=rated(q('second','Find $f(1)$.'));
+ eligible.sourceReview={bankMergeReview:{fingerprint:contentFingerprint(eligible),components:[{current:true}]}};
+ const project={id:'fixture-deferred-duplicate',revision:1,library:{category:'master'},sections:[{id:'s',phase:'practice',blocks:[deferred,eligible]}]};
+ const [plan]=await planBatch([project],{root});
+ assert.deepEqual(plan.blocks.map(block=>[block.blockId,block.action]),[['first','leave-out'],['second','publish']]);
+});
 
 test('classify: follow-ups merge first, or become a comment on a teacher-protected block', ()=>{
  const dependency={reviewed:false,previousBlockId:'p1',references:[{reference:'previous question'}]};

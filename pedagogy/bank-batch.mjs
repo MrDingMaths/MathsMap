@@ -113,16 +113,34 @@ export async function planBatch(projects,{root=ROOT}={}){
   if(!origin){rows.push({projectId:project.id,skipped:'not a master or textbook chapter'});continue;}
   if(busy.has(project.id)){rows.push({projectId:project.id,origin,skipped:'busy: '+busy.get(project.id).slice(0,160)});continue;}
   const sectionOf=new Map(project.sections.flatMap(s=>s.blocks.map(b=>[b.id,s])));
-  const questions=practiceQuestions(project),outcomes=await resolveBankOutcomes(questions,bankRoot,entries);
+  const questions=practiceQuestions(project);
   const deps=new Map(questionDependencyFindings(project).map(d=>[d.blockId,d]));
   const ctx=reviewContext(project,root),protectedIds=teacherBlocks(project);
   const sourceAvailable=origin==='textbook'&&!!importSource(project,root);
-  const blocks=questions.map(block=>{
-   const row=classify({project,section:sectionOf.get(block.id),block,origin,skills,review:recordedReview(block,ctx),outcome:outcomes.get(block.id),dependency:deps.get(block.id),protectedIds,ownerOrigin});
+  const classifyQuestion=(block,outcome)=>{
+   const row=classify({project,section:sectionOf.get(block.id),block,origin,skills,review:recordedReview(block,ctx),outcome,dependency:deps.get(block.id),protectedIds,ownerOrigin});
    if(row.action!=='publish')return row;
    const reasons=newRecordExclusions(block,origin,sourceAvailable);
    return reasons.length?{...row,action:'leave-out',reasons}:row;
-  });
+  };
+  // The importer matches duplicates after removing deferred questions. An excluded
+  // block cannot be the in-booklet match for an otherwise eligible question.
+  const eligibleActions=new Set(['linked','link','link-master','hold','publish']);
+  const byId=new Map();
+  let selected=questions;
+  while(selected.length){
+   const outcomes=await resolveBankOutcomes(selected,bankRoot,entries);
+   for(const block of selected)byId.set(block.id,classifyQuestion(block,outcomes.get(block.id)));
+   const retained=selected.filter(block=>eligibleActions.has(byId.get(block.id).action));
+   const retainedIds=new Set(retained.map(block=>block.id));
+   const referencesExcluded=retained.some(block=>{
+    const outcome=outcomes.get(block.id);
+    return [outcome,...(outcome.sameQuestionAs??[])].some(match=>match.blockId&&!retainedIds.has(match.blockId));
+   });
+   if(!referencesExcluded)break;
+   selected=retained;
+  }
+  const blocks=questions.map(block=>byId.get(block.id));
   const counts={};for(const b of blocks)counts[b.action]=(counts[b.action]??0)+1;
   const reasons={};for(const b of blocks)for(const r of b.reasons??[])reasons[r]=(reasons[r]??0)+1;
   rows.push({projectId:project.id,origin,revision:project.revision,questions:blocks.length,counts,reasons,examTags:blocks.filter(b=>b.examTag).length,blocks});
