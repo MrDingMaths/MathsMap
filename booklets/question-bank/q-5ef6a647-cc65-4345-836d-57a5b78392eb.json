@@ -1,0 +1,110 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5ef6a647-cc65-4345-836d-57a5b78392eb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-congruent-triangles",
+    "secondarySkillIds": [
+      "area-trapezium"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Introduce a midpoint on the diagonal and prove the midpoint lemma from a new SAS construction before combining two half-base lengths into a symbolic result.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T08:40:20.124Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "317c9eaaf043eb86fbed97d5a7b7092f4f5dffb3d2a95c721e10095e313230db",
+      "evidence": ".booklet-work/iceem-all-20261015/repair-9ch16-source29-complete-sample-findings-20261024.mjs",
+      "originalTaskHash": "0d8a9db3bd7fa282c5d4c290993b3a84f1d81d512741473f00baa558a91da489"
+    }
+  },
+  "content": {
+    "id": "p29-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Let $ABCD$ be a trapezium with parallel sides $AB$ and $CD$. Let $E$ and $F$ be the midpoints of $AD$ and $BC$ respectively. Let $k$ be the length of $EF$. Let $AB=a$ and $CD=c$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"Actual original29 p29-q6-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,line join=round,line width=.8pt]\\definecolor{refRed}{HTML}{EF6068}\\definecolor{regionBlue}{HTML}{D3E8FC}\\definecolor{regionGrey}{HTML}{CCCCCC}\n\\coordinate(A)at(1,2);\\coordinate(B)at(4,2);\\coordinate(C)at(5,0);\\coordinate(D)at(0,0);\\coordinate(E)at(.5,1);\\coordinate(F)at(4.5,1);\\draw(A)--(B)--(C)--(D)--cycle (E)--(F);\\foreach\\p/\\s in{A/above left,B/above right,C/below right,D/below left,E/left,F/right}{\\node[\\s]at(\\p){$\\p$};}\\node[above]at(2.5,2){$a$};\\node[below]at(2.5,0){$c$};\\node[above]at(2.5,1){$k$};\\draw[->,line width=.4pt](2.1,2)--(2.4,2);\\draw[->,line width=.4pt](2.1,0)--(2.4,0);\\foreach\\y in{.48,.55,1.48,1.55}{\\draw[line width=.4pt]({.5*\\y-.08},\\y+.04)--({.5*\\y+.08},\\y-.04);}\\foreach\\y in{.43,.5,.57,1.43,1.5,1.57}{\\draw[line width=.4pt]({5-.5*\\y-.08},\\y-.04)--({5-.5*\\y+.08},\\y+.04);}\\draw[refRed,dashed,line width=.4pt](4,2)--(5.6,2) (5,0)--(5.6,0);\\draw[<->,line width=.4pt](5.5,0)--(5.5,2)node[midway,right]{$h$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "description": "Original trapezium ABparallelCD with exact midpointsE/F, two distinct equality tick families, a/c/k and perpendicular height h. Midpoint lemma is derived in the worked solution using actually taught SAS and parallelogram converse, never assumed as given.",
+          "answerVisibility": "Only original givens, no computed answer values."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p29-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $k=\\dfrac{a+c}{2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\dfrac{a+c}{2}$.",
+          "worked": "First prove the midpoint lemma. In triangle $XYZ$, let $M,N$ be the midpoints of $XY,XZ$. Extend $MN$ to $H$ with $NH=MN$. Triangles $XNM$ and $ZNH$ are congruent by SAS: equal half-sides, equal segments and vertically opposite included angles. Hence $XM=ZH$ and $XM\\parallel ZH$. Since $XM=MY$, quadrilateral $YMHZ$ has one pair of opposite sides equal and parallel, so it is a parallelogram. Thus $MH=YZ$, $MN=\\frac{YZ}{2}$ and $MN\\parallel YZ$.\n\nLet $G$ be the midpoint of diagonal $BD$. Apply the lemma in triangle $DAB$: $EG=\\frac{a}{2}$ and $EG\\parallel AB$. Apply it in triangle $BCD$: $GF=\\frac{c}{2}$ and $GF\\parallel CD$. Since $AB\\parallel CD$, the points $E,G,F$ are collinear, with $G$ between $E$ and $F$.\n$$k=EF=EG+GF=\\frac a2+\\frac c2=\\frac{a+c}{2}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      },
+      {
+        "id": "p29-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Deduce that the area of the trapezium is $kh$, where $h$ is the distance between the parallel sides.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$A=kh$.",
+          "worked": "Using the trapezium area formula and part a,\n$$\\begin{aligned}A&=\\frac12(a+c)h\\\\A&=kh.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:57:17.017Z",
+  "updatedAt": "2026-11-12T21:57:17.017Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch16-20261015",
+    "blockId": "p29-q6",
+    "sectionRole": "exercise"
+  }
+}

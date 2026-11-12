@@ -1,0 +1,162 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c057bd19-8dbc-4684-b5b0-d107d6340853",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-linear-model",
+    "secondarySkillIds": [
+      "summary-stats-frequency-table",
+      "latitude-longitude"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Students must translate an average over people into two population-weighted coordinate means, relate the direction of movement to changes in cities’ population shares, and choose a defensible way to extrapolate both coordinates to 2005.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-12T11:50:25.243Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aae90bd53437171fd19378500befd13d375d3d7d90e8f6bfd8b430a5434b904e",
+      "evidence": "D:\\WebApps\\MathsMap\\.booklet-work\\bank-import-20261112\\iceem-9-ch19-20261015\\follow-ups\\rerate\\call-6c54e5c3-1-1794484219378\\last-message.txt",
+      "originalTaskHash": "23b4bc6c1379a3824c7d89967e6dfb75200dea77a38159458b81568845e783f7"
+    }
+  },
+  "content": {
+    "id": "p30-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The following table gives the population (in 1000s) of the eight Australian capital cities for a number of years throughout the 20th century.\n\n**Year**\t**Sydney**\t**Melbourne**\t**Brisbane**\t**Adelaide**\t**Perth**\t**Hobart**\t**Darwin**\t**Canberra**\n1901\t497\t502\t121\t162\t71\t36\t1\t–\n1920\t885\t763\t206\t255\t152\t50\t1\t–\n1930\t1191\t1000\t280\t311\t212\t59\t2\t7\n1940\t1294\t1083\t336\t330\t230\t69\t2\t12\n1950\t1557\t1302\t445\t434\t313\t84\t5\t22\n1960\t2133\t1831\t578\t577\t409\t112\t12\t50\n1970\t2752\t2448\t847\t827\t672\t151\t33\t129\n1980\t3232\t2760\t1029\t934\t902\t170\t51\t246\n1990\t3657\t3081\t1302\t1050\t1193\t184\t73\t310\n\nThe latitudes and longitudes of five of the capital cities, rounded to the nearest whole number, are given below.\n\n**City**\t**Latitude**\t**Longitude**\nMelbourne\t$38^\\circ\\mathrm{S}$\t$145^\\circ\\mathrm{E}$\nSydney\t$34^\\circ\\mathrm{S}$\t$150^\\circ\\mathrm{E}$\nPerth\t$32^\\circ\\mathrm{S}$\t$116^\\circ\\mathrm{E}$\nAdelaide\t$35^\\circ\\mathrm{S}$\t$139^\\circ\\mathrm{E}$\nBrisbane\t$27^\\circ\\mathrm{S}$\t$153^\\circ\\mathrm{E}$\n\nUsing this information, together with the fact that Hobart has latitude 43°S and longitude 147°E, Darwin has latitude 12°S and longitude 131°E, and Canberra has latitude 35°S and longitude 149°E, calculate the population centre of the eight capital cities for each year given above.\n\nThe population centre is the point whose latitude and longitude are the averages for all people in the model. Give coordinate answers correct to 1 decimal place.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q3-yearly",
+        "type": "part",
+        "label": "a",
+        "prompt": "Calculate the population centre for each of the nine years.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "1901: $35.1^\\circ\\mathrm{S},145.3^\\circ\\mathrm{E}$; 1920: $34.9^\\circ\\mathrm{S},145.1^\\circ\\mathrm{E}$; 1930: $34.8^\\circ\\mathrm{S},145.1^\\circ\\mathrm{E}$; 1940: $34.7^\\circ\\mathrm{S},145.2^\\circ\\mathrm{E}$; 1950: $34.6^\\circ\\mathrm{S},145.0^\\circ\\mathrm{E}$; 1960: $34.7^\\circ\\mathrm{S},145.0^\\circ\\mathrm{E}$; 1970: $34.5^\\circ\\mathrm{S},144.5^\\circ\\mathrm{E}$; 1980: $34.4^\\circ\\mathrm{S},144.3^\\circ\\mathrm{E}$; 1990: $34.2^\\circ\\mathrm{S},143.9^\\circ\\mathrm{E}$.\n\nWeight each city's coordinates by its population.",
+          "worked": "For each year, divide the sum of population times coordinate by the total population. The common population unit of 1000 cancels. Canberra's dashes contribute no population in this model.\n\nFor 1901:\n$$\\begin{align*}\\text{Total population}&=497+502+121+162+71+36+1=1390\\\\\\text{Latitude south}&=\\frac{497(34)+502(38)+121(27)+162(35)+71(32)+36(43)+1(12)}{1390}\\\\\\text{Latitude south}&=\\frac{48743}{1390}\\approx35.1^\\circ\\\\\\text{Longitude east}&=\\frac{497(150)+502(145)+121(153)+162(139)+71(116)+36(147)+1(131)}{1390}\\\\\\text{Longitude east}&=\\frac{202030}{1390}\\approx145.3^\\circ\\end{align*}$$\nUsing the same weighted sums for the remaining years:\n$$\\begin{align*}\\text{1920 latitude south}&=\\frac{80597}{2312}\\approx34.9^\\circ\\\\\\text{1920 longitude east}&=\\frac{335461}{2312}\\approx145.1^\\circ\\\\\\text{1930 latitude south}&=\\frac{106529}{3062}\\approx34.8^\\circ\\\\\\text{1930 longitude east}&=\\frac{444289}{3062}\\approx145.1^\\circ\\\\\\text{1940 latitude south}&=\\frac{116543}{3356}\\approx34.7^\\circ\\\\\\text{1940 longitude east}&=\\frac{487286}{3356}\\approx145.2^\\circ\\\\\\text{1950 latitude south}&=\\frac{144077}{4162}\\approx34.6^\\circ\\\\\\text{1950 longitude east}&=\\frac{603340}{4162}\\approx145.0^\\circ\\\\\\text{1960 latitude south}&=\\frac{197699}{5702}\\approx34.7^\\circ\\\\\\text{1960 longitude east}&=\\frac{827012}{5702}\\approx145.0^\\circ\\\\\\text{1970 latitude south}&=\\frac{271314}{7859}\\approx34.5^\\circ\\\\\\text{1970 longitude east}&=\\frac{1135997}{7859}\\approx144.5^\\circ\\\\\\text{1980 latitude south}&=\\frac{320637}{9324}\\approx34.4^\\circ\\\\\\text{1980 longitude east}&=\\frac{1345220}{9324}\\approx144.3^\\circ\\\\\\text{1990 latitude south}&=\\frac{371134}{10850}\\approx34.2^\\circ\\\\\\text{1990 longitude east}&=\\frac{1561640}{10850}\\approx143.9^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 180
+      },
+      {
+        "id": "p30-q3-a",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use your calculations to answer the following questions.\n\nDescribe the direction in which the Australian population centre has moved since 1901. Can you give some reasons for this?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Overall, north and west. Population growth outside Melbourne and Sydney, especially in northern and western cities, increased those cities' shares of the total.",
+          "worked": "From 1901 to 1990 the southern latitude decreased from about $35.1^\\circ$ to $34.2^\\circ$, so the centre moved north. The eastern longitude decreased from about $145.3^\\circ$ to $143.9^\\circ$, so it moved west. Melbourne and Sydney initially dominated the population; faster proportional growth in cities such as Brisbane and Perth shifted the weighted centre.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p30-q3-b",
+        "type": "part",
+        "label": "c",
+        "prompt": "Estimate where the population centre for Australia was in the year 2005.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately $34.1^\\circ\\mathrm{S},\\ 143.7^\\circ\\mathrm{E}$.\n\nExtend the average 1901–1990 movement at a constant rate, retaining unrounded coordinate means.",
+          "worked": "Assume the average annual movement from 1901 to 1990 continues for another 15 years. Let $L_{1901}=\\frac{48743}{1390}$, $L_{1990}=\\frac{371134}{10850}$, $E_{1901}=\\frac{202030}{1390}$ and $E_{1990}=\\frac{1561640}{10850}$.\n$$\\begin{align*}\\text{2005 latitude south}&=L_{1990}+\\frac{15}{89}(L_{1990}-L_{1901})\\\\\\text{2005 latitude south}&\\approx34.1^\\circ\\\\\\text{2005 longitude east}&=E_{1990}+\\frac{15}{89}(E_{1990}-E_{1901})\\\\\\text{2005 longitude east}&\\approx143.7^\\circ\\end{align*}$$\nThis is an estimate based on extending the historical average movement.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p30-q3-c",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p30-q3-c-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Why is it important to recognise these shifts in population? What groups in the community need to know such information?",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p30-q3-note",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Note that a more realistic model would include population centres outside the capital cities.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Population shifts affect where services and infrastructure are needed. Governments, councils, health and education planners, transport providers and businesses need this information.",
+          "worked": "A growing population increases demand for housing, schools, hospitals, transport and utilities in some places and changes demand elsewhere. Governments and councils use the trends to allocate resources; service providers and businesses use them to plan facilities and investment.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:57:22.097Z",
+  "updatedAt": "2026-11-12T21:57:22.098Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch19-20261015",
+    "blockId": "p30-q3",
+    "sectionRole": "exercise"
+  }
+}
