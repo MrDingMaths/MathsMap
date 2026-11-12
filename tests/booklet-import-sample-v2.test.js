@@ -49,6 +49,8 @@ test('sample pages come from inventory patterns: first exercise, then the fewest
  assert.deepEqual(r.reasons[6],['continuation of page 5']);
  assert.ok(r.reasons[7].includes('referenced from page 8'));
  assert.equal(samplePatternClasses(inv[7]).has('diagram'),false,'excluded entries add no pattern');
+ const chain=[{pageNumber:2,groups:[],entries:[{id:'q',kind:'question'}]},{pageNumber:7,groups:[],entries:[{id:'a',kind:'question',continuesOnNextPage:true}]},{pageNumber:8,groups:[],entries:[{id:'a2',kind:'part',continuesFromPreviousPage:true}]},{pageNumber:9,groups:[],entries:[{id:'i',kind:'part',description:'Hence confirm your answer from Question 4 (b).'}]}];
+ assert.deepEqual(recommendSamplePages(chain).pages,[2,7,8,9],'a page referenced across a page break brings its whole continuation chain');
 });
 
 function sampleRun(t,{pages,v2=true}){

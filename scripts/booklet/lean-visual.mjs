@@ -109,6 +109,11 @@ export function recommendSamplePages(inventories,{headings=[]}={}){
   if(added.includes('continuation'))take(best.page+1,'continuation of page '+best.page);
   if(added.includes('cross-reference'))take(best.page-1,'referenced from page '+best.page);
  }
+ // A chosen page brings every page its questions continue to or from (assembly needs the whole chain).
+ const flags=new Map(pages.map(inv=>[inv.pageNumber,{next:(inv.entries??[]).some(e=>e.continuesOnNextPage),previous:(inv.entries??[]).some(e=>e.continuesFromPreviousPage)}]));
+ for(let grew=true;grew;){grew=false;for(const page of [...chosen.keys()]){const f=flags.get(page)??{};
+  if(f.next&&byPage.has(page+1)&&!chosen.has(page+1)){take(page+1,'continuation of page '+page);grew=true;}
+  if(f.previous&&byPage.has(page-1)&&!chosen.has(page-1)){take(page-1,'continues onto page '+page);grew=true;}}}
  return {pages:[...chosen.keys()].sort((a,b)=>a-b),reasons:Object.fromEntries([...chosen].sort((a,b)=>a[0]-b[0])),classes:[...covered].sort()};
 }
 // Physical pages that carry any sampled block (a block that splits shows on each).
