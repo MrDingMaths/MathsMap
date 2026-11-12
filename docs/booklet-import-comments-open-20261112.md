@@ -1,6 +1,8 @@
 # Import comments left open for import finishing (12 November 2026)
 
-Structural assembly work named by the import comments that a text edit cannot settle. See [the settlement report](booklet-comments-settled-20261112.md#textbook-imports). Each row is one open Studio comment.
+Structural assembly work named by the import comments that a text edit cannot settle. See [the settlement report](booklet-comments-settled-20261112.md#textbook-imports). Each row is one Studio comment.
+
+**All rows below were settled on 12 November 2026** (follow-up; see [the report](booklet-comments-settled-20261112.md#follow-up-12-november-2026-later)). Each comment's resolution says what was done; the patches are in `.booklet-work/comment-followup-20261112/imports/b/`.
 
 | Booklet | Comment | Work needed |
 | --- | --- | --- |

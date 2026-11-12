@@ -146,6 +146,92 @@ The judging packets and verdicts are in `.booklet-work/comment-settle-20261112/i
 - The 513 import comments listed above.
 - The commit includes an uncommitted edit to Further Differentiation and Integration 1 that predates this work.
 
+## Follow-up (12 November 2026, later)
+
+James asked for the three items left above to be decided and done.
+
+### James's decisions
+
+- **Financial Maths p14 Q1:** the present-value version was a mistake.
+  - The table is now "Future value of $1" (ordinary annuity factors, 2 d.p.), and the intro and instruction ask for future value.
+  - The answers are $4240, $144 320 and $33 100.
+  - The present-value worked example and guided practice added on page 13 (audit comment `c285314a`) were deleted, and the proposal is marked reverted.
+- **Cambridge Year 11 ch04 Q17:** the cartons stay parallel to the walls. The stem now says so, and the answer 4 stands.
+- **Enrichment Joshua p17 Q3:** every part has the same four blanks: before ½, two operator blanks of one width, and after ¼. The opening bracket in (b) now has a place, and no part gives its brackets away.
+
+### The 20 "Not added" drafts
+
+- **Placed:** all 19 found in the stores are now in their booklets, and the 20th, Optimisation, was a mislabel (below).
+  - The re-apply tool is `.booklet-work/comment-followup-20261112/drafts/reapply.mjs`. It runs `applyComments` on a copy with the flag reopened, so placement and the maths check are the audit's own.
+  - Each draft's fix is in `drafts/tweaks/<booklet>.mjs`.
+  - Every page was looked at before saving.
+- **Footer overflow:**
+  - The guided practice splits between parts: DE 2, 3D Trig ×2, Area/Volumes, Network.
+  - Working space was tightened by 2 to 3 mm: Sum and Product of Roots, Financial Maths 2.
+  - The Binomial parts are one to a row.
+- **Optimisation:** the comment was in **Optimisation 2**, not Optimisation; the 12 November list named the wrong booklet. Its two worked examples were each taller than a page. Their solution steps are now set in two columns and each starts a new page.
+- **Palette:** Further Transformations (#8A8A8A → muted), Estimating Change (black!35 grid → border grey; #FF8A1F → orange) and Sets (a translucent fill → solid blue fill).
+- **Trig Any Magnitude:** the triangle figures carried the graph-strokes marker, which belongs only on graphs; it was removed.
+- **Maths that did not render:** Permutations 2 (two Key ideas blanks split a formula), Rates (currency signs).
+- **Working with Functions 8:** the replacement part no longer restates the stem.
+- **Elevation, Depression and Bearings:** the review item became part i of the existing Review grid, now three to a row, with its triangle redrawn at the grid's 30 mm.
+- **Network:** besides the split, the draft's four adjacency tables had their cells one column off. They were rebuilt in the booklet's table form.
+
+### The 147 structural import items
+
+All are resolved. The lead did Cambridge ch03; six Sonnet subagents did the rest, each owning its own booklets (brief: `.booklet-work/comment-followup-20261112/imports/BRIEF.md`). Each booklet's patch is in `imports/b/<booklet>/patch.mjs` and went through `settle-comments.mjs` (page check, then `publishProject`).
+
+**Already done (checked):**
+- the Cambridge ch03 follow-ups merged by the bank run;
+- most Enrichment 2 section associations;
+- several crops and diagram values that were already corrected.
+
+**Headings:**
+- Cambridge Enrichment and Development headings;
+- "The following questions are more difficult" (ch01 p25);
+- ICE-EM chapter titles.
+
+Mastering ch01/ch02 already print their category headings through `flow.practiceCategoryHeading`.
+
+**Merges and embeds:**
+- iceem-8 ch03: Q16 was merged into Q15.
+- Self-contained stems were kept instead of merging where the follow-up carries its own givens: Cambridge ch03 p43 Q4 and p58 Q2, iceem-7 ch15.
+
+**Table answer binding:** answers are bound to the table node, as the verifier requires, with `tableOnlyPartIds`: iceem-7 ch09 ×3, iceem-8 ch10, iceem-9 ch10/ch11, Enrichment 2 part 4.
+
+**Content:**
+- Enrichment 2 part 10: the four missing poker categories are added (counts recomputed; all nine sum to 2 598 960).
+- iceem-9 ch07: the 67° is marked approximate.
+- iceem-9 ch09: a piano crop.
+- iceem-8 ch10: the plan is calibrated to 67.2 × 58.8 mm.
+- iceem-7 ch18: symmetry solution tables.
+- iceem-7 ch22: tessellation figures, and a black figure-only crop for Activity 5.
+
+**Taxonomy (Concept Maths ch02), for James to confirm:**
+- p36-q73 and p70-q26 → `simultaneous-equations-algebraically`;
+- p149 → `intersection-line-curve`.
+
+No exact skill exists for the k-method or for comparing two curves.
+
+**Render rows:** every one was looked at, at final size. Label defects were fixed beyond the rows:
+- Cambridge ch03 Q8 ticks and labels, and Q13 intercept labels;
+- iceem-9 ch07 and ch10 Q2b/Q2c;
+- Enrichment 1 part 14 ×3;
+- iceem-7 ch13;
+- iceem-8 ch08.
+
+### Still open
+
+- **Shading reviews:**
+  - Enrichment 1 part 14 p22-q27 needs a fresh lean shading review (`lean-review.mjs shading`) after its label moved.
+  - The eight iceem-7 ch22 Activity 5 figures point at a new image, so any image-shading review for them needs re-binding.
+  - The import finish step reports both as pending.
+- **Noticed, not changed:**
+  - Enrichment 1 part 15 p19-g-q4 reprints its diagram above part d.
+  - Mastering ch01 p8 numbering.
+  - ch09/ch21 have chapter headings only where flagged.
+- **Lost patch file:** the first-pass patch file for iceem-9 ch10 was overwritten by the second pass. Both passes are saved in the booklet (revisions 6 and 7).
+
 Tools and logs are in `.booklet-work/comment-settle-20261112/`:
 
 - `hand-spec.mjs` and `hand-spec2.mjs`: every hand decision and its edits;

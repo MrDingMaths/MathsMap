@@ -17456,13 +17456,17 @@
                 "widthMm": 120,
                 "role": "question",
                 "reviewStatus": "needs-review",
-                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 9 p9-q4-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (P) at (7.8,0);\n\\draw[line width=0.8pt] (A)--(12,0);\n\\fill (A) circle (1.7pt);\\fill (P) circle (1.7pt);\n\\node[below=3pt] at (A) {$A$};\\node[below=3pt] at (P) {$P$};\n\\end{tikzpicture}",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 9 p9-q4-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (P) at (7.8,0);\n\\draw[line width=0.8pt] (A)--(12,0);\n\\fill (A) circle (1.7pt);\\fill (P) circle (1.7pt);\n\\node[below=3pt] at (A) {$A$};\\node[below=3pt] at (P) {$P$};\n\\path[use as bounding box] (-0.1,-0.8) rectangle (12.05,6.0);\n\\end{tikzpicture}",
                 "spec": {
                   "sourcePage": 9,
                   "sourceRegion": "Question 4 shared construction diagram",
                   "description": "Horizontal ray represented without an arrowhead, with endpoint A and marked point P to its right; the line continues beyond P. Decorative blue strokes and red point markers are rendered black under house style.",
                   "mathematics": "A and P determine the initial ray AP. All requested rays originate at A and point into the upper half-plane.",
-                  "answerVisibility": "No constructed rays or angle values appear in the supplied diagram."
+                  "answerVisibility": "No constructed rays or angle values appear in the supplied diagram.",
+                  "sizing": {
+                    "purpose": "drawing",
+                    "exceptionReason": "The frame carries about 60 mm of empty space above the ray so the student can draw the three rays; the figure itself is only the ray AP."
+                  }
                 }
               }
             ],
@@ -17480,7 +17484,7 @@
                     "type": "part",
                     "label": "a",
                     "prompt": "$35^\\circ$",
-                    "answerSpaceMm": 60,
+                    "answerSpaceMm": 0,
                     "answer": {
                       "short": "A ray from $A$ pointing upwards at $35^\\circ$ to $AP$.",
                       "worked": "Place the protractor centre at $A$ and align its baseline with $AP$. Starting from $0^\\circ$ along $AP$, mark $35^\\circ$ above the baseline. Draw the ray from $A$ through the mark.",
@@ -17512,7 +17516,7 @@
                     "type": "part",
                     "label": "b",
                     "prompt": "$150^\\circ$",
-                    "answerSpaceMm": 60,
+                    "answerSpaceMm": 0,
                     "answer": {
                       "short": "A ray from $A$ pointing upwards to the left at $150^\\circ$ to $AP$.",
                       "worked": "Place the protractor centre at $A$ and align its baseline with $AP$. Starting from $0^\\circ$ along $AP$, mark $150^\\circ$ above the baseline. Draw the ray from $A$ through the mark. The constructed angle is obtuse.",
@@ -17544,7 +17548,7 @@
                     "type": "part",
                     "label": "c",
                     "prompt": "$80^\\circ$",
-                    "answerSpaceMm": 60,
+                    "answerSpaceMm": 0,
                     "answer": {
                       "short": "A ray from $A$ pointing upwards at $80^\\circ$ to $AP$.",
                       "worked": "Place the protractor centre at $A$ and align its baseline with $AP$. Starting from $0^\\circ$ along $AP$, mark $80^\\circ$ above the baseline. Draw the ray from $A$ through the mark.",
@@ -17659,6 +17663,15 @@
             "sourcePagination": {
               "page": 9,
               "breakBefore": false
+            },
+            "origin": {
+              "projectId": "iceem-7-ch10-20261015",
+              "blockId": "p9-q4",
+              "runId": "iceem-7-ch10-20261015",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\iceem-7-ch10-20261015\\semantic-packets\\page-009.author.json",
+                "hash": "a65d91d0c00cf8d093fc80914951c3b0c73c52de78aa581fcedf93836302b1e9"
+              }
             }
           },
           "flow": {
@@ -26326,6 +26339,12 @@
                 "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\iceem-7-ch10-20261015\\semantic-packets\\page-015.author.json",
                 "hash": "db29437a41f8c64e34c4640f34aedf4fadcf4314db05d9c771b2ebf450b9db5e"
               }
+            },
+            "bankDependencyReview": {
+              "decision": "self-contained",
+              "signature": "193b0c83",
+              "note": "Part b uses the totient numbers calculated in part a of the same block. The block supplies everything it needs and uses no givens or results from the preceding Collatz question.",
+              "judgedBy": "gpt-6.1-sol low 2026-11-12T11:41:21.773Z"
             }
           },
           "flow": {
@@ -34919,7 +34938,9 @@
         "id": "nr-p9-finding-97",
         "targetId": "p9-q4",
         "note": "The source requests one copied diagram with approximately 60 mm above it for all three constructions. The preset grid currently allocates separate 60 mm construction spaces. Reconcile these into one shared construction region before final rendering so the instruction and response layout agree.",
-        "resolved": false
+        "resolved": true,
+        "resolvedAt": "2026-11-12T12:09:25.333Z",
+        "resolution": "Settled 12 Nov 2026 (follow-up): the question now has one shared copied diagram with about 60 mm of drawing space above it (built into the diagram frame, as in the source) and parts a-c no longer carry three separate 60 mm spaces; rendered and checked in the student, short and worked editions."
       },
       {
         "id": "nr-p9-finding-98",
@@ -35315,7 +35336,9 @@
         "id": "nr-p17-finding-147",
         "targetId": "p17-areas-q1-diagram",
         "note": "Native geometry is reconstructed, but final-size rendering and the required source-hashed shading check could not be executed in this read-only worker. Verify labels, the right-angle mark and semantic region fill before acceptance.",
-        "resolved": false
+        "resolved": true,
+        "resolvedAt": "2026-11-12T12:09:25.333Z",
+        "resolution": "Settled 12 Nov 2026 (follow-up): checked independently: W = AC ∩ BX lies at (2,2) on the 3 cm square, so BY = 2 cm and WY is perpendicular to BC; the right-angle mark sits at Y, labels A-D, X and Y are clear of the lines (W sits just under the crossing; left as drawn because any code edit would invalidate the hash-bound shading review), the shaded quadrilateral AWXD has area 3.75 cm² as the answer states, and check-diagram-shading.mjs --lean-reviews passes with no issues; rendered at final size."
       },
       {
         "id": "nr-p17-finding-148",
@@ -35329,7 +35352,9 @@
         "id": "nr-p17-finding-149",
         "targetId": "p18-q2-c-diagram",
         "note": "Native reconstruction retains the mathematically required shaded region. Source-hash shading validation and final-size rendering remain to be performed by the caller.",
-        "resolved": false
+        "resolved": true,
+        "resolvedAt": "2026-11-12T12:09:25.333Z",
+        "resolution": "Settled 12 Nov 2026 (follow-up): rendered at final size and shading-checked (check-diagram-shading.mjs --lean-reviews passes with no issues): the shaded region is triangle PQX plus the rightmost square, matching the answer (QX = 7 cm, so Q is 1 cm below A); Q is drawn illustratively, as the source says, so no answer is printed."
       },
       {
         "id": "nr-p18-finding-150",
@@ -35357,7 +35382,9 @@
         "id": "nr-p18-finding-153",
         "targetId": "p18-q2-c-diagram",
         "note": "Native reconstruction retains the mathematically required shaded region. Source-hash shading validation and final-size rendering remain to be performed by the caller.",
-        "resolved": false
+        "resolved": true,
+        "resolvedAt": "2026-11-12T12:09:25.333Z",
+        "resolution": "Settled 12 Nov 2026 (follow-up): rendered at final size and shading-checked (check-diagram-shading.mjs --lean-reviews passes with no issues): the shaded region is triangle PQX plus the rightmost square, matching the answer (QX = 7 cm, so Q is 1 cm below A); Q is drawn illustratively, as the source says, so no answer is printed."
       },
       {
         "id": "answer-match-19-154",
@@ -45296,10 +45323,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 12,
+  "revision": 14,
   "assets": [],
   "createdAt": "2026-10-18T02:49:21.659Z",
-  "updatedAt": "2026-11-12T07:26:18.501Z",
+  "updatedAt": "2026-11-12T12:11:18.589Z",
   "library": {
     "category": "import-review",
     "courseId": "",

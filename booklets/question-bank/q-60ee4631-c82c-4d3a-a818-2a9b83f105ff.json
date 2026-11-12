@@ -4,6 +4,12 @@
   "id": "q-60ee4631-c82c-4d3a-a818-2a9b83f105ff",
   "status": "approved",
   "title": "",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
+    "blockId": "p11-q10",
+    "sectionRole": "exercise"
+  },
   "classification": {
     "primarySkillId": "area-between-curves",
     "secondarySkillIds": [],
@@ -22,82 +28,17 @@
     "id": "p11-q10-root",
     "type": "question",
     "label": "",
-    "prompt": "",
+    "prompt": "Find the area enclosed by $y=x^2-4$ and $y=2x-1$.",
     "layout": "list",
     "columns": null,
     "questionDiagrams": [],
-    "children": [
-      {
-        "id": "p11-q10a",
-        "type": "part",
-        "label": "a",
-        "prompt": "Show that $y=x^2-x-2$ and $y=x-2$ intersect at $(0,-2)$ and $(2,0)$.",
-        "layout": "list",
-        "columns": null,
-        "questionDiagrams": [],
-        "children": [],
-        "answer": {
-          "short": "The intersections are $(0,-2)$ and $(2,0)$.",
-          "worked": "$$\\begin{aligned}x^2-x-2&=x-2\\\\x^2-2x&=0\\\\x(x-2)&=0\\\\x&=0\\text{ or }x=2\\end{aligned}$$\nAt $x=0$, $y=0-2=-2$, giving $(0,-2)$.\nAt $x=2$, $y=2-2=0$, giving $(2,0)$.",
-          "solutionDiagrams": []
-        },
-        "answerSpaceMm": 33
-      },
-      {
-        "id": "p11-q10b",
-        "type": "part",
-        "label": "b",
-        "prompt": "Sketch both graphs, shading the enclosed region.",
-        "layout": "list",
-        "columns": null,
-        "questionDiagrams": [],
-        "children": [],
-        "answer": {
-          "short": "Shade between the line and parabola for $0\\le x\\le2$.",
-          "worked": "The line $y=x-2$ lies above $y=x^2-x-2$ between $(0,-2)$ and $(2,0)$. Shade this enclosed region.",
-          "solutionDiagrams": [
-            {
-              "id": "p11-q10-graph",
-              "role": "solution",
-              "format": "tikz",
-              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionGreen\",\"hex\":\"DCEBE0\",\"reason\":\"requested enclosed area\"}],\"reference\":\"source page 11 p11-q10-graph\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.45cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionGreen}{HTML}{DCEBE0}\n\\fill[regionGreen] (0,-2)--(2,0)--plot[domain=2:0,samples=70] (\\x,{(\\x)^2-(\\x)-2})--cycle;\n\\draw[<->,line width=0.5pt] (-3.5,0)--(5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-6)--(0,6) node[above] {$y$};\n\\draw[<->,line width=0.8pt,domain=-2.2:3.2,samples=90] plot (\\x,{(\\x)^2-(\\x)-2});\n\\draw[<->,line width=0.8pt,domain=-3.3:4.5] plot (\\x,{(\\x)-2});\n\\end{tikzpicture}",
-              "src": null,
-              "widthMm": 65,
-              "alt": "Mathematical diagram",
-              "overlayOf": null,
-              "transparent": false,
-              "axes": null,
-              "spec": {
-                "sourcePage": 11,
-                "sourceRegion": "Bottom-left answer sketch for question 10",
-                "description": "Complete answer sketch with the requested region shaded. Black axes and curves retain arrowheads; no ticks or numerical labels.",
-                "mathematics": "Parabola vertex (1/2,-9/4); intersections (0,-2) and (2,0); line above parabola between intersections.",
-                "answerVisibility": "Answer editions only."
-              },
-              "derived": false,
-              "reviewStatus": "needs-review"
-            }
-          ]
-        },
-        "answerSpaceMm": 43
-      },
-      {
-        "id": "p11-q10c",
-        "type": "part",
-        "label": "c",
-        "prompt": "Show that $\\int_0^2\\bigl((x-2)-(x^2-x-2)\\bigr)\\,dx=\\int_0^2(2x-x^2)\\,dx$. Evaluate and find the area.",
-        "layout": "list",
-        "columns": null,
-        "questionDiagrams": [],
-        "children": [],
-        "answer": {
-          "short": "$\\dfrac43\\text{ u}^2$",
-          "worked": "$$(x-2)-(x^2-x-2)=2x-x^2.$$\nHence the two integrals are equal.\n$$\\begin{aligned}A&=\\int_0^2(2x-x^2)\\,dx\\\\&=\\left[x^2-\\frac{x^3}{3}\\right]_0^2\\\\&=4-\\frac83\\\\&=\\frac43\\text{ u}^2\\end{aligned}$$",
-          "solutionDiagrams": []
-        },
-        "answerSpaceMm": 33
-      }
-    ]
+    "children": [],
+    "answer": {
+      "short": "$\\dfrac{32}{3}\\ \\mathrm{u}^2$",
+      "worked": "$$\\begin{align*}x^2-4&=2x-1\\\\x^2-2x-3&=0\\\\(x-3)(x+1)&=0\\\\x&=-1,\\ 3\\end{align*}$$\n$$\\begin{align*}A&=\\int_{-1}^{3}\\big((2x-1)-(x^2-4)\\big)\\,dx\\\\&=\\int_{-1}^{3}(3+2x-x^2)\\,dx\\\\&=\\left[3x+x^2-\\frac{x^3}{3}\\right]_{-1}^{3}\\\\&=(9+9-9)-\\left(-3+1+\\frac13\\right)\\\\&=9+\\frac53\\\\&=\\frac{32}{3}\\ \\mathrm{u}^2\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": null
   },
   "presentation": {
     "ownerId": "p11-q10",
@@ -115,11 +56,5 @@
     "history": []
   },
   "createdAt": "2026-11-12T05:38:37.258Z",
-  "updatedAt": "2026-11-12T05:38:37.258Z",
-  "bankContext": {
-    "origin": "master",
-    "projectId": "s6ext1-3-area-between-curves-and-volumes-of-revolution-v1",
-    "blockId": "p11-q10",
-    "sectionRole": "exercise"
-  }
+  "updatedAt": "2026-11-12T11:37:38.284Z"
 }

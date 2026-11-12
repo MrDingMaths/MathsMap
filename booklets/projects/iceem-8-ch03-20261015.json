@@ -2800,67 +2800,88 @@
           "sourceRefs": [
             {
               "pageNumber": 5
+            },
+            {
+              "pageNumber": 5
             }
           ],
           "classification": {
             "primarySkillId": "find-factors-of-number",
-            "secondarySkillIds": [],
+            "secondarySkillIds": [
+              "prime-composite-numbers"
+            ],
             "reasoningScore": 65,
             "difficulty": "Mastery",
-            "difficultyReason": "Explain the parity of the number of factors by identifying equal and unequal factor pairs.",
-            "assessment": {
-              "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-18T03:32:16.633Z",
-              "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "0dd762969b82ad521561292aa741cbcd4b959dcb0276a7daa0b1affe7ec33d09",
-              "evidence": ".booklet-work/full-imports/iceem-8-ch03-20261015/semantic-packets/assignments/assignment-9534ffffa7aa75b36f03/1/generation.json"
-            }
+            "difficultyReason": "Explain the parity of the number of factors by identifying equal and unequal factor pairs."
           },
           "content": {
             "id": "p5-q15-root",
             "type": "question",
             "label": "15",
-            "prompt": {
-              "format": "maths-editor-document-v1",
-              "version": 1,
-              "blocks": [
-                {
-                  "id": "p5-q15-stem",
-                  "type": "paragraph",
-                  "align": "left",
-                  "inlines": [
+            "prompt": "",
+            "children": [
+              {
+                "id": "p5-q15-a",
+                "type": "part",
+                "label": "a",
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
                     {
-                      "type": "text",
-                      "text": "Explain why a square number has an odd number of factors, and a non-square number has an even number of factors. "
-                    },
-                    {
-                      "type": "text",
-                      "text": "("
-                    },
-                    {
-                      "type": "text",
-                      "text": "Hint:",
-                      "marks": [
-                        "italic"
+                      "id": "p5-q15-stem",
+                      "type": "paragraph",
+                      "align": "left",
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Explain why a square number has an odd number of factors, and a non-square number has an even number of factors. "
+                        },
+                        {
+                          "type": "text",
+                          "text": "("
+                        },
+                        {
+                          "type": "text",
+                          "text": "Hint:",
+                          "marks": [
+                            "italic"
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "text": " Think about the pairing procedure that you used to find all the factors of a number.)"
+                        }
                       ]
-                    },
-                    {
-                      "type": "text",
-                      "text": " Think about the pairing procedure that you used to find all the factors of a number.)"
                     }
                   ]
+                },
+                "answerSpaceMm": 32,
+                "answer": {
+                  "short": "Factors occur in pairs. A square number has one equal-factor pair, whose factor is counted only once, giving an odd total. A non-square number has only pairs of distinct factors, giving an even total.",
+                  "worked": "Pair each factor with the factor that multiplies it to give the number.\n\nFor a non-square number, every pair contains two different factors, so the total number of factors is even.\n\nFor a square number, one pair consists of the same factor twice. This factor is counted only once; all remaining factors occur in distinct pairs. The total is therefore odd.",
+                  "provenance": {
+                    "short": "authored",
+                    "worked": "authored"
+                  }
                 }
-              ]
-            },
-            "answerSpaceMm": 32,
-            "answer": {
-              "short": "Factors occur in pairs. A square number has one equal-factor pair, whose factor is counted only once, giving an odd total. A non-square number has only pairs of distinct factors, giving an even total.",
-              "worked": "Pair each factor with the factor that multiplies it to give the number.\n\nFor a non-square number, every pair contains two different factors, so the total number of factors is even.\n\nFor a square number, one pair consists of the same factor twice. This factor is counted only once; all remaining factors occur in distinct pairs. The total is therefore odd.",
-              "provenance": {
-                "short": "authored",
-                "worked": "authored"
+              },
+              {
+                "id": "p5-q15-b",
+                "type": "part",
+                "label": "b",
+                "prompt": "Using part a, find the smallest and largest three-digit numbers that have exactly three factors.",
+                "answerSpaceMm": 54,
+                "answer": {
+                  "short": "Smallest: $121$. Largest: $961$.\n\nEach is the square of a prime, so its only factors are $1$, that prime and the number itself.",
+                  "worked": "Factors occur in pairs. Exactly three factors means there is the pair consisting of $1$ and the number, together with one middle factor paired with itself. That middle factor must be prime; otherwise its factors would give additional factors of the number.\n\nThe smallest suitable prime is $11$: $7\\times7=49$ has two digits, whereas $11\\times11=121$ has three digits. The factors of $121$ are $1,11,121$.\n\nThe largest suitable prime is $31$: $31\\times31=961$ has three digits, whereas the next prime gives $37\\times37=1369$, which has four digits. The factors of $961$ are $1,31,961$.\n\nTherefore the smallest number is $121$ and the largest is $961$.",
+                  "provenance": {
+                    "short": "source",
+                    "worked": "authored"
+                  }
+                }
               }
-            }
+            ]
           },
           "sourceReview": {
             "sourceIdentity": {
@@ -2871,8 +2892,12 @@
             },
             "responses": [
               {
-                "targetId": "p5-q15-root",
+                "targetId": "p5-q15-a",
                 "kind": "short"
+              },
+              {
+                "targetId": "p5-q15-b",
+                "kind": "working"
               }
             ],
             "teachingContext": {
@@ -2887,10 +2912,16 @@
               "method": "solution-steps",
               "estimates": [
                 {
-                  "targetId": "p5-q15-root",
+                  "targetId": "p5-q15-a",
                   "widthMm": 173,
                   "mathematicalRows": 0,
                   "answerSpaceMm": 32
+                },
+                {
+                  "targetId": "p5-q15-b",
+                  "widthMm": 173,
+                  "mathematicalRows": 6,
+                  "answerSpaceMm": 54
                 }
               ]
             },
@@ -2902,6 +2933,12 @@
                   "printedPage": 507,
                   "exercise": "3A",
                   "questionLabel": "15"
+                },
+                {
+                  "pdfPage": 5,
+                  "printedPage": 507,
+                  "exercise": "3A",
+                  "questionLabel": "16"
                 }
               ],
               "matchEvidence": "The teacher image's left column, immediately before Exercise 3B, gives question 15 as the explanation that the factor squared to produce a square appears once and all other factors appear in pairs. This matches the student question about odd and even factor counts and its pairing hint. The independently derived answer also explicitly explains the non-square case.",
@@ -2910,6 +2947,39 @@
             "sourcePagination": {
               "page": 5,
               "breakBefore": false
+            },
+            "mergedFollowUps": [
+              {
+                "blockId": "p5-q16",
+                "decision": "merge",
+                "note": "Question 16 asks for the smallest and largest three-digit numbers with exactly three factors \"using Question 15\", so it is appended as part b and its printed-number reference is now \"part a\".",
+                "judgedBy": "Claude, 12 Nov 2026 comment follow-up",
+                "labels": {
+                  "p5-q15-root": [
+                    "15",
+                    "a"
+                  ],
+                  "p5-q16-root": [
+                    "16",
+                    "b"
+                  ]
+                },
+                "sourceIdentity": {
+                  "pdfPage": 5,
+                  "printedPage": 52,
+                  "exercise": "3A",
+                  "questionLabel": "16"
+                }
+              }
+            ],
+            "origin": {
+              "projectId": "iceem-8-ch03-20261015",
+              "blockId": "p5-q15",
+              "runId": "iceem-8-ch03-20261015",
+              "artifact": {
+                "path": "D:\\WebApps\\MathsMap\\.booklet-work\\full-imports\\iceem-8-ch03-20261015\\semantic-packets\\page-005.author.json",
+                "hash": "1913b8354b602d2781be28c4c58f6ae4c2d457b8bd75e7f091ab5117aeccec29"
+              }
             }
           },
           "flow": {
@@ -2920,113 +2990,6 @@
               "reasoningScore": 65,
               "difficulty": "Mastery",
               "difficultyReason": "Explain the parity of the number of factors by identifying equal and unequal factor pairs."
-            }
-          },
-          "snapshotKind": "local",
-          "bankRef": null
-        },
-        {
-          "id": "p5-q16",
-          "type": "question",
-          "sourceOrder": 16,
-          "sourcePageNumber": 5,
-          "sourceRefs": [
-            {
-              "pageNumber": 5
-            }
-          ],
-          "classification": {
-            "primarySkillId": "find-factors-of-number",
-            "secondarySkillIds": [
-              "prime-composite-numbers"
-            ],
-            "reasoningScore": 72,
-            "difficulty": "Mastery",
-            "difficultyReason": "Use factor pairing to identify squares of primes, then determine the smallest and largest three-digit possibilities.",
-            "assessment": {
-              "model": "gpt-6.1-sol",
-              "assessedAt": "2026-10-18T03:32:19.947Z",
-              "rubricVersion": "mathsmap-cognitive-demand-v1",
-              "taskHash": "3158798b2a74d25e5eee54b1b97a82e27db483ef958df7e42a7c664deb31b2a9",
-              "evidence": ".booklet-work/full-imports/iceem-8-ch03-20261015/semantic-packets/assignments/assignment-bea8c5922ab361c6dc47/1/generation.json"
-            }
-          },
-          "content": {
-            "id": "p5-q16-root",
-            "type": "question",
-            "label": "16",
-            "prompt": "Using Question 15, find the smallest and largest three-digit numbers that have exactly three factors.",
-            "answerSpaceMm": 54,
-            "answer": {
-              "short": "Smallest: $121$. Largest: $961$.\n\nEach is the square of a prime, so its only factors are $1$, that prime and the number itself.",
-              "worked": "Factors occur in pairs. Exactly three factors means there is the pair consisting of $1$ and the number, together with one middle factor paired with itself. That middle factor must be prime; otherwise its factors would give additional factors of the number.\n\nThe smallest suitable prime is $11$: $7\\times7=49$ has two digits, whereas $11\\times11=121$ has three digits. The factors of $121$ are $1,11,121$.\n\nThe largest suitable prime is $31$: $31\\times31=961$ has three digits, whereas the next prime gives $37\\times37=1369$, which has four digits. The factors of $961$ are $1,31,961$.\n\nTherefore the smallest number is $121$ and the largest is $961$.",
-              "provenance": {
-                "short": "source",
-                "worked": "authored"
-              }
-            }
-          },
-          "sourceReview": {
-            "sourceIdentity": {
-              "pdfPage": 5,
-              "printedPage": 52,
-              "exercise": "3A",
-              "questionLabel": "16"
-            },
-            "responses": [
-              {
-                "targetId": "p5-q16-root",
-                "kind": "working"
-              }
-            ],
-            "teachingContext": {
-              "pdfPages": [
-                2,
-                3,
-                5
-              ],
-              "methodNote": "Page 2 lists factors; page 3 explicitly teaches natural factor pairing and defines primes. Printed Question 15 on page 5 supplies the preceding task about odd and even factor counts. The solution uses those ideas and multiplication rather than assuming previously taught index notation.",
-              "mappingNote": "Determining numbers from their factor counts is the directly assessed task; find-factors-of-number is the closest catalogue skill, with prime classification supporting the argument."
-            },
-            "workingSpaceEstimate": {
-              "method": "solution-steps",
-              "estimates": [
-                {
-                  "targetId": "p5-q16-root",
-                  "widthMm": 173,
-                  "mathematicalRows": 6,
-                  "answerSpaceMm": 54
-                }
-              ]
-            },
-            "answerEvidence": {
-              "questionId": "p5-q16",
-              "teacherReference": [
-                {
-                  "pdfPage": 5,
-                  "printedPage": 507,
-                  "exercise": "3A",
-                  "questionLabel": "16"
-                }
-              ],
-              "matchEvidence": "In the left column immediately before the Exercise 3B heading, printed answer 16 gives 121, 961. These match the student request for the smallest and largest three-digit numbers having exactly three factors; independent factor-pair reasoning confirms both.",
-              "conflict": null
-            },
-            "sourcePagination": {
-              "page": 5,
-              "breakBefore": false
-            }
-          },
-          "flow": {
-            "sourcePageBreakBefore": false,
-            "localDifficulty": {
-              "primarySkillId": "find-factors-of-number",
-              "secondarySkillIds": [
-                "prime-composite-numbers"
-              ],
-              "reasoningScore": 72,
-              "difficulty": "Mastery",
-              "difficultyReason": "Use factor pairing to identify squares of primes, then determine the smallest and largest three-digit possibilities."
             }
           },
           "snapshotKind": "local",
@@ -20361,7 +20324,9 @@
         "id": "nr-p5-finding-15",
         "targetId": "p5-q16",
         "note": "Question 16 explicitly depends on Question 15, which is outside this assignment. At assembly, append this task as the next part of the Question 15 block, preserve both original source identities and answers, and replace the printed-number reference with the corresponding internal part reference. Otherwise renumbering or independent selection could leave an unresolved dependency.",
-        "resolved": false
+        "resolved": true,
+        "resolvedAt": "2026-11-12T12:16:04.064Z",
+        "resolution": "Settled 12 Nov 2026 (follow-up): Question 16 is now part b of the Question 15 block (Question 15 is part a), with both source identities and both answers kept (sourceReview.mergedFollowUps) and \"Using Question 15\" replaced by \"Using part a\"."
       },
       {
         "id": "nr-p5-finding-16",
@@ -28424,10 +28389,10 @@
   "version": 4,
   "subtitle": "",
   "status": "draft",
-  "revision": 9,
+  "revision": 10,
   "assets": [],
   "createdAt": "2026-10-18T03:50:47.947Z",
-  "updatedAt": "2026-11-12T07:26:51.300Z",
+  "updatedAt": "2026-11-12T12:16:31.995Z",
   "library": {
     "category": "import-review",
     "courseId": "",
