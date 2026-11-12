@@ -9,6 +9,7 @@ import {questionReviewContent} from './lean-profile.mjs';
 import {transferTaskHash,reviewedTransferSnapshot} from './bank-transfer-review.mjs';
 import {liveWorkflow} from './workflow-review.mjs';
 import {contentFingerprint} from '../../pedagogy/audit-v2-plan.mjs';
+import {beforeSlashFractionRepair} from './slash-fraction-notation.mjs';
 
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
 const sha=text=>createHash('sha256').update(text).digest('hex');
@@ -19,7 +20,13 @@ const sha=text=>createHash('sha256').update(text).digest('hex');
 // - a bank-merge record, against the content fingerprint of the joined question;
 // - for September runs, the workflow register's independent review, against the reviewed input beside the
 //   result (the same test as the master transfer profile's `workflow` proof).
-export function recordedReview(block,{leanRows={},auditChecks={},workflowRows={}}={}){
+export function recordedReview(block,context={}){
+ const {leanRows={},auditChecks={},workflowRows={}}=context;
+ const original=beforeSlashFractionRepair(block);
+ if(original){
+  const reviewed=recordedReview(original,context);
+  if(reviewed.current)return reviewed;
+ }
  const fp=contentFingerprint(block),hash=sha(JSON.stringify(questionReviewContent(block)));
  if(auditChecks[block.id]?.error===fp)return {current:true,by:'audit-v2'};
  // A follow-up merged into (or a given embedded in) a question whose parts each had a current review: the record

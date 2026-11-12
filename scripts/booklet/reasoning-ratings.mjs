@@ -1,4 +1,5 @@
 import {readPinnedEvidenceBytes} from './pinned-evidence-reader.mjs';
+import {beforeSlashFractionRepair} from './slash-fraction-notation.mjs';
 import {createHash} from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -54,6 +55,16 @@ export function reuseReasoningRating(source,target,rating=source.classification)
  const assessment=structuredClone(rating.assessment),taskHash=reasoningTaskHash(target);
  if(assessment.taskHash!==taskHash){assessment.originalTaskHash??=assessment.taskHash;assessment.taskHash=taskHash;}
  return {reasoningScore:rating.reasoningScore,difficulty:rating.difficulty,difficultyReason:rating.difficultyReason,assessment};
+}
+export function retainSlashFractionRating(target){
+ const source=beforeSlashFractionRepair(target);
+ if(!source||!verifiedRating(source))return false;
+ const assessment=target.classification.assessment;
+ assessment.originalTaskHash??=assessment.taskHash;
+ assessment.taskHash=reasoningTaskHash(target);
+ if(verifiedRating(target))return true;
+ target.classification.assessment=source.classification.assessment;
+ return false;
 }
 export function validRawRating(rating){
  return Number.isInteger(rating?.reasoningScore)&&rating.reasoningScore>=0&&rating.reasoningScore<=100&&typeof rating.difficultyReason==='string'&&rating.difficultyReason.trim().length>0&&!/^(?:Score-derived from|Author-created booklet question\.?$)/i.test(rating.difficultyReason.trim())&&rating.difficulty===difficultyBandForScore(rating.reasoningScore);

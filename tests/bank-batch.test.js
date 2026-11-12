@@ -5,7 +5,8 @@ import os from 'node:os';
 import path from 'node:path';
 import {examLabel,recordedReview,classify,originOf,planBatch} from '../pedagogy/bank-batch.mjs';
 import {contentFingerprint} from '../pedagogy/audit-v2-plan.mjs';
-import {REASONING_RUBRIC,reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
+import {REASONING_RUBRIC,reasoningTaskHash,retainSlashFractionRating,verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
+import {repairSlashFractionNotation} from '../scripts/booklet/slash-fraction-notation.mjs';
 
 const q=(id,prompt,extra={})=>({id,type:'question',classification:{primarySkillId:'function-notation'},content:{id:id+'-root',type:'question',prompt,answer:{short:'1',worked:'$$1$$'}},...extra});
 const base={skills:new Set(['function-notation']),review:{current:true},outcome:{outcome:'new'},protectedIds:new Set(),ownerOrigin:()=>null,section:{role:'mixed-practice',title:'Exercise 3A'}};
@@ -56,6 +57,20 @@ test('classify: an unrated or unmapped question is left out with every reason', 
 
 const rated=block=>{block.classification={primarySkillId:'function-notation',secondarySkillIds:[],reasoningScore:20,difficulty:'Foundation',difficultyReason:'Direct substitution.'};
  block.classification.assessment={model:'gpt-6.1-sol',assessedAt:'2026-10-21T00:00:00Z',rubricVersion:REASONING_RUBRIC,taskHash:reasoningTaskHash(block),evidence:'x'};return block;};
+
+test('slash notation repair retains a recorded review and rating only for the exact replacement', ()=>{
+ const original=rated(q('a','Find $1/x$ for $x=2$.'));
+ const context={auditChecks:{a:{error:contentFingerprint(original)}}};
+ const repaired=repairSlashFractionNotation(original);
+ assert.equal(repaired.content.prompt,'Find $\\frac{1}{x}$ for $x=2$.');
+ assert.equal(recordedReview(repaired,context).current,true);
+ assert.equal(retainSlashFractionRating(repaired),true);
+ assert.equal(verifiedRating(repaired),true);
+ repaired.content.prompt='Find $\\frac{1}{y}$ for $x=2$.';
+ assert.equal(recordedReview(repaired,context).reason,'no-recorded-review');
+ assert.equal(verifiedRating(repaired),false);
+ assert.equal(repairSlashFractionNotation(q('rate','The speed is $10\\text{ km/h}$.')),null);
+});
 
 test('a deferred earlier duplicate cannot consume an eligible question in the same booklet', async t=>{
  const root=fs.mkdtempSync(path.join(os.tmpdir(),'bank-plan-'));
