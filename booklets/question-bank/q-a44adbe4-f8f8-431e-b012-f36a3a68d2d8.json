@@ -1,0 +1,231 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a44adbe4-f8f8-431e-b012-f36a3a68d2d8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-using-pythagoras",
+    "secondarySkillIds": [
+      "area-of-circle",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 59,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the equilateral triangle's centre, altitude and radius relationships, derive missing dimensions using right triangles, and form scale-independent area ratios.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:37.471Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8e54e384115ff30f2ff928818161232fce636c25e198d5da27dfd3e40dc4b3ba",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part14/1e2c1b1e9283324335ea3fe5a7c1d51c0c8d9305c59b3bb4c3b9ea998fcbe4e0-1792558183587/last-message.txt",
+      "originalTaskHash": "5638b72d1dbdf22bb8633b4ba59941a34ceb12bcfebe120da12784fd0e559f73"
+    }
+  },
+  "content": {
+    "id": "p22-q25-root",
+    "type": "question",
+    "label": "25",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q25-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "A circle is inscribed in an equilateral triangle. Find the circle’s area as a fraction of the triangle’s area.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q25-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"areaOrange\",\"hex\":\"FCE8D5\",\"reason\":\"Identifies the circle whose area is compared with the triangle\"}],\"reference\":\"source page 22 p22-q25-a-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaOrange}{HTML}{FCE8D5}\n\\coordinate (L) at ({-sqrt(3)},0);\n\\coordinate (R) at ({sqrt(3)},0);\n\\coordinate (T) at (0,3);\n\\coordinate (O) at (0,1);\n\\fill[areaOrange] (O) circle (1);\n\\draw[black] (L)--(R)--(T)--cycle;\n\\draw[black] (O) circle (1);\n\\draw[black] (O)--(0,0) (O)--({-sqrt(3)/2},1.5) (O)--({sqrt(3)/2},1.5);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 25(a), upper-right diagram",
+              "description": "Upright equilateral triangle, inscribed circle and three radii to its tangency points. No dimensions or labels are supplied.",
+              "mathematics": "Vertices (-sqrt(3),0), (sqrt(3),0), (0,3); centre (0,1), radius 1. Tangencies are (0,0) and (±sqrt(3)/2,3/2). Coordinates define proportions only.",
+              "answerVisibility": "Question figure contains only supplied geometry."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{\\pi}{3\\sqrt3}$.\n\nSplit the triangle into three triangles with height equal to the circle’s radius.",
+          "worked": "Let the circle have radius $r$ and the triangle have side length $s$. The centre is also the triangle’s centroid, so the triangle’s altitude is $3r$. Half the triangle has perpendicular sides $\\frac{s}{2}$ and $3r$, and hypotenuse $s$. By Pythagoras,\n$$\\begin{align*}s^2&=\\left(\\frac{s}{2}\\right)^2+(3r)^2\\\\\\frac{3s^2}{4}&=9r^2\\\\s^2&=12r^2\\\\s&=2\\sqrt3\\,r\\end{align*}$$\nThe three triangles formed by joining the centre to the vertices each have base $s$ and height $r$.\n$$\\begin{align*}A_{\\triangle}&=3\\left(\\frac12sr\\right)\\\\A_{\\triangle}&=3\\sqrt3\\,r^2\\\\\\frac{A_{\\text{circle}}}{A_{\\triangle}}&=\\frac{\\pi r^2}{3\\sqrt3\\,r^2}\\\\\\frac{A_{\\text{circle}}}{A_{\\triangle}}&=\\frac{\\pi}{3\\sqrt3}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 146
+      },
+      {
+        "id": "p22-q25-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A circle circumscribes an equilateral triangle. Find the triangle’s area as a fraction of the circle’s area.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q25-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"areaOrange\",\"hex\":\"FCE8D5\",\"reason\":\"Identifies the triangle whose area is compared with the circle\"}],\"reference\":\"source page 22 p22-q25-b-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaOrange}{HTML}{FCE8D5}\n\\coordinate (T) at (0,1);\n\\coordinate (L) at ({-sqrt(3)/2},-0.5);\n\\coordinate (R) at ({sqrt(3)/2},-0.5);\n\\coordinate (O) at (0,0);\n\\fill[areaOrange] (T)--(L)--(R)--cycle;\n\\draw[black] (O) circle (1);\n\\draw[black] (T)--(L)--(R)--cycle;\n\\draw[black] (O)--(T) (O)--(L) (O)--(R);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 42.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 25(b), upper-right diagram",
+              "description": "Circle circumscribing an upright equilateral triangle, with three segments from the centre to its vertices.",
+              "mathematics": "Unit circumcircle centred at (0,0); vertices (0,1), (-sqrt(3)/2,-1/2), (sqrt(3)/2,-1/2). No numerical givens are printed.",
+              "answerVisibility": "Question figure contains only supplied geometry."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{3\\sqrt3}{4\\pi}$.\n\nUse the triangle’s altitude $\\frac{3R}{2}$, where $R$ is the circle’s radius.",
+          "worked": "Let the circle have radius $R$ and the triangle have side length $s$. The centre is the centroid, so the altitude is $\\frac{3R}{2}$ and the distance from the centre to the base is $\\frac{R}{2}$. Pythagoras gives\n$$\\begin{align*}\\left(\\frac{s}{2}\\right)^2&=R^2-\\left(\\frac R2\\right)^2\\\\\\left(\\frac{s}{2}\\right)^2&=\\frac{3R^2}{4}\\\\s&=\\sqrt3\\,R\\\\A_{\\triangle}&=\\frac12\\left(\\sqrt3\\,R\\right)\\left(\\frac{3R}{2}\\right)\\\\A_{\\triangle}&=\\frac{3\\sqrt3}{4}R^2\\\\\\frac{A_{\\triangle}}{A_{\\text{circle}}}&=\\frac{\\frac{3\\sqrt3}{4}R^2}{\\pi R^2}\\\\\\frac{A_{\\triangle}}{A_{\\text{circle}}}&=\\frac{3\\sqrt3}{4\\pi}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q25",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q25": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q25-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q25-root/label",
+                  "type": "item",
+                  "ref": "p22-q25-root/label",
+                  "title": "Label 25"
+                },
+                {
+                  "id": "p22-q25-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p22-q25-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q25-a/label",
+                          "type": "item",
+                          "ref": "p22-q25-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p22-q25-a/prompt",
+                          "type": "item",
+                          "ref": "p22-q25-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q25-a-diagram",
+                          "type": "item",
+                          "ref": "p22-q25-a-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p22-q25-a/space",
+                          "type": "item",
+                          "ref": "p22-q25-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q25-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q25-b/label",
+                          "type": "item",
+                          "ref": "p22-q25-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p22-q25-b/prompt",
+                          "type": "item",
+                          "ref": "p22-q25-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q25-b-diagram",
+                          "type": "item",
+                          "ref": "p22-q25-b-diagram",
+                          "title": "Diagram",
+                          "width": 42.3
+                        },
+                        {
+                          "id": "layout:p22-q25-b/space",
+                          "type": "item",
+                          "ref": "p22-q25-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 25",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:41:32.686Z",
+  "updatedAt": "2026-11-12T21:41:32.687Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p22-q25",
+    "sectionRole": "exercise"
+  }
+}

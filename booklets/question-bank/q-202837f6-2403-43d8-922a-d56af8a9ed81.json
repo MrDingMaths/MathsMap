@@ -1,0 +1,192 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-202837f6-2403-43d8-922a-d56af8a9ed81",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-sector",
+      "pythagoras-problems"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Introduce a radius, derive the smaller semicircle's diameter using Pythagoras, and identify a shared segment whose subtraction proves the area equality.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:50:37.471Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b1377f5db0b393207040ff6d7a94b16418727b468b50caa48cbc277275ffdbf7",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part14/1e2c1b1e9283324335ea3fe5a7c1d51c0c8d9305c59b3bb4c3b9ea998fcbe4e0-1792558183587/last-message.txt",
+      "originalTaskHash": "b21d6542ae082f1b841b92f1ba3675e063ddf911110d9d73cbd01be768ba2d44"
+    }
+  },
+  "content": {
+    "id": "p21-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "A lune is a crescent-shaped figure formed when two circles intersect. Prove that the area of the lune below (shown in blue) is equal to the area of the isosceles triangle below (shown in orange).",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q20-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"luneFill\",\"hex\":\"D4E8FF\",\"reason\":\"blue lune whose area is compared\"},{\"name\":\"triangleFill\",\"hex\":\"FCE8D5\",\"reason\":\"orange triangle whose area is compared\"}],\"reference\":\"source page 21, p21-q20-diagram\"}\n\\begin{tikzpicture}[x=2cm,y=2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{luneFill}{HTML}{D4E8FF}\n\\definecolor{triangleFill}{HTML}{FCE8D5}\n\\path[fill=luneFill] (-1,0) arc[start angle=180,end angle=90,radius=1] arc[start angle=45,end angle=225,radius={sqrt(0.5)}]--cycle;\n\\path[fill=triangleFill] (-1,0)--(0,0)--(0,1)--cycle;\n\\draw[black,line width=0.8pt] (-1,0)--(1,0) arc[start angle=0,end angle=180,radius=1];\n\\draw[black,line width=0.8pt] (0,1) arc[start angle=45,end angle=225,radius={sqrt(0.5)}];\n\\draw[black,line width=0.8pt] (-1,0)--(0,1)--(0,0);\n\\draw[black,line width=0.4pt] (-0.08,0)--(-0.08,0.08)--(0,0.08);\n\\node[below] at (0,0) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 61.6,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 20, right column",
+          "description": "Upper semicircle centred at O; right isosceles triangle occupies its upper-left quadrant. The smaller semicircle on the sloping hypotenuse bulges outward above and left. Blue and orange fills distinguish the two compared regions. Source image hash: e5ab996063133da9735974525784756e58bbb56e9ab75820465f743340a36e2b.",
+          "mathematics": "With drawing radius 1, triangle vertices are (-1,0), (0,0), (0,1). The smaller semicircle has centre (-1/2,1/2) and radius sqrt(1/2). Its outward arc runs from angle 45 to 225 degrees.",
+          "answerVisibility": "Only source label O and the given right-angle marker are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p21-q20-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "A_{\\text{lune}}=A_{\\text{triangle}}=\\frac{r^2}{2}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", where r is the large semicircle's radius.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p21-q20-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Subtract the shared circular segment from the smaller semicircle.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Let $r$ be the radius of the large semicircle, and label the left diameter endpoint $P$ and the top point $Q$. Then $OP=OQ=r$ and $\\angle POQ=90^\\circ$.\n$$\\begin{align*}PQ^2&=r^2+r^2\\\\PQ^2&=2r^2\\\\PQ&=r\\sqrt2.\\end{align*}$$\nThe smaller semicircle has radius $\\frac{PQ}{2}=\\frac{r}{\\sqrt2}$, and\n$$A_{\\triangle OPQ}=\\frac12r\\cdot r=\\frac{r^2}{2}.$$\nThe circular segment between $PQ$ and the large-circle arc has area\n$$\\begin{align*}A_{\\text{segment}}&=\\frac14\\pi r^2-\\frac12r^2\\\\A_{\\text{segment}}&=\\frac{(\\pi-2)r^2}{4}.\\end{align*}$$\nSubtract this segment from the smaller semicircle:\n$$\\begin{align*}A_{\\text{lune}}&=\\frac12\\pi\\left(\\frac r{\\sqrt2}\\right)^2-\\frac{(\\pi-2)r^2}{4}\\\\A_{\\text{lune}}&=\\frac{\\pi r^2}{4}-\\frac{(\\pi-2)r^2}{4}\\\\A_{\\text{lune}}&=\\frac{r^2}{2}.\\end{align*}$$\nTherefore, the lune and the triangle have equal areas.",
+      "solutionDiagrams": [
+        {
+          "id": "p21-q20-solution-diagram",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"luneFill\",\"hex\":\"D4E8FF\",\"reason\":\"compared lune\"},{\"name\":\"triangleFill\",\"hex\":\"FCE8D5\",\"reason\":\"compared triangle\"}],\"reference\":\"source page 21, p21-q20; teacher page 62\"}\n\\begin{tikzpicture}[x=2cm,y=2cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{luneFill}{HTML}{D4E8FF}\n\\definecolor{triangleFill}{HTML}{FCE8D5}\n\\path[fill=luneFill] (-1,0) arc[start angle=180,end angle=90,radius=1] arc[start angle=45,end angle=225,radius={sqrt(0.5)}]--cycle;\n\\path[fill=triangleFill] (-1,0)--(0,0)--(0,1)--cycle;\n\\draw[black,line width=0.8pt] (-1,0)--(1,0) arc[start angle=0,end angle=180,radius=1];\n\\draw[black,line width=0.8pt] (0,1) arc[start angle=45,end angle=225,radius={sqrt(0.5)}];\n\\draw[black,line width=0.8pt] (-1,0)--(0,1)--(0,0);\n\\draw[black,line width=0.4pt] (-0.08,0)--(-0.08,0.08)--(0,0.08);\n\\node[below left] at (-1,0) {$P$};\n\\node[above right] at (0,1) {$Q$};\n\\node[below] at (0,0) {$O$};\n\\path (-1,0)--(0,0) node[midway,below] {$r$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 21,
+            "sourceRegion": "Question 20; teacher PDF page 62",
+            "description": "Complete source geometry with teacher labels P, Q and radius r added.",
+            "mathematics": "OP=OQ=r; PQ is the smaller semicircle's diameter, of length r sqrt(2).",
+            "answerVisibility": "P, Q and r are solution-only labels."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 130
+  },
+  "presentation": {
+    "ownerId": "p21-q20",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q20": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q20-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q20-root/label",
+                  "type": "item",
+                  "ref": "p21-q20-root/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "layout:p21-q20-root/prompt",
+                  "type": "item",
+                  "ref": "p21-q20-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q20-diagram",
+                  "type": "item",
+                  "ref": "p21-q20-diagram",
+                  "title": "Diagram",
+                  "width": 61.6
+                },
+                {
+                  "id": "layout:p21-q20-root/space",
+                  "type": "item",
+                  "ref": "p21-q20-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 20",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:41:29.549Z",
+  "updatedAt": "2026-11-12T21:41:29.549Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part14",
+    "blockId": "p21-q20",
+    "sectionRole": "exercise"
+  }
+}

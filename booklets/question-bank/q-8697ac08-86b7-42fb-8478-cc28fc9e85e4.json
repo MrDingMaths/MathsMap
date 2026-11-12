@@ -1,0 +1,64 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8697ac08-86b7-42fb-8478-cc28fc9e85e4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-binomial-identities-equate-coefficients",
+    "secondarySkillIds": [
+      "binomial-theorem-expand",
+      "binomial-specific-term"
+    ],
+    "reasoningScore": 51,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use nested binomial expansions and track how an outer x^(2k) term changes the required inner degree to n-2k, including the admissible index range.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2da98d8b5a5de7a9ba12e1695bc8bdd7e7fd146191ecf4bd6a91da31b71de105",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt",
+      "originalTaskHash": "6679bfb98f2e054f97e2f0f79cfd0e3aa22db4169c58e5982275e83cc8204a36"
+    }
+  },
+  "content": {
+    "id": "p21-q27-root",
+    "type": "question",
+    "label": "27",
+    "prompt": "Let $n$ be an even number. By considering the coefficient of $x^n$ in $((1+2x)+x^2)^n=(1+x)^{2n}$, show that $\\binom{2n}n$ is equal to\n$$\\binom n0\\binom nn2^n+\\binom n1\\binom{n-1}{n-2}2^{n-2}+\\cdots+\\binom n{n/2}\\binom{n/2}0 2^0,$$\nwhere the general term is $\\binom nk\\binom{n-k}{n-2k}2^{n-2k}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\displaystyle\\binom{2n}n=\\sum_{k=0}^{n/2}\\binom nk\\binom{n-k}{n-2k}2^{n-2k}$.\n\nExpand first in powers of $x^2$, then expand each $(1+2x)^{n-k}$ and equate coefficients of $x^n$.",
+      "worked": "Treat $(1+2x)$ as one term in the first expansion:\n$$\\begin{align*}((1+2x)+x^2)^n&=\\sum_{k=0}^{n}\\binom nk(1+2x)^{n-k}x^{2k}.\\end{align*}$$\nTo obtain $x^n$ from the term indexed by $k$, choose $x^{n-2k}$ from $(1+2x)^{n-k}$. The inner expansion gives\n$$\\begin{align*}(1+2x)^{n-k}&=\\sum_{r=0}^{n-k}\\binom{n-k}r2^r x^r.\\end{align*}$$\nFor $r=n-2k$, the contribution to the coefficient of $x^n$ is $\\binom nk\\binom{n-k}{n-2k}2^{n-2k}$. Only $0\\le k\\le \\frac{n}{2}$ contributes.\n\nThe coefficient of $x^n$ in $(1+x)^{2n}$ is $\\binom{2n}n$. Equating coefficients,\n$$\\begin{align*}\\binom{2n}n&=\\sum_{k=0}^{n/2}\\binom nk\\binom{n-k}{n-2k}2^{n-2k},\\\\\\binom{2n}n&=\\binom n0\\binom nn2^n+\\binom n1\\binom{n-1}{n-2}2^{n-2}+\\cdots+\\binom n{n/2}\\binom{n/2}0 2^0.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 84
+  },
+  "presentation": {
+    "ownerId": "p21-q27",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:37:47.838Z",
+  "updatedAt": "2026-11-12T21:37:47.838Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p21-q27",
+    "sectionRole": "exercise"
+  }
+}

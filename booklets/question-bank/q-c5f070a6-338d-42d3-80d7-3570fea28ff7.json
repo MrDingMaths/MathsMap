@@ -1,0 +1,267 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c5f070a6-338d-42d3-80d7-3570fea28ff7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "express-parametric-form",
+      "distance-formula",
+      "parallel-perpendicular-any-form"
+    ],
+    "reasoningScore": 69,
+    "difficulty": "Mastery",
+    "difficultyReason": "Justify the supplied normalised parameterisation as the entire perpendicular line, including horizontal and vertical cases. Link its parameter to signed displacement, substitute to derive the foot, prove minimal distance, and use the midpoint property to establish the reflection formulas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:14.332Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1684df1ad829cdcaf1e37eee45d858d681381b71c96ec79a94fdad31fa553b64",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part15/cc9f6bb8efb9ce45c71d88ee663d88c4613f1e9c347521cf8a24bbac929cff94-1792558237570/last-message.txt",
+      "originalTaskHash": "d13b41883ebf2d16395278743d46dc5246194ea5098f079664b6778f4fc7da03"
+    }
+  },
+  "content": {
+    "id": "p28-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Consider a point $(x_0,y_0)$ and a line $L$ with equation $ax+by+c=0$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that the unique line $L_1$ passing through $(x_0,y_0)$ and perpendicular to $L$ can be described as the set of points of the form\n$$\\left(x_0+t\\frac{a}{\\sqrt{a^2+b^2}},\\ y_0+t\\frac{b}{\\sqrt{a^2+b^2}}\\right),$$\nwhere $t\\in\\mathbb R$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The direction $(a,b)$ is perpendicular to $L$. Its unit direction is $\\frac{(a,b)}{\\sqrt{a^2+b^2}}$, giving the stated line through $(x_0,y_0)$.",
+          "worked": "Put $r=\\sqrt{a^2+b^2}>0$. The line $L$ has direction $(b,-a)$. When $ab\\ne0$, these directions have gradients $-\\frac{a}{b}$ and $\\frac{b}{a}$, whose product is $-1$. If either coefficient is zero, the directions are horizontal and vertical. Thus $(a,b)$ is perpendicular to $L$.\n\nThe perpendicular line through $(x_0,y_0)$ has equation\n$$-b(x-x_0)+a(y-y_0)=0.$$\nEvery displacement along this line is a real multiple of $(a,b)$. Normalising its length gives\n$$\\begin{align*}x&=x_0+t\\frac{a}{r},\\\\y&=y_0+t\\frac{b}{r},\\qquad t\\in\\mathbb R.\\end{align*}$$\nThese points include $(x_0,y_0)$ at $t=0$ and describe the unique perpendicular line.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 86
+      },
+      {
+        "id": "p28-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that when a point on $L_1$ is described using the formulation above, then its distance from $(x_0,y_0)$ is $|t|$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$d=\\sqrt{\\frac{t^2(a^2+b^2)}{(a^2+b^2)}}=|t|$.",
+          "worked": "$$\\begin{align*}d&=\\sqrt{(x-x_0)^2+(y-y_0)^2},\\\\d&=\\sqrt{\\left(\\frac{ta}{\\sqrt{a^2+b^2}}\\right)^2+\\left(\\frac{tb}{\\sqrt{a^2+b^2}}\\right)^2},\\\\d&=\\sqrt{\\frac{t^2(a^2+b^2)}{a^2+b^2}},\\\\d&=\\sqrt{t^2},\\\\d&=|t|.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p28-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that the closest point to $(x_0,y_0)$ on the line $L$ is $(x,y)$ where\n$$\\begin{aligned}x&=x_0-\\frac{(ax_0+by_0+c)a}{a^2+b^2},\\\\y&=y_0-\\frac{(ax_0+by_0+c)b}{a^2+b^2},\\end{aligned}$$\nand that the distance of $(x,y)$ from $(x_0,y_0)$ is\n$$\\frac{|ax_0+by_0+c|}{\\sqrt{a^2+b^2}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "At the perpendicular foot, $t=-\\frac{(ax_0+by_0+c)}{\\sqrt{a^2+b^2}}$. Substitution gives the stated coordinates and distance.\n\nThe perpendicular foot is closest by Pythagoras' theorem.",
+          "worked": "Put $S=ax_0+by_0+c$ and $r=\\sqrt{a^2+b^2}$. The closest point is the intersection $H$ of $L$ with the perpendicular line $L_1$. Substitute the coordinates from part (a) into $L$:\n$$\\begin{align*}a\\left(x_0+\\frac{ta}{r}\\right)+b\\left(y_0+\\frac{tb}{r}\\right)+c&=0,\\\\S+\\frac{t(a^2+b^2)}{r}&=0,\\\\S+tr&=0,\\\\t&=-\\frac{S}{r}.\\end{align*}$$\nHence\n$$\\begin{align*}x_H&=x_0-\\frac{Sa}{r^2},\\\\y_H&=y_0-\\frac{Sb}{r^2},\\\\PH&=|t|=\\frac{|S|}{r}.\\end{align*}$$\nFor any other point $Q$ on $L$, Pythagoras gives $PQ^2=PH^2+HQ^2\\ge PH^2$. Therefore $H$ is the closest point, with the required coordinates and distance.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p28-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Prove that the reflection of the point $(x_0,y_0)$ in the line $L$ is $(x,y)$ where\n$$\\begin{aligned}x&=x_0-\\frac{2(ax_0+by_0+c)a}{a^2+b^2},\\\\y&=y_0-\\frac{2(ax_0+by_0+c)b}{a^2+b^2},\\end{aligned}$$\nand that the distance of $(x,y)$ from $(x_0,y_0)$ is\n$$\\frac{2|ax_0+by_0+c|}{\\sqrt{a^2+b^2}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The perpendicular foot $H$ is the midpoint of the original point and its reflection. Thus the reflection is $2H-(x_0,y_0)$ and its distance from the original point is $2PH$, giving the stated formulas.",
+          "worked": "Let $P=(x_0,y_0)$, put $S=ax_0+by_0+c$ and $r=\\sqrt{a^2+b^2}$, and let $H$ be the perpendicular foot from part (c). The line $L$ is the perpendicular bisector of $PP'$, so $H$ is its midpoint.\n$$\\begin{align*}x_{P'}&=2x_H-x_0,\\\\x_{P'}&=2\\left(x_0-\\frac{Sa}{r^2}\\right)-x_0,\\\\x_{P'}&=x_0-\\frac{2Sa}{r^2},\\\\y_{P'}&=2y_H-y_0,\\\\y_{P'}&=2\\left(y_0-\\frac{Sb}{r^2}\\right)-y_0,\\\\y_{P'}&=y_0-\\frac{2Sb}{r^2}.\\end{align*}$$\nAlso $PP'=2PH=\\frac{2|S|}{r}$, as required.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 88
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q14-root/label",
+                  "type": "item",
+                  "ref": "p28-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p28-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p28-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p28-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p28-q14-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q14-a/label",
+                          "type": "item",
+                          "ref": "p28-q14-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p28-q14-a/prompt",
+                          "type": "item",
+                          "ref": "p28-q14-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q14-a/space",
+                          "type": "item",
+                          "ref": "p28-q14-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q14-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q14-b/label",
+                          "type": "item",
+                          "ref": "p28-q14-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p28-q14-b/prompt",
+                          "type": "item",
+                          "ref": "p28-q14-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q14-b/space",
+                          "type": "item",
+                          "ref": "p28-q14-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q14-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q14-c/label",
+                          "type": "item",
+                          "ref": "p28-q14-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p28-q14-c/prompt",
+                          "type": "item",
+                          "ref": "p28-q14-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q14-c/space",
+                          "type": "item",
+                          "ref": "p28-q14-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q14-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q14-d/label",
+                          "type": "item",
+                          "ref": "p28-q14-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p28-q14-d/prompt",
+                          "type": "item",
+                          "ref": "p28-q14-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q14-d/space",
+                          "type": "item",
+                          "ref": "p28-q14-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:41:08.364Z",
+  "updatedAt": "2026-11-12T21:41:08.364Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part15",
+    "blockId": "p28-q14",
+    "sectionRole": "exercise"
+  }
+}

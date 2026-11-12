@@ -1,0 +1,287 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b844546d-81fb-4003-8922-4eefe2880493",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-exp-log-quadratic-form",
+    "secondarySkillIds": [
+      "laws-of-logarithms",
+      "special-products"
+    ],
+    "reasoningScore": 67,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the supplied sum-and-difference results to prove the logarithmic identity, and solve the explicitly requested exponential quadratics while selecting admissible branches.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T11:31:29.157Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9672112a5e8481c464f39beac5b5783c899f54c515d73b872925ef53972a0a8a",
+      "evidence": ".booklet-work/full-imports/cambridge-x11-ch09-20261021/semantic-packets/assignments/assignment-89984fb37bd34675882a/1/generation.json",
+      "originalTaskHash": "46263fddd6e972ba0e10e6c5d62b93657245db938dd69efd6bf2fb33d4962ec6",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "6c755152969cd8bca00f94ec633ddf250b3c125fa2281d9bda63a08cbe28c8ba"
+      }
+    }
+  },
+  "content": {
+    "id": "p29-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p29-q17-definitions",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "S=\\frac{1}{2}(2^x+2^{-x})",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "D=\\frac{1}{2}(2^x-2^{-x})",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Simplify $SD$, $S+D$, $S-D$ and $S^2-D^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$SD=\\frac{1}{4}(2^{2x}-2^{-2x})$, $S+D=2^x$, $S-D=2^{-x}$ and $S^2-D^2=1$.",
+          "worked": "$$\\begin{align*}SD&=\\frac{1}{4}(2^x+2^{-x})(2^x-2^{-x})\\\\SD&=\\frac{1}{4}(2^{2x}-2^{-2x})\\end{align*}$$\n\n$$\\begin{align*}S+D&=\\frac{1}{2}(2^x+2^{-x}+2^x-2^{-x})\\\\S+D&=2^x\\end{align*}$$\n\n$$\\begin{align*}S-D&=\\frac{1}{2}(2^x+2^{-x}-2^x+2^{-x})\\\\S-D&=2^{-x}\\end{align*}$$\n\n$$\\begin{align*}S^2-D^2&=(S+D)(S-D)\\\\S^2-D^2&=2^x\\times2^{-x}\\\\S^2-D^2&=1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p29-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Rewrite the formulae for $S$ and $D$ as quadratic equations in $2^x$. Hence express $x$ in terms of $S$, and in terms of $D$, in the case where $x>1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(2^x)^2-2S(2^x)+1=0$ and $(2^x)^2-2D(2^x)-1=0$.\n\n$x=\\log_2\\!\\left(S+\\sqrt{S^2-1}\\right)$ and $x=\\log_2\\!\\left(D+\\sqrt{D^2+1}\\right)$.\n\nSubstitute $u=2^x$ and select the roots consistent with $u>2$.",
+          "worked": "Let $u=2^x$. Since $x>1$, $u>2$.\n\n$$\\begin{align*}2S&=u+\\frac{1}{u}\\\\2Su&=u^2+1\\\\u^2-2Su+1&=0\\end{align*}$$\n\nThus the quadratic in $2^x$ is $(2^x)^2-2S(2^x)+1=0$.\n\n$$\\begin{align*}u&=\\frac{2S\\pm\\sqrt{4S^2-4}}{2}\\\\u&=S\\pm\\sqrt{S^2-1}\\end{align*}$$\n\nHere $S>1$. The two roots are positive with product $1$, so the smaller root is less than $1$. Since $u>2$, choose the larger root.\n\n$$\\begin{align*}2^x&=S+\\sqrt{S^2-1}\\\\x&=\\log_2\\!\\left(S+\\sqrt{S^2-1}\\right)\\end{align*}$$\n\nSimilarly,\n\n$$\\begin{align*}2D&=u-\\frac{1}{u}\\\\2Du&=u^2-1\\\\u^2-2Du-1&=0\\end{align*}$$\n\nThus the quadratic in $2^x$ is $(2^x)^2-2D(2^x)-1=0$.\n\n$$\\begin{align*}u&=\\frac{2D\\pm\\sqrt{4D^2+4}}{2}\\\\u&=D\\pm\\sqrt{D^2+1}\\end{align*}$$\n\nSince $\\sqrt{D^2+1}>|D|$, the minus root is negative and cannot equal $2^x$.\n\n$$\\begin{align*}2^x&=D+\\sqrt{D^2+1}\\\\x&=\\log_2\\!\\left(D+\\sqrt{D^2+1}\\right)\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 160
+      },
+      {
+        "id": "p29-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $x=\\frac{1}{2}\\log_2\\frac{1+y}{1-y}$, where $y=DS^{-1}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1+y}{1-y}=\\frac{S+D}{S-D}=2^{2x}$, so $x=\\frac{1}{2}\\log_2\\frac{1+y}{1-y}$.\n\nUse the sum and difference from part a, then take logarithms base $2$.",
+          "worked": "Since $S=\\frac{1}{2}(2^x+2^{-x})>0$, $y=\\frac{D}{S}$ is defined. From part a, $S+D>0$ and $S-D>0$, so $-1<y<1$.\n\n$$\\begin{align*}\\frac{1+y}{1-y}&=\\frac{1+D/S}{1-D/S}\\\\\\frac{1+y}{1-y}&=\\frac{S+D}{S-D}\\\\\\frac{1+y}{1-y}&=\\frac{2^x}{2^{-x}}\\\\\\frac{1+y}{1-y}&=2^{2x}\\end{align*}$$\n\nTaking logarithms base $2$,\n\n$$\\begin{align*}\\log_2\\frac{1+y}{1-y}&=2x\\\\x&=\\frac{1}{2}\\log_2\\frac{1+y}{1-y}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 74
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p29-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p29-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p29-q17-reviewed-numbered-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p29-q17-root/label",
+                      "type": "item",
+                      "ref": "p29-q17-root/label",
+                      "title": "Label 17",
+                      "width": 7
+                    },
+                    {
+                      "id": "p29-q17-reviewed-numbered-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q17-root/prompt#p29-q17-definitions",
+                          "type": "item",
+                          "ref": "p29-q17-root/prompt#p29-q17-definitions",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p29-q17-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p29-q17-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p29-q17-a/label",
+                                  "type": "item",
+                                  "ref": "p29-q17-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p29-q17-a/prompt",
+                                  "type": "item",
+                                  "ref": "p29-q17-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p29-q17-a/space",
+                                  "type": "item",
+                                  "ref": "p29-q17-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p29-q17-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p29-q17-b/label",
+                                  "type": "item",
+                                  "ref": "p29-q17-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p29-q17-b/prompt",
+                                  "type": "item",
+                                  "ref": "p29-q17-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p29-q17-b/space",
+                                  "type": "item",
+                                  "ref": "p29-q17-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p29-q17-c:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p29-q17-c/label",
+                                  "type": "item",
+                                  "ref": "p29-q17-c/label",
+                                  "title": "Label c"
+                                },
+                                {
+                                  "id": "layout:p29-q17-c/prompt",
+                                  "type": "item",
+                                  "ref": "p29-q17-c/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p29-q17-c/space",
+                                  "type": "item",
+                                  "ref": "p29-q17-c/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part c",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "title": "Question 17",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p29-q17"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:34:34.783Z",
+  "updatedAt": "2026-11-12T21:34:34.783Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "cambridge-x11-ch09",
+    "blockId": "p29-q17",
+    "sectionRole": "exercise"
+  }
+}

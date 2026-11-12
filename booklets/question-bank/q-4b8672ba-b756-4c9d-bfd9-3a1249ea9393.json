@@ -1,0 +1,106 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4b8672ba-b756-4c9d-bfd9-3a1249ea9393",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-trig-equations-identities",
+    "secondarySkillIds": [
+      "factor-theorem"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects a scaled tangent substitution, quartic roots, factorisation and selection of an exact trigonometric value.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-02T13:00:50.838Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e2b46839a3f6a050ed16c75a2d0071db7bece9aa76ee43067c79d43e56fbe3f7",
+      "evidence": ".booklet-work/full-imports/concept-maths-x11-ch03-20261002/semantic-packets/assignments/assignment-c401b94545620a2562c1/1/generation.json",
+      "originalTaskHash": "1d02668f372e7393e6338bbf4f3e5420d8d90746f2922c12e4cdb96269c3b111"
+    }
+  },
+  "content": {
+    "id": "p57-q19-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Let $P(x)=9x^4+12x^3-18x^2-4x+1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p57-q19-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the identity $\\tan4\\theta=\\dfrac{4\\tan\\theta-4\\tan^3\\theta}{1-6\\tan^2\\theta+\\tan^4\\theta}$ to find the values of $\\theta$ such that $x=\\dfrac1{\\sqrt3}\\tan\\theta$ is a solution of $P(x)=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\theta=\\dfrac\\pi{12}+\\dfrac{k\\pi}{4}$, $k\\in\\mathbb Z$.\n\nFour representatives modulo $\\pi$ are $\\dfrac\\pi{12},\\dfrac\\pi3,\\dfrac{7\\pi}{12},\\dfrac{5\\pi}6$. The substitution reduces the equation to $\\tan4\\theta=\\sqrt3$.",
+          "worked": "Let $t=\\tan\\theta$, so $x=\\frac{t}{\\sqrt3}$.\n$$\\begin{align*}P(t/\\sqrt3)&=t^4+\\frac4{\\sqrt3}t^3-6t^2-\\frac4{\\sqrt3}t+1\\\\P(t/\\sqrt3)&=(1-6t^2+t^4)-\\frac1{\\sqrt3}(4t-4t^3).\\end{align*}$$\nThus $P(x)=0$ gives\n$$\\begin{align*}1-6t^2+t^4&=\\frac1{\\sqrt3}(4t-4t^3)\\\\\\frac{4t-4t^3}{1-6t^2+t^4}&=\\sqrt3\\\\\\tan4\\theta&=\\sqrt3\\\\4\\theta&=\\frac\\pi3+k\\pi\\\\\\theta&=\\frac\\pi{12}+\\frac{k\\pi}{4},\\qquad k\\in\\mathbb Z.\\end{align*}$$\nThe denominator cannot be zero at a solution: a zero denominator would require $4t-4t^3=0$, but $t=0,\\pm1$ do not make the denominator zero. Four representatives modulo $\\pi$ are $\\frac{\\pi}{12},\\frac{\\pi}{3},\\frac{7\\pi}{12},\\frac{5\\pi}{6}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p57-q19-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Explain why $(x-1)(3x+1)$ is a factor of $P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\theta=\\frac{\\pi}{3}$ and $\\frac{5\\pi}{6}$ give $x=1$ and $-\\frac{1}{3}$. By the factor theorem, $(x-1)(3x+1)$ is a factor.",
+          "worked": "$\\theta=\\frac{\\pi}{3}$ and $\\frac{5\\pi}{6}$ are solutions from part (a).\n$$\\begin{align*}\\frac1{\\sqrt3}\\tan\\frac\\pi3&=1\\\\\\frac1{\\sqrt3}\\tan\\frac{5\\pi}6&=-\\frac13.\\end{align*}$$\nHence $P(1)=P(-\\frac{1}{3})=0$. By the factor theorem, $x-1$ and $x+\\frac{1}{3}$ are distinct factors, so their product, equivalently $(x-1)(3x+1)$, is a factor of $P(x)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p57-q19-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "By finding the other zeroes of $P(x)$ in surd form, find the exact value of $\\tan\\left(\\dfrac\\pi{12}\\right)$, giving reasons.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Other zeroes: $-1\\pm\\dfrac{2\\sqrt3}{3}$.\n\n$\\tan(\\frac{\\pi}{12})=2-\\sqrt3$. Divide out the known factors, then select the positive tangent value.",
+          "worked": "Dividing out the factors from part (b),\n$$\\begin{align*}P(x)&=(x-1)(3x+1)(3x^2+6x-1)\\\\3x^2+6x-1&=0\\\\x&=\\frac{-6\\pm\\sqrt{36+12}}6\\\\x&=-1\\pm\\frac{2\\sqrt3}{3}.\\end{align*}$$\nThe other tangent values are therefore\n$$\\begin{align*}\\tan\\theta&=\\sqrt3x\\\\\\tan\\theta&=-\\sqrt3\\pm2.\\end{align*}$$\nThe known roots $1$ and $-\\frac{1}{3}$ correspond to $\\theta=\\frac{\\pi}{3}$ and $\\frac{5\\pi}{6}$ modulo $\\pi$. Thus $\\frac{\\pi}{12}$ corresponds to one of the other roots. Since $0<\\frac{\\pi}{12}<\\frac{\\pi}{2}$, its tangent is positive:\n$$\\tan\\frac\\pi{12}=2-\\sqrt3.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 102
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p57-q19",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:41:21.239Z",
+  "updatedAt": "2026-11-12T21:41:21.240Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p57-q19",
+    "sectionRole": "exercise"
+  }
+}

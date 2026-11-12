@@ -1,0 +1,209 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ada70bea-e609-4956-a0e7-8fe2a5a45259",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-volume-similar-figures",
+    "secondarySkillIds": [
+      "prove-similar-triangles"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derives the general area scale-factor relationship from a similarity proof and corresponding altitudes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T14:07:17.208Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f465a2a769ce7bc2c591678960cbec787158f20bb3acf9f68fd07447f91b4198",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part16-20261008/semantic-packets/assignments/assignment-cc2715e288ee54486a21/1/generation.json",
+      "originalTaskHash": "8780856bddb184c2c83d4634c6ed6ad42222ad3d735aff228088ef7b9a61c3f3"
+    }
+  },
+  "content": {
+    "id": "p19-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Suppose that the scale factor between two similar triangles $\\triangle ABC$ and $\\triangle DEF$ is $k$. That is:\n$$\\frac{DE}{AB}=\\frac{EF}{BC}=\\frac{FD}{CA}=k.$$\nDraw altitudes through a pair of corresponding vertices of the triangles.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q12-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (2,1.4);\\coordinate (C) at (2.7,0);\\coordinate (X) at (2,0);\n\\coordinate (D) at (4.5,0);\\coordinate (E) at (7.3,1.96);\\coordinate (F) at (8.28,0);\\coordinate (Y) at (7.3,0);\n\\draw (A)--(B)--(C)--cycle;\\draw (D)--(E)--(F)--cycle;\n\\draw[line width=0.4pt] (B)--(X) (E)--(Y);\n\\draw[line width=0.4pt] ($(X)+(-0.24,0)$)--($(X)+(-0.24,0.24)$)--($(X)+(0,0.24)$);\n\\draw[line width=0.4pt] ($(Y)+(-0.24,0)$)--($(Y)+(-0.24,0.24)$)--($(Y)+(0,0.24)$);\n\\node[left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[right] at (C) {$C$};\\node[below] at (X) {$X$};\n\\node[left] at (D) {$D$};\\node[above] at (E) {$E$};\\node[right] at (F) {$F$};\\node[below] at (Y) {$Y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 12, paired triangles in the upper left column",
+          "description": "Corresponding triangles remain paired horizontally. Source yellow interior shading is omitted because it conveys no additional mathematical information.",
+          "mathematics": "Similar triangles ABC and DEF; A,X,C and D,Y,F are collinear; BX and EY are perpendicular altitudes with feet inside their bases. Drawing coordinates are illustrative, not numerical givens.",
+          "answerVisibility": "All triangles, altitudes, vertex labels and right-angle marks are permanent supplied content."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\triangle ABX\\sim\\triangle DEY$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle BAX=\\angle EDY$ and $\\angle AXB=\\angle DYE=90^\\circ$. Therefore, $\\triangle ABX\\sim\\triangle DEY$ by AAA similarity.",
+          "worked": "$\\angle BAX=\\angle EDY$, since $\\triangle ABC\\sim\\triangle DEF$ and the altitude feet lie on the corresponding bases.\n\n$\\angle AXB=\\angle DYE=90^\\circ$, since $BX$ and $EY$ are altitudes.\n\nThe third pair of angles is also equal, so $\\triangle ABX\\sim\\triangle DEY$ by AAA similarity.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p19-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove that\n$$\\operatorname{area}(\\triangle DEF)=k^2\\times\\operatorname{area}(\\triangle ABC).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{area}(\\triangle DEF)=k^2\\operatorname{area}(\\triangle ABC)$.\n\nCorresponding bases and altitudes each have scale factor $k$, so each triangle formed by an altitude has area scale factor $k^2$. Add the two areas.",
+          "worked": "From part (a), the scale factor between $\\triangle ABX$ and $\\triangle DEY$ is $\\frac{DE}{AB}=k$. Thus $DY=kAX$ and $EY=kBX$.\n$$\\begin{align*}\\operatorname{area}(\\triangle DEY)&=\\tfrac12 DY\\cdot EY\\\\\\operatorname{area}(\\triangle DEY)&=\\tfrac12(kAX)(kBX)\\\\\\operatorname{area}(\\triangle DEY)&=k^2\\operatorname{area}(\\triangle ABX).\\end{align*}$$\nSimilarly, $\\triangle CBX\\sim\\triangle FEY$, so\n$$\\operatorname{area}(\\triangle FEY)=k^2\\operatorname{area}(\\triangle CBX).$$\nAdding the two corresponding areas gives\n$$\\begin{align*}\\operatorname{area}(\\triangle DEF)&=\\operatorname{area}(\\triangle DEY)+\\operatorname{area}(\\triangle FEY)\\\\\\operatorname{area}(\\triangle DEF)&=k^2\\bigl(\\operatorname{area}(\\triangle ABX)+\\operatorname{area}(\\triangle CBX)\\bigr)\\\\\\operatorname{area}(\\triangle DEF)&=k^2\\operatorname{area}(\\triangle ABC).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 94
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p19-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q12-root/label",
+                  "type": "item",
+                  "ref": "p19-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p19-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p19-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q12-diagram",
+                  "type": "item",
+                  "ref": "p19-q12-diagram",
+                  "title": "Diagram",
+                  "width": 65
+                },
+                {
+                  "id": "p19-q12-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p19-q12-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q12-a/label",
+                          "type": "item",
+                          "ref": "p19-q12-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p19-q12-a/prompt",
+                          "type": "item",
+                          "ref": "p19-q12-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p19-q12-a/space",
+                          "type": "item",
+                          "ref": "p19-q12-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p19-q12-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p19-q12-b/label",
+                          "type": "item",
+                          "ref": "p19-q12-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p19-q12-b/prompt",
+                          "type": "item",
+                          "ref": "p19-q12-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p19-q12-b/space",
+                          "type": "item",
+                          "ref": "p19-q12-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:41:16.988Z",
+  "updatedAt": "2026-11-12T21:41:16.988Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part16",
+    "blockId": "p19-q12",
+    "sectionRole": "exercise"
+  }
+}

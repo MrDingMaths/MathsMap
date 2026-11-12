@@ -1,0 +1,277 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3196555b-61e3-4185-81d7-28bde1fee791",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-sum-product-roots",
+    "secondarySkillIds": [
+      "solve-trig-equations-identities"
+    ],
+    "reasoningScore": 82,
+    "difficulty": "Challenge",
+    "difficultyReason": "Beyond matching the substitution scale, the proof requires an unsupplied justification that three real roots place a root within the cosine substitution's range before applying the cosine bound.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:38:27.617Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "de30de23ccfc7195d6b31f6628b6db06a0f06b94e0f36657945034ea6ff38fb6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch03/af8677bdf926517dab7fcd5fafba3ac99350079048a84bd87223c2e72b073426-1792557462883/last-message.txt",
+      "originalTaskHash": "1f2ecc189b6880586f870bdb4f9aacc7c45f327d66ef957d949e5fec2bbff478",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "1261899ca454db3c0bf1214fb332682c18aecddaee0012fee54549546a4e8659"
+      }
+    }
+  },
+  "content": {
+    "id": "p59-q32-root",
+    "type": "question",
+    "label": "32",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p59-q32-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Discriminant of the depressed cubic. ",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            },
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(x)=x^3-px+q",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "p>0",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", and assume that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\cos3\\theta=4\\cos^3\\theta-3\\cos\\theta",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p59-q32-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "By using $x=r\\cos\\theta$ for the right value of $r$, show that solving $P(x)=0$ reduces to solving\n$$\\cos3\\theta=-\\frac{3q}{2p}\\sqrt{\\frac{3}{p}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$r=2\\sqrt{\\frac p3}$, so $x=2\\sqrt{\\frac p3}\\cos\\theta$ and $\\cos3\\theta=-\\frac{3q}{2p}\\sqrt{\\frac3p}$.\n\nChoose $r^2=\\frac{4p}{3}$ to match the supplied triple-angle identity.",
+          "worked": "Substitute $x=r\\cos\\theta$, choosing $r>0$ with $r^2=\\frac{4p}{3}$.\n$$\\begin{align*}P(r\\cos\\theta)&=r^3\\cos^3\\theta-pr\\cos\\theta+q\\\\P(r\\cos\\theta)&=\\frac{pr}{3}(4\\cos^3\\theta-3\\cos\\theta)+q\\\\P(r\\cos\\theta)&=\\frac{pr}{3}\\cos3\\theta+q.\\end{align*}$$\nSince $pr>0$, $P(x)=0$ is equivalent to\n$$\\begin{align*}\\cos3\\theta&=-\\frac{3q}{pr}\\\\\\cos3\\theta&=-\\frac{3q}{2p}\\sqrt{\\frac3p}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p59-q32-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, show that if $P(x)$ has three real zeroes, counting multiplicity, then $4p^3-27q^2\\ge0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4p^3-27q^2\\ge0$.\n\nThree real roots allow the substitution in part (a); apply $|\\cos3\\theta|\\le1$ and square.",
+          "worked": "Let the three real roots be $\\alpha,\\beta,\\gamma$. The root relationships give $\\alpha+\\beta+\\gamma=0$ and $\\alpha\\beta+\\alpha\\gamma+\\beta\\gamma=-p$. Thus\n$$\\begin{align*}(\\beta-\\gamma)^2&=(\\beta+\\gamma)^2-4\\beta\\gamma\\\\(\\beta-\\gamma)^2&=\\alpha^2-4(\\alpha^2-p)\\\\(\\beta-\\gamma)^2&=4p-3\\alpha^2\\ge0.\\end{align*}$$\nHence $|\\alpha|\\le2\\sqrt{\\frac{p}{3}}$, so write $\\alpha=2\\sqrt{\\frac{p}{3}}\\cos\\theta$ for a real $\\theta$. Part (a) and the range of cosine give\n$$\\begin{align*}\\left|\\frac{3q}{2p}\\sqrt{\\frac3p}\\right|&\\le1\\\\\\frac{27q^2}{4p^3}&\\le1\\\\4p^3-27q^2&\\ge0.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 86
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p59-q32": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p59-q32-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p59-q32-reviewed-numbered-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p59-q32-root/label",
+                      "type": "item",
+                      "ref": "p59-q32-root/label",
+                      "title": "Label 32",
+                      "width": 7
+                    },
+                    {
+                      "id": "p59-q32-reviewed-numbered-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p59-q32-root/prompt#p59-q32-stem",
+                          "type": "item",
+                          "ref": "p59-q32-root/prompt#p59-q32-stem",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p59-q32-root:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p59-q32-root:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p59-q32-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p59-q32-a/label",
+                                      "type": "item",
+                                      "ref": "p59-q32-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p59-q32-a/prompt",
+                                      "type": "item",
+                                      "ref": "p59-q32-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p59-q32-a/space",
+                                      "type": "item",
+                                      "ref": "p59-q32-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p59-q32-root:row:1",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p59-q32-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p59-q32-b/label",
+                                      "type": "item",
+                                      "ref": "p59-q32-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p59-q32-b/prompt",
+                                      "type": "item",
+                                      "ref": "p59-q32-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p59-q32-b/space",
+                                      "type": "item",
+                                      "ref": "p59-q32-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "title": "Question 32",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p59-q32"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:41:37.085Z",
+  "updatedAt": "2026-11-12T21:41:37.086Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch03",
+    "blockId": "p59-q32",
+    "sectionRole": "exercise"
+  }
+}

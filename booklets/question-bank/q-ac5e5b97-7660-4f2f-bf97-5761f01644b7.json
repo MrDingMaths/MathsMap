@@ -1,0 +1,180 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ac5e5b97-7660-4f2f-bf97-5761f01644b7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-binomial-identities-equate-coefficients",
+    "secondarySkillIds": [
+      "simplify-binomial-coefficient-expressions"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct a product of opposite-sign binomial expansions to encode the alternating squares, then interpret its central coefficient separately for even and odd n.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:40:11.484Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1d49bae4ac4ed23e56b646765ebe614c94ad2d47bde037a32cc49186f88a0674",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-x11-ch05/9397badf41b6dcac4f793e6c998a722f33e2d3b274a36743f98e66fd1e9fefa5-1792557541552/last-message.txt",
+      "originalTaskHash": "8be763132d2a61e6ba5bbcc64114de53f6003ea4d04126855ddefc7bc4e1fbe0"
+    }
+  },
+  "content": {
+    "id": "p21-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "Find a simpler expression for\n$$\\binom n0^2-\\binom n1^2+\\binom n2^2-\\binom n3^2+\\cdots+(-1)^n\\binom nn^2$$",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "if $n$ is even.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle(-1)^{n/2}\\binom n{\\frac{n}{2}}$.\n\nEquate the coefficients of $x^n$ in $(1+x)^n(1-x)^n=(1-x^2)^n$.",
+          "worked": "Let $S=\\sum_{j=0}^n(-1)^j\\binom nj^2$. Consider $(1+x)^n(1-x)^n=(1-x^2)^n$.\n\nUsing symmetry, the coefficient of $x^n$ on the left is\n$$\\begin{align*}\n\\sum_{j=0}^n(-1)^j\\binom n{n-j}\\binom nj\n&=S.\n\\end{align*}$$\nSince $n$ is even, the $x^n$ term on the right comes from $(-x^2)^{n/2}$. Equating coefficients gives\n$$\\begin{align*}\nS&=(-1)^{n/2}\\binom n{n/2}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      },
+      {
+        "id": "p21-q20-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "if $n$ is odd.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0$.\n\nThe expansion of $(1-x^2)^n$ has no odd powers of $x$.",
+          "worked": "Let $S=\\sum_{j=0}^n(-1)^j\\binom nj^2$. Consider $(1+x)^n(1-x)^n=(1-x^2)^n$.\n\nUsing symmetry, the coefficient of $x^n$ on the left is\n$$\\begin{align*}\n\\sum_{j=0}^n(-1)^j\\binom n{n-j}\\binom nj\n&=S.\n\\end{align*}$$\nThe right-hand side contains only even powers of $x$. Since $n$ is odd, its coefficient of $x^n$ is zero. Equating coefficients gives\n$$\\begin{align*}\nS&=0.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q20",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q20": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q20-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q20-root/label",
+                  "type": "item",
+                  "ref": "p21-q20-root/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "layout:p21-q20-root/prompt",
+                  "type": "item",
+                  "ref": "p21-q20-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p21-q20-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p21-q20-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q20-a/label",
+                          "type": "item",
+                          "ref": "p21-q20-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p21-q20-a/prompt",
+                          "type": "item",
+                          "ref": "p21-q20-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q20-a/space",
+                          "type": "item",
+                          "ref": "p21-q20-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q20-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q20-b/label",
+                          "type": "item",
+                          "ref": "p21-q20-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p21-q20-b/prompt",
+                          "type": "item",
+                          "ref": "p21-q20-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q20-b/space",
+                          "type": "item",
+                          "ref": "p21-q20-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 20",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T21:37:34.532Z",
+  "updatedAt": "2026-11-12T21:37:34.532Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-x11-ch05",
+    "blockId": "p21-q20",
+    "sectionRole": "exercise"
+  }
+}
