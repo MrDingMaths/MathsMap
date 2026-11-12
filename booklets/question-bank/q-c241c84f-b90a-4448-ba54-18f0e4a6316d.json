@@ -1,0 +1,725 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c241c84f-b90a-4448-ba54-18f0e4a6316d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "apply-combined-transformations",
+    "secondarySkillIds": [
+      "graph-power-curves"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Combine standard transformations with intercept calculations, distinguish even-power turning points from odd-power inflections, and use range restrictions to rule out intercepts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:33.521Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cc096ccb45d8ea068743d68b7dd990c60d885c469e48e54f2072a5914ccf4db0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part9-20261009/037ab699c31d679d614a6f1b18b7ef65b8b3be35437ddce5ab19a9451f4dd4c0-1792558665903/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Sketch the graph of each of the polynomial functions below. Label any turning points, points of inflection, and the axial intercepts.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=2(x-1)^3+2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Increasing cubic; point of inflection $(1,2)$; both axial intercepts $(0,0)$; no turning point.",
+          "worked": "Dilate $y=x^3$ by a factor of $2$ from the $x$-axis, then translate $1$ unit right and $2$ units up. The point of inflection is $(1,2)$.\n\nAt $x=0$:\n$$\\begin{align*}y&=2(0-1)^3+2\\\\y&=0\\end{align*}$$\nAt $y=0$:\n$$\\begin{align*}2(x-1)^3+2&=0\\\\(x-1)^3&=-1\\\\x-1&=-1\\\\x&=0\\end{align*}$$\nBoth axial intercepts are $(0,0)$. The graph increases throughout and has no turning point.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-a\"}\n\\begin{tikzpicture}[x=1cm,y=.48cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-1,0)--(3,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-3)--(0,7) node[above] {$y$};\n\\begin{scope}\\clip (-1,-3) rectangle (2.8,7);\\draw[line width=.8pt,domain=-.5:2.5,samples=100] plot (\\x,{2*(\\x-1)^3+2});\\end{scope}\n\\fill (0,0) circle (1.2pt) node[below right] {$(0,0)$};\n\\fill (1,2) circle (1.2pt) node[above left] {$(1,2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(a)",
+                "description": "Increasing translated cubic with both intercepts and stationary point of inflection labelled.",
+                "mathematics": "y=2(x-1)^3+2; intercept (0,0); inflection (1,2).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p23-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=-(x-1)^5-3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Decreasing quintic; point of inflection $(1,-3)$; $x$-intercept $(1-\\sqrt[5]{3},0)$; $y$-intercept $(0,-2)$; no turning point.",
+          "worked": "Reflect $y=x^5$ in the $x$-axis, then translate $1$ unit right and $3$ units down. The point of inflection is $(1,-3)$.\n\nAt $x=0$:\n$$\\begin{align*}y&=-(0-1)^5-3\\\\y&=-2\\end{align*}$$\nAt $y=0$:\n$$\\begin{align*}-(x-1)^5-3&=0\\\\(x-1)^5&=-3\\\\x-1&=-\\sqrt[5]{3}\\\\x&=1-\\sqrt[5]{3}\\end{align*}$$\nThe graph decreases throughout and has no turning point.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-b\"}\n\\begin{tikzpicture}[x=1.2cm,y=.45cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-1.5,0)--(2.5,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-7)--(0,3) node[above] {$y$};\n\\begin{scope}\\clip (-1.4,-7) rectangle (2.4,3);\\draw[line width=.8pt,domain=-1:3,samples=120] plot (\\x,{-(\\x-1)^5-3});\\end{scope}\n\\fill ({1-pow(3,.2)},0) circle (1.2pt) node[above left] {$(1-\\sqrt[5]{3},0)$};\n\\fill (0,-2) circle (1.2pt) node[below left] {$(0,-2)$};\n\\fill (1,-3) circle (1.2pt) node[below left,xshift=-2pt,yshift=-2pt] {$(1,-3)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(b)",
+                "description": "Decreasing quintic with exact intercepts and inflection labelled.",
+                "mathematics": "y=-(x-1)^5-3; inflection (1,-3); intercepts (1-fifth-root(3),0), (0,-2).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 79
+      },
+      {
+        "id": "p23-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=(x+1)^4+2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Minimum turning point $(-1,2)$; symmetry axis $x=-1$; $y$-intercept $(0,3)$; no $x$-intercepts or points of inflection.",
+          "worked": "Translate $y=x^4$ by $1$ unit left and $2$ units up. The minimum turning point is $(-1,2)$ and the symmetry axis is $x=-1$.\n\nAt $x=0$:\n$$\\begin{align*}y&=(0+1)^4+2\\\\y&=3\\end{align*}$$\nSince $(x+1)^4\\ge0$, $y\\ge2$, so there are no $x$-intercepts. The curve has no point of inflection.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-c\"}\n\\begin{tikzpicture}[x=1cm,y=.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-3,0)--(1.4,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-.5)--(0,7) node[above] {$y$};\n\\begin{scope}\\clip (-3,-.5) rectangle (1.3,7);\\draw[line width=.8pt,domain=-2.6:.6,samples=100] plot (\\x,{(\\x+1)^4+2});\\end{scope}\n\\fill (-1,2) circle (1.2pt) node[below left] {$(-1,2)$};\n\\fill (0,3) circle (1.2pt) node[right] {$(0,3)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(c)",
+                "description": "Upward quartic entirely above the x-axis, with minimum and y-intercept labelled.",
+                "mathematics": "y=(x+1)^4+2; minimum (-1,2); y-intercept (0,3).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p23-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=-(x+2)^6-1$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Maximum turning point $(-2,-1)$; symmetry axis $x=-2$; $y$-intercept $(0,-65)$; no $x$-intercepts or points of inflection.",
+          "worked": "Reflect $y=x^6$ in the $x$-axis, then translate $2$ units left and $1$ unit down. The maximum turning point is $(-2,-1)$ and the symmetry axis is $x=-2$.\n\nAt $x=0$:\n$$\\begin{align*}y&=-(0+2)^6-1\\\\y&=-64-1\\\\y&=-65\\end{align*}$$\nSince $(x+2)^6\\ge0$, $y\\le-1$, so there are no $x$-intercepts. The curve has no point of inflection.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-d-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-d\"}\n\\begin{tikzpicture}[x=1cm,y=.055cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-4.6,0)--(1,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-85)--(0,12) node[above] {$y$};\n\\begin{scope}\\clip (-4.5,-85) rectangle (.8,12);\\draw[line width=.8pt,domain=-4.2:.2,samples=140] plot (\\x,{-(\\x+2)^6-1});\\end{scope}\n\\fill (-2,-1) circle (1.2pt) node[above left] {$(-2,-1)$};\n\\fill (0,-65) circle (1.2pt) node[right] {$(0,-65)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(d)",
+                "description": "Downward sextic with maximum and the distant y-intercept included using a compressed vertical scale.",
+                "mathematics": "y=-(x+2)^6-1; maximum (-2,-1); y-intercept (0,-65).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p23-q5-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$y=(x-2)^3+4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Increasing cubic; point of inflection $(2,4)$; $x$-intercept $(2-\\sqrt[3]{4},0)$; $y$-intercept $(0,-4)$; no turning point.",
+          "worked": "Translate $y=x^3$ by $2$ units right and $4$ units up. The point of inflection is $(2,4)$.\n\nAt $x=0$:\n$$\\begin{align*}y&=(0-2)^3+4\\\\y&=-4\\end{align*}$$\nAt $y=0$:\n$$\\begin{align*}(x-2)^3+4&=0\\\\(x-2)^3&=-4\\\\x-2&=-\\sqrt[3]{4}\\\\x&=2-\\sqrt[3]{4}\\end{align*}$$\nThe graph increases throughout and has no turning point.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-e-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-e\"}\n\\begin{tikzpicture}[x=1cm,y=.38cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-1,0)--(4,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-6)--(0,9) node[above] {$y$};\n\\begin{scope}\\clip (-1,-6) rectangle (3.8,9);\\draw[line width=.8pt,domain=-.3:3.8,samples=100] plot (\\x,{(\\x-2)^3+4});\\end{scope}\n\\fill ({2-pow(4,1/3)},0) circle (1.2pt) node[below right] {$(2-\\sqrt[3]{4},0)$};\n\\fill (0,-4) circle (1.2pt) node[left] {$(0,-4)$};\n\\fill (2,4) circle (1.2pt) node[above] {$(2,4)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(e)",
+                "description": "Increasing cubic with exact intercepts and stationary inflection labelled.",
+                "mathematics": "y=(x-2)^3+4; inflection (2,4); intercepts (2-cube-root(4),0), (0,-4).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 79
+      },
+      {
+        "id": "p23-q5-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$y=\\frac14(x+2)^3-2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Increasing cubic; point of inflection $(-2,-2)$; both axial intercepts $(0,0)$; no turning point.",
+          "worked": "Dilate $y=x^3$ by a factor of $\\frac14$ from the $x$-axis, then translate $2$ units left and $2$ units down. The point of inflection is $(-2,-2)$.\n\nAt $x=0$:\n$$\\begin{align*}y&=\\frac14(0+2)^3-2\\\\y&=0\\end{align*}$$\nAt $y=0$:\n$$\\begin{align*}\\frac14(x+2)^3-2&=0\\\\(x+2)^3&=8\\\\x+2&=2\\\\x&=0\\end{align*}$$\nBoth axial intercepts are $(0,0)$. The graph increases throughout and has no turning point.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-f-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-f\"}\n\\begin{tikzpicture}[x=.8cm,y=.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-5,0)--(1.5,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-5)--(0,4) node[above] {$y$};\n\\begin{scope}\\clip (-5,-5) rectangle (1.3,4);\\draw[line width=.8pt,domain=-4.5:1,samples=100] plot (\\x,{.25*(\\x+2)^3-2});\\end{scope}\n\\fill (0,0) circle (1.2pt) node[below right] {$(0,0)$};\n\\fill (-2,-2) circle (1.2pt) node[above left] {$(-2,-2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(f)",
+                "description": "Increasing cubic with origin intercept and inflection labelled.",
+                "mathematics": "y=(x+2)^3/4-2; inflection (-2,-2); intercept (0,0).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 82
+      },
+      {
+        "id": "p23-q5-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "$y=\\frac18(x+2)^4-2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Minimum turning point $(-2,-2)$; symmetry axis $x=-2$; $x$-intercepts $(-4,0)$ and $(0,0)$; $y$-intercept $(0,0)$; no point of inflection.",
+          "worked": "Dilate $y=x^4$ by a factor of $\\frac18$ from the $x$-axis, then translate $2$ units left and $2$ units down. The minimum turning point is $(-2,-2)$ and the symmetry axis is $x=-2$.\n\nAt $x=0$:\n$$\\begin{align*}y&=\\frac18(0+2)^4-2\\\\y&=0\\end{align*}$$\nAt $y=0$:\n$$\\begin{align*}\\frac18(x+2)^4-2&=0\\\\(x+2)^4&=16\\\\x+2&=\\pm2\\\\x&=-4,\\ 0\\end{align*}$$\nThere is no point of inflection.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-g-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-g\"}\n\\begin{tikzpicture}[x=.8cm,y=.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-5.5,0)--(1.5,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-3.5)--(0,5) node[above] {$y$};\n\\begin{scope}\\clip (-5.4,-3.5) rectangle (1.3,5);\\draw[line width=.8pt,domain=-5:1,samples=100] plot (\\x,{.125*(\\x+2)^4-2});\\end{scope}\n\\fill (-4,0) circle (1.2pt) node[above left] {$(-4,0)$};\n\\fill (0,0) circle (1.2pt) node[below right] {$(0,0)$};\n\\fill (-2,-2) circle (1.2pt) node[below] {$(-2,-2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(g)",
+                "description": "Upward quartic with both x-intercepts and minimum labelled.",
+                "mathematics": "y=(x+2)^4/8-2; minimum (-2,-2); intercepts (-4,0), (0,0).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p23-q5-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "$y=-(x-3)^5-1$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Decreasing quintic; point of inflection $(3,-1)$; $x$-intercept $(2,0)$; $y$-intercept $(0,242)$; no turning point.",
+          "worked": "Reflect $y=x^5$ in the $x$-axis, then translate $3$ units right and $1$ unit down. The point of inflection is $(3,-1)$.\n\nAt $x=0$:\n$$\\begin{align*}y&=-(0-3)^5-1\\\\y&=243-1\\\\y&=242\\end{align*}$$\nAt $y=0$:\n$$\\begin{align*}-(x-3)^5-1&=0\\\\(x-3)^5&=-1\\\\x-3&=-1\\\\x&=2\\end{align*}$$\nThe graph decreases throughout and has no turning point.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-h-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-h\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{scope}[x=.75cm,y=.38cm]\n\\draw[->,line width=.5pt] (1,0)--(5,0) node[right] {$x$};\n\\begin{scope}\\clip (1,-5) rectangle (4.8,5);\\draw[line width=.8pt,domain=1.4:4.4,samples=120] plot (\\x,{-(\\x-3)^5-1});\\end{scope}\n\\fill (2,0) circle (1.2pt) node[above right] {$(2,0)$};\n\\fill (3,-1) circle (1.2pt) node[below left] {$(3,-1)$};\n\\end{scope}\n\\begin{scope}[shift={(5cm,0)},x=.5cm,y=.012cm]\n\\draw[->,line width=.5pt] (-.5,0)--(4.7,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-45)--(0,285) node[above] {$y$};\n\\begin{scope}\\clip (-.5,-45) rectangle (4.5,285);\\draw[line width=.8pt,domain=-.1:4.5,samples=140] plot (\\x,{-(\\x-3)^5-1});\\end{scope}\n\\fill (0,242) circle (1.2pt) node[right] {$(0,242)$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(h)",
+                "description": "Main quintic sketch shows the inflection and x-intercept; a companion overview includes the distant y-intercept. Both panels depict the same function.",
+                "mathematics": "y=-(x-3)^5-1; inflection (3,-1); intercepts (2,0), (0,242).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 79
+      },
+      {
+        "id": "p23-q5-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "$y=-\\frac18(x-3)^4-2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Maximum turning point $(3,-2)$; symmetry axis $x=3$; $y$-intercept $(0,-\\frac{97}{8})$; no $x$-intercepts or points of inflection.",
+          "worked": "Dilate $y=x^4$ by a factor of $\\frac18$ from the $x$-axis, reflect in the $x$-axis, then translate $3$ units right and $2$ units down. The maximum turning point is $(3,-2)$ and the symmetry axis is $x=3$.\n\nAt $x=0$:\n$$\\begin{align*}y&=-\\frac18(0-3)^4-2\\\\y&=-\\frac{81}{8}-2\\\\y&=-\\frac{97}{8}\\end{align*}$$\nSince $(x-3)^4\\ge0$, $y\\le-2$, so there are no $x$-intercepts. The curve has no point of inflection.",
+          "solutionDiagrams": [
+            {
+              "id": "p23-q5-i-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"p23-q5-i\"}\n\\begin{tikzpicture}[x=.7cm,y=.28cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=.5pt] (-1,0)--(7,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-16)--(0,2) node[above] {$y$};\n\\begin{scope}\\clip (-1,-16) rectangle (6.8,2);\\draw[line width=.8pt,domain=-.5:6.5,samples=120] plot (\\x,{-.125*(\\x-3)^4-2});\\end{scope}\n\\fill (3,-2) circle (1.2pt) node[below,yshift=-2pt] {$(3,-2)$};\n\\fill (0,{-97/8}) circle (1.2pt) node[right] {$(0,-\\frac{97}{8})$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 23,
+                "sourceRegion": "Question 5(i)",
+                "description": "Downward quartic entirely below the x-axis with maximum and y-intercept labelled.",
+                "mathematics": "y=-(x-3)^4/8-2; maximum (3,-2); y-intercept (0,-97/8).",
+                "answerVisibility": "answer editions only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 72
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p23-q5-root/label",
+                  "type": "item",
+                  "ref": "p23-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p23-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p23-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p23-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p23-q5-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p23-q5-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-a/label",
+                              "type": "item",
+                              "ref": "p23-q5-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p23-q5-a/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-a/space",
+                              "type": "item",
+                              "ref": "p23-q5-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p23-q5-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-b/label",
+                              "type": "item",
+                              "ref": "p23-q5-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p23-q5-b/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-b/space",
+                              "type": "item",
+                              "ref": "p23-q5-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p23-q5-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p23-q5-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-c/label",
+                              "type": "item",
+                              "ref": "p23-q5-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p23-q5-c/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-c/space",
+                              "type": "item",
+                              "ref": "p23-q5-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p23-q5-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-d/label",
+                              "type": "item",
+                              "ref": "p23-q5-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p23-q5-d/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-d/space",
+                              "type": "item",
+                              "ref": "p23-q5-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p23-q5-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p23-q5-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-e/label",
+                              "type": "item",
+                              "ref": "p23-q5-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p23-q5-e/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-e/space",
+                              "type": "item",
+                              "ref": "p23-q5-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p23-q5-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-f/label",
+                              "type": "item",
+                              "ref": "p23-q5-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p23-q5-f/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-f/space",
+                              "type": "item",
+                              "ref": "p23-q5-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p23-q5-root:row:6",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p23-q5-g:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-g/label",
+                              "type": "item",
+                              "ref": "p23-q5-g/label",
+                              "title": "Label g"
+                            },
+                            {
+                              "id": "layout:p23-q5-g/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-g/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-g/space",
+                              "type": "item",
+                              "ref": "p23-q5-g/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part g",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p23-q5-h:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-h/label",
+                              "type": "item",
+                              "ref": "p23-q5-h/label",
+                              "title": "Label h"
+                            },
+                            {
+                              "id": "layout:p23-q5-h/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-h/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-h/space",
+                              "type": "item",
+                              "ref": "p23-q5-h/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part h",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p23-q5-root:row:8",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p23-q5-i:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p23-q5-i/label",
+                              "type": "item",
+                              "ref": "p23-q5-i/label",
+                              "title": "Label i"
+                            },
+                            {
+                              "id": "layout:p23-q5-i/prompt",
+                              "type": "item",
+                              "ref": "p23-q5-i/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p23-q5-i/space",
+                              "type": "item",
+                              "ref": "p23-q5-i/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part i",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p23-q5-root:row:8:fill:1",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [],
+                          "title": "Empty column",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:44:47.163Z",
+  "updatedAt": "2026-11-12T13:44:47.163Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part9-20261009",
+    "blockId": "p23-q5",
+    "sectionRole": "exercise"
+  }
+}

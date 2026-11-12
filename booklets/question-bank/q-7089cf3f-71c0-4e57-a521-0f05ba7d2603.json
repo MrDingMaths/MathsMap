@@ -1,0 +1,222 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7089cf3f-71c0-4e57-a521-0f05ba7d2603",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "poly-degree-sum",
+    "secondarySkillIds": [
+      "composite-function-equations"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires general leading-term proofs for sums, products and compositions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T23:34:40.991Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8483eaf4fbd8e0b41e11282d7046c68314d265a31f61aabf3fbb55cfa82fb869",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part9-20261009/semantic-packets/assignments/assignment-4d7d0cbd4ec191aa3430/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p3-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "Consider two polynomials $P(x)$ and $Q(x)$. Prove each of the following. Assume that every polynomial whose degree is taken is nonzero, and that $Q$ is nonconstant in part (c).",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p3-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\deg(P+Q)\\le\\max\\{\\deg(P(x)),\\deg(Q)\\}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\deg(P+Q)\\le\\max\\{\\deg(P),\\deg(Q)\\}$.\n\nAdding cannot introduce a higher power; cancellation may lower the degree.",
+          "worked": "Let $\\deg(P)=n$ and $\\deg(Q)=m$. Neither polynomial has a term of degree greater than $\\max\\{n,m\\}$, so their sum has no such term. If the leading terms cancel, its degree decreases. Hence\n\n$$\\deg(P+Q)\\le\\max\\{n,m\\}=\\max\\{\\deg(P),\\deg(Q)\\}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p3-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\deg(P\\cdot Q)=\\deg(P(x))+\\deg(Q)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\deg(P\\cdot Q)=\\deg(P)+\\deg(Q)$.\n\nThe nonzero leading terms multiply to give degree $n+m$.",
+          "worked": "Let the leading terms of $P$ and $Q$ be $a_nx^n$ and $b_mx^m$, where $a_n,b_m\\ne0$.\n\n$$\\begin{align*}(a_nx^n)(b_mx^m)&=a_nb_mx^{n+m}\\end{align*}$$\n\nEvery other product has lower degree, and $a_nb_m\\ne0$. Therefore\n\n$$\\deg(P\\cdot Q)=n+m=\\deg(P)+\\deg(Q).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p3-q10-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\deg(P\\circ Q)=\\deg(P(x))\\deg(Q)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\deg(P\\circ Q)=\\deg(P)\\deg(Q)$.\n\nFor nonconstant $Q$, the leading term of $P(Q(x))$ is $a_nb_m^nx^{nm}$.",
+          "worked": "Let $P$ have degree $n$ and leading coefficient $a_n\\ne0$, and let $Q$ have degree $m\\ge1$ and leading coefficient $b_m\\ne0$. If $n=0$, the composition is the same nonzero constant, so its degree is $0=nm$.\n\nFor $n\\ge1$, the leading contribution to $P(Q(x))$ is\n\n$$\\begin{align*}a_n(b_mx^m)^n&=a_nb_m^nx^{nm}.\\end{align*}$$\n\nAll lower powers of $Q(x)$ have degree less than $nm$, and $a_nb_m^n\\ne0$. Hence\n\n$$\\deg(P\\circ Q)=nm=\\deg(P)\\deg(Q).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p3-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q10-root/label",
+                  "type": "item",
+                  "ref": "p3-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p3-q10-root/prompt",
+                  "type": "item",
+                  "ref": "p3-q10-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p3-q10-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p3-q10-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q10-a/label",
+                          "type": "item",
+                          "ref": "p3-q10-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p3-q10-a/prompt",
+                          "type": "item",
+                          "ref": "p3-q10-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q10-a/space",
+                          "type": "item",
+                          "ref": "p3-q10-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q10-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q10-b/label",
+                          "type": "item",
+                          "ref": "p3-q10-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p3-q10-b/prompt",
+                          "type": "item",
+                          "ref": "p3-q10-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q10-b/space",
+                          "type": "item",
+                          "ref": "p3-q10-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q10-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q10-c/label",
+                          "type": "item",
+                          "ref": "p3-q10-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p3-q10-c/prompt",
+                          "type": "item",
+                          "ref": "p3-q10-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q10-c/space",
+                          "type": "item",
+                          "ref": "p3-q10-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:43:37.829Z",
+  "updatedAt": "2026-11-12T13:43:37.830Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part9-20261009",
+    "blockId": "p3-q10",
+    "sectionRole": "exercise"
+  }
+}

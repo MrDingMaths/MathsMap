@@ -1,0 +1,174 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e6f7e3ea-7bf4-4057-a9bb-01e448eaed62",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-equation-polynomial-graph",
+    "secondarySkillIds": [
+      "factor-theorem",
+      "zeroes-roots-multiplicity"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires constructing an auxiliary polynomial from prescribed values and proving impossibility using the degree bound on roots.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:44:41.166Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cd1f1b45e14bb2ddd22af9497ae6c40dc4d0c9096c2a84c28a0be173e1090ba9",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part9-20261009/semantic-packets/assignments/assignment-67cc94fbe0923c6bcd69/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p28-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the polynomial $P(x)$ of degree 4 for which $P(1)=1$, $P(2)=2$, $P(3)=3$, $P(4)=4$ and $P(5)=12$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(x)=\\frac{7}{24}(x-1)(x-2)(x-3)(x-4)+x$.\n\nLet $Q(x)=P(x)-x$; its roots are $1,2,3,4$.",
+          "worked": "Let $Q(x)=P(x)-x$. Since $P$ has degree 4, so does $Q$.\n\n$$\\begin{align*}Q(1)&=1-1=0\\\\Q(2)&=2-2=0\\\\Q(3)&=3-3=0\\\\Q(4)&=4-4=0\\\\Q(5)&=12-5=7.\\end{align*}$$\n\nBy the Factor Theorem,\n$$Q(x)=a(x-1)(x-2)(x-3)(x-4).$$\nUsing $Q(5)=7$,\n$$\\begin{align*}a(5-1)(5-2)(5-3)(5-4)&=7\\\\24a&=7\\\\a&=\\frac{7}{24}.\\end{align*}$$\nTherefore,\n$$\\begin{align*}P(x)&=Q(x)+x\\\\P(x)&=\\frac{7}{24}(x-1)(x-2)(x-3)(x-4)+x.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p28-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that there is no polynomial $P(x)$ of degree 4 for which $P(1)=1$, $P(2)=2$, $P(3)=3$, $P(4)=4$ and $P(5)=5$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No such degree-4 polynomial exists.\n\n$Q(x)=P(x)-x$ would have degree 4 and five distinct roots, contradicting the root bound.",
+          "worked": "Suppose such a polynomial exists and let $Q(x)=P(x)-x$. Subtracting $x$ leaves its degree equal to 4.\n\n$$\\begin{align*}Q(1)&=P(1)-1=0\\\\Q(2)&=P(2)-2=0\\\\Q(3)&=P(3)-3=0\\\\Q(4)&=P(4)-4=0\\\\Q(5)&=P(5)-5=0.\\end{align*}$$\n\nThus $Q$ has five distinct roots. By the Factor Theorem it has the five linear factors $(x-1)$, $(x-2)$, $(x-3)$, $(x-4)$ and $(x-5)$, so its degree would be at least 5. This contradicts its degree being 4. Therefore no such polynomial exists.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q5-root/label",
+                  "type": "item",
+                  "ref": "p28-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "p28-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p28-q5-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q5-a/label",
+                          "type": "item",
+                          "ref": "p28-q5-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p28-q5-a/prompt",
+                          "type": "item",
+                          "ref": "p28-q5-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q5-a/space",
+                          "type": "item",
+                          "ref": "p28-q5-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p28-q5-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p28-q5-b/label",
+                          "type": "item",
+                          "ref": "p28-q5-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p28-q5-b/prompt",
+                          "type": "item",
+                          "ref": "p28-q5-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p28-q5-b/space",
+                          "type": "item",
+                          "ref": "p28-q5-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:44:55.756Z",
+  "updatedAt": "2026-11-12T13:44:55.756Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part9-20261009",
+    "blockId": "p28-q5",
+    "sectionRole": "exercise"
+  }
+}

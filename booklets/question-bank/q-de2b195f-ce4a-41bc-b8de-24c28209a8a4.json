@@ -1,0 +1,95 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-de2b195f-ce4a-41bc-b8de-24c28209a8a4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-notation-evaluate",
+    "secondarySkillIds": [
+      "define-polynomials"
+    ],
+    "reasoningScore": 94,
+    "difficulty": "Challenge",
+    "difficultyReason": "Discover that evaluation at 1 bounds every coefficient, then choose an adaptive base so a second evaluation uniquely encodes the entire polynomial as digits.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:58:33.521Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ba5fadde06437dee63de8b8dd3c2ae7a65af5fd2ad905d70b5c3201d8cb082b6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part9-20261009/037ab699c31d679d614a6f1b18b7ef65b8b3be35437ddce5ab19a9451f4dd4c0-1792558665903/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p4-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "Suppose a polynomial has non-negative integer coefficients. Is it possible to completely determine the equation of the polynomial, if you are only allowed to ask the value that it takes at two points?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Yes. Ask for $S=P(1)$, then for $P(N)$ where $N=S+2$.\n\nThe base-$N$ digits of $P(N)$ give the coefficients, from the constant term upwards.",
+      "worked": "Write $P(x)=a_nx^n+\\cdots+a_1x+a_0$, where every coefficient is a non-negative integer. First ask for\n$$\\begin{align*}S&=P(1)\\\\S&=a_n+\\cdots+a_1+a_0.\\end{align*}$$\nEach coefficient is at most $S$. Choose the integer $N=S+2$, so $N\\ge2$ and $0\\le a_i<N$. Ask for the second value, $P(N)$:\n$$P(N)=a_nN^n+\\cdots+a_1N+a_0.$$\nThis is the base-$N$ representation of $P(N)$, with digits $a_n,\\ldots,a_1,a_0$. Its unique digits determine every coefficient and hence the polynomial. If $S=0$, all coefficients are zero, so the polynomial is already determined.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 65
+  },
+  "presentation": {
+    "ownerId": "p4-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p4-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p4-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p4-q17-root/label",
+                  "type": "item",
+                  "ref": "p4-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p4-q17-root/prompt",
+                  "type": "item",
+                  "ref": "p4-q17-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p4-q17-root/space",
+                  "type": "item",
+                  "ref": "p4-q17-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:43:41.067Z",
+  "updatedAt": "2026-11-12T13:43:41.067Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part9-20261009",
+    "blockId": "p4-q17",
+    "sectionRole": "exercise"
+  }
+}
