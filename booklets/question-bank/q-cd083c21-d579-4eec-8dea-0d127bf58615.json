@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cd083c21-d579-4eec-8dea-0d127bf58615",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Use the symmetric graph to form width times height, differentiate an exponential product and check the derivative's sign before substituting for the maximum area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T07:13:20.306Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "df71586666554b6463675976700a2770616efd11b278607760848c972e372ca1",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/semantic-packets/assignments/assignment-a3684f25abb6b185be80/1/generation.json",
+      "originalTaskHash": "579cb048d086e62d625b960f586229b399fe55a504b2056a5aa9c38e89e8c253"
+    }
+  },
+  "content": {
+    "id": "p42-q35-root",
+    "type": "question",
+    "label": "35",
+    "prompt": "The rectangle PQRS has two vertices on the $x$-axis and two on the curve $y=e^{-x^2}$, as shown in the diagram. Find:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p42-q35-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"areaFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the rectangle whose area is maximised\"}],\"reference\":\"source page 42 p42-q35-diagram\"}\n\\begin{tikzpicture}[x=1.5cm,y=2cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaFill}{HTML}{D4E8FF}\n\\coordinate (P) at (0.8,{exp(-0.64)});\n\\coordinate (Q) at (0.8,0);\n\\coordinate (R) at (-0.8,0);\n\\coordinate (S) at (-0.8,{exp(-0.64)});\n\\fill[areaFill] (R)--(Q)--(P)--(S)--cycle;\n\\draw[black,line width=0.8pt] (R)--(Q)--(P)--(S)--cycle;\n\\draw[black,line width=0.5pt,<->] (-1.8,0)--(1.8,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-0.45)--(0,1.6) node[above] {$y$};\n\\draw[black,line width=0.8pt,domain=-1.65:1.65,samples=100] plot (\\x,{exp(-\\x*\\x)});\n\\node[above right] at (0.08,1.13) {$y=e^{-x^2}$};\n\\node[above right] at (P) {$P(x,e^{-x^2})$};\n\\node[below] at (Q) {$Q$};\n\\node[below] at (R) {$R$};\n\\node[above left] at (S) {$S$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 42,
+          "sourceRegion": "Question 35 graph",
+          "description": "Symmetric exponential curve with a rectangle beneath it, upper-right vertex P, lower-right Q, lower-left R and upper-left S. Both axes have arrowheads and no numbered ticks. The origin label is omitted under the house graph convention.",
+          "mathematics": "The curve is y=exp(-x^2). The illustrative rectangle has upper corners at opposite horizontal coordinates and equal positive heights; its width is 2x and height exp(-x^2). The illustrative coordinate used to draw it is not a given.",
+          "answerVisibility": "All givens and vertex labels remain visible in the question edition. No optimum is marked. Light blue shading identifies the assessed area, replacing source grey under the standard palette; source image hash 6e17ccf8b15ca2c8bbb1ae8c0f1c8a4e38cedd1d97f3526092e3ee66ba877dee."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p42-q35-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "the value of $x$ for which the rectangle has a maximum area",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\dfrac{1}{\\sqrt2}=\\dfrac{\\sqrt2}{2}$.",
+          "worked": "The curve is even, so $S=(-x,e^{-x^2})$. Since P is the upper-right vertex, $x>0$.\n\nWidth $=2x$ and height $=e^{-x^2}$.\n$$\\begin{align*}A(x)&=2xe^{-x^2}\\\\A'(x)&=2e^{-x^2}-4x^2e^{-x^2}\\\\A'(x)&=2e^{-x^2}(1-2x^2).\\end{align*}$$\nFor a stationary point, $e^{-x^2}>0$, so\n$$\\begin{align*}1-2x^2&=0\\\\x^2&=\\frac12\\\\x&=\\frac{1}{\\sqrt2}\\qquad(x>0).\\end{align*}$$\nFor $0<x<\\frac{1}{\\sqrt2}$, $A'(x)>0$; for $x>\\frac{1}{\\sqrt2}$, $A'(x)<0$. Thus the area increases then decreases throughout its domain, giving a global maximum at $x=\\frac{\\sqrt2}{2}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p42-q35-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "the maximum area of the rectangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt{\\dfrac{2}{e}}$ square units.",
+          "worked": "$$\\begin{align*}A\\left(\\frac{\\sqrt2}{2}\\right)&=2\\left(\\frac{\\sqrt2}{2}\\right)e^{-(\\sqrt2/2)^2}\\\\A\\left(\\frac{\\sqrt2}{2}\\right)&=\\sqrt2\\,e^{-1/2}\\\\A\\left(\\frac{\\sqrt2}{2}\\right)&=\\sqrt{\\frac2e}.\\end{align*}$$\nThe maximum area is $\\sqrt{\\frac{2}{e}}$ square units.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p42-q35",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:53:01.554Z",
+  "updatedAt": "2026-11-12T20:53:01.554Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p42-q35",
+    "sectionRole": "exercise"
+  }
+}

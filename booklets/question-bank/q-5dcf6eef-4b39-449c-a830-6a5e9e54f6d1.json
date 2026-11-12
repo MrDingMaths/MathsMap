@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5dcf6eef-4b39-449c-a830-6a5e9e54f6d1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "transform-trig-functions",
+    "secondarySkillIds": [
+      "describe-transformations-from-equation"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Select and state a valid sequence of combined transformations, then convert it into key points on the restricted domain. This links the taught transformation procedure with half-cycle recognition and a shifted mean, without requiring an unfamiliar insight.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-29T13:47:25.421Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9accccba43d236cdd59f77e59bd993cbd94cc337223c93049490aaf973981a0d",
+      "evidence": ".booklet-work/end-goal-20261028/phase6-trig-transform-r4/fresh-four-ratings/reply.json",
+      "originalTaskHash": "f968e784c73c403ff5ed3c57fa6c4df356f1992a7c96834709a987aaa2c2f74d"
+    }
+  },
+  "content": {
+    "id": "p21-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "State the sequence of transformations that will transform $y=\\sin x$ to the given function, then sketch for the domain $[0,2\\pi]$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=-2\\sin\\left(\\frac{x}{2}\\right)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Dilate horizontally by factor $2$, dilate vertically by factor $2$, then reflect across the $x$-axis. The graph passes through $(0,0)$, has minimum $(\\pi,-2)$ and ends at $(2\\pi,0)$.",
+          "worked": "Apply the transformations in this sequence:\n1. Horizontal dilation by factor $2$: $y=\\sin(\\frac{x}{2})$.\n2. Vertical dilation by factor $2$: $y=2\\sin(\\frac{x}{2})$.\n3. Reflection across the $x$-axis: $y=-2\\sin(\\frac{x}{2})$.\n\nThe period is $4\\pi$, so the given domain contains half a cycle. Sketch a smooth curve through $(0,0)$, $(\\frac{\\pi}{2},-\\sqrt2)$, $(\\pi,-2)$, $(\\frac{3\\pi}{2},-\\sqrt2)$ and $(2\\pi,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q3-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"transformed sine graph\"}],\"reference\":\"page 21 question 3a\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (-0.08,0)--(6.65,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-2.35)--(0,2.35) node[above] {$y$};\n\\foreach \\v in {1,...,12} {\\draw[black,line width=0.4pt] ({\\v*pi/6},-0.06)--({\\v*pi/6},0.06);}\n\\foreach \\v/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}} {\\node[below] at (\\v,-0.07) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-2,-1,1,2} {\\draw[black,line width=0.4pt] (-0.06,\\v)--(0.06,\\v);\\node[left] at (-0.07,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[seriesBlue,line width=0.8pt,domain=0:6.283185307,samples=121] plot (\\x,{-2*sin(\\x*180/pi/2)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "Question 3a answer graph, upper left",
+                "description": "Negative half sine wave on the closed domain from zero to two pi; labelled axes and source ticks, without a grid.",
+                "mathematics": "y=-2 sin(x/2), 0<=x<=2pi; minimum (pi,-2); horizontal minor tick step pi/6; vertical tick step 1.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p21-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=3\\sin\\left(x-\\frac{\\pi}{2}\\right)+2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Translate $\\frac{\\pi}{2}$ units right, dilate vertically by factor $3$, then translate $2$ units up. The graph starts at $(0,-1)$, reaches maximum $(\\pi,5)$ and ends at $(2\\pi,-1)$.",
+          "worked": "Apply the transformations in this sequence:\n1. Horizontal translation $\\frac{\\pi}{2}$ units right: $y=\\sin(x-\\frac{\\pi}{2})$.\n2. Vertical dilation by factor $3$: $y=3\\sin(x-\\frac{\\pi}{2})$.\n3. Vertical translation $2$ units up: $y=3\\sin(x-\\frac{\\pi}{2})+2$.\n\nThe amplitude is $3$, mean position is $y=2$ and period is $2\\pi$. Sketch one cycle through $(0,-1)$, $(\\frac{\\pi}{2},2)$, $(\\pi,5)$, $(\\frac{3\\pi}{2},2)$ and $(2\\pi,-1)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q3-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"transformed sine graph\"}],\"reference\":\"page 21 question 3b\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.5cm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\draw[black,line width=0.5pt,->] (-0.08,0)--(6.65,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,<->] (0,-5.55)--(0,5.65) node[above] {$y$};\n\\foreach \\v in {1,...,12} {\\draw[black,line width=0.4pt] ({\\v*pi/6},-0.13)--({\\v*pi/6},0.13);}\n\\foreach \\v/\\lab in {1.570796/{\\frac{\\pi}{2}},3.141593/{\\pi},4.712389/{\\frac{3\\pi}{2}},6.283185/{2\\pi}} {\\node[below] at (\\v,-0.13) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-5,-4,-3,-2,-1,1,2,3,4,5} {\\draw[black,line width=0.4pt] (-0.06,\\v)--(0.06,\\v);\\node[left] at (-0.07,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\draw[seriesBlue,line width=0.8pt,domain=0:6.283185307,samples=121] plot (\\x,{3*sin(\\x*180/pi-90)+2});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "Question 3b answer graph, upper right",
+                "description": "One transformed sine cycle with endpoints at height minus one and maximum at pi, five; source axis labels and ticks, without a grid.",
+                "mathematics": "y=3 sin(x-pi/2)+2, 0<=x<=2pi; maximum (pi,5); horizontal minor tick step pi/6; vertical tick step 1.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 67
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:53:08.627Z",
+  "updatedAt": "2026-11-12T20:53:08.629Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-further-graph-transformations-and-modelling-1-transformations-of-trigonometric-functions-v1",
+    "blockId": "p21-q3",
+    "sectionRole": "exercise"
+  }
+}

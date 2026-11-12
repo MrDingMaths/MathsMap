@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-62d455ce-7acc-45e2-94c7-e167c8c920f9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Use the explicitly prompted similarity ratio to obtain the supplied height and volume formulas, then differentiate and classify the feasible stationary point. The intermediate targets substantially scaffold the modelling.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T09:09:41.127Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c5afa500db253c2276fb8ff98ddbc31c6219210325736a70283036278a522e30",
+      "evidence": ".booklet-work/full-imports/s6adv-applications-of-calculus-2-optimisation-20261024/lean-review/calls/content-1792832956121-0/last-message.txt",
+      "originalTaskHash": "bffc12e5176a78e2afd03bae8d639206aa09d3b19ba00fce9a5dece2d17aaac8"
+    }
+  },
+  "content": {
+    "id": "p38-q29-root",
+    "type": "question",
+    "label": "29",
+    "prompt": "A cylinder $h$ cm high with radius $r$ cm is enclosed in a cone of height $40$ cm and radius $12$ cm.\n\nThe cylinder stands on the cone’s base and shares its axis. The diagram shows half of an axial cross-section: $A$ is the apex; $D$ is the base centre; $E$ is on the cone’s base rim; $B$ is on the axis at the cylinder’s top; and $C$ is its contact point with the cone.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q29-axial-half-section",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"cylinderBlue\",\"hex\":\"268CFF\",\"reason\":\"axial half-section of the cylinder\"}],\"reference\":\"Source page 38 question 29: label positions reconstructed from the supplied ratios BC/DE=AB/AD and r/12=(40-h)/40.\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black},line cap=round,line join=round]\n\\definecolor{cylinderBlue}{HTML}{268CFF}\n\\draw[black,line width=0.6pt] (0,0)--(0,8)--(6,0)--cycle;\n\\draw[cylinderBlue,line width=0.7pt] (0,0)--(3.75,0)--(3.75,3)--(0,3);\n\\draw[black,line width=0.4pt] (0,0.3)--(0.3,0.3)--(0.3,0);\n\\draw[black,line width=0.4pt] (0,3.3)--(0.3,3.3)--(0.3,3);\n\\node[above] at (0,8) {$A$};\\node[left] at (0,3) {$B$};\\node[above right] at (3.75,3) {$C$};\\node[below left] at (0,0) {$D$};\\node[below right] at (6,0) {$E$};\n\\node[above] at (1.875,3) {$r$};\\node[right] at (3.75,1.5) {$h$};\\node[below] at (3,0) {$12\\text{ cm}$};\n\\draw[black,line width=0.4pt,<->] (-1,0)--(-1,8) node[midway,left] {$40\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 29 and its supplied worked ratios",
+          "description": "Verified equivalent axial half-section supplying the missing point definitions. ABC and ADE are right triangles with a common apex angle. The cylinder half-section is the rectangle below BC.",
+          "mathematics": "AD=40, DE=12, BC=r, BD=h, AB=40-h, BC parallel to DE, and A,C,E collinear. Thus r/12=(40-h)/40. No optimum value is supplied.",
+          "answerVisibility": "All labelled positions and given dimensions are permanent question givens. The derivation and optimum remain in the answers."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p38-q29-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $\\triangle ABC\\sim\\triangle ADE$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "AA similarity: $\\angle ABC=\\angle ADE=90^\\circ$ and $\\angle ACB=\\angle AED$.",
+          "worked": "$\\angle ABC=\\angle ADE=90^\\circ$. Also, $\\angle ACB=\\angle AED$ because $BC\\parallel DE$ and $A,C,E$ lie on a straight line. Therefore $\\triangle ABC\\sim\\triangle ADE$ by AA similarity.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p38-q29-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "By using ratios of corresponding sides, show that $h=40-\\dfrac{10r}{3}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{r}{12}=\\dfrac{40-h}{40}$, so $h=40-\\dfrac{10r}{3}$.",
+          "worked": "Since $\\triangle ABC\\sim\\triangle ADE$,\n$$\\begin{align*}\\frac{BC}{DE}&=\\frac{AB}{AD}\\\\\\frac{r}{12}&=\\frac{40-h}{40}\\\\\\frac{40r}{12}&=40-h\\\\h&=40-\\frac{10r}{3}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p38-q29-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that the volume of the cylinder is given by $V=40\\pi r^2-\\dfrac{10\\pi r^3}{3}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V=\\pi r^2\\left(40-\\dfrac{10r}{3}\\right)=40\\pi r^2-\\dfrac{10\\pi r^3}{3}$.",
+          "worked": "$$\\begin{align*}V&=\\pi r^2h\\\\V&=\\pi r^2\\left(40-\\frac{10r}{3}\\right)\\\\V&=40\\pi r^2-\\frac{10\\pi r^3}{3}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p38-q29-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find $\\dfrac{dV}{dr}$ and hence find the value of $r$ for which the volume of the cylinder is maximised.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dV}{dr}=80\\pi r-10\\pi r^2=10\\pi r(8-r)$. The volume is maximised when $r=8\\,\\mathrm{cm}$.",
+          "worked": "For a non-degenerate cylinder, $0<r<12$.\n$$\\begin{align*}\\frac{dV}{dr}&=80\\pi r-10\\pi r^2\\\\\\frac{dV}{dr}&=10\\pi r(8-r).\\end{align*}$$\nThe derivative is zero when $r=0$ or $r=8$; only $r=8$ is in the domain.\n$$\\begin{align*}\\frac{d^2V}{dr^2}&=80\\pi-20\\pi r\\\\\\left.\\frac{d^2V}{dr^2}\\right|_{r=8}&=-80\\pi<0.\\end{align*}$$\nAlso, $\\frac{dV}{dr}>0$ for $0<r<8$ and $\\frac{dV}{dr}<0$ for $8<r<12$, so this is the global maximum. The required radius is $8\\,\\mathrm{cm}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q29",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:53:00.733Z",
+  "updatedAt": "2026-11-12T20:53:00.734Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-2-optimisation-2-v1",
+    "blockId": "p38-q29",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7dee5055-f1cb-480e-a259-5df1975cce57",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "curve-sketching-calculus",
+    "secondarySkillIds": [
+      "classify-stationary-first-derivative",
+      "points-of-inflection"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Use positivity of the exponential to analyse derivative signs, assemble the scaffolded sketch and range, then recognise the reflected function as f(-x).",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-05T11:07:48.067Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "618777ab6393b95c3f73aaaa34d3d0dffe50bd54a4bb407d92d6fa4e0820e621",
+      "evidence": ".booklet-work/reasoning-ratings/calls/s6adv-applications-of-calculus-1-curve-sketching-v1/19e117a3b61b2e84bca22fa101528d19ab5c9cb302fba2944c99d17a117dbe1e-1793876832794/last-message.txt",
+      "originalTaskHash": "43ac8ba4cb260ee0e34039d15e7721a521b7a4894fee6da996cc7b7f3fa67932"
+    }
+  },
+  "content": {
+    "id": "p51-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "Consider the curve $y=xe^x$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p51-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Where is the function zero, positive and negative? Is it even, odd or neither?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zero at $x=0$, positive for $x>0$, negative for $x<0$; neither even nor odd.",
+          "worked": "Since $e^x>0$, $xe^x$ has the same sign as $x$. Also $f(-x)=-xe^{-x}$, which is neither $f(x)$ nor $-f(x)$ as an identity. Hence the function is neither even nor odd.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p51-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $y'=(1+x)e^x$ and $y''=(2+x)e^x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p51-q17-b-short-formula-0",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 1,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "y'=e^x+xe^x=(1+x)e^x",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p51-q17-b-short-formula-1",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 1,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "y''=e^x+(1+x)e^x=(2+x)e^x",
+                    "display": false
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Using the product rule:\n$$\\begin{aligned}y'&=e^x+xe^x\\\\&=(1+x)e^x,\\\\y''&=e^x+(1+x)e^x\\\\&=(2+x)e^x.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p51-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that there is one stationary point, and determine its nature.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "One stationary point: a minimum at $(-1,-e^{-1})$.",
+          "worked": "$$\\begin{aligned}(1+x)e^x&=0\\\\x&=-1,\\\\y(-1)&=-e^{-1}.\\end{aligned}$$\nSince $e^x>0$, the sign of $y'$ is the sign of $1+x$.\n$$\\begin{array}{c|ccc}x&x<-1&-1&x>-1\\\\\\hline y'&-&0&+\\\\\\text{slope}&\\text{decreasing}&\\text{stationary}&\\text{increasing}\\end{array}$$\nThus the unique stationary point is a minimum.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p51-q17-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the coordinates of the lone point of inflection.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(-2,-2e^{-2})$.",
+          "worked": "$$\\begin{aligned}(2+x)e^x&=0\\\\x&=-2,\\\\y(-2)&=-2e^{-2}.\\end{aligned}$$\n$$\\begin{array}{c|ccc}x&x<-2&-2&x>-2\\\\\\hline y''&-&0&+\\\\\\text{concavity}&\\text{down}&&\\text{up}\\end{array}$$\nThe concavity changes at $x=-2$, so the lone point of inflection is $(-2,-2e^{-2})$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p51-q17-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What happens to $y$, $y'$ and $y''$ as $x\\to\\infty$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y\\to\\infty$, $y'\\to\\infty$ and $y''\\to\\infty$.",
+          "worked": "As $x\\to\\infty$, each of $xe^x$, $(1+x)e^x$ and $(2+x)e^x$ tends to $\\infty$. The curve is eventually above the $x$-axis and increasing at an increasing rate.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p51-q17-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Given that $y\\to0$ as $x\\to-\\infty$, sketch the curve, then write down its range.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Range: $y\\ge-\\frac{1}{e}$. The graph has minimum $(-1,-e^{-1})$ and inflection point $(-2,-2e^{-2})$, and passes through the origin.",
+          "worked": "The curve approaches $y=0$ from below as $x\\to-\\infty$. It decreases to $(-1,-e^{-1})$, then increases through $(0,0)$ without bound. It is concave down for $x<-2$ and concave up for $x>-2$, with inflection point $(-2,-2e^{-2})$. It also passes through $(1,e)$.\n\nThe minimum value is $-\\frac{1}{e}$, so the range is $[-\\frac{1}{e},\\infty)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p51-q17-graph-f",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 51 question 17f\"}\n\\begin{tikzpicture}[x=0.85cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\def\\Tick#1{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$#1$\\special{dvisvgm:raw </g>}}\n\\draw[line width=0.5pt,->] (-3.8,0)--(1.65,0) node[right] {$x$};\n\\draw[line width=0.5pt,->] (0,-0.75)--(0,3.65) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (0,2.71828)--(1,2.71828)--(1,0);\n\\node[below] at (1,0) {\\Tick{1}};\n\\node[left] at (0,2.71828) {\\Tick{e}};\n\\draw[line width=0.8pt,<->] plot[domain=-3.8:1.12,samples=160] (\\x,{\\x*exp(\\x)});\n\\fill (-2,-0.27067) circle (1.5pt);\n\\fill (-1,-0.36788) circle (1.5pt);\n\\node (I) at (-2.7,1.65) {$(-2,-2e^{-2})$};\n\\draw[line width=0.4pt,->] (I.south) to[out=-100,in=110] (-2,-0.27067);\n\\node (M) at (-1.65,0.85) {$(-1,-e^{-1})$};\n\\draw[line width=0.4pt,->] (M.south) to[out=-70,in=100] (-1,-0.36788);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 82,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 51,
+                "sourceRegion": "Question 17 left answer graph",
+                "description": "Left member of the reflection pair, including labelled minimum and inflection point with curved leaders and dashed guides to (1,e).",
+                "mathematics": "y=xe^x; minimum (-1,-1/e), inflection (-2,-2/e^2).",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p51-q17-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "Hence also sketch $y=-xe^{-x}$ by recognising the simple transformation.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Reflect $y=xe^x$ in the $y$-axis. Minimum $(1,-e^{-1})$; inflection point $(2,-2e^{-2})$.",
+          "worked": "For $f(x)=xe^x$,\n$$f(-x)=(-x)e^{-x}=-xe^{-x}.$$\nReflect the graph in the $y$-axis: $(x,y)$ maps to $(-x,y)$. The minimum becomes $(1,-e^{-1})$, the inflection point becomes $(2,-2e^{-2})$, and $(1,e)$ becomes $(-1,e)$. The origin stays fixed. The graph rises without bound to the left and approaches $y=0$ from below to the right.",
+          "solutionDiagrams": [
+            {
+              "id": "p51-q17-graph-g",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 51 question 17g\"}\n\\begin{tikzpicture}[x=0.85cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\def\\Tick#1{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$#1$\\special{dvisvgm:raw </g>}}\n\\draw[line width=0.5pt,->] (-1.65,0)--(3.8,0) node[right] {$x$};\n\\draw[line width=0.5pt,->] (0,-0.75)--(0,3.65) node[above] {$y$};\n\\draw[dashed,line width=0.4pt] (0,2.71828)--(-1,2.71828)--(-1,0);\n\\node[below] at (-1,0) {\\Tick{-1}};\n\\node[right] at (0,2.71828) {\\Tick{e}};\n\\draw[line width=0.8pt,<->] plot[domain=-1.12:3.8,samples=160] (\\x,{-\\x*exp(-\\x)});\n\\fill (2,-0.27067) circle (1.5pt);\n\\fill (1,-0.36788) circle (1.5pt);\n\\node (I) at (2.7,1.65) {$(2,-2e^{-2})$};\n\\draw[line width=0.4pt,->] (I.south) to[out=-80,in=70] (2,-0.27067);\n\\node (M) at (1.65,0.85) {$(1,-e^{-1})$};\n\\draw[line width=0.4pt,->] (M.south) to[out=-110,in=80] (1,-0.36788);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 82,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 51,
+                "sourceRegion": "Question 17 right answer graph",
+                "description": "Right member of the reflection pair, with the same coordinate units and vertical scale as the left graph; curved leaders identify the minimum and inflection point, and dashed guides mark (-1,e).",
+                "mathematics": "y=-xe^{-x}=f(-x), reflection of y=xe^x in the y-axis.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 47
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p51-q17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T20:52:29.304Z",
+  "updatedAt": "2026-11-12T20:52:29.305Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-applications-of-calculus-1-curve-sketching-2-v1",
+    "blockId": "p51-q17",
+    "sectionRole": "exercise"
+  }
+}
