@@ -1,6 +1,6 @@
 # Master booklets: every open comment settled (12 November 2026)
 
-James asked for every booklet comment to be resolved, with ambiguous cases decided and only genuinely tricky ones left. This page covers the masters. The textbook imports (about 9,150 import-review notes in 113 booklets) are a separate pass. Import workflow flags (`workflowIssue`, hidden from Studio's Comments panel) are out of scope, as on [11 November](pedagogy-audit-v2-stage45-comments-20261111.md).
+James asked for every booklet comment to be resolved, with ambiguous cases decided and only genuinely tricky ones left. This page covers the masters and, under [Textbook imports](#textbook-imports), the 113 import-review booklets. Import workflow flags (`workflowIssue`, hidden from Studio's Comments panel) are out of scope, as on [11 November](pedagogy-audit-v2-stage45-comments-20261111.md).
 
 **Before:** about 700 open comments in 174 masters. Most were pedagogy audit v2 comments. The rest were 14 polish page-break suggestions, 13 v1 coverage notes, about 38 old import notes and 2 of James's own notes.
 **After:** 1 open (below).
@@ -94,10 +94,56 @@ The audit's rewrites were placed by `apply-comments` where its placement code co
 - `scripts/booklet/bank-sync.mjs` read all 9,131 bank records at once. Since today's bank import, every save that touches a bank-owned question failed with EMFILE (too many open files) on Windows. It now reads in batches of 256.
 - **The running Studio server still has the old code until it restarts**, so a Studio save of a bank-linked question may still fail until then.
 
+## Textbook imports
+
+**Before:** 9,253 open comments in 113 import-review booklets (ICE-EM 7–10, Enrichment Maths 1–2, Cambridge Year 11, Concept Maths, Mastering Maths).
+**After:** 513 open, deliberately (below). Cambridge Year 11 ch05 was being imported by another session and was not touched.
+
+| Outcome | Comments |
+| --- | --- |
+| Helper-access notes: "the working-space helper could not run" (`lean-review.mjs` treats them as processing records; working space is set by the calibrated pass and pagination) | 5,948 |
+| Answer-match records: the answer is present, but its teacher-page reference was not recorded (also processing records) | 921 |
+| Teaching-evidence caveats accepted: standard method, stated in full; the source teaching pages were not supplied | 995 |
+| Judged by `gpt-6.1-sol` low, settled (with the block text inline; each resolution says what was checked) | 643 |
+| Judged, accepted as evidence-only caveats | 165 |
+| Fixed by text edit, page-checked | 16 |
+| Fixes rejected, with the reason recorded (a "provisional" label in student text, "use an A3 sheet", printed textbook example references) | 7 |
+| Target block no longer exists | 45 |
+
+The judging packets and verdicts are in `.booklet-work/comment-settle-20261112/imports/`. Fixes made:
+
+- **ICE-EM 7 ch02 Q6:** 19 283 746 556 000 000 001 has digit sum 57, not 72. It is no longer listed as divisible by 9, which matches the source answer.
+- **ICE-EM 8 ch04:** the source divides by 10, not 100, so the answer is −60.
+- **ICE-EM 10 ch14:** 5√2 → 5√5, so the log statement 5^(3/2) = 5√5 is true.
+- **Enrichment 1 p28:** the printed data forced a degenerate cone. The total surface area is now 10π, so s = 3 cm.
+- **Other fixes:**
+  - an impossible "show that" changed to an evaluation;
+  - a convex n-gon stated for the star-angle formula;
+  - diameter endpoints defined;
+  - proportionality conditions stated;
+  - a rhombus question concludes correctly;
+  - "identify all" where two options qualify;
+  - "three times as many";
+  - a completed congruence proof;
+  - an exercise reference corrected (Q7(c)).
+
+### Left open in the imports (513)
+
+- **364 "not rendered at final size" notes.** The import finish step (`lean-review.mjs`) uses open flags to choose pages for visual review. Resolving these without rendering would hide those pages from the review, so they stay open for the finish export.
+- **147 structural assembly items**, listed in [booklet-import-comments-open-20261112.md](booklet-import-comments-open-20261112.md). Each needs a non-text change, for example:
+  - merging a follow-up question into the question that owns it as further parts;
+  - restoring a category heading;
+  - binding answers to table cells;
+  - routing a block to its exercise;
+  - choosing a taxonomy skill.
+- **For James:**
+  - **Cambridge Year 11 ch04 p5:** do the cartons have to stay parallel to the room's sides, or can they rotate? The teacher's four-carton packing assumes they stay parallel.
+  - **Enrichment Joshua p17 Q(b):** the displayed answer needs an opening bracket that the cloze cannot hold yet. This one is structural rather than a decision.
+
 ## Not done
 
 - Drafts resolved as "Not added" are kept in the proposals store. Most are guided practice that overflows the footer, so they could be placed with a page break or two-to-a-row parts if wanted.
-- The textbook imports' comments are not covered here.
+- The 513 import comments listed above.
 - The commit includes an uncommitted edit to Further Differentiation and Integration 1 that predates this work.
 
 Tools and logs are in `.booklet-work/comment-settle-20261112/`:
