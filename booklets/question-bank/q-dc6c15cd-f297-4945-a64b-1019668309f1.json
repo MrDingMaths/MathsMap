@@ -1,0 +1,221 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dc6c15cd-f297-4945-a64b-1019668309f1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "convert-degrees-radians",
+      "arc-length-radians",
+      "sector-area-radians"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Infer the outer radius from the radial thickness, subtract sector areas and identify both arcs plus the two short straight edges as the shaded boundary.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:27:02.384Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "262586159b3558ad4866ffb8d3be4bce50d73e632e624ab680522e0a695fc223",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch03/081cd528b9998ba368172e4a81076befaf14abc197c1d9107d3ed38960578b74-1792556788951/last-message.txt",
+      "originalTaskHash": "c8fc3a81c40561bea9d41c4c13efa44acca7ef6182438a2f94a9b1c5e81d9b06",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "dc7be62a01939fd8c36410562b58eb6ac6e24aeb06004ff40c1417956727e4e4"
+      }
+    }
+  },
+  "content": {
+    "id": "p63-q18-response",
+    "type": "question",
+    "label": "18",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p63-q18-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The following region is made from two sectors ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "OAB",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "OPQ",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "OA=8\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "AP=4\\text{ cm}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p63-q18-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the area and perimeter of the shaded region.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p63-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionArea\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the annular sector whose area and perimeter are required\"}],\"reference\":\"source PDF page 63, p63-q18-diagram\"}\n\\usetikzlibrary{calc,angles,arrows.meta}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionArea}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (165:2);\n\\coordinate (B) at (15:2);\n\\coordinate (P) at (165:3);\n\\coordinate (Q) at (15:3);\n\\path[fill=regionArea,draw=none] (Q) arc[start angle=15,end angle=165,radius=3] -- (A) arc[start angle=165,end angle=15,radius=2] -- cycle;\n\\draw (P) -- (O) -- (Q);\n\\draw (Q) arc[start angle=15,end angle=165,radius=3];\n\\draw (B) arc[start angle=15,end angle=165,radius=2];\n\\pic[draw=black,line width=0.4pt,angle radius=0.42cm] {angle=Q--O--P};\n\\node[above,inner sep=1pt] at (90:0.53) {$150^\\circ$};\n\\coordinate (MA) at ($(O)!0.5!(A)$);\n\\coordinate (MB) at ($(O)!0.5!(B)$);\n\\draw[line width=0.4pt] ($(MA)!0.075cm!90:(A)$) -- ($(MA)!0.075cm!-90:(A)$);\n\\draw[line width=0.4pt] ($(MB)!0.075cm!90:(B)$) -- ($(MB)!0.075cm!-90:(B)$);\n\\foreach \\t in {0.44,0.56} {\n  \\coordinate (ML) at ($(A)!\\t!(P)$);\n  \\coordinate (MR) at ($(B)!\\t!(Q)$);\n  \\draw[line width=0.4pt] ($(ML)!0.075cm!90:(P)$) -- ($(ML)!0.075cm!-90:(P)$);\n  \\draw[line width=0.4pt] ($(MR)!0.075cm!90:(Q)$) -- ($(MR)!0.075cm!-90:(Q)$);\n}\n\\foreach \\v in {O,A,B,P,Q} {\\fill[black] (\\v) circle[radius=0.035cm];}\n\\node[below,inner sep=2pt] at (O) {$O$};\n\\node[below,inner sep=2pt] at (A) {$A$};\n\\node[below,inner sep=2pt] at (B) {$B$};\n\\node[below left,inner sep=2pt] at (P) {$P$};\n\\node[below right,inner sep=2pt] at (Q) {$Q$};\n\\coordinate (Pd) at ($(P)+(255:0.42)$);\n\\coordinate (Ad) at ($(A)+(255:0.42)$);\n\\coordinate (Od) at ($(O)+(255:0.42)$);\n\\draw[line width=0.4pt,{Stealth[length=1.4mm]}-{Stealth[length=1.4mm]}] (Pd) -- node[midway,below,inner sep=1pt] {$4$} (Ad);\n\\draw[line width=0.4pt,{Stealth[length=1.4mm]}-{Stealth[length=1.4mm]}] (Ad) -- node[midway,below,inner sep=1pt] {$8$} (Od);\n\\draw[line width=0.4pt] ($(Pd)+(75:0.07)$) -- ($(Pd)+(255:0.07)$);\n\\draw[line width=0.4pt] ($(Ad)+(75:0.07)$) -- ($(Ad)+(255:0.07)$);\n\\draw[line width=0.4pt] ($(Od)+(75:0.07)$) -- ($(Od)+(255:0.07)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 63,
+          "sourceRegion": "Upper-left question 18 diagram.",
+          "description": "Concentric sectors centred at O, with P, A and O collinear and O, B and Q collinear. Both arcs lie above O. Single ticks mark OA and OB; double ticks mark AP and BQ. Dimensions 4 and 8 lie below the left radius.",
+          "mathematics": "The common central angle is 150 degrees. OA=OB=8 cm and AP=BQ=4 cm. The diagram uses proportional drawing radii 2 and 3 for mathematical radii 8 cm and 12 cm.",
+          "answerVisibility": "Only source givens and the target-region shading are visible; the outer radius, area and perimeter are not supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$A=\\dfrac{100\\pi}{3}\\text{ cm}^2$, $P=8+\\dfrac{50\\pi}{3}\\text{ cm}$.\n\nSubtract the inner sector area from the outer sector area. The perimeter includes both arcs and the two straight edges.",
+      "worked": "Convert the central angle to radians:\n$$\\begin{align*}\n\\theta&=150^\\circ\\times\\frac{\\pi}{180^\\circ}\\\\\n\\theta&=\\frac{5\\pi}{6}.\n\\end{align*}$$\nThe outer radius is $OP=8+4=12\\text{ cm}$.\n\nSubtract the sector areas:\n$$\\begin{align*}\nA&=\\frac12(12^2-8^2)\\left(\\frac{5\\pi}{6}\\right)\\\\\nA&=\\frac{100\\pi}{3}\\text{ cm}^2.\n\\end{align*}$$\nThe boundary contains both arcs and two straight edges of length $4\\text{ cm}$:\n$$\\begin{align*}\nP&=12\\left(\\frac{5\\pi}{6}\\right)+8\\left(\\frac{5\\pi}{6}\\right)+4+4\\\\\nP&=8+\\frac{50\\pi}{3}\\text{ cm}.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 64
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p63-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p63-q18-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p63-q18-labelled-stem",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p63-q18-label-item",
+                      "type": "item",
+                      "ref": "p63-q18-response/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p63-q18-stem-item",
+                      "type": "item",
+                      "ref": "p63-q18-response/prompt#p63-q18-stem"
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p63-q18-diagram-item",
+                  "type": "item",
+                  "ref": "p63-q18-diagram",
+                  "width": 78,
+                  "align": "center"
+                },
+                {
+                  "id": "p63-q18-request-item",
+                  "type": "item",
+                  "ref": "p63-q18-response/prompt#p63-q18-request"
+                },
+                {
+                  "id": "p63-q18-space-item",
+                  "type": "item",
+                  "ref": "p63-q18-response/space"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p63-q18"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:58:20.726Z",
+  "updatedAt": "2026-11-12T10:58:20.726Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p63-q18",
+    "sectionRole": "exercise"
+  }
+}

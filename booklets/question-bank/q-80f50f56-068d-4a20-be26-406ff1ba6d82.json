@@ -1,0 +1,566 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-80f50f56-068d-4a20-be26-406ff1ba6d82",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "independent-dependent-events"
+    ],
+    "reasoningScore": 37,
+    "difficulty": "Development",
+    "difficultyReason": "Diagnose symbolic tree errors by distinguishing successive branches from alternative paths and explaining why second-stage probabilities can depend on earlier outcomes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:32:20.939Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fa0bb4ab425c13fea8a01b319367016216231395aa403b2af5e1a91f9ac0ba5c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch08/c1ea778788b28a378b436cbedfafade1c0e4352fb1c1ad79b5ec5c63f83cc81e-1792557095529/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p23-q3-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Bob and Mary are discussing how to use the given probability tree depicting a multistage event.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p23-q3-instruction-1",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In each of the following claims made by Bob, Mary says that he is completely wrong.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p23-q3-instruction-2",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "What is wrong with each of Bob’s claims and how should Mary correct them?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p23-q3-tree",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF23 printed518 question3 p23-q3-tree\"}\n\\begin{tikzpicture}[x=12mm,y=11mm,line width=0.8pt,draw=black,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black,inner sep=2pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (root) at (0,0);\n\\node[align=center] at (2,2.25) {First\\\\stage};\n\\node[align=center] at (4,2.25) {Second\\\\stage};\n\\node (firstA) at (2,1) {$A$};\n\\node (firstB) at (2,-1) {$B$};\n\\node (AA) at (4,1.55) {$A$};\n\\node (AB) at (4,0.45) {$B$};\n\\node (BA) at (4,-0.45) {$A$};\n\\node (BB) at (4,-1.55) {$B$};\n\\draw (root)--(firstA.west) node[midway,above] {$p$};\n\\draw (root)--(firstB.west) node[midway,below] {$q$};\n\\draw (firstA.east)--(AA.west) node[midway,above] {$r$};\n\\draw (firstA.east)--(AB.west) node[midway,below] {$s$};\n\\draw (firstB.east)--(BA.west) node[midway,above] {$u$};\n\\draw (firstB.east)--(BB.west) node[midway,below] {$v$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 3, right column, between the introductory paragraph and the two instruction paragraphs.",
+          "description": "Unshaded left-to-right two-stage probability tree with stacked stage headings. First-stage A is above B; each second-stage A is above B. Probabilities label their own branches.",
+          "mathematics": "Root to A: p; root to B: q; first-stage A to second-stage A: r and B: s; first-stage B to second-stage A: u and B: v.",
+          "answerVisibility": "All branch probabilities and outcome labels are permanent question givens; no corrective answers appear in the diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p23-q3-a-claim",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The probability of getting ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "A",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " in both stages is ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "p+r",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$pr$. Multiply along the path giving $A$ in both stages.",
+          "worked": "The two branches are successive stages of one path, so their probabilities are multiplied.\n\n$$\\begin{align*}P(A\\text{ in both stages})&=pr\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p23-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p23-q3-b-claim",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The probability of getting ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "B",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " in the second stage is ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "sv",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$ps+qv$.\n\nMultiply along each path ending in $B$, then add the two cases.",
+          "worked": "The branches labelled $s$ and $v$ belong to different paths. Include the first-stage probability for each path, then add the mutually exclusive cases.\n\n$$\\begin{align*}P(B\\text{ in the second stage})&=P(AB)+P(BB)\\\\P(B\\text{ in the second stage})&=ps+qv\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p23-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p23-q3-c-claim",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The probability of getting ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "B",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " in the second stage is ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "(p+s)(q+v)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$ps+qv$.\n\nMultiply successive branch probabilities and add the two paths ending in $B$.",
+          "worked": "Bob has added probabilities along each path and multiplied the two cases. Multiply along each path and add the mutually exclusive cases instead.\n\n$$\\begin{align*}P(B\\text{ in the second stage})&=P(AB)+P(BB)\\\\P(B\\text{ in the second stage})&=ps+qv\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p23-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p23-q3-d-claim",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The probability of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "A",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " occurring at each stage is the same, so ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "p=r=u",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$p$, $r$ and $u$ need not be equal. The second-stage probability of $A$ can depend on the first-stage outcome.",
+          "worked": "The tree does not establish that these probabilities are equal. Here $p$ is the first-stage probability of $A$, while $r$ and $u$ are the second-stage probabilities of $A$ after different first-stage outcomes. If the stages are dependent, those second-stage probabilities can differ.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q3-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p23-q3-intro-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p23-q3-number-item",
+                      "type": "item",
+                      "ref": "p23-q3-root/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p23-q3-intro-item",
+                      "type": "item",
+                      "ref": "p23-q3-root/prompt#p23-q3-intro",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p23-q3-tree-item",
+                  "type": "item",
+                  "ref": "p23-q3-tree",
+                  "width": 60,
+                  "align": "center"
+                },
+                {
+                  "id": "p23-q3-instruction-1-item",
+                  "type": "item",
+                  "ref": "p23-q3-root/prompt#p23-q3-instruction-1",
+                  "align": "left"
+                },
+                {
+                  "id": "p23-q3-instruction-2-item",
+                  "type": "item",
+                  "ref": "p23-q3-root/prompt#p23-q3-instruction-2",
+                  "align": "left"
+                },
+                {
+                  "id": "p23-q3-a-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p23-q3-a-label-item",
+                      "type": "item",
+                      "ref": "p23-q3-a/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p23-q3-a-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p23-q3-a-prompt-item",
+                          "type": "item",
+                          "ref": "p23-q3-a/prompt",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p23-q3-a-space-item",
+                          "type": "item",
+                          "ref": "p23-q3-a/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p23-q3-b-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p23-q3-b-label-item",
+                      "type": "item",
+                      "ref": "p23-q3-b/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p23-q3-b-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p23-q3-b-prompt-item",
+                          "type": "item",
+                          "ref": "p23-q3-b/prompt",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p23-q3-b-space-item",
+                          "type": "item",
+                          "ref": "p23-q3-b/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p23-q3-c-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p23-q3-c-label-item",
+                      "type": "item",
+                      "ref": "p23-q3-c/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p23-q3-c-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p23-q3-c-prompt-item",
+                          "type": "item",
+                          "ref": "p23-q3-c/prompt",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p23-q3-c-space-item",
+                          "type": "item",
+                          "ref": "p23-q3-c/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p23-q3-d-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p23-q3-d-label-item",
+                      "type": "item",
+                      "ref": "p23-q3-d/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p23-q3-d-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p23-q3-d-prompt-item",
+                          "type": "item",
+                          "ref": "p23-q3-d/prompt",
+                          "align": "left"
+                        },
+                        {
+                          "id": "p23-q3-d-space-item",
+                          "type": "item",
+                          "ref": "p23-q3-d/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 4
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p23-q3"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:03:49.708Z",
+  "updatedAt": "2026-11-12T11:03:49.709Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch08",
+    "blockId": "p23-q3",
+    "sectionRole": "exercise"
+  }
+}

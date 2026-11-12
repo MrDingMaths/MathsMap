@@ -1,0 +1,246 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d71f6ada-72c4-460d-a538-fbbd2bc2adf6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "composite-function-equations",
+    "secondarySkillIds": [
+      "graph-piecewise"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "The composition requires splitting an inner-function branch at a new breakpoint, then graphing three restricted pieces with distinct open and closed endpoints.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-27T10:11:04.428Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e3c5f4b9f200d018e8dc588e59cb3d4e125f20c75639d777c4794e175820b6e9",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-8cb754993d4c4c94e796/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p142-q45-root",
+    "type": "question",
+    "label": "45",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p142-q45-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the piecewise-defined functions:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p142-q45-definitions",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\displaystyle f(x)=\\begin{cases}1-x&\\text{if }x\\ge0\\\\x^2&\\text{if }x<0\\end{cases}\\qquad\\text{and}\\qquad g(x)=\\begin{cases}x&\\text{if }x\\ge1\\\\x+2&\\text{if }x<1\\end{cases}",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p142-q45-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the piecewise-defined function $f(g(x))$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$f(g(x))=\\begin{cases}(x+2)^2&x<-2\\\\-x-1&-2\\le x<1\\\\1-x&x\\ge1.\\end{cases}$$\n\nSplit the $x<1$ branch at $x=-2$, where $g(x)=0$.",
+          "worked": "For $x<1$, $g(x)=x+2$. Its sign changes at $x=-2$.\n\nFor $x<-2$, $g(x)<0$, so use the square branch of $f$:\n$$\\begin{align*}f(g(x))&=(x+2)^2.\\end{align*}$$\n\nFor $-2\\le x<1$, $g(x)\\ge0$, so\n$$\\begin{align*}f(g(x))&=1-(x+2)\\\\f(g(x))&=-x-1.\\end{align*}$$\n\nFor $x\\ge1$, $g(x)=x\\ge0$, so\n$$\\begin{align*}f(g(x))&=1-x.\\end{align*}$$\n\nTherefore,\n$$f(g(x))=\\begin{cases}(x+2)^2&x<-2\\\\-x-1&-2\\le x<1\\\\1-x&x\\ge1.\\end{cases}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p142-q45-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Graph $y=f(g(x))$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Open endpoints: $(-2,0)$ and $(1,-2)$. Closed endpoints: $(-2,1)$ and $(1,0)$.\n\nPlot each branch only on its stated interval, as shown.",
+          "worked": "For $x<-2$, draw the left-hand branch of $y=(x+2)^2$, with an open endpoint at $(-2,0)$.\n\nFor $-2\\le x<1$, draw the segment of $y=-x-1$ from the closed endpoint $(-2,1)$ to the open endpoint $(1,-2)$.\n\nFor $x\\ge1$, draw the ray $y=1-x$ from the closed endpoint $(1,0)$ towards the lower right. This ray passes through $(2,-1)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p142-q45-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Composite-function graph; axes and guides remain black.\"}],\"reference\":\"Source PDF 142 Q45(b); answer PDF 31 printed 609, with registered right-ray correction\"}\n\\begin{tikzpicture}[x=9mm,y=9mm,line cap=round,line join=round,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.45,-3.3) rectangle (4.15,4.9);\n\\draw[black,line width=0.5pt,->] (-4.2,0)--(3.75,0);\n\\draw[black,line width=0.5pt,->] (0,-3.05)--(0,4.4);\n\\node[anchor=north,yshift=-3pt] at (3.75,0) {$x$};\n\\node[anchor=south east,xshift=-3pt] at (0,4.4) {$y$};\n\\draw[black,line width=0.4pt,dashed] (-2,0)--(-2,1)--(0,1);\n\\draw[black,line width=0.4pt,dashed] (1,0)--(1,-2)--(0,-2);\n\\draw[black,line width=0.4pt] (-0.08,1)--(0.08,1);\n\\draw[black,line width=0.4pt] (-0.08,-1)--(0.08,-1);\n\\draw[black,line width=0.4pt] (-0.08,-2)--(0.08,-2);\n\\draw[graphBlue,line width=0.8pt,<-] plot[domain=-4:-2,samples=65] (\\x,{(\\x+2)^2});\n\\draw[graphBlue,line width=0.8pt] (-2,1)--(1,-2);\n\\draw[graphBlue,line width=0.8pt,->] plot[domain=1:3.65,samples=2] (\\x,{1-\\x});\n\\filldraw[draw=graphBlue,fill=white,line width=0.8pt] (-2,0) circle[radius=1.6pt];\n\\filldraw[draw=graphBlue,fill=white,line width=0.8pt] (1,-2) circle[radius=1.6pt];\n\\fill[graphBlue] (-2,1) circle[radius=1.7pt];\n\\fill[graphBlue] (1,0) circle[radius=1.7pt];\n\\node[anchor=north,yshift=-4pt] at (-2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south,yshift=3pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east,xshift=-3pt,yshift=1pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-4pt,yshift=-3pt] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-3pt] at (0,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 142,
+                "sourceRegion": "Question 45(b), middle right column; answer reference PDF page 31, printed page 609, top right.",
+                "description": "Three blue pieces on black coordinate axes: a left parabola with open endpoint (-2,0), a descending segment from closed (-2,1) to open (1,-2), and a descending right ray beginning at closed (1,0). Dashed guides identify endpoint coordinates. No grid or origin label.",
+                "mathematics": "y=(x+2)^2 for x<-2; y=-x-1 for -2<=x<1; y=1-x for x>=1. The right ray passes through (2,-1).",
+                "answerVisibility": "Solution only. No graph or supplied drawing canvas appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p142-q45",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p142-q45": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p142-q45-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p142-q45-root/label",
+                  "type": "item",
+                  "ref": "p142-q45-root/label",
+                  "title": "Label 45"
+                },
+                {
+                  "id": "layout:p142-q45-root/prompt#p142-q45-introduction",
+                  "type": "item",
+                  "ref": "p142-q45-root/prompt#p142-q45-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p142-q45-root/prompt#p142-q45-definitions",
+                  "type": "item",
+                  "ref": "p142-q45-root/prompt#p142-q45-definitions",
+                  "title": "Text"
+                },
+                {
+                  "id": "p142-q45-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p142-q45-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p142-q45-a/label",
+                          "type": "item",
+                          "ref": "p142-q45-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p142-q45-a/prompt",
+                          "type": "item",
+                          "ref": "p142-q45-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p142-q45-a/space",
+                          "type": "item",
+                          "ref": "p142-q45-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p142-q45-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p142-q45-b/label",
+                          "type": "item",
+                          "ref": "p142-q45-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p142-q45-b/prompt",
+                          "type": "item",
+                          "ref": "p142-q45-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p142-q45-b/space",
+                          "type": "item",
+                          "ref": "p142-q45-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 45",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:26:02.091Z",
+  "updatedAt": "2026-11-12T13:26:02.092Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p142-q45",
+    "sectionRole": "exercise"
+  }
+}

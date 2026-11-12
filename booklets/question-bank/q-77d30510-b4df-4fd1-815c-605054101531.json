@@ -1,0 +1,294 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-77d30510-b4df-4fd1-815c-605054101531",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "circle-equation-general",
+    "secondarySkillIds": [],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate a distance ratio into a symbolic locus equation and complete both squares. The essential demand is simplifying the radius expression to establish nonnegativity and interpreting the coincident-point case.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:25:17.760Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bd7e1835b8367577b4dd9d0fc81af2064f81c2e7c60d4de33f232eb97009a56a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch02/a5a72729db0fe208ec8bd12b2a5f69ecb262eb1688bf9cb9452a9beb4a75612c-1792556693280/last-message.txt",
+      "originalTaskHash": "72b6e4b587bd0992ba16085b8c36a129bc59600f975bb2dbbdf8a72adb25f173",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "4c8bf6dc06b60334548ab50b515145efedfa3792250c7cf1b234453addcd3839"
+      }
+    }
+  },
+  "content": {
+    "id": "p109-q79-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p109-q79-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Apollonius’ Circle",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            },
+            {
+              "type": "text",
+              "text": " Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "A(x_1,y_1)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "B(x_2,y_2)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " be two fixed points in the Cartesian plane. A point ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P(x,y)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " satisfies ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "PA=k\\times PB",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "k>1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is a constant.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p109-q79-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that coordinates of $P$ satisfies the equation of a circle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The locus is a circle if $A\\ne B$. If $A=B$, it is the single point $A$, a degenerate circle.\n\nUse the distance formula, square both sides and complete the square in both variables.",
+          "worked": "By the distance formula,\n$$\\begin{align*}\n\\sqrt{(x-x_1)^2+(y-y_1)^2}&=k\\sqrt{(x-x_2)^2+(y-y_2)^2},\\\\\n(x-x_1)^2+(y-y_1)^2&=k^2\\big[(x-x_2)^2+(y-y_2)^2\\big].\n\\end{align*}$$\nPut\n$$\\begin{align*}\nD&=k^2-1>0,\\\\\nH&=\\frac{k^2x_2-x_1}{D},\\\\\nK&=\\frac{k^2y_2-y_1}{D}.\n\\end{align*}$$\nExpanding, dividing by $D$ and completing both squares gives\n$$\\begin{align*}\nx^2-2Hx+y^2-2Ky&=\\frac{x_1^2+y_1^2-k^2(x_2^2+y_2^2)}{D},\\\\\n(x-H)^2+(y-K)^2&=H^2+K^2+\\frac{x_1^2+y_1^2-k^2(x_2^2+y_2^2)}{D}.\n\\end{align*}$$\nThe numerator simplifies using\n$$\\begin{align*}\n(k^2x_2-x_1)^2+D(x_1^2-k^2x_2^2)&=k^2(x_1-x_2)^2,\\\\\n(k^2y_2-y_1)^2+D(y_1^2-k^2y_2^2)&=k^2(y_1-y_2)^2.\n\\end{align*}$$\nHence the completed-square equation is\n$$\\begin{align*}\n(x-H)^2+(y-K)^2&=\\frac{k^2\\big[(x_1-x_2)^2+(y_1-y_2)^2\\big]}{D^2}.\n\\end{align*}$$\nIf $A\\ne B$, the right-hand side is positive, so this is a circle with centre $(H,K)$. Squaring introduces no extra points because both distances are non-negative and $k>0$.\n\nIf $A=B$, then $(H,K)=(x_1,y_1)$ and the radius is $0$. The locus is the single point $P=A=B$, a degenerate circle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 104
+      },
+      {
+        "id": "p109-q79-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the coordinates of the centre and the radius of this circle in terms of $x_1$, $x_2$, $y_1$, $y_2$ and $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Centre:\n$$\\left(\\frac{k^2x_2-x_1}{k^2-1},\\frac{k^2y_2-y_1}{k^2-1}\\right).$$\nRadius:\n$$r=\\frac{k\\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}}{k^2-1}.$$\n\nRead the centre and radius from the completed-square form. The radius is positive if $A\\ne B$ and zero if $A=B$.",
+          "worked": "Reading the centre from the completed-square equation in (a) gives\n$$\\left(\\frac{k^2x_2-x_1}{k^2-1},\\frac{k^2y_2-y_1}{k^2-1}\\right).$$\nSince $k>1$,\n$$\\begin{align*}\nr^2&=\\frac{k^2\\big[(x_1-x_2)^2+(y_1-y_2)^2\\big]}{(k^2-1)^2},\\\\\nr&=\\frac{k\\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}}{k^2-1}.\n\\end{align*}$$\nFor $A\\ne B$, $r>0$. For $A=B$, the centre is $A$ and $r=0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p109-q79": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p109-q79-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p109-q79-numbered-body",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p109-q79-number-item",
+                      "type": "item",
+                      "ref": "p109-q79-root/label",
+                      "width": 7,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p109-q79-body-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p109-q79-stem-item",
+                          "type": "item",
+                          "ref": "p109-q79-root/prompt#p109-q79-stem",
+                          "width": 173,
+                          "align": "left"
+                        },
+                        {
+                          "id": "p109-q79-a-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p109-q79-a-label-item",
+                              "type": "item",
+                              "ref": "p109-q79-a/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p109-q79-a-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p109-q79-a-prompt-item",
+                                  "type": "item",
+                                  "ref": "p109-q79-a/prompt",
+                                  "width": 166,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "p109-q79-a-space-item",
+                                  "type": "item",
+                                  "ref": "p109-q79-a/space",
+                                  "width": 166,
+                                  "align": "left"
+                                }
+                              ],
+                              "gap": 0
+                            }
+                          ],
+                          "gap": 0,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p109-q79-b-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p109-q79-b-label-item",
+                              "type": "item",
+                              "ref": "p109-q79-b/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p109-q79-b-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p109-q79-b-prompt-item",
+                                  "type": "item",
+                                  "ref": "p109-q79-b/prompt",
+                                  "width": 166,
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "p109-q79-b-space-item",
+                                  "type": "item",
+                                  "ref": "p109-q79-b/space",
+                                  "width": 166,
+                                  "align": "left"
+                                }
+                              ],
+                              "gap": 0
+                            }
+                          ],
+                          "gap": 0,
+                          "verticalAlign": "top"
+                        }
+                      ],
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p109-q79"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:20:39.109Z",
+  "updatedAt": "2026-11-12T13:20:39.109Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p109-q79",
+    "sectionRole": "exercise"
+  }
+}

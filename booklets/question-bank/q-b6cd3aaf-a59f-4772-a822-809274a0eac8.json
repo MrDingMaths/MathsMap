@@ -1,0 +1,404 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b6cd3aaf-a59f-4772-a822-809274a0eac8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cosine-rule-angles",
+    "secondarySkillIds": [],
+    "reasoningScore": 85,
+    "difficulty": "Challenge",
+    "difficultyReason": "Derives a parametric cosine expression, proves uniqueness under integer constraints and explains limiting angle behaviour.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-28T11:41:45.490Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "02af607cbb93c9e2e833921d2c9f1704951d36fc17de6bb51326d5eb34eb5ee7",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch03-20260928/semantic-packets/assignments/assignment-533115dbcdee0e01c30c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q35-root",
+    "type": "question",
+    "label": "35",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p32-q35-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\triangle ABC",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " be a triangle with sides lengths being three consecutive integers ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n,\\ n+1\\text{ and }n+2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p32-q35-largest-angle",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\theta",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " be the largest angle.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q35-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 32, printed page 245, p32-q35-diagram\"}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.1,0);\n\\coordinate (C) at (1.75,2.2);\n\\draw (A) -- node[midway,left] {$n+1$} (C) -- node[midway,right] {$n$} (B) -- node[midway,below] {$n+2$} (A);\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Right column, question 35, between the consecutive-integer statement and the largest-angle statement.",
+          "description": "Unshaded triangle ABC with A lower left, B lower right and C above; AC is labelled n+1, BC is labelled n and AB is labelled n+2.",
+          "mathematics": "The side opposite C is the longest side, n+2. Coordinates reproduce the source arrangement schematically and do not supply numerical measurements.",
+          "answerVisibility": "All three side expressions and vertex labels are permanent givens. No theta label, angle arc or solution annotation is printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p32-q35-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\cos\\theta=\\dfrac{n-3}{2n}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\cos\\theta=\\dfrac{n-3}{2n}$.\n\nApply the cosine rule to the angle opposite $n+2$, then expand and factor.",
+          "worked": "The longest side is $n+2$, so $\\theta=\\angle ACB$. By the cosine rule,\n$$\\begin{align*}\n\\cos\\theta&=\\frac{n^2+(n+1)^2-(n+2)^2}{2n(n+1)}\\\\\n\\cos\\theta&=\\frac{n^2-2n-3}{2n(n+1)}\\\\\n\\cos\\theta&=\\frac{(n-3)(n+1)}{2n(n+1)}\\\\\n\\cos\\theta&=\\frac{n-3}{2n}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p32-q35-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that there exists only one such triangle where $\\theta$ is right-angled.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The unique triangle has side lengths $3,4,5$.\n\nSet $\\cos\\theta=0$ to obtain $n=3$.",
+          "worked": "If $\\theta=90^\\circ$, then $\\cos\\theta=0$.\n$$\\begin{align*}\n\\frac{n-3}{2n}&=0\\\\\nn&=3.\n\\end{align*}$$\nConversely, $n=3$ gives the valid $3,4,5$ triangle and $\\cos\\theta=0$. Hence this is the only such right-angled triangle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p32-q35-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that there exists only one such triangle where $\\theta$ is obtuse.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The unique triangle has side lengths $2,3,4$.\n\nThe triangle inequality requires $n>1$, while $\\cos\\theta<0$ requires $n<3$. Thus the only integer possibility is $n=2$.",
+          "worked": "For a valid triangle, the two shorter sides must have sum greater than the longest side:\n$$\\begin{align*}\nn+(n+1)&>n+2\\\\\nn&>1.\n\\end{align*}$$\nAn obtuse angle has negative cosine. Since $n>0$,\n$$\\begin{align*}\n\\frac{n-3}{2n}&<0\\\\\nn&<3.\n\\end{align*}$$\nThe only integer satisfying $1<n<3$ is $n=2$. This gives the valid triangle with sides $2,3,4$ and $\\cos\\theta=-\\frac14<0$. Hence it is the only such obtuse triangle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p32-q35-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Describe what happens to $\\theta$ as $n$ gets larger. Does this make sense intuitively?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\theta$ decreases towards $60^\\circ$. The side lengths become nearly equal relative to their size, so the triangle approaches an equilateral shape.",
+          "worked": "$$\\begin{align*}\n\\cos\\theta&=\\frac12-\\frac{3}{2n}.\n\\end{align*}$$\nAs $n$ increases, $\\cos\\theta$ increases towards $\\frac12$, so $\\theta$ decreases towards $60^\\circ$. This makes sense because the fixed differences between $n$, $n+1$ and $n+2$ become negligible relative to their lengths. The triangle therefore approaches an equilateral shape.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p32-q35": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p32-q35-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p32-q35-label-item",
+                  "type": "item",
+                  "ref": "p32-q35-root/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p32-q35-body",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p32-q35-intro-item",
+                      "type": "item",
+                      "ref": "p32-q35-root/prompt#p32-q35-intro",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p32-q35-diagram-item",
+                      "type": "item",
+                      "ref": "p32-q35-diagram",
+                      "width": 45,
+                      "align": "center"
+                    },
+                    {
+                      "id": "p32-q35-angle-item",
+                      "type": "item",
+                      "ref": "p32-q35-root/prompt#p32-q35-largest-angle",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p32-q35-a-arrangement",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p32-q35-a-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p32-q35-a-label-item",
+                              "type": "item",
+                              "ref": "p32-q35-a/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p32-q35-a-prompt-item",
+                              "type": "item",
+                              "ref": "p32-q35-a/prompt",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 0,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p32-q35-a-space-item",
+                          "type": "item",
+                          "ref": "p32-q35-a/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    },
+                    {
+                      "id": "p32-q35-b-arrangement",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p32-q35-b-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p32-q35-b-label-item",
+                              "type": "item",
+                              "ref": "p32-q35-b/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p32-q35-b-prompt-item",
+                              "type": "item",
+                              "ref": "p32-q35-b/prompt",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 0,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p32-q35-b-space-item",
+                          "type": "item",
+                          "ref": "p32-q35-b/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    },
+                    {
+                      "id": "p32-q35-c-arrangement",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p32-q35-c-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p32-q35-c-label-item",
+                              "type": "item",
+                              "ref": "p32-q35-c/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p32-q35-c-prompt-item",
+                              "type": "item",
+                              "ref": "p32-q35-c/prompt",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 0,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p32-q35-c-space-item",
+                          "type": "item",
+                          "ref": "p32-q35-c/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    },
+                    {
+                      "id": "p32-q35-d-arrangement",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p32-q35-d-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p32-q35-d-label-item",
+                              "type": "item",
+                              "ref": "p32-q35-d/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p32-q35-d-prompt-item",
+                              "type": "item",
+                              "ref": "p32-q35-d/prompt",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 0,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p32-q35-d-space-item",
+                          "type": "item",
+                          "ref": "p32-q35-d/space",
+                          "align": "left"
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 0,
+              "verticalAlign": "top",
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p32-q35"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:57:48.798Z",
+  "updatedAt": "2026-11-12T10:57:48.798Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p32-q35",
+    "sectionRole": "exercise"
+  }
+}

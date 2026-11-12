@@ -1,0 +1,288 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-97fe948b-f2eb-4e5c-b7f3-c2d726345cb8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [
+      "hyperbola-transformations",
+      "graph-semicircles"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Combine parent-graph features with branch restrictions and natural domains. The hardest decisions are retaining only relevant reciprocal asymptotes and recognising that a defined boundary value can coexist with one-sided divergence.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:25:17.760Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "98bbd365e257f124c366f6ff54bf0e69880fa7322d45c11db8a7456e3b6ca0b5",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch02/a5a72729db0fe208ec8bd12b2a5f69ecb262eb1688bf9cb9452a9beb4a75612c-1792556693280/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p116-task-26-28-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Graph the following piecewise functions.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p116-task-26-28-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$f(x)=\\begin{cases}\\dfrac{1}{x-1}&\\text{if }x>0\\\\\\sqrt{-x}&\\text{if }x\\le0.\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Included endpoint $(0,0)$; excluded endpoint $(0,-1)$. The reciprocal components have vertical asymptote $x=1$ and approach $y=0$ as $x\\to\\infty$.\n\nSketch each rule on its stated interval, excluding $x=1$.",
+          "worked": "For $y=\\sqrt{-x}$, the radicand requires $x\\le0$, and the square root gives $y\\ge0$. The points $(0,0)$, $(-1,1)$, $(-4,2)$ and $(-9,3)$ lie on the branch. Equivalently, $x=-y^2$ with $y\\ge0$. Draw the smooth upper branch extending left from the filled origin.\n\nFor $y=\\dfrac1{x-1}$, the boundary calculation $\\dfrac1{0-1}=-1$ locates $(0,-1)$. This point is open because this branch requires $x>0$.\n\nThe denominator is zero at $x=1$, so $x=1$ is a vertical asymptote. On $0<x<1$, the reciprocal branch falls towards $-\\infty$ as $x\\to1^-$. On $x>1$, it falls from $+\\infty$ towards $y=0$ from above. Keep these two components separate. The complete domain is $\\mathbb R\\setminus\\{1\\}$.",
+          "solutionDiagrams": [
+            {
+              "id": "p116-task-26-28-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function curves and endpoint markers distinguished from coordinate axes and asymptotes.\"}],\"reference\":\"Source PDF 116 Q26; teacher PDF 25 graph 26\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,every node/.style={inner sep=0pt,outer sep=0pt,text=black}]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.5,-3.55) rectangle (3.65,3.55);\n\\draw[black,line width=0.4pt,dashed] (1,-3.3)--(1,3.3);\n\\draw[black,line width=0.5pt,->] (-3.2,0)--(3.2,0);\n\\draw[black,line width=0.5pt,->] (0,-3.3)--(0,3.3);\n\\draw[graphBlue,line width=0.8pt,->] plot[domain=0:1.76,variable=\\t,samples=70] ({-\\t*\\t},{\\t});\n\\draw[graphBlue,line width=0.8pt,->] plot[domain=0:0.68,samples=80] (\\x,{1/(\\x-1)});\n\\draw[graphBlue,line width=0.8pt,<->] plot[domain=1.32:3.1,samples=100] (\\x,{1/(\\x-1)});\n\\fill[graphBlue] (0,0) circle[radius=1.7pt];\n\\draw[graphBlue,line width=0.8pt,fill=white] (0,-1) circle[radius=1.7pt];\n\\node[anchor=north west,xshift=2pt,yshift=-3pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-4pt] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (3.2,0) {$x$};\n\\node[anchor=east,xshift=-4pt] at (0,3.3) {$y$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 116,
+                "sourceRegion": "Question 26, lower left column; answer reference: teacher PDF page 25, printed page 603, upper right column, graph 26.",
+                "description": "Three curve components, black coordinate axes, dashed vertical asymptote x=1, filled origin, open point (0,-1), continuation arrows and the source axis labels. No grid or area shading.",
+                "mathematics": "Plot (-t^2,t) for t>=0; plot 1/(x-1) separately on 0<x<1 and x>1. The point (0,0) belongs to the square-root branch. The reciprocal branch excludes (0,-1) and x=1.",
+                "answerVisibility": "Solution only; no completed graph appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p116-task-26-28-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$f(x)=\\begin{cases}\\dfrac{x}{x+1}&\\text{if }x\\ge1\\\\\\dfrac{x}{1-x}&\\text{if }x<1.\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The left branch passes through $(0,0)$; the right branch starts at the filled point $(1,\\tfrac12)$. Asymptotes are $x=1$ from the left, $y=-1$ as $x\\to-\\infty$, and $y=1$ as $x\\to\\infty$.\n\nRestrict each reciprocal graph to its branch interval.",
+          "worked": "Rewrite the rules in the general reciprocal form:\n$$\\begin{align*}\\frac{x}{x+1}&=\\frac{(x+1)-1}{x+1}\\\\\\frac{x}{x+1}&=1-\\frac1{x+1}\\\\\\frac{x}{1-x}&=\\frac{-(1-x)+1}{1-x}\\\\\\frac{x}{1-x}&=-1-\\frac1{x-1}.\\end{align*}$$\nFor $x\\ge1$, the first rule gives $f(1)=\\tfrac12$. Start with a filled point at $(1,\\tfrac12)$ and draw the increasing branch approaching $y=1$ from below. The unrestricted rule's pole at $x=-1$ lies outside this branch and is not an asymptote of the assembled graph.\n\nFor $x<1$, the second rule gives $f(0)=0$. Its graph passes through the origin, approaches $y=-1$ from above as $x\\to-\\infty$, and rises towards $+\\infty$ as $x\\to1^-$. Draw the vertical asymptote $x=1$; this divergent branch has no finite open endpoint there.\n\nThe other branch defines $f(1)=\\tfrac12$, so the complete domain is $\\mathbb R$.",
+          "solutionDiagrams": [
+            {
+              "id": "p116-task-26-28-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function curves and the included endpoint distinguished from coordinate axes and asymptotes.\"}],\"reference\":\"Source PDF 116 Q27; teacher PDF 25 graph 27\"}\n\\begin{tikzpicture}[x=1cm,y=1.2cm,>=stealth,every node/.style={inner sep=0pt,outer sep=0pt,text=black}]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.45,-2.05) rectangle (3.8,3.5);\n\\draw[black,line width=0.4pt,dashed] (1,-1.8)--(1,3.25);\n\\draw[black,line width=0.4pt,dashed] (-3.1,1)--(3.3,1);\n\\draw[black,line width=0.4pt,dashed] (-3.1,-1)--(3.3,-1);\n\\draw[black,line width=0.5pt,->] (-3.1,0)--(3.35,0);\n\\draw[black,line width=0.5pt,->] (0,-1.8)--(0,3.25);\n\\draw[graphBlue,line width=0.8pt,<->] plot[domain=-3.1:0.76,samples=150] (\\x,{\\x/(1-\\x)});\n\\draw[graphBlue,line width=0.8pt,->] plot[domain=1:3.3,samples=80] (\\x,{\\x/(\\x+1)});\n\\fill[graphBlue] (1,0.5) circle[radius=1.7pt];\n\\node[anchor=south east,xshift=-3pt,yshift=2pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-4pt] at (0,0.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north east,xshift=-3pt,yshift=-2pt] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,xshift=2pt,yshift=-3pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (3.35,0) {$x$};\n\\node[anchor=east,xshift=-4pt] at (0,3.25) {$y$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 72,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 116,
+                "sourceRegion": "Question 27, lower left column; answer reference: teacher PDF page 25, printed page 603, upper right column, graph 27.",
+                "description": "Two reciprocal branches, the origin crossing, a filled point at (1,1/2), dashed asymptotes x=1 and y=±1, continuation arrows and source numeric labels. No open point at the divergent boundary and no grid or area shading.",
+                "mathematics": "For x<1, plot x/(1-x), with left horizontal asymptote y=-1 and divergence to positive infinity at x=1 from the left. For x>=1, plot x/(x+1), including (1,1/2), approaching y=1 from below. Do not draw an asymptote at x=-1.",
+                "answerVisibility": "Solution only; no completed graph appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 84
+      },
+      {
+        "id": "p116-task-26-28-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$$f(x)=\\begin{cases}x-2&\\text{if }x\\ge2\\\\\\sqrt{4-x^2}&\\text{if }-2<x<2\\\\x^2-4&\\text{if }x\\le-2.\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The upper semicircle of radius $2$ passes through $(0,2)$ and joins $y=x^2-4$ on $x\\le-2$ to $y=x-2$ on $x\\ge2$. Both joins $(-2,0)$ and $(2,0)$ are included.\n\nThe outer branches supply the endpoints excluded by the semicircle branch.",
+          "worked": "The rule $y=x^2-4$ gives an upward parabola with zeros at $x=\\pm2$. Retain only $x\\le-2$, including $(-2,0)$. Its vertex $(0,-4)$ is outside this branch.\n\nThe middle rule matches $y=\\sqrt{r^2-x^2}$ with $r=2$. It is the upper semicircle centred at the origin, passing through $(0,2)$, restricted here to $-2<x<2$. This branch excludes both endpoints.\n\nFor $x\\ge2$, the rule $y=x-2$ gives a ray of gradient $1$ starting at the included point $(2,0)$.\n\nThe outer branches include $(-2,0)$ and $(2,0)$, so the completed graph has no holes at either join.",
+          "solutionDiagrams": [
+            {
+              "id": "p116-task-26-28-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"The assembled function distinguished from black coordinate axes.\"}],\"reference\":\"Source PDF 116 Q28; teacher PDF 25 graph 28; approved domain decision p116-correction-q28-domain\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,every node/.style={inner sep=0pt,outer sep=0pt,text=black}]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.35,-1.65) rectangle (3.6,4.1);\n\\draw[black,line width=0.5pt,->] (-3.05,0)--(3.3,0);\n\\draw[black,line width=0.5pt,->] (0,-1.4)--(0,3.8);\n\\draw[graphBlue,line width=0.8pt,<-] plot[domain=-2.75:-2,samples=70] (\\x,{(\\x-2)*(\\x+2)});\n\\draw[graphBlue,line width=0.8pt] plot[domain=180:0,variable=\\t,samples=121] ({2*cos(\\t)},{2*sin(\\t)});\n\\draw[graphBlue,line width=0.8pt,->] (2,0)--(3.2,1.2);\n\\node[anchor=north,yshift=-3pt] at (-2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south west,xshift=3pt,yshift=2pt] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (3.3,0) {$x$};\n\\node[anchor=east,xshift=-4pt] at (0,3.8) {$y$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 116,
+                "sourceRegion": "Question 28, bottom left column; answer reference: teacher PDF page 25, printed page 603, right column, graph 28.",
+                "description": "A left parabolic branch joins an upper semicircle at (-2,0); the semicircle joins an increasing straight ray at (2,0). The joins have no holes. Preserve the source labels -2, 2 and semicircle height 2, with equal horizontal and vertical units, continuation arrows, no grid and no shading.",
+                "mathematics": "Apply approved decision p116-correction-q28-domain. Plot x^2-4 only for x<=-2, the upper half of x^2+y^2=4 for -2<x<2, and x-2 for x>=2. Outer branches include both joins.",
+                "answerVisibility": "Solution only; no completed graph appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p116-task-26-28",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p116-task-26-28": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p116-task-26-28-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p116-task-26-28-root/label",
+                  "type": "item",
+                  "ref": "p116-task-26-28-root/label",
+                  "title": "Label 26"
+                },
+                {
+                  "id": "layout:p116-task-26-28-root/prompt",
+                  "type": "item",
+                  "ref": "p116-task-26-28-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p116-task-26-28-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p116-task-26-28-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p116-task-26-28-a/label",
+                          "type": "item",
+                          "ref": "p116-task-26-28-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p116-task-26-28-a/prompt",
+                          "type": "item",
+                          "ref": "p116-task-26-28-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p116-task-26-28-a/space",
+                          "type": "item",
+                          "ref": "p116-task-26-28-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p116-task-26-28-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p116-task-26-28-b/label",
+                          "type": "item",
+                          "ref": "p116-task-26-28-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p116-task-26-28-b/prompt",
+                          "type": "item",
+                          "ref": "p116-task-26-28-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p116-task-26-28-b/space",
+                          "type": "item",
+                          "ref": "p116-task-26-28-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p116-task-26-28-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p116-task-26-28-c/label",
+                          "type": "item",
+                          "ref": "p116-task-26-28-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p116-task-26-28-c/prompt",
+                          "type": "item",
+                          "ref": "p116-task-26-28-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p116-task-26-28-c/space",
+                          "type": "item",
+                          "ref": "p116-task-26-28-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 26",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:21:18.264Z",
+  "updatedAt": "2026-11-12T13:21:18.265Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p116-task-26-28",
+    "sectionRole": "exercise"
+  }
+}

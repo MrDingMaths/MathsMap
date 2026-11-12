@@ -1,0 +1,199 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5311e0ec-b8b4-42da-99bd-6674f5b1c620",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "discriminant-conditions-roots",
+    "secondarySkillIds": [],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires a parameter condition for two distinct intercepts, exact surd boundaries and a separate check when the quadratic coefficient vanishes. This classification is independent of the source pictogram.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-27T05:33:21.647Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3a9803b562dd0b6daaffc9b1d4299a31b6a1a7b7d8d66071cda3271577573e3b",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-4716eb2a1607805c3ef1/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p60-task-41-response",
+    "type": "question",
+    "label": null,
+    "prompt": "Find the exact values of $k$ such that the graph $y=kx^{2}+(k+1)x+2$ intersects the $x$-axis at two distinct points.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p60-task-41-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "k<3-2\\sqrt{2}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " (excluding ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "k=0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "), or ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "k>3+2\\sqrt{2}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p60-task-41-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Require ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\Delta=k^{2}-6k+1>0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; its upward parabola is positive outside the boundary roots. Exclude ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "k=0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " because the graph is then a line.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "If $k=0$, the graph is $y=x+2$, which has only one $x$-intercept, at $x=-2$. Hence $k\\ne0$.\n\nFor $k\\ne0$, two distinct $x$-intercepts require $\\Delta>0$.\n\n$$\\begin{align*}\\Delta &=(k+1)^2-4(k)(2)\\\\\\Delta &=k^2-6k+1.\\end{align*}$$\n\nThe boundary values satisfy\n\n$$\\begin{align*}k^2-6k+1 &=0\\\\k &=\\frac{6\\pm\\sqrt{36-4(1)(1)}}{2}\\\\k &=3\\pm2\\sqrt{2}.\\end{align*}$$\n\nThe sketch of $\\Delta=k^2-6k+1$ opens upwards and lies above the horizontal axis outside these boundary values. Therefore,\n\n$$k<3-2\\sqrt{2}\\quad\\text{or}\\quad k>3+2\\sqrt{2},\\qquad k\\ne0.$$",
+      "solutionDiagrams": [
+        {
+          "id": "p60-task-41-discriminant-sketch",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"positiveRed\",\"hex\":\"EF6068\",\"reason\":\"Highlights the portions of the discriminant parabola where Delta is positive.\"}],\"reference\":\"PDF page 60, question 41; authored discriminant sketch\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.23cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{positiveRed}{HTML}{EF6068}\n\\pgfmathsetmacro{\\rootleft}{3-2*sqrt(2)}\n\\pgfmathsetmacro{\\rootright}{3+2*sqrt(2)}\n\\draw[black,line width=0.5pt,->] (-1.2,0) -- (7.3,0);\n\\draw[black,line width=0.5pt,->] (0,-9) -- (0,9.2);\n\\node[black,anchor=north west,xshift=2pt,yshift=-3pt] at (7.3,0) {$k$};\n\\node[black,anchor=south west,xshift=2pt,yshift=2pt] at (0,9.2) {$\\Delta$};\n\\draw[black,line width=0.8pt,dashed] plot[domain=\\rootleft:\\rootright,samples=81] (\\x,{(\\x-3)*(\\x-3)-8});\n\\draw[positiveRed,line width=0.8pt,<-] plot[domain=-1:\\rootleft,samples=41] (\\x,{(\\x-3)*(\\x-3)-8});\n\\draw[positiveRed,line width=0.8pt,->] plot[domain=\\rootright:7,samples=41] (\\x,{(\\x-3)*(\\x-3)-8});\n\\draw[positiveRed,fill=white,line width=0.8pt] (\\rootleft,0) circle[radius=1.3pt];\n\\draw[positiveRed,fill=white,line width=0.8pt] (\\rootright,0) circle[radius=1.3pt];\n\\node[black,anchor=south west,xshift=2pt,yshift=4pt] at (\\rootleft,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3-2\\sqrt{2}$\\special{dvisvgm:raw </g>}};\n\\node[black,anchor=south east,xshift=-2pt,yshift=4pt] at (\\rootright,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3+2\\sqrt{2}$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 82,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 60,
+            "sourceRegion": "Question 41, additional practice, bottom-right column; no figure is supplied in the question.",
+            "description": "Authored solution sketch of the discriminant as a function of k. Exact boundary labels sit above the horizontal axis, toward the interior of the root interval. Red exterior branches show positive discriminant; the intervening branch is dashed black. Open boundary markers indicate the strict inequality.",
+            "mathematics": "Delta(k)=k^2-6k+1=(k-3)^2-8, with roots 3-2sqrt(2) and 3+2sqrt(2). The curve is positive outside these roots. The separate exclusion k=0 concerns the original graph becoming linear and is stated in the working; it is not a discontinuity of Delta(k).",
+            "answerVisibility": "Solution only. No graph or answer annotation appears in the student prompt."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 120
+  },
+  "presentation": {
+    "ownerId": "p60-task-41",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p60-task-41": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p60-task-41-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p60-task-41-response/label",
+                  "type": "item",
+                  "ref": "p60-task-41-response/label",
+                  "title": "Label 41"
+                },
+                {
+                  "id": "layout:p60-task-41-response/prompt",
+                  "type": "item",
+                  "ref": "p60-task-41-response/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p60-task-41-response/space",
+                  "type": "item",
+                  "ref": "p60-task-41-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 41",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:13:22.809Z",
+  "updatedAt": "2026-11-12T13:13:22.810Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p60-task-41",
+    "sectionRole": "exercise"
+  }
+}

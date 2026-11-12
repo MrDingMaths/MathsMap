@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-218bf95d-13ac-4e37-8e72-8fed16e1f177",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-complement-addition",
+    "secondarySkillIds": [],
+    "reasoningScore": 51,
+    "difficulty": "Mastery",
+    "difficultyReason": "Form a variable-length no-win complement without intermediate prompts, then establish the minimum token count by checking adjacent counts and increasing success probability.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:32:19.609Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5f6515f1401ea21f45f124169c55d13f0c264ba0ff72abbd1b25628ca2088a94",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch08/bfca58c04b754c5a0ebea0d9f027a3c98912fb6cd735ef029c1a26e774f819b6-1792557097900/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q31-root",
+    "type": "question",
+    "label": "31",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p26-q31-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A game requires one token per roll of a fair six-sided die. If the die lands on a six, the game is won. Otherwise, the game is lost and another token is needed to roll again.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p26-q31-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "What is the least number of tokens Bob needs so that he has at least a 95% chance of winning at least once?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p26-q31-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "17 tokens.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p26-q31-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Use the complement of losing every roll; 16 rolls fall below 95%, whereas 17 reach the threshold.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "For $n$ independent rolls, the complementary event is rolling no sixes.\n\n$$\\begin{align*}P(\\text{at least one win in }n\\text{ rolls})&=1-P(\\text{no sixes in }n\\text{ rolls})\\\\P(\\text{at least one win in }n\\text{ rolls})&=1-\\left(\\frac56\\right)^n\\\\P(\\text{at least one win in }16\\text{ rolls})&=1-\\left(\\frac56\\right)^{16}\\\\P(\\text{at least one win in }16\\text{ rolls})&\\approx0.9459<0.95\\\\P(\\text{at least one win in }17\\text{ rolls})&=1-\\left(\\frac56\\right)^{17}\\\\P(\\text{at least one win in }17\\text{ rolls})&\\approx0.9549>0.95\\end{align*}$$\n\nThe probability increases with the number of rolls, so the least number required is **17 tokens**.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 78
+  },
+  "presentation": {
+    "ownerId": "p26-q31",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:04:04.564Z",
+  "updatedAt": "2026-11-12T11:04:04.564Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch08",
+    "blockId": "p26-q31",
+    "sectionRole": "exercise"
+  }
+}

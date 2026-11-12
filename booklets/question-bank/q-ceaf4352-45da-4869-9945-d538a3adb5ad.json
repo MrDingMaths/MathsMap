@@ -1,0 +1,196 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ceaf4352-45da-4869-9945-d538a3adb5ad",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [
+      "domain-and-range"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Split the absolute value into sign cases and check the original denominator before simplifying. Recognise that every non-positive input is excluded, then sketch the remaining linear ray with an open origin rather than extending the simplified line across the excluded domain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:25:33.651Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "916845da5bb373d99b92f8f20e79c90ca7bf5111aa687ac091d765f79ccbaf1a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch02/b698c0895319c20c1ebea5f1e3d70e80d556b11de6d82559a0da7e2d2eff2218-1792556718286/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p149-q44-response",
+    "type": "question",
+    "label": null,
+    "prompt": "Sketch the graph of $f(x)=\\frac{x^2}{x+|x|}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p149-q44-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The ray ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "y=\\frac{x}{2},\\quad x>0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", with an open point at ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "(0,0)",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p149-q44-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Use the sign cases for ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "|x|",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; the denominator is zero for ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x\\le0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "For $x\\le0$, $|x|=-x$, so $x+|x|=x-x=0$. The function is undefined for these inputs.\n\nFor $x>0$, $|x|=x$.\n\n$$\\begin{align*}f(x)&=\\frac{x^2}{x+x}\\\\f(x)&=\\frac{x^2}{2x}\\\\f(x)&=\\frac{x}{2},\\qquad x>0.\\end{align*}$$\n\nA point on the graph is found from\n$$\\begin{align*}f(2)&=\\frac{2}{2}\\\\f(2)&=1.\\end{align*}$$\n\nSketch the ray through $(2,1)$ with gradient $\\frac12$. Place an open circle at $(0,0)$ because $x=0$ is excluded. There is no branch for $x<0$.",
+      "solutionDiagrams": [
+        {
+          "id": "p149-q44-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"Function ray, its continuation arrow and point markers\"}],\"reference\":\"Answer PDF page 33, printed page 611, Review Set Two Q44\"}\n\\begin{tikzpicture}[x=11mm,y=11mm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.25,-1.10) rectangle (4.55,3.30);\n\\draw[black,line width=0.5pt,->] (-1,0)--(4.15,0);\n\\draw[black,line width=0.5pt,->] (0,-1)--(0,3);\n\\node[black,below,yshift=-3pt] at (4.15,0) {$x$};\n\\node[black,left,xshift=-2pt] at (0,3) {$y$};\n\\draw[black,line width=0.4pt,dashed] (0,1)--(2,1)--(2,0);\n\\node[black,below,yshift=-2pt,font=\\fontsize{8.5}{10}\\selectfont] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[black,left,xshift=-2pt,font=\\fontsize{8.5}{10}\\selectfont] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt,->] plot[domain=0:4.15,samples=2] (\\x,{\\x/2});\n\\fill[functionBlue] (2,1) circle[radius=1.8pt];\n\\draw[functionBlue,line width=0.8pt,fill=white] (0,0) circle[radius=1.8pt];\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 33,
+            "sourceRegion": "Teacher answer PDF, printed page 611, left column, Review Set Two question 44",
+            "description": "A blue ray starts at an open origin and passes through the filled point (2,1), continuing towards the upper right. Black dashed guides connect the point to the axis labels 2 and 1. Preserve black coordinate axes with positive arrowheads, x and y labels, no origin label and no grid.",
+            "mathematics": "The graph is exactly {(x,x/2):x>0}. Its origin is excluded; (2,1) is included. Equal physical coordinate units preserve gradient 1/2.",
+            "answerVisibility": "Solution only; the student question contains no supplied graph."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 92
+  },
+  "presentation": {
+    "ownerId": "p149-q44",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p149-q44": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p149-q44-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p149-q44-response/label",
+                  "type": "item",
+                  "ref": "p149-q44-response/label",
+                  "title": "Label 44"
+                },
+                {
+                  "id": "layout:p149-q44-response/prompt",
+                  "type": "item",
+                  "ref": "p149-q44-response/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p149-q44-response/space",
+                  "type": "item",
+                  "ref": "p149-q44-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 44",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:27:36.487Z",
+  "updatedAt": "2026-11-12T13:27:36.488Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p149-q44",
+    "sectionRole": "exercise"
+  }
+}

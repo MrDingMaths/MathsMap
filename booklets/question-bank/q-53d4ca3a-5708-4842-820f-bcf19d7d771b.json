@@ -1,0 +1,599 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-53d4ca3a-5708-4842-820f-bcf19d7d771b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "frequency-cumulative-graphs",
+    "secondarySkillIds": [
+      "grouped-data"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate cumulative-polygon slopes into a piecewise constant derivative, handle corners, and explain why cumulative increases divided by class widths equal histogram density heights.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:33:33.002Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8dca5fcfe5cdf74dbee338800d2f61ddc8b25132db340da0355b6c9109b67e16",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch08/faca02059ac297a59921e648be2a9dfd8b6ef2525731cfb94bf324ad8ab01cbd-1792557182622/last-message.txt",
+      "originalTaskHash": "79dba16fec1d1a686f4192289b76914dccbb751322ad354a2cbf0b282f80c6b8",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "49cb4c66d526480446d7b64aced9168c37baded0cf91d3c9bc5fe90489f9774f"
+      }
+    }
+  },
+  "content": {
+    "id": "p64-q29-root",
+    "type": "question",
+    "label": "29",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p64-q29-subtitle",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Connecting with calculus",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            }
+          ]
+        },
+        {
+          "id": "p64-q29-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The cumulative frequency histogram and polygon for a set of data is given below.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p64-q29-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"polygonBlue\",\"hex\":\"268CFF\",\"reason\":\"Distinguishes the cumulative polygon from histogram outlines\"}],\"reference\":\"PDF64 printed559 p64-q29-graph\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.52cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{polygonBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.3,-0.9) rectangle (8.6,7.1);\n\\draw[black,line width=0.8pt] (1,0) rectangle (2,1);\n\\draw[black,line width=0.8pt] (2,0) rectangle (4,5);\n\\draw[black,line width=0.8pt] (4,0) rectangle (7,6);\n\\draw[polygonBlue,line width=0.8pt] (1,0)--(2,1)--(4,5)--(7,6);\n\\draw[black,->,line width=0.5pt] (0.5,0)--(8.5,0);\n\\draw[black,->,line width=0.5pt] (0.5,0)--(0.5,6.9);\n\\foreach \\x in {1,2,4,7}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,0.12);\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {1,2,3,4,5,6}{\\draw[black,line width=0.4pt] (0.5,\\y)--(0.62,\\y);\\node[left] at (0.5,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\node[above left] at (0.5,6.7) {$\\mathrm{cf}$};\n\\node[below] at (8.25,0) {$X$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 72,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 64,
+          "sourceRegion": "Question 29, left column beneath enrichment heading",
+          "description": "Cumulative histogram with class boundaries 1, 2, 4, 7 and heights 1, 5, 6; blue cumulative polygon through (1,0), (2,1), (4,5), (7,6).",
+          "mathematics": {
+            "barBoundaries": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "cumulativeFrequencies": [
+              1,
+              5,
+              6
+            ],
+            "polygonVertices": [
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                1
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                7,
+                6
+              ]
+            ]
+          },
+          "answerVisibility": "Permanent supplied question data; no derivative or class frequencies shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p64-q29-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p64-q29-a-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Sketch the graph of the derivative of the cumulative frequency polygon.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p64-q29-a-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "C'(x)=\\begin{cases}1&1<x<2,\\\\2&2<x<4,\\\\\\frac13&4<x<7.\\end{cases}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p64-q29-a-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Use each segment's slope; mark the segment endpoints with open circles.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Let $C(x)$ denote the cumulative frequency. The derivative on each straight segment is its slope.\n$$\\begin{align*}C'(x)&=\\frac{1-0}{2-1}=1 &&(1<x<2),\\\\C'(x)&=\\frac{5-1}{4-2}=2 &&(2<x<4),\\\\C'(x)&=\\frac{6-5}{7-4}=\\frac13 &&(4<x<7).\\end{align*}$$\nSketch these three horizontal segments with open endpoints. The derivative is undefined at the corners $x=2,4$; the outer endpoints are also left open.",
+          "solutionDiagrams": [
+            {
+              "id": "p64-q29-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"derivativeBlue\",\"hex\":\"268CFF\",\"reason\":\"Derivative graph series\"}],\"reference\":\"PDF64 p64-q29-a; teacher PDF81 printed659\"}\n\\begin{tikzpicture}[x=0.65cm,y=1.45cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{derivativeBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-0.5,-0.45) rectangle (8.6,2.65);\n\\draw[black,->,line width=0.5pt] (0.5,0)--(8.4,0);\n\\draw[black,->,line width=0.5pt] (0.5,0)--(0.5,2.5);\n\\foreach \\x in {1,2,4,7}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,0.06);\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {0.5/0.5,1/1.0,1.5/1.5,2/2.0}{\\draw[black,line width=0.4pt] (0.5,\\y)--(0.62,\\y);\\node[left] at (0.5,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\draw[derivativeBlue,line width=0.8pt] (1,1)--(2,1);\n\\draw[derivativeBlue,line width=0.8pt] (2,2)--(4,2);\n\\draw[derivativeBlue,line width=0.8pt] (4,{1/3})--(7,{1/3});\n\\foreach \\x/\\y in {1/1,2/1,2/2,4/2,4/0.3333333333,7/0.3333333333}{\\draw[black,fill=white,line width=0.4pt] (\\x,\\y) circle[radius=1.3pt];}\n\\node[below] at (8.2,0) {$X$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 72,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 64,
+                "sourceRegion": "Question 29(a); teacher PDF81 printed659, Enrichment 29(a)",
+                "description": "Derivative sketch with horizontal blue segments at heights 1, 2 and exactly one third, all endpoints open.",
+                "mathematics": {
+                  "segments": [
+                    {
+                      "domain": [
+                        1,
+                        2
+                      ],
+                      "height": 1,
+                      "endpoints": "open"
+                    },
+                    {
+                      "domain": [
+                        2,
+                        4
+                      ],
+                      "height": 2,
+                      "endpoints": "open"
+                    },
+                    {
+                      "domain": [
+                        4,
+                        7
+                      ],
+                      "height": "1/3",
+                      "endpoints": "open"
+                    }
+                  ]
+                },
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 102
+      },
+      {
+        "id": "p64-q29-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p64-q29-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Show that this graph traces the tops of the bars in the frequency histogram for the data.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p64-q29-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The histogram heights are ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "1,\\ 2,\\ \\frac13",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", matching the derivative on the three class intervals.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p64-q29-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Each height is the class frequency divided by its interval width.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "The class frequencies are the successive increases in cumulative frequency: $1-0=1$, $5-1=4$ and $6-5=1$. A frequency histogram has height equal to frequency density.\n$$\\begin{align*}\\text{Height on }[1,2)&=\\frac{1}{2-1}=1,\\\\\\text{Height on }[2,4)&=\\frac{4}{4-2}=2,\\\\\\text{Height on }[4,7)&=\\frac{1}{7-4}=\\frac13.\\end{align*}$$\nThese are exactly the derivative heights in part (a), so the horizontal derivative segments trace the tops of the histogram bars.",
+          "solutionDiagrams": [
+            {
+              "id": "p64-q29-b-solution-histogram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"PDF64 p64-q29-b; teacher PDF81 printed659\"}\n\\begin{tikzpicture}[x=0.65cm,y=1.45cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.5,-0.45) rectangle (8.6,2.65);\n\\draw[black,line width=0.8pt] (1,0) rectangle (2,1);\n\\draw[black,line width=0.8pt] (2,0) rectangle (4,2);\n\\draw[black,line width=0.8pt] (4,0) rectangle (7,{1/3});\n\\draw[black,->,line width=0.5pt] (0.5,0)--(8.4,0);\n\\draw[black,->,line width=0.5pt] (0.5,0)--(0.5,2.5);\n\\foreach \\x in {1,2,4,7}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,0.06);\\node[below] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {0.5/0.5,1/1.0,1.5/1.5,2/2.0}{\\draw[black,line width=0.4pt] (0.5,\\y)--(0.62,\\y);\\node[left] at (0.5,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\lab$\\special{dvisvgm:raw </g>}};}\n\\node[below] at (8.2,0) {$X$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 72,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 64,
+                "sourceRegion": "Question 29(b); teacher PDF81 printed659, Enrichment 29(b)",
+                "description": "Frequency-density histogram with boundaries 1, 2, 4, 7 and respective heights 1, 2, one third.",
+                "mathematics": {
+                  "barBoundaries": [
+                    1,
+                    2,
+                    4,
+                    7
+                  ],
+                  "frequencies": [
+                    1,
+                    4,
+                    1
+                  ],
+                  "frequencyDensities": [
+                    1,
+                    2,
+                    "1/3"
+                  ]
+                },
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 110
+      },
+      {
+        "id": "p64-q29-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p64-q29-c-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "State the frequency of each class interval of the data.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$[1,2):\\ 1;\\quad [2,4):\\ 4;\\quad [4,7):\\ 1.$",
+          "worked": "Subtract consecutive cumulative frequencies.\n$$\\begin{align*}f_{[1,2)}&=1-0=1,\\\\f_{[2,4)}&=5-1=4,\\\\f_{[4,7)}&=6-5=1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p64-q29": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p64-q29-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p64-q29-numbered-body",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p64-q29-number-item",
+                      "type": "item",
+                      "ref": "p64-q29-root/label",
+                      "width": 7
+                    },
+                    {
+                      "id": "p64-q29-body-stack",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p64-q29-subtitle-item",
+                          "type": "item",
+                          "ref": "p64-q29-root/prompt#p64-q29-subtitle"
+                        },
+                        {
+                          "id": "p64-q29-stem-item",
+                          "type": "item",
+                          "ref": "p64-q29-root/prompt#p64-q29-stem"
+                        },
+                        {
+                          "id": "p64-q29-graph-item",
+                          "type": "item",
+                          "ref": "p64-q29-graph",
+                          "width": 72,
+                          "align": "left"
+                        },
+                        {
+                          "id": "p64-q29-a-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p64-q29-a-label-item",
+                              "type": "item",
+                              "ref": "p64-q29-a/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p64-q29-a-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p64-q29-a-prompt-item",
+                                  "type": "item",
+                                  "ref": "p64-q29-a/prompt"
+                                },
+                                {
+                                  "id": "p64-q29-a-space-item",
+                                  "type": "item",
+                                  "ref": "p64-q29-a/space"
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 3,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p64-q29-b-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p64-q29-b-label-item",
+                              "type": "item",
+                              "ref": "p64-q29-b/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p64-q29-b-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p64-q29-b-prompt-item",
+                                  "type": "item",
+                                  "ref": "p64-q29-b/prompt"
+                                },
+                                {
+                                  "id": "p64-q29-b-space-item",
+                                  "type": "item",
+                                  "ref": "p64-q29-b/space"
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 3,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p64-q29-c-row",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p64-q29-c-label-item",
+                              "type": "item",
+                              "ref": "p64-q29-c/label",
+                              "width": 7
+                            },
+                            {
+                              "id": "p64-q29-c-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p64-q29-c-prompt-item",
+                                  "type": "item",
+                                  "ref": "p64-q29-c/prompt"
+                                },
+                                {
+                                  "id": "p64-q29-c-space-item",
+                                  "type": "item",
+                                  "ref": "p64-q29-c/space"
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 3,
+                          "verticalAlign": "top"
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 3,
+                  "verticalAlign": "top"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p64-q29"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:04:51.952Z",
+  "updatedAt": "2026-11-12T11:04:51.953Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch08",
+    "blockId": "p64-q29",
+    "sectionRole": "exercise"
+  }
+}

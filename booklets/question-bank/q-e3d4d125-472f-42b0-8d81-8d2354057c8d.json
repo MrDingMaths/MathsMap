@@ -1,0 +1,190 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e3d4d125-472f-42b0-8d81-8d2354057c8d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cosine-rule-angles",
+    "secondarySkillIds": [
+      "area-rule-triangle"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Constructs an auxiliary triangle with three known sides, uses the cosine rule to determine its angle and obtains the trapezium area from the resulting height.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-28T12:13:55.737Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ddf7ecfa788a4a6a7a3fa21f23de316a1e92d217af426f370ac24304baed610e",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch03-20260928/semantic-packets/assignments/assignment-0e3617598b784f46945b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p44-q13-task",
+    "type": "question",
+    "label": "13",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p44-q13-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The following shows a trapezium with parallel sides with lengths 5 cm and 11 cm. The other two sides are 3 cm and 5 cm.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p44-q13-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the area of the trapezium in square centimetres, correct to one decimal place.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p44-q13-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 44 question 13 diagram\"}\n\\begin{tikzpicture}[x=0.52cm,y=0.52cm,draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\height}{2*sqrt(14)/3}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (11,0);\n\\coordinate (A) at ({5/3},\\height);\n\\coordinate (D) at ({20/3},\\height);\n\\draw (A)--node[midway,above] {$5\\text{ cm}$}(D)--node[midway,above right] {$5\\text{ cm}$}(C)--node[midway,below] {$11\\text{ cm}$}(B)--node[midway,above left] {$3\\text{ cm}$}(A);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (D) {$D$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 44,
+          "sourceRegion": "Question 13 trapezium between the stem and final instruction",
+          "description": "Unshaded trapezium with A upper left, D upper right, B lower left and C lower right. Both upper vertices lie inside the lower base endpoints.",
+          "mathematics": "AD∥BC; AD=5 cm, BC=11 cm, AB=3 cm and DC=5 cm. Coordinates satisfy all four side lengths. No height, auxiliary construction or additional mark is student-visible.",
+          "answerVisibility": "Only the printed givens and vertex labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$20.0\\text{ cm}^2$.\n\nConstruct $DE\\parallel AB$ with $E$ on $BC$; the cosine rule gives the height $\\frac{2\\sqrt{14}}{3}$ cm.",
+      "worked": "Draw $DE\\parallel AB$, with $E$ on $BC$. Since $ABED$ is a parallelogram, $BE=5$ cm, $DE=3$ cm and $EC=6$ cm.\n\nLet $\\phi=\\angle DEC$ and let $h$ be the perpendicular height.\n$$\\begin{align*}\\cos\\phi&=\\frac{3^2+6^2-5^2}{2(3)(6)}\\\\\\cos\\phi&=\\frac59\\\\\\sin\\phi&=\\sqrt{1-\\left(\\frac59\\right)^2}\\\\\\sin\\phi&=\\frac{2\\sqrt{14}}9\\\\h&=3\\sin\\phi\\\\h&=\\frac{2\\sqrt{14}}3\\text{ cm}\\end{align*}$$\nThus\n$$\\begin{align*}\\text{Area}&=\\frac12(5+11)\\left(\\frac{2\\sqrt{14}}3\\right)\\\\\\text{Area}&=\\frac{16\\sqrt{14}}3\\text{ cm}^2\\\\\\text{Area}&\\approx20.0\\text{ cm}^2\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p44-q13-solution-diagram",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 44 question 13; authored auxiliary construction\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},geometry/.style={line width=0.8pt},guide/.style={line width=0.4pt,dashed},anglemark/.style={line width=0.4pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{angles,quotes}\n\\pgfmathsetmacro{\\height}{2*sqrt(14)/3}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (11,0);\n\\coordinate (A) at ({5/3},\\height);\n\\coordinate (D) at ({20/3},\\height);\n\\coordinate (E) at (5,0);\n\\draw[geometry] (A)--node[midway,above] {$5\\text{ cm}$}(D)--node[midway,above right] {$5\\text{ cm}$}(C)--(B)--node[midway,above left] {$3\\text{ cm}$}(A);\n\\draw[guide] (D)--node[midway,left,fill=white,inner sep=1pt] {$3\\text{ cm}$}(E);\n\\path (B)--node[midway,below] {$5\\text{ cm}$}(E)--node[midway,below] {$6\\text{ cm}$}(C);\n\\pic[draw,anglemark,angle radius=5mm,angle eccentricity=1.4,\"$\\phi$\"] {angle=C--E--D};\n\\node[above left] at (A) {$A$};\n\\node[above right] at (D) {$D$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below=5mm] at (E) {$E$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 85,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 44,
+            "sourceRegion": "Question 13 trapezium; auxiliary construction authored for the solution",
+            "description": "Complete trapezium with E on BC and dashed DE parallel to AB, displaying the derived lengths BE=5 cm, EC=6 cm and DE=3 cm.",
+            "mathematics": "E=(5,0); DE is parallel and equal to AB. Triangle DEC has sides 3, 5 and 6 cm. Phi is the interior angle between EC and ED.",
+            "answerVisibility": "Auxiliary point, derived lengths and angle label appear only in the solution."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 92
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p44-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p44-q13-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p44-q13-label-item",
+                  "type": "item",
+                  "ref": "p44-q13-task/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p44-q13-stem-item",
+                  "type": "item",
+                  "ref": "p44-q13-task/prompt#p44-q13-stem",
+                  "align": "left"
+                },
+                {
+                  "id": "p44-q13-diagram-item",
+                  "type": "item",
+                  "ref": "p44-q13-diagram",
+                  "width": 65,
+                  "align": "center"
+                },
+                {
+                  "id": "p44-q13-instruction-item",
+                  "type": "item",
+                  "ref": "p44-q13-task/prompt#p44-q13-instruction",
+                  "align": "left"
+                },
+                {
+                  "id": "p44-q13-space-item",
+                  "type": "item",
+                  "ref": "p44-q13-task/space",
+                  "align": "left"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p44-q13"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:58:05.301Z",
+  "updatedAt": "2026-11-12T10:58:05.302Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p44-q13",
+    "sectionRole": "exercise"
+  }
+}

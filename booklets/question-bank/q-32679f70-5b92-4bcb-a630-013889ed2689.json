@@ -1,0 +1,213 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-32679f70-5b92-4bcb-a630-013889ed2689",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [
+      "express-abs-as-piecewise"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires deriving two linear branches from an absolute-value denominator and preserving the excluded input through cancellation. The rating is independent of the source pictogram.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T18:17:56.096Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f7f243da82419fbfb376013983ad75b5174d088ba11a0e8c0363aaa09a5d8e3c",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-c9eebe876fbf4228732d/3/generation.json"
+    }
+  },
+  "content": {
+    "id": "p126-q67-response",
+    "type": "question",
+    "label": null,
+    "prompt": "Sketch the graph of $y=\\dfrac{x^2-1}{|x-1|}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p126-q67-short-rule",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "y=\\begin{cases}-x-1,&x<1,\\\\x+1,&x>1.\\end{cases}",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p126-q67-short-endpoints",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Open circles at ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "(1,-2)",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " and ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "(1,2)",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; no point at ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "x=1",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p126-q67-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Factor the numerator, then use the two sign cases for ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "|x-1|",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", retaining the original denominator restriction.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "The original denominator is zero at $x=1$, so $x\\ne1$.\n\nThe difference-of-squares factorisation follows by expansion:\n$$\\begin{align*}(x-1)(x+1)&=x^2+x-x-1\\\\(x-1)(x+1)&=x^2-1.\\end{align*}$$\n\nFor $x<1$, $|x-1|=-(x-1)$:\n$$\\begin{align*}y&=\\frac{(x-1)(x+1)}{-(x-1)}\\\\y&=-(x+1)\\\\y&=-x-1.\\end{align*}$$\n\nFor $x>1$, $|x-1|=x-1$:\n$$\\begin{align*}y&=\\frac{(x-1)(x+1)}{x-1}\\\\y&=x+1.\\end{align*}$$\n\nThe left branch passes through $(-1,0)$ and $(0,-1)$ and has an open endpoint at $(1,-2)$. The right branch has an open endpoint at $(1,2)$ and gradient $1$. Both endpoints are open because $x=1$ remains excluded after cancellation.",
+      "solutionDiagrams": [
+        {
+          "id": "p126-q67-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"Function branches distinguished from black axes and construction guides.\"}],\"reference\":\"source PDF page 126 Q67; answer PDF page 28 Q67\"}\n\\begin{tikzpicture}[x=9mm,y=9mm,line cap=round,line join=round,>=latex,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-3.5,-3.1) rectangle (3,3.55);\n\\draw[black,line width=0.5pt,->] (-3.1,0)--(2.7,0);\n\\draw[black,line width=0.5pt,->] (0,-2.8)--(0,3.1);\n\\node[anchor=north,yshift=-3pt] at (2.7,0) {$x$};\n\\node[anchor=south east,xshift=-2pt,yshift=2pt] at (0,3.1) {$y$};\n\\draw[black,line width=0.4pt,dashed] (0,2)--(1,2);\n\\draw[black,line width=0.4pt,dashed] (0,-2)--(1,-2);\n\\draw[black,line width=0.4pt,dashed] (1,-2)--(1,2);\n\\draw[functionBlue,line width=0.8pt,<-] plot[domain=-3:1,samples=2] (\\x,{-\\x-1});\n\\draw[functionBlue,line width=0.8pt,->] plot[domain=1:2,samples=2] (\\x,{\\x+1});\n\\draw[functionBlue,line width=0.8pt,fill=white] (1,-2) circle[radius=0.85mm];\n\\draw[functionBlue,line width=0.8pt,fill=white] (1,2) circle[radius=0.85mm];\n\\node[anchor=north east,xshift=-1pt,yshift=-2pt,font=\\fontsize{8.5}{10}\\selectfont] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north west,xshift=2pt,yshift=-3pt,font=\\fontsize{8.5}{10}\\selectfont] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-3pt,font=\\fontsize{8.5}{10}\\selectfont] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north east,xshift=-3pt,yshift=-2pt,font=\\fontsize{8.5}{10}\\selectfont] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-3pt,font=\\fontsize{8.5}{10}\\selectfont] at (0,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 68,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 126,
+            "sourceRegion": "Question 67; solution figure matched to answer PDF page 28, printed page 606, question 67.",
+            "description": "Two separate linear rays, with open endpoints at (1,-2) and (1,2). Positive axis arrows, branch continuation arrows, intercept labels and dashed endpoint guides are retained. No grid or origin label.",
+            "mathematics": "y=-x-1 for x<1 and y=x+1 for x>1. The left branch crosses the axes at (-1,0) and (0,-1). The original expression is undefined at x=1.",
+            "answerVisibility": "Solution only; the student question contains no supplied graph."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 118
+  },
+  "presentation": {
+    "ownerId": "p126-q67",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p126-q67": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p126-q67-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p126-q67-response/label",
+                  "type": "item",
+                  "ref": "p126-q67-response/label",
+                  "title": "Label 67"
+                },
+                {
+                  "id": "layout:p126-q67-response/prompt",
+                  "type": "item",
+                  "ref": "p126-q67-response/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p126-q67-response/space",
+                  "type": "item",
+                  "ref": "p126-q67-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 67",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:22:43.617Z",
+  "updatedAt": "2026-11-12T13:22:43.617Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p126-q67",
+    "sectionRole": "exercise"
+  }
+}

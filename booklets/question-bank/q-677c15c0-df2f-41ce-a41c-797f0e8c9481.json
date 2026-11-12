@@ -1,0 +1,374 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-677c15c0-df2f-41ce-a41c-797f0e8c9481",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "derivative-first-principles",
+    "secondarySkillIds": [],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Select algebra that removes h from each quotient; the reciprocal square root requires combining fractions and then rationalising before taking the limit.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:28:39.163Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5471caad4d33f33fc0d27a3e962c784f5d2f8929177d3efb9b2928c3ee971683",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch05/9dda832fdb5aa7c85b1b6679906711d62b8a52f0abc73ab76fba974bde680abd-1792556857363/last-message.txt",
+      "originalTaskHash": "e5cb1d5901971a15f755238aee9e991f4cd4d0bcb6226e4ce64679d82f712018",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "1d3f61ee1e6713cad3eedddf1eeadc1a3639eb904f604d252f0c643291d37b54"
+      }
+    }
+  },
+  "content": {
+    "id": "p15-q7-content",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p15-q7-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Differentiate the following functions by first principles.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$f(x)=x^3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=3x^2$\n\nExpand $(x+h)^3$ in the first-principles quotient.",
+          "worked": "$$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{(x+h)^3-x^3}{h}\\\\f'(x)&=\\lim_{h\\to0}\\frac{3x^2h+3xh^2+h^3}{h}\\\\f'(x)&=\\lim_{h\\to0}(3x^2+3xh+h^2)\\\\f'(x)&=3x^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p15-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$f(x)=\\dfrac{1}{x}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=-\\dfrac{1}{x^2}$, $x\\ne0$.\n\nCombine the fractions before taking the limit.",
+          "worked": "$$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{\\frac{1}{x+h}-\\frac{1}{x}}{h}\\\\f'(x)&=\\lim_{h\\to0}\\frac{x-(x+h)}{hx(x+h)}\\\\f'(x)&=\\lim_{h\\to0}\\frac{-1}{x(x+h)}\\\\f'(x)&=-\\frac{1}{x^2}\\end{align*}$$\n\nFor $x\\ne0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p15-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$f(x)=\\dfrac{1}{x^2}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=-\\dfrac{2}{x^3}$, $x\\ne0$.\n\nCombine the fractions and factor out $h$.",
+          "worked": "$$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{\\frac{1}{(x+h)^2}-\\frac{1}{x^2}}{h}\\\\f'(x)&=\\lim_{h\\to0}\\frac{x^2-(x+h)^2}{hx^2(x+h)^2}\\\\f'(x)&=\\lim_{h\\to0}\\frac{-2x-h}{x^2(x+h)^2}\\\\f'(x)&=-\\frac{2}{x^3}\\end{align*}$$\n\nFor $x\\ne0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p15-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$f(x)=\\sqrt{x}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=\\dfrac{1}{2\\sqrt{x}}$, $x>0$.\n\nRationalise the numerator of the difference quotient.",
+          "worked": "$$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{\\sqrt{x+h}-\\sqrt{x}}{h}\\\\f'(x)&=\\lim_{h\\to0}\\frac{(x+h)-x}{h(\\sqrt{x+h}+\\sqrt{x})}\\\\f'(x)&=\\lim_{h\\to0}\\frac{1}{\\sqrt{x+h}+\\sqrt{x}}\\\\f'(x)&=\\frac{1}{2\\sqrt{x}}\\end{align*}$$\n\nFor $x>0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p15-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$f(x)=\\dfrac{1}{\\sqrt{x}}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(x)=-\\dfrac{1}{2x^{3/2}}$, $x>0$.\n\nCombine the fractions, then rationalise the radical difference.",
+          "worked": "$$\\begin{align*}f'(x)&=\\lim_{h\\to0}\\frac{\\frac{1}{\\sqrt{x+h}}-\\frac{1}{\\sqrt{x}}}{h}\\\\f'(x)&=\\lim_{h\\to0}\\frac{\\sqrt{x}-\\sqrt{x+h}}{h\\sqrt{x}\\sqrt{x+h}}\\\\f'(x)&=\\lim_{h\\to0}\\frac{-1}{\\sqrt{x}\\sqrt{x+h}(\\sqrt{x}+\\sqrt{x+h})}\\\\f'(x)&=-\\frac{1}{2x\\sqrt{x}}=-\\frac{1}{2x^{3/2}}\\end{align*}$$\n\nFor $x>0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q7-content:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p15-q7-reviewed-numbered-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p15-q7-content/label",
+                      "type": "item",
+                      "ref": "p15-q7-content/label",
+                      "title": "Label 29",
+                      "width": 7
+                    },
+                    {
+                      "id": "p15-q7-reviewed-numbered-body",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q7-content/prompt#p15-q7-stem",
+                          "type": "item",
+                          "ref": "p15-q7-content/prompt#p15-q7-stem",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p15-q7-content:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p15-q7-content:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p15-q7-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q7-a/label",
+                                      "type": "item",
+                                      "ref": "p15-q7-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-a/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q7-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-a/space",
+                                      "type": "item",
+                                      "ref": "p15-q7-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p15-q7-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q7-b/label",
+                                      "type": "item",
+                                      "ref": "p15-q7-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-b/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q7-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-b/space",
+                                      "type": "item",
+                                      "ref": "p15-q7-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p15-q7-content:row:2",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p15-q7-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q7-c/label",
+                                      "type": "item",
+                                      "ref": "p15-q7-c/label",
+                                      "title": "Label c"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-c/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q7-c/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-c/space",
+                                      "type": "item",
+                                      "ref": "p15-q7-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part c",
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "p15-q7-d:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q7-d/label",
+                                      "type": "item",
+                                      "ref": "p15-q7-d/label",
+                                      "title": "Label d"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-d/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q7-d/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-d/space",
+                                      "type": "item",
+                                      "ref": "p15-q7-d/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part d",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p15-q7-content:row:4",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p15-q7-e:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p15-q7-e/label",
+                                      "type": "item",
+                                      "ref": "p15-q7-e/label",
+                                      "title": "Label e"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-e/prompt",
+                                      "type": "item",
+                                      "ref": "p15-q7-e/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p15-q7-e/space",
+                                      "type": "item",
+                                      "ref": "p15-q7-e/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part e",
+                                  "gap": 2
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 0
+                    }
+                  ],
+                  "gap": 0,
+                  "verticalAlign": "top"
+                }
+              ],
+              "title": "Question 29",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p15-q7"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:59:33.637Z",
+  "updatedAt": "2026-11-12T10:59:33.637Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch05",
+    "blockId": "p15-q7",
+    "sectionRole": "exercise"
+  }
+}

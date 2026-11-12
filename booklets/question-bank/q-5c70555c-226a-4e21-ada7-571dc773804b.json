@@ -1,0 +1,176 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5c70555c-226a-4e21-ada7-571dc773804b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "composite-function-equations",
+    "secondarySkillIds": [],
+    "reasoningScore": 88,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires deriving initial iterates, identifying a parameterised pattern and justifying that repeated substitution preserves it. This classification is independent of the source pictograms.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T15:43:32.575Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bc2b84399b05d8dfe6058bc0a800a3fd7c0c5ee4769b8f1c701a2682370810e7",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-5989256ca4d4ad5e98d1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p141-q38-response",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p141-q38-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the function defined by",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p141-q38-function-rule",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "f(x)=\\frac{x}{\\sqrt[n]{1+x^n}}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p141-q38-composition-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\underbrace{f\\circ f\\circ\\cdots\\circ f}_{\\text{100 times}}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Assuming $n$ is a positive integer, the 100-fold composition is\n$$F_{100}(x)=\\frac{x}{\\sqrt[n]{1+100x^n}}.$$\n\nEach composition increases the coefficient of $x^n$ in the denominator's radicand by $1$.\n\nRetain the original iteration domain: $\\mathbb R$ for even $n$; $\\mathbb R\\setminus\\{-j^{-1/n}:j=1,\\ldots,100\\}$ for odd $n$.",
+      "worked": "Assume $n$ is a positive integer; this is an editorial assumption because the source does not specify its permitted values. Let $F_k$ denote the $k$-fold composition of $f$.\n\n$$\\begin{align*}F_2(x)&=\\frac{\\frac{x}{\\sqrt[n]{1+x^n}}}{\\sqrt[n]{1+\\frac{x^n}{1+x^n}}}\\\\F_2(x)&=\\frac{x}{\\sqrt[n]{1+2x^n}}\\\\F_3(x)&=\\frac{x}{\\sqrt[n]{1+3x^n}}.\\end{align*}$$\n\nThe pattern is $F_k(x)=\\dfrac{x}{\\sqrt[n]{1+kx^n}}$. Substituting this expression into $f$ gives\n\n$$\\begin{align*}F_{k+1}(x)&=f(F_k(x))\\\\F_{k+1}(x)&=\\frac{\\frac{x}{\\sqrt[n]{1+kx^n}}}{\\sqrt[n]{1+\\frac{x^n}{1+kx^n}}}\\\\F_{k+1}(x)&=\\frac{x}{\\sqrt[n]{1+(k+1)x^n}}.\\end{align*}$$\n\nThe formula holds for $k=1$, and each further composition increases $k$ by $1$. Hence\n\n$$F_{100}(x)=\\frac{x}{\\sqrt[n]{1+100x^n}}.$$\n\nAll simplifications retain the restrictions from earlier applications. For even $n$, every expression $1+jx^n$ is positive, so all 100 applications are defined for every real $x$.\n\nFor odd $n$, negative radicands are permitted, but each denominator must be nonzero. At application $j$, taking $F_0(x)=x$ and assuming the preceding applications exist,\n\n$$1+F_{j-1}(x)^n=\\frac{1+jx^n}{1+(j-1)x^n}.$$\n\nThus application $j$ also excludes $x=-j^{-1/n}$. The domain of the original composition is\n\n$$D_{100}=\\begin{cases}\\mathbb R,&n\\text{ even},\\\\\\mathbb R\\setminus\\{-j^{-1/n}:j=1,\\ldots,100\\},&n\\text{ odd}.\\end{cases}$$\n\nThe simplified final expression does not restore inputs excluded by any earlier application.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 140
+  },
+  "presentation": {
+    "ownerId": "p141-q38",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p141-q38": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p141-q38-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p141-q38-response/label",
+                  "type": "item",
+                  "ref": "p141-q38-response/label",
+                  "title": "Label 38"
+                },
+                {
+                  "id": "layout:p141-q38-response/prompt#p141-q38-introduction",
+                  "type": "item",
+                  "ref": "p141-q38-response/prompt#p141-q38-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p141-q38-response/prompt#p141-q38-function-rule",
+                  "type": "item",
+                  "ref": "p141-q38-response/prompt#p141-q38-function-rule",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p141-q38-response/prompt#p141-q38-composition-task",
+                  "type": "item",
+                  "ref": "p141-q38-response/prompt#p141-q38-composition-task",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p141-q38-response/space",
+                  "type": "item",
+                  "ref": "p141-q38-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 38",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:25:40.927Z",
+  "updatedAt": "2026-11-12T13:25:40.928Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p141-q38",
+    "sectionRole": "exercise"
+  }
+}

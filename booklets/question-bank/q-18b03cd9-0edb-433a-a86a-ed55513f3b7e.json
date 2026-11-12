@@ -1,0 +1,391 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-18b03cd9-0edb-433a-a86a-ed55513f3b7e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "discriminant-conditions-roots",
+    "secondarySkillIds": [],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derives a symbolic tangent gradient by constructing the line–hyperbola intersection equation and applying the repeated-root condition. The rating is based on the mathematical task.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T15:06:56.580Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ed4c47dc99ae5a1b12ae6910a82b86dbf232f252f12fd4b1febc834ae6688344",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-3cbb583e581a1aa246d6/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p91-q52-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p91-q52-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the hyperbola given by ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "y=\\frac{k}{x}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p91-q52-point-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P\\left(a,\\frac{k}{a}\\right)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " be a point on the hyperbola.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p91-q52-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"reciprocalBlue\",\"hex\":\"268CFF\",\"reason\":\"Distinguishes the reciprocal curve from the black tangent.\"}],\"reference\":\"PDF page 91, printed page 155, p91-q52-diagram\"}\n\\usetikzlibrary{arrows.meta}\n\\begin{tikzpicture}[x=7mm,y=7mm,>={Stealth[length=1.8mm,width=1.2mm]},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{reciprocalBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.25,-4.25) rectangle (4.25,4.25);\n\\draw[black,line width=0.5pt,->] (-4,0) -- (4,0);\n\\draw[black,line width=0.5pt,->] (0,-4) -- (0,4);\n\\draw[reciprocalBlue,line width=0.8pt,<->,domain=0.25:4,samples=100] plot (\\x,{1/\\x});\n\\draw[reciprocalBlue,line width=0.8pt,<->,domain=-4:-0.25,samples=100] plot (\\x,{1/\\x});\n\\draw[black,line width=0.8pt,<->] (-4,2) -- (2,-4);\n\\coordinate (P) at (-1,-1);\n\\fill[black] (P) circle[radius=1.4pt];\n\\node[anchor=south west,inner sep=0pt,xshift=2pt,yshift=1pt] at (P) {$P$};\n\\node[anchor=north east,inner sep=0pt,yshift=-3pt] at (4,0) {$x$};\n\\node[anchor=east,inner sep=0pt,xshift=-4pt] at (0,4) {$y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 91,
+          "sourceRegion": "Upper right, Q52, between the initial sentence and the definition of P.",
+          "description": "An unshaded blue reciprocal hyperbola in quadrants I and III, with arrows at all four branch ends. Black Cartesian axes have positive-direction arrows, x and y labels, and no ticks or grid. A descending black line with arrows at both ends touches the negative branch at the black point P and crosses both negative semiaxes.",
+          "mathematics": "Use the unitless schematic y=1/x with P=(-1,-1) and its tangent y=-x-2 to reconstruct the source relationships exactly. These internal plotting coordinates are not numerical givens. The source drawing illustrates k>0 and a<0; the algebraic question remains general for nonzero k and a.",
+          "answerVisibility": "The complete supplied diagram remains visible in the question. No derived gradient, tangent equation or numerical coordinates are added to the visible graph."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p91-q52-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the equation of a line with gradient $m$ passing through $P$ is $y=mx-ma+\\frac{k}{a}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p91-q52-a-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "y=mx-ma+\\frac{k}{a}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p91-q52-a-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Use point-gradient form: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "y-\\frac{k}{a}=m(x-a)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Using point-gradient form at $P$,\n\n$$\\begin{align*}y-\\frac{k}{a}&=m(x-a)\\\\y&=mx-ma+\\frac{k}{a}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p91-q52-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given the line is a tangent, show that $m=-\\frac{k}{a^2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p91-q52-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "m=-\\frac{k}{a^2}",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p91-q52-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Set the intersection discriminant to zero: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\left(ma+\\frac{k}{a}\\right)^2=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Here $k\\ne0$ and $a\\ne0$. At an intersection,\n\n$$\\begin{align*}\\frac{k}{x}&=mx-ma+\\frac{k}{a}\\\\mx^2+\\left(\\frac{k}{a}-ma\\right)x-k&=0.\\end{align*}$$\n\nIf $m=0$, this equation is linear with the simple root $x=a$, so the line is not tangent. For tangency, the quadratic has a repeated root and $\\Delta=0$.\n\n$$\\begin{align*}\\left(\\frac{k}{a}-ma\\right)^2+4mk&=0\\\\\\left(ma+\\frac{k}{a}\\right)^2&=0\\\\ma&=-\\frac{k}{a}\\\\m&=-\\frac{k}{a^2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 66
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p91-q52": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p91-q52-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p91-q52-number-item",
+                  "type": "item",
+                  "ref": "p91-q52-root/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p91-q52-body-stack",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p91-q52-stem-item",
+                      "type": "item",
+                      "ref": "p91-q52-root/prompt#p91-q52-stem",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p91-q52-diagram-item",
+                      "type": "item",
+                      "ref": "p91-q52-diagram",
+                      "width": 60,
+                      "align": "center"
+                    },
+                    {
+                      "id": "p91-q52-point-definition-item",
+                      "type": "item",
+                      "ref": "p91-q52-root/prompt#p91-q52-point-definition",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p91-q52-a-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p91-q52-a-label-item",
+                          "type": "item",
+                          "ref": "p91-q52-a/label",
+                          "width": 7,
+                          "align": "left"
+                        },
+                        {
+                          "id": "p91-q52-a-content-stack",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p91-q52-a-prompt-item",
+                              "type": "item",
+                              "ref": "p91-q52-a/prompt",
+                              "align": "left"
+                            },
+                            {
+                              "id": "p91-q52-a-space-item",
+                              "type": "item",
+                              "ref": "p91-q52-a/space",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 0,
+                          "weight": 1
+                        }
+                      ],
+                      "gap": 2,
+                      "verticalAlign": "top"
+                    },
+                    {
+                      "id": "p91-q52-b-row",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p91-q52-b-label-item",
+                          "type": "item",
+                          "ref": "p91-q52-b/label",
+                          "width": 7,
+                          "align": "left"
+                        },
+                        {
+                          "id": "p91-q52-b-content-stack",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p91-q52-b-prompt-item",
+                              "type": "item",
+                              "ref": "p91-q52-b/prompt",
+                              "align": "left"
+                            },
+                            {
+                              "id": "p91-q52-b-space-item",
+                              "type": "item",
+                              "ref": "p91-q52-b/space",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 0,
+                          "weight": 1
+                        }
+                      ],
+                      "gap": 2,
+                      "verticalAlign": "top"
+                    }
+                  ],
+                  "gap": 1,
+                  "weight": 1
+                }
+              ],
+              "gap": 2,
+              "verticalAlign": "top",
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p91-q52"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:32.085Z",
+  "updatedAt": "2026-11-12T13:17:32.086Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p91-q52",
+    "sectionRole": "exercise"
+  }
+}

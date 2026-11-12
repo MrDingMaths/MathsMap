@@ -1,0 +1,172 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c90ff161-99bd-4922-8ae2-089f8d9a9adf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-derivative-function",
+    "secondarySkillIds": [
+      "derivative-of-ex",
+      "graph-exponential-features"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Compare each exponential function with its derivative, including coincident curves and multipliers below or above one.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-01T02:05:06.600Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "565c3b49245652ef6fce66725820f2e6bca3856ccd123f1ecd0dbd9abc8770da",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch06-20261001/semantic-packets/assignments/assignment-c78008eaa3f8ae002cf8/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p9-task-41-43-root",
+    "type": "question",
+    "label": null,
+    "prompt": "For each of the following, sketch the function and their derivative on the same set of axes.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-part-41",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=e^x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=e^x$. The two curves coincide, pass through $(0,1)$ and $(1,e)$, and have horizontal asymptote $y=0$.",
+          "worked": "$$\\begin{align*}y'&=e^x\\end{align*}$$\nThe function and its derivative are identical. Sketch one increasing exponential curve through $(0,1)$ and $(1,e)$, approaching $y=0$ as $x\\to-\\infty$. Label the shared curve as both $y=e^x$ and $y'=e^x$.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-native-diagram-41",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"function series\"},{\"name\":\"derivativeRed\",\"hex\":\"EF6068\",\"reason\":\"derivative series\"}],\"reference\":\"teacher PDF page 58, printed page 636, question 41\"}\n\\begin{tikzpicture}[x=13mm,y=11mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{derivativeRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.5,-0.55) rectangle (1.8,4.15);\n\\draw[black,line width=0.5pt,->] (-2.25,0)--(1.65,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,3.9) node[left] {$y$};\n\\draw[black,line width=0.4pt,dashed] (0,{exp(1)})--(1,{exp(1)})--(1,0);\n\\draw[functionBlue,line width=0.8pt,<->,domain=-2.2:1.335,samples=100] plot (\\x,{exp(\\x)});\n\\draw[derivativeRed,line width=0.8pt,dash pattern=on 3pt off 3pt,domain=-2.2:1.335,samples=100] plot (\\x,{exp(\\x)});\n\\fill[black] (0,1) circle (1.4pt);\n\\fill[black] (1,{exp(1)}) circle (1.4pt);\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,{exp(1)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt] (-3.3,2.15)--(-2.85,2.15);\n\\node[anchor=west] at (-2.8,2.15) {$y=e^x$};\n\\draw[derivativeRed,line width=0.8pt,dash pattern=on 3pt off 3pt] (-3.3,1.7)--(-2.85,1.7);\n\\node[anchor=west] at (-2.8,1.7) {$y'=e^x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 58,
+                "sourceRegion": "Teacher answer page 636, upper-left figure labelled 41.",
+                "description": "Coincident function and derivative curves distinguished by blue and red strokes, with a matched legend, black points, dashed guides and the source labels.",
+                "mathematics": "Both curves are y=exp(x). Mark (0,1) and (1,e); guide from (1,e) to both axes. No grid is printed.",
+                "answerVisibility": "Complete solution figure; hidden from the question edition."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 92
+      },
+      {
+        "id": "p9-part-42",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=2^x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=(\\log_e2)2^x$. Both curves increase and approach $y=0$ to the left. The derivative lies below the function; their $y$-intercepts are $\\log_e2$ and $1$, respectively.\n\nUse the gradient multiplier $\\log_e2<1$ to sketch the derivative.",
+          "worked": "$$\\begin{align*}y'&=2^x\\lim_{h\\to0}\\frac{2^h-1}{h}\\\\y'&=(\\log_e2)2^x\\end{align*}$$\nSince $0<\\log_e2<1$, the derivative is a vertical compression of the function and lies below it. Sketch two increasing curves with horizontal asymptote $y=0$. The function passes through $(0,1)$ and $(1,2)$; the derivative passes through $(0,\\log_e2)$ and $(1,2\\log_e2)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-native-diagram-42",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"function series\"},{\"name\":\"derivativeRed\",\"hex\":\"EF6068\",\"reason\":\"derivative series\"}],\"reference\":\"teacher PDF page 58, printed page 636, question 42\"}\n\\begin{tikzpicture}[x=13mm,y=11mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{derivativeRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.5,-0.55) rectangle (1.8,3.75);\n\\draw[black,line width=0.5pt,->] (-2.25,0)--(1.65,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,3.5) node[right] {$y$};\n\\draw[black,line width=0.4pt,dashed] (0,2)--(1,2)--(1,0);\n\\draw[black,line width=0.4pt,dashed] (0,{2*ln(2)})--(1,{2*ln(2)});\n\\draw[functionBlue,line width=0.8pt,<->,domain=-2.2:1.65,samples=100] plot (\\x,{exp(ln(2)*\\x)});\n\\draw[derivativeRed,line width=0.8pt,<->,domain=-2.2:1.65,samples=100] plot (\\x,{ln(2)*exp(ln(2)*\\x)});\n\\fill[functionBlue] (1,2) circle (1.5pt);\n\\fill[derivativeRed] (1,{2*ln(2)}) circle (1.5pt);\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt] (-3.3,2.15)--(-2.85,2.15);\n\\node[anchor=west] at (-2.8,2.15) {$y=2^x$};\n\\draw[derivativeRed,line width=0.8pt] (-3.3,1.7)--(-2.85,1.7);\n\\node[anchor=west] at (-2.8,1.7) {$y'$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 58,
+                "sourceRegion": "Teacher answer page 636, upper figure labelled 42.",
+                "description": "Blue function and lower red derivative with matched legend, coloured points at x=1, dashed guides and unlabelled derivative ordinate.",
+                "mathematics": "Plot y=2^x and y'=(ln 2)2^x. Mark (1,2) and (1,2 ln 2). Preserve function intercept label 1 and guide label 2; no grid is printed.",
+                "answerVisibility": "Complete solution figure; hidden from the question edition."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 116
+      },
+      {
+        "id": "p9-part-43",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=3^x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y'=(\\log_e3)3^x$. Both curves increase and approach $y=0$ to the left. The derivative lies above the function; their $y$-intercepts are $\\log_e3$ and $1$, respectively.\n\nUse the gradient multiplier $\\log_e3>1$ to sketch the derivative.",
+          "worked": "$$\\begin{align*}y'&=3^x\\lim_{h\\to0}\\frac{3^h-1}{h}\\\\y'&=(\\log_e3)3^x\\end{align*}$$\nSince $\\log_e3>1$, the derivative is a vertical stretch of the function and lies above it. Sketch two increasing curves with horizontal asymptote $y=0$. The function passes through $(0,1)$ and $(1,3)$; the derivative passes through $(0,\\log_e3)$ and $(1,3\\log_e3)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p9-native-diagram-43",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"function series\"},{\"name\":\"derivativeRed\",\"hex\":\"EF6068\",\"reason\":\"derivative series\"}],\"reference\":\"teacher PDF page 58, printed page 636, question 43\"}\n\\begin{tikzpicture}[x=13mm,y=11mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\definecolor{derivativeRed}{HTML}{EF6068}\n\\path[use as bounding box] (-3.5,-0.55) rectangle (1.8,4.6);\n\\draw[black,line width=0.5pt,->] (-2.25,0)--(1.65,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,4.35) node[right] {$y$};\n\\draw[black,line width=0.4pt,dashed] (0,3)--(1,3);\n\\draw[black,line width=0.4pt,dashed] (1,0)--(1,{3*ln(3)});\n\\draw[functionBlue,line width=0.8pt,<->,domain=-2.2:1.284,samples=100] plot (\\x,{exp(ln(3)*\\x)});\n\\draw[derivativeRed,line width=0.8pt,<->,domain=-2.2:1.195,samples=100] plot (\\x,{ln(3)*exp(ln(3)*\\x)});\n\\fill[functionBlue] (1,3) circle (1.5pt);\n\\fill[derivativeRed] (1,{3*ln(3)}) circle (1.5pt);\n\\node[left] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[below] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\draw[functionBlue,line width=0.8pt] (-3.3,2.3)--(-2.85,2.3);\n\\node[anchor=west] at (-2.8,2.3) {$y=3^x$};\n\\draw[derivativeRed,line width=0.8pt] (-3.3,1.85)--(-2.85,1.85);\n\\node[anchor=west] at (-2.8,1.85) {$y'$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 58,
+                "sourceRegion": "Teacher answer page 636, left-column figure labelled 43.",
+                "description": "Blue function and slightly higher red derivative with matched legend, coloured points at x=1 and source dashed guides.",
+                "mathematics": "Plot y=3^x and y'=(ln 3)3^x. Mark (1,3) and (1,3 ln 3). Preserve the function intercept label 1, ordinate label 3 and x=1 label. The derivative ordinate remains unlabelled; no grid is printed.",
+                "answerVisibility": "Complete solution figure; hidden from the question edition."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 92
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-task-41-43",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:01:04.120Z",
+  "updatedAt": "2026-11-12T11:01:04.120Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch06",
+    "blockId": "p9-task-41-43",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-71329ca6-8a5f-4f5e-8cee-4b1829a17b05",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "parabola-intercepts-axis-vertex",
+    "secondarySkillIds": [],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Use the intersections to bound the segment, express its vertical length as upper ordinate minus lower ordinate, and maximise that new quadratic by symmetry.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:24:52.771Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7ca887fe6b8528b7e7681bc993243ca9e0489adc8f5758eae9521b0def5544b9",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch02/955e78b256169e39a1ebd1ecf60feda028c8b44ae3b5e130011c8554f7c1ff69-1792556653392/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p69-q18-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The graphs of $y=x-x^2$ and $y=x^2-5x$ are drawn on the same number plane.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p69-q18-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"Identifies the downward-opening parabola y=x-x^2.\"},{\"name\":\"curveRed\",\"hex\":\"EF6068\",\"reason\":\"Distinguishes the upward-opening parabola y=x^2-5x.\"}],\"reference\":\"PDF page 69, printed page 133, p69-q18-diagram\"}\n\\begin{tikzpicture}[x=4.6mm,y=5.6mm,>=stealth,line cap=round,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\definecolor{curveRed}{HTML}{EF6068}\n\\draw[black,line width=0.5pt,->] (-4.8,0) -- (8.5,0);\n\\draw[black,line width=0.5pt,->] (0,-8) -- (0,3.1);\n\\draw[curveBlue,line width=0.8pt,<->,domain=-2.36:3.36,samples=121] plot (\\x,{\\x-\\x*\\x});\n\\draw[curveRed,line width=0.8pt,<->,domain=-0.565:5.565,samples=121] plot (\\x,{\\x*\\x-5*\\x});\n% The unlabelled abscissa below is a schematic placement parameter, not a supplied numerical given or the maximising value.\n\\def\\segmentX{2}\n\\coordinate (P) at (\\segmentX,{\\segmentX-\\segmentX*\\segmentX});\n\\coordinate (Q) at (\\segmentX,{\\segmentX*\\segmentX-5*\\segmentX});\n\\draw[black,line width=0.4pt,dashed] (P) -- (Q);\n\\fill[black] (P) circle[radius=1.5pt];\n\\fill[black] (Q) circle[radius=1.5pt];\n\\node[black,anchor=south west,xshift=2pt,yshift=2pt] at (P) {$P$};\n\\node[black,anchor=north east,xshift=-2pt,yshift=-2pt] at (Q) {$Q$};\n\\node[black,anchor=north east,yshift=-3pt] at (8.5,0) {$x$};\n\\node[black,anchor=south east,xshift=-2pt,yshift=3pt] at (0,3.1) {$y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 59.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 69,
+          "sourceRegion": "Left column, question 18, between the shared stem and part (a).",
+          "description": "Two contrasting parabolas on black axes. The blue parabola opens downwards; the red parabola opens upwards. Black points P and Q share an abscissa, with P above Q, and a dashed vertical segment joins them. Both curves have arrowheads at both displayed ends. There are no numerical ticks, grid lines, origin label or printed curve-equation labels.",
+          "mathematics": "Plot y=x-x^2 and y=x^2-5x directly from their equations. P lies on the first curve and Q on the second, between their intersections. Their common abscissa is schematic and unlabelled; its numerical value is not a source given. The shown upper-minus-lower relationship supports restricting the separation calculation to the interval between the intersections.",
+          "answerVisibility": "Only the source-supplied curves, axes, points P and Q and dashed segment are visible. Intersection coordinates and the maximum separation are not supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p69-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the points of intersection of the two graphs.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(0,0)$ and $(3,-6)$.",
+          "worked": "Equate the expressions for $y$.\n\n$$\\begin{align*}x-x^2&=x^2-5x\\\\2x^2-6x&=0\\\\2x(x-3)&=0\\\\x&=0\\text{ or }3.\\end{align*}$$\n\nSubstitute into $y=x-x^2$. When $x=0$, $y=0$. When $x=3$, $y=3-3^2=-6$.\n\nThe intersection points are $(0,0)$ and $(3,-6)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p69-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the largest possible length of $PQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p69-q18-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\frac92",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " units, attained at ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x=\\frac32",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p69-q18-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Use ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "PQ=2x(3-x)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": "; its maximum lies halfway between its zeros.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Between the intersections, $0\\le x\\le3$ and $P$ lies above $Q$.\n\n$$\\begin{align*}PQ&=(x-x^2)-(x^2-5x)\\\\PQ&=6x-2x^2\\\\PQ&=2x(3-x).\\end{align*}$$\n\nThis quadratic is concave down and has zeros $0$ and $3$. Its maximum occurs halfway between them, at $x=\\frac32$.\n\n$$\\begin{align*}PQ_{\\max}&=2\\left(\\frac32\\right)\\left(3-\\frac32\\right)\\\\PQ_{\\max}&=\\frac92\\text{ units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p69-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p69-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p69-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p69-q18-root/label",
+                  "type": "item",
+                  "ref": "p69-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p69-q18-root/prompt",
+                  "type": "item",
+                  "ref": "p69-q18-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p69-q18-diagram",
+                  "type": "item",
+                  "ref": "p69-q18-diagram",
+                  "title": "Diagram",
+                  "width": 59.8
+                },
+                {
+                  "id": "p69-q18-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p69-q18-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p69-q18-a/label",
+                          "type": "item",
+                          "ref": "p69-q18-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p69-q18-a/prompt",
+                          "type": "item",
+                          "ref": "p69-q18-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p69-q18-a/space",
+                          "type": "item",
+                          "ref": "p69-q18-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p69-q18-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p69-q18-b/label",
+                          "type": "item",
+                          "ref": "p69-q18-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p69-q18-b/prompt",
+                          "type": "item",
+                          "ref": "p69-q18-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p69-q18-b/space",
+                          "type": "item",
+                          "ref": "p69-q18-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:07.747Z",
+  "updatedAt": "2026-11-12T13:14:07.748Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p69-q18",
+    "sectionRole": "exercise"
+  }
+}

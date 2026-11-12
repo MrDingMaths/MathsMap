@@ -1,0 +1,391 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e204cc01-5c06-4264-a7e1-0ed0410ea45c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-sine-cosine-area-rules",
+    "secondarySkillIds": [
+      "sine-rule"
+    ],
+    "reasoningScore": 80,
+    "difficulty": "Challenge",
+    "difficultyReason": "Connects the sine-rule ratio with a circumcircle using an isosceles triangle, a perpendicular construction and the supplied circle-angle property.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-28T10:33:48.911Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a559b15a8e45a6ecfebe6cc0e676969b47f3056295c8b2764b9203f3fc4ff053",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch03-20260928/semantic-packets/assignments/assignment-9e34e087873f31f4498f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p26-q41-response",
+    "type": "question",
+    "label": "41",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p26-q41-title",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Significance of the value of ",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{a}{\\sin A}",
+              "display": false,
+              "colour": "#8b5cc7"
+            }
+          ]
+        },
+        {
+          "id": "p26-q41-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The vertices of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\triangle ABC",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " lie on a unique circle called the ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "circumcircle",
+              "marks": [
+                "italic"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". Let the centre of the circumcircle be ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "O",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and let the radius be ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "R",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p26-q41-assumption",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "You may assume the property that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\angle BOC=2\\times\\angle BAC",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p26-q41-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Prove that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{a}{\\sin A}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is the diameter of the circumcircle.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q41-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 26, printed page 239, p26-q41-diagram\"}\n\\begin{tikzpicture}[draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (110:2);\n\\coordinate (B) at (200:2);\n\\coordinate (C) at (340:2);\n\\draw[line width=0.8pt] (O) circle[radius=2];\n\\draw[line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[dashed,line width=0.4pt] (O)--(A) (O)--(B) (O)--(C);\n\\foreach \\P in {A,B,C}{\n  \\coordinate (T\\P) at ($(O)!0.48!(\\P)$);\n  \\coordinate (U\\P) at ($(O)!0.54!(\\P)$);\n  \\draw[line width=0.4pt] ($(T\\P)!2pt!90:(\\P)$)--($(T\\P)!2pt!-90:(\\P)$);\n  \\draw[line width=0.4pt] ($(U\\P)!2pt!90:(\\P)$)--($(U\\P)!2pt!-90:(\\P)$);\n}\n\\foreach \\P in {A,B,C,O}{\\fill[black] (\\P) circle[radius=1.4pt];}\n\\node[above left] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 44.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 26,
+          "sourceRegion": "Right-column enrichment question 41, between the circumcircle definition and the permitted angle property.",
+          "description": "Unshaded circumcircle with A on its upper-left arc, B and C on its lower arcs, approximately horizontal chord BC, and interior centre O. Triangle edges are solid. OA, OB and OC are dashed and carry matching double equality marks. All four points have solid dots.",
+          "mathematics": "A, B and C lie on one circle centred at O. OA=OB=OC. Coordinates reconstruct the depicted relative geometry without supplying additional numerical givens.",
+          "answerVisibility": "All source geometry is permanent question content. No midpoint, perpendicular construction, side a or radius R label is supplied.",
+          "sourceEvidenceHash": "a5056b88efc2defb62cb1870e57fae6b95a6a50f43a3af9ea49a1a1aaa48e101",
+          "shadingDecision": "No shading: the source figure is unshaded and no mathematical region requires a fill."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p26-q41-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\frac{a}{\\sin A}=2R",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", the diameter of the circumcircle.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p26-q41-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Drop a perpendicular from ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "O",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " to the midpoint ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "M",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " of ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "BC",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". Then ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\sin A=\\frac{BM}{R}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " and ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "a=2BM=2R\\sin A",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Let $M$ be the midpoint of $BC$ and join $OM$. Since $OB=OC=R$, $\\triangle BOC$ is isosceles, so $OM\\perp BC$ and $OM$ bisects $\\angle BOC$.\n\nUsing the supplied circle-angle property, $\\angle BOM=\\tfrac12\\angle BOC=A$. In right triangle $BOM$,\n\n$$\\begin{align*}\n\\sin A&=\\frac{BM}{R}\\\\\nBM&=R\\sin A\\\\\na&=BC\\\\\na&=2BM\\\\\na&=2R\\sin A\\\\\n\\frac{a}{\\sin A}&=2R.\n\\end{align*}$$\n\nThus $\\dfrac{a}{\\sin A}$ is the diameter of the circumcircle. For an obtuse angle $A$, the corresponding right-triangle angle is $180^\\circ-A$; since $\\sin(180^\\circ-A)=\\sin A$, the same result holds. If $A=90^\\circ$, $BC$ is a diameter and the result follows directly.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 88
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q41": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q41-arrangement",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p26-q41-label-placement",
+                  "type": "item",
+                  "ref": "p26-q41-response/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p26-q41-content-stack",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p26-q41-title-placement",
+                      "type": "item",
+                      "ref": "p26-q41-response/prompt#p26-q41-title",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p26-q41-definition-placement",
+                      "type": "item",
+                      "ref": "p26-q41-response/prompt#p26-q41-definition",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p26-q41-diagram-placement",
+                      "type": "item",
+                      "ref": "p26-q41-diagram",
+                      "width": 44.9,
+                      "align": "center"
+                    },
+                    {
+                      "id": "p26-q41-assumption-placement",
+                      "type": "item",
+                      "ref": "p26-q41-response/prompt#p26-q41-assumption",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p26-q41-task-placement",
+                      "type": "item",
+                      "ref": "p26-q41-response/prompt#p26-q41-task",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p26-q41-working-placement",
+                      "type": "item",
+                      "ref": "p26-q41-response/space",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 3
+                }
+              ],
+              "gap": 0,
+              "verticalAlign": "top"
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p26-q41"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:57:41.914Z",
+  "updatedAt": "2026-11-12T10:57:41.914Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p26-q41",
+    "sectionRole": "exercise"
+  }
+}

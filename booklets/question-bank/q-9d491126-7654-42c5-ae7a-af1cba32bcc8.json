@@ -1,0 +1,230 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9d491126-7654-42c5-ae7a-af1cba32bcc8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "equations-reducible-quadratic",
+    "secondarySkillIds": [
+      "quadratic-formula",
+      "pattern-to-equation"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Part (a) supplies the first fixed-point equation and a substitution hint. In part (c), students must identify the new denominator themselves, form and solve the resulting quadratic, and use the continued fraction’s value being above 1 to select the admissible root.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-11-11T23:43:56.558Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "df6d2766524110597ae439621589042fd80fe5ba1241137d9f1923bb7fb0b851",
+      "evidence": ".booklet-work/full-imports/mastering-maths-adv11-ch01/lean-review/calls/content-1794440610811-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "[Solving for the convergent value]",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p24-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p24-q2-a-intro",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Suppose that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "[1;2,2,2,\\ldots]",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " converges to ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "X",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ". In other words, let",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p24-q2-a-nested-fraction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "X=1+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{2+\\dfrac{1}{\\ddots}}}}",
+                  "display": true
+                }
+              ]
+            },
+            {
+              "id": "p24-q2-a-explain",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Explain briefly why ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "X=1+\\dfrac{1}{1+X}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p24-q2-a-hint",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: ",
+                  "marks": [
+                    "bold"
+                  ],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": "Try to substitute ",
+                  "marks": [],
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "math",
+                  "latex": "X",
+                  "display": false,
+                  "colour": "#268cff"
+                },
+                {
+                  "type": "text",
+                  "text": " back into itself.",
+                  "marks": [],
+                  "colour": "#268cff"
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The first denominator is $2+(X-1)=1+X$ because the tail after its first $2$ repeats.",
+          "worked": "The reciprocal term in the first denominator is the same as the reciprocal term in $X$, since both have the same repeating tail. That term is $X-1$.\n\n$$\\begin{align*}X&=1+\\frac{1}{2+(X-1)}\\\\X&=1+\\frac{1}{1+X}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p24-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, solve for $X$ and confirm your hypothesis from part (c) of the preceding Continued Fractions investigation. If starting with this question, first conjecture the limit from successive finite truncations of $[1;2,2,2,\\ldots]$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$X=\\sqrt{2}$, confirming the hypothesis suggested by the finite approximations in Question 1.",
+          "worked": "$$\\begin{align*}X-1&=\\frac{1}{1+X}\\\\(X-1)(1+X)&=1\\\\X^2-1&=1\\\\X^2&=2\\\\X&=\\pm\\sqrt{2}.\\end{align*}$$\n\nThe continued fraction is positive, so $X=\\sqrt{2}$. This confirms the hypothesis suggested by the approximations in Question 1.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p24-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Bob guesses that $[1;2,2,2,\\ldots]$ converges (approaches) to $\\sqrt{2}$ since there are lots of $2$’s. He then claims that $[1;3,3,3,\\ldots]$ must converge to $\\sqrt{3}$ since there are lots of $3$’s. Determine if Bob’s hypothesis is correct or incorrect. If incorrect, state the correct value of $[1;3,3,3,\\ldots]$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Incorrect. $[1;3,3,3,\\ldots]=\\dfrac{\\sqrt{13}-1}{2}$.\n\nUse the repeating tail to write the first denominator as $2+Y$, where $Y$ is the value of the continued fraction.",
+          "worked": "Let $Y=[1;3,3,3,\\ldots]$. The reciprocal term repeats, so the first denominator is $3+(Y-1)=Y+2$.\n\n$$\\begin{align*}\nY&=1+\\tfrac{1}{Y+2}\\\\\n(Y-1)(Y+2)&=1\\\\\nY^2+Y-2&=1\\\\\nY^2+Y-3&=0.\n\\end{align*}$$\n\nApply the quadratic formula and take the root greater than 1.\n\n$$\\begin{align*}\nY&=\\tfrac{-1+\\sqrt{1+12}}{2}\\\\\n&=\\tfrac{\\sqrt{13}-1}{2}.\n\\end{align*}$$\n\nSubstituting $\\sqrt{3}$ into $Y^2+Y-3$ gives $\\sqrt{3}\\ne0$, so Bob’s claim is incorrect.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:05:38.115Z",
+  "updatedAt": "2026-11-12T13:05:38.116Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "mastering-maths-adv11-ch01",
+    "blockId": "p24-q2",
+    "sectionRole": "exercise"
+  }
+}

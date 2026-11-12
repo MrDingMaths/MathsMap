@@ -1,0 +1,350 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-332b7714-3c1b-4846-bbc1-79575692d64a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Combine restricted linear, constant and quadratic branches, distinguishing excluded endpoints from points included by another branch.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T18:19:48.278Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "970b6a94312f25c861af11454ffe8be4421f588b31d8b27d203580defd2868b5",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-92182e369873f8bbc740/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p115-question-graphs-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Graph the following piecewise functions.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p115-question-graphs-part-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$$f(x)=\\begin{cases}2x+1&\\text{if }x<0\\\\x^2&\\text{if }x\\ge0\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=2x+1$ for $x<0$, open at $(0,1)$; $y=x^2$ for $x\\ge0$, closed at $(0,0)$. The line crosses the $x$-axis at $\\left(-\\frac12,0\\right)$.",
+          "worked": "The break point is $x=0$.\n\nFor the linear branch, the boundary height is\n$$\\begin{align*}y&=2(0)+1\\\\y&=1.\\end{align*}$$\nDraw $y=2x+1$ to the left of $0$, with an open circle at $(0,1)$. It crosses the $x$-axis at $\\left(-\\frac12,0\\right)$.\n\nFor the quadratic branch,\n$$\\begin{align*}y&=0^2\\\\y&=0.\\end{align*}$$\nDraw the right-hand branch of $y=x^2$, starting at the closed point $(0,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p115-solution-18-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function branches, distinguished from black axes and guides.\"}],\"reference\":\"Source PDF 115 Q18; answer PDF 25, printed 603, Q18\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.7cm,line cap=round,line join=round]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-1.95,-2.25) rectangle (2.55,3.45);\n\\draw[black,line width=0.5pt,->] (-1.7,0)--(2.2,0);\n\\draw[black,line width=0.5pt,->] (0,-2.05)--(0,3.2);\n\\node[anchor=north,yshift=-3pt] at (2.2,0) {$x$};\n\\node[anchor=east,xshift=-3pt] at (0,3.2) {$y$};\n\\node[anchor=east,xshift=-3pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east,xshift=-2pt,yshift=2pt] at (-0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-\\frac{1}{2}$\\special{dvisvgm:raw </g>}};\n\\draw[graphBlue,line width=0.8pt,<-] plot[domain=-1.45:0,samples=2] (\\x,{2*\\x+1});\n\\draw[graphBlue,line width=0.8pt,->] plot[domain=0:1.7,samples=61] (\\x,{\\x*\\x});\n\\draw[draw=graphBlue,fill=white,line width=0.8pt] (0,1) circle[radius=1.6pt];\n\\fill[graphBlue] (0,0) circle[radius=1.6pt];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 72,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 115,
+                "sourceRegion": "Question 18; answer-book PDF 25, printed page 603, left graph in the 18–19 row.",
+                "description": "A linear left branch ends openly at (0,1); the right half of a parabola starts at the filled origin. Both branches continue with outward arrows. Axes are labelled x and y; the labels 1 and -1/2 are retained.",
+                "mathematics": "y=2x+1 for x<0, with x-intercept -1/2 and excluded endpoint (0,1); y=x^2 for x>=0, with included endpoint (0,0).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p115-question-graphs-part-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$$f(x)=\\begin{cases}x-2&\\text{if }x<1\\\\3&\\text{if }x=1\\\\-x+4&\\text{if }x>1\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x-2$ for $x<1$, open at $(1,-1)$; a closed point at $(1,3)$; $y=-x+4$ for $x>1$, passing through $(4,0)$.\n\nThe equality-only branch supplies the closed point $(1,3)$.",
+          "worked": "The break point is $x=1$.\n\nFor the left branch, the boundary height is\n$$\\begin{align*}y&=1-2\\\\y&=-1.\\end{align*}$$\nDraw $y=x-2$ for $x<1$, through $(0,-2)$, with an open circle at $(1,-1)$.\n\nThe middle branch gives $f(1)=3$, so plot a closed point at $(1,3)$.\n\nFor the right branch, the boundary height is\n$$\\begin{align*}y&=-1+4\\\\y&=3.\\end{align*}$$\nDraw $y=-x+4$ for $x>1$, passing through $(4,0)$. Although this branch excludes $x=1$, the complete graph has a closed point at $(1,3)$ because the middle branch includes it.",
+          "solutionDiagrams": [
+            {
+              "id": "p115-solution-19-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function branches and included function value, distinguished from black axes and guides.\"}],\"reference\":\"Source PDF 115 Q19; answer PDF 25, printed 603, Q19\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm,line cap=round,line join=round]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.3,-4.15) rectangle (6.25,4.2);\n\\draw[black,line width=0.5pt,->] (-2,0)--(5.9,0);\n\\draw[black,line width=0.5pt,->] (0,-3.95)--(0,3.85);\n\\node[anchor=north,yshift=-3pt] at (5.9,0) {$x$};\n\\node[anchor=east,xshift=-3pt] at (0,3.85) {$y$};\n\\draw[black,line width=0.4pt,dashed] (1,-1)--(1,3);\n\\draw[black,line width=0.4pt] (0,3)--(0.1,3);\n\\draw[black,line width=0.4pt] (0,-1)--(0.1,-1);\n\\draw[black,line width=0.4pt] (0,-2)--(0.1,-2);\n\\draw[black,line width=0.4pt] (4,0)--(4,0.1);\n\\node[anchor=east,xshift=-3pt] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-3pt] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-3pt] at (0,-2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-2$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north east,xshift=-2pt,yshift=-2pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (4,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\draw[graphBlue,line width=0.8pt,<-] plot[domain=-1.75:1,samples=2] (\\x,{\\x-2});\n\\draw[graphBlue,line width=0.8pt,->] plot[domain=1:5.6,samples=2] (\\x,{-\\x+4});\n\\draw[draw=graphBlue,fill=white,line width=0.8pt] (1,-1) circle[radius=1.6pt];\n\\fill[graphBlue] (1,3) circle[radius=1.6pt];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 76,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 115,
+                "sourceRegion": "Question 19; answer-book PDF 25, printed page 603, right graph in the 18–19 row.",
+                "description": "An increasing left ray crosses the y-axis at -2 and ends openly at (1,-1). A decreasing right ray passes through the filled point (1,3) and crosses the x-axis at 4. A vertical dashed guide identifies x=1. Numeric labels 1, 3, -1, -2 and 4 are retained.",
+                "mathematics": "y=x-2 for x<1; f(1)=3; y=-x+4 for x>1. The right branch excludes its boundary, but the singleton branch includes (1,3) in the complete function.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p115-question-graphs-part-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$$f(x)=\\begin{cases}x^2&\\text{if }x\\le2\\\\2x-4&\\text{if }x>2\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x^2$ for $x\\le2$, through $(0,0)$ and closed at $(2,4)$; $y=2x-4$ for $x>2$, open at $(2,0)$.",
+          "worked": "The break point is $x=2$.\n\nFor the quadratic branch,\n$$\\begin{align*}y&=2^2\\\\y&=4.\\end{align*}$$\nDraw $y=x^2$ for $x\\le2$, passing through the vertex $(0,0)$ and ending at the closed point $(2,4)$.\n\nFor the linear branch, the boundary height is\n$$\\begin{align*}y&=2(2)-4\\\\y&=0.\\end{align*}$$\nDraw the ray $y=2x-4$ to the right of $x=2$, with gradient $2$ and an open circle at $(2,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p115-solution-20-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function branches, distinguished from black axes and guides.\"}],\"reference\":\"Source PDF 115 Q20; answer PDF 25, printed 603, Q20\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.65cm,line cap=round,line join=round]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.25,-1.1) rectangle (4.05,7.05);\n\\draw[black,line width=0.5pt,->] (-2.9,0)--(3.7,0);\n\\draw[black,line width=0.5pt,->] (0,-0.85)--(0,6.7);\n\\node[anchor=north,yshift=-3pt] at (3.7,0) {$x$};\n\\node[anchor=east,xshift=-3pt] at (0,6.7) {$y$};\n\\draw[black,line width=0.4pt,dashed] (0,4)--(2,4)--(2,0);\n\\node[anchor=east,xshift=-3pt] at (0,4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$4$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\draw[graphBlue,line width=0.8pt,<-] plot[domain=-2.5:2,samples=81] (\\x,{\\x*\\x});\n\\draw[graphBlue,line width=0.8pt,->] plot[domain=2:3.3,samples=2] (\\x,{2*\\x-4});\n\\fill[graphBlue] (2,4) circle[radius=1.6pt];\n\\draw[draw=graphBlue,fill=white,line width=0.8pt] (2,0) circle[radius=1.6pt];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 74,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 115,
+                "sourceRegion": "Question 20; answer-book PDF 25, printed page 603, left graph in the 20–21 row.",
+                "description": "The parabola continues towards the upper left, passes through the origin and ends at the filled point (2,4). A separate increasing ray starts openly at (2,0). Dashed guides identify x=2 and y=4.",
+                "mathematics": "y=x^2 for x<=2, including (2,4); y=2x-4 for x>2, excluding (2,0). The linear branch has gradient 2.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p115-question-graphs-part-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$$f(x)=\\begin{cases}-1&\\text{if }x<-1\\\\x&\\text{if }-1\\le x<3\\\\5&\\text{if }x\\ge3\\end{cases}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-1$ for $x<-1$, joining $y=x$ at the included point $(-1,-1)$. The diagonal ends openly at $(3,3)$; $y=5$ begins at the closed point $(3,5)$ and continues right.\n\nThe middle branch includes the join at $(-1,-1)$, so there is no hole there.",
+          "worked": "The break points are $x=-1$ and $x=3$.\n\nAt $x=-1$, the left branch has height $-1$ and the middle branch gives $f(-1)=-1$. Draw the horizontal ray $y=-1$ for $x<-1$, joining the segment $y=x$ at $(-1,-1)$. The middle branch includes this point, so the complete graph has no hole there.\n\nDraw $y=x$ through the origin up to an open circle at $(3,3)$, because this branch excludes $x=3$.\n\nThe last branch gives $f(3)=5$. Plot a closed point at $(3,5)$ and draw the horizontal ray $y=5$ to the right.",
+          "solutionDiagrams": [
+            {
+              "id": "p115-solution-21-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function branches, distinguished from black axes and guides.\"}],\"reference\":\"Source PDF 115 Q21; answer PDF 25, printed 603, Q21\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm,line cap=round,line join=round]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-3.65,-1.85) rectangle (5.75,6.2);\n\\draw[black,line width=0.5pt,->] (-3.35,0)--(5.4,0);\n\\draw[black,line width=0.5pt,->] (0,-1.6)--(0,5.85);\n\\node[anchor=north,yshift=-3pt] at (5.4,0) {$x$};\n\\node[anchor=east,xshift=-3pt] at (0,5.85) {$y$};\n\\draw[black,line width=0.4pt,dashed] (-1,0)--(-1,-1);\n\\draw[black,line width=0.4pt,dashed] (3,0)--(3,5);\n\\draw[black,line width=0.4pt,dashed] (0,3)--(3,3);\n\\draw[black,line width=0.4pt,dashed] (0,5)--(3,5);\n\\draw[black,line width=0.4pt] (0,-1)--(0.1,-1);\n\\node[anchor=south,yshift=2pt] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[anchor=west,xshift=3pt] at (0,-1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-3pt] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[anchor=east,xshift=-3pt] at (0,5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$5$\\special{dvisvgm:raw </g>}};\n\\draw[graphBlue,line width=0.8pt,<-] (-3.2,-1)--(-1,-1);\n\\draw[graphBlue,line width=0.8pt] plot[domain=-1:3,samples=2] (\\x,{\\x});\n\\draw[graphBlue,line width=0.8pt,->] (3,5)--(5.15,5);\n\\draw[draw=graphBlue,fill=white,line width=0.8pt] (3,3) circle[radius=1.6pt];\n\\fill[graphBlue] (3,5) circle[radius=1.6pt];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 76,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 115,
+                "sourceRegion": "Question 21; answer-book PDF 25, printed page 603, right graph in the 20–21 row.",
+                "description": "A left horizontal ray at y=-1 joins a diagonal segment at (-1,-1), without a hole. The diagonal passes through the origin and ends openly at (3,3). A right horizontal ray starts at the filled point (3,5). Dashed guides and the source's numeric labels are retained.",
+                "mathematics": "y=-1 for x<-1; y=x for -1<=x<3; y=5 for x>=3. The middle branch includes (-1,-1); (3,3) is excluded and (3,5) is included.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p115-question-graphs",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p115-question-graphs": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p115-question-graphs-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p115-question-graphs-root/label",
+                  "type": "item",
+                  "ref": "p115-question-graphs-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p115-question-graphs-root/prompt",
+                  "type": "item",
+                  "ref": "p115-question-graphs-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p115-question-graphs-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p115-question-graphs-part-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p115-question-graphs-part-a/label",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-a/prompt",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-a/space",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p115-question-graphs-part-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p115-question-graphs-part-b/label",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-b/prompt",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-b/space",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p115-question-graphs-part-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p115-question-graphs-part-c/label",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-c/prompt",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-c/space",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p115-question-graphs-part-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p115-question-graphs-part-d/label",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-d/prompt",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p115-question-graphs-part-d/space",
+                          "type": "item",
+                          "ref": "p115-question-graphs-part-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:21:04.936Z",
+  "updatedAt": "2026-11-12T13:21:04.937Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p115-question-graphs",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e0731c87-fcaa-4753-9d7b-e1d483eed36a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "eulers-number",
+    "secondarySkillIds": [
+      "define-derivative-tangent",
+      "graph-exponential-features"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Sketch three exponential curves and their tangents, then compare their gradients with the defining gradient for Euler’s number.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-01T02:28:52.713Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4eed4b058b802d2b9190ca8d04f87bf6a3fd20ce23982544b42ff13d8916fd29",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch06-20261001/semantic-packets/assignments/assignment-87f3779b0d15ec04bb42/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p9-q44-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Consider $f(x)=2^x$, $g(x)=3^x$ and $y=e^x$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-q44-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Sketch the graph of each function and their tangent at $x=0$.",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p9-q44-a-f",
+            "type": "part",
+            "label": "",
+            "prompt": "$f(x)=2^x$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The curve passes through $(0,1)$ and $(1,2)$. Its tangent at $(0,1)$ has gradient less than $1$.",
+              "worked": "Plot $(0,1)$ and $(1,2)$ and sketch an increasing exponential curve with horizontal asymptote $y=0$. Draw its tangent through $(0,1)$, with gradient approximately $0.69$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p9-native-diagram-44-a-2",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve distinguished from its black tangent\"}],\"reference\":\"teacher PDF page 58, printed page 636, 6A 44(a), first panel\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.60cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.85,-0.7) rectangle (2.05,4.2);\n\\draw[black,line width=0.5pt,->] (-1.7,0)--(1.8,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,3.95) node[above right] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,2)--(1,2)--(1,0);\n\\draw[black,line width=0.8pt,<->] (-1.65,{1-1.65*0.69314718056})--(1.55,{1+1.55*0.69314718056});\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.65:1.65,samples=90] plot (\\x,{pow(2,\\x)});\n\\fill[black] (0,1) circle[radius=1.2pt];\n\\fill[curveBlue] (1,2) circle[radius=1.2pt];\n\\node[left,text=black] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left,text=black] at (0,2) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[below,text=black] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 52,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 58,
+                    "sourceRegion": "Printed page 636, Exercise 6A, question 44(a), left solution panel",
+                    "description": "Increasing exponential curve, its tangent at the common y-intercept, and dashed guides to the point (1,2).",
+                    "mathematics": "Curve y=2^x; tangent y=1+(ln 2)x; marked points (0,1) and (1,2); horizontal asymptote y=0.",
+                    "answerVisibility": "Answer edition only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 100
+          },
+          {
+            "id": "p9-q44-a-g",
+            "type": "part",
+            "label": "",
+            "prompt": "$g(x)=3^x$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The curve passes through $(0,1)$ and $(1,3)$. Its tangent at $(0,1)$ has gradient greater than $1$.",
+              "worked": "Plot $(0,1)$ and $(1,3)$ and sketch an increasing exponential curve with horizontal asymptote $y=0$. Draw its tangent through $(0,1)$, with gradient approximately $1.10$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p9-native-diagram-44-a-3",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve distinguished from its black tangent\"}],\"reference\":\"teacher PDF page 58, printed page 636, 6A 44(a), second panel\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.60cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.85,-0.7) rectangle (2.05,4.2);\n\\draw[black,line width=0.5pt,->] (-1.7,0)--(1.8,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,3.95) node[above right] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,3)--(1,3)--(1,0);\n\\draw[black,line width=0.8pt,<->] (-1.3,{1-1.3*1.09861228867})--(1.55,{1+1.55*1.09861228867});\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.65:1.22,samples=90] plot (\\x,{pow(3,\\x)});\n\\fill[black] (0,1) circle[radius=1.2pt];\n\\fill[curveBlue] (1,3) circle[radius=1.2pt];\n\\node[left,text=black] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left,text=black] at (0,3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[below,text=black] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 52,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 58,
+                    "sourceRegion": "Printed page 636, Exercise 6A, question 44(a), middle solution panel",
+                    "description": "Increasing exponential curve, its tangent at the common y-intercept, and dashed guides to the point (1,3).",
+                    "mathematics": "Curve y=3^x; tangent y=1+(ln 3)x; marked points (0,1) and (1,3); horizontal asymptote y=0.",
+                    "answerVisibility": "Answer edition only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 100
+          },
+          {
+            "id": "p9-q44-a-e",
+            "type": "part",
+            "label": "",
+            "prompt": "$y=e^x$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "The curve passes through $(0,1)$ and $(1,e)$. Its tangent at $(0,1)$ is $y=x+1$.",
+              "worked": "Plot $(0,1)$ and $(1,e)$ and sketch an increasing exponential curve with horizontal asymptote $y=0$. The tangent at $x=0$ has gradient $1$.\n$$\\begin{align*}y-1&=1(x-0)\\\\y&=x+1\\end{align*}$$",
+              "solutionDiagrams": [
+                {
+                  "id": "p9-native-diagram-44-a-e",
+                  "role": "solution",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential curve distinguished from its black tangent\"}],\"reference\":\"teacher PDF page 58, printed page 636, 6A 44(a), third panel\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.60cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-1.85,-0.7) rectangle (2.05,4.2);\n\\draw[black,line width=0.5pt,->] (-1.7,0)--(1.8,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,3.95) node[above right] {$y$};\n\\draw[black,dashed,line width=0.4pt] (0,{exp(1)})--(1,{exp(1)})--(1,0);\n\\draw[black,line width=0.8pt,<->] (-1.3,-0.3)--(1.55,2.55);\n\\draw[curveBlue,line width=0.8pt,<->,domain=-1.65:1.34,samples=90] plot (\\x,{exp(\\x)});\n\\fill[black] (0,1) circle[radius=1.2pt];\n\\fill[black] (1,{exp(1)}) circle[radius=1.2pt];\n\\node[left,text=black] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[left,text=black] at (0,{exp(1)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\node[below,text=black] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 52,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": null,
+                  "transparent": false,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 58,
+                    "sourceRegion": "Printed page 636, Exercise 6A, question 44(a), right solution panel",
+                    "description": "Increasing exponential curve, its unit-gradient tangent at the common y-intercept, and dashed guides to the point (1,e).",
+                    "mathematics": "Curve y=e^x; tangent y=x+1; marked points (0,1) and (1,e); horizontal asymptote y=0.",
+                    "answerVisibility": "Answer edition only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 108
+          }
+        ]
+      },
+      {
+        "id": "p9-q44-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Although all three tangents look nearly identical, what difference do we know for sure about them?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$f'(0)<1<g'(0)$.\n\nThe tangent gradients for $2^x$, $e^x$ and $3^x$ are less than, equal to and greater than $1$, respectively.",
+          "worked": "The gradient at the common $y$-intercept increases as the base increases. Since $2<e<3$ and the tangent to $y=e^x$ at $x=0$ has gradient $1$,\n$$f'(0)<1<g'(0).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q44",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:01:04.476Z",
+  "updatedAt": "2026-11-12T11:01:04.476Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch06",
+    "blockId": "p9-q44",
+    "sectionRole": "exercise"
+  }
+}

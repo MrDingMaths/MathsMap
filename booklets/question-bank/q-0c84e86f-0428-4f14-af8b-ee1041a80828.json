@@ -1,0 +1,214 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0c84e86f-0428-4f14-af8b-ee1041a80828",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "discriminant-conditions-roots",
+    "secondarySkillIds": [
+      "solve-quadratic-inequalities"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Check the linear case k=0 before applying the discriminant, then solve a quadratic parameter inequality and exclude its endpoints.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:24:52.771Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "78c330ebfc9e19e459056a48fbbcb0d9575e9952e75e2fc8b2d989abbf958e85",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch02/955e78b256169e39a1ebd1ecf60feda028c8b44ae3b5e130011c8554f7c1ff69-1792556653392/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p60-task-38-39",
+    "type": "question",
+    "label": null,
+    "prompt": "Find the value(s) of $k$ for which the following have no real roots.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p60-task-38-39-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$kx^2+(k-4)x+5=0.$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$14-6\\sqrt{5}<k<14+6\\sqrt{5}$.\n\nCheck $k=0$ separately, then use $\\Delta<0$ and select the interval between the boundary roots.",
+          "worked": "When $k=0$, the equation becomes $-4x+5=0$, with the real root $x=\\frac54$. Thus $k=0$ does not qualify.\n\nFor $k\\ne0$, no real roots requires $\\Delta<0$.\n\n$$\\begin{align*}\\Delta&=(k-4)^2-4(k)(5)\\\\\\Delta&=k^2-28k+16.\\end{align*}$$\n\nThe boundary equation is $k^2-28k+16=0$.\n\n$$\\begin{align*}k&=\\frac{28\\pm\\sqrt{(-28)^2-4(1)(16)}}{2(1)}\\\\k&=\\frac{28\\pm\\sqrt{720}}{2}\\\\k&=14\\pm6\\sqrt5.\\end{align*}$$\n\nThe upward-opening graph of $y=k^2-28k+16$ lies below the $k$-axis between these roots. Hence\n\n$$14-6\\sqrt5<k<14+6\\sqrt5.$$\n\nBoth endpoints are excluded because the inequality is strict. This interval already excludes $k=0$.",
+          "solutionDiagrams": [
+            {
+              "id": "p60-q38-solution-parameter-parabola",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=16mm,y=16mm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\definecolor{selectedRed}{HTML}{EF6068}\n\\path[use as bounding box] (-2.55,-1.45) rectangle (2.55,1.25);\n\\draw[->,black,line width=0.5pt] (-1.55,0)--(1.55,0);\n\\node[anchor=south west,xshift=2pt,yshift=3pt] at (1.55,0) {$k$};\n\\node[anchor=center] at (0,1.05) {$y=k^2-28k+16$};\n\\draw[<->,graphBlue,dashed,line width=0.7pt,domain=-1.22:1.22,samples=81] plot (\\x,{\\x*\\x-1});\n\\draw[selectedRed,line width=0.9pt,domain=-1:1,samples=65] plot (\\x,{\\x*\\x-1});\n\\draw[selectedRed,fill=white,line width=0.7pt] (-1,0) circle[radius=1.35pt];\n\\draw[selectedRed,fill=white,line width=0.7pt] (1,0) circle[radius=1.35pt];\n\\node[anchor=north east,xshift=-2pt,yshift=-4pt] at (-1,0) {$14-6\\sqrt5$};\n\\node[anchor=north west,xshift=2pt,yshift=-4pt] at (1,0) {$14+6\\sqrt5$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 84,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 60,
+                "sourceRegion": "Additional practice, Q38; authored solution sketch following the teaching on PDF pages 54–55. No question diagram is printed.",
+                "description": "An upward-opening parameter parabola with exact boundary labels. Its negative portion is solid red; the positive continuations are dashed blue. Open boundary markers indicate the strict inequality. No shaded region is used.",
+                "mathematics": {
+                  "function": "y=k^2-28k+16",
+                  "roots": [
+                    "14-6\\sqrt5",
+                    "14+6\\sqrt5"
+                  ],
+                  "vertex": [
+                    "14",
+                    "-180"
+                  ],
+                  "plotCoordinates": "u=(k-14)/(6*sqrt(5)), v=y/180, so v=u^2-1. The horizontal axis is y=0. The vertical axis is omitted from this rough interval sketch.",
+                  "selectedInterval": "14-6\\sqrt5<k<14+6\\sqrt5",
+                  "labelSizing": "Equation, axis title and exact intercept annotations are complete 10 pt labels; there are no regular scale ticks."
+                },
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 118
+      },
+      {
+        "id": "p60-task-38-39-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$x^2+2kx+k^2+1=0.$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "All real $k$, since $\\Delta=-4<0$.",
+          "worked": "$$\\begin{align*}\\Delta&=(2k)^2-4(1)(k^2+1)\\\\\\Delta&=4k^2-4k^2-4\\\\\\Delta&=-4<0.\\end{align*}$$\n\nThe leading coefficient is $1$, and the discriminant is negative for every real $k$. Therefore the equation has no real roots for all real $k$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p60-task-38-39-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p60-task-38-39-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p60-task-38-39:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p60-task-38-39/label",
+                  "type": "item",
+                  "ref": "p60-task-38-39/label",
+                  "title": "Label 38"
+                },
+                {
+                  "id": "layout:p60-task-38-39/prompt",
+                  "type": "item",
+                  "ref": "p60-task-38-39/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p60-task-38-39:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p60-task-38-39-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p60-task-38-39-a/label",
+                          "type": "item",
+                          "ref": "p60-task-38-39-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p60-task-38-39-a/prompt",
+                          "type": "item",
+                          "ref": "p60-task-38-39-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p60-task-38-39-a/space",
+                          "type": "item",
+                          "ref": "p60-task-38-39-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p60-task-38-39-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p60-task-38-39-b/label",
+                          "type": "item",
+                          "ref": "p60-task-38-39-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p60-task-38-39-b/prompt",
+                          "type": "item",
+                          "ref": "p60-task-38-39-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p60-task-38-39-b/space",
+                          "type": "item",
+                          "ref": "p60-task-38-39-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 38",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:13:18.393Z",
+  "updatedAt": "2026-11-12T13:13:18.393Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p60-task-38-39-block",
+    "sectionRole": "exercise"
+  }
+}

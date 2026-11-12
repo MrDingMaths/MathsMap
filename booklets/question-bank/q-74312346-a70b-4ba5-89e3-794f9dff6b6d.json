@@ -1,0 +1,307 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-74312346-a70b-4ba5-89e3-794f9dff6b6d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "domain-range-composite-function",
+    "secondarySkillIds": [
+      "composite-function-equations",
+      "graph-piecewise"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguishing the compositions requires retaining the inner square-root restriction and recognising that equal outputs on the common domain do not make the functions identical. The sketches require the non-negative square-root interpretation and correct endpoint inclusion.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T22:17:56.933Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c646ce88a26a51e24b1cfc89af5f0685924c1fd63b1a26efc82b0c3d18cbcec8",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-54560b27854a8186060b/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p140-q16-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Let $f(x)=\\sqrt{x}$ and $g(x)=x^2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p140-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $f(g(x))$ is not equal to $g(f(x))$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p140-q16-a-short-fg",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "f(g(x))=|x|",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", with domain ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\mathbb{R}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p140-q16-a-short-gf",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "g(f(x))=x",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", with domain ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "[0,\\infty)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p140-q16-a-short-reason",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Their domains differ, although they agree on their common domain. For example, ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "f(g(-1))=1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", while ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "g(f(-1))",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is undefined over the reals.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "At $x=-1$,\n\n$$\\begin{align*}f(g(-1))&=f((-1)^2)\\\\f(g(-1))&=f(1)\\\\f(g(-1))&=1.\\end{align*}$$\n\nHowever, $f(-1)=\\sqrt{-1}$ is not real, so $g(f(-1))$ is undefined over $\\mathbb{R}$. Thus the compositions are different functions.\n\nIn fact, $f(g(x))=|x|$ has domain $\\mathbb{R}$, whereas $g(f(x))=x$ has domain $[0,\\infty)$. Their values agree for every input in their common domain.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p140-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Graph $y=f(g(x))$ and $y=g(f(x))$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=f(g(x))=|x|$ for $x\\in\\mathbb{R}$; $y=g(f(x))=x$ for $x\\ge0$. Both graphs include $(0,0)$.",
+          "worked": "The square root is non-negative. For $x<0$, the non-negative square root of $x^2$ is $-x$; for $x\\ge0$, it is $x$.\n\n$$\\begin{align*}f(g(x))&=\\sqrt{x^2}\\\\f(g(x))&=\\begin{cases}-x,&x<0,\\\\x,&x\\ge0.\\end{cases}\\end{align*}$$\n\nThis gives two rays meeting at the included vertex $(0,0)$, passing through $(-1,1)$ and $(1,1)$.\n\nFor the reverse composition, the inner square root requires $x\\ge0$:\n\n$$\\begin{align*}g(f(x))&=(\\sqrt{x})^2\\\\g(f(x))&=x,\\qquad x\\ge0.\\end{align*}$$\n\nThis is the ray of $y=x$ starting at the closed endpoint $(0,0)$ and passing through $(1,1)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p140-q16-b-composition-graphs",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"compositionBlue\",\"hex\":\"268CFF\",\"reason\":\"Composition curves, included point markers and matched legend strokes, distinguished from black axes and guides.\"}],\"reference\":\"Answer PDF 30, printed 608, Exercise 2O Q16(b); p140-q16-b-composition-graphs\"}\n\\begin{tikzpicture}[x=7mm,y=7mm,>=stealth,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{compositionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.85,-3.65) rectangle (8.85,3.4);\n\\begin{scope}\n\\draw[black,line width=0.5pt,->] (-2.6,0)--(2.6,0);\n\\draw[black,line width=0.5pt,->] (0,-2.6)--(0,2.6);\n\\draw[black,line width=0.4pt,dashed] (-1,0)--(-1,1)--(1,1)--(1,0);\n\\draw[compositionBlue,line width=0.8pt,<->] plot[domain=-2.35:2.35,samples=3] (\\x,{abs(\\x)});\n\\fill[compositionBlue] (-1,1) circle[radius=1.3pt];\n\\fill[compositionBlue] (1,1) circle[radius=1.3pt];\n\\fill[compositionBlue] (0,0) circle[radius=1.3pt];\n\\node[anchor=north,yshift=-2pt] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-2pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east,xshift=-1pt,yshift=1pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (2.6,0) {$x$};\n\\node[anchor=south east,xshift=-2pt,yshift=2pt] at (0,2.6) {$y$};\n\\draw[compositionBlue,line width=0.8pt] (-1.6,-3.25)--(-1.1,-3.25);\n\\node[anchor=west] at (-0.9,-3.25) {$f(g(x))$};\n\\end{scope}\n\\begin{scope}[xshift=42mm]\n\\draw[black,line width=0.5pt,->] (-2.6,0)--(2.6,0);\n\\draw[black,line width=0.5pt,->] (0,-2.6)--(0,2.6);\n\\draw[black,line width=0.4pt,dashed] (0,1)--(1,1)--(1,0);\n\\draw[compositionBlue,line width=0.8pt,->] plot[domain=0:2.35,samples=2] (\\x,\\x);\n\\fill[compositionBlue] (1,1) circle[radius=1.3pt];\n\\fill[compositionBlue] (0,0) circle[radius=1.3pt];\n\\node[anchor=north,yshift=-2pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=south east,xshift=-1pt,yshift=1pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[anchor=north,yshift=-3pt] at (2.6,0) {$x$};\n\\node[anchor=south east,xshift=-2pt,yshift=2pt] at (0,2.6) {$y$};\n\\draw[compositionBlue,line width=0.8pt] (-1.6,-3.25)--(-1.1,-3.25);\n\\node[anchor=west] at (-0.9,-3.25) {$g(f(x))$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 140,
+                "sourceRegion": "Q16(b), right column; answer arrangement from teacher PDF 30, printed page 608, lower-right Q16(b).",
+                "description": "One complete paired solution figure: the absolute-value graph on the left and the non-negative identity ray on the right. Both retain coordinate axes, positive-axis arrows, marked unit coordinates, dashed projection guides and composition legends. Neither graph has a grid or an origin O label.",
+                "mathematics": "Left: y=|x| on all real x, with included vertex (0,0) and marked points (-1,1), (1,1). Right: y=x for x>=0, with a closed endpoint (0,0) and marked point (1,1). Arrowheads indicate continuation beyond the displayed windows.",
+                "answerVisibility": "Solution only. The student source supplies no graph, axes or drawing scaffold."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 68
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p140-q16",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p140-q16": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p140-q16-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p140-q16-root/label",
+                  "type": "item",
+                  "ref": "p140-q16-root/label",
+                  "title": "Label 16"
+                },
+                {
+                  "id": "layout:p140-q16-root/prompt",
+                  "type": "item",
+                  "ref": "p140-q16-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p140-q16-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p140-q16-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p140-q16-a/label",
+                          "type": "item",
+                          "ref": "p140-q16-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p140-q16-a/prompt",
+                          "type": "item",
+                          "ref": "p140-q16-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p140-q16-a/space",
+                          "type": "item",
+                          "ref": "p140-q16-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p140-q16-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p140-q16-b/label",
+                          "type": "item",
+                          "ref": "p140-q16-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p140-q16-b/prompt",
+                          "type": "item",
+                          "ref": "p140-q16-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p140-q16-b/space",
+                          "type": "item",
+                          "ref": "p140-q16-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 16",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:25:05.742Z",
+  "updatedAt": "2026-11-12T13:25:05.743Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p140-q16",
+    "sectionRole": "exercise"
+  }
+}

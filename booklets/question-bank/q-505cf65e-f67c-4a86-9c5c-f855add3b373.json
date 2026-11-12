@@ -1,0 +1,135 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-505cf65e-f67c-4a86-9c5c-f855add3b373",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cosine-rule-angles",
+    "secondarySkillIds": [
+      "cosine-rule"
+    ],
+    "reasoningScore": 60,
+    "difficulty": "Mastery",
+    "difficultyReason": "Introduce a diagonal, calculate its length using the included angle, then find the required angle in the second triangle.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-28T11:36:04.026Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "312995fd8d37e9a805415e5f2ab447af01e3a773fbba50155de40ef78b701d6f",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch03-20260928/semantic-packets/assignments/assignment-3a6a99ffd34180c5f8b0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p31-q23-response",
+    "type": "question",
+    "label": null,
+    "prompt": "Find the size of the angle $\\theta$, correct to the nearest degree, in the diagram below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q23-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31, p31-q23-diagram\"}\n\\usetikzlibrary{angles,quotes}\n\\begin{tikzpicture}[x=4.5mm,y=4.5mm,draw=black,text=black,every node/.style={font=\\fontsize{10}{12}\\selectfont},line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (D) at (1.3891854213,7.8784620241);\n\\coordinate (C) at (6.8766429173,3.5324511831);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\path (A)--(B) node[midway,below=2pt] {$5$};\n\\path (B)--(C) node[midway,right=2pt] {$4$};\n\\path (C)--(D) node[midway,above right=2pt] {$7$};\n\\path (D)--(A) node[midway,left=2pt] {$8$};\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.35,\"$80^\\circ$\"] {angle=B--A--D};\n\\pic[draw=black,line width=0.4pt,angle radius=6mm,angle eccentricity=1.35,\"$\\theta$\"] {angle=D--C--B};\n\\node[below left=2pt] at (A) {$A$};\n\\node[below right=2pt] at (B) {$B$};\n\\node[right=2pt] at (C) {$C$};\n\\node[above=2pt] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 38.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 23, right column above additional practice",
+          "description": "Unshaded convex quadrilateral ABCD, with A lower left, B lower right, C upper right and D upper left. Both supplied interior angles have arcs. No diagonal is visible.",
+          "mathematics": {
+            "sides": {
+              "AB": 5,
+              "BC": 4,
+              "CD": 7,
+              "DA": 8
+            },
+            "angles": {
+              "DAB": "80 degrees",
+              "DCB": "theta"
+            },
+            "geometryConstruction": "A=(0,0), B=(5,0), D=8(cos 80 degrees,sin 80 degrees); C is the convex-side intersection of circles centred at B and D with radii 4 and 7."
+          },
+          "answerVisibility": "Only source givens and the unknown theta are visible; diagonal BD and calculated values are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p31-q23-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\theta\\approx100^\\circ",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p31-q23-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Find BD using the cosine rule in triangle ABD, then find the angle at C in triangle BCD.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Join $B$ to $D$.\n\nIn $\\triangle ABD$,\n$$\\begin{align*}BD^2&=8^2+5^2-2(8)(5)\\cos80^\\circ\\\\BD^2&=89-80\\cos80^\\circ.\\end{align*}$$\nIn $\\triangle BCD$,\n$$\\begin{align*}\\cos\\theta&=\\frac{7^2+4^2-(89-80\\cos80^\\circ)}{2(7)(4)}\\\\\\theta&\\approx100.399036^\\circ.\\end{align*}$$\nHence, $\\theta\\approx100^\\circ$ to the nearest degree.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 56
+  },
+  "presentation": {
+    "ownerId": "p31-q23",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:57:45.992Z",
+  "updatedAt": "2026-11-12T10:57:45.992Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p31-q23",
+    "sectionRole": "exercise"
+  }
+}

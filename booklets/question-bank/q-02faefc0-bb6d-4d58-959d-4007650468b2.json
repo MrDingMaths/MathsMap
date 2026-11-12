@@ -1,0 +1,842 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-02faefc0-bb6d-4d58-959d-4007650468b2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-inequality-squares",
+    "secondarySkillIds": [],
+    "reasoningScore": 93,
+    "difficulty": "Challenge",
+    "difficultyReason": "Generalises a sum-of-squares argument to indexed coefficients, connects global nonnegativity to the discriminant, and handles the zero-leading-coefficient case.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T14:22:24.398Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d6e056c72f670d87ba48f63e4497c432deccd949f9ea13816345d05020ad0471",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-467ab3c6f295c0b6db48/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p71-q38-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p71-q38-subtitle",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Cauchy-Schwarz inequality",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            }
+          ]
+        },
+        {
+          "id": "p71-q38-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f_n(x)=(a_nx-b_n)^2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a_n,b_n\\in\\mathbb{R}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p71-q38-define-function",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Define the function",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p71-q38-function",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "g(x)=f_1(x)+f_2(x)+\\cdots+f_n(x).",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p71-q38-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p71-q38-a-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Explain why the graph of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y=g(x)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " can never be below the ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "x",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": "-axis.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each square is nonnegative, so $g(x)\\ge0$ for every real $x$.",
+          "worked": "For every real $x$ and each $i=1,\\ldots,n$, $(a_ix-b_i)^2\\ge0$. Their sum $g(x)$ is therefore nonnegative, so its graph cannot lie below the $x$-axis.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p71-q38-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p71-q38-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Show that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "g(x)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " can be written in the form",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p71-q38-b-form",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "g(x)=Ax^2+Bx+C.",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p71-q38-b-short-coefficients",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}A&=a_1^2+a_2^2+\\cdots+a_n^2,\\\\B&=-2(a_1b_1+a_2b_2+\\cdots+a_nb_n),\\\\C&=b_1^2+b_2^2+\\cdots+b_n^2.\\end{align*}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Expand each square and collect the quadratic, linear and constant terms.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p71-q38-b-worked-expansion",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}(a_ix-b_i)^2&=a_i^2x^2-2a_ib_ix+b_i^2.\\end{align*}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-b-worked-collection",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Adding these expansions for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "i=1,\\ldots,n",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and collecting coefficients gives",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-b-worked-coefficients",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}A&=a_1^2+a_2^2+\\cdots+a_n^2,\\\\B&=-2(a_1b_1+a_2b_2+\\cdots+a_nb_n),\\\\C&=b_1^2+b_2^2+\\cdots+b_n^2.\\end{align*}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-b-worked-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}g(x)&=Ax^2+Bx+C.\\end{align*}",
+                    "display": true
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p71-q38-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p71-q38-c-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hence, show that",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p71-q38-c-inequality",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "(a_1b_1+a_2b_2+\\cdots+a_nb_n)^2\\le(a_1^2+a_2^2+\\cdots+a_n^2)(b_1^2+b_2^2+\\cdots+b_n^2).",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p71-q38-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}&(a_1b_1+a_2b_2+\\cdots+a_nb_n)^2\\\\&\\quad\\le(a_1^2+a_2^2+\\cdots+a_n^2)\\\\&\\qquad{}\\times(b_1^2+b_2^2+\\cdots+b_n^2).\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "For ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "A>0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", use ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "B^2-4AC\\le0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and substitute the coefficients from (b). If ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "A=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", every ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "a_i=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and both sides are zero.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p71-q38-c-worked-zero-case",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "A=a_1^2+a_2^2+\\cdots+a_n^2\\ge0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". If ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "A=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", every ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "a_i=0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", so the required inequality is ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "0\\le0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-c-worked-positive-case",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "If ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "A>0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", the quadratic is nonnegative for every real ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "x",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", so it has no real roots or one repeated real root. Hence its discriminant is nonpositive.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-c-worked-discriminant",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{align*}B^2-4AC&\\le0,\\\\4(a_1b_1+a_2b_2+\\cdots+a_nb_n)^2&\\le4AC,\\\\(a_1b_1+a_2b_2+\\cdots+a_nb_n)^2&\\le AC.\\end{align*}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-c-worked-substitution",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Substituting ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "A",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "C",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " gives",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p71-q38-c-worked-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "center",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "(a_1b_1+a_2b_2+\\cdots+a_nb_n)^2\\le(a_1^2+a_2^2+\\cdots+a_n^2)(b_1^2+b_2^2+\\cdots+b_n^2).",
+                    "display": true
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p71-q38",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p71-q38": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p71-q38-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p71-q38-root/label",
+                  "type": "item",
+                  "ref": "p71-q38-root/label",
+                  "title": "Label 38"
+                },
+                {
+                  "id": "layout:p71-q38-root/prompt#p71-q38-subtitle",
+                  "type": "item",
+                  "ref": "p71-q38-root/prompt#p71-q38-subtitle",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p71-q38-root/prompt#p71-q38-definition",
+                  "type": "item",
+                  "ref": "p71-q38-root/prompt#p71-q38-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p71-q38-root/prompt#p71-q38-define-function",
+                  "type": "item",
+                  "ref": "p71-q38-root/prompt#p71-q38-define-function",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p71-q38-root/prompt#p71-q38-function",
+                  "type": "item",
+                  "ref": "p71-q38-root/prompt#p71-q38-function",
+                  "title": "Text"
+                },
+                {
+                  "id": "p71-q38-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p71-q38-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p71-q38-a/label",
+                          "type": "item",
+                          "ref": "p71-q38-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p71-q38-a/prompt#p71-q38-a-instruction",
+                          "type": "item",
+                          "ref": "p71-q38-a/prompt#p71-q38-a-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p71-q38-a/space",
+                          "type": "item",
+                          "ref": "p71-q38-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p71-q38-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p71-q38-b/label",
+                          "type": "item",
+                          "ref": "p71-q38-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p71-q38-b/prompt#p71-q38-b-instruction",
+                          "type": "item",
+                          "ref": "p71-q38-b/prompt#p71-q38-b-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p71-q38-b/prompt#p71-q38-b-form",
+                          "type": "item",
+                          "ref": "p71-q38-b/prompt#p71-q38-b-form",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p71-q38-b/space",
+                          "type": "item",
+                          "ref": "p71-q38-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p71-q38-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p71-q38-c/label",
+                          "type": "item",
+                          "ref": "p71-q38-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p71-q38-c/prompt#p71-q38-c-instruction",
+                          "type": "item",
+                          "ref": "p71-q38-c/prompt#p71-q38-c-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p71-q38-c/prompt#p71-q38-c-inequality",
+                          "type": "item",
+                          "ref": "p71-q38-c/prompt#p71-q38-c-inequality",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p71-q38-c/space",
+                          "type": "item",
+                          "ref": "p71-q38-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 38",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:15:06.272Z",
+  "updatedAt": "2026-11-12T13:15:06.274Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p71-q38",
+    "sectionRole": "exercise"
+  }
+}

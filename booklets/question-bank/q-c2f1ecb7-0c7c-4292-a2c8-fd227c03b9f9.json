@@ -1,0 +1,296 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c2f1ecb7-0c7c-4292-a2c8-fd227c03b9f9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "tangent-normal-equations",
+    "secondarySkillIds": [
+      "eulers-number",
+      "graph-log-functions"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Use the known unit gradient to form the exponential tangent, then transfer that tangent through inverse reflection; the sketch and 'hence' instruction scaffold the connection.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:30:43.857Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b9ec1e2d6f6ee43fec78e843d6e1fbef0efb917da73aca90d718a9e5d656686b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch06/07038d7549b0edf680ba0be850addf58d81296508db0f65a9f1c0f3bbaa135bd-1792557012334/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p44-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p44-q15-stem-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f(x)=e^x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "g(x)=\\ln x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p44-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p44-q15-a-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Sketch ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "f",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "g",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " on the same Cartesian plane.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=e^x$ and $y=\\ln x$ are reflections in $y=x$. See the graph.",
+          "worked": "The exponential passes through $(0,1)$ and $(1,e)$, increases, and has horizontal asymptote $y=0$.\n\nReflect it in $y=x$ to obtain the logarithm. It passes through $(1,0)$ and $(e,1)$, increases, and has vertical asymptote $x=0$.",
+          "solutionDiagrams": [
+            {
+              "id": "p44-answer15-a-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"expBlue\",\"hex\":\"268CFF\",\"reason\":\"exponential series and matching legend\"},{\"name\":\"logRed\",\"hex\":\"EF6068\",\"reason\":\"logarithmic series and matching legend\"}],\"reference\":\"teacher PDF 63 printed 641, answer 15(a), p44-answer15-a-diagram\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.9cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{expBlue}{HTML}{268CFF}\n\\definecolor{logRed}{HTML}{EF6068}\n\\path[use as bounding box] (-2.8,-2.8) rectangle (4.9,4.9);\n\\draw[black,line width=0.5pt,->] (-2.5,0)--(4.6,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-2.5)--(0,4.6) node[above left] {$y$};\n\\draw[black,line width=0.4pt,dashed,<->] (-2.45,-2.45)--(4.45,4.45);\n\\draw[black,line width=0.4pt,dashed] (0,{exp(1)})--(1,{exp(1)})--(1,0);\n\\draw[black,line width=0.4pt,dashed] (0,1)--({exp(1)},1)--({exp(1)},0);\n\\draw[expBlue,line width=0.8pt,<->] plot[domain=-2.4:1.48,samples=100] (\\x,{exp(\\x)});\n\\draw[logRed,line width=0.8pt,<->] plot[domain=0.082:4.45,samples=140] (\\x,{ln(\\x)});\n\\fill[expBlue] (1,{exp(1)}) circle[radius=1.6pt];\n\\fill[logRed] ({exp(1)},1) circle[radius=1.6pt];\n\\draw[black,line width=0.4pt] (1,0.06)--(1,-0.06);\n\\draw[black,line width=0.4pt] ({exp(1)},0.06)--({exp(1)},-0.06);\n\\draw[black,line width=0.4pt] (-0.06,1)--(0.06,1);\n\\draw[black,line width=0.4pt] (-0.06,{exp(1)})--(0.06,{exp(1)});\n\\node[black,below] at (1,-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[black,below] at ({exp(1)},-0.08) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\node[black,left] at (-0.08,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[black,left] at (-0.08,{exp(1)}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$e$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt,dashed] (1.05,-0.9)--(1.6,-0.9);\n\\node[black,anchor=west] at (1.7,-0.9) {$y=x$};\n\\draw[logRed,line width=0.8pt] (1.05,-1.5)--(1.6,-1.5);\n\\node[black,anchor=west] at (1.7,-1.5) {$y=\\ln x$};\n\\draw[expBlue,line width=0.8pt] (1.05,-2.1)--(1.6,-2.1);\n\\node[black,anchor=west] at (1.7,-2.1) {$y=e^x$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 44,
+                "sourceRegion": "Question 15(a); answer figure on teacher PDF 63, printed page 641",
+                "description": "Blue exponential and red logarithm on common Cartesian axes, reflected in a dashed diagonal y=x. Marked inverse points (1,e) and (e,1), dashed projections, axis labels 1 and e, and continuation arrows are retained.",
+                "mathematics": "Equation-driven plots y=e^x and y=ln x; inverse point correspondence across y=x.",
+                "answerVisibility": "Solution only; the student prompt contains no supplied graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p44-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p44-q15-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Find the equation of the tangent to ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y=e^x",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " at ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "x=0",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x+1$.",
+          "worked": "At $x=0$, the point is $(0,1)$. By the defining property of $e$, the tangent has gradient $1$.\n\n$$\\begin{align*}y&=1(x-0)+1\\\\y&=x+1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p44-q15-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p44-q15-c-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hence, what is the tangent to ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y=\\ln(x)",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " at ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "x=1",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": "?",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x-1$.\n\nReflect the tangent from part (b) in $y=x$.",
+          "worked": "Reflection in $y=x$ sends $(0,1)$ to $(1,0)$ and sends the exponential tangent to the logarithmic tangent. Interchanging $x$ and $y$ in the line from part (b) gives\n\n$$\\begin{align*}x&=y+1\\\\y&=x-1\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p44-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:02:07.566Z",
+  "updatedAt": "2026-11-12T11:02:07.567Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch06",
+    "blockId": "p44-q15",
+    "sectionRole": "exercise"
+  }
+}

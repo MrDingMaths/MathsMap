@@ -1,0 +1,136 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-44cd978e-ec90-44e1-9fb4-41185a15bc55",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-rule-triangle",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Translate coordinates into useful lengths or a geometric decomposition, then connect that representation to an area method; the cosine-rule route links distance, exact sine and area calculations.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:26:47.801Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ef5749e627e9ff987973e2d69f780472f7c22ba7b96f84a4dc598b50bd24a9b4",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch03/e87f386e02ba982cf2635dc69f8efbeee82c33151f142a27778a3cb048a686a8-1792556759311/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p37-q16-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Points $A(3,4)$ and $B(12,-5)$ form a triangle with the origin $O$. Find the area of $\\triangle AOB$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p37-q16-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "31.5\\text{ square units}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p37-q16-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Find the side lengths, use the cosine rule to obtain ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\cos\\angle AOB",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", then find the sine and apply the area rule.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Let $\\theta=\\angle AOB$.\n$$\\begin{align*}OA&=\\sqrt{3^2+4^2}=5\\\\OB&=\\sqrt{12^2+(-5)^2}=13\\\\AB^2&=(12-3)^2+(-5-4)^2=162\\end{align*}$$\nBy the cosine rule,\n$$\\begin{align*}\\cos\\theta&=\\frac{5^2+13^2-162}{2(5)(13)}\\\\\\cos\\theta&=\\frac{16}{65}\\end{align*}$$\nSince $\\cos\\theta>0$, $\\theta$ is acute. In an auxiliary right triangle with adjacent side 16 and hypotenuse 65, the opposite side is\n$$\\begin{align*}\\text{opposite side}&=\\sqrt{65^2-16^2}\\\\\\text{opposite side}&=63\\end{align*}$$\nHence,\n$$\\begin{align*}\\sin\\theta&=\\frac{63}{65}\\\\\\operatorname{Area}(\\triangle AOB)&=\\frac12(5)(13)\\left(\\frac{63}{65}\\right)\\\\\\operatorname{Area}(\\triangle AOB)&=\\frac{63}{2}\\text{ square units}\\\\\\operatorname{Area}(\\triangle AOB)&=31.5\\text{ square units}\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p37-q16-auxiliary-solution-diagram",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"p37-q16 authored auxiliary right triangle following Student PDF page 36\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[draw=black,text=black,font=\\fontsize{10}{12}\\selectfont,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (3.78,0);\n\\coordinate (R) at (0,0.96);\n\\draw[line width=0.8pt] (P)--(Q)--(R)--cycle;\n\\coordinate (U) at ($(P)!2mm!(Q)$);\n\\coordinate (V) at ($(P)!2mm!(R)$);\n\\draw[line width=0.4pt] (U)--($(U)+(V)-(P)$)--(V);\n\\path (P)--(R) node[midway,left] {$16$};\n\\path (P)--(Q) node[midway,below] {$63$};\n\\path (R)--(Q) node[midway,above] {$65$};\n\\pic[draw=black,line width=0.4pt,angle radius=3mm,angle eccentricity=1.5,\"$\\theta$\"] {angle=P--R--Q};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 52,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 37,
+            "sourceRegion": "Question 16 solution; auxiliary construction follows the taught mixed-techniques example on page 36",
+            "description": "An authored auxiliary right triangle has adjacent side 16, opposite side 63 and hypotenuse 65 relative to theta. It is not a supplied coordinate diagram of triangle AOB.",
+            "mathematics": "16² + 63² = 65²; cos theta = 16/65; sin theta = 63/65.",
+            "answerVisibility": "Solution-only figure; absent from the student question."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 112
+  },
+  "presentation": {
+    "ownerId": "p37-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:57:52.719Z",
+  "updatedAt": "2026-11-12T10:57:52.719Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p37-q16",
+    "sectionRole": "exercise"
+  }
+}

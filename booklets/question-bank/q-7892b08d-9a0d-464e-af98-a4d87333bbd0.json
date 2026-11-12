@@ -1,0 +1,209 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7892b08d-9a0d-464e-af98-a4d87333bbd0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [],
+    "reasoningScore": 56,
+    "difficulty": "Mastery",
+    "difficultyReason": "Convert floor and ceiling conditions on x squared into paired square-root intervals, reverse endpoint placement on the negative side and identify the ceiling graph's isolated origin.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:24:12.829Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "98573c1ffd0e8b64bcdcf9816297cd5e2ccc7069741a5ed8e9654b70b5106b22",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch02/7ce15231144868d9acd4ee3eaf4a6406b799ffc64188295ce9d6617950b8b060-1792556628639/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q52-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Let $f(x)=\\lfloor x^2\\rfloor$ and $g(x)=\\lceil x^2\\rceil$. Sketch the graphs of $y=f(x)$ and $y=g(x)$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q52-floor",
+        "type": "part",
+        "label": "",
+        "prompt": "$y=f(x)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=n$ where $n\\le x^2<n+1$, for integers $n\\ge0$. In particular, $y=0$ on $(-1,1)$.\n\nUse the floor definition at each square-root boundary and reflect the steps in the $y$-axis.",
+          "worked": "The floor definition gives $f(x)=n$ when $n\\le x^2<n+1$.\n\nFor $n=0$,\n$$f(x)=0\\quad(-1<x<1).$$\nFor each integer $n\\ge1$,\n$$\\begin{align*}f(x)&=n &&(-\\sqrt{n+1}<x\\le-\\sqrt n),\\\\f(x)&=n &&(\\sqrt n\\le x<\\sqrt{n+1}).\\end{align*}$$\nDraw horizontal steps at the integer heights. At height $n\\ge1$, fill the endpoints $x=\\pm\\sqrt n$ and leave $x=\\pm\\sqrt{n+1}$ hollow. The height-zero segment has hollow endpoints at $x=\\pm1$. The graph is symmetric about the $y$-axis, and the pattern continues for all integers $n\\ge0$.",
+          "solutionDiagrams": [
+            {
+              "id": "p17-q52-floor-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function graph and endpoint markers, distinguished from black coordinate axes.\"}],\"reference\":\"Exercise 2B Q52; source PDF 17; answer PDF 11; p17-q52-floor-solution-graph\"}\n\\begin{tikzpicture}[x=12mm,y=10mm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.7,-0.65) rectangle (2.75,4.95);\n\\draw[black,line width=0.5pt,->] (-2.5,0)--(2.5,0);\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,4.65);\n\\node[anchor=north,yshift=-3pt] at (2.5,0) {$x$};\n\\node[anchor=east,xshift=-3pt] at (0,4.65) {$y$};\n\\foreach \\n in {1,2,3,4} {\n  \\draw[black,line width=0.4pt] (-0.065,\\n)--(0.065,\\n);\n  \\node[anchor=east,xshift=-3pt] at (0,\\n) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {-1,1} {\n  \\draw[black,line width=0.4pt] (\\t,-0.06)--(\\t,0.06);\n  \\node[anchor=north,yshift=-2pt] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[black,line width=0.4pt] ({sqrt(2)},-0.06)--({sqrt(2)},0.06);\n\\node[anchor=south,yshift=2pt] at ({sqrt(2)},0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\sqrt{2}$\\special{dvisvgm:raw </g>}};\n\\draw[graphBlue,line width=0.8pt] (-1,0)--(1,0);\n\\foreach \\t in {-1,1} {\n  \\filldraw[draw=graphBlue,fill=white,line width=0.8pt] (\\t,0) circle[radius=1.4pt];\n}\n\\foreach \\n in {1,2,3,4} {\n  \\foreach \\s in {-1,1} {\n    \\draw[graphBlue,line width=0.8pt] ({\\s*sqrt(\\n)},\\n)--({\\s*sqrt(\\n+1)},\\n);\n    \\filldraw[draw=graphBlue,fill=graphBlue,line width=0.8pt] ({\\s*sqrt(\\n)},\\n) circle[radius=1.4pt];\n    \\filldraw[draw=graphBlue,fill=white,line width=0.8pt] ({\\s*sqrt(\\n+1)},\\n) circle[radius=1.4pt];\n  }\n}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 74,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 17,
+                "sourceRegion": "Exercise 2B enrichment Q52; answer PDF page 11, printed page 589, left graph of the Q52 pair.",
+                "description": "Left graph of the horizontal pair. Symmetric floor-square steps through height 4, with a hollow-ended height-zero segment. Black axes; blue function graph; no grid or construction guides.",
+                "mathematics": "f(x)=floor(x^2). The zero segment is -1<x<1. For each integer n>=1, height n occupies (-sqrt(n+1),-sqrt(n)] and [sqrt(n),sqrt(n+1)). The representative drawing includes levels 0 through 4; the accompanying answer specifies continuation.",
+                "answerVisibility": "Solution only. No axes, graph segments or endpoint answers are supplied in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p17-q52-ceiling",
+        "type": "part",
+        "label": "",
+        "prompt": "$y=g(x)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=0$ only at $x=0$. For integers $n\\ge1$, $y=n$ where $n-1<x^2\\le n$.\n\nUse the ceiling definition at each square-root boundary and reflect the steps in the $y$-axis. Keep $(0,0)$ isolated.",
+          "worked": "At $x=0$, $g(0)=0$. For each integer $n\\ge1$, the ceiling definition gives $g(x)=n$ when $n-1<x^2\\le n$.\n$$\\begin{align*}g(x)&=n &&(-\\sqrt n\\le x<-\\sqrt{n-1}),\\\\g(x)&=n &&(\\sqrt{n-1}<x\\le\\sqrt n).\\end{align*}$$\nDraw horizontal steps at the positive integer heights. At height $n$, leave the endpoints $x=\\pm\\sqrt{n-1}$ hollow and fill $x=\\pm\\sqrt n$.\n\nThus the height-one step occupies $[-1,0)\\cup(0,1]$, with a hollow point at $(0,1)$ and a separate filled point at $(0,0)$. The graph is symmetric about the $y$-axis, and the pattern continues for all integers $n\\ge1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p17-q52-ceiling-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"graphBlue\",\"hex\":\"268CFF\",\"reason\":\"Function graph and endpoint markers, distinguished from black coordinate axes.\"}],\"reference\":\"Exercise 2B Q52; source PDF 17; answer PDF 11; p17-q52-ceiling-solution-graph\"}\n\\begin{tikzpicture}[x=12mm,y=10mm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{graphBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-2.7,-0.65) rectangle (2.75,4.95);\n\\draw[black,line width=0.5pt,->] (-2.5,0)--(2.5,0);\n\\draw[black,line width=0.5pt,->] (0,-0.5)--(0,4.65);\n\\node[anchor=north,yshift=-3pt] at (2.5,0) {$x$};\n\\node[anchor=east,xshift=-3pt] at (0,4.65) {$y$};\n\\foreach \\n in {1,2,3,4} {\n  \\draw[black,line width=0.4pt] (-0.065,\\n)--(0.065,\\n);\n}\n\\node[anchor=south east,xshift=-3pt,yshift=1.5pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\foreach \\n in {2,3,4} {\n  \\node[anchor=east,xshift=-3pt] at (0,\\n) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n}\n\\foreach \\t in {-1,1} {\n  \\draw[black,line width=0.4pt] (\\t,-0.06)--(\\t,0.06);\n  \\node[anchor=north,yshift=-2pt] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\draw[black,line width=0.4pt] ({sqrt(2)},-0.06)--({sqrt(2)},0.06);\n\\node[anchor=south,yshift=2pt] at ({sqrt(2)},0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\sqrt{2}$\\special{dvisvgm:raw </g>}};\n\\draw[graphBlue,line width=0.8pt] (-1,1)--(1,1);\n\\foreach \\t in {-1,1} {\n  \\filldraw[draw=graphBlue,fill=graphBlue,line width=0.8pt] (\\t,1) circle[radius=1.4pt];\n}\n\\filldraw[draw=graphBlue,fill=white,line width=0.8pt] (0,1) circle[radius=1.4pt];\n\\foreach \\n in {2,3,4} {\n  \\foreach \\s in {-1,1} {\n    \\draw[graphBlue,line width=0.8pt] ({\\s*sqrt(\\n-1)},\\n)--({\\s*sqrt(\\n)},\\n);\n    \\filldraw[draw=graphBlue,fill=white,line width=0.8pt] ({\\s*sqrt(\\n-1)},\\n) circle[radius=1.4pt];\n    \\filldraw[draw=graphBlue,fill=graphBlue,line width=0.8pt] ({\\s*sqrt(\\n)},\\n) circle[radius=1.4pt];\n  }\n}\n\\filldraw[draw=graphBlue,fill=graphBlue,line width=0.8pt] (0,0) circle[radius=1.4pt];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 74,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 17,
+                "sourceRegion": "Exercise 2B enrichment Q52; answer PDF page 11, printed page 589, right graph of the Q52 pair.",
+                "description": "Right graph of the horizontal pair. Symmetric ceiling-square steps through height 4, a hollow point at (0,1), and an isolated filled origin. Black axes; blue function graph; no grid or construction guides.",
+                "mathematics": "g(x)=ceil(x^2). The zero set is {0}. For each integer n>=1, height n occupies [-sqrt(n),-sqrt(n-1)) and (sqrt(n-1),sqrt(n)]. The representative drawing includes levels 1 through 4 and the isolated origin; the accompanying answer specifies continuation.",
+                "answerVisibility": "Solution only. No axes, graph segments or endpoint answers are supplied in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 80
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p17-q52",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q52": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q52-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p17-q52-root/label",
+                  "type": "item",
+                  "ref": "p17-q52-root/label",
+                  "title": "Label 52"
+                },
+                {
+                  "id": "layout:p17-q52-root/prompt",
+                  "type": "item",
+                  "ref": "p17-q52-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p17-q52-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p17-q52-floor:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q52-floor/prompt",
+                          "type": "item",
+                          "ref": "p17-q52-floor/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q52-floor/space",
+                          "type": "item",
+                          "ref": "p17-q52-floor/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q52-ceiling:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q52-ceiling/prompt",
+                          "type": "item",
+                          "ref": "p17-q52-ceiling/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q52-ceiling/space",
+                          "type": "item",
+                          "ref": "p17-q52-ceiling/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 2",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 52",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:07:12.651Z",
+  "updatedAt": "2026-11-12T13:07:12.651Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p17-q52",
+    "sectionRole": "exercise"
+  }
+}

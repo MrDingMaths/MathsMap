@@ -1,0 +1,213 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-08a270c3-0116-46e4-8ae7-d95df770dee5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [],
+    "reasoningScore": 83,
+    "difficulty": "Challenge",
+    "difficultyReason": "Identify a reusable state after a head, recognise return sequences that reset to that state, and construct and solve a recurrence before accounting for the initial flips.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:32:19.609Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "caa5be63b716dfb3a1d6fd399c0eb94fc6d532f339575680a6c4a1c379c1f018",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch08/bfca58c04b754c5a0ebea0d9f027a3c98912fb6cd735ef029c1a26e774f819b6-1792557097900/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p27-q36-root",
+    "type": "question",
+    "label": "36",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p27-q36-subtitle",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Recursions",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#8b5cc7"
+            }
+          ]
+        },
+        {
+          "id": "p27-q36-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A fair coin is flipped repeatedly until either:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p27-q36-conditions",
+          "type": "list",
+          "ordered": false,
+          "start": 1,
+          "indent": 7,
+          "items": [
+            {
+              "id": "p27-q36-heads-item",
+              "type": "list-item",
+              "blocks": [
+                {
+                  "id": "p27-q36-heads-condition",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "two consecutive heads occur, or",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "p27-q36-tails-item",
+              "type": "list-item",
+              "blocks": [
+                {
+                  "id": "p27-q36-tails-condition",
+                  "type": "paragraph",
+                  "fontSize": null,
+                  "align": "left",
+                  "spaceBefore": 0,
+                  "spaceAfter": 2,
+                  "lineHeight": 1.4,
+                  "indent": 0,
+                  "inlines": [
+                    {
+                      "type": "text",
+                      "text": "three consecutive tails occur",
+                      "marks": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p27-q36-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the probability that the experiment ends with two consecutive heads.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p27-q36-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\frac{7}{10}",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p27-q36-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Use a recurrence after a head, then add the cases in which the first head occurs before three tails.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Let $h$ be the probability of ending with $HH$ when the latest flip is a head and the experiment has not stopped. Here $H$ and $T$ denote heads and tails.\n\nStarting from this state, the next stopping or return cases are $H$, $TH$, $TTH$ and $TTT$. Their probabilities are $\\frac12$, $\\frac14$, $\\frac18$ and $\\frac18$. The first wins; the middle two return to the same state; the last loses.\n\n$$\\begin{align*}h&=\\frac12+\\frac14h+\\frac18h\\\\h&=\\frac12+\\frac38h\\\\\\frac58h&=\\frac12\\\\h&=\\frac45\\end{align*}$$\n\nFrom the start, the first head occurs in one of the mutually exclusive cases $H$, $TH$ or $TTH$. The remaining case, $TTT$, loses.\n\n$$\\begin{align*}P(\\text{ends with }HH)&=\\left(\\frac12+\\frac14+\\frac18\\right)h\\\\P(\\text{ends with }HH)&=\\frac78\\times\\frac45\\\\P(\\text{ends with }HH)&=\\frac7{10}\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 126
+  },
+  "presentation": {
+    "ownerId": "p27-q36",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:04:06.337Z",
+  "updatedAt": "2026-11-12T11:04:06.338Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch08",
+    "blockId": "p27-q36",
+    "sectionRole": "exercise"
+  }
+}

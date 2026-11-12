@@ -1,0 +1,228 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-19ef4a5f-69bb-4ef9-aad4-7cf3137211f5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "domain-range-composite-function",
+    "secondarySkillIds": [],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Requires diagnosing why an outer-function input restriction cannot be applied directly to the original input, while retaining the inner-function restriction.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-27T09:57:48.188Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "991bb82e98dc16ab4fec968583debde2c46ab6713455b8949b8ff9ec3eba98c2",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-3ddb5863123dd6746b05/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p139-q3-response",
+    "type": "question",
+    "label": "3",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p139-q3-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the functions ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f(x)=\\frac{1}{x+1}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "g(x)=\\frac{1}{x-1}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Bob says that since ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f(x)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is undefined at ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x=-1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "g(x)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is undefined at ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x=1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", the domain of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "f(g(x))",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is just all real numbers except ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x=1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x=-1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p139-q3-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Explain the mistake in this reasoning.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Bob wrongly assumes that $x=-1$ remains excluded. The actual domain is $\\mathbb{R}\\setminus\\{0,1\\}$; $x=-1$ is allowed.\n\nThe input to $f$ is $g(x)$, so require $g(x)\\ne-1$, while retaining $x\\ne1$ from $g$.",
+      "worked": "The input to $f$ is $g(x)$, so the outer restriction is $g(x)\\ne-1$, not $x\\ne-1$. The inner function also requires $x\\ne1$.\n\n$$\\begin{align*}f(g(x))&=\\frac{1}{\\frac{1}{x-1}+1}\\\\f(g(x))&=\\frac{1}{\\frac{x}{x-1}}\\\\f(g(x))&=\\frac{x-1}{x}.\\end{align*}$$\n\nThe simplified denominator requires $x\\ne0$. Retaining the original restriction $x\\ne1$, the domain is $(-\\infty,0)\\cup(0,1)\\cup(1,\\infty)$.\n\nAt $x=-1$, $g(-1)=-\\frac12$ and $f(g(-1))=\\frac{1}{-\\frac12+1}=2$. Thus $x=-1$ is allowed: Bob applied the restriction on the input of $f$ directly to $x$ instead of to $g(x)$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 28
+  },
+  "presentation": {
+    "ownerId": "p139-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p139-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p139-q3-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p139-q3-response/label",
+                  "type": "item",
+                  "ref": "p139-q3-response/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p139-q3-response/prompt#p139-q3-stem",
+                  "type": "item",
+                  "ref": "p139-q3-response/prompt#p139-q3-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p139-q3-response/prompt#p139-q3-instruction",
+                  "type": "item",
+                  "ref": "p139-q3-response/prompt#p139-q3-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p139-q3-response/space",
+                  "type": "item",
+                  "ref": "p139-q3-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 3",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:24:38.534Z",
+  "updatedAt": "2026-11-12T13:24:38.535Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p139-q3",
+    "sectionRole": "exercise"
+  }
+}

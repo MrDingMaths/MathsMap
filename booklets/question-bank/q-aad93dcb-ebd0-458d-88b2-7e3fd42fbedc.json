@@ -1,0 +1,158 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-aad93dcb-ebd0-458d-88b2-7e3fd42fbedc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians"
+    ],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct a triangle joining the centres to an intersection, recognise its special right-triangle ratios, and double its angles to identify the two arcs forming the overlap perimeter.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:27:19.117Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4477c432b561d7a85f2072e3f411ed8a459c3752003e8847979a838e9410de86",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch03/54ad2ceb5252a4223a551b9edfcee27858c63d325608989d028a8cc442496bba-1792556807856/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p64-q31-root",
+    "type": "question",
+    "label": "31",
+    "prompt": "In the figure below, the distance between the centres of the circles of radii $1$ and $\\sqrt{3}$ is $2$ units. Find the perimeter of the shaded section below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p64-q31-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"overlapFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identifies the common lens whose boundary perimeter is requested\"}],\"reference\":\"source PDF page 64, printed page 277, p64-q31-diagram\"}\n\\begin{tikzpicture}[x=13mm,y=13mm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{overlapFill}{HTML}{D4E8FF}\n\\coordinate (S) at (0,0);\n\\coordinate (L) at (2,0);\n\\path[fill=overlapFill] (0.5,{-sqrt(3)/2}) arc[start angle=-60,end angle=60,radius=1] arc[start angle=150,end angle=210,radius={sqrt(3)}] -- cycle;\n\\draw[line width=0.8pt] (S) circle[radius=1];\n\\draw[line width=0.8pt] (L) circle[radius={sqrt(3)}];\n\\draw[dashed,line width=0.4pt] (-1,0) -- (S) node[midway,below=2pt] {$1$};\n\\draw[dashed,line width=0.4pt] (L) -- ({2+sqrt(3)},0) node[midway,below=2pt] {$\\sqrt{3}$};\n\\fill[black] (S) circle[radius=1.5pt];\n\\fill[black] (L) circle[radius=1.5pt];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55.5,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 64,
+          "sourceRegion": "Question 31, upper-right column",
+          "description": "Two intersecting circles with the smaller circle on the left, marked centres, outward dashed horizontal radii labelled 1 and square root of 3, and a lightly shaded common lens.",
+          "mathematics": "Centres are (0,0) and (2,0), with radii 1 and sqrt(3). The intersections are (1/2, ±sqrt(3)/2). The lens boundary consists of the smaller circle's arc from -60° to 60° and the larger circle's arc from 150° to 210°.",
+          "answerVisibility": "Only source givens are visible. Central angles, construction lines and perimeter calculations are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p64-q31-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\frac{\\pi(2+\\sqrt{3})}{3}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " units.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p64-q31-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The boundary arcs subtend ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\frac{2\\pi}{3}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " and ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\frac{\\pi}{3}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; add their lengths using ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "l=r\\theta",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Join both centres to one intersection point. Since $1^2+(\\sqrt{3})^2=2^2$, the triangle is right-angled, with angles $\\frac{\\pi}{3}$ at the smaller circle's centre and $\\frac{\\pi}{6}$ at the larger circle's centre.\n\nBy symmetry, each boundary arc subtends twice the corresponding angle:\n$$\\begin{align*}\n\\theta_{\\text{small}}&=2\\left(\\frac{\\pi}{3}\\right)=\\frac{2\\pi}{3}\\\\\n\\theta_{\\text{large}}&=2\\left(\\frac{\\pi}{6}\\right)=\\frac{\\pi}{3}.\n\\end{align*}$$\nUsing $l=r\\theta$, the perimeter is\n$$\\begin{align*}\nP&=1\\left(\\frac{2\\pi}{3}\\right)+\\sqrt{3}\\left(\\frac{\\pi}{3}\\right)\\\\\nP&=\\frac{\\pi(2+\\sqrt{3})}{3}\\text{ units}.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 92
+  },
+  "presentation": {
+    "ownerId": "p64-q31",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:58:25.988Z",
+  "updatedAt": "2026-11-12T10:58:25.989Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p64-q31",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,365 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-65c3abe5-2727-4a72-a99e-622287dd8774",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "arc-length-radians"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the sector arc to the cone circumference and its radius to the slant height, then combine the scaffolded radius relationship with Pythagoras and cone volume in a symbolic derivation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:27:19.117Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7e226e2369ebbce3769255a46297d3ae119fe84baf67486bd5127b6f2ef43d46",
+      "evidence": ".booklet-work/reasoning-ratings/calls/concept-maths-adv11-ch03/54ad2ceb5252a4223a551b9edfcee27858c63d325608989d028a8cc442496bba-1792556807856/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p65-q37-root",
+    "type": "question",
+    "label": "37",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p65-q37-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A sector with unit radius and angle ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\theta",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " radians is glued together to form a cone with base radius ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "r",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p65-q37-hint",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Hint: Unfold the cone so it becomes a sector.",
+              "marks": [
+                "italic"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "p65-q37-sector-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 65, printed page 278, p65-q37-sector-diagram\"}\n\\begin{tikzpicture}[x=25mm,y=25mm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (L) at (150:1);\n\\coordinate (R) at (30:1);\n\\draw (L)--(O)--(R) arc[start angle=30,end angle=150,radius=1];\n\\draw[line width=0.4pt] (30:0.18) arc[start angle=30,end angle=150,radius=0.18];\n\\node[above] at (90:0.18) {$\\theta$};\n\\path (O)--(L) node[midway,below left] {$1$};\n\\path (O)--(R) node[midway,below right] {$1$};\n\\coordinate (ML) at ($(O)!0.55!(L)$);\n\\coordinate (MR) at ($(O)!0.55!(R)$);\n\\draw[line width=0.4pt] ($(ML)!1.5mm!90:(O)$)--($(ML)!1.5mm!-90:(O)$);\n\\draw[line width=0.4pt] ($(MR)!1.5mm!90:(O)$)--($(MR)!1.5mm!-90:(O)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 65,
+          "sourceRegion": "Question 37, left figure in the paired diagram row",
+          "description": "An unshaded sector with its vertex below the arc, matching ticks on its two radii, each radius labelled 1, and an interior angle mark labelled theta.",
+          "mathematics": "Both radii are 1. The central angle is theta radians. The illustrative opening is not a numerical angle given.",
+          "answerVisibility": "Permanent question figure; no derived arc length, circumference or answer is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p65-q37-cone-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 65, printed page 278, p65-q37-cone-diagram\"}\n\\begin{tikzpicture}[x=18mm,y=18mm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\pgfmathsetmacro{\\coneHeight}{2.15}\n\\pgfmathsetmacro{\\baseDepth}{0.2}\n\\pgfmathsetmacro{\\tangentAngle}{asin(\\baseDepth/\\coneHeight)}\n\\pgfmathsetmacro{\\tangentX}{cos(\\tangentAngle)}\n\\pgfmathsetmacro{\\tangentY}{\\baseDepth*sin(\\tangentAngle)}\n\\coordinate (A) at (0,\\coneHeight);\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (1,0);\n\\coordinate (TL) at (-\\tangentX,\\tangentY);\n\\coordinate (TR) at (\\tangentX,\\tangentY);\n\\draw (TL)--(A)--(TR);\n\\draw (TL) arc[start angle={180-\\tangentAngle},end angle={360+\\tangentAngle},x radius=1,y radius=\\baseDepth];\n\\draw[dashed] (TR) arc[start angle=\\tangentAngle,end angle={180-\\tangentAngle},x radius=1,y radius=\\baseDepth];\n\\draw[dashed,line width=0.4pt] (A)--(O) node[midway,right] {$h$};\n\\draw[dashed,line width=0.4pt] (O)--(R) node[midway,above] {$r$};\n\\draw[line width=0.4pt] ($(O)!2mm!(A)$)--($(O)!2mm!(A)+(2mm,0)$)--($(O)+(2mm,0)$);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 45,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 65,
+          "sourceRegion": "Question 37, right figure in the paired diagram row",
+          "description": "An upright cone with solid silhouettes and front base arc, a dashed hidden rear base arc, dashed height h and base radius r, and a right-angle marker at the base centre.",
+          "mathematics": "The sector radius becomes the cone's unit slant height. The height and base radius form a right triangle with that slant height. The silhouette generators meet the projected base ellipse tangentially.",
+          "answerVisibility": "Permanent question figure; only the source labels h and r are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p65-q37-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\theta=2\\pi r$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The sector's arc becomes the base circumference, so $1\\times\\theta=2\\pi r$. Hence $\\theta=2\\pi r$.",
+          "worked": "The sector's arc length equals the circumference of the cone's base. Since the sector radius is $1$,\n$$\\begin{align*}l&=1\\times\\theta\\\\l&=\\theta.\\end{align*}$$\nTherefore,\n$$\\begin{align*}\\theta&=2\\pi r.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p65-q37-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the volume of the cone is\n$$V=\\frac{\\theta^2}{24\\pi^2}\\sqrt{4\\pi^2-\\theta^2}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p65-q37-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "V=\\frac{\\theta^2}{24\\pi^2}\\sqrt{4\\pi^2-\\theta^2}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p65-q37-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Use ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "r=\\frac{\\theta}{2\\pi}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", Pythagoras' theorem with unit slant height, and ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "V=\\frac13\\pi r^2h",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "From part (a),\n$$\\begin{align*}r&=\\frac{\\theta}{2\\pi}.\\end{align*}$$\nThe slant height is $1$, so Pythagoras' theorem gives\n$$\\begin{align*}r^2+h^2&=1\\\\h&=\\sqrt{1-r^2}\\\\h&=\\sqrt{1-\\frac{\\theta^2}{4\\pi^2}}\\\\h&=\\frac{\\sqrt{4\\pi^2-\\theta^2}}{2\\pi}.\\end{align*}$$\nThus,\n$$\\begin{align*}V&=\\frac13\\pi r^2h\\\\V&=\\frac{\\pi}{3}\\times\\frac{\\theta^2}{4\\pi^2}\\times\\frac{\\sqrt{4\\pi^2-\\theta^2}}{2\\pi}\\\\V&=\\frac{\\theta^2}{24\\pi^2}\\sqrt{4\\pi^2-\\theta^2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p65-q37": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p65-q37-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p65-q37-label-item",
+                  "type": "item",
+                  "ref": "p65-q37-root/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p65-q37-stem-item",
+                  "type": "item",
+                  "ref": "p65-q37-root/prompt#p65-q37-stem",
+                  "align": "left"
+                },
+                {
+                  "id": "p65-q37-paired-figures",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p65-q37-sector-item",
+                      "type": "item",
+                      "ref": "p65-q37-sector-diagram",
+                      "width": 55,
+                      "align": "center"
+                    },
+                    {
+                      "id": "p65-q37-cone-item",
+                      "type": "item",
+                      "ref": "p65-q37-cone-diagram",
+                      "width": 45,
+                      "align": "center"
+                    }
+                  ],
+                  "gap": 8,
+                  "verticalAlign": "bottom"
+                },
+                {
+                  "id": "p65-q37-hint-item",
+                  "type": "item",
+                  "ref": "p65-q37-root/prompt#p65-q37-hint",
+                  "align": "left"
+                },
+                {
+                  "id": "p65-q37-a-arrangement",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p65-q37-a-label-item",
+                      "type": "item",
+                      "ref": "p65-q37-a/label",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p65-q37-a-prompt-item",
+                      "type": "item",
+                      "ref": "p65-q37-a/prompt",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p65-q37-a-space-item",
+                      "type": "item",
+                      "ref": "p65-q37-a/space",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p65-q37-b-arrangement",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p65-q37-b-label-item",
+                      "type": "item",
+                      "ref": "p65-q37-b/label",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p65-q37-b-prompt-item",
+                      "type": "item",
+                      "ref": "p65-q37-b/prompt",
+                      "align": "left"
+                    },
+                    {
+                      "id": "p65-q37-b-space-item",
+                      "type": "item",
+                      "ref": "p65-q37-b/space",
+                      "align": "left"
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "gap": 3,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p65-q37"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:58:28.357Z",
+  "updatedAt": "2026-11-12T10:58:28.357Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p65-q37",
+    "sectionRole": "exercise"
+  }
+}

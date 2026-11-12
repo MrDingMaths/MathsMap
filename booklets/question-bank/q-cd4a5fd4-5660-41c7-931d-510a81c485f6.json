@@ -1,0 +1,351 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cd4a5fd4-5660-41c7-931d-510a81c485f6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [
+      "interpret-piecewise"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the floor definition to numerical evaluation, including a negative input, and derive repeating linear pieces with correct endpoint inclusion.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T09:55:59.342Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6f635f3e328ab028035707a5877a4ee6f7e57b614dd4241652690ee28dea9061",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-1713f81da347a25f9544/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q51-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p17-q51-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The fractional part of a number ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is defined to be",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p17-q51-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\{x\\}=x-\\lfloor x\\rfloor.",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q51-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $\\{2.718\\}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.718$",
+          "worked": "Since $\\lfloor2.718\\rfloor=2$,\n$$\\begin{align*}\\{2.718\\}&=2.718-2\\\\\\{2.718\\}&=0.718.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p17-q51-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find $\\{-4.15\\}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.85$",
+          "worked": "Since $-5\\le-4.15<-4$, $\\lfloor-4.15\\rfloor=-5$.\n$$\\begin{align*}\\{-4.15\\}&=-4.15-(-5)\\\\\\{-4.15\\}&=0.85.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p17-q51-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Sketch the graph of $y=\\{x\\}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x-n$ for $n\\le x<n+1$, $n\\in\\mathbb Z$.\n\nEach segment starts at a filled point $(n,0)$ and ends at an open point $(n+1,1)$. Repeat for every integer $n$.",
+          "worked": "For each integer $n$, $\\lfloor x\\rfloor=n$ when $n\\le x<n+1$.\n$$\\begin{align*}\\{x\\}&=x-\\lfloor x\\rfloor\\\\\\{x\\}&=x-n.\\end{align*}$$\nDraw the segment from $(n,0)$ to $(n+1,1)$, including the lower endpoint and excluding the upper endpoint. Repeat for every integer $n$. The dashed vertical lines are guides, not part of the graph.",
+          "solutionDiagrams": [
+            {
+              "id": "p17-q51-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fractionalPartBlue\",\"hex\":\"268CFF\",\"reason\":\"Function segments and endpoint markers are distinguished from black axes and dashed guides.\"}],\"reference\":\"Answer PDF 11, printed 589, Exercise 2B Q51(c)\"}\n\\begin{tikzpicture}[x=8mm,y=28mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fractionalPartBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4,-0.62) rectangle (5.2,1.75);\n\\draw[black,line width=0.5pt,->] (-3.8,0) -- (4.7,0);\n\\draw[black,line width=0.5pt,->] (0,-0.5) -- (0,1.6);\n\\node[anchor=north,yshift=-3pt,inner sep=1pt] at (4.7,0) {$x$};\n\\node[anchor=east,xshift=-3pt,inner sep=1pt] at (0,1.6) {$y$};\n\\foreach \\n in {-2,-1,1,2,3,4} {\n  \\draw[black,line width=0.4pt,dash pattern=on 2pt off 2pt] (\\n,0) -- (\\n,1);\n}\n\\foreach \\n in {-3,-2,-1,1,2,3,4} {\n  \\draw[black,line width=0.4pt] (\\n,-0.035) -- (\\n,0.035);\n  \\node[anchor=north,yshift=-3pt,inner sep=1pt] at (\\n,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\n$\\special{dvisvgm:raw </g>}};\n}\n\\draw[black,line width=0.4pt] (-0.08,1) -- (0.08,1);\n\\node[anchor=east,xshift=-3pt,inner sep=1pt] at (0,1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\foreach \\n in {-3,-2,-1,0,1,2,3} {\n  \\pgfmathsetmacro{\\rightEnd}{\\n+1}\n  \\draw[fractionalPartBlue,line width=0.8pt] plot[domain=\\n:\\rightEnd,samples=2] (\\x,{\\x-\\n});\n}\n\\foreach \\n in {-3,-2,-1,0,1,2,3} {\n  \\pgfmathsetmacro{\\rightEnd}{\\n+1}\n  \\filldraw[draw=fractionalPartBlue,fill=fractionalPartBlue,line width=0.8pt] (\\n,0) circle[radius=1.5pt];\n  \\filldraw[draw=fractionalPartBlue,fill=white,line width=0.8pt] (\\rightEnd,1) circle[radius=1.5pt];\n}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 82,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 11,
+                "sourceRegion": "Answer book, printed page 589, right column, Exercise 2B enrichment Q51(c).",
+                "description": "Repeated rising unit-interval segments with filled lower endpoints and hollow upper endpoints. Black arrowed axes and dashed vertical guides remain separate from the blue function graph.",
+                "mathematics": "For every integer n, y=x-n on n<=x<n+1. The displayed window contains the seven segments indexed by n=-3,-2,-1,0,1,2,3. Filled endpoints are (n,0); hollow endpoints are (n+1,1). Integer x labels are -3,-2,-1,1,2,3,4. No origin label or grid is supplied.",
+                "answerVisibility": "Solution only; the student question contains no supplied axes or plotted answers."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 64
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q51": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q51-layout-root",
+              "type": "group",
+              "direction": "row",
+              "children": [
+                {
+                  "id": "p17-q51-layout-number",
+                  "type": "item",
+                  "ref": "p17-q51-root/label",
+                  "width": 7,
+                  "align": "left"
+                },
+                {
+                  "id": "p17-q51-layout-body",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q51-layout-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q51-root/prompt#p17-q51-stem",
+                          "type": "item",
+                          "ref": "p17-q51-root/prompt#p17-q51-stem",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q51-root/prompt#p17-q51-definition",
+                          "type": "item",
+                          "ref": "p17-q51-root/prompt#p17-q51-definition",
+                          "title": "Text"
+                        }
+                      ],
+                      "gap": 0,
+                      "align": "left"
+                    },
+                    {
+                      "id": "p17-q51-layout-ab",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p17-q51-layout-a",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p17-q51-layout-a-label",
+                              "type": "item",
+                              "ref": "p17-q51-a/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p17-q51-layout-a-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p17-q51-layout-a-prompt",
+                                  "type": "item",
+                                  "ref": "p17-q51-a/prompt",
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "p17-q51-layout-a-space",
+                                  "type": "item",
+                                  "ref": "p17-q51-a/space",
+                                  "align": "left"
+                                }
+                              ],
+                              "gap": 0,
+                              "weight": 1
+                            }
+                          ],
+                          "gap": 0,
+                          "weight": 1,
+                          "verticalAlign": "top"
+                        },
+                        {
+                          "id": "p17-q51-layout-b",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "p17-q51-layout-b-label",
+                              "type": "item",
+                              "ref": "p17-q51-b/label",
+                              "width": 7,
+                              "align": "left"
+                            },
+                            {
+                              "id": "p17-q51-layout-b-body",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "p17-q51-layout-b-prompt",
+                                  "type": "item",
+                                  "ref": "p17-q51-b/prompt",
+                                  "align": "left"
+                                },
+                                {
+                                  "id": "p17-q51-layout-b-space",
+                                  "type": "item",
+                                  "ref": "p17-q51-b/space",
+                                  "align": "left"
+                                }
+                              ],
+                              "gap": 0,
+                              "weight": 1
+                            }
+                          ],
+                          "gap": 0,
+                          "weight": 1,
+                          "verticalAlign": "top"
+                        }
+                      ],
+                      "gap": 2,
+                      "verticalAlign": "top"
+                    },
+                    {
+                      "id": "p17-q51-layout-c",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p17-q51-layout-c-label",
+                          "type": "item",
+                          "ref": "p17-q51-c/label",
+                          "width": 7,
+                          "align": "left"
+                        },
+                        {
+                          "id": "p17-q51-layout-c-body",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p17-q51-layout-c-prompt",
+                              "type": "item",
+                              "ref": "p17-q51-c/prompt",
+                              "align": "left"
+                            },
+                            {
+                              "id": "p17-q51-layout-c-space",
+                              "type": "item",
+                              "ref": "p17-q51-c/space",
+                              "align": "left"
+                            }
+                          ],
+                          "gap": 0,
+                          "weight": 1
+                        }
+                      ],
+                      "gap": 0,
+                      "verticalAlign": "top"
+                    }
+                  ],
+                  "gap": 1,
+                  "weight": 1
+                }
+              ],
+              "gap": 0,
+              "verticalAlign": "top",
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p17-q51"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:07:10.784Z",
+  "updatedAt": "2026-11-12T13:07:10.785Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p17-q51",
+    "sectionRole": "exercise"
+  }
+}

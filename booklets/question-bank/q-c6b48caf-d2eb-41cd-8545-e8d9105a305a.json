@@ -1,0 +1,333 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c6b48caf-d2eb-41cd-8545-e8d9105a305a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arc-sector-segment-problems",
+    "secondarySkillIds": [
+      "sector-area-radians",
+      "exact-ratios-radians"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires tangent-radius geometry, a right-triangle calculation, symmetry and an exact area subtraction proof.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-28T12:50:40.853Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e365d894b44fc078dd1af07d35fb0d1d00c152d0f4a9fc1c556dd948ec05ef0d",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch03-20260928/semantic-packets/assignments/assignment-3b9e220e087620d1e1ae/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p63-q25-response",
+    "type": "question",
+    "label": "25",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p63-q25-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "An external point ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "2r",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " units away from the centre ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "O",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " of a circle of radius ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "r",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Tangents are drawn from ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " to meet the circle at ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "A",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "B",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p63-q25-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Show that the area of the shaded region is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "r^2\\left(\\sqrt3-\\frac\\pi3\\right)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p63-q25-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"tangentRegion\",\"hex\":\"D4E8FF\",\"reason\":\"Identifies the tangent-bounded region whose area is to be proved.\"}],\"reference\":\"source PDF page 63, p63-q25-diagram\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{tangentRegion}{HTML}{D4E8FF}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (2.8,0);\n\\coordinate (A) at ({1.4*cos(60)},{1.4*sin(60)});\n\\coordinate (B) at ({1.4*cos(-60)},{1.4*sin(-60)});\n\\fill[tangentRegion] (A)--(P)--(B) arc[start angle=-60,end angle=60,radius=1.4]--cycle;\n\\draw[black,line width=0.8pt] (O) circle[radius=1.4];\n\\draw[black,line width=0.8pt] ($(P)!1.35!(A)$)--(P)--($(P)!1.35!(B)$);\n\\draw[black,dashed,line width=0.4pt] (O)--(A) node[midway,above left] {$r$};\n\\draw[black,dashed,line width=0.4pt] (O)--(B);\n\\coordinate (Ao) at ($(A)!0.12!(O)$);\n\\coordinate (Ap) at ($(A)!{0.12/sqrt(3)}!(P)$);\n\\coordinate (Bo) at ($(B)!0.12!(O)$);\n\\coordinate (Bp) at ($(B)!{0.12/sqrt(3)}!(P)$);\n\\draw[black,line width=0.4pt] (Ao)--($(Ao)+(Ap)-(A)$)--(Ap);\n\\draw[black,line width=0.4pt] (Bo)--($(Bo)+(Bp)-(B)$)--(Bp);\n\\fill[black] (O) circle[radius=1.2pt] node[left] {$O$};\n\\fill[black] (P) circle[radius=1.2pt] node[right] {$P$};\n\\fill[black] (A) circle[radius=1.2pt] node[above right] {$A$};\n\\fill[black] (B) circle[radius=1.2pt] node[below right] {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 57.2,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 63,
+          "sourceRegion": "Question 25 diagram in the right column, between the introductory paragraph and proof instruction.",
+          "description": "Circle centred at O, with external point P on its right. Tangents PA and PB extend beyond upper-right A and lower-right B. Dashed radii OA and OB have derived right-angle markers at their contacts; OA is labelled r. Only the tangent-bounded region outside the minor arc AB is filled.",
+          "mathematics": "For a construction radius R, O=(0,0), P=(2R,0), A=(R/2,√3R/2), B=(R/2,−√3R/2). These coordinates derive tangent contact and right-angle geometry from OP=2r. Construction coordinates and the derived 60° angles are not printed.",
+          "answerVisibility": "The proof target remains in the source question. No calculated tangent length, central angle or solution working is displayed in the diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p63-q25-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "A_{\\text{shaded}}=r^2\\left(\\sqrt3-\\frac\\pi3\\right)",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " square units.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p63-q25-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Pythagoras gives ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "AP=\\sqrt3r",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; symmetry gives ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\angle AOB=\\frac{2\\pi}{3}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ". Subtract sector ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "OAB",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " from quadrilateral ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "OAPB",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "A radius is perpendicular to its tangent, so $OA\\perp AP$.\n\n$$\\begin{align*}AP&=\\sqrt{(2r)^2-r^2}\\\\AP&=\\sqrt3r\\\\\\cos\\angle AOP&=\\frac{r}{2r}\\\\\\cos\\angle AOP&=\\frac12\\\\\\angle AOP&=\\frac\\pi3\\end{align*}$$\n\nBy symmetry, $OP$ bisects $\\angle AOB$. Subtract sector $OAB$ from quadrilateral $OAPB$:\n\n$$\\begin{align*}\\angle AOB&=\\frac{2\\pi}{3}\\\\A_{OAPB}&=2\\times\\frac12r(\\sqrt3r)\\\\A_{OAPB}&=\\sqrt3r^2\\\\A_{\\text{shaded}}&=\\sqrt3r^2-\\frac12r^2\\left(\\frac{2\\pi}{3}\\right)\\\\A_{\\text{shaded}}&=r^2\\left(\\sqrt3-\\frac\\pi3\\right)\\end{align*}$$\n\nThe area is in square units.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 104
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p63-q25": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p63-q25-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p63-q25-label-item",
+                  "type": "item",
+                  "ref": "p63-q25-response/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p63-q25-stem-item",
+                  "type": "item",
+                  "ref": "p63-q25-response/prompt#p63-q25-stem",
+                  "align": "left"
+                },
+                {
+                  "id": "p63-q25-diagram-item",
+                  "type": "item",
+                  "ref": "p63-q25-diagram",
+                  "width": 57.2,
+                  "align": "center"
+                },
+                {
+                  "id": "p63-q25-task-item",
+                  "type": "item",
+                  "ref": "p63-q25-response/prompt#p63-q25-task",
+                  "align": "left"
+                },
+                {
+                  "id": "p63-q25-space-item",
+                  "type": "item",
+                  "ref": "p63-q25-response/space",
+                  "align": "left"
+                }
+              ],
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p63-q25"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T10:58:23.662Z",
+  "updatedAt": "2026-11-12T10:58:23.662Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch03",
+    "blockId": "p63-q25",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,257 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-61aae80b-c17b-40e8-a811-6acc4fabd2c2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-quadratic-inequalities",
+    "secondarySkillIds": [],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires interpreting strict negativity for every real input, checking the degree-changing parameter value, and intersecting concavity and discriminant conditions.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-27T05:35:17.742Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2f164def1188bd5d9b238074af7477ac164813baf5cb8b166b3cdd3d62d5fd30",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-539886fcc2d6d9a8111b/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p61-q42-response",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p61-q42-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the values of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "k",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " such that",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p61-q42-inequality",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "(k+1)x^2-4x+(k-1)<0",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p61-q42-qualification",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "for all values of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p61-q42-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "k<-\\sqrt{5}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p61-q42-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Require a downward-opening quadratic and ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\Delta<0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "When $k=-1$, the expression is $-4x-2$. At $x=-1$ it equals $2>0$, so this case fails.\n\nFor the quadratic to be strictly negative for every real $x$, it must open downwards and have no $x$-intercepts. Thus $k+1<0$ and $\\Delta<0$.\n\n$$\\begin{align*}k+1&<0\\\\k&<-1\\end{align*}$$\n\n$$\\begin{align*}\\Delta&=(-4)^2-4(k+1)(k-1)\\\\\\Delta&=20-4k^2\\end{align*}$$\n\nThe discriminant condition gives\n\n$$\\begin{align*}20-4k^2&<0\\\\k^2-5&>0\\end{align*}$$\n\nSketch $y=k^2-5$. It opens upwards and crosses the horizontal axis at $k=-\\sqrt{5}$ and $k=\\sqrt{5}$. The graph is above the axis when $k<-\\sqrt{5}$ or $k>\\sqrt{5}$.\n\nCombining this with $k<-1$ gives $\\boxed{k<-\\sqrt{5}}$.",
+      "solutionDiagrams": [
+        {
+          "id": "p61-q42-solution-parameter-parabola",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\begin{tikzpicture}[x=1cm,y=0.5cm]\n\\path[use as bounding box] (-3.55,-6.1) rectangle (3.65,5.3);\n\\draw[black,->] (-3.35,0) -- (3.35,0);\n\\draw[black,->] (0,-5.8) -- (0,4.8);\n\\draw[black,<->,smooth,samples=81,domain=-3.05:3.05] plot (\\x,{\\x*\\x-5});\n\\path (3.35,0) node[anchor=north west,xshift=2pt,yshift=-3pt,font=\\fontsize{10}{12}\\selectfont] {$k$};\n\\path (0,4.8) node[anchor=south east,xshift=-2pt,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\path (-2.236068,0) node[anchor=north east,xshift=-2pt,yshift=-3pt,font=\\fontsize{8.5}{10.2}\\selectfont] {$-\\sqrt{5}$};\n\\path (2.236068,0) node[anchor=north west,xshift=2pt,yshift=-3pt,font=\\fontsize{8.5}{10.2}\\selectfont] {$\\sqrt{5}$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 72,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 61,
+            "sourceRegion": "Authored solution sketch for Q42; no figure is supplied with the source question.",
+            "description": "Upward-opening parameter parabola, using the graphical inequality method taught on reference PDF pages 54–55.",
+            "mathematics": "y=k^2-5; roots k=−√5 and k=√5; vertex (0,−5); positive outside the roots.",
+            "answerVisibility": "solution-only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 108
+  },
+  "presentation": {
+    "ownerId": "p61-q42",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p61-q42": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p61-q42-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p61-q42-response/label",
+                  "type": "item",
+                  "ref": "p61-q42-response/label",
+                  "title": "Label 42"
+                },
+                {
+                  "id": "layout:p61-q42-response/prompt#p61-q42-instruction",
+                  "type": "item",
+                  "ref": "p61-q42-response/prompt#p61-q42-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p61-q42-response/prompt#p61-q42-inequality",
+                  "type": "item",
+                  "ref": "p61-q42-response/prompt#p61-q42-inequality",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p61-q42-response/prompt#p61-q42-qualification",
+                  "type": "item",
+                  "ref": "p61-q42-response/prompt#p61-q42-qualification",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p61-q42-response/space",
+                  "type": "item",
+                  "ref": "p61-q42-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 42",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:13:25.116Z",
+  "updatedAt": "2026-11-12T13:13:25.117Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p61-q42",
+    "sectionRole": "exercise"
+  }
+}

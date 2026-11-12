@@ -1,0 +1,211 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5e5fb788-e767-40ff-bbff-da0015fb2f8f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "discriminant-conditions-roots",
+    "secondarySkillIds": [],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Translate a requirement for two distinct real roots into a parameter inequality and select its solution intervals using a parabola.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-27T05:19:02.274Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "44fc7fd9a93771c97a32185a1af68b79554ffb40e38a57404cb316e467730a13",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-d2183e16c4069daea556/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p60-task-18-response",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p60-task-18-prompt",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the value(s) of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "k",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " for which ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x^2-kx+4=0",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " has two distinct real roots.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p60-task-18-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "k<-4\\text{ or }k>4",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p60-task-18-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Require ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\Delta=k^2-16>0",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": "; the upward parabola is positive outside its roots.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Two distinct real roots require $\\Delta>0$.\n\n$$\\begin{align*}\\Delta&=(-k)^2-4(1)(4)\\\\\\Delta&=k^2-16\\end{align*}$$\n\nThus $k^2-16>0$. Find the boundary values:\n\n$$\\begin{align*}k^2-16&=0\\\\(k-4)(k+4)&=0\\\\k&=-4\\text{ or }k=4\\end{align*}$$\n\nThe sketch of $y=k^2-16$ opens upwards and lies above the $k$-axis outside these roots. At either boundary, $\\Delta=0$, so both boundaries are excluded.\n\nHence $k<-4$ or $k>4$.",
+      "solutionDiagrams": [
+        {
+          "id": "p60-task-18-solution-parabola",
+          "role": "solution",
+          "format": "tikz",
+          "code": "\\definecolor{positiveBranch}{HTML}{ef6068}\n\\definecolor{otherBranch}{HTML}{268cff}\n\\begin{tikzpicture}[x=5mm,y=1.15mm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black,->,line width=0.45pt] (-5.6,0) -- (5.8,0);\n\\draw[black,->,line width=0.45pt] (0,-18) -- (0,13);\n\\draw[otherBranch,dashed,line width=0.65pt] plot[domain=-4:4,samples=81] (\\x,{(\\x-4)*(\\x+4)});\n\\draw[positiveBranch,<-,line width=0.75pt] plot[domain=-5.2:-4,samples=31] (\\x,{(\\x-4)*(\\x+4)});\n\\draw[positiveBranch,->,line width=0.75pt] plot[domain=4:5.2,samples=31] (\\x,{(\\x-4)*(\\x+4)});\n\\draw[positiveBranch,fill=white,line width=0.65pt] (-4,0) circle[radius=1.5pt];\n\\draw[positiveBranch,fill=white,line width=0.65pt] (4,0) circle[radius=1.5pt];\n\\path (-4,0) node[anchor=north east,xshift=-1pt,yshift=-3pt,font=\\fontsize{8.5}{10}\\selectfont] {$-4$};\n\\path (4,0) node[anchor=north west,xshift=1pt,yshift=-3pt,font=\\fontsize{8.5}{10}\\selectfont] {$4$};\n\\path (5.8,0) node[anchor=north west,xshift=1pt,yshift=-3pt] {$k$};\n\\path (0,13) node[anchor=south west,xshift=3pt,yshift=1pt] {$y$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 68,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 60,
+            "sourceRegion": "Question 18; authored solution sketch following the teaching on PDF pages 54–55.",
+            "description": "Upward parabola with boundary roots labelled −4 and 4. Solid red exterior branches show positive values; the interior branch is dashed blue. Open boundary markers indicate exclusion from the strict inequality. Axes and ordinary labels are black.",
+            "mathematics": "y=k^2-16; roots k=-4 and k=4; vertex (0,-16); y>0 precisely when k<-4 or k>4. Horizontal unit is 5 mm and vertical unit is 1.15 mm before final-width calibration.",
+            "answerVisibility": "Solution only; the source question supplies no diagram."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 108
+  },
+  "presentation": {
+    "ownerId": "p60-task-18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p60-task-18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p60-task-18-response:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p60-task-18-response/label",
+                  "type": "item",
+                  "ref": "p60-task-18-response/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p60-task-18-response/prompt#p60-task-18-prompt",
+                  "type": "item",
+                  "ref": "p60-task-18-response/prompt#p60-task-18-prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p60-task-18-response/space",
+                  "type": "item",
+                  "ref": "p60-task-18-response/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:13:04.691Z",
+  "updatedAt": "2026-11-12T13:13:04.691Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p60-task-18",
+    "sectionRole": "exercise"
+  }
+}

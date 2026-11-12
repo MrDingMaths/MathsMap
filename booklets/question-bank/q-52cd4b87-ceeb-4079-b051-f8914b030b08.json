@@ -1,0 +1,486 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-52cd4b87-ceeb-4079-b051-f8914b030b08",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-piecewise",
+    "secondarySkillIds": [
+      "solve-absolute-value-equations",
+      "interpret-piecewise"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combines restricted absolute-value and quadratic graphs, then requires solving two output equations while filtering candidates against each branch domain.",
+    "assessment": {
+      "model": "gpt-6-sol",
+      "assessedAt": "2026-09-26T18:23:07.987Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f89575eef466b190dd0bea32b464624a95fea989aaa74bb4f21494bccc5a5c27",
+      "evidence": ".booklet-work/full-imports/concept-maths-adv11-ch02-20260926/semantic-packets/assignments/assignment-e54fb366d8f9ac6d7955/3/generation.json"
+    }
+  },
+  "content": {
+    "id": "p126-q68-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p126-q68-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A function is defined by the rule:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p126-q68-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "f(x)=\\begin{cases}9-x^2,&\\text{if }x\\ge0\\\\\\lvert x+9\\rvert,&\\text{if }x<0\\end{cases}",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p126-q68-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Graph $y=f(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p126-q68-a-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Intercepts: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(-9,0),\\ (3,0),\\ (0,9)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". The graph is connected at both joins.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p126-q68-a-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Restrict each branch to its stated interval; ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "(0,9)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is included by the quadratic branch.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Split the absolute-value branch at $x=-9$, retaining its restriction $x<0$:\n$$f(x)=\\begin{cases}-x-9,&x<-9\\\\x+9,&-9\\le x<0\\\\9-x^2,&x\\ge0.\\end{cases}$$\nThe two linear pieces meet at $(-9,0)$. The second approaches $(0,9)$.\n\nFor $x\\ge0$, retain the right half of the concave-down parabola $y=9-x^2$. Its vertex is $(0,9)$, and its $x$-intercept satisfies\n$$\\begin{align*}9-x^2&=0\\\\x^2&=9\\\\x&=\\pm3.\\end{align*}$$\nOnly $x=3$ satisfies $x\\ge0$. The quadratic includes $(0,9)$, so the combined graph has no hole there. Continue the left linear ray upwards to the left and the quadratic branch downwards to the right.",
+          "solutionDiagrams": [
+            {
+              "id": "p126-q68-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"functionBlue\",\"hex\":\"268CFF\",\"reason\":\"Function curve uses the standard graph-series blue.\"}],\"reference\":\"Answer PDF page 28, printed page 606, 2M Q68(a), p126-q68-a-solution-graph\"}\n\\begin{tikzpicture}[x=3.4mm,y=2.4mm,line cap=round,line join=round,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{functionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-17.5,-14) rectangle (7,16);\n\\draw[black,line width=0.5pt,->] (-17,0) -- (6.3,0) node[anchor=north,xshift=1pt,yshift=-3pt] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-13) -- (0,13) node[anchor=south east,xshift=-3pt,yshift=2pt] {$y$};\n\\draw[functionBlue,line width=0.8pt,<-] (-16.5,7.5) -- (-9,0) -- (0,9);\n\\draw[functionBlue,line width=0.8pt,->,domain=0:4.58,samples=80] plot (\\x,{9-\\x*\\x});\n\\fill[functionBlue] (0,9) circle[radius=1.5pt];\n\\node[black,anchor=north,yshift=-3pt] at (-9,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-9$\\special{dvisvgm:raw </g>}};\n\\node[black,anchor=north east,xshift=-2pt,yshift=-3pt] at (3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$3$\\special{dvisvgm:raw </g>}};\n\\node[black,anchor=east,xshift=-3pt,yshift=2pt] at (0,9) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$9$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 82,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 126,
+                "sourceRegion": "Question 68(a); answer reference PDF page 28, printed page 606, left-column graph 68(a).",
+                "description": "Connected piecewise graph with an absolute-value corner at (-9,0), an included join at (0,9), and a descending right-hand quadratic crossing at (3,0). Axes have arrowheads; no grid or origin label.",
+                "mathematics": {
+                  "branches": [
+                    {
+                      "rule": "y=-x-9",
+                      "domain": "x<-9"
+                    },
+                    {
+                      "rule": "y=x+9",
+                      "domain": "-9<=x<0"
+                    },
+                    {
+                      "rule": "y=9-x^2",
+                      "domain": "x>=0"
+                    }
+                  ],
+                  "xIntercepts": [
+                    [
+                      -9,
+                      0
+                    ],
+                    [
+                      3,
+                      0
+                    ]
+                  ],
+                  "yIntercept": [
+                    0,
+                    9
+                  ],
+                  "includedJoins": [
+                    [
+                      -9,
+                      0
+                    ],
+                    [
+                      0,
+                      9
+                    ]
+                  ],
+                  "gridPresent": false
+                },
+                "answerVisibility": "Solution only; no completed graph appears in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p126-q68-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find all possible values of $a$ if $f(a)=9$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p126-q68-b-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "a=-18\\text{ or }0",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p126-q68-b-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Solve both branches and retain only values in their stated domains.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "For $a\\ge0$:\n$$\\begin{align*}9-a^2&=9\\\\a^2&=0\\\\a&=0.\\end{align*}$$\nFor $a<0$:\n$$\\begin{align*}\\lvert a+9\\rvert&=9\\\\a+9&=\\pm9\\\\a&=0\\text{ or }-18.\\end{align*}$$\nOnly $-18$ satisfies the negative-branch restriction. The value $0$ is included through the quadratic branch.\n\nTherefore, $a=-18$ or $a=0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p126-q68-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find all possible values of $b$ if $f(b)=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p126-q68-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "b=-10,\\,-8\\text{ or }\\sqrt8",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p126-q68-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Solve both branches; reject ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "-\\sqrt8",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " from the non-negative branch.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "For $b\\ge0$:\n$$\\begin{align*}9-b^2&=1\\\\b^2&=8\\\\b&=\\pm\\sqrt8.\\end{align*}$$\nRetain only $b=\\sqrt8$, since this branch requires $b\\ge0$.\n\nFor $b<0$:\n$$\\begin{align*}\\lvert b+9\\rvert&=1\\\\b+9&=\\pm1\\\\b&=-8\\text{ or }-10.\\end{align*}$$\nBoth values satisfy $b<0$.\n\nTherefore, $b=-10$, $-8$ or $\\sqrt8$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p126-q68",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p126-q68": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p126-q68-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p126-q68-root/label",
+                  "type": "item",
+                  "ref": "p126-q68-root/label",
+                  "title": "Label 68"
+                },
+                {
+                  "id": "layout:p126-q68-root/prompt#p126-q68-introduction",
+                  "type": "item",
+                  "ref": "p126-q68-root/prompt#p126-q68-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p126-q68-root/prompt#p126-q68-definition",
+                  "type": "item",
+                  "ref": "p126-q68-root/prompt#p126-q68-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "p126-q68-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p126-q68-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p126-q68-a/label",
+                          "type": "item",
+                          "ref": "p126-q68-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p126-q68-a/prompt",
+                          "type": "item",
+                          "ref": "p126-q68-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p126-q68-a/space",
+                          "type": "item",
+                          "ref": "p126-q68-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p126-q68-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p126-q68-b/label",
+                          "type": "item",
+                          "ref": "p126-q68-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p126-q68-b/prompt",
+                          "type": "item",
+                          "ref": "p126-q68-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p126-q68-b/space",
+                          "type": "item",
+                          "ref": "p126-q68-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p126-q68-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p126-q68-c/label",
+                          "type": "item",
+                          "ref": "p126-q68-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p126-q68-c/prompt",
+                          "type": "item",
+                          "ref": "p126-q68-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p126-q68-c/space",
+                          "type": "item",
+                          "ref": "p126-q68-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 68",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:22:45.925Z",
+  "updatedAt": "2026-11-12T13:22:45.926Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "concept-maths-adv11-ch02",
+    "blockId": "p126-q68",
+    "sectionRole": "exercise"
+  }
+}
