@@ -1,0 +1,364 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8e0ac4e1-9194-4d3c-a6a8-469c6d9db448",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "combinations-identities"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Generalise the scaffolded include-or-exclude split to an arbitrary distinguished element, explaining why the two disjoint cases exhaust all selections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:00.486Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "161b90e2ddca063d52b7a7dd69a83b807c230ac776a65b5bae24c28f952567e2",
+      "evidence": ".booklet-work/reasoning-ratings/calls/binomial-theorem-v1/6011d4933d8dc2fd586c5196bdb83f4c7f09e600b1f951302450944a441c03f5-1792556158620/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "$S=\\{A,B,C,D,E\\}$ and $U=\\{A,B,C,D\\}$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write down all the 3-letter subsets of $S$ that do not contain $E$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{A,B,C\\},\\ \\{A,B,D\\},\\ \\{A,C,D\\},\\ \\{B,C,D\\}$",
+          "worked": "Choose three elements from $A,B,C,D$:\n$$\\{A,B,C\\},\\quad\\{A,B,D\\},\\quad\\{A,C,D\\},\\quad\\{B,C,D\\}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p32-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Explain why this is a list of all the 3-letter subsets of $U$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$U=S\\setminus\\{E\\}$, so the 3-letter subsets of $S$ without $E$ are exactly the 3-letter subsets of $U$.",
+          "worked": "$U$ contains exactly the elements of $S$ other than $E$. Every listed subset therefore belongs to $U$, and every 3-letter subset of $U$ is a 3-letter subset of $S$ that does not contain $E$. Thus the lists are identical.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p32-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write down all the 3-letter subsets of $S$ that contain $E$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{A,B,E\\},\\ \\{A,C,E\\},\\ \\{A,D,E\\},\\ \\{B,C,E\\},\\ \\{B,D,E\\},\\ \\{C,D,E\\}$",
+          "worked": "Include $E$ and choose two elements from $A,B,C,D$:\n$$\\begin{aligned}&\\{A,B,E\\},\\quad\\{A,C,E\\},\\quad\\{A,D,E\\},\\\\&\\{B,C,E\\},\\quad\\{B,D,E\\},\\quad\\{C,D,E\\}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p32-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain how to pair them up with all the 2-letter subsets of $U$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Remove $E$ from each 3-letter subset. Conversely, add $E$ to each 2-letter subset of $U$; this gives a one-to-one pairing.",
+          "worked": "Each 3-letter subset containing $E$ has the form $\\{X,Y,E\\}$, where $\\{X,Y\\}$ is a 2-letter subset of $U$. Remove $E$ to obtain the pairings:\n$$\\begin{aligned}\\{A,B,E\\}&\\leftrightarrow\\{A,B\\}\\\\\\{A,C,E\\}&\\leftrightarrow\\{A,C\\}\\\\\\{A,D,E\\}&\\leftrightarrow\\{A,D\\}\\\\\\{B,C,E\\}&\\leftrightarrow\\{B,C\\}\\\\\\{B,D,E\\}&\\leftrightarrow\\{B,D\\}\\\\\\{C,D,E\\}&\\leftrightarrow\\{C,D\\}.\\end{aligned}$$\nAdding $E$ reverses each pairing, so every 2-letter subset of $U$ occurs exactly once.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p32-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence explain why ${}^{4}C_{2}+{}^{4}C_{3}={}^{5}C_{3}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The 3-letter subsets of $S$ either contain $E$ (${ }^{4}C_{2}$ choices) or do not contain $E$ (${ }^{4}C_{3}$ choices). These disjoint cases give ${}^{4}C_{2}+{}^{4}C_{3}={}^{5}C_{3}$.",
+          "worked": "${}^{5}C_{3}$ counts all 3-letter subsets of $S$. Split them into two disjoint categories:\n\nThose not containing $E$ are exactly the 3-letter subsets of $U$, counted by ${}^{4}C_{3}$.\n\nThose containing $E$ pair with the 2-letter subsets of $U$, counted by ${}^{4}C_{2}$.\n\nThese categories include every 3-letter subset of $S$ exactly once. Therefore,\n$${}^{4}C_{2}+{}^{4}C_{3}={}^{5}C_{3}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p32-q6-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Explain why ${}^{n}C_{r-1}+{}^{n}C_{r}={}^{n+1}C_{r}$ for any whole numbers $n$ and $r$ with $1\\leq r\\leq n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Distinguish one element $X$ in an $(n+1)$-element set. The $r$-member subsets containing $X$ number ${}^{n}C_{r-1}$; those without $X$ number ${}^{n}C_r$. Together they count all ${}^{n+1}C_r$ subsets.",
+          "worked": "${}^{n+1}C_r$ counts the $r$-member subsets of an $(n+1)$-element set. Label one element $X$ and divide the subsets into two disjoint categories:\n\nSubsets not containing $X$ consist of $r$ of the remaining $n$ elements, giving ${}^{n}C_r$ choices.\n\nSubsets containing $X$ are obtained by choosing $r-1$ of the remaining $n$ elements and adding $X$, giving ${}^{n}C_{r-1}$ choices.\n\nEvery $r$-member subset belongs to exactly one category. Therefore,\n$${}^{n}C_{r-1}+{}^{n}C_r={}^{n+1}C_r.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p32-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p32-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p32-q6-root/label",
+                  "type": "item",
+                  "ref": "p32-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p32-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p32-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p32-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p32-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q6-a/label",
+                          "type": "item",
+                          "ref": "p32-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p32-q6-a/prompt",
+                          "type": "item",
+                          "ref": "p32-q6-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p32-q6-a/space",
+                          "type": "item",
+                          "ref": "p32-q6-a/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p32-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q6-b/label",
+                          "type": "item",
+                          "ref": "p32-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p32-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p32-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p32-q6-b/space",
+                          "type": "item",
+                          "ref": "p32-q6-b/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p32-q6-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q6-c/label",
+                          "type": "item",
+                          "ref": "p32-q6-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p32-q6-c/prompt",
+                          "type": "item",
+                          "ref": "p32-q6-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p32-q6-c/space",
+                          "type": "item",
+                          "ref": "p32-q6-c/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p32-q6-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q6-d/label",
+                          "type": "item",
+                          "ref": "p32-q6-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p32-q6-d/prompt",
+                          "type": "item",
+                          "ref": "p32-q6-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p32-q6-d/space",
+                          "type": "item",
+                          "ref": "p32-q6-d/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p32-q6-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q6-e/label",
+                          "type": "item",
+                          "ref": "p32-q6-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p32-q6-e/prompt",
+                          "type": "item",
+                          "ref": "p32-q6-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p32-q6-e/space",
+                          "type": "item",
+                          "ref": "p32-q6-e/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p32-q6-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p32-q6-f/label",
+                          "type": "item",
+                          "ref": "p32-q6-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p32-q6-f/prompt",
+                          "type": "item",
+                          "ref": "p32-q6-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p32-q6-f/space",
+                          "type": "item",
+                          "ref": "p32-q6-f/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 6",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p32-q6-a": 30,
+        "p32-q6-b": 30,
+        "p32-q6-c": 30,
+        "p32-q6-d": 30,
+        "p32-q6-e": 30,
+        "p32-q6-f": 30
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:25:29.211Z",
+  "updatedAt": "2026-11-12T07:25:29.211Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "binomial-theorem-v1",
+    "blockId": "p32-q6",
+    "sectionRole": "exercise"
+  }
+}

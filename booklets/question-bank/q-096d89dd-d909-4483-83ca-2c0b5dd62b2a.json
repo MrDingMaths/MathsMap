@@ -1,0 +1,148 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-096d89dd-d909-4483-83ca-2c0b5dd62b2a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "angle-pairs-point",
+    "secondarySkillIds": [],
+    "reasoningScore": 28,
+    "difficulty": "Development",
+    "difficultyReason": "Parts a, b and d are direct recognitions: split a marked right angle, a straight angle, or a straight-line pair. Part c is the hardest essential demand. The student must use the 35° label to get EBF = 55°, deduce ABF = 90° from the straight line and the right angle, add the two angles, and then classify 145° as neither complementary nor supplementary. That is a short linked chain with a diagram read and a 'neither' interpretation, so it is harder than the one-step angle facts in p72-q2 and p72-q3. It is easier than p18-q8, which needs reasoning about insufficient information. It is also just easier than p73-q6, which adds algebraic angle expressions. The solution implies where the 35° and the right-angle mark sit, but the diagram spec is not supplied, so the placement relies on that reading.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-08T02:50:38.500Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c783e1f33f3d9051fb08f74e58137ff931988c9899c22ed1ccaef9a692e17ace",
+      "diagramBlindHash": "b0cada749dc376c563087478a0ae87722cd0724417fd1fac0d9fe630397d4d64",
+      "evidence": ".booklet-work/pedagogy-audit-v2/angle-relationships-v1/20261108-023907/auto-apply/calls/01-rating-reused.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p72-q2",
+          "score": 23
+        },
+        "easierThan": {
+          "ref": "p73-q6",
+          "score": 29
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-p17-practice-j5-023907-root",
+    "type": "question",
+    "label": null,
+    "prompt": "State whether these pairs of angles are complementary, supplementary, or neither.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "v2-p17-practice-j5-023907-j5-q-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"j5-q-diagram\"}\n\\usetikzlibrary{calc,angles,arrows.meta}\n\\begin{tikzpicture}[draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,inner sep=1.5pt}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-2,0);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (2.2,0);\n\\coordinate (F) at (0,2);\n\\coordinate (E) at (35:2.3);\n\\draw (A)--(B)--(C);\n\\draw (B)--(F);\n\\draw (B)--(E);\n\\coordinate (R) at ($(B)!0.23cm!(C)$);\n\\coordinate (U) at ($(B)!0.23cm!(F)$);\n\\draw[line width=0.4pt] (R)--($(R)+(U)-(B)$)--(U);\n\\path (B) ++(17.5:1.4) node {$35^\\circ$};\n\\path (A) node[left] {$A$} (B) node[below] {$B$} (C) node[right] {$C$} (F) node[above] {$F$} (E) node[above right] {$E$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-p17-practice-j5-023907-j5-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\angle CBE$ and $\\angle EBF$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Complementary.",
+          "worked": "$$\\begin{align*}\\angle CBE+\\angle EBF&=\\angle CBF\\\\&=90^\\circ\\end{align*}$$They split the marked right angle $CBF$, so they are complementary.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "v2-p17-practice-j5-023907-j5-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\angle ABE$ and $\\angle CBE$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Supplementary.",
+          "worked": "$$\\begin{align*}\\angle ABE+\\angle CBE&=\\angle ABC\\\\&=180^\\circ\\end{align*}$$They form the straight angle $ABC$, so they are supplementary.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "v2-p17-practice-j5-023907-j5-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\angle ABF$ and $\\angle EBF$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Neither.",
+          "worked": "$$\\begin{align*}\\angle EBF&=90^\\circ-35^\\circ=55^\\circ\\\\\\angle ABF&=180^\\circ-90^\\circ=90^\\circ\\\\\\angle ABF+\\angle EBF&=90^\\circ+55^\\circ=145^\\circ\\end{align*}$$The sum is not $90^\\circ$ or $180^\\circ$, so they are neither.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "v2-p17-practice-j5-023907-j5-q-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$\\angle ABF$ and $\\angle FBC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Supplementary.",
+          "worked": "$$\\begin{align*}\\angle ABF+\\angle FBC&=\\angle ABC\\\\&=180^\\circ\\end{align*}$$They form the straight angle $ABC$, so they are supplementary.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-p17-practice-j5-023907",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:24:23.752Z",
+  "updatedAt": "2026-11-12T07:24:23.754Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "angle-relationships-v1",
+    "blockId": "v2-p17-practice-j5-023907",
+    "sectionRole": "exercise"
+  }
+}

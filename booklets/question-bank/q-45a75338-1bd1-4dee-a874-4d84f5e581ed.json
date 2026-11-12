@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-45a75338-1bd1-4dee-a874-4d84f5e581ed",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "equation-from-graph",
+    "secondarySkillIds": [],
+    "reasoningScore": 27,
+    "difficulty": "Development",
+    "difficultyReason": "Read two points on the dashed line, calculate the gradient and write the equation. The demand is the same as the reference, with a decimal gradient and a dotted-gridline intercept.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T21:20:25.853Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a587b34bd059c97d27da5caf3e65094edbd7440d97daa5075001959f2aa3ae24",
+      "diagramBlindHash": "2c86ca1e89b26fe5705ea3d0195a12afc1cc920af497ec4dfe20292a690d864b",
+      "evidence": ".booklet-work/pedagogy-audit-v2/bivariate-data-analysis-2-v1/20261109-210652/calls/11-solve-1.json",
+      "comparison": {
+        "harderThan": null,
+        "easierThan": null,
+        "equalTo": {
+          "ref": "routine-bivar-r248-pearsons-r-4",
+          "score": 27
+        },
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-a747a-p34-practice-slot-10-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A swimming club is interested in the relationship between the number of weeks of training and the number of laps a swimmer completes in a session.\n\nThe diagram shows the dataset used in the investigation and the least-squares regression line.\n\nWhat is the equation of the least-squares regression line relating to the dataset?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-a747a-p34-practice-slot-10-slot-10-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=5.8mm,y=2.2mm]\n\\definecolor{fixedGrid}{HTML}{CCCCCC}\n\\foreach \\y in {2,6,10,14,18,22,26}{\\draw[draw=fixedGrid,dotted,line width=0.15pt] (0,\\y)--(10,\\y);}\n\\draw[draw=fixedGrid,line width=0.25pt,xstep=1,ystep=4] (0,0) grid (10,28);\n\\draw[black,line width=0.5pt] (0,28)--(0,0)--(10,0);\n\\foreach \\x in {0,1,2,3,4,5,6,7,8,9,10}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {\\x};}\n\\foreach \\y in {0,4,8,12,16,20,24,28}{\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (0,\\y) {\\y};}\n\\node[font=\\fontsize{10}{12}\\selectfont] at (5,-3.7) {Number of weeks of training ($x$)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1.25,14) {Laps in a session ($y$)};\n\\begin{scope}\\clip (0,0) rectangle (10,28);\\draw[black,dashed,line width=0.8pt,domain=0:10,samples=2] plot (\\x,{1.5*\\x+10});\\end{scope}\n\\foreach \\x/\\y in {2/14,4/14,6/21,8/20,10/26}{\\fill[black] (\\x,\\y) circle[radius=0.7mm];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$y=1.5x+10$",
+      "worked": "The line crosses the $y$-axis at 10. Two points on the line are $(0,10)$ and $(8,22)$.\n$$\\begin{aligned}m&=\\frac{22-10}{8-0}\\\\&=1.5\\\\y&=1.5x+10\\end{aligned}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": null
+  },
+  "presentation": {
+    "ownerId": "v2-a747a-p34-practice-slot-10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:27:05.026Z",
+  "updatedAt": "2026-11-12T07:27:05.026Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "bivariate-data-analysis-2-v1",
+    "blockId": "v2-a747a-p34-practice-slot-10",
+    "sectionRole": "exercise"
+  }
+}

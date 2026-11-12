@@ -1,0 +1,228 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2e5ee050-465c-4672-ab4f-baf407371cc9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Progresses from listing subsets to proving a general binomial identity by counting subsets in two ways.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T05:32:37.045Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "759f672e4e85b487afc15345c7097365ae34bc00350c028e46eee48d2e9bd017",
+      "evidence": ".booklet-work/full-imports/binomial-theorem-v1-20261020/semantic-packets/assignments/assignment-858932c41996d1c20e15/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p31-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "$S=\\{A,B,C,D\\}$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write down all the subsets of $S$, then explain why there are exactly $2^4$ of them.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Subsets: $\\varnothing$; $\\{A\\},\\{B\\},\\{C\\},\\{D\\}$; $\\{A,B\\},\\{A,C\\},\\{A,D\\},\\{B,C\\},\\{B,D\\},\\{C,D\\}$; $\\{A,B,C\\},\\{A,B,D\\},\\{A,C,D\\},\\{B,C,D\\}$; $\\{A,B,C,D\\}$. Each of the four elements is included or excluded independently, giving $2^4=16$ subsets.",
+          "worked": "0-letter subsets: $\\varnothing$.\n\n1-letter subsets: $\\{A\\},\\{B\\},\\{C\\},\\{D\\}$.\n\n2-letter subsets: $\\{A,B\\},\\{A,C\\},\\{A,D\\},\\{B,C\\},\\{B,D\\},\\{C,D\\}$.\n\n3-letter subsets: $\\{A,B,C\\},\\{A,B,D\\},\\{A,C,D\\},\\{B,C,D\\}$.\n\n4-letter subsets: $\\{A,B,C,D\\}$.\n\nTotal: $1+4+6+4+1=16=2^4$.\n\nFor each element there are two choices: include it or exclude it. The four choices are independent, so the number of subsets is $2\\times2\\times2\\times2=2^4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 78
+      },
+      {
+        "id": "p31-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence explain why $\\binom40+\\binom41+\\binom42+\\binom43+\\binom44=2^4$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\binom4r$ counts the $r$-element subsets. Summing for $r=0,1,2,3,4$ counts all $2^4$ subsets exactly once.",
+          "worked": "$\\binom40$ counts the 0-letter subsets: 1 subset.\n\n$\\binom41$ counts the 1-letter subsets: 4 subsets.\n\n$\\binom42$ counts the 2-letter subsets: 6 subsets.\n\n$\\binom43$ counts the 3-letter subsets: 4 subsets.\n\n$\\binom44$ counts the 4-letter subsets: 1 subset.\n\nThese mutually exclusive cases include every subset, so\n$$\\begin{aligned}\\binom40+\\binom41+\\binom42+\\binom43+\\binom44&=1+4+6+4+1\\\\&=16\\\\&=2^4.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49
+      },
+      {
+        "id": "p31-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why $\\binom n0+\\binom n1+\\cdots+\\binom nn=2^n$, for any whole number $n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "An $n$-element set has $2^n$ subsets because each element is included or excluded independently. There are $\\binom nr$ subsets of size $r$, so summing over all sizes $0$ to $n$ gives $2^n$.",
+          "worked": "For an $n$-element set, each element has two choices: include it or exclude it. Independent choices give $2^n$ subsets in total.\n\n$\\binom n0$ counts subsets with 0 elements, $\\binom n1$ counts subsets with 1 element, and so on, up to $\\binom nn$, which counts subsets with $n$ elements.\n\nEvery subset has exactly one of these sizes, so counting by size gives\n$$\\binom n0+\\binom n1+\\cdots+\\binom nn=2^n.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p31-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p31-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p31-q5-root/label",
+                  "type": "item",
+                  "ref": "p31-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p31-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p31-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p31-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p31-q5-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q5-a/label",
+                          "type": "item",
+                          "ref": "p31-q5-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p31-q5-a/prompt",
+                          "type": "item",
+                          "ref": "p31-q5-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q5-a/space",
+                          "type": "item",
+                          "ref": "p31-q5-a/space",
+                          "title": "Answer space",
+                          "height": 40
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-q5-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q5-b/label",
+                          "type": "item",
+                          "ref": "p31-q5-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p31-q5-b/prompt",
+                          "type": "item",
+                          "ref": "p31-q5-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q5-b/space",
+                          "type": "item",
+                          "ref": "p31-q5-b/space",
+                          "title": "Answer space",
+                          "height": 40
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p31-q5-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p31-q5-c/label",
+                          "type": "item",
+                          "ref": "p31-q5-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p31-q5-c/prompt",
+                          "type": "item",
+                          "ref": "p31-q5-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p31-q5-c/space",
+                          "type": "item",
+                          "ref": "p31-q5-c/space",
+                          "title": "Answer space",
+                          "height": 40
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 5",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p31-q5-a": 40,
+        "p31-q5-b": 40,
+        "p31-q5-c": 40
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:25:30.553Z",
+  "updatedAt": "2026-11-12T07:25:30.553Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "binomial-theorem-v1",
+    "blockId": "p31-q5",
+    "sectionRole": "exercise"
+  }
+}

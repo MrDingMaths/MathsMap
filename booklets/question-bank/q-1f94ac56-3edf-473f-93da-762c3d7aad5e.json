@@ -1,0 +1,319 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1f94ac56-3edf-473f-93da-762c3d7aad5e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "combinations-identities"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Use the listed subsets and omitted elements to explain a reversible complement pairing, then generalise that correspondence to r-element and n-r-element selections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:00.486Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6c0605358a95b62d6322c2fa6771323f903f7cadbc5ef469497701a7eaef3a93",
+      "evidence": ".booklet-work/reasoning-ratings/calls/binomial-theorem-v1/6011d4933d8dc2fd586c5196bdb83f4c7f09e600b1f951302450944a441c03f5-1792556158620/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "$S=\\{A,B,C,D,E\\}$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "List all the subsets of $\\{A,B,C,D,E\\}$ containing 2 letters.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{A,B\\},\\ \\{A,C\\},\\ \\{A,D\\},\\ \\{A,E\\},\\ \\{B,C\\},\\ \\{B,D\\},\\ \\{B,E\\},\\ \\{C,D\\},\\ \\{C,E\\},\\ \\{D,E\\}$. 10 subsets in total.",
+          "worked": "List pairs systematically by their first letter, without repeating a pair:\n$$\\begin{aligned}&\\{A,B\\},\\ \\{A,C\\},\\ \\{A,D\\},\\ \\{A,E\\},\\\\&\\{B,C\\},\\ \\{B,D\\},\\ \\{B,E\\},\\\\&\\{C,D\\},\\ \\{C,E\\},\\ \\{D,E\\}.\\end{aligned}$$\nThere are $4+3+2+1=10$ subsets.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p30-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "List all the subsets of $\\{A,B,C,D,E\\}$ containing 3 letters.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{A,B,C\\},\\ \\{A,B,D\\},\\ \\{A,B,E\\},\\ \\{A,C,D\\},\\ \\{A,C,E\\},\\ \\{A,D,E\\},\\ \\{B,C,D\\},\\ \\{B,C,E\\},\\ \\{B,D,E\\},\\ \\{C,D,E\\}$. 10 subsets in total.",
+          "worked": "List triples systematically, without repeating a subset:\n$$\\begin{aligned}&\\{A,B,C\\},\\ \\{A,B,D\\},\\ \\{A,B,E\\},\\\\&\\{A,C,D\\},\\ \\{A,C,E\\},\\ \\{A,D,E\\},\\\\&\\{B,C,D\\},\\ \\{B,C,E\\},\\ \\{B,D,E\\},\\\\&\\{C,D,E\\}.\\end{aligned}$$\nThere are $6+3+1=10$ subsets.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p30-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Consider the subset $\\{A,B\\}$. What letters have been omitted from the subset?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$C,D,E$ have been omitted.",
+          "worked": "Removing $A$ and $B$ from $S$ leaves $\\{C,D,E\\}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p30-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the definition of ${}^{n}C_r$ to explain why ${}^{5}C_2={}^{5}C_3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each choice of 2 letters from 5 leaves a unique complementary choice of 3 letters, so ${}^{5}C_2={}^{5}C_3$.",
+          "worked": "${}^{5}C_2$ counts the ways to choose 2 letters from 5, and ${}^{5}C_3$ counts the ways to choose 3 letters from 5.\n\nChoosing 2 letters to include is equivalent to choosing 3 letters to exclude. Each 2-letter subset corresponds to exactly one complementary 3-letter subset; for example, $\\{A,B\\}$ corresponds to $\\{C,D,E\\}$.\n\nTherefore, ${}^{5}C_2={}^{5}C_3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p30-q4-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Explain why ${}^{n}C_r={}^{n}C_{n-r}$ for any whole numbers $n$ and $r$ with $r\\leq n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Choosing $r$ elements to include uniquely determines the $n-r$ elements to exclude, so ${}^{n}C_r={}^{n}C_{n-r}$.",
+          "worked": "From a total of $n$ elements, choosing $r$ items to include is equivalent to choosing $n-r$ items to exclude.\n\nEach $r$-member subset corresponds to exactly one complementary $(n-r)$-member subset, and conversely. The two counts are therefore equal:\n$${}^{n}C_r={}^{n}C_{n-r}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p30-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p30-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p30-q4-root/label",
+                  "type": "item",
+                  "ref": "p30-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p30-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p30-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p30-q4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p30-q4-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q4-a/label",
+                          "type": "item",
+                          "ref": "p30-q4-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p30-q4-a/prompt",
+                          "type": "item",
+                          "ref": "p30-q4-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q4-a/space",
+                          "type": "item",
+                          "ref": "p30-q4-a/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q4-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q4-b/label",
+                          "type": "item",
+                          "ref": "p30-q4-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p30-q4-b/prompt",
+                          "type": "item",
+                          "ref": "p30-q4-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q4-b/space",
+                          "type": "item",
+                          "ref": "p30-q4-b/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q4-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q4-c/label",
+                          "type": "item",
+                          "ref": "p30-q4-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p30-q4-c/prompt",
+                          "type": "item",
+                          "ref": "p30-q4-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q4-c/space",
+                          "type": "item",
+                          "ref": "p30-q4-c/space",
+                          "title": "Answer space",
+                          "height": 10
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q4-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q4-d/label",
+                          "type": "item",
+                          "ref": "p30-q4-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p30-q4-d/prompt",
+                          "type": "item",
+                          "ref": "p30-q4-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q4-d/space",
+                          "type": "item",
+                          "ref": "p30-q4-d/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p30-q4-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p30-q4-e/label",
+                          "type": "item",
+                          "ref": "p30-q4-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p30-q4-e/prompt",
+                          "type": "item",
+                          "ref": "p30-q4-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p30-q4-e/space",
+                          "type": "item",
+                          "ref": "p30-q4-e/space",
+                          "title": "Answer space",
+                          "height": 30
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "p30-q4-a": 30,
+        "p30-q4-b": 30,
+        "p30-q4-c": 10,
+        "p30-q4-d": 30,
+        "p30-q4-e": 30
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:25:26.500Z",
+  "updatedAt": "2026-11-12T07:25:26.501Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "binomial-theorem-v1",
+    "blockId": "p30-q4",
+    "sectionRole": "exercise"
+  }
+}

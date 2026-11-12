@@ -1,0 +1,165 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b9d47e0a-ed08-47b2-8cd9-23edeeef3e83",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "combinations-identities"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Generalise the scaffolded two-A case to k As, multiply independent half-word counts and explain why summing the disjoint exhaustive cases counts every balanced word.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T20:51:30.707Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b475f86d27f5c2fcb09d788b354428c35257159fe63e7a3d57589fd11ca8f0ea",
+      "evidence": ".booklet-work/end-goal-20261028/phase4/legacy-rating-refresh-20261028/binomial-theorem-v1/batch-1-f6b8a63279e5/review.json"
+    }
+  },
+  "content": {
+    "id": "p43-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "In this question we consider binary words consisting only of the letters A and B.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p43-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Consider a binary word consisting of $a+b$ letters, with A occurring $a$ times and B occurring $b$ times. Show that there are ${}^{a+b}C_a={}^{a+b}C_b$ permutations of such a word.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Choosing the A positions gives ${}^{a+b}C_a$ words; choosing the B positions gives ${}^{a+b}C_b$ words. Both count the same words, so ${}^{a+b}C_a={}^{a+b}C_b$.",
+          "worked": "There are $a+b$ positions. Choose $a$ of them for A in ${}^{a+b}C_a$ ways; the remaining $b$ positions are automatically filled with B. Thus there are ${}^{a+b}C_a$ permutations.\n\nEquivalently, choose the $b$ positions for B in ${}^{a+b}C_b$ ways, leaving the remaining positions for A. Both choices count precisely the same words, so\n$${}^{a+b}C_a={}^{a+b}C_b.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p43-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many possible permutations are there of a binary word with $2n$ letters, if A and B both occur $n$ times?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "${}^{2n}C_n$",
+          "worked": "Substitute $a=n$ and $b=n$ into part a:\n$$\\begin{aligned}{}^{a+b}C_a&={}^{n+n}C_n\\\\&={}^{2n}C_n.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p43-q8-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "A word with $2n$ letters may be split down the middle into two words of $n$ letters.\n\nConsider the example where two A’s fall in the first $n$-letter word.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p43-q8-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "How many arrangements are there of the first $n$-letter binary word with two As?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "${}^{n}C_2$",
+              "worked": "Choose the positions of the two As from the $n$ positions. The remaining positions contain B, so the number of arrangements is ${}^{n}C_2$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p43-q8-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "How many arrangements are there of the second $n$-letter binary word with $n-2$ A’s and 2 B’s?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "${}^{n}C_2$",
+              "worked": "Choose the positions of the two Bs from the $n$ positions. The remaining $n-2$ positions contain A, so the number of arrangements is ${}^{n}C_2$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p43-q8-c-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "Therefore, how many arrangements are there of a $2n$-letter binary word with two As in the first half and two Bs in the second half?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$({}^{n}C_2)^2$",
+              "worked": "The first half has ${}^{n}C_2$ arrangements and the second half has ${}^{n}C_2$ arrangements. Each arrangement of the first half can be paired with every arrangement of the second half:\n$$\\begin{aligned}\\text{Total arrangements}&={}^{n}C_2\\times{}^{n}C_2\\\\&=({}^{n}C_2)^2.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ]
+      },
+      {
+        "id": "p43-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence give a combinatorial argument to prove\n$$({}^{n}C_0)^2+({}^{n}C_1)^2+({}^{n}C_2)^2+({}^{n}C_3)^2+\\cdots+({}^{n}C_n)^2={}^{2n}C_n.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Count words with $n$ As and $n$ Bs. There are ${}^{2n}C_n$ in total. If the first half contains $k$ As, the two halves can be arranged in $({}^{n}C_k)^2$ ways. Summing these disjoint cases for $k=0,1,\\ldots,n$ proves the identity.",
+          "worked": "Consider binary words with $2n$ letters, containing $n$ As and $n$ Bs. By part b, their total number is ${}^{2n}C_n$.\n\nSplit each word into two halves of $n$ letters. Suppose the first half contains $k$ As and $n-k$ Bs. It has ${}^{n}C_k$ arrangements. The second half must contain $n-k$ As and $k$ Bs, giving ${}^{n}C_k$ arrangements by choosing the B positions.\n\nFor this value of $k$, the number of complete words is\n$${}^{n}C_k\\times{}^{n}C_k=({}^{n}C_k)^2.$$\nEvery word belongs to exactly one case, according to its number of As in the first half. Summing over $k=0,1,2,\\ldots,n$ gives\n$$\\begin{aligned}{}^{2n}C_n&=\\sum_{k=0}^{n}({}^{n}C_k)^2\\\\&=({}^{n}C_0)^2+({}^{n}C_1)^2+({}^{n}C_2)^2+\\cdots+({}^{n}C_n)^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p43-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:25:33.841Z",
+  "updatedAt": "2026-11-12T07:25:33.841Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "binomial-theorem-v1",
+    "blockId": "p43-q8",
+    "sectionRole": "challenge"
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8efdc0d6-8f9e-4edd-bf50-27955dca13ab",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "gradient-as-tan-inclination",
+    "secondarySkillIds": [],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret the marked angle on a sketch (150° from the positive x-axis; 30° from the vertical, giving 60° inclination). Then find an exact gradient, use the intercept form, and rearrange to exact general form with surds.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T02:50:57.105Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1f2a6ce76a590ef51527bed1f111b7e5e6c52aba35760b8f561261369ef9b6e2",
+      "diagramBlindHash": "b96c11b98cc116ffb1733d0894eac6d2e5bb38f58c7f067db55acceb4a961cb1",
+      "evidence": ".booklet-work/pedagogy-audit-v2/circle-trigonometry-2-v1/20261111-023542/calls/13-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p62-q7-block",
+          "score": 42
+        },
+        "easierThan": {
+          "ref": "p63-q10-block",
+          "score": 53
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-a5908-p60-practice-slot-10-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Determine the equation of each straight line sketched below in exact general form.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-a5908-p60-practice-slot-10-slot-10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-a5908-p60-practice-slot-10-slot-10-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\usetikzlibrary{arrows.meta,angles,quotes}\n\\begin{tikzpicture}[x=0.6cm,y=0.6cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.5,-1.5) rectangle (5.5,4.5);\n\\draw[black,line width=0.5pt,->] (-2.2,0)--(5.2,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-1.2)--(0,4.2) node[above left] {$y$};\n\\draw[black,line width=0.8pt,<->] plot[domain=-2:4.6,samples=2] (\\x,{2-\\x/sqrt(3)});\n\\coordinate (V) at ({2*sqrt(3)},0);\n\\coordinate (R) at ({2*sqrt(3)+1},0);\n\\coordinate (L) at ({2*sqrt(3)-sqrt(3)},1);\n\\pic[draw=black,line width=0.4pt,angle radius=5mm,angle eccentricity=1.7,\"$150^{\\circ}$\"] {angle=R--V--L};\n\\node[black,left] at (0,2) {$2$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 50,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x+\\sqrt3y-2\\sqrt3=0$. Use $m=\\tan150^{\\circ}=-\\dfrac1{\\sqrt3}$ and $y=mx+2$.",
+          "worked": "$$\\begin{align*}m&=\\tan150^{\\circ}\\\\m&=-\\frac1{\\sqrt3}\\\\y&=-\\frac1{\\sqrt3}x+2\\\\\\sqrt3y&=-x+2\\sqrt3\\\\x+\\sqrt3y-2\\sqrt3&=0\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "v2-a5908-p60-practice-slot-10-slot-10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-a5908-p60-practice-slot-10-slot-10-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\usetikzlibrary{arrows.meta,angles,quotes}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,>=Stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-4.2,-1.5) rectangle (2.4,7.5);\n\\draw[black,line width=0.5pt,->] (-3.9,0)--(2.2,0) node[below] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-1.2)--(0,7.2) node[above left] {$y$};\n\\draw[black,line width=0.8pt,<->] plot[domain=-3.6:0.9,samples=2] (\\x,{sqrt(3)*(\\x+3)});\n\\coordinate (V) at (0,{3*sqrt(3)});\n\\coordinate (U) at (0,{3*sqrt(3)+1});\n\\coordinate (L) at (1,{3*sqrt(3)+sqrt(3)});\n\\pic[draw=black,line width=0.4pt,angle radius=9mm,angle eccentricity=1.3,\"$30^{\\circ}$\"] {angle=L--V--U};\n\\node[black,below left] at (-3,0) {$-3$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 35,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt3x-y+3\\sqrt3=0$. The inclination is $60^{\\circ}$, so $m=\\sqrt3$; use $(-3,0)$.",
+          "worked": "The marked angle is measured from the vertical.\n\n$$\\begin{align*}\\theta&=90^{\\circ}-30^{\\circ}\\\\\\theta&=60^{\\circ}\\\\m&=\\tan60^{\\circ}\\\\m&=\\sqrt3\\\\y-0&=\\sqrt3\\bigl(x-(-3)\\bigr)\\\\y&=\\sqrt3x+3\\sqrt3\\\\\\sqrt3x-y+3\\sqrt3&=0\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-a5908-p60-practice-slot-10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:28:50.047Z",
+  "updatedAt": "2026-11-12T07:28:50.047Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "circle-trigonometry-2-v1",
+    "blockId": "v2-a5908-p60-practice-slot-10",
+    "sectionRole": "exercise"
+  }
+}

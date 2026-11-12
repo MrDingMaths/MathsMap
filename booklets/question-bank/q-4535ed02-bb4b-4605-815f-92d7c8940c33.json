@@ -1,0 +1,130 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4535ed02-bb4b-4605-815f-92d7c8940c33",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-trig-equations-graphically",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Reading exact intersection x-values from two graph pairs. The sin/tan part involves asymptotes and endpoint intersections at 0°, 180° and 360°; the sin/cos part needs a negative-domain intersection at -135°.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T02:50:57.083Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5d82e558c37c434ee6d70723d98b7e168e5828e9924baeba1c6f55e06a49bede",
+      "diagramBlindHash": "6fccbda132d930f9cd8a7a8656a67639028ae8ef3f03028618d25dc69f53710e",
+      "evidence": ".booklet-work/pedagogy-audit-v2/circle-trigonometry-2-v1/20261111-023542/calls/13-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p50-q8",
+          "score": 24
+        },
+        "easierThan": {
+          "ref": "p69-q10-block",
+          "score": 44
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-5396d-p48-practice-slot-4-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Use the graphs to find the $x$-coordinates of the points where they intersect.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-5396d-p48-practice-slot-4-slot-4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=\\sin x$ and $y=\\tan x$ for $0^{\\circ}\\leq x\\leq360^{\\circ}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-5396d-p48-practice-slot-4-slot-4-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-4 part a sin and tan\"}\n\\begin{tikzpicture}[x=0.028cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\path[use as bounding box] (-40,-2.7) rectangle (400,2.7);\n\\draw[housegrid,line width=0.25pt,xstep=45,ystep=1] (0,-2.5) grid (360,2.5);\n\\draw[housegrid,line width=0.25pt] (0,-2.5) rectangle (360,2.5);\n\\draw[black,line width=0.5pt,->] (-20,0)--(385,0) node[above] {$x$};\n\\draw[black,line width=0.5pt] (0,-2.5)--(0,2.5);\n\\foreach \\a in {90,270} {\\draw[black,line width=0.4pt,dashed] (\\a,-2.5)--(\\a,2.5);}\n\\begin{scope}\n\\clip (0,-2.5) rectangle (360,2.5);\n\\draw[black,line width=0.8pt,domain=0:360,samples=361] plot (\\x,{sin(\\x)});\n\\draw[black,line width=0.8pt,domain=0:89,samples=120] plot (\\x,{tan(\\x)});\n\\draw[black,line width=0.8pt,domain=91:269,samples=240] plot (\\x,{tan(\\x)});\n\\draw[black,line width=0.8pt,domain=271:360,samples=120] plot (\\x,{tan(\\x)});\n\\end{scope}\n\\foreach \\a in {90,180,270,360} {\\draw[black,line width=0.4pt] (\\a,0)--(\\a,-0.12);\\node[below,inner sep=1pt,fill=white] at (\\a,-0.3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a^{\\circ}$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-2,-1,1,2} {\\node[left,inner sep=1pt] at (-7,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[fill=white,inner sep=1pt] at (140,1.25) {$y=\\sin x$};\n\\node[fill=white,inner sep=1pt] at (205,1.85) {$y=\\tan x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 123,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=0^{\\circ},\\ 180^{\\circ},\\ 360^{\\circ}$.",
+          "worked": "The curves meet only where both are zero, on the $x$-axis.\n$$x=0^{\\circ},\\ 180^{\\circ},\\ 360^{\\circ}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "v2-5396d-p48-practice-slot-4-slot-4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=\\sin x$ and $y=\\cos x$ for $-180^{\\circ}\\leq x\\leq180^{\\circ}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-5396d-p48-practice-slot-4-slot-4-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-4 part b sin and cos\"}\n\\begin{tikzpicture}[x=0.028cm,y=1.6cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{housegrid}{HTML}{CCCCCC}\n\\path[use as bounding box] (-225,-1.45) rectangle (205,1.45);\n\\draw[housegrid,line width=0.25pt,xstep=45,ystep=0.5] (-180,-1.2) grid (180,1.2);\n\\draw[housegrid,line width=0.25pt] (-180,-1.2) rectangle (180,1.2);\n\\draw[black,line width=0.5pt,->] (-195,0)--(195,0) node[below right] {$x$};\n\\draw[black,line width=0.5pt] (0,-1.2)--(0,1.2);\n\\draw[black,line width=0.8pt,domain=-180:180,samples=361] plot (\\x,{sin(\\x)});\n\\draw[black,line width=0.8pt,domain=-180:180,samples=361] plot (\\x,{cos(\\x)});\n\\foreach \\a in {-180,-90,90,180} {\\draw[black,line width=0.4pt] (\\a,0)--(\\a,-0.06);\\node[below,inner sep=1pt,fill=white] at (\\a,-0.3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a^{\\circ}$\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {-1,1} {\\node[left,inner sep=1pt] at (-190,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[fill=white,inner sep=1pt] at (-55,1.25) {$y=\\cos x$};\n\\node[fill=white,inner sep=1pt] at (130,1.25) {$y=\\sin x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 121,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$x=-135^{\\circ}$ and $x=45^{\\circ}$.",
+          "worked": "Reading the graph, the curves cross at\n$$x=-135^{\\circ}\\ \\text{and}\\ x=45^{\\circ}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-5396d-p48-practice-slot-4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:28:41.060Z",
+  "updatedAt": "2026-11-12T07:28:41.061Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "circle-trigonometry-2-v1",
+    "blockId": "v2-5396d-p48-practice-slot-4",
+    "sectionRole": "exercise"
+  }
+}

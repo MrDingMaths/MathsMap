@@ -1,0 +1,164 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-cf0195a0-9481-419c-a427-78daf84b7e6b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Requires converting scaled axes, reading the line both ways, finding a rate of change in t/ha per 100 mm, a residual from the line, and extrapolating with that rate.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T09:54:08.931Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a3e66923d7792ebfaf9a1444ef8e068c71ba9b92260b912fa53142fcf1ad5404",
+      "diagramBlindHash": "dfb798543d3177733f8b7c66645f5bb3e04b0e74f3f8fa099aef4240f7652272",
+      "evidence": ".booklet-work/pedagogy-audit-v2/bivariate-data-analysis-v1/20261109-093239/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p22-q6",
+          "score": 32
+        },
+        "easierThan": {
+          "ref": "p23-q10-block",
+          "score": 42
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-6265b-p20-practice-slot-9-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The scatterplot shows the annual rainfall and wheat yield of 10 farms in Western Australia. A line of best fit has been drawn for these points.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-6265b-p20-practice-slot-9-gen-slot-9-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"scatterplot data points\"}],\"reference\":\"gen-slot-9-graph\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.4cm]\n\\definecolor{mmGrid}{HTML}{CCCCCC}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[mmGrid,line width=0.15pt,xstep=1,ystep=1] (0,0) grid (8,12);\n\\draw[mmGrid,line width=0.25pt,xstep=2,ystep=4] (0,0) grid (8,12);\n\\draw[black,->,line width=0.5pt] (-0.4,-1)--(8.6,-1);\n\\draw[black,->,line width=0.5pt] (-0.4,-1)--(-0.4,12.6);\n\\draw[black,line width=0.4pt] (-0.3,-1.3)--(-0.1,-0.7) (-0.15,-1.3)--(0.05,-0.7);\n\\draw[black,line width=0.4pt] (-0.6,-0.8)--(-0.2,-0.5) (-0.6,-0.5)--(-0.2,-0.2);\n\\foreach \\x in {0,1,...,8}{\\draw[black,line width=0.4pt] (\\x,-1)--(\\x,-1.4);}\n\\foreach \\y in {0,1,...,12}{\\draw[black,line width=0.4pt] (-0.4,\\y)--(-0.7,\\y);}\n\\foreach \\x/\\lab in {0/300,2/400,4/500,6/600,8/700}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-1.4) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\lab\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\lab in {0/1,4/2,8/3,12/4}{\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.7,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\lab\\special{dvisvgm:raw </g>}};}\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (4,-3.5) {Rainfall (mm)};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-2.4,6) {Yield (t/ha)};\n\\draw[black,line width=0.8pt] (0.3,0.45)--(7.9,11.85);\n\\foreach \\x/\\y in {1/2,2/3,3/4,4/5,4/7,5/7,5/9,6/7,7/11,8/11}{\\fill[seriesBlue] (\\x,\\y) circle[radius=2.25pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-6265b-p20-practice-slot-9-gen-slot-9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the line of best fit to estimate the yield of a farm that receives 450 mm of rainfall.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 2.1 t/ha.",
+          "worked": "From 450 mm on the rainfall axis, read vertically to the line of best fit, then horizontally to the yield axis: approximately 2.1 t/ha.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "v2-6265b-p20-practice-slot-9-gen-slot-9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the line of best fit to estimate the rainfall needed for a yield of 3 t/ha.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 570 mm.",
+          "worked": "From 3 t/ha on the yield axis, read horizontally to the line of best fit, then vertically to the rainfall axis: approximately 570 mm.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "v2-6265b-p20-practice-slot-9-gen-slot-9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "By about how much does the estimated yield increase for each extra 100 mm of rainfall?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "About 0.75 t/ha.",
+          "worked": "$$\\begin{align*}\\text{At 400 mm the line gives }&1.75\\text{ t/ha}\\\\\\text{At 500 mm the line gives }&2.5\\text{ t/ha}\\\\2.5-1.75&=0.75\\text{ t/ha}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-6265b-p20-practice-slot-9-gen-slot-9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "One farm received 600 mm of rainfall. How much lower was its yield than the yield estimated by the line?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "0.5 t/ha.",
+          "worked": "$$\\begin{align*}\\text{Line at 600 mm}&=3.25\\text{ t/ha}\\\\\\text{Farm's yield}&=2.75\\text{ t/ha}\\\\3.25-2.75&=0.5\\text{ t/ha}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-6265b-p20-practice-slot-9-gen-slot-9-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Use your answer to part c to estimate the yield of a farm that receives 800 mm of rainfall.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 4.75 t/ha.",
+          "worked": "$$\\begin{align*}\\text{Line at 700 mm}&=4\\text{ t/ha}\\\\\\text{Extra 100 mm}&:+0.75\\text{ t/ha}\\\\4+0.75&=4.75\\text{ t/ha}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-6265b-p20-practice-slot-9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:28:05.815Z",
+  "updatedAt": "2026-11-12T07:28:05.816Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "bivariate-data-analysis-v1",
+    "blockId": "v2-6265b-p20-practice-slot-9",
+    "sectionRole": "exercise"
+  }
+}
