@@ -9,8 +9,27 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
 
+// The diagrams this page compiled, published to the shared render cache that frozen exports read
+// (import v2 simplification, 13 November 2026: Ch 5's exports compiled 205-368 diagrams cold that this
+// check had just compiled). Keys and version are Studio's own, so they are the export's keys while the
+// diagram renderer is unchanged. Warming is best effort: a failure is logged and never fails the check.
+// render-cache-server.mjs is not imported here: vite.config.js loads it, so it stays unchanged.
+export async function publishCheckedDiagrams(page, cacheRoot, log = () => {}) {
+  try {
+    const data = await page.evaluate(() => window.TikZ?.cacheEntries?.() ?? null);
+    if (!data?.version || !data.entries?.length) return {published: 0};
+    const served = await page.evaluate(async () => { try { return (await (await fetch('/__booklet/render-cache/version', {cache: 'no-store'})).json()).diagramVersion; } catch { return null; } });
+    if (data.version !== served) throw Error('diagram renderer changed during the check');
+    const {publishRenderEntries} = await import('../scripts/booklet/render-cache-server.mjs');
+    const published = await publishRenderEntries(data.version, data.entries, {cacheRoot});
+    log('Render cache: ' + published + ' compiled diagrams published from the label check');
+    return {version: data.version, published};
+  } catch (error) { log('Render cache warming skipped: ' + error.message); return {published: 0, error: error.message}; }
+}
+
 // publicRoot: the public/ folder Studio serves (another checkout's when called from a worktree).
-export async function labelCollisions(inputFile, {base = 'http://localhost:5173', timeoutMs = 300000, publicRoot = path.resolve('public')} = {}) {
+// publishTo: that checkout's .booklet-work/render-cache, to keep what the check compiled for exports.
+export async function labelCollisions(inputFile, {base = 'http://localhost:5173', timeoutMs = 300000, publicRoot = path.resolve('public'), publishTo, log} = {}) {
   const rel = path.relative(publicRoot, path.resolve(inputFile)).replaceAll('\\', '/');
   if (rel.startsWith('..')) throw Error('input must be inside public/');
   const items = JSON.parse(fs.readFileSync(inputFile, 'utf8'));
@@ -21,7 +40,7 @@ export async function labelCollisions(inputFile, {base = 'http://localhost:5173'
     await page.goto(`${base}/#/tikz-check?input=${encodeURIComponent('/' + rel)}&offset=0&limit=${items.length}`, {waitUntil: 'domcontentloaded', timeout: 60000});
     await page.waitForFunction(() => window.__tikzCheckDone === true || window.__tikzCheckError, null, {timeout: timeoutMs, polling: 1000});
     await page.evaluate(() => document.fonts.ready);
-    return await page.evaluate(async () => {
+    const result = await page.evaluate(async () => {
       const {inspectDiagramLabelLayout} = await import('/src/lib/diagram-typography.js');
       const list = window.__tikzItems || [], cards = [...document.querySelectorAll('.grid .card')], out = {};
       cards.forEach((card, i) => {
@@ -45,6 +64,8 @@ export async function labelCollisions(inputFile, {base = 'http://localhost:5173'
       });
       return Object.fromEntries(Object.entries(out).map(([k, v]) => [k, {labels: v.labelCount, issues: [...v]}]));
     });
+    if (publishTo) await publishCheckedDiagrams(page, publishTo, log);
+    return result;
   } finally { await browser.close(); }
 }
 

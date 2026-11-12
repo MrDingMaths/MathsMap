@@ -187,7 +187,7 @@ async function labelCheckOnce({file,runDir,checked={},log=()=>{},check}={}){
  const root=process.env.MATHSMAP_STUDIO_ROOT?path.resolve(process.env.MATHSMAP_STUDIO_ROOT):path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'),input=path.join(root,'public','.audit-input','import-labels-'+project.id+'.json');
  fs.mkdirSync(path.dirname(input),{recursive:true});fs.writeFileSync(input,JSON.stringify(pending.map(row=>({skillId:project.id,source:project.id,field:row.id,code:row.code}))));
  let found;
- try{found=await(check??(async file=>(await import('../../pedagogy/figure-label-check.mjs')).labelCollisions(file,{publicRoot:path.join(root,'public')})))(input);}
+ try{found=await(check??(async file=>(await import('../../pedagogy/figure-label-check.mjs')).labelCollisions(file,{publicRoot:path.join(root,'public'),publishTo:path.join(root,'.booklet-work','render-cache'),log})))(input);}
  catch(error){log('Diagram label check skipped (Studio unavailable): '+error.message);return {checked,collisions,skipped:error.message};}
  finally{fs.rmSync(input,{force:true});}
  for(const row of pending){const issues=found?.[row.id]?.issues??[];next[codeKey(row.code)]={issues};if(issues.length)collisions.push({id:row.id,issues});}

@@ -68,3 +68,15 @@ test('the finish label check places colliding labels, records them and checks ag
  const plain=await diagramLabelCheck({file,runDir,check,place:false,placer:async()=>{throw Error('not called');}});
  assert.deepEqual(plain.collisions.map(c=>c.id),['g2']);
 });
+
+test('the label check publishes what Studio compiled to the given render cache, and a renderer change is logged, not thrown',async t=>{
+ const {publishCheckedDiagrams}=await import('../pedagogy/figure-label-check.mjs');
+ const {readRenderEntry}=await import('../scripts/booklet/render-cache-server.mjs');
+ const cacheRoot=tmp(t),version='a'.repeat(64),key=version.slice(0,8)+'-k1',svg='<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0"/></svg>';
+ const page=served=>{let call=0;return {evaluate:async()=>call++===0?{version,entries:[{key,svg}]}:served};};
+ const logs=[];
+ const done=await publishCheckedDiagrams(page(version),cacheRoot,m=>logs.push(m));
+ assert.equal(done.published,1);assert.equal((await readRenderEntry(version,key,{cacheRoot}))?.svg,svg);
+ const changed=await publishCheckedDiagrams(page('b'.repeat(64)),cacheRoot,m=>logs.push(m));
+ assert.equal(changed.published,0);assert.match(logs.at(-1),/skipped: diagram renderer changed/);
+});
