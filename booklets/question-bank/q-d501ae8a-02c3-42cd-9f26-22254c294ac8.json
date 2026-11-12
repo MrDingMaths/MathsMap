@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d501ae8a-02c3-42cd-9f26-22254c294ac8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "dilate-function-graphs",
+    "secondarySkillIds": [
+      "reflect-function-graphs",
+      "graph-polynomials-factored"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Factor a cubic to locate its zeros and compare reflected and vertically dilated curves.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-17T22:33:09.466Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "64d723d5d4fb757869e0341fb360813e4e45c1f529bb5848b18f2925a7c2703f",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch20-20261015/semantic-packets/assignments/assignment-eefd9f2aa9b0ed6f8628/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p18-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Let $f(x)=x^3-3x^2+2x$.\n\nSketch the graphs of $y=f(x)$, $y=-f(x)$ and $y=-2f(x)$ on the one set of axes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "All three curves cross the $x$-axis at $x=0,1,2$.\n\nReflect $y=f(x)$ in the $x$-axis for $y=-f(x)$; then stretch vertically by factor $2$ for $y=-2f(x)$.",
+      "worked": "$$\\begin{align*}f(x)&=x(x^2-3x+2)\\\\f(x)&=x(x-1)(x-2)\\end{align*}$$\nSketch a positive-leading cubic crossing the axis at $(0,0)$, $(1,0)$ and $(2,0)$.\n\nReflect this graph in the $x$-axis to obtain $y=-f(x)$. For $y=-2f(x)$, double every ordinate of the reflected graph. All three curves retain the same zeros; the last has twice the vertical distance from the axis as $y=-f(x)$.",
+      "solutionDiagrams": [
+        {
+          "id": "p18-q6-sol",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"original cubic\"},{\"name\":\"seriesRed\",\"hex\":\"EF6068\",\"reason\":\"reflected cubic\"},{\"name\":\"seriesGreen\",\"hex\":\"4F9B63\",\"reason\":\"reflected and dilated cubic\"}],\"reference\":\"p18 6\"}\n\\begin{tikzpicture}[x=18mm,y=12mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\\definecolor{seriesRed}{HTML}{EF6068}\\definecolor{seriesGreen}{HTML}{4F9B63}\n\\draw[->,line width=.5pt] (-.7,0)--(2.9,0) node[right] {$x$};\\draw[->,line width=.5pt] (0,-2.4)--(0,2.4) node[above] {$y$};\n\\begin{scope}\\clip (-.6,-2.2) rectangle (2.7,2.2);\n\\draw[seriesBlue,line width=.8pt,domain=-.6:2.7,samples=180] plot (\\x,{\\x*(\\x-1)*(\\x-2)});\n\\draw[seriesRed,dashed,line width=.8pt,domain=-.6:2.7,samples=180] plot (\\x,{-\\x*(\\x-1)*(\\x-2)});\n\\draw[seriesGreen,dash dot,line width=.8pt,domain=-.6:2.7,samples=180] plot (\\x,{-2*\\x*(\\x-1)*(\\x-2)});\\end{scope}\n\\foreach \\a in {0,1,2}{\\fill (\\a,0) circle (1pt);}\n\\node[below left] at (0,0) {$(0,0)$};\\node[below] at (1,-.12) {$(1,0)$};\\node[above right] at (2,0) {$(2,0)$};\n\\node[seriesBlue,right] at (2.65,1.9) {$y=f(x)$};\\node[seriesRed,right] at (2.65,-1.2) {$y=-f(x)$};\\node[seriesGreen,right] at (2.65,-2.2) {$y=-2f(x)$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 115,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 18,
+            "sourceRegion": "Exercise 20D 6",
+            "description": "Three equation-driven cubic curves on shared axes with common zeros and distinct labelled series.",
+            "mathematics": "f=x(x-1)(x-2), -f, -2f",
+            "answerVisibility": "solution only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 100
+  },
+  "presentation": {
+    "ownerId": "p18-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:25:12.955Z",
+  "updatedAt": "2026-11-12T11:25:12.955Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch20-20261015",
+    "blockId": "p18-q6",
+    "sectionRole": "exercise"
+  }
+}

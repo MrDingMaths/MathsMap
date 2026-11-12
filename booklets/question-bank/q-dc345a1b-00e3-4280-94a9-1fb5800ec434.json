@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dc345a1b-00e3-4280-94a9-1fb5800ec434",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "box-plots",
+    "secondarySkillIds": [
+      "represent-data-graphs",
+      "identify-outliers-iqr",
+      "skewness-from-displays"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a repeated-value dotplot, compute quartiles and fences for a modified boxplot, select the extreme non-outliers as whisker endpoints and interpret the long upper tail. This is routine linked representation and interpretation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T11:55:37.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ba350c5d4ba7d055c0309765a55ead8fc6241e6cf261028df7b31ceb2dafde4d",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch18-20261015/direct-independent-subagent-revision10-content-20261023/response.json"
+    }
+  },
+  "content": {
+    "id": "p15-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p15-q8-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The weight loss (in kilograms) of 20 randomly selected people undertaking a special diet over three weeks is:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p15-q8-data-row1",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "8,\\ 5,\\ 10,\\ 6,\\ 6,\\ 12,\\ 4,\\ 5,\\ 5,\\ 6",
+              "display": false
+            }
+          ]
+        },
+        {
+          "id": "p15-q8-data-row2",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "8,\\ 13,\\ 7,\\ 7,\\ 7,\\ 6,\\ 6,\\ 4,\\ 5,\\ 5",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Construct a dotplot of the data.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Dotplot shown.",
+          "worked": "Place one dot for each person above their weight loss. The frequencies for $4,5,6,7,8,9,10,11,12,13$ kg are respectively $2,5,5,3,2,0,1,0,1,1$, totalling $20$ dots.",
+          "solutionDiagrams": [
+            {
+              "id": "p15-q8-a-dotplot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=0.95cm,y=0.38cm]\n\\draw[black] (3.5,0)--(13.5,0);\n\\foreach \\x in {4,...,13}{\\draw[black] (\\x,0)--(\\x,-0.16) node[below,font=\\fontsize{8.5}{10}\\selectfont] {\\x};}\n\\foreach \\x/\\n in {4/2,5/5,6/5,7/3,8/2,10/1,12/1,13/1}{\\foreach \\j in {1,...,\\n}{\\fill[black] (\\x,\\j) circle (1.35pt);}}\n\\node[anchor=north,font=\\fontsize{10}{12}\\selectfont] at (8.5,-2.8) {Weight loss (kg)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 120,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 15,
+                "sourceRegion": "Question 8(a)",
+                "description": "Completed dotplot with one dot per person and integer ticks from 4 to 13.",
+                "mathematics": "Frequencies: 4:2, 5:5, 6:5, 7:3, 8:2, 9:0, 10:1, 11:0, 12:1, 13:1.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p15-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Construct a boxplot of the data.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1=5$ kg, median $=6$ kg, $Q_3=7.5$ kg. Whiskers end at $4$ kg and $10$ kg; $12$ kg and $13$ kg are outliers.\n\nUse the $1.5\\times\\mathrm{IQR}$ rule to locate the whisker endpoints.",
+          "worked": "In ascending order, the data are:\n\n$4,4,5,5,5,5,5,6,6,6,6,6,7,7,7,8,8,10,12,13$.\n\nThe median is the mean of the 10th and 11th values. Each half contains 10 values, so each quartile is the mean of the two middle values in its half.\n\n$$\\begin{align*}\\text{Median}&=\\frac{6+6}{2}\\\\\\text{Median}&=6\\text{ kg}\\\\Q_1&=\\frac{5+5}{2}\\\\Q_1&=5\\text{ kg}\\\\Q_3&=\\frac{7+8}{2}\\\\Q_3&=7.5\\text{ kg}\\\\\\mathrm{IQR}&=7.5-5\\\\\\mathrm{IQR}&=2.5\\text{ kg}\\\\Q_1-1.5\\mathrm{IQR}&=5-1.5(2.5)\\\\Q_1-1.5\\mathrm{IQR}&=1.25\\text{ kg}\\\\Q_3+1.5\\mathrm{IQR}&=7.5+1.5(2.5)\\\\Q_3+1.5\\mathrm{IQR}&=11.25\\text{ kg}\\end{align*}$$\n\nThe values $12$ kg and $13$ kg exceed the upper fence and are outliers. Draw the box from $5$ to $7.5$, with its median at $6$. The whiskers end at the smallest and largest non-outlying values, $4$ and $10$.",
+          "solutionDiagrams": [
+            {
+              "id": "p15-q8-b-boxplot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=0.95cm,y=0.7cm]\n\\draw[black] (3.5,0)--(13.5,0);\n\\foreach \\x in {4,...,13}{\\draw[black] (\\x,0)--(\\x,-0.1) node[below,font=\\fontsize{8.5}{10}\\selectfont] {\\x};}\n\\draw[black] (4,1)--(5,1) (7.5,1)--(10,1);\n\\draw[black] (5,0.7) rectangle (7.5,1.3);\n\\draw[black] (6,0.7)--(6,1.3);\n\\fill[black] (12,1.09)--(11.92,0.93)--(12.08,0.93)--cycle;\n\\fill[black] (13,1.09)--(12.92,0.93)--(13.08,0.93)--cycle;\n\\node[anchor=north,font=\\fontsize{10}{12}\\selectfont] at (8.5,-1.55) {Weight loss (kg)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 120,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 15,
+                "sourceRegion": "Question 8(b)",
+                "description": "Modified boxplot with separate triangular outlier markers, following the local teaching convention.",
+                "mathematics": "Box endpoints 5 and 7.5, median 6, whisker endpoints 4 and 10, outliers 12 and 13; units kilograms.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "p15-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Comment on the shape.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The distribution has a slight positive skew.",
+          "worked": "Most values lie between $4$ kg and $8$ kg. The tail extends farther towards the larger values, including the outliers $12$ kg and $13$ kg, so the distribution has a slight positive skew.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:39:54.640Z",
+  "updatedAt": "2026-11-12T11:39:54.641Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch18-20261015",
+    "blockId": "p15-q8",
+    "sectionRole": "exercise"
+  }
+}

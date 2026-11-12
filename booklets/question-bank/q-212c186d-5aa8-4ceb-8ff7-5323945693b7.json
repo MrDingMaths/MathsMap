@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-212c186d-5aa8-4ceb-8ff7-5323945693b7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Combine interval signs, repeated zeros and leading-term behaviour to sketch four polynomial curves.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T12:19:16.347Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "47b45eec6b3e89a36d19ea19db2328cdd3f71b3c306e2e5948641380906bafba",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/lean-review/calls/content-1792585121930-17/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-h1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Identify the zeros of each polynomial. Draw sign diagrams and sketch the curves.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-h1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=x(x-2)^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=0,2$. Signs from left to right: $-,0,+,0,+$. The curve crosses at $0$ and touches at $2$.",
+          "worked": "The factors give zeros $x=0$ and $x=2$. The zero at $0$ is simple; the zero at $2$ is double.\n\nTest values $x=-1,1,3$ give $y=-9,1,3$, respectively, so the interval signs are $-,+,+$. The leading term is $x^3$, so the left end falls and the right end rises. The curve crosses at $(0,0)$ and touches the axis at $(2,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h1-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 1a\"}\n\\begin{tikzpicture}[x=1cm,y=.6cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{scope}[yshift=8mm]\n\\draw[line width=.5pt] (-1,6)--(3.2,6);\n\\node[left] at (-1,6.7) {Sign of $y$};\n\\node[left] at (-1,5.5) {$x$};\n\\foreach \\x/\\s in {-.6/-,0/0,1/+,2/0,2.8/+}{\\node at (\\x,6.7) {$\\s$};}\n\\foreach \\x in {0,2}{\\fill (\\x,6) circle (1pt);\\node[below] at (\\x,6) {$\\x$};}\n\\end{scope}\n\\draw[->,line width=.5pt] (-1,0)--(3.3,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-2)--(0,4.7) node[above] {$y$};\n\\draw[line width=.8pt,domain=-.35:3.05,samples=180] plot (\\x,{\\x*(\\x-2)^2});\n\\fill (0,0) circle (1pt);\\fill (2,0) circle (1pt);\n\\node[below left] at (0,0) {$0$};\\node[below] at (2,0) {$2$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 1a",
+                "description": "Sign diagram above an equation-driven cubic sketch; simple zero at 0 and double zero at 2.",
+                "mathematics": "y=x(x-2)^2; signs negative, positive, positive across zeros 0 and 2.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p30-h1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=(x-2)^2(x-4)^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=2,4$. Signs from left to right: $+,0,+,0,+$. The curve touches at both zeros; the $y$-intercept is $64$.",
+          "worked": "Both zeros, $x=2$ and $x=4$, are double. Test values $x=1,3,5$ give $y=9,1,9$, so the graph is positive on all three intervals and touches the axis at both zeros.\n\n$\\begin{align*}y(0)&=(0-2)^2(0-4)^2\\\\y(0)&=64\\end{align*}$\n\nThe leading term is $x^4$, so both ends rise.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h1-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 1b\"}\n\\begin{tikzpicture}[x=.85cm,y=.055cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{scope}[yshift=8mm]\n\\draw[line width=.5pt] (0,102)--(5.5,102);\n\\node[left] at (0,115) {Sign of $y$};\\node[left] at (0,94) {$x$};\n\\foreach \\x/\\s in {1/+,2/0,3/+,4/0,5/+}{\\node at (\\x,115) {$\\s$};}\n\\foreach \\x in {2,4}{\\fill (\\x,102) circle (1pt);\\node[below] at (\\x,102) {$\\x$};}\n\\end{scope}\n\\draw[->,line width=.5pt] (-.4,0)--(5.8,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-8)--(0,85) node[above] {$y$};\n\\draw[line width=.8pt,domain=-.08:6.08,samples=240] plot (\\x,{(\\x-2)^2*(\\x-4)^2});\n\\foreach \\x in {2,4}{\\fill (\\x,0) circle (1pt);\\node[below] at (\\x,0) {$\\x$};}\n\\fill (0,64) circle (1pt);\\node[left] at (0,64) {$64$};\\node[below left] at (0,0) {$0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 1b",
+                "description": "Positive sign intervals and quartic touching at 2 and 4, with y-intercept 64.",
+                "mathematics": "y=(x-2)^2(x-4)^2",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 82
+      },
+      {
+        "id": "p30-h1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=x^2(x+3)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=-3,0$. Signs from left to right: $-,0,+,0,+$. The curve crosses at $-3$ and touches at $0$.",
+          "worked": "The zero at $x=-3$ is simple and the zero at $x=0$ is double. Test values $x=-4,-1,1$ give $y=-16,2,4$, so the interval signs are $-,+,+$.\n\nThe curve crosses at $(-3,0)$ and touches at $(0,0)$, which is also its $y$-intercept. Its leading term is $x^3$, so the left end falls and the right end rises.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h1-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 1c\"}\n\\begin{tikzpicture}[x=.9cm,y=.45cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\begin{scope}[yshift=8mm]\n\\draw[line width=.5pt] (-4,9)--(1,9);\n\\node[left] at (-4,10) {Sign of $y$};\\node[left] at (-4,8.4) {$x$};\n\\foreach \\x/\\s in {-3.7/-,-3/0,-1.5/+,0/0,.8/+}{\\node at (\\x,10) {$\\s$};}\n\\foreach \\x in {-3,0}{\\fill (\\x,9) circle (1pt);\\node[below] at (\\x,9) {$\\x$};}\n\\end{scope}\n\\draw[->,line width=.5pt] (-3.8,0)--(1.4,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-4)--(0,7) node[above] {$y$};\n\\draw[line width=.8pt,domain=-3.32:1.25,samples=200] plot (\\x,{\\x^2*(\\x+3)});\n\\fill (-3,0) circle (1pt);\\fill (0,0) circle (1pt);\n\\node[below] at (-3,0) {$-3$};\\node[below right] at (0,0) {$0$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 1c",
+                "description": "Sign diagram and cubic crossing at -3 and touching at 0.",
+                "mathematics": "y=x^2(x+3)",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p30-h1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=(x+2)^2(x+1)^3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=-2,-1$. Signs from left to right: $-,0,-,0,+$. The curve touches at $-2$ and crosses with a flat tangent at $-1$. The $y$-intercept is $4$.",
+          "worked": "The zero at $x=-2$ is double and the zero at $x=-1$ is triple. Test values give\n\n$\\begin{align*}y(-3)&=(-3+2)^2(-3+1)^3\\\\y(-3)&=-8\\\\y\\left(-\\frac32\\right)&=\\left(\\frac12\\right)^2\\left(-\\frac12\\right)^3\\\\y\\left(-\\frac32\\right)&=-\\frac1{32}\\\\y(0)&=2^2\\times1^3\\\\y(0)&=4.\\end{align*}$\n\nThus the interval signs are $-,-,+$. The curve touches the axis from below at $-2$ and crosses at $-1$, flattening near that triple zero. The leading term is $x^5$, so the left end falls and the right end rises.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h1-d-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 1d\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=.5pt] (-3,5.2)--(.7,5.2);\n\\node[left] at (-3,5.7) {Sign of $y$};\\node[left] at (-3,4.8) {$x$};\n\\foreach \\x/\\s in {-2.7/-,-2/0,-1.5/-,-1/0,.3/+}{\\node at (\\x,5.7) {$\\s$};}\n\\foreach \\x in {-2,-1}{\\fill (\\x,5.2) circle (1pt);\\node[below] at (\\x,5.2) {$\\x$};}\n\\begin{scope}[x=1.25cm,y=.55cm]\n\\draw[->,line width=.5pt] (-3.1,0)--(.55,0) node[right] {$x$};\n\\draw[->,line width=.5pt] (0,-3)--(0,7) node[above] {$y$};\n\\draw[line width=.8pt,domain=-2.7:.12,samples=260] plot (\\x,{(\\x+2)^2*(\\x+1)^3});\n\\foreach \\x in {-2,-1}{\\fill (\\x,0) circle (1pt);\\node[above] at (\\x,0) {$\\x$};}\n\\fill (0,4) circle (1pt);\\node[left] at (0,4) {$4$};\\node[below right] at (0,0) {$0$};\n\\end{scope}\n\\begin{scope}[shift={(-3,-3.5)},x=3cm,y=35cm]\n\\node[anchor=south west] at (0,.018) {Detail between the zeros};\n\\draw[->,line width=.5pt] (-.1,0)--(1.15,0) node[right] {$x$};\n\\draw[line width=.8pt,domain=0:1,samples=120] plot (\\x,{\\x^2*(\\x-1)^3});\n\\node[above] at (0,0) {$-2$};\\node[above] at (1,0) {$-1$};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 74,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 1d",
+                "description": "Exact equation-driven graph with a separate enlarged view between the roots, making the shallow negative dip visible.",
+                "mathematics": "y=(x+2)^2(x+1)^3; double zero -2, triple zero -1, y-intercept 4. Detail uses its own vertical scale.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 88
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-h1-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:24.777Z",
+  "updatedAt": "2026-11-12T11:38:24.778Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p30-h1-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-46f61ce7-9388-461f-8422-ffc22e2dbbbe",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [
+      "factorise-special-products"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Complete difference-of-squares factorisations, retain repeated-factor multiplicities, and link zeros, signs and leading coefficients to the two sketches.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T13:37:09.682Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aa787ada3e32bde9c1dfbcd33f57ace351b58048a783b609b389e9142a59a9d6",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/lean-review/calls/content-1792589808974-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-h5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The factorisation of each polynomial is not complete. Complete the factorisation, find the zeros of the polynomials and sketch the graphs.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-h5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=(3x^2-3)(x^2-9)^4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=3(x-1)(x+1)(x-3)^4(x+3)^4$.\n\nZeros: $x=-3,-1,1,3$. The curve touches at $x=\\pm3$, crosses at $x=\\pm1$, and has both ends upwards.",
+          "worked": "$$\\begin{align*}y&=3(x^2-1)(x^2-9)^4\\\\y&=3(x-1)(x+1)(x-3)^4(x+3)^4.\\end{align*}$$\nThe zeros are $-3,-1,1,3$, with multiplicities $4,1,1,4$ respectively. Thus the curve touches the $x$-axis at $x=\\pm3$ and crosses at $x=\\pm1$.\n\nThe signs on the successive intervals separated by $-3,-1,1,3$ are $+,+,-,+,+$. The leading term is $3x^{10}$, so both ends rise. At $x=0$, $y=-3\\times9^4=-19683$. The graph is symmetric about the $y$-axis.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h5-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 30 Exercise 17H 5a; teacher PDF page 80\"}\n\\begin{tikzpicture}[x=0.72cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.95,0)--(4.05,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2.35)--(0,2.45) node[above] {$y$};\n\\begin{scope}\n\\clip (-3.85,-2.25) rectangle (3.85,2.25);\n\\draw[line width=0.8pt,domain=-3.75:3.75,samples=501] plot (\\x,{3*(\\x*\\x-1)*((\\x*\\x-9)/10)^4});\n\\end{scope}\n\\foreach \\v in {-3,-1,1,3} {\n\\fill (\\v,0) circle[radius=1.1pt];\n\\node[below,yshift=-2pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\fill (0,-1.9683) circle[radius=1.1pt];\n\\node[below left=5pt] at (0,-1.9683) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-19683$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 5a",
+                "description": "Equation-driven sketch with four intercepts, fourth-order contacts at -3 and 3, crossings at -1 and 1, and the negative y-intercept.",
+                "mathematics": "y=3(x^2-1)(x^2-9)^4; zeros -3,-1,1,3; y-intercept -19683; even symmetry and positive degree-10 leading term.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 95
+      },
+      {
+        "id": "p30-h5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=x^2(20-5x^2)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-5x^2(x-2)(x+2)$.\n\nZeros: $x=-2,0,2$. The curve crosses at $x=\\pm2$, touches at $x=0$, and has both ends downwards.",
+          "worked": "$$\\begin{align*}y&=5x^2(4-x^2)\\\\y&=5x^2(2-x)(2+x)\\\\y&=-5x^2(x-2)(x+2).\\end{align*}$$\nThe zeros are $-2,0,2$, with multiplicities $1,2,1$ respectively. The curve crosses the $x$-axis at $x=\\pm2$ and touches it at $x=0$.\n\nThe signs on the successive intervals separated by $-2,0,2$ are $-,+,+,-$. The leading term is $-5x^4$, so both ends fall. The graph is symmetric about the $y$-axis.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h5-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 30 Exercise 17H 5b; teacher PDF page 80\"}\n\\begin{tikzpicture}[x=1cm,y=0.08cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2.6,0)--(2.65,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-34)--(0,27) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-2.3:2.3,samples=241] plot (\\x,{\\x*\\x*(20-5*\\x*\\x)});\n\\foreach \\v in {-2,0,2} {\n\\fill (\\v,0) circle[radius=1.1pt];\n\\node[below,yshift=-2pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 5b",
+                "description": "Equation-driven symmetric quartic sketch crossing at -2 and 2, touching the axis from above at 0, with both tails falling.",
+                "mathematics": "y=-5x^2(x-2)(x+2); simple zeros -2 and 2; double zero 0; negative degree-4 leading term.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-h5-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:26.137Z",
+  "updatedAt": "2026-11-12T11:38:26.138Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p30-h5-block",
+    "sectionRole": "exercise"
+  }
+}

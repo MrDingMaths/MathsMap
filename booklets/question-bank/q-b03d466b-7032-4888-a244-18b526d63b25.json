@@ -1,0 +1,171 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b03d466b-7032-4888-a244-18b526d63b25",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [
+      "graph-polynomials-factored"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Construct monic cubics from specified zeros and multiplicities, then sketch their intercepts and crossing behaviour.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T06:52:34.663Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bb3f096365e33d47fbf6794a70bdad2468bb8a07eb1cf1cbcd574645b0f1377c",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/semantic-packets/assignments/assignment-0b5e12f16abb7bd27876/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p28-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "A monic cubic polynomial, $P(x)$, has zeros at $x=2$, $x=4$ and $x=6$. Write down the equation of the polynomial. Draw the graph of $y=P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(x)=(x-2)(x-4)(x-6)$.",
+          "worked": "The three zeros give three linear factors. Since the polynomial is monic,\n$$P(x)=(x-2)(x-4)(x-6).$$\n$$P(0)=(-2)(-4)(-6)=-48.$$\nThe graph crosses the $x$-axis at $2$, $4$ and $6$, and the $y$-axis at $-48$. Its signs on the successive intervals separated by the zeros are $-,+,-,+$. The left end falls and the right end rises.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q6-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 question 6a; teacher page 79\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.075cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-0.7,0)--(7.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-54)--(0,21) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0:7.1,samples=180] plot (\\x,{(\\x-2)*(\\x-4)*(\\x-6)});\n\\foreach \\t in {2,4,6}{\\fill (\\t,0) circle (1.3pt);\\node[below] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\fill (0,-48) circle (1.3pt);\n\\node[left] at (0,-48) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-48$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 6(a) response",
+                "description": "Equation-derived cubic with three simple crossings and its y-intercept; no origin letter.",
+                "mathematics": "y=(x-2)(x-4)(x-6); zeros 2,4,6; y-intercept -48.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p28-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A monic cubic polynomial, $P(x)$, has one zero of multiplicity $3$ at $x=-3$. Write down the equation of the polynomial. Draw the graph of $y=P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(x)=(x+3)^3$.",
+          "worked": "The zero $-3$ has multiplicity $3$, so its factor occurs three times. Since the polynomial is monic,\n$$P(x)=(x+3)^3.$$\n$$P(0)=3^3=27.$$\nTranslate $y=x^3$ three units left. The graph crosses the $x$-axis at $(-3,0)$, where it is flat, and passes through $(0,27)$. It is below the $x$-axis for $x<-3$ and above it for $x>-3$.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q6-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 question 6b; teacher page 79\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.075cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-6.8,0)--(1.1,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-43)--(0,48) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-6.4:0.5,samples=160] plot (\\x,{(\\x+3)^3});\n\\fill (-3,0) circle (1.3pt);\\fill (0,27) circle (1.3pt);\n\\node[below] at (-3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,27) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$27$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 6(b) response",
+                "description": "Translated cubic crossing horizontally at -3 and passing through the marked y-intercept.",
+                "mathematics": "y=(x+3)^3; triple zero -3; y-intercept 27.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p28-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "A monic cubic polynomial, $P(x)$, has one zero of multiplicity $3$ at $x=2$. Write down the equation of the polynomial. Draw the graph of $y=P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(x)=(x-2)^3$.",
+          "worked": "The zero $2$ has multiplicity $3$, so its factor occurs three times. Since the polynomial is monic,\n$$P(x)=(x-2)^3.$$\n$$P(0)=(-2)^3=-8.$$\nTranslate $y=x^3$ two units right. The graph crosses the $x$-axis at $(2,0)$, where it is flat, and passes through $(0,-8)$. It is below the $x$-axis for $x<2$ and above it for $x>2$.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q6-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 question 6c; teacher page 79\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.18cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.3,0)--(5.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-24)--(0,24) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-0.8:4.8,samples=160] plot (\\x,{(\\x-2)^3});\n\\fill (2,0) circle (1.3pt);\\fill (0,-8) circle (1.3pt);\n\\node[below] at (2,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$2$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,-8) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-8$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 6(c) response",
+                "description": "Translated cubic crossing horizontally at 2 and passing through the marked y-intercept.",
+                "mathematics": "y=(x-2)^3; triple zero 2; y-intercept -8.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:23.393Z",
+  "updatedAt": "2026-11-12T11:38:23.394Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p28-q6",
+    "sectionRole": "exercise"
+  }
+}

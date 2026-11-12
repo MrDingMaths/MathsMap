@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1275199c-24da-4a09-a525-147ff1e73618",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "predict-from-regression-equation",
+    "secondarySkillIds": [
+      "equation-line-of-best-fit",
+      "interpolation-extrapolation"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Read two points from a fitted line, determine its equation, make forward and inverse predictions and classify them.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T06:38:23.543Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cfa5848f1d44e2e1736405573b0964d88e4bead7920d9c2e9d992d8bcf620034",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch18-20261015/semantic-packets/assignments/assignment-f5f04f53350b0dc0afa4/4/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "A class of Year 10 PE students were asked to run a lap of the school’s oval. Their times were recorded and compared against their fitness levels, which had been previously analysed and placed on a scale of 1 to 10. The teacher then drew a line of best fit over the scatter plot as shown.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p37-q5-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"dataRed\",\"hex\":\"EF6068\",\"reason\":\"observed data points\"},{\"name\":\"fitBlue\",\"hex\":\"268CFF\",\"reason\":\"fitted trend line distinguished from observations\"}],\"reference\":\"source page 37 question 5\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.145cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{dataRed}{HTML}{EF6068}\n\\definecolor{fitBlue}{HTML}{268CFF}\n\\draw[line width=0.5pt] (0,45)--(10,45)--(10,80)--(0,80)--(0,48.1);\n\\draw[line width=0.5pt] (0,48.1)--(0.2,47.6)--(-0.2,47.0)--(0,46.5)--(0,45);\n\\foreach \\v in {50,55,60,65,70,75,80}{\\draw[line width=0.25pt] (0,\\v)--(10,\\v);\\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-0.25,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\foreach \\v in {51,52,...,79}{\\draw[line width=0.4pt] (0,\\v)--(0.10,\\v);}\n\\foreach \\v in {0,2,4,6,8,10}{\\node[anchor=north,font=\\fontsize{8.5}{10}\\selectfont] at (\\v,44.5) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[anchor=north,font=\\fontsize{10}{12}\\selectfont] at (5,41.2) {Fitness level};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-1.35,65) {Time (seconds)};\n\\draw[fitBlue,line width=0.8pt,domain=1:10] plot (\\x,{79-2.5*\\x});\n\\foreach \\x/\\y in {1.02/77.1,1.79/77.1,1.74/72.1,1.72/70.1,4.76/67.2,4.77/65.3,4.77/63.1,6.00/67.8,6.00/67.1,6.00/66.4,5.89/63.0,5.89/61.3,7.25/61.7,7.26/59.7,7.26/58.9,7.26/58.0,8.28/61.8,8.28/60.2,8.27/56.8,8.27/56.1,9.39/56.8,9.40/55.2,9.40/54.6,10.06/54.5}{\\fill[dataRed] (\\x,\\y) circle[radius=1.35pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 37,
+          "sourceRegion": "Question 5 supplied scatter plot",
+          "description": "Descending scatter plot with all 24 visible observations, horizontal gridlines every 5 seconds, minor vertical scale ticks and a vertical-axis break below 50. Observations are visually traced, not additional numerical givens.",
+          "mathematics": "Fitness scale 0–10; time labels 50–80 seconds. The fitted line is represented by t=79-2.5f, consistent with readable points (4,69) and (8,59).",
+          "answerVisibility": "The scatter points and fitted line are permanent supplied question content."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p37-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Determine the equation of the line of best fit.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t=-\\frac{5}{2}f+79$, where $t$ is time in seconds and $f$ is fitness level.\n\nUse two points on the fitted line to find its gradient and apply point–gradient form.",
+          "worked": "Using points $(4,69)$ and $(8,59)$ on the fitted line:\n$$\\begin{align*}m&=\\frac{59-69}{8-4}\\\\m&=-\\frac{5}{2}\\end{align*}$$\nBy point–gradient form:\n$$\\begin{align*}t-69&=-\\frac{5}{2}(f-4)\\\\t&=-\\frac{5}{2}f+10+69\\\\t&=-\\frac{5}{2}f+79\\end{align*}$$\nHere $t$ is time in seconds and $f$ is fitness level. Small variations from reading the graph are reasonable.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p37-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the equation to predict the time it would take a Year 10 PE student to run a lap of the oval if that student has a fitness level of 3. Leave your answer correct to one decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$71.5$ seconds.",
+          "worked": "$$\\begin{align*}t&=-\\frac{5}{2}(3)+79\\\\t&=71.5\\end{align*}$$\nThe predicted time is $71.5$ seconds.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p37-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the equation to predict the fitness level of a Year 10 PE student if a lap of the oval is run in 62 seconds. Give the fitness level to the nearest whole number.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$7$ (the equation gives $6.8$).",
+          "worked": "$$\\begin{align*}62&=-\\frac{5}{2}f+79\\\\\\frac{5}{2}f&=17\\\\f&=\\frac{34}{5}\\\\f&=6.8\\end{align*}$$\nThe predicted fitness level is $7$ to the nearest whole number.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p37-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Are these predictions examples of interpolation or extrapolation? Explain your answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both are interpolation: fitness level $3$ and time $62$ seconds lie within the observed data ranges.",
+          "worked": "In part b, fitness level $3$ lies within the range of observed fitness levels. In part c, $62$ seconds lies within the range of recorded times. Both predictions therefore use interpolation.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:40:06.204Z",
+  "updatedAt": "2026-11-12T11:40:06.204Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch18-20261015",
+    "blockId": "p37-q5",
+    "sectionRole": "exercise"
+  }
+}

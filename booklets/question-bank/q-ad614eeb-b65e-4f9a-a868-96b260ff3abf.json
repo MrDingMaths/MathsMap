@@ -1,0 +1,184 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ad614eeb-b65e-4f9a-a868-96b260ff3abf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "identify-outliers-iqr",
+    "secondarySkillIds": [
+      "five-number-summary",
+      "interquartile-range",
+      "box-plots"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Links the scaffolded quartile and IQR calculations to the taught outlier test, then selects non-outlying endpoints and represents the summary as a boxplot.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T07:23:58.272Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d95097e612e44a375303d37d17cf1732117ee3b7d593ca2ea9c9ae165af30204",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch18-20261015/lean-review/calls/content-1792740203970-7/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p14-q1-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The heights, measured in centimetres, of 25 students in a class are:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p14-q1-values",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "170,\\ 175,\\ 133,\\ 153,\\ 164,\\ 189,\\ 143,\\ 133,\\ 167,\\ 145,\\ 150,\\ 164,\\ 169",
+              "display": false
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "math",
+              "latex": "159,\\ 177,\\ 186,\\ 173,\\ 164,\\ 177,\\ 168,\\ 142,\\ 155,\\ 153,\\ 167,\\ 166",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $Q_1$, the median and $Q_3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1=151.5\\text{ cm}$, median $=164\\text{ cm}$, $Q_3=171.5\\text{ cm}$.",
+          "worked": "In ascending order:\n\n133, 133, 142, 143, 145, 150, 153, 153, 155, 159, 164, 164, 164, 166, 167, 167, 168, 169, 170, 173, 175, 177, 177, 186, 189.\n\nThere are 25 values, so the median is the 13th value. Omit this value when forming the lower and upper groups of 12.\n\n$$\\begin{align*}\\text{Median}&=164\\text{ cm}\\\\Q_1&=\\frac{150+153}{2}\\\\Q_1&=151.5\\text{ cm}\\\\Q_3&=\\frac{170+173}{2}\\\\Q_3&=171.5\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p14-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the interquartile range.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$20\\text{ cm}$.",
+          "worked": "$$\\begin{align*}\\text{IQR}&=Q_3-Q_1\\\\\\text{IQR}&=171.5-151.5\\\\\\text{IQR}&=20\\text{ cm}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p14-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Draw a boxplot, showing any outliers.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "There are no outliers. The boxplot has whiskers at 133 and 189 cm, a box from 151.5 to 171.5 cm and median at 164 cm.",
+          "worked": "$$\\begin{align*}1.5\\times\\text{IQR}&=1.5\\times20\\\\1.5\\times\\text{IQR}&=30\\text{ cm}\\\\\\text{Lower fence}&=151.5-30\\\\\\text{Lower fence}&=121.5\\text{ cm}\\\\\\text{Upper fence}&=171.5+30\\\\\\text{Upper fence}&=201.5\\text{ cm}\\end{align*}$$\n\nAll heights lie between the fences, so there are no outliers. Draw the box from 151.5 to 171.5 cm, mark the median at 164 cm and extend the whiskers to 133 and 189 cm.",
+          "solutionDiagrams": [
+            {
+              "id": "p14-q1-c-boxplot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14 question 1; teacher page 82\"}\n\\begin{tikzpicture}[x=0.12cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt] (110,0)--(210,0);\n\\foreach \\x in {120,140,160,180,200}{\\draw[line width=0.4pt] (\\x,0)--(\\x,-0.12);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.12){\\x};}\n\\draw[line width=0.8pt] (133,0.8)--(151.5,0.8) (171.5,0.8)--(189,0.8);\n\\draw[line width=0.8pt] (151.5,0.5) rectangle (171.5,1.1);\n\\draw[line width=0.8pt] (164,0.5)--(164,1.1);\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (160,-1.6){Height (cm)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 125,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 14,
+                "sourceRegion": "Exercise 18C question 1c; teacher page 82 answer",
+                "description": "Unshaded horizontal boxplot with a labelled height scale, no outlier markers and ordinary black strokes.",
+                "mathematics": {
+                  "minimum": 133,
+                  "lowerQuartile": 151.5,
+                  "median": 164,
+                  "upperQuartile": 171.5,
+                  "maximum": 189,
+                  "outliers": [],
+                  "units": "cm"
+                },
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:39:52.864Z",
+  "updatedAt": "2026-11-12T11:39:52.864Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch18-20261015",
+    "blockId": "p14-q1",
+    "sectionRole": "exercise"
+  }
+}

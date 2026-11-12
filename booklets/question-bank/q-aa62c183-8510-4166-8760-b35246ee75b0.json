@@ -1,0 +1,275 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-aa62c183-8510-4166-8760-b35246ee75b0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "evaluate-index-notation",
+    "secondarySkillIds": [
+      "counterexamples"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied experimental prompts to discover last-digit and odd-square tens-digit restrictions, then apply those patterns to rule out large candidates.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:15:39.270Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a10bd9dd263aa01f860b2230aaa33cdf27afdc8f394abe752b719a8bacc7a261",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch10-20261015/5d79ace59f961427f53985ec757bc262f250f0ec5fbb89e1854017a96b814bed-1792559688469/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-square-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-square-selection",
+        "type": "part",
+        "label": "a",
+        "prompt": "Without using a calculator, can you say which of this set of numbers could not be square numbers?\n\n$8\\,116\\,801,\\quad251\\,301\\,659,\\quad3\\,186\\,842,\\quad20\\,720\\,704$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$251\\,301\\,659$ and $3\\,186\\,842$.",
+          "worked": "$3\\,186\\,842$ ends in 2, which is impossible for a square number.\n\n$251\\,301\\,659$ is odd and has an odd tens digit, 5. The tens digit of an odd square is always even, so this number cannot be a square.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p16-square-continuation-group",
+        "type": "group",
+        "label": "",
+        "prompt": "Yes, you can, just by checking the last digit of each number.\n\nSquare numbers can only end in six different digits.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p16-square-forbidden-response",
+            "type": "part",
+            "label": "b",
+            "prompt": "Do a bit of experimentation with a calculator and find the four different digits that square numbers never end in. (This eliminates the third number in this set.)",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$2, 3, 7, 8$.",
+              "worked": "Square the digits from 0 to 9:\n\n$0^2=0$, $1^2=1$, $2^2=4$, $3^2=9$, $4^2=16$, $5^2=25$, $6^2=36$, $7^2=49$, $8^2=64$, $9^2=81$.\n\nThe last digits are $0,1,4,9,6,5,6,9,4,1$. None is 2, 3, 7 or 8. A whole number's square has the same last digit as the square of its last digit.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 36
+          },
+          {
+            "id": "p16-square-tens-response",
+            "type": "part",
+            "label": "c",
+            "prompt": "Now check out the pairs of digits that your odd square numbers end with. What digits are possible in the tens column of an odd square number? (This should eliminate the second number in this set.)",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$0, 2, 4, 6, 8$.",
+              "worked": "Square successive odd numbers:\n\n$1^2=1$, $3^2=9$, $5^2=25$, $7^2=49$, $9^2=81$, $11^2=121$, $13^2=169$, $15^2=225$, $17^2=289$, $19^2=361$.\n\nTheir final pairs of digits are $01,09,25,49,81,21,69,25,89,61$. Continuing with odd numbers gives only even tens digits: $0,2,4,6,8$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 44
+          },
+          {
+            "id": "p16-square-completions",
+            "type": "group",
+            "label": "",
+            "prompt": "Complete these sentences, using what you have discovered.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [
+              {
+                "id": "p16-square-last-digit-response",
+                "type": "part",
+                "label": "d",
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
+                    {
+                      "id": "p16-square-last-digit-sentence",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "In a square number, the last digit can only be one of ",
+                          "marks": []
+                        },
+                        {
+                          "type": "cloze",
+                          "answer": "0",
+                          "width": 9
+                        },
+                        {
+                          "type": "text",
+                          "text": ", ",
+                          "marks": []
+                        },
+                        {
+                          "type": "cloze",
+                          "answer": "1",
+                          "width": 9
+                        },
+                        {
+                          "type": "text",
+                          "text": ", ",
+                          "marks": []
+                        },
+                        {
+                          "type": "cloze",
+                          "answer": "4",
+                          "width": 9
+                        },
+                        {
+                          "type": "text",
+                          "text": ", ",
+                          "marks": []
+                        },
+                        {
+                          "type": "cloze",
+                          "answer": "5",
+                          "width": 9
+                        },
+                        {
+                          "type": "text",
+                          "text": ", ",
+                          "marks": []
+                        },
+                        {
+                          "type": "cloze",
+                          "answer": "6",
+                          "width": 9
+                        },
+                        {
+                          "type": "text",
+                          "text": " or ",
+                          "marks": []
+                        },
+                        {
+                          "type": "cloze",
+                          "answer": "9",
+                          "width": 9
+                        },
+                        {
+                          "type": "text",
+                          "text": ".",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$0,1,4,5,6,9$.",
+                  "worked": "The squares of the digits 0 to 9 end only in $0,1,4,5,6,9$.",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 0,
+                "responseSpace": "scaffold"
+              },
+              {
+                "id": "p16-square-second-last-response",
+                "type": "part",
+                "label": "e",
+                "prompt": {
+                  "format": "maths-editor-document-v1",
+                  "version": 1,
+                  "blocks": [
+                    {
+                      "id": "p16-square-second-last-sentence",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "The second-last digit of an odd square number is always ",
+                          "marks": []
+                        },
+                        {
+                          "type": "cloze",
+                          "answer": "even",
+                          "width": 15
+                        },
+                        {
+                          "type": "text",
+                          "text": ".",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "Even.",
+                  "worked": "The possible tens digits are $0,2,4,6,8$, which are all even.",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 0,
+                "responseSpace": "scaffold"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-square-question",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:11.874Z",
+  "updatedAt": "2026-11-12T13:14:11.875Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch10-20261015",
+    "blockId": "p15-square-question",
+    "sectionRole": "exercise"
+  }
+}

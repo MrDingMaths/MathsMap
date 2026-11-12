@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c28d0ae9-b3bd-43aa-837b-9811290f6a3e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sum-difference-identities",
+    "secondarySkillIds": [
+      "area-rule-triangle",
+      "exact-trig-ratios"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects the supplied altitude equalities to two area expressions, chooses cross-substitutions to derive the identity, then decomposes 75 degrees into known exact angles.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T12:12:36.690Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2ec0592f8b45aa87449537463582573841ed64fb17b1ca566e651d0b6f763589",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch19-20261015/lean-review/calls/content-1792584716450-21/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p24-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "In the diagram, show that $y=a\\cos\\alpha$ and $y=b\\cos\\beta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p24-q8-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 24 p24-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (B) at (0,0);\n\\coordinate (A) at (5,0);\n\\coordinate (C) at (1.5,2);\n\\coordinate (H) at (1.5,0);\n\\draw (B)--(C)--(A)--cycle;\n\\draw (C)--(H);\n\\draw[line width=0.4pt] (1.5,0.2)--(1.7,0.2)--(1.7,0);\n\\path (B)--node[left] {$a$} (C);\n\\path (C)--node[above right] {$b$} (A);\n\\path (C)--node[right] {$y$} (H);\n\\node[below left] at (B) {$B$};\n\\node[below right] at (A) {$A$};\n\\node[above] at (C) {$C$};\n\\pic[draw=none,angle radius=7mm,angle eccentricity=1,\"$\\alpha$\"] {angle=B--C--H};\n\\pic[draw=none,angle radius=7mm,angle eccentricity=1,\"$\\beta$\"] {angle=H--C--A};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 24,
+              "sourceRegion": "Challenge exercise question 8a",
+              "description": "Triangle ABC with B left, A right and C above. The perpendicular from C meets BA internally; its foot is unlabelled in the printed diagram. Alpha and beta label the two apex sectors. Ordinary source blue strokes use house black.",
+              "mathematics": "CB=a, CA=b, altitude=y; alpha is between CB and the altitude, beta between the altitude and CA.",
+              "answerVisibility": "Only supplied labels and the right-angle marker appear."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\cos\\alpha=\\dfrac ya$ and $\\cos\\beta=\\dfrac yb$, so $y=a\\cos\\alpha=b\\cos\\beta$.",
+          "worked": "In each right-angled triangle, the altitude is adjacent to the marked angle:\n$$\\begin{align*}\\cos\\alpha&=\\frac ya\\\\a\\cos\\alpha&=y\\\\\\cos\\beta&=\\frac yb\\\\b\\cos\\beta&=y.\\end{align*}$$\nHence $y=a\\cos\\alpha$ and $y=b\\cos\\beta$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p24-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Using the formula for the area of a triangle, $\\frac12ab\\sin C$, prove that $\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sin(\\alpha+\\beta)=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta$.\n\nEquate the area of the whole triangle with the sum of the two smaller triangle areas, and substitute part a.",
+          "worked": "The whole apex angle is $\\alpha+\\beta$. The altitude divides the triangle into two triangles, so\n$$\\begin{align*}\\operatorname{Area}(ABC)&=\\frac12ab\\sin(\\alpha+\\beta)\\\\\\operatorname{Area}(ABC)&=\\frac12ay\\sin\\alpha+\\frac12by\\sin\\beta.\n\\end{align*}$$\nUse $y=b\\cos\\beta$ in the first term and $y=a\\cos\\alpha$ in the second:\n$$\\begin{align*}\\frac12ab\\sin(\\alpha+\\beta)&=\\frac12ab\\sin\\alpha\\cos\\beta+\\frac12ab\\cos\\alpha\\sin\\beta\\\\\\sin(\\alpha+\\beta)&=\\sin\\alpha\\cos\\beta+\\cos\\alpha\\sin\\beta.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p24-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the exact value of $\\sin75^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{\\sqrt6+\\sqrt2}{4}$.\n\nUse the identity from part b with $75^\\circ=45^\\circ+30^\\circ$.",
+          "worked": "$$\\begin{align*}\\sin75^\\circ&=\\sin(45^\\circ+30^\\circ)\\\\\\sin75^\\circ&=\\sin45^\\circ\\cos30^\\circ+\\cos45^\\circ\\sin30^\\circ\\\\\\sin75^\\circ&=\\frac1{\\sqrt2}\\cdot\\frac{\\sqrt3}{2}+\\frac1{\\sqrt2}\\cdot\\frac12\\\\\\sin75^\\circ&=\\frac{\\sqrt6+\\sqrt2}{4}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p24-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:25:04.674Z",
+  "updatedAt": "2026-11-12T11:25:04.674Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch19-20261015",
+    "blockId": "p24-q8",
+    "sectionRole": "exercise"
+  }
+}

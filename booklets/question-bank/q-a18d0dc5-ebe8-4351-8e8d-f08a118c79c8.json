@@ -1,0 +1,133 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a18d0dc5-ebe8-4351-8e8d-f08a118c79c8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [
+      "graph-polynomials-factored"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Sketch a cubic using its three simple zeros and signs, then recognise the reflection caused by negating the polynomial.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T06:53:04.198Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c53e3a6b214c98d9b4946c78498ed121204581b10cc33e58949b795d13b81d9b",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/semantic-packets/assignments/assignment-dae1174d41d6a7973f8d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p28-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Draw the graph of:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=x(x-1)(x+1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Cubic crossing the axes at $(-1,0)$, $(0,0)$ and $(1,0)$, with its left end down and right end up.",
+          "worked": "The zeros are $x=-1,0,1$, and the $y$-intercept is $0$. Each factor occurs once, so the curve crosses the $x$-axis at every zero.\n\nTesting one value in each interval gives $y<0$ for $x<-1$, $y>0$ for $-1<x<0$, $y<0$ for $0<x<1$, and $y>0$ for $x>1$.\n\nThe leading term is $x^3$, so the left end falls and the right end rises. Join the intercepts with a smooth cubic curve as shown.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q7-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 question 7a; teacher page 79\"}\n\\begin{tikzpicture}[x=1.65cm,y=1.65cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.65,0)--(1.7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.35)--(0,1.4) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-1.38:1.38,samples=121] plot (\\x,{\\x*(\\x-1)*(\\x+1)});\n\\foreach \\x in {-1,0,1}{\\fill (\\x,0) circle (1.2pt);}\n\\node[below left] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\node[below right] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Exercise 17G question 7(a)",
+                "description": "Equation-driven cubic sketch with labelled zeros and coordinate axes; no grid or additional numerical scale.",
+                "mathematics": "y=x(x-1)(x+1)=x^3-x; simple zeros -1,0,1; signs -, +, -, +.",
+                "answerVisibility": "Entire graph is solution-only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p28-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=-x(x-1)(x+1)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Reflection of part (a) in the $x$-axis, crossing at $(-1,0)$, $(0,0)$ and $(1,0)$, with its left end up and right end down.",
+          "worked": "The zeros are $x=-1,0,1$, and the $y$-intercept is $0$. Each zero is simple, so the curve crosses the $x$-axis at all three intercepts.\n\nThe negative sign reverses every nonzero $y$-value from part (a). Thus $y>0$ for $x<-1$, $y<0$ for $-1<x<0$, $y>0$ for $0<x<1$, and $y<0$ for $x>1$.\n\nReflect the curve from part (a) in the $x$-axis. The leading term is $-x^3$, so the left end rises and the right end falls.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q7-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 question 7b; teacher page 79\"}\n\\begin{tikzpicture}[x=1.65cm,y=1.65cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.65,0)--(1.7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.35)--(0,1.4) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-1.38:1.38,samples=121] plot (\\x,{-\\x*(\\x-1)*(\\x+1)});\n\\foreach \\x in {-1,0,1}{\\fill (\\x,0) circle (1.2pt);}\n\\node[below left] at (-1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-1$\\special{dvisvgm:raw </g>}};\n\\node[below left] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0$\\special{dvisvgm:raw </g>}};\n\\node[below right] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Exercise 17G question 7(b)",
+                "description": "Equation-driven reflected cubic, using the same coordinate frame as the solution for part (a).",
+                "mathematics": "y=-x(x-1)(x+1)=-x^3+x; simple zeros -1,0,1; signs +, -, +, -.",
+                "answerVisibility": "Entire graph is solution-only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:23.701Z",
+  "updatedAt": "2026-11-12T11:38:23.701Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p28-q7",
+    "sectionRole": "exercise"
+  }
+}

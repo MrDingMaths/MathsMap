@@ -1,0 +1,157 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2e110655-cac4-4711-a507-13ea36c7b670",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "box-plots",
+    "secondarySkillIds": [
+      "five-number-summary",
+      "interquartile-range"
+    ],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Select the central observation, exclude it when finding the two half-medians, calculate IQR and transfer the five-number summary to a labelled boxplot. These are explicitly scaffolded routine linked procedures.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T11:55:37.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2ceb78f2d527b47759205b76789a2652e442887dc61e27d9240e9e60fc0f01bf",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch18-20261015/direct-independent-subagent-revision10-content-20261023/response.json"
+    }
+  },
+  "content": {
+    "id": "p8-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p8-q5-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The pulse rates of 21 adult females are recorded.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p8-q5-data",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "60\\;61\\;67\\;68\\;69\\;70\\;70\\;70\\;73\\;74\\;75\\;75\\;76\\;77\\;77\\;78\\;79\\;80\\;81\\;89\\;90",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p8-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the median, upper quartile, lower quartile and interquartile range.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Median $=75$, upper quartile $=78.5$, lower quartile $=69.5$, interquartile range $=9$.",
+          "worked": "There are 21 ordered values, so the median is the 11th value, $75$. Omit this value and divide the remaining values into two groups of 10.\n\nThe lower group's middle values are $69$ and $70$; the upper group's middle values are $78$ and $79$.\n\n$$\\begin{align*}Q_1&=\\frac{69+70}{2}\\\\Q_1&=69.5\\\\Q_3&=\\frac{78+79}{2}\\\\Q_3&=78.5\\\\\\text{IQR}&=78.5-69.5\\\\\\text{IQR}&=9\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p8-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw a boxplot for this data.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Boxplot with minimum $60$, lower quartile $69.5$, median $75$, upper quartile $78.5$ and maximum $90$.",
+          "worked": "Use a labelled pulse-rate scale. Draw the box from $69.5$ to $78.5$, with its median line at $75$. Extend the whiskers to the minimum $60$ and maximum $90$.",
+          "solutionDiagrams": [
+            {
+              "id": "p8-q5-b-boxplot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 8 Question 5b; teacher PDF page 82 Exercise 18B Question 5b\"}\n\\begin{tikzpicture}[x=0.28cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt,<->] (-2,0)--(32,0);\n\\foreach \\x/\\v in {0/60,10/70,20/80,30/90}{\\draw[line width=0.4pt] (\\x,0)--(\\x,0.12);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.02){\\v};}\n\\draw[line width=0.8pt] (0,0.75)--(9.5,0.75);\n\\draw[line width=0.8pt] (9.5,0.48) rectangle (18.5,1.02);\n\\draw[line width=0.8pt] (15,0.48)--(15,1.02);\n\\draw[line width=0.8pt] (18.5,0.75)--(30,0.75);\n\\node[anchor=north,font=\\fontsize{10}{12}\\selectfont] at (15,-1.05){Pulse rate};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 8,
+                "sourceRegion": "Question 5b",
+                "description": "Unfilled horizontal boxplot on a labelled pulse-rate scale; ordinary lines and labels use black.",
+                "mathematics": {
+                  "minimum": 60,
+                  "lowerQuartile": 69.5,
+                  "median": 75,
+                  "upperQuartile": 78.5,
+                  "maximum": 90
+                },
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 45
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p8-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:39:51.297Z",
+  "updatedAt": "2026-11-12T11:39:51.297Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch18-20261015",
+    "blockId": "p8-q5",
+    "sectionRole": "exercise"
+  }
+}

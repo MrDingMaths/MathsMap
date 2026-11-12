@@ -1,0 +1,125 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b2fd07f9-9879-4c1b-866e-612834495416",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Combine a triple crossing, a double touch and end behaviour in a sketch, then interpret strict sign intervals while excluding both zeros.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T12:19:17.706Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "11a3102ef237da1b4e34143a9fc2b490698208547b51813cd91e25227beb2f4d",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/lean-review/calls/content-1792585123501-18/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-h4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Consider the polynomial $y=(x+3)^3(x-1)^2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-h4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The graph crosses horizontally at $(-3,0)$, touches the axis at $(1,0)$ and passes through $(0,27)$. Its left end falls and its right end rises.",
+          "worked": "The zeros are $x=-3$ (multiplicity 3) and $x=1$ (multiplicity 2).\n\n$\\begin{align*}y(0)&=(0+3)^3(0-1)^2\\\\y(0)&=27\\end{align*}$\n\nThe signs of $y$ on the intervals $x<-3$, $-3<x<1$ and $x>1$ are respectively $-$, $+$ and $+$. The graph crosses the axis with a horizontal tangent at $x=-3$ and touches it at $x=1$. The leading term is $x^5$, so the left end falls and the right end rises.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h4-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 30 question 4a; teacher page 80\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.045cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-4.4,0)--(2.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-42)--(0,62) node[above] {$y$};\n\\draw[line width=0.8pt,black,domain=-4.05:1.7,samples=240] plot (\\x,{(\\x+3)^3*(\\x-1)^2});\n\\fill (-3,0) circle[radius=1.2pt];\n\\fill (1,0) circle[radius=1.2pt];\n\\fill (0,27) circle[radius=1.2pt];\n\\node[below=3pt] at (-3,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$-3$\\special{dvisvgm:raw </g>}};\n\\node[below=3pt] at (1,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$1$\\special{dvisvgm:raw </g>}};\n\\node[right=3pt] at (0,27) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$27$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 4a; teacher PDF page 80, printed page 706",
+                "description": "Equation-driven quintic sketch with a flattened crossing at -3, a touch at 1 and y-intercept 27; no grid or origin label.",
+                "mathematics": "y=(x+3)^3(x-1)^2; zeros -3 and 1 of multiplicities 3 and 2; y-intercept 27; positive leading coefficient.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p30-h4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "For what values of $x$ is the graph above the $x$-axis?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$-3<x<1$ or $x>1$.",
+          "worked": "For $x\\ne1$, the factor $(x-1)^2$ is positive, so the sign is determined by $(x+3)^3$. Thus $y>0$ when $x>-3$, excluding the zero at $x=1$: $-3<x<1$ or $x>1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p30-h4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "For what values of $x$ is the graph below the $x$-axis?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x<-3$.",
+          "worked": "The sign diagram shows $y<0$ only to the left of the triple zero at $x=-3$. Hence $x<-3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-h4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:25.809Z",
+  "updatedAt": "2026-11-12T11:38:25.810Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p30-h4-block",
+    "sectionRole": "exercise"
+  }
+}

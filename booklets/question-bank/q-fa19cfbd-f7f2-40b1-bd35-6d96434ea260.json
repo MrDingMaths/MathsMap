@@ -1,0 +1,190 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fa19cfbd-f7f2-40b1-bd35-6d96434ea260",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "box-plots",
+    "secondarySkillIds": [
+      "represent-data-graphs",
+      "identify-outliers-iqr",
+      "skewness-from-displays"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Convert already ordered observations to two displays, omit the central value for quartiles and apply IQR fences to distinguish outliers from whisker endpoints; then interpret the upper tail. Number of observations increases workload rather than reasoning demand.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T11:55:37.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d8926e2a6dec82e74008a38fcce184fa642c185323012e92655ff825b573b5c7",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch18-20261015/direct-independent-subagent-revision10-content-20261023/response.json"
+    }
+  },
+  "content": {
+    "id": "p39-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p39-q3-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The following data are the speeds of 45 semi-trailers passing a given point on an interstate highway. The speeds are measured in km/h.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p39-q3-data",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\begin{array}{rrrrrrrrrrrr}88&90&93&94&95&96&98&100&100&100&100&100\\\\101&102&102&102&103&103&103&104&105&106&106&107\\\\109&109&110&110&110&112&113&114&116&117&118&120\\\\120&121&128&130&130&139&141&144&150\\end{array}",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p39-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Construct a dotplot of the data.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Dotplot shown.",
+          "worked": "Use a horizontal speed scale in km/h. Place one dot for each semi-trailer above its speed, stacking dots vertically for repeated speeds. There are 45 dots in total.",
+          "solutionDiagrams": [
+            {
+              "id": "p39-q3-a-dotplot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 question 3a\"}\n\\begin{tikzpicture}[x=0.21cm,y=0.42cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt] (83,0)--(153,0);\n\\foreach \\x in {85,90,...,150}{\\draw[line width=0.4pt] (\\x,0)--(\\x,-0.16);}\n\\foreach \\x/\\drop in {85/12,90/56,95/100,100/12,105/56,110/100,115/12,120/56,125/100,130/12,135/56,140/100,145/12,150/56}{\n\\draw[line width=0.25pt] (\\x,-0.16)--([yshift=-\\drop pt]\\x,0);\n\\node[anchor=north,inner sep=1pt,font=\\fontsize{8.5}{10}\\selectfont,fill=none] at ([yshift=-\\drop pt]\\x,0){\\x};\n}\n\\foreach \\x/\\n in {88/1,90/1,93/1,94/1,95/1,96/1,98/1,100/5,101/1,102/3,103/3,104/1,105/1,106/2,107/1,109/2,110/3,112/1,113/1,114/1,116/1,117/1,118/1,120/2,121/1,128/1,130/2,139/1,141/1,144/1,150/1}{\\foreach \\k in {1,...,\\n}{\\fill[black] (\\x,\\k) circle[radius=1.2pt];}}\n\\node[anchor=north,inner sep=1pt,font=\\fontsize{10}{12}\\selectfont] at ([yshift=-144pt]118,0){Speed (km/h)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 155,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 39,
+                "sourceRegion": "Question 3 data and part a; teacher PDF page 86 bottom dotplot",
+                "description": "Complete dotplot with all 45 observations; ordinary marks are black under house style.",
+                "mathematics": "Frequencies: 88:1,90:1,93:1,94:1,95:1,96:1,98:1,100:5,101:1,102:3,103:3,104:1,105:1,106:2,107:1,109:2,110:3,112:1,113:1,114:1,116:1,117:1,118:1,120:2,121:1,128:1,130:2,139:1,141:1,144:1,150:1.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p39-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Construct a boxplot of the data.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1=100$, median $=106$, $Q_3=117.5$ km/h. Whiskers end at $88$ and $141$ km/h; outliers are $144$ and $150$ km/h.",
+          "worked": "There are 45 ordered values. The median is the 23rd value, $106$ km/h. Omit this value and split the remaining data into two groups of 22.\n\n$$\\begin{align*}Q_1&=\\frac{100+100}{2}\\\\Q_1&=100\\text{ km/h}\\\\Q_3&=\\frac{117+118}{2}\\\\Q_3&=117.5\\text{ km/h}\\\\\\mathrm{IQR}&=117.5-100\\\\\\mathrm{IQR}&=17.5\\text{ km/h}\\end{align*}$$\n\n$$\\begin{align*}\\text{Lower fence}&=100-1.5(17.5)\\\\\\text{Lower fence}&=73.75\\text{ km/h}\\\\\\text{Upper fence}&=117.5+1.5(17.5)\\\\\\text{Upper fence}&=143.75\\text{ km/h}\\end{align*}$$\n\nThe values $144$ and $150$ km/h exceed the upper fence. Draw the box from $100$ to $117.5$, mark the median at $106$, and extend the whiskers to the lowest and highest non-outliers, $88$ and $141$ km/h. Mark $144$ and $150$ separately.",
+          "solutionDiagrams": [
+            {
+              "id": "p39-q3-b-boxplot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 39 question 3b\"}\n\\begin{tikzpicture}[x=0.21cm,y=0.8cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt] (83,0)--(153,0);\n\\foreach \\x in {85,90,...,150}{\\draw[line width=0.4pt] (\\x,0)--(\\x,-0.1);}\n\\foreach \\x/\\drop in {85/12,90/56,95/100,100/12,105/56,110/100,115/12,120/56,125/100,130/12,135/56,140/100,145/12,150/56}{\n\\draw[line width=0.25pt] (\\x,-0.1)--([yshift=-\\drop pt]\\x,0);\n\\node[anchor=north,inner sep=1pt,font=\\fontsize{8.5}{10}\\selectfont,fill=none] at ([yshift=-\\drop pt]\\x,0){\\x};\n}\n\\draw[line width=0.8pt] (88,1.4)--(100,1.4) (100,1)--(117.5,1)--(117.5,1.8)--(100,1.8)--cycle (106,1)--(106,1.8) (117.5,1.4)--(141,1.4);\n\\foreach \\x in {144,150}{\\fill[black] (\\x,1.54)--++(-0.38,-0.25)--++(0.76,0)--cycle;}\n\\node[anchor=north,inner sep=1pt,font=\\fontsize{10}{12}\\selectfont] at ([yshift=-144pt]118,0){Speed (km/h)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 155,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 39,
+                "sourceRegion": "Question 3 part b; teacher PDF page 86 bottom boxplot",
+                "description": "Modified boxplot with black outlines and separate triangular outlier markers. Right whisker corrected to highest non-outlier 141.",
+                "mathematics": "Q1=100, median=106, Q3=117.5; whiskers 88 and 141; outliers 144 and 150.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p39-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Comment on the shape.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Positively skewed, with a long tail towards higher speeds.",
+          "worked": "Most speeds cluster around $100$–$120$ km/h, while a few larger values extend the right-hand tail towards $150$ km/h. The distribution is positively skewed.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:40:08.070Z",
+  "updatedAt": "2026-11-12T11:40:08.071Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch18-20261015",
+    "blockId": "p39-q3",
+    "sectionRole": "exercise"
+  }
+}

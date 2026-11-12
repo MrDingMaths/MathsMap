@@ -1,0 +1,206 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4741cf4b-41a3-4c7d-bd26-7df3e885b34d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "identify-outliers-iqr",
+    "secondarySkillIds": [
+      "five-number-summary",
+      "interquartile-range",
+      "box-plots"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Uses the prompted quartiles and IQR to identify outliers, distinguish them from whisker endpoints and construct a suitably scaled boxplot; the large income values add arithmetic rather than conceptual demand.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T07:23:58.272Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "50be4c3b6989ea1d712125a1bf73934f3bad3e0e33926d0ceeaebba29c2f60e6",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch18-20261015/lean-review/calls/content-1792740203970-7/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p14-q2-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The annual incomes of 30 people, given correct to the nearest $1000, are:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p14-q2-data",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "54\\,000,\\ 67\\,000,\\ 92\\,000,\\ 78\\,000,\\ 54\\,000,\\ 87\\,000,\\ 102\\,000,\\ 112\\,000,",
+              "display": false
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "math",
+              "latex": "132\\,000,\\ 45\\,000,\\ 256\\,000,\\ 89\\,000,\\ 78\\,000,\\ 98\\,000,\\ 34\\,000,\\ 75\\,000,",
+              "display": false
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "math",
+              "latex": "65\\,000,\\ 100\\,000,\\ 34\\,000,\\ 68\\,000,\\ 79\\,000,\\ 81\\,000,\\ 82\\,000,\\ 103\\,000,",
+              "display": false
+            },
+            {
+              "type": "break"
+            },
+            {
+              "type": "math",
+              "latex": "21\\,000,\\ 345\\,000,\\ 98\\,000,\\ 67\\,000,\\ 105\\,000,\\ 98\\,000",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $Q_1$, the median and $Q_3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$Q_1=\\$67\\,000$, median $=\\$81\\,500$, $Q_3=\\$100\\,000$.",
+          "worked": "In ascending order, the incomes in thousands of dollars are:\n\n$21,34,34,45,54,54,65,67,67,68,75,78,78,79,81,82,87,89,92,98,98,98,100,102,103,105,112,132,256,345$.\n\nThere are 30 values. The median is the mean of the 15th and 16th values. Each half contains 15 values, so its median is its 8th value.\n\n$$\\begin{align*}\\text{Median}&=\\frac{81\\,000+82\\,000}{2}\\\\\\text{Median}&=\\$81\\,500\\\\Q_1&=\\$67\\,000\\\\Q_3&=\\$100\\,000\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p14-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the interquartile range.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\$33\\,000$.",
+          "worked": "$$\\begin{align*}\\text{IQR}&=Q_3-Q_1\\\\\\text{IQR}&=100\\,000-67\\,000\\\\\\text{IQR}&=\\$33\\,000\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p14-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Draw a boxplot, showing any outliers.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Outliers: $\\$256\\,000$ and $\\$345\\,000$. Whiskers end at $\\$21\\,000$ and $\\$132\\,000$.",
+          "worked": "$$\\begin{align*}1.5\\times\\text{IQR}&=1.5\\times33\\,000\\\\1.5\\times\\text{IQR}&=49\\,500\\\\\\text{Lower boundary}&=67\\,000-49\\,500\\\\\\text{Lower boundary}&=\\$17\\,500\\\\\\text{Upper boundary}&=100\\,000+49\\,500\\\\\\text{Upper boundary}&=\\$149\\,500\\end{align*}$$\n\nThe incomes $\\$256\\,000$ and $\\$345\\,000$ exceed the upper boundary; none is below the lower boundary. Draw the box from $\\$67\\,000$ to $\\$100\\,000$, with median $\\$81\\,500$. The whiskers end at the lowest and highest non-outliers, $\\$21\\,000$ and $\\$132\\,000$; mark both outliers separately.",
+          "solutionDiagrams": [
+            {
+              "id": "p14-q2-c-boxplot",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14 Exercise 18C question 2; teacher page 83\"}\n\\begin{tikzpicture}[x=0.035cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.5pt] (0,0)--(400,0);\n\\foreach \\x in {0,50,100,150,200,250,300,350,400}{\\draw[line width=0.4pt] (\\x,0)--(\\x,0.09);}\n\\foreach \\x in {0,100,200,300,400}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0){\\x};}\n\\draw[line width=0.8pt] (21,0.65)--(67,0.65) (100,0.65)--(132,0.65);\n\\draw[line width=0.8pt] (67,0.40) rectangle (100,0.90);\n\\draw[line width=0.8pt] (81.5,0.40)--(81.5,0.90);\n\\foreach \\x in {256,345}{\\draw[line width=0.8pt,fill=black] (\\x,0.71)--++(-2,-0.12)--++(4,0)--cycle;}\n\\node[below,align=center,font=\\fontsize{10}{12}\\selectfont] at (200,-1.6){Annual income\\\\(thousands of dollars)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 150,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 14,
+                "sourceRegion": "Exercise 18C question 2c",
+                "description": "Self-contained solution boxplot on a linear income scale; separate triangle markers identify the two outliers.",
+                "mathematics": {
+                  "units": "thousands of dollars",
+                  "lowerWhisker": 21,
+                  "lowerQuartile": 67,
+                  "median": 81.5,
+                  "upperQuartile": 100,
+                  "upperWhisker": 132,
+                  "outliers": [
+                    256,
+                    345
+                  ],
+                  "axisMin": 0,
+                  "axisMax": 400,
+                  "axisStep": 50
+                },
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 66
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:39:53.116Z",
+  "updatedAt": "2026-11-12T11:39:53.116Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch18-20261015",
+    "blockId": "p14-q2",
+    "sectionRole": "exercise"
+  }
+}

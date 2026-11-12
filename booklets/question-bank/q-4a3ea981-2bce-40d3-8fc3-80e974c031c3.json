@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4a3ea981-2bce-40d3-8fc3-80e974c031c3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Translate specified zeros and multiplicities into factors, use the monic condition to fix the coefficient, and combine intercepts and root behaviour to sketch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T12:19:38.727Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "62df52c5c2238d73309f58789315c0c018789403a603cd4f8d1d8579049758b9",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/lean-review/calls/content-1792585135450-19/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-h6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-h6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "A monic polynomial, $P(x)$, of degree 6 has triple zeros at $x=2$ and $x=4$. Write down the equation of the polynomial. Draw the graph of $y=P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(x)=(x-2)^3(x-4)^3$.\n\nThe graph crosses with flattening at $x=2$ and $x=4$, has $y$-intercept $512$, and rises at both ends.",
+          "worked": "The triple zeros give factors $(x-2)^3$ and $(x-4)^3$. Their degrees total 6, and the monic condition makes the leading coefficient 1.\n\n$$\\begin{align*}P(x)&=(x-2)^3(x-4)^3\\\\P(0)&=(-2)^3(-4)^3\\\\P(0)&=512\\end{align*}$$\n\nThe sign of $P(x)$ is positive for $x<2$, negative for $2<x<4$, and positive for $x>4$. Both zeros have odd multiplicity, so the graph crosses the axis with flattening at each. The leading term is $x^6$, so both ends rise. The plotted window shows the behaviour near the zeros; the $y$-intercept $(0,512)$ lies above it.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h6-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 30 Exercise 17H 6a; answer PDF page 80\"}\n\\begin{tikzpicture}[x=1cm,y=0.42cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-0.3,0)--(5.35,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1.8)--(0,7.5) node[above] {$y$};\n\\begin{scope}\n\\clip (0.1,-1.6) rectangle (5.1,7);\n\\draw[line width=0.8pt,samples=301,domain=1.2:4.8] plot (\\x,{((\\x-2)*(\\x-4))^3});\n\\end{scope}\n\\foreach \\v in {2,4}{\\fill (\\v,0) circle (1.2pt);\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\node[above] at (3,7.5) {$y=(x-2)^3(x-4)^3$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 6a",
+                "description": "Equation-driven bounded graph showing both flattened crossings and the intervening negative section. The large y-intercept is stated in the editable answer outside this local plotting window.",
+                "mathematics": "P(x)=(x-2)^3(x-4)^3; triple zeros 2 and 4; positive outside the zeros, negative between them; positive degree-six leading term; P(0)=512.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 78
+      },
+      {
+        "id": "p30-h6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A monic polynomial, $P(x)$, of degree 5 has a triple zero at $x=-3$ and a double zero at $x=1$. Write down the equation of the polynomial. Draw the graph of $y=P(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(x)=(x+3)^3(x-1)^2$.\n\nThe graph crosses with flattening at $x=-3$, touches the axis at $x=1$, passes through $(0,27)$, falls to the left and rises to the right.",
+          "worked": "The triple zero gives $(x+3)^3$ and the double zero gives $(x-1)^2$. Their degrees total 5, and the monic condition makes the leading coefficient 1.\n\n$$\\begin{align*}P(x)&=(x+3)^3(x-1)^2\\\\P(0)&=3^3(-1)^2\\\\P(0)&=27\\end{align*}$$\n\nThe sign of $P(x)$ is negative for $x<-3$ and positive for $-3<x<1$ and $x>1$. The graph crosses with flattening at the triple zero $x=-3$ and touches the axis at the double zero $x=1$. The leading term is $x^5$, so the left end falls and the right end rises.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h6-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 30 Exercise 17H 6b; answer PDF page 81\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.075cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-4.5,0)--(2.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-22)--(0,48) node[above] {$y$};\n\\begin{scope}\n\\clip (-4.4,-20) rectangle (2.3,44);\n\\draw[line width=0.8pt,samples=401,domain=-4.4:2.3] plot (\\x,{(\\x+3)^3*(\\x-1)^2});\n\\end{scope}\n\\foreach \\v in {-3,1}{\\fill (\\v,0) circle (1.2pt);\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\fill (0,27) circle (1.2pt);\n\\node[right=3pt] at (0,27) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$27$\\special{dvisvgm:raw </g>}};\n\\node[above,yshift=8mm] at (-1,49) {$y=(x+3)^3(x-1)^2$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 6b",
+                "description": "Equation-driven graph with a flattened crossing at -3, a touch at 1, and the labelled y-intercept 27.",
+                "mathematics": "P(x)=(x+3)^3(x-1)^2; triple zero -3; double zero 1; P(0)=27; negative left of -3 and positive elsewhere except at the zeros.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 78
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-h6-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:26.444Z",
+  "updatedAt": "2026-11-12T11:38:26.445Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p30-h6-block",
+    "sectionRole": "exercise"
+  }
+}

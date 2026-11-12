@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9e497e2e-a146-448d-b8f2-169c7b48674a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-trig-functions",
+    "secondarySkillIds": [
+      "transform-trig-functions"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Determine quarter-cycle points and periods for three explicitly specified sine functions, then coordinate their sketches on shared axes with excluded endpoints.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T18:35:51.651Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fb6d36feb9036aaaebb8c546c07629dee4b7fe29f6588760b8263c1ba9efbbb6",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch19-20261015/lean-review/calls/content-1792607734437-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-challenge-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "On the same set of axes, sketch the graphs of $y=\\sin\\theta$, $y=\\sin 2\\theta$ and $y=\\sin 3\\theta$ for $0^\\circ<\\theta<360^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "The three curves have amplitude $1$ and periods $360^\\circ$, $180^\\circ$ and $120^\\circ$, respectively.\n\nUse the sine curve's key points and repeat each curve at its period, as shown.",
+      "worked": "For $y=\\sin\\theta$, plot the maximum $(90^\\circ,1)$, zero $(180^\\circ,0)$ and minimum $(270^\\circ,-1)$.\n\nFor $y=\\sin 2\\theta$, plot maxima at $45^\\circ,225^\\circ$, minima at $135^\\circ,315^\\circ$, and zeros at $90^\\circ,180^\\circ,270^\\circ$.\n\nFor $y=\\sin 3\\theta$, plot maxima at $30^\\circ,150^\\circ,270^\\circ$, minima at $90^\\circ,210^\\circ,330^\\circ$, and zeros at $60^\\circ,120^\\circ,180^\\circ,240^\\circ,300^\\circ$.\n\nJoin each set of points with a smooth sine curve on the same axes. All three approach $0$ at both ends; $0^\\circ$ and $360^\\circ$ are excluded.",
+      "solutionDiagrams": [
+        {
+          "id": "p23-challenge-q3-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"sineOne\",\"hex\":\"268CFF\",\"reason\":\"sine theta series\"},{\"name\":\"sineTwo\",\"hex\":\"EF6068\",\"reason\":\"sine two theta series\"},{\"name\":\"sineThree\",\"hex\":\"4F9B63\",\"reason\":\"sine three theta series\"}],\"reference\":\"source page 23 Challenge 3; teacher page 89\"}\n\\begin{tikzpicture}[x=0.035cm,y=1.8cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{sineOne}{HTML}{268CFF}\n\\definecolor{sineTwo}{HTML}{EF6068}\n\\definecolor{sineThree}{HTML}{4F9B63}\n\\draw[->,black,line width=0.5pt] (-10,0)--(385,0) node[right] {$\\theta$};\n\\draw[->,black,line width=0.5pt] (0,-1.35)--(0,1.45) node[above] {$y$};\n\\foreach \\a in {30,60,90,120,150,180,210,240,270,300,330,360} {\\draw[black,line width=0.4pt] (\\a,0.035)--(\\a,-0.035);}\n\\draw[black,line width=0.4pt] (45,0)--(45,0.07);\n\\foreach \\b in {-1,1} {\\draw[black,line width=0.4pt] (-3,\\b)--(3,\\b);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-3,\\b) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\b$\\special{dvisvgm:raw </g>}};}\n\\node[left=5pt,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$0^\\circ$\\special{dvisvgm:raw </g>}};\n\\draw[sineOne,line width=0.8pt] plot[domain=0:360,samples=241] (\\x,{sin(\\x)});\n\\draw[sineTwo,dashed,line width=0.8pt] plot[domain=0:360,samples=361] (\\x,{sin(2*\\x)});\n\\draw[sineThree,dash dot,line width=0.8pt] plot[domain=0:360,samples=541] (\\x,{sin(3*\\x)});\n\\foreach \\a in {30,60,90,120,150,180,210,240,270,300,330,360} {\\node[anchor=north east,rotate=60,inner sep=1pt,font=\\fontsize{8.5}{10}\\selectfont] at (\\a,-1.55) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a^\\circ$\\special{dvisvgm:raw </g>}};}\n\\node[above,inner sep=1pt,font=\\fontsize{8.5}{10}\\selectfont] at (45,0.10) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$45^\\circ$\\special{dvisvgm:raw </g>}};\n\\draw[black,fill=white,line width=0.4pt] (0,0) circle[radius=1.5pt];\n\\draw[black,fill=white,line width=0.4pt] (360,0) circle[radius=1.5pt];\n\\draw[sineOne,line width=0.8pt] (100,4.4)--(125,4.4);\n\\node[right] at (140,4.4) {$y=\\sin\\theta$};\n\\draw[sineTwo,dashed,line width=0.8pt] (100,3.5)--(125,3.5);\n\\node[right] at (140,3.5) {$y=\\sin 2\\theta$};\n\\draw[sineThree,dash dot,line width=0.8pt] (100,2.6)--(125,2.6);\n\\node[right] at (140,2.6) {$y=\\sin 3\\theta$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 155,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 23,
+            "sourceRegion": "Challenge exercise question 3; corroborating solution on teacher PDF page 89",
+            "description": "Three equation-driven sine curves on shared axes, distinguished by standard palette colours and line patterns. Open endpoints preserve the strict domain. No grid is supplied in the source.",
+            "mathematics": "Amplitude 1 throughout; periods 360, 180 and 120 degrees; curves sin(theta), sin(2theta), sin(3theta) on the open interval (0,360).",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 90
+  },
+  "presentation": {
+    "ownerId": "p23-challenge-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:25:03.769Z",
+  "updatedAt": "2026-11-12T11:25:03.769Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch19-20261015",
+    "blockId": "p23-challenge-q3",
+    "sectionRole": "exercise"
+  }
+}

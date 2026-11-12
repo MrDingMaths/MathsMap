@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8d5799ba-f10a-45d7-943c-1a0431adf4b4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "polynomial-roots-multiplicity",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Link the taught multiplicity rules, interval signs and leading-term behaviour to construct sign diagrams and sketches, distinguishing flattened crossings from touches.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T13:37:28.828Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c438737d48ec0ba75e8093c600118cbcd58c3dc70c65667d47f06bda80f7f53d",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/lean-review/calls/content-1792589808892-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p30-h2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Identify the zeros of each polynomial. Draw sign diagrams and sketch the curves.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p30-h2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=(x-4)^2(x+4)^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=-4,4$ (both double).\n\n$\\begin{array}{c|ccccc}x&x<-4&-4&-4<x<4&4&x>4\\\\\\hline\\text{Sign of }y&+&0&+&0&+\\end{array}$\n\nThe curve touches the axis at both zeros; both ends rise. The $y$-intercept is $256$.",
+          "worked": "Setting each factor equal to zero gives $x=4$ or $x=-4$. Both factors are squared, so the polynomial is positive except at its zeros.\n\n$\\begin{array}{c|ccccc}x&x<-4&-4&-4<x<4&4&x>4\\\\\\hline\\text{Sign of }y&+&0&+&0&+\\end{array}$\n\n$y(0)=(-4)^2(4)^2=256$.\n\nBoth zeros have even multiplicity, so the curve touches the $x$-axis at each. Its leading term is $x^4$, so both ends rise.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h2-a-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 2a\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.004cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-6.5,0)--(6.7,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-60)--(0,470) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-6:6,samples=241] plot (\\x,{(\\x-4)^2*(\\x+4)^2});\n\\fill (-4,0) circle[radius=1.2pt] node[below] {$-4$};\n\\fill (4,0) circle[radius=1.2pt] node[below] {$4$};\n\\fill (0,256) circle[radius=1.2pt] node[above left=5pt] {$256$};\n\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 2a",
+                "description": "Equation-driven sketch with double zeros at -4 and 4 and y-intercept 256; no numerical vertical scale implied.",
+                "mathematics": "y=(x-4)^2(x+4)^2",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p30-h2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=(x-4)^3(x+1)^3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=-1,4$ (both triple).\n\n$\\begin{array}{c|ccccc}x&x<-1&-1&-1<x<4&4&x>4\\\\\\hline\\text{Sign of }y&+&0&-&0&+\\end{array}$\n\nThe curve crosses with flattening at both zeros; both ends rise. The $y$-intercept is $-64$.",
+          "worked": "The factors give zeros $x=4$ and $x=-1$, each of multiplicity $3$. For $x<-1$, both cubed factors are negative; between the zeros their signs differ; for $x>4$, both are positive.\n\n$\\begin{array}{c|ccccc}x&x<-1&-1&-1<x<4&4&x>4\\\\\\hline\\text{Sign of }y&+&0&-&0&+\\end{array}$\n\n$y(0)=(-4)^3(1)^3=-64$.\n\nThe sign changes at each triple zero, so the curve crosses and is flat near each zero. Its leading term is $x^6$, so both ends rise.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h2-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 2b\"}\n\\begin{tikzpicture}[x=0.7cm,y=0.008cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2.4,0)--(5.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-275)--(0,260) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-2:5,samples=281] plot (\\x,{(\\x-4)^3*(\\x+1)^3});\n\\fill (-1,0) circle[radius=1.2pt] node[above left=4pt] {$-1$};\n\\fill (4,0) circle[radius=1.2pt] node[below] {$4$};\n\\fill (0,-64) circle[radius=1.2pt] node[right=6pt] {$-64$};\n\\node[above right] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 2b",
+                "description": "Equation-driven sketch crossing flatly at -1 and 4, with y-intercept -64 and both tails rising.",
+                "mathematics": "y=(x-4)^3(x+1)^3",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 82
+      },
+      {
+        "id": "p30-h2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=x^3(x-4)^4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=0$ (triple), $x=4$ (multiplicity $4$).\n\n$\\begin{array}{c|ccccc}x&x<0&0&0<x<4&4&x>4\\\\\\hline\\text{Sign of }y&-&0&+&0&+\\end{array}$\n\nThe curve crosses flatly at $0$ and touches at $4$. Its left end falls and its right end rises.",
+          "worked": "The factors give $x=0$ with multiplicity $3$ and $x=4$ with multiplicity $4$. Away from $4$, $(x-4)^4$ is positive, so the sign is determined by $x^3$.\n\n$\\begin{array}{c|ccccc}x&x<0&0&0<x<4&4&x>4\\\\\\hline\\text{Sign of }y&-&0&+&0&+\\end{array}$\n\nThe sign changes at $0$, giving a flattened crossing. It does not change at $4$, giving a flattened touch. The $y$-intercept is $0$. The leading term is $x^7$, so the left end falls and the right end rises.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h2-c-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 2c\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.009cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.2,0)--(5.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-230)--(0,260) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-0.75:5.15,samples=301] plot (\\x,{\\x^3*(\\x-4)^4});\n\\fill (0,0) circle[radius=1.2pt];\n\\fill (4,0) circle[radius=1.2pt] node[below] {$4$};\n\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 2c",
+                "description": "Equation-driven sketch with flattened crossing at zero, local positive hump and fourth-order contact at four.",
+                "mathematics": "y=x^3(x-4)^4",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 82
+      },
+      {
+        "id": "p30-h2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=x^4(x+2)^4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=-2,0$ (both multiplicity $4$).\n\n$\\begin{array}{c|ccccc}x&x<-2&-2&-2<x<0&0&x>0\\\\\\hline\\text{Sign of }y&+&0&+&0&+\\end{array}$\n\nThe curve touches flatly at both zeros; both ends rise.",
+          "worked": "The factors give zeros $x=0$ and $x=-2$, each of multiplicity $4$. Both fourth powers are positive away from their zeros, so their product is positive there.\n\n$\\begin{array}{c|ccccc}x&x<-2&-2&-2<x<0&0&x>0\\\\\\hline\\text{Sign of }y&+&0&+&0&+\\end{array}$\n\nThere is no sign change at either zero, so the graph touches the axis and is flat near both. The $y$-intercept is $0$. The leading term is $x^8$, so both ends rise.",
+          "solutionDiagrams": [
+            {
+              "id": "p30-h2-d-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 30 question 2d\"}\n\\begin{tikzpicture}[x=1.65cm,y=0.8cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2.85,0)--(0.85,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.35)--(0,2.95) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-2.5:0.5,samples=301] plot (\\x,{\\x*\\x*\\x*\\x*(\\x+2)*(\\x+2)*(\\x+2)*(\\x+2)});\n\\fill (-2,0) circle[radius=1.2pt] node[below] {$-2$};\n\\fill (0,0) circle[radius=1.2pt];\n\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 68,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 30,
+                "sourceRegion": "Exercise 17H question 2d",
+                "description": "Equation-driven nonnegative sketch with fourth-order contacts at -2 and zero and a positive hump between them.",
+                "mathematics": "y=x^4(x+2)^4",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 76
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p30-h2-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:25.077Z",
+  "updatedAt": "2026-11-12T11:38:25.077Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p30-h2-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c358d335-c0f3-4d0f-865d-463b23a760bf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-polynomials-factored",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Find zeros, determine signs between successive zeros and combine intercepts with end behaviour to sketch quadratic and cubic curves.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T13:23:56.805Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cd8df7db0c02e02b92f0e48b4df12c57aaa0a8aa8b056ba5d8fbf3a62ae91141",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch17-20261015/lean-review/calls/content-1792589011125-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Identify the zeros of each polynomial. Draw sign diagrams and sketch the curves.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=(x-2)(x-4)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=2,4$. Signs from left to right: $+,0,-,0,+$. The upward-opening parabola passes through $(0,8)$ and crosses the $x$-axis at both zeros.",
+          "worked": "Setting each factor equal to zero gives $x=2$ or $x=4$.\n\nTest one point in each interval:\n$$\\begin{align*}y(0)&=(-2)(-4)=8>0\\\\y(3)&=(1)(-1)=-1<0\\\\y(5)&=(3)(1)=3>0.\\end{align*}$$\nThe sign diagram is positive for $x<2$, negative for $2<x<4$ and positive for $x>4$, with zero at both boundaries. The $y$-intercept is $(0,8)$. Draw a smooth upward-opening parabola crossing at $(2,0)$ and $(4,0)$.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q1-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q1-a-solution\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.35cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (-1,13)--(6,13) (0.5,11.5)--(0.5,15);\n\\node[left] at (0.5,14) {Sign of $y$};\\node[left] at (0.5,12) {$x$ values};\n\\foreach \\x/\\v in {2/2,4/4}{\\fill (\\x,13) circle (1.2pt);\\node at (\\x,14) {$0$};\\node at (\\x,12) {$\\v$};}\n\\node at (1,14) {$+$};\\node at (3,14) {$-$};\\node at (5,14) {$+$};\n\\draw[->,line width=0.5pt] (-0.7,0)--(5.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2)--(0,10) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-0.2:5.5,samples=100] plot (\\x,{(\\x-2)*(\\x-4)});\n\\foreach \\x in {2,4}{\\fill (\\x,0) circle (1.2pt);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {$\\x$};}\n\\fill (0,8) circle (1.2pt);\\node[left] at (0,8) {$8$};\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 1(a), student-produced response",
+                "description": "Complete sign diagram and equation-derived parabola, with both zeros and the y-intercept labelled.",
+                "mathematics": "Zeros 2 and 4; signs +,-,+; y-intercept 8; vertex (3,-1).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p28-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=x(x-2)(x-4)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=0,2,4$. Signs from left to right: $-,0,+,0,-,0,+$. The cubic crosses at every zero, descending to the left and rising to the right.",
+          "worked": "Setting each factor equal to zero gives $x=0,2,4$.\n\nTest one point in each interval:\n$$\\begin{align*}y(-1)&=(-1)(-3)(-5)=-15<0\\\\y(1)&=(1)(-1)(-3)=3>0\\\\y(3)&=(3)(1)(-1)=-3<0\\\\y(5)&=(5)(3)(1)=15>0.\\end{align*}$$\nThe signs alternate $-,+,-,+$. The graph crosses the $x$-axis at all three zeros and passes through the origin. Its leading term is $x^3$, so the left end descends and the right end rises. Join the intercepts with a smooth cubic consistent with the sign diagram.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q1-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q1-b-solution\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.55cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (-2.6,7)--(5.5,7) (-1.3,6.2)--(-1.3,8.2);\n\\node[left] at (-1.3,7.8) {Sign of $y$};\\node[left] at (-1.3,6.4) {$x$ values};\n\\foreach \\x in {0,2,4}{\\fill (\\x,7) circle (1.2pt);\\node at (\\x,7.8) {$0$};\\node at (\\x,6.4) {$\\x$};}\n\\foreach \\x/\\s in {-0.7/-,1/+,3/-,4.8/+}{\\node at (\\x,7.8) {$\\s$};}\n\\draw[->,line width=0.5pt] (-1,0)--(5.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-5)--(0,5) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-0.45:4.45,samples=120] plot (\\x,{\\x*(\\x-2)*(\\x-4)});\n\\foreach \\x in {0,2,4}{\\fill (\\x,0) circle (1.2pt);}\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (2,0) {$2$};\n\\node[below right=3pt,font=\\fontsize{8.5}{10}\\selectfont] at (4,0) {$4$};\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 1(b), student-produced response",
+                "description": "Complete sign diagram and equation-derived cubic crossing all three marked zeros.",
+                "mathematics": "Zeros 0,2,4; signs -,+,-,+; positive cubic leading coefficient.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 108
+      },
+      {
+        "id": "p28-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=(x+3)(x-1)(x-3)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=-3,1,3$. Signs from left to right: $-,0,+,0,-,0,+$. The cubic crosses at every zero and passes through $(0,9)$.",
+          "worked": "Setting each factor equal to zero gives $x=-3,1,3$.\n\nTest one point in each interval:\n$$\\begin{align*}y(-4)&=(-1)(-5)(-7)=-35<0\\\\y(0)&=(3)(-1)(-3)=9>0\\\\y(2)&=(5)(1)(-1)=-5<0\\\\y(4)&=(7)(3)(1)=21>0.\\end{align*}$$\nThe signs alternate $-,+,-,+$. Plot the three zeros and the $y$-intercept $(0,9)$. The leading term is $x^3$, so the left end descends and the right end rises. Draw a smooth cubic crossing at each zero and lying on the side of the axis indicated by the sign diagram.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q1-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q1-c-solution\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.23cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (-7,24)--(4.5,24) (-4.7,21)--(-4.7,28);\n\\node[left] at (-4.7,26.5) {Sign of $y$};\\node[left] at (-4.7,21.5) {$x$ values};\n\\foreach \\x in {-3,1,3}{\\fill (\\x,24) circle (1.2pt);\\node at (\\x,26.5) {$0$};\\node at (\\x,21.5) {$\\x$};}\n\\foreach \\x/\\s in {-3.8/-,-1/+,2/-,3.8/+}{\\node at (\\x,26.5) {$\\s$};}\n\\draw[->,line width=0.5pt] (-4.2,0)--(4.4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-12)--(0,19) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-3.35:3.65,samples=150] plot (\\x,{(\\x+3)*(\\x-1)*(\\x-3)});\n\\foreach \\x in {-3,1,3}{\\fill (\\x,0) circle (1.2pt);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {$\\x$};}\n\\fill (0,9) circle (1.2pt);\\node[right] at (0,9) {$9$};\\node[below left] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 1(c), student-produced response",
+                "description": "Complete sign diagram and equation-derived cubic, with three zeros and y-intercept labelled.",
+                "mathematics": "Zeros -3,1,3; signs -,+,-,+; y-intercept 9.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 108
+      },
+      {
+        "id": "p28-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=(x+2)(x+1)(x-3)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Zeros: $x=-2,-1,3$. Signs from left to right: $-,0,+,0,-,0,+$. The cubic crosses at every zero and passes through $(0,-6)$.",
+          "worked": "Setting each factor equal to zero gives $x=-2,-1,3$.\n\nTest one point in each interval:\n$$\\begin{align*}y(-3)&=(-1)(-2)(-6)=-12<0\\\\y\\left(-\\frac32\\right)&=\\left(\\frac12\\right)\\left(-\\frac12\\right)\\left(-\\frac92\\right)=\\frac98>0\\\\y(0)&=(2)(1)(-3)=-6<0\\\\y(4)&=(6)(5)(1)=30>0.\\end{align*}$$\nThe signs alternate $-,+,-,+$. Plot the three zeros and the $y$-intercept $(0,-6)$. The leading term is $x^3$, so the left end descends and the right end rises. Draw a smooth cubic crossing at each zero and lying on the side of the axis indicated by the sign diagram.",
+          "solutionDiagrams": [
+            {
+              "id": "p28-q1-d-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q1-d-solution\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.35cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.4pt] (-6,13)--(4.5,13) (-3.6,11)--(-3.6,16);\n\\node[left] at (-3.6,15) {Sign of $y$};\\node[left] at (-3.6,11.5) {$x$ values};\n\\foreach \\pos/\\value in {-2/-2,0/-1,3/3}{\\fill (\\pos,13) circle (1.2pt);\\node at (\\pos,15) {$0$};\\node at (\\pos,11.5) {$\\value$};}\n\\foreach \\x/\\s in {-2.8/-,-1/+,1.5/-,3.8/+}{\\node at (\\x,15) {$\\s$};}\n\\draw[->,line width=0.5pt] (-3,0)--(4.2,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-10)--(0,9) node[above] {$y$};\n\\draw[line width=0.8pt,domain=-2.65:3.3,samples=150] plot (\\x,{(\\x+2)*(\\x+1)*(\\x-3)});\n\\foreach \\x in {-2,-1,3}{\\fill (\\x,0) circle (1.2pt);}\n\\node[above left,font=\\fontsize{8.5}{10}\\selectfont] at (-2,0) {$-2$};\n\\node[below left=3pt,font=\\fontsize{8.5}{10}\\selectfont] at (-1,0) {$-1$};\n\\node[below right=3pt,font=\\fontsize{8.5}{10}\\selectfont] at (3,0) {$3$};\n\\fill (0,-6) circle (1.2pt);\\node[left] at (0,-6) {$-6$};\\node[below right] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 28,
+                "sourceRegion": "Question 1(d), student-produced response",
+                "description": "Complete sign diagram and equation-derived cubic, with three zeros and y-intercept labelled.",
+                "mathematics": "Zeros -2,-1,3; signs -,+,-,+; y-intercept -6.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 108
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:38:21.698Z",
+  "updatedAt": "2026-11-12T11:38:21.698Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch17-20261015",
+    "blockId": "p28-q1",
+    "sectionRole": "exercise"
+  }
+}

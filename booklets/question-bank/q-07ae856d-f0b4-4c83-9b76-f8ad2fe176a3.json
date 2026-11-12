@@ -1,0 +1,180 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-07ae856d-f0b4-4c83-9b76-f8ad2fe176a3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpolation-extrapolation",
+    "secondarySkillIds": [
+      "line-of-best-fit"
+    ],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Translate the next financial year to Year11, draw and extend a reasonable trend line, read and round monetary units and distinguish extrapolation from interpolation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T11:55:37.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3a09edeeb08a37fa78c5c1638a37c6270682c4f674f465c70a84d2023c21b13c",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch18-20261015/direct-independent-subagent-revision10-content-20261023/response.json",
+      "originalTaskHash": "62a4db3d1a9567857b1dde9923e691efa635a23d0e5378b5a417489b8582a92c",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "65a18d5dc6ce148a291b5185c6ac69d1a1d5d895d01320f0cde6370dac450f43"
+      }
+    }
+  },
+  "content": {
+    "id": "p38-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p38-q7-context",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the time series below, showing a company’s profit for consecutive financial years over a 10 year period. ‘Year 1’ marks the financial year 1988–1989, ‘Year 2’ marks the financial year 1989–1990, and so on. ‘Year 10’ marks the financial year 1997–1998.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p38-q7-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Create a line of best fit on the time series and use it to predict the company’s profits, to the nearest $100 000, in the financial year 1998–1999.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p38-q7-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "(Predicting future values in a time series based on previously observed values is called ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "forecasting",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#ef6068"
+            },
+            {
+              "type": "text",
+              "text": ".) Is your answer an example of interpolation or extrapolation?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p38-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"time-series connecting segments\"},{\"name\":\"pointsRed\",\"hex\":\"EF6068\",\"reason\":\"observed yearly profits\"}],\"reference\":\"source page 38 p38-q7-diagram\"}\n\\begin{tikzpicture}[x=0.7cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{pointsRed}{HTML}{EF6068}\n\\path[use as bounding box] (-2,-1.1) rectangle (12.4,4.8);\n\\foreach \\y in {0.5,1,...,4.5}{\\draw[black,line width=0.25pt] (0,\\y)--(12,\\y);}\n\\draw[black,line width=0.5pt] (0,0) rectangle (12,4.5);\n\\foreach \\x in {2,4,6,8,10,12}{\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\foreach \\y/\\rail in {0/-2.25,0.5/-1.25,1/-0.25,1.5/0.75,2/1.75,2.5/2.75,3/3.75,3.5/4.75,4/5.75,4.5/6.75}{\\draw[black,line width=0.25pt] (0,\\y)--(-0.3,\\y)--(-1.4,\\rail);\\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-1.5,\\rail) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\node[anchor=north,yshift=-28pt,font=\\fontsize{10}{12}\\selectfont] at (6,0) {Year number};\n\\node[rotate=90,font=\\fontsize{10}{12}\\selectfont] at (-4,2.25) {\\shortstack{Profit\\\\(\\$ million)}};\n\\draw[seriesBlue,line width=0.8pt] plot coordinates {(1,1.2) (2,1.8) (3,2.4) (4,2.25) (5,2.55) (6,3.05) (7,3.2) (8,3.5) (9,3.65) (10,4)};\n\\foreach \\x/\\y in {1/1.2,2/1.8,3/2.4,4/2.25,5/2.55,6/3.05,7/3.2,8/3.5,9/3.65,10/4}{\\fill[pointsRed] (\\x,\\y) circle[radius=1.5pt];}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 38,
+          "sourceRegion": "Question 7 time-series graph",
+          "description": "Ten observed profits joined consecutively; horizontal gridlines every 0.5 million, no vertical gridlines, and plotting space through Year 12. Coordinates reconstruct graphical positions and are not exact numerical givens.",
+          "mathematics": "Year numbers 1–10; horizontal extent 0–12; profit scale 0–4.5 million. Approximate observed heights are 1.2, 1.8, 2.4, 2.25, 2.55, 3.05, 3.2, 3.5, 3.65 and 4 million.",
+          "answerVisibility": "Only the supplied time series is visible; the trend line and forecast guides are solution-only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Approximately $\\$4\\,300\\,000$; extrapolation.\n\nExtend a suitable line of best fit to Year 11, beyond the observed Years 1–10.",
+      "worked": "Draw an increasing straight line through the middle of the plotted points, with roughly equal numbers above and below. Extend it to Year 11, which represents 1998–1999. A suitable line gives a profit of about $4.3$ million, so the forecast to the nearest $\\$100\\,000$ is $\\$4\\,300\\,000$.\n\nThis is extrapolation because Year 11 lies beyond the observed Years 1–10. Reasonable lines drawn by eye may give slightly different forecasts.",
+      "solutionDiagrams": [
+        {
+          "id": "p38-q7-solution-overlay",
+          "role": "solution-overlay",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fitPurple\",\"hex\":\"8B5CC7\",\"reason\":\"authored line of best fit and forecast marker\"}],\"reference\":\"source page 38 p38-q7 solution overlay\"}\n\\begin{tikzpicture}[x=0.7cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fitPurple}{HTML}{8B5CC7}\n\\path[use as bounding box] (-2,-1.1) rectangle (12.4,4.8);\n\\draw[fitPurple,line width=0.8pt] (0,1)--(11.5,4.45);\n\\draw[black,dashed,line width=0.4pt] (11,0)--(11,4.3)--(0,4.3);\n\\fill[fitPurple] (11,4.3) circle[radius=1.8pt];\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 110,
+          "alt": "Mathematical diagram",
+          "overlayOf": "p38-q7-diagram",
+          "transparent": true,
+          "axes": null,
+          "spec": {
+            "sourcePage": 38,
+            "sourceRegion": "Question 7 time-series graph",
+            "description": "Solution-only straight trend line and dashed reading guides, using exactly the question graph's coordinate units and bounding box.",
+            "mathematics": "One suitable illustrative fit is y=0.3x+1, with y measured in millions; at x=11 it gives y=4.3. The equation is not required student working.",
+            "answerVisibility": "Solution-only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 22
+  },
+  "presentation": {
+    "ownerId": "p38-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:40:06.951Z",
+  "updatedAt": "2026-11-12T11:40:06.951Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch18-20261015",
+    "blockId": "p38-q7",
+    "sectionRole": "exercise"
+  }
+}

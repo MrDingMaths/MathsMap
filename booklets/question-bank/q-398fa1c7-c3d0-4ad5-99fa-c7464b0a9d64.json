@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-398fa1c7-c3d0-4ad5-99fa-c7464b0a9d64",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-reciprocal-trig",
+    "secondarySkillIds": [
+      "graph-trig-functions",
+      "reciprocal-identities"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Constructs a reciprocal graph from cosine, identifying excluded angles, asymptotes and corresponding branches.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T12:12:31.769Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "47cacd9bc482251ab2977987eba62f884f691b3ef1ab9a6a1fc124560f786099",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch19-20261015/lean-review/calls/content-1792584713195-20/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "On the same set of axes, sketch the graphs of $y=\\cos\\theta$ and $y=\\sec\\theta$ for $0^\\circ\\le\\theta\\le360^\\circ$. The exclusions $\\theta\\ne90^\\circ,270^\\circ$ apply to $y=\\sec\\theta$ only.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "The graphs meet at $(0^\\circ,1)$, $(180^\\circ,-1)$ and $(360^\\circ,1)$. The secant graph has vertical asymptotes at $\\theta=90^\\circ$ and $\\theta=270^\\circ$.\n\nSketch cosine first, then take reciprocal ordinates to sketch secant. The cosine graph retains its zeros at $90^\\circ$ and $270^\\circ$; secant is undefined there.",
+      "worked": "Sketch the cosine curve through $(0^\\circ,1)$, $(90^\\circ,0)$, $(180^\\circ,-1)$, $(270^\\circ,0)$ and $(360^\\circ,1)$.\n\nUse $\\sec\\theta=\\dfrac{1}{\\cos\\theta}$. Where cosine is zero, secant is undefined, giving vertical asymptotes at $\\theta=90^\\circ$ and $\\theta=270^\\circ$.\n\nThe positive secant branches start at $(0^\\circ,1)$ and end at $(360^\\circ,1)$, respectively, tending to $+\\infty$ beside the asymptotes. Between the asymptotes, the negative branch reaches its maximum at $(180^\\circ,-1)$ and tends to $-\\infty$ at both ends.",
+      "solutionDiagrams": [
+        {
+          "id": "p24-q5-solution-graph",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"cosineBlue\",\"hex\":\"268CFF\",\"reason\":\"cosine series and matching legend\"},{\"name\":\"secantPurple\",\"hex\":\"8B5CC7\",\"reason\":\"secant series and matching legend\"}],\"reference\":\"source page 24 question 5; teacher page 89\"}\n\\begin{tikzpicture}[x=0.021cm,y=0.85cm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cosineBlue}{HTML}{268CFF}\n\\definecolor{secantPurple}{HTML}{8B5CC7}\n\\draw[->,line width=0.5pt] (-12,0)--(390,0) node[right] {$\\theta$};\n\\draw[->,line width=0.5pt] (0,-3.1)--(0,3.2) node[above] {$y$};\n\\foreach \\a in {0,90,180,270,360}{\\draw[line width=0.4pt] (\\a,0.06)--(\\a,-0.06);\\node[below,fill=white,inner sep=1pt] at (\\a,-0.09) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\a^\\circ$\\special{dvisvgm:raw </g>}};}\n\\foreach \\b in {-1,1}{\\draw[line width=0.4pt] (-3,\\b)--(3,\\b);\\node[left=8pt] at (-3,\\b) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\b$\\special{dvisvgm:raw </g>}};}\n\\draw[dashed,line width=0.4pt] (90,-3)--(90,3);\n\\draw[dashed,line width=0.4pt] (270,-3)--(270,3);\n\\begin{scope}\n\\clip (0,-3) rectangle (360,3);\n\\draw[cosineBlue,line width=0.8pt,domain=0:360,samples=181] plot (\\x,{cos(\\x)});\n\\draw[secantPurple,line width=0.8pt,domain=0:89,samples=120] plot (\\x,{1/cos(\\x)});\n\\draw[secantPurple,line width=0.8pt,domain=91:269,samples=200] plot (\\x,{1/cos(\\x)});\n\\draw[secantPurple,line width=0.8pt,domain=271:360,samples=120] plot (\\x,{1/cos(\\x)});\n\\end{scope}\n\\draw[cosineBlue,line width=0.8pt] (130,4.5)--(155,4.5) node[right,text=black] {$y=\\cos\\theta$};\n\\draw[secantPurple,line width=0.8pt] (130,3.6)--(155,3.6) node[right,text=black] {$y=\\sec\\theta$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 110,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 24,
+            "sourceRegion": "Challenge exercise question 5; answer graph on teacher PDF page 89",
+            "description": "A complete shared-axis cosine and secant graph. Dashed vertical asymptotes occur at 90 and 270 degrees. Standard accents distinguish the two series; original answer evidence uses grey curves.",
+            "mathematics": "Cosine is continuous on [0,360]. Secant equals 1/cos(theta), has positive outer branches and a negative middle branch, and is undefined at 90 and 270 degrees. Both curves pass through (0,1), (180,-1) and (360,1).",
+            "answerVisibility": "Solution only; no axes or curves are supplied in the student prompt."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 90
+  },
+  "presentation": {
+    "ownerId": "p24-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:25:04.053Z",
+  "updatedAt": "2026-11-12T11:25:04.053Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch19-20261015",
+    "blockId": "p24-q5",
+    "sectionRole": "exercise"
+  }
+}

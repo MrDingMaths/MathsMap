@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c0a0b9fe-4411-41a1-806e-c8c460373939",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-semicircles",
+    "secondarySkillIds": [
+      "graph-function-transformations",
+      "reflect-function-graphs"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise a semicircle and compare its translation and reflection on shared axes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-17T22:33:09.466Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dd8c5d37c26ad85b54809544fe390830c59fa84c7644c8bc4be70a555135ada9",
+      "evidence": ".booklet-work/full-imports/iceem-10-ch20-20261015/semantic-packets/assignments/assignment-eefd9f2aa9b0ed6f8628/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p18-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Let $f(x)=\\sqrt{25-x^2}$.\n\nSketch the graphs of $y=f(x)$, $y=f(x)+5$ and $y=-f(x)$ on the one set of axes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$y=f(x)$: upper semicircle, centre $(0,0)$, radius $5$.\n\n$y=f(x)+5$: upper semicircle, centre $(0,5)$, radius $5$.\n\n$y=-f(x)$: lower semicircle, centre $(0,0)$, radius $5$.",
+      "worked": "$y=\\sqrt{25-x^2}$ is the upper half of $x^2+y^2=25$, with endpoints $(-5,0)$ and $(5,0)$ and highest point $(0,5)$.\n\nTranslate this curve up $5$ units for $y=f(x)+5$: the endpoints become $(-5,5)$ and $(5,5)$ and the highest point is $(0,10)$.\n\nReflect the original curve in the $x$-axis for $y=-f(x)$: the endpoints remain fixed and the lowest point is $(0,-5)$.",
+      "solutionDiagrams": [
+        {
+          "id": "p18-q5-sol",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"original semicircle\"},{\"name\":\"seriesRed\",\"hex\":\"EF6068\",\"reason\":\"translated semicircle\"},{\"name\":\"seriesGreen\",\"hex\":\"4F9B63\",\"reason\":\"reflected semicircle\"}],\"reference\":\"p18 5\"}\n\\begin{tikzpicture}[x=4mm,y=4mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\\definecolor{seriesRed}{HTML}{EF6068}\\definecolor{seriesGreen}{HTML}{4F9B63}\n\\draw[->,line width=.5pt] (-6.5,0)--(7,0) node[right] {$x$};\\draw[->,line width=.5pt] (0,-6)--(0,11.5) node[above] {$y$};\n\\draw[seriesBlue,line width=.8pt,domain=0:180,samples=100,variable=\\t] plot ({5*cos(\\t)},{5*sin(\\t)});\n\\draw[seriesRed,dashed,line width=.8pt,domain=0:180,samples=100,variable=\\t] plot ({5*cos(\\t)},{5+5*sin(\\t)});\n\\draw[seriesGreen,dash dot,line width=.8pt,domain=180:360,samples=100,variable=\\t] plot ({5*cos(\\t)},{5*sin(\\t)});\n\\fill (-5,0) circle (1pt) node[below left] {$(-5,0)$};\\fill (5,0) circle (1pt) node[below right] {$(5,0)$};\\fill (-5,5) circle (1pt) node[left] {$(-5,5)$};\\fill (5,5) circle (1pt) node[right] {$(5,5)$};\n\\node[above right] at (0,10) {$(0,10)$};\\node[below right] at (0,-5) {$(0,-5)$};\n\\node[seriesBlue,right] at (4,3.2) {$y=f(x)$};\\node[seriesRed,right] at (3.5,9) {$y=f(x)+5$};\\node[seriesGreen,right] at (4,-3.5) {$y=-f(x)$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 110,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 18,
+            "sourceRegion": "Exercise 20D 5",
+            "description": "Three labelled semicircles on one set of axes, equal coordinate scale and included endpoints.",
+            "mathematics": "sqrt(25-x^2), sqrt(25-x^2)+5, -sqrt(25-x^2), -5<=x<=5",
+            "answerVisibility": "solution only"
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 95
+  },
+  "presentation": {
+    "ownerId": "p18-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:25:12.745Z",
+  "updatedAt": "2026-11-12T11:25:12.745Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-10-ch20-20261015",
+    "blockId": "p18-q5",
+    "sectionRole": "exercise"
+  }
+}
