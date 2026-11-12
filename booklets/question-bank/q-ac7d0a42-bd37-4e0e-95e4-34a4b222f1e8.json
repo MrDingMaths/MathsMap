@@ -1,0 +1,215 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ac7d0a42-bd37-4e0e-95e4-34a4b222f1e8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-congruent-triangles",
+    "secondarySkillIds": [],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect two SAS congruence proofs to equal radii, then use SSS and a straight angle to establish the third perpendicular bisector and conclude uniqueness.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:55:37.915Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c463564bbcdfc3525479daba4a71aeb762cc3234f048a517a3d0f91a3268408a",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/semantic-packets/assignments/assignment-8ca8e6a11a84898c167a/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p33-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p33-q2-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The circle passing through all three vertices of a triangle is called a ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "circumcircle",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " of the triangle.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p33-q2-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The following theorem not only shows that every triangle has a unique circumcircle, but also shows how to construct the circumcircle.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p33-q2-theorem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Prove that: ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "The three perpendicular bisectors of a triangle are concurrent. Their point of intersection (called the circumcentre) is the centre of a circle (called a circumcircle).",
+              "marks": [
+                "italic"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p33-q2-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Prove this theorem using congruence. In the diagram, the midpoints of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "BC,CA",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "AB",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " are ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "P,\\ Q",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "R",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " respectively.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p33-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"radiusRed\",\"hex\":\"EF6068\",\"reason\":\"dashed segments from the proposed circumcentre to the three vertices\"}],\"reference\":\"source page 33 p33-q2-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{radiusRed}{HTML}{EF6068}\n\\coordinate (A) at (1,3);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3,0);\n\\coordinate (P) at ($(B)!0.5!(C)$);\n\\coordinate (Q) at ($(C)!0.5!(A)$);\n\\coordinate (R) at ($(A)!0.5!(B)$);\n\\coordinate (O) at (1.5,1.1666667);\n\\draw[line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[line width=0.8pt] (P)--(O)--(Q) (O)--(R);\n\\draw[radiusRed,dashed,line width=0.4pt] (A)--(O)--(B) (O)--(C);\n\\foreach \\U/\\V in {B/P,P/C}{\\path (\\U)--(\\V) node[midway,sloped] {$|$};}\n\\foreach \\U/\\V in {A/R,R/B}{\\path (\\U)--(\\V) node[midway,sloped] {$\\parallel$};}\n\\foreach \\U/\\V in {A/Q,Q/C}{\\path (\\U)--(\\V) node[midway,sloped] {$|||$};}\n\\draw[line width=0.4pt] ($(R)!0.15cm!(A)$)--($(R)!0.15cm!(A)+(R)!0.15cm!(O)-(R)$)--($(R)!0.15cm!(O)$);\n\\draw[line width=0.4pt] ($(Q)!0.15cm!(A)$)--($(Q)!0.15cm!(A)+(Q)!0.15cm!(O)-(Q)$)--($(Q)!0.15cm!(O)$);\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below] at (P) {$P$};\n\\node[above right] at (Q) {$Q$};\n\\node[left] at (R) {$R$};\n\\node[above left] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 33,
+          "sourceRegion": "Question 2, upper-right triangle",
+          "description": "Triangle ABC with midpoint ticks in three distinct groups, perpendicular segments OR and OQ marked by right-angle squares, and OP unmarked at P. Red dashed OA, OB and OC distinguish the proposed radii. Ordinary source-blue geometry is black in house style.",
+          "mathematics": "P, Q and R bisect BC, CA and AB respectively; OR is perpendicular to AB and OQ is perpendicular to CA. Perpendicularity of OP to BC is to be proved.",
+          "answerVisibility": "All supplied geometry is permanent; no inferred right-angle mark is added at P."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$OA=OB=OC$ by SAS congruence at $R$ and $Q$. SSS congruence gives $\\angle BPO=\\angle CPO=90^\\circ$, so the third perpendicular bisector also passes through $O$.\n\nThe circle with centre $O$ and radius $OA$ passes through all three vertices; its centre is uniquely determined by the perpendicular bisectors.",
+      "worked": "Let the perpendicular bisectors of $AB$ and $AC$ meet at $O$.\n\nIn $\\triangle ARO$ and $\\triangle BRO$:\n$$\\begin{align*}AR&=BR &&\\text{(midpoint)}\\\\\\angle ARO&=\\angle BRO=90^\\circ &&\\text{(perpendicular bisector)}\\\\OR&=OR &&\\text{(common)}\\end{align*}$$\nThus $\\triangle ARO\\equiv\\triangle BRO$ (SAS), so $OA=OB$ (matching sides).\n\nIn $\\triangle AQO$ and $\\triangle CQO$:\n$$\\begin{align*}AQ&=CQ &&\\text{(midpoint)}\\\\\\angle AQO&=\\angle CQO=90^\\circ &&\\text{(perpendicular bisector)}\\\\OQ&=OQ &&\\text{(common)}\\end{align*}$$\nThus $\\triangle AQO\\equiv\\triangle CQO$ (SAS), so $OA=OC$ (matching sides). Hence $OA=OB=OC$.\n\nIn $\\triangle BPO$ and $\\triangle CPO$:\n$$\\begin{align*}BP&=CP &&\\text{(midpoint)}\\\\OB&=OC &&\\text{(proved above)}\\\\OP&=OP &&\\text{(common)}\\end{align*}$$\nThus $\\triangle BPO\\equiv\\triangle CPO$ (SSS), so $\\angle BPO=\\angle CPO$ (matching angles). These adjacent angles form a straight angle, so each is $90^\\circ$. Therefore $OP\\perp BC$.\n\nAll three perpendicular bisectors pass through $O$, so they are concurrent. Since $OA=OB=OC$, the circle with centre $O$ and radius $OA$ passes through $A$, $B$ and $C$.\n\nAny circumcentre must lie on the perpendicular bisectors of $AB$ and $AC$, which have only one intersection. Therefore the circumcentre, and hence the circumcircle, is unique.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 112
+  },
+  "presentation": {
+    "ownerId": "p33-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:09.655Z",
+  "updatedAt": "2026-11-12T13:17:09.655Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p33-q2",
+    "sectionRole": "exercise"
+  }
+}

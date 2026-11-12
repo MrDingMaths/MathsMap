@@ -1,0 +1,129 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-71e1c4b2-c249-4e0d-86ee-fbbb0b719d16",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "circle-equation-origin",
+      "gradient-formula",
+      "perpendicular-gradient"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the circle identity established in part a to the product of two symbolic gradients, then use the proven right angle and diameter to establish the final length identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T16:52:30.734Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7b7956848e1ad98ff10e641b52bf8732d097c4eba84f9951fd4c6a4ff0364b89",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch11-20261015/semantic-packets/assignments/assignment-162fa198492d3593e841/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "The semicircle shown below is drawn with centre $O$ at the origin and radius $a$. $P(x,y)$ is any point on the semicircle other than $A$ or $B$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p37-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q11-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (-2,0);\n\\coordinate (B) at (2,0);\n\\coordinate (P) at ({2*cos(45)},{2*sin(45)});\n\\draw[->,line width=0.5pt] (-3.1,0)--(3.3,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.8)--(0,2.8) node[above] {$y$};\n\\draw[line width=0.8pt] (B) arc[start angle=0,end angle=180,radius=2];\n\\draw[line width=0.8pt] (0,0)--node[above left] {$a$} (P);\n\\fill (A) circle (1.5pt);\n\\fill (B) circle (1.5pt);\n\\fill (P) circle (1.5pt);\n\\node[below] at (A) {$A(-a,0)$};\n\\node[below] at (B) {$B(a,0)$};\n\\node[above right] at (P) {$P(x,y)$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 37,
+          "sourceRegion": "Challenge exercise question 11",
+          "description": "Upper semicircle with horizontal diameter AB and centre at the axes' intersection. P lies on the upper-right arc; OP is shown and labelled a. PA and PB are absent. Source blue curves, red point markers and grey axes are ordinary marks rendered in house black. The Cartesian-origin O label is omitted under the graph convention; the stem retains the centre's name.",
+          "mathematics": "A=(-a,0), B=(a,0), OP=a. The schematic position of P does not supply a numerical angle or coordinates.",
+          "answerVisibility": "Only the supplied semicircle, radius, points, coordinate labels and axes are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p37-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $x^2+y^2=a^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x^2+y^2=OP^2=a^2$, by Pythagoras’ theorem.",
+          "worked": "The horizontal and vertical distances from $O$ to $P$ are $|x|$ and $y$, and $OP=a$. By Pythagoras’ theorem,\n$$\\begin{align*}x^2+y^2&=OP^2\\\\x^2+y^2&=a^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p37-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $PA$ is perpendicular to the line $PB$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$m_{PA}m_{PB}=\\dfrac{y^2}{x^2-a^2}=-1$, so $PA\\perp PB$.\n\nUse $y^2=a^2-x^2$ from part a.",
+          "worked": "Since $P$ is not an endpoint, $-a<x<a$, so both gradients are defined.\n$$\\begin{align*}m_{PA}&=\\frac{y-0}{x-(-a)}\\\\m_{PA}&=\\frac{y}{x+a},\\\\m_{PB}&=\\frac{y-0}{x-a}\\\\m_{PB}&=\\frac{y}{x-a}.\\end{align*}$$\nUsing $y^2=a^2-x^2$ from part a,\n$$\\begin{align*}m_{PA}m_{PB}&=\\frac{y^2}{(x+a)(x-a)}\\\\m_{PA}m_{PB}&=\\frac{a^2-x^2}{x^2-a^2}\\\\m_{PA}m_{PB}&=-1.\\end{align*}$$\nThe product of the gradients is $-1$, so $PA\\perp PB$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 67
+      },
+      {
+        "id": "p37-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $PA^2+PB^2=4a^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$PA^2+PB^2=AB^2=(2a)^2=4a^2$.\n\nApply Pythagoras’ theorem in right-angled triangle $APB$.",
+          "worked": "Part b shows that triangle $APB$ is right-angled at $P$. Also, $AB$ is the diameter, so $AB=2a$. By Pythagoras’ theorem,\n$$\\begin{align*}PA^2+PB^2&=AB^2\\\\PA^2+PB^2&=(2a)^2\\\\PA^2+PB^2&=4a^2.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:59.007Z",
+  "updatedAt": "2026-11-12T13:17:59.007Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch11-20261015",
+    "blockId": "p37-q11",
+    "sectionRole": "exercise"
+  }
+}

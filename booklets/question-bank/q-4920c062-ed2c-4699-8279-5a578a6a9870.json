@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4920c062-ed2c-4699-8279-5a578a6a9870",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "similar-figures-properties"
+    ],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "With the triangle pairing supplied, derive complementary angles, prove similarity and rearrange a corresponding-side proportion into the stated identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T10:31:38.795Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "09d30bb7605fcf1285f15d0b99ac01e9e54940b5bc118ad6c508b19dee0d6dd1",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch09-20261015/semantic-packets/assignments/assignment-977b457c80fd10e85a6c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Prove that: The altitude to the hypotenuse of a right-angled triangle divides the hypotenuse into two intervals whose product equals the square of the altitude.\n\nLet $AN$ be the altitude to the hypotenuse $BC$ of the right-angled triangle $\\triangle ABC$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 17 p17-q7-diagram\"}\n\\begin{tikzpicture}[x=12mm,y=12mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at (1.25,{sqrt(1.25*2.75)});\n\\coordinate (N) at (1.25,0);\n\\draw[black] (B)--(A)--(C)--cycle;\n\\draw[black] (A)--(N);\n\\coordinate (U) at ($(A)!2mm!(B)$);\n\\coordinate (V) at ($(A)!2mm!(C)$);\n\\draw[black,line width=0.4pt] (U)--($(U)+(V)-(A)$)--(V);\n\\coordinate (S) at ($(N)!2mm!(A)$);\n\\coordinate (T) at ($(N)!2mm!(C)$);\n\\draw[black,line width=0.4pt] (S)--($(S)+(T)-(N)$)--(T);\n\\node[above] at (A){$A$};\n\\node[below left] at (B){$B$};\n\\node[below right] at (C){$C$};\n\\node[below] at (N){$N$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Question 7, right-hand diagram",
+          "description": "Triangle ABC has horizontal hypotenuse BC, A above BC, and altitude AN. Right-angle squares mark BAC and ANC. Ordinary source blue linework is rendered black under house style.",
+          "mathematics": "N lies between B and C; AN is perpendicular to BC; AB is perpendicular to AC. Coordinates construct these relationships without adding numerical givens.",
+          "answerVisibility": "Only the supplied vertices, altitude and right-angle markers are visible; no proof angles or answers are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\triangle ABN$ is similar to $\\triangle CAN$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ABN\\sim\\triangle CAN$ (AAA).\n\nBoth triangles are right-angled at $N$, and $\\angle BAN=\\angle ACN$.",
+          "worked": "Let $\\angle NBA=\\alpha$. Since $B,N,C$ are collinear, $\\angle ABC=\\alpha$.\n\nIn the right-angled triangles $ABN$ and $ABC$,\n$$\\begin{align*}\\angle BAN&=90^\\circ-\\alpha\\\\\\angle ACN&=90^\\circ-\\alpha.\\end{align*}$$\nThus $\\angle BAN=\\angle ACN$. Also $\\angle ANB=\\angle CNA=90^\\circ$, since $AN\\perp BC$.\n\nTherefore $\\triangle ABN\\sim\\triangle CAN$ (AAA).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p17-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence prove that $AN^2=BN\\times CN$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AN^2=BN\\times CN$.\n\nUse $\\dfrac{AN}{CN}=\\dfrac{BN}{AN}$ from matching sides of the similar triangles.",
+          "worked": "From $\\triangle ABN\\sim\\triangle CAN$, matching sides give\n$$\\frac{AN}{CN}=\\frac{BN}{AN}.$$\nMultiplying both sides by $AN\\times CN$ gives\n$$AN^2=BN\\times CN.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p17-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:07.814Z",
+  "updatedAt": "2026-11-12T13:17:07.815Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch09-20261015",
+    "blockId": "p17-q7",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ea673d0f-5283-4bab-bfc9-cfc3d138e7a4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pythagoras-problems",
+    "secondarySkillIds": [
+      "substitute-into-expressions"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Select useful trials across several parameters, compare two symbolic route models and infer which pattern is shorter including the two-pair equality case. The investigation supplies no test strategy or comparison reduction, so students must organise evidence and generalise beyond routine substitution.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T23:24:09.686Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f6e9358138324c15f7da13ce45d6a6f143846647971d96e78ce19b5c73573a69",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch10-20261015/direct-independent-chapter21-final-four-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p26-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A shoe lace can follow either the standard or the shoe store pattern shown. Let $n$ be the number of pairs of eyelets, $d$ the distance between successive eyelets, $g$ the gap between corresponding left and right eyelets, and $\\ell$ the length of each free end.\n\nBy investigating the total length of lace required for each lacing pattern for different values of $n$, $g$, $\\ell$ and $d$, determine which pattern requires less shoe lace.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q3-patterns",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 25 paired lacing patterns; p26-q3-patterns\"}\n\\begin{tikzpicture}[x=9mm,y=6mm,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\s in {0,6}{\\foreach \\y in {0,...,7}{\\draw (\\s,\\y) circle (0.11);\\draw ({\\s+2},\\y) circle (0.11);}\\draw (\\s,7)--({\\s-0.6},9);\\draw ({\\s+2},7)--({\\s+2.6},9);}\n\\draw (0,0)--(2,0);\\foreach \\y in {0,...,6}{\\draw (0,\\y)--(2,{\\y+1});\\draw (2,\\y)--(0,{\\y+1});}\n\\draw (6,7)--(8,0);\\foreach \\y in {0,...,6}{\\draw (6,\\y)--(8,\\y);\\draw (6,\\y)--(8,{\\y+1});}\n\\node[below] at (1,-1.2){standard};\\node[below] at (7,-1.2){shoe store};\n\\draw[<->,line width=0.4pt] (6,-0.3)--node[below]{$g$}(8,-0.3);\n\\draw[<->,line width=0.4pt] (8.6,0)--node[right]{$d$}(8.6,1);\n\\path (8,7)--node[right]{$\\ell$}(8.6,9);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "paired shoe patterns",
+          "description": "Paired editable lacing schematics retain the mathematically different paths while omitting decorative shoes.",
+          "mathematics": "Standard: bottom horizontal and two diagonals per level gap. Shoe store: one horizontal and one short diagonal per gap, plus one full-height diagonal. Both have two free ends.",
+          "answerVisibility": "No length formulas or comparison conclusion supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "The standard pattern uses less lace for $n>2$; the lengths are equal for $n=2$.\n\nCompare the two total-length formulas for the same eyelet spacing, gap and free-end length.",
+      "worked": "Let $S$ and $T$ be the standard and shoe store lengths.\n$$\\begin{align*}S&=2(n-1)\\sqrt{d^2+g^2}+g+2\\ell\\\\T&=(n-1)\\left(g+\\sqrt{d^2+g^2}\\right)+\\sqrt{g^2+(n-1)^2d^2}+2\\ell\\end{align*}$$\nFor example, take $d=3$ cm, $g=4$ cm and $\\ell=10$ cm.\n$$\\begin{align*}S\\big|_{n=2}&=34\\text{ cm}\\\\T\\big|_{n=2}&=34\\text{ cm}\\\\S\\big|_{n=3}&=44\\text{ cm}\\\\T\\big|_{n=3}&=38+\\sqrt{52}\\text{ cm}\\approx45.21\\text{ cm}\\\\S\\big|_{n=4}&=54\\text{ cm}\\\\T\\big|_{n=4}&=47+\\sqrt{97}\\text{ cm}\\approx56.85\\text{ cm}\\end{align*}$$\nAs another choice, use $d=4$ cm, $g=3$ cm, $\\ell=15$ cm and $n=3$. Then $S=53$ cm and $T=46+\\sqrt{73}\\text{ cm}\\approx54.54$ cm. Changing $\\ell$ adds the same amount to both patterns.\n\nThese comparisons support the conclusion that the standard pattern uses less lace for $n>2$. For $n=2$, both paths have the same component lengths.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 76
+  },
+  "presentation": {
+    "ownerId": "p26-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:16.359Z",
+  "updatedAt": "2026-11-12T13:17:16.360Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch10-20261015",
+    "blockId": "p26-q3",
+    "sectionRole": "exercise"
+  }
+}

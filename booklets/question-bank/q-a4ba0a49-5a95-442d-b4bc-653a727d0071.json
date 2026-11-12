@@ -1,0 +1,299 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a4ba0a49-5a95-442d-b4bc-653a727d0071",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-similar-triangles",
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct midpoint segments to establish the specified median ratios, reuse that argument to prove concurrency, then connect equal medians through centroid ratios, isosceles angles and SAS congruence. The sequential parts scaffold the essential proof connections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T11:39:27.617Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b9e82c36caf69039368b9dd2218fd2013c0856f484aa33895cdf4e3d52ae5361",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch09-20261015/semantic-packets/assignments/assignment-1f10382b77e8386eb185/5/generation.json"
+    }
+  },
+  "content": {
+    "id": "p31-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p31-q7-claim",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In this question we will prove that: ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "The medians of a triangle are concurrent and divide one another in the ratio 2:1.",
+              "marks": [
+                "italic"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "p31-q7-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "median",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " of a triangle is the line which joins a vertex to the middle of the opposite side.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p31-q7-median-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 31 p31-q7-median-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.3,3.4);\\coordinate (C) at (4,0);\\coordinate (D) at ($(B)!0.5!(C)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (A)--(D);\n\\foreach \\u/\\v in {B/D,D/C}{\\draw[black,line width=0.4pt] ($(\\u)!0.5!(\\v)!-0.11cm!90:(\\v)$)--($(\\u)!0.5!(\\v)!0.11cm!90:(\\v)$);}\n\\node[below left] at (A) {$A$};\\node[above left] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[above right] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 58,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 31,
+          "sourceRegion": "Question 7 introductory median diagram",
+          "description": "Triangle ABC with horizontal AC, B above A, midpoint D of BC and median AD; matching single ticks on BD and DC.",
+          "mathematics": "D lies on BC and BD=DC.",
+          "answerVisibility": "Only the supplied median and midpoint marks are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p31-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let the medians $BE$ and $CF$ meet at $G$. Show that $BG=2GE$ and $CG=2GF$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q7-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"centroidRed\",\"hex\":\"EF6068\",\"reason\":\"Source highlights the intersection G of the two medians\"}],\"reference\":\"source page 31 p31-q7-a-diagram\"}\n\\begin{tikzpicture}[font=\\fontsize{10}{12}\\selectfont,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{centroidRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.3,3.4);\\coordinate (C) at (4,0);\\coordinate (E) at ($(A)!0.5!(C)$);\\coordinate (F) at ($(A)!0.5!(B)$);\\coordinate (G) at ($(B)!0.6666667!(E)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (B)--(E) (C)--(F);\n\\foreach \\u/\\v in {A/E,E/C}{\\draw[black,line width=0.4pt] ($(\\u)!0.5!(\\v)!-0.11cm!90:(\\v)$)--($(\\u)!0.5!(\\v)!0.11cm!90:(\\v)$);}\n\\foreach \\u/\\v in {A/F,F/B}{\\foreach \\t in {0.47,0.53}{\\draw[black,line width=0.4pt] ($(\\u)!\\t!(\\v)!-0.11cm!90:(\\v)$)--($(\\u)!\\t!(\\v)!0.11cm!90:(\\v)$);}}\n\\fill[centroidRed] (G) circle (1.4pt);\n\\node[below left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below] at (E) {$E$};\\node[left] at (F) {$F$};\\node[above right] at (G) {$G$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 60,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "Question 7(a)",
+              "description": "Triangle ABC with midpoint E on AC and midpoint F on AB; medians BE and CF meet at a red point G. Single ticks identify AE=EC and double ticks identify AF=FB.",
+              "mathematics": "E and F are midpoints. G is the intersection of BE and CF.",
+              "answerVisibility": "FE and ratio conclusions are absent from the question diagram."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$BG=2GE$ and $CG=2GF$.\n\nJoin $FE$. The midpoint theorem and $\\triangle FGE\\sim\\triangle CGB$ give the ratio $1:2$.",
+          "worked": "Join $FE$. Since $E$ and $F$ are the midpoints of $AC$ and $AB$, the midpoint theorem gives $FE\\parallel BC$ and $BC=2FE$.\n\nIn triangles $FGE$ and $CGB$, $\\angle FGE=\\angle CGB$ (vertically opposite angles) and $\\angle GFE=\\angle GCB$ (alternate angles, $FE\\parallel BC$). Hence $\\triangle FGE\\sim\\triangle CGB$ (AAA).\n$$\\begin{align*}\\frac{CG}{GF}&=\\frac{BC}{FE}=2\\\\\\frac{BG}{GE}&=\\frac{BC}{FE}=2\\\\CG&=2GF\\\\BG&=2GE\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p31-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p31-q7-b-task",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Deduce that the third median ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "AD",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " also passes through ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "G",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p31-q7-b-centroid-definition",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The point ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "G",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " is called the ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "centroid",
+                  "marks": [
+                    "bold"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " of the triangle ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "ABC",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AD$ passes through $G$.\n\nThe same midpoint-and-similarity argument gives the same $2:1$ division point on $CF$.",
+          "worked": "Let $D$ be the midpoint of $BC$, and let $AD$ meet $CF$ at $G'$. Join $FD$. By the midpoint theorem, $FD\\parallel AC$ and $AC=2FD$.\n\nIn triangles $AG'C$ and $DG'F$, $\\angle AG'C=\\angle DG'F$ (vertically opposite angles) and $\\angle ACG'=\\angle DFG'$ (alternate angles, $AC\\parallel FD$). Hence $\\triangle AG'C\\sim\\triangle DG'F$ (AAA).\n$$\\begin{align*}\\frac{CG'}{G'F}&=\\frac{AC}{DF}=2\\\\CG'&=2G'F\\end{align*}$$\nPart (a) gives $CG=2GF$. There is only one point dividing $CF$ internally in the ratio $2:1$, so $G'=G$. Therefore $AD$ also passes through $G$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 56
+      },
+      {
+        "id": "p31-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that if two of the medians of a triangle have equal length, then the triangle is isosceles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "If $BE=CF$, then $AB=AC$, so $\\triangle ABC$ is isosceles.\n\nUse the centroid ratios to obtain $BG=CG$, then prove $\\triangle BCF\\cong\\triangle CBE$ by SAS.",
+          "worked": "Suppose the equal medians are $BE$ and $CF$. By part (a),\n$$\\begin{align*}BG&=\\frac23BE\\\\CG&=\\frac23CF\\\\BG&=CG\\end{align*}$$\nThus $\\triangle BGC$ is isosceles, so $\\angle BCG=\\angle CBG$. Since $C,G,F$ are collinear and $B,G,E$ are collinear, $\\angle BCF=\\angle CBE$.\n\nIn triangles $BCF$ and $CBE$, $BC=CB$ (common side), $CF=BE$ (given) and $\\angle BCF=\\angle CBE$. Hence $\\triangle BCF\\cong\\triangle CBE$ (SAS), so $BF=CE$.\n\nSince $F$ and $E$ are midpoints,\n$$\\begin{align*}AB&=2BF\\\\AC&=2CE\\\\AB&=AC\\end{align*}$$\nTherefore $\\triangle ABC$ is isosceles. The same argument applies whichever pair of medians is equal.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:15.356Z",
+  "updatedAt": "2026-11-12T13:17:15.357Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch09-20261015",
+    "blockId": "p31-q7",
+    "sectionRole": "exercise"
+  }
+}

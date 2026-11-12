@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2a66843b-ae21-4e14-a425-7b0ff818c31a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "coordinate-geometry-problems",
+    "secondarySkillIds": [
+      "midpoint-formula",
+      "gradient-formula",
+      "parallel-lines-equal-gradient"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the supplied general coordinate diagram to derive two midpoint coordinates, connect equal heights to parallelism and compare their horizontal separation with the base.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T16:51:48.141Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d2dda41e3d8b7d8e3fb9e46902ba49f1fc852d5e5be9ae26ffe68e62b36d5159",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch11-20261015/semantic-packets/assignments/assignment-1a20f9a43ae16b4dbec2/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Use coordinate geometry to prove that the line joining the midpoints of two sides of a triangle is parallel to the third side and half its length. Take the base of the triangle to be on the $x$-axis with one vertex at the origin.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p37-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 37 p37-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1.8,1.8);\n\\coordinate (C) at (2.9,0);\n\\draw[->,line width=0.5pt] (-1.8,0)--(4.7,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.7)--(0,2.9) node[left] {$y$};\n\\draw[line width=0.8pt] (A)--(B)--(C);\n\\fill (A) circle (1.5pt);\n\\fill (B) circle (1.5pt);\n\\fill (C) circle (1.5pt);\n\\node[below left] at (A) {$A(0,0)$};\n\\node[above] at (B) {$B(u,v)$};\n\\node[below] at (C) {$C(c,0)$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 37,
+          "sourceRegion": "Challenge exercise question 8",
+          "description": "Triangle ABC on arrowed coordinate axes, with A at the origin, C on the positive x-axis and B above the axis between A and C horizontally. AC coincides with the x-axis. No midpoints are supplied. Ordinary source blue sides and red vertex markers are rendered black.",
+          "mathematics": "A=(0,0), B=(u,v), C=(c,0). The displayed representative triangle has c>0 and v>0; the horizontal position of B does not affect the proof.",
+          "answerVisibility": "Only the supplied vertices, coordinate labels and axes are visible; midpoint labels and the joining segment are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Let $M$ and $N$ be the midpoints of $AB$ and $BC$. Then $M=(\\frac u2,\\frac v2)$ and $N=(\\frac{u+c}{2},\\frac v2)$, so $MN\\parallel AC$ and $MN=\\frac c2=\\frac12 AC$.\n\nUse the midpoint formula, compare gradients, then subtract the horizontal coordinates.",
+      "worked": "Let $M$ be the midpoint of $AB$ and $N$ the midpoint of $BC$. By the midpoint formula:\n$$\\begin{align*}M&=\\left(\\frac{0+u}{2},\\frac{0+v}{2}\\right)\\\\M&=\\left(\\frac u2,\\frac v2\\right),\\\\N&=\\left(\\frac{u+c}{2},\\frac{v+0}{2}\\right)\\\\N&=\\left(\\frac{u+c}{2},\\frac v2\\right).\\end{align*}$$\nTheir gradients are:\n$$\\begin{align*}m_{MN}&=\\frac{\\frac v2-\\frac v2}{\\frac{u+c}{2}-\\frac u2}\\\\m_{MN}&=0,\\\\m_{AC}&=\\frac{0-0}{c-0}\\\\m_{AC}&=0.\\end{align*}$$\nThe equal gradients show that $MN\\parallel AC$. Since both intervals are horizontal and $c>0$ in the chosen diagram:\n$$\\begin{align*}MN&=\\frac{u+c}{2}-\\frac u2\\\\MN&=\\frac c2,\\\\AC&=c,\\\\MN&=\\frac12 AC.\\end{align*}$$\nThus the line joining the midpoints is parallel to the third side and half its length. Any chosen third side can be placed on the $x$-axis in this way.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 90
+  },
+  "presentation": {
+    "ownerId": "p37-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:58.178Z",
+  "updatedAt": "2026-11-12T13:17:58.178Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch11-20261015",
+    "blockId": "p37-q8",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,276 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d78ce68f-5456-4d67-b0a2-7febdfd7e758",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied proof scaffolds to establish a parallelogram, select SAS or SSS from explicit givens, and conclude equal sides or supplementary equal angles.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:49:43.930Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ea7e7a755a66a3aa0e8f3e702309e112a415f7111db3eb4fe5862722c49f4cdf",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/semantic-packets/assignments/assignment-0aef6aa50198af78f6bb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p28-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that: If a parallelogram has two adjacent sides equal, then the parallelogram is a rhombus.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q1-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q1-a-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (1.2,1.6);\\coordinate (C) at (3.2,1.6);\\coordinate (D) at (2,0);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[->,line width=0.4pt] ($(A)!0.40!(D)$)--($(A)!0.57!(D)$);\n\\draw[->,line width=0.4pt] ($(B)!0.40!(C)$)--($(B)!0.57!(C)$);\n\\foreach \\u/\\v in {A/B,D/C}{\\draw[->,line width=0.4pt] ($(\\u)!0.43!(\\v)$)--($(\\u)!0.56!(\\v)$);\\draw[->,line width=0.4pt] ($(\\u)!0.50!(\\v)$)--($(\\u)!0.63!(\\v)$);}\n\\draw[line width=0.4pt] ($(A)!0.34!(B)+(-0.07,0.05)$)--($(A)!0.34!(B)+(0.07,-0.05)$);\n\\draw[line width=0.4pt] ($(B)!0.65!(C)+(0,-0.09)$)--($(B)!0.65!(C)+(0,0.09)$);\n\\node[below left] at (A) {$A$};\\node[above left] at (B) {$B$};\\node[above right] at (C) {$C$};\\node[below right] at (D) {$D$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "Question 1a, upper-right figure",
+              "description": "Parallelogram ABCD with matching single ticks on AB and BC, single parallel arrows on AD and BC, and double parallel arrows on AB and DC. Ordinary source blue is rendered black.",
+              "mathematics": "AB parallel DC; AD parallel BC; AB equals BC.",
+              "answerVisibility": "All givens visible; no solution annotations."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "$AB=BC=CD=DA$, so $ABCD$ is a rhombus.",
+          "worked": "$AB=CD$ and $BC=AD$ because opposite sides of a parallelogram are equal. Also $AB=BC$ is given. Hence $AB=BC=CD=DA$, so all four sides are equal and $ABCD$ is a rhombus.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p28-q1-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Prove that: If the diagonals of a quadrilateral bisect each other at right angles, then the quadrilateral is a rhombus.\n\nThe diagonals of the quadrilateral $ASBT$ meet at right angles at $M$ and bisect each other.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q1-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q1-b-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2);\\coordinate (S) at (1.15,0);\\coordinate (B) at (0,-2);\\coordinate (T) at (-1.15,0);\\coordinate (M) at (0,0);\n\\draw[line width=0.8pt] (A)--(S)--(B)--(T)--cycle (A)--(B) (T)--(S);\n\\foreach \\y in {-1,1}{\\draw[line width=0.4pt] (-0.09,\\y-0.025)--(0.09,\\y-0.025) (-0.09,\\y+0.025)--(0.09,\\y+0.025);}\n\\foreach \\x in {-0.575,0.575}{\\draw[line width=0.4pt] (\\x,-0.09)--(\\x,0.09);}\n\\draw[line width=0.4pt] (0,0.20)--(0.20,0.20)--(0.20,0);\n\\node[above] at (A) {$A$};\\node[right] at (S) {$S$};\\node[below] at (B) {$B$};\\node[left] at (T) {$T$};\\node[above left] at (M) {$M$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 27.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "Question 1b, right-hand figure",
+              "description": "ASBT has crossing diagonals AB and TS at M; AM and MB have double ticks, TM and MS single ticks, and the AMS sector has a right-angle square.",
+              "mathematics": "AM=MB, TM=MS, AB perpendicular TS.",
+              "answerVisibility": "Given markings only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p28-q1-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Why is $ASBT$ a parallelogram?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Its diagonals bisect each other.",
+              "worked": "The diagonals of $ASBT$ bisect each other. By the diagonal test for a parallelogram, $ASBT$ is a parallelogram.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p28-q1-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Prove that $\\triangle AMS\\equiv\\triangle AMT$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\triangle AMS\\equiv\\triangle AMT$ by SAS.",
+              "worked": "$SM=TM$ (given), $\\angle AMS=\\angle AMT=90^\\circ$ (the diagonals meet at right angles), and $AM=AM$ (common side). Therefore $\\triangle AMS\\equiv\\triangle AMT$ by SAS.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          },
+          {
+            "id": "p28-q1-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "Hence prove that $AS=AT$; that is, $ASBT$ is a rhombus.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$AS=AT$ (matching sides of congruent triangles). Thus $ASBT$ is a rhombus.",
+              "worked": "$AS=AT$ because they are matching sides of the congruent triangles $AMS$ and $AMT$. Since $ASBT$ is a parallelogram, its opposite sides are equal: $AS=BT$ and $AT=SB$. Hence all four sides are equal, so $ASBT$ is a rhombus.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      },
+      {
+        "id": "p28-q1-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Prove that: If the diagonals of a quadrilateral have equal length and bisect each other, then the quadrilateral is a rectangle.\n\nThe diagonals of the quadrilateral $RSTU$ have equal length and bisect each other.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p28-q1-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q1-c-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (R) at (0,1.8);\\coordinate (S) at (3,1.8);\\coordinate (T) at (3,0);\\coordinate (U) at (0,0);\\coordinate (O) at (1.5,0.9);\n\\draw[line width=0.8pt] (R)--(S)--(T)--(U)--cycle (R)--(T) (U)--(S);\n\\foreach \\v in {R,S,T,U}{\\coordinate (K) at ($(O)!0.5!(\\v)$);\\draw[line width=0.4pt] ($(K)!0.035cm!(O)!0.09cm!90:(O)$)--($(K)!0.035cm!(O)!0.09cm!-90:(O)$);\\draw[line width=0.4pt] ($(K)!-0.035cm!(O)!0.09cm!90:(O)$)--($(K)!-0.035cm!(O)!0.09cm!-90:(O)$);}\n\\node[above left] at (R) {$R$};\\node[above right] at (S) {$S$};\\node[below right] at (T) {$T$};\\node[below left] at (U) {$U$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 28,
+              "sourceRegion": "Question 1c, right-hand figure",
+              "description": "RSTU with both diagonals drawn and four matching double ticks, one on each diagonal half. The crossing is unlabelled. No right-angle markers are supplied.",
+              "mathematics": "RT=US and each diagonal bisects the other; all four half-diagonals are equal.",
+              "answerVisibility": "Given diagonal markings only; no inferred right angles shown."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p28-q1-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Why is $RSTU$ a parallelogram?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Its diagonals bisect each other.",
+              "worked": "The diagonals of $RSTU$ bisect each other. By the diagonal test for a parallelogram, $RSTU$ is a parallelogram.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p28-q1-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Prove that $\\triangle URS\\equiv\\triangle TSR$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\triangle URS\\equiv\\triangle TSR$ by SSS.",
+              "worked": "$US=RT$ (given), $RS=SR$ (common side), and $RU=ST$ (opposite sides of parallelogram $RSTU$). Therefore $\\triangle URS\\equiv\\triangle TSR$ by SSS.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          },
+          {
+            "id": "p28-q1-c-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "Hence prove that $\\angle URS=\\angle TSR$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\angle URS=\\angle TSR$ (matching angles of congruent triangles).",
+              "worked": "Since $\\triangle URS\\equiv\\triangle TSR$, their matching angles are equal. Hence $\\angle URS=\\angle TSR$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p28-q1-c-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "Hence prove that $\\angle URS=90^\\circ$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\angle URS=90^\\circ$.\n\nThe equal co-interior angles sum to $180^\\circ$.",
+              "worked": "Since $UR\\parallel ST$, the co-interior angles satisfy\n$$\\begin{align*}\\angle URS+\\angle TSR&=180^\\circ\\\\2\\angle URS&=180^\\circ\\\\\\angle URS&=90^\\circ.\\end{align*}$$\nThe opposite angles of a parallelogram are equal, so $\\angle UTS=90^\\circ$. Each remaining angle is supplementary to $\\angle URS$, so both are also $90^\\circ$. Thus $RSTU$ is a rectangle.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 36
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:02.247Z",
+  "updatedAt": "2026-11-12T13:17:02.248Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p28-q1",
+    "sectionRole": "exercise"
+  }
+}

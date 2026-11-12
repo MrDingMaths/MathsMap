@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6362654f-a5e4-46ed-a2e5-e0bee3060793",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "quadrilateral-properties"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the supplied construction and intermediate conclusions: apply diagonal bisection and the right-angle rectangle test, equate half-diagonals, then interpret equality to the radius.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:19:20.154Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9943b488ce0ef86e6e3603ebe513689188553074945525214ded5e5319837eb6",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/semantic-packets/assignments/assignment-8173520713a1ae6a01b1/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p29-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Prove that: The circle with centre the midpoint of the hypotenuse of a right-angled triangle, and passing through the endpoints of the hypotenuse, also passes through the third vertex.\n\nLet $\\triangle ABF$ be right-angled at $F$, and let $M$ be the midpoint of the hypotenuse $AB$. Produce $FM$ to $G$ so that $FM=MG$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF 29 p29-q5-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (F) at (0,0);\\coordinate (A) at (0,3);\\coordinate (B) at (2.3,0);\\coordinate (M) at (1.15,1.5);\\coordinate (G) at (2.3,3);\n\\draw (A)--(F)--(B)--cycle;\\draw (F)--(G);\n\\draw[line width=0.4pt] (0,0.22)--(0.22,0.22)--(0.22,0);\n\\path (A)--(M) node[midway,sloped,font=\\scriptsize] {$|||$};\\path (M)--(B) node[midway,sloped,font=\\scriptsize] {$|||$};\n\\path (F)--(M) node[midway,sloped,font=\\scriptsize] {$||$};\\path (M)--(G) node[midway,sloped,font=\\scriptsize] {$||$};\n\\fill (M) circle (1.2pt);\n\\node[above left] at (A) {$A$};\\node[below left] at (F) {$F$};\\node[below right] at (B) {$B$};\\node[above right] at (G) {$G$};\\node[left=3pt] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 34.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Question 5, upper right",
+          "description": "Right triangle ABF and the produced median FG. AG and GB are intentionally absent. Ordinary source blue strokes and red point are rendered black under house style.",
+          "mathematics": "AF perpendicular FB; A,M,B collinear; F,M,G collinear; AM=MB and FM=MG. Triple ticks distinguish the first pair from the double ticks on the second.",
+          "answerVisibility": "Only source givens are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p29-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $AFBG$ is a rectangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AFBG$ is a parallelogram because its diagonals bisect each other. It has a right angle at $F$, so it is a rectangle.",
+          "worked": "$AM=BM$ because $M$ is the midpoint of $AB$, and $FM=MG$ by construction. Thus the diagonals $AB$ and $FG$ bisect each other, so $AFBG$ is a parallelogram. Since $\\angle AFB=90^\\circ$, this parallelogram is a rectangle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p29-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Explain why $AM=BM=FM=GM$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The diagonals of a rectangle are equal and bisect each other, so their four halves are equal.",
+          "worked": "Since $AFBG$ is a rectangle, $AB=FG$ and its diagonals bisect each other at $M$. Hence\n$$AM=BM=\\frac{AB}{2},\\qquad FM=GM=\\frac{FG}{2}.$$\nTherefore $AM=BM=FM=GM$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p29-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence explain why the circle with centre $M$ and radius $AM$ passes through $F$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$MF=AM$, so $F$ is one radius from $M$ and lies on the circle.",
+          "worked": "From part b, $MF=AM$. Every point whose distance from $M$ equals the radius $AM$ lies on the circle. Hence the circle passes through $F$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 13
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p29-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:03.902Z",
+  "updatedAt": "2026-11-12T13:17:03.902Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p29-q5",
+    "sectionRole": "exercise"
+  }
+}

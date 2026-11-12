@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3ed691d3-db54-4620-a356-f8847e537265",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Establish congruence of four triangles and use corresponding sides to prove that an interior quadrilateral is a rhombus.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:17:36.787Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "356ebe474095e6860779df5e83445f869da0196c09bdae46372cba44126f15a8",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/semantic-packets/assignments/assignment-0dd707cc29afca771073/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p29-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The points $P$ and $Q$ are chosen on the diagonal $BD$ of the square $ABCD$ so that $BP=DQ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"PDF page 29, printed page 209, question 7\"}\n\\begin{tikzpicture}[line width=0.8pt,draw=black,text=black,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,4);\n\\coordinate (B) at (4,4);\n\\coordinate (C) at (4,0);\n\\coordinate (D) at (0,0);\n\\coordinate (Q) at (1.25,1.25);\n\\coordinate (P) at (2.75,2.75);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (D)--(B);\n\\draw (A)--(P)--(C)--(Q)--cycle;\n\\path (D)--(Q) coordinate[midway] (TQ);\n\\path (P)--(B) coordinate[midway] (TP);\n\\foreach \\T in {TQ,TP}{\n\\begin{scope}[shift={(\\T)},rotate=45]\n\\draw[line width=0.4pt] (-0.045,-0.10)--(-0.045,0.10);\n\\draw[line width=0.4pt] (0.045,-0.10)--(0.045,0.10);\n\\end{scope}}\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[right] at (P) {$P$};\n\\node[above left] at (Q) {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41.7,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Exercise 7E question 7, right-hand figure",
+          "description": "Square ABCD with diagonal DB, Q nearer D and P nearer B. Double ticks mark DQ and PB. AP, PC, CQ and QA form the interior quadrilateral. Ordinary source blue strokes are reconstructed in house black.",
+          "mathematics": "ABCD is a square; D,Q,P,B are collinear in this order; DQ=PB. Coordinates specify drawing proportions only and introduce no numerical givens.",
+          "answerVisibility": "All supplied geometry and equality marks remain visible; no proof conclusions are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p29-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that the triangles $ABP$, $CBP$, $ADQ$ and $CDQ$ are all congruent.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle ABP\\equiv\\triangle CBP\\equiv\\triangle ADQ\\equiv\\triangle CDQ$ (SAS).",
+          "worked": "The sides of the square give $AB=CB=AD=CD$. Its diagonal bisects the vertex angles, so\n$$\\angle ABP=\\angle CBP=\\angle ADQ=\\angle CDQ=45^\\circ.$$\nAlso $BP=DQ$ (given), with $BP$ common to the first two triangles and $DQ$ common to the last two. Thus each triangle has two corresponding sides equal and their included angle equal:\n$$\\triangle ABP\\equiv\\triangle CBP\\equiv\\triangle ADQ\\equiv\\triangle CDQ\\quad\\text{(SAS)}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 49
+      },
+      {
+        "id": "p29-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence prove that $APCQ$ is a rhombus.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AP=PC=CQ=QA$ (matching sides of congruent triangles), so $APCQ$ is a rhombus.",
+          "worked": "From part a, matching sides of the congruent triangles give\n$$AP=CP=AQ=CQ.$$\nThus the four sides of $APCQ$ are equal, so $APCQ$ is a rhombus.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p29-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:04.669Z",
+  "updatedAt": "2026-11-12T13:17:04.670Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p29-q7",
+    "sectionRole": "exercise"
+  }
+}

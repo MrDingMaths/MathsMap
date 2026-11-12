@@ -1,0 +1,295 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-988f01b3-cddd-4a9b-82f3-82e877c75e91",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Part a requires choosing a useful correspondence across the supplied diagonal and connecting congruent angles to parallel sides; the remaining proofs are scaffolded.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T09:11:22.410Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "63ea3d4947956c0bd792478b4fe234d7de66000f1c190ce393e431d3bb752e20",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/lean-review/calls/content-1792746620575-22/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p22-q15-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "This question reviews proofs by congruence of some diagonal properties of rhombuses and rectangles.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p22-q15-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Recall that a ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "rhombus",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " is a quadrilateral with all sides equal.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that: A rhombus is a parallelogram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q15-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 question 15a\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2);\\coordinate (B) at (1.1,0);\\coordinate (C) at (0,-2);\\coordinate (D) at (-1.1,0);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw (A)--(C);\n\\foreach \\u/\\v in {A/B,B/C,C/D,D/A}{\\draw[line width=0.4pt] ($ (\\u)!0.5!(\\v)!2pt!90:(\\v) $)--($ (\\u)!0.5!(\\v)!2pt!-90:(\\v) $);}\n\\node[above] at (A){$A$};\\node[right] at (B){$B$};\\node[below] at (C){$C$};\\node[left] at (D){$D$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 27.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 15a, right-hand figure",
+              "description": "Unshaded rhombus ABCD with vertical diagonal AC and one matching equality tick on each side. Ordinary source blue strokes use house black.",
+              "mathematics": "AB=BC=CD=DA; AC is supplied. No parallel marks are given.",
+              "answerVisibility": "Givens only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "By SSS, $\\triangle ABC\\equiv\\triangle CDA$. Hence $\\angle BAC=\\angle DCA$ and $\\angle BCA=\\angle DAC$. Equal alternate angles give $AB\\parallel DC$ and $AD\\parallel BC$, so $ABCD$ is a parallelogram.",
+          "worked": "In triangles $ABC$ and $CDA$:\n$$\\begin{aligned}AB&=CD&&\\text{(sides of a rhombus)}\\\\BC&=DA&&\\text{(sides of a rhombus)}\\\\AC&=CA&&\\text{(common side)}\\end{aligned}$$\nTherefore $\\triangle ABC\\equiv\\triangle CDA$ (SSS).\n\nHence $\\angle BAC=\\angle DCA$ and $\\angle BCA=\\angle DAC$ (matching angles of congruent triangles). Thus $AB\\parallel DC$ and $AD\\parallel BC$ (equal alternate angles). Both pairs of opposite sides are parallel, so $ABCD$ is a parallelogram.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p22-q15-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Prove that: The diagonals of a rhombus are perpendicular, and bisect the vertex angles through which they pass.\n\nLet the diagonals of the rhombus $APBQ$ meet at $M$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p22-q15-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 22 question 15b\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2);\\coordinate (P) at (1.1,0);\\coordinate (B) at (0,-2);\\coordinate (Q) at (-1.1,0);\\coordinate (M) at (0,0);\n\\draw (A)--(P)--(B)--(Q)--cycle;\\draw (A)--(B) (Q)--(P);\n\\foreach \\u/\\v in {A/P,P/B,B/Q,Q/A}{\\foreach \\t in {0.47,0.53}{\\draw[line width=0.4pt] ($ (\\u)!\\t!(\\v)!2pt!90:(\\v) $)--($ (\\u)!\\t!(\\v)!2pt!-90:(\\v) $);}}\n\\node[above] at (A){$A$};\\node[right] at (P){$P$};\\node[below] at (B){$B$};\\node[left] at (Q){$Q$};\\node[below right] at (M){$M$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 27,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 22,
+              "sourceRegion": "Question 15b, right-hand figure",
+              "description": "Unshaded rhombus APBQ with both diagonals meeting at M and double equality ticks on all four sides. Ordinary source blue strokes use house black.",
+              "mathematics": "AP=PB=BQ=QA; A,M,B and Q,M,P are collinear. No perpendicular or angle-bisector marks are supplied.",
+              "answerVisibility": "Givens only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p22-q15-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Prove that $\\triangle APB\\equiv\\triangle AQB$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\triangle APB\\equiv\\triangle AQB$ (SSS).",
+              "worked": "In triangles $APB$ and $AQB$:\n$$\\begin{aligned}AP&=AQ&&\\text{(sides of a rhombus)}\\\\PB&=QB&&\\text{(sides of a rhombus)}\\\\AB&=AB&&\\text{(common side)}\\end{aligned}$$\nTherefore $\\triangle APB\\equiv\\triangle AQB$ (SSS).",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          },
+          {
+            "id": "p22-q15-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Hence prove that $\\angle PAM=\\angle QAM$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\angle PAM=\\angle QAM$ (matching angles of congruent triangles).",
+              "worked": "$\\angle PAB=\\angle QAB$ (matching angles of the congruent triangles in part i). Since $A$, $M$ and $B$ are collinear, $\\angle PAM=\\angle QAM$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p22-q15-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "Prove also that $AM\\perp PQ$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\triangle QAM\\equiv\\triangle PAM$ (SAS), so $\\angle QMA=\\angle PMA=90^\\circ$. Hence $AM\\perp PQ$.",
+              "worked": "In triangles $QAM$ and $PAM$:\n$$\\begin{aligned}AQ&=AP&&\\text{(sides of a rhombus)}\\\\\\angle QAM&=\\angle PAM&&\\text{(part ii)}\\\\AM&=AM&&\\text{(common side)}\\end{aligned}$$\nTherefore $\\triangle QAM\\equiv\\triangle PAM$ (SAS), so $\\angle QMA=\\angle PMA$ (matching angles).\n\nThese angles lie on the straight line $QP$, so they are supplementary. Hence $\\angle QMA=\\angle PMA=90^\\circ$ and $AM\\perp PQ$.\n\nThe congruence in part i also shows that $AB$ bisects the angle at $B$. Applying the same SSS argument to triangles $PAQ$ and $PBQ$ shows that $PQ$ bisects the angles at $P$ and $Q$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 58
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      },
+      {
+        "id": "p23-q15c",
+        "type": "group",
+        "label": "c",
+        "prompt": "Prove that: The diagonals of a rectangle are equal.\n\nLet $ABCD$ be a rectangle with the diagonals joined.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p23-q15c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 23 question 15c\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,2);\\coordinate (B) at (3.2,2);\\coordinate (C) at (3.2,0);\\coordinate (D) at (0,0);\n\\draw (A)--(B)--(C)--(D)--cycle;\\draw (A)--(C) (B)--(D);\n\\draw[line width=0.4pt] (0,1.8)--(0.2,1.8)--(0.2,2) (3,2)--(3,1.8)--(3.2,1.8) (3.2,0.2)--(3,0.2)--(3,0) (0.2,0)--(0.2,0.2)--(0,0.2);\n\\foreach \\u/\\v in {A/B,D/C}{\\draw[line width=0.4pt,->] ($ (\\u)!0.45!(\\v) $)--($ (\\u)!0.55!(\\v) $);}\n\\foreach \\u/\\v in {D/A,C/B}{\\draw[line width=0.4pt,->] ($ (\\u)!0.42!(\\v) $)--($ (\\u)!0.52!(\\v) $);\\draw[line width=0.4pt,->] ($ (\\u)!0.48!(\\v) $)--($ (\\u)!0.58!(\\v) $);}\n\\node[above left] at (A){$A$};\\node[above right] at (B){$B$};\\node[below right] at (C){$C$};\\node[below left] at (D){$D$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 53,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 23,
+              "sourceRegion": "Opening continuation, question 15c",
+              "description": "Unshaded horizontal rectangle ABCD with both diagonals, four right-angle squares, single parallel arrows on AB and DC, and double arrows on AD and BC. Ordinary source blue strokes use house black.",
+              "mathematics": "AB parallel DC; AD parallel BC; all vertex angles are right angles. Diagonal equality is not marked.",
+              "answerVisibility": "Givens only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p23-q15c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Prove that $\\triangle ADC\\equiv\\triangle BCD$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\triangle ADC\\equiv\\triangle BCD$ (SAS).",
+              "worked": "In triangles $ADC$ and $BCD$:\n$$\\begin{aligned}AD&=BC&&\\text{(opposite sides of a parallelogram)}\\\\\\angle ADC&=\\angle BCD=90^\\circ&&\\text{(rectangle)}\\\\DC&=CD&&\\text{(common side)}\\end{aligned}$$\nTherefore $\\triangle ADC\\equiv\\triangle BCD$ (SAS).",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 35
+          },
+          {
+            "id": "p23-q15c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Hence prove that $AC=BD$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$AC=BD$ (matching sides of congruent triangles).",
+              "worked": "Since $\\triangle ADC\\equiv\\triangle BCD$, their matching sides $AC$ and $BD$ are equal. Thus the diagonals of the rectangle are equal.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:00.306Z",
+  "updatedAt": "2026-11-12T13:17:00.307Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p22-q15",
+    "sectionRole": "exercise"
+  }
+}

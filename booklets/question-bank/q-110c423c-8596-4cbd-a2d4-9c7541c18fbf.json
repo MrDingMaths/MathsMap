@@ -1,0 +1,194 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-110c423c-8596-4cbd-a2d4-9c7541c18fbf",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "special-products",
+    "secondarySkillIds": [
+      "dissect-rearrange-shapes"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the supplied dissection, subtract side lengths and compare two expressions for the same area; the identity and rearrangement are explicitly scaffolded.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T07:30:22.606Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b39fd741e48bd1f2e8585c242b3756cb854663d546927ab48008b607d9ab6c7c",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch04-20261015/lean-review/calls/content-1792740591810-5/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p6-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The following leads you through the geometrical proof that $a^2-b^2=(a-b)(a+b)$.\n\nIn the diagram opposite, square $ECFG$, of side length $b$, is cut out of square $ABCD$, which has side length $a$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p6-q6-original-figure",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"cutRed\",\"hex\":\"EF6068\",\"reason\":\"dashed cut HG used to detach the movable rectangle\"}],\"reference\":\"source page 6, p6-q6-diagram-original\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cutRed}{HTML}{EF6068}\n\\coordinate (A) at (0,4); \\coordinate (B) at (4,4); \\coordinate (C) at (4,0); \\coordinate (D) at (0,0);\n\\coordinate (E) at (4,1.6); \\coordinate (F) at (2.4,0); \\coordinate (G) at (2.4,1.6); \\coordinate (H) at (0,1.6);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\draw[black] (E)--(G)--(F);\n\\draw[cutRed,dashed,line width=0.4pt] (H)--(G);\n\\draw[black,line width=0.4pt] (0,1.3)--(0.3,1.3)--(0.3,1.6);\n\\node[above left] at (A) {$A$}; \\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$}; \\node[below left] at (D) {$D$};\n\\node[right] at (E) {$E$}; \\node[below] at (F) {$F$};\n\\node[above] at (G) {$G$}; \\node[left] at (H) {$H$};\n\\path (A)--node[above] {$a$} (B);\n\\path (E)--node[right] {$b$} (C);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 41.9,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 6,
+          "sourceRegion": "Question 6, upper diagram at right",
+          "description": "Square ABCD with bottom-right square ECFG removed; dashed cut HG and right-angle cue at H. Ordinary source blue outlines are rendered black under house style.",
+          "mathematics": "AB=AD=a; EC=CF=EG=GF=b; H, G and E are collinear. Coordinates encode a representative a>b, without introducing numerical dimensions.",
+          "answerVisibility": "All geometry, vertex labels and supplied dimensions are permanent givens; no response values are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p6-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the area of hexagon $ABEGFD$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a^2-b^2$",
+          "worked": "Subtract the area of the removed square from the area of the original square.\n\n$$\\begin{align*}\\text{Area of }ABEGFD&=a\\times a-b\\times b\\\\\\text{Area of }ABEGFD&=a^2-b^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p6-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the length of $BE$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a-b$",
+          "worked": "$$\\begin{align*}BE&=BC-EC\\\\BE&=a-b\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p6-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the length of $DF$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a-b$",
+          "worked": "$$\\begin{align*}DF&=DC-FC\\\\DF&=a-b\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p6-q6-d",
+        "type": "group",
+        "label": "d",
+        "prompt": "The rectangle $HGFD$ is moved so that $DF$ is placed on top of $BE$ (see diagram).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p6-q6-rearranged-figure",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"areaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the large shaded rectangle explicitly referenced in part d(i)\"}],\"reference\":\"source page 6, p6-q6-diagram-rearranged\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{areaBlue}{HTML}{D4E8FF}\n\\coordinate (A) at (0,2.4); \\coordinate (BD) at (4,2.4); \\coordinate (Htop) at (5.6,2.4);\n\\coordinate (Hbottom) at (0,0); \\coordinate (EF) at (4,0); \\coordinate (G) at (5.6,0);\n\\fill[areaBlue] (Hbottom)--(A)--(Htop)--(G)--cycle;\n\\draw[black] (Hbottom)--(A)--(Htop)--(G)--cycle;\n\\draw[black] (BD)--(EF);\n\\node[above left] at (A) {$A$}; \\node[above,yshift=12pt] at (BD) {$B,D$}; \\node[above right] at (Htop) {$H$};\n\\node[below left] at (Hbottom) {$H$}; \\node[below] at (EF) {$E,F$}; \\node[below right] at (G) {$G$};\n\\path (A)--node[above] {$a$} (BD);\n\\path (BD)--node[above] {$b$} (Htop);\n\\path (Htop)--node[right] {$a-b$} (G);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 6,
+              "sourceRegion": "Question 6, lower diagram at right",
+              "description": "Rearranged shaded rectangle, with original piece on the left and moved piece on the right. Coincident B,D and E,F labels retain the dissection correspondence. Light blue fill identifies the region named in d(i); ordinary outlines are black.",
+              "mathematics": "Adjacent top lengths a and b give total width a+b; height is a-b. The common vertical boundary represents coincident BE and DF.",
+              "answerVisibility": "Supplied segment labels and shading remain visible; the product for the area is withheld."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p6-q6-d-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "What is the area of the large shaded rectangle?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(a-b)(a+b)$",
+              "worked": "$$\\begin{align*}\\text{Area}&=\\text{height}\\times\\text{width}\\\\\\text{Area}&=(a-b)(a+b)\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p6-q6-d-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "What have we proved?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$a^2-b^2=(a-b)(a+b)$",
+              "worked": "Rearranging the pieces preserves their total area. The original hexagon and the new rectangle therefore have equal areas:\n\n$$a^2-b^2=(a-b)(a+b).$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p6-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:32:15.006Z",
+  "updatedAt": "2026-11-12T11:32:15.006Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch04-20261015",
+    "blockId": "p6-q6-block",
+    "sectionRole": "exercise"
+  }
+}

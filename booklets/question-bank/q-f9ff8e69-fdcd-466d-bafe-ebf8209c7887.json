@@ -1,0 +1,150 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f9ff8e69-fdcd-466d-bafe-ebf8209c7887",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-similar-triangles",
+      "prove-quadrilateral-tests"
+    ],
+    "reasoningScore": 63,
+    "difficulty": "Mastery",
+    "difficultyReason": "Form general similarity proofs from midpoint ratios and parallel angles, then transfer the established midpoint result to triangles formed by the explicitly requested diagonals to prove both opposite-side pairs parallel.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T10:14:12.942Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a84b35f0361b0759511b55c8098b103ff6ca33cf5ab96b1d675df73a326bd964",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch09-20261015/background-repair-1792577604680/worker-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-q7a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that: The line interval joining the midpoints of two sides of a triangle is parallel to the third side and half its length.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The midpoint interval is parallel to the third side and half its length, by SAS similarity.",
+          "worked": "Let $X$ and $Y$ be the midpoints of $AB$ and $BC$ in triangle $ABC$.\n$$\\begin{align*}\\frac{BX}{BA}&=\\frac12\\\\\\frac{BY}{BC}&=\\frac12\\end{align*}$$\nAlso $\\angle XBY=\\angle ABC$ (common angle). Therefore $\\triangle XBY\\sim\\triangle ABC$ (SAS). Matching sides give $XY=\\frac12AC$. Matching angles give $\\angle BXY=\\angle BAC$, so $XY\\parallel AC$ (equal corresponding angles).",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q7a-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 26 question 7a solution\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(0,0);\\coordinate(B)at(1.5,2.3);\\coordinate(C)at(4,0);\\coordinate(X)at($(A)!0.5!(B)$);\\coordinate(Y)at($(B)!0.5!(C)$);\\draw(A)--(B)--(C)--cycle;\\draw(X)--(Y);\\node[below left]at(A){$A$};\\node[above]at(B){$B$};\\node[below right]at(C){$C$};\\node[left]at(X){$X$};\\node[right]at(Y){$Y$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 7(a), teacher construction",
+                "description": "Labelled triangle and midpoint interval supporting the proof.",
+                "mathematics": "X and Y are midpoints of AB and BC.",
+                "answerVisibility": "Answer edition only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 70
+      },
+      {
+        "id": "p26-q7b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that: The line through the midpoint of one side of a triangle parallel to another side of the triangle meets the third side at its midpoint.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The third side is bisected, by AAA similarity.",
+          "worked": "In triangle $ABC$, let $X$ be the midpoint of $AB$. Let the line through $X$ parallel to $AC$ meet $BC$ at $Y$. Then $\\angle BXY=\\angle BAC$ (corresponding angles) and $\\angle XBY=\\angle ABC$ (common angle). Thus $\\triangle XBY\\sim\\triangle ABC$ (AAA).\n$$\\begin{align*}\\frac{BY}{BC}&=\\frac{BX}{BA}\\\\\\frac{BY}{BC}&=\\frac12\\\\BY&=\\frac12BC\\end{align*}$$\nTherefore $BY=YC$, so $Y$ is the midpoint of $BC$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p26-q7c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that: The midpoints of the sides of a quadrilateral form the vertices of a parallelogram. Let $ABCD$ be a quadrilateral, and let $P$, $Q$, $R$ and $S$ be the midpoints of the sides $AB$, $BC$, $CD$ and $DA$ respectively. Construct diagonals $AC$ and $BD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$PQ\\parallel SR$ and $PS\\parallel QR$; therefore $PQRS$ is a parallelogram.",
+          "worked": "Construct $AC$ and $BD$. In triangles $ABC$ and $ADC$, the midpoint theorem gives $PQ\\parallel AC$ and $SR\\parallel AC$. Hence $PQ\\parallel SR$. In triangles $ABD$ and $BCD$, the midpoint theorem gives $PS\\parallel BD$ and $QR\\parallel BD$. Hence $PS\\parallel QR$. Both pairs of opposite sides of $PQRS$ are parallel, so $PQRS$ is a parallelogram.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q7c-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 26 question 7c construction\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(0,0);\\coordinate(B)at(0.6,3);\\coordinate(C)at(4,2.5);\\coordinate(D)at(3.2,-0.5);\\coordinate(P)at($(A)!0.5!(B)$);\\coordinate(Q)at($(B)!0.5!(C)$);\\coordinate(R)at($(C)!0.5!(D)$);\\coordinate(S)at($(D)!0.5!(A)$);\\draw(A)--(B)--(C)--(D)--cycle;\\draw(P)--(Q)--(R)--(S)--cycle;\\draw[line width=0.4pt,dashed](A)--(C)(B)--(D);\\node[below left]at(A){$A$};\\node[above left]at(B){$B$};\\node[above right]at(C){$C$};\\node[below right]at(D){$D$};\\node[left]at(P){$P$};\\node[above]at(Q){$Q$};\\node[right]at(R){$R$};\\node[below]at(S){$S$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 7(c), requested construction",
+                "description": "An illustrative quadrilateral, four side midpoints, their connecting intervals and both diagonals.",
+                "mathematics": "P,Q,R,S bisect AB,BC,CD,DA respectively; AC and BD are construction diagonals.",
+                "answerVisibility": "Solution only; the student receives blank construction space."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 95
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:11.477Z",
+  "updatedAt": "2026-11-12T13:17:11.477Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch09-20261015",
+    "blockId": "p26-q7",
+    "sectionRole": "exercise"
+  }
+}

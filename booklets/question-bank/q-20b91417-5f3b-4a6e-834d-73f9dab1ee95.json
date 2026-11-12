@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-20b91417-5f3b-4a6e-834d-73f9dab1ee95",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "parallel-line-angle-properties"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine angle bisectors, parallel lines and isosceles triangles in a multipart proof.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T03:48:12.068Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "661931122c28b87db6dce2b72322fbfcd38b2236a62672098942b8a3736e4e07",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/semantic-packets/assignments/assignment-b92d4a25b1d00834d1d7/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "In a parallelogram $ABCD$, the point $E$ lies on the side $DC$ such that $EA$ bisects $\\angle BAD$ and $EB$ bisects $\\angle ABC$. Prove that:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 32 p32-q8-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (D) at (0,0);\\coordinate (C) at (4,0);\\coordinate (A) at (0.6,1.8);\\coordinate (B) at (4.6,1.8);\\coordinate (E) at (2,0);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--cycle (A)--(E)--(B);\n\\draw[->>,line width=0.4pt] ($(A)!0.46!(B)$)--($(A)!0.59!(B)$);\\draw[->>,line width=0.4pt] ($(D)!0.65!(C)$)--($(D)!0.78!(C)$);\n\\draw[->,line width=0.4pt] ($(D)!0.43!(A)$)--($(D)!0.59!(A)$);\\draw[->,line width=0.4pt] ($(C)!0.43!(B)$)--($(C)!0.59!(B)$);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\\node[below] at (E) {$E$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Review question 8, right-hand figure",
+          "description": "Parallelogram ABCD with E on DC and segments AE and BE; both parallel-side pairs marked.",
+          "mathematics": "AB parallel DC and AD parallel BC; EA and EB are angle bisectors as stated in the prompt.",
+          "answerVisibility": "Givens only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p32-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$DE=EC$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$DE=EC$.\n\nThe angle bisectors give $DE=AD$ and $EC=BC$, and $AD=BC$.",
+          "worked": "Since $AB\\parallel DC$, $\\angle BAE=\\angle AED$ (alternate angles). Also $\\angle DAE=\\angle BAE$ because $AE$ bisects $\\angle BAD$. Thus $\\angle DAE=\\angle AED$, so $DE=AD$ (equal angles in $\\triangle ADE$).\nSimilarly, $\\angle ABE=\\angle BEC$ and $\\angle ABE=\\angle EBC$, so $EC=BC$ (equal angles in $\\triangle BEC$). Since $AD=BC$ (opposite sides of a parallelogram), $DE=EC$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p32-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$DC=2CB$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$DC=2CB$, since $DE=EC=CB$.",
+          "worked": "From part a, $DE=EC$ and $EC=CB$.\n$$\\begin{align*}DC&=DE+EC\\\\DC&=2EC\\\\DC&=2CB.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p32-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\angle AEB$ is a right angle",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle AEB=90^\\circ$.\n\nThe bisectors halve supplementary adjacent angles.",
+          "worked": "$\\angle BAD+\\angle ABC=180^\\circ$ (co-interior angles, $AD\\parallel BC$). Since $AE$ and $BE$ bisect these angles,\n$$\\begin{align*}\\angle EAB+\\angle ABE&=\\tfrac12(\\angle BAD+\\angle ABC)\\\\\\angle EAB+\\angle ABE&=90^\\circ.\\end{align*}$$\nTherefore $\\angle AEB=180^\\circ-90^\\circ=90^\\circ$ (angle sum of $\\triangle AEB$).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p32-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:08.405Z",
+  "updatedAt": "2026-11-12T13:17:08.405Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p32-q8",
+    "sectionRole": "exercise"
+  }
+}

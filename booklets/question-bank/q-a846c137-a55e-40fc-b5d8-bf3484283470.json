@@ -1,0 +1,615 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a846c137-a55e-40fc-b5d8-bf3484283470",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-using-pythagoras"
+    ],
+    "reasoningScore": 56,
+    "difficulty": "Mastery",
+    "difficultyReason": "Identify the correct square and equilateral-triangle regions between tangent circles, choose sector subtraction and derive a triangle altitude before calculating the gaps. Intermediate side/height prompts scaffold the algebra, but composite-region selection remains an independent geometric decision.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-27T09:29:07.039Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e124ddf5df9f8eec353c72fa107de79344557dcd34d306de07e4cb47d7ea1ce8",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch10-20261015/lean-review/calls/content-1793093322317-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-packaging-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-packaging-context",
+        "type": "group",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p26-packaging-introduction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "In a factory, balls are packed in canisters, which are then wrapped in bundles of six with shrink-wrap film. To make the bundle as secure as possible, the ",
+                  "marks": []
+                },
+                {
+                  "type": "text",
+                  "text": "total volume",
+                  "marks": [
+                    "italic"
+                  ]
+                },
+                {
+                  "type": "text",
+                  "text": " of the pack, including any air space, needs to be as small as possible. If the volume was not as small as possible, the shrink-wrap film could be pulled tighter, thus decreasing the volume and making the package more secure.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p26-packaging-purpose",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "In this project, you will investigate how cylindrical canisters can be packed so as to minimise the volume of the pack.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p26-packaging-givens",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "You will need the following information. The canisters are cylindrical, with a base radius of 2.5 cm and a height of 20 cm.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p26-packaging-restriction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The final package can be no longer than 20 cm – that is, the cans cannot be stacked end-to-end like this.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-packaging-cylinder",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 26 Packaging cylinder\"}\n\\begin{tikzpicture}[x=8mm,y=8mm,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,4) ellipse (1 and 0.25);\\draw (-1,4)--(-1,0);\\draw (1,4)--(1,0);\\draw (-1,0) arc (180:360:1 and 0.25);\n\\node[right] at (1.15,2){20 cm};\\draw[<->,line width=0.4pt] (0,-0.65)--node[below]{2.5 cm}(1,-0.65);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 42,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Packaging upright canister",
+              "description": "Upright cylinder with 20 cm height and a centre-to-right-edge base-radius arrow labelled 2.5 cm.",
+              "mathematics": "Radius 2.5 cm; height 20 cm.",
+              "answerVisibility": "Supplied dimensions only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          },
+          {
+            "id": "p26-packaging-end-to-end",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 26 prohibited end-to-end canisters\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0) ellipse (0.18 and 0.6);\\draw (0,0.6)--(4.8,0.6);\\draw (0,-0.6)--(4.8,-0.6);\\draw (2.4,0.6) arc (90:-90:0.18 and 0.6);\\draw (4.8,0.6) arc (90:-90:0.18 and 0.6);\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Packaging prohibited arrangement",
+              "description": "Two horizontal canisters placed end-to-end, associated with the visible prohibition.",
+              "mathematics": "End-to-end stacking exceeds the permitted package length.",
+              "answerVisibility": "Permanent supplied example of a prohibited arrangement."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "responseSpace": "given",
+        "answerSpaceMm": null
+      },
+      {
+        "id": "p27-q1",
+        "type": "group",
+        "label": "",
+        "prompt": "In the following, we consider cross-sections of the bundles of canisters. When canisters are bundled, two types of region are important. These are shown below by the shading. The radius of each circle is 2.5 cm.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p27-q1-regions",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the requested interstitial regions\"}],\"reference\":\"page 27 Packaging Diagrams 1 and 2\"}\n\\begin{tikzpicture}[x=5mm,y=5mm,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (-2.5,0) arc (180:90:2.5) arc (270:180:2.5)--cycle;\n\\draw (0,0) circle (2.5) (0,5) circle (2.5);\\draw (-2.5,0) rectangle (2.5,5);\\node[below] at (0,-3){Diagram 1};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 29.529057768682467,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 27,
+              "sourceRegion": "Diagram 1",
+              "description": "Two vertically tangent circles and the square side; only the left interstice is shaded.",
+              "mathematics": "All circles have radius 2.5 cm. Diagram 1 uses a half-square minus two quadrants; Diagram 2 uses an equilateral triangle minus three 60-degree sectors.",
+              "answerVisibility": "No calculated lengths or areas supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          },
+          {
+            "id": "p27-q1-regions-diagram2",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the requested interstitial regions\"}],\"reference\":\"page 27 Packaging Diagrams 1 and 2\"}\n\\begin{tikzpicture}[x=5mm,y=5mm,line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\n\\fill[regionBlue] (2.5,0) arc (180:120:2.5) arc (300:240:2.5) arc (60:0:2.5)--cycle;\n\\draw (0,0) circle (2.5) (5,0) circle (2.5) (2.5,{2.5*sqrt(3)}) circle (2.5);\n\\draw (0,0)--(5,0)--(2.5,{2.5*sqrt(3)})--cycle;\\node[below] at (2.5,-3){Diagram 2};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 57.435460646838905,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 27,
+              "sourceRegion": "Diagram 2",
+              "description": "Three mutually tangent circles and the triangle joining their centres; the central curved gap is shaded.",
+              "mathematics": "All circles have radius 2.5 cm. Diagram 1 uses a half-square minus two quadrants; Diagram 2 uses an equilateral triangle minus three 60-degree sectors.",
+              "answerVisibility": "No calculated lengths or areas supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p27-q1-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Calculate the exact area of the shaded region in diagram 1.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{25}{2}-\\dfrac{25\\pi}{8}\\text{ cm}^2$",
+              "worked": "The square has side $5$ cm. The shaded left half contains two quarter-circles removed from half the square.\n$$\\begin{align*}A&=\\frac12(5^2)-2\\left(\\frac14\\pi(2.5)^2\\right)\\\\A&=\\frac{25}{2}-\\frac{25\\pi}{8}\\text{ cm}^2\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          },
+          {
+            "id": "p27-q1-b",
+            "type": "group",
+            "label": "b",
+            "prompt": "",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [
+              {
+                "id": "p27-q1-b-i",
+                "type": "part",
+                "label": "i",
+                "prompt": "What is the side length of the triangle shown in diagram 2?",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$5\\text{ cm}$",
+                  "worked": "Each side joins the centres of two touching circles: $2.5+2.5=5$ cm.",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 12
+              },
+              {
+                "id": "p27-q1-b-ii",
+                "type": "part",
+                "label": "ii",
+                "prompt": "What is the height of the triangle? Calculate an exact answer.",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\dfrac{5\\sqrt3}{2}\\text{ cm}$",
+                  "worked": "The altitude bisects the base of the equilateral triangle. By Pythagoras' theorem,\n$$\\begin{align*}h^2+\\left(\\frac52\\right)^2&=5^2\\\\h^2&=25-\\frac{25}{4}\\\\h^2&=\\frac{75}{4}\\\\h&=\\frac{5\\sqrt3}{2}\\text{ cm}\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 33
+              },
+              {
+                "id": "p27-q1-b-iii",
+                "type": "part",
+                "label": "iii",
+                "prompt": "What is the exact area of the shaded region in diagram 2?",
+                "layout": "list",
+                "columns": null,
+                "questionDiagrams": [],
+                "children": [],
+                "answer": {
+                  "short": "$\\left(\\dfrac{25\\sqrt3}{4}-\\dfrac{25\\pi}{8}\\right)\\text{ cm}^2$",
+                  "worked": "Subtract three $60^\\circ$ sectors from the equilateral triangle.\n$$\\begin{align*}A&=\\frac12\\times5\\times\\frac{5\\sqrt3}{2}-3\\left(\\frac{60}{360}\\pi\\left(\\frac52\\right)^2\\right)\\\\A&=\\frac{25\\sqrt3}{4}-\\frac{25\\pi}{8}\\text{ cm}^2\\end{align*}$$",
+                  "solutionDiagrams": []
+                },
+                "answerSpaceMm": 33
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-packaging": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-packaging-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p26-packaging-root/label",
+                  "type": "item",
+                  "ref": "p26-packaging-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "p26-packaging-context:question",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p26-packaging-givens-and-canister",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p26-packaging-givens-and-canister-text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p26-packaging-context/prompt#p26-packaging-introduction",
+                              "type": "item",
+                              "ref": "p26-packaging-context/prompt#p26-packaging-introduction",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p26-packaging-context/prompt#p26-packaging-purpose",
+                              "type": "item",
+                              "ref": "p26-packaging-context/prompt#p26-packaging-purpose",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p26-packaging-context/prompt#p26-packaging-givens",
+                              "type": "item",
+                              "ref": "p26-packaging-context/prompt#p26-packaging-givens",
+                              "title": "Text"
+                            }
+                          ],
+                          "weight": 100
+                        },
+                        {
+                          "id": "layout:p26-packaging-cylinder",
+                          "type": "item",
+                          "ref": "p26-packaging-cylinder",
+                          "title": "Diagram",
+                          "weight": 66
+                        }
+                      ],
+                      "gap": 3
+                    },
+                    {
+                      "id": "p26-packaging-restriction-and-prohibited",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p26-packaging-restriction-and-prohibited-text",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p26-packaging-context/prompt#p26-packaging-restriction",
+                              "type": "item",
+                              "ref": "p26-packaging-context/prompt#p26-packaging-restriction",
+                              "title": "Text"
+                            }
+                          ],
+                          "weight": 100
+                        },
+                        {
+                          "id": "layout:p26-packaging-end-to-end",
+                          "type": "item",
+                          "ref": "p26-packaging-end-to-end",
+                          "title": "Diagram",
+                          "weight": 66
+                        }
+                      ],
+                      "gap": 3
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "p26-packaging-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p27-q1:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p27-q1/label",
+                          "type": "item",
+                          "ref": "p27-q1/label",
+                          "title": "Label 1"
+                        },
+                        {
+                          "id": "layout:p27-q1/prompt",
+                          "type": "item",
+                          "ref": "p27-q1/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p27-source-diagram-pair",
+                          "type": "group",
+                          "direction": "row",
+                          "children": [
+                            {
+                              "id": "layout:p27-q1-regions",
+                              "type": "item",
+                              "ref": "p27-q1-regions",
+                              "title": "Diagram",
+                              "width": 29.529057768682467
+                            },
+                            {
+                              "id": "layout:p27-q1-regions-diagram2",
+                              "type": "item",
+                              "ref": "p27-q1-regions-diagram2",
+                              "title": "Diagram",
+                              "width": 57.435460646838905
+                            }
+                          ],
+                          "gap": 30
+                        },
+                        {
+                          "id": "p27-q1:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p27-q1-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p27-q1-a/label",
+                                  "type": "item",
+                                  "ref": "p27-q1-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p27-q1-a/prompt",
+                                  "type": "item",
+                                  "ref": "p27-q1-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p27-q1-a/space",
+                                  "type": "item",
+                                  "ref": "p27-q1-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p27-q1-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p27-q1-b/label",
+                                  "type": "item",
+                                  "ref": "p27-q1-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "p27-q1-b:parts",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "p27-q1-b-i:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p27-q1-b-i/label",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-i/label",
+                                          "title": "Label i"
+                                        },
+                                        {
+                                          "id": "layout:p27-q1-b-i/prompt",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-i/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p27-q1-b-i/space",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-i/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part i",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p27-q1-b-ii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p27-q1-b-ii/label",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-ii/label",
+                                          "title": "Label ii"
+                                        },
+                                        {
+                                          "id": "layout:p27-q1-b-ii/prompt",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-ii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p27-q1-b-ii/space",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-ii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part ii",
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p27-q1-b-iii:question",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p27-q1-b-iii/label",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-iii/label",
+                                          "title": "Label iii"
+                                        },
+                                        {
+                                          "id": "layout:p27-q1-b-iii/prompt",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-iii/prompt",
+                                          "title": "Text"
+                                        },
+                                        {
+                                          "id": "layout:p27-q1-b-iii/space",
+                                          "type": "item",
+                                          "ref": "p27-q1-b-iii/space",
+                                          "title": "Answer space"
+                                        }
+                                      ],
+                                      "title": "Part iii",
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part 1",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p26-packaging"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:16.707Z",
+  "updatedAt": "2026-11-12T13:17:16.708Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch10-20261015",
+    "blockId": "p26-packaging",
+    "sectionRole": "exercise"
+  }
+}

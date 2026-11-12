@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7b03dbcb-3c05-4c97-852b-7a814da33625",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 72,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use two SAS proofs and the equal-opposite-sides test for a parallelogram.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T03:48:12.068Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9faffaa9f4017c7372a6bfbddffb98a19288b49acc418dd33911d82b2a33562e",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/semantic-packets/assignments/assignment-b92d4a25b1d00834d1d7/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "In the parallelogram $ABCD$, the points $X$ and $Y$ are on the diagonal $DB$ such that $DX=DA$ and $BY=BC$. Prove that:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p32-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 32 p32-q9-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (D) at (0,0);\\coordinate (C) at (4,0);\\coordinate (A) at (0.6,1.8);\\coordinate (B) at (4.6,1.8);\\coordinate (X) at ($(D)!0.40!(B)$);\\coordinate (Y) at ($(D)!0.60!(B)$);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--cycle (D)--(B) (A)--(X)--(C) (A)--(Y)--(C);\n\\draw[->>,line width=0.4pt] ($(A)!0.46!(B)$)--($(A)!0.59!(B)$);\\draw[->>,line width=0.4pt] ($(D)!0.46!(C)$)--($(D)!0.59!(C)$);\\draw[->,line width=0.4pt] ($(D)!0.43!(A)$)--($(D)!0.59!(A)$);\\draw[->,line width=0.4pt] ($(C)!0.43!(B)$)--($(C)!0.59!(B)$);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\\node[below] at (X) {$X$};\\node[above] at (Y) {$Y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 32,
+          "sourceRegion": "Review question 9, right-hand figure",
+          "description": "Parallelogram with D, X, Y, B in order on DB, all four connecting segments AX, AY, CX, CY and both parallel-side pairs.",
+          "mathematics": "DX=DA and BY=BC are stated in the prompt; diagram positions are schematic.",
+          "answerVisibility": "Givens only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p32-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$AX=CY$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AX=CY$, since $\\triangle ADX\\equiv\\triangle CBY$ (SAS).",
+          "worked": "In triangles $ADX$ and $CBY$, $AD=CB$ (opposite sides of a parallelogram). Also $DX=DA$ and $BY=BC$ (given), so $DX=BY$. Since $AD\\parallel BC$, $\\angle ADX=\\angle CBY$ (alternate angles). Thus $\\triangle ADX\\equiv\\triangle CBY$ (SAS), so $AX=CY$ (matching sides).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p32-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$AY=CX$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AY=CX$, since $\\triangle ABY\\equiv\\triangle CDX$ (SAS).",
+          "worked": "In triangles $ABY$ and $CDX$, $AB=CD$ (opposite sides of a parallelogram), $BY=DX$ (part a), and $\\angle ABY=\\angle CDX$ (alternate angles, $AB\\parallel CD$). Thus $\\triangle ABY\\equiv\\triangle CDX$ (SAS), so $AY=CX$ (matching sides).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p32-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$AYCX$ is a parallelogram",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AYCX$ is a parallelogram because both pairs of opposite sides are equal.",
+          "worked": "In quadrilateral $AYCX$, $AY=CX$ (part b) and $YC=XA$ (part a). Both pairs of opposite sides are equal, so $AYCX$ is a parallelogram.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p32-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:08.782Z",
+  "updatedAt": "2026-11-12T13:17:08.782Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p32-q9",
+    "sectionRole": "exercise"
+  }
+}

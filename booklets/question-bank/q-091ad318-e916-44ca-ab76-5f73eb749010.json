@@ -1,0 +1,144 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-091ad318-e916-44ca-ab76-5f73eb749010",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "area-of-triangle"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Use a common angle and altitude right angles to prove the specified similarity, then obtain the stated ratio from corresponding sides and from the supplied area expressions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T10:32:12.846Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1b829e50d71339e2f85bdcc79d0c184489b58652b79ee9b22726c3706255595f",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch09-20261015/semantic-packets/assignments/assignment-0cdfaea9b6aa7a6f8fca/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p17-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Let $ABC$ be a triangle, and let $BP$ and $CQ$ be altitudes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p17-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 17 p17-q8-diagram\"}\n\\begin{tikzpicture}[x=12mm,y=12mm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\usetikzlibrary{calc,angles}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (2.2,3);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (3.8,0);\n\\coordinate (P) at ($(A)!(B)!(C)$);\n\\coordinate (Q) at ($(A)!(C)!(B)$);\n\\draw[black] (A)--(B)--(C)--cycle;\n\\draw[black] (B)--(P) (C)--(Q);\n\\pic[draw=black,line width=0.4pt,angle radius=2mm] {right angle=B--P--A};\n\\pic[draw=black,line width=0.4pt,angle radius=2mm] {right angle=A--Q--C};\n\\node[above] at (A) {$A$};\n\\node[below left] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[right] at (P) {$P$};\n\\node[above left] at (Q) {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 52,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 17,
+          "sourceRegion": "Exercise 9C Question 8",
+          "description": "Unshaded triangle with A above B and C; P is on AC and Q is on AB. The two interior altitudes cross. Ordinary source blue linework is reconstructed in house black.",
+          "mathematics": "BP is perpendicular to AC at P; CQ is perpendicular to AB at Q. Feet and right-angle markers are derived from the triangle coordinates.",
+          "answerVisibility": "Only the supplied vertices, altitudes and right-angle markers are visible; no similarity or ratio answers are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p17-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\triangle ABP$ is similar to $\\triangle ACQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle BAP=\\angle CAQ$ (common angle) and $\\angle APB=\\angle AQC=90^\\circ$. Therefore $\\triangle ABP\\sim\\triangle ACQ$ (AAA).",
+          "worked": "In triangles $ABP$ and $ACQ$:\n$$\\begin{align*}\\angle BAP&=\\angle CAQ &&\\text{(common angle at }A\\text{)}\\\\\\angle APB&=\\angle AQC=90^\\circ &&\\text{(altitudes)}\\end{align*}$$\nTherefore $\\triangle ABP\\sim\\triangle ACQ$ (AAA), with vertices in matching order.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p17-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence prove that $\\dfrac{BP}{CQ}=\\dfrac{AB}{AC}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{BP}{CQ}=\\dfrac{AB}{AC}$, since these are ratios of matching sides of the similar triangles.",
+          "worked": "From $\\triangle ABP\\sim\\triangle ACQ$, side $BP$ corresponds to $CQ$, and side $AB$ corresponds to $AC$. Matching sides have equal ratios, so\n$$\\frac{BP}{CQ}=\\frac{AB}{AC}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p17-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "As an alternative approach, explain why $\\dfrac12\\times AC\\times BP$ and $\\dfrac12\\times AB\\times CQ$ are both equal to the area of $\\triangle ABC$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each is $\\tfrac12\\times\\text{base}\\times\\text{perpendicular height}$ for the same triangle: $AC$ pairs with $BP$, and $AB$ pairs with $CQ$.",
+          "worked": "Using base $AC$, the perpendicular height is $BP$, so the area of $\\triangle ABC$ is $\\tfrac12\\times AC\\times BP$.\n\nUsing base $AB$, the perpendicular height is $CQ$, so the same area is $\\tfrac12\\times AB\\times CQ$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p17-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence prove that $\\dfrac{BP}{CQ}=\\dfrac{AB}{AC}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Equating the two area expressions gives $AC\\times BP=AB\\times CQ$, hence $\\dfrac{BP}{CQ}=\\dfrac{AB}{AC}$.",
+          "worked": "The two expressions represent the area of the same triangle:\n$$\\begin{align*}\\frac12\\times AC\\times BP&=\\frac12\\times AB\\times CQ\\\\AC\\times BP&=AB\\times CQ\\\\\\frac{BP}{CQ}&=\\frac{AB}{AC}.\\end{align*}$$\nThe final line follows by dividing both sides by $AC\\times CQ$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p17-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:08.036Z",
+  "updatedAt": "2026-11-12T13:17:08.036Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch09-20261015",
+    "blockId": "p17-q8",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6a7ceee2-146a-439c-9349-486dc55a420e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pythagoras-multistep",
+    "secondarySkillIds": [
+      "area-of-triangle"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Follow a scaffolded chain: find the hypotenuse, express one area using two base/height pairs, then carry the exact height into a second Pythagoras calculation. The link between area and the smaller triangle is essential.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-26T09:19:36.338Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c219b584f082c03578ed845338286550f32292a6e0044e9e8f2377eec1ef4fc4",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch02-20261015/resume-20261026/source7-v2/author-draft.json"
+    }
+  },
+  "content": {
+    "id": "p7-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "In triangle $ABC$ the line $BD$ is drawn perpendicular to $AC$. $h$ is the length of $BD$ and $x$ is the length of $CD$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p7-q15-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=.1cm,y=.1cm,line width=.8pt,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\coordinate(B)at(0,0);\\coordinate(C)at(10,0);\\coordinate(A)at(0,24);\\coordinate(D)at(8.520710059,3.550295858);\n\\draw[black](A)--(B)--(C)--cycle;\\draw[black](B)--(D);\n\\draw[black,line width=.4pt](0,.8)--(.8,.8)--(.8,0);\n\\coordinate(Du)at($(D)!0.8mm!(A)$);\\coordinate(Dv)at($(D)!0.8mm!(B)$);\n\\draw[black,line width=.4pt](Du)--($(Du)+(Dv)-(D)$)--(Dv);\n\\node[above]at(A){$A$};\\node[below left]at(B){$B$};\\node[below right]at(C){$C$};\\node[right]at(D){$D$};\n\\path(A)--(B)node[midway,left]{24};\\path(B)--(C)node[midway,below]{10};\\path(B)--(D)node[midway,above left]{$h$};\\path(D)--(C)node[midway,right]{$x$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 32,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "description": "Tall righttriangleABC, AB24 vertical, BC10 horizontal, rightangleB. BDperpendicular toAC atD; hlabelsBD and xlabelsDC. A/B/C/D allnecessary in questionparts and answers. D is actual orthogonal projection preserving source relationship.",
+          "mathematics": "AB=24,BC=10,AC=26,BD=120/13,DC=50/13; ∠ABC=∠BDC=90°. Only original24/10/h/x are printed.",
+          "sizing": {
+            "exceptionReason": "Tall10:24 source triangle with internal perpendicular and h/x labels. Preserve aspect ratio and native10pt labels at32mm width; review actual height/readability instead of compressing or shrinking the labels."
+          }
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p7-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the length of $AC$ is 26.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AC=26$.",
+          "worked": "Triangle $ABC$ is right-angled at $B$.\n$$\\begin{align*}AC^2&=24^2+10^2\\\\AC^2&=676\\\\AC&=26\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p7-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of triangle $ABC$ in two ways to show that $13h=120$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "dependsOn": [
+          "p7-q15-a"
+        ],
+        "answer": {
+          "short": "$A=120=13h$.",
+          "worked": "Using the perpendicular sides $AB$ and $BC$:\n$$A=\\frac12\\times24\\times10=120.$$\nUsing base $AC$ and perpendicular height $BD$:\n$$A=\\frac12\\times26\\times h=13h.$$\nEquating the two expressions for the same area gives $13h=120$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p7-q15-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use Pythagoras’ theorem to find $x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "dependsOn": [
+          "p7-q15-b"
+        ],
+        "answer": {
+          "short": "$x=\\frac{50}{13}$.\n\nUse $h=\\frac{120}{13}$ in right-angled triangle $BDC$.",
+          "worked": "From part b, $h=\\frac{120}{13}$. Triangle $BDC$ is right-angled at $D$.\n$$\\begin{align*}x^2+h^2&=10^2\\\\x^2&=100-\\left(\\frac{120}{13}\\right)^2\\\\x^2&=\\frac{2500}{169}\\\\x&=\\frac{50}{13}\\end{align*}$$\nTake the positive square root because $x$ is a length.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 56
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p7-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:48:32.031Z",
+  "updatedAt": "2026-11-12T11:48:32.031Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch02-20261015",
+    "blockId": "p7-q15",
+    "sectionRole": "exercise"
+  }
+}

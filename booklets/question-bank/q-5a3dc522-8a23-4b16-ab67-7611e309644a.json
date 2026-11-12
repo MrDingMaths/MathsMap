@@ -1,0 +1,178 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5a3dc522-8a23-4b16-ab67-7611e309644a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "exterior-angle-sum-polygon",
+    "secondarySkillIds": [
+      "interior-angle-sum-polygon",
+      "angles-add-to-180"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise supplementary pairs, subtract the polygon interior-angle sum, and generalise the same scaffolded calculation to n sides.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T03:38:30.892Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "51f5961f7e342feb3af5cc207184deacb6f8fe9800430a78b310b36a9ca2e175",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch07-20261015/semantic-packets/assignments/assignment-f5573d959e5ee6d58e13/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p14-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p14-q9a",
+        "type": "group",
+        "label": "a",
+        "prompt": "In the convex decagon to the right, each side has been produced to form an exterior angle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q9a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 14 question 9a\"}\n\\begin{tikzpicture}[x=15mm,y=15mm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,9}{\\pgfmathsetmacro{\\t}{108-36*\\i}\\coordinate (V\\i) at (\\t:1.45);}\n\\draw (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--(V6)--(V7)--(V8)--(V9)--cycle;\n\\foreach \\i in {0,...,9}{\\pgfmathtruncatemacro{\\j}{mod(\\i+9,10)}\\coordinate (E\\i) at ($(V\\j)!1.55!(V\\i)$);\\draw (V\\i)--(E\\i);\\pgfmathsetmacro{\\a}{-36*\\i}\\pgfmathsetmacro{\\b}{36-36*\\i}\\draw[line width=0.4pt] ($(V\\i)+(\\a:0.24)$) arc[start angle=\\a,end angle=\\b,radius=0.24];}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 39.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 9a, right-hand figure",
+              "description": "Unlabelled convex decagon with ten sides extended consistently beyond their vertices and all ten exterior angles marked. Ordinary source-blue strokes are rendered black under house style.",
+              "mathematics": "Each marked exterior angle forms a supplementary pair with the interior angle at the same vertex. No equality marks or numerical angle values are supplied.",
+              "answerVisibility": "Only the supplied polygon, extensions and exterior-angle arcs are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p14-q9ai",
+            "type": "part",
+            "label": "i",
+            "prompt": "Explain why the sum of the interior angles plus the sum of the exterior angles is $1800^\\circ$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Each interior angle and its adjacent exterior angle add to $180^\\circ$. There are 10 pairs, so their total is $10\\times180^\\circ=1800^\\circ$.",
+              "worked": "Each side extension forms a straight line, so the interior angle and adjacent exterior angle at each vertex are supplementary.\n\nThere are 10 vertices, hence the combined sum is $10\\times180^\\circ=1800^\\circ$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 25
+          },
+          {
+            "id": "p14-q9aii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Hence find the sum of the 10 exterior angles.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$360^\\circ$.",
+              "worked": "The interior-angle sum of the decagon is $(10-2)\\times180^\\circ=1440^\\circ$.\n\n$$\\begin{align*}\\text{Exterior-angle sum}&=1800^\\circ-1440^\\circ\\\\\\text{Exterior-angle sum}&=360^\\circ\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 28
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      },
+      {
+        "id": "p14-q9b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw a convex hexagon and repeat the process.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Interior plus exterior angles: $1080^\\circ$. Interior angles: $720^\\circ$. Exterior angles: $360^\\circ$.",
+          "worked": "Draw a convex hexagon, extend each side in the same turning direction and mark the six exterior angles.\n\nEach interior angle and its adjacent exterior angle are supplementary, so the combined sum is $6\\times180^\\circ=1080^\\circ$.\n\nThe interior-angle sum is $(6-2)\\times180^\\circ=720^\\circ$.\n\n$$\\begin{align*}\\text{Exterior-angle sum}&=1080^\\circ-720^\\circ\\\\\\text{Exterior-angle sum}&=360^\\circ\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p14-q9b-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 14 question 9b authored solution\"}\n\\begin{tikzpicture}[x=15mm,y=15mm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,5}{\\pgfmathsetmacro{\\t}{120-60*\\i}\\coordinate (H\\i) at (\\t:1.25);}\n\\draw (H0)--(H1)--(H2)--(H3)--(H4)--(H5)--cycle;\n\\foreach \\i in {0,...,5}{\\pgfmathtruncatemacro{\\j}{mod(\\i+5,6)}\\coordinate (E\\i) at ($(H\\j)!1.45!(H\\i)$);\\draw (H\\i)--(E\\i);\\pgfmathsetmacro{\\a}{-60*\\i}\\pgfmathsetmacro{\\b}{60-60*\\i}\\draw[line width=0.4pt] ($(H\\i)+(\\a:0.25)$) arc[start angle=\\a,end angle=\\b,radius=0.25];}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 55,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 14,
+                "sourceRegion": "Question 9b response",
+                "description": "One example of a convex hexagon with each side extended and all six exterior angles marked.",
+                "mathematics": "Six supplementary interior/exterior pairs; no regularity assumption is needed for the calculation.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 72
+      },
+      {
+        "id": "p14-q9c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Using the same technique, find the sum of the exterior angles of a convex polygon with $n$ sides.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$360^\\circ$.\n\nSubtract the interior-angle sum from the total of the $n$ supplementary interior/exterior pairs.",
+          "worked": "The $n$ supplementary pairs have combined sum $180n^\\circ$. The interior-angle sum is $180(n-2)^\\circ$.\n\n$$\\begin{align*}\\text{Exterior-angle sum}&=180n^\\circ-180(n-2)^\\circ\\\\\\text{Exterior-angle sum}&=180n^\\circ-180n^\\circ+360^\\circ\\\\\\text{Exterior-angle sum}&=360^\\circ\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:16:55.664Z",
+  "updatedAt": "2026-11-12T13:16:55.665Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch07-20261015",
+    "blockId": "p14-q9",
+    "sectionRole": "exercise"
+  }
+}

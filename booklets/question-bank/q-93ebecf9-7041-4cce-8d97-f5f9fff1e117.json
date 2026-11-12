@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-93ebecf9-7041-4cce-8d97-f5f9fff1e117",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-congruent-triangles",
+    "secondarySkillIds": [
+      "prove-similar-triangles"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect midpoint half-lengths to one common set of three side lengths for all four triangles, then distinguish SSS congruence from SSS similarity to the original triangle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T17:09:03.203Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5c30b8652d89a30e08e94f74685831122bb5d4fb523129ba23bea3176fa9d457",
+      "evidence": ".booklet-work/full-imports/iceem-9-ch09-20261015/lean-review/calls/content-1792602510797-15/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Prove that: The intervals joining the midpoints of the sides of a triangle dissect the triangle into four congruent triangles each similar to the original triangle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p26-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 26 p26-q8-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate(A)at(1,3);\\coordinate(B)at(0,0);\\coordinate(C)at(3.5,0);\\coordinate(R)at($(A)!0.5!(B)$);\\coordinate(Q)at($(A)!0.5!(C)$);\\coordinate(P)at($(B)!0.5!(C)$);\\draw(A)--(B)--(C)--cycle;\\draw(R)--(Q)--(P)--cycle;\n\\foreach \\u/\\v in {B/P,P/C}{\\draw[line width=0.4pt] ($($(\\u)!0.5!(\\v)$)!0.09cm!90:(\\v)$)--($($(\\u)!0.5!(\\v)$)!0.09cm!-90:(\\v)$);}\n\\foreach \\u/\\v in {A/Q,Q/C}{\\foreach \\t in {0.47,0.53}{\\draw[line width=0.4pt] ($($(\\u)!\\t!(\\v)$)!0.09cm!90:(\\v)$)--($($(\\u)!\\t!(\\v)$)!0.09cm!-90:(\\v)$);}}\n\\foreach \\u/\\v in {A/R,R/B}{\\foreach \\t in {0.44,0.5,0.56}{\\draw[line width=0.4pt] ($($(\\u)!\\t!(\\v)$)!0.09cm!90:(\\v)$)--($($(\\u)!\\t!(\\v)$)!0.09cm!-90:(\\v)$);}}\n\\node[above]at(A){$A$};\\node[below left]at(B){$B$};\\node[below right]at(C){$C$};\\node[left]at(R){$R$};\\node[right]at(Q){$Q$};\\node[below]at(P){$P$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 26,
+          "sourceRegion": "Question 8",
+          "description": "Four-triangle midpoint subdivision with triple, double and single midpoint tick pairs; ordinary marks black and no shading.",
+          "mathematics": "AR=RB, AQ=QC, BP=PC; RQ,RP,QP form the central triangle.",
+          "answerVisibility": "Only supplied midpoint givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "All four small triangles are congruent (SSS), and each is similar to $\\triangle ABC$ with scale factor $\\frac12$.",
+      "worked": "By the midpoint theorem,\n$$\\begin{align*}RQ&=\\frac12BC=BP=PC\\\\RP&=\\frac12AC=AQ=QC\\\\QP&=\\frac12AB=AR=RB\\end{align*}$$\nEach of the four triangles has side lengths $\\frac12AB$, $\\frac12BC$ and $\\frac12AC$. Therefore $\\triangle ARQ\\cong\\triangle RBP\\cong\\triangle QPC\\cong\\triangle PQR$ (SSS). Each small triangle has its three sides proportional to the corresponding sides of $\\triangle ABC$, with ratio $1:2$. Hence each is similar to $\\triangle ABC$ (SSS similarity).",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 80
+  },
+  "presentation": {
+    "ownerId": "p26-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:17:11.765Z",
+  "updatedAt": "2026-11-12T13:17:11.765Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch09-20261015",
+    "blockId": "p26-q8",
+    "sectionRole": "exercise"
+  }
+}
