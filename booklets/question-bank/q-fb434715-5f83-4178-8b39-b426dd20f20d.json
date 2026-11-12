@@ -1,0 +1,294 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fb434715-5f83-4178-8b39-b426dd20f20d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "limiting-sum-gp",
+    "secondarySkillIds": [
+      "angle-properties-plane-shapes"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects similar-triangle area scaling to an infinite geometric sum and a geometric justification.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:47:48.853Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b674993fa853bce8b07f2dfe78848a6896a3618b727ac4274d30564f88bafbd0",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part12-20261009/semantic-packets/assignments/assignment-38cf68c55780c7fa5c14/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p23-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "The area of the largest equilateral triangle shown below is 1. Each orange triangle has a side length that is half the side length of the previous (larger) triangle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q13-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"orangeArea\",\"hex\":\"FCE8D5\",\"reason\":\"identifies the orange triangles whose areas are requested\"}],\"reference\":\"source page 23, p23-q13-diagram\"}\n\\begin{tikzpicture}[x=2cm,y=2cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{orangeArea}{HTML}{FCE8D5}\n\\path[use as bounding box] (0,-1) rectangle ({sqrt(3)},1);\n\\foreach \\k in {0,...,5} {\n\\pgfmathsetmacro{\\u}{sqrt(3)/pow(2,\\k+1)}\n\\pgfmathsetmacro{\\v}{1/pow(2,\\k+1)}\n\\path[fill=orangeArea] (\\u,\\v)--({2*\\u},0)--(\\u,-\\v)--cycle;\n\\draw[black,line width=0.8pt] (\\u,\\v)--({2*\\u},0)--(\\u,-\\v)--cycle;\n}\n\\draw[black,line width=0.8pt] (0,0)--({sqrt(3)},1)--({sqrt(3)},-1)--cycle;\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 35.8,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 13, upper-left diagram",
+          "description": "A left-pointing equilateral triangle contains a sequence of right-pointing orange equilateral triangles decreasing towards its left vertex. Light orange distinguishes the requested regions; ordinary outlines are black.",
+          "mathematics": "The largest orange triangle joins the midpoints of the outer triangle. Each subsequent orange triangle has half the preceding side length and one quarter its area.",
+          "answerVisibility": "Only the supplied construction is visible; no area values or solution annotations are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area of the largest orange triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac14$",
+          "worked": "The largest orange triangle has half the side length of the outer triangle. Areas of similar triangles scale by the square of the side-length ratio.\n$$\\begin{align*}A_1&=1\\times\\left(\\frac12\\right)^2\\\\A_1&=\\frac14.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p23-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the area of the second largest orange triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac1{16}$",
+          "worked": "$$\\begin{align*}A_2&=\\frac14\\times\\left(\\frac12\\right)^2\\\\A_2&=\\frac1{16}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p23-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find the total area of all the orange triangles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac13$\n\nThe areas form a geometric series with first term $\\frac14$ and common ratio $\\frac14$.",
+          "worked": "The areas form a geometric series with $a=\\frac14$ and $r=\\frac14$. Since $|r|<1$,\n$$\\begin{align*}S&=\\frac{a}{1-r}\\\\S&=\\frac{\\frac14}{1-\\frac14}\\\\S&=\\frac13.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p23-q13-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the diagram to give an argument that\n$$\\frac14+\\frac1{4^2}+\\frac1{4^3}+\\cdots=\\frac13.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The outer triangle can be partitioned into three congruent stacks of triangles like the orange stack. Each stack therefore has one third of its area.",
+          "worked": "Joining the outer triangle's side midpoints produces four congruent triangles. One is orange; apply the same subdivision to the leftward remainder repeatedly. The regions above and below the orange stack can each be subdivided into a congruent copy of that stack. These three stacks fill the outer triangle, whose area is 1. Thus the orange stack has area $\\frac13$.\n$$\\frac14+\\frac1{4^2}+\\frac1{4^3}+\\cdots=\\frac13.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p23-q13-root/label",
+                  "type": "item",
+                  "ref": "p23-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p23-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p23-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p23-q13-diagram",
+                  "type": "item",
+                  "ref": "p23-q13-diagram",
+                  "title": "Diagram",
+                  "width": 35.8
+                },
+                {
+                  "id": "p23-q13-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p23-q13-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q13-a/label",
+                          "type": "item",
+                          "ref": "p23-q13-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p23-q13-a/prompt",
+                          "type": "item",
+                          "ref": "p23-q13-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q13-a/space",
+                          "type": "item",
+                          "ref": "p23-q13-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q13-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q13-b/label",
+                          "type": "item",
+                          "ref": "p23-q13-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p23-q13-b/prompt",
+                          "type": "item",
+                          "ref": "p23-q13-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q13-b/space",
+                          "type": "item",
+                          "ref": "p23-q13-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q13-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q13-c/label",
+                          "type": "item",
+                          "ref": "p23-q13-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p23-q13-c/prompt",
+                          "type": "item",
+                          "ref": "p23-q13-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q13-c/space",
+                          "type": "item",
+                          "ref": "p23-q13-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q13-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q13-d/label",
+                          "type": "item",
+                          "ref": "p23-q13-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p23-q13-d/prompt",
+                          "type": "item",
+                          "ref": "p23-q13-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q13-d/space",
+                          "type": "item",
+                          "ref": "p23-q13-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:15.653Z",
+  "updatedAt": "2026-11-12T13:10:15.654Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p23-q13",
+    "sectionRole": "exercise"
+  }
+}

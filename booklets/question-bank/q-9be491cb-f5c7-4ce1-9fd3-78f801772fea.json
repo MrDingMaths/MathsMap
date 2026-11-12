@@ -1,0 +1,173 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9be491cb-f5c7-4ce1-9fd3-78f801772fea",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "simplify-fractions",
+    "secondarySkillIds": [
+      "prove-results-integers"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Design an exhaustive digit search across possible deletion positions, test equivalence rather than ordinary cancellation, and account for all nonzero two-digit proper fractions satisfying the property.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "eef68503eb0c4182d334d896c281c40d99f603ecc65cfa80762d769b7d85a478",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p18-q21-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Consider the fraction ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{16}{64}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". This fraction has the curious property that its value is unchanged when the digits common to both the numerator and denominator are deleted:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p18-q21-cancellation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\frac{16}{64}=\\frac{1\\cancel{6}}{\\cancel{6}4}=\\frac14",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p18-q21-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find all positive fractions with this property, which are less than 1 in value, and which have two digits in both their numerator and denominator, none of which are zero.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\frac{16}{64},\\ \\frac{19}{95},\\ \\frac{26}{65},\\ \\frac{49}{98}$.\n\nCheck deletion of each common digit against the original fraction.",
+      "worked": "The four fractions are\n$$\\begin{align*}\\frac{16}{64}&=\\frac14\\\\\\frac{19}{95}&=\\frac15\\\\\\frac{26}{65}&=\\frac25\\\\\\frac{49}{98}&=\\frac48=\\frac12.\\end{align*}$$\nDeleting the common digit gives respectively $\\frac14,\\frac15,\\frac25,\\frac48$.\n\nFor completeness, let the remaining numerator and denominator digits be $a,b$, with $1\\le a<b\\le9$, and let the deleted digit be $c$, with $1\\le c\\le9$. Deleting two tens digits from $\\frac{10c+a}{10c+b}$, or two units digits from $\\frac{10a+c}{10b+c}$, preserves the value only when $a=b$, which would give 1. For opposite positions, $\\frac{10c+a}{10b+c}=\\frac ab$ would require $c(10b-a)=9ab$. Thus $c=\\frac{9ab}{10b-a}$. Since $a<b$ and $a\\le8$, we have $a-1<\\frac{9a}{10}<c<a$. There is no integer strictly between $a-1$ and $a$, so this arrangement cannot qualify.\n\nThe remaining arrangement is $\\frac{10a+c}{10c+b}=\\frac ab$, giving\n$$c(10a-b)=9ab.$$\nFor each digit $a=1,\\ldots,8$ and $b=a+1,\\ldots,9$, retain only values $c=\\frac{9ab}{10a-b}$ that are integers from 1 to 9. These give exactly $(a,b,c)=(1,4,6),(1,5,9),(2,5,6),(4,8,9)$, and hence exactly the four fractions listed.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 154
+  },
+  "presentation": {
+    "ownerId": "p18-q21",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p18-q21": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p18-q21-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p18-q21-root/label",
+                  "type": "item",
+                  "ref": "p18-q21-root/label",
+                  "title": "Label 21"
+                },
+                {
+                  "id": "layout:p18-q21-root/prompt#p18-q21-introduction",
+                  "type": "item",
+                  "ref": "p18-q21-root/prompt#p18-q21-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p18-q21-root/prompt#p18-q21-cancellation",
+                  "type": "item",
+                  "ref": "p18-q21-root/prompt#p18-q21-cancellation",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p18-q21-root/prompt#p18-q21-task",
+                  "type": "item",
+                  "ref": "p18-q21-root/prompt#p18-q21-task",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p18-q21-root/space",
+                  "type": "item",
+                  "ref": "p18-q21-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 21",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:38.105Z",
+  "updatedAt": "2026-11-12T11:14:38.106Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p18-q21",
+    "sectionRole": "exercise"
+  }
+}

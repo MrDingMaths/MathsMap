@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-490f2748-2adc-4be9-9f99-e0797a1f40fc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "geometric-sequence-nth-term",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Derive the common ratio from square diagonals and apply the ninth-term formula.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:41:18.006Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cefff7f15618148c8a7476da24b7019290ef7eb4d729e3b79a1abe386d4e6d2e",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part12-20261009/semantic-packets/assignments/assignment-8a8bf7fe4664b534706f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p13-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": "A square has side length 1. A second square is then formed using the diagonal of the first square. A third square is then formed using the diagonal of the second square, and so on. Find the side length of the ninth square formed in this fashion.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q20-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"Diagonals define the next square sides\"}],\"reference\":\"source page 13, p13-q20-diagram\"}\n\\begin{tikzpicture}[x=18mm,y=18mm,line width=0.8pt,draw=black,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (1,0);\n\\coordinate (C) at (1,1);\n\\coordinate (D) at (0,1);\n\\coordinate (E) at (1,2);\n\\coordinate (F) at (2,1);\n\\coordinate (G) at (3,0);\n\\coordinate (H) at (3,2);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw (D)--(E)--(F)--(B)--cycle;\n\\draw (B)--(G)--(H)--(E)--cycle;\n\\draw[diagonalRed] (D)--(B);\n\\draw[diagonalRed] (B)--(E);\n\\draw[diagonalRed] (E)--(G);\n\\path (A)--node[midway,left] {$1$} (D);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 20 diagram, lower right column",
+          "description": "Three unfilled squares with a shared vertex: an upright unit square, a rotated intermediate square and a larger upright square. Red diagonals identify successive diagonal-to-side constructions; ordinary outlines are black.",
+          "mathematics": "The first square has side 1. Its diagonal is a side of the rotated square; the rotated square's vertical diagonal is the left side of the third square. Side lengths increase by a factor of sqrt(2).",
+          "answerVisibility": "Only the supplied unit-side label and construction are visible; the ninth side length is not shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$16$ units.\n\nThe side lengths form a geometric sequence with common ratio $\\sqrt{2}$.",
+      "worked": "A square of side length $s$ has diagonal $\\sqrt{s^2+s^2}=s\\sqrt{2}$. Hence the side lengths form a geometric sequence with first term $1$ and common ratio $\\sqrt{2}$.\n\n$$\\begin{align*}a_n&=1\\cdot(\\sqrt{2})^{n-1}\\\\a_9&=(\\sqrt{2})^8\\\\a_9&=2^4\\\\a_9&=16.\\end{align*}$$\n\nThe ninth square has side length $16$ units.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 38
+  },
+  "presentation": {
+    "ownerId": "p13-q20",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q20": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q20-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q20-root/label",
+                  "type": "item",
+                  "ref": "p13-q20-root/label",
+                  "title": "Label 20"
+                },
+                {
+                  "id": "layout:p13-q20-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q20-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p13-q20-diagram",
+                  "type": "item",
+                  "ref": "p13-q20-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p13-q20-root/space",
+                  "type": "item",
+                  "ref": "p13-q20-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 20",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:01.932Z",
+  "updatedAt": "2026-11-12T13:10:01.932Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p13-q20",
+    "sectionRole": "exercise"
+  }
+}

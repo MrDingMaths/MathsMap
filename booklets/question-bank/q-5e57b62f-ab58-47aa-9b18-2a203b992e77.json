@@ -1,0 +1,264 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5e57b62f-ab58-47aa-9b18-2a203b992e77",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "multiplication-principle"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate even totals into same-parity pairs, count outcomes without replacement, and compare winning and losing chances.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dfdcdba397b7e667bb189026e80d709e4154be8eff3376c00e8e10ea56245ea3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p3-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "A bag contains balls numbered 1 to 9.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p3-q10-balls",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3, p3-q10-balls\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\x/\\y/\\n in {0/2/7,1/2/8,2/2/9,0/1/4,1/1/5,2/1/6,0/0/1,1/0/2,2/0/3}{\n\\draw[black,line width=0.8pt] (\\x,\\y) circle[radius=0.38cm];\n\\node[text=black,font=\\fontsize{10}{12}\\selectfont] at (\\x,\\y) {\\n};\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 38,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 3,
+          "sourceRegion": "Question 10, nine balls beneath the opening sentence",
+          "description": "Nine numbered circles in a three-by-three array, with rows 7, 8, 9; 4, 5, 6; 1, 2, 3. Decorative teal fills are replaced by black outlines and black labels. The centre label is corrected from 4 to 5.",
+          "mathematics": "One ball for each integer from 1 to 9: five odd labels and four even labels.",
+          "answerVisibility": "All ball labels are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p3-q10-response",
+        "type": "part",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p3-q10-draw-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Two balls are drawn from the bag at the same time.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p3-q10-rules",
+              "type": "list",
+              "ordered": false,
+              "start": 1,
+              "indent": 7,
+              "items": [
+                {
+                  "id": "p3-q10-win-rule",
+                  "type": "list-item",
+                  "blocks": [
+                    {
+                      "id": "p3-q10-win-paragraph",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 1,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "If the total is even, then we win.",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p3-q10-lose-rule",
+                  "type": "list-item",
+                  "blocks": [
+                    {
+                      "id": "p3-q10-lose-paragraph",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 1,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "If the total is odd, then we lose.",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "p3-q10-fairness-prompt",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Determine whether the game is fair.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The game is not fair: $P(\\text{win})=\\frac49$ and $P(\\text{lose})=\\frac59$.\n\nAn even total requires two balls of the same parity; losing pairs are more numerous.",
+          "worked": "There are five odd-numbered balls and four even-numbered balls. Two numbers of the same parity have an even sum; numbers of opposite parity have an odd sum.\n\nCount the two balls in order, without replacement:\n$$\\begin{align*}\n\\text{Winning outcomes}&=5\\times4+4\\times3\\\\\n\\text{Winning outcomes}&=32\\\\\n\\text{Losing outcomes}&=5\\times4+4\\times5\\\\\n\\text{Losing outcomes}&=40\\\\\nP(\\text{win})&=\\frac{32}{72}=\\frac49\\\\\nP(\\text{lose})&=\\frac{40}{72}=\\frac59\n\\end{align*}$$\nEach simultaneous pair is counted twice, so these probabilities also apply to drawing both balls together. Losing is more likely than winning, so the game is not fair.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 102
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p3-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q10-root/label",
+                  "type": "item",
+                  "ref": "p3-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p3-q10-root/prompt",
+                  "type": "item",
+                  "ref": "p3-q10-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q10-balls",
+                  "type": "item",
+                  "ref": "p3-q10-balls",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p3-q10-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p3-q10-response:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q10-response/prompt#p3-q10-draw-instruction",
+                          "type": "item",
+                          "ref": "p3-q10-response/prompt#p3-q10-draw-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q10-response/prompt#p3-q10-rules",
+                          "type": "item",
+                          "ref": "p3-q10-response/prompt#p3-q10-rules",
+                          "title": "list"
+                        },
+                        {
+                          "id": "layout:p3-q10-response/prompt#p3-q10-fairness-prompt",
+                          "type": "item",
+                          "ref": "p3-q10-response/prompt#p3-q10-fairness-prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q10-response/space",
+                          "type": "item",
+                          "ref": "p3-q10-response/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:11.572Z",
+  "updatedAt": "2026-11-12T11:15:11.572Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p3-q10",
+    "sectionRole": "exercise"
+  }
+}

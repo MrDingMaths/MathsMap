@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-538a2ad3-02c9-4e75-82cf-bc966f856e08",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "find-equation-parabola-features",
+    "secondarySkillIds": [
+      "interpret-quadratic-model"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Use the labelled vertex and endpoint to determine model coefficients, infer seven interior cable positions from equal spacing, and sum the corresponding heights, optionally using symmetry.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:03.223Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2d896708eee1c2264724396403002f6d89247970645426f16fd0a0ea757a0573",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part3-20261009/7b5e40b79c1c892ec510d7121255787c8160a24824b91c03cdfeb59aecac7095-1792558534338/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "The main cable of the suspension bridge below has a parabolic shape. All lengths shown are in metres.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p21-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"cableRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the modelled main cable from structural supports\"}],\"reference\":\"source page 21 p21-q1-diagram\"}\n\\begin{tikzpicture}[x=0.13cm,y=0.13cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{cableRed}{HTML}{EF6068}\n\\draw[black,line width=0.25pt,xstep=8,ystep=8] (-32,-8) grid (32,16);\n\\draw[black,line width=0.5pt,->] (-32,0)--(34,0) node[fill=white,inner sep=1pt,right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-8)--(0,17) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[black,line width=0.8pt] (-20,0)--(-20,12)--(-16,12)--(-16,0);\n\\draw[black,line width=0.8pt] (16,0)--(16,12)--(20,12)--(20,0);\n\\draw[black,line width=0.8pt] (-28,0)--(-20,12) (20,12)--(28,0);\n\\foreach \\u in {-12,-8,-4,0,4,8,12} {\\draw[black,line width=0.8pt] (\\u,0)--(\\u,{\\u*\\u/32+4});}\n\\draw[cableRed,line width=0.8pt,domain=-16:16,samples=81] plot (\\x,{\\x*\\x/32+4});\n\\fill[black] (-16,12) circle (1pt) (0,4) circle (1pt) (16,12) circle (1pt);\n\\node[fill=white,inner sep=1pt,above,fill=white,inner sep=1pt] at (-16,12) {$(-16,12)$};\n\\node[fill=white,inner sep=1pt,above right,xshift=2pt,yshift=1pt,fill=white,inner sep=1pt] at (0,4) {$(0,4)$};\n\\node[fill=white,inner sep=1pt,above,fill=white,inner sep=1pt] at (16,12) {$(16,12)$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "17H question 1, bridge beneath part (b)",
+          "description": "Coordinate bridge with unfilled towers, outer sloping supports, horizontal deck, seven interior hanging cables and a red parabolic main cable. Decorative tower shading and the Cartesian O label are omitted under house conventions.",
+          "mathematics": "Main cable y=x^2/32+4 for -16<=x<=16; hanging cables at x=-12,-8,-4,0,4,8,12; labelled points (-16,12), (0,4), (16,12). Rectangular grid step is 8 horizontally and 8 vertically.",
+          "answerVisibility": "Only source-supplied coordinates and geometry are visible; coefficients and total length are not supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p21-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The equation of the parabolic bridge is $y=cx^2+k$. Find $c$ and $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$c=\\dfrac{1}{32}$ and $k=4$.",
+          "worked": "The turning point is $(0,4)$, so $k=4$. Using $(16,12)$:\n$$\\begin{align*}12&=c(16)^2+4\\\\256c&=8\\\\c&=\\frac{1}{32}.\\end{align*}$$\nThus $y=\\dfrac{x^2}{32}+4$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p21-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Between $x=-16$ and $x=16$ there are seven vertical cables that hang from the parabolic arc to the deck at evenly spaced intervals. Find the total length of these cables.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$42\\text{ m}$.\n\nUse symmetry to sum the cable lengths at $x=-12,-8,-4,0,4,8,12$.",
+          "worked": "The cable positions are $x=-12,-8,-4,0,4,8,12$. Their lengths are given by $y=\\dfrac{x^2}{32}+4$. By symmetry, the total length $L$ is\n$$\\begin{align*}L&=2\\left[\\left(\\frac{12^2}{32}+4\\right)+\\left(\\frac{8^2}{32}+4\\right)+\\left(\\frac{4^2}{32}+4\\right)\\right]+4\\\\L&=2\\left(\\frac{17}{2}+6+\\frac{9}{2}\\right)+4\\\\L&=42\\text{ m}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q1-root/label",
+                  "type": "item",
+                  "ref": "p21-q1-root/label",
+                  "title": "Label 1"
+                },
+                {
+                  "id": "layout:p21-q1-root/prompt",
+                  "type": "item",
+                  "ref": "p21-q1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p21-q1-diagram",
+                  "type": "item",
+                  "ref": "p21-q1-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p21-q1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p21-q1-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q1-a/label",
+                          "type": "item",
+                          "ref": "p21-q1-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p21-q1-a/prompt",
+                          "type": "item",
+                          "ref": "p21-q1-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q1-a/space",
+                          "type": "item",
+                          "ref": "p21-q1-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q1-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q1-b/label",
+                          "type": "item",
+                          "ref": "p21-q1-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p21-q1-b/prompt",
+                          "type": "item",
+                          "ref": "p21-q1-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q1-b/space",
+                          "type": "item",
+                          "ref": "p21-q1-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 1",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:32.746Z",
+  "updatedAt": "2026-11-12T13:10:32.746Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part3-20261009",
+    "blockId": "p21-q1",
+    "sectionRole": "exercise"
+  }
+}

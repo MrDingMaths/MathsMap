@@ -1,0 +1,178 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-73ae2cbc-dbf2-41a8-b636-ff0afbeb921c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "annuity-lump-sum-and-withdrawals",
+    "secondarySkillIds": [
+      "recurrence-relation-definition"
+    ],
+    "reasoningScore": 34,
+    "difficulty": "Development",
+    "difficultyReason": "Translate interest followed by a deposit into an affine recurrence and use the initial two balances to solve for the constants with the correct year indexing.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:34.255Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "77c1fdb151754559150ea477ec36185a66c35945748e1f2a9f9fcf6458636872",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/0396de4461817f8970ac6545bcc936d05c4badbc57b71e9cd3eaaf79c46e87f0-1792558473455/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "At the start of the first year, Sam has $\\$10$ in a bank account. At the end of every year, the bank pays 10% interest, and then Sam deposits another $\\$10$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q-continuation-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Let $a_n$ be Sam’s balance, in dollars, at the start of the $n$th year. Find a recursive equation for $a_{n+1}$ in terms of $a_n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a_{n+1}=1.1a_n+10$",
+          "worked": "Interest is added before the deposit.\n$$\\begin{align*}a_{n+1}&=a_n+0.1a_n+10\\\\a_{n+1}&=1.1a_n+10.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p29-q-continuation-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find a general formula for $a_n$ in terms of $n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a_n=100(1.1)^n-100$ dollars.\n\nUse $a_n=p(1.1)^{n-1}+q$ and the first two balances to determine $p$ and $q$.",
+          "worked": "$$\\begin{align*}a_1&=10\\\\a_2&=1.1(10)+10\\\\a_2&=21.\\end{align*}$$\nWrite $a_n=p(1.1)^{n-1}+q$. The first two terms give\n$$\\begin{align*}10&=p+q\\\\21&=1.1p+q.\\end{align*}$$\nSubtracting gives $11=0.1p$, so $p=110$ and $q=-100$. Hence\n$$\\begin{align*}a_n&=110(1.1)^{n-1}-100\\\\a_n&=100(1.1)^n-100.\\end{align*}$$\nThe balance is in dollars.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q5",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p28-q5": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p28-q5-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p28-q5-root/label",
+                  "type": "item",
+                  "ref": "p28-q5-root/label",
+                  "title": "Label 5"
+                },
+                {
+                  "id": "layout:p28-q5-root/prompt",
+                  "type": "item",
+                  "ref": "p28-q5-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p28-q5-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p29-q-continuation-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q-continuation-a/label",
+                          "type": "item",
+                          "ref": "p29-q-continuation-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p29-q-continuation-a/prompt",
+                          "type": "item",
+                          "ref": "p29-q-continuation-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q-continuation-a/space",
+                          "type": "item",
+                          "ref": "p29-q-continuation-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p29-q-continuation-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p29-q-continuation-b/label",
+                          "type": "item",
+                          "ref": "p29-q-continuation-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p29-q-continuation-b/prompt",
+                          "type": "item",
+                          "ref": "p29-q-continuation-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p29-q-continuation-b/space",
+                          "type": "item",
+                          "ref": "p29-q-continuation-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 5",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:26.340Z",
+  "updatedAt": "2026-11-12T13:10:26.340Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p28-q5",
+    "sectionRole": "exercise"
+  }
+}

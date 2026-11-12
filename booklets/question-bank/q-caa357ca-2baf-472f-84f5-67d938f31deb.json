@@ -1,0 +1,176 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-caa357ca-2baf-472f-84f5-67d938f31deb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 75,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct valid removals and use a parity invariant to prove impossibility.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T13:04:24.650Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d44bcd09522f8ff6b6edeec5c265f507c82396fee5c3b29fb3b2fdbbd65669ca",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part6-20261008/semantic-packets/assignments/assignment-6b42920e95157b5d6fa1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p2-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The numbers $1,2,3,\\ldots,n$ are written on a whiteboard. Four numbers can simultaneously be erased if their sum is odd. This is repeated until no numbers remain on the board.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p2-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Give an example to show that this procedure is possible if $n=16$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Erase $\\{1,2,3,5\\}$, then $\\{4,6,7,8\\}$, then $\\{9,10,11,13\\}$, then $\\{12,14,15,16\\}$.\n\nTheir sums are $11,25,43,57$, all odd.",
+          "worked": "Erase these groups in order:\n$$\\begin{align*}1+2+3+5&=11\\\\4+6+7+8&=25\\\\9+10+11+13&=43\\\\12+14+15+16&=57\\end{align*}$$\nEvery sum is odd, and each number from $1$ to $16$ is erased exactly once.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p2-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that this procedure is not possible if $n=44$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "It is impossible.\n\nEach deletion changes the difference between the even and odd counts by $2$ or $-2$. After ten deletions, the last four numbers have an even sum and cannot be erased.",
+          "worked": "Initially there are $22$ even and $22$ odd numbers. Let $D$ be the number of even numbers minus the number of odd numbers remaining.\n\nAn allowed deletion removes either three even numbers and one odd number, or one even number and three odd numbers. Thus each deletion changes $D$ by $-2$ or $2$.\n\nAfter ten deletions, $D$ is a multiple of $4$ and four numbers remain. These must be four even numbers, four odd numbers, or two of each. In every case their sum is even, so the final four numbers cannot be erased.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p2-q6",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p2-q6": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p2-q6-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p2-q6-root/label",
+                  "type": "item",
+                  "ref": "p2-q6-root/label",
+                  "title": "Label 6"
+                },
+                {
+                  "id": "layout:p2-q6-root/prompt",
+                  "type": "item",
+                  "ref": "p2-q6-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p2-q6-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p2-q6-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p2-q6-a/label",
+                          "type": "item",
+                          "ref": "p2-q6-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p2-q6-a/prompt",
+                          "type": "item",
+                          "ref": "p2-q6-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p2-q6-a/space",
+                          "type": "item",
+                          "ref": "p2-q6-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p2-q6-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p2-q6-b/label",
+                          "type": "item",
+                          "ref": "p2-q6-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p2-q6-b/prompt",
+                          "type": "item",
+                          "ref": "p2-q6-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p2-q6-b/space",
+                          "type": "item",
+                          "ref": "p2-q6-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 6",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:10.487Z",
+  "updatedAt": "2026-11-12T11:15:10.487Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p2-q6",
+    "sectionRole": "exercise"
+  }
+}

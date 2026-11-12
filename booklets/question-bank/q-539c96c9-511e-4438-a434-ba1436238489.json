@@ -1,0 +1,299 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-539c96c9-511e-4438-a434-ba1436238489",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sequence-notation",
+    "secondarySkillIds": [],
+    "reasoningScore": 86,
+    "difficulty": "Challenge",
+    "difficultyReason": "Requires discovering that distinct infinite sequences can contain each other, constructing a suitable repeating counterexample and verifying order-preserving deletion in both directions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:34.255Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "04fa1bb3b3ae04b8e847a85063a4483270d155d1a2bf19876539f7c598677b83",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/0396de4461817f8970ac6545bcc936d05c4badbc57b71e9cd3eaaf79c46e87f0-1792558473455/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p3-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p3-q8-definition-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "We say that a sequence ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is a ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "subsequence",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " of a sequence ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "b_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", if the terms in ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " are obtained by deleting some (or possibly none) of the terms in ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "b_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " without changing the order. For example, the sequence of powers of 2:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p3-q8-powers",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "1,2,4,8,16,\\ldots",
+              "display": false
+            }
+          ]
+        },
+        {
+          "id": "p3-q8-example-link",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "is a subsequence of the sequence of natural numbers:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p3-q8-naturals",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "1,2,3,4,5,\\ldots",
+              "display": false
+            }
+          ]
+        },
+        {
+          "id": "p3-q8-task",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "If ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is a subsequence of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "b_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "b_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is a subsequence of ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a_n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", then are they the same sequence? Give a proof or counterexample.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "No. A counterexample is $a_n:0,1,0,1,\\ldots$ and $b_n:0,0,1,1,\\ldots$.\n\nEach can be obtained from the other by order-preserving deletion, but their second terms differ.",
+      "worked": "No. Consider the repeating sequences\n$$a_n:0,1,0,1,0,1,0,1,\\ldots$$\n$$b_n:0,0,1,1,0,0,1,1,\\ldots$$\nKeeping one term from each consecutive pair of equal terms in $b_n$ gives $a_n$.\n\nIn $a_n$, keep terms at positions $1,3,4,6,7,9,10,12,\\ldots$, repeating this selection every six positions. This gives $b_n$ without changing the order.\n\nThus each is a subsequence of the other, but $a_2=1$ and $b_2=0$, so they are different sequences.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 48
+  },
+  "presentation": {
+    "ownerId": "p3-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q8-root/label",
+                  "type": "item",
+                  "ref": "p3-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p3-q8-root/prompt#p3-q8-definition-paragraph",
+                  "type": "item",
+                  "ref": "p3-q8-root/prompt#p3-q8-definition-paragraph",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q8-root/prompt#p3-q8-powers",
+                  "type": "item",
+                  "ref": "p3-q8-root/prompt#p3-q8-powers",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q8-root/prompt#p3-q8-example-link",
+                  "type": "item",
+                  "ref": "p3-q8-root/prompt#p3-q8-example-link",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q8-root/prompt#p3-q8-naturals",
+                  "type": "item",
+                  "ref": "p3-q8-root/prompt#p3-q8-naturals",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q8-root/prompt#p3-q8-task",
+                  "type": "item",
+                  "ref": "p3-q8-root/prompt#p3-q8-task",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q8-root/space",
+                  "type": "item",
+                  "ref": "p3-q8-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:32.600Z",
+  "updatedAt": "2026-11-12T13:09:32.601Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p3-q8",
+    "sectionRole": "exercise"
+  }
+}

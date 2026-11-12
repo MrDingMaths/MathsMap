@@ -1,0 +1,350 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8bcfd1d3-b172-46a9-a921-8c17d1a9e8cb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "add-subtract-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Apply the supplied iteration while preserving leading zeroes, recognise cycles versus fixed points, and compare starting values to investigate whether the eventual behaviour is shared.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9f96784cbc57049d90757ce36bbc48df68d47d5e1af8a47ad1703b0eee35ff13",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p7-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p7-q12-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Take a positive integer ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x_0",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " with ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " digits which are not all identical. Arrange its digits in descending and ascending order, allowing leading zeroes, and subtract the smaller integer from the larger. Name the result ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x_1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". Continue to repeat this operation. This is known as ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Kaprekar’s algorithm",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". Note that we do not throw away the leading zeroes.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p7-q12-example-paragraph",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "For example, beginning with 121, we obtain ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "211-112=099",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", and then ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "990-099=891",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " etc.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p7-q12-investigate",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Investigate the long term behaviour when:",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "grid",
+    "columns": 3,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p7-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$n=2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$09\\to81\\to63\\to27\\to45\\to09$.\n\nEvery allowed starting value eventually enters this repeating cycle.",
+          "worked": "For example, starting with 21:\n$$\\begin{align*}21-12&=09\\\\90-09&=81\\\\81-18&=63\\\\63-36&=27\\\\72-27&=45\\\\54-45&=09\\end{align*}$$\nThe cycle then repeats. For two unequal digits, their difference is an integer from 1 to 9, so the first result is one of $09,18,27,36,45,54,63,72,81$. Applying the operation to these results leads to the same cycle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 148
+      },
+      {
+        "id": "p7-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$n=3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$495$.\n\nEvery allowed starting value eventually reaches 495, which repeats because $954-459=495$.",
+          "worked": "Continuing the supplied example:\n$$\\begin{align*}981-189&=792\\\\972-279&=693\\\\963-369&=594\\\\954-459&=495\\\\954-459&=495\\end{align*}$$\nThus 495 is a fixed point. Checking the allowed three-digit starting values gives the same eventual result.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p7-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$n=4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6174$.\n\nEvery allowed starting value eventually reaches 6174, which repeats because $7641-1467=6174$.",
+          "worked": "For example, starting with 1234:\n$$\\begin{align*}4321-1234&=3087\\\\8730-0378&=8352\\\\8532-2358&=6174\\\\7641-1467&=6174\\end{align*}$$\nThus 6174 is a fixed point. Checking the allowed four-digit starting values gives the same eventual result.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 92
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q12-root/label",
+                  "type": "item",
+                  "ref": "p7-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p7-q12-root/prompt#p7-q12-instruction",
+                  "type": "item",
+                  "ref": "p7-q12-root/prompt#p7-q12-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p7-q12-root/prompt#p7-q12-example-paragraph",
+                  "type": "item",
+                  "ref": "p7-q12-root/prompt#p7-q12-example-paragraph",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p7-q12-root/prompt#p7-q12-investigate",
+                  "type": "item",
+                  "ref": "p7-q12-root/prompt#p7-q12-investigate",
+                  "title": "Text"
+                },
+                {
+                  "id": "p7-q12-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p7-q12-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q12-a/label",
+                          "type": "item",
+                          "ref": "p7-q12-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p7-q12-a/prompt",
+                          "type": "item",
+                          "ref": "p7-q12-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q12-a/space",
+                          "type": "item",
+                          "ref": "p7-q12-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p7-q12-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q12-b/label",
+                          "type": "item",
+                          "ref": "p7-q12-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p7-q12-b/prompt",
+                          "type": "item",
+                          "ref": "p7-q12-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q12-b/space",
+                          "type": "item",
+                          "ref": "p7-q12-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p7-q12-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q12-c/label",
+                          "type": "item",
+                          "ref": "p7-q12-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p7-q12-c/prompt",
+                          "type": "item",
+                          "ref": "p7-q12-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q12-c/space",
+                          "type": "item",
+                          "ref": "p7-q12-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:30.382Z",
+  "updatedAt": "2026-11-12T11:14:30.382Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p7-q12",
+    "sectionRole": "exercise"
+  }
+}

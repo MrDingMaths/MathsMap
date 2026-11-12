@@ -1,0 +1,450 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f2791abb-bed4-47dc-9036-a37723d4c5ca",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [
+      "probability-range"
+    ],
+    "reasoningScore": 52,
+    "difficulty": "Mastery",
+    "difficultyReason": "Generalise the scaffolded continue-then-stop pattern and connect the infinite collection of stopping outcomes to total probability, accounting for zero probability of continuing forever.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:53.973Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "93feb1ad4634a643a7fad894f66b059160498effaeb3526f8064dfa213a7902b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/644e45a5a968862bfa52c6b0e194492ea691cd6a811c7fd6660d8d04766ba9aa-1792558434878/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q32-root",
+    "type": "question",
+    "label": "32",
+    "prompt": "Let $0<p<1$. Sam is about to start running laps on the track. At the beginning of each lap, he will run another lap with probability $p$, and decide to stop for the day with probability $1-p$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-q32-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Find the probability that Sam will run:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p26-q32-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "0 laps",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$1-p$",
+              "worked": "Sam stops before running any laps, with probability $1-p$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 12
+          },
+          {
+            "id": "p26-q32-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "1 lap",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(1-p)p$",
+              "worked": "Sam runs one lap and then stops.\n$$\\Pr(\\text{1 lap})=p(1-p).$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p26-q32-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "2 laps",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(1-p)p^2$",
+              "worked": "Sam runs two laps and then stops.\n$$\\begin{align*}\\Pr(\\text{2 laps})&=p\\times p\\times(1-p)\\\\\\Pr(\\text{2 laps})&=p^2(1-p).\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p26-q32-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "3 laps",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(1-p)p^3$",
+              "worked": "Sam runs three laps and then stops.\n$$\\begin{align*}\\Pr(\\text{3 laps})&=p^3\\times(1-p)\\\\\\Pr(\\text{3 laps})&=p^3(1-p).\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p26-q32-a-v",
+            "type": "part",
+            "label": "v",
+            "prompt": "4 laps",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(1-p)p^4$",
+              "worked": "Sam runs four laps and then stops.\n$$\\begin{align*}\\Pr(\\text{4 laps})&=p^4\\times(1-p)\\\\\\Pr(\\text{4 laps})&=p^4(1-p).\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p26-q32-a-vi",
+            "type": "part",
+            "label": "vi",
+            "prompt": "$n$ laps",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$(1-p)p^n$",
+              "worked": "Sam continues $n$ times, each with probability $p$, and then stops with probability $1-p$.\n$$\\Pr(n\\text{ laps})=p^n(1-p).$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          }
+        ]
+      },
+      {
+        "id": "p26-q32-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Deduce that $1=(1-p)(1+p+p^2+p^3+\\cdots)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1=(1-p)(1+p+p^2+p^3+\\cdots)$.\n\nSam eventually stops with probability 1, so the probabilities of all possible lap counts sum to 1.",
+          "worked": "Since $0<p<1$, the probability of continuing forever is 0. Sam therefore eventually stops with probability 1. The outcomes of running 0, 1, 2, … laps are mutually exclusive and exhaustive, so\n$$\\begin{align*}1&=(1-p)+(1-p)p+(1-p)p^2+(1-p)p^3+\\cdots\\\\1&=(1-p)(1+p+p^2+p^3+\\cdots).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q32",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q32": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q32-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p26-q32-root/label",
+                  "type": "item",
+                  "ref": "p26-q32-root/label",
+                  "title": "Label 32"
+                },
+                {
+                  "id": "layout:p26-q32-root/prompt",
+                  "type": "item",
+                  "ref": "p26-q32-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p26-q32-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p26-q32-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q32-a/label",
+                          "type": "item",
+                          "ref": "p26-q32-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p26-q32-a/prompt",
+                          "type": "item",
+                          "ref": "p26-q32-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p26-q32-a:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p26-q32-a:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p26-q32-a-i:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p26-q32-a-i/label",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-i/label",
+                                      "title": "Label i"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-i/prompt",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-i/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-i/space",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-i/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part i",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p26-q32-a-ii:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p26-q32-a-ii/label",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-ii/label",
+                                      "title": "Label ii"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-ii/prompt",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-ii/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-ii/space",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-ii/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part ii",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p26-q32-a-iii:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p26-q32-a-iii/label",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-iii/label",
+                                      "title": "Label iii"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-iii/prompt",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-iii/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-iii/space",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-iii/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part iii",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p26-q32-a:row:3",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p26-q32-a-iv:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p26-q32-a-iv/label",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-iv/label",
+                                      "title": "Label iv"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-iv/prompt",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-iv/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-iv/space",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-iv/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part iv",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p26-q32-a-v:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p26-q32-a-v/label",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-v/label",
+                                      "title": "Label v"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-v/prompt",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-v/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-v/space",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-v/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part v",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p26-q32-a-vi:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p26-q32-a-vi/label",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-vi/label",
+                                      "title": "Label vi"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-vi/prompt",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-vi/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p26-q32-a-vi/space",
+                                      "type": "item",
+                                      "ref": "p26-q32-a-vi/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part vi",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q32-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q32-b/label",
+                          "type": "item",
+                          "ref": "p26-q32-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p26-q32-b/prompt",
+                          "type": "item",
+                          "ref": "p26-q32-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q32-b/space",
+                          "type": "item",
+                          "ref": "p26-q32-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 32",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:12.533Z",
+  "updatedAt": "2026-11-12T13:10:12.534Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p26-q32",
+    "sectionRole": "exercise"
+  }
+}

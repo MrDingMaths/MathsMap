@@ -1,0 +1,307 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-921da6e1-d810-49cb-ad7b-2c9f1e94efa1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sigma-notation",
+    "secondarySkillIds": [
+      "recurrence-relation-definition"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise the preceding product as a_n−1 to rewrite the recurrence, use it in the supplied reciprocal identity, and telescope. The infinite sum also requires justifying that the sequence grows without bound; the intermediate targets scaffold these connections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:00.532Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1b891ed3f6ae2e29dd1c55f062bcb5c72a9250e08359e1ca3c786af6aaf7d10a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/3467693ea878524623b28501bc4a1a6e67c015d92cdc107b99fb46551db9a587-1792558488585/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-q13-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Sylvester’s sequence is defined by the recurrence relation:\n$$a_{n+1}=1+(a_0\\times a_1\\times\\cdots\\times a_n)$$\nand $a_0=2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Determine the first five terms of this sequence.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2,\\ 3,\\ 7,\\ 43,\\ 1807$.",
+          "worked": "$$\\begin{align*}a_0&=2\\\\a_1&=1+2=3\\\\a_2&=1+2\\times3=7\\\\a_3&=1+2\\times3\\times7=43\\\\a_4&=1+2\\times3\\times7\\times43=1807\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 44
+      },
+      {
+        "id": "p33-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that $a_{n+1}=a_n(a_n-1)+1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$a_{n+1}=a_n(a_n-1)+1$.\n\nFor $n\\ge1$, substitute $a_0a_1\\cdots a_{n-1}=a_n-1$ into the defining recurrence; $n=0$ also holds.",
+          "worked": "For $n\\ge1$, the defining recurrence gives $a_0a_1\\cdots a_{n-1}=a_n-1$. Hence,\n$$\\begin{align*}a_{n+1}&=1+a_0a_1\\cdots a_n\\\\a_{n+1}&=1+a_n(a_0a_1\\cdots a_{n-1})\\\\a_{n+1}&=a_n(a_n-1)+1.\\end{align*}$$\nFor $n=0$, $a_1=3=2(2-1)+1$, so the result also holds.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p33-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, prove that\n$$\\frac1{a_n}=\\frac1{a_n-1}-\\frac1{a_{n+1}-1}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac1{a_n-1}-\\frac1{a_{n+1}-1}=\\frac1{a_n}$.\n\nUse $a_{n+1}-1=a_n(a_n-1)$ and combine the fractions.",
+          "worked": "From part (b), $a_{n+1}-1=a_n(a_n-1)$. Therefore,\n$$\\begin{align*}\\frac1{a_n-1}-\\frac1{a_{n+1}-1}&=\\frac1{a_n-1}-\\frac1{a_n(a_n-1)}\\\\\\frac1{a_n-1}-\\frac1{a_{n+1}-1}&=\\frac{a_n-1}{a_n(a_n-1)}\\\\\\frac1{a_n-1}-\\frac1{a_{n+1}-1}&=\\frac1{a_n}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p33-q13-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence, prove that\n$$\\sum_{i=0}^{n}\\frac1{a_i}=1-\\frac1{a_{n+1}-1}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\sum_{i=0}^{n}\\frac1{a_i}=1-\\frac1{a_{n+1}-1}$.\n\nSum the identity in part (c); all intermediate terms cancel.",
+          "worked": "Using part (c), the sum telescopes:\n$$\\begin{align*}\\sum_{i=0}^{n}\\frac1{a_i}&=\\sum_{i=0}^{n}\\left(\\frac1{a_i-1}-\\frac1{a_{i+1}-1}\\right)\\\\\\sum_{i=0}^{n}\\frac1{a_i}&=\\frac1{a_0-1}-\\frac1{a_{n+1}-1}\\\\\\sum_{i=0}^{n}\\frac1{a_i}&=1-\\frac1{a_{n+1}-1}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p33-q13-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence, deduce that\n$$\\sum_{i=0}^{\\infty}\\frac1{a_i}=1.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$.\n\nAs $a_{n+1}\\to\\infty$, the remaining reciprocal term tends to zero.",
+          "worked": "All terms are integers at least $2$, and part (b) gives\n$$a_{n+1}-a_n=(a_n-1)^2\\ge1.$$\nThus $a_{n+1}\\to\\infty$. Taking the limit in part (d),\n$$\\begin{align*}\\sum_{i=0}^{\\infty}\\frac1{a_i}&=\\lim_{n\\to\\infty}\\left(1-\\frac1{a_{n+1}-1}\\right)\\\\\\sum_{i=0}^{\\infty}\\frac1{a_i}&=1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p33-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p33-q13-root/label",
+                  "type": "item",
+                  "ref": "p33-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p33-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p33-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p33-q13-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p33-q13-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q13-a/label",
+                          "type": "item",
+                          "ref": "p33-q13-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p33-q13-a/prompt",
+                          "type": "item",
+                          "ref": "p33-q13-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q13-a/space",
+                          "type": "item",
+                          "ref": "p33-q13-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q13-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q13-b/label",
+                          "type": "item",
+                          "ref": "p33-q13-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p33-q13-b/prompt",
+                          "type": "item",
+                          "ref": "p33-q13-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q13-b/space",
+                          "type": "item",
+                          "ref": "p33-q13-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q13-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q13-c/label",
+                          "type": "item",
+                          "ref": "p33-q13-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p33-q13-c/prompt",
+                          "type": "item",
+                          "ref": "p33-q13-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q13-c/space",
+                          "type": "item",
+                          "ref": "p33-q13-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q13-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q13-d/label",
+                          "type": "item",
+                          "ref": "p33-q13-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p33-q13-d/prompt",
+                          "type": "item",
+                          "ref": "p33-q13-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q13-d/space",
+                          "type": "item",
+                          "ref": "p33-q13-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q13-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q13-e/label",
+                          "type": "item",
+                          "ref": "p33-q13-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p33-q13-e/prompt",
+                          "type": "item",
+                          "ref": "p33-q13-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q13-e/space",
+                          "type": "item",
+                          "ref": "p33-q13-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:35.487Z",
+  "updatedAt": "2026-11-12T13:10:35.487Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p33-q13",
+    "sectionRole": "exercise"
+  }
+}

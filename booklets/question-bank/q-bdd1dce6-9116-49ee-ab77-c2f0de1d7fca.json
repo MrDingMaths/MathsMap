@@ -1,0 +1,199 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bdd1dce6-9116-49ee-ab77-c2f0de1d7fca",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arithmetic-series-sum",
+    "secondarySkillIds": [],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Proves a triangular-number identity algebraically and represents it geometrically.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T01:41:13.887Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "21a0e1c8d19b842c1dcea446c038c27b2249cb1396962342be27e701e42e66f6",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part12-20261009/semantic-packets/assignments/assignment-7121b8239cfe250c3262/2/generation.json"
+    }
+  },
+  "content": {
+    "id": "p10-q23-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Let $T_n$ denote the $n$th triangular number.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p10-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $8T_n+1$ is a perfect square.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$8T_n+1=(2n+1)^2$.\n\nSubstitute $T_n=\\dfrac{n(n+1)}{2}$ and factorise.",
+          "worked": "Using $T_n=\\dfrac{n(n+1)}{2}$,\n$$\\begin{align*}\n8T_n+1&=8\\times\\frac{n(n+1)}{2}+1\\\\\n8T_n+1&=4n(n+1)+1\\\\\n8T_n+1&=4n^2+4n+1\\\\\n8T_n+1&=(2n+1)^2.\n\\end{align*}$$\nSince $2n+1$ is an integer, $8T_n+1$ is a perfect square.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p10-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Draw a picture illustrating the identity you found in part (a).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Eight triangular groups of $T_n$ dots and one central dot form a square with $2n+1$ dots on each side.",
+          "worked": "For example, when $n=3$, each triangular group contains $T_3=6$ dots. Eight such groups surround one central dot to form a $7\\times7$ square:\n$$8T_3+1=8\\times6+1=49=7^2.$$\nThe same arrangement for general $n$ gives a square with $2n+1$ dots on each side.",
+          "solutionDiagrams": [
+            {
+              "id": "p10-q23-b-solution-dots",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"groupRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes triangular groups\"},{\"name\":\"groupBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes adjacent triangular groups\"},{\"name\":\"centreOrange\",\"hex\":\"EF8B2C\",\"reason\":\"identifies the additional central dot\"}],\"reference\":\"teacher PDF page 80, question 23(b)\"}\n\\begin{tikzpicture}[x=7mm,y=7mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{groupRed}{HTML}{EF6068}\n\\definecolor{groupBlue}{HTML}{268CFF}\n\\definecolor{centreOrange}{HTML}{EF8B2C}\n\\path[use as bounding box] (-0.45,-0.45) rectangle (6.45,6.45);\n\\foreach \\x in {0,...,6}{\\foreach \\y in {0,...,6}{\\fill[groupBlue] (\\x,\\y) circle[radius=2.8mm];}}\n\\foreach \\x/\\y in {0/6,4/6,5/6,6/6,0/5,1/5,4/5,5/5,0/4,1/4,2/4,4/4,2/2,4/2,5/2,6/2,1/1,2/1,5/1,6/1,0/0,1/0,2/0,6/0}{\\fill[groupRed] (\\x,\\y) circle[radius=2.8mm];}\n\\fill[centreOrange] (3,3) circle[radius=2.8mm];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 80,
+                "sourceRegion": "Teacher answer 23(b), upper right column",
+                "description": "A seven-by-seven dot square partitioned into eight triangular groups of six dots and one central dot. Source pink, blue and yellow distinctions use house red, blue and orange.",
+                "mathematics": "8T_3+1=8(6)+1=49=(2(3)+1)^2; the arrangement generalises to eight T_n groups and one central dot.",
+                "answerVisibility": "Solution only; the student question contains no supplied picture."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p10-q23",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p10-q23": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p10-q23-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p10-q23-root/label",
+                  "type": "item",
+                  "ref": "p10-q23-root/label",
+                  "title": "Label 23"
+                },
+                {
+                  "id": "layout:p10-q23-root/prompt",
+                  "type": "item",
+                  "ref": "p10-q23-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p10-q23-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p10-q23-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p10-q23-a/label",
+                          "type": "item",
+                          "ref": "p10-q23-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p10-q23-a/prompt",
+                          "type": "item",
+                          "ref": "p10-q23-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p10-q23-a/space",
+                          "type": "item",
+                          "ref": "p10-q23-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p10-q23-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p10-q23-b/label",
+                          "type": "item",
+                          "ref": "p10-q23-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p10-q23-b/prompt",
+                          "type": "item",
+                          "ref": "p10-q23-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p10-q23-b/space",
+                          "type": "item",
+                          "ref": "p10-q23-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 23",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:48.075Z",
+  "updatedAt": "2026-11-12T13:09:48.075Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p10-q23",
+    "sectionRole": "exercise"
+  }
+}

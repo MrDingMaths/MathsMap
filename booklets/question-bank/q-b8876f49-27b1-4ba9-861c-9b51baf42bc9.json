@@ -1,0 +1,229 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b8876f49-27b1-4ba9-861c-9b51baf42bc9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "proof-by-contradiction"
+    ],
+    "reasoningScore": 91,
+    "difficulty": "Challenge",
+    "difficultyReason": "Translate the repeating digit pattern into a power identity and devise a general compositeness argument for all later terms, while separately checking 101.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "19fc84db748033ef885b31bb1da7753594b8b83be972410dd2216bc1b1ccf41f",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-q38-root",
+    "type": "question",
+    "label": "38",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p11-q38-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Prove that there is precisely one prime in the sequence:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q38-sequence",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "101,\\ 10101,\\ 1010101,\\ldots",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p11-q38-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The only prime is ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "101",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p11-q38-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For a later term ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " containing ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "k>2",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " ones, use ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "99n=(10^k-1)(10^k+1)",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " and suppose that ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " is prime to obtain a contradiction.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Since $\\sqrt{101}<11$, the only primes to test are $2,3,5,7$. None divides $101$ (in particular, $101=7\\times14+3$), so $101$ is prime.\n\nLet $n$ be a term containing $k>2$ ones. Multiplying by $100$ and subtracting $n$ gives\n$$\\begin{align*}99n&=10^{2k}-1\\\\99n&=(10^k-1)(10^k+1).\\end{align*}$$\nSuppose $n$ is prime. Since $n$ divides this product, it divides at least one factor. If $n\\mid(10^k-1)$, then\n$$\\frac{10^k-1}{n}=\\frac{99}{10^k+1}.$$\nIf $n\\mid(10^k+1)$, then\n$$\\frac{10^k+1}{n}=\\frac{99}{10^k-1}.$$\nIn either case, the left side is a positive integer, but the right side is strictly between $0$ and $1$, because $k>2$. This is a contradiction. Every term after $101$ is therefore composite, so the sequence contains precisely one prime.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 110
+  },
+  "presentation": {
+    "ownerId": "p11-q38",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p11-q38": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p11-q38-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p11-q38-root/label",
+                  "type": "item",
+                  "ref": "p11-q38-root/label",
+                  "title": "Label 38"
+                },
+                {
+                  "id": "layout:p11-q38-root/prompt#p11-q38-stem",
+                  "type": "item",
+                  "ref": "p11-q38-root/prompt#p11-q38-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q38-root/prompt#p11-q38-sequence",
+                  "type": "item",
+                  "ref": "p11-q38-root/prompt#p11-q38-sequence",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q38-root/space",
+                  "type": "item",
+                  "ref": "p11-q38-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 38",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:34.770Z",
+  "updatedAt": "2026-11-12T11:15:34.770Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p11-q38",
+    "sectionRole": "exercise"
+  }
+}

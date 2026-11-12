@@ -1,0 +1,179 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c9d5992c-3e1e-41e8-8b27-b8ae9dd11939",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "permutations-not-distinct"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Enumerate feasible counts of one-, two- and three-stair moves and count their ordered arrangements.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:24:42.144Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e28b8b515ce25d3017453839884c7b693e9f27d675930822cf04e6349353e1fe",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part10-20261009/semantic-packets/assignments/assignment-7cb5615367268063f3f2/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p13-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Trinh is about to walk up a flight of 9 stairs. She can take either one or two stairs at a time.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many different ways can she walk up the flight of stairs?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "55.",
+          "worked": "With $b$ two-stair moves, there are $9-2b$ one-stair moves. These $9-b$ moves can be ordered in $\\dfrac{(9-b)!}{b!(9-2b)!}$ ways.\n\n$$\\begin{align*}N&=\\sum_{b=0}^{4}\\frac{(9-b)!}{b!(9-2b)!}\\\\N&=1+8+21+20+5\\\\N&=55.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "p13-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What if she can take either 1, 2 or 3 stairs at a time?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "149.\n\nCount the arrangements separately for 0, 1, 2 or 3 three-stair moves.",
+          "worked": "Let $a,b,c$ be the numbers of one-, two- and three-stair moves. They satisfy $a+2b+3c=9$. Each feasible case has $\\dfrac{(a+b+c)!}{a!b!c!}$ arrangements.\n\nFor $c=0$, part (a) gives 55 arrangements. For the remaining cases:\n\n$$\\begin{align*}N_{c=1}&=\\frac{7!}{6!1!}+\\frac{6!}{4!1!1!}+\\frac{5!}{2!2!1!}+\\frac{4!}{3!1!}\\\\N_{c=1}&=7+30+30+4=71\\\\N_{c=2}&=\\frac{5!}{3!2!}+\\frac{4!}{1!1!2!}\\\\N_{c=2}&=10+12=22\\\\N_{c=3}&=\\frac{3!}{3!}=1\\\\N&=55+71+22+1\\\\N&=149.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q14-root/label",
+                  "type": "item",
+                  "ref": "p13-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p13-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p13-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q14-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q14-a/label",
+                          "type": "item",
+                          "ref": "p13-q14-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p13-q14-a/prompt",
+                          "type": "item",
+                          "ref": "p13-q14-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q14-a/space",
+                          "type": "item",
+                          "ref": "p13-q14-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p13-q14-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q14-b/label",
+                          "type": "item",
+                          "ref": "p13-q14-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p13-q14-b/prompt",
+                          "type": "item",
+                          "ref": "p13-q14-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q14-b/space",
+                          "type": "item",
+                          "ref": "p13-q14-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:37.428Z",
+  "updatedAt": "2026-11-12T13:09:37.428Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p13-q14",
+    "sectionRole": "exercise"
+  }
+}

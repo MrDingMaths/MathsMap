@@ -1,0 +1,295 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-167e88de-5d5d-468e-8f7f-5761c9c6e604",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Proves a complete residue classification and uses it to rule out a perfect square.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:27:01.765Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "40240544c571fed9c55026049fbaab63ae347413a22c827e56909b0f5a5850d7",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part13-20261009/semantic-packets/assignments/assignment-5dbe4fabe54edc73186b/3/generation.json"
+    }
+  },
+  "content": {
+    "id": "p7-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p7-q18-a",
+        "type": "part",
+        "label": "a",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p7-q18-a-stem",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Prove that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "n^2\\equiv1\\pmod3",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " or ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "n^2\\equiv0\\pmod3",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " for every integer ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "n",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p7-q18-a-hint",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: Every integer ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "n",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " is of the form ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "3k",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ", ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "3k+1",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " or ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "3k+2",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " for some integer ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "k",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n^2\\equiv0$ or $1\\pmod3$.\n\nWrite $n=3k+r$, where $r=0,1,2$; then $n^2\\equiv r^2\\pmod3$.",
+          "worked": "Write $n=3k+r$, where $k\\in\\mathbb Z$ and $r\\in\\{0,1,2\\}$. Then\n$$\\begin{align*}n^2&=(3k+r)^2\\\\n^2&=9k^2+6kr+r^2\\\\n^2&\\equiv r^2\\pmod3.\\end{align*}$$\nThe possible residues are\n$$\\begin{align*}0^2&\\equiv0\\pmod3,\\\\1^2&\\equiv1\\pmod3,\\\\2^2&\\equiv1\\pmod3.\\end{align*}$$\nTherefore every integer square is congruent to $0$ or $1$ modulo $3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p7-q18-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove that the squares of three consecutive integers can never sum to a perfect square.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The sum is $3n^2+2\\equiv2\\pmod3$.\n\nBy part (a), a perfect square has residue $0$ or $1$, so this sum cannot be a perfect square.",
+          "worked": "Let the three consecutive integers be $n-1$, $n$ and $n+1$. Then\n$$\\begin{align*}(n-1)^2+n^2+(n+1)^2&=n^2-2n+1+n^2+n^2+2n+1\\\\(n-1)^2+n^2+(n+1)^2&=3n^2+2\\\\(n-1)^2+n^2+(n+1)^2&\\equiv2\\pmod3.\\end{align*}$$\nBy part (a), every perfect square has residue $0$ or $1$ modulo $3$. Therefore the sum cannot be a perfect square.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-q18-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q18-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q18-root/label",
+                  "type": "item",
+                  "ref": "p7-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "p7-q18-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p7-q18-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q18-a/label",
+                          "type": "item",
+                          "ref": "p7-q18-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p7-q18-a/prompt#p7-q18-a-stem",
+                          "type": "item",
+                          "ref": "p7-q18-a/prompt#p7-q18-a-stem",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q18-a/prompt#p7-q18-a-hint",
+                          "type": "item",
+                          "ref": "p7-q18-a/prompt#p7-q18-a-hint",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q18-a/space",
+                          "type": "item",
+                          "ref": "p7-q18-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p7-q18-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q18-b/label",
+                          "type": "item",
+                          "ref": "p7-q18-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p7-q18-b/prompt",
+                          "type": "item",
+                          "ref": "p7-q18-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q18-b/space",
+                          "type": "item",
+                          "ref": "p7-q18-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:18:21.627Z",
+  "updatedAt": "2026-11-12T11:18:21.627Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part13-20261009",
+    "blockId": "p7-q18-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,401 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-57ce4d2a-15fb-4cef-8832-8b2e1ad26ee6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "limiting-sum-gp",
+    "secondarySkillIds": [
+      "angle-properties-plane-shapes"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derives an area ratio from nested similar squares, sums an infinite geometric series and justifies the result geometrically.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:48:37.343Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9b96e853da0cf68aff8f4c6ad6e32a076525414b9133ab5e30da074bfc88e30c",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part12-20261009/semantic-packets/assignments/assignment-d9e8604442627cff4c86/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p23-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "The figure below shows a nested collection of squares. The vertices of the second largest square divide the sides of the largest square in the ratio $1:3$, and the vertices of the third largest square divide the sides of the second largest square in the ratio $1:3$, and so on.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q14-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"orangeFamily\",\"hex\":\"FCE8D5\",\"reason\":\"triangular family whose areas are requested\"},{\"name\":\"redFamily\",\"hex\":\"FCDFE1\",\"reason\":\"second congruent spiral family\"},{\"name\":\"purpleFamily\",\"hex\":\"E8DEF4\",\"reason\":\"third congruent spiral family\"},{\"name\":\"blueFamily\",\"hex\":\"D4E8FF\",\"reason\":\"fourth congruent spiral family\"}],\"reference\":\"source page 23, p23-q14-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{orangeFamily}{HTML}{FCE8D5}\n\\definecolor{redFamily}{HTML}{FCDFE1}\n\\definecolor{purpleFamily}{HTML}{E8DEF4}\n\\definecolor{blueFamily}{HTML}{D4E8FF}\n\\coordinate (A0) at (0,0);\n\\coordinate (B0) at (4,0);\n\\coordinate (C0) at (4,4);\n\\coordinate (D0) at (0,4);\n\\foreach \\n in {0,...,17}{\n\\pgfmathtruncatemacro{\\m}{\\n+1}\n\\coordinate (A\\m) at ($(A\\n)!0.75!(B\\n)$);\n\\coordinate (B\\m) at ($(B\\n)!0.75!(C\\n)$);\n\\coordinate (C\\m) at ($(C\\n)!0.75!(D\\n)$);\n\\coordinate (D\\m) at ($(D\\n)!0.75!(A\\n)$);\n\\fill[orangeFamily] (A\\n)--(A\\m)--(D\\m)--cycle;\n\\fill[blueFamily] (B\\n)--(B\\m)--(A\\m)--cycle;\n\\fill[purpleFamily] (C\\n)--(C\\m)--(B\\m)--cycle;\n\\fill[redFamily] (D\\n)--(D\\m)--(C\\m)--cycle;\n\\draw[black,line width=0.8pt] (A\\n)--(B\\n)--(C\\n)--(D\\n)--cycle;\n}\n\\draw[black,line width=0.8pt] (A18)--(B18)--(C18)--(D18)--cycle;\n\\node[above,text=black] at (0.5,4) {$1$};\n\\node[above,text=black] at (2.5,4) {$3$};\n\\node[right,text=black] at (4,3.5) {$1$};\n\\node[right,text=black] at (4,1.5) {$3$};\n\\node[below,text=black] at (1.5,0) {$3$};\n\\node[below,text=black] at (3.5,0) {$1$};\n\\node[left,text=black] at (0,2.5) {$3$};\n\\node[left,text=black] at (0,0.5) {$1$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 14 diagram, lower left column",
+          "description": "Nested squares with cyclic 1:3 side subdivisions and four consistently coloured spirals of triangular regions. Eighteen nested stages represent the continuing construction. Source dark blue maps to house purple and cyan to house blue so the four families remain distinct.",
+          "mathematics": "Outer square has side 4. Each next vertex lies three quarters of the way along the corresponding oriented side. Nested-square side lengths have ratio sqrt(10)/4 and areas have ratio 5/8. The orange family starts at the bottom-left corner.",
+          "answerVisibility": "Only source givens and coloured regions are visible; no calculated areas or ratios are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the area of the largest orange triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac32$ square units.",
+          "worked": "The largest orange triangle has perpendicular sides of lengths $3$ and $1$.\n$$\\begin{align*}A_1&=\\frac12\\times3\\times1\\\\A_1&=\\frac32\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p23-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the ratio of the area of the second largest orange triangle to the area of the largest orange triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac58$.",
+          "worked": "A side of the second square is the hypotenuse of a right-angled triangle with legs $1$ and $3$. Let its length be $s$.\n$$\\begin{align*}s^2&=1^2+3^2\\\\s^2&=10.\\end{align*}$$\nCorresponding orange triangles are similar, so their area ratio equals the square of the side-length ratio:\n$$\\begin{align*}\\frac{A_2}{A_1}&=\\frac{s^2}{4^2}\\\\\\frac{A_2}{A_1}&=\\frac{10}{16}\\\\\\frac{A_2}{A_1}&=\\frac58.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p23-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, find the total area of all the orange triangles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p23-q14-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "4",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " square units.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p23-q14-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Sum the geometric series with first term ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\frac32",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " and ratio ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\frac58",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "The areas form a geometric series with first term $\\frac32$ and common ratio $\\frac58$. Since $\\left|\\frac58\\right|<1$,\n$$\\begin{align*}S&=\\frac{a}{1-r}\\\\S&=\\frac{\\frac32}{1-\\frac58}\\\\S&=\\frac{\\frac32}{\\frac38}\\\\S&=4\\text{ square units}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p23-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Use the diagram to give an argument that\n$$\\frac32\\left(1+\\frac58+\\frac{5^2}{8^2}+\\cdots\\right)=4.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p23-q14-d-short-reason",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Four congruent spirals fill the square, so the orange spiral has one quarter of its area.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p23-q14-d-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\frac14\\times4^2=4",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " square units.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "The four coloured spirals are congruent under quarter-turns about the square's centre. The remaining inner square has area tending to zero because each nested square has $\\frac58$ of the preceding area. Thus the spirals fill the square of area $4^2=16$, and the orange spiral occupies one quarter of it. Its triangle areas are $\\frac32,\\frac32\\left(\\frac58\\right),\\frac32\\left(\\frac58\\right)^2,\\ldots$. Therefore,\n$$\\begin{align*}\\frac32\\left(1+\\frac58+\\frac{5^2}{8^2}+\\cdots\\right)&=\\frac14\\times16\\\\\\frac32\\left(1+\\frac58+\\frac{5^2}{8^2}+\\cdots\\right)&=4.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p23-q14-root/label",
+                  "type": "item",
+                  "ref": "p23-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p23-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p23-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p23-q14-diagram",
+                  "type": "item",
+                  "ref": "p23-q14-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p23-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p23-q14-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q14-a/label",
+                          "type": "item",
+                          "ref": "p23-q14-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p23-q14-a/prompt",
+                          "type": "item",
+                          "ref": "p23-q14-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q14-a/space",
+                          "type": "item",
+                          "ref": "p23-q14-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q14-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q14-b/label",
+                          "type": "item",
+                          "ref": "p23-q14-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p23-q14-b/prompt",
+                          "type": "item",
+                          "ref": "p23-q14-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q14-b/space",
+                          "type": "item",
+                          "ref": "p23-q14-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q14-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q14-c/label",
+                          "type": "item",
+                          "ref": "p23-q14-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p23-q14-c/prompt",
+                          "type": "item",
+                          "ref": "p23-q14-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q14-c/space",
+                          "type": "item",
+                          "ref": "p23-q14-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p23-q14-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p23-q14-d/label",
+                          "type": "item",
+                          "ref": "p23-q14-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p23-q14-d/prompt",
+                          "type": "item",
+                          "ref": "p23-q14-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p23-q14-d/space",
+                          "type": "item",
+                          "ref": "p23-q14-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:16.492Z",
+  "updatedAt": "2026-11-12T13:10:16.493Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p23-q14",
+    "sectionRole": "exercise"
+  }
+}

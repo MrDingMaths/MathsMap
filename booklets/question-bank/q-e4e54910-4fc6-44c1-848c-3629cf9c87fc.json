@@ -1,0 +1,199 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e4e54910-4fc6-44c1-848c-3629cf9c87fc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "arithmetic-series-sum",
+    "secondarySkillIds": [],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate diagonals into unordered vertex pairs, avoid counting each segment twice and exclude polygon sides before evaluating the resulting count.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:34.255Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "25ae12c726aed0ce3826130e3a48df713cee3c1c2d38644f515220bc397e0a8e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/0396de4461817f8970ac6545bcc936d05c4badbc57b71e9cd3eaaf79c46e87f0-1792558473455/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p9-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p9-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "A regular dodecagon has twelve sides, as shown below. How many diagonals does it have?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p9-q11-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes diagonals from polygon sides\"}],\"reference\":\"source PDF page 9, p9-q11-a-diagram\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalBlue}{HTML}{268CFF}\n\\foreach \\i in {0,...,11} {\\coordinate (V\\i) at ({15+30*\\i}:3);}\n\\foreach \\i in {0,...,10} {\n  \\foreach \\j in {1,...,11} {\n    \\pgfmathtruncatemacro{\\gap}{\\j-\\i}\n    \\ifnum\\gap>1\n      \\ifnum\\gap<11\n        \\draw[diagonalBlue,line width=0.8pt] (V\\i)--(V\\j);\n      \\fi\n    \\fi\n  }\n}\n\\draw[black,line width=0.8pt] (V0)--(V1)--(V2)--(V3)--(V4)--(V5)--(V6)--(V7)--(V8)--(V9)--(V10)--(V11)--cycle;\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 9,
+              "sourceRegion": "Question 11(a), lower right column",
+              "description": "Regular dodecagon with horizontal top and bottom sides, vertical left and right sides, all 54 diagonals blue, black perimeter, no labels or shading.",
+              "mathematics": "Twelve equally spaced vertices; every nonadjacent unordered vertex pair is joined exactly once.",
+              "answerVisibility": "All diagonals are supplied in the question; no numerical answer is printed."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "54 diagonals.",
+          "worked": "Count the segments joining pairs of vertices, then subtract the 12 sides. Counting each pair once gives $11+10+\\cdots+1$ segments.\n\n$$\\begin{align*}D&=\\frac{11}{2}(11+1)-12\\\\D&=66-12\\\\D&=54.\\end{align*}$$\n\nThere are 54 diagonals.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p9-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A regular icosagon has twenty sides. How many diagonals does it have?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "170 diagonals.",
+          "worked": "Counting each vertex pair once gives $19+18+\\cdots+1$ segments. Subtract the 20 sides.\n\n$$\\begin{align*}D&=\\frac{19}{2}(19+1)-20\\\\D&=190-20\\\\D&=170.\\end{align*}$$\n\nThere are 170 diagonals.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p9-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p9-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p9-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p9-q11-root/label",
+                  "type": "item",
+                  "ref": "p9-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "p9-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p9-q11-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p9-q11-a/label",
+                          "type": "item",
+                          "ref": "p9-q11-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p9-q11-a/prompt",
+                          "type": "item",
+                          "ref": "p9-q11-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p9-q11-a-diagram",
+                          "type": "item",
+                          "ref": "p9-q11-a-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p9-q11-a/space",
+                          "type": "item",
+                          "ref": "p9-q11-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p9-q11-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p9-q11-b/label",
+                          "type": "item",
+                          "ref": "p9-q11-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p9-q11-b/prompt",
+                          "type": "item",
+                          "ref": "p9-q11-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p9-q11-b/space",
+                          "type": "item",
+                          "ref": "p9-q11-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 11",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:43.102Z",
+  "updatedAt": "2026-11-12T13:09:43.102Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p9-q11",
+    "sectionRole": "exercise"
+  }
+}

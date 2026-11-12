@@ -1,0 +1,224 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5c8a5294-1de6-4c11-a806-dd3acbae16d5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "hcf-two-numbers"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Uses the Euclidean algorithm to justify coprimality for every neighbouring pair in a recursively defined sequence.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T14:13:16.204Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5f2b2c2702e72e377d08cb34735ba362d38309590725350d6a1412a52fdf10fc",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part6-20261008/semantic-packets/assignments/assignment-0d752159be56e19c3902/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p25-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p25-q7-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The first and second term of the Fibonacci sequence are both 1. Each subsequent term is then found by adding the previous two terms:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p25-q7-sequence",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "1,1,2,3,5,8,13,21,34,\\ldots",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Verify that 34 is coprime to each of its neighbours in the list. Note: This means that 1 is their only common factor.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\operatorname{GCD}(21,34)=\\operatorname{GCD}(34,55)=1$.\n\nThe next term is $21+34=55$; neither neighbour shares a prime factor with 34.",
+          "worked": "The next term is $21+34=55$.\n$$\\begin{align*}34&=2\\times17\\\\21&=3\\times7\\\\55&=5\\times11\\end{align*}$$\nNeither 21 nor 55 shares a prime factor with 34. Therefore, $\\operatorname{GCD}(21,34)=\\operatorname{GCD}(34,55)=1$, so 34 is coprime to both neighbours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p25-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Explain why any two neighbouring Fibonacci numbers are coprime.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Repeated Euclidean subtraction moves backwards through neighbouring Fibonacci pairs until $(1,1)$ is reached. The GCD is unchanged, so it is 1.",
+          "worked": "For any neighbouring Fibonacci numbers after the initial pair, subtracting the smaller from the larger gives the preceding Fibonacci number. The Euclidean algorithm therefore replaces the pair with the previous neighbouring pair without changing its GCD. Repeating this process reaches $(1,1)$. Since $\\operatorname{GCD}(1,1)=1$, every neighbouring pair is coprime.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q7-root/label",
+                  "type": "item",
+                  "ref": "p25-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p25-q7-root/prompt#p25-q7-definition",
+                  "type": "item",
+                  "ref": "p25-q7-root/prompt#p25-q7-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p25-q7-root/prompt#p25-q7-sequence",
+                  "type": "item",
+                  "ref": "p25-q7-root/prompt#p25-q7-sequence",
+                  "title": "Text"
+                },
+                {
+                  "id": "p25-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p25-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q7-a/label",
+                          "type": "item",
+                          "ref": "p25-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p25-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p25-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p25-q7-a/space",
+                          "type": "item",
+                          "ref": "p25-q7-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p25-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q7-b/label",
+                          "type": "item",
+                          "ref": "p25-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p25-q7-b/prompt",
+                          "type": "item",
+                          "ref": "p25-q7-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p25-q7-b/space",
+                          "type": "item",
+                          "ref": "p25-q7-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:16:29.978Z",
+  "updatedAt": "2026-11-12T11:16:29.978Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p25-q7",
+    "sectionRole": "exercise"
+  }
+}

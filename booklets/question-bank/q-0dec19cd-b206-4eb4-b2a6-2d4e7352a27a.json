@@ -1,0 +1,179 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0dec19cd-b206-4eb4-b2a6-2d4e7352a27a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "permutations-restrictions",
+    "secondarySkillIds": [
+      "permutations-not-distinct",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 91,
+    "difficulty": "Challenge",
+    "difficultyReason": "The lead must hold at every prefix; counting valid orders requires an unsignposted reflection bijection or an equivalent systematic prefix-state argument.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:48.498Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "eace21bde918d2371f969fdd213b0dedc4088038414c4ab5ba5b557cced49ac6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part10-20261009/c7339c8f662c5a3799be7173d4d18c9de0cfb2eb394886b40aca7abb77dbfba6-1792558414389/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "There are 10 votes cast in an election for candidate $A$ and candidate $B$. The final tally is 6 to 4, respectively.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many ways can this happen?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "210.",
+          "worked": "Arrange six identical $A$ votes and four identical $B$ votes:\n\n$$\\begin{align*}N&=\\frac{10!}{6!4!}\\\\N&=210.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p13-q15-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many ways can this happen if it is known that candidate $A$ stayed ahead of $B$ while counting the votes?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "42.\n\nThe first vote must be for $A$; subtract the remaining sequences that allow $B$ to overtake the remaining $A$ count.",
+          "worked": "The first vote must be $A$. The remaining five $A$ votes and four $B$ votes must have at least as many $A$ votes as $B$ votes in every prefix, so that the original count stays strictly ahead.\n\nThere are $\\dfrac{9!}{5!4!}$ unrestricted remaining sequences. For an invalid sequence, interchange $A$ and $B$ through the first prefix in which $B$ exceeds $A$. This gives a sequence with six $A$ votes and three $B$ votes. Conversely, interchange through the first prefix in which $A$ exceeds $B$ to recover the invalid sequence. Hence the invalid sequences number $\\dfrac{9!}{6!3!}$.\n\n$$\\begin{align*}N&=\\frac{9!}{5!4!}-\\frac{9!}{6!3!}\\\\N&=126-84\\\\N&=42.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q15",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q15-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q15-root/label",
+                  "type": "item",
+                  "ref": "p13-q15-root/label",
+                  "title": "Label 15"
+                },
+                {
+                  "id": "layout:p13-q15-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q15-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p13-q15-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q15-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q15-a/label",
+                          "type": "item",
+                          "ref": "p13-q15-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p13-q15-a/prompt",
+                          "type": "item",
+                          "ref": "p13-q15-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q15-a/space",
+                          "type": "item",
+                          "ref": "p13-q15-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p13-q15-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q15-b/label",
+                          "type": "item",
+                          "ref": "p13-q15-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p13-q15-b/prompt",
+                          "type": "item",
+                          "ref": "p13-q15-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q15-b/space",
+                          "type": "item",
+                          "ref": "p13-q15-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 15",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:37.815Z",
+  "updatedAt": "2026-11-12T13:09:37.816Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p13-q15",
+    "sectionRole": "exercise"
+  }
+}

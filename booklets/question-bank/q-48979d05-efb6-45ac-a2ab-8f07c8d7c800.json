@@ -1,0 +1,394 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-48979d05-efb6-45ac-a2ab-8f07c8d7c800",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "conditional-probability",
+    "secondarySkillIds": [
+      "compound-event-probability",
+      "inclusion-exclusion-rule"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Separate pair-only and triple-overlap counts to avoid double counting, then change the denominator and favourable region for conditional events.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:53.973Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0c680d5d334b573ca449da81f5656cf14bf39f938fa99abd736cad53c2a5d5e4",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/644e45a5a968862bfa52c6b0e194492ea691cd6a811c7fd6660d8d04766ba9aa-1792558434878/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "In a class of 30 students, there are 4 students who enjoy English, Mathematics and Science. There are 10 who enjoy English and Mathematics, 6 who enjoy Science and English and 11 who enjoy Science and Mathematics. There are 19 students who enjoy Mathematics, 13 who enjoy English and 16 who enjoy Science. One of these students is randomly selected. Find the probability that the student enjoys:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "only Mathematics",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac1{15}$\n\nSubtract the two overlaps from the Mathematics total, adding back the triple overlap.",
+          "worked": "Let $E,M,S$ denote enjoying English, Mathematics and Science respectively.\n$$\\begin{align*}n(\\text{only }M)&=19-10-11+4\\\\n(\\text{only }M)&=2.\\end{align*}$$\n$$\\Pr(\\text{only }M)=\\frac2{30}=\\frac1{15}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p15-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Science and English",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac15$",
+          "worked": "The 6 students enjoying Science and English include those enjoying all three subjects.\n$$\\Pr(S\\cap E)=\\frac6{30}=\\frac15.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p15-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "English or Mathematics",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{11}{15}$",
+          "worked": "$$\\begin{align*}\\Pr(E\\cup M)&=\\frac{13+19-10}{30}\\\\\\Pr(E\\cup M)&=\\frac{22}{30}=\\frac{11}{15}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p15-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "at least two different subjects",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{19}{30}$\n\nCount the three pair-only regions and the triple region once.",
+          "worked": "The pair-only counts are $10-4=6$, $6-4=2$ and $11-4=7$.\n$$\\begin{align*}n(\\text{at least two})&=6+2+7+4\\\\n(\\text{at least two})&=19.\\end{align*}$$\n$$\\Pr(\\text{at least two})=\\frac{19}{30}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p15-q4-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "English given that they enjoy Science",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac38$",
+          "worked": "Of the 16 students enjoying Science, 6 enjoy English.\n$$\\Pr(E\\mid S)=\\frac6{16}=\\frac38.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p16-q4-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Science given that they don’t enjoy English",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{10}{17}$\n\nRestrict the total to students who do not enjoy English.",
+          "worked": "There are $30-13=17$ students who do not enjoy English. Of these, $16-6=10$ enjoy Science.\n$$\\Pr(S\\mid E')=\\frac{10}{17}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p16-q4-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "all three subjects given that they enjoy English.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac4{13}$",
+          "worked": "Of the 13 students enjoying English, 4 enjoy all three subjects.\n$$\\Pr(E\\cap M\\cap S\\mid E)=\\frac4{13}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p15-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p15-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p15-q4-root/label",
+                  "type": "item",
+                  "ref": "p15-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p15-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p15-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p15-q4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p15-q4-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q4-a/label",
+                          "type": "item",
+                          "ref": "p15-q4-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p15-q4-a/prompt",
+                          "type": "item",
+                          "ref": "p15-q4-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q4-a/space",
+                          "type": "item",
+                          "ref": "p15-q4-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q4-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q4-b/label",
+                          "type": "item",
+                          "ref": "p15-q4-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p15-q4-b/prompt",
+                          "type": "item",
+                          "ref": "p15-q4-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q4-b/space",
+                          "type": "item",
+                          "ref": "p15-q4-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q4-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q4-c/label",
+                          "type": "item",
+                          "ref": "p15-q4-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p15-q4-c/prompt",
+                          "type": "item",
+                          "ref": "p15-q4-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q4-c/space",
+                          "type": "item",
+                          "ref": "p15-q4-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q4-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q4-d/label",
+                          "type": "item",
+                          "ref": "p15-q4-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p15-q4-d/prompt",
+                          "type": "item",
+                          "ref": "p15-q4-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q4-d/space",
+                          "type": "item",
+                          "ref": "p15-q4-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p15-q4-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p15-q4-e/label",
+                          "type": "item",
+                          "ref": "p15-q4-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p15-q4-e/prompt",
+                          "type": "item",
+                          "ref": "p15-q4-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p15-q4-e/space",
+                          "type": "item",
+                          "ref": "p15-q4-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p16-q4-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-f/label",
+                          "type": "item",
+                          "ref": "p16-q4-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p16-q4-f/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-f/space",
+                          "type": "item",
+                          "ref": "p16-q4-f/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p16-q4-g:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-g/label",
+                          "type": "item",
+                          "ref": "p16-q4-g/label",
+                          "title": "Label g"
+                        },
+                        {
+                          "id": "layout:p16-q4-g/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-g/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-g/space",
+                          "type": "item",
+                          "ref": "p16-q4-g/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part g",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:38.870Z",
+  "updatedAt": "2026-11-12T13:09:38.870Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p15-q4",
+    "sectionRole": "exercise"
+  }
+}

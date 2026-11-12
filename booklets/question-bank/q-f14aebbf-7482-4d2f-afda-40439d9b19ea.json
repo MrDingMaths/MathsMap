@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f14aebbf-7482-4d2f-afda-40439d9b19ea",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinations-nCr",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Recognise that each connecting line corresponds to an unordered pair of distinct points.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:25:56.385Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "df931d443a12b334ee5612c03a472f05355ab73a6fef9aafa0355bf170fd89e0",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part10-20261009/semantic-packets/assignments/assignment-cc6cccd9905ee8bc016f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p16-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "Suppose 11 points are arranged around a circle. How many straight lines must be drawn so that every point is connected to every other point?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p16-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 16, p16-q7-diagram\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,10} {\n  \\coordinate (P\\i) at ({90-360*\\i/11}:2.5);\n}\n\\foreach \\i in {0,...,9} {\n  \\pgfmathtruncatemacro{\\next}{\\i+1}\n  \\foreach \\j in {\\next,...,10} {\n    \\draw[black,line width=0.8pt] (P\\i)--(P\\j);\n  }\n}\n\\foreach \\i in {0,...,10} {\n  \\fill[black] (P\\i) circle[radius=1.2pt];\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 16,
+          "sourceRegion": "Left column, beneath question 7",
+          "description": "Eleven black marked points placed around a circle, with a straight segment joining every distinct pair. There are no labels, additional intersection markers, filled regions or separate circumference stroke.",
+          "mathematics": "Complete pairwise connectivity on 11 distinct boundary points. Interior intersections are not additional given points.",
+          "answerVisibility": "The complete connecting diagram is supplied in the student question; no numerical answer is printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "55 lines.",
+      "worked": "Each line joins an unordered pair of distinct points.\n$$\\begin{align*}\n\\binom{11}{2}&=\\frac{11!}{2!9!}\\\\\n\\binom{11}{2}&=\\frac{11\\times10}{2}\\\\\n\\binom{11}{2}&=55.\n\\end{align*}$$\nTherefore, 55 lines must be drawn.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 28
+  },
+  "presentation": {
+    "ownerId": "p16-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:40.683Z",
+  "updatedAt": "2026-11-12T13:09:40.684Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p16-q7",
+    "sectionRole": "exercise"
+  }
+}

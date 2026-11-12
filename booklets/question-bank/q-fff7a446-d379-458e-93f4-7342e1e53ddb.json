@@ -1,0 +1,179 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fff7a446-d379-458e-93f4-7342e1e53ddb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "fractional-indices",
+    "secondarySkillIds": [
+      "surd-index-conversion"
+    ],
+    "reasoningScore": 85,
+    "difficulty": "Challenge",
+    "difficultyReason": "Converting the infinite product into powers exposes a weighted infinite exponent sum; students must discover a shift-and-subtract summation strategy and then relate the second product to the square of the first.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:58.500Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9ecfc7b77c91f4ec6117ac847b1a9b3521d3124e1f8e20a299eca6fac18c2771",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part9-20261008/7a4bed72cb2d75922e8443ae763880bc0ab72828d9785d3ae2311355c660e2a8-1792558410155/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-evaluate-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Evaluate.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-evaluate-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\sqrt[2]{1}\\times\\sqrt[4]{2}\\times\\sqrt[8]{4}\\times\\sqrt[16]{8}\\times\\sqrt[32]{16}\\times\\cdots$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2$.\n\nConvert to base $2$; the exponent sum is $1$.",
+          "worked": "Let $P$ be the product. Converting the radicals to powers of $2$ gives\n$$\\begin{align*}P&=2^{1/4}\\times2^{2/8}\\times2^{3/16}\\times\\cdots\\\\P&=2^x,\\end{align*}$$\nwhere $x=\\frac14+\\frac28+\\frac3{16}+\\cdots$. This convergent series satisfies\n$$\\begin{align*}\\frac x2&=\\frac18+\\frac2{16}+\\frac3{32}+\\cdots\\\\x-\\frac x2&=\\frac14+\\frac18+\\frac1{16}+\\cdots\\\\\\frac x2&=\\frac{1/4}{1-1/2}\\\\\\frac x2&=\\frac12\\\\x&=1.\\end{align*}$$\nTherefore $P=2^1=2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 106
+      },
+      {
+        "id": "p13-evaluate-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\sqrt[1]{1}\\times\\sqrt[2]{2}\\times\\sqrt[4]{4}\\times\\sqrt[8]{8}\\times\\sqrt[16]{16}\\times\\cdots$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4$.\n\nEach factor is the square of the corresponding factor in part a, so the product is $2^2$.",
+          "worked": "Let $Q$ be this product and $P$ the product in part a. Each root index has been halved, so each factor has been squared. Applying this to finite partial products and then taking their limits gives\n$$\\begin{align*}Q&=P^2\\\\Q&=2^2\\\\Q&=4.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-evaluate",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-evaluate": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-evaluate-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-evaluate-root/label",
+                  "type": "item",
+                  "ref": "p13-evaluate-root/label",
+                  "title": "Label 19"
+                },
+                {
+                  "id": "layout:p13-evaluate-root/prompt",
+                  "type": "item",
+                  "ref": "p13-evaluate-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p13-evaluate-root:parts",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p13-evaluate-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-evaluate-a/label",
+                          "type": "item",
+                          "ref": "p13-evaluate-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p13-evaluate-a/prompt",
+                          "type": "item",
+                          "ref": "p13-evaluate-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-evaluate-a/space",
+                          "type": "item",
+                          "ref": "p13-evaluate-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p13-evaluate-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-evaluate-b/label",
+                          "type": "item",
+                          "ref": "p13-evaluate-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p13-evaluate-b/prompt",
+                          "type": "item",
+                          "ref": "p13-evaluate-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-evaluate-b/space",
+                          "type": "item",
+                          "ref": "p13-evaluate-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 19",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:16:18.188Z",
+  "updatedAt": "2026-11-12T11:16:18.189Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part9-20261008",
+    "blockId": "p13-evaluate",
+    "sectionRole": "exercise"
+  }
+}

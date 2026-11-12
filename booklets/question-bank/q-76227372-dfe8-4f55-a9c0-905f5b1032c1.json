@@ -1,0 +1,331 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-76227372-dfe8-4f55-a9c0-905f5b1032c1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-quadratic-model",
+    "secondarySkillIds": [
+      "sketch-parabola-from-equation",
+      "solve-quadratic-inequalities"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Connect roots and vertex to the physical flight, discard negative time, and convert the interval above the initial height into a duration.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:03.223Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6a782306be32033efa7e0f73b169ec137ecee021c07712b2b755b8fcde0318fb",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part3-20261009/7b5e40b79c1c892ec510d7121255787c8160a24824b91c03cdfeb59aecac7095-1792558534338/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "A ball is thrown from the top of a building so that its height $h$ metres above the ground after $t\\ge0$ seconds is given by\n$$h=-5t^2+10t+15.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch a graph of the function $h$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Downward-opening parabola through $(0,15)$, with vertex $(1,20)$ and ground intercept $(3,0)$.",
+          "worked": "Find the intercepts:\n$$\\begin{align*}-5t^2+10t+15&=0\\\\t^2-2t-3&=0\\\\(t-3)(t+1)&=0\\\\t&=-1,3.\\end{align*}$$\nThe turning point is midway between these roots, at $t=1$.\n$$\\begin{align*}h(0)&=15\\\\h(1)&=-5(1)^2+10(1)+15\\\\h(1)&=20.\\end{align*}$$\nSketch the downward-opening parabola through $(0,15)$, with vertex $(1,20)$ and intercept $(3,0)$. The physical flight is $0\\le t\\le3$.",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q3-a-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"flightRed\",\"hex\":\"EF6068\",\"reason\":\"function series for the projectile height\"}],\"reference\":\"source page 21 p21-q3-a-solution-diagram; teacher page 337\"}\n\\begin{tikzpicture}[x=1.1cm,y=0.15cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{flightRed}{HTML}{EF6068}\n\\draw[black,line width=0.5pt,->] (-0.25,0)--(4.1,0) node[fill=white,inner sep=1pt,right] {$t\\text{ (s)}$};\n\\draw[black,line width=0.5pt,->] (0,-7)--(0,24) node[fill=white,inner sep=1pt,above] {$h\\text{ (m)}$};\n\\draw[flightRed,line width=0.8pt,domain=0:3,samples=61] plot (\\x,{-5*\\x*\\x+10*\\x+15});\n\\draw[flightRed,dashed,line width=0.8pt,domain=3:3.3,samples=16] plot (\\x,{-5*\\x*\\x+10*\\x+15});\n\\fill[black] (0,15) circle (1pt) (1,20) circle (1pt) (3,0) circle (1pt);\n\\node[fill=white,inner sep=1pt,left] at (0,15) {$(0,15)$};\n\\node[fill=white,inner sep=1pt,above right] at (1,20) {$(1,20)$};\n\\node[fill=white,inner sep=1pt,below left] at (3,0) {$(3,0)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "17H question 3(a); teacher PDF page 8, printed page 337",
+                "description": "Complete labelled projectile sketch with downward concavity, initial point, turning point and ground intercept. Solid curve represents flight; dashed continuation represents the algebraic function after impact.",
+                "mathematics": "h=-5t^2+10t+15 for t>=0; vertex (1,20), initial point (0,15), positive root (3,0).",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p21-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the initial height of the ball above ground level?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$15\\text{ m}$.",
+          "worked": "$$\\begin{align*}h(0)&=-5(0)^2+10(0)+15\\\\h(0)&=15.\\end{align*}$$\nThe initial height is $15\\text{ m}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 17
+      },
+      {
+        "id": "p21-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "For how long is the ball in flight?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3\\text{ s}$.",
+          "worked": "At ground level, $h=0$:\n$$\\begin{align*}-5t^2+10t+15&=0\\\\t^2-2t-3&=0\\\\(t-3)(t+1)&=0\\\\t&=3,-1.\\end{align*}$$\nSince $t\\ge0$, the ball is in flight for $3\\text{ s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p21-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "For what duration is the ball more than $15$ metres above ground level?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\text{ s}$.\n\nThe ball is above $15$ m for $0<t<2$.",
+          "worked": "Find when the height equals $15$ m:\n$$\\begin{align*}-5t^2+10t+15&=15\\\\-5t^2+10t&=0\\\\-5t(t-2)&=0\\\\t&=0,2.\\end{align*}$$\nThe parabola lies above $h=15$ between these times. Thus $0<t<2$, a duration of $2\\text{ s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 34
+      },
+      {
+        "id": "p21-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What is the maximum height reached by the ball?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$20\\text{ m}$.",
+          "worked": "The turning point is midway between the roots $t=-1$ and $t=3$, so it occurs at $t=1$.\n$$\\begin{align*}h(1)&=-5(1)^2+10(1)+15\\\\h(1)&=20.\\end{align*}$$\nThe maximum height is $20\\text{ m}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q3",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p21-q3": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p21-q3-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p21-q3-root/label",
+                  "type": "item",
+                  "ref": "p21-q3-root/label",
+                  "title": "Label 3"
+                },
+                {
+                  "id": "layout:p21-q3-root/prompt",
+                  "type": "item",
+                  "ref": "p21-q3-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p21-q3-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p21-q3-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-a/label",
+                          "type": "item",
+                          "ref": "p21-q3-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p21-q3-a/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-a/space",
+                          "type": "item",
+                          "ref": "p21-q3-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q3-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-b/label",
+                          "type": "item",
+                          "ref": "p21-q3-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p21-q3-b/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-b/space",
+                          "type": "item",
+                          "ref": "p21-q3-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q3-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-c/label",
+                          "type": "item",
+                          "ref": "p21-q3-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p21-q3-c/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-c/space",
+                          "type": "item",
+                          "ref": "p21-q3-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q3-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-d/label",
+                          "type": "item",
+                          "ref": "p21-q3-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p21-q3-d/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-d/space",
+                          "type": "item",
+                          "ref": "p21-q3-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p21-q3-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p21-q3-e/label",
+                          "type": "item",
+                          "ref": "p21-q3-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p21-q3-e/prompt",
+                          "type": "item",
+                          "ref": "p21-q3-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p21-q3-e/space",
+                          "type": "item",
+                          "ref": "p21-q3-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 3",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:33.844Z",
+  "updatedAt": "2026-11-12T13:10:33.845Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part3-20261009",
+    "blockId": "p21-q3",
+    "sectionRole": "exercise"
+  }
+}

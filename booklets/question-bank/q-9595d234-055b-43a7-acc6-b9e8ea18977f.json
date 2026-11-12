@@ -1,0 +1,123 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9595d234-055b-43a7-acc6-b9e8ea18977f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-optimisation",
+    "secondarySkillIds": [
+      "model-optimisation"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Count the shared fence once to construct the fencing constraint, distinguish one paddock's area from the total, and then apply the familiar quadratic maximisation procedure.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:03.103Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fade9950a4f1aa446f0a24d93ad41a227c475352126ba3a08960bcae1ca17e01",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part3-20261009/fc33b63128870ff1aad810c75a149ca851d0c4d218c60b182fc29c072fa143e2-1792558538876/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "A farmer has 120 metres of fencing and needs to create two adjacent paddocks. These are identical rectangles that share a fence line on one side. What is the largest possible area of each paddock?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25, p25-q4-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (2,0);\n\\coordinate (C) at (4,0);\n\\coordinate (D) at (4,1);\n\\coordinate (E) at (2,1);\n\\coordinate (F) at (0,1);\n\\draw[black,line width=0.8pt] (A)--(C)--(D)--(F)--cycle;\n\\draw[black,line width=0.8pt] (B)--(E);\n\\path (A)--(B) node[midway,below,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\path (A)--(F) node[midway,left,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Question 4, right column, beneath the stem",
+          "description": "Two identical rectangular paddocks adjacent horizontally, with one vertical shared fence. The left paddock's bottom edge is labelled x and its outer left edge is labelled y. Decorative green background omitted; ordinary fences and labels use black.",
+          "mathematics": "Each paddock has width x and height y. The fence comprises four horizontal lengths x and three vertical lengths y, so 4x+3y=120.",
+          "answerVisibility": "Only supplied variables and fence geometry appear; no dimensions or maximum area are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$300\\text{ m}^2$ for each paddock.\n\nThe area quadratic has its maximum halfway between its intercepts, giving $x=15\\text{ m}$ and $y=20\\text{ m}$.",
+      "worked": "The shared fence is counted once. With $x,y>0$, the fencing constraint is\n$$\\begin{align*}\n4x+3y&=120\\\\\ny&=40-\\frac{4}{3}x.\n\\end{align*}$$\nThe area $A$ of each paddock is\n$$\\begin{align*}\nA&=xy\\\\\nA&=x\\left(40-\\frac{4}{3}x\\right)\\\\\nA&=\\frac{4}{3}x(30-x).\n\\end{align*}$$\nThis downward-opening quadratic has intercepts at $x=0$ and $x=30$, so its maximum occurs halfway between them:\n$$\\begin{align*}\nx&=\\frac{0+30}{2}=15\\\\\ny&=40-\\frac{4}{3}(15)=20\\\\\nA_{\\max}&=15\\times20=300.\n\\end{align*}$$\nThe largest possible area of each paddock is $300\\text{ m}^2$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 60
+  },
+  "presentation": {
+    "ownerId": "p25-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q4-root/label",
+                  "type": "item",
+                  "ref": "p25-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p25-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p25-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p25-q4-diagram",
+                  "type": "item",
+                  "ref": "p25-q4-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "layout:p25-q4-root/space",
+                  "type": "item",
+                  "ref": "p25-q4-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:37.261Z",
+  "updatedAt": "2026-11-12T13:10:37.261Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part3-20261009",
+    "blockId": "p25-q4",
+    "sectionRole": "exercise"
+  }
+}

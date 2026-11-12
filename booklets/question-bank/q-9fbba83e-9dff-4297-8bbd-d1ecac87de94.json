@@ -1,0 +1,288 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9fbba83e-9dff-4297-8bbd-d1ecac87de94",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-quadratic-model",
+    "secondarySkillIds": [
+      "sketch-parabola-from-equation",
+      "solve-quadratic-common-factor"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Sketch and interpret both height models, translate the twice-height comparison into an equation, and retain launch time as a valid solution alongside the later time.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:56:03.223Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5a299838d8c1cabdf09697774befdb0d5ef616165857eaeb7365f0c2d11e1c6a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part3-20261009/7b5e40b79c1c892ec510d7121255787c8160a24824b91c03cdfeb59aecac7095-1792558534338/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p22-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Two balls are projected from ground level at the same time. The height $h$ metres above the ground of the first ball after $t\\geq0$ seconds is given by the formula\n$$h=-5t^2+20t.$$\nThe height of the second ball is\n$$h=-5t^2+15t.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "On the same set of axes, sketch the graph of the height $h$ for each ball. Label axial intercepts and turning points.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Ball 1: intercepts $(0,0)$ and $(4,0)$; turning point $(2,20)$.\n\nBall 2: intercepts $(0,0)$ and $(3,0)$; turning point $\\left(\\frac32,\\frac{45}{4}\\right)$. Both curves open downwards.",
+          "worked": "For ball 1, $h_1=-5t(t-4)$, so its intercepts are $(0,0)$ and $(4,0)$. The turning point lies halfway between them:\n$$\\begin{align*}t&=\\frac{0+4}{2}=2\\\\h_1(2)&=-5(2)^2+20(2)=20.\\end{align*}$$\nIts turning point is $(2,20)$.\n\nFor ball 2, $h_2=-5t(t-3)$, so its intercepts are $(0,0)$ and $(3,0)$. The turning point lies halfway between them:\n$$\\begin{align*}t&=\\frac{0+3}{2}=\\frac32\\\\h_2\\left(\\frac32\\right)&=-5\\left(\\frac32\\right)^2+15\\left(\\frac32\\right)=\\frac{45}{4}.\\end{align*}$$\nIts turning point is $\\left(\\frac32,\\frac{45}{4}\\right)$. Sketch both downward-opening parabolas on the same axes, from launch until each ball reaches the ground.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q4-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"ballOne\",\"hex\":\"EF8B2C\",\"reason\":\"distinguishes the first ball's curve\"},{\"name\":\"ballTwo\",\"hex\":\"268CFF\",\"reason\":\"distinguishes the second ball's curve\"}],\"reference\":\"source page 22 question 4(a); teacher page 9\"}\n\\begin{tikzpicture}[x=1.15cm,y=0.22cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{ballOne}{HTML}{EF8B2C}\n\\definecolor{ballTwo}{HTML}{268CFF}\n\\draw[->,black,line width=0.5pt] (0,0)--(4.9,0) node[right] {$t\\ (\\mathrm{s})$};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,24) node[fill=white,inner sep=1pt,above] {$h\\ (\\mathrm{m})$};\n\\draw[ballOne,line width=0.8pt,domain=0:4,samples=81] plot (\\x,{-5*\\x*\\x+20*\\x});\n\\draw[ballTwo,line width=0.8pt,domain=0:3,samples=81] plot (\\x,{-5*\\x*\\x+15*\\x});\n\\fill[black] (0,0) circle[radius=1.2pt] (4,0) circle[radius=1.2pt] (3,0) circle[radius=1.2pt] (2,20) circle[radius=1.2pt] (1.5,11.25) circle[radius=1.2pt];\n\\node[fill=white,inner sep=1pt,below left] at (0,0) {$(0,0)$};\n\\node[fill=white,inner sep=1pt,below left] at (3,0) {$(3,0)$};\n\\node[fill=white,inner sep=1pt,below right] at (4,0) {$(4,0)$};\n\\node[fill=white,inner sep=1pt,above] at (2,20) {$(2,20)$};\n\\draw[gray,densely dotted,line width=0.4pt,->] (4,13)--(1.5,11.25);\\node[fill=white,inner sep=1pt,right] at (4,13) {$\\left(\\frac32,\\frac{45}{4}\\right)$};\n\\node[fill=white,inner sep=1pt,right,text=ballOne] at (1,-7) {Ball 1};\n\\node[fill=white,inner sep=1pt,right,text=ballTwo] at (3.5,-7) {Ball 2};\n\\draw[black,line width=0.5pt] (0.001,0)--(0,0)--(0,24);\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 85,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Question 4(a); teacher PDF page 9, printed page 338, upper-left graph",
+                "description": "Two projectile-height curves on common axes, with all intercepts and turning points labelled. No grid is supplied in the source.",
+                "mathematics": "h1=-5t^2+20t for 0<=t<=4; h2=-5t^2+15t for 0<=t<=3. Vertices (2,20) and (3/2,45/4).",
+                "answerVisibility": "Solution only; the student question supplies no graph."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 95
+      },
+      {
+        "id": "p22-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "At what times do the two balls reach ground level?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Ball 1: $4\\text{ s}$. Ball 2: $3\\text{ s}$.",
+          "worked": "At ground level, $h=0$.\n\nBall 1:\n$$\\begin{align*}-5t^2+20t&=0\\\\-5t(t-4)&=0\\\\t&=0\\text{ or }4.\\end{align*}$$\nBall 2:\n$$\\begin{align*}-5t^2+15t&=0\\\\-5t(t-3)&=0\\\\t&=0\\text{ or }3.\\end{align*}$$\nThe root $t=0$ is the launch time. The balls return to ground level after $4\\text{ s}$ and $3\\text{ s}$ respectively.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p22-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What are the maximum heights reached by the two balls?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Ball 1: $20\\text{ m}$. Ball 2: $\\frac{45}{4}\\text{ m}$.\n\nEach maximum occurs halfway between the corresponding time intercepts.",
+          "worked": "Both parabolas open downwards, so their turning points give the maximum heights. The turning-point times are halfway between the intercepts.\n\nBall 1:\n$$\\begin{align*}t_1&=\\frac{0+4}{2}=2\\\\h_1(2)&=-5(2)^2+20(2)\\\\h_1(2)&=20.\\end{align*}$$\nBall 2:\n$$\\begin{align*}t_2&=\\frac{0+3}{2}=\\frac32\\\\h_2\\left(\\frac32\\right)&=-5\\left(\\frac32\\right)^2+15\\left(\\frac32\\right)\\\\h_2\\left(\\frac32\\right)&=\\frac{45}{4}.\\end{align*}$$\nThe maximum heights are $20\\text{ m}$ and $\\frac{45}{4}\\text{ m}$ respectively.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p22-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "At what times is the height of the first ball twice the height of the second ball?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$t=0\\text{ s}$ and $t=2\\text{ s}$.\n\nInclude launch: $0=2\\times0$.",
+          "worked": "$$\\begin{align*}-5t^2+20t&=2(-5t^2+15t)\\\\-5t^2+20t&=-10t^2+30t\\\\5t^2-10t&=0\\\\5t(t-2)&=0\\\\t&=0\\text{ or }2.\\end{align*}$$\nAt launch, both heights are zero, so $0=2\\times0$. At $t=2$, the heights are $20\\text{ m}$ and $10\\text{ m}$. Thus the times are $0\\text{ s}$ and $2\\text{ s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p22-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p22-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p22-q4-root/label",
+                  "type": "item",
+                  "ref": "p22-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p22-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p22-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p22-q4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p22-q4-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q4-a/label",
+                          "type": "item",
+                          "ref": "p22-q4-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p22-q4-a/prompt",
+                          "type": "item",
+                          "ref": "p22-q4-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q4-a/space",
+                          "type": "item",
+                          "ref": "p22-q4-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q4-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q4-b/label",
+                          "type": "item",
+                          "ref": "p22-q4-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p22-q4-b/prompt",
+                          "type": "item",
+                          "ref": "p22-q4-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q4-b/space",
+                          "type": "item",
+                          "ref": "p22-q4-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q4-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q4-c/label",
+                          "type": "item",
+                          "ref": "p22-q4-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p22-q4-c/prompt",
+                          "type": "item",
+                          "ref": "p22-q4-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q4-c/space",
+                          "type": "item",
+                          "ref": "p22-q4-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p22-q4-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p22-q4-d/label",
+                          "type": "item",
+                          "ref": "p22-q4-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p22-q4-d/prompt",
+                          "type": "item",
+                          "ref": "p22-q4-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p22-q4-d/space",
+                          "type": "item",
+                          "ref": "p22-q4-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:34.398Z",
+  "updatedAt": "2026-11-12T13:10:34.398Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part3-20261009",
+    "blockId": "p22-q4",
+    "sectionRole": "exercise"
+  }
+}

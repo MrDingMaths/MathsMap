@@ -1,0 +1,262 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-42128015-88a3-418e-a65e-1b32a614be3f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-independent-events",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Adapt the taught reset equation to a complete round of n players, distinguish immediate loss from everyone surviving, and solve symbolically in n and k.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:53.973Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aec6d9df11832c36e941ac06f8a8c2ecbf3571daf835b20036b30a47a303c28e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/644e45a5a968862bfa52c6b0e194492ea691cd6a811c7fd6660d8d04766ba9aa-1792558434878/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q28-root",
+    "type": "question",
+    "label": "28",
+    "prompt": "In the ghastly game of Russian Roulette, a player places a single bullet in a six-shot revolver, spins the cylinder, places the muzzle against their head, and pulls the trigger.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q28-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the probability that a player survives two consecutive trigger pulls in a single turn, assuming the player re-spins the cylinder before each pull.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{25}{36}$",
+          "worked": "Each pull has survival probability $\\frac56$. Re-spinning makes the pulls independent.\n\n$$\\begin{align*}P(\\text{survives both pulls})&=\\frac56\\times\\frac56\\\\P(\\text{survives both pulls})&=\\frac{25}{36}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p26-q28-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the probability that a player survives $n$ consecutive trigger pulls in a single turn, assuming the player re-spins the cylinder before each pull.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\left(\\dfrac56\\right)^n$",
+          "worked": "The $n$ pulls are independent, each with survival probability $\\frac56$.\n\n$$P(\\text{survives all }n\\text{ pulls})=\\left(\\frac56\\right)^n.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p26-q28-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Consider a variation with two players taking turns pulling the trigger (re-spinning before each turn) until someone is shot. Find the probability that the first player gets shot.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac6{11}$\n\nLet $p$ be the required probability. The reset equation is $p=\\frac16+\\left(\\frac56\\right)^2p$.",
+          "worked": "Let $p$ be the probability that the first player is shot. Either this happens on the first turn, or both players survive and the situation resets.\n\n$$\\begin{align*}p&=\\frac16+\\left(\\frac56\\right)^2p\\\\p&=\\frac16+\\frac{25}{36}p\\\\36p&=6+25p\\\\11p&=6\\\\p&=\\frac6{11}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p26-q28-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Now suppose $n$ players take turns with a $k$-shot revolver containing one bullet, re-spinning before each turn. Find the probability that the first player is shot, in terms of $n$ and $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{k^{n-1}}{k^n-(k-1)^n}$\n\nUse $p=\\frac1k+\\left(\\frac{k-1}{k}\\right)^np$: after all $n$ players survive, the situation resets.",
+          "worked": "Let $p$ be the probability that the first player is shot. The probability of being shot on a turn is $\\frac1k$. If all $n$ players survive, the situation resets.\n\n$$\\begin{align*}p&=\\frac1k+\\left(\\frac{k-1}{k}\\right)^np\\\\p\\left[1-\\left(\\frac{k-1}{k}\\right)^n\\right]&=\\frac1k\\\\p&=\\frac{1/k}{1-(k-1)^n/k^n}\\\\p&=\\frac{k^{n-1}}{k^n-(k-1)^n}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q28",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p25-q28": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p25-q28-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p25-q28-root/label",
+                  "type": "item",
+                  "ref": "p25-q28-root/label",
+                  "title": "Label 28"
+                },
+                {
+                  "id": "layout:p25-q28-root/prompt",
+                  "type": "item",
+                  "ref": "p25-q28-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p25-q28-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p25-q28-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p25-q28-a/label",
+                          "type": "item",
+                          "ref": "p25-q28-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p25-q28-a/prompt",
+                          "type": "item",
+                          "ref": "p25-q28-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p25-q28-a/space",
+                          "type": "item",
+                          "ref": "p25-q28-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q28-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q28-b/label",
+                          "type": "item",
+                          "ref": "p26-q28-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p26-q28-b/prompt",
+                          "type": "item",
+                          "ref": "p26-q28-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q28-b/space",
+                          "type": "item",
+                          "ref": "p26-q28-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q28-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q28-c/label",
+                          "type": "item",
+                          "ref": "p26-q28-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p26-q28-c/prompt",
+                          "type": "item",
+                          "ref": "p26-q28-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q28-c/space",
+                          "type": "item",
+                          "ref": "p26-q28-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p26-q28-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p26-q28-d/label",
+                          "type": "item",
+                          "ref": "p26-q28-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p26-q28-d/prompt",
+                          "type": "item",
+                          "ref": "p26-q28-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p26-q28-d/space",
+                          "type": "item",
+                          "ref": "p26-q28-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 28",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:10.141Z",
+  "updatedAt": "2026-11-12T13:10:10.141Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p25-q28",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6ded95ba-7d87-4381-9ad8-fcd0bd55ba0b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 71,
+    "difficulty": "Mastery",
+    "difficultyReason": "Represent an arbitrary string of nines as a power of ten minus one, establish the exact cycle modulo 13 and transfer the resulting length restriction to moduli 7 and 11.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:38.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "79ae47fd8f04d955ca97a752ab764c4b53f129521416d27fbee063d05b7bc647",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part13-20261009/cff6221670e4454b2c3d669177581171673c4424fd914263929122903301af76-1792558494106/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Using Fermat’s Little Theorem, show that 999 999 is divisible by 7.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$999\\,999=10^6-1\\equiv0\\pmod7$.",
+          "worked": "Since 7 is prime and does not divide 10, Fermat’s Little Theorem gives $10^6\\equiv1\\pmod7$.\n$$\\begin{align*}999\\,999&=10^6-1,\\\\999\\,999&\\equiv0\\pmod7.\\end{align*}$$\nTherefore $999\\,999$ is divisible by 7.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p16-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A number consists solely of the digit 9 and is divisible by 13. Show that it is also divisible by 7 and 11.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The number is divisible by both 7 and 11.\n\nThe powers of 10 modulo 13 have period 6, so the number of digits is a multiple of 6. Then $10^{6k}-1\\equiv0$ modulo both 7 and 11.",
+          "worked": "Let the number have $m$ digits, so it is $10^m-1$, where $m$ is a positive integer. The successive powers of 10 satisfy\n$$\\begin{align*}10^1&\\equiv10\\pmod{13},\\\\10^2&\\equiv9\\pmod{13},\\\\10^3&\\equiv12\\pmod{13},\\\\10^4&\\equiv3\\pmod{13},\\\\10^5&\\equiv4\\pmod{13},\\\\10^6&\\equiv1\\pmod{13}.\\end{align*}$$\nThese residues repeat every six powers. Since $13\\mid(10^m-1)$, we have $10^m\\equiv1\\pmod{13}$, so $m=6k$ for a positive integer $k$.\n\nBy Fermat’s Little Theorem, $10^6\\equiv1\\pmod7$. Therefore,\n$$\\begin{align*}10^{6k}-1&=(10^6)^k-1,\\\\10^{6k}-1&\\equiv0\\pmod7.\\end{align*}$$\nSince $10\\equiv-1\\pmod{11}$,\n$$\\begin{align*}10^{6k}-1&\\equiv(-1)^{6k}-1\\pmod{11},\\\\10^{6k}-1&\\equiv0\\pmod{11}.\\end{align*}$$\nHence the number is divisible by both 7 and 11.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p16-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p16-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p16-q4-root/label",
+                  "type": "item",
+                  "ref": "p16-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p16-q4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p16-q4-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-a/label",
+                          "type": "item",
+                          "ref": "p16-q4-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p16-q4-a/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-a/space",
+                          "type": "item",
+                          "ref": "p16-q4-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p16-q4-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p16-q4-b/label",
+                          "type": "item",
+                          "ref": "p16-q4-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p16-q4-b/prompt",
+                          "type": "item",
+                          "ref": "p16-q4-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p16-q4-b/space",
+                          "type": "item",
+                          "ref": "p16-q4-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:18:27.376Z",
+  "updatedAt": "2026-11-12T11:18:27.376Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part13-20261009",
+    "blockId": "p16-q4",
+    "sectionRole": "exercise"
+  }
+}

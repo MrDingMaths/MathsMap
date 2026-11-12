@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d9ce4f82-0c4b-425f-87cb-d499cdf7f0ca",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "multiply-divide-integers"
+    ],
+    "reasoningScore": 89,
+    "difficulty": "Challenge",
+    "difficultyReason": "Discover sum-preserving replacements that eliminate ones and reduce larger terms to twos and threes, then compare equal-sum groups to prove the proposed product is globally maximal.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5069c88876e7492f70b9db521ceb4d8dc17adc44fbcdfbd87bd143be696f201c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "The sum of a collection of positive integers, with repetition allowed, is $20$. Find the maximum value of their product, and prove that this is indeed the maximum value achievable.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p12-q10-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "3^6\\times2=1458",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p12-q10-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Use six 3s and one 2. Splitting larger terms and replacing three 2s by two 3s shows that no larger product is possible.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Six $3$s and one $2$ have sum $20$ and product\n\n$$3^6\\times2=1458.$$\n\nTo prove maximality, first exclude $1$: combining it with any other term $a$ replaces the product factor $a\\times1$ by $a+1$, increasing the product without changing the sum.\n\nFor an even term $n=2k\\ge4$, replace it by $k,k$. Since\n\n$$k^2-2k=k(k-2)\\ge0,$$\n\nthe product does not decrease; equality occurs only when $n=4$.\n\nFor an odd term $n=2k+1\\ge5$, replace it by $k,k+1$. Since\n\n$$k(k+1)-(2k+1)=k^2-k-1>0\\quad(k\\ge2),$$\n\nthe product increases. Repeating these replacements leaves only $2$s and $3$s, with no smaller product.\n\nThree $2$s have sum $6$ and product $8$, whereas two $3$s have the same sum and product $9$. Thus a maximum has at most two $2$s. If there are $a$ copies of $2$ and $b$ copies of $3$, then\n\n$$2a+3b=20,\\qquad a\\in\\{0,1,2\\}.$$\n\nOnly $a=1$ makes $20-2a$ divisible by $3$, giving $b=6$. Therefore the maximum is $1458$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 132
+  },
+  "presentation": {
+    "ownerId": "p12-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q10-root/label",
+                  "type": "item",
+                  "ref": "p12-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p12-q10-root/prompt",
+                  "type": "item",
+                  "ref": "p12-q10-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q10-root/space",
+                  "type": "item",
+                  "ref": "p12-q10-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:32.942Z",
+  "updatedAt": "2026-11-12T11:14:32.942Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p12-q10",
+    "sectionRole": "exercise"
+  }
+}

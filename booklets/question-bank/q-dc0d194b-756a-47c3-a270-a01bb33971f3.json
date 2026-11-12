@@ -1,0 +1,256 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-dc0d194b-756a-47c3-a270-a01bb33971f3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "limiting-sum-gp",
+    "secondarySkillIds": [
+      "angle-properties-plane-shapes"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive the geometric area ratio from recursively inscribed figures, then sum infinitely many disjoint shaded regions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:49:44.980Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "90c5920711be43dcd687211f9682529130b06e37765ab12e60f319a5a3cd4d41",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part12-20261009/semantic-packets/assignments/assignment-a3ce63b486b5f05ac3d9/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p23-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p23-q17-opening",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A circle is inscribed in a square of side length 2, with the area between the square and the circle shaded.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p23-q17-recursion",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "We then recursively inscribe a scaled down copy of the same figure in the inner-most circle. The first two iterations are shown below.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p23-q17-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "If the procedure is repeated infinitely many times, then what is the total shaded area?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q17-diagram-initial",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"summedAreaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"square-minus-circle regions whose total area is requested\"}],\"reference\":\"source page 23, p23-q17-diagram-initial\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{summedAreaBlue}{HTML}{D4E8FF}\n\\path[fill=summedAreaBlue,draw=black,line width=0.8pt] (-1,-1) rectangle (1,1);\n\\path[fill=white,draw=black,line width=0.8pt] (0,0) circle[radius=1];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 17, initial figure",
+          "description": "Axis-aligned square with a concentric inscribed circle; only square-minus-circle regions are shaded.",
+          "mathematics": "Square side 2; circle radius 1; circle tangent to all four square sides.",
+          "answerVisibility": "Supplied question figure contains no answer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p23-q17-diagram-iteration1",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"summedAreaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"square-minus-circle regions whose total area is requested\"}],\"reference\":\"source page 23, p23-q17-diagram-iteration1\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{summedAreaBlue}{HTML}{D4E8FF}\n\\path[fill=summedAreaBlue,draw=black,line width=0.8pt] (-1,-1) rectangle (1,1);\n\\path[fill=white,draw=black,line width=0.8pt] (0,0) circle[radius=1];\n\\pgfmathsetmacro{\\innerHalf}{1/sqrt(2)}\n\\path[fill=summedAreaBlue,draw=black,line width=0.8pt] (-\\innerHalf,-\\innerHalf) rectangle (\\innerHalf,\\innerHalf);\n\\path[fill=white,draw=black,line width=0.8pt] (0,0) circle[radius=\\innerHalf];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 17, left iteration figure",
+          "description": "Two concentric, axis-aligned square/circle pairs; inner-square corners touch the outer circle.",
+          "mathematics": "Outer square half-side 1; inner square half-side 1/sqrt(2); each circle radius equals its square half-side.",
+          "answerVisibility": "Supplied recursive construction only; no numerical answers or added labels."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      },
+      {
+        "id": "p23-q17-diagram-iteration2",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"summedAreaBlue\",\"hex\":\"D4E8FF\",\"reason\":\"square-minus-circle regions whose total area is requested\"}],\"reference\":\"source page 23, p23-q17-diagram-iteration2\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{summedAreaBlue}{HTML}{D4E8FF}\n\\path[fill=summedAreaBlue,draw=black,line width=0.8pt] (-1,-1) rectangle (1,1);\n\\path[fill=white,draw=black,line width=0.8pt] (0,0) circle[radius=1];\n\\pgfmathsetmacro{\\innerHalf}{1/sqrt(2)}\n\\path[fill=summedAreaBlue,draw=black,line width=0.8pt] (-\\innerHalf,-\\innerHalf) rectangle (\\innerHalf,\\innerHalf);\n\\path[fill=white,draw=black,line width=0.8pt] (0,0) circle[radius=\\innerHalf];\n\\path[fill=summedAreaBlue,draw=black,line width=0.8pt] (-0.5,-0.5) rectangle (0.5,0.5);\n\\path[fill=white,draw=black,line width=0.8pt] (0,0) circle[radius=0.5];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Question 17, right iteration figure",
+          "description": "Three concentric, axis-aligned square/circle pairs; intervening circle-minus-square regions remain white.",
+          "mathematics": "Square half-sides 1, 1/sqrt(2), 1/2; each new square has its four corners on the preceding circle.",
+          "answerVisibility": "Supplied recursive construction only; no numerical answers or added labels."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$8-2\\pi$ square units.\n\nEach successive shaded area is half the previous one; sum the GP with first term $4-\\pi$.",
+      "worked": "The first circle has radius $1$, so the first shaded area is $4-\\pi$.\n\nLet $x$ be the side length of the next square. Its diagonal is the diameter of the first circle.\n$$\\begin{align*}\nx^2+x^2&=2^2\\\\\n2x^2&=4\\\\\nx^2&=2\\\\\nx&=\\sqrt{2}\n\\end{align*}$$\nThe linear scale factor between successive square/circle pairs is $\\frac{\\sqrt{2}}{2}$. Therefore, their shaded areas have common ratio\n$$r=\\left(\\frac{\\sqrt{2}}{2}\\right)^2=\\frac12.$$\nThe shaded regions are disjoint. Since $|r|<1$, their total area is\n$$\\begin{align*}\nA&=(4-\\pi)\\left(1+\\frac12+\\left(\\frac12\\right)^2+\\cdots\\right)\\\\\nA&=\\frac{4-\\pi}{1-\\frac12}\\\\\nA&=2(4-\\pi)\\\\\nA&=8-2\\pi\\text{ square units}.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p23-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p23-q17-arrangement",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "p23-q17-label-item",
+                  "type": "item",
+                  "ref": "p23-q17-root/label",
+                  "align": "left"
+                },
+                {
+                  "id": "p23-q17-opening-item",
+                  "type": "item",
+                  "ref": "p23-q17-root/prompt#p23-q17-opening",
+                  "align": "left"
+                },
+                {
+                  "id": "p23-q17-initial-item",
+                  "type": "item",
+                  "ref": "p23-q17-diagram-initial",
+                  "width": 40,
+                  "align": "center"
+                },
+                {
+                  "id": "p23-q17-recursion-item",
+                  "type": "item",
+                  "ref": "p23-q17-root/prompt#p23-q17-recursion",
+                  "align": "left"
+                },
+                {
+                  "id": "p23-q17-iteration-row",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "p23-q17-iteration1-item",
+                      "type": "item",
+                      "ref": "p23-q17-diagram-iteration1",
+                      "width": 40,
+                      "align": "center"
+                    },
+                    {
+                      "id": "p23-q17-iteration2-item",
+                      "type": "item",
+                      "ref": "p23-q17-diagram-iteration2",
+                      "width": 40,
+                      "align": "center"
+                    }
+                  ],
+                  "gap": 8,
+                  "verticalAlign": "top"
+                },
+                {
+                  "id": "p23-q17-request-item",
+                  "type": "item",
+                  "ref": "p23-q17-root/prompt#p23-q17-request",
+                  "align": "left"
+                },
+                {
+                  "id": "p23-q17-working-item",
+                  "type": "item",
+                  "ref": "p23-q17-root/space",
+                  "align": "left"
+                }
+              ],
+              "gap": 3
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p23-q17"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:17.976Z",
+  "updatedAt": "2026-11-12T13:10:17.977Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p23-q17",
+    "sectionRole": "exercise"
+  }
+}

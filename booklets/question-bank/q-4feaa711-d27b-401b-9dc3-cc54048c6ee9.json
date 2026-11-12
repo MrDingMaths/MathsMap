@@ -1,0 +1,864 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4feaa711-d27b-401b-9dc3-cc54048c6ee9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sketch-parabola-from-equation",
+    "secondarySkillIds": [
+      "parabola-intercepts-axis-vertex",
+      "solve-quadratic-factorisation"
+    ],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Selects common-factor or quadratic factorisation, including non-monic factors, then links roots, midpoint, substitution and concavity to a labelled sketch.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:55.375Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "013ceb1e72f952f7bd914ee46e1dc390cafe440032337f59ab08df57d34a9895",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part3-20261009/6fbfe90de50f6f5dff9004d03ae1095289e027a387037c3e68fe085242addec0-1792558528143/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Convert each of the following parabolas into intercept form and then sketch their graphs. Label the coordinates of the turning point and the axial intercepts.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p12-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$y=x^2-4x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=x(x-4)$. Intercepts: $(0,0)$ and $(4,0)$. Turning point: $(2,-4)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=x(x-4)\\\\0&=x(x-4)\\\\x&=0\\text{ or }4\\\\x_{\\mathrm{TP}}&=\\frac{0+4}{2}=2\\\\y_{\\mathrm{TP}}&=2(2-4)=-4\\end{align*}$$\nThe $y$-intercept is $(0,0)$. Plot the intercepts and $(2,-4)$, then draw an upward-opening parabola symmetric about $x=2$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(a)\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1,0)--(5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-5)--(0,4) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-0.7:4.7,samples=81] plot (\\x,{\\x*(\\x-4)});\n\\fill (0,0) circle (1.2pt) node[below left,yshift=-4mm] {$(0,0)$};\n\\fill (4,0) circle (1.2pt) node[below right,yshift=-4mm] {$(4,0)$};\n\\fill (2,-4) circle (1.2pt) node[fill=white,inner sep=1pt,below] {$(2,-4)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(a)",
+                "description": "Complete labelled solution sketch; no numeric ticks or grid.",
+                "mathematics": "y=x(x-4); roots 0 and 4; vertex (2,-4); y-intercept (0,0).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p12-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$y=3x-x^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-x(x-3)$. Intercepts: $(0,0)$ and $(3,0)$. Turning point: $\\left(\\frac32,\\frac94\\right)$; opens downwards.",
+          "worked": "$$\\begin{align*}y&=-x(x-3)\\\\0&=-x(x-3)\\\\x&=0\\text{ or }3\\\\x_{\\mathrm{TP}}&=\\frac{0+3}{2}=\\frac32\\\\y_{\\mathrm{TP}}&=-\\frac32\\left(\\frac32-3\\right)=\\frac94\\end{align*}$$\nThe $y$-intercept is $(0,0)$. Plot the intercepts and $\\left(\\frac32,\\frac94\\right)$, then draw a downward-opening parabola symmetric about $x=\\frac32$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-b-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(b)\"}\n\\begin{tikzpicture}[x=0.9cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1,0)--(4,0) node[fill=white,inner sep=1pt,right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2)--(0,3.7) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-0.5:3.5,samples=81] plot (\\x,{3*\\x-\\x*\\x});\n\\fill (0,0) circle (1.2pt) node[fill=white,inner sep=1pt,below left] {$(0,0)$};\n\\fill (3,0) circle (1.2pt) node[fill=white,inner sep=1pt,below right] {$(3,0)$};\n\\fill (1.5,2.25) circle (1.2pt) node[fill=white,inner sep=1pt,above right] {$\\left(\\frac32,\\frac94\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(b)",
+                "description": "Complete labelled solution sketch; no numeric ticks or grid.",
+                "mathematics": "y=-x(x-3); roots 0 and 3; vertex (3/2,9/4); y-intercept (0,0).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 110
+      },
+      {
+        "id": "p12-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$y=2x+2x^2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=2x(x+1)$. Intercepts: $(-1,0)$ and $(0,0)$. Turning point: $\\left(-\\frac12,-\\frac12\\right)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=2x(x+1)\\\\0&=2x(x+1)\\\\x&=-1\\text{ or }0\\\\x_{\\mathrm{TP}}&=\\frac{-1+0}{2}=-\\frac12\\\\y_{\\mathrm{TP}}&=2\\left(-\\frac12\\right)\\left(-\\frac12+1\\right)=-\\frac12\\end{align*}$$\nThe $y$-intercept is $(0,0)$. Plot the intercepts and $\\left(-\\frac12,-\\frac12\\right)$, then draw an upward-opening parabola symmetric about $x=-\\frac12$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-c-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(c)\"}\n\\begin{tikzpicture}[x=2cm,y=1.2cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.7,0)--(0.8,0) node[fill=white,inner sep=1pt,right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1)--(0,1.7) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-1.5:0.5,samples=81] plot (\\x,{2*\\x*(\\x+1)});\n\\fill (-1,0) circle (1.2pt) node[fill=white,inner sep=1pt,above left,xshift=-5mm] {$(-1,0)$};\n\\fill (0,0) circle (1.2pt) node[fill=white,inner sep=1pt,above right] {$(0,0)$};\n\\fill (-0.5,-0.5) circle (1.2pt) node[fill=white,inner sep=1pt,below left] {$\\left(-\\frac12,-\\frac12\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(c)",
+                "description": "Complete labelled solution sketch; no numeric ticks or grid.",
+                "mathematics": "y=2x(x+1); roots -1 and 0; vertex (-1/2,-1/2); y-intercept (0,0).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 110
+      },
+      {
+        "id": "p12-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$y=-3x^2+6x$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-3x(x-2)$. Intercepts: $(0,0)$ and $(2,0)$. Turning point: $(1,3)$; opens downwards.",
+          "worked": "$$\\begin{align*}y&=-3x(x-2)\\\\0&=-3x(x-2)\\\\x&=0\\text{ or }2\\\\x_{\\mathrm{TP}}&=\\frac{0+2}{2}=1\\\\y_{\\mathrm{TP}}&=-3(1)(1-2)=3\\end{align*}$$\nThe $y$-intercept is $(0,0)$. Plot the intercepts and $(1,3)$, then draw a downward-opening parabola symmetric about $x=1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(d)\"}\n\\begin{tikzpicture}[x=1.3cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-0.8,0)--(2.8,0) node[fill=white,inner sep=1pt,right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2)--(0,4) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-0.25:2.25,samples=81] plot (\\x,{-3*\\x*(\\x-2)});\n\\fill (0,0) circle (1.2pt) node[fill=white,inner sep=1pt,below left] {$(0,0)$};\n\\fill (2,0) circle (1.2pt) node[fill=white,inner sep=1pt,below right] {$(2,0)$};\n\\fill (1,3) circle (1.2pt) node[fill=white,inner sep=1pt,above right] {$(1,3)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(d)",
+                "description": "Complete labelled solution sketch; no numeric ticks or grid.",
+                "mathematics": "y=-3x(x-2); roots 0 and 2; vertex (1,3); y-intercept (0,0).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p12-q2-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$y=x^2+6x+8$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=(x+2)(x+4)$. $x$-intercepts: $(-4,0)$ and $(-2,0)$; $y$-intercept: $(0,8)$. Turning point: $(-3,-1)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=(x+2)(x+4)\\\\0&=(x+2)(x+4)\\\\x&=-4\\text{ or }-2\\\\x_{\\mathrm{TP}}&=\\frac{-4-2}{2}=-3\\\\y_{\\mathrm{TP}}&=(-3+2)(-3+4)=-1\\\\y(0)&=(0+2)(0+4)=8\\end{align*}$$\nPlot $(-4,0)$, $(-2,0)$, $(0,8)$ and $(-3,-1)$. Draw an upward-opening parabola symmetric about $x=-3$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-e-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(e)\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (0,-3)--(0,0)--(-6.5,0)--(1,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3)--(0,10) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-6.1:0.1,samples=101] plot (\\x,{(\\x+2)*(\\x+4)});\n\\fill (-4,0) circle (1.2pt) node[below left,yshift=-4mm] {$(-4,0)$};\n\\fill (-2,0) circle (1.2pt) node[below right,yshift=-4mm] {$(-2,0)$};\n\\fill (-3,-1) circle (1.2pt) node[fill=white,inner sep=1pt,below,yshift=-10mm] {$(-3,-1)$};\n\\fill (0,8) circle (1.2pt) node[fill=white,inner sep=1pt,right] {$(0,8)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(e)",
+                "description": "Complete labelled solution sketch, including the required y-intercept omitted from the teacher sketch.",
+                "mathematics": "y=(x+2)(x+4); roots -4 and -2; vertex (-3,-1); y-intercept (0,8).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 105
+      },
+      {
+        "id": "p12-q2-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$y=x^2-6x+8$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=(x-2)(x-4)$. $x$-intercepts: $(2,0)$ and $(4,0)$; $y$-intercept: $(0,8)$. Turning point: $(3,-1)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=(x-2)(x-4)\\\\0&=(x-2)(x-4)\\\\x&=2\\text{ or }4\\\\x_{\\mathrm{TP}}&=\\frac{2+4}{2}=3\\\\y_{\\mathrm{TP}}&=(3-2)(3-4)=-1\\\\y(0)&=(0-2)(0-4)=8\\end{align*}$$\nPlot $(2,0)$, $(4,0)$, $(0,8)$ and $(3,-1)$. Draw an upward-opening parabola symmetric about $x=3$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-f-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(f)\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1,0.001)--(-1,0)--(6.5,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-3)--(0,10) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-0.1:6.1,samples=101] plot (\\x,{(\\x-2)*(\\x-4)});\n\\fill (2,0) circle (1.2pt) node[below left,yshift=-4mm] {$(2,0)$};\n\\fill (4,0) circle (1.2pt) node[below right,yshift=-4mm] {$(4,0)$};\n\\fill (3,-1) circle (1.2pt) node[fill=white,inner sep=1pt,below] {$(3,-1)$};\n\\fill (0,8) circle (1.2pt) node[fill=white,inner sep=1pt,left] {$(0,8)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(f)",
+                "description": "Complete labelled solution sketch, including the required y-intercept omitted from the teacher sketch.",
+                "mathematics": "y=(x-2)(x-4); roots 2 and 4; vertex (3,-1); y-intercept (0,8).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 105
+      },
+      {
+        "id": "p12-q2-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "$y=x^2-7x+12$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=(x-3)(x-4)$. $x$-intercepts: $(3,0)$ and $(4,0)$; $y$-intercept: $(0,12)$. Turning point: $\\left(\\frac72,-\\frac14\\right)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=(x-3)(x-4)\\\\0&=(x-3)(x-4)\\\\x&=3\\text{ or }4\\\\x_{\\mathrm{TP}}&=\\frac{3+4}{2}=\\frac72\\\\y_{\\mathrm{TP}}&=\\left(\\frac72-3\\right)\\left(\\frac72-4\\right)=-\\frac14\\\\y(0)&=(0-3)(0-4)=12\\end{align*}$$\nPlot $(3,0)$, $(4,0)$, $(0,12)$ and $\\left(\\frac72,-\\frac14\\right)$. Draw an upward-opening parabola symmetric about $x=\\frac72$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-g-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(g)\"}\n\\begin{tikzpicture}[x=1.15cm,y=0.25cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-0.7,0)--(5.7,0) node[fill=white,inner sep=1pt,right] {$x$};\n\\draw[->,line width=0.5pt] (0,-2)--(0,14) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-0.1:5.4,samples=101] plot (\\x,{(\\x-3)*(\\x-4)});\n\\fill (3,0) circle (1.2pt) node[fill=white,inner sep=1pt,below left,yshift=-2pt] {$(3,0)$};\n\\fill (4,0) circle (1.2pt) node[fill=white,inner sep=1pt,below right,yshift=-2pt] {$(4,0)$};\n\\fill (3.5,-0.25) circle (1.2pt) node[fill=white,inner sep=1pt,below,yshift=-10mm] {$\\left(\\frac72,-\\frac14\\right)$};\n\\fill (0,12) circle (1.2pt) node[fill=white,inner sep=1pt,right] {$(0,12)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 75,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(g)",
+                "description": "Complete labelled solution sketch, including the required y-intercept omitted from the teacher sketch.",
+                "mathematics": "y=(x-3)(x-4); roots 3 and 4; vertex (7/2,-1/4); y-intercept (0,12).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 115
+      },
+      {
+        "id": "p12-q2-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "$y=x^2-2x-3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=(x+1)(x-3)$. $x$-intercepts: $(-1,0)$ and $(3,0)$; $y$-intercept: $(0,-3)$. Turning point: $(1,-4)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=(x+1)(x-3)\\\\0&=(x+1)(x-3)\\\\x&=-1\\text{ or }3\\\\x_{\\mathrm{TP}}&=\\frac{-1+3}{2}=1\\\\y_{\\mathrm{TP}}&=(1+1)(1-3)=-4\\\\y(0)&=(0+1)(0-3)=-3\\end{align*}$$\nPlot $(-1,0)$, $(3,0)$, $(0,-3)$ and $(1,-4)$. Draw an upward-opening parabola symmetric about $x=1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-h-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(h)\"}\n\\begin{tikzpicture}[x=0.85cm,y=0.5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-2,0)--(4,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-5.5)--(0,4) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-1.7:3.7,samples=81] plot (\\x,{(\\x+1)*(\\x-3)});\n\\fill (-1,0) circle (1.2pt) node[below left,yshift=-4mm] {$(-1,0)$};\n\\fill (3,0) circle (1.2pt) node[below right,yshift=-4mm] {$(3,0)$};\n\\fill (0,-3) circle (1.2pt) node[fill=white,inner sep=1pt,left] {$(0,-3)$};\n\\fill (1,-4) circle (1.2pt) node[fill=white,inner sep=1pt,below right] {$(1,-4)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(h)",
+                "description": "Complete labelled solution sketch; no numeric ticks or grid.",
+                "mathematics": "y=(x+1)(x-3); roots -1 and 3; vertex (1,-4); y-intercept (0,-3).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 105
+      },
+      {
+        "id": "p12-q2-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "$y=-x^2-6x-8$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=-(x+2)(x+4)$. $x$-intercepts: $(-4,0)$ and $(-2,0)$; $y$-intercept: $(0,-8)$. Turning point: $(-3,1)$; opens downwards.",
+          "worked": "$$\\begin{align*}y&=-(x^2+6x+8)\\\\y&=-(x+2)(x+4)\\\\0&=-(x+2)(x+4)\\\\x&=-4\\text{ or }-2\\\\x_{\\mathrm{TP}}&=\\frac{-4-2}{2}=-3\\\\y_{\\mathrm{TP}}&=-(-3+2)(-3+4)=1\\\\y(0)&=-(0+2)(0+4)=-8\\end{align*}$$\nPlot $(-4,0)$, $(-2,0)$, $(0,-8)$ and $(-3,1)$. Draw a downward-opening parabola symmetric about $x=-3$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-i-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(i)\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.3cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-6.5,0)--(1,0) node[fill=white,inner sep=1pt,right] {$x$};\n\\draw[->,line width=0.5pt] (0,-10)--(0,3) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-6.1:0.1,samples=101] plot (\\x,{-(\\x+2)*(\\x+4)});\n\\fill (-4,0) circle (1.2pt) node[fill=white,inner sep=1pt,above left,yshift=2pt] {$(-4,0)$};\n\\fill (-2,0) circle (1.2pt) node[fill=white,inner sep=1pt,above right,yshift=2pt] {$(-2,0)$};\n\\fill (-3,1) circle (1.2pt) node[fill=white,inner sep=1pt,above] {$(-3,1)$};\n\\fill (0,-8) circle (1.2pt) node[fill=white,inner sep=1pt,right] {$(0,-8)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(i)",
+                "description": "Complete labelled solution sketch, including the required y-intercept omitted from the teacher sketch.",
+                "mathematics": "y=-(x+2)(x+4); roots -4 and -2; vertex (-3,1); y-intercept (0,-8).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 110
+      },
+      {
+        "id": "p12-q2-j",
+        "type": "part",
+        "label": "j",
+        "prompt": "$y=x^2+3x+2$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=(x+1)(x+2)$. $x$-intercepts: $(-2,0)$ and $(-1,0)$; $y$-intercept: $(0,2)$. Turning point: $\\left(-\\frac32,-\\frac14\\right)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=(x+1)(x+2)\\\\0&=(x+1)(x+2)\\\\x&=-2\\text{ or }-1\\\\x_{\\mathrm{TP}}&=\\frac{-2-1}{2}=-\\frac32\\\\y_{\\mathrm{TP}}&=\\left(-\\frac32+1\\right)\\left(-\\frac32+2\\right)=-\\frac14\\\\y(0)&=(0+1)(0+2)=2\\end{align*}$$\nPlot $(-2,0)$, $(-1,0)$, $(0,2)$ and $\\left(-\\frac32,-\\frac14\\right)$. Draw an upward-opening parabola symmetric about $x=-\\frac32$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-j-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(j)\"}\n\\begin{tikzpicture}[x=1.3cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-3.4,0)--(0.8,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-1)--(0,3) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-3.1:0.1,samples=81] plot (\\x,{(\\x+1)*(\\x+2)});\n\\fill (-2,0) circle (1.2pt) node[below left,yshift=-4mm] {$(-2,0)$};\n\\fill (-1,0) circle (1.2pt) node[below right,yshift=-4mm] {$(-1,0)$};\n\\fill (-1.5,-0.25) circle (1.2pt) node[fill=white,inner sep=1pt,below,yshift=-10mm] {$\\left(-\\frac32,-\\frac14\\right)$};\n\\fill (0,2) circle (1.2pt) node[fill=white,inner sep=1pt,right] {$(0,2)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(j)",
+                "description": "Complete labelled solution sketch; no numeric ticks or grid.",
+                "mathematics": "y=(x+1)(x+2); roots -2 and -1; vertex (-3/2,-1/4); y-intercept (0,2).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 115
+      },
+      {
+        "id": "p12-q2-k",
+        "type": "part",
+        "label": "k",
+        "prompt": "$y=4x^2-4x-3$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=4\\left(x+\\frac12\\right)\\left(x-\\frac32\\right)$. $x$-intercepts: $\\left(-\\frac12,0\\right)$ and $\\left(\\frac32,0\\right)$; $y$-intercept: $(0,-3)$. Turning point: $\\left(\\frac12,-4\\right)$; opens upwards.",
+          "worked": "$$\\begin{align*}y&=(2x+1)(2x-3)\\\\y&=4\\left(x+\\frac12\\right)\\left(x-\\frac32\\right)\\\\0&=(2x+1)(2x-3)\\\\x&=-\\frac12\\text{ or }\\frac32\\\\x_{\\mathrm{TP}}&=\\frac{-\\frac12+\\frac32}{2}=\\frac12\\\\y_{\\mathrm{TP}}&=4\\left(\\frac12+\\frac12\\right)\\left(\\frac12-\\frac32\\right)=-4\\\\y(0)&=4\\left(\\frac12\\right)\\left(-\\frac32\\right)=-3\\end{align*}$$\nPlot $\\left(-\\frac12,0\\right)$, $\\left(\\frac32,0\\right)$, $(0,-3)$ and $\\left(\\frac12,-4\\right)$. Draw an upward-opening parabola symmetric about $x=\\frac12$.",
+          "solutionDiagrams": [
+            {
+              "id": "p12-q2-k-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 12, 17D 2(k)\"}\n\\begin{tikzpicture}[x=1.4cm,y=0.5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.4,0)--(2.4,0) node[fill=white,inner sep=1pt,right] {$x$};\n\\draw[->,line width=0.5pt] (0,-5.5)--(0,4) node[fill=white,inner sep=1pt,above] {$y$};\n\\draw[line width=0.8pt,domain=-0.85:1.85,samples=81] plot (\\x,{4*\\x*\\x-4*\\x-3});\n\\fill (-0.5,0) circle (1.2pt) node[fill=white,inner sep=1pt,above left] {$\\left(-\\frac12,0\\right)$};\n\\fill (1.5,0) circle (1.2pt) node[fill=white,inner sep=1pt,above right] {$\\left(\\frac32,0\\right)$};\n\\fill (0,-3) circle (1.2pt) node[fill=white,inner sep=1pt,left] {$(0,-3)$};\n\\fill (0.5,-4) circle (1.2pt) node[fill=white,inner sep=1pt,below right] {$\\left(\\frac12,-4\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 12,
+                "sourceRegion": "17D 2(k)",
+                "description": "Complete labelled solution sketch; no numeric ticks or grid.",
+                "mathematics": "y=4(x+1/2)(x-3/2); roots -1/2 and 3/2; vertex (1/2,-4); y-intercept (0,-3).",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 120
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p12-q2",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q2": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q2-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q2-root/label",
+                  "type": "item",
+                  "ref": "p12-q2-root/label",
+                  "title": "Label 2"
+                },
+                {
+                  "id": "layout:p12-q2-root/prompt",
+                  "type": "item",
+                  "ref": "p12-q2-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p12-q2-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p12-q2-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p12-q2-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-a/label",
+                              "type": "item",
+                              "ref": "p12-q2-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p12-q2-a/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-a/space",
+                              "type": "item",
+                              "ref": "p12-q2-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p12-q2-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-b/label",
+                              "type": "item",
+                              "ref": "p12-q2-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p12-q2-b/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-b/space",
+                              "type": "item",
+                              "ref": "p12-q2-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q2-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p12-q2-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-c/label",
+                              "type": "item",
+                              "ref": "p12-q2-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p12-q2-c/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-c/space",
+                              "type": "item",
+                              "ref": "p12-q2-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p12-q2-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-d/label",
+                              "type": "item",
+                              "ref": "p12-q2-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p12-q2-d/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-d/space",
+                              "type": "item",
+                              "ref": "p12-q2-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q2-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p12-q2-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-e/label",
+                              "type": "item",
+                              "ref": "p12-q2-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p12-q2-e/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-e/space",
+                              "type": "item",
+                              "ref": "p12-q2-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p12-q2-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-f/label",
+                              "type": "item",
+                              "ref": "p12-q2-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p12-q2-f/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-f/space",
+                              "type": "item",
+                              "ref": "p12-q2-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q2-root:row:6",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p12-q2-g:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-g/label",
+                              "type": "item",
+                              "ref": "p12-q2-g/label",
+                              "title": "Label g"
+                            },
+                            {
+                              "id": "layout:p12-q2-g/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-g/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-g/space",
+                              "type": "item",
+                              "ref": "p12-q2-g/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part g",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p12-q2-h:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-h/label",
+                              "type": "item",
+                              "ref": "p12-q2-h/label",
+                              "title": "Label h"
+                            },
+                            {
+                              "id": "layout:p12-q2-h/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-h/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-h/space",
+                              "type": "item",
+                              "ref": "p12-q2-h/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part h",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q2-root:row:8",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p12-q2-i:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-i/label",
+                              "type": "item",
+                              "ref": "p12-q2-i/label",
+                              "title": "Label i"
+                            },
+                            {
+                              "id": "layout:p12-q2-i/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-i/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-i/space",
+                              "type": "item",
+                              "ref": "p12-q2-i/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part i",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p12-q2-j:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-j/label",
+                              "type": "item",
+                              "ref": "p12-q2-j/label",
+                              "title": "Label j"
+                            },
+                            {
+                              "id": "layout:p12-q2-j/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-j/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-j/space",
+                              "type": "item",
+                              "ref": "p12-q2-j/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part j",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p12-q2-root:row:10",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p12-q2-k:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q2-k/label",
+                              "type": "item",
+                              "ref": "p12-q2-k/label",
+                              "title": "Label k"
+                            },
+                            {
+                              "id": "layout:p12-q2-k/prompt",
+                              "type": "item",
+                              "ref": "p12-q2-k/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p12-q2-k/space",
+                              "type": "item",
+                              "ref": "p12-q2-k/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part k",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p12-q2-root:row:10:fill:1",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [],
+                          "title": "Empty column",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 2",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:15.456Z",
+  "updatedAt": "2026-11-12T13:10:15.457Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part3-20261009",
+    "blockId": "p12-q2",
+    "sectionRole": "exercise"
+  }
+}

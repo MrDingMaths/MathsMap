@@ -1,0 +1,178 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-414bcd33-b235-4410-9a1b-a09da75883bc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pattern-to-equation",
+    "secondarySkillIds": [
+      "add-subtract-fractions",
+      "prove-results-integers"
+    ],
+    "reasoningScore": 71,
+    "difficulty": "Mastery",
+    "difficultyReason": "Turn the supplied triangle sum rule into subtraction recurrences, generalise a diagonal pattern algebraically, and extend it to the third and fourth diagonals using neighbouring-row formulas.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dc6e94f0b1fc4685f7a93b99c41cd42455a03542f22230e3eebbda1c76511fe3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q20-root",
+    "type": "question",
+    "label": "20",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p18-q20-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The configuration below is called the ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "harmonic triangle",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". Notice that every entry is the sum of the two entries immediately below.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q20-triangle",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18 p18-q20-triangle\"}\n\\begin{tikzpicture}[x=1.25cm,y=1.1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\tikzset{entry/.style={circle,draw=black,line width=0.8pt,minimum size=10mm,inner sep=1pt,font=\\fontsize{10}{12}\\selectfont}}\n\\node[entry] at (0,0) {$\\frac11$};\n\\node[entry] at (-0.5,-1) {$\\frac12$};\\node[entry] at (0.5,-1) {$\\frac12$};\n\\node[entry] at (-1,-2) {$\\frac13$};\\node[entry] at (0,-2) {$\\frac16$};\\node[entry] at (1,-2) {$\\frac13$};\n\\node[entry] at (-1.5,-3) {$\\frac14$};\\node[entry] at (-0.5,-3) {$\\frac1{12}$};\\node[entry] at (0.5,-3) {$\\frac1{12}$};\\node[entry] at (1.5,-3) {$\\frac14$};\n\\node[entry] at (-2,-4) {$\\frac15$};\\node[entry] at (-1,-4) {$\\frac1{20}$};\\node[entry] at (0,-4) {$\\frac1{30}$};\\node[entry] at (1,-4) {$\\frac1{20}$};\\node[entry] at (2,-4) {$\\frac15$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Left column, harmonic triangle beneath question 20",
+          "description": "Five widening rows of circular fraction entries. Each entry lies above the pair whose sum it equals. Decorative turquoise fills are omitted.",
+          "mathematics": "Rows: 1; 1/2,1/2; 1/3,1/6,1/3; 1/4,1/12,1/12,1/4; 1/5,1/20,1/30,1/20,1/5.",
+          "answerVisibility": "Only the five supplied rows are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-q20-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the entries in the next row.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac16,\\ \\frac1{30},\\ \\frac1{60},\\ \\frac1{60},\\ \\frac1{30},\\ \\frac16$.",
+          "worked": "The first entry in row 6 is $\\frac16$. Subtract successive entries from the entries above:\n$$\\begin{align*}\\frac15-\\frac16&=\\frac1{30}\\\\\\frac1{20}-\\frac1{30}&=\\frac1{60}\\\\\\frac1{30}-\\frac1{60}&=\\frac1{60}\\\\\\frac1{20}-\\frac1{60}&=\\frac1{30}\\\\\\frac15-\\frac1{30}&=\\frac16.\\end{align*}$$\nThe next row is $\\frac16,\\frac1{30},\\frac1{60},\\frac1{60},\\frac1{30},\\frac16$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 76
+      },
+      {
+        "id": "p18-q20-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "The entries in the first diagonal are the unit fractions: $\\frac11,\\frac12,\\frac13,\\frac14$, and so on. Find a pattern that gives the entries in the second diagonal.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac1{2\\times1},\\ \\frac1{3\\times2},\\ \\frac1{4\\times3},\\ \\frac1{5\\times4},\\ldots$",
+          "worked": "The second-diagonal entries are $\\frac12,\\frac16,\\frac1{12},\\frac1{20},\\ldots$. Their denominators are $2\\times1,3\\times2,4\\times3,5\\times4,\\ldots$: multiply the row number by the preceding integer.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p18-q20-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What fraction will appear in the second diagonal on the $n$th row? Can you prove it?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac1{n(n-1)}$, for $n\\ge2$.\n\nSubtract the first entry in row $n$ from the first entry in row $n-1$.",
+          "worked": "The first entry in row $n-1$ is the sum of the first two entries in row $n$. Thus the second entry in row $n$ is\n$$\\begin{align*}\\frac1{n-1}-\\frac1n&=\\frac{n-(n-1)}{n(n-1)}\\\\\\frac1{n-1}-\\frac1n&=\\frac1{n(n-1)}.\\end{align*}$$\nThis proves the formula for every $n\\ge2$. Equivalently, $\\frac1n+\\frac1{n(n-1)}=\\frac1{n-1}$, the entry immediately above.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 56
+      },
+      {
+        "id": "p18-q20-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What about the entries in the third and fourth diagonal on the $n$th row?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Third: $\\frac2{n(n-1)(n-2)}$ for $n\\ge3$.\n\nFourth: $\\frac6{n(n-1)(n-2)(n-3)}$ for $n\\ge4$. Subtract adjacent-diagonal entries using the sum rule.",
+          "worked": "Each entry above is the sum of the two entries below. The third entry in row $n$ is therefore\n$$\\begin{align*}\\frac1{(n-1)(n-2)}-\\frac1{n(n-1)}&=\\frac{n-(n-2)}{n(n-1)(n-2)}\\\\\\frac1{(n-1)(n-2)}-\\frac1{n(n-1)}&=\\frac2{n(n-1)(n-2)}.\\end{align*}$$\nSimilarly, the fourth entry is\n$$\\begin{align*}\\frac2{(n-1)(n-2)(n-3)}-\\frac2{n(n-1)(n-2)}&=\\frac{2n-2(n-3)}{n(n-1)(n-2)(n-3)}\\\\\\frac2{(n-1)(n-2)(n-3)}-\\frac2{n(n-1)(n-2)}&=\\frac6{n(n-1)(n-2)(n-3)}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q20",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:37.836Z",
+  "updatedAt": "2026-11-12T11:14:37.837Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p18-q20",
+    "sectionRole": "exercise"
+  }
+}

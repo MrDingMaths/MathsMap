@@ -1,0 +1,134 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d382183d-5947-4c21-8f36-5edb6c6fb67a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "multiplication-principle"
+    ],
+    "reasoningScore": 83,
+    "difficulty": "Challenge",
+    "difficultyReason": "Discover that the first unmatched boy either forms a matching-number pair or forces an adjacent swap, then build and evaluate a recurrence.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:48.498Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fde28eec34ad7db2897b38d5e492e263b84f474437c79f8fbcedc89766b11b58",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part10-20261009/c7339c8f662c5a3799be7173d4d18c9de0cfb2eb394886b40aca7abb77dbfba6-1792558414389/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p4-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "There are 10 boys and 10 girls practising for a traditional school dance. Each boy is to partner with one girl. To avoid height mismatches, each boy is given a number from 1 to 10 in rank order of height, as is each girl. A boy may partner with a girl if and only if their numbers differ by no more than 1. For example, Boy 4 may partner with Girls 3, 4 or 5, but not 2 or 6. How many ways can the boys and girls be partnered for this dance?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p4-q13-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "89 ways.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p4-q13-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The lowest-numbered remaining boy either partners with the girl of the same number or swaps partners with the next boy. Add the counts for these two cases.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Let $a_n$ count the valid pairings of $n$ boys and $n$ girls numbered from 1 to $n$.\n\nBoy 1 has two possible partners:\n\n• Girl 1: the remaining $n-1$ pairs can be formed in $a_{n-1}$ ways.\n\n• Girl 2: Girl 1 must then partner with Boy 2, leaving $a_{n-2}$ ways to pair the others.\n\nThese cases are mutually exclusive, so the addition principle gives\n$$a_n=a_{n-1}+a_{n-2}.$$\nThere is one pairing for one boy and one girl, and two pairings for two boys and two girls.\n$$\\begin{align*}a_1&=1,\\qquad a_2=2\\\\a_3&=2+1=3\\\\a_4&=3+2=5\\\\a_5&=5+3=8\\\\a_6&=8+5=13\\\\a_7&=13+8=21\\\\a_8&=21+13=34\\\\a_9&=34+21=55\\\\a_{10}&=55+34=89.\\end{align*}$$\nThere are 89 ways to partner the boys and girls.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 58
+  },
+  "presentation": {
+    "ownerId": "p4-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p4-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p4-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p4-q13-root/label",
+                  "type": "item",
+                  "ref": "p4-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p4-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p4-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p4-q13-root/space",
+                  "type": "item",
+                  "ref": "p4-q13-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:22.573Z",
+  "updatedAt": "2026-11-12T13:09:22.573Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p4-q13",
+    "sectionRole": "exercise"
+  }
+}

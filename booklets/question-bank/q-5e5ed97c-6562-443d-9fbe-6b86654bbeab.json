@@ -1,0 +1,415 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5e5ed97c-6562-443d-9fbe-6b86654bbeab",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "add-subtract-fractions",
+      "find-reciprocal"
+    ],
+    "reasoningScore": 90,
+    "difficulty": "Challenge",
+    "difficultyReason": "Prove exhaustive four-term coverage through denominator bounds and a finite factor-pair or bounded search, then use the supplied splitting identity recursively while preserving distinct denominators.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3d8f29e311e2599fb48cc1e4321a6c4bdff8b26541712206aaf541bfd8756396",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p17-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p17-q16-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "An ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Egyptian fraction",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " is the sum of reciprocals of distinct natural numbers. For example, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac12+\\frac13+\\frac15",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is an Egyptian fraction with three terms. However, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac13+\\frac13",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is not an Egyptian fraction, since ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac13",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is repeated.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p17-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Can 1 be written as an Egyptian fraction with two terms?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No.\n\nThe largest possible sum below 1 is $\\frac12+\\frac13=\\frac56<1$.",
+          "worked": "A term $\\frac11$ would make the sum greater than 1. With distinct denominators greater than 1, the largest possible sum is\n$$\\begin{align*}\\frac12+\\frac13&=\\frac36+\\frac26\\\\\\frac12+\\frac13&=\\frac56<1.\\end{align*}$$\nTherefore no two-term representation exists.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p17-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write 1 as an Egyptian fraction with three terms. Is your answer unique?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1=\\frac12+\\frac13+\\frac16$. Unique, apart from term order.\n\nThe first two denominators are forced to be 2 and 3.",
+          "worked": "Order the distinct denominators as $a<b<c$. None can be 1. If $a\\ge3$, the sum is at most $\\frac13+\\frac14+\\frac15=\\frac{47}{60}<1$, so $a=2$. If $b\\ge4$, the remaining sum is at most $\\frac14+\\frac15=\\frac9{20}<\\frac12$, so $b=3$.\n$$\\begin{align*}1-\\frac12-\\frac13&=\\frac66-\\frac36-\\frac26\\\\1-\\frac12-\\frac13&=\\frac16.\\end{align*}$$\nThus $c=6$, giving the unique representation $1=\\frac12+\\frac13+\\frac16$, apart from term order.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 66
+      },
+      {
+        "id": "p17-q16-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find all the ways in which 1 can be written as an Egyptian fraction with four terms.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$$\\begin{aligned}1&=\\frac12+\\frac13+\\frac17+\\frac1{42}\\\\1&=\\frac12+\\frac13+\\frac18+\\frac1{24}\\\\1&=\\frac12+\\frac13+\\frac19+\\frac1{18}\\\\1&=\\frac12+\\frac13+\\frac1{10}+\\frac1{15}\\\\1&=\\frac12+\\frac14+\\frac15+\\frac1{20}\\\\1&=\\frac12+\\frac14+\\frac16+\\frac1{12}.\\end{aligned}$$\n\nThese are all six representations, apart from term order.",
+          "worked": "Write the denominators in increasing order as $a<b<c<d$. A denominator of 1 is impossible. If $a\\ge3$, the sum is at most $\\frac13+\\frac14+\\frac15+\\frac16=\\frac{19}{20}<1$, so $a=2$. If $b\\ge6$, the remaining sum is at most $\\frac16+\\frac17+\\frac18=\\frac{73}{168}<\\frac12$. If $b=5$, then $\\frac1c+\\frac1d=\\frac3{10}$. For $c=6$, this forces $\\frac1d=\\frac2{15}$, so $d=\\frac{15}{2}$ is not a natural number. For $c\\ge7$, the sum is at most $\\frac17+\\frac18=\\frac{15}{56}<\\frac3{10}$. Hence $b=3$ or $b=4$.\n\nFor $b=3$, the remaining sum is $\\frac16$:\n$$\\begin{align*}\\frac1c+\\frac1d&=\\frac16\\\\\\frac{c+d}{cd}&=\\frac16\\\\cd-6c-6d&=0\\\\(c-6)(d-6)&=36.\\end{align*}$$\nSince $6<c<d$, the unequal positive factor pairs of 36 give $(c,d)=(7,42),(8,24),(9,18),(10,15)$.\n\nFor $b=4$, the remaining sum is $\\frac14$:\n$$\\begin{align*}\\frac1c+\\frac1d&=\\frac14\\\\\\frac{c+d}{cd}&=\\frac14\\\\cd-4c-4d&=0\\\\(c-4)(d-4)&=16.\\end{align*}$$\nSince $4<c<d$, the unequal positive factor pairs of 16 give $(c,d)=(5,20),(6,12)$.\n\nTherefore all representations are\n$$\\begin{aligned}1&=\\frac12+\\frac13+\\frac17+\\frac1{42}\\\\1&=\\frac12+\\frac13+\\frac18+\\frac1{24}\\\\1&=\\frac12+\\frac13+\\frac19+\\frac1{18}\\\\1&=\\frac12+\\frac13+\\frac1{10}+\\frac1{15}\\\\1&=\\frac12+\\frac14+\\frac15+\\frac1{20}\\\\1&=\\frac12+\\frac14+\\frac16+\\frac1{12}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 180
+      },
+      {
+        "id": "p17-q16-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Suppose $n$ is a natural number with $n>1$. Prove that $\\frac1n$ can always be written as an Egyptian fraction with two terms. Hint: evaluate $\\frac1{n+1}+\\frac1{n(n+1)}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac1n=\\frac1{n+1}+\\frac1{n(n+1)}$.\n\nFor natural $n>1$, the denominators are distinct natural numbers.",
+          "worked": "$$\\begin{align*}\\frac1{n+1}+\\frac1{n(n+1)}&=\\frac{n}{n(n+1)}+\\frac1{n(n+1)}\\\\\\frac1{n+1}+\\frac1{n(n+1)}&=\\frac{n+1}{n(n+1)}\\\\\\frac1{n+1}+\\frac1{n(n+1)}&=\\frac1n.\\end{align*}$$\nFor natural $n>1$, $n+1<n(n+1)$, so both denominators are natural and distinct. This is an Egyptian fraction with two terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p17-q16-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence, write $\\frac1{10}$ as an Egyptian fraction with two terms.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac1{10}=\\frac1{11}+\\frac1{110}$.",
+          "worked": "Using part (d) with $n=10$,\n$$\\begin{align*}\\frac1{10}&=\\frac1{10+1}+\\frac1{10(10+1)}\\\\\\frac1{10}&=\\frac1{11}+\\frac1{110}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p17-q16-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "Suppose $n$ and $k$ are natural numbers with $n>1$ and $k\\ge1$. Prove that $\\frac1n$ can always be written as an Egyptian fraction with exactly $k$ terms.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Start with $\\frac1n$ and repeatedly split the term with the largest denominator using part (d).\n\nEach split preserves the sum and distinctness, and increases the number of terms by 1.",
+          "worked": "For $k=1$, $\\frac1n$ already has one term. Suppose a representation has distinct denominators, with largest denominator $m$. By part (d),\n$$\\frac1m=\\frac1{m+1}+\\frac1{m(m+1)}.$$\nReplace only $\\frac1m$ by these two terms. Since $m>1$,\n$$m<m+1<m(m+1).$$\nBoth new denominators exceed every old denominator and are distinct from each other. The sum is unchanged and the number of terms increases by exactly 1. Repeating this replacement $k-1$ times gives exactly $k$ terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p17-q16",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p17-q16": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p17-q16-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p17-q16-root/label",
+                  "type": "item",
+                  "ref": "p17-q16-root/label",
+                  "title": "Label 16"
+                },
+                {
+                  "id": "layout:p17-q16-root/prompt#p17-q16-definition",
+                  "type": "item",
+                  "ref": "p17-q16-root/prompt#p17-q16-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "p17-q16-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p17-q16-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q16-a/label",
+                          "type": "item",
+                          "ref": "p17-q16-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p17-q16-a/prompt",
+                          "type": "item",
+                          "ref": "p17-q16-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q16-a/space",
+                          "type": "item",
+                          "ref": "p17-q16-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q16-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q16-b/label",
+                          "type": "item",
+                          "ref": "p17-q16-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p17-q16-b/prompt",
+                          "type": "item",
+                          "ref": "p17-q16-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q16-b/space",
+                          "type": "item",
+                          "ref": "p17-q16-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q16-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q16-c/label",
+                          "type": "item",
+                          "ref": "p17-q16-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p17-q16-c/prompt",
+                          "type": "item",
+                          "ref": "p17-q16-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q16-c/space",
+                          "type": "item",
+                          "ref": "p17-q16-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q16-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q16-d/label",
+                          "type": "item",
+                          "ref": "p17-q16-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p17-q16-d/prompt",
+                          "type": "item",
+                          "ref": "p17-q16-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q16-d/space",
+                          "type": "item",
+                          "ref": "p17-q16-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q16-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q16-e/label",
+                          "type": "item",
+                          "ref": "p17-q16-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p17-q16-e/prompt",
+                          "type": "item",
+                          "ref": "p17-q16-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q16-e/space",
+                          "type": "item",
+                          "ref": "p17-q16-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p17-q16-f:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p17-q16-f/label",
+                          "type": "item",
+                          "ref": "p17-q16-f/label",
+                          "title": "Label f"
+                        },
+                        {
+                          "id": "layout:p17-q16-f/prompt",
+                          "type": "item",
+                          "ref": "p17-q16-f/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p17-q16-f/space",
+                          "type": "item",
+                          "ref": "p17-q16-f/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part f",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 16",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:37.301Z",
+  "updatedAt": "2026-11-12T11:14:37.302Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p17-q16",
+    "sectionRole": "exercise"
+  }
+}

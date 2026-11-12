@@ -1,0 +1,213 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d67b9f25-1a73-48ef-83d5-83dc35d024af",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-dependent-events",
+    "secondarySkillIds": [
+      "combinations-nCr"
+    ],
+    "reasoningScore": 92,
+    "difficulty": "Challenge",
+    "difficultyReason": "Discover that dependent outcome sequences with the same success count have equal probability, express their products generally, and combine them with a placement count.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:53.973Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b6778931ba55699c71cebd497eb896adf1bc6ab9a58cf08b74bae9e7ae90eba8",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/644e45a5a968862bfa52c6b0e194492ea691cd6a811c7fd6660d8d04766ba9aa-1792558434878/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q31-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p26-q31-stem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "You are practising your basketball skills and make one basket in your first two shots. For each subsequent shot, your chance of making it equals your success rate so far.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p26-q31-embedded-example-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "For example, your chance of making the third shot is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{1}{2}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". If you make it, your chance on the fourth shot is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{2}{3}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": "; otherwise, it is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\frac{1}{3}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p26-q31-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Find the probability that you make exactly ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "k",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " out of your first ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " shots.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\dfrac{1}{n-1}$ for $1\\le k\\le n-1$; $0$ otherwise, where $n\\ge2$ and $k$ is an integer.\n\nMultiply the conditional probabilities for one sequence, then multiply by the number of such sequences.",
+      "worked": "Let $X$ be the number of baskets in the first $n$ shots. After the first two shots, there must be $k-1$ further successes and $n-k-1$ further failures.\n\nFor any particular order of these outcomes, the denominators of the conditional probabilities are $2,3,\\ldots,n-1$. The success numerators are $1,2,\\ldots,k-1$, and the failure numerators are $1,2,\\ldots,n-k-1$. Hence\n$$\\begin{align*}\n\\Pr(\\text{one specified sequence})&=\\frac{(k-1)!(n-k-1)!}{(n-1)!}.\n\\end{align*}$$\nThere are $\\binom{n-2}{k-1}$ possible positions for the further successes. Therefore\n$$\\begin{align*}\n\\Pr(X=k)&=\\binom{n-2}{k-1}\\frac{(k-1)!(n-k-1)!}{(n-1)!}\\\\\n\\Pr(X=k)&=\\frac{(n-2)!}{(k-1)!(n-k-1)!}\\frac{(k-1)!(n-k-1)!}{(n-1)!}\\\\\n\\Pr(X=k)&=\\frac{1}{n-1}.\n\\end{align*}$$\nThis holds for integers $1\\le k\\le n-1$, with $n\\ge2$. Outside this range the probability is $0$, since the first two shots already include one success and one failure.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 88
+  },
+  "presentation": {
+    "ownerId": "p26-q31",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p26-q31": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p26-q31-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p26-q31-root/label",
+                  "type": "item",
+                  "ref": "p26-q31-root/label",
+                  "title": "Label 31"
+                },
+                {
+                  "id": "layout:p26-q31-root/prompt#p26-q31-stem",
+                  "type": "item",
+                  "ref": "p26-q31-root/prompt#p26-q31-stem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p26-q31-root/prompt#p26-q31-embedded-example-text",
+                  "type": "item",
+                  "ref": "p26-q31-root/prompt#p26-q31-embedded-example-text",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p26-q31-root/prompt#p26-q31-request",
+                  "type": "item",
+                  "ref": "p26-q31-root/prompt#p26-q31-request",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p26-q31-root/space",
+                  "type": "item",
+                  "ref": "p26-q31-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 31",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:11.808Z",
+  "updatedAt": "2026-11-12T13:10:11.809Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p26-q31",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-17e2b933-152b-4b1b-9519-a27d4a4fd431",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "estimate-roots",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Applies the taught bisection method to a cube root and establishes one-decimal-place rounding.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T13:19:08.464Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3ba7b9828346ea2a4067ebdd77df104f7d6270159d2a7a8206b657f671eaee5d",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part8-20261008/semantic-packets/assignments/assignment-d667d57b983ed59ea0e6/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p5-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p5-q7-definition-text",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Since ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "1^3=1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ", there is a cube whose volume is 1. Likewise, as ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "2^3=8",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " there is a cube whose volume is 8. There should also be a cube of intermediate size whose volume is 2. Let ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\sqrt[3]{2}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " denote the side length of the cube whose volume is 2. Hence, ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "(\\sqrt[3]{2})^3=2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p5-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 5, p5-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\x/\\s/\\v/\\ell in {0/1/1/1,3/1.259921/2/{\\sqrt[3]{2}},6.5/2/8/2}{\n\\begin{scope}[shift={(\\x,0)}]\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (\\s,0);\n\\coordinate (C) at (\\s,\\s);\n\\coordinate (D) at (0,\\s);\n\\coordinate (E) at ({1.35*\\s},{0.35*\\s});\n\\coordinate (F) at ({1.35*\\s},{1.35*\\s});\n\\coordinate (G) at ({0.35*\\s},{1.35*\\s});\n\\draw[black,line width=0.8pt] (A)--(B)--(E)--(F)--(G)--(D)--cycle;\n\\draw[black,line width=0.8pt] (D)--(C)--(B) (C)--(F);\n\\path (A)--(C) node[midway] {$\\v$};\n\\path (A)--(B) node[midway,below=3pt] {$\\ell$};\n\\path (A)--(D) node[midway,left=3pt] {$\\ell$};\n\\path (B)--(E) node[midway,below right=3pt] {$\\ell$};\n\\end{scope}\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 125,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 5,
+          "sourceRegion": "Question 7, three-cube comparison",
+          "description": "Three outline cubes in a horizontal row, increasing in size. Each front face carries its volume; three visible edge directions carry the corresponding side length. Decorative cyan face fills are omitted.",
+          "mathematics": "Volumes 1, 2 and 8 correspond to side lengths 1, cube root of 2 and 2. Relative linear sizes are proportional to these side lengths.",
+          "answerVisibility": "All volume and edge labels are permanent supplied givens; no decimal approximation is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p5-q7-response",
+        "type": "part",
+        "label": "",
+        "prompt": "Use the bisection method to approximate $\\sqrt[3]{2}$ accurate to one decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\sqrt[3]{2}\\approx1.3$ (1 decimal place).\n\nRepeated midpoint tests give $1.25<\\sqrt[3]{2}<1.28125$; both endpoints round to $1.3$.",
+          "worked": "Since $1^3<2<2^3$, initially $1<\\sqrt[3]{2}<2$. Test the midpoint of the current interval each time:\n$$\\begin{align*}1.5^3&=3.375>2\\\\1.25^3&=1.953125<2\\\\1.375^3&=2.599609375>2\\\\1.3125^3&=2.260986328125>2\\\\1.28125^3&=2.103302001953125>2.\\end{align*}$$\nThe successive intervals are $(1,1.5)$, $(1.25,1.5)$, $(1.25,1.375)$, $(1.25,1.3125)$ and $(1.25,1.28125)$. Both final endpoints round to $1.3$, so $\\sqrt[3]{2}\\approx1.3$, accurate to one decimal place.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 84
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p5-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p5-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p5-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p5-q7-root/label",
+                  "type": "item",
+                  "ref": "p5-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p5-q7-root/prompt#p5-q7-definition-text",
+                  "type": "item",
+                  "ref": "p5-q7-root/prompt#p5-q7-definition-text",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p5-q7-diagram",
+                  "type": "item",
+                  "ref": "p5-q7-diagram",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p5-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p5-q7-response:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p5-q7-response/prompt",
+                          "type": "item",
+                          "ref": "p5-q7-response/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p5-q7-response/space",
+                          "type": "item",
+                          "ref": "p5-q7-response/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:58.301Z",
+  "updatedAt": "2026-11-12T11:15:58.301Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part8-20261008",
+    "blockId": "p5-q7",
+    "sectionRole": "exercise"
+  }
+}

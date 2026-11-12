@@ -1,0 +1,219 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-19c43247-5ba1-41c6-acff-255529fbdf4b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "expected-value-discrete",
+    "secondarySkillIds": [],
+    "reasoningScore": 85,
+    "difficulty": "Challenge",
+    "difficultyReason": "The general case requires discovering a restart recurrence for consecutive heads and solving it symbolically; the earlier cases support exploration but do not supply this construction.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:33.334Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b58939303b7722a80c4ad2a78a641171502d3df993607a76434c9c2708be1743",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/3b8fbb4df6ade2f1d829472282f75aff59f60e8dbd547e820debdfcda4470a66-1792558438545/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": "What is the expected number of tosses of a fair coin required for a head to be obtained:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q21-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "once",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2$ tosses.",
+          "worked": "Let $E$ be the expected number of tosses. A head finishes the process; a tail uses one toss and restarts it.\n$$\\begin{align*}E&=\\frac12\\times1+\\frac12(1+E)\\\\E&=1+\\frac12E\\\\E&=2.\\end{align*}$$\nThe expected number is $2$ tosses.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p33-q21-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "twice in a row",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6$ tosses.\n\nUse first-step equations for the starting state and the state immediately after a head.",
+          "worked": "Let $E$ be the expected number of tosses from the start, and $F$ the expected additional number immediately after a head. Each toss is equally likely to be heads or tails.\n$$\\begin{align*}E&=\\frac12(F+1)+\\frac12(E+1)\\\\F&=\\frac12\\times1+\\frac12(E+1)\\\\F&=\\frac12E+1.\\end{align*}$$\nSubstitute for $F$:\n$$\\begin{align*}E&=\\frac12\\left(\\frac12E+2\\right)+\\frac12(E+1)\\\\E&=\\frac34E+\\frac32\\\\E-\\frac34E&=\\frac32\\\\\\frac14E&=\\frac32\\\\E&=6.\\end{align*}$$\nThe expected number is $6$ tosses.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p33-q21-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$n$ times in a row. Warning: This is hard!",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2^{n+1}-2$ tosses.\n\nUse $E_n=2E_{n-1}+2$, with $E_1=2$.",
+          "worked": "Let $E_n$ be the expected number of tosses to obtain $n$ consecutive heads. First obtain $n-1$ consecutive heads, taking $E_{n-1}$ tosses on average. The next toss uses one toss: a head finishes, while a tail restarts the process.\n$$\\begin{align*}E_n&=E_{n-1}+1+\\frac12E_n\\\\\\frac12E_n&=E_{n-1}+1\\\\E_n&=2E_{n-1}+2.\\end{align*}$$\nFrom part (a), $E_1=2$. Therefore\n$$\\begin{align*}E_n+2&=2(E_{n-1}+2)\\\\E_n+2&=2^{n-1}(E_1+2)\\\\E_n+2&=2^{n+1}\\\\E_n&=2^{n+1}-2.\\end{align*}$$\nThe expected number is $2^{n+1}-2$ tosses.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 85
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q21",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-q21": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p33-q21-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p33-q21-root/label",
+                  "type": "item",
+                  "ref": "p33-q21-root/label",
+                  "title": "Label 21"
+                },
+                {
+                  "id": "layout:p33-q21-root/prompt",
+                  "type": "item",
+                  "ref": "p33-q21-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p33-q21-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p33-q21-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q21-a/label",
+                          "type": "item",
+                          "ref": "p33-q21-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p33-q21-a/prompt",
+                          "type": "item",
+                          "ref": "p33-q21-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q21-a/space",
+                          "type": "item",
+                          "ref": "p33-q21-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q21-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q21-b/label",
+                          "type": "item",
+                          "ref": "p33-q21-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p33-q21-b/prompt",
+                          "type": "item",
+                          "ref": "p33-q21-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q21-b/space",
+                          "type": "item",
+                          "ref": "p33-q21-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q21-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q21-c/label",
+                          "type": "item",
+                          "ref": "p33-q21-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p33-q21-c/prompt",
+                          "type": "item",
+                          "ref": "p33-q21-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q21-c/space",
+                          "type": "item",
+                          "ref": "p33-q21-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 21",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:36.694Z",
+  "updatedAt": "2026-11-12T13:10:36.695Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p33-q21",
+    "sectionRole": "exercise"
+  }
+}

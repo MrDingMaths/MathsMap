@@ -1,0 +1,203 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7ec48774-c1c2-4c4a-a06d-5a1c18e5a5cc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "proof-by-contradiction",
+    "secondarySkillIds": [
+      "prove-results-integers"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the supplied board colouring to connect knight moves with alternating parity and show that closing the tour conflicts with the odd number of squares.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cb29852e88847ba98f87064f2323782841839ff00281ec5eb84003e8b08902b0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p3-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p3-q15-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "A ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "closed knight’s tour",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " is a sequence of moves made by a knight on a chessboard in which the knight visits every square exactly once, and ends on the same square on which it began. An example is given for a ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "6\\times6",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " board below.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p3-q15-tour",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"boardBlue\",\"hex\":\"D4E8FF\",\"reason\":\"Alternating square class reveals the parity change on every original knight move.\"}],\"reference\":\"Original Part6 PDFpage3 supplied6x6 closed knight tour; all36 exact pixel-supported connections.\"}\n\\begin{tikzpicture}[x=1cm,y=-1cm]\n\\definecolor{boardBlue}{HTML}{D4E8FF}\n\\fill[boardBlue] (0,0) rectangle (1,1);\n\\fill[boardBlue] (2,0) rectangle (3,1);\n\\fill[boardBlue] (4,0) rectangle (5,1);\n\\fill[boardBlue] (1,1) rectangle (2,2);\n\\fill[boardBlue] (3,1) rectangle (4,2);\n\\fill[boardBlue] (5,1) rectangle (6,2);\n\\fill[boardBlue] (0,2) rectangle (1,3);\n\\fill[boardBlue] (2,2) rectangle (3,3);\n\\fill[boardBlue] (4,2) rectangle (5,3);\n\\fill[boardBlue] (1,3) rectangle (2,4);\n\\fill[boardBlue] (3,3) rectangle (4,4);\n\\fill[boardBlue] (5,3) rectangle (6,4);\n\\fill[boardBlue] (0,4) rectangle (1,5);\n\\fill[boardBlue] (2,4) rectangle (3,5);\n\\fill[boardBlue] (4,4) rectangle (5,5);\n\\fill[boardBlue] (1,5) rectangle (2,6);\n\\fill[boardBlue] (3,5) rectangle (4,6);\n\\fill[boardBlue] (5,5) rectangle (6,6);\n\\draw[black,line width=0.8pt] (0,0) rectangle (6,6);\n\\draw[black,line width=0.6pt] (0.5,0.5)--(2.5,1.5);\n\\draw[black,line width=0.6pt] (0.5,0.5)--(1.5,2.5);\n\\draw[black,line width=0.6pt] (1.5,0.5)--(3.5,1.5);\n\\draw[black,line width=0.6pt] (2.5,0.5)--(4.5,1.5);\n\\draw[black,line width=0.6pt] (3.5,0.5)--(5.5,1.5);\n\\draw[black,line width=0.6pt] (0.5,1.5)--(2.5,0.5);\n\\draw[black,line width=0.6pt] (0.5,1.5)--(2.5,2.5);\n\\draw[black,line width=0.6pt] (1.5,1.5)--(3.5,0.5);\n\\draw[black,line width=0.6pt] (2.5,1.5)--(4.5,0.5);\n\\draw[black,line width=0.6pt] (3.5,1.5)--(5.5,0.5);\n\\draw[black,line width=0.6pt] (4.5,1.5)--(5.5,3.5);\n\\draw[black,line width=0.6pt] (0.5,2.5)--(1.5,0.5);\n\\draw[black,line width=0.6pt] (0.5,2.5)--(1.5,4.5);\n\\draw[black,line width=0.6pt] (3.5,2.5)--(4.5,0.5);\n\\draw[black,line width=0.6pt] (3.5,2.5)--(5.5,1.5);\n\\draw[black,line width=0.6pt] (4.5,2.5)--(5.5,0.5);\n\\draw[black,line width=0.6pt] (0.5,3.5)--(1.5,1.5);\n\\draw[black,line width=0.6pt] (0.5,3.5)--(1.5,5.5);\n\\draw[black,line width=0.6pt] (1.5,3.5)--(2.5,5.5);\n\\draw[black,line width=0.6pt] (2.5,3.5)--(4.5,2.5);\n\\draw[black,line width=0.6pt] (3.5,3.5)--(5.5,2.5);\n\\draw[black,line width=0.6pt] (3.5,3.5)--(5.5,4.5);\n\\draw[black,line width=0.6pt] (4.5,3.5)--(5.5,5.5);\n\\draw[black,line width=0.6pt] (0.5,4.5)--(1.5,2.5);\n\\draw[black,line width=0.6pt] (0.5,4.5)--(2.5,3.5);\n\\draw[black,line width=0.6pt] (1.5,4.5)--(2.5,2.5);\n\\draw[black,line width=0.6pt] (2.5,4.5)--(4.5,5.5);\n\\draw[black,line width=0.6pt] (3.5,4.5)--(5.5,5.5);\n\\draw[black,line width=0.6pt] (4.5,4.5)--(5.5,2.5);\n\\draw[black,line width=0.6pt] (0.5,5.5)--(1.5,3.5);\n\\draw[black,line width=0.6pt] (0.5,5.5)--(2.5,4.5);\n\\draw[black,line width=0.6pt] (1.5,5.5)--(3.5,4.5);\n\\draw[black,line width=0.6pt] (2.5,5.5)--(4.5,4.5);\n\\draw[black,line width=0.6pt] (3.5,5.5)--(4.5,3.5);\n\\draw[black,line width=0.6pt] (3.5,5.5)--(5.5,4.5);\n\\draw[black,line width=0.6pt] (4.5,5.5)--(5.5,3.5);\n\\fill[black] (0.5,0.5) circle[radius=0.7mm];\n\\fill[black] (1.5,0.5) circle[radius=0.7mm];\n\\fill[black] (2.5,0.5) circle[radius=0.7mm];\n\\fill[black] (3.5,0.5) circle[radius=0.7mm];\n\\fill[black] (4.5,0.5) circle[radius=0.7mm];\n\\fill[black] (5.5,0.5) circle[radius=0.7mm];\n\\fill[black] (0.5,1.5) circle[radius=0.7mm];\n\\fill[black] (1.5,1.5) circle[radius=0.7mm];\n\\fill[black] (2.5,1.5) circle[radius=0.7mm];\n\\fill[black] (3.5,1.5) circle[radius=0.7mm];\n\\fill[black] (4.5,1.5) circle[radius=0.7mm];\n\\fill[black] (5.5,1.5) circle[radius=0.7mm];\n\\fill[black] (0.5,2.5) circle[radius=0.7mm];\n\\fill[black] (1.5,2.5) circle[radius=0.7mm];\n\\fill[black] (2.5,2.5) circle[radius=0.7mm];\n\\fill[black] (3.5,2.5) circle[radius=0.7mm];\n\\fill[black] (4.5,2.5) circle[radius=0.7mm];\n\\fill[black] (5.5,2.5) circle[radius=0.7mm];\n\\fill[black] (0.5,3.5) circle[radius=0.7mm];\n\\fill[black] (1.5,3.5) circle[radius=0.7mm];\n\\fill[black] (2.5,3.5) circle[radius=0.7mm];\n\\fill[black] (3.5,3.5) circle[radius=0.7mm];\n\\fill[black] (4.5,3.5) circle[radius=0.7mm];\n\\fill[black] (5.5,3.5) circle[radius=0.7mm];\n\\fill[black] (0.5,4.5) circle[radius=0.7mm];\n\\fill[black] (1.5,4.5) circle[radius=0.7mm];\n\\fill[black] (2.5,4.5) circle[radius=0.7mm];\n\\fill[black] (3.5,4.5) circle[radius=0.7mm];\n\\fill[black] (4.5,4.5) circle[radius=0.7mm];\n\\fill[black] (5.5,4.5) circle[radius=0.7mm];\n\\fill[black] (0.5,5.5) circle[radius=0.7mm];\n\\fill[black] (1.5,5.5) circle[radius=0.7mm];\n\\fill[black] (2.5,5.5) circle[radius=0.7mm];\n\\fill[black] (3.5,5.5) circle[radius=0.7mm];\n\\fill[black] (4.5,5.5) circle[radius=0.7mm];\n\\fill[black] (5.5,5.5) circle[radius=0.7mm];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40.7,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 3,
+          "sourceRegion": "Original lower-right6x6 board, x800–1100/y1235–1535 on immutable1406x1988 page raster.",
+          "description": "Actual original36-centre closed route with every knight connection preserved. Crossing strokes are not extra vertices; upper-left alternating square class retained in restrained pale blue.",
+          "mathematics": "Exactly36 original pixel-supported edges, each a(1,2)/(2,1) move; degree2 at all36 centres; one connected closed cycle.",
+          "answerVisibility": "Supplied example only; no solution to5x5 task shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p3-q15-proof",
+        "type": "part",
+        "label": "",
+        "prompt": "Prove that there is no closed knight’s tour on a $5\\times5$ chess board.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No closed knight’s tour exists.\n\nEach move changes square colour, so a closed tour must visit equal numbers of each colour. A $5\\times5$ board has 13 squares of one colour and 12 of the other.",
+          "worked": "Suppose a closed knight’s tour exists on a $5\\times5$ chessboard. Every knight move changes square colour. Since the route returns to its starting square, its visited squares alternate colours cyclically, so it must visit equal numbers of squares of each colour.\n\nThe board has 13 squares of one colour and 12 of the other. A tour visiting every square exactly once would therefore visit unequal numbers of the two colours, a contradiction. Hence no closed knight’s tour exists.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p3-q15",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q15": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q15-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q15-root/label",
+                  "type": "item",
+                  "ref": "p3-q15-root/label",
+                  "title": "Label 15"
+                },
+                {
+                  "id": "layout:p3-q15-root/prompt#p3-q15-definition",
+                  "type": "item",
+                  "ref": "p3-q15-root/prompt#p3-q15-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q15-tour",
+                  "type": "item",
+                  "ref": "p3-q15-tour",
+                  "title": "Diagram",
+                  "width": 40.7
+                },
+                {
+                  "id": "p3-q15-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p3-q15-proof:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q15-proof/prompt",
+                          "type": "item",
+                          "ref": "p3-q15-proof/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q15-proof/space",
+                          "type": "item",
+                          "ref": "p3-q15-proof/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 15",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:13.010Z",
+  "updatedAt": "2026-11-12T11:15:13.011Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p3-q15",
+    "sectionRole": "exercise"
+  }
+}

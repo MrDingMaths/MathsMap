@@ -1,0 +1,307 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2ad4bc0b-1170-4060-bc3d-6f5d34dd6861",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "recurrence-relation-definition",
+    "secondarySkillIds": [
+      "sequence-notation"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires algebraic proofs of four Fibonacci identities using the recurrence relation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T23:43:01.800Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d08999d620f49df6dbed6279e5ec3ccb203f62972b6e243629675dae8b81ac8f",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part12-20261009/semantic-packets/assignments/assignment-872cd047946ed0d924de/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p2-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "The Fibonacci sequence is given by $F_{n+1}=F_n+F_{n-1}$, where the first two terms are $F_1=1$ and $F_2=1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p2-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the first ten terms in the sequence.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,5,8,13,21,34,55$",
+          "worked": "Each new term is the sum of the previous two terms.\n$$\\begin{align*}F_3&=1+1=2,&F_4&=2+1=3,\\\\F_5&=3+2=5,&F_6&=5+3=8,\\\\F_7&=8+5=13,&F_8&=13+8=21,\\\\F_9&=21+13=34,&F_{10}&=34+21=55.\\end{align*}$$\nThe first ten terms are $1,1,2,3,5,8,13,21,34,55$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p2-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that $F_{n+2}+F_{n-2}=3F_n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F_{n+2}+F_{n-2}=3F_n$.\n\nExpand $F_{n+2}$ using the recurrence, then use $F_{n-1}+F_{n-2}=F_n$.",
+          "worked": "$$\\begin{align*}F_{n+2}+F_{n-2}&=F_{n+1}+F_n+F_{n-2}\\\\F_{n+2}+F_{n-2}&=F_n+F_{n-1}+F_n+F_{n-2}\\\\F_{n+2}+F_{n-2}&=2F_n+(F_{n-1}+F_{n-2})\\\\F_{n+2}+F_{n-2}&=2F_n+F_n\\\\F_{n+2}+F_{n-2}&=3F_n.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p2-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $F_{n+2}+F_n+F_{n-2}=4F_n$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F_{n+2}+F_n+F_{n-2}=4F_n$.\n\nExpand the higher-index terms using the recurrence and collect the resulting multiples of $F_n$.",
+          "worked": "$$\\begin{align*}F_{n+2}+F_n+F_{n-2}&=F_{n+1}+F_n+F_n+F_{n-2}\\\\F_{n+2}+F_n+F_{n-2}&=F_{n+1}+2F_n+F_{n-2}\\\\F_{n+2}+F_n+F_{n-2}&=F_n+F_{n-1}+2F_n+F_{n-2}\\\\F_{n+2}+F_n+F_{n-2}&=3F_n+(F_{n-1}+F_{n-2})\\\\F_{n+2}+F_n+F_{n-2}&=4F_n.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p2-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Prove that $F_{n+6}-F_n=4F_{n+3}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F_{n+6}-F_n=4F_{n+3}$.\n\nRepeatedly expand terms using the recurrence until the remaining terms combine to give $F_{n+3}$.",
+          "worked": "$$\\begin{align*}F_{n+6}-F_n&=F_{n+5}+F_{n+4}-F_n\\\\F_{n+6}-F_n&=(F_{n+4}+F_{n+3})+(F_{n+3}+F_{n+2})-F_n\\\\F_{n+6}-F_n&=2F_{n+3}+F_{n+4}+F_{n+2}-F_n\\\\F_{n+6}-F_n&=2F_{n+3}+F_{n+3}+F_{n+2}+F_{n+2}-F_n\\\\F_{n+6}-F_n&=3F_{n+3}+2F_{n+2}-F_n\\\\F_{n+6}-F_n&=3F_{n+3}+2F_{n+1}+2F_n-F_n\\\\F_{n+6}-F_n&=3F_{n+3}+2F_{n+1}+F_n\\\\F_{n+6}-F_n&=3F_{n+3}+F_{n+1}+(F_{n+1}+F_n)\\\\F_{n+6}-F_n&=3F_{n+3}+F_{n+1}+F_{n+2}\\\\F_{n+6}-F_n&=3F_{n+3}+F_{n+3}\\\\F_{n+6}-F_n&=4F_{n+3}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p2-q4-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Prove that $F_{n+1}^2-F_n^2=F_{n-1}F_{n+2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F_{n+1}^2-F_n^2=F_{n-1}F_{n+2}$.\n\nFactorise the difference of squares and apply the recurrence to both factors.",
+          "worked": "$$\\begin{align*}F_{n+1}^2-F_n^2&=(F_{n+1}-F_n)(F_{n+1}+F_n)\\\\F_{n+1}^2-F_n^2&=F_{n-1}F_{n+2}.\\end{align*}$$\nHere $F_{n+1}-F_n=F_{n-1}$ and $F_{n+1}+F_n=F_{n+2}$ by the recurrence relation.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p2-q4",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p2-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p2-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p2-q4-root/label",
+                  "type": "item",
+                  "ref": "p2-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "layout:p2-q4-root/prompt",
+                  "type": "item",
+                  "ref": "p2-q4-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p2-q4-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p2-q4-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p2-q4-a/label",
+                          "type": "item",
+                          "ref": "p2-q4-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p2-q4-a/prompt",
+                          "type": "item",
+                          "ref": "p2-q4-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p2-q4-a/space",
+                          "type": "item",
+                          "ref": "p2-q4-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p2-q4-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p2-q4-b/label",
+                          "type": "item",
+                          "ref": "p2-q4-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p2-q4-b/prompt",
+                          "type": "item",
+                          "ref": "p2-q4-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p2-q4-b/space",
+                          "type": "item",
+                          "ref": "p2-q4-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p2-q4-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p2-q4-c/label",
+                          "type": "item",
+                          "ref": "p2-q4-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p2-q4-c/prompt",
+                          "type": "item",
+                          "ref": "p2-q4-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p2-q4-c/space",
+                          "type": "item",
+                          "ref": "p2-q4-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p2-q4-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p2-q4-d/label",
+                          "type": "item",
+                          "ref": "p2-q4-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p2-q4-d/prompt",
+                          "type": "item",
+                          "ref": "p2-q4-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p2-q4-d/space",
+                          "type": "item",
+                          "ref": "p2-q4-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p2-q4-e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p2-q4-e/label",
+                          "type": "item",
+                          "ref": "p2-q4-e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p2-q4-e/prompt",
+                          "type": "item",
+                          "ref": "p2-q4-e/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p2-q4-e/space",
+                          "type": "item",
+                          "ref": "p2-q4-e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 4",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:31.554Z",
+  "updatedAt": "2026-11-12T13:09:31.554Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p2-q4",
+    "sectionRole": "exercise"
+  }
+}

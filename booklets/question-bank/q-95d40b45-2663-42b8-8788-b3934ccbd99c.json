@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-95d40b45-2663-42b8-8788-b3934ccbd99c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "fraction-decimal-quantity-problems",
+    "secondarySkillIds": [
+      "add-subtract-fractions",
+      "prove-results-integers"
+    ],
+    "reasoningScore": 87,
+    "difficulty": "Challenge",
+    "difficultyReason": "Translate the absence of exact change into restrictions on coin counts and mixed subsets, derive a global upper bound, and verify an attaining collection has no subset worth one frac.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dbdd797119546789153c71f64d8650eb00f470f825bb91abd6bcb3285f05a630",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q19-root",
+    "type": "question",
+    "label": "19",
+    "prompt": "In Fracland the basic unit of currency is called a frac, for which they have a one-frac note. Smaller denominations are coins. They have half-frac, third-frac, quarter-frac and fifth-frac coins. What is the largest sum of money you could carry without having exact change for a one-frac note?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q19-coins",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18 p18-q19-coins\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\x/\\den in {0/5,1.8/4,3.6/3,5.4/2}{\\draw[black,line width=0.8pt] (\\x,0) circle (0.65);\\node[font=\\fontsize{10}{12}\\selectfont] at (\\x,0) {$\\frac{1}{\\den}\\mathrm{F}$};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Left column, four coins beneath question 19",
+          "description": "Four unfilled circular coins in a horizontal row, preserving denomination order and F labels. Decorative textures and colours are omitted.",
+          "mathematics": "Left to right: 1/5 F, 1/4 F, 1/3 F, 1/2 F.",
+          "answerVisibility": "All four denominations are permanent givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\frac{133}{60}$ frac.\n\nOne maximum collection has one half-frac, two third-frac, one quarter-frac and four fifth-frac coins.",
+      "worked": "There can be at most one half-frac, two third-frac, three quarter-frac and four fifth-frac coins; otherwise coins of one denomination alone make one frac. A one-frac note also cannot be carried.\n\nIf there is a half-frac coin, there can be at most one quarter-frac coin, since a half and two quarters make one frac. Thus the total is at most\n$$\\begin{align*}\\frac12+\\frac23+\\frac14+\\frac45&=\\frac{30+40+15+48}{60}\\\\\\frac12+\\frac23+\\frac14+\\frac45&=\\frac{133}{60}.\\end{align*}$$\nWithout a half-frac coin, the total is at most\n$$\\frac23+\\frac34+\\frac45=\\frac{133}{60}.$$\nThe first collection attains this bound. To check that it cannot make one frac, measure values in sixtieths. Any subset making one frac would satisfy $30a+20b+15c+12d=60$, where $0\\le a\\le1$, $0\\le b\\le2$, $0\\le c\\le1$ and $0\\le d\\le4$. Reduction modulo $5$ forces $d=0$. If $a=0$, the available thirds and quarter total at most $55$ sixtieths. If $a=1$, the remaining $30$ cannot be made from up to two $20$s and one $15$. Hence exact change is impossible, and the maximum is $\\frac{133}{60}$ frac.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 132
+  },
+  "presentation": {
+    "ownerId": "p18-q19",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:37.582Z",
+  "updatedAt": "2026-11-12T11:14:37.582Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p18-q19",
+    "sectionRole": "exercise"
+  }
+}

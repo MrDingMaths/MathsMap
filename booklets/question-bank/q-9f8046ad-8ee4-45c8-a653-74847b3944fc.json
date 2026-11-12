@@ -1,0 +1,200 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9f8046ad-8ee4-45c8-a653-74847b3944fc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 85,
+    "difficulty": "Challenge",
+    "difficultyReason": "Normalise a Diophantine solution to a bounded residue range, characterise nonnegative solvability, and derive a sharp bound attained by an impossible amount.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a7bbdc8779be82108ee72157956d8ffb3d72ea1d7cd4a9313edba96818193b5a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q37-root",
+    "type": "question",
+    "label": "37",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p19-q37-hypothesis",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Suppose ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "m,n\\in\\mathbb{N},\\quad m,n>1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\operatorname{GCD}(m,n)=1",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p19-q37-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Frobenius coin problem",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " asks for the largest monetary amount that cannot be obtained using only coins of denominations ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "m",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ". By considering a suitable Diophantine equation, show that the largest amount that cannot be obtained is ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "mn-m-n",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$mn-m-n$.\n\nUse $mx+ny=N$ with $0\\le y<m$: an amount is unattainable precisely when its corresponding integer $x$ is negative. The largest occurs at $x=-1$, $y=m-1$.",
+      "worked": "An amount $N$ is obtainable exactly when $mx+ny=N$ has integer solutions with $x,y\\ge0$. Since $\\operatorname{GCD}(m,n)=1$, every integer $N$ has an integer solution. All solutions from one particular solution $(x_0,y_0)$ are\n$$x=x_0+tn,\\qquad y=y_0-tm,\\qquad t\\in\\mathbb{Z}.$$\nChoose the particular solution so that $0\\le y_0\\le m-1$.\n\nIf $x_0\\ge0$, this solution obtains $N$ using nonnegative numbers of coins. If $x_0<0$, every solution with $t\\le0$ has $x<0$, while every solution with $t\\ge1$ has $y\\le(m-1)-m<0$. Thus $N$ is unattainable exactly when $x_0<0$.\n\nFor an unattainable amount, $x_0\\le-1$ and $y_0\\le m-1$, so\n$$\\begin{align*}N&=mx_0+ny_0\\\\N&\\le-m+n(m-1)\\\\N&\\le mn-m-n.\\end{align*}$$\nEquality occurs for $x_0=-1$ and $y_0=m-1$, which has no nonnegative solution by the same argument. Since the coprime denominations exceed $1$, $mn-m-n$ is positive. Therefore the largest unattainable amount is $mn-m-n$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 124
+  },
+  "presentation": {
+    "ownerId": "p19-q37",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q37": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q37-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q37-root/label",
+                  "type": "item",
+                  "ref": "p19-q37-root/label",
+                  "title": "Label 37"
+                },
+                {
+                  "id": "layout:p19-q37-root/prompt#p19-q37-hypothesis",
+                  "type": "item",
+                  "ref": "p19-q37-root/prompt#p19-q37-hypothesis",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q37-root/prompt#p19-q37-definition",
+                  "type": "item",
+                  "ref": "p19-q37-root/prompt#p19-q37-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q37-root/space",
+                  "type": "item",
+                  "ref": "p19-q37-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 37",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:16:09.477Z",
+  "updatedAt": "2026-11-12T11:16:09.477Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p19-q37",
+    "sectionRole": "exercise"
+  }
+}

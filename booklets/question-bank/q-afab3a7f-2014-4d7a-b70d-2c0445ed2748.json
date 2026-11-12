@@ -1,0 +1,221 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-afab3a7f-2014-4d7a-b70d-2c0445ed2748",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "recurrence-relation-definition",
+    "secondarySkillIds": [
+      "sequence-notation"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "The self-referential run sequences require tracking which existing term controls the next run and distinguishing run lengths from generated digits; the definitions and examples supply the rules.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:34.255Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a821e21607054a52f718e618a9c34b1bd4b3f5fe728c0444aa44a2969298ba1b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/0396de4461817f8970ac6545bcc936d05c4badbc57b71e9cd3eaaf79c46e87f0-1792558473455/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p3-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "In this question we’ll introduce several interesting sequences.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p3-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "The **Look-and-say sequence** begins as follows:\n$$1,11,21,1211,111221,\\ldots$$\nThe first term is defined to be 1. Each subsequent term is obtained by saying out loud what the previous term consists of. For example, the second term is 11 (one 1), the third term is 21 (two 1s), the fourth term is 1211 (one 2, one 1), etc. Write down the first ten terms of this sequence.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,11,21,1211,111221,$\n\n$312211,13112221,1113213211,$\n\n$31131211131221,13211311123113112211.$",
+          "worked": "Read each consecutive run as its count followed by its digit:\n$$\\begin{align*}a_1&=1\\\\a_2&=11\\\\a_3&=21\\\\a_4&=1211\\\\a_5&=111221\\\\a_6&=312211\\\\a_7&=13112221\\\\a_8&=1113213211\\\\a_9&=31131211131221\\\\a_{10}&=13211311123113112211.\\end{align*}$$\nFor example, $111221$ has three 1s, two 2s and one 1, giving $312211$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      },
+      {
+        "id": "p3-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Kolakoski’s sequence begins as follows\n$$1,2,2,1,1,\\ldots$$\nThe sequence alternates between runs of 1 and 2. Each term specifies the length of a run of digits. For example, the first term implies the first run of 1s is of length 1, so the second term is 2. This then implies there is a run of two 2s before the terms switch back to 1 etc. Write down the first twenty-five terms of this sequence.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,2,2,1,1,2,1,2,2,1,2,2,1,$\n\n$1,2,1,1,2,2,1,2,1,1,2,1.$",
+          "worked": "Use successive terms as run lengths, alternating runs of 1 and 2. The first runs are\n$$1\\mid22\\mid11\\mid2\\mid1\\mid22\\mid1\\mid22\\mid11\\mid2\\mid11\\mid22\\mid1\\mid2\\mid11\\mid2\\mid1.$$\nReading these digits in order gives the first twenty-five terms:\n$$\\begin{aligned}&1,2,2,1,1,2,1,2,2,1,2,2,1,\\\\&1,2,1,1,2,2,1,2,1,1,2,1.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p3-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Golomb’s sequence begins as follows\n$$1,2,2,3,3,\\ldots$$\nThe $n$th term specifies the number of times $n$ occurs in the sequence. For example, the first term implies there is only one 1, the second term implies there are two 2’s etc. Write down the first twenty-five terms of this sequence.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,2,2,3,3,4,4,4,5,5,5,6,6,$\n\n$6,6,7,7,7,7,8,8,8,8,9,9.$",
+          "worked": "The first nine terms are $1,2,2,3,3,4,4,4,5$, so the occurrence counts for $1,2,\\ldots,9$ are respectively $1,2,2,3,3,4,4,4,5$. Hence the successive groups are\n$$1\\mid22\\mid33\\mid444\\mid555\\mid6666\\mid7777\\mid8888\\mid99999.$$\nStop after twenty-five terms:\n$$\\begin{aligned}&1,2,2,3,3,4,4,4,5,5,5,6,6,\\\\&6,6,7,7,7,7,8,8,8,8,9,9.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p3-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q7-root/label",
+                  "type": "item",
+                  "ref": "p3-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p3-q7-root/prompt",
+                  "type": "item",
+                  "ref": "p3-q7-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p3-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p3-q7-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q7-a/label",
+                          "type": "item",
+                          "ref": "p3-q7-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p3-q7-a/prompt",
+                          "type": "item",
+                          "ref": "p3-q7-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q7-a/space",
+                          "type": "item",
+                          "ref": "p3-q7-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q7-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q7-b/label",
+                          "type": "item",
+                          "ref": "p3-q7-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p3-q7-b/prompt",
+                          "type": "item",
+                          "ref": "p3-q7-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q7-b/space",
+                          "type": "item",
+                          "ref": "p3-q7-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q7-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q7-c/label",
+                          "type": "item",
+                          "ref": "p3-q7-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p3-q7-c/prompt",
+                          "type": "item",
+                          "ref": "p3-q7-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p3-q7-c/space",
+                          "type": "item",
+                          "ref": "p3-q7-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:32.304Z",
+  "updatedAt": "2026-11-12T13:09:32.305Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p3-q7",
+    "sectionRole": "exercise"
+  }
+}

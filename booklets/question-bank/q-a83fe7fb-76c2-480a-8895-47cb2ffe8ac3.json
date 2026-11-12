@@ -1,0 +1,375 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a83fe7fb-76c2-480a-8895-47cb2ffe8ac3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "binomial-cumulative-probability",
+    "secondarySkillIds": [
+      "binomial-probability-formula"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Extends numerical majority probabilities to general even and odd family sizes using symmetry and the probability of a tie.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T01:13:30.369Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f920b7597e2cf8163ec080fecabdaf84acdd1a6a8f64758053452c999d3c28b4",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part11-20261009/semantic-packets/assignments/assignment-dd5730c904fb51791aaf/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Find the probability that the number of girls exceeds the number of boys in a family with:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "four children",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{5}{16}$",
+          "worked": "Assume each child independently has probability $\\frac12$ of being a girl. Let $X$ count the girls. By symmetry, the two strict majorities have equal probability; exclude the tie.\n$$\\begin{align*}\\Pr(X>2)&=\\frac{1-\\Pr(X=2)}{2}\\\\\\Pr(X>2)&=\\frac{1-\\binom42(\\frac12)^4}{2}\\\\\\Pr(X>2)&=\\frac{5}{16}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p37-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "five children",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac12$",
+          "worked": "Assume independent births with probability $\\frac12$ of a girl. Let $X$ count the girls. A tie is impossible, and the two strict majorities have equal probability.\n$$\\Pr(X>\\tfrac52)=\\frac12.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p37-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "six children",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{11}{32}$",
+          "worked": "Let $X$ count the girls, with independent births and probability $\\frac12$ of a girl. Excluding the tie and using symmetry:\n$$\\begin{align*}\\Pr(X>3)&=\\frac{1-\\Pr(X=3)}{2}\\\\\\Pr(X>3)&=\\frac{1-\\binom63(\\frac12)^6}{2}\\\\\\Pr(X>3)&=\\frac{11}{32}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p37-q12-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "seven children",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac12$",
+          "worked": "Assume independent births with probability $\\frac12$ of a girl. Let $X$ count the girls. A tie is impossible, and the two strict majorities have equal probability.\n$$\\Pr(X>\\tfrac72)=\\frac12.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p37-q12-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$2n$ children",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac12\\left(1-\\binom{2n}{n}\\frac{1}{2^{2n}}\\right)$\n\nExclude the tie, then halve the remaining probability by symmetry.",
+          "worked": "Let $X$ count the girls, with independent births and probability $\\frac12$ of a girl. A tie occurs when $X=n$. The probabilities of a girl majority and a boy majority are equal.\n$$\\begin{align*}\\Pr(X>n)&=\\frac{1-\\Pr(X=n)}{2}\\\\\\Pr(X>n)&=\\frac{1-\\binom{2n}{n}(\\frac12)^{2n}}{2}\\\\\\Pr(X>n)&=\\frac12\\left(1-\\binom{2n}{n}\\frac{1}{2^{2n}}\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "p37-q12-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$2n-1$ children.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac12$\n\nAn odd family size prevents a tie, so symmetry gives equal majority probabilities.",
+          "worked": "Assume independent births with probability $\\frac12$ of a girl. Let $X$ count the girls. Since $2n-1$ is odd, a tie is impossible. By symmetry, a girl majority and a boy majority are equally likely.\n$$\\Pr(X\\ge n)=\\frac12.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p37-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p37-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p37-q12-root/label",
+                  "type": "item",
+                  "ref": "p37-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p37-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p37-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p37-q12-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p37-q12-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p37-q12-a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p37-q12-a/label",
+                              "type": "item",
+                              "ref": "p37-q12-a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p37-q12-a/prompt",
+                              "type": "item",
+                              "ref": "p37-q12-a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p37-q12-a/space",
+                              "type": "item",
+                              "ref": "p37-q12-a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p37-q12-b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p37-q12-b/label",
+                              "type": "item",
+                              "ref": "p37-q12-b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p37-q12-b/prompt",
+                              "type": "item",
+                              "ref": "p37-q12-b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p37-q12-b/space",
+                              "type": "item",
+                              "ref": "p37-q12-b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p37-q12-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p37-q12-c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p37-q12-c/label",
+                              "type": "item",
+                              "ref": "p37-q12-c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p37-q12-c/prompt",
+                              "type": "item",
+                              "ref": "p37-q12-c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p37-q12-c/space",
+                              "type": "item",
+                              "ref": "p37-q12-c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p37-q12-d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p37-q12-d/label",
+                              "type": "item",
+                              "ref": "p37-q12-d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p37-q12-d/prompt",
+                              "type": "item",
+                              "ref": "p37-q12-d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p37-q12-d/space",
+                              "type": "item",
+                              "ref": "p37-q12-d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p37-q12-root:row:4",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p37-q12-e:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p37-q12-e/label",
+                              "type": "item",
+                              "ref": "p37-q12-e/label",
+                              "title": "Label e"
+                            },
+                            {
+                              "id": "layout:p37-q12-e/prompt",
+                              "type": "item",
+                              "ref": "p37-q12-e/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p37-q12-e/space",
+                              "type": "item",
+                              "ref": "p37-q12-e/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part e",
+                          "gap": 1
+                        },
+                        {
+                          "id": "p37-q12-f:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p37-q12-f/label",
+                              "type": "item",
+                              "ref": "p37-q12-f/label",
+                              "title": "Label f"
+                            },
+                            {
+                              "id": "layout:p37-q12-f/prompt",
+                              "type": "item",
+                              "ref": "p37-q12-f/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p37-q12-f/space",
+                              "type": "item",
+                              "ref": "p37-q12-f/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part f",
+                          "gap": 1
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:48.105Z",
+  "updatedAt": "2026-11-12T13:10:48.106Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p37-q12",
+    "sectionRole": "exercise"
+  }
+}

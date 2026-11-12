@@ -1,0 +1,281 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1a98100b-b7e1-469e-88fd-853bf4a6bf11",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "prime-factorisation"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Reverse the totient formula to bound possible primes and exponents, exhaust compatible factor combinations and enforce both conditions in the final part.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:38.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8171d9bb112cb50d55455eda8bf3810ad7afee725d162af07f3e05a5a0deee6e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part13-20261009/cff6221670e4454b2c3d669177581171673c4424fd914263929122903301af76-1792558494106/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Find all values of $n$ for which:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q14a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$\\phi(n)=4$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n=5,8,10,12$.\n\nUse prime-power contributions and multiplicativity to exhaust the possibilities.",
+          "worked": "Write $n=2^a m$, where $m$ is odd. For each prime power $p^e$ dividing $n$, its contribution $p^{e-1}(p-1)$ must divide $4$. Thus the only possible primes are $2,3,5$; the exponents of $3$ and $5$ are at most $1$. Since including both gives $\\phi(15)=8$, the possible odd parts are $1,3,5$.\n\nIf $m=1$, then $\\phi(2^a)=4$, giving $a=3$ and $n=8$.\n\nIf $m=3$, then $\\phi(2^a)\\phi(3)=4$, so $\\phi(2^a)=2$, giving $a=2$ and $n=12$.\n\nIf $m=5$, then $\\phi(2^a)\\phi(5)=4$, so $\\phi(2^a)=1$, giving $a=0$ or $1$ and $n=5$ or $10$.\n\nTherefore $n=5,8,10,12$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p13-q14b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$\\phi(n)=10$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n=11,22$.\n\nRestrict the prime-power contributions to divisors of $10$.",
+          "worked": "Every prime divisor $p$ of $n$ satisfies $p-1\\mid10$. The only possible primes are $2,3,11$.\n\nA power of $2$ contributes $1$ or a power of $2$. A positive power of $3$ contributes $2\\cdot3^{e-1}$, so its exponent could only be $1$. Neither can supply the factor $5$ required in $\\phi(n)=10$. Therefore $11$ must divide $n$.\n\nIts exponent is $1$, since a higher exponent contributes a factor $11$. Also $3$ cannot divide $n$, since its contribution would make the product at least $20$.\n\nThus $n=2^a\\cdot11$, with $\\phi(2^a)=1$. Hence $a=0$ or $1$, giving $n=11,22$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p13-q14c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$\\phi(n)=20$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n=25,33,44,50,66$.\n\nUse prime-power contributions to determine every possible odd part.",
+          "worked": "Write $n=2^a m$, where $m$ is odd. Every prime divisor $p$ satisfies $p-1\\mid20$, so the only possible primes are $2,3,5,11$. The exponents of $3$ and $11$ are at most $1$, and the exponent of $5$ is at most $2$.\n\nThe factor $5$ in $\\phi(n)$ must come from $5^2$ or $11$.\n\nIf $5^2\\mid n$, its contribution is $\\phi(25)=20$. No other odd prime can occur, and $\\phi(2^a)=1$. This gives $n=25,50$.\n\nIf $11\\mid n$, its contribution is $10$. The prime $5$ cannot occur, since its contribution would make the product at least $40$.\n\nWith odd part $11$, we need $\\phi(2^a)=2$, giving $a=2$ and $n=44$.\n\nWith odd part $3\\cdot11$, the contribution is $2\\cdot10=20$, so $a=0$ or $1$, giving $n=33,66$.\n\nTherefore $n=25,33,44,50,66$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 110
+      },
+      {
+        "id": "p13-q14d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$\\phi(2n)=16$ and $\\phi(3n)=24$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n=24,30$.\n\nFirst solve $\\phi(2n)=16$, then test the second condition.",
+          "worked": "Put $k=2n$. Each prime divisor $p$ of $k$ satisfies $p-1\\mid16$, so the possible primes are $2,3,5,17$. The odd primes can occur only to the first power.\n\nSince $k$ is even, write $k=2^a m$ with $a\\ge1$. The possible odd parts are $1,3,5,15,17$, with phi values $1,2,4,8,16$, respectively. Combining each with $\\phi(2^a)=2^{a-1}$ gives\n\n$$k=32,48,40,60,34.$$\n\nThus $n=16,24,20,30,17$. Check the second condition:\n\n$$\\begin{align*}\\phi(3\\cdot16)&=\\phi(48)=16,\\\\\\phi(3\\cdot24)&=\\phi(72)=24,\\\\\\phi(3\\cdot20)&=\\phi(60)=16,\\\\\\phi(3\\cdot30)&=\\phi(90)=24,\\\\\\phi(3\\cdot17)&=\\phi(51)=32.\\end{align*}$$\n\nTherefore $n=24,30$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 80
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q14-root/label",
+                  "type": "item",
+                  "ref": "p13-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p13-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p13-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q14-root:row:0",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p13-q14a:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p13-q14a/label",
+                              "type": "item",
+                              "ref": "p13-q14a/label",
+                              "title": "Label a"
+                            },
+                            {
+                              "id": "layout:p13-q14a/prompt",
+                              "type": "item",
+                              "ref": "p13-q14a/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q14a/space",
+                              "type": "item",
+                              "ref": "p13-q14a/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part a",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p13-q14b:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p13-q14b/label",
+                              "type": "item",
+                              "ref": "p13-q14b/label",
+                              "title": "Label b"
+                            },
+                            {
+                              "id": "layout:p13-q14b/prompt",
+                              "type": "item",
+                              "ref": "p13-q14b/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q14b/space",
+                              "type": "item",
+                              "ref": "p13-q14b/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part b",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    },
+                    {
+                      "id": "p13-q14-root:row:2",
+                      "type": "group",
+                      "direction": "row",
+                      "children": [
+                        {
+                          "id": "p13-q14c:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p13-q14c/label",
+                              "type": "item",
+                              "ref": "p13-q14c/label",
+                              "title": "Label c"
+                            },
+                            {
+                              "id": "layout:p13-q14c/prompt",
+                              "type": "item",
+                              "ref": "p13-q14c/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q14c/space",
+                              "type": "item",
+                              "ref": "p13-q14c/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part c",
+                          "gap": 2
+                        },
+                        {
+                          "id": "p13-q14d:question",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p13-q14d/label",
+                              "type": "item",
+                              "ref": "p13-q14d/label",
+                              "title": "Label d"
+                            },
+                            {
+                              "id": "layout:p13-q14d/prompt",
+                              "type": "item",
+                              "ref": "p13-q14d/prompt",
+                              "title": "Text"
+                            },
+                            {
+                              "id": "layout:p13-q14d/space",
+                              "type": "item",
+                              "ref": "p13-q14d/space",
+                              "title": "Answer space"
+                            }
+                          ],
+                          "title": "Part d",
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 14",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:18:26.152Z",
+  "updatedAt": "2026-11-12T11:18:26.152Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part13-20261009",
+    "blockId": "p13-q14",
+    "sectionRole": "exercise"
+  }
+}

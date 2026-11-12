@@ -1,0 +1,269 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c662f7ff-a6f8-4649-ac53-b83bafa46902",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 97,
+    "difficulty": "Challenge",
+    "difficultyReason": "Translate both wizards' knowledge into ambiguity conditions on age partitions, identify the unique viable sum, and exclude every larger sum by extending counterexamples.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c2756ce91ae1a0e5a8b3b4387f8b42f7ef97a6b71a9d94a97c304b7bc7c40e73",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p11-q39-root",
+    "type": "question",
+    "label": "39",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p11-q39-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The following celebrated problem is from John Conway. He describes two wizards in conversation.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q39-dialogue-a",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Wizard A said “I have a number of children, whose ages are positive integers. The sum of their ages is the number of this bus, while the product is my own age.”",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q39-dialogue-b",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Wizard B looked at the bus number and said “How interesting! Perhaps if you told me your age and the number of your children, I could work out their individual ages?”",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q39-dialogue-a-reply",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Wizard A replied, “No, you could not.”",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q39-dialogue-b-reply",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Wizard B replied, “Now I know your age.”",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p11-q39-request",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "What is the number of the bus?",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p11-q39-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "12",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p11-q39-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Group the possible age lists by their length and product. Only bus number 12 leaves one possible age for Wizard A after his reply.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Let $N$ be the bus number. List the unordered positive-integer age lists with sum $N$, and group them by the number of children and the product of their ages.\n\nWizard A’s reply means that his group contains at least two different age lists. Wizard B’s reply means that all such ambiguous groups for this bus number have the same product.\n\nEnumerating the age lists for $N=1,2,\\ldots,11$ gives no ambiguous group. For $N=12$, the only ambiguous group is:\n$$\\begin{aligned}1+3+4+4&=12\\\\2+2+2+6&=12\\\\1\\times3\\times4\\times4&=48\\\\2\\times2\\times2\\times6&=48.\\end{aligned}$$\nBoth lists have four children, so Wizard A cannot distinguish them by giving his age and number of children. Wizard B can nevertheless deduce that Wizard A is 48.\n\nFor $N=13$, there are ambiguous groups with two different products:\n$$\\begin{aligned}1+6+6&=13\\\\2+2+9&=13\\\\1\\times6\\times6&=36\\\\2\\times2\\times9&=36,\\end{aligned}$$\nand the two lists $(1,1,3,4,4)$ and $(1,2,2,2,6)$ both have sum 13 and product 48. Wizard B therefore cannot determine Wizard A’s age.\n\nFor every $N>13$, append $N-13$ children aged 1 to each of these four lists. Their sums become $N$, their products remain 36 or 48, and each pair still has the same number of children. Thus every $N\\ge13$ has at least two possible ages for Wizard A.\n\nTherefore, the bus number is $12$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 180
+  },
+  "presentation": {
+    "ownerId": "p11-q39",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p11-q39": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p11-q39-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p11-q39-root/label",
+                  "type": "item",
+                  "ref": "p11-q39-root/label",
+                  "title": "Label 39"
+                },
+                {
+                  "id": "layout:p11-q39-root/prompt#p11-q39-introduction",
+                  "type": "item",
+                  "ref": "p11-q39-root/prompt#p11-q39-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q39-root/prompt#p11-q39-dialogue-a",
+                  "type": "item",
+                  "ref": "p11-q39-root/prompt#p11-q39-dialogue-a",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q39-root/prompt#p11-q39-dialogue-b",
+                  "type": "item",
+                  "ref": "p11-q39-root/prompt#p11-q39-dialogue-b",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q39-root/prompt#p11-q39-dialogue-a-reply",
+                  "type": "item",
+                  "ref": "p11-q39-root/prompt#p11-q39-dialogue-a-reply",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q39-root/prompt#p11-q39-dialogue-b-reply",
+                  "type": "item",
+                  "ref": "p11-q39-root/prompt#p11-q39-dialogue-b-reply",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q39-root/prompt#p11-q39-request",
+                  "type": "item",
+                  "ref": "p11-q39-root/prompt#p11-q39-request",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p11-q39-root/space",
+                  "type": "item",
+                  "ref": "p11-q39-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 39",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:35.254Z",
+  "updatedAt": "2026-11-12T11:15:35.254Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p11-q39",
+    "sectionRole": "exercise"
+  }
+}

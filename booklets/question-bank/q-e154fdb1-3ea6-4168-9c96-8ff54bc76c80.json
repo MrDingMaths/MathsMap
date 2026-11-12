@@ -1,0 +1,180 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e154fdb1-3ea6-4168-9c96-8ff54bc76c80",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-binomial-problems",
+    "secondarySkillIds": [
+      "binomial-probability-formula",
+      "probability-independent-events"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combines two binomial variables with different success probabilities and sums mutually exclusive pairs of outcomes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T01:13:32.848Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1092df3c852d305b3216464938da80af4a452b0f1918abf5b4187082bf1bc17b",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part11-20261009/semantic-packets/assignments/assignment-49fd916c2de867d582af/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Maverick and Loshi are playing darts. For any one shot, the probability that Maverick hits the bullseye is $\\frac{1}{4}$. The probability that Loshi hits the bullseye is $\\frac{1}{2}$. If each player has three shots, find the probability that:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "they hit the bullseye the same number of times",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{17}{64}$.\n\nSum the probabilities of both players scoring 0, 1, 2 or 3 bullseyes.",
+          "worked": "Let $M$ and $L$ be Maverick's and Loshi's numbers of bullseyes. Their shots are independent, with $M\\sim\\operatorname{Bin}(3,\\frac14)$ and $L\\sim\\operatorname{Bin}(3,\\frac12)$.\n\nFor $k=0,1,2,3$,\n$$P(M=k)=\\binom{3}{k}\\left(\\frac14\\right)^k\\left(\\frac34\\right)^{3-k},\\qquad P(L=k)=\\binom{3}{k}\\left(\\frac12\\right)^3.$$\nThe matching outcomes are $(0,0),(1,1),(2,2),(3,3)$.\n$$\\begin{align*}P(M=L)&=\\sum_{k=0}^{3}P(M=k)P(L=k)\\\\P(M=L)&=\\frac{27}{64}\\times\\frac18+\\frac{27}{64}\\times\\frac38+\\frac9{64}\\times\\frac38+\\frac1{64}\\times\\frac18\\\\P(M=L)&=\\frac{27+81+27+1}{512}\\\\P(M=L)&=\\frac{17}{64}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p37-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "they hit the bullseye a combined total of two times.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{171}{512}$.\n\nSum the probabilities of the pairs $(0,2)$, $(1,1)$ and $(2,0)$.",
+          "worked": "Let $M$ and $L$ be Maverick's and Loshi's numbers of bullseyes. Use the binomial probabilities with $n=3$, and success probabilities $\\frac14$ and $\\frac12$, respectively. The possible pairs are $(0,2),(1,1),(2,0)$.\n$$\\begin{align*}P(M+L=2)&=P(M=0)P(L=2)+P(M=1)P(L=1)+P(M=2)P(L=0)\\\\P(M+L=2)&=\\frac{27}{64}\\times\\frac38+\\frac{27}{64}\\times\\frac38+\\frac9{64}\\times\\frac18\\\\P(M+L=2)&=\\frac{81+81+9}{512}\\\\P(M+L=2)&=\\frac{171}{512}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q14",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p37-q14": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p37-q14-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p37-q14-root/label",
+                  "type": "item",
+                  "ref": "p37-q14-root/label",
+                  "title": "Label 14"
+                },
+                {
+                  "id": "layout:p37-q14-root/prompt",
+                  "type": "item",
+                  "ref": "p37-q14-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p37-q14-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p37-q14-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p37-q14-a/label",
+                          "type": "item",
+                          "ref": "p37-q14-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p37-q14-a/prompt",
+                          "type": "item",
+                          "ref": "p37-q14-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p37-q14-a/space",
+                          "type": "item",
+                          "ref": "p37-q14-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p37-q14-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p37-q14-b/label",
+                          "type": "item",
+                          "ref": "p37-q14-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p37-q14-b/prompt",
+                          "type": "item",
+                          "ref": "p37-q14-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p37-q14-b/space",
+                          "type": "item",
+                          "ref": "p37-q14-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 14",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:51.746Z",
+  "updatedAt": "2026-11-12T13:10:51.747Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p37-q14",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f0fbceab-9509-4b05-b828-f5ed6282bb02",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 94,
+    "difficulty": "Challenge",
+    "difficultyReason": "Choose consecutive remainder pairs as states, prove recurrence reversibility forces a return to the initial pair and turn that return into infinitely many divisible terms.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:38.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ee6f5cdfe076f3ef011beee4900f622f773de7f31cb9b8ea9e91745e8a858b47",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part13-20261009/cff6221670e4454b2c3d669177581171673c4424fd914263929122903301af76-1792558494106/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p8-q26-root",
+    "type": "question",
+    "label": "26",
+    "prompt": "Suppose $N\\in\\mathbb N$. Prove that there are infinitely many Fibonacci numbers that are divisible by $N$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "The consecutive Fibonacci pairs are periodic modulo $N$ and return to $(0,1)$.\n\nThus $F_{kt}\\equiv0\\pmod N$ for every positive integer $k$, where $t$ is a positive period.",
+      "worked": "Let $F_0=0$, $F_1=1$ and $F_{r+2}=F_{r+1}+F_r$. There are at most $N^2$ possible remainder pairs $(F_r,F_{r+1})$ modulo $N$, so a pair repeats.\nChoose a repeated pair with its first index $r$ as small as possible, and let the later index be $s>r$.\nIf $r>0$, then\n$$\\begin{align*}F_{r-1}&\\equiv F_{r+1}-F_r\\pmod N\\\\F_{r-1}&\\equiv F_{s+1}-F_s\\pmod N\\\\F_{r-1}&\\equiv F_{s-1}\\pmod N.\\end{align*}$$\nTogether with $F_r\\equiv F_s\\pmod N$, this gives an earlier repeated pair, contradicting the choice of $r$. Hence $r=0$.\nThus $(F_s,F_{s+1})\\equiv(F_0,F_1)\\pmod N$. The recurrence determines every later pair, so the remainders repeat with positive period $s$. In particular,\n$$F_{ks}\\equiv F_0\\equiv0\\pmod N\\qquad(k=1,2,\\ldots).$$\nThese give infinitely many Fibonacci numbers divisible by $N$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 95
+  },
+  "presentation": {
+    "ownerId": "p8-q26",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p8-q26": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p8-q26-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p8-q26-root/label",
+                  "type": "item",
+                  "ref": "p8-q26-root/label",
+                  "title": "Label 26"
+                },
+                {
+                  "id": "layout:p8-q26-root/prompt",
+                  "type": "item",
+                  "ref": "p8-q26-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p8-q26-root/space",
+                  "type": "item",
+                  "ref": "p8-q26-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 26",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:18:23.045Z",
+  "updatedAt": "2026-11-12T11:18:23.045Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part13-20261009",
+    "blockId": "p8-q26",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f6019f9b-c15f-4c62-811e-d3c1be044109",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "simplify-binomial-coefficient-expressions",
+    "secondarySkillIds": [
+      "arithmetic-sequence-nth-term"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hint supplies equal differences, but students must simplify adjacent binomial coefficients and reorganise the resulting algebra to identify an integer square.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:34.255Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "22335295164d3a4d3f0a86e2b1e2bff859e2a472072dd5fd5be649c4a97b9fb2",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/0396de4461817f8970ac6545bcc936d05c4badbc57b71e9cd3eaaf79c46e87f0-1792558473455/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p6-q18-root",
+    "type": "question",
+    "label": "18",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p6-q18-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The seventh row of Pascal’s Triangle is",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p6-q18-pascal-display",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "1\\quad 7\\quad 21\\quad 35\\quad 35\\quad 21\\quad 7\\quad 1.",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p6-q18-proof-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Notice that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "7,21,35",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is an arithmetic sequence of three terms. Prove that if ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\binom{n}{r-1},\\binom{n}{r},\\binom{n}{r+1}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is an arithmetic sequence of three terms, then ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "n+2",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is a perfect square.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p6-q18-hint-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Hint: Start by writing",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p6-q18-hint-equation",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\binom{n}{r}-\\binom{n}{r-1}=\\binom{n}{r+1}-\\binom{n}{r}.",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$n+2=(n-2r)^2$, so $n+2$ is a perfect square.\n\nExpress the binomial coefficients using factorials and equate the consecutive differences.",
+      "worked": "Using the factorial formula,\n$$\\begin{align*}\n\\binom{n}{r}-\\binom{n}{r-1}&=\\frac{n!}{r!(n-r)!}-\\frac{n!}{(r-1)!(n-r+1)!}\\\\\n\\binom{n}{r}-\\binom{n}{r-1}&=\\frac{n!}{(n-r)!(r-1)!}\\left(\\frac1r-\\frac1{n-r+1}\\right).\n\\end{align*}$$\nSimilarly,\n$$\\begin{align*}\n\\binom{n}{r+1}-\\binom{n}{r}&=\\frac{n!}{(r+1)!(n-r-1)!}-\\frac{n!}{r!(n-r)!}\\\\\n\\binom{n}{r+1}-\\binom{n}{r}&=\\frac{n!}{(n-r-1)!r!}\\left(\\frac1{r+1}-\\frac1{n-r}\\right).\n\\end{align*}$$\nThe consecutive differences are equal. Cancelling their common factorial factors gives\n$$\\frac1{n-r}\\left(\\frac1r-\\frac1{n-r+1}\\right)=\\frac1r\\left(\\frac1{r+1}-\\frac1{n-r}\\right).$$\nHence,\n$$\\begin{align*}\nr\\left(\\frac1r-\\frac1{n-r+1}\\right)&=(n-r)\\left(\\frac1{r+1}-\\frac1{n-r}\\right)\\\\\n1-\\frac{r}{n-r+1}&=\\frac{n-r}{r+1}-1\\\\\n\\frac{n-2r+1}{n-r+1}&=\\frac{n-2r-1}{r+1}\\\\\n(n-2r+1)(r+1)&=(n-2r-1)(n-r+1)\\\\\nnr+n-2r^2-r+1&=n^2-3nr+2r^2-r-1\\\\\nn+2&=n^2-4nr+4r^2\\\\\nn+2&=(n-2r)^2.\n\\end{align*}$$\nSince $n-2r$ is an integer, $n+2$ is a perfect square.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 145
+  },
+  "presentation": {
+    "ownerId": "p6-q18",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p6-q18": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p6-q18-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p6-q18-root/label",
+                  "type": "item",
+                  "ref": "p6-q18-root/label",
+                  "title": "Label 18"
+                },
+                {
+                  "id": "layout:p6-q18-root/prompt#p6-q18-introduction",
+                  "type": "item",
+                  "ref": "p6-q18-root/prompt#p6-q18-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p6-q18-root/prompt#p6-q18-pascal-display",
+                  "type": "item",
+                  "ref": "p6-q18-root/prompt#p6-q18-pascal-display",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p6-q18-root/prompt#p6-q18-proof-instruction",
+                  "type": "item",
+                  "ref": "p6-q18-root/prompt#p6-q18-proof-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p6-q18-root/prompt#p6-q18-hint-introduction",
+                  "type": "item",
+                  "ref": "p6-q18-root/prompt#p6-q18-hint-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p6-q18-root/prompt#p6-q18-hint-equation",
+                  "type": "item",
+                  "ref": "p6-q18-root/prompt#p6-q18-hint-equation",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p6-q18-root/space",
+                  "type": "item",
+                  "ref": "p6-q18-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 18",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:38.316Z",
+  "updatedAt": "2026-11-12T13:09:38.317Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p6-q18",
+    "sectionRole": "exercise"
+  }
+}

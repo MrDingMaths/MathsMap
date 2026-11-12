@@ -1,0 +1,265 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-abaf07e7-ed20-4f38-8d1f-9403e8df87b0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "sigma-notation",
+    "secondarySkillIds": [
+      "recurrence-relation-definition",
+      "factorise-index-expressions"
+    ],
+    "reasoningScore": 37,
+    "difficulty": "Development",
+    "difficultyReason": "Factor the difference of squares and apply the Fibonacci recurrence in both directions, then match indices and retain the endpoints in the telescoping sums. The supplied identities and 'hence' prompts scaffold the cancellation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:00.532Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "67227614b68126337b91df5eefded93f6f761ba17ddb72427e7f8a37c8aff3cf",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part12-20261009/3467693ea878524623b28501bc4a1a6e67c015d92cdc107b99fb46551db9a587-1792558488585/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p33-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "Consider the Fibonacci sequence, given by $F_{k+1}=F_k+F_{k-1}$ for $k\\ge2$, where the first two terms are $F_1=1$ and $F_2=1$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p33-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that\n$$F_{k+1}^{2}-F_k^{2}=F_{k-1}F_{k+2}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F_{k+1}^{2}-F_k^{2}=(F_{k+1}-F_k)(F_{k+1}+F_k)=F_{k-1}F_{k+2}$.",
+          "worked": "Using the Fibonacci recurrence,\n$$\\begin{align*}F_{k+1}^{2}-F_k^{2}&=(F_{k+1}-F_k)(F_{k+1}+F_k)\\\\F_{k+1}^{2}-F_k^{2}&=F_{k-1}F_{k+2}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p33-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, simplify\n$$F_1F_4+F_2F_5+\\cdots+F_{n-1}F_{n+2}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$F_{n+1}^{2}-1$.\n\nUse part (a) to write each product as a difference of consecutive squares; the intermediate terms cancel.",
+          "worked": "Apply part (a) for $k=2,3,\\ldots,n$:\n$$\\begin{align*}F_1F_4+F_2F_5+\\cdots+F_{n-1}F_{n+2}&=(F_3^2-F_2^2)+(F_4^2-F_3^2)+\\cdots+(F_{n+1}^2-F_n^2)\\\\F_1F_4+F_2F_5+\\cdots+F_{n-1}F_{n+2}&=F_{n+1}^2-F_2^2\\\\F_1F_4+F_2F_5+\\cdots+F_{n-1}F_{n+2}&=F_{n+1}^2-1.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p33-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that\n$$\\frac1{F_k}-\\frac1{F_{k+1}}=\\frac{F_{k-1}}{F_kF_{k+1}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac1{F_k}-\\dfrac1{F_{k+1}}=\\dfrac{F_{k+1}-F_k}{F_kF_{k+1}}=\\dfrac{F_{k-1}}{F_kF_{k+1}}$.",
+          "worked": "$$\\begin{align*}\\frac1{F_k}-\\frac1{F_{k+1}}&=\\frac{F_{k+1}-F_k}{F_kF_{k+1}}\\\\\\frac1{F_k}-\\frac1{F_{k+1}}&=\\frac{F_{k-1}}{F_kF_{k+1}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p33-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence, simplify\n$$\\frac{F_1}{F_2F_3}+\\frac{F_2}{F_3F_4}+\\cdots+\\frac{F_{n-1}}{F_nF_{n+1}}.$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1-\\dfrac1{F_{n+1}}$.\n\nUse part (c) to write each term as a difference of reciprocals; the intermediate terms cancel.",
+          "worked": "Apply part (c) for $k=2,3,\\ldots,n$:\n$$\\begin{align*}\\frac{F_1}{F_2F_3}+\\frac{F_2}{F_3F_4}+\\cdots+\\frac{F_{n-1}}{F_nF_{n+1}}&=\\left(\\frac1{F_2}-\\frac1{F_3}\\right)+\\left(\\frac1{F_3}-\\frac1{F_4}\\right)+\\cdots+\\left(\\frac1{F_n}-\\frac1{F_{n+1}}\\right)\\\\\\frac{F_1}{F_2F_3}+\\frac{F_2}{F_3F_4}+\\cdots+\\frac{F_{n-1}}{F_nF_{n+1}}&=\\frac1{F_2}-\\frac1{F_{n+1}}\\\\\\frac{F_1}{F_2F_3}+\\frac{F_2}{F_3F_4}+\\cdots+\\frac{F_{n-1}}{F_nF_{n+1}}&=1-\\frac1{F_{n+1}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p33-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p33-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p33-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p33-q11-root/label",
+                  "type": "item",
+                  "ref": "p33-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p33-q11-root/prompt",
+                  "type": "item",
+                  "ref": "p33-q11-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p33-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p33-q11-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11-a/label",
+                          "type": "item",
+                          "ref": "p33-q11-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p33-q11-a/prompt",
+                          "type": "item",
+                          "ref": "p33-q11-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11-a/space",
+                          "type": "item",
+                          "ref": "p33-q11-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11-b/label",
+                          "type": "item",
+                          "ref": "p33-q11-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p33-q11-b/prompt",
+                          "type": "item",
+                          "ref": "p33-q11-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11-b/space",
+                          "type": "item",
+                          "ref": "p33-q11-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11-c/label",
+                          "type": "item",
+                          "ref": "p33-q11-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p33-q11-c/prompt",
+                          "type": "item",
+                          "ref": "p33-q11-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11-c/space",
+                          "type": "item",
+                          "ref": "p33-q11-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p33-q11-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p33-q11-d/label",
+                          "type": "item",
+                          "ref": "p33-q11-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p33-q11-d/prompt",
+                          "type": "item",
+                          "ref": "p33-q11-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p33-q11-d/space",
+                          "type": "item",
+                          "ref": "p33-q11-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:10:34.047Z",
+  "updatedAt": "2026-11-12T13:10:34.048Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part12-20261009",
+    "blockId": "p33-q11",
+    "sectionRole": "exercise"
+  }
+}

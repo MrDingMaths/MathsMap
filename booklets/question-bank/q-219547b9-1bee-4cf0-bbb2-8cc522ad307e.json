@@ -1,0 +1,171 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-219547b9-1bee-4cf0-bbb2-8cc522ad307e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 85,
+    "difficulty": "Challenge",
+    "difficultyReason": "Invent a collection of repunits whose equal remainders yield a difference containing only ones and zeros, then use coprimality to cancel its trailing power of ten.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:38.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "67397da3e5885c6df631757e6bb0581149662209fd8083cbabfd6f0123102937",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part13-20261009/cff6221670e4454b2c3d669177581171673c4424fd914263929122903301af76-1792558494106/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p8-q28-root",
+    "type": "question",
+    "label": "28",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p8-q28-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that for any positive integer $n$ there exists a multiple of $n$ that consists only of 1s and 0s.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Two of $1,11,111,\\ldots$ with up to $n+1$ digits have the same remainder modulo $n$.\n\nTheir positive difference is a multiple of $n$ consisting of 1s followed by 0s.",
+          "worked": "Let $R_k$ be the integer consisting of $k$ digits, all 1. Consider $R_1,\\ldots,R_{n+1}$. There are only $n$ possible remainders modulo $n$, so the pigeonhole principle gives $R_i\\equiv R_j\\pmod n$ for some $i<j$.\n$$\\begin{align*}R_j-R_i&\\equiv0\\pmod n\\\\R_j-R_i&=10^iR_{j-i}.\\end{align*}$$\nThis positive difference consists of $j-i$ digits equal to 1 followed by $i$ digits equal to 0. It is the required multiple of $n$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p8-q28-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that if $n$ is coprime to 2 and 5, then there exists a multiple of $n$ that consists only of 1s.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "From part (a), $n\\mid10^iR$ for an integer $R$ consisting only of 1s.\n\nSince $\\gcd(n,10^i)=1$, it follows that $n\\mid R$.",
+          "worked": "By part (a), there is a positive multiple of $n$ of the form $10^iR$, where $R$ consists only of 1s.\nSince $n$ is coprime to 2 and 5, it is coprime to $10^i$. Hence $n\\mid10^iR$ gives $n\\mid R$. Thus $R$ is a multiple of $n$ consisting only of 1s.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p8-q28",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p8-q28": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p8-q28-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p8-q28-root/label",
+                  "type": "item",
+                  "ref": "p8-q28-root/label",
+                  "title": "Label 28"
+                },
+                {
+                  "id": "p8-q28-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p8-q28-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p8-q28-a/label",
+                          "type": "item",
+                          "ref": "p8-q28-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p8-q28-a/prompt",
+                          "type": "item",
+                          "ref": "p8-q28-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p8-q28-a/space",
+                          "type": "item",
+                          "ref": "p8-q28-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p8-q28-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p8-q28-b/label",
+                          "type": "item",
+                          "ref": "p8-q28-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p8-q28-b/prompt",
+                          "type": "item",
+                          "ref": "p8-q28-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p8-q28-b/space",
+                          "type": "item",
+                          "ref": "p8-q28-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 28",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:18:23.229Z",
+  "updatedAt": "2026-11-12T11:18:23.229Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part13-20261009",
+    "blockId": "p8-q28",
+    "sectionRole": "exercise"
+  }
+}

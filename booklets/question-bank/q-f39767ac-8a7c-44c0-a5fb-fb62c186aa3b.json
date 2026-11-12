@@ -1,0 +1,321 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f39767ac-8a7c-44c0-a5fb-fb62c186aa3b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "add-subtract-integers"
+    ],
+    "reasoningScore": 84,
+    "difficulty": "Challenge",
+    "difficultyReason": "Generalise the parity obstruction to classify n modulo 4, then establish sufficiency by discovering a construction that extends equal-sum partitions in blocks of four.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5c3e9fd94d10aa5eaae2696dfab33d1f658b9c2f7c5d75367d1e1ff8c98228af",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p7-q11-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p7-q11-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "We can partition the set ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\{1,2,3,4,5,6,7\\}",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " into two sets with the same sum. For example:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p7-q11-example",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "1+6+7=2+3+4+5",
+              "display": false
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p7-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Partition $\\{1,2,3,4,5,6,7,8\\}$ into two sets with the same sum.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\{1,2,7,8\\}$ and $\\{3,4,5,6\\}$; both sums are $18$.",
+          "worked": "$$\\begin{align*}1+2+7+8&=18\\\\3+4+5+6&=18\\end{align*}$$\nThe sets $\\{1,2,7,8\\}$ and $\\{3,4,5,6\\}$ use each number exactly once and have the same sum.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p7-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $\\{1,2,3,4,5,6,7,8,9\\}$ cannot be partitioned into two sets with the same sum.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Impossible: the total is $45$, which is odd, so it cannot be divided into two equal integer sums.",
+          "worked": "$$\\begin{align*}1+2+3+4+5+6+7+8+9&=(1+9)+(2+8)+(3+7)+(4+6)+5\\\\1+2+3+4+5+6+7+8+9&=45\\end{align*}$$\nTwo equal integer sums would have an even total. Since $45$ is odd, the required partition is impossible.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p7-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Determine the values of $n$ for which it is possible to partition $\\{1,2,\\ldots,n\\}$ into two sets with the same sum.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p7-q11-c-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "n=4k\\ (k\\geq1)\\quad\\text{or}\\quad n=4k+3\\ (k\\geq0)",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", where k is an integer.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p7-q11-c-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The total must be even. Start with an equal-sum partition for 3 or 4 numbers, then extend it by balancing each next group of four.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Pairing the first and last numbers gives the total\n$$1+2+\\cdots+n=\\frac{n(n+1)}{2}.$$\nFor two equal integer sums, this total must be even, so $n(n+1)$ must be divisible by $4$. Of the consecutive integers $n$ and $n+1$, one is odd, so the even one must be divisible by $4$. Thus $n=4k$ or $n=4k+3$.\n\nThese values are possible. The starting partitions are\n$$1+2=3,\\qquad 1+4=2+3.$$\nIf a partition works through $t$, split the next four numbers between the two sets as follows:\n$$\\begin{align*}(t+1)+(t+4)&=2t+5\\\\(t+2)+(t+3)&=2t+5.\\end{align*}$$\nAdding one pair to each set preserves equal sums. Repeating this construction gives every $n=4k$ with $k\\geq1$ and every $n=4k+3$ with $k\\geq0$. The remaining values, $n=4k+1$ and $n=4k+2$, have odd totals and are impossible.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 116
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q11-root/label",
+                  "type": "item",
+                  "ref": "p7-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p7-q11-root/prompt#p7-q11-introduction",
+                  "type": "item",
+                  "ref": "p7-q11-root/prompt#p7-q11-introduction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p7-q11-root/prompt#p7-q11-example",
+                  "type": "item",
+                  "ref": "p7-q11-root/prompt#p7-q11-example",
+                  "title": "Text"
+                },
+                {
+                  "id": "p7-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p7-q11-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q11-a/label",
+                          "type": "item",
+                          "ref": "p7-q11-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p7-q11-a/prompt",
+                          "type": "item",
+                          "ref": "p7-q11-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q11-a/space",
+                          "type": "item",
+                          "ref": "p7-q11-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p7-q11-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q11-b/label",
+                          "type": "item",
+                          "ref": "p7-q11-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p7-q11-b/prompt",
+                          "type": "item",
+                          "ref": "p7-q11-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q11-b/space",
+                          "type": "item",
+                          "ref": "p7-q11-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p7-q11-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q11-c/label",
+                          "type": "item",
+                          "ref": "p7-q11-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p7-q11-c/prompt",
+                          "type": "item",
+                          "ref": "p7-q11-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q11-c/space",
+                          "type": "item",
+                          "ref": "p7-q11-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:30.185Z",
+  "updatedAt": "2026-11-12T11:14:30.186Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p7-q11",
+    "sectionRole": "exercise"
+  }
+}

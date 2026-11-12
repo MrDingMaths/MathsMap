@@ -1,0 +1,207 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fa47bcb8-d461-4645-b3cc-30f5f502092f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "permutations-not-distinct",
+    "secondarySkillIds": [
+      "multiplication-principle"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Represent shortest grid paths as arrangements of repeated steps and multiply counts for paths through the centre.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-09T00:22:28.744Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "414904f37da0119454d134dcc27f91a817614dc7d51641a0e8f5f9542a1a90c1",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part10-20261009/semantic-packets/assignments/assignment-12ad3ba9f8dbb5310802/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p13-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "The $4\\times4$ grid below is formed of unit squares.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q8-grid",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 13, p13-q8-grid\"}\n\\begin{tikzpicture}[x=8mm,y=8mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.25pt,step=1] (0,0) grid (4,4);\n\\draw[black,line width=0.8pt] (0,0) rectangle (4,4);\n\\node[black,anchor=south east,font=\\fontsize{10}{12}\\selectfont] at (0,4) {$A$};\n\\node[black,anchor=north west,font=\\fontsize{10}{12}\\selectfont] at (4,0) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 8, upper left column",
+          "description": "Four-by-four unshaded unit-square grid. Native TikZ is used because the blank-grid template does not provide the required corner labels A and B.",
+          "mathematics": "A is the top-left vertex; B is the bottom-right vertex. The centre is the unmarked intersection two units right and two units down from A.",
+          "answerVisibility": "Only the supplied grid and corner labels are visible; no paths or centre marker are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "By travelling only right (R) and down (D), how many paths are there from $A$ to $B$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$70$",
+          "worked": "Each path contains four R steps and four D steps. These are arrangements of eight objects with two groups of four identical objects.\n$$\\begin{align*}\nN&=\\frac{8!}{4!4!}\\\\\nN&=70.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p13-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many of these paths pass through the centre of the grid?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$36$\n\nMultiply the numbers of paths to and from the centre.",
+          "worked": "From $A$ to the centre, each path contains two R steps and two D steps. The same counts apply from the centre to $B$.\n$$\\begin{align*}\nN_{\\text{each half}}&=\\frac{4!}{2!2!}\\\\\nN_{\\text{each half}}&=6\\\\\nN_{\\text{through centre}}&=6\\times6\\\\\nN_{\\text{through centre}}&=36.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q8-root/label",
+                  "type": "item",
+                  "ref": "p13-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p13-q8-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q8-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p13-q8-grid",
+                  "type": "item",
+                  "ref": "p13-q8-grid",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p13-q8-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q8-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q8-a/label",
+                          "type": "item",
+                          "ref": "p13-q8-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p13-q8-a/prompt",
+                          "type": "item",
+                          "ref": "p13-q8-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q8-a/space",
+                          "type": "item",
+                          "ref": "p13-q8-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p13-q8-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q8-b/label",
+                          "type": "item",
+                          "ref": "p13-q8-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p13-q8-b/prompt",
+                          "type": "item",
+                          "ref": "p13-q8-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p13-q8-b/space",
+                          "type": "item",
+                          "ref": "p13-q8-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:34.829Z",
+  "updatedAt": "2026-11-12T13:09:34.829Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p13-q8",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-35e5c70d-5e91-44ec-b475-0df5ceee9539",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires identifying an invariant in the alternating board colours and using it to rule out every domino covering.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T13:22:12.915Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "54606180af4fbd7305d982e9f9d5be613be390f2043539b6f55bf5244c7a49cf",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part6-20261008/semantic-packets/assignments/assignment-8efa64ce05c66d0a90f2/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p3-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "A standard $8\\times8$ chessboard has two diagonally opposite corners removed, leaving 62 squares. Is it possible to place 31 dominoes of size $2\\times1$ so as to cover all of the remaining squares?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p3-q14-board",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"boardRed\",\"hex\":\"EF6068\",\"reason\":\"Alternating square class; both removed corners belong to this class.\"}],\"reference\":\"source page 3, p3-q14-board\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{boardRed}{HTML}{EF6068}\n\\foreach \\x in {0,...,7}{\n  \\foreach \\y in {0,...,7}{\n    \\pgfmathtruncatemacro{\\cellindex}{\\x+8*\\y}\n    \\ifnum\\cellindex=56\\relax\n    \\else\n      \\ifnum\\cellindex=7\\relax\n      \\else\n        \\pgfmathtruncatemacro{\\parity}{mod(\\x+\\y,2)}\n        \\ifnum\\parity=1\\relax\n          \\fill[boardRed] (\\x,\\y) rectangle ++(1,1);\n        \\else\n          \\fill[black] (\\x,\\y) rectangle ++(1,1);\n        \\fi\n      \\fi\n    \\fi\n  }\n}\n\\begin{scope}[shift={(-0.7,8.75)},rotate=20]\n\\fill[boardRed] (-0.5,-0.5) rectangle (0.5,0.5);\n\\end{scope}\n\\begin{scope}[shift={(8.45,-0.9)},rotate=-25]\n\\fill[boardRed] (-0.5,-0.5) rectangle (0.5,0.5);\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 3,
+          "sourceRegion": "Right column, question 14, chessboard beneath the stem.",
+          "description": "Eight aligned rows and columns with alternating black and red squares; upper-left and lower-right corners are absent and shown as rotated detached red squares.",
+          "mathematics": "The two removed corners have the same colour. The remaining board has 32 black squares and 30 red squares. Every edge-adjacent pair contains one square of each colour.",
+          "answerVisibility": "The question diagram preserves only the supplied board and detached corners; no counts or solution annotations are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p3-q14-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "No.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p3-q14-short-reason",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The board has 32 black and 30 red squares, but each domino covers one of each colour.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "An intact board has 32 squares of each colour. Both removed corners are red, leaving 32 black squares and 30 red squares.\n\nEvery $2\\times1$ domino covers two adjacent squares, one black and one red. Therefore, 31 dominoes would cover 31 squares of each colour. The remaining board has unequal colour counts, so a covering is impossible.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 44
+  },
+  "presentation": {
+    "ownerId": "p3-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:12.708Z",
+  "updatedAt": "2026-11-12T11:15:12.708Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p3-q14",
+    "sectionRole": "exercise"
+  }
+}

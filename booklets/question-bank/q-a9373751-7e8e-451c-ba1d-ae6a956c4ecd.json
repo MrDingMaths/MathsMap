@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a9373751-7e8e-451c-ba1d-ae6a956c4ecd",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinations-nCr",
+    "secondarySkillIds": [],
+    "reasoningScore": 92,
+    "difficulty": "Challenge",
+    "difficultyReason": "Discover that four boundary points specify each interior intersection and connect chord intersections to region counts through Euler’s formula or an equivalent incremental argument.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:48.498Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1339b8f473579e73b284589f0594f0d8ff27f884bff53d38a9e5f2d4f8a42b4e",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part10-20261009/c7339c8f662c5a3799be7173d4d18c9de0cfb2eb394886b40aca7abb77dbfba6-1792558414389/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Consider a circle on which $n$ distinct points are marked. Every point is connected to every other point by a chord. The $n$ points are positioned in such a manner that no three chords are concurrent inside the circle. Determine how many regions the circle is divided into by these chords.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p20-q12-short-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "R(n)=1+\\binom{n}{2}+\\binom{n}{4}",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p20-q12-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Count one interior intersection for each selection of four points, then apply Euler’s formula.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Each selection of four points determines exactly one intersection of two chords inside the circle. Since no three chords meet at an interior point, there are $\\binom{n}{4}$ distinct interior intersections.\n\nInclude the circle’s boundary arcs as edges. For $n\\ge4$, the number of vertices is\n$$V=n+\\binom{n}{4}.$$\nFour edges meet at each interior intersection. At each marked boundary point, $n-1$ chords and two boundary arcs meet. Counting each edge at both ends gives\n$$E=\\frac{4\\binom{n}{4}+n(n+1)}{2}.$$\nEuler’s formula is $F-E+V=2$. Excluding the exterior face gives\n$$\\begin{align*}R(n)&=E-V+1\\\\R(n)&=\\frac{4\\binom{n}{4}+n(n+1)}{2}-\\left(n+\\binom{n}{4}\\right)+1\\\\R(n)&=\\binom{n}{4}+\\frac{n(n-1)}{2}+1\\\\R(n)&=\\binom{n}{4}+\\binom{n}{2}+1.\\end{align*}$$\nFor $n=1,2,3$, direct counting gives $1,2,4$ regions respectively, also agreeing with this formula when $\\binom{n}{4}=0$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p20-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q12-root/label",
+                  "type": "item",
+                  "ref": "p20-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p20-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q12-root/space",
+                  "type": "item",
+                  "ref": "p20-q12-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:53.122Z",
+  "updatedAt": "2026-11-12T13:09:53.123Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p20-q12",
+    "sectionRole": "exercise"
+  }
+}

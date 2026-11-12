@@ -1,0 +1,124 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-05a71934-a9f1-4eee-abaf-ac39d39f8cdd",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "multiplication-principle"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combines repeated parity reasoning with counting distinct arrangements.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T13:22:02.503Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5e8421431f26bb04aef2d42658174a385a8bd05ef7799e61a2f124a808cd9b2f",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-1-part6-20261008/semantic-packets/assignments/assignment-fa57f6d9a8adfdd4f0d9/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p3-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "There are 120 different ways of arranging the numbers 2, 3, 4, 5 and 6 along the base of the triangle below. Every other entry is the sum of the two entries immediately below it.\n\nHow many ways are there to arrange the five numbers in the bottom row so that the top-most number is odd?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p3-q13-triangle",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"inputRed\",\"hex\":\"EF6068\",\"reason\":\"given bottom-row inputs\"},{\"name\":\"sumBlue\",\"hex\":\"268CFF\",\"reason\":\"derived sums above the inputs\"}],\"reference\":\"source page 3, p3-q13-triangle\"}\n\\begin{tikzpicture}[x=14mm,y=14mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{inputRed}{HTML}{EF6068}\n\\definecolor{sumBlue}{HTML}{268CFF}\n\\tikzset{sum/.style={circle,draw=sumBlue,line width=0.8pt,minimum size=10mm,inner sep=0pt},input/.style={circle,draw=inputRed,line width=0.8pt,minimum size=10mm,inner sep=0pt}}\n\\node[sum] at (2,4) {71};\n\\node[sum] at (1.5,3) {32};\n\\node[sum] at (2.5,3) {39};\n\\node[sum] at (1,2) {13};\n\\node[sum] at (2,2) {19};\n\\node[sum] at (3,2) {20};\n\\node[sum] at (0.5,1) {5};\n\\node[sum] at (1.5,1) {8};\n\\node[sum] at (2.5,1) {11};\n\\node[sum] at (3.5,1) {9};\n\\node[input] at (0,0) {3};\n\\node[input] at (1,0) {2};\n\\node[input] at (2,0) {6};\n\\node[input] at (3,0) {5};\n\\node[input] at (4,0) {4};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 40.7,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 3,
+          "sourceRegion": "Bottom of left column, question 13",
+          "description": "Five-row triangular array; each upper circle is centred between its two inputs. Red outlines distinguish bottom-row inputs and blue outlines distinguish derived sums. Source solid fills and white text are replaced by unfilled circles with black labels under house style.",
+          "mathematics": "Rows from top to bottom: 71; 32,39; 13,19,20; 5,8,11,9; 3,2,6,5,4. Each upper entry is the sum of the adjacent entries immediately below.",
+          "answerVisibility": "All entries are permanent supplied givens, visible in the question edition."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "72 ways.\n\nThere are six suitable parity patterns, with $6\\times2=12$ arrangements for each.",
+      "worked": "Write E for even and O for odd. Apply the addition rules to each successive row. The six bottom-row parity patterns giving an odd top entry are:\n\n- E, E, E, O, O\n- E, E, O, E, O\n- O, O, E, E, E\n- E, O, E, E, O\n- O, E, O, E, E\n- O, E, E, O, E\n\nFor each pattern, the three even numbers 2, 4 and 6 can occupy their positions in $3\\times2\\times1=6$ ways. The two odd numbers 3 and 5 can occupy their positions in $2\\times1=2$ ways.\n\n$$\\begin{align*}\\text{Number of arrangements}&=6\\times6\\times2\\\\\\text{Number of arrangements}&=72.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 108
+  },
+  "presentation": {
+    "ownerId": "p3-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q13-root/label",
+                  "type": "item",
+                  "ref": "p3-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p3-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p3-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p3-q13-triangle",
+                  "type": "item",
+                  "ref": "p3-q13-triangle",
+                  "title": "Diagram",
+                  "width": 40.7
+                },
+                {
+                  "id": "layout:p3-q13-root/space",
+                  "type": "item",
+                  "ref": "p3-q13-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 13",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:12.400Z",
+  "updatedAt": "2026-11-12T11:15:12.400Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p3-q13",
+    "sectionRole": "exercise"
+  }
+}

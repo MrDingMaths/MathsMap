@@ -1,0 +1,95 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e3d28180-31c6-494c-a372-3cdf3bb07c44",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "proof-terminology",
+    "secondarySkillIds": [
+      "square-cube-roots"
+    ],
+    "reasoningScore": 91,
+    "difficulty": "Challenge",
+    "difficultyReason": "Devise an unsignposted digit-count bound that excludes arbitrarily large integers, justify it for all larger digit counts, then exhaust the remaining square candidates.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:34.287Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "24eb358cf8001bc49eda7713bcf8ef0b723b87ab8611a5822ea0625f5b016af6",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part8-20261008/d036a47a082e43c9a8b2e95714b3b329c37ce723a820f371713f7f888e815f1f-1792558387216/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p5-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "The integers $0$, $1$ and $81$ have a square root that equals the sum of their digits. For example,\n$$\\sqrt{81}=8+1.$$\nProve that there are no further examples.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Only $0$, $1$ and $81$.\n\nBound the digit sum to reduce the problem to squares $k^2$ with $0\\le k\\le36$, then check those squares.",
+      "worked": "Write $s(N)$ for the sum of the decimal digits of $N$. If $\\sqrt N=s(N)$, then $N=k^2$ for a nonnegative integer $k$.\n\nFor a $d$-digit integer with $d\\ge5$,\n$$\\sqrt N\\ge10^{(d-1)/2},\\qquad s(N)\\le9d.$$\nAt $d=5$, $10^{(d-1)/2}=100>45=9d$. Increasing $d$ by one multiplies the left bound by $\\sqrt{10}$, whereas $9d$ increases by the factor $\\frac{d+1}{d}\\le\\frac65<\\sqrt{10}$. Thus $\\sqrt N>s(N)$ for every $d\\ge5$.\n\nFor numbers with at most four digits, $s(N)\\le36$. Hence a solution has $k\\le36$ and $N\\le1296$.\n\nTo shorten the finite check, a number and its digit sum have the same remainder on division by $9$. Therefore $k^2-k=k(k-1)$ is divisible by $9$. Since consecutive integers have no common factor, $k$ has remainder $0$ or $1$ on division by $9$. For $0\\le k\\le36$, the possibilities are\n$$k=0,1,9,10,18,19,27,28,36.$$\nTheir squares are respectively\n$$0,1,81,100,324,361,729,784,1296,$$\nand the corresponding digit sums are\n$$0,1,9,1,9,10,18,19,18.$$\nOnly $k=0,1,9$ equals the corresponding digit sum. Thus the only examples are $N=0,1,81$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 166
+  },
+  "presentation": {
+    "ownerId": "p5-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p5-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p5-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p5-q12-root/label",
+                  "type": "item",
+                  "ref": "p5-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p5-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p5-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p5-q12-root/space",
+                  "type": "item",
+                  "ref": "p5-q12-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:15:59.387Z",
+  "updatedAt": "2026-11-12T11:15:59.387Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part8-20261008",
+    "blockId": "p5-q12",
+    "sectionRole": "exercise"
+  }
+}

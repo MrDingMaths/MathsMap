@@ -1,0 +1,421 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3afa6636-4d60-4992-9d19-8de41d8e3a6f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "permutations-not-distinct"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate returning to the origin into balanced opposite-direction counts, enumerate all possible balances, and sum repeated-direction permutation counts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:48.498Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fa8d17a158c719b97d3273078e4c656bddd8ca5cc5dba0589d3ccec911882c62",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part10-20261009/c7339c8f662c5a3799be7173d4d18c9de0cfb2eb394886b40aca7abb77dbfba6-1792558414389/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "A beetle walks north (N), east (E), south (S) or west (W), one unit at a time on a square grid.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q12-grid",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source PDF page 13, p13-q12-grid\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.25pt,dotted,step=1] (-4,-4) grid (4,4);\n\\draw[black,line width=0.5pt,<->] (-4,0)--(4,0);\n\\draw[black,line width=0.5pt,<->] (0,-4)--(0,4);\n\\node[above,font=\\fontsize{10}{12}\\selectfont] at (0,4) {$N$};\n\\node[right,font=\\fontsize{10}{12}\\selectfont] at (4,0) {$E$};\n\\node[below,font=\\fontsize{10}{12}\\selectfont] at (0,-4) {$S$};\n\\node[left,font=\\fontsize{10}{12}\\selectfont] at (-4,0) {$W$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 60,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Right column, question 12 direction grid",
+          "description": "Unshaded eight-by-eight dotted grid with central horizontal and vertical direction arrows. A blank-grid template cannot express the central arrows and four direction labels.",
+          "mathematics": "Unit grid; opposing north/south and east/west directions intersect at the origin. The displayed boundary imposes no restriction on paths.",
+          "answerVisibility": "Permanent given diagram; no answer marks."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q12-lengths",
+        "type": "group",
+        "label": null,
+        "prompt": "Determine how many paths start and finish at $(0,0)$ given that they have length:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p13-q12-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "$2$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$4$",
+              "worked": "The steps must be one N and one S, or one E and one W.\n$$\\begin{align*}T_2&=\\frac{2!}{1!1!}+\\frac{2!}{1!1!}\\\\T_2&=2+2\\\\T_2&=4.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p13-q12-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "$4$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$36$",
+              "worked": "Returning to the origin requires equal numbers of N and S steps, and equal numbers of E and W steps. The counts $(N,S,E,W)$ are $(0,0,2,2)$, $(1,1,1,1)$ or $(2,2,0,0)$.\n$$\\begin{align*}T_4&=\\frac{4!}{2!2!}+\\frac{4!}{1!1!1!1!}+\\frac{4!}{2!2!}\\\\T_4&=6+24+6\\\\T_4&=36.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 40
+          },
+          {
+            "id": "p13-q12-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "$6$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": {
+                "format": "maths-editor-document-v1",
+                "version": 1,
+                "blocks": [
+                  {
+                    "id": "p13-q12-c-short-result",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "math",
+                        "latex": "400",
+                        "display": false
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p13-q12-c-short-method",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Sum repeated-direction arrangements over all balanced step counts.",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "worked": "Let there be $k$ N steps and $k$ S steps. There must then be $3-k$ E steps and $3-k$ W steps, where $k=0,1,2,3$.\n$$\\begin{align*}T_6&=2\\left(\\frac{6!}{3!3!}\\right)+2\\left(\\frac{6!}{1!1!2!2!}\\right)\\\\T_6&=2(20)+2(180)\\\\T_6&=400.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 50
+          },
+          {
+            "id": "p13-q12-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "$8$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": {
+                "format": "maths-editor-document-v1",
+                "version": 1,
+                "blocks": [
+                  {
+                    "id": "p13-q12-d-short-result",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "math",
+                        "latex": "4900",
+                        "display": false
+                      }
+                    ]
+                  },
+                  {
+                    "id": "p13-q12-d-short-method",
+                    "type": "paragraph",
+                    "fontSize": null,
+                    "align": "left",
+                    "spaceBefore": 0,
+                    "spaceAfter": 2,
+                    "lineHeight": 1.4,
+                    "indent": 0,
+                    "inlines": [
+                      {
+                        "type": "text",
+                        "text": "Sum repeated-direction arrangements over all balanced step counts.",
+                        "marks": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              "worked": "Let there be $k$ N steps and $k$ S steps. There must then be $4-k$ E steps and $4-k$ W steps, where $k=0,1,2,3,4$. Interchanging horizontal and vertical directions gives equal counts for paired cases.\n$$\\begin{align*}T_8&=2\\left(\\frac{8!}{4!4!}\\right)+2\\left(\\frac{8!}{1!1!3!3!}\\right)+\\frac{8!}{2!2!2!2!}\\\\T_8&=2(70)+2(1120)+2520\\\\T_8&=4900.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 60
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q12",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p13-q12": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p13-q12-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p13-q12-root/label",
+                  "type": "item",
+                  "ref": "p13-q12-root/label",
+                  "title": "Label 12"
+                },
+                {
+                  "id": "layout:p13-q12-root/prompt",
+                  "type": "item",
+                  "ref": "p13-q12-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p13-q12-grid",
+                  "type": "item",
+                  "ref": "p13-q12-grid",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p13-q12-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p13-q12-lengths:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p13-q12-lengths/prompt",
+                          "type": "item",
+                          "ref": "p13-q12-lengths/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p13-q12-lengths:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p13-q12-lengths:row:0",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p13-q12-a:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q12-a/label",
+                                      "type": "item",
+                                      "ref": "p13-q12-a/label",
+                                      "title": "Label a"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-a/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q12-a/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-a/space",
+                                      "type": "item",
+                                      "ref": "p13-q12-a/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part a",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p13-q12-b:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q12-b/label",
+                                      "type": "item",
+                                      "ref": "p13-q12-b/label",
+                                      "title": "Label b"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-b/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q12-b/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-b/space",
+                                      "type": "item",
+                                      "ref": "p13-q12-b/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part b",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            },
+                            {
+                              "id": "p13-q12-lengths:row:2",
+                              "type": "group",
+                              "direction": "row",
+                              "children": [
+                                {
+                                  "id": "p13-q12-c:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q12-c/label",
+                                      "type": "item",
+                                      "ref": "p13-q12-c/label",
+                                      "title": "Label c"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-c/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q12-c/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-c/space",
+                                      "type": "item",
+                                      "ref": "p13-q12-c/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part c",
+                                  "gap": 1
+                                },
+                                {
+                                  "id": "p13-q12-d:question",
+                                  "type": "group",
+                                  "direction": "stack",
+                                  "children": [
+                                    {
+                                      "id": "layout:p13-q12-d/label",
+                                      "type": "item",
+                                      "ref": "p13-q12-d/label",
+                                      "title": "Label d"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-d/prompt",
+                                      "type": "item",
+                                      "ref": "p13-q12-d/prompt",
+                                      "title": "Text"
+                                    },
+                                    {
+                                      "id": "layout:p13-q12-d/space",
+                                      "type": "item",
+                                      "ref": "p13-q12-d/space",
+                                      "title": "Answer space"
+                                    }
+                                  ],
+                                  "title": "Part d",
+                                  "gap": 1
+                                }
+                              ],
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 12",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:36.577Z",
+  "updatedAt": "2026-11-12T13:09:36.578Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p13-q12",
+    "sectionRole": "exercise"
+  }
+}

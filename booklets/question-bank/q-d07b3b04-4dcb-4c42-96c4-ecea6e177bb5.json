@@ -1,0 +1,281 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d07b3b04-4dcb-4c42-96c4-ecea6e177bb5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "hcf-two-numbers"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use the supplied set's least positive element, express division remainders as linear combinations, and invoke minimality to prove it is the GCD.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:53:30.013Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "12dc40a13e2a9786ec65f8139fa12f68a908d7ec485ab1b03ea8dc085efd9506",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part6-20261008/00fb6f0be2e36b1b0f4351d03cfec1bea9ccf8c41805d2a43b34630b2d80a9fb-1792558330624/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q35-root",
+    "type": "question",
+    "label": null,
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p19-q35-definition",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Suppose ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "a",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " and ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "b",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " are integers, not both zero. ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Bézout’s Identity",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": " states that there exist ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "m,n\\in\\mathbb Z",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " such that",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p19-q35-identity",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "am+bn=\\operatorname{GCD}(a,b).",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p19-q35-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Prove this identity by considering the set",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p19-q35-set",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "\\{ax+by:x,y\\in\\mathbb Z\\text{ and }ax+by>0\\}",
+              "display": true
+            }
+          ]
+        },
+        {
+          "id": "p19-q35-conclusion",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "and thereby conclude that ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "\\operatorname{GCD}(a,b)",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " is the smallest positive integer of the form ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "ax+by",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " where ",
+              "marks": []
+            },
+            {
+              "type": "math",
+              "latex": "x,y\\in\\mathbb Z",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": ".",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "The least element $d$ of the positive integer linear combinations divides both $a$ and $b$, and every positive common divisor divides $d$. Hence $d=\\operatorname{GCD}(a,b)=am+bn$ for some $m,n\\in\\mathbb Z$.\n\nUse the division algorithm and the minimality of $d$ to show that the remainders are zero.",
+      "worked": "Let $S=\\{ax+by:x,y\\in\\mathbb Z\\text{ and }ax+by>0\\}$. Since $a,b$ are not both zero, either $|a|$ or $|b|$ is a positive member of $S$. Thus $S$ has a least element $d=am+bn$ for some $m,n\\in\\mathbb Z$.\n\nBy the division algorithm, $a=dq+r$, where $q,r\\in\\mathbb Z$ and $0\\le r<d$. Then\n$$\\begin{align*}r&=a-dq\\\\r&=a-q(am+bn)\\\\r&=a(1-qm)+b(-qn).\\end{align*}$$\nIf $r>0$, then $r\\in S$, contradicting the minimality of $d$. Therefore $r=0$, so $d\\mid a$. Applying the same argument to $b$ gives $d\\mid b$.\n\nLet $f$ be any positive common divisor of $a$ and $b$, with $a=fu$ and $b=fv$ for integers $u,v$. Then\n$$\\begin{align*}d&=am+bn\\\\d&=fum+fvn\\\\d&=f(um+vn).\\end{align*}$$\nThus $f\\mid d$, so $f\\le d$. Since $d$ is itself a positive common divisor, $d=\\operatorname{GCD}(a,b)$. Consequently $am+bn=\\operatorname{GCD}(a,b)$, and this is the smallest positive integer of the required form.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 132
+  },
+  "presentation": {
+    "ownerId": "p19-q35",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p19-q35": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p19-q35-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p19-q35-root/label",
+                  "type": "item",
+                  "ref": "p19-q35-root/label",
+                  "title": "Label 35"
+                },
+                {
+                  "id": "layout:p19-q35-root/prompt#p19-q35-definition",
+                  "type": "item",
+                  "ref": "p19-q35-root/prompt#p19-q35-definition",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q35-root/prompt#p19-q35-identity",
+                  "type": "item",
+                  "ref": "p19-q35-root/prompt#p19-q35-identity",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q35-root/prompt#p19-q35-instruction",
+                  "type": "item",
+                  "ref": "p19-q35-root/prompt#p19-q35-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q35-root/prompt#p19-q35-set",
+                  "type": "item",
+                  "ref": "p19-q35-root/prompt#p19-q35-set",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q35-root/prompt#p19-q35-conclusion",
+                  "type": "item",
+                  "ref": "p19-q35-root/prompt#p19-q35-conclusion",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p19-q35-root/space",
+                  "type": "item",
+                  "ref": "p19-q35-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 35",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:16:08.877Z",
+  "updatedAt": "2026-11-12T11:16:08.877Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part6-20261008",
+    "blockId": "p19-q35",
+    "sectionRole": "exercise"
+  }
+}

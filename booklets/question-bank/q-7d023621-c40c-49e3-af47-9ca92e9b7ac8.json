@@ -1,0 +1,179 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7d023621-c40c-49e3-af47-9ca92e9b7ac8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "conditional-probability",
+    "secondarySkillIds": [
+      "probability-independent-events"
+    ],
+    "reasoningScore": 91,
+    "difficulty": "Challenge",
+    "difficultyReason": "The task requires an infinite-trial argument and, more demandingly, inventing conditional run states whose interruption probabilities produce coupled equations for two competing run lengths.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:33.334Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bd282f128287c254678620570d658f2595958c19df3eef6815bd0296b14a80d0",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/3b8fbb4df6ade2f1d829472282f75aff59f60e8dbd547e820debdfcda4470a66-1792558438545/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p41-25j-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "A fair coin is repeatedly flipped.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p41-25j-q11a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the probability that $n$ consecutive heads eventually occur.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$.\n\nIndependent blocks of $n$ flips eventually contain an all-heads block with probability $1$.",
+          "worked": "Divide the flips into disjoint blocks of $n$. Each block consists entirely of heads with probability $2^{-n}$, independently of the other blocks. Let $E$ be the event that $n$ consecutive heads eventually occur. The probability that an all-heads block occurs is\n$$\\begin{align*}\nP(\\text{an all-heads block occurs})&=\\sum_{j=0}^{\\infty}(1-2^{-n})^j2^{-n}\\\\\nP(\\text{an all-heads block occurs})&=\\frac{2^{-n}}{1-(1-2^{-n})}\\\\\nP(\\text{an all-heads block occurs})&=1.\n\\end{align*}$$\nAn all-heads block guarantees $E$. Hence $P(E)=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p41-25j-q11b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the probability that $n$ consecutive heads occur before $m$ consecutive tails.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac{2^m-1}{2^m+2^n-2}$.\n\nCondition on the first flip and solve the equations for a run starting with a head or a tail.",
+          "worked": "Let $p$ be the probability of heads winning given that the first flip is a head, and $q$ the probability given that it is a tail. After the first head, either the next $n-1$ flips are heads, or a tail interrupts that run and the probability becomes $q$. After the first tail, heads can win only if a head interrupts the next $m-1$ tails. Thus\n$$\\begin{align*}\np&=2^{-(n-1)}+(1-2^{-(n-1)})q,\\\\\nq&=(1-2^{-(m-1)})p.\n\\end{align*}$$\nSubstituting the second equation into the first gives\n$$\\begin{align*}\np&=2^{-(n-1)}+(1-2^{-(n-1)})(1-2^{-(m-1)})p,\\\\\np(2^{m-1}+2^{n-1}-1)&=2^{m-1},\\\\\np&=\\frac{2^{m-1}}{2^{m-1}+2^{n-1}-1},\\\\\nq&=\\frac{2^{m-1}-1}{2^{m-1}+2^{n-1}-1}.\n\\end{align*}$$\nEach first-flip outcome has probability $\\tfrac12$, so\n$$\\begin{align*}\nP(\\text{heads wins})&=\\frac12p+\\frac12q\\\\\nP(\\text{heads wins})&=\\frac{2^m-1}{2^m+2^n-2}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p41-25j-q11",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p41-25j-q11": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p41-25j-q11-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p41-25j-q11-root/label",
+                  "type": "item",
+                  "ref": "p41-25j-q11-root/label",
+                  "title": "Label 11"
+                },
+                {
+                  "id": "layout:p41-25j-q11-root/prompt",
+                  "type": "item",
+                  "ref": "p41-25j-q11-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p41-25j-q11-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p41-25j-q11a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-25j-q11a/label",
+                          "type": "item",
+                          "ref": "p41-25j-q11a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p41-25j-q11a/prompt",
+                          "type": "item",
+                          "ref": "p41-25j-q11a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-25j-q11a/space",
+                          "type": "item",
+                          "ref": "p41-25j-q11a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p41-25j-q11b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p41-25j-q11b/label",
+                          "type": "item",
+                          "ref": "p41-25j-q11b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p41-25j-q11b/prompt",
+                          "type": "item",
+                          "ref": "p41-25j-q11b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p41-25j-q11b/space",
+                          "type": "item",
+                          "ref": "p41-25j-q11b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 11",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:12:08.083Z",
+  "updatedAt": "2026-11-12T13:12:08.083Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p41-25j-q11",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e6676d70-680f-44c5-9e1e-289862314a35",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [
+      "divisibility-tests"
+    ],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "Translate decimal expansions into congruences and generalise to arbitrary digit lengths; the hardest part recognises alternating powers of ten modulo 11 and proves both directions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:55:38.831Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "dccdb232dbe414392d4f5a22bd3c61e1a21ff20c10c66b67f6be570b25e1dc1a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part13-20261009/cff6221670e4454b2c3d669177581171673c4424fd914263929122903301af76-1792558494106/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p7-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": "Prove the following divisibility tests.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p7-q21-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "An integer is divisible by 5 if and only if its final digit is 0 or 5.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$N\\equiv c\\pmod 5$, where $c$ is the final digit.\n\nEvery higher place-value term is a multiple of 5, so $5\\mid N$ if and only if $c=0$ or $c=5$.",
+          "worked": "For a three-digit number $N=\\overline{abc}$, $10\\equiv0\\pmod5$ and $10^2\\equiv0\\pmod5$.\n$$\\begin{align*}N&=100a+10b+c\\\\N&\\equiv0a+0b+c\\pmod5\\\\N&\\equiv c\\pmod5\\end{align*}$$\nThus $N$ is divisible by 5 if and only if $c$ is divisible by 5. Since $c$ is a digit, this means $c=0$ or $c=5$. The same argument applies to any number of digits because every power $10^k$ with $k\\ge1$ is divisible by 5. Changing an integer's sign does not change its divisibility.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 45
+      },
+      {
+        "id": "p7-q21-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p7-q21-b-statement",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "An integer is divisible by 3 if and only if the sum of its digits is divisible by 3.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p7-q21-b-hint",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Hint: Start by establishing this for a four-digit number:",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p7-q21-b-place-value",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "center",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "math",
+                  "latex": "\\overline{abcd}=(a\\times10^3)+(b\\times10^2)+(c\\times10)+d",
+                  "display": true
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overline{abcd}\\equiv a+b+c+d\\pmod3$.\n\nSince every power of 10 is congruent to 1 modulo 3, a non-negative integer and its digit sum have the same remainder modulo 3. Changing the integer's sign does not change divisibility by 3, so the test holds for every integer.",
+          "worked": "Let $N=\\overline{abcd}$. Since $10\\equiv1\\pmod3$, every non-negative integer power of 10 is congruent to 1 modulo 3.\n$$\\begin{align*}N&=a\\times10^3+b\\times10^2+c\\times10+d\\\\N&\\equiv a\\times1+b\\times1+c\\times1+d\\pmod3\\\\N&\\equiv a+b+c+d\\pmod3\\end{align*}$$\nTherefore $N$ is divisible by 3 if and only if $a+b+c+d$ is divisible by 3. For any number of digits, replacing each power of 10 by 1 gives the sum of all the digits, so the result holds generally. Changing an integer's sign does not change its divisibility.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "p7-q21-c",
+        "type": "part",
+        "label": "c",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p7-q21-c-statement",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "An integer is divisible by 11 if and only if the alternating sum of its digits is divisible by 11.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p7-q21-c-example",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 1,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "For example, ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "71\\,819",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " is divisible by 11, since ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "7-1+8-1+9=22",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " is divisible by 11.",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overline{abcd}\\equiv-a+b-c+d\\pmod{11}$.\n\nPowers of 10 alternate between residues 1 and $-1$, giving the alternating digit sum. Reversing all signs does not change divisibility by 11.",
+          "worked": "Since $10\\equiv-1\\pmod{11}$, $10^k\\equiv(-1)^k\\pmod{11}$. Let $N=\\overline{abcd}$.\n$$\\begin{align*}N&=a\\times10^3+b\\times10^2+c\\times10+d\\\\N&\\equiv a(-1)^3+b(-1)^2+c(-1)+d\\pmod{11}\\\\N&\\equiv-a+b-c+d\\pmod{11}\\end{align*}$$\nHence $N$ is divisible by 11 if and only if $-a+b-c+d$ is divisible by 11. This is equivalent to divisibility of $a-b+c-d$, since these sums are negatives of one another. For any number of digits, the powers of 10 give alternating signs in the same way. Changing an integer's sign does not change its divisibility.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p7-q21",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p7-q21": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p7-q21-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p7-q21-root/label",
+                  "type": "item",
+                  "ref": "p7-q21-root/label",
+                  "title": "Label 21"
+                },
+                {
+                  "id": "layout:p7-q21-root/prompt",
+                  "type": "item",
+                  "ref": "p7-q21-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p7-q21-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p7-q21-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q21-a/label",
+                          "type": "item",
+                          "ref": "p7-q21-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p7-q21-a/prompt",
+                          "type": "item",
+                          "ref": "p7-q21-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q21-a/space",
+                          "type": "item",
+                          "ref": "p7-q21-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p7-q21-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q21-b/label",
+                          "type": "item",
+                          "ref": "p7-q21-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p7-q21-b/prompt#p7-q21-b-statement",
+                          "type": "item",
+                          "ref": "p7-q21-b/prompt#p7-q21-b-statement",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q21-b/prompt#p7-q21-b-hint",
+                          "type": "item",
+                          "ref": "p7-q21-b/prompt#p7-q21-b-hint",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q21-b/prompt#p7-q21-b-place-value",
+                          "type": "item",
+                          "ref": "p7-q21-b/prompt#p7-q21-b-place-value",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q21-b/space",
+                          "type": "item",
+                          "ref": "p7-q21-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p7-q21-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p7-q21-c/label",
+                          "type": "item",
+                          "ref": "p7-q21-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p7-q21-c/prompt#p7-q21-c-statement",
+                          "type": "item",
+                          "ref": "p7-q21-c/prompt#p7-q21-c-statement",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q21-c/prompt#p7-q21-c-example",
+                          "type": "item",
+                          "ref": "p7-q21-c/prompt#p7-q21-c-example",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p7-q21-c/space",
+                          "type": "item",
+                          "ref": "p7-q21-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 21",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:18:22.167Z",
+  "updatedAt": "2026-11-12T11:18:22.167Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part13-20261009",
+    "blockId": "p7-q21",
+    "sectionRole": "exercise"
+  }
+}

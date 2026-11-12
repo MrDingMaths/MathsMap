@@ -1,0 +1,428 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-77b29f92-13bf-4b52-b64f-555d940db7e0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "multiplication-principle"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Count network paths, including alternative branches and bypass edges.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-08T23:39:50.887Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a2895894ddf6aa66f69828f50cb8cca3f577198d84d47a6b0cfec1dec5a57c7c",
+      "evidence": ".booklet-work/full-imports/enrichment-maths-2-part10-20261009/semantic-packets/assignments/assignment-7591764b9f379a88894f/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p3-q8",
+    "type": "question",
+    "label": "8",
+    "prompt": "Travelling from left to right, determine the number of paths from $A$ to $B$ in the following figures:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p3-q8a",
+        "type": "part",
+        "label": "a",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p3-q8a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 question 8(a)\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,1,2,3,4}{\\coordinate (v\\i) at (\\i,0);}\n\\foreach \\i/\\j in {0/1,1/2,2/3,3/4}{\\draw (v\\i)--(v\\j);\\draw (v\\i) to[bend left=35] (v\\j);\\draw (v\\i) to[bend right=35] (v\\j);}\n\\foreach \\i in {0,1,2,3,4}{\\fill (v\\i) circle (2pt);}\\node[left] at (v0){$A$};\\node[right] at (v4){$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 3,
+              "sourceRegion": "Question 8(a), bottom left",
+              "description": "Five collinear vertices; each consecutive pair has upper, straight and lower edges. Decorative blue changed to black.",
+              "mathematics": "Four successive stages, each with three choices.",
+              "answerVisibility": "No answer supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "81",
+          "worked": "There are three choices at each of four successive stages.\n$$3\\times3\\times3\\times3=81$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p3-q8b",
+        "type": "part",
+        "label": "b",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p3-q8b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 question 8(b)\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,1,2,3,4}{\\coordinate (v\\i) at (\\i,0);}\n\\foreach \\i/\\j in {0/1,1/2,2/3,3/4}{\\draw (v\\i) to[bend left=35] (v\\j);\\draw (v\\i) to[bend right=35] (v\\j);}\n\\draw (v0) to[bend left=35] (v2);\\draw (v2) to[bend right=35] (v4);\n\\foreach \\i in {0,1,2,3,4}{\\fill (v\\i) circle (2pt);}\\node[left] at (v0){$A$};\\node[right] at (v4){$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 3,
+              "sourceRegion": "Question 8(b), top right",
+              "description": "Two edges per consecutive pair, plus upper v0-v2 and lower v2-v4 bypasses. Decorative blue changed to black.",
+              "mathematics": "Each half has 2×2+1 paths, and all routes pass through v2.",
+              "answerVisibility": "No answer supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "25",
+          "worked": "Each half has $2\\times2=4$ paths through its intermediate vertex and one bypass, giving 5 paths.\n$$\\begin{align*}\\text{Number of paths}&=(2\\times2+1)(2\\times2+1)\\\\\\text{Number of paths}&=25\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p3-q8c",
+        "type": "part",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p3-q8c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 question 8(c)\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\n\\foreach \\s/\\y in {u/0.6,l/-0.6}{\\foreach \\i in {1,2,3}{\\coordinate (\\s\\i) at (\\i,\\y);}\\draw (A)--(\\s1) (\\s3)--(B);\\foreach \\i/\\j in {1/2,2/3}{\\draw (\\s\\i) to[bend left=25] (\\s\\j);\\draw (\\s\\i) to[bend right=25] (\\s\\j);}\\foreach \\i in {1,2,3}{\\fill (\\s\\i) circle (2pt);}}\n\\fill (A) circle (2pt);\\fill (B) circle (2pt);\\node[left] at (A){$A$};\\node[right] at (B){$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 3,
+              "sourceRegion": "Question 8(c)",
+              "description": "Separate upper and lower chains with two edges at each internal stage and single endpoint connections. Decorative blue changed to black.",
+              "mathematics": "Two disjoint alternatives, each with 2×2 paths.",
+              "answerVisibility": "No answer supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "8",
+          "worked": "The upper and lower branches each have $2\\times2=4$ paths.\n$$4+4=8$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p3-q8d",
+        "type": "part",
+        "label": "d",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p3-q8d-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 question 8(d)\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\n\\foreach \\s/\\y in {u/0.6,l/-0.6}{\\foreach \\i in {1,2,3}{\\coordinate (\\s\\i) at (\\i,\\y);}\\draw (A)--(\\s1) (\\s3)--(B);\\foreach \\i/\\j in {1/2,2/3}{\\draw (\\s\\i)--(\\s\\j);\\draw (\\s\\i) to[bend left=25] (\\s\\j);\\draw (\\s\\i) to[bend right=25] (\\s\\j);}\\foreach \\i in {1,2,3}{\\fill (\\s\\i) circle (2pt);}}\n\\draw (A)--(B);\\fill (A) circle (2pt);\\fill (B) circle (2pt);\\node[left] at (A){$A$};\\node[right] at (B){$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 3,
+              "sourceRegion": "Question 8(d)",
+              "description": "Upper and lower chains with triple internal edges, plus a direct A-B edge. Decorative blue changed to black.",
+              "mathematics": "3×3 upper paths, 3×3 lower paths and one direct path.",
+              "answerVisibility": "No answer supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "19",
+          "worked": "The upper and lower branches each have $3\\times3=9$ paths. There is also one direct path.\n$$9+9+1=19$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p3-q8e",
+        "type": "part",
+        "label": "e",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p3-q8e-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 3 question 8(e)\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\\coordinate (B) at (4,0);\n\\foreach \\s/\\y in {u/0.6,l/-0.6}{\\foreach \\i in {1,2,3}{\\coordinate (\\s\\i) at (\\i,\\y);}\\draw (A)--(\\s1) (\\s3)--(B);\\foreach \\i/\\j in {1/2,2/3}{\\draw (\\s\\i) to[bend left=25] (\\s\\j);\\draw (\\s\\i) to[bend right=25] (\\s\\j);}}\n\\draw (u2) .. controls (2.5,0) and (3.2,0) .. (B);\\draw (l2) .. controls (2.5,0) and (3.2,0) .. (B);\n\\foreach \\s in {u,l}{\\foreach \\i in {1,2,3}{\\fill (\\s\\i) circle (2pt);}}\\fill (A) circle (2pt);\\fill (B) circle (2pt);\\node[left] at (A){$A$};\\node[right] at (B){$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 65,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 3,
+              "sourceRegion": "Question 8(e)",
+              "description": "Two separate double-edge chains, each with a bypass from its middle vertex to B. The bypasses meet only at B; there is no central vertex. Decorative blue changed to black.",
+              "mathematics": "Each branch has 2(2+1)=6 paths.",
+              "answerVisibility": "No answer supplied."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "12",
+          "worked": "On each branch there are 2 paths to the middle vertex. From there, there are 2 routes through the last vertex and 1 bypass to $B$.\n$$\\begin{align*}\\text{Number of paths}&=2(2+1)+2(2+1)\\\\\\text{Number of paths}&=12\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20,
+        "responseSpace": "scaffold"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p3-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p3-q8-block": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p3-q8:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p3-q8/label",
+                  "type": "item",
+                  "ref": "p3-q8/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p3-q8/prompt",
+                  "type": "item",
+                  "ref": "p3-q8/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "p3-q8:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p3-q8a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8a/label",
+                          "type": "item",
+                          "ref": "p3-q8a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p3-q8a-diagram",
+                          "type": "item",
+                          "ref": "p3-q8a-diagram",
+                          "title": "Diagram",
+                          "width": 65
+                        },
+                        {
+                          "id": "layout:p3-q8a/space",
+                          "type": "item",
+                          "ref": "p3-q8a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q8b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8b/label",
+                          "type": "item",
+                          "ref": "p3-q8b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p3-q8b-diagram",
+                          "type": "item",
+                          "ref": "p3-q8b-diagram",
+                          "title": "Diagram",
+                          "width": 65
+                        },
+                        {
+                          "id": "layout:p3-q8b/space",
+                          "type": "item",
+                          "ref": "p3-q8b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q8c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8c/label",
+                          "type": "item",
+                          "ref": "p3-q8c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p3-q8c-diagram",
+                          "type": "item",
+                          "ref": "p3-q8c-diagram",
+                          "title": "Diagram",
+                          "width": 65
+                        },
+                        {
+                          "id": "layout:p3-q8c/space",
+                          "type": "item",
+                          "ref": "p3-q8c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q8d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8d/label",
+                          "type": "item",
+                          "ref": "p3-q8d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p3-q8d-diagram",
+                          "type": "item",
+                          "ref": "p3-q8d-diagram",
+                          "title": "Diagram",
+                          "width": 65
+                        },
+                        {
+                          "id": "layout:p3-q8d/space",
+                          "type": "item",
+                          "ref": "p3-q8d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 1
+                    },
+                    {
+                      "id": "p3-q8e:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p3-q8e/label",
+                          "type": "item",
+                          "ref": "p3-q8e/label",
+                          "title": "Label e"
+                        },
+                        {
+                          "id": "layout:p3-q8e-diagram",
+                          "type": "item",
+                          "ref": "p3-q8e-diagram",
+                          "title": "Diagram",
+                          "width": 65
+                        },
+                        {
+                          "id": "layout:p3-q8e/space",
+                          "type": "item",
+                          "ref": "p3-q8e/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part e",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:09:21.273Z",
+  "updatedAt": "2026-11-12T13:09:21.273Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part10-20261009",
+    "blockId": "p3-q8-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-272abadb-d0bf-401c-8d87-2c2520c3755b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pattern-from-expression",
+    "secondarySkillIds": [
+      "evaluate-index-notation"
+    ],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Iterate the demonstrated digit-square rule and classify each trajectory when it reaches 1 or a member of the supplied cycle; the terminal behaviours are already given.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:52:10.480Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f48f08df8e58716b2678ffabccbd901eb499732050764140d86a330bd81e9b2b",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part3-20261008/aff1f1763f1e34f6f92de9d8969251c24bdf656f3a0d8fee4b7a7d8922f28b56-1792558282063/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p12-q8-intro",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Suppose we take a positive integer and sum the squares of its digits, and then sum the squares of the digits of the resulting number, and continue to iterate this operation. For example,",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p12-q8-example",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "451\\to4^2+5^2+1^2=42\\to4^2+2^2=20",
+              "display": false
+            },
+            {
+              "type": "text",
+              "text": " etc.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p12-q8-end-states",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "It can be shown that for any positive integer you eventually terminate in a loop at 1, or you terminate in the following loop:",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p12-q8-loop",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "4\\to16\\to37\\to58\\to89\\to145\\to42\\to20\\to4",
+              "display": false
+            }
+          ]
+        },
+        {
+          "id": "p12-q8-instruction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "Determine for each of the first ten positive integers which of these two end states they terminate at.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p12-q8-short-one",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "1,7,10",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " reach the loop at 1.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p12-q8-short-cycle",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "2,3,4,5,6,8,9",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " reach the supplied loop containing 4.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p12-q8-short-method",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Repeatedly sum the squares of the digits until reaching 1 or a member of the supplied loop.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "worked": "Each arrow applies the sum-of-digit-squares rule. Stop when reaching $1$ or a member of the supplied loop.\n\n$$\\begin{aligned}1&\\to1\\\\2&\\to4\\\\3&\\to9\\to81\\to65\\to61\\to37\\\\4&\\to16\\\\5&\\to25\\to29\\to85\\to89\\\\6&\\to36\\to45\\to41\\to17\\to50\\to25\\to29\\to85\\to89\\\\7&\\to49\\to97\\to130\\to10\\to1\\\\8&\\to64\\to52\\to29\\to85\\to89\\\\9&\\to81\\to65\\to61\\to37\\\\10&\\to1\\end{aligned}$$\n\nThus $1,7,10$ reach $1$; $2,3,4,5,6,8,9$ reach the supplied loop.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 108
+  },
+  "presentation": {
+    "ownerId": "p12-q8",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q8": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q8-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q8-root/label",
+                  "type": "item",
+                  "ref": "p12-q8-root/label",
+                  "title": "Label 8"
+                },
+                {
+                  "id": "layout:p12-q8-root/prompt#p12-q8-intro",
+                  "type": "item",
+                  "ref": "p12-q8-root/prompt#p12-q8-intro",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q8-root/prompt#p12-q8-example",
+                  "type": "item",
+                  "ref": "p12-q8-root/prompt#p12-q8-example",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q8-root/prompt#p12-q8-end-states",
+                  "type": "item",
+                  "ref": "p12-q8-root/prompt#p12-q8-end-states",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q8-root/prompt#p12-q8-loop",
+                  "type": "item",
+                  "ref": "p12-q8-root/prompt#p12-q8-loop",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q8-root/prompt#p12-q8-instruction",
+                  "type": "item",
+                  "ref": "p12-q8-root/prompt#p12-q8-instruction",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p12-q8-root/space",
+                  "type": "item",
+                  "ref": "p12-q8-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 8",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:32.476Z",
+  "updatedAt": "2026-11-12T11:14:32.476Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part3-20261008",
+    "blockId": "p12-q8",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-089a2aca-933b-4a5e-9405-ea4545b7dffd",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "theoretical-probability",
+    "secondarySkillIds": [
+      "continuous-random-variable"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hint supplies the triangle criterion and square representation; the remaining demand is expressing ordered break-point lengths as inequalities and finding both symmetric favourable regions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:54:33.334Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2d98e150ad8045d193bfe613262cfb487796e6319bac11693194ca174ce73ddd",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-2-part11-20261009/3b8fbb4df6ade2f1d829472282f75aff59f60e8dbd547e820debdfcda4470a66-1792558438545/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p41-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "If you break a stick at two points chosen uniformly, find the probability that the three resulting sticks can be used to form a triangle.\n\nHint: Recall that three lengths can form a triangle if and only if no individual piece is at least half the total length. Try representing the two break points on a unit square to visualise the condition geometrically.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$\\frac14$.\n\nRepresent the two break points on a unit square; the favourable region consists of two triangles of total area $\\frac14$.",
+      "worked": "Take the stick to have length $1$, with independently chosen break points $x,y\\in[0,1]$. Their sample space is a unit square.\n\nWhen $x<y$, the piece lengths are $x$, $y-x$ and $1-y$. All three must be less than $\\frac12$, so\n$$\\begin{align*}x&<\\frac12,\\\\y&>\\frac12,\\\\y-x&<\\frac12.\\end{align*}$$\nThese inequalities describe the triangle with vertices $(0,\\frac12)$, $(\\frac12,\\frac12)$ and $(\\frac12,1)$. The case $y<x$ gives its reflection in $y=x$.\n\nEach favourable triangle has perpendicular sides of length $\\frac12$. Therefore,\n$$\\begin{align*}\\Pr(\\text{triangle})&=\\frac{2\\left(\\frac12\\times\\frac12\\times\\frac12\\right)}{1}\\\\\\Pr(\\text{triangle})&=\\frac14.\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p41-q17-solution-square",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 41 question 17; authored unit-square solution\"}\n\\begin{tikzpicture}[x=4.5cm,y=4.5cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.8pt] (0,0) rectangle (1,1);\n\\draw[line width=0.8pt] (0,0.5)--(0.5,0.5)--(0.5,1)--cycle;\n\\draw[line width=0.8pt] (0.5,0)--(0.5,0.5)--(1,0.5)--cycle;\n\\draw[dashed,line width=0.4pt] (0,0)--(1,1);\n\\draw[->,line width=0.5pt] (0,0)--(1.12,0) node[right,font=\\fontsize{10}{12}\\selectfont] {$x$};\n\\draw[->,line width=0.5pt] (0,0)--(0,1.12) node[above,font=\\fontsize{10}{12}\\selectfont] {$y$};\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {$0$};\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (0.5,0) {$\\frac12$};\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (1,0) {$1$};\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0.5) {$\\frac12$};\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (0,1) {$1$};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (0.34,0.66) {$E_1$};\n\\node[font=\\fontsize{10}{12}\\selectfont] at (0.66,0.34) {$E_2$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 41,
+            "sourceRegion": "Question 17 hint; no supplied figure",
+            "description": "Authored unit-square solution with the two favourable triangles labelled E_1 and E_2. Outlines describe limiting boundaries; boundaries have probability zero.",
+            "mathematics": "For x<y: x<1/2, y>1/2 and y-x<1/2. Reflect across y=x for y<x. Each region has area 1/8.",
+            "answerVisibility": "Solution only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 85
+  },
+  "presentation": {
+    "ownerId": "p41-q17",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p41-q17": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p41-q17-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p41-q17-root/label",
+                  "type": "item",
+                  "ref": "p41-q17-root/label",
+                  "title": "Label 17"
+                },
+                {
+                  "id": "layout:p41-q17-root/prompt",
+                  "type": "item",
+                  "ref": "p41-q17-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p41-q17-root/space",
+                  "type": "item",
+                  "ref": "p41-q17-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 17",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:11:52.580Z",
+  "updatedAt": "2026-11-12T13:11:52.580Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-2-part11-20261009",
+    "blockId": "p41-q17",
+    "sectionRole": "exercise"
+  }
+}
