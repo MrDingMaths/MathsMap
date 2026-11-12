@@ -1,0 +1,129 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bcde1304-1066-47bc-81fd-2f34b6577506",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "pythagoras-theorem-statement",
+    "secondarySkillIds": [
+      "expand-binomial-products",
+      "area-of-triangle"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine binomial expansion and triangle areas to establish Pythagoras’ theorem geometrically.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T06:27:35.993Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "411beb2bd08fdb52500233b2d2d025ad8f79c077ca9959cd0e26b07b578529d3",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch09-20261015/semantic-packets/assignments/assignment-8715683d29c99cade6bb/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p13-proof-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "In Chapter 8 we gave a proof of Pythagoras’ theorem that relied on rearranging triangles and comparing areas in two diagrams. We now give a proof using just one diagram.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-proof-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"triangleFill\",\"hex\":\"D4E8FF\",\"reason\":\"Identifies the four equal triangle areas removed from the enclosing square in the area proof.\"}],\"reference\":\"source page 13 p13-proof-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{triangleFill}{HTML}{D4E8FF}\n\\coordinate (A) at (0,0); \\coordinate (B) at (5,0); \\coordinate (C) at (5,5); \\coordinate (D) at (0,5);\n\\coordinate (P) at (3.6,5); \\coordinate (Q) at (5,1.4); \\coordinate (R) at (1.4,0); \\coordinate (S) at (0,3.6);\n\\fill[triangleFill] (D)--(P)--(S)--cycle;\n\\fill[triangleFill] (C)--(Q)--(P)--cycle;\n\\fill[triangleFill] (B)--(R)--(Q)--cycle;\n\\fill[triangleFill] (A)--(S)--(R)--cycle;\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,line width=0.8pt] (P)--(Q)--(R)--(S)--cycle;\n\\path (D)--node[above] {$b$} (P)--node[above] {$a$} (C);\n\\path (C)--node[right] {$b$} (Q)--node[right] {$a$} (B);\n\\path (A)--node[below] {$a$} (R)--node[below] {$b$} (B);\n\\path (D)--node[left] {$a$} (S)--node[left] {$b$} (A);\n\\path (S)--node[below right] {$c$} (P);\n\\path (P)--node[below left] {$c$} (Q);\n\\path (Q)--node[above left] {$c$} (R);\n\\path (R)--node[above right] {$c$} (S);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Upper-right diagram beside Pythagoras’ theorem parts a–c",
+          "description": "An enclosing square contains a tilted white square and four corner right triangles. Light blue distinguishes the four triangle regions used together in the area subtraction; ordinary edges and labels use black.",
+          "mathematics": "Each corner triangle has perpendicular legs a and b and hypotenuse c. The outer square has side a+b. Clockwise inner vertices lie on the top near the right, right near the bottom, bottom near the left and left near the top. All four inner sides are labelled c.",
+          "answerVisibility": "All source labels and regions are permanent givens. No computed areas or proof steps appear in the question diagram."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-proof-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $(a+b)^2=a^2+2ab+b^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(a+b)^2=a^2+ab+ab+b^2=a^2+2ab+b^2$.",
+          "worked": "$$\\begin{align*}(a+b)^2&=(a+b)(a+b)\\\\(a+b)^2&=a(a+b)+b(a+b)\\\\(a+b)^2&=a^2+ab+ab+b^2\\\\(a+b)^2&=a^2+2ab+b^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p13-proof-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the total area of the four triangles is $2ab$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each triangle has area $\\frac12ab$, so the total area is $4\\times\\frac12ab=2ab$.",
+          "worked": "Each right-angled triangle has perpendicular base and height $a$ and $b$, so its area is $\\frac12ab$.\n$$\\begin{align*}\\text{Total triangle area}&=4\\times\\frac12ab\\\\\\text{Total triangle area}&=2ab\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p13-proof-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence, show $c^2=a^2+b^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$c^2=(a+b)^2-2ab=a^2+b^2$.\n\nSubtract the four triangles’ total area from the enclosing square’s area.",
+          "worked": "The inner square has area $c^2$. Its area plus the four triangles’ area equals the enclosing square’s area.\n$$\\begin{align*}c^2+2ab&=(a+b)^2\\\\c^2+2ab&=a^2+2ab+b^2\\\\c^2&=a^2+2ab+b^2-2ab\\\\c^2&=a^2+b^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p13-proof",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:15:27.259Z",
+  "updatedAt": "2026-11-12T13:15:27.259Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch09-20261015",
+    "blockId": "p13-proof",
+    "sectionRole": "exercise"
+  }
+}

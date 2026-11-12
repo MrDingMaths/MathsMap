@@ -1,0 +1,203 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f8d75d1d-b949-42ed-b8ab-6f6d7b02e041",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables",
+      "model-word-problems-equations"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Determine an unknown triple intersection from overlapping totals, then interpret exclusive and complementary regions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T07:14:08.567Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8ca43a9d599bda6df6a637693f41cf1f808a26023b8e19d89c15bf7b9859e51d",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch16-20261015/semantic-packets/assignments/assignment-a92bce7ec0b63f4c0c25/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p21-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "Seventy-five students all own a dog, a cat or a bird. They were asked which pets they own. The replies gave the following information:\n37 own a bird, 33 own a cat, 40 own a dog, 16 own both a cat and a bird, 11 own both a dog and a cat, 12 own both a bird and a dog.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a Venn diagram representing this information.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Bird only: 13; cat only: 10; dog only: 21; bird and cat only: 12; bird and dog only: 8; cat and dog only: 7; all three: 4; none: 0.",
+          "worked": "Let $x$ be the number who own all three pets. The pair-only regions contain $16-x$, $12-x$ and $11-x$ students. The single-pet regions contain $9+x$, $6+x$ and $17+x$ students.\n$$\\begin{align*}(9+x)+(6+x)+(17+x)+(16-x)+(12-x)+(11-x)+x&=75\\\\71+x&=75\\\\x&=4\\end{align*}$$\nSubstitution gives the region counts shown. Every student owns at least one of these pets, so the outside region is 0.",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q1-a-solution-venn",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 Challenge 1; teacher page 33\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black,line width=0.8pt] (-3,-3.1) rectangle (3,2.2);\n\\draw[black,line width=0.8pt] (-0.9,0.15) circle (1.65);\n\\draw[black,line width=0.8pt] (0.9,0.15) circle (1.65);\n\\draw[black,line width=0.8pt] (0,-1.1) circle (1.65);\n\\node[anchor=south east] at (-3,2.2) {$\\xi$};\n\\node at (-1.95,1.65) {$B$};\n\\node at (1.95,1.65) {$C$};\n\\node at (1.4,-2.65) {$D$};\n\\node at (-1.65,0.35) {13};\n\\node at (1.65,0.35) {10};\n\\node at (0,-2.05) {21};\n\\node at (0,0.85) {12};\n\\node at (-0.95,-1.05) {8};\n\\node at (0.95,-1.05) {7};\n\\node at (0,-0.35) {4};\n\\node at (-2.55,-2.6) {0};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "Challenge exercise 1(a); answer diagram on teacher PDF page 33",
+                "description": "Completed unshaded three-set Venn diagram. B denotes bird owners, C cat owners and D dog owners.",
+                "mathematics": "B only 13; C only 10; D only 21; BC only 12; BD only 8; CD only 7; BCD 4; outside 0. Region counts total 75.",
+                "answerVisibility": "Solution only; no diagram or counts supplied in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 85
+      },
+      {
+        "id": "p21-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many students own a bird, a dog and a cat?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "4 students.",
+          "worked": "Let $x$ be the number who own all three pets. Adding the seven separate Venn regions gives:\n$$\\begin{align*}71+x&=75\\\\x&=4\\end{align*}$$\nTherefore, 4 students own all three pets.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p21-q1-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "A student is chosen at random and asked which pets they own. What is the probability that they own:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p21-q1-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "a cat and a dog only?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{7}{75}$",
+              "worked": "$$\\begin{align*}n(\\text{cat and dog only})&=11-4\\\\n(\\text{cat and dog only})&=7\\\\P(\\text{cat and dog only})&=\\frac{7}{75}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p21-q1-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "a bird and a dog only?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{8}{75}$",
+              "worked": "$$\\begin{align*}n(\\text{bird and dog only})&=12-4\\\\n(\\text{bird and dog only})&=8\\\\P(\\text{bird and dog only})&=\\frac{8}{75}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          },
+          {
+            "id": "p21-q1-c-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "a bird, a dog and a cat?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{4}{75}$",
+              "worked": "There are 4 students in the triple intersection out of 75 equally likely students.\n$$P(\\text{all three})=\\frac{4}{75}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 13
+          },
+          {
+            "id": "p21-q1-c-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "a bird but not a cat?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{7}{25}$",
+              "worked": "$$\\begin{align*}n(\\text{bird but not cat})&=37-16\\\\n(\\text{bird but not cat})&=21\\\\P(\\text{bird but not cat})&=\\frac{21}{75}\\\\P(\\text{bird but not cat})&=\\frac{7}{25}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 28
+          },
+          {
+            "id": "p21-q1-c-v",
+            "type": "part",
+            "label": "v",
+            "prompt": "a dog but not a bird?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{28}{75}$",
+              "worked": "$$\\begin{align*}n(\\text{dog but not bird})&=40-12\\\\n(\\text{dog but not bird})&=28\\\\P(\\text{dog but not bird})&=\\frac{28}{75}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 22
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:31:16.207Z",
+  "updatedAt": "2026-11-12T11:31:16.208Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch16-20261015",
+    "blockId": "p21-q1",
+    "sectionRole": "exercise"
+  }
+}

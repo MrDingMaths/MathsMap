@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4dff37a0-063a-4088-b47c-b8500a55d0cb",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "parallel-line-angle-properties"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Use equal opposite angles to equate their bisected halves, then transfer an angle using parallel sides and recognise corresponding angles to prove the bisectors parallel; the diagram supplies the half-angle labels but leaves this proof connection unstated.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T07:25:14.088Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "81523dd95684c9dfb35e6b45470b1d87341dcf9089e1332f1a8fc8beff034961",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/background-repair-1792567492211/worker-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p8-q12",
+    "type": "question",
+    "label": "12",
+    "prompt": "In the diagram below, $ABCD$ is a parallelogram. The bisector of $\\angle A$ meets $BC$ at $X$. The bisector of $\\angle C$ meets $AD$ at $Y$. Prove $AX$ is parallel to $CY$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p8-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"bisectorRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the two angle bisectors from the parallelogram sides\"}],\"reference\":\"page 8 question 12\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{bisectorRed}{HTML}{EF6068}\n\\coordinate (A) at (0,0);\\coordinate (B) at (0.65,1.8);\\coordinate (C) at (4.25,1.8);\\coordinate (D) at (3.6,0);\n\\pgfmathsetmacro{\\sideLength}{sqrt(0.65*0.65+1.8*1.8)}\n\\coordinate (X) at ({0.65+\\sideLength},1.8);\\coordinate (Y) at ({3.6-\\sideLength},0);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[bisectorRed,dashed] (A)--(X);\\draw[bisectorRed,dashed] (C)--(Y);\n\\draw[line width=0.4pt,-{Stealth[length=2mm]}] ($(A)!0.44!(B)$)--($(A)!0.56!(B)$);\n\\draw[line width=0.4pt,-{Stealth[length=2mm]}] ($(D)!0.44!(C)$)--($(D)!0.56!(C)$);\n\\foreach \\t in {0.48,0.53}{\\draw[line width=0.4pt,-{Stealth[length=2mm]}] ($(B)!\\t!(C)$)--($(B)!{\\t+0.045}!(C)$);\\draw[line width=0.4pt,-{Stealth[length=2mm]}] ($(A)!\\t!(D)$)--($(A)!{\\t+0.045}!(D)$);}\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=D--A--X};\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=X--A--B};\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=B--C--Y};\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=Y--C--D};\n\\pgfmathsetmacro{\\theta}{atan2(1.8,0.65)}\n\\foreach \\ang in {\\theta/4,3*\\theta/4}{\\draw[line width=0.4pt] ($(A)+(\\ang:0.45)$)--($(A)+(\\ang:0.55)$);}\n\\foreach \\ang in {180+\\theta/4,180+3*\\theta/4}{\\foreach \\offset in {-2,2}{\\draw[line width=0.4pt] ($(C)+({\\ang+\\offset}:0.45)$)--($(C)+({\\ang+\\offset}:0.55)$);}}\n\\node at ($(A)+({\\theta/4}:0.76)$) {$\\alpha$};\\node at ($(A)+({3*\\theta/4}:0.76)$) {$\\alpha$};\n\\node at ($(C)+({180+\\theta/4}:0.76)$) {$\\varphi$};\\node at ($(C)+({180+3*\\theta/4}:0.76)$) {$\\varphi$};\n\\node[below left] at (A) {$A$};\\node[above left] at (B) {$B$};\\node[above right] at (C) {$C$};\\node[below right] at (D) {$D$};\\node[above] at (X) {$X$};\\node[below] at (Y) {$Y$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 8,
+          "sourceRegion": "Question 12, diagram below the stem",
+          "description": "Right-leaning parallelogram with horizontal BC and AD. X lies on BC and Y on AD. Dashed red AX and CY bisect the opposite angles; paired alpha and phi labels and matching angle marks remain visible. Single arrows mark AB parallel to DC; double arrows mark BC parallel to AD. Ordinary source blue strokes become house black.",
+          "mathematics": "ABCD is a parallelogram; angle BAX equals angle XAD, and angle BCY equals angle YCD. Coordinates derive both bisectors from the side directions.",
+          "answerVisibility": "Only source givens and angle labels are shown; the required parallelism is not marked."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$AX\\parallel CY$.\n\nOpposite angles of a parallelogram are equal, so their halves are equal. Using $BC\\parallel AD$ gives equal corresponding angles for $AX$ and $CY$.",
+      "worked": "Let $\\angle BAX=\\angle XAD=\\alpha$ and $\\angle BCY=\\angle YCD=\\varphi$, since $AX$ and $CY$ are angle bisectors.\n\nOpposite angles of parallelogram $ABCD$ are equal, so\n$$\\begin{align*}2\\alpha&=2\\varphi\\\\\\alpha&=\\varphi.\\end{align*}$$\nSince $BC\\parallel AD$, $\\angle CYD=\\angle BCY=\\varphi$ (alternate angles).\n\nTherefore $\\angle XAD=\\angle CYD$. These are corresponding angles on transversal $AD$, so $AX\\parallel CY$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 42
+  },
+  "presentation": {
+    "ownerId": "p8-q12-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:26.510Z",
+  "updatedAt": "2026-11-12T11:30:26.510Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p8-q12-block",
+    "sectionRole": "exercise"
+  }
+}

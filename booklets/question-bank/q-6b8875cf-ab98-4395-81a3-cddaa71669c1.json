@@ -1,0 +1,86 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6b8875cf-ab98-4395-81a3-cddaa71669c1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-sector",
+      "area-of-rectangle"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Infer the common square side and sector radius from equal-length marks, then add two square areas and a 135-degree sector area.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T09:21:50.546Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "efc5e40d67b65ac758c10eeb6ec57b7aaa2e00160fa8739924b30ece42017a23",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch14-20261015/lean-review/calls/content-1792574478628-12/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "The diagram to the right shows two squares and a sector. Find the area of this figure, leaving your answer in terms of $\\pi$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p15-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 15, p15-q3-diagram\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (R) at (4,0);\n\\coordinate (D) at (0,-4);\n\\coordinate (E) at (4,-4);\n\\coordinate (A) at (135:4);\n\\coordinate (B) at (225:4);\n\\coordinate (L) at ($(A)+(B)$);\n\\draw[black] (O)--(R)--(E)--(D)--cycle;\n\\draw[black] (O)--(A)--(L)--(B)--cycle;\n\\draw[black] (R) arc[start angle=0,end angle=135,radius=4];\n\\foreach \\P/\\Q in {O/R,R/E,E/D,D/O,O/A,A/L,L/B,B/O}{\n  \\coordinate (M) at ($(\\P)!0.5!(\\Q)$);\n  \\draw[black,line width=0.4pt] ($(M)!0.10cm!90:(\\Q)$)--($(M)!0.10cm!-90:(\\Q)$);\n}\n\\draw[black,line width=0.4pt] (0.75,0) arc[start angle=0,end angle=135,radius=0.75];\n\\node[black] at (67.5:1.48) {$135^\\circ$};\n\\draw[black,line width=0.4pt] ($(D)!0.36!(0,-3)$)--(0.36,-3.64)--(0.36,-4);\n\\coordinate (LA) at ($(L)!0.36cm!(A)$);\n\\coordinate (LB) at ($(L)!0.36cm!(B)$);\n\\draw[black,line width=0.4pt] (LA)--($(LA)+(LB)-(L)$)--(LB);\n\\fill[black] (O) circle[radius=1.2pt];\n\\path (D)--(E) node[midway,below=4pt,black] {$4\\text{ cm}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 44.7,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 15,
+          "sourceRegion": "Exercise 14D, question 3, right-hand figure",
+          "description": "Two equal squares and an unshaded 135-degree sector share a centre vertex. The upright square extends right and down; the other square extends left with diagonally oriented sides. All eight square sides carry matching single ticks. Right-angle marks occur at the leftmost vertex and the upright square's bottom-left vertex. Ordinary source blue outlines and the centre marker are rendered black under house style.",
+          "mathematics": "Each square has side 4 cm. The sector has radius 4 cm and spans counterclockwise from the rightward radius to the upper-left radius through 135 degrees. The three interiors do not overlap.",
+          "answerVisibility": "Only source givens are visible; no area calculations or answers appear."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$(32+6\\pi)\\text{ cm}^2$.\n\nAdd the areas of the two squares and the sector.",
+      "worked": "The matching ticks show that both squares have side $4\\text{ cm}$ and the sector has radius $4\\text{ cm}$. The sector occupies $\\frac{135}{360}=\\frac38$ of a full circle.\n$$\\begin{align*}A_{\\text{squares}}&=2\\times4^2\\\\A_{\\text{squares}}&=32\\text{ cm}^2\\\\A_{\\text{sector}}&=\\frac{135}{360}\\times\\pi\\times4^2\\\\A_{\\text{sector}}&=6\\pi\\text{ cm}^2\\\\A_{\\text{figure}}&=(32+6\\pi)\\text{ cm}^2.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 60
+  },
+  "presentation": {
+    "ownerId": "p15-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:20:14.962Z",
+  "updatedAt": "2026-11-12T13:20:14.962Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch14-20261015",
+    "blockId": "p15-q3",
+    "sectionRole": "exercise"
+  }
+}

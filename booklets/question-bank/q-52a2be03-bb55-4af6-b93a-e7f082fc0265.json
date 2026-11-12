@@ -1,0 +1,155 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-52a2be03-bb55-4af6-b93a-e7f082fc0265",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables",
+      "theoretical-probability"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Calculate disjoint Venn regions from overlapping totals, then use these counts to find three probabilities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-20T07:10:10.536Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "31c013a0b87428304748085cf6f8f6d599a9634227ff3b20ac1f07dc83551873",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch16-20261015/semantic-packets/assignments/assignment-3f0b3849c886e5e522c1/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p18-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "In a group of 50 students, 30 study mathematics, 25 study physics and 20 study both.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p18-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Represent this information on a Venn diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Let $M$ represent mathematics and $P$ represent physics. Mathematics only: 10; both: 20; physics only: 5; neither: 15.",
+          "worked": "Let $M$ represent students studying mathematics and $P$ represent students studying physics. Place 20 in the intersection.\n\n$$\\begin{align*}\\text{Mathematics only}&=30-20=10\\\\\\text{Physics only}&=25-20=5\\\\\\text{Neither}&=50-(10+20+5)=15\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p18-q5-a-solution-venn",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18 p18-q5-a-solution-venn; teacher page 32 Exercise 16D question 5\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.8pt] (0,0) rectangle (6,4);\n\\draw[line width=0.8pt] (2.2,2.15) circle (1.35);\n\\draw[line width=0.8pt] (3.8,2.15) circle (1.35);\n\\node[above left] at (0,4) {$\\xi$};\n\\node at (0.65,3.55) {$M$};\n\\node at (5.35,3.55) {$P$};\n\\node at (1.65,2.15) {10};\n\\node at (3,2.15) {20};\n\\node at (4.35,2.15) {5};\n\\node at (5.35,0.45) {15};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 18,
+                "sourceRegion": "Exercise 16D question 5(a); answer diagram on teacher PDF page 32",
+                "description": "Unshaded two-set Venn diagram in a universal rectangle, with mathematics on the left and physics on the right.",
+                "mathematics": "M only 10, intersection 20, P only 5, outside both 15; total 50.",
+                "answerVisibility": "Solution only; no diagram or region counts are supplied in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p18-q5-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "One student is selected at random from the group. What is the probability that the student studies:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p18-q5-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "mathematics but not physics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{5}$",
+              "worked": "There are $30-20=10$ students who study mathematics but not physics.\n\n$$\\begin{align*}P(\\text{mathematics but not physics})&=\\frac{10}{50}\\\\P(\\text{mathematics but not physics})&=\\frac15\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p18-q5-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "physics but not mathematics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{10}$",
+              "worked": "There are $25-20=5$ students who study physics but not mathematics.\n\n$$\\begin{align*}P(\\text{physics but not mathematics})&=\\frac{5}{50}\\\\P(\\text{physics but not mathematics})&=\\frac1{10}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p18-q5-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "neither physics nor mathematics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{3}{10}$",
+              "worked": "The Venn diagram gives $50-(10+20+5)=15$ students who study neither subject.\n\n$$\\begin{align*}P(\\text{neither subject})&=\\frac{15}{50}\\\\P(\\text{neither subject})&=\\frac3{10}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:31:09.551Z",
+  "updatedAt": "2026-11-12T11:31:09.551Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch16-20261015",
+    "blockId": "p18-q5",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8fae5fc0-72ef-494c-b050-2cfe16d9eead",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Establish two triangle congruences and use the opposite-sides test to prove that an internal quadrilateral is a parallelogram.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T06:42:31.648Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d23cb8ba1d3a55a1a1e24cdac4cc9ce071efcd5e5a587daaf573423e768f0bc5",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/semantic-packets/assignments/assignment-32f1fa05547d258cb74a/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p8-q13",
+    "type": "question",
+    "label": "13",
+    "prompt": "In the diagram to the right, $ABCD$ is a parallelogram. $AC$ is a diagonal and $P$ and $Q$ are points on $AC$ such that $AP=CQ$. Prove that $PBQD$ is a parallelogram.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p8-q13-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"internalRed\",\"hex\":\"EF6068\",\"reason\":\"Distinguishes the diagonal and internal quadrilateral from the given outer parallelogram.\"}],\"reference\":\"page 8 question 13\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{internalRed}{HTML}{EF6068}\n\\coordinate (D) at (0,0);\\coordinate (A) at (0.65,2.3);\\coordinate (C) at (3.65,0.3);\\coordinate (B) at (4.3,2.6);\n\\coordinate (P) at ($(A)!0.32!(C)$);\\coordinate (Q) at ($(A)!0.68!(C)$);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[line width=0.4pt,->] ($(A)!0.44!(B)$)--($(A)!0.56!(B)$);\n\\draw[line width=0.4pt,->] ($(D)!0.44!(C)$)--($(D)!0.56!(C)$);\n\\draw[line width=0.4pt,->] ($(D)!0.43!(A)$)--($(D)!0.53!(A)$);\n\\draw[line width=0.4pt,->] ($(D)!0.49!(A)$)--($(D)!0.59!(A)$);\n\\draw[line width=0.4pt,->] ($(C)!0.43!(B)$)--($(C)!0.53!(B)$);\n\\draw[line width=0.4pt,->] ($(C)!0.49!(B)$)--($(C)!0.59!(B)$);\n\\draw[internalRed,dashed] (A)--(C);\n\\draw[internalRed,dashed] (P)--(B)--(Q)--(D)--cycle;\n\\fill[internalRed] (P) circle (1.2pt);\\fill[internalRed] (Q) circle (1.2pt);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\\node[above] at (P) {$P$};\\node[right] at (Q) {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 62,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 8,
+          "sourceRegion": "Question 13, lower-right figure",
+          "description": "Outer parallelogram ABCD, with single parallel arrows on AB and DC and double arrows on AD and BC. Red dashed AC contains P and Q in the order A, P, Q, C. Red dashed PB, BQ, QD and DP form the internal quadrilateral. Ordinary source-blue marks become house black; red retains the internal-line distinction.",
+          "mathematics": "AB parallel DC; AD parallel BC; A, P, Q, C are collinear; AP=CQ is supplied in the prompt.",
+          "answerVisibility": "Only supplied geometry, point labels, parallel marks and internal dashed segments are visible. No derived equalities or proof are shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$\\triangle PAB\\equiv\\triangle QCD$ and $\\triangle PAD\\equiv\\triangle QCB$ by SAS, so $PB=QD$ and $PD=QB$.\n\nBoth pairs of opposite sides of $PBQD$ are equal, so $PBQD$ is a parallelogram.",
+      "worked": "In $\\triangle PAB$ and $\\triangle QCD$:\n$$AP=CQ\\quad\\text{(given)},$$\n$$AB=CD\\quad\\text{(opposite sides of parallelogram }ABCD\\text{)},$$\n$$\\angle PAB=\\angle QCD\\quad\\text{(alternate angles, }AB\\parallel DC\\text{)}.$$\nHence $\\triangle PAB\\equiv\\triangle QCD$ by SAS, so $PB=QD$ (matching sides).\n\nIn $\\triangle PAD$ and $\\triangle QCB$:\n$$AP=CQ\\quad\\text{(given)},$$\n$$AD=CB\\quad\\text{(opposite sides of parallelogram }ABCD\\text{)},$$\n$$\\angle PAD=\\angle QCB\\quad\\text{(alternate angles, }AD\\parallel BC\\text{)}.$$\nHence $\\triangle PAD\\equiv\\triangle QCB$ by SAS, so $PD=QB$ (matching sides).\n\nBoth pairs of opposite sides of $PBQD$ are equal. Therefore $PBQD$ is a parallelogram.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 76
+  },
+  "presentation": {
+    "ownerId": "p8-q13-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:26.797Z",
+  "updatedAt": "2026-11-12T11:30:26.798Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p8-q13-block",
+    "sectionRole": "exercise"
+  }
+}

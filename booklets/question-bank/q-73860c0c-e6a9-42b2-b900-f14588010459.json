@@ -1,0 +1,87 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-73860c0c-e6a9-42b2-b900-f14588010459",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-results-integers",
+    "secondarySkillIds": [],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Generalise the parity of powers of10 modulo11 and use a symbolic decimal expansion to prove the alternating-digit-sum claim for every whole number; part(a) scaffolds but does not supply the general proof.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T02:54:52.884Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f00fa5a4347546766b0baa7970e6af0b0c6c8b38cc9b89c19946c091d5c37051",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch09-20261015/direct-independent-chapter21-last57-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p23-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that every odd power of 10 is congruent to $-1$ modulo 11, and that every even power of 10 is congruent to 1 modulo 11.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$10^n\\equiv(-1)^n\\pmod{11}$, which is $-1$ for odd $n$ and $1$ for even $n$.",
+          "worked": "Since $10-(-1)=11$, we have $10\\equiv-1\\pmod{11}$. Taking powers preserves congruence:\n\n$$\\begin{align*}10^n&\\equiv(-1)^n\\pmod{11}.\\end{align*}$$\n\nAn odd number of factors of $-1$ has product $-1$; an even number has product $1$. Hence odd powers of 10 are congruent to $-1$ and even powers to $1$ modulo 11. The zero power also gives $10^0=1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      },
+      {
+        "id": "p23-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence, prove that every whole number such as $123\\,456$ is congruent modulo 11 to the alternating sum of its digits, where alternating sum means $6-5+4-3+2-1$ with the units taken as positive.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each decimal place contributes its digit with alternating signs, starting positive at the units, because $10^n\\equiv(-1)^n\\pmod{11}$.",
+          "worked": "Let a whole number $N$ have digits $a_k,\\ldots,a_2,a_1,a_0$, with $a_0$ the units digit. Its place-value expansion is\n\n$$\\begin{align*}N&=a_0+a_1\\times10+a_2\\times10^2+\\cdots+a_k\\times10^k.\\end{align*}$$\n\nBy part a, replace each power of 10 by its congruent value and use addition and multiplication of congruences:\n\n$$\\begin{align*}N&\\equiv a_0-a_1+a_2-\\cdots+(-1)^k a_k\\pmod{11}.\\end{align*}$$\n\nThis is the alternating sum of the digits with the units taken as positive, proving the result for every whole number.\n\nFor the stated example:\n\n$$\\begin{align*}123\\,456&\\equiv6-5+4-3+2-1\\pmod{11}\\\\123\\,456&\\equiv3\\pmod{11}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:15:47.959Z",
+  "updatedAt": "2026-11-12T13:15:47.959Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch09-20261015",
+    "blockId": "p23-q13",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b1ac5689-cb8d-4030-8356-311fbc49ee84",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Two explicit parts guide a SAS proof and its side-equality consequence; students must select diagonal bisection and combine adjacent and opposite side equalities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T03:19:38.543Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3749d669b005d597526d91830dc996208eb045317cc76113675d9b2f2962d3f5",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/semantic-packets/assignments/assignment-ff0cd76eea59f4b1fb17/2/generation.json",
+      "originalTaskHash": "652655e283092994c46741a245006c2193252ccd283668f89de5f05096c5089e",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "d1ab657815bcabd56316f75e34659da7a8806702bee1c4a409f350524761b83a"
+      }
+    }
+  },
+  "content": {
+    "id": "p20-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "In the parallelogram $PQRS$ below, the diagonals meet at right angles at $M$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes perpendicular diagonals from the boundary\"}],\"reference\":\"source page 20 p20-q2-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (P) at (1,3); \\coordinate (Q) at (4.16227766,3); \\coordinate (R) at (3.16227766,0); \\coordinate (S) at (0,0); \\coordinate (M) at (2.08113883,1.5);\n\\draw (P)--(Q)--(R)--(S)--cycle;\n\\draw[diagonalRed,dashed] (P)--(R) (S)--(Q);\n\\draw[line width=0.4pt] pic[draw,angle radius=3mm] {right angle=P--M--Q};\n\\draw[->,line width=0.4pt] ($(P)!0.43!(Q)$)--($(P)!0.53!(Q)$);\n\\draw[->,line width=0.4pt] ($(P)!0.49!(Q)$)--($(P)!0.59!(Q)$);\n\\draw[->,line width=0.4pt] ($(S)!0.43!(R)$)--($(S)!0.53!(R)$);\n\\draw[->,line width=0.4pt] ($(S)!0.49!(R)$)--($(S)!0.59!(R)$);\n\\draw[->,line width=0.4pt] ($(S)!0.43!(P)$)--($(S)!0.57!(P)$);\n\\draw[->,line width=0.4pt] ($(R)!0.43!(Q)$)--($(R)!0.57!(Q)$);\n\\node[above left] at (P) {$P$}; \\node[above right] at (Q) {$Q$}; \\node[below right] at (R) {$R$}; \\node[below left] at (S) {$S$}; \\node[below right] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 52.3,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Challenge question 2 figure",
+          "description": "Unshaded parallelogram with double parallel arrows on PQ and SR, single parallel arrows on PS and QR, dashed diagonals and a right-angle marker at M. Ordinary marks use black; distinguished diagonals retain house red.",
+          "mathematics": "PQ parallel SR and PS parallel QR. The diagonal vectors (sqrt(10)-1,-3) and (sqrt(10)+1,3) have dot product zero. Both diagonals share midpoint M.",
+          "answerVisibility": "Supplied parallel and perpendicular marks only; no derived side equalities are printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\triangle PMQ\\equiv\\triangle RMQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle PMQ\\equiv\\triangle RMQ$ by SAS.\n\n$PM=RM$, $MQ$ is common and both included angles are right angles.",
+          "worked": "$PM=RM$ (diagonals of a parallelogram bisect each other).\n\n$\\angle PMQ=\\angle RMQ=90^\\circ$ (given perpendicular diagonals).\n\n$MQ$ is common.\n\nTherefore, $\\triangle PMQ\\equiv\\triangle RMQ$ (SAS).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p20-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence show that $PQ=RQ$, and so $PQRS$ is a rhombus.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$PQ=RQ$ (matching sides). Opposite sides of the parallelogram are equal, so all four sides are equal and $PQRS$ is a rhombus.",
+          "worked": "$PQ=RQ$ (matching sides of the congruent triangles in part a).\n\nAlso, $PQ=SR$ and $RQ=PS$ (opposite sides of a parallelogram).\n\nThus $PQ=RQ=SR=PS$, so $PQRS$ is a rhombus.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p20-q2-conclusion",
+        "type": "group",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p20-q2-conclusion-intro",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "You have now proved the following test for a rhombus:",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p20-q2-conclusion-theorem",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "‘If the diagonals of a parallelogram are perpendicular, then the parallelogram is a rhombus.’",
+                  "marks": [
+                    "italic"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "responseSpace": "given",
+        "answerSpaceMm": 0
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:31.479Z",
+  "updatedAt": "2026-11-12T11:30:31.479Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p20-q2",
+    "sectionRole": "exercise"
+  }
+}

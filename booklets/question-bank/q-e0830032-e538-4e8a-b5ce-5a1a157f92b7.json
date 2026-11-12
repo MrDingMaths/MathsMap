@@ -1,0 +1,155 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e0830032-e538-4e8a-b5ce-5a1a157f92b7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "inclusion-exclusion-rule",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables",
+      "compound-event-probability"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Use the statement that everyone studies at least one subject to infer the overlap, derive exclusive counts, and convert those regions to probabilities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:23:32.305Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5ea0cc86bce2344fa534f46ab32c1185bd47f2897c8e27c9e66bbdabcbb5456a",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-8-ch16-20261015/40e0424f2bafd8eee3043ddd60d4f89006677280b7236f67adea1cdc92e91e92-1792560164051/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "In a class of 26 students, 18 study chemistry and 12 study economics. Each student studies at least one of chemistry or economics.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p18-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Represent this information on a Venn diagram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Let $C$ represent chemistry and $E$ economics. Chemistry only: 14; both: 4; economics only: 8; neither: 0.",
+          "worked": "Let $C$ represent chemistry and $E$ economics. Every student studies at least one subject, so $|C\\cup E|=26$.\n\n$$\\begin{align*}|C\\cup E|&=|C|+|E|-|C\\cap E|\\\\26&=18+12-|C\\cap E|\\\\|C\\cap E|&=4\\end{align*}$$\n\nChemistry only: $18-4=14$. Economics only: $12-4=8$. Neither: $0$.",
+          "solutionDiagrams": [
+            {
+              "id": "p18-q3-a-solution-venn",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 18 p18-q3-a-solution-venn; teacher page 32\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.8pt]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw (0,0) rectangle (6,3.8);\n\\draw (2.2,1.9) circle (1.35);\n\\draw (3.8,1.9) circle (1.35);\n\\node[above left] at (0,3.8) {$\\xi$};\n\\node at (1.1,3.25) {$C$};\n\\node at (4.9,3.25) {$E$};\n\\node at (1.65,1.9) {$(14)$};\n\\node at (3,1.9) {$(4)$};\n\\node at (4.35,1.9) {$(8)$};\n\\node at (5.45,0.45) {$(0)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 18,
+                "sourceRegion": "Question 3(a); matching teacher solution on PDF page 32",
+                "description": "Unshaded two-set Venn diagram inside the sample-space rectangle. C denotes chemistry and E economics; counts are parenthesised as in the teacher evidence.",
+                "mathematics": "C only 14, intersection 4, E only 8, outside both 0; total 26.",
+                "answerVisibility": "Solution only; the student question supplies no diagram."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p18-q3-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "One student is selected at random. What is the probability that the student studies:",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p18-q3-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "chemistry and economics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2}{13}$",
+              "worked": "The overlap contains 4 students out of 26.\n\n$$\\begin{align*}P(C\\cap E)&=\\frac{4}{26}\\\\P(C\\cap E)&=\\frac{2}{13}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p18-q3-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "only economics?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{4}{13}$",
+              "worked": "There are $12-4=8$ students who study only economics.\n\n$$\\begin{align*}P(\\text{only economics})&=\\frac{8}{26}\\\\P(\\text{only economics})&=\\frac{4}{13}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p18-q3-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "only chemistry?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{7}{13}$",
+              "worked": "There are $18-4=14$ students who study only chemistry.\n\n$$\\begin{align*}P(\\text{only chemistry})&=\\frac{14}{26}\\\\P(\\text{only chemistry})&=\\frac{7}{13}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p18-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:31:08.282Z",
+  "updatedAt": "2026-11-12T11:31:08.282Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch16-20261015",
+    "blockId": "p18-q3",
+    "sectionRole": "exercise"
+  }
+}

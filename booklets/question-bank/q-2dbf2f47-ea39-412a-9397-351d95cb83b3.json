@@ -1,0 +1,137 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2dbf2f47-ea39-412a-9397-351d95cb83b3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-composite-circles",
+    "secondarySkillIds": [
+      "area-of-sector",
+      "area-of-triangle",
+      "pythagoras-find-side"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Add triangle and circle-part areas, identifying a semicircle radius from its diameter and using Pythagoras to obtain a sector radius.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:54:18.497Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a9fb6fa72a721c386d3ce9db93e1f79587ee9c10064fa082cdc59e5b6ef7b510",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch14-20261015/semantic-packets/assignments/assignment-99aeb44294f41050943f/3/generation.json"
+    }
+  },
+  "content": {
+    "id": "p16-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Find the area of the following figures. Give your answers in terms of $\\pi$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p16-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "A semicircle on a triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p16-q12-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"heightRed\",\"hex\":\"EF6068\",\"reason\":\"Perpendicular-height extension distinguished from the figure boundary.\"}],\"reference\":\"source page 16 p16-q12-a-diagram\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{heightRed}{HTML}{EF6068}\n\\coordinate (L) at (-3,0);\n\\coordinate (R) at (3,0);\n\\coordinate (O) at (0,0);\n\\coordinate (V) at (0,-5);\n\\draw[black,line width=0.8pt] (R) arc[start angle=0,end angle=180,radius=3] -- (R) -- (V) -- (L);\n\\draw[heightRed,densely dotted,line width=0.4pt] (V)--(3.65,-5);\n\\draw[black,line width=0.4pt] (3.15,0)--(3.75,0) (3.15,-5)--(3.75,-5);\n\\draw[black,<->,line width=0.4pt] (3.5,0)--node[right,font=\\fontsize{10}{12}\\selectfont] {$5\\text{ cm}$} (3.5,-5);\n\\fill[black] (O) circle[radius=1.5pt];\n\\node[above,font=\\fontsize{10}{12}\\selectfont] at (O) {$6\\text{ cm}$};\n\\node[below left,font=\\fontsize{10}{12}\\selectfont] at (O) {$O$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 42.3,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 16,
+              "sourceRegion": "Question 12a, lower-left figure",
+              "description": "An upper semicircle shares its horizontal diameter with the base of a downward triangle. The diameter is labelled 6 cm, its midpoint O is marked, and a right-side vertical dimension gives the triangle height as 5 cm. The dotted lower extension remains red; ordinary boundaries and centre marker use house black.",
+              "mathematics": "Semicircle diameter 6 cm; triangle base 6 cm and perpendicular height 5 cm.",
+              "answerVisibility": "Only source givens are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$\\left(15+\\dfrac{9\\pi}{2}\\right)\\text{ cm}^2$",
+          "worked": "The semicircle has radius $6\\div2=3\\text{ cm}$.\n\n$$\\begin{align*}A_{\\text{triangle}}&=\\frac12\\times6\\times5\\\\A_{\\text{triangle}}&=15\\text{ cm}^2\\end{align*}$$\n\n$$\\begin{align*}A_{\\text{semicircle}}&=\\frac12\\times\\pi\\times3^2\\\\A_{\\text{semicircle}}&=\\frac{9\\pi}{2}\\text{ cm}^2\\end{align*}$$\n\n$$\\begin{align*}A_{\\text{figure}}&=15+\\frac{9\\pi}{2}\\\\A_{\\text{figure}}&=\\left(15+\\frac{9\\pi}{2}\\right)\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p16-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A sector of a circle, centre $O$, on a right-angled triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p16-q12-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 16 p16-q12-b-diagram\"}\n\\begin{tikzpicture}[x=0.32cm,y=0.32cm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (B) at (-12,0);\n\\coordinate (A) at (-12,5);\n\\coordinate (C) at ({-6+5*sqrt(3)/2},{6*sqrt(3)+2.5});\n\\draw[black,line width=0.8pt] (O)--(B)--(A)--(O)--(C);\n\\draw[black,line width=0.8pt] (C) arc[start angle={atan2(5,-12)-60},end angle={atan2(5,-12)},radius=13];\n\\draw[black,line width=0.4pt] (-12,0.65)--(-11.35,0.65)--(-11.35,0);\n\\pic[draw=black,line width=0.4pt,angle radius=8mm,angle eccentricity=1.35,\"$60^\\circ$\",font=\\fontsize{10}{12}\\selectfont] {angle=C--O--A};\n\\path (B)--(A) node[midway,left,font=\\fontsize{10}{12}\\selectfont] {$5\\text{ cm}$};\n\\path (B)--(O) node[midway,below,font=\\fontsize{10}{12}\\selectfont] {$12\\text{ cm}$};\n\\fill[black] (O) circle[radius=1.5pt];\n\\node[below right,font=\\fontsize{10}{12}\\selectfont] at (O) {$O$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 47.2,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 16,
+              "sourceRegion": "Question 12b, lower-right figure",
+              "description": "A right triangle with horizontal 12 cm base and vertical 5 cm left side lies below a sector. Its hypotenuse is the shared radius, with centre O at the lower-right vertex. The other radius is obtained by rotating the shared radius clockwise through 60 degrees. The sector arc joins their endpoints. Ordinary source blue lines and red centre marker use house black.",
+              "mathematics": "Perpendicular triangle legs 5 cm and 12 cm; sector centre O and central angle 60 degrees. The unlabelled radius is not supplied to students.",
+              "answerVisibility": "Only source givens are visible; the calculated radius and areas are withheld."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "$\\left(30+\\dfrac{169\\pi}{6}\\right)\\text{ cm}^2$\n\nUse Pythagoras to find the shared radius, then add the triangle and sector areas.",
+          "worked": "The hypotenuse is the sector radius $r$. By Pythagoras’ theorem:\n\n$$\\begin{align*}r^2&=5^2+12^2\\\\r^2&=25+144\\\\r^2&=169\\\\r&=13\\text{ cm}\\end{align*}$$\n\n$$\\begin{align*}A_{\\text{triangle}}&=\\frac12\\times12\\times5\\\\A_{\\text{triangle}}&=30\\text{ cm}^2\\end{align*}$$\n\nThe $60^\\circ$ sector is $\\frac{60}{360}=\\frac16$ of a circle.\n\n$$\\begin{align*}A_{\\text{sector}}&=\\frac16\\times\\pi\\times13^2\\\\A_{\\text{sector}}&=\\frac{169\\pi}{6}\\text{ cm}^2\\end{align*}$$\n\n$$\\begin{align*}A_{\\text{figure}}&=30+\\frac{169\\pi}{6}\\\\A_{\\text{figure}}&=\\left(30+\\frac{169\\pi}{6}\\right)\\text{ cm}^2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 72
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:20:17.236Z",
+  "updatedAt": "2026-11-12T13:20:17.236Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch14-20261015",
+    "blockId": "p16-q12",
+    "sectionRole": "exercise"
+  }
+}

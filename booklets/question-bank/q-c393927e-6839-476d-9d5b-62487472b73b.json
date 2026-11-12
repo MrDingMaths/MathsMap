@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c393927e-6839-476d-9d5b-62487472b73b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "congruent-triangle-tests"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Adapt the explicitly referenced earlier proofs: use alternate angles and equal sides for diagonal bisection, then connect SSS angle bisection, isosceles base angles and triangle angle sums to establish perpendicularity. The taught proof route supplies the essential connections.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T07:25:53.743Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4f9e483cd2e99136b59b501f7480cf966e154a1f65e24b23d933842db72b378d",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/background-repair-1792567532113/worker-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p12-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "In the diagram to the right, $PQRS$ is a rhombus. Let $M$ be the point of intersection of the diagonals $QS$ and $PR$.\n\nProve that $QM=MS$, $PM=MR$ and $\\angle QMR$ is a right angle, as presented earlier.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the two diagonals from the rhombus boundary\"}],\"reference\":\"source page 12 question 4\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (P) at (0,0);\n\\coordinate (Q) at (1,2.828427);\n\\coordinate (R) at (4,2.828427);\n\\coordinate (S) at (3,0);\n\\coordinate (M) at (2,1.414214);\n\\draw[black,line width=0.8pt] (P)--(Q)--(R)--(S)--cycle;\n\\draw[diagonalRed,line width=0.4pt,dashed] (P)--(R) (Q)--(S);\n\\foreach \\a/\\b in {P/Q,Q/R,S/R,P/S}{\n\\draw[black,line width=0.4pt] ($ (\\a)!0.43!(\\b)+(\\a)!0.035!90:(\\b)-(\\a) $)--($ (\\a)!0.43!(\\b)+(\\a)!0.035!-90:(\\b)-(\\a) $);\n}\n\\draw[black,line width=0.4pt,->] ($(P)!0.57!(Q)$)--($(P)!0.68!(Q)$);\n\\draw[black,line width=0.4pt,->] ($(S)!0.57!(R)$)--($(S)!0.68!(R)$);\n\\foreach \\a/\\b in {Q/R,P/S}{\n\\draw[black,line width=0.4pt,->] ($(\\a)!0.57!(\\b)$)--($(\\a)!0.67!(\\b)$);\n\\draw[black,line width=0.4pt,->] ($(\\a)!0.63!(\\b)$)--($(\\a)!0.73!(\\b)$);\n}\n\\fill[diagonalRed] (M) circle (1.2pt);\n\\node[below left] at (P) {$P$};\n\\node[above left] at (Q) {$Q$};\n\\node[above right] at (R) {$R$};\n\\node[below right] at (S) {$S$};\n\\node[right] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 53.3,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Question 4, lower-right figure",
+          "description": "Unfilled rhombus with four matching single side ticks, single arrows on PQ and SR, double arrows on QR and PS, and red dashed diagonals meeting at M. Ordinary source blue strokes become black under house style.",
+          "mathematics": "PQ=QR=RS=SP; PQ is parallel to SR; QR is parallel to PS; M lies on PR and QS.",
+          "answerVisibility": "Only supplied geometry and marks are visible; no right-angle mark or diagonal-half equality marks are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$QM=MS$, $PM=MR$ and $\\angle QMR=90^\\circ$.\n\nA rhombus is a parallelogram, so its diagonals bisect each other. Angle bisection and the angle sum of a triangle establish perpendicularity.",
+      "worked": "A rhombus is a parallelogram. In triangles $PQM$ and $RSM$:\n$$\\begin{align*}\\angle QPM&=\\angle SRM &&\\text{(alternate angles, }PQ\\parallel SR\\text{)}\\\\\\angle PQM&=\\angle RSM &&\\text{(alternate angles, }PQ\\parallel SR\\text{)}\\\\PQ&=RS &&\\text{(sides of a rhombus).}\\end{align*}$$\nThus $\\triangle PQM\\equiv\\triangle RSM$ (AAS). Hence $QM=MS$ and $PM=MR$ (matching sides of congruent triangles).\n\nFor perpendicularity, $PQ=PS$, $QR=SR$ and $PR$ is common. Therefore $\\triangle PQR\\equiv\\triangle PSR$ (SSS), so $\\angle QRP=\\angle PRS$.\n\nLet $\\angle RQS=\\alpha$ and $\\angle QRP=\\beta$. Since $QR=RS$, the base angles of isosceles triangle $QRS$ give $\\angle QSR=\\alpha$. Also $\\angle QRS=2\\beta$. Therefore\n$$\\begin{align*}2\\alpha+2\\beta&=180^\\circ &&\\text{(angle sum of }\\triangle QRS\\text{)}\\\\\\alpha+\\beta&=90^\\circ.\\end{align*}$$\nIn triangle $QMR$,\n$$\\begin{align*}\\angle QMR&=180^\\circ-(\\alpha+\\beta)\\\\\\angle QMR&=180^\\circ-90^\\circ\\\\\\angle QMR&=90^\\circ.\\end{align*}$$\nThus the diagonals bisect each other at right angles.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 108
+  },
+  "presentation": {
+    "ownerId": "p12-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:27.457Z",
+  "updatedAt": "2026-11-12T11:30:27.457Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p12-q4",
+    "sectionRole": "exercise"
+  }
+}

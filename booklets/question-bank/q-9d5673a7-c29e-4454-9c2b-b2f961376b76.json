@@ -1,0 +1,112 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9d5673a7-c29e-4454-9c2b-b2f961376b76",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "parallel-line-angle-properties",
+      "angle-sum-triangle"
+    ],
+    "reasoningScore": 74,
+    "difficulty": "Mastery",
+    "difficultyReason": "Construct proofs of both rhombus diagonal properties using equal sides, parallel lines and triangle angle sums.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T06:49:57.090Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6d92b92510e6e14eb209c04fe3f387de0131a5f5b143b0e3000be4e91bb67b34",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/semantic-packets/assignments/assignment-510704dbfb355f8899f6/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p19-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "The figure $ABCD$ below is a rhombus.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 question 6\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (D) at (0,0);\\coordinate (C) at (3,0);\\coordinate (A) at (1,2.828427);\\coordinate (B) at (4,2.828427);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\n\\draw[black,line width=0.4pt] (1.82,2.72)--(1.82,2.94) (2.18,-0.11)--(2.18,0.11);\n\\draw[black,line width=0.4pt] (0.24,1.47)--(0.45,1.40) (3.55,1.43)--(3.76,1.36);\n\\draw[black,->>,line width=0.4pt] (2.46,2.828427)--(2.82,2.828427);\n\\draw[black,->>,line width=0.4pt] (0.90,0)--(1.26,0);\n\\draw[black,->,line width=0.4pt] (0.19,0.54)--(0.32,0.91);\n\\draw[black,->,line width=0.4pt] (3.19,0.54)--(3.32,0.91);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 54.6,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Review exercise question 6",
+          "description": "Unshaded rhombus with all four single equality ticks, double parallel arrows on horizontal sides and single parallel arrows on sloping sides. Ordinary source blue ink is rendered black.",
+          "mathematics": "A upper left, B upper right, C lower right, D lower left; AB parallel DC, AD parallel BC, and all four sides equal. No diagonals are supplied.",
+          "answerVisibility": "Givens only; diagonals and their intersection are introduced in the solutions."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that each diagonal bisects the two interior angles through which it passes.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AC$ bisects the angles at $A$ and $C$; $BD$ bisects the angles at $B$ and $D$.\n\nUse alternate angles and the base angles of isosceles triangles.",
+          "worked": "Join $AC$. Let $\\angle BAC=\\alpha$. Since $AB\\parallel DC$, $\\angle DCA=\\alpha$ (alternate angles). Since $AD=DC$, triangle $ADC$ is isosceles, so $\\angle DAC=\\angle DCA=\\alpha$. Thus $AC$ bisects the angle at $A$. Since $AB=BC$, triangle $ABC$ is isosceles, so $\\angle BCA=\\angle BAC=\\alpha=\\angle DCA$. Thus $AC$ also bisects the angle at $C$.\n\nJoin $BD$. Let $\\angle ABD=\\beta$. Since $AB\\parallel DC$, $\\angle BDC=\\beta$ (alternate angles). Since $BC=CD$, triangle $BCD$ is isosceles, so $\\angle DBC=\\angle BDC=\\beta$. Thus $BD$ bisects the angle at $B$. Since $AB=AD$, triangle $ABD$ is isosceles, so $\\angle ADB=\\angle ABD=\\beta=\\angle BDC$. Thus $BD$ also bisects the angle at $D$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "p19-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that the diagonals meet at right angles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AC\\perp BD$.\n\nUse the angle bisections from part a and the angle sum of a triangle.",
+          "worked": "Let $AC$ and $BD$ meet at $M$, and let $\\angle BAC=\\alpha$ and $\\angle ABD=\\beta$. By part a, $\\angle BAD=2\\alpha$ and $\\angle ABC=2\\beta$. Since $AD\\parallel BC$, $\\angle ADB=\\angle DBC=\\beta$ (alternate angles and part a).\n\nUsing the angle sum of triangle $ABD$:\n$$\\begin{align*}2\\alpha+2\\beta&=180^\\circ\\\\\\alpha+\\beta&=90^\\circ\\end{align*}$$\nIn triangle $AMB$, $\\angle BAM=\\alpha$ and $\\angle ABM=\\beta$. Hence\n$$\\begin{align*}\\angle AMB&=180^\\circ-(\\alpha+\\beta)\\\\\\angle AMB&=180^\\circ-90^\\circ\\\\\\angle AMB&=90^\\circ.\\end{align*}$$\nTherefore $AC\\perp BD$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p19-q6-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:30.552Z",
+  "updatedAt": "2026-11-12T11:30:30.553Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p19-q6-block",
+    "sectionRole": "exercise"
+  }
+}

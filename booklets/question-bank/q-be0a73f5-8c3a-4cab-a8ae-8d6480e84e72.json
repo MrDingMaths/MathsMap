@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-be0a73f5-8c3a-4cab-a8ae-8d6480e84e72",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Adapt the explicitly referenced taught proof: identify two alternate-angle equalities and equal opposite sides, establish triangle congruence, then infer equality of the matching diagonal segments.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T07:24:42.115Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "43bb75b7c74a1cf42de3f94d4a9b9e34a88500c6515b43cae98c87b9e41c307a",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/background-repair-1792567440374/worker-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p6-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "In the diagram to the right, $XYZW$ is a parallelogram. $M$ is the point of intersection of $XZ$ and $YW$. Prove that $XM=ZM$, as presented earlier.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p6-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"distinguish the intersecting diagonals from the parallelogram sides\"}],\"reference\":\"source page 6, p6-q4-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (X) at (0,0);\n\\coordinate (Y) at (0.9,2.5);\n\\coordinate (Z) at (3.25,2.5);\n\\coordinate (W) at (2.35,0);\n\\coordinate (M) at ($(X)!0.5!(Z)$);\n\\draw[black,line width=0.8pt] (X)--(Y)--(Z)--(W)--cycle;\n\\draw[black,line width=0.4pt,->] ($(X)!0.44!(Y)$)--($(X)!0.58!(Y)$);\n\\draw[black,line width=0.4pt,->] ($(W)!0.44!(Z)$)--($(W)!0.58!(Z)$);\n\\draw[black,line width=0.4pt,->>] ($(Y)!0.43!(Z)$)--($(Y)!0.59!(Z)$);\n\\draw[black,line width=0.4pt,->>] ($(X)!0.43!(W)$)--($(X)!0.59!(W)$);\n\\draw[diagonalRed,line width=0.4pt,dash pattern=on 4pt off 2pt] (X)--(Z) (Y)--(W);\n\\fill[diagonalRed] (M) circle[radius=1.3pt];\n\\node[below left] at (X) {$X$};\n\\node[above left] at (Y) {$Y$};\n\\node[above right] at (Z) {$Z$};\n\\node[below right] at (W) {$W$};\n\\node[right=2mm] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 6,
+          "sourceRegion": "Question 4, right-hand diagram",
+          "description": "Unshaded parallelogram with single parallel arrows on XY and WZ, double parallel arrows on YZ and XW, and red dashed diagonals meeting at a red point M. Ordinary source-blue outlines and arrows become house black.",
+          "mathematics": "Vertices run X, Y, Z, W around the boundary. XY is parallel to WZ; YZ is parallel to XW. Diagonals XZ and YW meet at M. No equal-length marks or supplied answers.",
+          "answerVisibility": "Only the supplied geometry, parallel marks, diagonals and point labels are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$XM=ZM$.\n\n$\\triangle XYM\\equiv\\triangle ZWM$ by AAS, so their matching sides $XM$ and $ZM$ are equal.",
+      "worked": "In triangles $XYM$ and $ZWM$:\n\n$\\angle YXM=\\angle WZM$ (alternate angles, $XY\\parallel WZ$).\n\n$\\angle XYM=\\angle ZWM$ (alternate angles, $XY\\parallel WZ$).\n\n$XY=ZW$ (opposite sides of parallelogram $XYZW$).\n\nTherefore $\\triangle XYM\\equiv\\triangle ZWM$ (AAS).\n\nHence $XM=ZM$ (matching sides of congruent triangles).",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 62
+  },
+  "presentation": {
+    "ownerId": "p6-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:25.079Z",
+  "updatedAt": "2026-11-12T11:30:25.079Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p6-q4",
+    "sectionRole": "exercise"
+  }
+}

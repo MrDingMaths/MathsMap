@@ -1,0 +1,85 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f0d59d9b-6053-438b-981d-2c3da27ef9d2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-congruent-triangles"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Reproduce the demonstrated diagonal angle-bisection proof with relabelled vertices, choosing matching SSS triangles and stating the corresponding angle consequence.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T00:53:05.361Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "2383e3071f92f728453f3aab57db5d930ec1336edd415b7a1c8da54cba437c6a",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/direct-independent-factorisation-first21-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p12-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "In the diagram to the right, $XYZW$ is a rhombus.\n\nProve that $XZ$ bisects $\\angle X$ as presented earlier.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q3-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the supplied diagonals from the boundary\"}],\"reference\":\"source page 12 question 3\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (X) at (0,0);\n\\coordinate (Y) at (1,3);\n\\coordinate (Z) at (4.16227766,3);\n\\coordinate (W) at (3.16227766,0);\n\\draw (X)--(Y)--(Z)--(W)--cycle;\n\\draw[diagonalRed,dashed,line width=0.8pt] (X)--(Z) (Y)--(W);\n\\foreach \\a/\\b in {X/Y,W/Z}{\n\\draw[line width=0.4pt] ($ (\\a)!.36!(\\b) $) ++(161.565:0.10)--++(-18.435:0.20);\n\\draw[-{Stealth},line width=0.4pt] ($ (\\a)!.58!(\\b) $)--($ (\\a)!.68!(\\b) $);\n}\n\\foreach \\a/\\b in {Y/Z,X/W}{\n\\draw[line width=0.4pt] ($ (\\a)!.36!(\\b) $) ++(0,-0.10)--++(0,0.20);\n\\draw[-{Stealth},line width=0.4pt] ($ (\\a)!.52!(\\b) $)--($ (\\a)!.60!(\\b) $);\n\\draw[-{Stealth},line width=0.4pt] ($ (\\a)!.63!(\\b) $)--($ (\\a)!.71!(\\b) $);\n}\n\\node[below left] at (X) {$X$};\n\\node[above left] at (Y) {$Y$};\n\\node[above right] at (Z) {$Z$};\n\\node[below right] at (W) {$W$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 52,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Exercise 13B question 3, lower-right figure",
+          "description": "Rhombus XYZW with X lower left, Y upper left, Z upper right and W lower right. Every side has one equality tick. XY and WZ have matching single parallel arrows; YZ and XW have matching double arrows. Both diagonals are dashed red. Ordinary source-blue geometry is rendered black under house style.",
+          "mathematics": "XY=YZ=ZW=WX; XY parallel to WZ; YZ parallel to XW; diagonals XZ and YW.",
+          "answerVisibility": "Only source givens are visible; no angle-bisection marks or proof conclusions are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "$\\angle YXZ=\\angle WXZ$, so $XZ$ bisects $\\angle X$.\n\nTriangles $XYZ$ and $XWZ$ are congruent by SSS.",
+      "worked": "In triangles $XYZ$ and $XWZ$:\n$$\\begin{align*}XY&=XW &&\\text{(sides of a rhombus)}\\\\YZ&=WZ &&\\text{(sides of a rhombus)}\\\\XZ&=XZ &&\\text{(common side)}\\end{align*}$$\nTherefore, $\\triangle XYZ\\equiv\\triangle XWZ$ (SSS).\n\nHence, $\\angle YXZ=\\angle WXZ$ (matching angles of congruent triangles).\n\nTherefore, $XZ$ bisects $\\angle X$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 49
+  },
+  "presentation": {
+    "ownerId": "p12-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:27.251Z",
+  "updatedAt": "2026-11-12T11:30:27.251Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p12-q3",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-530af0d4-abe8-4668-9a61-12e6579cd2a1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quadrilateral-properties",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the explicitly taught diagonal-bisection property to two symbolic half-lengths, double both and compare their ratio; no new proof selection is demanded.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T01:13:01.291Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b65dff0d5e082b65ad215e08f42350e550e7b38242eec4de4a50ece9117d05b2",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/direct-independent-factorisation-final-four-annotations-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p7-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Show that the diagonal $AC$ in the diagram below has twice the length of the diagonal $BD$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p7-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the dashed diagonals from the parallelogram boundary\"}],\"reference\":\"source page 7 p7-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (A) at (0,1.5);\n\\coordinate (B) at (3,1.5);\n\\coordinate (C) at (4.5,0);\n\\coordinate (D) at (1.5,0);\n\\coordinate (M) at ($(A)!0.5!(C)$);\n\\draw (A)--(B)--(C)--(D)--cycle;\n\\draw[diagonalRed,dashed,line width=0.4pt] (A)--(C) (B)--(D);\n\\draw[-{Stealth[length=2mm]},line width=0.4pt] ($(A)!0.54!(B)$)--($(A)!0.47!(B)$);\n\\draw[-{Stealth[length=2mm]},line width=0.4pt] ($(A)!0.58!(B)$)--($(A)!0.51!(B)$);\n\\draw[-{Stealth[length=2mm]},line width=0.4pt] ($(D)!0.54!(C)$)--($(D)!0.47!(C)$);\n\\draw[-{Stealth[length=2mm]},line width=0.4pt] ($(D)!0.58!(C)$)--($(D)!0.51!(C)$);\n\\draw[-{Stealth[length=2mm]},line width=0.4pt] ($(D)!0.43!(A)$)--($(D)!0.57!(A)$);\n\\draw[-{Stealth[length=2mm]},line width=0.4pt] ($(C)!0.43!(B)$)--($(C)!0.57!(B)$);\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\node[below] at ($(M)+(0,-0.12)$) {$M$};\n\\node (halfAC) at (1.45,1.18) {$2x$};\n\\draw[line width=0.4pt] (halfAC.south) -- ($(A)!0.47!(M)$);\n\\path (M)--node[right] {$x$} (B);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 7,
+          "sourceRegion": "Exercise 13A question 8",
+          "description": "Parallelogram ABCD with A upper left, B upper right, C lower right and D lower left. Opposite horizontal sides have double parallel arrows; the other pair has single arrows. Red dashed diagonals meet at M. Ordinary source blue outlines and parallel marks use house black; the diagonal distinction retains standard red.",
+          "mathematics": "AB parallel to DC; AD parallel to BC; M is the intersection of AC and BD; AM=2x; BM=x. Drawing coordinates represent topology and are not supplied measurements.",
+          "answerVisibility": "Only original givens and labels are visible; no inferred half-diagonal lengths or conclusion are supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$AC=2BD$.\n\nThe diagonals of a parallelogram bisect each other, so $AC=4x$ and $BD=2x$.",
+      "worked": "The diagonals of parallelogram $ABCD$ bisect each other, so $MC=AM=2x$ and $MD=BM=x$.\n$$\\begin{align*}AC&=AM+MC\\\\AC&=2x+2x\\\\AC&=4x,\\\\BD&=BM+MD\\\\BD&=x+x\\\\BD&=2x.\\end{align*}$$\nHence $AC=2BD$.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 34
+  },
+  "presentation": {
+    "ownerId": "p7-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:25.736Z",
+  "updatedAt": "2026-11-12T11:30:25.736Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p7-q8",
+    "sectionRole": "exercise"
+  }
+}

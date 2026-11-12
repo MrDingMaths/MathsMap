@@ -1,0 +1,128 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-51e98514-9a53-4e2a-8009-fdda4afad9f9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "prove-congruent-triangles",
+      "parallel-line-angle-properties"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Reconstruct the chapter's explicitly identified review proofs, introducing diagonals and linking parallel-line angles to triangle congruence; the final proof reuses the opposite-side result.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T07:35:54.299Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f9def2b498d88ac488b7db6c5243c62ad457aa57c60e777dbfa7b05a3e2a98da",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/background-repair-1792568066225/worker-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "The figure $ABCD$ below is a parallelogram.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 question 5\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (D) at (0,0);\\coordinate (C) at (4,0);\\coordinate (A) at (0.95,2.6);\\coordinate (B) at (4.95,2.6);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[black,line width=0.4pt,->] (2.7,2.6)--(3.15,2.6);\n\\draw[black,line width=0.4pt,->] (1.75,0)--(2.2,0);\n\\draw[black,line width=0.4pt,->>] ($(D)!0.42!(A)$)--($(D)!0.62!(A)$);\n\\draw[black,line width=0.4pt,->>] ($(C)!0.42!(B)$)--($(C)!0.62!(B)$);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Review exercise question 5",
+          "description": "Unshaded parallelogram with horizontal AB and DC, matching single parallel arrows on AB and DC, and matching double parallel arrows on AD and BC. Source ordinary blue strokes are rendered black.",
+          "mathematics": "A upper left, B upper right, C lower right, D lower left; AB parallel DC and AD parallel BC. No diagonals or numerical measurements are given.",
+          "answerVisibility": "Only source givens are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that the opposite angles are equal.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle DAB=\\angle BCD$ and $\\angle ABC=\\angle CDA$.\n\nEach pair is supplementary to the same adjacent angle, using co-interior angles.",
+          "worked": "Let $\\angle DAB=\\alpha$. Since $AB\\parallel DC$, co-interior angles give $\\angle CDA=180^\\circ-\\alpha$. Since $AD\\parallel BC$,\n$$\\begin{align*}\\angle BCD&=180^\\circ-\\angle CDA\\\\\\angle BCD&=180^\\circ-(180^\\circ-\\alpha)\\\\\\angle BCD&=\\alpha.\\end{align*}$$\nAlso, $AB\\parallel DC$ gives $\\angle ABC=180^\\circ-\\angle BCD=180^\\circ-\\alpha=\\angle CDA$. Hence both pairs of opposite angles are equal.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      },
+      {
+        "id": "p19-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that the opposite sides are equal.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$AB=CD$ and $BC=AD$.\n\nJoin $AC$ and prove $\\triangle ABC\\equiv\\triangle CDA$ by AAS.",
+          "worked": "Join $AC$. In $\\triangle ABC$ and $\\triangle CDA$:\n$$\\begin{align*}\\angle BAC&=\\angle DCA &&(\\text{alternate angles, }AB\\parallel DC),\\\\\\angle BCA&=\\angle DAC &&(\\text{alternate angles, }BC\\parallel AD),\\\\AC&=CA &&(\\text{common side}).\\end{align*}$$\nTherefore $\\triangle ABC\\equiv\\triangle CDA$ by AAS. Matching sides give $AB=CD$ and $BC=AD$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 52
+      },
+      {
+        "id": "p19-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that the diagonals bisect each other.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "If $AC$ and $BD$ meet at $M$, then $AM=CM$ and $BM=DM$.\n\nUse alternate angles and $AB=CD$ to prove $\\triangle ABM\\equiv\\triangle CDM$ by AAS.",
+          "worked": "Join $AC$ and $BD$, meeting at $M$. In $\\triangle ABM$ and $\\triangle CDM$:\n$$\\begin{align*}\\angle BAM&=\\angle DCM &&(\\text{alternate angles, }AB\\parallel DC),\\\\\\angle ABM&=\\angle CDM &&(\\text{alternate angles, }AB\\parallel DC),\\\\AB&=CD &&(\\text{part b}).\\end{align*}$$\nTherefore $\\triangle ABM\\equiv\\triangle CDM$ by AAS. Matching sides give $AM=CM$ and $BM=DM$. Thus each diagonal bisects the other.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p19-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:30.208Z",
+  "updatedAt": "2026-11-12T11:30:30.209Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p19-q5-block",
+    "sectionRole": "exercise"
+  }
+}

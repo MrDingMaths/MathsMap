@@ -1,0 +1,202 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3c3d3273-5c0c-44f5-8650-40a577dbbbc2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-quadrilateral-tests",
+    "secondarySkillIds": [
+      "prove-congruent-triangles",
+      "parallel-line-angle-properties"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "The four explicit prompts scaffold two similar SAS proofs and their alternate-angle consequences; students must connect these results to the definition of a parallelogram.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-23T03:19:38.543Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3e26ed6b40edbabeec44f6973f0fbcc1c745c348b79cc3146b4f4e2a87dd88be",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/semantic-packets/assignments/assignment-ff0cd76eea59f4b1fb17/2/generation.json",
+      "originalTaskHash": "67d6e4aee1b6dad8431dda15ccce4df07a96f879671457daf1a38dc24f5937c4",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "845dcd64574e9408d85c3d08844a73665f8387ea3d61ce6105f439915371414e"
+      }
+    }
+  },
+  "content": {
+    "id": "p20-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "In the quadrilateral $WXYZ$ below, the diagonals bisect each other at $M$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the bisecting diagonals from the boundary\"}],\"reference\":\"source page 20 p20-q1-diagram\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (W) at (0.9,2); \\coordinate (X) at (4.3,2); \\coordinate (Y) at (3.4,0); \\coordinate (Z) at (0,0); \\coordinate (M) at (2.15,1);\n\\draw (W)--(X)--(Y)--(Z)--cycle;\n\\draw[diagonalRed,dashed] (W)--(Y) (Z)--(X);\n\\draw[line width=0.4pt] ($(W)!0.48!(M)+(0.035,0.044)$)--($(W)!0.48!(M)+(-0.035,-0.044)$) ($(W)!0.56!(M)+(0.035,0.044)$)--($(W)!0.56!(M)+(-0.035,-0.044)$);\n\\draw[line width=0.4pt] ($(M)!0.48!(Y)+(0.035,0.044)$)--($(M)!0.48!(Y)+(-0.035,-0.044)$) ($(M)!0.56!(Y)+(0.035,0.044)$)--($(M)!0.56!(Y)+(-0.035,-0.044)$);\n\\draw[line width=0.4pt] ($(Z)!0.5!(M)+(-0.024,0.052)$)--($(Z)!0.5!(M)+(0.024,-0.052)$) ($(M)!0.5!(X)+(-0.024,0.052)$)--($(M)!0.5!(X)+(0.024,-0.052)$);\n\\node[above left] at (W) {$W$}; \\node[above right] at (X) {$X$}; \\node[below right] at (Y) {$Y$}; \\node[below left] at (Z) {$Z$}; \\node[above,yshift=1mm] at (M) {$M$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 65,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Challenge question 1 figure",
+          "description": "Unshaded quadrilateral with dashed diagonals, double ticks on WM and MY, single ticks on ZM and MX, and no parallel arrows. Ordinary outlines, ticks and labels use black; the distinguished diagonals retain house red.",
+          "mathematics": "WM=MY and ZM=MX; WY and ZX intersect at M. Coordinates give the same midpoint for both diagonals. Equal-length ticks cross their respective segments.",
+          "answerVisibility": "All supplied marks remain visible; no inferred parallel marks are added."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Prove that $\\triangle WMX\\equiv\\triangle YMZ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle WMX\\equiv\\triangle YMZ$ by SAS.\n\nThe diagonals bisect each other and the angles at $M$ are vertically opposite.",
+          "worked": "$WM=YM$ and $MX=MZ$ (the diagonals bisect each other).\n\n$\\angle WMX=\\angle YMZ$ (vertically opposite angles).\n\nTherefore, $\\triangle WMX\\equiv\\triangle YMZ$ (SAS).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p20-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence show that $WX\\parallel ZY$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle WXM=\\angle YZM$ (matching angles), so $WX\\parallel ZY$ (equal alternate angles).",
+          "worked": "From part a, $\\angle WXM=\\angle YZM$ (matching angles of congruent triangles).\n\nThese are alternate angles on transversal $XZ$, so $WX\\parallel ZY$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p20-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that $\\triangle WMZ\\equiv\\triangle YMX$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle WMZ\\equiv\\triangle YMX$ by SAS.\n\nUse the bisected diagonals and vertically opposite angles at $M$.",
+          "worked": "$WM=YM$ and $MZ=MX$ (the diagonals bisect each other).\n\n$\\angle WMZ=\\angle YMX$ (vertically opposite angles).\n\nTherefore, $\\triangle WMZ\\equiv\\triangle YMX$ (SAS).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 36
+      },
+      {
+        "id": "p20-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence show that $WZ\\parallel XY$, and hence that $WXYZ$ is a parallelogram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle WZM=\\angle YXM$, so $WZ\\parallel XY$. Both pairs of opposite sides are parallel; hence $WXYZ$ is a parallelogram.",
+          "worked": "From part c, $\\angle WZM=\\angle YXM$ (matching angles of congruent triangles).\n\nThese are alternate angles on transversal $ZX$, so $WZ\\parallel XY$.\n\nAlso, $WX\\parallel ZY$ by part b. Thus both pairs of opposite sides are parallel, so $WXYZ$ is a parallelogram.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p20-q1-conclusion",
+        "type": "group",
+        "label": "",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p20-q1-conclusion-intro",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "You have now proved the following test for a parallelogram:",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p20-q1-conclusion-theorem",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "‘If the diagonals of a quadrilateral bisect each other, then the quadrilateral is a parallelogram.’",
+                  "marks": [
+                    "italic"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "responseSpace": "given",
+        "answerSpaceMm": 0
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:31.167Z",
+  "updatedAt": "2026-11-12T11:30:31.168Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p20-q1",
+    "sectionRole": "exercise"
+  }
+}

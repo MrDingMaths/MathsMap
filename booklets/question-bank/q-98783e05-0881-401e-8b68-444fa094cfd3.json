@@ -1,0 +1,251 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-98783e05-0881-401e-8b68-444fa094cfd3",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "compound-event-probability",
+    "secondarySkillIds": [
+      "sample-space",
+      "venn-diagrams-two-way-tables"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Count multiples within a bounded three-digit interval, connect simultaneous divisibility to common multiples, and reconstruct disjoint three-set regions before evaluating compound events.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:23:32.305Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "e8872bc27de45d0d0122b8a1a320862a5cdce9971aa7ab5e1a5817889b923025",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-8-ch16-20261015/40e0424f2bafd8eee3043ddd60d4f89006677280b7236f67adea1cdc92e91e92-1792560164051/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "A three-digit number is chosen at random.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Describe the sample space and draw a Venn diagram with sets for numbers divisible by 3, 5 and 7.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\xi=\\{100,101,\\ldots,999\\}$ and $|\\xi|=900$.\n\nThe diagram shows the number of outcomes in each region.",
+          "worked": "There are $999-100+1=900$ equally likely outcomes. Let $T$, $F$ and $S$ contain the numbers divisible by 3, 5 and 7 respectively.\n\nCount multiples from the first to the last in the sample space:\n$$\\begin{align*}|T|&=333-34+1=300\\\\|F|&=199-20+1=180\\\\|S|&=142-15+1=128\\\\|T\\cap F|&=66-7+1=60\\\\|T\\cap S|&=47-5+1=43\\\\|F\\cap S|&=28-3+1=26\\\\|T\\cap F\\cap S|&=9-1+1=9\\end{align*}$$\nFill the triple intersection first, then the pair-only regions:\n$$\\begin{align*}|T\\cap F\\cap S'|&=60-9=51\\\\|T\\cap S\\cap F'|&=43-9=34\\\\|F\\cap S\\cap T'|&=26-9=17\\end{align*}$$\nThe single-set regions are:\n$$\\begin{align*}|T\\cap F'\\cap S'|&=300-51-34-9=206\\\\|F\\cap T'\\cap S'|&=180-51-17-9=103\\\\|S\\cap T'\\cap F'|&=128-34-17-9=68\\end{align*}$$\nThe union contains $206+103+68+51+34+17+9=488$ outcomes, leaving $900-488=412$ outside all three sets.",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q4-a-solution-venn",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 question 4; teacher page 33\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[black] (-3,-2.9) rectangle (3,2.3);\n\\draw[black] (-0.8,0.5) circle (1.5);\n\\draw[black] (0.8,0.5) circle (1.5);\n\\draw[black] (0,-0.9) circle (1.5);\n\\node at (-2.7,2.05) {$\\xi$};\n\\node at (-1.8,1.9) {$T$};\n\\node at (1.8,1.9) {$F$};\n\\node at (1.5,-2.35) {$S$};\n\\node at (-1.45,0.7) {206};\n\\node at (1.45,0.7) {103};\n\\node at (0,1.05) {51};\n\\node at (0,0) {9};\n\\node at (-0.75,-0.65) {34};\n\\node at (0.75,-0.65) {17};\n\\node at (0,-1.65) {68};\n\\node at (-2.25,-2.15) {412};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 100,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "Question 4a; answer diagram on teacher PDF page 33",
+                "description": "Unshaded three-set Venn diagram containing region counts. T, F and S denote divisibility by 3, 5 and 7.",
+                "mathematics": "T only 206; F only 103; S only 68; TF only 51; TS only 34; FS only 17; triple 9; outside 412; total 900.",
+                "answerVisibility": "solution only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "p21-q4-probabilities",
+        "type": "group",
+        "label": "",
+        "prompt": "Find the probability that the number is divisible by:",
+        "layout": "grid",
+        "columns": 3,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p21-q4-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "5",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{5}$",
+              "worked": "There are 180 multiples of 5.\n$$\\begin{align*}P(F)&=\\frac{180}{900}\\\\P(F)&=\\frac15\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p21-q4-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "7",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{32}{225}$",
+              "worked": "There are 128 multiples of 7.\n$$\\begin{align*}P(S)&=\\frac{128}{900}\\\\P(S)&=\\frac{32}{225}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p21-q4-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "3",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac13$",
+              "worked": "There are 300 multiples of 3.\n$$\\begin{align*}P(T)&=\\frac{300}{900}\\\\P(T)&=\\frac13\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p21-q4-e",
+            "type": "part",
+            "label": "e",
+            "prompt": "5 and 7",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{13}{450}$",
+              "worked": "The common multiples are multiples of 35. The diagram gives $17+9=26$ outcomes.\n$$\\begin{align*}P(F\\cap S)&=\\frac{26}{900}\\\\P(F\\cap S)&=\\frac{13}{450}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p21-q4-f",
+            "type": "part",
+            "label": "f",
+            "prompt": "5 or 7",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{47}{150}$",
+              "worked": "Count the overlap once.\n$$\\begin{align*}|F\\cup S|&=180+128-26\\\\|F\\cup S|&=282\\\\P(F\\cup S)&=\\frac{282}{900}\\\\P(F\\cup S)&=\\frac{47}{150}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          },
+          {
+            "id": "p21-q4-g",
+            "type": "part",
+            "label": "g",
+            "prompt": "3 and 5 and 7",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{100}$",
+              "worked": "The common multiples are multiples of 105. There are 9 in the triple intersection.\n$$\\begin{align*}P(T\\cap F\\cap S)&=\\frac9{900}\\\\P(T\\cap F\\cap S)&=\\frac1{100}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p21-q4-h",
+            "type": "part",
+            "label": "h",
+            "prompt": "3 and 5 but not 7",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{17}{300}$",
+              "worked": "Exclude the triple intersection from the 60 multiples of 15.\n$$\\begin{align*}|T\\cap F\\cap S'|&=60-9=51\\\\P(T\\cap F\\cap S')&=\\frac{51}{900}\\\\P(T\\cap F\\cap S')&=\\frac{17}{300}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 28
+          },
+          {
+            "id": "p21-q4-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "5 and 7 but not 3",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{17}{900}$",
+              "worked": "Exclude the triple intersection from the 26 multiples of 35.\n$$\\begin{align*}|F\\cap S\\cap T'|&=26-9=17\\\\P(F\\cap S\\cap T')&=\\frac{17}{900}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 28
+          },
+          {
+            "id": "p21-q4-j",
+            "type": "part",
+            "label": "j",
+            "prompt": "3 or 5 or 7",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{122}{225}$\n\nCount every region inside the three circles once.",
+              "worked": "There are 412 outcomes outside all three sets.\n$$\\begin{align*}|T\\cup F\\cup S|&=900-412\\\\|T\\cup F\\cup S|&=488\\\\P(T\\cup F\\cup S)&=\\frac{488}{900}\\\\P(T\\cup F\\cup S)&=\\frac{122}{225}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:31:17.948Z",
+  "updatedAt": "2026-11-12T11:31:17.949Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch16-20261015",
+    "blockId": "p21-q4",
+    "sectionRole": "exercise"
+  }
+}

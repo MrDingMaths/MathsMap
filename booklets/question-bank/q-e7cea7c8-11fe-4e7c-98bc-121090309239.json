@@ -1,0 +1,201 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e7cea7c8-11fe-4e7c-98bc-121090309239",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "recurrence-relation-definition",
+    "secondarySkillIds": [
+      "interpret-remainders"
+    ],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Apply the explicitly taught modular recurrence repeatedly, identify zero spacing and return of the starting consecutive pair, and report both patterns. Long repetition does not itself raise strategic demand.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T03:29:57.044Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b7fa9c238880b136635852e82fdebb24dc0db6a49f790f6cb5b09c3aeb3a90ae",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch09-20261015/direct-independent-chapter21-final-six-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p23-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Write out the Fibonacci sequences using the following moduli. Continue each sequence until it repeats itself. In each case, say how often the zeros occur, and how long it takes for the whole thing to repeat itself.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p23-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "modulo 3",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,0,2,2,1,0,1,1,\\ldots$\n\nZeros occur every 4 terms; the sequence repeats every 8 terms.",
+          "worked": "Start with $1,1$, add consecutive terms and reduce each sum modulo $3$. For example, $1+2\\equiv0\\pmod3$ and $2+2\\equiv1\\pmod3$.\n\n$1,1,2,0,2,2,1,0,1,1,\\ldots$\n\nZeros are at positions $4,8,12,\\ldots$, so they occur every 4 terms. The starting pair $1,1$ returns at positions $9,10$, so the period is 8 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p23-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "modulo 2",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,0,1,1,\\ldots$\n\nZeros occur every 3 terms; the sequence repeats every 3 terms.",
+          "worked": "Start with $1,1$, add consecutive terms and reduce each sum modulo $2$: $1+1\\equiv0\\pmod2$, then $1+0\\equiv1\\pmod2$ and $0+1\\equiv1\\pmod2$.\n\n$1,1,0,1,1,\\ldots$\n\nZeros are at positions $3,6,9,\\ldots$. The starting pair returns at positions $4,5$, so both the zero spacing and the period are 3 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p23-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "modulo 4",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,1,0,1,1,\\ldots$\n\nZeros occur every 6 terms; the sequence repeats every 6 terms.",
+          "worked": "Start with $1,1$ and reduce each sum of consecutive terms modulo $4$. In particular, $2+3\\equiv1\\pmod4$ and $3+1\\equiv0\\pmod4$.\n\n$1,1,2,3,1,0,1,1,\\ldots$\n\nZeros are at positions $6,12,18,\\ldots$. The starting pair returns at positions $7,8$, so both the zero spacing and the period are 6 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p23-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "modulo 5",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,0,3,3,1,4,0,4,4,3,2,0,2,2,4,1,0,1,1,\\ldots$\n\nZeros occur every 5 terms; the sequence repeats every 20 terms.",
+          "worked": "Start with $1,1$ and reduce each sum of consecutive terms modulo $5$. For example, $2+3\\equiv0\\pmod5$ and $3+3\\equiv1\\pmod5$.\n\n$1,1,2,3,0,3,3,1,4,0,4,4,3,2,0,2,2,4,1,0,1,1,\\ldots$\n\nZeros are at positions $5,10,15,20,\\ldots$, so they occur every 5 terms. The starting pair returns at positions $21,22$, so the period is 20 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p23-q14-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "modulo 6",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,5,2,1,3,4,1,5,0,5,5,4,3,1,4,5,3,2,5,1,0,1,1,\\ldots$\n\nZeros occur every 12 terms; the sequence repeats every 24 terms.",
+          "worked": "Start with $1,1$ and reduce each sum of consecutive terms modulo $6$. For example, $3+5\\equiv2\\pmod6$ and $1+5\\equiv0\\pmod6$.\n\n$1,1,2,3,5,2,1,3,4,1,5,0,5,5,4,3,1,4,5,3,2,5,1,0,1,1,\\ldots$\n\nZeros are at positions $12,24,36,\\ldots$, so they occur every 12 terms. The starting pair returns at positions $25,26$, so the period is 24 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p23-q14-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "modulo 10",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,5,8,3,1,4,5,$\n\n$9,4,3,7,0,7,7,4,1,5,$\n\n$6,1,7,8,5,3,8,1,9,0,$\n\n$9,9,8,7,5,2,7,9,6,5,$\n\n$1,6,7,3,0,3,3,6,9,5,$\n\n$4,9,3,2,5,7,2,9,1,0,$\n\n$1,1,\\ldots$\n\nZeros occur every 15 terms; the sequence repeats every 60 terms.",
+          "worked": "Start with $1,1$, add consecutive terms and keep the remainder modulo $10$. For example, $5+8\\equiv3\\pmod{10}$ and $3+7\\equiv0\\pmod{10}$.\n\n$1,1,2,3,5,8,3,1,4,5,$\n\n$9,4,3,7,0,7,7,4,1,5,$\n\n$6,1,7,8,5,3,8,1,9,0,$\n\n$9,9,8,7,5,2,7,9,6,5,$\n\n$1,6,7,3,0,3,3,6,9,5,$\n\n$4,9,3,2,5,7,2,9,1,0,$\n\n$1,1,\\ldots$\n\nZeros are at positions $15,30,45,60,\\ldots$, so they occur every 15 terms. The starting pair returns at positions $61,62$, so the period is 60 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 74
+      },
+      {
+        "id": "p23-q14-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "modulo 9",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,5,8,4,3,7,1,8,0,8,8,7,6,4,1,5,6,2,8,1,0,1,1,\\ldots$\n\nZeros occur every 12 terms; the sequence repeats every 24 terms.",
+          "worked": "Start with $1,1$ and reduce each sum of consecutive terms modulo $9$. For example, $5+8\\equiv4\\pmod9$ and $1+8\\equiv0\\pmod9$.\n\n$1,1,2,3,5,8,4,3,7,1,8,0,8,8,7,6,4,1,5,6,2,8,1,0,1,1,\\ldots$\n\nZeros are at positions $12,24,36,\\ldots$, so they occur every 12 terms. The starting pair returns at positions $25,26$, so the period is 24 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 46
+      },
+      {
+        "id": "p23-q14-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "modulo 11",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,5,8,2,10,1,0,1,1,\\ldots$\n\nZeros occur every 10 terms; the sequence repeats every 10 terms.",
+          "worked": "Start with $1,1$ and reduce each sum of consecutive terms modulo $11$. For example, $5+8\\equiv2\\pmod{11}$, $2+10\\equiv1\\pmod{11}$ and $10+1\\equiv0\\pmod{11}$.\n\n$1,1,2,3,5,8,2,10,1,0,1,1,\\ldots$\n\nZeros are at positions $10,20,30,\\ldots$. The starting pair returns at positions $11,12$, so both the zero spacing and the period are 10 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p23-q14-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "modulo 10 (this one takes quite a while – don’t give up)",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1,1,2,3,5,8,3,1,4,5,$\n\n$9,4,3,7,0,7,7,4,1,5,$\n\n$6,1,7,8,5,3,8,1,9,0,$\n\n$9,9,8,7,5,2,7,9,6,5,$\n\n$1,6,7,3,0,3,3,6,9,5,$\n\n$4,9,3,2,5,7,2,9,1,0,$\n\n$1,1,\\ldots$\n\nZeros occur every 15 terms; the sequence repeats every 60 terms.",
+          "worked": "Start with $1,1$, add consecutive terms and keep the remainder modulo $10$. For example, $5+8\\equiv3\\pmod{10}$ and $3+7\\equiv0\\pmod{10}$.\n\n$1,1,2,3,5,8,3,1,4,5,$\n\n$9,4,3,7,0,7,7,4,1,5,$\n\n$6,1,7,8,5,3,8,1,9,0,$\n\n$9,9,8,7,5,2,7,9,6,5,$\n\n$1,6,7,3,0,3,3,6,9,5,$\n\n$4,9,3,2,5,7,2,9,1,0,$\n\n$1,1,\\ldots$\n\nZeros are at positions $15,30,45,60,\\ldots$, so they occur every 15 terms. The starting pair returns at positions $61,62$, so the period is 60 terms.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 74
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p23-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:15:48.558Z",
+  "updatedAt": "2026-11-12T13:15:48.558Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch09-20261015",
+    "blockId": "p23-q14",
+    "sectionRole": "exercise"
+  }
+}

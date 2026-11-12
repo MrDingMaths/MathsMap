@@ -1,0 +1,194 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-538c2e3f-47f9-4f4e-8eda-cfc0229d7e0f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-congruent-triangles",
+    "secondarySkillIds": [
+      "perpendicular-lines"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied congruence pairs to establish equal distances and interpret them as circle radii. Then independently select the triangles about the third midpoint, apply SSS and equal supplementary angles to prove perpendicularity, and identify the obtuse case for an exterior circumcentre.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:22:50.558Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c6cd4e46c435ec8c41d732d590551a34ba1fb379012b6a4d57b33fb0abbde5fc",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-8-ch12-20261015/6858459f94dfec598d2e77c58ef6c49b64c14d6c00975b2a2dbce35c4185c130-1792560140676/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p36-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p36-q11-introduction",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 2,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "The perpendicular bisectors of the sides of a triangle are concurrent at a point called the ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "circumcentre",
+              "marks": [
+                "bold"
+              ],
+              "colour": "#ef6068"
+            },
+            {
+              "type": "text",
+              "text": ", and this point is the centre of the circle through all three vertices. Here is an outline of a proof. Check the details.",
+              "marks": []
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p36-q11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Take a non-right-angled triangle $ABC$. Let $P$ be the midpoint of $BC$, $Q$ the midpoint of $CA$, and $R$ be the midpoint of $AB$. Let the perpendicular bisectors of $AB$ and $AC$ meet at $M$. Join $MA$, $MB$ and $MC$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A construction with $P$, $Q$ and $R$ at the three side midpoints, $MR\\perp AB$, $MQ\\perp AC$, and $MA$, $MB$, $MC$ joined.",
+          "worked": "Draw $\\triangle ABC$ and mark its side midpoints $P$, $Q$ and $R$. Construct the perpendicular to $AB$ through $R$ and the perpendicular to $AC$ through $Q$. Label their intersection $M$, then join $MA$, $MB$ and $MC$.",
+          "solutionDiagrams": [
+            {
+              "id": "p36-q11-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (A) at (2,4);\\coordinate (B) at (0,0);\\coordinate (C) at (6,0);\\coordinate (P) at (3,0);\\coordinate (Q) at (4,2);\\coordinate (R) at (1,2);\\coordinate (M) at (3,1);\n\\draw[black] (A)--(B)--(C)--cycle;\n\\draw[black,dashed] (-0.2,2.6)--(5,0) (1.5,-0.5)--(5,3);\n\\draw[black] (M)--(A) (M)--(B) (M)--(C);\n\\fill[black] (M) circle (1pt);\n\\node[above] at (A) {$A$};\\node[below left] at (B) {$B$};\\node[below right] at (C) {$C$};\\node[below] at (P) {$P$};\\node[above right] at (Q) {$Q$};\\node[above left] at (R) {$R$};\\node[below] at (M) {$M$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 95,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 36,
+                "sourceRegion": "Question 11a",
+                "description": "Authored example construction of an acute triangle, its three side midpoints, the perpendicular bisectors of AB and AC, and the three segments from their intersection to the vertices.",
+                "mathematics": "A=(2,4), B=(0,0), C=(6,0); P=(3,0), Q=(4,2), R=(1,2), M=(3,1). MR is perpendicular to AB and MQ is perpendicular to AC.",
+                "answerVisibility": "Solution only; no figure is supplied in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 90
+      },
+      {
+        "id": "p36-q11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove that $\\triangle AMR\\equiv\\triangle BMR$ and that $\\triangle AMQ\\equiv\\triangle CMQ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both pairs are congruent by SAS: equal half-sides, a common side and the included right angles.",
+          "worked": "In $\\triangle AMR$ and $\\triangle BMR$:\n$$\\begin{aligned}AR&=BR&&\\text{(midpoint)}\\\\MR&=MR&&\\text{(common side)}\\\\\\angle ARM&=\\angle BRM=90^\\circ&&\\text{(perpendicular bisector)}\\end{aligned}$$\nHence $\\triangle AMR\\equiv\\triangle BMR$ (SAS).\n\nIn $\\triangle AMQ$ and $\\triangle CMQ$:\n$$\\begin{aligned}AQ&=CQ&&\\text{(midpoint)}\\\\MQ&=MQ&&\\text{(common side)}\\\\\\angle AQM&=\\angle CQM=90^\\circ&&\\text{(perpendicular bisector)}\\end{aligned}$$\nHence $\\triangle AMQ\\equiv\\triangle CMQ$ (SAS).",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 66
+      },
+      {
+        "id": "p36-q11-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence prove that the circle with centre $M$ and radius $MA$ passes through $B$ and $C$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$MA=MB=MC$, so $B$ and $C$ lie on the circle with centre $M$ and radius $MA$.",
+          "worked": "Part b gives $MA=MB$ and $MA=MC$ (matching sides of congruent triangles). Thus $MA=MB=MC$. Both $B$ and $C$ are a distance $MA$ from $M$, so both lie on the circle with centre $M$ and radius $MA$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p36-q11-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Prove that $MP$ is perpendicular to $BC$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\triangle MBP\\equiv\\triangle MCP$ (SSS). Their equal angles at $P$ add to $180^\\circ$, so each is $90^\\circ$ and $MP\\perp BC$.",
+          "worked": "In $\\triangle MBP$ and $\\triangle MCP$:\n$$\\begin{aligned}MB&=MC&&\\text{(part c)}\\\\BP&=CP&&\\text{(midpoint)}\\\\MP&=MP&&\\text{(common side)}\\end{aligned}$$\nHence $\\triangle MBP\\equiv\\triangle MCP$ (SSS), so $\\angle MPB=\\angle MPC$ (matching angles). Since $B$, $P$ and $C$ are collinear,\n$$\\begin{aligned}\\angle MPB+\\angle MPC&=180^\\circ\\\\\\angle MPB&=90^\\circ\\\\\\angle MPC&=90^\\circ.\\end{aligned}$$\nTherefore $MP\\perp BC$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 53
+      },
+      {
+        "id": "p36-q11-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Under what circumstances does the circumcentre lie outside the triangle?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "When the triangle is obtuse-angled.",
+          "worked": "For an obtuse-angled triangle, the perpendicular bisectors meet outside the triangle, so its circumcentre lies outside.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p36-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:45:08.256Z",
+  "updatedAt": "2026-11-12T11:45:08.256Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch12-20261015",
+    "blockId": "p36-q11",
+    "sectionRole": "exercise"
+  }
+}

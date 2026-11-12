@@ -1,0 +1,397 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-59641b68-a2cf-4853-83af-fc3ce8ee6a32",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "quadrilateral-properties",
+    "secondarySkillIds": [
+      "construct-angles-protractor",
+      "measure-angles-protractor"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the explicit protractor/compass construction, justify rhombus equality from adjacent equal sides and parallel pairs, then check diagonal bisection/perpendicularity; the construction and measurement tasks are scaffolded.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T00:53:05.361Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "520f0fe2bc92e074ecd43e9d0a8d12532638d326d9c6fc2ef728620040341190",
+      "evidence": ".booklet-work/full-imports/iceem-8-ch13-20261015/direct-independent-factorisation-first21-content-20261024/response.json"
+    }
+  },
+  "content": {
+    "id": "p13-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Construct a rhombus $ABCD$ as follows. Start with the interval $DC$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p13-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"constructionRed\",\"hex\":\"EF6068\",\"reason\":\"construction rays, constructed top side and compass arcs distinguished from the starting interval\"}],\"reference\":\"source page 13 p13-q5-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{constructionRed}{HTML}{EF6068}\n\\coordinate (D) at (0,0);\n\\coordinate (C) at (4,0);\n\\coordinate (A) at ({4*cos(70)},{4*sin(70)});\n\\coordinate (B) at ({4+4*cos(70)},{4*sin(70)});\n\\coordinate (E) at (7.4,0);\n\\coordinate (F) at ({5.5*cos(70)},{5.5*sin(70)});\n\\draw[line width=0.8pt] (D)--(E);\n\\draw[constructionRed,dashed,line width=0.8pt] (D)--(F);\n\\draw[constructionRed,dashed,line width=0.8pt] (C)--(B)--(A);\n\\draw[constructionRed,dashed,line width=0.4pt] ({4*cos(48)},{4*sin(48)}) arc[start angle=48,end angle=90,radius=4];\n\\draw[constructionRed,dashed,line width=0.4pt] ({4*cos(-20)},{4*sin(-20)}) arc[start angle=-20,end angle=20,radius=4];\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=C--D--A};\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=E--C--B};\n\\pic[draw,line width=0.4pt,angle radius=5mm] {angle=B--A--F};\n\\path (D) ++(35:0.83) node {$70^\\circ$};\n\\path (C) ++(35:0.83) node {$70^\\circ$};\n\\path (A) ++(35:0.83) node {$70^\\circ$};\n\\node[below left] at (D) {$D$};\n\\node[below left] at (C) {$C$};\n\\node[left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 95,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 13,
+          "sourceRegion": "Question 5 construction figure above parts a–b",
+          "description": "Starting interval DC extends rightwards beyond C. Red dashed construction rays form DA extended above A, CB and AB. Two visible portions of the compass arc centred at D pass through A and C. Three corresponding exterior/interior angle sectors are labelled 70 degrees.",
+          "mathematics": "DA and CB make 70 degrees with the rightward horizontal direction; AB is parallel to DC; DA equals DC by the compass construction. Coordinates establish these relationships without supplying a numerical length.",
+          "answerVisibility": "Permanent supplied construction guide; diagonals and measured results are omitted."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p13-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Why is $ABCD$ a rhombus?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$ABCD$ is a parallelogram with $AD=DC$, so all four sides are equal.",
+          "worked": "The equal corresponding $70^\\circ$ angles give $AD\\parallel BC$ and $AB\\parallel DC$, so $ABCD$ is a parallelogram. The compass arc has centre $D$ and passes through $A$ and $C$, so $DA=DC$. Opposite sides of a parallelogram are equal, giving $AB=DC$ and $BC=AD$. Hence $AB=BC=CD=DA$, so $ABCD$ is a rhombus.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p13-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p13-q5-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Join the diagonals and check with a protractor that they bisect the vertex angles and are perpendicular.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p13-q5-steps",
+              "type": "list",
+              "ordered": true,
+              "start": 1,
+              "indent": 7,
+              "items": [
+                {
+                  "id": "p13-q5-step1-item",
+                  "type": "list-item",
+                  "blocks": [
+                    {
+                      "id": "p13-q5-step1",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Use your protractor to construct parallel rays upwards and to the right from ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "D",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": " and from ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "C",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": " at an angle of ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "70^\\circ",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ". (We have chosen ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "70^\\circ",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ", but any reasonable angle will do in place of ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "70^\\circ",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ".)",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p13-q5-step2-item",
+                  "type": "list-item",
+                  "blocks": [
+                    {
+                      "id": "p13-q5-step2",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Place the point of your compasses on ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "D",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ". Draw an arc that passes through ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "C",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": " and cuts the ray at a point ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "A",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ".",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p13-q5-step3-item",
+                  "type": "list-item",
+                  "blocks": [
+                    {
+                      "id": "p13-q5-step3",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Use your protractor to construct another angle of ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "70^\\circ",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": " at the point ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "A",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": " in a position corresponding to ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "\\angle D",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ". This will give a line parallel to ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "DC",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ".",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "id": "p13-q5-step4-item",
+                  "type": "list-item",
+                  "blocks": [
+                    {
+                      "id": "p13-q5-step4",
+                      "type": "paragraph",
+                      "fontSize": null,
+                      "align": "left",
+                      "spaceBefore": 0,
+                      "spaceAfter": 2,
+                      "lineHeight": 1.4,
+                      "indent": 0,
+                      "inlines": [
+                        {
+                          "type": "text",
+                          "text": "Extend this line through ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "A",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": " to form the rhombus ",
+                          "marks": []
+                        },
+                        {
+                          "type": "math",
+                          "latex": "ABCD",
+                          "display": false
+                        },
+                        {
+                          "type": "text",
+                          "text": ".",
+                          "marks": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The diagonals bisect the vertex angles and meet at $90^\\circ$. For the $70^\\circ$ construction, the half-angles are $35^\\circ$ at $B,D$ and $55^\\circ$ at $A,C$.",
+          "worked": "Construct the parallel rays and use the compass arc centred at $D$ to locate $A$ with $DA=DC$. Draw the line through $A$ parallel to $DC$; its intersection with the ray from $C$ is $B$. Join $AC$ and $BD$, meeting at $M$.\n\nProtractor measurements give $\\angle DAC=\\angle CAB=\\angle BCA=\\angle ACD=55^\\circ$ and $\\angle ABD=\\angle DBC=\\angle CDB=\\angle BDA=35^\\circ$. The angles at $M$ measure $90^\\circ$. Thus each diagonal bisects the vertex angles through which it passes, and the diagonals are perpendicular.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q5-b-solution-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"added diagonals being checked\"}],\"reference\":\"source page 13 p13-q5-b-solution-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (D) at (0,0);\\coordinate (C) at (4,0);\n\\coordinate (A) at ({4*cos(70)},{4*sin(70)});\n\\coordinate (B) at ({4+4*cos(70)},{4*sin(70)});\n\\coordinate (M) at ($(A)!0.5!(C)$);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\draw[diagonalRed,line width=0.8pt] (A)--(C) (B)--(D);\n\\draw[line width=0.4pt] ($(M)!3mm!(A)$)--($(M)!3mm!(A)+(M)!3mm!(B)-(M)$)--($(M)!3mm!(B)$);\n\\node[above left] at (A) {$A$};\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\\node[below left] at (D) {$D$};\\node[below] at (M) {$M$};\n\\path (A) ++(-82.5:1.6) node {$55^\\circ$};\\path (A) ++(-27.5:1.6) node {$55^\\circ$};\n\\path (B) ++(197.5:1.6) node {$35^\\circ$};\\path (B) ++(232.5:1.6) node {$35^\\circ$};\n\\path (C) ++(97.5:1.6) node {$55^\\circ$};\\path (C) ++(152.5:1.6) node {$55^\\circ$};\n\\path (D) ++(17.5:1.6) node {$35^\\circ$};\\path (D) ++(52.5:1.6) node {$35^\\circ$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 90,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Question 5 requested construction and diagonal checks",
+                "description": "Completed 70-degree rhombus construction with both diagonals, their intersection M, a coordinate-derived right-angle mark, and both half-angle measurements at every vertex.",
+                "mathematics": "Interior angles at D and B are 70 degrees; those at A and C are 110 degrees. Diagonals bisect these into 35-degree and 55-degree angles respectively and intersect perpendicularly.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 95
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:30:27.677Z",
+  "updatedAt": "2026-11-12T11:30:27.678Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-8-ch13-20261015",
+    "blockId": "p13-q5",
+    "sectionRole": "exercise"
+  }
+}
