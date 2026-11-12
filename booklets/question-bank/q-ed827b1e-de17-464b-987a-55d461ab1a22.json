@@ -1,0 +1,188 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-ed827b1e-de17-464b-987a-55d461ab1a22",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "simultaneous-word-problems",
+    "secondarySkillIds": [
+      "interpret-distance-time-graphs",
+      "speed-from-distance-time"
+    ],
+    "reasoningScore": 53,
+    "difficulty": "Mastery",
+    "difficultyReason": "Interpret both plotted journeys and their speeds, then obtain an exact meeting time by using a common time origin, accounting for Albert's delayed departure, and equating distances from town A.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:24:17.083Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d10a2354c3ad1fc88549957717c2732921f58f0e46a9014cc8e4b70d658b9d8c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-9-ch18-20261015/fd0c0b478b89f0e21c7b74ae6907e477d60bf06268451082000385a448dcc0eb-1792560221757/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p16-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "The following graph shows the distance from town A against time for two cyclists, Albert and Bob. Town B is 48 km from town A.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p16-q9-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"journeyBlue\",\"hex\":\"268CFF\",\"reason\":\"the two labelled journey plots\"},{\"name\":\"guideRed\",\"hex\":\"EF6068\",\"reason\":\"48 km and 4 p.m. reference guides\"}],\"reference\":\"source page 16 p16-q9-graph\"}\n\\begin{tikzpicture}[x=1.8cm,y=0.075cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{journeyBlue}{HTML}{268CFF}\n\\definecolor{guideRed}{HTML}{EF6068}\n\\draw[->,black,line width=0.5pt] (0,0)--(4.6,0) node[right]{Time};\n\\draw[->,black,line width=0.5pt] (0,0)--(0,55) node[above]{Distance};\n\\draw[guideRed,densely dashed,line width=0.4pt] (0,48)--(4,48)--(4,0);\n\\draw[journeyBlue,line width=0.8pt] plot[domain=1:4,samples=2] (\\x,{16*(\\x-1)});\n\\draw[journeyBlue,line width=0.8pt] plot[domain=0:4,samples=2] (\\x,{48-12*\\x});\n\\node[above=3pt,rotate=33.69,text=black] at (3,32) {Albert};\n\\node[above=3pt,rotate=-26.565,text=black] at (3.2,9.6) {Bob};\n\\foreach \\x/\\lab in {0/Noon,1/1 p.m.,2/2 p.m.,3/3 p.m.,4/4 p.m.}{\n\\ifnum\\x>0 \\draw[black,line width=0.4pt] (\\x,-1)--(\\x,1);\\fi\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-1.3) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\lab\\special{dvisvgm:raw </g>}};\n}\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (0,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}0\\special{dvisvgm:raw </g>}};\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (0,48) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}48 km\\special{dvisvgm:raw </g>}};\n\\node[left] at (-0.45,1) {Town A};\n\\node[left] at (-0.45,55) {Town B};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 115,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 16,
+          "sourceRegion": "Question 9 supplied graph",
+          "description": "Distance from town A against time. Albert travels from (1 p.m., 0 km) to (4 p.m., 48 km); Bob travels from (Noon, 48 km) to (4 p.m., 0 km). Both journeys are blue; red dashed reference guides identify 48 km and 4 p.m. No grid is printed.",
+          "mathematics": "With t hours after Noon, Albert has distance 16(t−1) for 1≤t≤4 and Bob has distance 48−12t for 0≤t≤4. Their intersection is t=16/7, d=144/7.",
+          "answerVisibility": "Supplied journeys and reference guides remain visible; intersection coordinates and meeting time are not printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p16-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How far did Albert travel?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$48\\text{ km}$",
+          "worked": "Albert travels from town A to town B, a distance of $48\\text{ km}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p16-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What was Albert’s speed?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$16\\text{ km/h}$",
+          "worked": "Albert travels for $3$ hours, from 1 p.m. to 4 p.m.\n$$\\begin{align*}\\text{Albert's speed} &= \\frac{48}{3}\\\\\\text{Albert's speed} &= 16\\text{ km/h}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p16-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What was Bob’s speed?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$12\\text{ km/h}$",
+          "worked": "Bob travels for $4$ hours, from Noon to 4 p.m.\n$$\\begin{align*}\\text{Bob's speed} &= \\frac{48}{4}\\\\\\text{Bob's speed} &= 12\\text{ km/h}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p16-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "How many hours after Noon do the two cyclists pass each other?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p16-q9-d-short-result",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\frac{16}{7}\\text{ h}",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " after Noon.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p16-q9-d-short-method",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "At the intersection, both cyclists have the same distance from town A.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "worked": "Let $t$ be the number of hours after Noon. At the intersection, the distances from town A are equal.\n$$\\begin{align*}16(t-1) &= 48-12t\\\\16t-16 &= 48-12t\\\\28t &= 64\\\\t &= \\frac{16}{7}\\text{ h}\\end{align*}$$\nThey pass $\\frac{16}{7}$ hours after Noon, equivalently $\\frac{9}{7}$ hours after Albert starts.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 58
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p16-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T14:09:11.331Z",
+  "updatedAt": "2026-11-12T14:09:11.331Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-9-ch18-20261015",
+    "blockId": "p16-q9",
+    "sectionRole": "exercise"
+  }
+}
