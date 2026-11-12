@@ -1,0 +1,102 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-50880dce-b3be-46fc-8a99-4110ee71786f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "misleading-graphs",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "Compare two graphs of the same data and notice that one axis silently skips 400. This needs careful scale reading, then a justification.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-08T04:24:36.214Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b28c053dedd51afddfb9b297a05852d22d6b70a633fa91c24ba19d1fdf9da0dd",
+      "diagramBlindHash": "46ef8dcc60a08f58a853c3c4d4d70d342d991208607ec749f743f77f639a1585",
+      "evidence": ".booklet-work/pedagogy-audit-v2/data-visualisation-1-2-v1/20261108-040231/calls/15-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "data-visualisation-2--p5-q2",
+          "score": 28
+        },
+        "easierThan": {
+          "ref": "data-visualisation-2--p5-q1",
+          "score": 32
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-tion-2--p5-section-slot-13-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The two graphs show the number of visitors to a museum each month. Which graph is not misleading, and why?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-tion-2--p5-section-slot-13-slot-13-graph-A",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1mm,y=1mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{b}{HTML}{268CFF}\n\\node[text=black] at (32,44) {Graph A};\n\\draw[black,->] (0,0)--(0,40);\n\\draw[black,->] (0,0)--(66,0);\n\\foreach \\y/\\l in {0/0,6/100,12/200,18/300,24/500,30/600}{\\draw[black] (0,\\y)--(-1,\\y);\\node[text=black,anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-1,\\y) {\\l};}\n\\foreach \\x/\\m in {8/Jan,18/Feb,28/Mar,38/Apr,48/May,58/Jun}{\\draw[black] (\\x,0)--(\\x,-1);\\node[text=black,anchor=north,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-1) {\\m};}\n\\node[text=black,rotate=90] at (-14,20) {Visitors};\n\\node[text=black,anchor=north] at (33,-9) {Month};\n\\draw[b,line width=.8pt] (8,6)--(18,12)--(28,18)--(38,24)--(48,30)--(58,30);\n\\foreach \\x/\\y in {8/6,18/12,28/18,38/24,48/30,58/30}{\\fill[b] (\\x,\\y) circle (0.8);}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      },
+      {
+        "id": "v2-tion-2--p5-section-slot-13-slot-13-graph-B",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1mm,y=1mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{b}{HTML}{268CFF}\n\\node[text=black] at (32,46) {Graph B};\n\\draw[black,->] (0,0)--(0,42);\n\\draw[black,->] (0,0)--(66,0);\n\\foreach \\y/\\l in {0/0,6/100,12/200,18/300,24/400,30/500,36/600}{\\draw[black] (0,\\y)--(-1,\\y);\\node[text=black,anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-1,\\y) {\\l};}\n\\foreach \\x/\\m in {8/Jan,18/Feb,28/Mar,38/Apr,48/May,58/Jun}{\\draw[black] (\\x,0)--(\\x,-1);\\node[text=black,anchor=north,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-1) {\\m};}\n\\node[text=black,rotate=90] at (-14,21) {Visitors};\n\\node[text=black,anchor=north] at (33,-9) {Month};\n\\draw[b,line width=.8pt] (8,6)--(18,12)--(28,18)--(38,30)--(48,36)--(58,36);\n\\foreach \\x/\\y in {8/6,18/12,28/18,38/30,48/36,58/36}{\\fill[b] (\\x,\\y) circle (0.8);}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Graph B. In Graph A the vertical scale is irregular: 300 to 500 takes the same space as 100 to 200.",
+      "worked": "Both graphs start at 0, so look at the vertical scales. Graph A labels $0,100,200,300,500,600$ at equal spacing, so the jump from 300 to 500 looks the same as each rise of 100. This makes the April increase of 200 look smaller than it is. Graph B has a regular scale in steps of 100, so it shows the data fairly.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": null
+  },
+  "presentation": {
+    "ownerId": "v2-tion-2--p5-section-slot-13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:34:58.983Z",
+  "updatedAt": "2026-11-12T07:34:58.983Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "data-visualisation-1-2-v1",
+    "blockId": "v2-tion-2--p5-section-slot-13",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-71c2a791-122e-4d6b-8373-6f65b81c19f1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-graphs-conclusions",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Finds the intersection, a difference, and a duration where one line is above the other, which needs interpretation of the crossover time.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-08T04:26:54.114Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b48f92cab66ce762a08afa68ae3346058dd7a5a1cbe2a83ed57c4ba29a75fc89",
+      "diagramBlindHash": "3cb7d59f1719a279e02bff621ab084eab69af125c8732b1aec4662a943b9fb85",
+      "evidence": ".booklet-work/pedagogy-audit-v2/data-visualisation-1-v1/20261108-040506/calls/15-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p20-q8",
+          "score": 26
+        },
+        "easierThan": {
+          "ref": "p20-q9",
+          "score": 42
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-p17-line-graphs-slot-13-lower-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Tank A is being filled while Tank B is being emptied. The line graph shows the amount of water in each tank over $10$ minutes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-p17-line-graphs-slot-13-lower-slot-13-lower-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesRed\",\"hex\":\"EF6068\",\"reason\":\"Tank A water trace\"},{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"Tank B water trace\"},{\"name\":\"gridGrey\",\"hex\":\"CCCCCC\",\"reason\":\"coordinate grid\"}],\"reference\":\"slot-13-lower tanks graph\"}\n\\begin{tikzpicture}[x=0.6cm,y=0.06cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesRed}{HTML}{EF6068}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[gridGrey,line width=0.25pt,xstep=2,ystep=10] (0,0) grid (10,80);\n\\draw[black,->,line width=0.5pt] (0,0)--(10.7,0);\n\\draw[black,->,line width=0.5pt] (0,0)--(0,86);\n\\foreach \\y in {0,10,...,80}{\\draw[black,line width=0.4pt] (-0.12,\\y)--(0.12,\\y);\\node[black,anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-0.2,\\y){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\foreach \\x in {0,2,...,10}{\\draw[black,line width=0.4pt] (\\x,-2)--(\\x,2);\\node[black,anchor=north,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-3){\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\x\\special{dvisvgm:raw </g>}};}\n\\node[black,anchor=south,font=\\bfseries\\fontsize{10}{12}\\selectfont] at (5,89){Water in two tanks};\n\\node[black,anchor=north] at (5,-13){Time (minutes)};\n\\node[black,rotate=90] at (-2.1,40){Water (litres)};\n\\draw[seriesRed,line width=0.8pt] (0,10)--(2,20)--(4,30)--(6,40)--(8,50)--(10,60);\n\\draw[seriesBlue,line width=0.8pt,dashed] (0,80)--(2,60)--(4,50)--(6,40)--(8,30)--(10,20);\n\\foreach \\x/\\y in {0/10,2/20,4/30,6/40,8/50,10/60}{\\fill[seriesRed] (\\x,\\y) circle[radius=1.5pt];}\n\\foreach \\x/\\y in {0/80,2/60,4/50,6/40,8/30,10/20}{\\fill[seriesBlue] (\\x,\\y) circle[radius=1.5pt];}\n\\draw[black,line width=0.4pt] (11.5,40) rectangle (16.5,70);\n\\draw[black,line width=0.4pt] (11.5,60)--(16.5,60);\n\\node[black] at (14,65){Key};\n\\draw[seriesRed,line width=0.8pt] (11.8,52)--(12.9,52);\n\\fill[seriesRed] (12.35,52) circle[radius=1.5pt];\n\\node[black,anchor=west] at (13.1,52){Tank A};\n\\draw[seriesBlue,line width=0.8pt,dashed] (11.8,44)--(12.9,44);\n\\fill[seriesBlue] (12.35,44) circle[radius=1.5pt];\n\\node[black,anchor=west] at (13.1,44){Tank B};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 114,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-p17-line-graphs-slot-13-lower-slot-13-lower-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "After how many minutes did the two tanks contain the same amount of water?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$6$ minutes",
+          "worked": "The traces meet at $6$ minutes, where both tanks contain $40\\text{ L}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "v2-p17-line-graphs-slot-13-lower-slot-13-lower-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "After $10$ minutes, how much more water was in Tank A than in Tank B?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$40\\text{ L}$",
+          "worked": "$$\\begin{align*}\\text{Tank A}&=60\\text{ L}\\\\\\text{Tank B}&=20\\text{ L}\\\\\\text{Difference}&=60-20\\\\&=40\\text{ L}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "v2-p17-line-graphs-slot-13-lower-slot-13-lower-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "For how many minutes was there more water in Tank A than in Tank B?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4$ minutes",
+          "worked": "Tank A's trace is above Tank B's from the meeting point at $6$ minutes until $10$ minutes.\n$$\\begin{align*}\\text{Time}&=10-6\\\\&=4\\text{ minutes}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-p17-line-graphs-slot-13-lower",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:35:17.994Z",
+  "updatedAt": "2026-11-12T07:35:17.994Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "data-visualisation-1-v1",
+    "blockId": "v2-p17-line-graphs-slot-13-lower",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-70b6aac7-2e10-444b-9cdc-42dc7fc84f3e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "misleading-graphs",
+    "secondarySkillIds": [],
+    "reasoningScore": 25,
+    "difficulty": "Development",
+    "difficultyReason": "Parts a and b are direct reads, one from each graph. Part c needs the student to notice that the two graphs use different vertical scales. They must compare the actual values (40 versus 25) and rebut the claim that a taller column means more pies. This is like p14-q10's misreading of a bar chart, with an extra cross-graph comparison. It is lighter than p13-q7, which combines reading, totals and percentages.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-08T04:35:17.288Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "342c14b1a9e3944ac239309e2e63c3a3dd9209cc775cf8d1d837a38a6c54c64f",
+      "diagramBlindHash": "fc153f1620a9e0f3d85eb020a34fd334028da37db78c75b08e1a4cbd355779c6",
+      "evidence": ".booklet-work/pedagogy-audit-v2/data-visualisation-1-v1/20261108-040506/auto-apply/calls/01-rating-reused.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p14-q10-block",
+          "score": 23
+        },
+        "easierThan": {
+          "ref": "p13-q7",
+          "score": 30
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-p11-column-graphs-j8-040506-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The column graphs show the number of items sold by two school canteens on one day.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-p11-column-graphs-j8-040506-j8-q-graph-a",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1mm,y=1mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\path[use as bounding box] (-14,-8) rectangle (62,46);\n\\foreach \\v in {10,20,...,60}{\\draw[gridGrey,line width=0.25pt] (0,{0.6*\\v})--(58,{0.6*\\v});}\n\\foreach \\x/\\h in {12/40,30/30,48/20}{\\filldraw[fill=white,draw=black,line width=0.8pt] ({\\x-6},0) rectangle ({\\x+6},{0.6*\\h});}\n\\draw[black,->,line width=0.5pt] (0,0)--(58,0);\n\\draw[black,->,line width=0.5pt] (0,0)--(0,39);\n\\foreach \\v in {0,10,...,60}{\\draw[black,line width=0.4pt] (-1.2,{0.6*\\v})--(0,{0.6*\\v});\\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-1.8,{0.6*\\v}) {\\v};}\n\\foreach \\x/\\n in {12/Pies,30/Rolls,48/Wraps}{\\node[anchor=north] at (\\x,-1) {\\n};}\n\\node[rotate=90] at (-11,18) {Number sold};\n\\node[font=\\bfseries] at (29,43) {Canteen A};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 76,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      },
+      {
+        "id": "v2-p11-column-graphs-j8-040506-j8-q-graph-b",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1mm,y=1mm,font=\\fontsize{10}{12}\\selectfont]\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\path[use as bounding box] (-14,-8) rectangle (62,46);\n\\foreach \\v in {5,10,...,30}{\\draw[gridGrey,line width=0.25pt] (0,{1.2*\\v})--(58,{1.2*\\v});}\n\\foreach \\x/\\h in {12/25,30/10,48/15}{\\filldraw[fill=white,draw=black,line width=0.8pt] ({\\x-6},0) rectangle ({\\x+6},{1.2*\\h});}\n\\draw[black,->,line width=0.5pt] (0,0)--(58,0);\n\\draw[black,->,line width=0.5pt] (0,0)--(0,39);\n\\foreach \\v in {0,5,...,30}{\\draw[black,line width=0.4pt] (-1.2,{1.2*\\v})--(0,{1.2*\\v});\\node[anchor=east,font=\\fontsize{8.5}{10}\\selectfont] at (-1.8,{1.2*\\v}) {\\v};}\n\\foreach \\x/\\n in {12/Pies,30/Rolls,48/Wraps}{\\node[anchor=north] at (\\x,-1) {\\n};}\n\\node[rotate=90] at (-11,18) {Number sold};\n\\node[font=\\bfseries] at (29,43) {Canteen B};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 76,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-p11-column-graphs-j8-040506-j8-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many pies did Canteen A sell?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "40 pies.",
+          "worked": "The pie column for Canteen A reaches 40 on its scale, so Canteen A sold 40 pies.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "v2-p11-column-graphs-j8-040506-j8-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many pies did Canteen B sell?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "25 pies.",
+          "worked": "The pie column for Canteen B reaches 25 on its scale, so Canteen B sold 25 pies.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "v2-p11-column-graphs-j8-040506-j8-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Zoe says, “Canteen B sold more pies than Canteen A because its pie column is taller.” Do you agree? Explain your answer.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. Canteen A sold 40 pies and Canteen B sold 25. The axis scales are different.",
+          "worked": "Canteen A sold 40 pies and Canteen B sold 25 pies. Since $40>25$, Canteen A sold more pies. The scales are different, so the column heights cannot be compared directly.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-p11-column-graphs-j8-040506",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:35:13.137Z",
+  "updatedAt": "2026-11-12T07:35:13.137Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "data-visualisation-1-v1",
+    "blockId": "v2-p11-column-graphs-j8-040506",
+    "sectionRole": "exercise"
+  }
+}

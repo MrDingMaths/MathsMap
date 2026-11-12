@@ -1,0 +1,148 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-84f8ca81-0790-4cf1-b2a8-b4905616de05",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-exponential-model",
+    "secondarySkillIds": [],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Parts a and b are direct graph reads, but b needs two reads and a subtraction. Part c asks the student to notice and interpret that the time to halve is independent of the starting value, which is a conceptual step beyond reading values or substituting. Part d applies that idea to a new starting value of 90 without a graph: the student recognises 22.5 as two halvings of 90 and converts that to 8 hours. Part c scaffolds this, so no insight is unsignposted. This is more demanding than the single-step reading and checking in p45-q7. It is less demanding than A4, which needs an unprompted systematic search and a comparison across cases.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T20:32:31.900Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "64f95262c79d820207e9a6c7529e67d8d320e99b46a820c0cc6c8af319110b15",
+      "diagramBlindHash": "0c74718d5618705c1bb3980b3cce624a8ca9e4b3c332e1a740661f8ef415eb27",
+      "evidence": ".booklet-work/pedagogy-audit-v2/features-quadratics-exponentials-2-v1/20261109-101105/auto-apply/calls/01-rating-reused.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p45-q7",
+          "score": 38
+        },
+        "easierThan": {
+          "ref": "A4",
+          "score": 42
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-b02ad-p42-practice-j5-101105-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The concentration of a medicine in a patient's blood is modelled by $C=120(0.84)^t$, where $C$ is the concentration in mg/L and $t$ is the time in hours after the dose.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-b02ad-p42-practice-j5-101105-j5-q-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=0.5cm,y=0.04cm]\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{gridGrey}{HTML}{CCCCCC}\n\\draw[gridGrey,line width=0.15pt,xstep=0.5,ystep=10] (0,0) grid (12.5,130);\n\\draw[black,->,line width=0.5pt] (0,0)--(12.5,0);\n\\draw[black,->,line width=0.5pt] (0,0)--(0,130);\n\\foreach \\t in {1,2,3,4,5,6,7,8,9,10,11,12} {\n\\draw[black,line width=0.4pt] (\\t,0)--(\\t,-3);\n\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\t,-3) {$\\t$};\n}\n\\foreach \\c in {20,40,60,80,100,120} {\n\\draw[black,line width=0.4pt] (0,\\c)--(-0.2,\\c);\n\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.2,\\c) {$\\c$};\n}\n\\node[below left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.1,-3) {$0$};\n\\node[above,font=\\fontsize{10}{12}\\selectfont] at (0,130) {$C$};\n\\node[right,font=\\fontsize{10}{12}\\selectfont] at (12.5,0) {$t$};\n\\draw[seriesBlue,line width=0.8pt,domain=0:12,samples=100] plot (\\x,{120*pow(0.84,\\x)});\n\\node[anchor=west,font=\\fontsize{10}{12}\\selectfont] at (6.5,95) {$C=120(0.84)^t$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-b02ad-p42-practice-j5-101105-j5-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Use the graph to estimate how long it takes for the concentration to fall from 120 mg/L to 60 mg/L.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 4 hours.",
+          "worked": "$C=120$ at $t=0$. Reading across from $C=60$ gives $t\\approx4$. The time taken is approximately $4-0=4$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "v2-b02ad-p42-practice-j5-101105-j5-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the graph to estimate how long it takes for the concentration to fall from 100 mg/L to 50 mg/L.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 4 hours.",
+          "worked": "Reading across from $C=100$ gives $t\\approx1$. Reading across from $C=50$ gives $t\\approx5$. The time taken is approximately $5-1=4$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "v2-b02ad-p42-practice-j5-101105-j5-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What do you notice about your answers to parts a and b?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both are about 4 hours: the concentration halves every 4 hours, whatever the starting value.",
+          "worked": "The two times are equal even though the starting concentrations differ. Each hour the concentration is multiplied by $0.84$, so over any 4 hours it is multiplied by the same factor, $0.84^4\\approx0.5$. The time to halve is the same from any starting value.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "v2-b02ad-p42-practice-j5-101105-j5-q-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "A second patient has an initial concentration of 90 mg/L, and the concentration decreases in the same way. Use your answer to part c to find how long it takes to fall to 22.5 mg/L.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 8 hours.",
+          "worked": "$$\\begin{align*}90&\\to45\\to22.5\\end{align*}$$\nThis is two halvings, each taking about 4 hours, so the time is $2\\times4=8$ hours.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-b02ad-p42-practice-j5-101105",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T07:36:30.531Z",
+  "updatedAt": "2026-11-12T07:36:30.531Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "features-quadratics-exponentials-2-v1",
+    "blockId": "v2-b02ad-p42-practice-j5-101105",
+    "sectionRole": "exercise"
+  }
+}
