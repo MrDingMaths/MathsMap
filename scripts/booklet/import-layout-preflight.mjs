@@ -185,8 +185,13 @@ export function followUpReference(project,finding){
   return PREVIOUS_REFERENCE.test(text)&&printed.has(index);
  });
 }
-// The source's own number for a block ("5" for 5G Question 5).
-const sourceNumber=block=>String(block.sourceReview?.sourceIdentity?.questionLabel??block.sourceReview?.sourceIdentity?.question??'').trim();
+// The source's own number for a block ("5" for 5G Question 5). Labels may be bare ("5", Cambridge) or
+// named ("Question 5", Mastering Maths); only a question label counts, so "Fundamentals 2" or
+// "Problem 2" is never the target of a "Question 2" reference.
+const sourceNumber=block=>{
+ const label=String(block.sourceReview?.sourceIdentity?.questionLabel??block.sourceReview?.sourceIdentity?.question??'').trim();
+ return /^(?:(?:question|Q)\s*)?(\d+)$/i.exec(label)?.[1]??'';
+};
 // Replace `from` with `to` once in a node's student-facing prompt (string or editor document).
 function replaceInPrompt(node,from,to){
  if(typeof node.prompt==='string'){if(!node.prompt.includes(from))return false;node.prompt=node.prompt.replace(from,to);return true;}

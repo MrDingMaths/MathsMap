@@ -102,6 +102,11 @@ test('question references to an earlier question of the exercise are linked, ren
  // A number that names another exercise is never linked to this one's question.
  for(const prompt of ['Repeat Question 4 of Exercise 5B.','Use your answer to 5B Question 4.','See Question 4(b) in Exercise 3A.'])
   assert.equal(resolveQuestionReferences({id:'p',sections:[{id:'s',phase:'practice',blocks:[q('a','4','Find x.'),q('f','9',prompt)]}]}).changes.length,0,prompt);
+ // Mastering Maths labels ("Question 2") after Fundamentals blocks: the reference names the question, never Fundamentals 2.
+ const m={id:'p',sections:[{id:'s',phase:'practice',blocks:[q('f1','Fundamentals 1','Fill in.'),q('f2','Fundamentals 2','Fill in.'),q('q1','Question 1','Find m.'),q('q2','Question 2','Sketch y = 2x + 4.'),q('q3','Question 3','Use a similar technique to Question 2 to sketch these.')]}]};
+ const mastering=resolveQuestionReferences(m);
+ assert.deepEqual(mastering.project.sections[0].blocks[4].flow.dependsOn,['q2']);
+ assert.equal(mastering.project.sections[0].blocks[4].content.prompt,'Use a similar technique to Question 4 to sketch these.','printed number counts the Fundamentals blocks');
 });
 
 test('render targets: wide grids of long maths, plus repaired blocks',()=>{
