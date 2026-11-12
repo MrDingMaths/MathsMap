@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,wrapBareDisplays,nestedQuestionBlockers,answerKeyCoverageBlockers,structuralPreflightBlockers,questionReferenceBlockers,topicAnswerScope} from '../scripts/booklet/import-layout-preflight.mjs';
+import {printedPracticeHeadings,applyLayoutPreflightFixes,layoutPreflightBlockers,renderRiskTargets,targetedRenderCheck,wrapBareDisplays,nestedQuestionBlockers,answerKeyCoverageBlockers,structuralPreflightBlockers,questionReferenceBlockers,topicAnswerScope,resolveQuestionReferences} from '../scripts/booklet/import-layout-preflight.mjs';
 import {finishImport,finishPreRenderGate,applyFinishPreflightFixes} from '../scripts/booklet/import-finish.mjs';
 import {contentHash,saveReviewed} from '../scripts/booklet/lean-review.mjs';
 import {reasoningTaskHash} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -69,8 +69,39 @@ test('a declared dependency whose wording points at another question needs a rec
  assert.deepEqual(layoutPreflightBlockers(p).map(b=>b.blockId),['q3']);
  q.sourceReview.bankDependencyReview={decision:'self-contained',note:'Part (a) restates the recurrence.'};
  assert.deepEqual(layoutPreflightBlockers(p),[]);
+ // One rule (simplification plan item 5): "the previous question" is resolved by the script, not left for later.
  const free=project();free.sections[0].blocks[2].content.children[0].prompt='Use the previous question.';
- assert.deepEqual(layoutPreflightBlockers(free),[],'wording alone, with no declared dependency, is left to the content review');
+ assert.deepEqual(layoutPreflightBlockers(free).map(b=>b.blockId),['q3']);
+ const {project:resolved,changes}=resolveQuestionReferences(free);
+ assert.deepEqual(changes.map(c=>c.blockId),['q3']);assert.deepEqual(resolved.sections[0].blocks[2].flow.dependsOn,['q2']);
+ assert.deepEqual(layoutPreflightBlockers(resolved),[]);
+});
+
+test('question references to an earlier question of the exercise are linked, renumbered and recorded; others stay blockers',()=>{
+ const q=(id,label,prompt)=>({id,type:'question',content:{id:id+'-root',type:'question',prompt},sourceReview:{sourceIdentity:{questionLabel:label}}});
+ // Source questions 4 and 5 print as 1 and 2 (the exercise starts mid-way in this booklet).
+ const p={id:'p',sections:[{id:'s',phase:'practice',blocks:[q('a','4','Find x.'),q('b','5','Find y.'),q('c','6','Check that the table agrees with your answers to Question 5.'),q('d','7','Use Box 19 and Question 2 of Exercise 5B.')]}]};
+ assert.deepEqual(questionReferenceBlockers(p).map(b=>b.blockId),['c','d']);
+ const {project:after,changes}=resolveQuestionReferences(p);
+ const c=after.sections[0].blocks[2];
+ assert.equal(c.content.prompt,'Check that the table agrees with your answers to Question 2.','renumbered to the booklet\'s printed number');
+ assert.deepEqual(c.flow.dependsOn,['b']);
+ assert.equal(c.sourceReview.bankDependencyReview.decision,'follow-up');
+ assert.deepEqual(changes.map(x=>x.blockId),['c']);
+ assert.deepEqual(changes[0].evidence.rewrites,[{nodeId:'c-root',from:'Question 5',to:'Question 2'}]);
+ assert.deepEqual(questionReferenceBlockers(after).map(b=>b.blockId),['d'],'a reference outside the exercise is left for a person');
+ assert.equal(resolveQuestionReferences(after).changes.length,0,'idempotent');
+ // A later edit to the block invalidates the record, and the next run resolves it again.
+ after.sections[0].blocks[2].content.prompt='Check the table against Question 2 again.';
+ assert.deepEqual(questionReferenceBlockers(after).map(b=>b.blockId),['c','d']);
+ assert.deepEqual(resolveQuestionReferences(after).changes.map(x=>x.blockId),['c']);
+ // Structured editor prompts are renumbered in their text inline.
+ const doc={format:'maths-editor-document-v1',version:1,blocks:[{id:'para',type:'paragraph',inlines:[{type:'text',text:'Compare with Question 4.'}]}]};
+ const p2={id:'p',sections:[{id:'s',phase:'practice',blocks:[q('a','4','Find x.'),q('e','8',doc)]}]};
+ assert.equal(resolveQuestionReferences(p2).project.sections[0].blocks[1].content.prompt.blocks[0].inlines[0].text,'Compare with Question 1.');
+ // A number that names another exercise is never linked to this one's question.
+ for(const prompt of ['Repeat Question 4 of Exercise 5B.','Use your answer to 5B Question 4.','See Question 4(b) in Exercise 3A.'])
+  assert.equal(resolveQuestionReferences({id:'p',sections:[{id:'s',phase:'practice',blocks:[q('a','4','Find x.'),q('f','9',prompt)]}]}).changes.length,0,prompt);
 });
 
 test('render targets: wide grids of long maths, plus repaired blocks',()=>{
@@ -108,7 +139,7 @@ test('pre-render gate: blockers first, repaired blocks targeted, clean results r
  assert.match(second.errors[0],/worked p54: footer-overflow q2 \(2\.5 mm\)/);
  p.sections[0].blocks[2].flow={dependsOn:['q1']};p.sections[0].blocks[2].content.children[0].prompt='Use Question 1(c).';write(file,p);
  const blocked=await finishPreRenderGate({file,projectId:'p',state,stamps,workDir:dir,render});
- assert.match(blocked.errors[0],/Cross-question reference in q3/);
+ assert.match(blocked.errors[0],/Block q3 refers to other questions/);
 });
 
 test('finish fixes are written once with their evidence file',t=>{
@@ -125,7 +156,7 @@ test('v2 finish applies fixes at preparation and prints nothing while the pre-re
  const questions=Object.fromEntries(p.sections.flatMap(s=>s.blocks).map(b=>[b.id,{hash:contentHash(b),outcome:'passed'}]));
  saveReviewed(path.join(runDir,'lean-review'),{questions,pages:{},workflow:{p:{sample:{accepted:true,sourceKey:sampleSourceKey(manifest)}}}});
  let fixes=0,exports=0,gate={errors:['Targeted render, worked p54: footer-overflow']};
- const deps={prepare:async()=>{},preflightFixes:()=>{fixes++;return {counts:{}};},labels:async()=>({checked:{},collisions:[]}),layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),
+ const deps={prepare:async()=>{},preflightFixes:()=>{fixes++;return {counts:{}};},labels:async()=>({checked:{},collisions:[]}),preReview:()=>({blockers:[]}),layout:async()=>{},validate:()=>({ok:true,blockers:[]}),content:async()=>({}),images:async()=>({errors:[]}),
   preRender:async()=>gate,shading:async()=>({errors:[]}),export:async({out})=>{exports++;write(path.join(out,'report.json'),{report:{p:{}}});},visual:async()=>{},status:async()=>({deliverable:true,completion:assessCompletion()}),writeHandoff:()=>{}};
  const blocked=await finishImport({runDir,projectFile},deps);
  assert.equal(blocked.deliverable,false);assert.equal(exports,0);assert.match(blocked.completion.blockers.join(' '),/footer-overflow/);

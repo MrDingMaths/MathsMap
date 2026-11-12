@@ -7,7 +7,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {liveWorkflow,FINAL_EDITIONS,effectiveInventory} from './workflow-review.mjs';
-import {applyLayoutPreflightFixes,printedPracticeHeadings,structuralPreflightBlockers} from './import-layout-preflight.mjs';
+import {applyLayoutPreflightFixes,printedPracticeHeadings,structuralPreflightBlockers,resolveQuestionReferences} from './import-layout-preflight.mjs';
 import {describeReview} from './visual-review.mjs';
 import {prepareReviewQueue} from './visual-review-queue.mjs';
 import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
@@ -146,7 +146,9 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
  if(v2){
   const manifest=read(manifestFile),inventories=(manifest.selectedPages??[]).map(page=>effectiveInventory(runDir,page)).filter(Boolean);
   const fixed=applyLayoutPreflightFixes(project,{headings:printedPracticeHeadings(inventories)});
-  preflightFixes=fixed.changes;if(preflightFixes.length){project=fixed.project;fs.writeFileSync(projectFile,JSON.stringify(project,null,2)+'\n');}
+  // Question references the script can decide are linked and recorded, as finish does.
+  const references=resolveQuestionReferences(fixed.project);
+  preflightFixes=[...fixed.changes,...references.changes];if(preflightFixes.length){project=references.project;fs.writeFileSync(projectFile,JSON.stringify(project,null,2)+'\n');}
  }
  // Import v2: Studio's label-collision check on the sample's diagrams, in seconds and
  // before any reviewer looks (Ch 2 pilot: both sample findings were label collisions).

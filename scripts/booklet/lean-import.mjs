@@ -16,6 +16,7 @@ import {runAstraTask} from './codex-transcription.mjs';
 import {createRelayRunner} from './relay-runner.mjs';
 import {exportWithFrozenRuntime} from './import-verification-runtime.mjs';
 import {prepareLeanVisualReview,queueVisualReviewAfterExport,runLayoutSample} from './lean-visual.mjs';
+import {assertRunConfig} from './import-run-config.mjs';
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8').replace(/^\uFEFF/,''));
 const DEFAULT_POOL='.booklet-work/lean-import-pool';
 export function leanRunOptions(record){
@@ -125,6 +126,8 @@ export async function main(args=process.argv.slice(2)){
  }else if(['author','inventory'].includes(command)){
   const loaded=loadRun(values['--run-id']);requireCurrentTranscription(loaded.manifest);if(!isLeanReview(loaded.manifest))throw Error('Lean authoring requires a three-pass run');
   const runner=runnerForManifest(loaded.manifest,poolDir),pages=parsePageSelection(values['--pages']);let config=read(values['--config']);
+  // Import v2: every config problem is reported before the first model call.
+  assertRunConfig(config,loaded.manifest,{stage:command});
   // Import v2 textbook: page-break continuations derived from the inventory flags, written to the run config.
   if(command==='author'){const derived=applyDerivedContinuations({runDir:loaded.runDir,manifest:loaded.manifest,config,configFile:values['--config']});config=derived.config;for(const pair of derived.added)console.error('Derived continuation '+pair.from+'->'+pair.to+': '+pair.entryIds.join(', '));for(const warning of derived.warnings)console.error('Continuation warning: '+warning);}
   const timer=setInterval(()=>{try{writeCheckpoint(poolDir,'active-time',[loaded.runDir],{command});}catch{}},1800000);

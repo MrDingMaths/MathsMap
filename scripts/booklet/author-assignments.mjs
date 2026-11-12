@@ -279,11 +279,11 @@ export async function runAuthorAssignment({runDir,assignment,tasks,root=path.joi
     if(!packets||packets.length!==assignment.pages.length||new Set(packets.map(p=>p.pageNumber)).size!==packets.length)throw Error('Assignment must return every assigned page exactly once');
     for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p),inventory={...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)};
      mergeAssignmentPackets(inventory,[{assignment,packet}]);validate(packet,{...original,inventory});preflightAuthorAssignment(packet);}
-    // Import v2 Stage 3: failing TikZ labels go back to the author once (author-label-retry.mjs).
-    // The fixed code passes the same validation again, or the authored code is kept.
+    // Import v2 Stage 3: failing TikZ labels are placed deterministically, no model call (author-label-retry.mjs).
+    // The placed code passes the same validation again, or the authored code is kept.
     if(tasks.some(task=>task.reviewerRates)&&!assignment.evidenceOnly&&labelRetry!==false){
      const before=new Map(packetTikz(packets).map(node=>[node,node.code]));
-     await retryDiagramLabels({packets,runDir,assignmentId:assignment.id,pages:assignment.pages,attempt,out,runner,configuration:tasks.find(t=>assignment.pages.includes(t.page))?.generationDependencies.configuration,check:labelRetry?.check,log,workerSlotOptions});
+     await retryDiagramLabels({packets,assignmentId:assignment.id,out,check:labelRetry?.check,place:labelRetry?.place,log});
      try{for(const p of assignment.pages){const packet=packets.find(v=>v.pageNumber===p),original=tasks.find(t=>t.page===p);validate(packet,{...original,inventory:{...original.inventory,entries:assignment.entries.filter(e=>e.pageNumber===p)}});preflightAuthorAssignment(packet);}}
      catch(e){for(const [node,code] of before)node.code=code;log('Label retry output failed validation; keeping the authored diagrams: '+e.message);}
     }

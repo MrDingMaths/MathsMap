@@ -507,7 +507,7 @@ Replayed on Ch 1 (about 28 s per state): it stops the export-1 state on `p24-q2`
 
 Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one column and authored as three. The finish layout preflight's targeted render covers it.
 
-**Author label retry (12 November 2026, Cambridge X11 Ch 5; James chose the code fix).**
+**Author label retry (12 November 2026, Cambridge X11 Ch 5; James chose the code fix).** *Superseded on 13 November 2026: the model call is replaced by deterministic label placement (see [Simplification, items 1, 3, 4 and 5](#simplification-items-1-3-4-and-5-13-november-2026)).*
 - **Why:** 57 of the 157 graphs in the first Ch 5 sample failed Studio's label check, and every checked collision was real on the pixels. Explicit placement rules in the page notes cut that only to 52, because the author can't see where a label lands.
 - **What it does:** this is the Stage 3 promise ("a diagram that fails goes back to the author once"), for v2 runs only. After an assignment passes validation, `retryDiagramLabels` (`scripts/booklet/author-label-retry.mjs`, called from `runAuthorAssignment`) runs Studio's label inspection on its TikZ. It then sends only the failing diagrams, with their measured collisions, back to the author in one code-only call (label placement only; paths, points and mathematics unchanged).
 - **What it keeps:** returned code that doesn't compile is reverted, and a reply that fails the assignment's validation restores every authored diagram.
@@ -547,6 +547,68 @@ Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one
 - **Unchanged:** the bank's own dependency check (`src/lib/booklet-question-dependencies.js`), so publication still treats such a block as a follow-up.
 - **Code:** `followUpReference` in `import-layout-preflight.mjs`.
 - **Tests:** `tests/booklet-import-layout-preflight.test.js`.
+
+### Simplification, items 1, 3, 4 and 5 (13 November 2026)
+
+James approved items 1 and 3–5 of the [simplification plan](booklet-import-v2-simplification-plan.md). v2 runs only; earlier runs keep their recorded behaviour.
+
+**1. Deterministic label placement (no model call).**
+- **Code:** `scripts/booklet/tikz-label-placement.mjs` (pure: scan `\node`s and `\foreach` loops, instrument, choose, write back) and `scripts/booklet/diagram-label-placer.mjs` (renders on Studio's `#/tikz-check` page on 5173).
+- **How it works:**
+  - One render marks every node, so each measured label maps to its node and loop iteration.
+  - Studio's own check (`inspectDiagramLabelLayout`) runs on that render.
+  - Labels a stroke runs through, touches (within 0.5 pt) or that overlap another label are moved. A second render puts them at `anchor=center` to measure their anchor point and size.
+  - 24 candidate positions (8 directions × 3 gaps) are scored against the sampled strokes and the other labels, with a 0.8 pt clearance margin.
+  - The choice is written back as explicit `anchor`, `xshift` and `yshift` options. A loop iteration that moves differently is split out of its `\foreach`.
+  - Up to three rounds; each round's measured error corrects the next prediction.
+- **Kept only when:** Studio's check finds fewer collisions (or the same and fewer touches), every label's printed text is unchanged, and every stroke is unchanged. Otherwise the authored code stays.
+- **Where it runs:**
+  - authoring, in place of the model label retry (`author-label-retry.mjs`; still records `label-retry.json`, no attempt event);
+  - `diagramLabelCheck(..., {place: true})` in `finish`, which writes the placed code before content review and records `RUN/lean-review/label-placement.jsonl`;
+  - the sample, through the same check.
+- **Replay on Cambridge X11 Ch 5's first-attempt TikZ (361 diagrams):** 94 failed Studio's check with 140 collisions. After placement: 91 cleared, 3 improved, 3 collisions left in 3 crowded diagrams (0.8%). No label text or stroke changed. Took 690 s and 8 batched renders, sharing Studio with a live `finish`. A further 66 diagrams that passed but had a curve touching a label were moved clear. Sample renders were checked by eye.
+- **Tests:** `tests/booklet-tikz-label-placement.test.js`, `tests/booklet-author-label-retry.test.js`, `tests/booklet-import-finish-check.test.js`.
+- **Worktree note:** when the code runs from a worktree, set `MATHSMAP_STUDIO_ROOT` to the checkout Studio serves (it holds `public/.audit-input`). `pedagogy/figure-label-check.mjs` takes `publicRoot` for the same reason.
+
+**3. `finish --check` and one pre-review gate.**
+- **Command:** `node scripts/booklet/lean-review.mjs finish --check --run-id RUN --project-file CANDIDATE [--visibility-reviews FILE] [--no-render]`. No model call, nothing written.
+- **What it lists, every blocker from every stage at once:**
+  - run config (item 4);
+  - C8, C9 and question references (after previewing the fixes `finish` makes);
+  - content-review evidence for every pending block, and too many images for one question;
+  - prompts over the review limit, using the exact prompt the review would send (`contentReviewPlan` in `lean-review.mjs`);
+  - blocking lint and the 3D visibility audit;
+  - label collisions;
+  - the targeted render.
+- **In `finish`:** before content review, `finish` places labels and then reports config, structure, evidence, prompt size and unplaced collisions together. No review call starts while any is reported.
+- **The targeted render fails closed.** An edition with no report is a blocker, not a pass. On Ch 5 the gate had written an empty report: the checker had crashed on the 3D audit with exit 0, and export 1 then had 26 DOM issues. The skip reason now quotes the error line.
+- **Replay on Ch 5's state at its first `finish`:** one pass in 86 s found 164 blockers that the run met one at a time over 26 minutes:
+  - 9 config (every topic missing `teachingPages`);
+  - 142 evidence (the 165-block repair's cause);
+  - 3 visibility;
+  - 7 label collisions (exactly the second `finish`'s);
+  - 3 render editions.
+
+**4. Run-config check.**
+- **Code:** `scripts/booklet/import-run-config.mjs` `runConfigProblems`.
+- **What it requires:**
+  - every selected page in exactly one topic;
+  - each topic's `teacherPages` prepared, and few enough for an absence claim (pages + 1 ≤ 8 images);
+  - each topic's `teachingPages` prepared, or `embeddedContext: true`, or `pageTeachingPages`, whenever context pages were prepared;
+  - known skill IDs.
+- **Where it runs:** `lean-import inventory` and `author` refuse to start; `booklet:prepare --config` reports problems when the config already has topics; `finish` and `finish --check` report them as blockers.
+- **Replay:** Ch 5's first config gives 9 problems; its current config still flags the Review topic (no teaching pages).
+- **Not caught:** an answer page missing from a topic (Ch 2's composite functions) can only be seen on the images.
+
+**5. One question-reference rule.**
+- C6 and C10 are one check (`questionReferenceBlockers`, which the pre-render gate still calls as `layoutPreflightBlockers`).
+- `resolveQuestionReferences` runs before content review in `finish` (on every run) and in the sample. A "Question N" or "the previous question" that points to an earlier question of the same exercise is:
+  - linked through `flow.dependsOn`;
+  - renumbered when the booklet prints that question under another number;
+  - recorded as `bankDependencyReview {decision: "follow-up", recordedBy: "import-reference-check", signature}`.
+- A reference naming another exercise, chapter, section or box, or a vague one ("the preceding investigation"), stays a blocker for a person.
+- Fixes are logged in `RUN/lean-review/finish/reference-fixes.jsonl`. The bank's own dependency check is unchanged.
+- **Replay:** Ch 5's two references that cost two stops, two questions and three re-reviews (`p50-q7` "Question 5", `p58-q14` "Question 11") resolve with no reword.
 
 ### Pilots
 
