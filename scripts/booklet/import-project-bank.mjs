@@ -1,4 +1,5 @@
-import {reasoningTaskHash} from './reasoning-ratings.mjs';
+import {reasoningTaskHash,verifiedRating} from './reasoning-ratings.mjs';
+import {recordedReview,reviewContext} from './recorded-review.mjs';
 // Stage ordinary whole-question promotions once, then verify and publish that stage.
 import fs from 'node:fs/promises';
 import {validateSourceClassificationReview,externalTeachingEvidence} from './source-classification-review.mjs';
@@ -9,7 +10,7 @@ import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {promoteProjectQuestion,saveBookletProject} from './project-studio-server.mjs';
 import {revisionHash,writeTransaction,projectSyncStatus,syncLinks,withBankLock,resolveBankOutcomes} from './bank-sync.mjs';
-import {normaliseQuestion,validateQuestion,filterQuestionBank,makeBankManifest} from '../../src/lib/practice-question-model.js';
+import {normaliseQuestion,validateQuestion,filterQuestionBank,makeBankManifest,normaliseBankContext,bankContextErrors} from '../../src/lib/practice-question-model.js';
 import {sharedQuestion,mergeQuestionContent} from '../../src/lib/question-sync.js';
 import {captureQuestionPresentation} from '../../src/lib/question-presentation.js';
 import {bankProjectionPolicy,projectBankQuestion} from '../../src/lib/question-bank-projection.js';
@@ -35,6 +36,7 @@ export const practiceQuestions=p=>p.sections.filter(s=>s.phase==='practice').fla
 // changing the historical source-import register or weakening new-import gates.
 async function validateExistingTransferReview(source,assessments,root,targets=null){
   if(assessments.existingTransferReview?.profile==='accepted-master-content-v1')return validateMasterTransferReview(source,assessments,practiceQuestions(source),{root,targets});
+  if(assessments.existingTransferReview?.profile===RECORDED_REVIEW_PROFILE)return validateRecordedReviewProfile(source,assessments,root,targets);
   const review=assessments.existingTransferReview;
   assert.equal(review?.profile,'existing-booklet-transfer-v1');
   assert.equal(source.source?.type,'full-booklet-import','Existing transfer requires a published source booklet');
@@ -70,9 +72,37 @@ async function validateExistingTransferReview(source,assessments,root,targets=nu
   assert.ok(review.artifacts?.length,'Existing transfer needs current maintenance evidence');for(const ref of review.artifacts)await artifact(ref);
   return review;
 }
-export function preservedProject(project){
+// Bank import pipeline (docs/booklet-bank-import-pipeline.md, Decision 2, 12 November 2026): masters and textbook
+// chapters imported before import v2 publish on their recorded review, with no new model call. A question qualifies
+// when a review on record covers its current content (scripts/booklet/recorded-review.mjs) and its rating is bound
+// to its current task; the batch runner defers every other question and reports it with its reason. Each new bank
+// question records its origin (master or textbook) through `bankContext`.
+export const RECORDED_REVIEW_PROFILE='recorded-review-v1';
+export function validateRecordedReviewProfile(source,assessments,root,targets=null){
+  const review=assessments.existingTransferReview;
+  assert.equal(review.projectHash,revisionHash(source),'Recorded-review acceptance is stale');
+  assert.ok(['master','textbook'].includes(review.origin),'Recorded-review acceptance must name the booklet origin');
+  assert.equal(source.library?.category==='master'?'master':'textbook',review.origin,'Recorded-review origin differs from the booklet');
+  const ctx=reviewContext(source,root),records=new Map((review.questions??[]).map(r=>[r.sourceBlockId,r])),assessed=new Map(assessments.questions.map(q=>[q.sourceBlockId,q]));
+  for(const q of practiceQuestions(source)){
+    if(targets&&!targets.has(q.id))continue;
+    const r=records.get(q.id);assert.ok(r,q.id+' has no recorded-review entry');
+    assert.equal(r.contentHash,revisionHash(q.content),q.id+' recorded-review entry is stale');
+    const now=recordedReview(q,ctx);assert.ok(now.current,q.id+' has no current recorded review ('+now.reason+')');
+    assert.equal(r.by,now.by,q.id+' recorded review changed');
+    assert.ok(verifiedRating(q),q.id+' rating is not bound to its current task');
+    const context=assessed.get(q.id)?.bankContext;
+    assert.deepEqual(bankContextErrors(context??{}),[],q.id+' needs a valid bankContext');
+    assert.equal(context.origin,review.origin,q.id+' bankContext origin');assert.equal(context.projectId,source.id,q.id+' bankContext booklet');assert.equal(context.blockId,q.id,q.id+' bankContext block');
+  }
+  return review;
+}
+// Decision 6: a textbook question held against a master-owned bank question links to the master's copy and takes
+// its wording and answers (Studio's Use existing). Those adopted blocks may change content; nothing else may.
+export function preservedProject(project,adopted=new Set()){
   const p=structuredClone(project);delete p.revision;delete p.updatedAt;
   for(const b of practiceQuestions(p)){
+    if(adopted.has(b.id)){delete b.content;delete b.title;}
     for(const k of ['bankRef','canonicalId','snapshotKind','bankDecision','classification','presentation'])delete b[k];
     if(b.flow){delete b.flow.localDifficulty;delete b.flow.bankDifficulty;if(!Object.keys(b.flow).length)delete b.flow;}
   }
@@ -89,17 +119,21 @@ async function assetHashes(project,root){
   walk(project.sections);
   return Object.fromEntries(await Promise.all([...refs].sort().map(async ref=>[ref,digest(await fs.readFile(path.join(root,'public',decodeURIComponent(ref))))])));
 }
-async function snapshot(root,projectId,assessments){
-  const bank=path.join(root,'booklets/question-bank'),names=(await fs.readdir(bank)).filter(n=>/^q-.*\.json$/.test(n)).sort();
+// `only` limits the bank part to the records this publication touches (bank import pipeline, 12 November 2026:
+// copying all 7,800 records cost about 170 MB and 25 s per booklet). Profiles that check only those records use it.
+async function snapshot(root,projectId,assessments,only=null){
+  const bank=path.join(root,'booklets/question-bank'),names=(await fs.readdir(bank)).filter(n=>/^q-.*\.json$/.test(n)&&(!only||only.has(n.slice(0,-5)))).sort();
   const source=await read(path.join(root,'booklets/projects',projectId+'.json'));
   const files=[...names,'manifest.json','.sync/links.json'];
-  const implementationFiles=assessments.existingTransferReview?.profile==='accepted-master-content-v1'?['scripts/booklet/import-project-bank.mjs','scripts/booklet/bank-transfer-review.mjs','scripts/booklet/bank-sync.mjs','scripts/booklet/project-studio-server.mjs','scripts/booklet/source-classification-review.mjs','src/lib/practice-question-model.js','src/lib/question-sync.js','src/lib/question-bank-projection.js','src/lib/question-sync-layout.js','src/lib/question-presentation.js','src/lib/editable-booklet-model.js','src/lib/document-content.js','src/lib/question-bank-eligibility.js','package-lock.json']:['src/lib','scripts/booklet','package-lock.json'];
+  const implementationFiles=['accepted-master-content-v1',RECORDED_REVIEW_PROFILE].includes(assessments.existingTransferReview?.profile)?['scripts/booklet/import-project-bank.mjs','scripts/booklet/bank-transfer-review.mjs','scripts/booklet/recorded-review.mjs','scripts/booklet/bank-sync.mjs','scripts/booklet/project-studio-server.mjs','scripts/booklet/source-classification-review.mjs','src/lib/practice-question-model.js','src/lib/question-sync.js','src/lib/question-bank-projection.js','src/lib/question-sync-layout.js','src/lib/question-presentation.js','src/lib/editable-booklet-model.js','src/lib/document-content.js','src/lib/question-bank-eligibility.js','package-lock.json']:['src/lib','scripts/booklet','package-lock.json'];
   const implementation=await Promise.all(implementationFiles.map(f=>treeHash(path.join(path.dirname(fileURLToPath(import.meta.url)),'../..',f))));
   return {taxonomy:revisionHash(await Promise.all(['data/skills.json','data/dotpoints.json'].map(f=>read(path.join(root,f))))),project:revisionHash(source),assessments:revisionHash(assessments),implementation:revisionHash(implementation),assets:await assetHashes(source,root),bank:Object.fromEntries(await Promise.all(files.map(async n=>[n,digest(await fs.readFile(path.join(bank,n)))])))};
 }
 export async function verifyProjectBank(project,bankRoot,{root=process.cwd(),baseline=project,assessments,receipt}={}){
   const questions=practiceQuestions(project),originals=new Map(practiceQuestions(baseline).map(b=>[b.id,b]));
-  assert.deepEqual(preservedProject(project),preservedProject(baseline),'Content, provenance or local layout changed');
+  const adopted=new Set(Object.keys(assessments?.masterLinks??{}));
+  assert.deepEqual(preservedProject(project,adopted),preservedProject(baseline,adopted),'Content, provenance or local layout changed');
+  for(const id of adopted){const b=questions.find(q=>q.id===id);assert.ok(!b?.bankRef?.id||b.bankRef.id===assessments.masterLinks[id],id+' linked to a different master question');}
   const skills=new Set((await read(path.join(root,'data/skills.json'))).map(s=>s.id));
   const assessed=new Map(assessments.questions.map(q=>[q.sourceBlockId,q]));
   const links=await syncLinks(bankRoot),ids=new Set(),records=[];
@@ -140,6 +174,7 @@ export async function verifyProjectBank(project,bankRoot,{root=process.cwd(),bas
       if(k==='assessment'&&projection&&bank.classification.assessment?.equivalentProjection?.policyHash===revisionHash(projection)&&v.taskHash!==reasoningTaskHash(bank))expected={...v,originalTaskHash:v.originalTaskHash??v.taskHash,taskHash:reasoningTaskHash(bank),equivalentProjection:{version:1,policyHash:revisionHash(projection)}};
       assert.deepEqual(bank.classification[k],expected,b.id+' '+k);
     }
+    if(added(b)&&assessment?.bankContext)assert.deepEqual(bank.bankContext,normaliseBankContext(assessment.bankContext),b.id+' bankContext');
     if(receipt)assert.equal(receipt.questions.find(q=>q.sourceBlockId===b.id)?.bankId,bank.id);
     await assetHashes({sections:[bank.content]},root);records.push(bank);
   }
@@ -224,7 +259,8 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
   const source=await read(sourceFile),deferred=new Set(assessments.deferredBlockIds??[]),questions=practiceQuestions(source).filter(b=>!deferred.has(b.id)),receiptFile=path.join(root,'booklets/provenance',projectId,'bank-import.json');
   if(source.source?.pipelinePilot&&path.resolve(root)===path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..'))throw Error('Regression pilots cannot publish to the live question bank');
   const existingTransfer=!!assessments.existingTransferReview;
-  const reusedMaster=assessments.existingTransferReview?.profile==='accepted-master-content-v1';
+  const reusedMaster=['accepted-master-content-v1',RECORDED_REVIEW_PROFILE].includes(assessments.existingTransferReview?.profile);
+  const masterLinks=assessments.masterLinks??{};
   const verificationRun=existingTransfer?null:projectVerificationRun(source,root);
   let fresh=null;
   const verifyImport=async()=>{if(existingTransfer){await validateExistingTransferReview(source,assessments,root,fresh&&new Set(fresh.map(b=>b.id)));return;}if(!verificationRun)return;const workflow=liveWorkflow(verificationRun),status=verificationStatus(workflow,source,{validateFinal:()=>acceptFinalReview(structuredClone(workflow),workflow.finalReview)});assert.ok(status.ok,'Import verification pending: '+status.issues.join('; '));};
@@ -236,7 +272,7 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
   const outcomes=await resolveBankOutcomes(duplicateBlocks(),bankRoot),outcome=b=>outcomes.get(b.id).outcome;
   assertBankQuestionDependencies(source,{blockIds:questions.filter(b=>['new','exact'].includes(outcome(b))).map(b=>b.id)});
   // Nothing left to create or link: verify what is there and report any held questions.
-  if(questions.length&&!questions.some(b=>['new','exact'].includes(outcome(b)))){
+  if(questions.length&&!questions.some(b=>['new','exact'].includes(outcome(b))||masterLinks[b.id]&&outcome(b)==='held')){
     // A booklet assembled only from existing bank questions has no import receipt.
     const receipt=await exists(receiptFile)?await read(receiptFile):undefined;
     const result={...await verifyProjectBank(source,bankRoot,{root,assessments,receipt}),created:0,applied:false,alreadyImported:true};
@@ -256,16 +292,29 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
   if(resumeFrom)assert.equal(fresh.length,questions.length,'--resume-from supports only booklets whose practice questions are all new; use a fresh output directory');
   assert.equal(assessments.questions.length,fresh.length,'Assessments must cover exactly the '+fresh.length+' new questions');assert.equal(new Set(assessments.questions.map(q=>q.sourceBlockId)).size,fresh.length);
   const byId=new Map(assessments.questions.map(q=>[q.sourceBlockId,q]));
+  if(Object.keys(masterLinks).length){
+    assert.notEqual(source.library?.category,'master','Only textbook questions link to a master copy');
+    const liveLinks=await syncLinks(bankRoot);
+    for(const [blockId,bankId] of Object.entries(masterLinks)){
+      const o=outcomes.get(blockId);assert.equal(o?.outcome,'held',blockId+' master link needs a held match');
+      assert.ok((o.sameQuestionAs??[]).some(r=>r.bankId===bankId),blockId+' is not held against '+bankId);
+      const owner=liveLinks[bankId]?.projectId,ownerProject=owner&&await read(path.join(root,'booklets/projects',owner+'.json')).catch(()=>null);
+      assert.equal(ownerProject?.library?.category,'master',blockId+': '+bankId+' is not owned by a master');
+    }
+  }
   for(const q of fresh){
     const a=byId.get(q.id);assert.ok(a,q.id+' assessment missing');assert.equal(a.contentHash,revisionHash(q.content),q.id+' assessment is stale');
     assert.ok(a.classification.difficultyReason?.trim(),q.id+' needs an individual rationale');
     const c=validateQuestion(normaliseQuestion({...projectBankQuestion(q,{policy:a.bankProjection??bankProjectionPolicy(q)}),classification:a.classification}));assert.ok(c.valid,q.id+': '+c.errors.join('; '));
   }
-  let current=await snapshot(root,projectId,assessments);const stateFile=path.join(out,'stage.json');let state,reused=false;
+  // Every record the booklet already links to (owned or consumed, published or deferred) and every record a question
+  // matches. Staging needs these and nothing else; the live-input checks of these profiles look only at them.
+  const touchedIds=new Set([...source.sections.flatMap(s=>s.blocks).map(b=>b.bankRef?.id),...questions.flatMap(b=>[outcomes.get(b.id)?.bankId,...(outcomes.get(b.id)?.sameQuestionAs??[]).map(r=>r.bankId)]),...Object.values(masterLinks)].filter(Boolean));
+  let current=await snapshot(root,projectId,assessments,reusedMaster?touchedIds:null);const stateFile=path.join(out,'stage.json');let state,reused=false;
   const baselineLinksFile=path.join(out,'bank-baseline-links.json');
   const relevantIds=new Set(questions.flatMap(b=>[b.bankRef?.id,outcomes.get(b.id)?.bankId,...(outcomes.get(b.id)?.sameQuestionAs??[]).map(r=>r.bankId)]).filter(Boolean));
   const checkLiveInputs=async message=>{
-    const live=await snapshot(root,projectId,assessments);
+    const live=await snapshot(root,projectId,assessments,reusedMaster?touchedIds:null);
     if(!reusedMaster){assert.deepEqual(live,current,message);return;}
     assert.deepEqual({...live,bank:null},{...current,bank:null},message);
     const baselineLinks=await read(baselineLinksFile),liveLinks=await syncLinks(bankRoot);
@@ -306,9 +355,9 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
     if(promoted)onProgress({reused:promoted,total:questions.length});
     const stagedId=id=>practiceQuestions(staged).find(q=>q.id===id)?.bankRef?.id,linkedIds=new Set();
     for(const b of questions){
-      const o=outcomes.get(b.id);if(already.has(b.id)||o.outcome==='held')continue;
+      const o=outcomes.get(b.id),adopt=o.outcome==='held'&&masterLinks[b.id];if(already.has(b.id)||o.outcome==='held'&&!adopt)continue;
       // An exact match links to the existing record, or to one created earlier in this loop.
-      const body=o.outcome==='new'?{blockId:b.id,mode:'create',bankProjection:byId.get(b.id).bankProjection}:{blockId:b.id,mode:'link-existing',targetId:o.bankId??stagedId(o.blockId),bankProjection:projectionAssessments.get(b.id)};
+      const body=o.outcome==='new'?{blockId:b.id,mode:'create',bankProjection:byId.get(b.id).bankProjection,...(byId.get(b.id).bankContext?{bankContext:byId.get(b.id).bankContext}:{})}:{blockId:b.id,mode:'link-existing',targetId:adopt||o.bankId||stagedId(o.blockId),bankProjection:projectionAssessments.get(b.id)};
       if(body.targetId)linkedIds.add(body.targetId);
       staged=(await promoteProjectQuestion(projectId,body,options)).project;promoted++;if(promoted===1||promoted%10===0)onProgress({promoted,total:questions.length});
     }
@@ -324,6 +373,7 @@ export async function importProjectBank({root=process.cwd(),projectId,assessment
     const summary=await verifyProjectBank(staged,options.bankRoot,{root,baseline:source,assessments});
     const earlier=await exists(receiptFile)?await read(receiptFile):null,earlierEntries=new Map((earlier?.questions??[]).map(q=>[q.sourceBlockId,q])),stagedLinks=await syncLinks(options.bankRoot);
     const receipt={version:1,projectId,sourceRevision:source.revision,sourceSha256:revisionHash(source),publishedRevision:staged.revision,createdAt:new Date().toISOString(),authorization:`User requested all ${questions.length} whole practice questions from ${source.title||projectId}; teaching content excluded.`,method:'Ordinary promotion in isolated staging, verified once and published through a checked transaction.',sourceHashes:source.source?.sourceHashes??null,sourceContext:assessments.sourceContext,summary,questions:questions.map(b=>{const linked=practiceQuestions(staged).find(q=>q.id===b.id),o=outcomes.get(b.id);
+      if(o.outcome==='held'&&masterLinks[b.id])return {sourceBlockId:b.id,outcome:'linked-master',bankId:linked.bankRef.id,bankRevision:linked.bankRef.revision,ownerProjectId:stagedLinks[linked.bankRef.id]?.projectId??null,sourceContentHash:revisionHash(b.content)};
       if(o.outcome==='held')return {sourceBlockId:b.id,outcome:'held',sameQuestionAs:o.sameQuestionAs.map(r=>r.bankId??stagedId(r.blockId)).filter(Boolean)};
       // Questions published by an earlier run keep the entry that run recorded.
       if(o.outcome!=='new')return o.outcome==='linked'&&earlierEntries.get(b.id)||{sourceBlockId:b.id,outcome:'linked',bankId:linked.bankRef.id,bankRevision:linked.bankRef.revision,ownerProjectId:stagedLinks[linked.bankRef.id]?.projectId??null,sourceContentHash:revisionHash(b.content)};

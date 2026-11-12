@@ -24,6 +24,31 @@ export const DIFFICULTY_ORDER = Object.freeze(Object.fromEntries(DIFFICULTIES.ma
 const LEGACY_SCORE = Object.freeze({ Foundation: 12, Development: 37, Mastery: 64, Challenge: 88 });
 
 const text = (value) => contentSource(value).replace(/\r\n?/g, '\n').trim();
+
+// Where a bank question came from, for the mixed-practice pass (bank import pipeline, 12 November 2026):
+// origin is the kind of booklet that owns it (a master, or a textbook chapter), with the owning booklet and
+// block, the role of its section there (an ordinary exercise or Challenge) and any exam its printed label names.
+// It is bank metadata, not question content: sync and duplicate checks ignore it. A master that takes over a
+// textbook-owned question (bank auto-sync, Decision 16) becomes its origin.
+export const BANK_ORIGINS = Object.freeze(['master', 'textbook']);
+export const BANK_SECTION_ROLES = Object.freeze(['exercise', 'challenge']);
+export function normaliseBankContext(value) {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
+  const origin = String(value.origin ?? '').trim(); if (!origin) return null;
+  const exam = String(value.exam ?? '').trim();
+  return { origin, projectId: String(value.projectId ?? '').trim(), blockId: String(value.blockId ?? '').trim(), sectionRole: String(value.sectionRole ?? '').trim() || 'exercise', ...(exam ? { exam } : {}) };
+}
+export function bankContextErrors(value) {
+  if (value == null) return [];
+  const context = normaliseBankContext(value), errors = [];
+  if (!context) return ['bankContext must name an origin'];
+  if (!BANK_ORIGINS.includes(context.origin)) errors.push('bankContext.origin must be master or textbook');
+  if (!context.projectId || !context.blockId) errors.push('bankContext needs the owning projectId and blockId');
+  if (!BANK_SECTION_ROLES.includes(context.sectionRole)) errors.push('bankContext.sectionRole must be exercise or challenge');
+  const known = new Set(['origin', 'projectId', 'blockId', 'sectionRole', 'exam']);
+  for (const key of Object.keys(value)) if (!known.has(key)) errors.push('bankContext.' + key + ' is not a bank context field');
+  return errors;
+}
 const hasOwn = (value, key) => Boolean(value && typeof value === 'object' && Object.prototype.hasOwnProperty.call(value, key));
 const unique = (values) => [...new Set((Array.isArray(values) ? values : []).map(text).filter(Boolean))];
 export const deepCopy = (value) => (value == null ? value : JSON.parse(JSON.stringify(value)));
@@ -253,6 +278,7 @@ export function normaliseQuestion(raw = {}, { index = 0, source = null } = {}) {
     ...(isTheoryReview(value) ? { libraryRole: 'theory-review' } : {}),
     title: text(value.title),
     ...(normaliseQuestionSource(value.source) ? {source:normaliseQuestionSource(value.source)} : {}),
+    ...(normaliseBankContext(value.bankContext) ? {bankContext:normaliseBankContext(value.bankContext)} : {}),
     classification: {
       primarySkillId: text(primary),
       secondarySkillIds: secondary,
@@ -357,9 +383,38 @@ export function invalidFractionSpans(value) {
   if (isDocument(value)) return nativeMathSources(value).flatMap(invalidFractionSpans);
   // A slash inside a plain textual unit, optionally followed by a per-time
   // phrase, is not an arithmetic fraction. Keep checking all other arithmetic.
-  return mathSpans(value).filter((span) => /(?<!\\)\/(?!\/)/.test(
-    span.body.replace(/\\(?:text|mathrm)\{\s*[A-Za-z]+\s*\/\s*[A-Za-z]+(?:\s+per\s+(?:second|minute|hour|day|week|month|year)s?)?\s*\}/g, ''),
-  ));
+  return mathSpans(value).filter((span) => /(?<!\\)\/(?!\/)/.test(permittedSlashesRemoved(span.body)));
+}
+// Slashes the bank accepts (James, 12 November 2026), besides a textual unit such as \text{km/h}:
+// - a rate between unit groups or after a money amount: \text{ cm}^3/\text{min}, \$2.80/\text{kg}, ^\circ\mathrm{C}/\mathrm{min};
+// - a unit with a power, a per-unit after an amount, or a named unit: \mathrm{m/s^2}, \$5028\text{/year},
+//   \text{ nautical miles/h};
+// - a lone / (a rising-slope mark in a gradient table);
+// - anything inside an exponent or a limit: x^{1/2}, e^{-t/5}, \int_0^{\pi/2};
+// - a ratio of factorials: 5!/3!, n!/(n-r)!.
+// Every other slash between mathematical quantities still needs \frac.
+const UNIT_GROUP = String.raw`(?:\\(?:text|mathrm)\{\s*[A-Za-z]+\s*\}|\\\$\s*[\d.,]+)(?:\^\{?\d\}?)?`;
+const UNIT_RATE = new RegExp(UNIT_GROUP + String.raw`\s*(?:\\!)?\s*\/\s*(?=\\(?:text|mathrm)\{\s*[A-Za-z]+\s*\})`, 'g');
+function withoutScripts(body) {
+  let out = '';
+  for (let i = 0; i < body.length; i++) {
+    if ((body[i] === '^' || body[i] === '_') && body[i + 1] === '{') {
+      let depth = 0, j = i + 1;
+      for (; j < body.length; j++) { if (body[j] === '{' && body[j - 1] !== '\\') depth++; else if (body[j] === '}' && body[j - 1] !== '\\' && --depth === 0) break; }
+      out += body[i] + '{}'; i = j; continue;
+    }
+    out += body[i];
+  }
+  return out;
+}
+function permittedSlashesRemoved(body) {
+  if (body.trim() === '/') return '';
+  return withoutScripts(body
+    .replace(/\\(?:text|mathrm)\{\s*[A-Za-z]+(?:\^\{?\d\}?)?\s*\/\s*[A-Za-z]+(?:\^\{?\d\}?)?(?:\s+per\s+(?:second|minute|hour|day|week|month|year)s?)?\s*\}/g, '')
+    .replace(/\\text\{\s*\/\s*[A-Za-z]+\s*\}/g, '')
+    .replace(/\\text\{\s*(?:[A-Za-z]+\s+)+[A-Za-z]+\s*\/\s*[A-Za-z]+\s*\}/g, '')
+    .replace(UNIT_RATE, ''))
+    .replace(/!\s*\//g, '!');
 }
 
 function validateDiagram(diagram, path, errors, warnings, diagramIds) {
@@ -430,6 +485,7 @@ export function validateQuestion(raw, { skillIds = null, allowDraft = true } = {
   if (raw?.format !== PRACTICE_QUESTION_FORMAT) errors.push('question format must be ' + PRACTICE_QUESTION_FORMAT);
   if (Number(raw?.version) !== PRACTICE_QUESTION_VERSION) errors.push('question version must be 3');
   if (!['draft', 'approved'].includes(question.status)) errors.push('question.status must be draft or approved');
+  errors.push(...bankContextErrors(raw?.bankContext));
   if (!question.classification.primarySkillId) errors.push('classification.primarySkillId is required');
   if (skillIds && question.classification.primarySkillId && !skillIds.has(question.classification.primarySkillId)) errors.push('unknown primary skill: ' + question.classification.primarySkillId);
   for (const id of question.classification.secondarySkillIds) if (skillIds && !skillIds.has(id)) errors.push('unknown secondary skill: ' + id);
@@ -575,6 +631,7 @@ export function makeBankManifest(records = []) {
       difficulty: question.classification.difficulty,
       primarySkillId: question.classification.primarySkillId,
       secondarySkillIds: [...(question.classification.secondarySkillIds ?? [])],
+      ...(question.bankContext ? { origin: question.bankContext.origin, sectionRole: question.bankContext.sectionRole, ...(question.bankContext.exam ? { exam: question.bankContext.exam } : {}) } : {}),
       multipart: isMultipart(question),
       hasDiagram: hasDiagrams(question),
       shape: question.content.layout === 'grid' ? 'grid' : isMultipart(question) ? 'multipart' : 'single',

@@ -1,0 +1,146 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-db2f7c2b-58e9-480b-82d8-6f9f53f5022e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "partial-sum-notation",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Explain a general sum geometrically by relating successive odd-numbered layers to a growing square.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-24T03:43:26.156Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4b1fb83f07602d2ebecc9e262576a3afc22eed0e8e386ce665366099585825b7",
+      "evidence": ".booklet-work/full-imports/s6adv-sequences-and-series-1-sequences-and-series-20261024/semantic-packets/assignments/assignment-d78bb2999a9037114306/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p12-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "Use the dot diagram to explain why the sum of the first $n$ odd positive integers is $n^2$.\n$$1+3+5+\\cdots+(2n-1)=n^2$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p12-q4-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 12, p12-q4-diagram\"}\n\\begin{tikzpicture}[x=5mm,y=5mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\x in {0,...,6}{\n  \\foreach \\y in {0,...,6}{\n    \\pgfmathtruncatemacro{\\layerparity}{mod(max(\\x,\\y),2)}\n    \\ifnum\\layerparity=0\n      \\fill[black] (\\x,\\y) circle[radius=0.9mm];\n    \\else\n      \\draw[black,line width=0.4pt,fill=white] (\\x,\\y) circle[radius=1.05mm];\n    \\fi\n  }\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 38,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 12,
+          "sourceRegion": "Question 4, square dot array",
+          "description": "Seven-by-seven square array of 49 equally spaced dots. Alternating filled and hollow L-shaped layers grow from the bottom-left filled dot.",
+          "mathematics": "With integer coordinates x,y from 0 to 6, a dot is filled when max(x,y) is even and hollow otherwise. Layer k contains 2k+1 dots, so the first n layers form an n by n square.",
+          "answerVisibility": "All dots are permanent student-visible givens; no solution annotations are included."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "beside-prompt",
+    "answer": {
+      "short": "Each successive odd number adds an L-shaped layer to the previous square. The first $n$ layers form an $n\\times n$ square containing $n^2$ dots.",
+      "worked": "Starting from the bottom-left dot, each new L-shaped layer extends the square along two sides. The $k$th layer adds $k+(k-1)=2k-1$ dots. After $n$ layers, the diagram forms an $n\\times n$ square, so\n$$1+3+5+\\cdots+(2n-1)=n^2.$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 20
+  },
+  "presentation": {
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p12-q4": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p12-q4-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p12-q4-root/label",
+                  "type": "item",
+                  "ref": "p12-q4-root/label",
+                  "title": "Label 4"
+                },
+                {
+                  "id": "p12-q4-root:beside",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "layout:p12-q4-root/prompt",
+                      "type": "item",
+                      "ref": "p12-q4-root/prompt",
+                      "title": "Text"
+                    },
+                    {
+                      "id": "p12-q4-root:beside:below-stem",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "p12-q4-root:diagrams",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "layout:p12-q4-diagram",
+                              "type": "item",
+                              "ref": "p12-q4-diagram",
+                              "title": "Diagram"
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                },
+                {
+                  "id": "layout:p12-q4-root/space",
+                  "type": "item",
+                  "ref": "p12-q4-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 4",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    },
+    "ownerId": "p12-q4"
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-11T23:59:15.040Z",
+  "updatedAt": "2026-11-11T23:59:15.040Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6adv-sequences-and-series-1-sequences-and-series-v1",
+    "blockId": "p12-q4",
+    "sectionRole": "exercise"
+  }
+}

@@ -72,6 +72,9 @@ export async function prepareAutomaticSync(project,bankRoot,{projectRoot=null}={
   if(!pair){
    const move=takeover?await takeoverCandidate(project,block,links,bankRoot,projectRoot,categories):null;if(!move)continue;
    const next=publishedQuestion(block,move.current,move.projection);
+   // The master now owns the question, so it is the question's origin (bank import pipeline, 12 November 2026).
+   const section=project.sections?.find(s=>(s.blocks??[]).some(b=>b.id===block.id));
+   next.bankContext={origin:'master',projectId:project.id,blockId:block.id,sectionRole:section?.role==='challenge'||/challenge/i.test(section?.title??'')?'challenge':'exercise'};
    entries.push([path.join(bankRoot,'.revisions',move.id,revisionHash(move.current)+'.json'),move.current],[path.join(bankRoot,'.revisions',move.id,revisionHash(move.current)+'.owner.json'),move.link],[path.join(bankRoot,move.id+'.json'),next]);updated.push(next);
    registerOwner(links,project,block,next,move.projection);changed=true;block.bankRef.revision=revisionHash(next);continue;
   }

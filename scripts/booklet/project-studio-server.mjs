@@ -25,7 +25,7 @@ import {
 } from './transcription.mjs';
 import {
   validateQuestion, makeBankManifest, normaliseForDuplicate,
-  normaliseQuestion, questionSearchText,
+  normaliseQuestion, questionSearchText, normaliseBankContext, bankContextErrors,
 } from '../../src/lib/practice-question-model.js';
 import {
   normalizeTeachingModule, validateTeachingModule,
@@ -512,6 +512,14 @@ async function promoteQuestionUnlocked(projectId,body,{projectRoot,bankRoot,modu
     if(compatibleRatingHash(previous)!==compatibleRatingHash(projectBankQuestion(reviewedBlock,{policy:link?.projection??null})))throw Object.assign(new Error('Projection updates must preserve the existing mathematical task'),{statusCode:409});
     approved={...structuredClone(previous),content:approved.content,presentation:approved.presentation,updatedAt:approved.updatedAt};
   }
+  // A batch publication names where a new bank question came from (master or textbook, owning block, section role,
+  // exam label). Other modes keep the record's existing context.
+  if(mode==='create'&&body.bankContext){
+    const errors=bankContextErrors(body.bankContext);
+    if(body.bankContext.projectId!==project.id||body.bankContext.blockId!==placement.block.id)errors.push('bankContext must name this booklet and block');
+    if(errors.length)throw Object.assign(new Error(errors.join('; ')),{statusCode:400});
+    approved.bankContext=normaliseBankContext(body.bankContext);
+  }else if(previous?.bankContext&&!approved.bankContext)approved.bankContext=structuredClone(previous.bankContext);
   if(publicationProjection&&!publicationProjection.prependPromptBlocks?.length&&verifiedRating(reviewedBlock)&&approved.classification.assessment?.taskHash!==reasoningTaskHash(approved)){
     approved.classification.assessment={...approved.classification.assessment,originalTaskHash:approved.classification.assessment.originalTaskHash??approved.classification.assessment.taskHash,taskHash:reasoningTaskHash(approved),equivalentProjection:{version:1,policyHash:revisionOf(publicationProjection)}};
   }

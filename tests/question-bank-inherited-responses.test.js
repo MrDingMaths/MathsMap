@@ -33,7 +33,9 @@ test('native currency is literal while mathematical inlines and clozes retain no
  assert.ok(notationErrors('Salary $23.90; complete the calculation.').some(e=>/maths delimiters/.test(e)));
  assert.ok(notationErrors(doc([{type:'math',latex:'1/2'}])).some(e=>/slash-style/.test(e)));
  assert.ok(notationErrors(doc([{type:'cloze',answer:'$1/2$',width:25}])).some(e=>/slash-style/.test(e)));
- assert.ok(notationErrors(doc([{type:'cloze',answer:String.raw`$\$31.60/\text{h}$`,width:25}])).some(e=>/slash-style/.test(e)));
+ // A money-per-unit rate is not a fraction (James, 12 November 2026); arithmetic in a cloze still is.
+ assert.deepEqual(notationErrors(doc([{type:'cloze',answer:String.raw`$\$31.60/\text{h}$`,width:25}])),[]);
+ assert.ok(notationErrors(doc([{type:'cloze',answer:String.raw`$\$31.60/2$`,width:25}])).some(e=>/slash-style/.test(e)));
  assert.deepEqual(notationErrors(doc([{type:'cloze',answer:String.raw`$\frac{\$31.60}{\text{h}}$`,width:25}])),[]);
  assert.deepEqual(notationErrors(doc([{type:'math',latex:'\\frac{1}{2}'},{type:'cloze',answer:'$\\frac{1}{2}$',width:25}])),[]);
  assert.ok(notationErrors(doc([{type:'math',latex:'\\(x'},{type:'math',latex:'x\\)'}])).some(e=>/maths delimiters/.test(e)));
