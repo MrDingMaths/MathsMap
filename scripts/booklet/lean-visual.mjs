@@ -13,6 +13,7 @@ import {ensureSelectedPdfRasters} from './pdf-rasters.mjs';
 import {isLeanReview,leanLayoutProfile} from './lean-profile.mjs';
 import {leanPreExportLint} from './import-pre-final.mjs';
 import {importDiagramPreflight} from './import-diagram-preflight.mjs';
+import {importV2} from './import-completion.mjs';
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8').replace(/^﻿/,''));
 const pageImage=(runDir,page)=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png');
 
@@ -45,8 +46,11 @@ export async function queueVisualReviewAfterExport(args,deps){
 // layout family, figures first and densest first. Front matter is generated and
 // the answer editions render the same blocks, so only authored content counts.
 const FIGURE=/"questionDiagrams":\[\{|"(?:imageSrc|image|src|url)":"[^"]+\.(?:png|jpe?g|webp|svg)"/;
-export function selectLayoutSample(project,{limit=8}={}){
- if(!Number.isInteger(limit)||limit<1)throw Error('Layout sample limit must be a positive integer');
+export function selectLayoutSample(project,{limit=8,all=false}={}){
+ if(!all&&(!Number.isInteger(limit)||limit<1))throw Error('Layout sample limit must be a positive integer');
+ // Import v2: the sample candidate is already a small, deliberately chosen set of
+ // source pages, so every authored block is looked at (Ch 1 case study, change 3).
+ if(all)return (project.sections??[]).filter(section=>section.phase!=='front-matter').flatMap(section=>(section.blocks??[]).map(block=>{const {family,density}=leanLayoutProfile(block);return {id:block.id,family,density,figure:FIGURE.test(JSON.stringify(block)),sourcePage:block.sourcePageNumber??null};}));
  const families=new Map(),figures=[];
  for(const section of project.sections??[]){
   if(section.phase==='front-matter')continue;
@@ -58,6 +62,52 @@ export function selectLayoutSample(project,{limit=8}={}){
  }
  const order=(a,b)=>b.density-a.density||String(a.id).localeCompare(String(b.id)),taken=new Set(figures.map(row=>row.id));
  return [...figures.sort(order),...[...families.values()].filter(row=>!taken.has(row.id)).sort(order)].slice(0,limit);
+}
+// Import v2 (Ch 1 case study, change 3): source pages for the early sample, chosen
+// from the inventory before anything is authored. The first exercise, then the
+// fewest further pages that show every pattern class the inventory can see:
+// each printed group heading, clozes, tables, diagrams, wide source grids,
+// investigations, review sections and page-break continuations (with the next page).
+const presentationOf=entry=>typeof entry.presentation==='object'&&entry.presentation?entry.presentation:{};
+export function samplePatternClasses(inventory,{headings=[]}={}){
+ const classes=new Set(),live=(inventory?.entries??[]).filter(entry=>!entry.exclusionReason);
+ // Headings render through one mechanism, so one printed heading tests them all.
+ if(headings.some(h=>h.page===inventory.pageNumber))classes.add('printed-heading');
+ for(const group of inventory?.groups??[]){
+  if(/investigation/i.test((group.kind??'')+' '+(group.header??'')))classes.add('investigation');
+  if(/review/i.test((group.kind??'')+' '+(group.header??'')))classes.add('review');
+ }
+ for(const entry of live){
+  const p=presentationOf(entry);
+  if(entry.responseKind==='cloze')classes.add('cloze');
+  if(entry.kind==='diagram'&&/table/i.test(JSON.stringify(p.type??entry.description??'')))classes.add('table');
+  else if(entry.kind==='diagram')classes.add('diagram');
+  if(Math.max(Number(p.columns)||0,Number(p.sourceColumns)||0)>=3)classes.add('wide-grid');
+  if(entry.continuesOnNextPage)classes.add('continuation');
+  // A part that points at another question needs its target on a neighbouring sample page.
+  if(/\b(?:from|in|of)\s+question\s+\d+\s*\(?[a-z]?\)?|\bpreceding\s+(?:question|investigation|exercise|task)\b|\bprevious\s+question\b/i.test(entry.description??''))classes.add('cross-reference');
+ }
+ return classes;
+}
+export function recommendSamplePages(inventories,{headings=[]}={}){
+ const pages=(inventories??[]).filter(Boolean).sort((a,b)=>a.pageNumber-b.pageNumber);
+ const byPage=new Map(pages.map(inv=>[inv.pageNumber,samplePatternClasses(inv,{headings})]));
+ const chosen=new Map(),covered=new Set();
+ const take=(page,reason)=>{if(!byPage.has(page))return;if(!chosen.has(page))chosen.set(page,[]);chosen.get(page).push(reason);for(const c of byPage.get(page))covered.add(c);};
+ // The first exercise: from its opening page to the page before the next exercise opens.
+ const opens=pages.filter(inv=>(inv.groups??[]).some(g=>/exercise/i.test(g.kind??'')||/^exercise\b/i.test(g.header??''))).map(inv=>inv.pageNumber);
+ if(opens.length)for(const inv of pages)if(inv.pageNumber>=opens[0]&&(opens.length<2||inv.pageNumber<opens[1]))take(inv.pageNumber,'first exercise');
+ // A book without exercise groups starts from its first page of questions.
+ if(!opens.length){const first=pages.find(inv=>(inv.entries??[]).some(e=>e.kind==='question'&&!e.exclusionReason));if(first)take(first.pageNumber,'first questions');}
+ for(;;){
+  let best=null;
+  for(const [page,classes] of byPage){if(chosen.has(page))continue;const gain=[...classes].filter(c=>!covered.has(c)).length;if(gain&&(!best||gain>best.gain))best={page,gain};}
+  if(!best)break;
+  const added=[...byPage.get(best.page)].filter(c=>!covered.has(c));take(best.page,'covers '+added.join(', '));
+  if(added.includes('continuation'))take(best.page+1,'continuation of page '+best.page);
+  if(added.includes('cross-reference'))take(best.page-1,'referenced from page '+best.page);
+ }
+ return {pages:[...chosen.keys()].sort((a,b)=>a-b),reasons:Object.fromEntries([...chosen].sort((a,b)=>a[0]-b[0])),classes:[...covered].sort()};
 }
 // Physical pages that carry any sampled block (a block that splits shows on each).
 export function samplePages(map,sample){
@@ -71,10 +121,18 @@ export function samplePages(map,sample){
 // defect family is seen here instead of at the final export; a failed render
 // is reported with whatever it produced instead of being lost.
 const hasPractice=project=>(project.sections??[]).some(section=>section.phase==='practice'&&section.blocks?.length);
+const mapHas=(map,id)=>(map??[]).some(page=>(page.blocks??[]).some(block=>block===id||block.startsWith(id+'-')||block.startsWith(id+':')));
+export function sampleBlocksMissingFromEditions(project,report,editions){
+ const questions=(project.sections??[]).filter(section=>section.phase==='practice').flatMap(section=>(section.blocks??[]).filter(block=>block.type==='question'&&!block.presentation?.editorOnly));
+ const missing=[];
+ for(const edition of editions){const map=report?.[edition]?.map;if(!Array.isArray(map))continue;for(const block of questions)if(!mapHas(map,block.id))missing.push({edition,blockId:block.id});}
+ return missing;
+}
 export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,editions,regenerationReason,visibilityReviews},{exportRuntime,rasterize=ensureSelectedPdfRasters}={}){
  if(!out||!projectId||!projectFile)throw Error('A layout sample needs a candidate project, its ID and an output directory');
  const project=read(projectFile);if(!isLeanReview(project))throw Error('A layout sample requires a three-pass project');
- const sample=selectLayoutSample(project,{limit});if(!sample.length)throw Error('The candidate has no authored blocks to sample');
+ const manifestFile=runDir&&path.join(runDir,'manifest.json'),v2=!!manifestFile&&fs.existsSync(manifestFile)&&importV2(read(manifestFile));
+ const sample=selectLayoutSample(project,{limit,all:v2});if(!sample.length)throw Error('The candidate has no authored blocks to sample');
  const coversPracticeAnswers=hasPractice(project);editions??=coversPracticeAnswers?['student','short','worked']:['student'];
  const lint=leanPreExportLint(project),run=exportRuntime??(await import('./import-verification-runtime.mjs')).exportWithFrozenRuntime;
  let receipt=null,exportError=null,diagramIssues=[];
@@ -99,8 +157,11 @@ export async function runLayoutSample({runDir,projectId,projectFile,out,limit=8,
   const images=await rasterize(entry.pdf,entry.map.length,path.join(out,'sample-rasters'),{pages:wanted});
   for(const image of images.images)pages.push({edition,page:image.page,blocks:entry.map.find(p=>p.page===image.page)?.blocks??[],image:image.path});
  }
- const ok=!exportError&&!missingEditions.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
- const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,diagramIssues,automatedIssues,missingEditions,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
+ // Import v2: every practice question must render in every edition the sample
+ // covers (Ch 1: an investigation classed as teaching got no worked page).
+ const missingBlocks=v2&&!exportError?sampleBlocksMissingFromEditions(project,report,editions):[];
+ const ok=!exportError&&!missingEditions.length&&!missingBlocks.length&&!lint.blocking.length&&!Object.keys(automatedIssues).length;
+ const result={ok,plan:sample,pages,editions,coversPracticeAnswers,lint,diagramIssues,automatedIssues,missingEditions,missingBlocks,exportError,receipt:receipt?.runtimeManifest??null,visualAcceptance:false,
   next:(ok?'':'This sample did not pass: repair the lint, automated issues or render failure listed here and sample again before authoring more. ')+(coversPracticeAnswers?'':'This candidate has no practice answers yet, so short and worked layouts are untested: sample again once the first exercise is authored. ')+'Look at these pages at final size. Fix shared causes (arrangement, diagram width, page splits) in the candidate and in the instructions for the remaining pages before authoring them; nothing here records an acceptance.'};
  fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'layout-sample.json'),JSON.stringify(result,null,2)+'\n');
  return {...result,file:path.join(out,'layout-sample.json')};

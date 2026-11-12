@@ -5,7 +5,7 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {loadReviewed,saveReviewed,recordVisualResult,VISUAL_CONTRACT,sourcePagesFor,reviewableBlocks} from './lean-review.mjs';
 import {FEEDBACK_CHECKS} from '../../polish/repair-routing.mjs';
-import {assessCompletion} from './import-completion.mjs';
+import {assessCompletion,importV2} from './import-completion.mjs';
 const read=file=>JSON.parse(fs.readFileSync(file,'utf8'));
 export const sampleSourceKey=manifest=>createHash('sha256').update(JSON.stringify(manifest.source??{})).digest('hex');
 // Direct ICE-EM runs retained bounded native samples before this entry point
@@ -28,6 +28,16 @@ export function importSampleEvidence(sampleDir,projectId){
  }
  return {sample:{ok:true,editions:bounded.editions,pages},report};
 }
+// Consecutive pages of one edition in pairs, while their source images stay within eight.
+export function pairSamplePages(rows,sourcesFor){
+ const groups=[];
+ for(let i=0;i<rows.length;i++){
+  const pair=[rows[i],rows[i+1]];
+  if(rows[i+1]&&rows[i+1].page===rows[i].page+1&&sourcesFor(pair).length<=8){groups.push(pair);i++;}
+  else groups.push([rows[i]]);
+ }
+ return groups;
+}
 export async function reviewImportSample({runDir,projectFile,sampleDir,runner}){
  const project=read(projectFile),manifest=read(path.join(runDir,'manifest.json')),{sample,report}=importSampleEvidence(sampleDir,project.id);
  if(!sample.ok)throw Error('Repair the failed early sample before accepting it');
@@ -42,21 +52,31 @@ export async function reviewImportSample({runDir,projectFile,sampleDir,runner}){
  if(previous?.accepted&&previous.sampleHash===sampleHash&&previous.sourceKey===sampleSourceKey(manifest))return {completion:assessCompletion(),deliverable:false,sampleAccepted:true,reused:true};
  state.workflow??={};state.workflow[project.id]={...state.workflow[project.id],sample:{accepted:false,sourceKey:sampleSourceKey(manifest),sampleHash,dir:path.resolve(sampleDir)}};
  saveReviewed(path.join(runDir,'lean-review'),state);
- const failures=[];
+ const failures=[],v2=importV2(manifest);
+ const sourcesFor=rows=>[...new Set(rows.flatMap(row=>row.blocks.flatMap(id=>sourcePagesFor(blocks.get(id)??{}).own)))].map(page=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png'));
+ const jobs=[];
  for(const edition of sample.editions){
-  const rows=sample.pages.filter(row=>row.edition===edition);
+  const rows=sample.pages.filter(row=>row.edition===edition).sort((a,b)=>a.page-b.page);
   if(!rows.length)throw Error('Sample has no pages for '+edition);
   for(const row of rows){
    if(!fs.existsSync(row.image))throw Error('Sample raster is missing');
-   const page=report[edition].pageHashes.find(p=>p.page===row.page);if(!page)throw Error('Sample has no matching page map');
-   const out=path.join(runDir,'lean-review','calls','sample-'+edition+'-'+row.page+'-'+Date.now());
-   const source=[...new Set(row.blocks.flatMap(id=>sourcePagesFor(blocks.get(id)??{}).own))].map(page=>path.join(runDir,'evidence','pages','page-'+String(page).padStart(3,'0')+'.png'));
-   if(source.length>8||source.some(file=>!fs.existsSync(file)))throw Error('Early sample needs complete focused source images');
-   const {result}=await runner({cwd:process.cwd(),runDir,prompt:VISUAL_CONTRACT+' '+FEEDBACK_CHECKS+'\n\n'+JSON.stringify({edition,pages:[{page:row.page,blocks:row.blocks}],sourceImages:source.length}),images:[row.image,...source],out,profile:'review',configuration:importReviewConfiguration(),stage:'lean-sample'});
-   failures.push(...recordVisualResult({batch:{edition,rows:[{...page}]},result,state}));
-   if(!result.pages?.some(p=>p.page===row.page))failures.push({finding:'Sample page received no verdict'});
+   if(!report[edition].pageHashes.find(p=>p.page===row.page))throw Error('Sample has no matching page map');
   }
+  // Import v2 (Ch 1 case study, change 3): consecutive pages go together so a
+  // reviewer sees cross-page references and splits; one page per call otherwise.
+  jobs.push(...(v2?pairSamplePages(rows,sourcesFor):rows.map(row=>[row])).map(group=>({edition,group})));
  }
+ const inspect=async({edition,group})=>{
+  const pages=group.map(row=>report[edition].pageHashes.find(p=>p.page===row.page)),source=sourcesFor(group);
+  if(source.length>8||source.some(file=>!fs.existsSync(file)))throw Error('Early sample needs complete focused source images');
+  const out=path.join(runDir,'lean-review','calls','sample-'+edition+'-'+group.map(row=>row.page).join('_')+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6));
+  const {result}=await runner({cwd:process.cwd(),runDir,prompt:VISUAL_CONTRACT+' '+FEEDBACK_CHECKS+'\n\n'+JSON.stringify({edition,pages:group.map(row=>({page:row.page,blocks:row.blocks})),sourceImages:source.length}),images:[...group.map(row=>row.image),...source],out,profile:'review',configuration:importReviewConfiguration(),stage:'lean-sample'});
+  failures.push(...recordVisualResult({batch:{edition,rows:pages.map(page=>({...page}))},result,state}));
+  for(const row of group)if(!result.pages?.some(p=>p.page===row.page))failures.push({finding:'Sample page '+row.page+' received no verdict'});
+ };
+ // At most three workers per booklet; v1 runs keep their sequential calls.
+ const width=v2?3:1;let next=0;
+ await Promise.all(Array.from({length:Math.min(width,jobs.length)},async()=>{while(next<jobs.length)await inspect(jobs[next++]);}));
  const completion=assessCompletion({findings:failures});
  state.workflow[project.id].sample.accepted=completion.ready;
  saveReviewed(path.join(runDir,'lean-review'),state);

@@ -140,10 +140,16 @@ export async function main(args=process.argv.slice(2)){
  }else if(command==='visual'){
   const loaded=loadRun(values['--run-id']);
   result=await withRunLock(loaded.runDir,'lean-visual-prepare',()=>prepareLeanVisualReview({runDir:loaded.runDir,manifest:loaded.manifest,projectFile:values['--project-file']??path.join('booklets/projects',values['--project']+'.json'),projectId:values['--project'],exportDir:values['--exports']}));
+ }else if(command==='sample-pages'){
+  // Import v2: recommended source pages for the early sample, from the accepted inventory (no model call).
+  const loaded=loadRun(values['--run-id']);
+  const {effectiveInventory}=await import('./workflow-review.mjs'),{printedPracticeHeadings}=await import('./import-layout-preflight.mjs'),{recommendSamplePages}=await import('./lean-visual.mjs');
+  const inventories=loaded.manifest.selectedPages.map(page=>effectiveInventory(loaded.runDir,page)).filter(Boolean);
+  result=recommendSamplePages(inventories,{headings:printedPracticeHeadings(inventories)});
  }else if(command==='sample'){
   const loaded=loadRun(values['--run-id']);
   result=await withRunLock(loaded.runDir,'lean-layout-sample',()=>runLayoutSample({runDir:loaded.runDir,projectId:values['--project'],projectFile:values['--project-file'],out:values['--out'],limit:values['--limit']?Number(values['--limit']):undefined,visibilityReviews:values['--visibility-reviews'],regenerationReason:values['--regenerate-reason']}));
- }else throw Error('Use plan|review --runs FILE, inventory|author --run-id ID --config FILE --pages RANGE, sample --run-id ID --project ID --project-file CANDIDATE --out DIR [--limit N], export --run-id ID --project ID --out DIR, or visual --run-id ID --project ID --exports DIR');
+ }else throw Error('Use plan|review --runs FILE, inventory|author --run-id ID --config FILE --pages RANGE, sample-pages --run-id ID, sample --run-id ID --project ID --project-file CANDIDATE --out DIR [--limit N], export --run-id ID --project ID --out DIR, or visual --run-id ID --project ID --exports DIR');
  console.log(JSON.stringify(result,null,2));if(result?.ok===false)process.exitCode=1;return result;
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))main().catch(error=>{console.error(error.message);process.exitCode=1;});

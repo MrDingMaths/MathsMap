@@ -237,6 +237,13 @@ The layout preflight is in `import-layout-preflight.mjs` and `import-finish.mjs`
 - About 24 of those came from headings typed into prompts, which C1 now prevents, and a further batch from repeated left-hand sides, which the renderer now compacts.
 - Edits like `\tfrac` or `{x=7}` still change `reasoningTaskHash`, which covers the whole question including answers. Skipping their re-review would need the rating to be re-bound without a Sol low call. That changes the "rating bound to the current task" gate, so it waits for a decision.
 
-**Also not implemented:** repair-tool fields for keep-together, part breaks and row spacing; the sample-selection rule and sample review coverage (change 3); reuse diagnostics (change 4).
+**Change 3 (sample), implemented the same day:** `lean-import.mjs sample-pages`, every authored block sampled, every practice question required in every edition, and paired pages reviewed three at a time. See [import pipeline v2, Early sample](booklet-import-pipeline-v2.md#pilots).
+- **Replayed on Ch 1:**
+  - The recommender returns the hand-picked pages plus the missing Review page.
+  - The edition check names `p23-q1` (short and worked) in both the first and the accepted sample.
+  - Full-block sampling covers student pages 2–13 (was 7 pages) and worked 1–10 (was 5).
+- **Cost:** with pairing, Ch 1's 24 sample pages would take about 12–13 calls per round instead of the 14–17 single-page calls made, running three at a time.
+
+**Also not implemented:** repair-tool fields for keep-together, part breaks and row spacing; reuse diagnostics (change 4).
 
 **Baseline test note:** `booklet-import-completion.test.js` "open requests do not accept whole blocks" fails before and after this change. It tests `polish/guards.mjs` `teacherBlocks`, unchanged since 1 November.

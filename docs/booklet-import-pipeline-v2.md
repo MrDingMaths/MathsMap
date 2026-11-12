@@ -124,7 +124,7 @@ One coordinator command, as today: `node scripts/booklet/lean-review.mjs finish 
 - **Every chunk passes the checks before the next is authored:** `lean-review.mjs lint` and `validateImport` run on each assembled chunk, and every new TikZ diagram is compiled with the label-collision check (`pedagogy/figure-label-check.mjs`). A diagram that fails goes back to the author once, before any review call sees it.
 - Exam questions are transcribed where the source puts them, with their mark allocations as printed. The inventory's mark-token and exam-title flags carry through to the blocks (Stage 6).
 - Layout follows [Decision 10](#decisions-to-be-confirmed-by-james): source structure for teaching blocks, presets for practice with recorded meaningful arrangements.
-- **Early sample:** `lean-import.mjs sample` on the first assembled topic with an exercise, plus one example of every diagram family and arrangement the inventory found (export 1 of 3), then `lean-review.mjs sample-review`. Findings go back into the author instructions for the remaining pages.
+- **Early sample:** author the source pages that `lean-import.mjs sample-pages` recommends (see [Early sample](#pilots) in the implementation notes), then run `lean-import.mjs sample` (export 1 of 3) and `lean-review.mjs sample-review`. Findings go back into the author instructions for the remaining pages.
 - **A failed author assignment, in this order:** (1) if the output needs an exact fix (a field, a label, a stray block or mapping), use the **local patch repair**, which makes no model call: `node scripts/booklet/run-workflow.mjs attempt-context`, then `repair-attempt`. Every failed assignment with output leaves a ready request in `local-repair-hint.json` beside it, and the error names the route. Don't change that page's config notes in between, or the repair context goes stale. (2) Regenerate with `--regenerate-reason` only when the content must be rewritten. `--repair-from` is the older page-level mapping repair; it doesn't apply to assignments.
 - **Done:** every inventory entry is mapped and the sample is accepted. **Recorded:** candidate, sample review.
 
@@ -484,6 +484,18 @@ Not yet done: chunk-level lint is unchanged (it already runs per author assignme
 | | **Targeted render** (`check-compact-exercises --development --target-blocks`, one process per edition, against Studio on 5173) of 3+-column grids holding long maths plus every block whose stamp changed since the last export | Any DOM or printed issue blocks printing. A clean result is remembered per candidate hash. If Studio can't be reached, the edition is logged as skipped, as the label check is. |
 
 Replayed on Ch 1 (about 28 s per state): it stops the export-1 state on `p24-q2` (C6), then on the 8 `p14-p1` column overflows. It stops the export-2 state on the `p23-q1` footer overflow (2.5 mm), and it passes the repaired state. These are the three failed exports' causes. The C1 output equals the 12 headings the visual review demanded and the final accepted project carries.
+
+**Early sample (12 November 2026; [Ch 1 case study](booklet-import-v2-ch01-efficiency.md), change 3).** v2 only; earlier runs keep their sample behaviour. Tests: `tests/booklet-import-sample-v2.test.js`.
+
+| What | Where | Notes |
+|---|---|---|
+| Choose the sample's source pages | `lean-import.mjs sample-pages --run-id RUN` (`recommendSamplePages` in `lean-visual.mjs`), after inventory and before authoring | It takes the first exercise (or the first page of questions), then the fewest pages that show every pattern the inventory can see: a printed group heading, clozes, tables, diagrams, wide source grids, investigations, review sections, page-break continuations (with the next page) and cross-question references (with the previous page). There is no model call. On Ch 1 it returns 2, 3, 15, 16, 19, 23, 24: the hand-picked six plus the Review page they missed. The coordinator may add pages, never drop a recommended one without a reason. |
+| Sample every authored block | `runLayoutSample` (`selectLayoutSample(..., {all:true})`) | The 8-block limit left 5 of Ch 1's 13 student sample pages unreviewed. |
+| Every practice question in every edition | `sampleBlocksMissingFromEditions` | A question missing from the short or worked edition fails the sample (`missingBlocks`). On Ch 1 it names `p23-q1` in both, in the first and the accepted sample alike; that investigation later caused exports 2–3. |
+| Neighbour context, three at a time | `reviewImportSample` (`pairSamplePages`) | Consecutive pages of one edition go to one call (source images stay within eight), so splits and cross-page references are judged together. Up to three calls run at once. Every page still needs its own verdict. |
+| Fix shared causes before bulk authoring | rule | A sample finding with a shared cause (renderer, preset, author contract) is fixed in shared code before bulk authoring starts. `src/` and `scripts/` then stay frozen until `finish` is deliverable (inefficiency 9). A block-local fix is only for a block-local defect. |
+
+Grid fit can't be chosen from the inventory: Ch 1's `p14-p1` was recorded as one column and authored as three. The finish layout preflight's targeted render covers it.
 
 ### Pilots
 
