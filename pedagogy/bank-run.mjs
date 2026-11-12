@@ -50,10 +50,17 @@ export async function bookletEdits(project,rows,{dir,root,preview,resolve=resolv
  }
  const merges=rows.filter(r=>r.action==='follow-up-merge');
  if(merges.length&&!preview){
-  const pairs=merges.map(r=>({followUp:blockOf(r.blockId),previous:blockOf(r.previousBlockId),references:r.references}));
-  const ctx=reviewContext(project,root);
-  const result=await resolve(candidate,pairs,{dir:path.join(dir,'follow-ups'),reviewOf:b=>recordedReview(b,ctx)});
-  candidate=result.project;edits.followUps=result.results;
+  const pairs=[];
+  for(const row of merges){
+   const previous=row.previousBlockId&&blockOf(row.previousBlockId);
+   if(previous)pairs.push({followUp:blockOf(row.blockId),previous,references:row.references});
+   else edits.followUps.push({blockId:row.blockId,previousBlockId:row.previousBlockId,decision:'merge-manual',reason:'no preceding question in this section'});
+  }
+  if(pairs.length){
+   const ctx=reviewContext(project,root);
+   const result=await resolve(candidate,pairs,{dir:path.join(dir,'follow-ups'),reviewOf:b=>recordedReview(b,ctx)});
+   candidate=result.project;edits.followUps.push(...result.results);
+  }
  }else edits.followUps=merges.map(r=>({blockId:r.blockId,previousBlockId:r.previousBlockId,decision:'deferred-in-preview'}));
  return {candidate,edits,changed:JSON.stringify(candidate)!==JSON.stringify(project)};
 }

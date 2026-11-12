@@ -6,7 +6,7 @@ import {preservedProject} from '../scripts/booklet/import-project-bank.mjs';
 import {contentFingerprint} from '../pedagogy/audit-v2-plan.mjs';
 import {mergedContent,resolveFollowUps,validJudgement} from '../pedagogy/bank-merges.mjs';
 import {buildAssessments,sourceScope} from '../pedagogy/bank-assessments.mjs';
-import {printedMarks,hasBankWork} from '../pedagogy/bank-run.mjs';
+import {bookletEdits,printedMarks,hasBankWork} from '../pedagogy/bank-run.mjs';
 import {newRecordExclusions} from '../pedagogy/bank-batch.mjs';
 import {questionDependencyFindings} from '../src/lib/booklet-question-dependencies.js';
 import {verifiedRating} from '../scripts/booklet/reasoning-ratings.mjs';
@@ -135,6 +135,13 @@ test('an exact link alone requires staging; a hold alone does not', ()=>{
  const assessments={questions:[]};
  assert.equal(hasBankWork([{action:'link'}],assessments),true);
  assert.equal(hasBankWork([{action:'hold'}],assessments),false);
+});
+
+test('an unresolved reference at the start of a section is reported for manual review', async ()=>{
+ const project={id:'book',sections:[{blocks:[question('first','Use Question 2.')]}]};
+ const {changed,edits}=await bookletEdits(project,[{action:'follow-up-merge',blockId:'first',previousBlockId:null}],{resolve:()=>assert.fail('No preceding question to judge')});
+ assert.equal(changed,false);
+ assert.deepEqual(edits.followUps,[{blockId:'first',previousBlockId:null,decision:'merge-manual',reason:'no preceding question in this section'}]);
 });
 
 test('Decision 6: a textbook block adopted by a master copy may change content; nothing else may', ()=>{
