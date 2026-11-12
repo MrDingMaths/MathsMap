@@ -1,0 +1,185 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bdbe5a91-b3f3-4af4-b104-f8e99f522588",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "combinations-restrictions"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires constructing favourable counts for eight poker-hand events while avoiding unintended repeated ranks.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:57:56.138Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "abadb34f77c16f29e3923be2ff5ae16c286ad2f25a2c1b3181328cee17ef3d55",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-a6f0cb2ea7d3dd685a68/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p81-q34-root",
+    "type": "question",
+    "label": "34",
+    "prompt": "A poker hand of five cards is dealt from a standard pack of 52.\nFind the probability of obtaining the following:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p81-q34-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "one pair,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{352}{833}$",
+          "worked": "The total number of hands is $\\binom{52}{5}$.\nChoose the pair's rank in $\\binom{13}{1}$ ways and its cards in $\\binom{4}{2}$ ways. Choose three different ranks from the remaining twelve in $\\binom{12}{3}$ ways, then one card from each in $4^3$ ways.\n$$\\begin{aligned}P(\\text{one pair})&=\\frac{\\binom{13}{1}\\binom{4}{2}\\binom{12}{3}4^3}{\\binom{52}{5}}\\\\&=\\frac{352}{833}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p81-q34-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "two pairs,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{198}{4165}$",
+          "worked": "Choose two ranks for the pairs in $\\binom{13}{2}$ ways and two cards from each rank in $\\binom{4}{2}^2$ ways. Choose the fifth card's rank from the remaining eleven in $\\binom{11}{1}$ ways, then its suit in $\\binom{4}{1}$ ways.\n$$\\begin{aligned}P(\\text{two pairs})&=\\frac{\\binom{13}{2}\\binom{4}{2}^{2}\\binom{11}{1}\\binom{4}{1}}{\\binom{52}{5}}\\\\&=\\frac{198}{4165}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p81-q34-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "three of a kind,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{88}{4165}$",
+          "worked": "Choose the triple's rank in $\\binom{13}{1}$ ways and its cards in $\\binom{4}{3}$ ways. Choose two different ranks from the remaining twelve in $\\binom{12}{2}$ ways, then one card from each in $4^2$ ways.\n$$\\begin{aligned}P(\\text{three of a kind})&=\\frac{\\binom{13}{1}\\binom{4}{3}\\binom{12}{2}4^2}{\\binom{52}{5}}\\\\&=\\frac{88}{4165}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p81-q34-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "four of a kind,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{4165}$",
+          "worked": "Choose the rank in $\\binom{13}{1}$ ways and all four cards of that rank in $\\binom{4}{4}$ ways. Choose the fifth card from the remaining 48 cards.\n$$\\begin{aligned}P(\\text{four of a kind})&=\\frac{\\binom{13}{1}\\binom{4}{4}\\binom{48}{1}}{\\binom{52}{5}}\\\\&=\\frac{1}{4165}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p81-q34-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "a full house (one pair and three of a kind),",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{6}{4165}$",
+          "worked": "Choose the triple's rank and cards in $\\binom{13}{1}\\binom{4}{3}$ ways. Choose the pair's rank from the remaining twelve and its cards in $\\binom{12}{1}\\binom{4}{2}$ ways.\n$$\\begin{aligned}P(\\text{full house})&=\\frac{\\binom{13}{1}\\binom{4}{3}\\binom{12}{1}\\binom{4}{2}}{\\binom{52}{5}}\\\\&=\\frac{6}{4165}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p81-q34-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "a straight (five cards in sequence regardless of suit, ace high or low),",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{128}{32487}$",
+          "worked": "There are ten possible rank sequences, from A–2–3–4–5 through 10–J–Q–K–A. Each sequence has $4^5=1024$ choices of suits.\n$$\\begin{aligned}P(\\text{straight})&=\\frac{10\\times4^5}{\\binom{52}{5}}\\\\&=\\frac{128}{32487}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p81-q34-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "a flush (five cards of the same suit),",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{33}{16660}$",
+          "worked": "Choose a suit in $\\binom{4}{1}$ ways, then five cards from its thirteen cards in $\\binom{13}{5}$ ways.\n$$\\begin{aligned}P(\\text{flush})&=\\frac{\\binom{4}{1}\\binom{13}{5}}{\\binom{52}{5}}\\\\&=\\frac{33}{16660}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p81-q34-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "a royal flush (ten, jack, queen, king and ace in a single suit).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{649740}$",
+          "worked": "There are four royal flushes, one for each suit.\n$$\\begin{aligned}P(\\text{royal flush})&=\\frac{4}{\\binom{52}{5}}\\\\&=\\frac{1}{649740}.\\end{aligned}$$\nAlternatively, choose the suit in $\\binom{4}{1}$ ways and all five required cards in $\\binom{5}{5}=1$ way, giving the same favourable count.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p81-q34",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:17.117Z",
+  "updatedAt": "2026-11-12T08:11:17.117Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p81-q34",
+    "sectionRole": "challenge"
+  }
+}

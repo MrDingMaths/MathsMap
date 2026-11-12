@@ -1,0 +1,116 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8b4b811b-c83e-4ebb-b258-ed2242c43b3e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "standard-deviation",
+    "secondarySkillIds": [],
+    "reasoningScore": 29,
+    "difficulty": "Development",
+    "difficultyReason": "The two graphs have different horizontal scales (10 per unit against 20 per unit), so the student must read the scales instead of the apparent width. Café B has the higher mean and larger SD, which is the opposite of how the graphs look. The extra decision and the reasoning raise the demand, but there is no computation.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-09T21:32:01.765Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "419f9a4ecbb8a8d24c4bb74fdeb2ff327d64de36a8537d20c9e0cc5059fa994d",
+      "diagramBlindHash": "d440fc59936a147dab75ff23a3e8a97db080651c10cccd65565f68bfdcabf013",
+      "evidence": ".booklet-work/pedagogy-audit-v2/standard-deviation-v1/20261109-212252/calls/08-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p7-q3",
+          "score": 25
+        },
+        "easierThan": {
+          "ref": "sd-routine-r42-2",
+          "score": 33
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-a65698-p6-practice-slot-1-upper-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The graphs show the number of customers per day at two Perth cafés over a year.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [
+      {
+        "id": "v2-a65698-p6-practice-slot-1-upper-slot-1-upper-d1",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-1-upper\"}\n\\begin{tikzpicture}[x=0.8cm,y=0.7cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-0.7,-1.7) rectangle (15.9,4.6);\n\\begin{scope}\n\\draw[black,line width=0.5pt,->] (0,0)--(6.6,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,3.5) node[left] {$f$};\n\\foreach \\t/\\l in {0/0,1/10,2/20,3/30,4/40,5/50,6/60} {\\draw[black,line width=0.4pt] (\\t,0)--(\\t,-0.16); \\node[below] at (\\t,-0.12) {\\l};}\n\\node at (3.3,-1.25) {Customers per day};\n\\node at (3.3,4.0) {Café A};\n\\draw[black,line width=0.8pt,domain=0.5:5.5,samples=100,smooth] plot (\\x,{0.04+2.6*exp(-((\\x-3)^2)/(2*1^2))});\n\\end{scope}\n\\begin{scope}[shift={(9,0)}]\n\\draw[black,line width=0.5pt,->] (0,0)--(6.6,0);\n\\draw[black,line width=0.5pt,->] (0,0)--(0,3.5) node[left] {$f$};\n\\foreach \\t in {0,1,2,3,4,5,6} {\\draw[black,line width=0.4pt] (\\t,0)--(\\t,-0.16);}\n\\foreach \\t/\\l in {0/0,2/40,4/80,6/120} {\\node[below] at (\\t,-0.12) {\\l};}\n\\node at (3.3,-1.25) {Customers per day};\n\\node at (3.3,4.0) {Café B};\n\\draw[black,line width=0.8pt,domain=0.1:3.9,samples=100,smooth] plot (\\x,{0.04+1.6*exp(-((\\x-2)^2)/(2*0.8^2))});\n\\end{scope}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 132,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-a65698-p6-practice-slot-1-upper-slot-1-upper-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Which café has the higher mean?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Café B",
+          "worked": "Café A's curve is centred at 30 customers and Café B's curve is centred at 40 customers, so Café B has the higher mean.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "v2-a65698-p6-practice-slot-1-upper-slot-1-upper-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Which café has the larger standard deviation? Give a reason.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Café B, because its numbers of customers are spread over a wider range of values.",
+          "worked": "The horizontal scales are different. Café A's numbers of customers are spread from about 5 to 55, while Café B's are spread from about 0 to 80. Café B has more spread, so it has the larger standard deviation.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-a65698-p6-practice-slot-1-upper",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:13:52.882Z",
+  "updatedAt": "2026-11-12T08:13:52.882Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "standard-deviation-v1",
+    "blockId": "v2-a65698-p6-practice-slot-1-upper",
+    "sectionRole": "exercise"
+  }
+}

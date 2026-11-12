@@ -1,0 +1,154 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f8b7f649-5d15-4f34-a517-fc8f289aba54",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "counting-complement-principle",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "count-ordered-selections-repetition"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Counts binary responses using combinations, complementary cases and equivalent restrictions.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:57:30.254Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a84e7a4c324775779f2f2d72b9e4c3225d826871bb567b197250b988355a2042",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-ed009e28e2c66f04326d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p80-q32-root",
+    "type": "question",
+    "label": "",
+    "prompt": "A survey has eight 'Yes/No'-type questions.\nHow many ways can the survey be answered if there are",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p80-q32-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "no restrictions?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "256",
+          "worked": "Each of the eight questions has two possible answers.\n$$2^8=256.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p80-q32-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "exactly three 'No' answers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "56",
+          "worked": "Choose which three questions receive 'No'; the others receive 'Yes'.\n$$\\binom{8}{3}=56.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p80-q32-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "at least two 'No' answers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "247",
+          "worked": "Subtract the cases of zero or one 'No' from all possible responses.\n$$\\begin{aligned}N&=2^8-\\binom{8}{0}-\\binom{8}{1}\\\\&=256-1-8\\\\&=247.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p80-q32-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "at least six 'Yes' answers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "37",
+          "worked": "Count the cases of six, seven or eight 'Yes' answers.\n$$\\begin{aligned}N&=\\binom{8}{2}+\\binom{8}{1}+\\binom{8}{0}\\\\&=28+8+1\\\\&=37.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p80-q32-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "at most two 'No' answers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "37",
+          "worked": "At most two 'No' answers is equivalent to at least six 'Yes' answers, as in part d.\n$$\\binom{8}{0}+\\binom{8}{1}+\\binom{8}{2}=37.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p80-q32-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "at most six 'Yes' answers?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "247",
+          "worked": "At most six 'Yes' answers is equivalent to at least two 'No' answers, as in part c.\n$$2^8-\\binom{8}{0}-\\binom{8}{1}=247.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p80-q32",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:10.348Z",
+  "updatedAt": "2026-11-12T08:11:10.349Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p80-q32",
+    "sectionRole": "exercise"
+  }
+}

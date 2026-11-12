@@ -1,0 +1,155 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f910082e-ce87-4da3-b00e-870734b93961",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinations-restrictions",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Count unordered triangle pairs and use the supplied consecutive-vertices hint to identify three non-overlapping partitions, then subtract.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T10:23:52.647Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3b83b10aad13515abeca103909ba25a5182e8bd015feb59692b1dfd6ff15a2da",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/lean-review/calls/content-1793183013366-3/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p62-q23-root",
+    "type": "question",
+    "label": "23",
+    "prompt": "Ten points A, B, ..., J are arranged in order around a circle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p62-q23-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 62, p62-q23-diagram\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-23,-23) rectangle (23,23);\n\\foreach \\a in {90,54,18,-18,-54,-90,-126,-162,162,126} {\n  \\draw[draw=black,line width=0.8pt] (\\a:20) circle[radius=1.4mm];\n}\n\\draw[black,line width=0.4pt] (90:20) circle[radius=0.75mm];\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 46,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 62,
+          "sourceRegion": "Question 23, below the shared stem",
+          "description": "Ten unlabelled point markers in circular order, without a connecting circumference. The uppermost marker retains its additional concentric outline. Decorative blue fill is replaced by ordinary black outlines.",
+          "mathematics": "Ten distinct points on a circle; no three are collinear.",
+          "answerVisibility": "Always visible; no solution markings."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p62-q23-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many triangles can be drawn with these points as vertices?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$120$",
+          "worked": "Choose any three of the ten points.\n$$\\begin{aligned}N&={}^{10}C_3\\\\&=120\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p62-q23-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How many pairs of such triangles can be drawn, if the vertices of the two triangles are distinct?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2100$",
+          "worked": "Choose six distinct vertices in ${}^{10}C_6$ ways. From these, choose three for one triangle; the other three form the second triangle. Divide by $2$ because exchanging the two triangles gives the same pair: $\\{A,B,C\\},\\{D,E,F\\}$ and $\\{D,E,F\\},\\{A,B,C\\}$ are identical pairs.\n$$\\begin{aligned}N&={}^{10}C_6\\times\\frac{{}^{6}C_3}{2}\\\\&=210\\times\\frac{20}{2}\\\\&=2100\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p62-q23-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "In how many such pairs will the triangles:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p62-q23-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "not overlap?\n\nHint: For the triangles not to overlap, each triangle's vertices must be consecutive in the circular order of the six selected points. List the ways.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$630$",
+              "worked": "For any six selected points, label them $A,B,C,D,E,F$ in circular order. There are three unordered partitions into consecutive triples:\n$$\\begin{gathered}\\{A,B,C\\},\\{D,E,F\\}\\\\\\{B,C,D\\},\\{E,F,A\\}\\\\\\{C,D,E\\},\\{F,A,B\\}.\\end{gathered}$$\nThus\n$$\\begin{aligned}N&={}^{10}C_6\\times3\\\\&=210\\times3\\\\&=630.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 31
+          },
+          {
+            "id": "p62-q23-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "overlap?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$1470$",
+              "worked": "Overlapping and non-overlapping pairs are complementary.\n$$\\begin{aligned}N&=2100-630\\\\&=1470\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p62-q23",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:14.728Z",
+  "updatedAt": "2026-11-12T08:11:14.729Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p62-q23",
+    "sectionRole": "challenge"
+  }
+}

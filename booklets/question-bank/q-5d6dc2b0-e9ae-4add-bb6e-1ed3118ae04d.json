@@ -1,0 +1,631 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5d6dc2b0-e9ae-4add-bb6e-1ed3118ae04d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "permutations-not-distinct"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Uses restricted lattice paths and partitions routes at a diagonal to prove counting identities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:24:57.319Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d00ab6412a5386bf16e7669c10d1181045d2f3907d1b3637fede18b987da0007",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/lean-review/calls/content-1793172268481-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p64-q30-root",
+    "type": "question",
+    "label": "30",
+    "prompt": "The diagram shows a $6\\times4$ grid. The aim is to walk from point A to point B by walking along the black lines either downwards or to the right.\n\nA single move is defined as walking along one side of a single small square, thus it always takes you ten moves to get from A to B.\n\nBy treating paths as ordered sequences of D and R:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p64-q30-a",
+        "type": "group",
+        "label": "a",
+        "prompt": "Find how many different routes are possible:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p64-q30-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source 64 p64-q30-grid\"}\n\\begin{tikzpicture}[x=5mm,y=-5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\gridcol in {0,...,4} {\\draw[black,line width=0.25pt] (\\gridcol,0)--(\\gridcol,6);}\n\\foreach \\gridrow in {0,...,6} {\\draw[black,line width=0.25pt] (0,\\gridrow)--(4,\\gridrow);}\n\\fill[black] (0,0) circle (1pt) node[above left] {$A$};\n\\fill[black] (4,6) circle (1pt) node[below right] {$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 31,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 64,
+              "sourceRegion": "Question 30 opening diagram",
+              "description": "Four columns and six rows of square cells; labelled endpoint dots. Labels and point markers require TikZ rather than the blank-grid template.",
+              "mathematics": "Every route contains six D moves and four R moves.",
+              "answerVisibility": "permanent"
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p64-q30-a-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "without restriction,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$210$",
+              "worked": "Arrange six Ds and four Rs. Choose the six positions occupied by D; the remaining positions contain R.\n$$\\begin{aligned}\\frac{10!}{6!4!}&={}^{10}C_6\\\\&=210\\end{aligned}$$\nAlternatively, choose the four R positions: ${}^{10}C_4={}^{10}C_6$.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p64-q30-a-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "if you must pass through C,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [
+              {
+                "id": "p64-q30-a-ii-grid",
+                "role": "question",
+                "format": "tikz",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source 64 p64-q30-a-ii-grid\"}\n\\begin{tikzpicture}[x=5mm,y=-5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\gridcol in {0,...,4} {\\draw[black,line width=0.25pt] (\\gridcol,0)--(\\gridcol,6);}\n\\foreach \\gridrow in {0,...,6} {\\draw[black,line width=0.25pt] (0,\\gridrow)--(4,\\gridrow);}\n\\fill[black] (0,0) circle (1pt) node[above left] {$A$};\n\\fill[black] (4,6) circle (1pt) node[below right] {$B$};\n\\fill[black] (2,2) circle (1pt) node[below right] {$C$};\n\\end{tikzpicture}",
+                "src": null,
+                "widthMm": 31,
+                "alt": "Mathematical diagram",
+                "overlayOf": null,
+                "transparent": false,
+                "axes": null,
+                "spec": {
+                  "sourcePage": 64,
+                  "sourceRegion": "Question 30(a)(ii)",
+                  "description": "Four-column, six-row grid with C two columns right and two rows down from A. Labelled points require TikZ.",
+                  "mathematics": "A to C uses two D and two R moves; C to B uses four D and two R moves.",
+                  "answerVisibility": "permanent"
+                },
+                "derived": false,
+                "reviewStatus": "needs-review"
+              }
+            ],
+            "children": [],
+            "diagramPlacement": "right-of-prompt",
+            "answer": {
+              "short": "$90$",
+              "worked": "From A to C, arrange two Ds and two Rs. From C to B, arrange four Ds and two Rs. The two route choices are independent.\n$$\\begin{aligned}N&={}^{4}C_2\\times{}^{6}C_4\\\\&=6\\times15\\\\&=90\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 19
+          },
+          {
+            "id": "p64-q30-a-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "if you cannot move along the top line of the grid,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$126$",
+              "worked": "The first move must be D. Arrange the remaining five Ds and four Rs in nine positions.\n$$\\begin{aligned}N&={}^{9}C_5\\\\&=126\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p64-q30-a-iv",
+            "type": "part",
+            "label": "iv",
+            "prompt": "if you cannot move along the second row from the top of the grid.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$126$",
+              "worked": "No R move is allowed on the horizontal grid line one square below the top. Therefore the first two D moves must be consecutive.\n\nTreat DD as one object. Arrange this object with the remaining four Ds and four Rs, with DD first among the five downward objects. Choose the four R positions among the nine objects; the downward objects then have a unique order.\n$$\\begin{aligned}N&={}^{9}C_4\\\\&=126\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 23
+          }
+        ]
+      },
+      {
+        "id": "p65-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Notice that every route must pass through one and only one of the five crossed points.\n\nThis is because a path must cross a diagonal to get from A to B.\n\nHence prove that\n$$\\begin{aligned}{}^{10}C_4={}&{}^{4}C_0\\times{}^{6}C_4+{}^{4}C_1\\times{}^{6}C_3\\\\&+{}^{4}C_2\\times{}^{6}C_2+{}^{4}C_3\\times{}^{6}C_1\\\\&+{}^{4}C_4\\times{}^{6}C_0.\\end{aligned}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p65-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source 65 p65-b-diagram\"}\n\\begin{tikzpicture}[x=5mm,y=-5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\gridcol in {0,...,4} {\\draw[black,line width=0.25pt] (\\gridcol,0)--(\\gridcol,6);}\n\\foreach \\gridrow in {0,...,6} {\\draw[black,line width=0.25pt] (0,\\gridrow)--(4,\\gridrow);}\n\\fill[black] (0,0) circle (1pt) node[above left] {$A$};\n\\fill[black] (4,6) circle (1pt) node[below right] {$B$};\n\\foreach \\x/\\y in {0/4,1/3,2/2,3/1,4/0}{\\draw[black,line width=0.4pt] (\\x-0.16,\\y-0.16)--(\\x+0.16,\\y+0.16) (\\x-0.16,\\y+0.16)--(\\x+0.16,\\y-0.16);}\n\\fill[black] (2,2) circle (1pt) node[below right] {$C$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 32,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 65,
+              "sourceRegion": "Question 30(b)",
+              "description": "Five crosses on the fourth-move diagonal of a four-column, six-row grid; no joining diagonal is drawn. C is the central crossed point.",
+              "mathematics": "Crossed vertices have rightward-plus-downward coordinates summing to four.",
+              "answerVisibility": "permanent"
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "before-prompt",
+        "answer": {
+          "short": "Partition all ${}^{10}C_4$ routes by their unique crossed point. The five case counts are ${}^{4}C_k{}^{6}C_{4-k}$ for $k=0,1,2,3,4$; adding proves the identity.",
+          "worked": "There are ${}^{10}C_4$ routes in total. Each move increases the sum of the rightward and downward coordinates by one, so every route reaches exactly one crossed point after four moves.\n\nFor the crossed point reached using $k$ R moves, the first four moves contain $k$ Rs and $4-k$ Ds. There are ${}^{4}C_k$ ways to reach it. The remaining six moves contain $4-k$ Rs and $2+k$ Ds, giving ${}^{6}C_{4-k}$ ways to finish.\n\nFrom left to right, the five case counts are\n$$\\begin{aligned}k=0:&\\quad{}^{4}C_0\\times{}^{6}C_4,\\\\k=1:&\\quad{}^{4}C_1\\times{}^{6}C_3,\\\\k=2:&\\quad{}^{4}C_2\\times{}^{6}C_2,\\\\k=3:&\\quad{}^{4}C_3\\times{}^{6}C_1,\\\\k=4:&\\quad{}^{4}C_4\\times{}^{6}C_0.\\end{aligned}$$\nThese cases are disjoint and include every route, so their sum equals ${}^{10}C_4$, as required.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 39
+      },
+      {
+        "id": "p65-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What diagonal would you draw to prove that\n$$\\begin{aligned}{}^{10}C_4={}&{}^{5}C_0\\times{}^{5}C_4+{}^{5}C_1\\times{}^{5}C_3\\\\&+{}^{5}C_2\\times{}^{5}C_2+{}^{5}C_3\\times{}^{5}C_1\\\\&+{}^{5}C_4\\times{}^{5}C_0?\\end{aligned}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Use the diagonal through the vertices reached after five moves: $(0,5),(1,4),(2,3),(3,2),(4,1)$, measured rightwards and downwards from A.",
+          "worked": "Mark the five grid vertices reached after five moves: $(0,5),(1,4),(2,3),(3,2),(4,1)$, where coordinates count moves right and down from A. They lie on the diagonal $x+y=5$.\n\nA route passing through the point with $k$ R moves in its first five moves can be chosen in ${}^{5}C_k{}^{5}C_{4-k}$ ways. Every route meets exactly one of these points, so adding the five cases gives the stated identity.",
+          "solutionDiagrams": [
+            {
+              "id": "p65-c-answer-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source 65 p65-c-answer-diagram\"}\n\\begin{tikzpicture}[x=5mm,y=-5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\gridcol in {0,...,4} {\\draw[black,line width=0.25pt] (\\gridcol,0)--(\\gridcol,6);}\n\\foreach \\gridrow in {0,...,6} {\\draw[black,line width=0.25pt] (0,\\gridrow)--(4,\\gridrow);}\n\\fill[black] (0,0) circle (1pt) node[above left] {$A$};\n\\fill[black] (4,6) circle (1pt) node[below right] {$B$};\n\\foreach \\x/\\y in {0/5,1/4,2/3,3/2,4/1}{\\draw[black,line width=0.4pt] (\\x-0.16,\\y-0.16)--(\\x+0.16,\\y+0.16) (\\x-0.16,\\y+0.16)--(\\x+0.16,\\y-0.16);}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 34,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 65,
+                "sourceRegion": "Question 30(c) supplied answer",
+                "description": "Answer-only four-column, six-row lattice with five crosses on the fifth-move diagonal; no joining line, as in the source. Source answer blue is replaced by ordinary black diagram marks.",
+                "mathematics": "Crosses at (0,5), (1,4), (2,3), (3,2), (4,1), counting downwards from A.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p65-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Using the $6\\times6$ grid, then using the same idea as that used in parts b and c, prove that\n$$\\begin{aligned}{}^{12}C_6={}&({}^{6}C_0)^2+({}^{6}C_1)^2+({}^{6}C_2)^2\\\\&+({}^{6}C_3)^2+({}^{6}C_4)^2+({}^{6}C_5)^2\\\\&+({}^{6}C_6)^2.\\end{aligned}$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p65-d-given-grid",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source 65 p65-d-answer-diagram\"}\n\\begin{tikzpicture}[x=5mm,y=-5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\gridcol in {0,...,6} {\\draw[black,line width=0.25pt] (\\gridcol,0)--(\\gridcol,6);}\n\\foreach \\gridrow in {0,...,6} {\\draw[black,line width=0.25pt] (0,\\gridrow)--(6,\\gridrow);}\n\\fill[black] (0,0) circle (1pt) node[above left] {$A$};\n\\fill[black] (6,6) circle (1pt) node[below right] {$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 43,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 65,
+              "sourceRegion": "Partd unmarked question grid, derived from the supplied6×6answergrid",
+              "description": "Blank6×6square-cell grid with A top-left and B bottom-right. Derived from the source answergrid to supply the grid explicitly referenced by the student task; solutiondiagonal/crosses omitted.",
+              "mathematics": "Six rightward and six downward moves connect A to B. No diagonal or path-count hints supplied.",
+              "answerVisibility": "Permanent question given; the original marked solutiondiagram remains answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Partition the ${}^{12}C_6$ routes by the point reached after six moves. The seven case counts are $({}^{6}C_k)^2$, for $k=0,1,\\ldots,6$, giving the identity.",
+          "worked": "There are ${}^{12}C_6$ routes from A to B: arrange six Ds and six Rs.\n\nEvery route passes through exactly one of the seven marked vertices after six moves. If the first six moves contain $k$ Rs, they contain $6-k$ Ds and can be arranged in ${}^{6}C_k$ ways. The last six moves then contain $6-k$ Rs and $k$ Ds, and can be arranged in ${}^{6}C_{6-k}={}^{6}C_k$ ways.\n\nThus the number of routes through that vertex is $({}^{6}C_k)^2$. Adding the seven disjoint cases gives\n$$\\begin{aligned}{}^{12}C_6&=\\sum_{k=0}^{6}({}^{6}C_k)^2\\\\&=1+36+225+400+225+36+1\\\\&=924.\\end{aligned}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p65-d-answer-diagram",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source 65 p65-d-answer-diagram\"}\n\\begin{tikzpicture}[x=5mm,y=-5mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\gridcol in {0,...,6} {\\draw[black,line width=0.25pt] (\\gridcol,0)--(\\gridcol,6);}\n\\foreach \\gridrow in {0,...,6} {\\draw[black,line width=0.25pt] (0,\\gridrow)--(6,\\gridrow);}\n\\fill[black] (0,0) circle (1pt) node[above left] {$A$};\n\\fill[black] (6,6) circle (1pt) node[below right] {$B$};\n\\foreach \\x/\\y in {0/6,1/5,2/4,3/3,4/2,5/1,6/0}{\\draw[black,line width=0.4pt] (\\x-0.16,\\y-0.16)--(\\x+0.16,\\y+0.16) (\\x-0.16,\\y+0.16)--(\\x+0.16,\\y-0.16);}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 43,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 65,
+                "sourceRegion": "Question 30(d) supplied answer",
+                "description": "Answer-only six-column, six-row lattice with seven crosses on its opposite diagonal; no joining line. Source answer blue is replaced by ordinary black diagram marks.",
+                "mathematics": "Crossed vertices have coordinates (k,6-k), measured rightwards and downwards from A.",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 41
+      }
+    ],
+    "diagramPlacement": "before-prompt"
+  },
+  "presentation": {
+    "ownerId": "p64-q30",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p64-q30": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p64-q30-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p64-q30-root/label",
+                  "type": "item",
+                  "ref": "p64-q30-root/label",
+                  "title": "Label 30"
+                },
+                {
+                  "id": "p64-q30-opening-stem-with-grid",
+                  "type": "group",
+                  "direction": "row",
+                  "children": [
+                    {
+                      "id": "layout:p64-q30-root/prompt",
+                      "type": "item",
+                      "ref": "p64-q30-root/prompt",
+                      "title": "Text",
+                      "weight": 4
+                    },
+                    {
+                      "id": "layout:p64-q30-grid",
+                      "type": "item",
+                      "ref": "p64-q30-grid",
+                      "title": "Diagram",
+                      "width": 31,
+                      "weight": 1
+                    }
+                  ],
+                  "gap": 6,
+                  "verticalAlign": "top",
+                  "keepTogether": true
+                },
+                {
+                  "id": "p64-q30-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p64-q30-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p64-q30-a/label",
+                          "type": "item",
+                          "ref": "p64-q30-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p64-q30-a/prompt",
+                          "type": "item",
+                          "ref": "p64-q30-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p64-q30-a:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p64-q30-a-i:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p64-q30-a-i/label",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-i/label",
+                                  "title": "Label i"
+                                },
+                                {
+                                  "id": "layout:p64-q30-a-i/prompt",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-i/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p64-q30-a-i/space",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-i/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part i",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p64-q30-a-ii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p64-q30-a-ii/label",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-ii/label",
+                                  "title": "Label ii"
+                                },
+                                {
+                                  "id": "p64-q30-a-ii:beside",
+                                  "type": "group",
+                                  "direction": "row",
+                                  "children": [
+                                    {
+                                      "id": "p64-q30-a-ii:text",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p64-q30-a-ii/prompt",
+                                          "type": "item",
+                                          "ref": "p64-q30-a-ii/prompt",
+                                          "title": "Text"
+                                        }
+                                      ],
+                                      "gap": 2
+                                    },
+                                    {
+                                      "id": "p64-q30-a-ii:diagrams",
+                                      "type": "group",
+                                      "direction": "stack",
+                                      "children": [
+                                        {
+                                          "id": "layout:p64-q30-a-ii-grid",
+                                          "type": "item",
+                                          "ref": "p64-q30-a-ii-grid",
+                                          "title": "Diagram"
+                                        }
+                                      ],
+                                      "gap": 2
+                                    }
+                                  ],
+                                  "gap": 2
+                                },
+                                {
+                                  "id": "layout:p64-q30-a-ii/space",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-ii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part ii",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p64-q30-a-iii:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p64-q30-a-iii/label",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-iii/label",
+                                  "title": "Label iii"
+                                },
+                                {
+                                  "id": "layout:p64-q30-a-iii/prompt",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-iii/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p64-q30-a-iii/space",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-iii/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iii",
+                              "gap": 2
+                            },
+                            {
+                              "id": "p64-q30-a-iv:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p64-q30-a-iv/label",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-iv/label",
+                                  "title": "Label iv"
+                                },
+                                {
+                                  "id": "layout:p64-q30-a-iv/prompt",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-iv/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p64-q30-a-iv/space",
+                                  "type": "item",
+                                  "ref": "p64-q30-a-iv/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part iv",
+                              "gap": 2
+                            }
+                          ],
+                          "gap": 2
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p65-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p65-b/label",
+                          "type": "item",
+                          "ref": "p65-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p65-b-diagram",
+                          "type": "item",
+                          "ref": "p65-b-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p65-b/prompt",
+                          "type": "item",
+                          "ref": "p65-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p65-b/space",
+                          "type": "item",
+                          "ref": "p65-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p65-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p65-c/label",
+                          "type": "item",
+                          "ref": "p65-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:p65-c/prompt",
+                          "type": "item",
+                          "ref": "p65-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p65-c/space",
+                          "type": "item",
+                          "ref": "p65-c/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p65-d:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p65-d/label",
+                          "type": "item",
+                          "ref": "p65-d/label",
+                          "title": "Label d"
+                        },
+                        {
+                          "id": "layout:p65-d/prompt",
+                          "type": "item",
+                          "ref": "p65-d/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p65-d-given-grid",
+                          "type": "item",
+                          "ref": "p65-d-given-grid",
+                          "width": 43,
+                          "align": "left"
+                        },
+                        {
+                          "id": "layout:p65-d/space",
+                          "type": "item",
+                          "ref": "p65-d/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part d",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 30",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:17.774Z",
+  "updatedAt": "2026-11-12T08:11:17.775Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p64-q30",
+    "sectionRole": "challenge"
+  }
+}

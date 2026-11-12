@@ -1,0 +1,181 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-80d6c14c-028d-41da-ae74-ce6c952a43d0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "permutations-restrictions",
+    "secondarySkillIds": [
+      "permutations-not-distinct",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Apply repeated-letter quotients after grouping or fixing positions; use earlier parts to subtract disjoint end-position cases and separately arrange the vowels inside their block.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:46:15.269Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8c99d986e7f872eefabafe6dadeb0bd6d8764c2d816af90cf6539345f4ff2d7d",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-5f7a820afeee4508cee0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p45-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "Find how many arrangements of the letters of the word TRANSITION are possible if:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p45-q14-paired-parts",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p45-q14-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "there are no restrictions",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$453\\,600$",
+              "worked": "There are 10 letters, with I, T and N each appearing twice.\n$$\\frac{10!}{2!\\,2!\\,2!}=453\\,600$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p45-q14-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "the Is are together",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$90\\,720$",
+              "worked": "Treat II as one unit. There are 9 objects, with T twice and N twice.\n$$\\frac{9!}{2!\\,2!}=90\\,720$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p45-q14-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "the Is are together, and so are the Ns, and so are the Ts",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$5040$",
+              "worked": "Treat II, NN and TT as units. The resulting 7 objects are distinct.\n$$7!=5040$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 15
+          },
+          {
+            "id": "p45-q14-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "the Ns occupy the end positions",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$10\\,080$",
+              "worked": "Fix an N at each end. The 8 middle positions contain I twice and T twice.\n$$\\frac{8!}{2!\\,2!}=10\\,080$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p45-q14-e",
+            "type": "part",
+            "label": "e",
+            "prompt": "an N occupies the first but not the last position",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$80\\,640$",
+              "worked": "Fix the first position as N. The other N has 8 possible positions, excluding the last position. Fill the remaining 8 positions, with I twice and T twice.\n$$8\\times\\frac{8!}{2!\\,2!}=80\\,640$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p45-q14-f",
+            "type": "part",
+            "label": "f",
+            "prompt": "the letter N is not at either end",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$282\\,240$",
+              "worked": "Subtract the three disjoint cases from the unrestricted total: N at the first end only, N at the last end only, and N at both ends.\nFrom part e, each one-end-only case has $80\\,640$ arrangements. From part d, the both-ends case has $10\\,080$ arrangements.\n$$\\begin{aligned}453\\,600-80\\,640-80\\,640-10\\,080&=282\\,240\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 33
+          }
+        ]
+      },
+      {
+        "id": "p45-q14-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "the vowels are together",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$15\\,120$",
+          "worked": "Treat the vowels I, I, A and O as one unit. There are 7 objects, with T twice and N twice.\nArrange the units:\n$$\\frac{7!}{2!\\,2!}$$\nArrange the vowels within their unit:\n$$\\frac{4!}{2!}$$\nTotal:\n$$\\frac{7!}{2!\\,2!}\\times\\frac{4!}{2!}=15\\,120$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p45-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:52.154Z",
+  "updatedAt": "2026-11-12T08:11:52.154Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-v1",
+    "blockId": "p45-q14",
+    "sectionRole": "exercise"
+  }
+}

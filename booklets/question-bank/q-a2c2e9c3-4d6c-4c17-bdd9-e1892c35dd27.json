@@ -1,0 +1,131 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a2c2e9c3-4d6c-4c17-bdd9-e1892c35dd27",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "circular-arrangements",
+    "secondarySkillIds": [],
+    "reasoningScore": 30,
+    "difficulty": "Development",
+    "difficultyReason": "Part (b) requires fixing Bella to remove rotational repeats, excluding her two neighbouring seats when placing Zoe, then arranging the remaining six people. This routinely adapts the supplied fixed-person method and seating scaffold; part (a) applies the circular-arrangement formula directly.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T10:23:37.311Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "651b99cb363a57b03669cf91eea54f1f246a5f0da2e47ce41e616680a1ce9227",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/lean-review/calls/content-1793183000737-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p47-practice-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p47-practice-1-content",
+        "type": "part",
+        "label": "a",
+        "prompt": "10 people sit around a round table. How many ways can this be done?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p47-practice-1-seats",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 47 p47-practice-1-diagram\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,9}{\\pgfmathsetmacro{\\a}{90-360*\\i/10}\\draw[black,line width=0.8pt] (\\a:15) circle[radius=1.1];}\n\\draw[black,line width=0.4pt] (90:15) circle[radius=0.55];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 38,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 47,
+              "sourceRegion": "Practice, left column",
+              "description": "Ten seat markers around an implied circle, with an inner ring on the top marker. Decorative blue is replaced by black outlines.",
+              "mathematics": "Ten distinct people; one position is fixed to remove rotational repeats.",
+              "answerVisibility": "The complete unlabelled seating scaffold remains visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$9!=362\\,880$ ways.",
+          "worked": "Fix the first person; the remaining nine people have $9,8,\\ldots,1$ choices.\n\n$$\\begin{aligned}N&=1\\times9\\times8\\times7\\times6\\times5\\times4\\times3\\times2\\times1\\\\&=9!\\\\&=362\\,880\\text{ ways}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p47-practice-2-content",
+        "type": "part",
+        "label": "b",
+        "prompt": "8 people sit around a round table. Bella and Zoe do not want to sit together. How many possible arrangements are there?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p47-practice-2-seats",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 47 p47-practice-2-diagram\"}\n\\begin{tikzpicture}[x=1mm,y=1mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,7}{\\pgfmathsetmacro{\\a}{90-360*\\i/8}\\draw[black,line width=0.8pt] (\\a:15) circle[radius=1.1];}\n\\draw[black,line width=0.4pt] (90:15) circle[radius=0.55];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 38,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 47,
+              "sourceRegion": "Practice, right column",
+              "description": "Eight seat markers around an implied circle, with an inner ring on the top marker. Decorative blue is replaced by black outlines.",
+              "mathematics": "Fix Bella; exclude her two neighbouring seats when placing Zoe.",
+              "answerVisibility": "The complete unlabelled seating scaffold remains visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$3600$ arrangements.",
+          "worked": "Fix Bella in one position. Of the seven remaining seats, two are beside Bella, so Zoe has five choices. The other six people can be arranged in $6!$ ways.\n\n$$\\begin{aligned}N&=1\\times5\\times6\\times5\\times4\\times3\\times2\\times1\\\\&=5\\times6!\\\\&=3600\\text{ arrangements}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p47-practice",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:10:53.880Z",
+  "updatedAt": "2026-11-12T08:10:53.880Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p47-practice",
+    "sectionRole": "exercise"
+  }
+}

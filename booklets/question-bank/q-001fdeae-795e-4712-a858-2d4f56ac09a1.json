@@ -1,0 +1,197 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-001fdeae-795e-4712-a858-2d4f56ac09a1",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "area-between-curves",
+    "secondarySkillIds": [
+      "differentiate-inverse-trig-applications"
+    ],
+    "reasoningScore": 64,
+    "difficulty": "Mastery",
+    "difficultyReason": "Derive an antiderivative, evaluate an exact area and confirm it using a complementary region.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T06:41:24.491Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5dae34ee6878aaa98ac07cdf400cd3b1402ca595f18d97e89d76c0f18f049ab7",
+      "evidence": "../../../full-imports/s6ext1-further-differentiation-and-integration-20261027/lean-review/calls/content-1793169657175-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p26-q7-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Shade the region bounded by $y=\\sin^{-1}x$, the $x$-axis and the vertical line $x=\\frac12$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The region below $y=\\sin^{-1}x$ and above the $x$-axis for $0\\le x\\le\\frac12$.",
+          "worked": "The curve meets the $x$-axis at $(0,0)$. At $x=\\frac12$, $y=\\frac\\pi6$. Shade the region between the curve and the $x$-axis over $0\\le x\\le\\frac12$.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q7-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"requested bounded region\"}],\"reference\":\"source page 26 question 7a\"}\n\\begin{tikzpicture}[x=6cm,y=4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,0) -- plot[domain=0:0.5,samples=45] (\\x,{asin(\\x)*pi/180}) -- (0.5,0) -- cycle;\n\\draw[->,line width=0.5pt] (-0.07,0)--(0.78,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.07)--(0,0.92) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0:0.68,samples=60] plot (\\x,{asin(\\x)*pi/180});\n\\node[anchor=south west] at (0.49,0.87) {$y=\\sin^{-1}x$};\n\\draw[line width=0.8pt] (0.5,0)--(0.5,{pi/6});\n\\draw[dashed,line width=0.4pt] (0,{pi/6})--(0.5,{pi/6});\n\\node[below] at (0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,{pi/6}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac\\pi6$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 7a",
+                "description": "Authored solution sketch; no graph is supplied in the source. Blue shading identifies the requested area.",
+                "mathematics": "y=arcsin(x), 0<=x<=1/2; shaded region 0<=y<=arcsin(x).",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p26-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $\\dfrac{d}{dx}\\left(x\\sin^{-1}x+\\sqrt{1-x^2}\\right)=\\sin^{-1}x$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{d}{dx}\\left(x\\sin^{-1}x+\\sqrt{1-x^2}\\right)=\\sin^{-1}x$.",
+          "worked": "$$\\begin{aligned}\\frac{d}{dx}\\left(x\\sin^{-1}x+\\sqrt{1-x^2}\\right)&=\\sin^{-1}x+\\frac{x}{\\sqrt{1-x^2}}+\\frac{-2x}{2\\sqrt{1-x^2}}\\\\&=\\sin^{-1}x+\\frac{x}{\\sqrt{1-x^2}}-\\frac{x}{\\sqrt{1-x^2}}\\\\&=\\sin^{-1}x.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p26-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence find the exact area of the region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac\\pi{12}+\\dfrac{\\sqrt3}{2}-1\\text{ units}^2$.",
+          "worked": "$$\\begin{aligned}A&=\\int_0^{1/2}\\sin^{-1}x\\,dx\\\\&=\\left[x\\sin^{-1}x+\\sqrt{1-x^2}\\right]_0^{1/2}\\\\&=\\left(\\frac12\\sin^{-1}\\frac12+\\sqrt{\\frac34}\\right)-(0+1)\\\\&=\\frac\\pi{12}+\\frac{\\sqrt3}{2}-1\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p26-q8-a",
+        "type": "part",
+        "label": "d",
+        "prompt": "Shade the region bounded by $y=\\sin^{-1}x$, the $y$-axis and the line $y=\\frac\\pi6$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The region between the $y$-axis and $x=\\sin y$ for $0\\le y\\le\\frac\\pi6$.",
+          "worked": "Write the curve as $x=\\sin y$. Shade the region $0\\le x\\le\\sin y$ for $0\\le y\\le\\frac\\pi6$.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q8-a-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"regionBlue\",\"hex\":\"D4E8FF\",\"reason\":\"requested bounded region\"}],\"reference\":\"source page 26 question 8a\"}\n\\begin{tikzpicture}[x=6cm,y=4cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{regionBlue}{HTML}{D4E8FF}\n\\fill[regionBlue] (0,0) -- plot[domain=0:0.5,samples=45] (\\x,{asin(\\x)*pi/180}) -- (0,{pi/6}) -- cycle;\n\\draw[->,line width=0.5pt] (-0.07,0)--(0.78,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.07)--(0,0.92) node[above] {$y$};\n\\draw[line width=0.8pt,domain=0:0.68,samples=60] plot (\\x,{asin(\\x)*pi/180});\n\\node[anchor=south west] at (0.49,0.87) {$y=\\sin^{-1}x$};\n\\draw[line width=0.8pt] (0,{pi/6})--(0.5,{pi/6});\n\\draw[dashed,line width=0.4pt] (0.5,0)--(0.5,{pi/6});\n\\node[below] at (0.5,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\node[left] at (0,{pi/6}) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac\\pi6$\\special{dvisvgm:raw </g>}};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 8a",
+                "description": "Authored solution sketch; no graph is supplied in the source. Blue shading identifies the complementary region.",
+                "mathematics": "0<=y<=pi/6, 0<=x<=sin(y).",
+                "answerVisibility": "solution-only"
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p26-q8-b",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the exact area of this region.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1-\\dfrac{\\sqrt3}{2}\\text{ units}^2$.",
+          "worked": "Integrating with respect to $y$, use $x=\\sin y$.\n$$\\begin{aligned}A&=\\int_0^{\\pi/6}\\sin y\\,dy\\\\&=[-\\cos y]_0^{\\pi/6}\\\\&=-\\cos\\frac\\pi6+\\cos0\\\\&=1-\\frac{\\sqrt3}{2}\\text{ units}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p26-q8-c",
+        "type": "part",
+        "label": "f",
+        "prompt": "Hence confirm the area found in part (c).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac\\pi{12}-\\left(1-\\dfrac{\\sqrt3}{2}\\right)=\\dfrac\\pi{12}+\\dfrac{\\sqrt3}{2}-1\\text{ units}^2$.",
+          "worked": "The two regions form a rectangle with vertices $(0,0)$, $(\\frac12,0)$, $(\\frac12,\\frac\\pi6)$ and $(0,\\frac\\pi6)$.\n$$\\begin{aligned}A_{\\text{rectangle}}&=\\frac12\\times\\frac\\pi6=\\frac\\pi{12},\\\\A_{\\text{part (c)}}&=\\frac\\pi{12}-\\left(1-\\frac{\\sqrt3}{2}\\right)\\\\&=\\frac\\pi{12}+\\frac{\\sqrt3}{2}-1\\text{ units}^2.\\end{aligned}$$\nEquivalently, the two calculated areas sum to $\\frac\\pi{12}$, as expected.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:10:42.529Z",
+  "updatedAt": "2026-11-12T08:10:42.530Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-further-differentiation-and-integration-v1",
+    "blockId": "p26-q7",
+    "sectionRole": "challenge"
+  }
+}

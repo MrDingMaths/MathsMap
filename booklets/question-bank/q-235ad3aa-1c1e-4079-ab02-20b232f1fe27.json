@@ -1,0 +1,90 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-235ad3aa-1c1e-4079-ab02-20b232f1fe27",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perm-comb-cases",
+    "secondarySkillIds": [
+      "counting-complement-principle",
+      "permutations-restrictions"
+    ],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Separate four- and five-digit numbers in (a). In (b), the subtraction hint supplies the strategy, but students must construct disjoint zero-, one- and two-student separation cases, selecting and ordering enclosed students within teacher blocks.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:48:48.014Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8ff2401b8dd357fe55d3915ef82fec56635860c614deb62ac412e5a98ab55a4b",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/background-final-label-rating-1793177256355/call/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p32-practice-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p32-practice-number-count",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many numbers greater than 6000 can be formed using the digits 3, 4, 6, 8, 9 if no digit can be used more than once per number?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$192$",
+          "worked": "4-digit numbers: the first digit is 6, 8 or 9, then arrange 3 digits from the remaining 4.\n\n$3\\times{}^{4}P_{3}=72$\n\n5-digit numbers: all arrangements exceed 6000.\n\n$5!=120$\n\nTotal: $72+120=192$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p32-practice-teacher-separation",
+        "type": "part",
+        "label": "b",
+        "prompt": "In how many ways can six students and two teachers be arranged in a row if there are at least 3 students separating the teachers?\n\nHint: subtract unacceptable arrangements.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$14\\,400$",
+          "worked": "Total arrangements: $8!=40\\,320$.\n\nNo students between the teachers: treat TT as one unit.\n\n$7!\\times2!=10\\,080$\n\n1 student between: choose the student and treat TST as one unit.\n\n$6!\\times6\\times2!=8640$\n\n2 students between: choose and order the students and treat TSST as one unit.\n\n$5!\\times6\\times5\\times2!=7200$\n\nThese unacceptable cases do not overlap.\n\n$\\begin{aligned}\\text{Acceptable arrangements}&=40\\,320-10\\,080-8640-7200\\\\&=14\\,400\\end{aligned}$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 54
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p32-practice-questions",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:47.204Z",
+  "updatedAt": "2026-11-12T08:11:47.204Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-v1",
+    "blockId": "p32-practice-questions",
+    "sectionRole": "exercise"
+  }
+}

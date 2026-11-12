@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-8bda537f-0297-4999-8e85-9e31ba47c572",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "permutations-nPr",
+      "perm-comb-cases"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Applies permutation notation, follows the supplied fixed-person counting method, then combines two explicitly identified exhaustive cases.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:00:30.961Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "35f2c7a5c01750825cc2c3f3ad2a879b8a6b2814951591750e50377f0da0a387",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-20902f6f333ab013e0ca/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p89-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "A group of $k$ people is to be selected from a total of $n+1$ people, then placed on $k$ seats in a line.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p89-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many ways can this be done?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "${}^{n+1}P_k$",
+          "worked": "Select and arrange $k$ people from $n+1$ distinct people: $${}^{n+1}P_k.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 11
+      },
+      {
+        "id": "p89-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Suppose Jimmy is one of the $n+1$ people. How many ordered selections are possible if he is excluded?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "${}^{n}P_k$",
+          "worked": "Excluding Jimmy leaves $n$ people. Select and arrange $k$ of them: $${}^{n}P_k.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p89-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "How many ordered selections are possible if Jimmy is included?\n\nDo this by fixing Jimmy first in the row, arranging the rest, then multiplying by how many positions Jimmy can be in.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k\\left({}^{n}P_{k-1}\\right)$",
+          "worked": "With Jimmy fixed first, the remaining $k-1$ places can be filled in ${}^{n}P_{k-1}$ ways. Jimmy can occupy any of the $k$ positions, so the number of ordered selections is $${}^{n}P_{k-1}\\times k=k\\left({}^{n}P_{k-1}\\right).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p89-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence deduce that ${}^{n+1}P_k={}^{n}P_k+k\\left({}^{n}P_{k-1}\\right)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Every ordered selection either excludes Jimmy or includes him. These disjoint cases give ${}^{n+1}P_k={}^{n}P_k+k\\left({}^{n}P_{k-1}\\right)$.",
+          "worked": "Part a counts all ordered selections. They split into two disjoint cases: Jimmy is excluded, giving ${}^{n}P_k$ selections from part b, or Jimmy is included, giving $k\\left({}^{n}P_{k-1}\\right)$ selections from part c. Since these cases cover every possibility, $${}^{n+1}P_k={}^{n}P_k+k\\left({}^{n}P_{k-1}\\right).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p89-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:54.537Z",
+  "updatedAt": "2026-11-12T08:11:54.537Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-v1",
+    "blockId": "p89-q5",
+    "sectionRole": "challenge"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b953f82e-81c8-44e2-bf37-d003480a17dd",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "counting-complement-principle",
+      "perm-comb-cases"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires inclusion–exclusion and counting digit arrangements while excluding leading zeroes.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:57:30.254Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5a465fcf74ec0331424c52352882906914a8553ea865e91f26988a70026c882e",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-ed009e28e2c66f04326d/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p80-q31-root",
+    "type": "question",
+    "label": "",
+    "prompt": "A five-digit number is chosen at random. Find the probability:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p80-q31-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "the number contains at least one four",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{521}{1250}$",
+          "worked": "There are $9\\times10^4=90\\,000$ five-digit numbers. Without a four, the first digit has 8 choices and each remaining digit has 9 choices.\n$$\\begin{aligned}P(\\text{at least one four})&=1-\\frac{8\\times9^4}{90\\,000}\\\\&=\\frac{521}{1250}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      },
+      {
+        "id": "p80-q31-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "the number contains at least one four and at least one five",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{856}{5625}$",
+          "worked": "There are $90\\,000$ five-digit numbers. There are $8\\times9^4$ with no four, the same number with no five, and $7\\times8^4$ with neither digit. Use inclusion–exclusion:\n$$\\begin{aligned}P(\\text{at least one four and one five})&=\\frac{90\\,000-2(8\\times9^4)+7\\times8^4}{90\\,000}\\\\&=\\frac{13\\,696}{90\\,000}\\\\&=\\frac{856}{5625}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      },
+      {
+        "id": "p80-q31-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "the number contains exactly three sevens",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{43}{5000}$",
+          "worked": "Choose the three positions for the sevens in $\\binom{5}{3}$ ways. Fill the other two positions with non-seven digits in $9^2$ ways. Subtract arrangements beginning with zero: choose the three sevens among the last four positions in $\\binom{4}{3}$ ways, then fill the remaining position in 9 ways.\n$$\\begin{aligned}P(\\text{exactly three sevens})&=\\frac{\\binom{5}{3}9^2-\\binom{4}{3}9}{90\\,000}\\\\&=\\frac{774}{90\\,000}\\\\&=\\frac{43}{5000}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p80-q31-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "the number contains at least three sevens.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{91}{10\\,000}$",
+          "worked": "Count the cases of three, four or five sevens. From part c, there are 774 numbers with exactly three sevens. For exactly four sevens, choose their positions and subtract the arrangement beginning with zero:\n$$N_4=\\binom{5}{4}9-\\binom{4}{4}=44.$$\nThere is one number with five sevens.\n$$\\begin{aligned}P(\\text{at least three sevens})&=\\frac{774+44+1}{90\\,000}\\\\&=\\frac{819}{90\\,000}\\\\&=\\frac{91}{10\\,000}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p80-q31",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:16.766Z",
+  "updatedAt": "2026-11-12T08:11:16.766Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p80-q31",
+    "sectionRole": "challenge"
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-03ba418f-cfe0-4e40-9b64-f368459ab55c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [
+      "combinations-nCr",
+      "factorial-notation"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Uses the preceding parts' handshake counts and unordered-pair interpretation to equate two totals and simplify a combination.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:00:04.102Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6181a44ae9192488c0a3bd4d1db6030aec51c827bfffa9de0c6847b35ad17bea",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-87b2291e39b5ef7561ea/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p88-q4-root",
+    "type": "question",
+    "label": "4",
+    "prompt": "A room contains $n+1$ people named $P_1,P_2,P_3,\\ldots,P_{n+1}$, arranged in a line in that order. Person $P_1$ shakes hands with everybody else in the line and then leaves the room, having shaken everybody's hand. Afterwards, $P_2$ shakes hands with the remaining people in the room and similarly leaves. This is repeated until eventually, everybody has shaken hands with everybody else exactly once.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p88-q4-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How many hands did $P_1$ shake before leaving?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n$ hands.",
+          "worked": "There are $n+1$ people altogether. Excluding $P_1$ leaves $n$ people, so $P_1$ shakes $n$ hands.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p88-q4-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "When it was their turn, how many people did $P_2$ shake hands with?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$n-1$ people.",
+          "worked": "After $P_1$ leaves, $n$ people remain. Excluding $P_2$ leaves $n-1$ people to shake hands with.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p88-q4-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "On their respective turns, how many hands did $P_n$ and $P_{n+1}$ shake?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$1$ and $0$, respectively.",
+          "worked": "On $P_n$'s turn, only $P_n$ and $P_{n+1}$ remain, so $P_n$ shakes one hand. After $P_n$ leaves, $P_{n+1}$ is alone and shakes no hands.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p88-q4-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain why there were ${}^{n+1}C_2$ handshakes in total.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each handshake corresponds to one unordered pair of people. There are ${}^{n+1}C_2$ such pairs.",
+          "worked": "Everybody shakes hands with everybody else exactly once. Each handshake therefore corresponds to a unique unordered pair chosen from the $n+1$ people. The number of such pairs is ${}^{n+1}C_2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p88-q4-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence prove\n$$1+2+3+4+5+\\cdots+n=\\frac{n}{2}(n+1).$$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Counting by turns gives $n+(n-1)+\\cdots+1$. Counting unordered pairs gives ${}^{n+1}C_2=\\dfrac{n(n+1)}2$. These count the same handshakes, proving the identity.",
+          "worked": "The successive people make $n,n-1,\\ldots,1,0$ new handshakes, so the total is $1+2+\\cdots+n$.\n\nFrom part d, the total is also ${}^{n+1}C_2$.\n$$\\begin{align*}{}^{n+1}C_2&=\\frac{(n+1)!}{2!(n-1)!}\\\\{}^{n+1}C_2&=\\frac{(n+1)n(n-1)!}{2!(n-1)!}\\\\{}^{n+1}C_2&=\\frac{n(n+1)}2.\\end{align*}$$\nBoth expressions count the same handshakes. Therefore,\n$$1+2+3+4+5+\\cdots+n=\\frac{n}{2}(n+1).$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p88-q4",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:54.131Z",
+  "updatedAt": "2026-11-12T08:11:54.131Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-v1",
+    "blockId": "p88-q4",
+    "sectionRole": "challenge"
+  }
+}

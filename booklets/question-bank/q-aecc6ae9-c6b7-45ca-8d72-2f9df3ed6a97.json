@@ -1,0 +1,605 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-aecc6ae9-c6b7-45ca-8d72-2f9df3ed6a97",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "induction-divisibility",
+    "secondarySkillIds": [],
+    "reasoningScore": 36,
+    "difficulty": "Development",
+    "difficultyReason": "Rewrite each exponential at k+1, substitute the rearranged inductive hypothesis and factor out the divisor, following the demonstrated proof structure.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T06:05:39.938Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7a37945b201818485b164f23fa34213071fd789a58e7b606eabd93840b50b74f",
+      "evidence": "../../../full-imports/s6ext1-proof-by-mathematical-induction-20261027/lean-review/calls/content-1793167529275-18/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-divisibility-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-part-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "$3^{2n}+7$ is divisible by $8$ for all integers $n\\geq1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$3^{2(k+1)}+7=8(9p-7)$, using $3^{2k}+7=8p$. The base case is true, so the result holds for every integer $n\\geq1$ by induction.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p34-answer-e",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Test ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=1",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "LHS=3^2+7=9+7=16",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\therefore",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " True for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=1",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p34-e-hypothesis",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Assume true for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "3^{2k}+7=8p",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", where ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "p",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is an integer.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-e-target",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Prove ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k+1",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "text",
+                    "text": "WTP: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "3^{2(k+1)}+7=8q",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", where ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "q",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is an integer.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-e-working",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}LHS&=3^{2k+2}+7\\\\&=9\\times3^{2k}+7\\\\&=9(8p-7)+7\\quad\\text{using the assumption}\\\\&=72p-63+7\\\\&=72p-56\\\\&=8(9p-7)\\\\&=8q\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p34-e-integrality",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Since ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "p",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is an integer, ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "q=9p-7",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is also an integer.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-e-conclusion",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The statement is true for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", and truth for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " implies truth for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k+1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". Therefore, by mathematical induction, it is true for all integers ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n\\geq1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 82
+      },
+      {
+        "id": "p34-part-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "$5^{2n}-1$ is divisible by $24$ for all integers $n\\geq1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$5^{2(k+1)}-1=24(25p+1)$, using $5^{2k}-1=24p$. The base case is true, so the result holds for every integer $n\\geq1$ by induction.",
+          "worked": {
+            "format": "maths-editor-document-v1",
+            "version": 1,
+            "blocks": [
+              {
+                "id": "p34-answer-f",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Test ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=1",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "LHS=5^2-1=25-1=24",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "\\therefore",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " True for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=1",
+                    "display": false
+                  }
+                ]
+              },
+              {
+                "id": "p34-f-hypothesis",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Assume true for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "math",
+                    "latex": "5^{2k}-1=24p",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", where ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "p",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is an integer.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-f-target",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Prove ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k+1",
+                    "display": false
+                  },
+                  {
+                    "type": "break"
+                  },
+                  {
+                    "type": "text",
+                    "text": "WTP: ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "5^{2(k+1)}-1=24q",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", where ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "q",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is an integer.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-f-working",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "math",
+                    "latex": "\\begin{aligned}LHS&=5^{2k+2}-1\\\\&=5^2\\times5^{2k}-1\\\\&=25\\times5^{2k}-1\\\\&=25(24p+1)-1\\quad\\text{using the assumption}\\\\&=600p+25-1\\\\&=600p+24\\\\&=24(25p+1)\\\\&=24q\\end{aligned}",
+                    "display": true
+                  }
+                ]
+              },
+              {
+                "id": "p34-f-integrality",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "Since ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "p",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is an integer, ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "q=25p+1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " is also an integer.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "p34-f-conclusion",
+                "type": "paragraph",
+                "fontSize": null,
+                "align": "left",
+                "spaceBefore": 0,
+                "spaceAfter": 2,
+                "lineHeight": 1.4,
+                "indent": 0,
+                "inlines": [
+                  {
+                    "type": "text",
+                    "text": "The statement is true for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ", and truth for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": " implies truth for ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n=k+1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ". Therefore, by mathematical induction, it is true for all integers ",
+                    "marks": []
+                  },
+                  {
+                    "type": "math",
+                    "latex": "n\\geq1",
+                    "display": false
+                  },
+                  {
+                    "type": "text",
+                    "text": ".",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 87
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-divisibility-continuation",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:12:08.610Z",
+  "updatedAt": "2026-11-12T08:12:08.610Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-proof-by-mathematical-induction-v1",
+    "blockId": "p34-divisibility-continuation",
+    "sectionRole": "exercise"
+  }
+}

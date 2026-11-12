@@ -1,0 +1,139 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e151f6bf-baec-479f-86ff-1204a417f2f0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "permutations-not-distinct",
+      "permutations-restrictions",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Adjust repeated-digit counts for a fixed final digit, a grouped block and a complementary adjacency event.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:57:05.790Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c877f37b5d873b40602e559f625302cd7aa4b871e34f29ebf0d06db0d208f7fd",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-67767a65be7ceecf9589/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p77-q22-root",
+    "type": "question",
+    "label": null,
+    "prompt": "The digits 3, 3, 4, 4, 4 and 5 are placed in a row to form a six-digit number. If one of these numbers is selected at random, find the probability that:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p77-q22-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "it is even,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac12$",
+          "worked": "The total number of distinct arrangements is $\\frac{6!}{2!\\times3!}=60$. An even number must end in 4. Arrange the remaining digits 3, 3, 4, 4 and 5.\n$$\\begin{aligned}P(\\text{even})&=\\frac{5!/(2!\\times2!)}{60}\\\\&=\\frac{30}{60}\\\\&=\\frac12.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      },
+      {
+        "id": "p77-q22-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "it ends in 5,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac16$",
+          "worked": "There are $\\frac{6!}{2!\\times3!}=60$ distinct arrangements. Fix 5 last and arrange the remaining digits.\n$$\\begin{aligned}P(\\text{ends in }5)&=\\frac{5!/(2!\\times3!)}{60}\\\\&=\\frac{10}{60}\\\\&=\\frac16.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 22
+      },
+      {
+        "id": "p77-q22-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "the 4s occur together,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac15$",
+          "worked": "Treat 444 as one unit. The four units are 444, 3, 3 and 5, with two identical 3s. There are 60 distinct arrangements in total.\n$$\\begin{aligned}P(\\text{4s together})&=\\frac{4!/2!}{60}\\\\&=\\frac{12}{60}\\\\&=\\frac15.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p77-q22-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "the number starts with 5 and then the 4s and 3s alternate,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac1{60}$",
+          "worked": "The only possible arrangement is 543434. There are 60 distinct arrangements in total.\n$$P(\\text{starts with 5, then alternates})=\\frac1{60}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p77-q22-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "the 3s are separated by at least one other number.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac23$",
+          "worked": "Use the complement. Treat 33 as one unit; the five units include three identical 4s. There are $5!/3!=20$ arrangements with the 3s together, out of 60 in total.\n$$\\begin{aligned}P(\\text{3s separated})&=1-P(\\text{3s together})\\\\&=1-\\frac{5!/3!}{60}\\\\&=1-\\frac13\\\\&=\\frac23.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p77-q22",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:10.056Z",
+  "updatedAt": "2026-11-12T08:11:10.056Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p77-q22",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-520086ec-0c58-407b-9a5e-246567f38a6a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "induction-divisibility",
+    "secondarySkillIds": [],
+    "reasoningScore": 57,
+    "difficulty": "Mastery",
+    "difficultyReason": "Polynomial factor induction needs an add-and-subtract rewrite in part a and an x^2 step of 2 in part b. This is harder than the x-1 case.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T13:47:58.909Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7b9457f2f28a0329553b3cb32782f47ffc230f1907c8acd56c24ed505fd01f1e",
+      "diagramBlindHash": "7b9457f2f28a0329553b3cb32782f47ffc230f1907c8acd56c24ed505fd01f1e",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-proof-by-mathematical-induction-v1/20261111-134003/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p40-question-q",
+          "score": 54
+        },
+        "easierThan": null,
+        "equalTo": {
+          "ref": "p38-l-block",
+          "score": 57
+        },
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-4d41dd58a864b1-p36-slot-11-root",
+    "type": "question",
+    "label": null,
+    "prompt": "Prove by mathematical induction.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-4d41dd58a864b1-p36-slot-11-slot11-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$x-2$ is a factor of $x^n-2^n$ for all integers $n\\geq1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The base case is $x-2$. If $x^k-2^k=(x-2)p(x)$, then $x^{k+1}-2^{k+1}=(x-2)(xp(x)+2^k)$, so the result follows by induction.",
+          "worked": "Test $n=1$.\n$$\\mathrm{LHS}=x^1-2^1=x-2.$$\nTherefore the statement is true for $n=1$.\n\nAssume true for $n=k$, where $k\\geq1$:\n$$x^k-2^k=(x-2)p(x),$$\nwhere $p(x)$ is a polynomial.\n\nProve $n=k+1$.\nWTP: $x^{k+1}-2^{k+1}=(x-2)q(x)$, where $q(x)$ is a polynomial.\n$$\\begin{align*}\\mathrm{LHS}&=x^{k+1}-2^{k+1}\\\\&=x\\times x^k-2\\times2^k\\\\&=x[(x-2)p(x)+2^k]-2\\times2^k\\quad\\text{using assumption}\\\\&=x(x-2)p(x)+2^k(x-2)\\\\&=(x-2)(xp(x)+2^k)\\\\&=(x-2)q(x)\\end{align*}$$\nHere $q(x)=xp(x)+2^k$ is a polynomial.\n\nThe statement is true for $n=1$, and truth for $n=k$ implies truth for $n=k+1$. By mathematical induction, it is true for all integers $n\\geq1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      },
+      {
+        "id": "v2-4d41dd58a864b1-p36-slot-11-slot11-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$x+1$ is a factor of $x^{2n}-1$ for all integers $n\\geq1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The base case is $(x+1)(x-1)$. If $x^{2k}-1=(x+1)p(x)$, then $x^{2k+2}-1=(x+1)(x^2p(x)+x-1)$, so the result follows by induction.",
+          "worked": "Test $n=1$.\n$$\\mathrm{LHS}=x^2-1=(x+1)(x-1).$$\nTherefore the statement is true for $n=1$.\n\nAssume true for $n=k$, where $k\\geq1$:\n$$x^{2k}-1=(x+1)p(x),$$\nwhere $p(x)$ is a polynomial.\n\nProve $n=k+1$.\nWTP: $x^{2(k+1)}-1=(x+1)q(x)$, where $q(x)$ is a polynomial.\n$$\\begin{align*}\\mathrm{LHS}&=x^{2k+2}-1\\\\&=x^2\\times x^{2k}-1\\\\&=x^2[(x+1)p(x)+1]-1\\quad\\text{using assumption}\\\\&=x^2(x+1)p(x)+x^2-1\\\\&=x^2(x+1)p(x)+(x+1)(x-1)\\\\&=(x+1)(x^2p(x)+x-1)\\\\&=(x+1)q(x)\\end{align*}$$\nHere $q(x)=x^2p(x)+x-1$ is a polynomial.\n\nThe statement is true for $n=1$, and truth for $n=k$ implies truth for $n=k+1$. By mathematical induction, it is true for all integers $n\\geq1$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-4d41dd58a864b1-p36-slot-11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:12:09.810Z",
+  "updatedAt": "2026-11-12T08:12:09.810Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-proof-by-mathematical-induction-v1",
+    "blockId": "v2-4d41dd58a864b1-p36-slot-11",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,149 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a6019f99-2be0-4e3d-9403-285e17c71e0b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "permutations-restrictions",
+      "counting-complement-principle"
+    ],
+    "reasoningScore": 63,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine fixed positions, grouping, alternating arrangements and complementary separation cases.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:55:47.593Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5c1c0bc8cce4ca5cd5dd5363a5010f71e8d020fda72b3b4eb371bd37d7ffcd74",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-be9361392ab941250dde/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p76-q21-root",
+    "type": "question",
+    "label": "21",
+    "prompt": "The letters of PROMISE are arranged randomly in a row. Find the probability that:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p76-q21-paired-parts",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p76-q21-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "the word starts with R and ends with S,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{42}$",
+              "worked": "Fix R first and S last. Arrange the five remaining letters in the middle positions in $5!$ ways.\n$$P=\\frac{5!}{7!}=\\frac{1}{42}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p76-q21-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "the letters P and R are next to one another,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2}{7}$",
+              "worked": "Treat P and R as one unit, giving $6!$ arrangements. Within the unit, PR or RP gives $2!$ arrangements.\n$$P=\\frac{6!\\times2!}{7!}=\\frac{2}{7}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          },
+          {
+            "id": "p76-q21-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "the letters P and R are separated by at least three letters,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{2}{7}$",
+              "worked": "Count the complement, where there are zero, one or two letters between P and R.\n\nNo letters between: $6!\\times2!$ arrangements.\n\nOne letter between: choose that letter in $5$ ways, then arrange the resulting block and four other letters in $5!$ ways, with $2!$ orders for P and R.\n\nTwo letters between: choose and order them in ${}^{5}P_{2}$ ways, then arrange the block and three other letters in $4!$ ways, with $2!$ orders for P and R.\n$$\\begin{aligned}N_{\\text{excluded}}&=6!\\times2!+5(5!\\times2!)\\\\&\\quad+{}^{5}P_{2}\\times4!\\times2!\\\\&=3600,\\\\P&=1-\\frac{3600}{7!}\\\\&=\\frac{2}{7}.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 35
+          },
+          {
+            "id": "p76-q21-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "the vowels and the consonants alternate,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\frac{1}{35}$",
+              "worked": "There are four consonants and three vowels, so the only alternating pattern is CVCVCVC. Arrange the consonants in $4!$ ways and the vowels in $3!$ ways.\n$$P=\\frac{4!\\times3!}{7!}=\\frac{1}{35}.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 20
+          }
+        ]
+      },
+      {
+        "id": "p76-q21-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "the vowels are together.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac{1}{7}$",
+          "worked": "Treat the vowels O, I and E as one unit. Arrange this unit and the four consonants in $5!$ ways. Arrange the vowels within their unit in $3!$ ways.\n$$P=\\frac{5!\\times3!}{7!}=\\frac{1}{7}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p76-q21",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:15.414Z",
+  "updatedAt": "2026-11-12T08:11:15.414Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p76-q21",
+    "sectionRole": "challenge"
+  }
+}

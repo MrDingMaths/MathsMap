@@ -1,0 +1,343 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-73484141-45fc-48cb-83ea-630d69d42f4c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "derivative-of-inverse-function",
+    "secondarySkillIds": [],
+    "reasoningScore": 38,
+    "difficulty": "Development",
+    "difficultyReason": "Students read f' from each graph, take reciprocals to get (f^{-1})', and move the x-coordinates to f-values. They then sketch a reciprocal-shaped curve through three marked points. The scaffolding is substantial, but the representation change and sketching add demand beyond a single formula use.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T13:41:03.279Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9355e9ef1da8ea7580d43231301eca8066191a7bb2439994efb7584979a15946",
+      "diagramBlindHash": "d51b191d13a040206f198e19aab9b3d6ef924a78a3533f2151c018254b60403e",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-further-differentiation-and-integration-v1/20261111-132358/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p8-q3-block",
+          "score": 36
+        },
+        "easierThan": {
+          "ref": "p9-q4",
+          "score": 43
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-3fc1c1-p8-practice-slot-1-root",
+    "type": "question",
+    "label": null,
+    "prompt": "In each part, the graph of $y=f'(x)$ is shown for a function $f$ that is increasing.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Given that $f(0)=0$, $f(1)=\\frac32$ and $f(2)=4$, sketch the graph of $y=(f^{-1})'(x)$, marking the three corresponding points.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\begin{tikzpicture}[x=1.2cm,y=0.8cm]\n\\draw[->,line width=0.5pt] (-0.3,0)--(3.3,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,4.6) node[left] {$y$};\n\\foreach \\t in {1,2,3}{\\draw[line width=0.4pt] (\\t,0.08)--(\\t,-0.08) node[below] {$\\t$};}\n\\foreach \\t in {2,3,4}{\\draw[line width=0.4pt] (0.08,\\t)--(-0.08,\\t) node[left] {$\\t$};}\n\\draw[line width=0.8pt] (0,1)--(2,3);\n\\foreach \\p/\\q in {0/1,1/2,2/3}{\\fill (\\p,\\q) circle (1.6pt);}\n\\node[below right] at (0,1) {$(0,1)$};\n\\node[below right] at (1,2) {$(1,2)$};\n\\node[below right] at (2,3) {$(2,3)$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "A decreasing curve through $(0,1)$, $\\left(\\frac32,\\frac12\\right)$ and $\\left(4,\\frac13\\right)$.",
+          "worked": "Each point $(a,f'(a))$ on the graph gives the point $\\left(f(a),\\dfrac{1}{f'(a)}\\right)$ on $y=(f^{-1})'(x)$.\n$$\\begin{align*}a=0:&\\quad (f^{-1})'(0)=\\frac{1}{f'(0)}=1\\\\a=1:&\\quad (f^{-1})'\\left(\\tfrac32\\right)=\\frac{1}{f'(1)}=\\frac12\\\\a=2:&\\quad (f^{-1})'(4)=\\frac{1}{f'(2)}=\\frac13\\end{align*}$$\nSketch a smooth decreasing curve through $(0,1)$, $\\left(\\frac32,\\frac12\\right)$ and $\\left(4,\\frac13\\right)$.",
+          "solutionDiagrams": [
+            {
+              "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=1.1cm,y=3cm]\n\\draw[->,line width=0.5pt] (-0.3,0)--(4.8,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.08)--(0,1.25) node[left] {$y$};\n\\foreach \\t in {1,2,3,4}{\\draw[line width=0.4pt] (\\t,0.02)--(\\t,-0.02) node[below] {$\\t$};}\n\\draw[line width=0.8pt,domain=0:4,samples=40] plot (\\x,{1/sqrt(1+2*\\x)});\n\\fill (0,1) circle (1.6pt);\n\\fill (1.5,0.5) circle (1.6pt);\n\\fill (4,0.3333) circle (1.6pt);\n\\node[above right] at (0,1) {$(0,1)$};\n\\node[above right] at (1.5,0.5) {$\\left(\\frac32,\\frac12\\right)$};\n\\node[above] at (4,0.3333) {$\\left(4,\\frac13\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "derived": false
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given that $f(0)=0$, $f(1)=5$ and $f(2)=8$, sketch the graph of $y=(f^{-1})'(x)$, marking the three corresponding points.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\begin{tikzpicture}[x=1.2cm,y=0.5cm]\n\\draw[->,line width=0.5pt] (-0.3,0)--(3.3,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,7.4) node[left] {$y$};\n\\foreach \\t in {1,2,3}{\\draw[line width=0.4pt] (\\t,0.12)--(\\t,-0.12) node[below] {$\\t$};}\n\\foreach \\t in {2,4,6}{\\draw[line width=0.4pt] (0.08,\\t)--(-0.08,\\t) node[left] {$\\t$};}\n\\draw[line width=0.8pt] (0,6)--(2,2);\n\\foreach \\p/\\q in {0/6,1/4,2/2}{\\fill (\\p,\\q) circle (1.6pt);}\n\\node[above right] at (0,6) {$(0,6)$};\n\\node[above right] at (1,4) {$(1,4)$};\n\\node[above right] at (2,2) {$(2,2)$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "An increasing curve through $\\left(0,\\frac16\\right)$, $\\left(5,\\frac14\\right)$ and $\\left(8,\\frac12\\right)$.",
+          "worked": "Each point $(a,f'(a))$ on the graph gives the point $\\left(f(a),\\dfrac{1}{f'(a)}\\right)$ on $y=(f^{-1})'(x)$.\n$$\\begin{align*}a=0:&\\quad (f^{-1})'(0)=\\frac{1}{f'(0)}=\\frac16\\\\a=1:&\\quad (f^{-1})'(5)=\\frac{1}{f'(1)}=\\frac14\\\\a=2:&\\quad (f^{-1})'(8)=\\frac{1}{f'(2)}=\\frac12\\end{align*}$$\nSketch a smooth increasing curve through $\\left(0,\\frac16\\right)$, $\\left(5,\\frac14\\right)$ and $\\left(8,\\frac12\\right)$.",
+          "solutionDiagrams": [
+            {
+              "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=0.6cm,y=5cm]\n\\draw[->,line width=0.5pt] (-0.5,0)--(9.2,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.05)--(0,0.65) node[left] {$y$};\n\\foreach \\t in {2,4,6,8}{\\draw[line width=0.4pt] (\\t,0.012)--(\\t,-0.012) node[below] {$\\t$};}\n\\draw[line width=0.8pt,domain=0:8,samples=40] plot (\\x,{1/(2*sqrt(9-\\x))});\n\\fill (0,0.16667) circle (1.6pt);\n\\fill (5,0.25) circle (1.6pt);\n\\fill (8,0.5) circle (1.6pt);\n\\node[above right] at (0,0.16667) {$\\left(0,\\frac16\\right)$};\n\\node[above left] at (5,0.25) {$\\left(5,\\frac14\\right)$};\n\\node[above left] at (8,0.5) {$\\left(8,\\frac12\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "derived": false
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Given that $f(1)=2$, $f(2)=5$ and $f(3)=10$, sketch the graph of $y=(f^{-1})'(x)$, marking the three corresponding points.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "\\begin{tikzpicture}[x=1.2cm,y=0.5cm]\n\\draw[->,line width=0.5pt] (-0.3,0)--(3.3,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.3)--(0,7.4) node[left] {$y$};\n\\foreach \\t in {1,2,3}{\\draw[line width=0.4pt] (\\t,0.12)--(\\t,-0.12) node[below] {$\\t$};}\n\\foreach \\t in {2,4,6}{\\draw[line width=0.4pt] (0.08,\\t)--(-0.08,\\t) node[left] {$\\t$};}\n\\draw[line width=0.8pt] (1,2)--(3,6);\n\\foreach \\p/\\q in {1/2,2/4,3/6}{\\fill (\\p,\\q) circle (1.6pt);}\n\\node[below right] at (1,2) {$(1,2)$};\n\\node[below right] at (2,4) {$(2,4)$};\n\\node[below right] at (3,6) {$(3,6)$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "derived": false
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "A decreasing curve through $\\left(2,\\frac12\\right)$, $\\left(5,\\frac14\\right)$ and $\\left(10,\\frac16\\right)$.",
+          "worked": "Each point $(a,f'(a))$ on the graph gives the point $\\left(f(a),\\dfrac{1}{f'(a)}\\right)$ on $y=(f^{-1})'(x)$.\n$$\\begin{align*}a=1:&\\quad (f^{-1})'(2)=\\frac{1}{f'(1)}=\\frac12\\\\a=2:&\\quad (f^{-1})'(5)=\\frac{1}{f'(2)}=\\frac14\\\\a=3:&\\quad (f^{-1})'(10)=\\frac{1}{f'(3)}=\\frac16\\end{align*}$$\nSketch a smooth decreasing curve through $\\left(2,\\frac12\\right)$, $\\left(5,\\frac14\\right)$ and $\\left(10,\\frac16\\right)$.",
+          "solutionDiagrams": [
+            {
+              "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=0.5cm,y=5cm]\n\\draw[->,line width=0.5pt] (-0.5,0)--(11.2,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.05)--(0,0.65) node[left] {$y$};\n\\foreach \\t in {2,4,6,8,10}{\\draw[line width=0.4pt] (\\t,0.012)--(\\t,-0.012) node[below] {$\\t$};}\n\\draw[line width=0.8pt,domain=2:10,samples=50] plot (\\x,{1/(2*sqrt(\\x-1))});\n\\fill (2,0.5) circle (1.6pt);\n\\fill (5,0.25) circle (1.6pt);\n\\fill (10,0.16667) circle (1.6pt);\n\\node[above right] at (2,0.5) {$\\left(2,\\frac12\\right)$};\n\\node[above right] at (5,0.25) {$\\left(5,\\frac14\\right)$};\n\\node[above] at (10,0.16667) {$\\left(10,\\frac16\\right)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 60,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "derived": false
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-3fc1c1-p8-practice-slot-1",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "v2-3fc1c1-p8-practice-slot-1": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "v2-3fc1c1-p8-practice-slot-1-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:v2-3fc1c1-p8-practice-slot-1-root/label",
+                  "type": "item",
+                  "ref": "v2-3fc1c1-p8-practice-slot-1-root/label",
+                  "title": "Unlabelled stem"
+                },
+                {
+                  "id": "layout:v2-3fc1c1-p8-practice-slot-1-root/prompt",
+                  "type": "item",
+                  "ref": "v2-3fc1c1-p8-practice-slot-1-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "v2-3fc1c1-p8-practice-slot-1-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-a/label",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-a/prompt",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-a-diagram",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-a/space",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-b/label",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-b/prompt",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-b-diagram",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-b/space",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    },
+                    {
+                      "id": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-c/label",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c/label",
+                          "title": "Label c"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-c/prompt",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-c-diagram",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c-diagram",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:v2-3fc1c1-p8-practice-slot-1-slot-1-q-c/space",
+                          "type": "item",
+                          "ref": "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c/space",
+                          "title": "Answer space",
+                          "height": 0
+                        }
+                      ],
+                      "title": "Part c",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question ",
+              "gap": 2
+            }
+          }
+        }
+      },
+      "answerSpaces": {
+        "v2-3fc1c1-p8-practice-slot-1-slot-1-q-a": 0,
+        "v2-3fc1c1-p8-practice-slot-1-slot-1-q-b": 0,
+        "v2-3fc1c1-p8-practice-slot-1-slot-1-q-c": 0
+      },
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:10:35.829Z",
+  "updatedAt": "2026-11-12T08:10:35.829Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-further-differentiation-and-integration-v1",
+    "blockId": "v2-3fc1c1-p8-practice-slot-1",
+    "sectionRole": "exercise"
+  }
+}

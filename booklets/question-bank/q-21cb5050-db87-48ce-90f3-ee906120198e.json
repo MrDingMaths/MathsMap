@@ -1,0 +1,162 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-21cb5050-db87-48ce-90f3-ee906120198e",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "integration-by-substitution",
+    "secondarySkillIds": [
+      "area-integral-symmetry"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the semicircle to its reciprocal, interpret the endpoint behaviour, and evaluate inverse-sine areas; the preceding parts scaffold the total-area calculation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T06:41:24.491Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "5598030386f5d2c0776d47d2e93e20997610b2e99ea7403aabd33e84cc992296",
+      "evidence": "../../../full-imports/s6ext1-further-differentiation-and-integration-20261027/lean-review/calls/content-1793169657175-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q14-root",
+    "type": "question",
+    "label": "",
+    "prompt": "Consider the function $f(x)=\\dfrac{1}{\\sqrt{4-x^2}}$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p28-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Sketch the graph of $y=\\sqrt{4-x^2}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p28-q14-answer-graph",
+        "answer": {
+          "short": "Upper semicircle $x^2+y^2=4$, with endpoints $(-2,0)$ and $(2,0)$ and maximum $(0,2)$; shown dashed in the shared graph.",
+          "worked": "$$\\begin{aligned}y&=\\sqrt{4-x^2}\\\\x^2+y^2&=4,\\qquad y\\geq0.\\end{aligned}$$\nThis is the upper semicircle of radius $2$ centred at the origin, passing through $(-2,0)$, $(0,2)$ and $(2,0)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 42
+      },
+      {
+        "id": "p28-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence sketch the graph of $y=f(x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p28-q14-answer-graph",
+        "answer": {
+          "short": "The solid curve in the shared graph: symmetric about the $y$-axis, minimum $(0,\\tfrac12)$ and vertical asymptotes $x=\\pm2$.",
+          "worked": "Take the reciprocal of the positive ordinates of the semicircle. At $x=0$, $f(0)=\\tfrac12$. As $x$ approaches either endpoint from inside $(-2,2)$, $\\sqrt{4-x^2}$ approaches $0$ from above, so $f(x)$ increases without bound. The graph is symmetric about the $y$-axis, with minimum $(0,\\tfrac12)$ and vertical asymptotes $x=-2$ and $x=2$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p28-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write down the domain and range of $f(x)$, and describe its symmetry.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Domain: $(-2,2)$. Range: $[\\tfrac12,\\infty)$. Even function; symmetric about the $y$-axis.",
+          "worked": "The denominator must be real and nonzero, so $4-x^2>0$, giving $-2<x<2$. Since $0<\\sqrt{4-x^2}\\leq2$, $f(x)\\geq\\tfrac12$, with no upper bound. Also $f(-x)=f(x)$, so $f$ is even and its graph is symmetric about the $y$-axis.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p28-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the area between the curve and the $x$-axis from $x=-1$ to $x=1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac\\pi3$ square units.",
+          "worked": "$$\\begin{aligned}A&=\\int_{-1}^1\\frac{1}{\\sqrt{4-x^2}}\\,dx\\\\&=\\left[\\sin^{-1}\\left(\\frac{x}{2}\\right)\\right]_{-1}^1\\\\&=\\sin^{-1}\\left(\\frac12\\right)-\\sin^{-1}\\left(-\\frac12\\right)\\\\&=\\frac\\pi6-\\left(-\\frac\\pi6\\right)\\\\&=\\frac\\pi3\\text{ square units}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p28-q14-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the total area between the curve and the $x$-axis.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\pi$ square units.",
+          "worked": "Using symmetry and taking a limit at the vertical asymptote,\n$$\\begin{aligned}A&=2\\lim_{b\\to2^-}\\int_0^b\\frac{1}{\\sqrt{4-x^2}}\\,dx\\\\&=2\\lim_{b\\to2^-}\\left[\\sin^{-1}\\left(\\frac{x}{2}\\right)\\right]_0^b\\\\&=2\\left(\\frac\\pi2-0\\right)\\\\&=\\pi\\text{ square units}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p28-q14-answer-graph",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q14-answer-graph\"}\n\\begin{tikzpicture}[x=1.1cm,y=1.1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\path[use as bounding box] (-2.8,-0.65) rectangle (3,4.8);\n\\draw[->,line width=0.5pt] (-2.7,0)--(2.9,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-0.45)--(0,4.65) node[left] {$y$};\n\\draw[dashed,line width=0.4pt] (-2,-0.35)--(-2,4.45);\n\\draw[dashed,line width=0.4pt] (2,-0.35)--(2,4.45);\n\\draw[dashed,line width=0.8pt,domain=0:180,samples=101] plot ({2*cos(\\x)},{2*sin(\\x)});\n\\draw[line width=0.8pt,domain=-1.987:1.987,samples=181] plot (\\x,{1/sqrt(4-(\\x)^2)});\n\\foreach \\xx in {-2,2}{\\draw[line width=0.4pt] (\\xx,0.06)--(\\xx,-0.06);\\node[below,fill=white,inner sep=2pt] at (\\xx,-0.06) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\xx$\\special{dvisvgm:raw </g>}};}\n\\foreach \\yy in {1,2}{\\draw[line width=0.4pt] (-0.06,\\yy)--(0.06,\\yy);\\node[left,fill=white,inner sep=2pt] at (-0.08,\\yy) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\yy$\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.4pt] (-0.06,0.5)--(0.06,0.5);\n\\node at (-1.05,0.82) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\frac12$\\special{dvisvgm:raw </g>}};\n\\draw[->,line width=0.4pt] (-0.88,0.65) to[out=-45,in=190] (0,0.5);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 72,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 14, supplied answer graph at lower left",
+          "description": "Shared answer graph: dashed upper semicircle and solid reciprocal curve, with dashed vertical asymptotes. Ordinary graph marks use black under house style; the source answer graph is blue.",
+          "mathematics": "Dashed y=sqrt(4-x^2), -2<=x<=2; solid y=1/sqrt(4-x^2), -2<x<2; asymptotes x=±2; reciprocal minimum (0,1/2).",
+          "answerVisibility": "Answer editions only; shared by parts a and b."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q14-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:10:42.297Z",
+  "updatedAt": "2026-11-12T08:10:42.297Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-further-differentiation-and-integration-v1",
+    "blockId": "p28-q14-block",
+    "sectionRole": "exercise"
+  }
+}

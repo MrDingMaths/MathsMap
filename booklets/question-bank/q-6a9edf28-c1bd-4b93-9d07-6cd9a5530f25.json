@@ -1,0 +1,126 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6a9edf28-c1bd-4b93-9d07-6cd9a5530f25",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "differentiate-inverse-trig-applications",
+    "secondarySkillIds": [],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "The supplied inverse-tangent expression and derivative target scaffold the related-rate calculation; students connect dx/dt=600 with the chain rule and convert the signed rate into a rate of decrease.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:29:51.422Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "149f07ec51994097215e8cfe03bbc02fed816fa14af52e91e3753033444d6371",
+      "evidence": "../../../full-imports/s6ext1-further-differentiation-and-integration-20261027/semantic-packets/assignments/assignment-05683d5ad66077df0b14/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p20-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "A plane $P$ at a constant altitude of 6 km and at a constant speed of 600 km/h is flying directly away from an observer at $O$ on the ground.\n\nThe point $A$ on the path of the plane lies directly above $O$.\n\nLet the distance $AP$ be $x$ km, and let $\\theta$ be the angle of elevation of the plane from the observer.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 20 p20-q12-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (0,2.4);\n\\coordinate (P) at (3.2,2.4);\n\\coordinate (R) at (1.6,0);\n\\draw[black,line width=0.8pt] (O)--(A)--(P)--cycle;\n\\draw[black,dashed,line width=0.4pt] (O)--(R);\n\\draw[black,dashed,->,line width=0.5pt] (P)--++(1.1,0);\n\\draw[black,line width=0.4pt] ($(A)!0.24cm!(O)$)--($(A)!0.24cm!(O)+(0.24,0)$)--($(A)!0.24cm!(P)$);\n\\pic[draw=black,line width=0.4pt,angle radius=0.85cm] {angle=R--O--P};\n\\node[black] at ($(O)+(18.435:1.12)$) {$\\theta$};\n\\node[black,left] at (O) {$O$};\n\\node[black,above left] at (A) {$A$};\n\\node[black,above] at (P) {$P$};\n\\node[black,above] at ($(A)!0.5!(P)$) {$x$};\n\\node[black,right] at ($(A)!0.5!(O)$) {$6\\text{ km}$};\n\\node[black,below] at ($(P)+(0.35,-0.08)$) {$600\\text{ km/h}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 56,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 12, upper-right diagram",
+          "description": "Right triangle AOP with vertical AO, horizontal AP and flight direction to the right. The angle of elevation is between OP and the dashed horizontal reference ray at O. Ordinary source marks are rendered in house black; no shading.",
+          "mathematics": "AO = 6 km, AP = x km, angle OAP = 90 degrees; theta is the angle of elevation at O; horizontal speed is 600 km/h.",
+          "answerVisibility": "Always visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $\\theta=\\tan^{-1}\\left(\\dfrac{6}{x}\\right)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan\\theta=\\dfrac{6}{x}$, so $\\theta=\\tan^{-1}\\left(\\dfrac{6}{x}\\right)$.",
+          "worked": "From the right triangle, for $x>0$,\n$$\\begin{align*}\\tan\\theta&=\\frac{6}{x}\\\\\\theta&=\\tan^{-1}\\left(\\frac{6}{x}\\right).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p20-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that $\\dfrac{d\\theta}{dt}=-\\dfrac{3600}{x^2+36}$ radians per hour.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{d\\theta}{dt}=\\left(-\\dfrac{6}{x^2+36}\\right)(600)=-\\dfrac{3600}{x^2+36}$ radians per hour.",
+          "worked": "$$\\begin{align*}\\frac{d\\theta}{dx}&=\\frac{-6/x^2}{1+36/x^2}\\\\\\frac{d\\theta}{dx}&=-\\frac{6}{x^2+36}.\\end{align*}$$\nTaking $t=0$ when the plane is at $A$, with $t$ in hours and $x$ in kilometres,\n$$\\begin{align*}x&=600t\\\\\\frac{dx}{dt}&=600.\\end{align*}$$\nHence\n$$\\begin{align*}\\frac{d\\theta}{dt}&=\\frac{d\\theta}{dx}\\frac{dx}{dt}\\\\\\frac{d\\theta}{dt}&=-\\frac{6}{x^2+36}\\times600\\\\\\frac{d\\theta}{dt}&=-\\frac{3600}{x^2+36}\\text{ rad/h}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p20-q12-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence find, in radians per second, the rate at which $\\theta$ is decreasing at the instant when the distance $AP$ is 3 km.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{45}\\text{ rad/s}$.",
+          "worked": "At $x=3$,\n$$\\begin{align*}\\frac{d\\theta}{dt}&=-\\frac{3600}{9+36}\\\\\\frac{d\\theta}{dt}&=-\\frac{3600}{45}\\\\\\frac{d\\theta}{dt}&=-80\\text{ rad/h}.\\end{align*}$$\nConverting to radians per second,\n$$-\\frac{80}{3600}=-\\frac{1}{45}\\text{ rad/s}.$$\nThe rate of decrease is $\\dfrac{1}{45}\\text{ rad/s}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p20-q12-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:10:39.385Z",
+  "updatedAt": "2026-11-12T08:10:39.385Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-further-differentiation-and-integration-v1",
+    "blockId": "p20-q12-block",
+    "sectionRole": "exercise"
+  }
+}

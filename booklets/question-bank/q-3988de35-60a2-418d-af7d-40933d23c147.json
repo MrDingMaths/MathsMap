@@ -1,0 +1,218 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3988de35-60a2-418d-af7d-40933d23c147",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "probability-perm-comb",
+    "secondarySkillIds": [
+      "probability-complement-addition",
+      "permutations-restrictions"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Apply restricted digit counts and divisibility tests, then combine the preceding single-digit and intersection probabilities using the addition rule.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T08:16:55.166Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1134381643713830a344c7293255b5d13ffb5ac4f9ece13a39e81d9709dc6f73",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/lean-review/calls/content-1793175368299-42/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p79-q30",
+    "type": "question",
+    "label": null,
+    "prompt": "A three-digit number is formed from the digits 3, 4, 5, 6 and 7 (no repetitions allowed). Find the probability that:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p79-q30-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "the number is 473,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{60}$",
+          "worked": "There are ${}^{5}P_3=5\\times4\\times3=60$ possible numbers, all equally likely. Only one is 473.\n$$P(473)=\\frac{1}{60}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p79-q30-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "the number is odd,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{3}{5}$",
+          "worked": "The last digit is 3, 5 or 7: three choices. The other two positions have ${}^{4}P_2=4\\times3$ arrangements.\n$$P(\\text{odd})=\\frac{3\\times4\\times3}{60}=\\frac35.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p79-q30-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "the number is divisible by 5,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{5}$",
+          "worked": "The last digit must be 5. There are ${}^{4}P_2=4\\times3$ ways to fill the other two positions.\n$$P(\\text{divisible by }5)=\\frac{4\\times3}{60}=\\frac15.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p79-q30-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "the number is divisible by 3,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{2}{5}$",
+          "worked": "The digit sum must be divisible by 3. The valid sets are $\\{3,4,5\\}$, $\\{3,5,7\\}$, $\\{4,5,6\\}$ and $\\{5,6,7\\}$. Each has $3!$ arrangements.\n$$P(\\text{divisible by }3)=\\frac{4\\times3!}{60}=\\frac25.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      },
+      {
+        "id": "p79-q30-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "the number starts with 4 and ends with 7,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{20}$",
+          "worked": "The middle digit can be 3, 5 or 6.\n$$P(\\text{starts with }4\\text{ and ends with }7)=\\frac3{60}=\\frac1{20}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p79-q30-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "the number contains the digit 3,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{3}{5}$",
+          "worked": "Without 3, the digits are chosen and arranged from four remaining digits.\n$$\\begin{aligned}P(\\text{contains }3)&=1-\\frac{{}^{4}P_3}{60}\\\\&=1-\\frac{4\\times3\\times2}{60}\\\\&=\\frac35.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p79-q30-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "the number contains the digits 3 and 5,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{3}{10}$",
+          "worked": "Choose one of three positions for 3, then one of two positions for 5. The remaining digit is 4, 6 or 7.\n$$P(\\text{contains }3\\text{ and }5)=\\frac{3\\times2\\times3}{60}=\\frac3{10}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p79-q30-h",
+        "type": "part",
+        "label": "h",
+        "prompt": "the number contains the digits 3 or 5,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{9}{10}$",
+          "worked": "Let $A$ mean the number contains 3 and $B$ mean it contains 5. By symmetry, $P(B)=P(A)=\\frac35$. Using parts f and g,\n$$\\begin{aligned}P(A\\cup B)&=P(A)+P(B)-P(A\\cap B)\\\\&=\\frac35+\\frac35-\\frac3{10}\\\\&=\\frac9{10}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p79-q30-i",
+        "type": "part",
+        "label": "i",
+        "prompt": "all digits in the number are odd,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{1}{10}$",
+          "worked": "The digits must be 3, 5 and 7, arranged in $3!$ ways.\n$$P(\\text{all digits odd})=\\frac{3!}{60}=\\frac1{10}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p79-q30-j",
+        "type": "part",
+        "label": "j",
+        "prompt": "the number is greater than 500.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{3}{5}$",
+          "worked": "The first digit is 5, 6 or 7: three choices. There are ${}^{4}P_2$ ways to fill the other two positions.\n$$P(\\text{greater than }500)=\\frac{3\\times4\\times3}{60}=\\frac35.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p79-q30-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:11.524Z",
+  "updatedAt": "2026-11-12T08:11:11.525Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-2-v1",
+    "blockId": "p79-q30-block",
+    "sectionRole": "exercise"
+  }
+}

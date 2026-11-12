@@ -1,0 +1,116 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-bfad96ee-1380-4e40-8b03-3b9265dc0f1d",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "inverse-trig-composite-graphs",
+    "secondarySkillIds": [],
+    "reasoningScore": 54,
+    "difficulty": "Mastery",
+    "difficultyReason": "Part a is signposted: divide sin by cos using the given identity. Part b is an unscaffolded sketch needing the odd symmetry, the vertical asymptotes at x=±1, the domain and the range, so it is harder than p13-q3 but lighter than the full derive-and-sketch in p14-q6.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-10T21:24:10.105Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8dfb719ffa44bed3a090d669870027eabadd9982a0000468b67361f9dc8e9c4a",
+      "diagramBlindHash": "c0a874e98f4edf773b631a8bf4d871675aba44633ce2d37481e383008e43870c",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-inverse-trigonometric-functions-v1/20261110-211127/calls/14-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p13-q3",
+          "score": 43
+        },
+        "easierThan": {
+          "ref": "p14-q6-block",
+          "score": 57
+        },
+        "equalTo": null,
+        "closerTo": "easierThan"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-69002-p11-practice-slot-6-211127-root",
+    "type": "question",
+    "label": null,
+    "prompt": "",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "v2-69002-p11-practice-slot-6-211127-slot-6-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Using $\\cos(\\sin^{-1}x)=\\sqrt{1-x^2}$, show that $\\tan(\\sin^{-1}x)=\\frac{x}{\\sqrt{1-x^2}}$ for $-1<x<1$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\tan(\\sin^{-1}x)=\\frac{x}{\\sqrt{1-x^2}}$, for $-1<x<1$.",
+          "worked": "Let $\\alpha=\\sin^{-1}x$, so $\\sin\\alpha=x$ and $\\cos\\alpha=\\sqrt{1-x^2}$, which is non-zero for $-1<x<1$.\n\n$$\\begin{align*}\\tan\\alpha&=\\frac{\\sin\\alpha}{\\cos\\alpha}\\\\&=\\frac{x}{\\sqrt{1-x^2}}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 40
+      },
+      {
+        "id": "v2-69002-p11-practice-slot-6-211127-slot-6-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence sketch the graph of $y=\\tan(\\sin^{-1}x)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The odd, increasing curve $y=\\frac{x}{\\sqrt{1-x^2}}$ through the origin on $-1<x<1$, with vertical asymptotes $x=-1$ and $x=1$; range $\\mathbb R$.",
+          "worked": "From part a, $y=\\frac{x}{\\sqrt{1-x^2}}$ with $-1<x<1$.\n\n$$\\begin{align*}y(0)&=0\\\\y(-x)&=\\frac{-x}{\\sqrt{1-x^2}}=-y(x)\\end{align*}$$\nThe graph is odd and passes through $(0,0)$.\n\nAs $x\\to1^-$, the numerator tends to 1 and the denominator tends to $0^+$, so $y\\to\\infty$. By symmetry, $y\\to-\\infty$ as $x\\to-1^+$.\n\nDraw the increasing curve between the vertical asymptotes $x=\\pm1$.",
+          "solutionDiagrams": [
+            {
+              "id": "v2-69002-p11-practice-slot-6-211127-slot-6-q-b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"slot-6-q-b-graph\"}\n\\begin{tikzpicture}[x=22mm,y=6mm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[->,line width=0.5pt] (-1.6,0)--(1.6,0) node[right] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.5)--(0,4.5) node[right] {$y$};\n\\draw[dashed,line width=0.4pt] (-1,-4.4)--(-1,4.4);\n\\draw[dashed,line width=0.4pt] (1,-4.4)--(1,4.4);\n\\draw[<->,line width=0.8pt,domain=-0.97:0.97,samples=101] plot (\\x,{\\x/sqrt(1-\\x*\\x)});\n\\foreach \\v in {-1,1}{\\draw[line width=0.4pt] (\\v,-0.12)--(\\v,0.12);\\node[below] at (\\v,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "derived": false
+            }
+          ]
+        },
+        "answerSpaceMm": 80
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-69002-p11-practice-slot-6-211127",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:10:47.554Z",
+  "updatedAt": "2026-11-12T08:10:47.554Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-inverse-trigonometric-functions-v1",
+    "blockId": "v2-69002-p11-practice-slot-6-211127",
+    "sectionRole": "exercise"
+  }
+}

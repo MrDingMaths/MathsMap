@@ -1,0 +1,143 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-40c0cf38-7d26-4683-99eb-f96938a7b795",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "count-ordered-selections-repetition",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Recognises each lattice path as a sequence of ten independent left-or-right choices.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:47:32.645Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4b5ecdf6888a4dfbde94a7ba8554cc6342bb21e381ad5a26d23de51f7caf22f3",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-224e342d2fa597421ba7/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p90-q8",
+    "type": "question",
+    "label": "8",
+    "prompt": "A drop of water is placed at the top of the grid. The drop must run downwards along edges of the grid. How many different ways can it reach the ground?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p90-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"groundFill\",\"hex\":\"FCE8D5\",\"reason\":\"distinguishes the terminal ground region from the path lattice\"}],\"reference\":\"source page 90, p90-q8-diagram\"}\n\\begin{tikzpicture}[x=4mm,y=4mm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{groundFill}{HTML}{FCE8D5}\n\\path[use as bounding box] (-10,-11) rectangle (10,0);\n\\fill[groundFill] (-10,-10)--(10,-10)--(10,-10.9)--(8,-10.8)--(6,-10.95)--(4,-10.8)--(2,-10.95)--(0,-10.8)--(-2,-10.95)--(-4,-10.8)--(-6,-10.95)--(-8,-10.8)--(-10,-10.9)--cycle;\n\\foreach \\r in {0,...,9}{\n  \\foreach \\j in {0,...,\\r}{\n    \\draw[black,line width=0.8pt] ({-\\r+2*\\j},{-\\r})--({-\\r+2*\\j-1},{-\\r-1});\n    \\draw[black,line width=0.8pt] ({-\\r+2*\\j},{-\\r})--({-\\r+2*\\j+1},{-\\r-1});\n  }\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 90,
+          "sourceRegion": "Question 8 lattice beneath the stem, on the left.",
+          "description": "Triangular diamond lattice with an apex, ten downward edge levels and eleven terminal vertices meeting a ground strip. The source beige ground is represented by house light orange; the irregular strip edge is simplified.",
+          "mathematics": "At depth r, vertices have coordinates (-r+2j,-r), j=0,...,r. Each vertex above depth 10 has two downward edges to the next level. All paths terminate after exactly ten binary choices.",
+          "answerVisibility": "The complete unlabelled lattice is permanently visible; no path counts or solution annotations appear."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$1024$ ways.",
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p90-q8-answer-moves",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "The water droplet must make a sequence of 10 moves to get to the ground.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p90-q8-answer-choices",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Each move can either be left or right.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p90-q8-answer-total",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "2^{10}=1024",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " ways.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 18
+  },
+  "presentation": {
+    "ownerId": "p90-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:54.987Z",
+  "updatedAt": "2026-11-12T08:11:54.987Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-v1",
+    "blockId": "p90-q8-block",
+    "sectionRole": "challenge"
+  }
+}

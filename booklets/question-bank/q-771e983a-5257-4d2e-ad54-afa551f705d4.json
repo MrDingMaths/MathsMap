@@ -1,0 +1,419 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-771e983a-5257-4d2e-ad54-afa551f705d4",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "combinatorial-argument-proof",
+    "secondarySkillIds": [],
+    "reasoningScore": 62,
+    "difficulty": "Mastery",
+    "difficultyReason": "Uses the supplied committee-and-leader scenario to connect counting by committee size with choosing the leader first.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:47:32.645Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6899c97e33b3c30a4b58beabde9497abba2bec1ef6a5227d6db7780cc7bbe8ed",
+      "evidence": "../../../full-imports/s6ext1-permutations-and-combinations-20261027/semantic-packets/assignments/assignment-224e342d2fa597421ba7/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p90-q7",
+    "type": "question",
+    "label": "7",
+    "prompt": "Prove that\n$$ (1\\cdot{}^{n}C_1)+(2\\cdot{}^{n}C_2)+(3\\cdot{}^{n}C_3)+(4\\cdot{}^{n}C_4)+\\cdots+(n\\cdot{}^{n}C_n)=n\\cdot2^{n-1}. $$\nBy considering the scenario:\nfrom $n$ people, choose a non-empty committee and choose a leader for the committee.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Choosing the leader first gives $n\\cdot2^{n-1}$ possibilities. Choosing a committee of size $r$ first gives $r\\cdot{}^{n}C_r$ possibilities. Summing over $r=1,\\ldots,n$ counts the same committees with leaders, proving the identity.",
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p90-q7-answer-rhs-heading",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "RHS:",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-rhs-leader",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Choose any person from ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " to be leader: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " ways.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-rhs-members",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Each of the remaining ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n-1",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " people can either be on the committee or not: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "2^{n-1}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " ways.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-rhs-total",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Total: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n\\cdot2^{n-1}",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-lhs-heading",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 6,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "LHS:",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-lhs-one",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For a committee of 1 person: choose 1 person from ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", then choose 1 person out of 1 to be leader: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "1\\cdot{}^{n}C_1",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-lhs-two",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For a committee of 2 people: choose 2 people from ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", then choose 1 person out of 2 to be leader: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "2\\cdot{}^{n}C_2",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-lhs-three",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For a committee of 3 people: choose 3 people from ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", then choose 1 person out of 3 to be leader: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "3\\cdot{}^{n}C_3",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-lhs-continue",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Continue until a committee of ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " people …",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-lhs-n",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "For a committee of ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " people: choose ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " people from ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": ", then choose 1 person out of ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " to be leader: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "n\\cdot{}^{n}C_n",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-lhs-total",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Total: ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "(1\\cdot{}^{n}C_1)+(2\\cdot{}^{n}C_2)+(3\\cdot{}^{n}C_3)+(4\\cdot{}^{n}C_4)+\\cdots+(n\\cdot{}^{n}C_n)",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p90-q7-answer-conclusion",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "right",
+            "spaceBefore": 4,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Both methods count the same committees with a designated leader. Therefore, the identity is proved.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 72
+  },
+  "presentation": {
+    "ownerId": "p90-q7-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:11:57.467Z",
+  "updatedAt": "2026-11-12T08:11:57.468Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-permutations-and-combinations-v1",
+    "blockId": "p90-q7-block",
+    "sectionRole": "challenge"
+  }
+}
