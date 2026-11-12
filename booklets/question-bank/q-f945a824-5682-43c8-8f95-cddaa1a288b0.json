@@ -1,0 +1,166 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f945a824-5682-43c8-8f95-cddaa1a288b0",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-related-rates",
+    "secondarySkillIds": [
+      "related-rates-chain"
+    ],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Follow the explicit geometry-to-volume scaffold, then differentiate each one-variable volume formula and substitute the given inflow and depth.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T03:45:43.979Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9fd5e6e994ff5a63d41a989716d38ba22e89f99f6aeda6b0cab4898301ddfdbd",
+      "evidence": "../../../full-imports/s6ext1-2-further-rates-of-change-20261027/lean-review/calls/content-1793159120173-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q4",
+    "type": "question",
+    "label": "4",
+    "prompt": "Water is poured into an inverted right conical vessel at a constant rate of $8\\text{ cm}^3/\\text{sec}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p20-q4-a",
+        "type": "group",
+        "label": "",
+        "prompt": "Find the relationship between $h$ and $r$, given the semivertical angle in each case below. Hence, express the volume of the cone in terms of $h$ only.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p20-q4-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 20 p20-q4-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,3.5);\n\\coordinate (O) at (0,0);\n\\coordinate (L) at (-1.6,0);\n\\coordinate (R) at (1.6,0);\n\\draw[line width=0.8pt] (L)--(A)--(R);\n\\draw[line width=0.8pt] (L) arc[start angle=180,end angle=360,x radius=1.6,y radius=0.28];\n\\draw[dashed,line width=0.4pt] (R) arc[start angle=0,end angle=180,x radius=1.6,y radius=0.28];\n\\draw[dashed,line width=0.4pt] (A)--(O) node[midway,right] {$h$};\n\\draw[dashed,line width=0.4pt] (O)--(R) node[midway,below=12pt] {$r$};\n\\draw[line width=0.4pt,dashed] (0,0.16)--(0.16,0.16)--(0.16,0);\n\\pic[draw,line width=0.4pt,angle radius=7mm] {angle=O--A--R};\n\\coordinate (M) at ($(A)!0.75!(O)$);\n\\draw[line width=0.4pt,->] (0.24,2.78) to[out=35,in=180] (1.15,3.52);\n\\node[anchor=west,align=left] at (1.17,3.52) {semi-vertical angle};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 59,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 20,
+              "sourceRegion": "Upper-right shared cone diagram beside part a",
+              "description": "Apex above an elliptical base, with solid silhouette and front rim, dashed rear rim, height and radius, a right-angle marker, and an apex semivertical-angle arc with a leader.",
+              "mathematics": "The semivertical angle is between the cone axis and a generator; tan(theta)=r/h. The drawing is schematic and supplies no numerical dimensions.",
+              "answerVisibility": "Always visible; no answers supplied by the figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [
+          {
+            "id": "p20-q4-a-i",
+            "type": "part",
+            "label": "a",
+            "prompt": "Semivertical angle is $45^\\circ$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$r=h$, $V=\\dfrac{\\pi}{3}h^3$.",
+              "worked": "$\\begin{aligned}\\tan45^\\circ&=\\frac{r}{h}=1\\\\r&=h\\\\V&=\\frac13\\pi r^2h\\\\&=\\frac13\\pi(h^2)h\\\\&=\\frac{\\pi}{3}h^3\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 26
+          },
+          {
+            "id": "p20-q4-a-ii",
+            "type": "part",
+            "label": "b",
+            "prompt": "Semivertical angle is $30^\\circ$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$r=\\dfrac{h}{\\sqrt3}$, $V=\\dfrac{\\pi}{9}h^3$.",
+              "worked": "$\\begin{aligned}\\tan30^\\circ&=\\frac{r}{h}=\\frac1{\\sqrt3}\\\\r&=\\frac{h}{\\sqrt3}\\\\V&=\\frac13\\pi r^2h\\\\&=\\frac13\\pi\\left(\\frac{h}{\\sqrt3}\\right)^2h\\\\&=\\frac{\\pi}{9}h^3\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 30
+          }
+        ],
+        "diagramPlacement": "right-of-prompt"
+      },
+      {
+        "id": "p20-q4-b",
+        "type": "group",
+        "label": "",
+        "prompt": "Hence, find the rate the water level rises when the depth is $4\\text{ cm}$, given that",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p20-q4-b-i",
+            "type": "part",
+            "label": "c",
+            "prompt": "the semivertical angle is $45^\\circ$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{1}{2\\pi}\\text{ cm/s}$.",
+              "worked": "$\\begin{aligned}V&=\\frac{\\pi}{3}h^3\\\\\\frac{dV}{dt}&=\\pi h^2\\frac{dh}{dt}=8\\\\\\frac{dh}{dt}&=\\frac8{\\pi h^2}\\end{aligned}$\n\nWhen $h=4$:\n\n$\\begin{aligned}\\frac{dh}{dt}&=\\frac8{16\\pi}\\\\&=\\frac1{2\\pi}\\text{ cm/s}.\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 31
+          },
+          {
+            "id": "p20-q4-b-ii",
+            "type": "part",
+            "label": "d",
+            "prompt": "the semivertical angle is $30^\\circ$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\dfrac{3}{2\\pi}\\text{ cm/s}$.",
+              "worked": "$\\begin{aligned}V&=\\frac{\\pi}{9}h^3\\\\\\frac{dV}{dt}&=\\frac{\\pi}{3}h^2\\frac{dh}{dt}=8\\\\\\frac{dh}{dt}&=\\frac{24}{\\pi h^2}\\end{aligned}$\n\nWhen $h=4$:\n\n$\\begin{aligned}\\frac{dh}{dt}&=\\frac{24}{16\\pi}\\\\&=\\frac3{2\\pi}\\text{ cm/s}.\\end{aligned}$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 33
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q4-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:59.087Z",
+  "updatedAt": "2026-11-12T08:06:59.087Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p20-q4-block",
+    "sectionRole": "exercise"
+  }
+}

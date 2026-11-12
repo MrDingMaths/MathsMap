@@ -1,0 +1,204 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a47e1a95-126b-4a24-994d-96fbd7cb106b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "binomial-mean-variance",
+    "secondarySkillIds": [
+      "shape-of-distribution",
+      "binomial-probability-formula"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combines graphical interpretation, binomial mean and standard deviation, an interval shading task and a reflected distribution.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:19:16.951Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "184dc67919032d9870fc4d7fdd00de781981f8683b9684611c3208f1ea959545",
+      "evidence": "../../../full-imports/s6ext1-binomial-distributions-20261027/lean-review/calls/content-1793171923355-6/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p48-q17-root",
+    "type": "question",
+    "label": "17",
+    "prompt": "A relative-frequency polygon is shown for the binomial distribution with $n=48$ and $p=0.25$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p48-q17-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"page 48 p48-q17-graph\"}\n\\begin{tikzpicture}[x=0.135cm,y=27cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[step=3,xstep=3,ystep=0.025,color=black!20,line width=0.15pt] (0,0) grid (48,0.17);\n\\foreach \\x in {6,12,18,24,30,36,42,48}{\\draw[black!20,line width=0.25pt] (\\x,0)--(\\x,0.17);}\n\\foreach \\y in {0.05,0.1,0.15}{\\draw[black!20,line width=0.25pt] (0,\\y)--(48,\\y);}\n\\draw[black,line width=0.5pt] (0,-0.02)--(0,0.18) (0,0)--(50,0);\n\\foreach \\x in {6,12,18,24,30,36,42,48}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.004) node[below,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.05,0.1,0.15}{\\draw[black,line width=0.4pt] (0,\\y)--(-1,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt] plot coordinates {(0,0.0000010) (1,0.0000161) (2,0.0001262) (3,0.0006449) (4,0.0024185) (5,0.0070944) (6,0.0169477) (7,0.0338954) (8,0.0579047) (9,0.0857847) (10,0.1115202) (11,0.1284172) (12,0.1319843) (13,0.1218317) (14,0.1015264) (15,0.0767088) (16,0.0527373) (17,0.0330901) (18,0.0189962) (19,0.0099980) (20,0.0048324) (21,0.0021477) (22,0.0008786) (23,0.0003311) (24,0.0001150) (25,0.0000368) (26,0.0000108) (27,0.0000029) (28,0.0000007) (29,0.0000002) (30,0) (48,0)};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 48,
+          "sourceRegion": "Graph beneath question 17 stem",
+          "description": "Editable binomial relative-frequency polygon, with horizontal grid step 3 and vertical grid step 0.025. Source magenta axes are ordinary graph furniture and use black under house style.",
+          "mathematics": "P(X=k)=binom(48,k)(0.25)^k(0.75)^(48-k), k=0,...,48.",
+          "answerVisibility": "Always visible; writable stimulus for part d."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p48-q17-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Is the distribution skewed to the left, skewed to the right or not at all?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Skewed to the right.",
+          "worked": "Since $p=0.25<0.5$, the distribution is skewed to the right, as shown by its longer right tail.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p48-q17-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the mean and standard deviation for the distribution.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Mean $12$; standard deviation $3$.",
+          "worked": "$$\\begin{aligned}\\mu&=np=48(0.25)=12\\\\\\sigma&=\\sqrt{np(1-p)}=\\sqrt{48(0.25)(0.75)}=3\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p48-q17-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "What is the mode of the distribution? Estimate the probability of this most likely outcome.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Mode $12$; probability approximately $0.13$.",
+          "worked": "The peak occurs at $x=12$, so the mode is $12$. From the graph, $P(X=12)\\approx0.13$.\n\nThis agrees with the binomial calculation:\n$$\\begin{aligned}P(X=12)&=\\binom{48}{12}(0.25)^{12}(0.75)^{36}\\\\&\\approx0.13.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p48-q17-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Shade the region no more than two standard deviations from the mean.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Shade the region under the polygon for $6\\le x\\le18$.",
+          "worked": "$$\\begin{aligned}\\mu-2\\sigma&=12-2(3)=6\\\\\\mu+2\\sigma&=12+2(3)=18\\end{aligned}$$\nShade the region under the given polygon between $x=6$ and $x=18$, inclusive.",
+          "solutionDiagrams": [
+            {
+              "id": "p48-q17-d-solution-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"intervalFill\",\"hex\":\"D4E8FF\",\"reason\":\"region within two standard deviations of the mean\"}],\"reference\":\"page 48 p48-q17-d-solution-graph\"}\n\\begin{tikzpicture}[x=0.135cm,y=27cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{intervalFill}{HTML}{D4E8FF}\n\\fill[intervalFill] (6,0)--(6,0.0169477)--(7,0.0338954)--(8,0.0579047)--(9,0.0857847)--(10,0.1115202)--(11,0.1284172)--(12,0.1319843)--(13,0.1218317)--(14,0.1015264)--(15,0.0767088)--(16,0.0527373)--(17,0.0330901)--(18,0.0189962)--(18,0)--cycle;\n\\draw[xstep=3,ystep=0.025,black!20,line width=0.15pt] (0,0) grid (48,0.17);\n\\foreach \\x in {6,12,18,24,30,36,42,48}{\\draw[black!20,line width=0.25pt] (\\x,0)--(\\x,0.17);}\n\\foreach \\y in {0.05,0.1,0.15}{\\draw[black!20,line width=0.25pt] (0,\\y)--(48,\\y);}\n\\draw[black,line width=0.5pt] (0,-0.02)--(0,0.18) (0,0)--(50,0);\n\\foreach \\x in {6,12,18,24,30,36,42,48}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.004) node[below,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.05,0.1,0.15}{\\draw[black,line width=0.4pt] (0,\\y)--(-1,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\draw[black,line width=0.8pt] plot coordinates {(0,0.0000010) (1,0.0000161) (2,0.0001262) (3,0.0006449) (4,0.0024185) (5,0.0070944) (6,0.0169477) (7,0.0338954) (8,0.0579047) (9,0.0857847) (10,0.1115202) (11,0.1284172) (12,0.1319843) (13,0.1218317) (14,0.1015264) (15,0.0767088) (16,0.0527373) (17,0.0330901) (18,0.0189962) (19,0.0099980) (20,0.0048324) (21,0.0021477) (22,0.0008786) (23,0.0003311) (24,0.0001150) (25,0.0000368) (26,0.0000108) (27,0.0000029) (28,0.0000007) (29,0.0000002) (30,0) (48,0)};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 48,
+                "sourceRegion": "Part d and its supplied interval answer",
+                "description": "Complete solution graph with the region from 6 to 18 shaded light blue. Shading represents the requested two-standard-deviation interval.",
+                "mathematics": "Mean 12, standard deviation 3; 12-2(3)=6 and 12+2(3)=18.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p48-q17-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Use the given sketch for $p=0.25$ to assist in sketching the graph of the distribution for $p=0.75$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Reflect the given polygon in $x=24$. The new polygon peaks at $x=36$, at about $0.13$, and is skewed to the left.",
+          "worked": "The $p=0.75$ distribution counts failures in the original experiment. If the original number of successes is $k$, the number of failures is $48-k$.\n\nThus each point $(k,P(X=k))$ moves to $(48-k,P(X=k))$. The graph has the same shape reflected in $x=24$, with mode $36$ and a longer left tail. This also follows from $\\binom{48}{k}=\\binom{48}{48-k}$.\n\nThe horizontal mapping $k\\mapsto48-k$ can be obtained by shifting left by $48$, then reflecting in the $y$-axis. Reflection in a line $x=a$ is not required syllabus knowledge here.",
+          "solutionDiagrams": [
+            {
+              "id": "p48-q17-e-answer-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"answerBlue\",\"hex\":\"268CFF\",\"reason\":\"reflected p=0.75 answer series\"}],\"reference\":\"page 48 p48-q17-e-answer-graph\"}\n\\begin{tikzpicture}[x=0.135cm,y=27cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{answerBlue}{HTML}{268CFF}\n\\draw[xstep=3,ystep=0.025,black!20,line width=0.15pt] (0,0) grid (48,0.17);\n\\foreach \\x in {6,12,18,24,30,36,42,48}{\\draw[black!20,line width=0.25pt] (\\x,0)--(\\x,0.17);}\n\\foreach \\y in {0.05,0.1,0.15}{\\draw[black!20,line width=0.25pt] (0,\\y)--(48,\\y);}\n\\draw[black,line width=0.5pt] (0,-0.02)--(0,0.18) (0,0)--(50,0);\n\\foreach \\x in {6,12,18,24,30,36,42,48}{\\draw[black,line width=0.4pt] (\\x,0)--(\\x,-0.004) node[below,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\x$\\special{dvisvgm:raw </g>}};}\n\\foreach \\y in {0.05,0.1,0.15}{\\draw[black,line width=0.4pt] (0,\\y)--(-1,\\y) node[left,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\y$\\special{dvisvgm:raw </g>}};}\n\\begin{scope}[xshift=6.48cm,xscale=-1]\n\\draw[answerBlue,line width=0.8pt] plot coordinates {(0,0.0000010) (1,0.0000161) (2,0.0001262) (3,0.0006449) (4,0.0024185) (5,0.0070944) (6,0.0169477) (7,0.0338954) (8,0.0579047) (9,0.0857847) (10,0.1115202) (11,0.1284172) (12,0.1319843) (13,0.1218317) (14,0.1015264) (15,0.0767088) (16,0.0527373) (17,0.0330901) (18,0.0189962) (19,0.0099980) (20,0.0048324) (21,0.0021477) (22,0.0008786) (23,0.0003311) (24,0.0001150) (25,0.0000368) (26,0.0000108) (27,0.0000029) (28,0.0000007) (29,0.0000002) (30,0) (48,0)};\n\\end{scope}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 48,
+                "sourceRegion": "Supplied blue answer graph below part e",
+                "description": "Binomial relative-frequency polygon for p=0.75, reflected from the supplied p=0.25 polygon. Blue identifies the answer series; ordinary axes and tick labels use black.",
+                "mathematics": "P(Y=k)=P(X=48-k) for X~Bin(48,0.25), Y~Bin(48,0.75). Mode 36, peak approximately 0.1319843.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 43
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p48-q17",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:38.455Z",
+  "updatedAt": "2026-11-12T08:08:38.455Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-binomial-distributions-2-v1",
+    "blockId": "p48-q17",
+    "sectionRole": "challenge"
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-3bb09aac-b922-4f96-be32-6a73c8e233f2",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "slope-fields",
+    "secondarySkillIds": [
+      "define-differential-equation"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Sketch solution curves, explain an isocline algebraically, verify it is a solution and interpret asymptotic behaviour.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:11:30.963Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ee94352661c152f267b494f4d8358482a6e22ee613170e7eba5f44b7a435dbee",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-be4bbed1d89f74bdcc3a/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p27-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "The slope field for $y'=-\\frac12x-y$ is shown.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p27-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"slope-field direction elements\"}],\"reference\":\"source page 27 question 7\"}\n\\begin{tikzpicture}[x=0.78cm,y=0.78cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fieldBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.2,-5.2) rectangle (5.4,5.4);\n\\foreach \\xx in {-4,...,4}{\\foreach \\yy in {-4,...,4}{\\pgfmathsetmacro{\\m}{-0.5*\\xx-\\yy}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\xx-\\dx},{\\yy-\\dy})--({\\xx+\\dx},{\\yy+\\dy});}}\n\\draw[<->,black,line width=0.5pt] (-4.8,0)--(5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-4.8)--(0,5) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[black,line width=0.4pt] (\\t,-0.08)--(\\t,0.08);\\node[below] at (\\t,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[black,line width=0.4pt] (-0.08,\\t)--(0.08,\\t);\\node[left] at (-0.1,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Question 7 supplied graph",
+          "description": "Equal-scale Cartesian axes with integer ticks −4 to 4, no zero label and no grid lines. Direction elements occur at every integer coordinate in the square −4 to 4.",
+          "mathematics": "Each direction element has gradient −x/2−y and constant length.",
+          "answerVisibility": "Axes, ticks and direction elements are permanent. Requested solution curves and isocline are omitted from the student graph."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p27-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw solution curves through $(-2,0)$ and $(2,0)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p27-q7-shared-solution",
+        "answer": {
+          "short": "See the solution curves on the graph.",
+          "worked": "Through each given point, sketch a smooth curve tangent to the nearby line elements. The curve through $(-2,0)$ rises to a maximum and then falls; the curve through $(2,0)$ decreases. Both approach the straight isocline as $x$ increases.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p27-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Look at line elements on $x=1$, from bottom to top. Do gradients increase or decrease?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Gradients decrease.",
+          "worked": "On $x=1$, $y'=-\\frac12-y$. As $y$ increases from bottom to top, $y'$ decreases.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p27-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Explain why $y=\\frac12-\\frac12x$ is an isocline.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The gradient is constant, $y'=-\\frac12$, along the line.",
+          "worked": "Substitute $y=\\frac12-\\frac12x$ into the differential equation:\n$$\\begin{aligned}y'&=-\\frac{x}{2}-\\left(\\frac12-\\frac{x}{2}\\right)\\\\y'&=-\\frac12.\\end{aligned}$$\nThe gradient is constant along $y=\\frac12-\\frac12x$, so it is an isocline.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p27-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p27-q7-d-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Show that this isocline is also a solution of the DE, then add it to your copy.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p27-q7-d-scaffold",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "right",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Sub ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y=\\frac12-\\frac12x",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " into ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "y'=-\\frac12x-y",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ":",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p27-q7-shared-solution",
+        "answer": {
+          "short": "Both sides equal $-\\frac12$, so the line is a solution. See the dashed line on the graph.",
+          "worked": "$$\\begin{aligned}\\text{RHS}&=-\\frac{x}{2}-\\left(\\frac12-\\frac{x}{2}\\right)\\\\&=-\\frac12.\\end{aligned}$$\n$$\\text{LHS}=y'=-\\frac12\\quad\\text{(slope of the line).}$$\nTherefore $y=\\frac12-\\frac12x$ is a solution of the DE. Add this straight line to the slope field.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p27-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What do you notice about the isocline and the two solution curves?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The isocline is an asymptote for both solution curves.",
+          "worked": "Both solution curves approach $y=\\frac12-\\frac12x$ as $x$ increases, so this isocline is an asymptote for both.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p27-q7-shared-solution",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"slope-field direction elements\"},{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"requested solution curves and straight solution isocline\"}],\"reference\":\"source page 27 question 7 answers\"}\n\\begin{tikzpicture}[x=0.78cm,y=0.78cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fieldBlue}{HTML}{268CFF}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.2,-5.2) rectangle (5.4,5.4);\n\\foreach \\xx in {-4,...,4}{\\foreach \\yy in {-4,...,4}{\\pgfmathsetmacro{\\m}{-0.5*\\xx-\\yy}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\xx-\\dx},{\\yy-\\dy})--({\\xx+\\dx},{\\yy+\\dy});}}\n\\draw[<->,black,line width=0.5pt] (-4.8,0)--(5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-4.8)--(0,5) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[black,line width=0.4pt] (\\t,-0.08)--(\\t,0.08);\\node[below] at (\\t,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[black,line width=0.4pt] (-0.08,\\t)--(0.08,\\t);\\node[left] at (-0.1,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[curveBlue,line width=0.8pt,<->,domain=-3.48:4.8,samples=160,smooth] plot (\\x,{0.5-0.5*(\\x)-1.5*exp(-((\\x)+2))});\n\\draw[curveBlue,line width=0.8pt,<->,domain=-0.12:4.8,samples=160,smooth] plot (\\x,{0.5-0.5*(\\x)+0.5*exp(2-(\\x))});\n\\draw[curveBlue,line width=0.8pt,dashed,<->] (-4.8,2.9)--(4.8,-1.9);\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Question 7 answer graph",
+          "description": "Complete answer graph with the two requested solution curves and the straight solution isocline, distinguished by a dashed stroke. All three retain continuation arrows.",
+          "mathematics": "Curves y=1/2−x/2−(3/2)e^{−(x+2)} and y=1/2−x/2+(1/2)e^{2−x} pass through (−2,0) and (2,0), respectively. The straight isocline is y=1/2−x/2.",
+          "answerVisibility": "Answer editions only; shared by parts a and d."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p27-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:47.896Z",
+  "updatedAt": "2026-11-12T08:07:47.896Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p27-q7",
+    "sectionRole": "exercise"
+  }
+}

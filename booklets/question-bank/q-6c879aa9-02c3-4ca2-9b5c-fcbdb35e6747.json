@@ -1,0 +1,137 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6c879aa9-02c3-4ca2-9b5c-fcbdb35e6747",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "model-de-practical",
+    "secondarySkillIds": [
+      "separation-of-variables"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires separation of variables, parameter estimation and rejection of an algebraic candidate using the physical domain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:21:07.499Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b68e233ab1a0c8377d94b728122fea576894741d4578d6f0a6d0b1f696d6e8b3",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-db2d242701a3a2925fc0/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p57-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "A cylindrical tank is filled with water to a height of 400 cm. A tap at the bottom is opened and\n$$\\frac{dh}{dt}=k\\sqrt{h}.$$",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p57-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "State the initial condition, and explain why $k$ must be negative.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$h(0)=400$. The water level decreases, so $k<0$.",
+          "worked": "$h(0)=400$. While there is water in the tank, $\\sqrt{h}>0$ and $\\dfrac{dh}{dt}<0$. Therefore $k<0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p57-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Solve the IVP. You may assume the arbitrary constant of integration is positive.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$h=\\dfrac14(kt+40)^2$, while $kt+40\\geq0$.",
+          "worked": "Separate variables:\n$$h^{-1/2}\\,dh=k\\,dt.$$\nIntegrating gives\n$$2\\sqrt{h}=kt+C.$$\nAt $t=0$, $h=400$, so\n$$\\begin{aligned}C&=2\\sqrt{400}\\\\C&=40.\\end{aligned}$$\nHence\n$$\\begin{aligned}2\\sqrt{h}&=kt+40\\\\h&=\\left(\\frac{kt+40}{2}\\right)^2\\\\h&=\\frac14(kt+40)^2.\\end{aligned}$$\nThe unsquared equation requires $kt+40\\geq0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p57-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "After 20 minutes the height is 100 cm. Find two possible values of $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The squared expression gives the candidates $k=-1$ and $k=-3$.",
+          "worked": "Using $h(20)=100$ in the squared expression:\n$$\\begin{aligned}\\frac14(20k+40)^2&=100\\\\(20k+40)^2&=400\\\\20k+40&=\\pm20\\\\k&=-1\\text{ or }-3.\\end{aligned}$$\nThese are algebraic candidates; their validity in the draining model is checked in part d.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p57-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "How long does the tank take to drain? Hence explain why only one value of $k$ is valid.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "40 minutes. The candidate $k=-3$ gives an empty tank after $\\dfrac{40}{3}$ minutes, before the stated observation at 20 minutes. Only $k=-1$ is valid.",
+          "worked": "For $k=-1$, set $h=0$:\n$$\\begin{aligned}\\frac14(-t+40)^2&=0\\\\t&=40\\text{ min}.\\end{aligned}$$\nFor $k=-3$, set $h=0$:\n$$\\begin{aligned}\\frac14(-3t+40)^2&=0\\\\t&=\\frac{40}{3}\\text{ min}.\\end{aligned}$$\nBut there is still water in the tank after 20 minutes. The candidate $k=-3$ would empty the tank before then; extending its squared expression would incorrectly make the water level rise again. Therefore only $k=-1$ is valid, and the tank drains after 40 minutes.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p57-q8-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Is the function found in part b valid for larger values of $t$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "No. The draining formula is valid for $0\\leq t\\leq40$ minutes. The tank remains empty afterwards.",
+          "worked": "No. With $k=-1$, the formula is $h=\\dfrac14(40-t)^2$. For $t>40$, this expression increases again, implying that the water level rises after the tank has emptied. It also violates $2\\sqrt{h}=40-t$. Thus the draining formula is valid only for $0\\leq t\\leq40$ minutes; afterwards $h=0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p57-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:55.863Z",
+  "updatedAt": "2026-11-12T08:07:55.863Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p57-q8-block",
+    "sectionRole": "challenge"
+  }
+}

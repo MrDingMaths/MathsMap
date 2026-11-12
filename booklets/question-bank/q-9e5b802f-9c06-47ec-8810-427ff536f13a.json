@@ -1,0 +1,116 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-9e5b802f-9c06-47ec-8810-427ff536f13a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-binomial-problems",
+    "secondarySkillIds": [
+      "binomial-cumulative-probability"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Finds a success probability from a random bag choice, then models repeated trials and uses a complement.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:40:45.464Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1a4c7a539050300720fafc0363a63d0ce0e47d4c8411607d8b0697c704498a58",
+      "evidence": "../../../full-imports/s6ext1-binomial-distributions-20261027/semantic-packets/assignments/assignment-e5d22f5b858001919593/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p38-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "One bag contains three red and five white balls, and another bag contains four red and four white balls.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p38-q15-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "One bag is chosen at random, a ball is selected from that bag, its colour is noted, and then it is replaced. Find the probability that the ball chosen is red.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\frac7{16}$.",
+          "worked": "$$\\begin{aligned}P(\\text{red})&=\\frac12\\left(\\frac38\\right)+\\frac12\\left(\\frac48\\right)\\\\P(\\text{red})&=\\frac7{16}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      },
+      {
+        "id": "p38-q15-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "If the operation in part a is carried out eight times, find the probability that:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p38-q15-c",
+            "type": "part",
+            "label": "c",
+            "prompt": "exactly three red balls are drawn,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\binom83\\left(\\frac7{16}\\right)^3\\left(\\frac9{16}\\right)^5$.",
+              "worked": "Let $X$ be the number of red balls drawn. Each operation includes a fresh random choice of bag, so $X\\sim\\operatorname{Bin}(8,\\frac7{16})$.\n$$P(X=3)=\\binom83\\left(\\frac7{16}\\right)^3\\left(\\frac9{16}\\right)^5.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          },
+          {
+            "id": "p38-q15-d",
+            "type": "part",
+            "label": "d",
+            "prompt": "at least three red balls are drawn.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$1-\\left(\\frac9{16}\\right)^8-8\\left(\\frac7{16}\\right)\\left(\\frac9{16}\\right)^7-\\binom82\\left(\\frac7{16}\\right)^2\\left(\\frac9{16}\\right)^6$.",
+              "worked": "Let $X\\sim\\operatorname{Bin}(8,\\frac7{16})$.\n$$\\begin{aligned}P(X\\ge3)&=1-P(X=0)-P(X=1)-P(X=2)\\\\P(X\\ge3)&=1-\\left(\\frac9{16}\\right)^8-8\\left(\\frac7{16}\\right)\\left(\\frac9{16}\\right)^7\\\\&\\quad-\\binom82\\left(\\frac7{16}\\right)^2\\left(\\frac9{16}\\right)^6.\\end{aligned}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 25
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p38-q15-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:32.099Z",
+  "updatedAt": "2026-11-12T08:08:32.100Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-binomial-distributions-2-v1",
+    "blockId": "p38-q15-block",
+    "sectionRole": "exercise"
+  }
+}

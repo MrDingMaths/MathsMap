@@ -1,0 +1,129 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5540e4a4-ef2c-41e9-9897-85dca1f1d66b",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "vector-geometric-proofs",
+    "secondarySkillIds": [
+      "vectors-in-geometric-figures",
+      "parallel-vectors-condition"
+    ],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Uses midpoint vectors and a scalar multiple to establish parallelism and a length ratio.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:01:49.218Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "06b9aeae26ec5ca45900ccb5317b57144ff9b5b8bb1732ef158404b3560a6813",
+      "evidence": "../../../full-imports/s6ext1-2-further-operations-with-vectors-20261027/lean-review/calls/content-1793163682474-5/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p18-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "In triangle $ABC$ to the right, $P$ is the midpoint of $AC$ and $Q$ is the midpoint of $BC$. Let $\\overrightarrow{AC}=\\underset{\\sim}{a}$ and $\\overrightarrow{CB}=\\underset{\\sim}{b}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p18-q8-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 18 p18-q8-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0);\n\\coordinate (C) at (2.15,3.2);\n\\coordinate (P) at ($(A)!0.5!(C)$);\n\\coordinate (Q) at ($(B)!0.5!(C)$);\n\\draw[black] (A)--(B)--(C)--cycle;\n\\draw[black] (P)--(Q);\n\\foreach \\s/\\t in {A/P,P/C}{\n\\coordinate (M) at ($(\\s)!0.5!(\\t)$);\n\\draw[black,line width=0.4pt] ($(M)!0.045cm!(\\s)+(0,0)$) ++(-0.055,0.037) -- ++(0.11,-0.074);\n\\draw[black,line width=0.4pt] ($(M)!0.045cm!(\\t)+(0,0)$) ++(-0.055,0.037) -- ++(0.11,-0.074);\n}\n\\foreach \\s/\\t in {C/Q,Q/B}{\n\\coordinate (N) at ($(\\s)!0.5!(\\t)$);\n\\draw[black,line width=0.4pt] ($(N)+(-0.065,-0.021)$)--($(N)+(0.065,0.021)$);\n}\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[left] at (P) {$P$};\n\\node[right] at (Q) {$Q$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 48,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 18,
+          "sourceRegion": "Question 8, right-hand triangle",
+          "description": "Unfilled triangle with horizontal AB and midpoint segment PQ. AP and PC have double ticks; CQ and QB have single ticks. Ordinary source grey strokes are rendered black under house style. Coordinates establish the depicted topology and midpoint relationships, not numerical givens.",
+          "mathematics": "P=(A+C)/2 and Q=(B+C)/2; AP=PC, CQ=QB and PQ is parallel to AB.",
+          "answerVisibility": "All geometry, labels and equal-length ticks are permanent question content."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p18-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write $\\overrightarrow{AB}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{AB}=\\underset{\\sim}{a}+\\underset{\\sim}{b}$.",
+          "worked": "$\\overrightarrow{AC}=\\underset{\\sim}{a}$ and $\\overrightarrow{CB}=\\underset{\\sim}{b}$. Since $P$ and $Q$ are midpoints, $AP=PC$ and $QC=QB$.\n\n$$\\begin{aligned}\\overrightarrow{AB}&=\\overrightarrow{AC}+\\overrightarrow{CB}\\\\\\overrightarrow{AB}&=\\underset{\\sim}{a}+\\underset{\\sim}{b}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p18-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write $\\overrightarrow{PQ}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{PQ}=\\dfrac12(\\underset{\\sim}{a}+\\underset{\\sim}{b})$.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{PC}&=\\frac12\\overrightarrow{AC}=\\frac12\\underset{\\sim}{a}\\\\\\overrightarrow{CQ}&=\\frac12\\overrightarrow{CB}=\\frac12\\underset{\\sim}{b}\\\\\\overrightarrow{PQ}&=\\overrightarrow{PC}+\\overrightarrow{CQ}\\\\\\overrightarrow{PQ}&=\\frac12\\underset{\\sim}{a}+\\frac12\\underset{\\sim}{b}\\\\\\overrightarrow{PQ}&=\\frac12(\\underset{\\sim}{a}+\\underset{\\sim}{b})\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p18-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence explain why $\\overrightarrow{PQ}$ is parallel to $\\overrightarrow{AB}$ and half its length.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{PQ}=\\dfrac12\\overrightarrow{AB}$, so $PQ\\parallel AB$ and $PQ=\\dfrac12 AB$.",
+          "worked": "$$\\overrightarrow{PQ}=\\frac12(\\underset{\\sim}{a}+\\underset{\\sim}{b})=\\frac12\\overrightarrow{AB}.$$\n\nThe scalar multiple $\\frac12$ shows that the vectors are parallel and that $PQ$ is half the length of $AB$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p18-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:46.522Z",
+  "updatedAt": "2026-11-12T08:06:46.522Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-operations-with-vectors-v1",
+    "blockId": "p18-q8-block",
+    "sectionRole": "exercise"
+  }
+}

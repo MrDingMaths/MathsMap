@@ -1,0 +1,420 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-daa51445-5559-4346-ad03-3ee10dec3604",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "slope-fields",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Follow six different direction fields through two initial points, respecting stationary levels and changes in curvature.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:12:01.567Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "aea8129a6608c3e780594133d1fd660434f757dd6c629936322e303d9dde6f28",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-3247596984dbb478eefb/1/generation.json",
+      "originalTaskHash": "922c65c0af11fc530b458edefd835cc9f8947b2373afe51f52707901766f9a2f",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "b36b0135395d89ae4b099e72a2fbb9d40baa7e8ff432016a7b3f735c8344a14d"
+      }
+    }
+  },
+  "content": {
+    "id": "p26-q5-root",
+    "type": "question",
+    "label": null,
+    "prompt": "For each slope field, draw solution curves through the two given points.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p26-q5-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "i $(0,0)$   ii $(2,0)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q5-a-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied direction field\"}],\"reference\":\"p26-q5-a-graph\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fieldBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\foreach \\x in {-4,...,4}{\\foreach \\y in {-4,...,4}{\\pgfmathsetmacro{\\m}{sin(45*\\x)}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\x-\\dx},{\\y-\\dy})--({\\x+\\dx},{\\y+\\dy});}}\n\\draw[->,line width=0.5pt] (-4.8,0)--(4.9,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-4.8)--(0,4.9) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09) node[below=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t) node[left=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Question 5a",
+              "description": "Nine columns and nine rows of direction segments; no background grid. Horizontal segments at x=-4,0,4.",
+              "mathematics": "Direction depends only on x; negative for -4<x<0 and positive for 0<x<4.",
+              "answerVisibility": "Direction field and axes are permanent; solution curves are answer-only."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "i A trough with minimum at $(0,0)$. ii A vertically lower trough through $(2,0)$.",
+          "worked": "Plot both points. Follow the segments left and right, keeping each curve tangent to the field. Both curves have a minimum on $x=0$ and flatten towards $x=-4$ and $x=4$.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q5-a-answer",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution curves\"}],\"reference\":\"p26-q5-a-answer\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{solutionBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\foreach \\c in {0,-1.273239545}{\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-4:4,samples=81] (\\x,{4/pi*(1-cos(45*(\\x)))+\\c});}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p26-q5-a-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 5a answer curves",
+                "description": "Two smooth troughs with outward arrowheads.",
+                "mathematics": "Curves pass through (0,0) and (2,0), respectively.",
+                "answerVisibility": "Answer-only overlay."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p26-q5-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "i $(0,0)$   ii $(1,3)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q5-b-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied direction field\"}],\"reference\":\"p26-q5-b-graph\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{fieldBlue}{HTML}{268CFF}\\path[use as bounding box] (-4,-5) rectangle (6,5);\n\\foreach \\x in {-3,...,5}{\\foreach \\y in {-4,...,4}{\\pgfmathsetmacro{\\m}{1-\\x}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\x-\\dx},{\\y-\\dy})--({\\x+\\dx},{\\y+\\dy});}}\n\\draw[->,line width=0.5pt] (-3.8,0)--(5.9,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-4.8)--(0,4.9) node[above] {$y$};\n\\foreach \\t in {-3,-2,-1,1,2,3,4,5}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09) node[below=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t) node[left=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Question 5b",
+              "description": "Direction segments on x=-3 to 5 and y=-4 to 4; no background grid.",
+              "mathematics": "Slopes repeat vertically, are zero at x=1, positive to the left and negative to the right.",
+              "answerVisibility": "Permanent supplied field."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "i A downward-opening curve through $(0,0)$ with maximum near $(1,\\tfrac12)$. ii A downward-opening curve with maximum at $(1,3)$.",
+          "worked": "Plot the points and follow the segments in both directions. Both curves rise for $x<1$, have horizontal tangents at $x=1$, then fall for $x>1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q5-b-answer",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution curves\"}],\"reference\":\"p26-q5-b-answer\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{solutionBlue}{HTML}{268CFF}\\path[use as bounding box] (-4,-5) rectangle (6,5);\n\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-2.1623:4.1623,samples=81] (\\x,{\\x-(\\x)^2/2});\n\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-2.873:4.873,samples=81] (\\x,{3-(\\x-1)^2/2});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p26-q5-b-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 5b answer curves",
+                "description": "Two downward-opening curves with arrows at their lower ends.",
+                "mathematics": "Initial points (0,0) and (1,3).",
+                "answerVisibility": "Answer-only overlay."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p26-q5-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "i $(0,1)$   ii $(1,0)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q5-c-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied direction field\"}],\"reference\":\"p26-q5-c-graph\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{fieldBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\foreach \\x in {-4,...,4}{\\foreach \\y in {-4,...,4}{\\pgfmathsetmacro{\\m}{(1+\\y*\\y)/2}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\x-\\dx},{\\y-\\dy})--({\\x+\\dx},{\\y+\\dy});}}\n\\draw[->,line width=0.5pt] (-4.8,0)--(4.9,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-4.8)--(0,4.9) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09) node[below=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t) node[left=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Question 5c",
+              "description": "Nine-by-nine direction field; positive slopes repeat across horizontal rows and steepen away from the x-axis.",
+              "mathematics": "Graphical reconstruction of the supplied directions; no equation is given in the source question.",
+              "answerVisibility": "Permanent supplied field."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Two increasing curves through $(0,1)$ and $(1,0)$, each least steep near $y=0$ and steeper above and below.",
+          "worked": "Plot the initial points. Follow the positive direction segments in both directions. Each curve flattens near the x-axis and becomes increasingly steep as $|y|$ increases.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q5-c-answer",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution curves\"}],\"reference\":\"p26-q5-c-answer\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{solutionBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-77.47:77.47,samples=101,variable=\\t] ({2*(\\t-45)*pi/180},{tan(\\t)});\n\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-77.47:77.47,samples=101,variable=\\t] ({1+2*\\t*pi/180},{tan(\\t)});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p26-q5-c-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 5c answer curves",
+                "description": "Two increasing curves with arrows at the lower and upper ends.",
+                "mathematics": "Graphical curves through the specified points.",
+                "answerVisibility": "Answer-only overlay."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p26-q5-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "i $(-2,0)$   ii $(2,0)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q5-d-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied direction field\"}],\"reference\":\"p26-q5-d-graph\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{fieldBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\foreach \\x in {-4,...,4}{\\foreach \\y/\\m in {-4/1,-3/0.5,-2/0,-1/0.75,0/1,1/0.75,2/0,3/0.5,4/1}{\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\x-\\dx},{\\y-\\dy})--({\\x+\\dx},{\\y+\\dy});}}\n\\draw[->,line width=0.5pt] (-4.8,0)--(4.9,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-4.8)--(0,4.9) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09) node[below=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t) node[left=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Question 5d",
+              "description": "Horizontal-row direction field with zero slopes at y=-2 and y=2; all other shown segments incline positively.",
+              "mathematics": "Graphical reconstruction preserving the two equilibrium levels.",
+              "answerVisibility": "Permanent supplied field."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "Two increasing S-shaped curves through $(-2,0)$ and $(2,0)$, approaching $y=-2$ to the left and $y=2$ to the right.",
+          "worked": "Start at each initial point and follow the segments. Keep both curves between $y=-2$ and $y=2$, flattening towards these horizontal levels.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q5-d-answer",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution curves\"}],\"reference\":\"p26-q5-d-answer\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{solutionBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\foreach \\c in {-2,2}{\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-4.2:4.2,samples=101] (\\x,{2*(exp(\\x-\\c)-1)/(exp(\\x-\\c)+1)});}\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p26-q5-d-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 5d answer curves",
+                "description": "Two increasing S-curves confined between the horizontal equilibrium levels.",
+                "mathematics": "Initial points (-2,0) and (2,0).",
+                "answerVisibility": "Answer-only overlay."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p26-q5-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "i $(0,2)$   ii $(-2,0)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q5-e-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied direction field\"}],\"reference\":\"p26-q5-e-graph\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{fieldBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\foreach \\x in {-4,...,4}{\\foreach \\y in {-4,-3,-2,-1,1,2,3,4}{\\pgfmathsetmacro{\\m}{\\x/\\y}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\x-\\dx},{\\y-\\dy})--({\\x+\\dx},{\\y+\\dy});}}\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4}{\\draw[fieldBlue,line width=0.8pt] (\\x,-0.23)--(\\x,0.23);}\n\\draw[->,line width=0.5pt] (-4.8,0)--(4.9,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-4.8)--(0,4.9) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09) node[below=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t) node[left=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Question 5e",
+              "description": "Coordinate-dependent direction field with horizontal elements on the y-axis and vertical elements on the x-axis away from the origin.",
+              "mathematics": "Directions consistent with dy/dx=x/y; the origin has no direction segment.",
+              "answerVisibility": "Permanent supplied field."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "i An upper U-shaped curve with minimum at $(0,2)$. ii A left-opening curve with vertex at $(-2,0)$.",
+          "worked": "Through $(0,2)$, follow the field upwards on both sides of the y-axis. Through $(-2,0)$, draw the upper-left and lower-left arms, with a vertical tangent at the given point, as shown by the supplied field.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q5-e-answer",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution curves\"}],\"reference\":\"p26-q5-e-answer\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{solutionBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-4:4,samples=101] (\\x,{sqrt((\\x)^2+4)});\n\\draw[solutionBlue,line width=0.8pt,<->] plot[domain=-4:4,samples=101,variable=\\t] ({-sqrt((\\t)^2+4)},\\t);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p26-q5-e-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 5e answer curves",
+                "description": "Upper and left branches of rectangular hyperbolas with outward arrowheads.",
+                "mathematics": "Upper curve y²-x²=4; left-opening curve x²-y²=4, x≤-2.",
+                "answerVisibility": "Answer-only overlay."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p26-q5-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "i $(1,1)$   ii $(-2,1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p26-q5-f-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied direction field\"}],\"reference\":\"p26-q5-f-graph\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{fieldBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4}{\\foreach \\y in {-4,...,4}{\\pgfmathsetmacro{\\m}{2*\\y/\\x}\\pgfmathsetmacro{\\dx}{0.23/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\x-\\dx},{\\y-\\dy})--({\\x+\\dx},{\\y+\\dy});}}\n\\draw[->,line width=0.5pt] (-4.8,0)--(4.9,0) node[right] {$x$};\\draw[->,line width=0.5pt] (0,-4.8)--(0,4.9) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.09)--(\\t,0.09) node[below=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.09,\\t)--(0.09,\\t) node[left=2pt] {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 26,
+              "sourceRegion": "Question 5f",
+              "description": "Direction field depending on both coordinates, with horizontal elements along the x-axis away from the origin.",
+              "mathematics": "Directions consistent with dy/dx=2y/x; omit undefined directions on x=0.",
+              "answerVisibility": "Permanent supplied field."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "i An upward-curving branch through $(1,1)$ on the right. ii An upward-curving branch through $(-2,1)$ on the left.",
+          "worked": "Plot $(1,1)$ and follow the positive slopes in the first quadrant. Plot $(-2,1)$ and follow the negative slopes in the second quadrant. Both branches approach the origin as they approach the y-axis; the second remains above the x-axis.",
+          "solutionDiagrams": [
+            {
+              "id": "p26-q5-f-answer",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"corrected solution curves\"}],\"reference\":\"p26-q5-f-answer\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\\definecolor{solutionBlue}{HTML}{268CFF}\\path[use as bounding box] (-5,-5) rectangle (5,5);\n\\draw[solutionBlue,line width=0.8pt,->] plot[domain=0.02:2.12,samples=81] (\\x,{(\\x)^2});\n\\draw[solutionBlue,line width=0.8pt,->] plot[domain=-0.02:-4.24,samples=81] (\\x,{(\\x)^2/4});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p26-q5-f-graph",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 26,
+                "sourceRegion": "Question 5f corrected answer curves",
+                "description": "Corrected branches through both stated initial points, replacing the incompatible lower source curve.",
+                "mathematics": "Right branch y=x² for x>0; left branch y=x²/4 for x<0. The origin is excluded.",
+                "answerVisibility": "Answer-only overlay."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p26-q5-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:47.648Z",
+  "updatedAt": "2026-11-12T08:07:47.648Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p26-q5-block",
+    "sectionRole": "exercise"
+  }
+}

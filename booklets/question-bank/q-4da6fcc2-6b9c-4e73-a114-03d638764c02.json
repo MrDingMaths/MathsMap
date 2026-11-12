@@ -1,0 +1,160 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-4da6fcc2-6b9c-4e73-a114-03d638764c02",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "vector-geometric-proofs",
+    "secondarySkillIds": [
+      "vectors-in-geometric-figures"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "The parts explicitly guide the two midpoint-vector expressions and their equality; the remaining decision is to recognise the equal, parallel opposite-side criterion for a parallelogram.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:01:49.218Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "eb285940c12c2738b617059686fbcb8272ac57c4fb74ca6fd74282aab92498c2",
+      "evidence": "../../../full-imports/s6ext1-2-further-operations-with-vectors-20261027/lean-review/calls/content-1793163682474-5/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q9-root",
+    "type": "question",
+    "label": "",
+    "prompt": "In the diagram to the right, $ABCD$ is a quadrilateral. The points $P,Q,R$ and $S$ are the midpoints of $AB,BC,CD$ and $DA$ respectively.\n\nLet $\\overrightarrow{AB}=\\underset{\\sim}{a}$, $\\overrightarrow{BC}=\\underset{\\sim}{b}$, $\\overrightarrow{AD}=\\underset{\\sim}{d}$ and $\\overrightarrow{DC}=\\underset{\\sim}{c}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q9-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (3.2,0.55);\n\\coordinate (C) at (3.2,2.85);\n\\coordinate (D) at (-0.55,3.45);\n\\coordinate (P) at ($(A)!0.5!(B)$);\n\\coordinate (Q) at ($(B)!0.5!(C)$);\n\\coordinate (R) at ($(D)!0.5!(C)$);\n\\coordinate (S) at ($(A)!0.5!(D)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle;\n\\foreach \\t in {0.25,0.75}{\n\\path (A)--(B) node[pos=\\t,sloped,inner sep=0pt] {$\\vert$};\n\\path (B)--(C) node[pos=\\t,sloped,inner sep=0pt] {$\\vert\\!\\vert$};\n\\path (D)--(C) node[pos=\\t,sloped,inner sep=0pt] {$\\vert\\!\\vert\\!\\vert$};\n\\path (A)--(D) node[pos=\\t,sloped,inner sep=0pt] {$\\vert\\!\\vert\\!\\vert\\!\\vert$};\n}\n\\foreach \\v in {P,Q,R,S}{\\fill[black] (\\v) circle[radius=1.1pt];}\n\\node[below left,inner sep=2pt] at (A) {$A$};\n\\node[below right,inner sep=2pt] at (B) {$B$};\n\\node[above right,inner sep=2pt] at (C) {$C$};\n\\node[above left,inner sep=2pt] at (D) {$D$};\n\\node[below,inner sep=3pt] at (P) {$P$};\n\\node[right,inner sep=3pt] at (Q) {$Q$};\n\\node[above,inner sep=3pt] at (R) {$R$};\n\\node[left,inner sep=3pt] at (S) {$S$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Upper-right quadrilateral beside question 9",
+          "description": "Unshaded irregular quadrilateral with labelled vertices and midpoint dots. Single, double, triple and quadruple ticks distinguish the four midpoint relationships. No diagonals or midpoint-joining segments are supplied. Ordinary source marks are reconstructed in house black.",
+          "mathematics": "P is the midpoint of AB, Q of BC, R of CD and S of DA. Coordinates specify schematic appearance only and introduce no numerical givens.",
+          "answerVisibility": "All supplied geometry is visible in the question; no solution marks are included."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p19-q9-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\underset{\\sim}{d}+\\underset{\\sim}{c}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both sums equal $\\overrightarrow{AC}$ by the triangle addition law.",
+          "worked": "By the triangle addition law,\n\n$$\\begin{align*}\\overrightarrow{AB}+\\overrightarrow{BC}&=\\overrightarrow{AC}=\\underset{\\sim}{a}+\\underset{\\sim}{b},\\\\\\overrightarrow{AD}+\\overrightarrow{DC}&=\\overrightarrow{AC}=\\underset{\\sim}{d}+\\underset{\\sim}{c}.\\end{align*}$$\n\nHence $\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\underset{\\sim}{d}+\\underset{\\sim}{c}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p19-q9-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Express $\\overrightarrow{PQ}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{PQ}=\\frac12(\\underset{\\sim}{a}+\\underset{\\sim}{b})$.",
+          "worked": "$P$ and $Q$ are midpoints, so $AP=PB$ and $BQ=QC$.\n\n$$\\begin{align*}\\overrightarrow{PB}&=\\frac12\\overrightarrow{AB}=\\frac12\\underset{\\sim}{a},\\\\\\overrightarrow{BQ}&=\\frac12\\overrightarrow{BC}=\\frac12\\underset{\\sim}{b}.\\end{align*}$$\n\n$$\\begin{align*}\\overrightarrow{PQ}&=\\overrightarrow{PB}+\\overrightarrow{BQ}\\\\\\overrightarrow{PQ}&=\\frac12\\underset{\\sim}{a}+\\frac12\\underset{\\sim}{b}\\\\\\overrightarrow{PQ}&=\\frac12(\\underset{\\sim}{a}+\\underset{\\sim}{b}).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p19-q9-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Express $\\overrightarrow{SR}$ in terms of $\\underset{\\sim}{d}$ and $\\underset{\\sim}{c}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{SR}=\\frac12(\\underset{\\sim}{d}+\\underset{\\sim}{c})$.",
+          "worked": "$R$ and $S$ are midpoints, so $AS=SD$ and $DR=RC$.\n\n$$\\begin{align*}\\overrightarrow{DR}&=\\frac12\\overrightarrow{DC}=\\frac12\\underset{\\sim}{c},\\\\\\overrightarrow{SD}&=\\frac12\\overrightarrow{AD}=\\frac12\\underset{\\sim}{d}.\\end{align*}$$\n\n$$\\begin{align*}\\overrightarrow{SR}&=\\overrightarrow{SD}+\\overrightarrow{DR}\\\\\\overrightarrow{SR}&=\\frac12\\underset{\\sim}{d}+\\frac12\\underset{\\sim}{c}\\\\\\overrightarrow{SR}&=\\frac12(\\underset{\\sim}{d}+\\underset{\\sim}{c}).\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p19-q9-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Hence show that $\\overrightarrow{PQ}=\\overrightarrow{SR}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{PQ}=\\frac12\\overrightarrow{AC}=\\overrightarrow{SR}$.",
+          "worked": "From part a, $\\overrightarrow{AC}=\\underset{\\sim}{a}+\\underset{\\sim}{b}=\\underset{\\sim}{d}+\\underset{\\sim}{c}$.\n\n$$\\begin{align*}\\overrightarrow{PQ}&=\\frac12(\\underset{\\sim}{a}+\\underset{\\sim}{b})=\\frac12\\overrightarrow{AC},\\\\\\overrightarrow{SR}&=\\frac12(\\underset{\\sim}{d}+\\underset{\\sim}{c})=\\frac12\\overrightarrow{AC}.\\end{align*}$$\n\nHence $\\overrightarrow{PQ}=\\overrightarrow{SR}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p19-q9-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Deduce that the quadrilateral $PQRS$ is a parallelogram.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$PQ$ and $SR$ are parallel and equal in length, so $PQRS$ is a parallelogram.",
+          "worked": "Since $\\overrightarrow{PQ}=\\overrightarrow{SR}$, the opposite sides $PQ$ and $SR$ are parallel and equal in length. A quadrilateral with one pair of opposite sides parallel and equal is a parallelogram. Hence $PQRS$ is a parallelogram.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 15
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p19-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:45.421Z",
+  "updatedAt": "2026-11-12T08:06:45.421Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-operations-with-vectors-v1",
+    "blockId": "p19-q9",
+    "sectionRole": "exercise"
+  }
+}

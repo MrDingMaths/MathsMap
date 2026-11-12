@@ -1,0 +1,109 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-2be31f49-513a-4227-b83c-66b1bd8a3d1f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "projectile-features",
+    "secondarySkillIds": [],
+    "reasoningScore": 49,
+    "difficulty": "Development",
+    "difficultyReason": "Compare two flights using exact trigonometric components and demonstrate equal ranges.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:20:11.540Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "4b42df532b0f92f525bb6d636aa646c895470bc2d5f6ed7c11e12afac61dc73d",
+      "evidence": "../../../full-imports/s6ext1-4-projectile-motion-20261027/lean-review/calls/content-1793161194849-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "A stone is thrown at $20\\text{ m s}^{-1}$ at $60^\\circ$. At the same time and place, a second stone is thrown at the same speed but at $30^\\circ$. Use $g=10\\text{ m s}^{-2}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q12-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"trajectoryBlue\",\"hex\":\"268CFF\",\"reason\":\"projectile trajectories distinguished from coordinate axes\"}],\"reference\":\"source page 20 p20-q12-diagram\"}\n\\begin{tikzpicture}[x=0.14cm,y=0.14cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{trajectoryBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-10,0)--(48,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-5)--(0,28) node[left] {$y$};\n\\draw[trajectoryBlue,line width=0.8pt,domain=0:34.641,samples=70] plot (\\x,{sqrt(3)*(\\x)-(\\x)^2/20});\n\\draw[trajectoryBlue,line width=0.8pt,domain=0:34.641,samples=70] plot (\\x,{(\\x)/sqrt(3)-(\\x)^2/60});\n\\draw[->,line width=0.8pt] (0,0)--(4,6.928);\n\\node[anchor=east] at (-2,10) {$20\\text{ m s}^{-1}$};\n\\draw[->,line width=0.8pt] (0,0)--(6.928,4);\n\\node[anchor=west] at (15,8) {$20\\text{ m s}^{-1}$};\n\\draw[line width=0.4pt] (5,0) arc[start angle=0,end angle=30,radius=5];\n\\node at (10,1.7) {$30^\\circ$};\n\\draw[line width=0.4pt] (8,0) arc[start angle=0,end angle=60,radius=8];\n\\node at (10,8) {$60^\\circ$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 12, lower-left diagram",
+          "description": "Two projectile paths with common launch and landing points, initial velocity arrows, speed labels and angles measured from the positive horizontal. Ordinary marks use black; trajectories use standard blue.",
+          "mathematics": "For horizontal coordinate x, the paths are y=sqrt(3)x-x²/20 and y=x/sqrt(3)-x²/60, both ending at x=20sqrt(3).",
+          "answerVisibility": "Supplied question diagram; no calculated values are labelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Which stone finishes its flight first and by how long? Give the time difference exactly and to 1 d.p.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "The stone thrown at $30^\\circ$ lands first, by $2\\sqrt3-2\\text{ s}\\approx1.5\\text{ s}$.",
+          "worked": "For the stone thrown at $60^\\circ$:\n$$\\begin{aligned}x_1&=10t\\\\y_1&=10\\sqrt3t-5t^2\\end{aligned}$$\nFor the stone thrown at $30^\\circ$:\n$$\\begin{aligned}x_2&=10\\sqrt3t\\\\y_2&=10t-5t^2\\end{aligned}$$\nSet each vertical displacement to zero and take the positive time.\n$$\\begin{aligned}0&=t(10\\sqrt3-5t)\\\\t_1&=2\\sqrt3\\text{ s}\\\\0&=t(10-5t)\\\\t_2&=2\\text{ s}\\\\t_1-t_2&=2\\sqrt3-2\\text{ s}\\\\&\\approx1.5\\text{ s}\\end{aligned}$$\nThe stone thrown at $30^\\circ$ lands first.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 37
+      },
+      {
+        "id": "p20-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Show that the 2 stones land at the same place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Both land $20\\sqrt3\\text{ m}$ from the common launch point.",
+          "worked": "Substitute each positive landing time into its horizontal displacement equation.\n$$\\begin{aligned}x_1(2\\sqrt3)&=10(2\\sqrt3)\\\\&=20\\sqrt3\\text{ m}\\\\x_2(2)&=10\\sqrt3(2)\\\\&=20\\sqrt3\\text{ m}\\end{aligned}$$\nBoth stones start at the same point and travel in the same horizontal direction, so they land at the same place.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:13.660Z",
+  "updatedAt": "2026-11-12T08:08:13.660Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-projectile-motion-v1",
+    "blockId": "p20-q12",
+    "sectionRole": "exercise"
+  }
+}

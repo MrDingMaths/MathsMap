@@ -1,0 +1,178 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d9152462-37f9-4e9a-9f80-97bb560e2c73",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "vector-geometric-proofs",
+    "secondarySkillIds": [
+      "dot-product-properties",
+      "dot-product-magnitude",
+      "perpendicular-vectors-dot"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "The parts guide the diagonal expressions and equal-length equation and supply the self-dot identity; students expand and cancel dot products, then interpret perpendicular adjacent sides.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:02:08.147Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "9ad9d27d8d0bc12abee649492b8350b29940f0d7430e835ada0822713e51655d",
+      "evidence": "../../../full-imports/s6ext1-2-further-operations-with-vectors-20261027/lean-review/calls/content-1793163701733-7/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p23-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "In the diagram to the right, $OABC$ is a parallelogram whose diagonals $OB$ and $AC$ are equal. The points $A$ and $C$ have respective position vectors $\\underset{\\sim}{a}$ and $\\underset{\\sim}{c}$ relative to $O$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p23-q13-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 23, p23-q13-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,draw=black,text=black,>=Stealth,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (3.2,0);\n\\coordinate (C) at (1.25,3.2);\n\\coordinate (B) at (4.45,3.2);\n\\draw[->] (O)--(A) node[midway,below=3pt] {$\\underset{\\sim}{a}$};\n\\draw[->] (O)--(C) node[midway,left=3pt] {$\\underset{\\sim}{c}$};\n\\draw (C)--(B)--(A);\n\\draw (O)--(B);\n\\draw (A)--(C);\n\\node[below left=2pt] at (O) {$O$};\n\\node[below=3pt] at (A) {$A$};\n\\node[above=3pt] at (B) {$B$};\n\\node[above=3pt] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 52,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 23,
+          "sourceRegion": "Upper-right figure beside question 13",
+          "description": "Unshaded oblique schematic parallelogram with both diagonals, outside vertex labels and directed position vectors OA and OC. The source figure is schematic: its drawn diagonal lengths do not represent the stated equality.",
+          "mathematics": "Vertices occur in order O, A, B, C; OA and CB are equal vectors, OC and AB are equal vectors. Both OB and AC are drawn. No right-angle or equal-length marks are supplied.",
+          "answerVisibility": "All geometry and labels are permanent student-visible givens."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p23-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Explain why $\\overrightarrow{CB}=\\underset{\\sim}{a}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Opposite sides of a parallelogram are equal and parallel, and $\\overrightarrow{CB}$ has the same direction as $\\overrightarrow{OA}$.",
+          "worked": "Opposite sides of a parallelogram are equal and parallel. Since $\\overrightarrow{CB}$ and $\\overrightarrow{OA}$ have the same direction, $\\overrightarrow{CB}=\\overrightarrow{OA}=\\underset{\\sim}{a}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 26
+      },
+      {
+        "id": "p23-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Write $\\overrightarrow{OB}$ in terms of $\\underset{\\sim}{c}$ and $\\underset{\\sim}{a}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{OB}=\\underset{\\sim}{c}+\\underset{\\sim}{a}$.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{OB}&=\\overrightarrow{OC}+\\overrightarrow{CB}\\\\&=\\underset{\\sim}{c}+\\underset{\\sim}{a}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p23-q13-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Write $\\overrightarrow{AC}$ in terms of $\\underset{\\sim}{c}$ and $\\underset{\\sim}{a}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{AC}=\\underset{\\sim}{c}-\\underset{\\sim}{a}$.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{AC}&=\\overrightarrow{AB}+\\overrightarrow{BC}\\\\&=\\overrightarrow{OC}-\\overrightarrow{CB}\\\\&=\\underset{\\sim}{c}-\\underset{\\sim}{a}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p23-q13-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Explain why $\\left|\\underset{\\sim}{c}+\\underset{\\sim}{a}\\right|=\\left|\\underset{\\sim}{c}-\\underset{\\sim}{a}\\right|$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "These are the lengths of the equal diagonals $OB$ and $AC$.",
+          "worked": "From parts b and c, $\\left|\\underset{\\sim}{c}+\\underset{\\sim}{a}\\right|=|\\overrightarrow{OB}|$ and $\\left|\\underset{\\sim}{c}-\\underset{\\sim}{a}\\right|=|\\overrightarrow{AC}|$. The diagonals are given to be equal, so their lengths are equal.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p23-q13-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Use the result in part d, and the fact that $\\left|\\underset{\\sim}{v}\\right|^2=\\underset{\\sim}{v}\\cdot\\underset{\\sim}{v}$, to show that $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c}=0$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c})=0$, so $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c}=0$.",
+          "worked": "Since $\\left|\\underset{\\sim}{c}+\\underset{\\sim}{a}\\right|=\\left|\\underset{\\sim}{c}-\\underset{\\sim}{a}\\right|$,\n\n$$\\begin{aligned}\n\\left|\\underset{\\sim}{c}+\\underset{\\sim}{a}\\right|^2&=\\left|\\underset{\\sim}{c}-\\underset{\\sim}{a}\\right|^2\\\\\n\\left|\\underset{\\sim}{c}+\\underset{\\sim}{a}\\right|^2-\\left|\\underset{\\sim}{c}-\\underset{\\sim}{a}\\right|^2&=0\\\\\n(\\underset{\\sim}{c}+\\underset{\\sim}{a})\\cdot(\\underset{\\sim}{c}+\\underset{\\sim}{a})-(\\underset{\\sim}{c}-\\underset{\\sim}{a})\\cdot(\\underset{\\sim}{c}-\\underset{\\sim}{a})&=0\\\\\n\\underset{\\sim}{c}\\cdot\\underset{\\sim}{c}+2(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c})+\\underset{\\sim}{a}\\cdot\\underset{\\sim}{a}-(\\underset{\\sim}{c}\\cdot\\underset{\\sim}{c}-2(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c})+\\underset{\\sim}{a}\\cdot\\underset{\\sim}{a})&=0\\\\\n|\\underset{\\sim}{c}|^2+2(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c})+|\\underset{\\sim}{a}|^2-|\\underset{\\sim}{c}|^2+2(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c})-|\\underset{\\sim}{a}|^2&=0\\\\\n4(\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c})&=0\\\\\n\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c}&=0.\n\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 55
+      },
+      {
+        "id": "p23-q13-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "What can we now say about a parallelogram whose diagonals are equal?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "It is a rectangle.",
+          "worked": "Since $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{c}=0$, the adjacent sides $OA$ and $OC$ are perpendicular. A parallelogram with a right angle is a rectangle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p23-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:46.100Z",
+  "updatedAt": "2026-11-12T08:06:46.101Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-operations-with-vectors-v1",
+    "blockId": "p23-q13",
+    "sectionRole": "exercise"
+  }
+}

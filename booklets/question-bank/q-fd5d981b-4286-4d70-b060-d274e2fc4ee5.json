@@ -1,0 +1,276 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-fd5d981b-4286-4d70-b060-d274e2fc4ee5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "slope-fields",
+    "secondarySkillIds": [
+      "separation-of-variables",
+      "define-differential-equation"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connects slope-field sketches, separation of variables and perpendicular tangents.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:33:39.329Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "523e7010b7b83bbcd76b6e1c06254f15885a6a9180ded2dc8c3d7403c23b7e46",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/lean-review/calls/content-1793172787147-1/last-message.txt",
+      "originalTaskHash": "7dda6bc6999e96dc3f14020efe8374c4243df9177eb73bb9f48463f59c571ed0",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "59317d25d938c6b4b9ed16d0908789a23a120e052b6024fa8855d2f31ea33268"
+      }
+    }
+  },
+  "content": {
+    "id": "p31-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p31-q15-ab",
+        "type": "group",
+        "label": "",
+        "prompt": "",
+        "layout": "grid",
+        "columns": 2,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p31-q15-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Consider the slope field for $y'=\\dfrac{2y}{x}$. Add the solution curve through $(2,2)$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [
+              {
+                "id": "p31-q15-a-graph",
+                "role": "question",
+                "format": "tikz",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"slope-field direction segments\"}],\"reference\":\"source page 31 part 15a\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fieldBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.4);\n\\foreach \\u in {-4,-3,-2,-1,1,2,3,4}{\\foreach \\v in {-4,-3,-2,-1,1,2,3,4}{\\pgfmathsetmacro{\\m}{2*\\v/\\u}\\pgfmathsetmacro{\\dx}{0.22/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\u-\\dx},{\\v-\\dy})--({\\u+\\dx},{\\v+\\dy});}}\n\\draw[->,line width=0.5pt] (-5,0)--(5.1,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-5)--(0,5.1) node[left] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.1)--(\\t,0.1);\\node[below] at (\\t,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\draw[line width=0.4pt] (-0.1,\\t)--(0.1,\\t);\\node[left] at (-0.12,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+                "src": null,
+                "widthMm": 74,
+                "alt": "Mathematical diagram",
+                "overlayOf": null,
+                "transparent": false,
+                "axes": null,
+                "spec": {
+                  "sourcePage": 31,
+                  "sourceRegion": "upper left",
+                  "description": "Integer slope-field positions surrounding the axes; no grid. The supplied answer parabola is excluded.",
+                  "mathematics": "Direction segments have slope 2y/x at nonzero integer coordinates from -4 to 4.",
+                  "answerVisibility": "Axes, ticks and field visible; solution curve hidden."
+                },
+                "derived": false,
+                "reviewStatus": "needs-review"
+              }
+            ],
+            "children": [],
+            "answer": {
+              "short": "$y=\\dfrac12x^2$.",
+              "worked": "Follow the direction segments through $(2,2)$ to sketch $y=\\dfrac12x^2$. The source shows the complete parabola; the IVP solution is its branch on $x>0$.",
+              "solutionDiagrams": [
+                {
+                  "id": "p31-q15-a-answer",
+                  "role": "solution-overlay",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"requested solution parabola\"}],\"reference\":\"source page 31 part 15a answer\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.4);\n\\draw[<->,curveBlue,line width=0.8pt,domain=-3.13:3.13,samples=101] plot (\\x,{0.5*(\\x)^2});\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 74,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": "p31-q15-a-graph",
+                  "transparent": true,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 31,
+                    "sourceRegion": "upper-left supplied answer",
+                    "description": "Complete upward-opening parabola with arrowheads, matching the supplied graphical answer.",
+                    "mathematics": "y=x²/2; vertex (0,0), passes through (2,2).",
+                    "answerVisibility": "Answer only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 0
+          },
+          {
+            "id": "p31-q15-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "Consider the slope field for $y'=-\\dfrac{x}{2y}$. Add the implicit curve through $(2,0)$ that follows the field wherever $y\\ne0$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [
+              {
+                "id": "p31-q15-b-graph",
+                "role": "question",
+                "format": "tikz",
+                "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"slope-field direction segments\"}],\"reference\":\"source page 31 part 15b\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fieldBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.4);\n\\foreach \\u in {-4,-3,-2,-1,0,1,2,3,4}{\\foreach \\v in {-4,-3,-2,-1,1,2,3,4}{\\pgfmathsetmacro{\\m}{-\\u/(2*\\v)}\\pgfmathsetmacro{\\dx}{0.22/sqrt(1+\\m*\\m)}\\pgfmathsetmacro{\\dy}{\\m*\\dx}\\draw[fieldBlue,line width=0.8pt] ({\\u-\\dx},{\\v-\\dy})--({\\u+\\dx},{\\v+\\dy});}}\n\\draw[->,line width=0.5pt] (-5,0)--(5.1,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-5)--(0,5.1) node[left] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.1)--(\\t,0.1);\\ifnum\\t=-2\\relax\\node[above left] at (-2.15,0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\ifnum\\t=2\\relax\\node[above right] at (2.15,0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\node[below] at (\\t,-0.12) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\fi\\fi\\draw[line width=0.4pt] (-0.1,\\t)--(0.1,\\t);\\node[left] at (-0.12,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+                "src": null,
+                "widthMm": 74,
+                "alt": "Mathematical diagram",
+                "overlayOf": null,
+                "transparent": false,
+                "axes": null,
+                "spec": {
+                  "sourcePage": 31,
+                  "sourceRegion": "upper right",
+                  "description": "Slope field above and below the x-axis, without a grid or supplied answer ellipse.",
+                  "mathematics": "Direction segments have slope -x/(2y); no field segments are defined at y=0.",
+                  "answerVisibility": "Axes, ticks and field visible; ellipse hidden."
+                },
+                "derived": false,
+                "reviewStatus": "needs-review"
+              }
+            ],
+            "children": [],
+            "answer": {
+              "short": "$x^2+2y^2=4$.",
+              "worked": "Sketch the ellipse $x^2+2y^2=4$, with intercepts $(\\pm2,0)$ and $(0,\\pm\\sqrt2)$. Its tangents follow the field wherever $y\\ne0$. At $(2,0)$ the tangent is vertical and the stated derivative is undefined, so this is not a classical IVP solution through that point.",
+              "solutionDiagrams": [
+                {
+                  "id": "p31-q15-b-answer",
+                  "role": "solution-overlay",
+                  "format": "tikz",
+                  "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"curveBlue\",\"hex\":\"268CFF\",\"reason\":\"requested implicit ellipse\"}],\"reference\":\"source page 31 part 15b answer\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{curveBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5,-5) rectangle (5.4,5.4);\n\\draw[curveBlue,line width=0.8pt] (0,0) ellipse [x radius=2,y radius=1.414213562];\n\\end{tikzpicture}",
+                  "src": null,
+                  "widthMm": 74,
+                  "alt": "Mathematical diagram",
+                  "overlayOf": "p31-q15-b-graph",
+                  "transparent": true,
+                  "axes": null,
+                  "spec": {
+                    "sourcePage": 31,
+                    "sourceRegion": "upper-right supplied answer",
+                    "description": "Complete ellipse centred at the origin.",
+                    "mathematics": "x²+2y²=4.",
+                    "answerVisibility": "Answer only."
+                  },
+                  "derived": false,
+                  "reviewStatus": "needs-review"
+                }
+              ]
+            },
+            "answerSpaceMm": 0
+          }
+        ]
+      },
+      {
+        "id": "p31-q15-c",
+        "type": "group",
+        "label": "c",
+        "prompt": "",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p31-q15-c-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "Show that the parabola $y=\\dfrac12x^2$ gives the solution of the IVP in part a on $x>0$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$y=Ax^2$ and $2=4A$, so $y=\\dfrac12x^2$ on $x>0$.",
+              "worked": "$$\\begin{align*}\\frac{dy}{2y}&=\\frac{dx}{x}\\\\\\frac12\\ln|y|&=\\ln|x|+C\\\\\\frac12\\bigl(\\ln|y|-2\\ln|x|\\bigr)&=C\\\\\\ln|y|-\\ln|x^2|&=C_2\\\\\\ln\\left|\\frac{y}{x^2}\\right|&=C_2\\\\\\frac{y}{x^2}&=A\\\\y&=Ax^2\\end{align*}$$\nSubstitute $(2,2)$:\n$$\\begin{align*}2&=A(4)\\\\A&=\\frac12\\\\y&=\\frac12x^2\\qquad(x>0).\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 60
+          },
+          {
+            "id": "p31-q15-c-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "Show that the ellipse $x^2+2y^2=4$ passes through $(2,0)$ and satisfies the differential equation in part b wherever $y\\ne0$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$x^2+2y^2=4$ passes through $(2,0)$, and implicit differentiation gives $y'=-\\dfrac{x}{2y}$ for $y\\ne0$.",
+              "worked": "$$\\begin{align*}2y\\,dy&=-x\\,dx\\\\y^2&=-\\frac{x^2}{2}+C\\\\2y^2+x^2&=C_2\\end{align*}$$\nSubstitute $(2,0)$:\n$$\\begin{align*}0+4&=C_2\\\\C_2&=4\\\\x^2+2y^2&=4.\\end{align*}$$\nDifferentiate implicitly:\n$$\\begin{align*}2x+4yy'&=0\\\\y'&=-\\frac{x}{2y}\\qquad(y\\ne0).\\end{align*}$$\nThe derivative is undefined at $(2,0)$, where the ellipse has a vertical tangent.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 50
+          }
+        ]
+      },
+      {
+        "id": "p31-q15-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Both curves are drawn below. The tangents to the parabola and ellipse are perpendicular where they intersect. Why?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p31-q15-d-graph",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"parabolaRed\",\"hex\":\"EF6068\",\"reason\":\"parabola distinguished from ellipse\"},{\"name\":\"ellipseBlue\",\"hex\":\"268CFF\",\"reason\":\"ellipse distinguished from parabola\"}],\"reference\":\"source page 31 part 15d\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{parabolaRed}{HTML}{EF6068}\n\\definecolor{ellipseBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.7,-4.7) rectangle (4.9,4.9);\n\\draw[<->,line width=0.5pt] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\\draw[line width=0.4pt] (\\t,-0.08)--(\\t,0.08);\\ifnum\\t=-2\\relax\\node[above left] at (-2.15,0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\ifnum\\t=2\\relax\\node[above right] at (2.15,0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\else\\node[below] at (\\t,-0.1) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\\fi\\fi\\draw[line width=0.4pt] (-0.08,\\t)--(0.08,\\t);\\node[left] at (-0.1,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\draw[<->,parabolaRed,line width=0.8pt,domain=-2.94:2.94,samples=101] plot (\\x,{0.5*(\\x)^2});\n\\draw[ellipseBlue,line width=0.8pt] (0,0) ellipse [x radius=2,y radius=1.414213562];\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 70,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 31,
+              "sourceRegion": "lower left",
+              "description": "Red parabola and blue ellipse on black axes, with unit ticks and no grid.",
+              "mathematics": "y=x²/2 and x²+2y²=4 intersect twice above the x-axis.",
+              "answerVisibility": "Both curves are permanent student givens."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "beside-prompt",
+        "answer": {
+          "short": "$\\dfrac{2y}{x}\\left(-\\dfrac{x}{2y}\\right)=-1$, so the tangents are perpendicular.",
+          "worked": "At either intersection, the gradients are $m_1=\\dfrac{2y}{x}$ and $m_2=-\\dfrac{x}{2y}$. Neither $x$ nor $y$ is zero there.\n$$\\begin{align*}m_1m_2&=\\frac{2y}{x}\\left(-\\frac{x}{2y}\\right)\\\\&=-1.\\end{align*}$$\nThe gradients are negative reciprocals, so the tangents are perpendicular.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p31-q15-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:54.999Z",
+  "updatedAt": "2026-11-12T08:07:54.999Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p31-q15-block",
+    "sectionRole": "challenge"
+  }
+}

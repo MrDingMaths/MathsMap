@@ -1,0 +1,60 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-50e395e5-69d4-42e9-ad21-cf2fbdd27d57",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "rate-proportional-difference",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Construct a cooling model, determine its constant from an observation and solve for a specified temperature.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:07:52.744Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "bc929f9493f9a66cc9cb95a19846d2685d65d288101b2e819946d8d670f720ca",
+      "evidence": ".booklet-work/full-imports/s6ext1-2-further-rates-of-change-20261027/semantic-packets/assignments/assignment-f580ec6b7fc6b59b537c/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p32-q1-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A pot of coffee is heated to $95^\\circ\\mathrm{C}$.\n\nThe room temperature is a constant $25^\\circ\\mathrm{C}$ and the coffee cools down to $55^\\circ\\mathrm{C}$ after 5 minutes.\n\nThe cooling rate is proportional to the difference between the coffee and room temperatures.\n\nWhen will the coffee reach optimal drinking temperature, $60^\\circ\\mathrm{C}$? Give your answer to 2 decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "$4.09$ minutes after cooling begins.",
+      "worked": "Let $T$ be the coffee temperature in degrees Celsius and $t$ the time in minutes after cooling begins.\n\n$$\\begin{align*}\n\\frac{dT}{dt}&=k(T-25),\\qquad k<0\\\\\nT&=25+Ae^{kt}\\\\\n95&=25+A\\\\\nA&=70\n\\end{align*}$$\n\nUsing $T(5)=55$:\n\n$$\\begin{align*}\n55&=25+70e^{5k}\\\\\n30&=70e^{5k}\\\\\ne^{5k}&=\\frac37\\\\\n5k&=\\ln\\left(\\frac37\\right)\\\\\nk&=\\frac{\\ln(3/7)}5\n\\end{align*}$$\n\nThus $T=25+70e^{[\\ln(3/7)/5]t}$. For $T=60$:\n\n$$\\begin{align*}\n60&=25+70e^{kt}\\\\\n35&=70e^{kt}\\\\\ne^{kt}&=\\frac12\\\\\nkt&=\\ln\\left(\\frac12\\right)\\\\\nt&=\\frac{\\ln(1/2)}k\\\\\nt&=\\frac{5\\ln(1/2)}{\\ln(3/7)}\\\\\nt&\\approx4.09\\text{ minutes}.\n\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 72
+  },
+  "presentation": {
+    "ownerId": "p32-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:03.073Z",
+  "updatedAt": "2026-11-12T08:07:03.073Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p32-q1",
+    "sectionRole": "exercise"
+  }
+}

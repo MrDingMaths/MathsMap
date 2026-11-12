@@ -1,0 +1,116 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-77799a38-5667-4f94-a441-d48fed9d5c93",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-related-rates",
+    "secondarySkillIds": [],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "The student sets up similar triangles from the supplied diagram and solves for s in terms of x. They differentiate to get ds/dt, then reinterpret the tip as x+s for part b. The model must be built, but the diagram helps.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T12:37:14.315Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "418d50d0880b29ba3b2986da166f5ba9754f7c5b1ba2ab645a8d6c4e8498b659",
+      "diagramBlindHash": "c5dd729916c4fe0fc194072d0ee8681538a9038539ad14e7e1c5824a78d43cca",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-2-further-rates-of-change-v1/20261111-122539/calls/12-solve-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p25-q13",
+          "score": 43
+        },
+        "easierThan": {
+          "ref": "p21-q5-block",
+          "score": 49
+        },
+        "equalTo": null,
+        "closerTo": "middle"
+      }
+    }
+  },
+  "content": {
+    "id": "v2-588d9-p18-practice-slot-5-root",
+    "type": "question",
+    "label": null,
+    "prompt": "A streetlight is on top of a 7.5 metre pole. A child $1.8\\text{ m}$ tall walks away from the pole at $1.5\\text{ m/s}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "v2-588d9-p18-practice-slot-5-slot-5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (P) at (0,0);\\coordinate (L) at (0,2.5);\\coordinate (C) at (2.4,0);\\coordinate (H) at (2.4,1.5);\\coordinate (T) at (6,0);\n\\draw[black] (P)--(L)--(T)--cycle (C)--(H);\n\\path (P)--(L) node[midway,left] {7.5 m};\n\\path (C)--(H) node[midway,left] {1.8 m};\n\\path (P)--(C) node[midway,below=2mm] {$x$};\n\\path (C)--(T) node[midway,below=2mm] {$s$};\n\\path (P)--(C) node[midway,below=8mm,align=left] {Distance between\\\\child and pole};\n\\path (C)--(T) node[midway,below=8mm] {Length of shadow};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "derived": false
+      }
+    ],
+    "children": [
+      {
+        "id": "v2-588d9-p18-practice-slot-5-slot-5-q-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the rate at which the length of the shadow is changing.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{9}{19}\\text{ m/s}$, increasing.",
+          "worked": "Let $s$ be the shadow length and $x$ the distance between the child and the pole. Using similar triangles,\n$$\\begin{aligned}\\frac{s}{s+x}&=\\frac{1.8}{7.5}\\\\7.5s&=1.8s+1.8x\\\\5.7s&=1.8x\\\\s&=\\frac{6x}{19}\\\\\\frac{ds}{dx}&=\\frac{6}{19}.\\end{aligned}$$\nHence\n$$\\begin{aligned}\\frac{ds}{dt}&=\\frac{ds}{dx}\\frac{dx}{dt}\\\\&=\\frac{6}{19}(1.5)\\\\&=\\frac{9}{19}\\text{ m/s}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      },
+      {
+        "id": "v2-588d9-p18-practice-slot-5-slot-5-q-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the rate at which the tip of the shadow is moving away from the pole.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{75}{38}\\text{ m/s}$.",
+          "worked": "Let $D=x+s$ be the distance from the pole to the tip of the shadow. Using similar triangles,\n$$\\begin{aligned}s&=\\frac{6x}{19}\\\\D&=x+\\frac{6x}{19}\\\\D&=\\frac{25x}{19}\\\\\\frac{dD}{dx}&=\\frac{25}{19}.\\end{aligned}$$\nHence\n$$\\begin{aligned}\\frac{dD}{dt}&=\\frac{dD}{dx}\\frac{dx}{dt}\\\\&=\\frac{25}{19}(1.5)\\\\&=\\frac{75}{38}\\text{ m/s}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "v2-588d9-p18-practice-slot-5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:59.663Z",
+  "updatedAt": "2026-11-12T08:06:59.663Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "v2-588d9-p18-practice-slot-5",
+    "sectionRole": "exercise"
+  }
+}

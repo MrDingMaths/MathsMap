@@ -1,0 +1,224 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-297ef643-92eb-437e-abc3-ee13bb6e1a8f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "rate-proportional-difference",
+    "secondarySkillIds": [
+      "solve-de-growth-decay"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Use the supplied warming model to verify the equation, calibrate k, evaluate temperature, invert for time and sketch the asymptote; each step is explicitly prompted.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:30:56.271Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cc8b392f5f97a4dcbc84181c5827a330c628a6c39f4614310736b15fe918445b",
+      "evidence": ".booklet-work/full-imports/s6ext1-2-further-rates-of-change-20261027/lean-review/calls/content-1793154636220-2/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "A frozen casserole dish with initial temperature $T=0^\\circ\\mathrm{C}$ is left in an oven set to $180^\\circ\\mathrm{C}$. After ten minutes, the dish has temperature $T=30^\\circ\\mathrm{C}$. The rate that the temperature of the dish increases is proportional to the difference in temperature between the oven and the dish. Let $t$ be the time in minutes.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Is the constant $k$ in parts b–d positive or negative?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Positive.",
+          "worked": "The dish is warming, so $\\dfrac{dT}{dt}>0$. Since $180-T>0$, the equation $\\dfrac{dT}{dt}=k(180-T)$ requires $k>0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p34-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p34-q2-b-completion",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Complete the equation ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\dfrac{dT}{dt}=",
+                  "display": false
+                },
+                {
+                  "type": "cloze",
+                  "answer": "$k(180-T)$",
+                  "width": 24
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dT}{dt}=k(180-T)$.",
+          "worked": "The temperature difference between the oven and the dish is $180-T$, so $\\dfrac{dT}{dt}=k(180-T)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p34-q2-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Show that $T=180(1-e^{-kt})$ satisfies the differential equation from b.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{dT}{dt}=180ke^{-kt}=k(180-T)$.",
+          "worked": "$$\\begin{aligned}T&=180(1-e^{-kt})\\\\\\frac{dT}{dt}&=180ke^{-kt}\\end{aligned}$$\nSubstituting into the right-hand side:\n$$\\begin{aligned}k(180-T)&=k\\bigl(180-180(1-e^{-kt})\\bigr)\\\\&=k(180e^{-kt})\\\\&=180ke^{-kt}.\\end{aligned}$$\nBoth sides are equal, so the model satisfies the differential equation.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      },
+      {
+        "id": "p34-q2-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Find the value of $k$. Leave in exact form.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$k=\\dfrac{1}{10}\\ln\\!\\left(\\dfrac65\\right)\\ \\mathrm{min}^{-1}$.",
+          "worked": "When $t=10$, $T=30$:\n$$\\begin{aligned}30&=180(1-e^{-10k})\\\\\\frac16&=1-e^{-10k}\\\\e^{-10k}&=\\frac56\\\\-10k&=\\ln\\!\\left(\\frac56\\right)\\\\k&=\\frac1{10}\\ln\\!\\left(\\frac65\\right)\\ \\mathrm{min}^{-1}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 31
+      },
+      {
+        "id": "p34-q2-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Find the temperature of the dish after an hour, to the nearest degree Celsius.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$120^\\circ\\mathrm{C}$.",
+          "worked": "An hour is $60$ minutes.\n$$\\begin{aligned}T(60)&=180(1-e^{-60k})\\\\&=180\\left(1-\\left(\\frac56\\right)^6\\right)\\\\&\\approx120^\\circ\\mathrm{C}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p34-q2-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "The dish is ready to serve when the interior temperature is at least $60^\\circ\\mathrm{C}$. After how many minutes, to the nearest minute, will the dish be ready?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$22$ minutes, to the nearest minute.",
+          "worked": "$$\\begin{aligned}60&=180(1-e^{-kt})\\\\\\frac13&=1-e^{-kt}\\\\e^{-kt}&=\\frac23\\\\-kt&=\\ln\\!\\left(\\frac23\\right)\\\\t&=\\frac{\\ln(3/2)}{k}\\\\&=\\frac{10\\ln(3/2)}{\\ln(6/5)}\\\\&\\approx22.239\\text{ minutes}.\\end{aligned}$$\nThe dish reaches $60^\\circ\\mathrm{C}$ after approximately $22.239$ minutes, which rounds to $22$ minutes. If checking only at whole minutes, the first ready time is $23$ minutes.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p34-q2-g",
+        "type": "part",
+        "label": "g",
+        "prompt": "Draw a graph of the temperature against time, labelling all important features.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "An increasing, concave-down curve starting at $(0,0)$ and approaching the horizontal asymptote $T=180$.",
+          "worked": "$T(0)=0$, and $T\\to180^\\circ\\mathrm{C}$ as $t\\to\\infty$. Since $T'(t)=180ke^{-kt}>0$ and $T''(t)=-180k^2e^{-kt}<0$, the graph increases at a decreasing rate.",
+          "solutionDiagrams": [
+            {
+              "id": "p34-q2-g-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"temperatureBlue\",\"hex\":\"268CFF\",\"reason\":\"temperature curve and limiting-temperature guide\"}],\"reference\":\"source page 34 p34-q2-g-graph\"}\n\\begin{tikzpicture}[x=0.055cm,y=0.018cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{temperatureBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-8,0)--(110,0) node[below] {$t$};\n\\draw[->,line width=0.5pt] (0,-18)--(0,217) node[right] {$T$};\n\\draw[temperatureBlue,dashed,line width=0.4pt] (0,180)--(105,180);\n\\draw[line width=0.4pt] (-2,180)--(2,180);\n\\node[left] at (0,180) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$180$\\special{dvisvgm:raw </g>}};\n\\draw[temperatureBlue,->,line width=0.8pt,domain=0:105,samples=90] plot (\\x,{180*(1-exp(-ln(6/5)*(\\x)/10))});\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 58,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 34,
+                "sourceRegion": "Supplied answer graph beneath part g",
+                "description": "Positive arrowed time and temperature axes, increasing concave-down temperature curve from their intersection, and dashed horizontal limiting-temperature guide labelled 180. No grid or numerical time ticks.",
+                "mathematics": "T(t)=180(1-exp(-ln(6/5)t/10)), t>=0; horizontal asymptote T=180.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 39
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q2-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:02.081Z",
+  "updatedAt": "2026-11-12T08:07:02.081Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p34-q2-block",
+    "sectionRole": "exercise"
+  }
+}

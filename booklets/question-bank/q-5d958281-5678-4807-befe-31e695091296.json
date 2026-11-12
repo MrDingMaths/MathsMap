@@ -1,0 +1,126 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5d958281-5678-4807-befe-31e695091296",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-related-rates",
+    "secondarySkillIds": [],
+    "reasoningScore": 46,
+    "difficulty": "Development",
+    "difficultyReason": "Establish the two supplied geometric models, then apply routine forward and reverse chain-rule calculations with converted inflow units.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:20:01.754Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d1364ec07e63c8b4529f506147636ee181936732a41c59f5b53c368a340d5207",
+      "evidence": ".booklet-work/full-imports/s6ext1-2-further-rates-of-change-20261027/lean-review/calls/content-1793153932124-11/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "A water trough is 10 metres long, with cross section a right isosceles triangle. In this question, surface area means the exposed horizontal surface area of the water.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that when the water has depth $h$ cm, its volume is $V=1000h^2\\text{ cm}^3$ and its surface area is $A=2000h\\text{ cm}^2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q14-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"waterFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the exposed horizontal water surface\"}],\"reference\":\"page 25 p25-q14-diagram\"}\n\\begin{tikzpicture}[x=1.3cm,y=1.3cm,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{waterFill}{HTML}{D4E8FF}\n\\coordinate (A) at (0,1.5);\\coordinate (B) at (2,1.5);\\coordinate (C) at (1,.5);\n\\coordinate (D) at (1.15,2.1);\\coordinate (E) at (3.15,2.1);\\coordinate (F) at (2.15,1.1);\n\\coordinate (L) at (.45,1.05);\\coordinate (R) at (1.55,1.05);\\coordinate (U) at (1.6,1.65);\\coordinate (W) at (2.7,1.65);\n\\fill[waterFill] (L)--(R)--(W)--(U)--cycle;\n\\draw[black,line width=.8pt] (A)--(B)--(C)--cycle (A)--(D)--(E)--(B) (C)--(F)--(E);\n\\draw[black,line width=.4pt,dashed] (D)--(F) (L)--(U);\n\\draw[black,line width=.8pt] (L)--(R)--(W) (U)--(W);\n\\draw[black,line width=.4pt] (1,1.05)--(C) (.86,1.05)--(.86,.91)--(1,.91);\n\\draw[black,line width=.4pt] (.90,.60)--(1,.70)--(1.10,.60);\n\\draw[black,line width=.4pt,->] (.45,.55) node[left] {$h$} --(.97,.78);\n\\draw[black,line width=.4pt,<->] (1.25,.35)--(3.25,1.95) node[midway,below right] {$10\\text{ m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 58,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 14, right of part a",
+              "description": "Open triangular-prism trough with a downward-pointing right-isosceles cross section, horizontal water surface, depth h, perpendicular marker, dashed hidden edges and longitudinal 10 m dimension. Only the mathematically relevant horizontal water surface retains shading, using house light blue.",
+              "mathematics": "Water depth is perpendicular to the horizontal water surface. The prism length is 10 m.",
+              "answerVisibility": "All diagram givens remain visible in the question edition."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "$V=1000h^2\\text{ cm}^3$ and $A=2000h\\text{ cm}^2$.",
+          "worked": "The right-isosceles cross section has water-surface width $2h$ cm when the depth is $h$ cm. The trough length is $1000$ cm.\n$$\\begin{aligned}\\text{Cross-sectional area}&=\\frac12\\times2h\\times h\\\\&=h^2\\text{ cm}^2,\\\\V&=h^2\\times1000\\\\&=1000h^2\\text{ cm}^3,\\\\A&=2h\\times1000\\\\&=2000h\\text{ cm}^2.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p25-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Find the rates at which depth and surface area are increasing when the depth is $60\\text{ cm}$ if the trough is filling at 5 litres per minute (remember that 1 litre is $1000\\text{ cm}^3$).",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Depth: $\\frac1{24}\\text{ cm/min}$; surface area: $\\frac{250}{3}\\text{ cm}^2/\\text{min}$.",
+          "worked": "$$\\begin{aligned}\\frac{dV}{dt}&=5000\\text{ cm}^3/\\text{min},\\\\\\frac{dV}{dt}&=2000h\\frac{dh}{dt}.\\end{aligned}$$\nWhen $h=60$,\n$$\\begin{aligned}\\frac{dh}{dt}&=\\frac{5000}{2000\\times60}\\\\&=\\frac1{24}\\text{ cm/min},\\\\\\frac{dA}{dt}&=2000\\frac{dh}{dt}\\\\&=2000\\times\\frac1{24}\\\\&=\\frac{250}{3}\\text{ cm}^2/\\text{min}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p25-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the rates at which the volume and the surface area must increase when the depth is $40\\text{ cm}$, if the depth is required to increase at a constant rate of $0.1\\text{ cm/min}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Volume: $8000\\text{ cm}^3/\\text{min}=8\\text{ L/min}$; surface area: $200\\text{ cm}^2/\\text{min}$.",
+          "worked": "When $h=40$ and $\\frac{dh}{dt}=0.1$,\n$$\\begin{aligned}\\frac{dV}{dt}&=2000h\\frac{dh}{dt}\\\\&=2000(40)(0.1)\\\\&=8000\\text{ cm}^3/\\text{min}\\\\&=8\\text{ L/min},\\\\\\frac{dA}{dt}&=2000\\frac{dh}{dt}\\\\&=2000(0.1)\\\\&=200\\text{ cm}^2/\\text{min}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q14",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:59.476Z",
+  "updatedAt": "2026-11-12T08:06:59.476Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p25-q14",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0b68415a-17f3-4b97-9f44-14e57ff61631",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "graph-parametric",
+    "secondarySkillIds": [
+      "parametric-to-cartesian"
+    ],
+    "reasoningScore": 40,
+    "difficulty": "Development",
+    "difficultyReason": "Establish the general circle equation, then apply it to sketch a translated circle and find exact intercepts.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T00:25:02.061Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "df11017b0423ca60d8e13a20adcadf13b6c284c13d4ed6285591083db4c0e6f5",
+      "evidence": ".booklet-work/full-imports/s6ext1-3-parametric-form-20261027/lean-review/calls/content-1793147086443-1/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p13-q3-root",
+    "type": "question",
+    "label": "",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p13-q3a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that $x=a+r\\cos\\theta$ and $y=b+r\\sin\\theta$ define a circle with centre $(a,b)$ and radius $r$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(x-a)^2+(y-b)^2=r^2$, a circle with centre $(a,b)$ and radius $r$.",
+          "worked": "Rearranging:\n$$\\begin{aligned}\\cos\\theta&=\\frac{x-a}{r}\\\\\\sin\\theta&=\\frac{y-b}{r}.\\end{aligned}$$\nUsing the Pythagorean identity $\\cos^2\\theta+\\sin^2\\theta=1$:\n$$\\left(\\frac{x-a}{r}\\right)^2+\\left(\\frac{y-b}{r}\\right)^2=1.$$\nMultiplying by $r^2$:\n$$(x-a)^2+(y-b)^2=r^2.$$\nThis is the equation of a circle with centre $(a,b)$ and radius $r$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p13-q3b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Hence sketch the curve $x=1+2\\cos\\theta$, $y=-3+2\\sin\\theta$.\nShow the intercepts.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$(x-1)^2+(y+3)^2=4$. Centre $(1,-3)$, radius $2$. The $y$-intercepts are $(0,-3+\\sqrt3)$ and $(0,-3-\\sqrt3)$. There are no $x$-intercepts.",
+          "worked": "From part (a),\n$$(x-1)^2+(y+3)^2=4.$$\nThe circle has centre $(1,-3)$ and radius $2$.\nFor the $y$-intercepts, set $x=0$:\n$$\\begin{aligned}1+(y+3)^2&=4\\\\(y+3)^2&=3\\\\y&=-3\\pm\\sqrt3.\\end{aligned}$$\nFor the $x$-intercepts, set $y=0$:\n$$\\begin{aligned}(x-1)^2+9&=4\\\\(x-1)^2&=-5.\\end{aligned}$$\nThere are no $x$-intercepts. The circle extends from $x=-1$ to $x=3$ and from $y=-5$ to $y=-1$.",
+          "solutionDiagrams": [
+            {
+              "id": "p13-q3b-graph",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"circleBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied answer circle\"}],\"reference\":\"source page 13 p13-q3b-graph\"}\n\\begin{tikzpicture}[x=0.55cm,y=0.55cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{circleBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-5.9,-5.9) rectangle (6.2,6.2);\n\\draw[<->,line width=0.5pt] (-5.6,0)--(5.6,0) node[right] {$x$};\n\\draw[<->,line width=0.5pt] (0,-5.6)--(0,5.6) node[above] {$y$};\n\\foreach \\v in {-5,-4,-3,-2,-1,1,2,3,4,5}{\n\\draw[line width=0.4pt] (\\v,-0.14)--(\\v,0.14);\n\\draw[line width=0.4pt] (-0.14,\\v)--(0.14,\\v);\n}\n\\foreach \\v in {-4,-2,2,4}{\n\\node[below=3pt] at (\\v,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\ifnum\\v<0\n\\node[right=3pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\else\n\\node[left=3pt] at (0,\\v) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\v$\\special{dvisvgm:raw </g>}};\n\\fi\n}\n\\draw[circleBlue,line width=0.8pt] (1,-3) circle[radius=2];\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 13,
+                "sourceRegion": "Question 3(b), lower-right answer graph",
+                "description": "Equal-scale Cartesian axes with arrows at both ends and unit ticks from -5 to 5; labels every two units avoid final-size crowding, with negative y labels inside the circle away from its outline. Intercept coordinates remain in editable answer text.",
+                "mathematics": "Circle (x-1)^2+(y+3)^2=4; centre (1,-3), radius 2; y-intercepts (0,-3±sqrt(3)); no x-intercepts.",
+                "answerVisibility": "Answer editions only; no graph is supplied in the student prompt."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 60
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p13-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:35.424Z",
+  "updatedAt": "2026-11-12T08:07:35.424Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-3-parametric-form-v1",
+    "blockId": "p13-q3",
+    "sectionRole": "exercise"
+  }
+}

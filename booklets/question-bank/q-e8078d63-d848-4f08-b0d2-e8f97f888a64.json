@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e8078d63-d848-4f08-b0d2-e8f97f888a64",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "slope-fields",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish dependence on x or y, then compare equilibrium and gradient signs.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:32:31.197Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "8d51dc75cda1ca978bf962b2172065cad289b1c811cb52d1f4cbed4cd339776d",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/lean-review/calls/content-1793165515819-21/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "Which slope field (A, B, C, or D) corresponds to $y'=-2-y$?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q9-fields",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 28 p28-q9-fields\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\k/\\sx/\\sy/\\opt in {0/0/0/A,1/12/0/B,2/0/-12/C,3/12/-12/D}{\n\\begin{scope}[shift={(\\sx,\\sy)}]\n\\node[anchor=west,font=\\bfseries] at (-7,4) {\\opt};\n\\foreach \\xx in {-5,...,3}{\n\\foreach \\yy in {-5,...,3}{\n\\ifcase\\k\\pgfmathsetmacro{\\m}{\\xx+2}\\or\\pgfmathsetmacro{\\m}{-\\xx-2}\\or\\pgfmathsetmacro{\\m}{\\yy+2}\\or\\pgfmathsetmacro{\\m}{-\\yy-2}\\fi\n\\pgfmathsetmacro{\\dx}{0.24/sqrt(1+(\\m)^2)}\n\\pgfmathsetmacro{\\dy}{\\m*\\dx}\n\\draw[black,line width=0.8pt] ({\\xx-\\dx},{\\yy-\\dy})--({\\xx+\\dx},{\\yy+\\dy});\n}}\n\\draw[black,line width=0.5pt,->] (-5.65,0)--(4.2,0) node[right] {$x$};\n\\draw[black,line width=0.5pt,->] (0,-6)--(0,4.2) node[above left] {$y$};\n\\foreach \\t in {-5,-4,-3,-2,-1,1,2,3}{\n\\draw[black,line width=0.4pt] (\\t,-0.09)--(\\t,0.09);\n\\node[below,inner sep=2pt] at (\\t,0) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.09,\\t)--(0.09,\\t);\n\\node[left,inner sep=2pt] at (0,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\end{scope}\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 160,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 9: four option diagrams",
+          "description": "Four ungridded coordinate slope fields in a two-by-two comparison: A and B above C and D. Each has all 81 direction segments at integer coordinates from −5 to 3 on both axes. Option labels and nonzero integer tick labels are retained.",
+          "mathematics": "A: slope x+2; B: slope −x−2; C: slope y+2; D: slope −y−2. Equal-length segments are normalised to preserve their gradients and relative steepness.",
+          "answerVisibility": "All four fields are permanent student-visible options; no correct-option marking."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Correct answer: D.",
+      "worked": "The gradient depends only on $y$, so segments in each horizontal row have the same gradient. This eliminates A and B.\n\nSetting $y'=0$ gives $y=-2$, so the field has horizontal segments along $y=-2$. Both C and D have this property.\n\nFor $y>-2$, $y'=-2-y<0$; for $y<-2$, $y'>0$. D has negative gradients above $y=-2$ and positive gradients below it.\n\nCorrect answer: D.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 10
+  },
+  "presentation": {
+    "ownerId": "p28-q9",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:48.387Z",
+  "updatedAt": "2026-11-12T08:07:48.387Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p28-q9",
+    "sectionRole": "exercise"
+  }
+}

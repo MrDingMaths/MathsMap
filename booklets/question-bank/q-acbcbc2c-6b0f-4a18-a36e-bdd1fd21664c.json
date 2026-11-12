@@ -1,0 +1,110 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-acbcbc2c-6b0f-4a18-a36e-bdd1fd21664c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-related-rates",
+    "secondarySkillIds": [],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Use the right-isosceles cross section to establish width 2h and the supplied volume target, then differentiate and convert the inflow units.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T02:20:01.754Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d63b92371cddd1390ff4e3ab7a03381ef7a20b7acd538bb44766484fd71e8685",
+      "evidence": ".booklet-work/full-imports/s6ext1-2-further-rates-of-change-20261027/lean-review/calls/content-1793153932124-11/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p25-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "The water trough in the diagram is in the shape of an isosceles right triangular prism, 3 metres long. A farmer is filling the trough with a hose at the rate of 2 litres per second.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p25-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the volume of water in the trough when the depth is $h$ cm is $V=300h^2\\text{ cm}^3$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p25-q13-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"waterFill\",\"hex\":\"D4E8FF\",\"reason\":\"identifies the horizontal water surface\"}],\"reference\":\"page 25 p25-q13-diagram\"}\n\\begin{tikzpicture}[x=1.3cm,y=1.3cm,line join=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{waterFill}{HTML}{D4E8FF}\n\\coordinate (A) at (0,1.5);\\coordinate (B) at (2,1.5);\\coordinate (C) at (1,.5);\n\\coordinate (D) at (1.15,2.1);\\coordinate (E) at (3.15,2.1);\\coordinate (F) at (2.15,1.1);\n\\coordinate (L) at (.45,1.05);\\coordinate (R) at (1.55,1.05);\\coordinate (U) at (1.6,1.65);\\coordinate (W) at (2.7,1.65);\n\\fill[waterFill] (L)--(R)--(W)--(U)--cycle;\n\\draw[black,line width=.8pt] (A)--(B)--(C)--cycle (A)--(D)--(E)--(B) (C)--(F)--(E);\n\\draw[black,line width=.4pt,dashed] (D)--(F) (L)--(U);\n\\draw[black,line width=.8pt] (L)--(R)--(W) (U)--(W);\n\\draw[black,line width=.4pt] (1,1.05)--(C) (.86,1.05)--(.86,.91)--(1,.91);\n\\draw[black,line width=.4pt] (.90,.60)--(1,.70)--(1.10,.60);\n\\draw[black,line width=.4pt,->] (.45,.55) node[left] {$h$} --(.97,.78);\n\\draw[black,line width=.4pt,<->] (1.25,.35)--(3.25,1.95) node[midway,below right] {$3\\text{ m}$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 58,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 25,
+              "sourceRegion": "Question 13, right of part a",
+              "description": "Open triangular-prism trough, downward-pointing right-isosceles cross section, horizontal water surface, perpendicular depth h, right-angle marks, dashed hidden edges and longitudinal 3 m dimension. Source grey water shading becomes house light blue; unrelated face shading is omitted.",
+              "mathematics": "The cross section has a right angle at its bottom vertex. The perpendicular water depth is h; the water-surface width is not supplied as a label.",
+              "answerVisibility": "All diagram givens remain visible in the question edition."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "$V=300h^2\\text{ cm}^3$.",
+          "worked": "The vertical depth bisects the right-isosceles cross section. Let $x$ cm be half the water-surface width. Then\n$$\\begin{aligned}\\tan45^\\circ&=\\frac{x}{h}\\\\x&=h.\\end{aligned}$$\nThe water-surface width is therefore $2h$ cm.\n$$\\begin{aligned}\\text{Cross-sectional area}&=\\frac12\\times2h\\times h\\\\&=h^2\\text{ cm}^2.\\\\V&=h^2\\times300\\\\&=300h^2\\text{ cm}^3.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p25-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Given that 1 litre is $1000\\text{ cm}^3$, find the rate at which the depth of the water is changing when $h=20\\text{ cm}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Increasing at $\\frac16\\text{ cm/s}$.",
+          "worked": "$$\\begin{aligned}\\frac{dV}{dt}&=2000\\text{ cm}^3/\\text{s},\\\\\\frac{dV}{dt}&=600h\\frac{dh}{dt}.\\end{aligned}$$\nWhen $h=20$,\n$$\\begin{aligned}2000&=600(20)\\frac{dh}{dt},\\\\\\frac{dh}{dt}&=\\frac{2000}{12000}\\\\&=\\frac16\\text{ cm/s}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 29
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p25-q13",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:58.908Z",
+  "updatedAt": "2026-11-12T08:06:58.908Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p25-q13",
+    "sectionRole": "exercise"
+  }
+}

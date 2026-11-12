@@ -1,0 +1,147 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6d950575-c87d-461f-a56c-532886284c35",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "vector-geometric-proofs",
+    "secondarySkillIds": [
+      "vectors-in-geometric-figures",
+      "dot-product-properties",
+      "dot-product-magnitude",
+      "perpendicular-vectors-dot"
+    ],
+    "reasoningScore": 64,
+    "difficulty": "Mastery",
+    "difficultyReason": "A scaffolded geometric proof combines vector subtraction, expansion of a dot product and equal radii to establish perpendicularity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:02:08.147Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "0614e2c5fc73fee21eeb3005ef31c181876ba59c0037c4b31fca43ec12c481c2",
+      "evidence": "../../../full-imports/s6ext1-2-further-operations-with-vectors-20261027/lean-review/calls/content-1793163701733-7/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p24-q14-root",
+    "type": "question",
+    "label": "14",
+    "prompt": "In the diagram, $O$ is the centre of a semicircle $APB$ whose diameter is $AB$.\n\nLet $\\overrightarrow{OA}=\\underset{\\sim}{a}$ and $\\overrightarrow{OP}=\\underset{\\sim}{p}$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p24-q14-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 24 p24-q14-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=Stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\n\\coordinate (A) at ({2*cos(27)},{2*sin(27)});\n\\coordinate (B) at ({2*cos(207)},{2*sin(207)});\n\\coordinate (P) at ({2*cos(87)},{2*sin(87)});\n\\draw[black,line width=0.8pt] (A) arc[start angle=27,end angle=207,radius=2];\n\\draw[black,line width=0.8pt] (B)--(A);\n\\draw[black,line width=0.8pt,->] (O)--(A) node[midway,below right] {$\\underset{\\sim}{a}$};\n\\draw[black,line width=0.8pt,->] (O)--(P) node[midway,left] {$\\underset{\\sim}{p}$};\n\\fill[black] (O) circle[radius=1.2pt];\n\\node[right] at (A) {$A$};\n\\node[above] at (P) {$P$};\n\\node[below] at (B) {$B$};\n\\node[below right] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 50,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 24,
+          "sourceRegion": "Upper-right question diagram",
+          "description": "An unshaded semicircle above a diagonal diameter BA, with centre O, P near the top of the arc, and directed radii OA and OP. Ordinary source strokes use house black.",
+          "mathematics": "O is the midpoint of diameter AB. A, P and B lie on the same circle. OA and OP are radii represented by undertilde a and p; arrows point from O to A and P. Illustrative coordinates impose no additional numerical givens.",
+          "answerVisibility": "All geometry and vector labels are permanent question givens; no proof result or right-angle mark is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p24-q14-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write $\\overrightarrow{OB}$ in terms of $\\underset{\\sim}{a}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{OB}=-\\underset{\\sim}{a}$.",
+          "worked": "Since $AB$ is the diameter, $\\overrightarrow{OB}$ is a radius in the opposite direction to $\\overrightarrow{OA}$. Thus\n\n$$\\overrightarrow{OB}=-\\underset{\\sim}{a}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p24-q14-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Express $\\overrightarrow{AP}$ and $\\overrightarrow{BP}$ in terms of $\\underset{\\sim}{a}$ and $\\underset{\\sim}{p}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{AP}=\\underset{\\sim}{p}-\\underset{\\sim}{a}$ and $\\overrightarrow{BP}=\\underset{\\sim}{p}+\\underset{\\sim}{a}$.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{AP}&=\\overrightarrow{AO}+\\overrightarrow{OP}\\\\&=\\overrightarrow{OP}-\\overrightarrow{OA}\\\\&=\\underset{\\sim}{p}-\\underset{\\sim}{a}\\\\[3pt]\\overrightarrow{BP}&=\\overrightarrow{BO}+\\overrightarrow{OP}\\\\&=\\overrightarrow{OP}-\\overrightarrow{OB}\\\\&=\\underset{\\sim}{p}-(-\\underset{\\sim}{a})\\\\&=\\underset{\\sim}{p}+\\underset{\\sim}{a}.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p24-q14-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Hence prove that $\\angle APB=90^\\circ$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\overrightarrow{AP}\\cdot\\overrightarrow{BP}=|\\underset{\\sim}{p}|^2-|\\underset{\\sim}{a}|^2=0$, since $OA$ and $OP$ are radii. Hence $\\angle APB=90^\\circ$.",
+          "worked": "$$\\begin{aligned}\\overrightarrow{AP}\\cdot\\overrightarrow{BP}&=(\\underset{\\sim}{p}-\\underset{\\sim}{a})\\cdot(\\underset{\\sim}{p}+\\underset{\\sim}{a})\\\\&=\\underset{\\sim}{p}\\cdot\\underset{\\sim}{p}+\\underset{\\sim}{p}\\cdot\\underset{\\sim}{a}-\\underset{\\sim}{a}\\cdot\\underset{\\sim}{p}-\\underset{\\sim}{a}\\cdot\\underset{\\sim}{a}\\\\&=\\underset{\\sim}{p}\\cdot\\underset{\\sim}{p}-\\underset{\\sim}{a}\\cdot\\underset{\\sim}{a}\\\\&=|\\underset{\\sim}{p}|^2-|\\underset{\\sim}{a}|^2\\\\&=|\\underset{\\sim}{p}|^2-|\\underset{\\sim}{p}|^2\\quad\\text{(equal radii)}\\\\&=0.\\end{aligned}$$\n\nHere $|\\underset{\\sim}{a}|=|\\underset{\\sim}{p}|$ because $\\overrightarrow{OA}$ and $\\overrightarrow{OP}$ represent radii of the same circle. Therefore $\\overrightarrow{AP}$ and $\\overrightarrow{BP}$ are perpendicular. Hence $\\angle APB=90^\\circ$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 43
+      },
+      {
+        "id": "p24-q14-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "What circle geometry theorem have we just proven?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "An angle in a semicircle is a right angle.",
+          "worked": "An angle in a semicircle is a right angle.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p24-q14-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:51.034Z",
+  "updatedAt": "2026-11-12T08:06:51.034Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-operations-with-vectors-v1",
+    "blockId": "p24-q14-block",
+    "sectionRole": "challenge"
+  }
+}

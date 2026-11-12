@@ -1,0 +1,104 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-170425b0-db02-4fce-92de-e7238f3582bc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "projectile-unknowns",
+    "secondarySkillIds": [
+      "projectile-equations-of-motion"
+    ],
+    "reasoningScore": 37,
+    "difficulty": "Development",
+    "difficultyReason": "Part a is routine double integration with initial conditions. Part b is the hardest demand. The student must rebuild the equations of motion for new numbers, because the vector r is not handed over for 25 m/s. They then eliminate t, use sec²θ = 1+tan²θ to reach a quadratic in tanθ, and solve it for two angles. This matches p37-q1, which gives r and the target equation, but with slightly less scaffolding. It sits below p38-q4 and p40-q7, which need non-factorising solutions and an unprompted setup.",
+    "assessment": {
+      "model": "claude-sonnet-5-5",
+      "effort": "medium",
+      "method": "comparison-v1",
+      "assessedAt": "2026-11-11T13:24:56.924Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6ae0c88241e81a9282a62671beb9e9fabaea548b843a9c96897c31daef7b1f61",
+      "diagramBlindHash": "6ae0c88241e81a9282a62671beb9e9fabaea548b843a9c96897c31daef7b1f61",
+      "evidence": ".booklet-work/pedagogy-audit-v2/s6ext1-4-projectile-motion-v1/20261111-131142/auto-apply/calls/01-rating-1.json",
+      "comparison": {
+        "harderThan": {
+          "ref": "p37-q1-block",
+          "score": 35
+        },
+        "easierThan": {
+          "ref": "A4",
+          "score": 42
+        },
+        "equalTo": null,
+        "closerTo": "harderThan"
+      }
+    }
+  },
+  "content": {
+    "id": "p37-q2",
+    "type": "question",
+    "label": "2",
+    "prompt": "A particle is projected from the origin at $50\\text{ m/s}$ and passes through $(100,25)$. Let $\\theta$ be the angle of projection above the horizontal. Use $g=10\\text{ m/s}^2$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q2-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find the displacement vector by integration.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\underset{\\sim}{r}(t)=\\begin{pmatrix}50\\cos\\theta\\,t\\\\-5t^2+50\\sin\\theta\\,t\\end{pmatrix}\\text{ m}$.",
+          "worked": "The acceleration is\n$$\\underset{\\sim}{a}=\\begin{pmatrix}0\\\\-10\\end{pmatrix}.$$\nIntegrating,\n$$\\underset{\\sim}{v}=\\begin{pmatrix}C_1\\\\-10t+C_2\\end{pmatrix}.$$\nAt $t=0$, $\\underset{\\sim}{v}=\\begin{pmatrix}50\\cos\\theta\\\\50\\sin\\theta\\end{pmatrix}$, so\n$$\\underset{\\sim}{v}=\\begin{pmatrix}50\\cos\\theta\\\\-10t+50\\sin\\theta\\end{pmatrix}.$$\nIntegrating again,\n$$\\underset{\\sim}{r}=\\begin{pmatrix}50\\cos\\theta\\,t+D_1\\\\-5t^2+50\\sin\\theta\\,t+D_2\\end{pmatrix}.$$\nSince the particle starts at the origin, $D_1=D_2=0$. Thus\n$$\\underset{\\sim}{r}(t)=\\begin{pmatrix}50\\cos\\theta\\,t\\\\-5t^2+50\\sin\\theta\\,t\\end{pmatrix}\\text{ m}.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p37-q2-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "A particle is projected from the origin at $25\\text{ m/s}$ and passes through $(50,10)$. Let $\\theta$ be the angle of projection above the horizontal. Use $g=10\\text{ m/s}^2$.\n\nShow that $2\\tan^2\\theta-5\\tan\\theta+3=0$ and find both possible angles. Give non-exact angles to $1$ decimal place.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$2\\tan^2\\theta-5\\tan\\theta+3=0$; $\\theta=45^\\circ$ or $\\theta\\approx56.3^\\circ$.",
+          "worked": "The equations of motion are\n$$\\begin{align*}x&=25\\cos\\theta\\,t\\\\y&=-5t^2+25\\sin\\theta\\,t.\\end{align*}$$\nAt $(50,10)$, from the horizontal equation,\n$$\\begin{align*}50&=25\\cos\\theta\\,t\\\\t&=\\frac{2}{\\cos\\theta}.\\end{align*}$$\nSubstitute into the vertical equation with $y=10$:\n$$\\begin{align*}10&=-5\\left(\\frac{2}{\\cos\\theta}\\right)^2+25\\sin\\theta\\left(\\frac{2}{\\cos\\theta}\\right)\\\\10&=-20\\sec^2\\theta+50\\tan\\theta\\\\10&=-20(1+\\tan^2\\theta)+50\\tan\\theta\\\\20\\tan^2\\theta-50\\tan\\theta+30&=0\\\\2\\tan^2\\theta-5\\tan\\theta+3&=0\\\\(2\\tan\\theta-3)(\\tan\\theta-1)&=0.\\end{align*}$$\nHence $\\tan\\theta=1$ or $\\tan\\theta=\\frac32$, giving\n$$\\theta=45^\\circ\\quad\\text{or}\\quad\\theta=\\tan^{-1}\\left(\\frac32\\right)\\approx56.3^\\circ.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 65
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q2-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:18.355Z",
+  "updatedAt": "2026-11-12T08:08:18.355Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-projectile-motion-v1",
+    "blockId": "p37-q2-block",
+    "sectionRole": "exercise"
+  }
+}

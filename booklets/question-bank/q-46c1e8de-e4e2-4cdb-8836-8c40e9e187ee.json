@@ -1,0 +1,105 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-46c1e8de-e4e2-4cdb-8836-8c40e9e187ee",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-binomial-problems",
+    "secondarySkillIds": [
+      "binomial-cumulative-probability"
+    ],
+    "reasoningScore": 61,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combines binomial probabilities with translating a growing jackpot threshold into consecutive unsuccessful draws.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:40:26.755Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "93d96551f43e5785dbc7d4af41dd9481f45cd16c7f213aaf359a73ef62a7fbe0",
+      "evidence": "../../../full-imports/s6ext1-binomial-distributions-20261027/semantic-packets/assignments/assignment-ff5b1622b8183e72e044/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p37-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "The probability that a jackpot prize will be won in a given lottery is $0.012$. Find the following probabilities, correct to five decimal places.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p37-q12-a-i",
+        "type": "part",
+        "label": "a",
+        "prompt": "The jackpot prize will be won exactly once in ten independent lottery draws.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.10764$",
+          "worked": "Let $X\\sim\\operatorname{Bin}(10,0.012)$ count wins.\n$$\\begin{aligned}P(X=1)&=\\binom{10}{1}(0.012)(0.988)^9\\\\&\\approx0.10764.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p37-q12-a-ii",
+        "type": "part",
+        "label": "b",
+        "prompt": "The jackpot prize will be won at least once in ten independent lottery draws.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.11372$",
+          "worked": "Let $X\\sim\\operatorname{Bin}(10,0.012)$ count wins.\n$$\\begin{aligned}P(X\\ge1)&=1-P(X=0)\\\\&=1-(0.988)^{10}\\\\&\\approx0.11372.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p37-q12-b",
+        "type": "part",
+        "label": "c",
+        "prompt": "The jackpot prize is initially $\\$10\\,000$ and increases by $\\$10\\,000$ each time the prize is not won. Find the probability that the jackpot prize will exceed $\\$200\\,000$ when it is finally won.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$0.78549$",
+          "worked": "The prize first exceeds $\\$200\\,000$ after 20 consecutive draws without a win. Using independent draws with the same win probability,\n$$\\begin{aligned}P(\\text{prize exceeds }\\$200\\,000)&=(1-0.012)^{20}\\\\&=(0.988)^{20}\\\\&\\approx0.78549.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p37-q12-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:37.905Z",
+  "updatedAt": "2026-11-12T08:08:37.905Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-binomial-distributions-2-v1",
+    "blockId": "p37-q12-block",
+    "sectionRole": "challenge"
+  }
+}

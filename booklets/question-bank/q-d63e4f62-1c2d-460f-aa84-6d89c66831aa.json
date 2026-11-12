@@ -1,0 +1,156 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d63e4f62-1c2d-460f-aa84-6d89c66831aa",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-related-rates",
+    "secondarySkillIds": [
+      "related-rates-chain",
+      "convert-rate-units"
+    ],
+    "reasoningScore": 47,
+    "difficulty": "Development",
+    "difficultyReason": "Uses the identities supplied in part (a), converts the edge rate to centimetres per minute, obtains an edge length from volume and solves a quadratic rate equation.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T03:51:01.687Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ae7c6abe23f67362d39911bfceeaf8a17ea19897342490f2b879c77757c49939",
+      "evidence": "../../../full-imports/s6ext1-2-further-rates-of-change-20261027/lean-review/calls/content-1793159445424-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p15-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "The side length $x$ of a shrinking cube is decreasing at a constant rate of 5 mm per minute.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p15-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Show that the rates of change of volume $V$, surface area $A$, and the total edge length $\\ell$ are\n$\\begin{aligned}\\frac{dV}{dt}&=3x^2\\left(\\frac{dx}{dt}\\right)\\\\\\frac{dA}{dt}&=12x\\left(\\frac{dx}{dt}\\right)\\\\\\frac{d\\ell}{dt}&=12\\left(\\frac{dx}{dt}\\right).\\end{aligned}$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p15-q16-cube",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"page 15 p15-q16-cube\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line join=round,line cap=round,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0); \\coordinate (B) at (1.7,0); \\coordinate (C) at (1.7,1.7); \\coordinate (D) at (0,1.7);\n\\coordinate (E) at (0.95,0.65); \\coordinate (F) at (2.65,0.65); \\coordinate (G) at (2.65,2.35); \\coordinate (H) at (0.95,2.35);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--(D)--cycle (D)--(H)--(G)--(C) (B)--(F)--(G);\n\\draw[black,line width=0.8pt,dashed] (A)--(E)--(F) (E)--(H);\n\\path (A)--(B) node[midway,below=3pt] {$x$};\n\\path (B)--(F) node[midway,below right=1pt] {$x$};\n\\path (F)--(G) node[midway,right=3pt] {$x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 34,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 15,
+              "sourceRegion": "Question 16(a), left",
+              "description": "Oblique wireframe cube with a square front face, depth upwards and right, and three dashed concealed edges meeting at the rear lower-left vertex. No face shading.",
+              "mathematics": "All cube edges have length x. Three source labels identify the front bottom edge, lower-right depth edge and rear-right vertical edge.",
+              "answerVisibility": "All geometry and three x labels are permanent question content."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "beside-prompt",
+        "answer": {
+          "short": "$V=x^3$, $A=6x^2$, $\\ell=12x$. Applying the chain rule gives the three stated identities.",
+          "worked": "$$\\begin{aligned}V&=x^3\\\\\\frac{dV}{dt}&=\\frac{dV}{dx}\\frac{dx}{dt}\\\\\\frac{dV}{dt}&=3x^2\\frac{dx}{dt}\\end{aligned}$$\n$$\\begin{aligned}A&=6x^2\\\\\\frac{dA}{dt}&=\\frac{dA}{dx}\\frac{dx}{dt}\\\\\\frac{dA}{dt}&=12x\\frac{dx}{dt}\\end{aligned}$$\n$$\\begin{aligned}\\ell&=12x\\\\\\frac{d\\ell}{dt}&=\\frac{d\\ell}{dx}\\frac{dx}{dt}\\\\\\frac{d\\ell}{dt}&=12\\frac{dx}{dt}\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p15-q16-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "Find the rate at which volume, surface area and edge length are decreasing when:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p15-q16-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "the side length is 30 cm,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Volume: $1350\\text{ cm}^3/\\text{min}$; surface area: $180\\text{ cm}^2/\\text{min}$; total edge length: $6\\text{ cm}/\\text{min}$, all decreasing.",
+              "worked": "$$\\frac{dx}{dt}=-5\\text{ mm}/\\text{min}=-0.5\\text{ cm}/\\text{min}.$$\nAt $x=30$ cm:\n$$\\begin{aligned}\\frac{dV}{dt}&=3(30)^2(-0.5)\\\\\\frac{dV}{dt}&=-1350\\text{ cm}^3/\\text{min}\\\\\\frac{dA}{dt}&=12(30)(-0.5)\\\\\\frac{dA}{dt}&=-180\\text{ cm}^2/\\text{min}\\\\\\frac{d\\ell}{dt}&=12(-0.5)\\\\\\frac{d\\ell}{dt}&=-6\\text{ cm}/\\text{min}\\end{aligned}$$\nThe negative signs indicate decreases.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 27
+          },
+          {
+            "id": "p15-q16-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "the volume is $8000\\text{ cm}^3$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "Volume: $600\\text{ cm}^3/\\text{min}$; surface area: $120\\text{ cm}^2/\\text{min}$; total edge length: $6\\text{ cm}/\\text{min}$, all decreasing.",
+              "worked": "$$\\frac{dx}{dt}=-0.5\\text{ cm}/\\text{min}.$$\n$$\\begin{aligned}x^3&=8000\\\\x&=20\\text{ cm}\\\\\\frac{dV}{dt}&=3(20)^2(-0.5)\\\\\\frac{dV}{dt}&=-600\\text{ cm}^3/\\text{min}\\\\\\frac{dA}{dt}&=12(20)(-0.5)\\\\\\frac{dA}{dt}&=-120\\text{ cm}^2/\\text{min}\\\\\\frac{d\\ell}{dt}&=12(-0.5)\\\\\\frac{d\\ell}{dt}&=-6\\text{ cm}/\\text{min}\\end{aligned}$$\nThe negative signs indicate decreases.",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 33
+          }
+        ]
+      },
+      {
+        "id": "p15-q16-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Find the side length when the volume is decreasing at $300\\text{ cm}^3/\\text{min}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$10\\sqrt{2}\\text{ cm}$.",
+          "worked": "$$\\frac{dx}{dt}=-0.5\\text{ cm}/\\text{min},\\qquad \\frac{dV}{dt}=-300\\text{ cm}^3/\\text{min}.$$\n$$\\begin{aligned}-300&=3x^2(-0.5)\\\\-300&=-1.5x^2\\\\x^2&=200\\\\x&=10\\sqrt{2}\\text{ cm}\\end{aligned}$$\nTake the positive root because $x$ is a length.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 23
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p15-q16-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:58.053Z",
+  "updatedAt": "2026-11-12T08:06:58.053Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-rates-of-change-v1",
+    "blockId": "p15-q16-block",
+    "sectionRole": "exercise"
+  }
+}

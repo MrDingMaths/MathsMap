@@ -1,0 +1,169 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-e8dd8b9a-734a-4fcd-9c64-0113a10a9c93",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "slope-fields",
+    "secondarySkillIds": [],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Connect constant solutions with zero-gradient isoclines and interpret the behaviour of solution curves.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T07:24:01.821Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "cf0e068196f8af8b29f9a9c848ba5a5973d2ce566ae2635e0cb9ca47957e810e",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/lean-review/calls/content-1793172170937-2/last-message.txt",
+      "originalTaskHash": "4012d2daaac851e869982d44a7cdc360eabacf6c014dbdf32854852a08a72926",
+      "equivalentProjection": {
+        "version": 1,
+        "policyHash": "282aadc32a4455e06262f852fb2442d7aa038c073e69eb2b8874a46e5b51d9d1"
+      }
+    }
+  },
+  "content": {
+    "id": "p27-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Consider the differential equation $y'=\\dfrac{9-y^2}{9}$ and its slope field.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p27-q8-field",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"fieldBlue\",\"hex\":\"268CFF\",\"reason\":\"supplied slope field\"}],\"reference\":\"source page 27 question 8\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{fieldBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.7,-4.7) rectangle (4.8,4.8);\n\\draw[step=1,line width=0.25pt,color=black!20] (-4,-4) grid (4,4);\n\\foreach \\yy in {-4,-3,-2,-1,0,1,2,3,4}{\n\\pgfmathsetmacro{\\m}{(9-(\\yy)^2)/9}\n\\pgfmathsetmacro{\\dx}{0.43/sqrt(1+(\\m)^2)}\n\\pgfmathsetmacro{\\dy}{\\m*\\dx}\n\\foreach \\xx in {-4,-3,-2,-1,0,1,2,3,4}{\\draw[fieldBlue,line width=0.8pt] ({\\xx-\\dx},{\\yy-\\dy})--({\\xx+\\dx},{\\yy+\\dy});}}\n\\draw[<->,black,line width=0.5pt] (-4.5,0)--(4.5,0) node[right] {$x$};\n\\draw[<->,black,line width=0.5pt] (0,-4.5)--(0,4.5) node[above] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\n\\draw[black,line width=0.4pt] (\\t,-0.07)--(\\t,0.07);\n\\node[below] at (\\t,-0.07) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n\\draw[black,line width=0.4pt] (-0.07,\\t)--(0.07,\\t);\n\\node[left] at (-0.07,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 80,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Question 8 slope field at the lower right",
+          "description": "Square Cartesian slope field with integer ticks from −4 to 4, no zero label, and horizontal elements at y = ±3. The answer curve and origin marker are omitted from the student layer.",
+          "mathematics": "At each integer lattice point, the line element has slope (9−y²)/9.",
+          "answerVisibility": "Supplied slope field only; the solution curve and origin marker belong to part c's answer."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p27-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What are the constant solutions?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$y=3$ and $y=-3$.",
+          "worked": "Constant solutions occur where $y'=0$.\n$$\\begin{aligned}\\frac{9-y^2}{9}&=0\\\\y^2&=9\\\\y&=\\pm3\\end{aligned}$$\nThe constant solutions are $y=3$ and $y=-3$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      },
+      {
+        "id": "p27-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Are these constant solutions isoclines?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Yes.",
+          "worked": "Yes. Along each of $y=3$ and $y=-3$, every line element has the same gradient, $0$, so each line is an isocline.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 10
+      },
+      {
+        "id": "p27-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Draw the solution curve through $(0,0)$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "An increasing S-shaped curve through $(0,0)$, approaching $y=-3$ to the left and $y=3$ to the right.",
+          "worked": "Plot $(0,0)$ and follow the slope-field elements in both directions. The curve increases between $y=-3$ and $y=3$, flattening towards these lines without crossing them.",
+          "solutionDiagrams": [
+            {
+              "id": "p27-q8-c-overlay",
+              "role": "solution-overlay",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"solutionBlue\",\"hex\":\"268CFF\",\"reason\":\"solution curve through the origin\"}],\"reference\":\"source page 27 question 8 answer curve\"}\n\\begin{tikzpicture}[x=0.75cm,y=0.75cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{solutionBlue}{HTML}{268CFF}\n\\path[use as bounding box] (-4.7,-4.7) rectangle (4.8,4.8);\n\\draw[solutionBlue,line width=0.8pt,domain=-4.4:4.4,samples=121,smooth] plot (\\x,{3*(exp(2*(\\x)/3)-1)/(exp(2*(\\x)/3)+1)});\n\\fill[solutionBlue] (0,0) circle (1.6pt);\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 80,
+              "alt": "Mathematical diagram",
+              "overlayOf": "p27-q8-field",
+              "transparent": true,
+              "axes": null,
+              "spec": {
+                "sourcePage": 27,
+                "sourceRegion": "Question 8 darker blue answer curve",
+                "description": "Solution-only S-shaped curve and marked origin, using exactly the base field's coordinate units and bounding box.",
+                "mathematics": "y=3(exp(2x/3)−1)/(exp(2x/3)+1), plotted to reconstruct the graphical answer; the formula is not printed.",
+                "answerVisibility": "Answer only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p27-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "By considering other solution curves, what can you say about the isoclines?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Each of $y=3$ and $y=-3$ is a horizontal asymptote for non-constant solution curves.",
+          "worked": "Non-constant solution curves approach the lines $y=3$ or $y=-3$ without crossing them. Thus each of these isoclines is a horizontal asymptote for other solution curves. Curves between the two lines approach $y=-3$ to the left and $y=3$ to the right.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ],
+    "diagramPlacement": "right-of-prompt"
+  },
+  "presentation": {
+    "ownerId": "p27-q8-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:48.138Z",
+  "updatedAt": "2026-11-12T08:07:48.138Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p27-q8-block",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f042f440-88db-4d63-9bd1-e40c72f60c27",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "perpendicular-component-projection",
+    "secondarySkillIds": [
+      "vector-projection",
+      "dot-product-geometric"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Connect the projection formula with the geometric dot product, then use the supplied part-a result and Pythagoras to derive the rejection magnitude; both proof methods are explicitly signposted.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:02:35.209Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fb2e72b4082a83c0b768ef4b8f15fed4a406677406972022c457e570ee653ec4",
+      "evidence": "../../../full-imports/s6ext1-2-further-operations-with-vectors-20261027/lean-review/calls/content-1793163725693-11/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p34-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p34-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Given nonzero vectors $\\underset{\\sim}{a}$ and $\\underset{\\sim}{b}$ with acute angle $\\theta$ between them and $|\\underset{\\sim}{a}|=r$, prove, using the vector projection and dot product formulas, that the magnitude of the component of vector $\\underset{\\sim}{a}$ parallel to $\\underset{\\sim}{b}$, $|\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|$, is $r\\cos\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p34-q13-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"projectionBlue\",\"hex\":\"268CFF\",\"reason\":\"parallel component\"},{\"name\":\"rejectionRed\",\"hex\":\"EF6068\",\"reason\":\"perpendicular component guide\"},{\"name\":\"angleOrange\",\"hex\":\"EF8B2C\",\"reason\":\"angle between vector and projection\"}],\"reference\":\"source page 34 p34-q13-a-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{projectionBlue}{HTML}{268CFF}\n\\definecolor{rejectionRed}{HTML}{EF6068}\n\\definecolor{angleOrange}{HTML}{EF8B2C}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (2.4,1.4);\n\\coordinate (A) at (1.35,3.2);\n\\draw[projectionBlue,dashed,line width=0.4pt] (O)--($(O)!1.32!(P)$);\n\\draw[->,black,line width=0.8pt] (O)--(A) node[above] {$\\underset{\\sim}{a}$} node[midway,left] {$r$};\n\\draw[->,projectionBlue,line width=0.8pt] (O)--(P) node[midway,below right] {$|\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|$};\n\\draw[rejectionRed,dashed,line width=0.4pt] (A)--(P);\n\\draw[black,line width=0.4pt] ($(P)!0.16cm!(O)$)--($($(P)!0.16cm!(O)$)+( $(P)!0.16cm!(A)$ )-(P)$)--($(P)!0.16cm!(A)$);\n\\pic[draw=angleOrange,line width=0.4pt,angle radius=5mm] {angle=P--O--A};\n\\path (O) ++(49:0.72) node {$\\theta$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 58,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 34,
+              "sourceRegion": "Question 13a, right-hand triangle",
+              "description": "Acute projection triangle with black original vector, blue parallel component, dashed red perpendicular and dashed blue supporting-line extension. Coordinates define illustrative shape only; no numerical dimensions are asserted.",
+              "mathematics": "OP is the orthogonal projection of OA, with AP perpendicular to OP; |OA|=r and angle POA=theta.",
+              "answerVisibility": "All supplied geometry and labels remain visible in the question edition."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "$|\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|=r\\cos\\theta$.",
+          "worked": "$$\\begin{aligned}\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}&=\\frac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|^2}\\underset{\\sim}{b}\\\\ |\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|&=\\left|\\frac{\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}}{|\\underset{\\sim}{b}|^2}\\right|\\,|\\underset{\\sim}{b}|\\\\ |\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|&=\\frac{|\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}|}{|\\underset{\\sim}{b}|}\\end{aligned}$$\n\nUsing $\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b}=|\\underset{\\sim}{a}|\\,|\\underset{\\sim}{b}|\\cos\\theta$ and $\\cos\\theta>0$ for the acute angle $\\theta$:\n\n$$\\begin{aligned}|\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|&=\\frac{|\\underset{\\sim}{a}|\\,|\\underset{\\sim}{b}|\\cos\\theta}{|\\underset{\\sim}{b}|}\\\\ |\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|&=|\\underset{\\sim}{a}|\\cos\\theta\\\\ |\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|&=r\\cos\\theta.\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 50
+      },
+      {
+        "id": "p34-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Prove, using the result in part a and Pythagoras’ theorem, that the rejection magnitude $|\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|$ is $r\\sin\\theta$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p34-q13-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"projectionBlue\",\"hex\":\"268CFF\",\"reason\":\"parallel component\"},{\"name\":\"rejectionRed\",\"hex\":\"EF6068\",\"reason\":\"perpendicular rejection vector\"},{\"name\":\"angleOrange\",\"hex\":\"EF8B2C\",\"reason\":\"angle between vector and projection\"}],\"reference\":\"source page 34 p34-q13-b-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,>=stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{projectionBlue}{HTML}{268CFF}\n\\definecolor{rejectionRed}{HTML}{EF6068}\n\\definecolor{angleOrange}{HTML}{EF8B2C}\n\\coordinate (O) at (0,0);\n\\coordinate (P) at (2.4,1.4);\n\\coordinate (A) at (1.35,3.2);\n\\draw[projectionBlue,dashed,line width=0.4pt] (O)--($(O)!1.32!(P)$);\n\\draw[->,black,line width=0.8pt] (O)--(A) node[above] {$\\underset{\\sim}{a}$} node[midway,left] {$r$};\n\\draw[->,projectionBlue,line width=0.8pt] (O)--(P) node[midway,below right] {$|\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|$};\n\\draw[->,rejectionRed,line width=0.8pt] (P)--(A) node[midway,right] {$|\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|$};\n\\draw[black,line width=0.4pt] ($(P)!0.16cm!(O)$)--($($(P)!0.16cm!(O)$)+( $(P)!0.16cm!(A)$ )-(P)$)--($(P)!0.16cm!(A)$);\n\\pic[draw=angleOrange,line width=0.4pt,angle radius=5mm] {angle=P--O--A};\n\\path (O) ++(49:0.72) node {$\\theta$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 64,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 34,
+              "sourceRegion": "Question 13b, right-hand triangle",
+              "description": "Same triangle as part a, with the perpendicular rejection shown as a red arrow directed from the projection foot towards the tip of the original vector.",
+              "mathematics": "OA=OP+PA, OP perpendicular to PA; the rejection is PA.",
+              "answerVisibility": "All supplied geometry and labels remain visible in the question edition."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "$|\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|=r\\sin\\theta$.",
+          "worked": "The projection and rejection are perpendicular. By Pythagoras’ theorem and part a:\n\n$$\\begin{aligned}|\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|^2&=|\\underset{\\sim}{a}|^2-|\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|^2\\\\ |\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|^2&=r^2-r^2\\cos^2\\theta\\\\ |\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|^2&=r^2(1-\\cos^2\\theta)\\\\ |\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|^2&=r^2\\sin^2\\theta.\\end{aligned}$$\n\nSince $r>0$ and $\\sin\\theta>0$,\n\n$$\\therefore\\quad |\\underset{\\sim}{a}-\\operatorname{proj}_{\\underset{\\sim}{b}}\\underset{\\sim}{a}|=r\\sin\\theta.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 35
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p34-q13-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:50.282Z",
+  "updatedAt": "2026-11-12T08:06:50.282Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-operations-with-vectors-v1",
+    "blockId": "p34-q13-block",
+    "sectionRole": "exercise"
+  }
+}

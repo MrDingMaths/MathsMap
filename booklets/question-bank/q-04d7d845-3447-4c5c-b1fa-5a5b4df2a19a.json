@@ -1,0 +1,137 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-04d7d845-3447-4c5c-b1fa-5a5b4df2a19a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "model-de-practical",
+    "secondarySkillIds": [
+      "separation-of-variables"
+    ],
+    "reasoningScore": 66,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combines similar triangles, the chain rule, a differential equation, initial conditions and a physical domain.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:20:47.962Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "d5073124d4f8f4bf3db48b3ab0ffc17bcc62cd5d5540e77d951236b39963c99f",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-7624293dcbe5d33cf878/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p56-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "A conical tank (height $12\\text{ m}$, radius $4\\text{ m}$) is filled with water that evaporates at a rate proportional to the circular surface area. Let $r$ metres be the radius of the surface at time $t$ hours.\n\n(Volume of cone: $V=\\frac13\\pi r^2h$.)",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p56-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Write down a DE for the evaporation in terms of the radius.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac{dV}{dt}=k\\pi r^2$, where $k<0$.",
+          "worked": "The circular surface area is $\\pi r^2$. Since evaporation decreases the volume,\n$$\\frac{dV}{dt}=k\\pi r^2,\\qquad k<0.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p56-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use part a and the chain rule to find a DE for the rate of change of the radius.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle\\frac{dr}{dt}=\\frac{k}{3}$.",
+          "worked": "By similar triangles, $\\dfrac{h}{r}=\\dfrac{12}{4}=3$, so $h=3r$.\n$$\\begin{align*}V&=\\frac13\\pi r^2h\\\\V&=\\pi r^3\\\\\\frac{dV}{dt}&=3\\pi r^2\\frac{dr}{dt}.\\end{align*}$$\nUsing part a, while $r>0$,\n$$\\begin{align*}3\\pi r^2\\frac{dr}{dt}&=k\\pi r^2\\\\\\frac{dr}{dt}&=\\frac{k}{3}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p56-q7-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Use the given information to solve this DE.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle r=4+\\frac{k}{3}t$.",
+          "worked": "Separate variables and integrate:\n$$\\begin{align*}dr&=\\frac{k}{3}\\,dt\\\\\\int dr&=\\int\\frac{k}{3}\\,dt\\\\r&=\\frac{k}{3}t+C.\\end{align*}$$\nInitially the tank is full, so $r=4$ when $t=0$. Thus $C=4$ and\n$$r=\\frac{k}{3}t+4.$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 30
+      },
+      {
+        "id": "p56-q7-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "After $6$ hours the depth of water is $10.5\\text{ m}$. Determine the value of $k$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle k=-\\frac14\\text{ m/h}$.",
+          "worked": "At $t=6$, $h=10.5$, so $r=\\dfrac{10.5}{3}=3.5\\text{ m}$.\n$$\\begin{align*}3.5&=\\frac{k}{3}(6)+4\\\\2k&=-0.5\\\\k&=-\\frac14.\\end{align*}$$\nHence $\\dfrac{dr}{dt}=-\\dfrac1{12}\\text{ m/h}$ and $r=4-\\dfrac{t}{12}$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 32
+      },
+      {
+        "id": "p56-q7-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Hence give a formula for the volume of water at time $t$. Note any restrictions on $t$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\displaystyle V=\\pi\\left(4-\\frac{t}{12}\\right)^3\\text{ m}^3,\\quad 0\\le t\\le48$.",
+          "worked": "$$\\begin{align*}V&=\\pi r^3\\\\V&=\\pi\\left(4-\\frac{t}{12}\\right)^3.\\end{align*}$$\nThe model applies from the initial full tank until it is empty. Setting $r=0$ gives $4-\\dfrac{t}{12}=0$, so $t=48$ hours. Thus $0\\le t\\le48$, with $V$ in cubic metres.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 21
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p56-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:55.286Z",
+  "updatedAt": "2026-11-12T08:07:55.286Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p56-q7",
+    "sectionRole": "challenge"
+  }
+}

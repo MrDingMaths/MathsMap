@@ -1,0 +1,82 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-065de025-efe0-40a9-8937-55a8072349e7",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "slope-fields",
+    "secondarySkillIds": [],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish four slope fields using gradients at a test point and along an axis.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T05:13:06.213Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "fa66de10b5c16302c8bad8f59e27cb6a40107865087c85cda7818101ab6b0a63",
+      "evidence": "../../../full-imports/s6ext1-4-differential-equations-20261027/semantic-packets/assignments/assignment-6340f156b3af1df354a3/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p29-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Which slope field (A, B, C or D) corresponds to $y'=1-\\dfrac{x}{y}$?",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q12-fields-native",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29 question 12 fields A-D\"}\n\\begin{tikzpicture}[x=0.62cm,y=0.62cm]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\k/\\lab/\\sx/\\sy in {1/A/0/0,2/B/12/0,3/C/0/-12,4/D/12/-12}{\n\\begin{scope}[shift={(\\sx,\\sy)}]\n\\node[anchor=west,font=\\bfseries] at (-6.7,4.9) {\\lab};\n\\foreach \\u in {-4,-3,...,4}{\n\\foreach \\v in {-4,-3,...,4}{\n\\ifnum\\k<3\n  \\ifnum\\v=0\n    \\draw[line width=0.8pt] (\\u,-0.23)--(\\u,0.23);\n  \\else\n    \\ifnum\\k=1 \\pgfmathsetmacro{\\m}{1+(\\u)/(\\v)}\\else \\pgfmathsetmacro{\\m}{1-(\\u)/(\\v)}\\fi\n    \\pgfmathsetmacro{\\dx}{0.23/sqrt(1+(\\m)^2)}\n    \\pgfmathsetmacro{\\dy}{\\m*\\dx}\n    \\draw[line width=0.8pt] ({\\u-\\dx},{\\v-\\dy})--({\\u+\\dx},{\\v+\\dy});\n  \\fi\n\\else\n  \\ifnum\\u=0\n    \\draw[line width=0.8pt] (0,{\\v-0.23})--(0,{\\v+0.23});\n  \\else\n    \\ifnum\\k=3 \\pgfmathsetmacro{\\m}{1+(\\v)/(\\u)}\\else \\pgfmathsetmacro{\\m}{1-(\\v)/(\\u)}\\fi\n    \\pgfmathsetmacro{\\dx}{0.23/sqrt(1+(\\m)^2)}\n    \\pgfmathsetmacro{\\dy}{\\m*\\dx}\n    \\draw[line width=0.8pt] ({\\u-\\dx},{\\v-\\dy})--({\\u+\\dx},{\\v+\\dy});\n  \\fi\n\\fi\n}}\n\\draw[->,line width=0.5pt] (-4.9,0)--(5.1,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-4.9)--(0,5.1) node[left] {$y$};\n\\foreach \\t in {-4,-3,-2,-1,1,2,3,4}{\n\\draw[line width=0.4pt] (\\t,-0.1)--(\\t,0.1);\n\\draw[line width=0.4pt] (-0.1,\\t)--(0.1,\\t);\n\\node[below,fill=white,inner sep=0.3pt] at (\\t,-0.18) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n\\node[left,fill=white,inner sep=0.3pt] at (-0.18,\\t) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}$\\t$\\special{dvisvgm:raw </g>}};\n}\n\\end{scope}\n}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 160,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Question 12: four fields above the supplied blue answer",
+          "description": "Four labelled fields in a two-by-two comparison: A and B above C and D. Each field has integer-coordinate segments from −4 to 4, positive arrowed axes, ticks and numeric labels excluding zero. Source grey ordinary marks are rendered black under house style.",
+          "mathematics": "A has direction 1+x/y; B has direction 1−x/y; C has direction 1+y/x; D has direction 1−y/x. At singular-axis sample positions, reproduce the source vertical direction marks without treating them as defined derivative values.",
+          "answerVisibility": "All four supplied option fields remain visible; no solution annotations appear."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "B.",
+      "worked": "At $(1,1)$,\n$$y'=1-\\frac{1}{1}=0.$$\nThe segment must be horizontal, eliminating A and C.\n\nOn $x=0$, with $y\\ne0$,\n$$y'=1-\\frac{0}{y}=1.$$\nB has gradient $1$ along this axis, whereas D has vertical direction marks.\n\nCorrect answer: B.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 10
+  },
+  "presentation": {
+    "ownerId": "p29-q12-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:07:49.107Z",
+  "updatedAt": "2026-11-12T08:07:49.107Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-differential-equations-v1",
+    "blockId": "p29-q12-block",
+    "sectionRole": "exercise"
+  }
+}

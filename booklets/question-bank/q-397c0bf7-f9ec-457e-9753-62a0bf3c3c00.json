@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-397c0bf7-f9ec-457e-9753-62a0bf3c3c00",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "solve-binomial-problems",
+    "secondarySkillIds": [
+      "binomial-cumulative-probability"
+    ],
+    "reasoningScore": 48,
+    "difficulty": "Development",
+    "difficultyReason": "Uses the variety ratio to calculate a weighted discard probability, then applies exact-count and two-term cumulative binomial calculations.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:41:11.350Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "22dc88262cfe3c67c8e3b937891e5e3137fac9dcacb21a112c4302ced101866e",
+      "evidence": "../../../full-imports/s6ext1-binomial-distributions-20261027/semantic-packets/assignments/assignment-e65f4eaf0c5875938fef/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p39-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "An apple exporter deals in two types of apples, Red Delicious and Golden Delicious. The ratio of Red Delicious to Golden Delicious is $4:1$. The apples are randomly mixed together before they are boxed. One in every fifty Golden Delicious and one in every one hundred Red Delicious apples will need to be discarded because they are undersized.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p39-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the probability that an apple selected from a box will need to be discarded?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{3}{250}$",
+          "worked": "$$\\begin{align*}P(\\text{discard})&=\\frac45\\left(\\frac1{100}\\right)+\\frac15\\left(\\frac1{50}\\right)\\\\&=\\frac2{250}+\\frac1{250}\\\\&=\\frac3{250}.\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p39-q16-b",
+        "type": "group",
+        "label": "b",
+        "prompt": "If ten apples are randomly selected from a box, find the probability that:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p39-q16-b-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "all the apples will have to be discarded,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\left(\\dfrac3{250}\\right)^{10}$",
+              "worked": "Let $X$ be the number of discarded apples. Then $X\\sim\\operatorname{Bin}\\left(10,\\frac3{250}\\right)$.\n$$\\begin{align*}P(X=10)&=\\binom{10}{10}\\left(\\frac3{250}\\right)^{10}\\left(\\frac{247}{250}\\right)^0\\\\&=\\left(\\frac3{250}\\right)^{10}.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 16
+          },
+          {
+            "id": "p39-q16-b-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "half of the apples will be discarded,",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\binom{10}{5}\\left(\\dfrac3{250}\\right)^5\\left(\\dfrac{247}{250}\\right)^5$",
+              "worked": "With $X\\sim\\operatorname{Bin}\\left(10,\\frac3{250}\\right)$,\n$$P(X=5)=\\binom{10}{5}\\left(\\frac3{250}\\right)^5\\left(\\frac{247}{250}\\right)^5.$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 14
+          },
+          {
+            "id": "p39-q16-b-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "fewer than two apples will be discarded.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\left(\\dfrac{247}{250}\\right)^{10}+10\\left(\\dfrac3{250}\\right)\\left(\\dfrac{247}{250}\\right)^9$",
+              "worked": "With $X\\sim\\operatorname{Bin}\\left(10,\\frac3{250}\\right)$,\n$$\\begin{align*}P(X<2)&=P(X=0)+P(X=1)\\\\&=\\left(\\frac{247}{250}\\right)^{10}+10\\left(\\frac3{250}\\right)\\left(\\frac{247}{250}\\right)^9.\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 18
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p39-q16",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:31.848Z",
+  "updatedAt": "2026-11-12T08:08:31.848Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-binomial-distributions-2-v1",
+    "blockId": "p39-q16",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d8a3ccc5-352c-4c96-907f-f2faab2a537f",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "binomial-cumulative-probability",
+    "secondarySkillIds": [
+      "binomial-mean-variance"
+    ],
+    "reasoningScore": 42,
+    "difficulty": "Development",
+    "difficultyReason": "Use the calculated mean and standard deviation to form an interval, select its integer counts and sum three binomial probabilities.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:44:23.807Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "ce89517036bfaaa7bcb0f13cebf461b2f96b67ae242ee0afbf24aef5816740e8",
+      "evidence": "../../../full-imports/s6ext1-binomial-distributions-20261027/semantic-packets/assignments/assignment-5a2e744bd0ffb8f2bd2e/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p47-q16-root",
+    "type": "question",
+    "label": "16",
+    "prompt": "It is known that 15% of a large constituency voted for the Working Together Party at the last election. A poll of 100 people is taken and they are asked whether they voted WTP.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p47-q16-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What is the mean and standard deviation for this poll? Give the standard deviation correct to 2 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Mean: $15$ WTP voters; standard deviation: $\\sqrt{12.75}\\approx3.57$ WTP voters.",
+          "worked": "Let $X$ be the number of WTP voters in the poll. Then $X\\sim B(100,0.15)$.\n$$\\begin{aligned}\\mu&=np=100(0.15)=15\\\\\\sigma&=\\sqrt{np(1-p)}=\\sqrt{100(0.15)(0.85)}=\\sqrt{12.75}\\approx3.57\\end{aligned}$$\nThe mean is 15 WTP voters and the standard deviation is approximately 3.57 WTP voters.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p47-q16-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "What is the probability that in the sample, the number of WTP voters lies within half a standard deviation of the mean? Give your answer correct to 3 decimal places.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$P(14\\le X\\le16)\\approx0.325$.",
+          "worked": "For $X\\sim B(100,0.15)$, half a standard deviation gives the interval\n$$15-\\frac{\\sqrt{12.75}}2\\le X\\le15+\\frac{\\sqrt{12.75}}2.$$\nIts endpoints are approximately 13.215 and 16.785, so the possible integer values are 14, 15 and 16.\n$$\\begin{aligned}P(14\\le X\\le16)&=\\sum_{x=14}^{16}\\binom{100}{x}(0.15)^x(0.85)^{100-x}\\\\&\\approx0.325\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 27
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p47-q16-block",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:37.102Z",
+  "updatedAt": "2026-11-12T08:08:37.103Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-binomial-distributions-2-v1",
+    "blockId": "p47-q16-block",
+    "sectionRole": "exercise"
+  }
+}

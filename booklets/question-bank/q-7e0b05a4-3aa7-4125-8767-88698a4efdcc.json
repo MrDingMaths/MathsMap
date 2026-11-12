@@ -1,0 +1,233 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-7e0b05a4-3aa7-4125-8767-88698a4efdcc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "vector-geometric-proofs",
+    "secondarySkillIds": [
+      "dot-product-geometric",
+      "dot-product-magnitude"
+    ],
+    "reasoningScore": 70,
+    "difficulty": "Mastery",
+    "difficultyReason": "Requires expressing the base-angle cosines as dot products and using equal side magnitudes to establish equality.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T04:34:29.558Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "148bde55d958befee4ca4959530308715af7f446bba5b8d32a1307de02f550ea",
+      "evidence": "../../../full-imports/s6ext1-2-further-operations-with-vectors-20261027/semantic-packets/assignments/assignment-e6a2a751afadbe0df7b5/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p25-q15-root",
+    "type": "question",
+    "label": "15",
+    "prompt": "Prove that the base angles of an isosceles triangle are equal.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p25-q15-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 25 p25-q15-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,>=Stealth,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (4,0);\n\\coordinate (O) at (2,4);\n\\draw[->] (A)--(O) node[midway,left=5pt] {$\\underset{\\sim}{a}$};\n\\draw[->] (O)--(B) node[midway,right=5pt] {$\\underset{\\sim}{b}$};\n\\draw[->] (A)--(B) node[midway,below=3pt] {$\\underset{\\sim}{u}$};\n\\foreach \\t in {0.45,0.49}{\n\\draw[line width=0.4pt] ($(A)!\\t!(O)+(-0.065,0.0325)$)--($(A)!\\t!(O)+(0.065,-0.0325)$);\n\\draw[line width=0.4pt] ($(O)!\\t!(B)+(-0.065,-0.0325)$)--($(O)!\\t!(B)+(0.065,0.0325)$);\n}\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (O) {$O$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 53,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 25,
+          "sourceRegion": "Question 15, upper-right triangle",
+          "description": "Isosceles triangle OAB with equal-side double ticks; vectors a from A to O, b from O to B and u from A to B. Ordinary source strokes are reconstructed in black.",
+          "mathematics": "OA = OB; a = AO, b = OB and u = AB = a + b. Coordinates specify an illustrative shape, not additional numerical givens.",
+          "answerVisibility": "The complete source triangle is visible with the question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "Writing $A=\\angle OAB$ and $B=\\angle OBA$, the dot product gives $|\\underset{\\sim}{a}||\\underset{\\sim}{u}|(\\cos A-\\cos B)=0$. Thus $\\cos A=\\cos B$, so $A=B$.",
+      "worked": {
+        "format": "maths-editor-document-v1",
+        "version": 1,
+        "blocks": [
+          {
+            "id": "p25-q15-answer",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Let triangle OAB be isosceles with OA = OB. Write ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "A=\\angle OAB,\\quad B=\\angle OBA,\\quad \\underset{\\sim}{a}=\\overrightarrow{AO},\\quad \\underset{\\sim}{b}=\\overrightarrow{OB},\\quad \\underset{\\sim}{u}=\\overrightarrow{AB}.",
+                "display": false
+              }
+            ]
+          },
+          {
+            "id": "p25-q15-answer-sum",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Then ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\underset{\\sim}{u}=\\underset{\\sim}{a}+\\underset{\\sim}{b}.",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " Using the geometric dot product formula,",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p25-q15-answer-equations",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "\\begin{aligned}|\\underset{\\sim}{a}||\\underset{\\sim}{u}|\\cos A&=\\underset{\\sim}{a}\\cdot\\underset{\\sim}{u}\\\\&=\\underset{\\sim}{a}\\cdot(\\underset{\\sim}{a}+\\underset{\\sim}{b})\\\\&=\\underset{\\sim}{a}\\cdot\\underset{\\sim}{a}+\\underset{\\sim}{a}\\cdot\\underset{\\sim}{b},\\\\|\\underset{\\sim}{b}||\\underset{\\sim}{u}|\\cos B&=\\underset{\\sim}{b}\\cdot\\underset{\\sim}{u}\\\\&=\\underset{\\sim}{b}\\cdot(\\underset{\\sim}{a}+\\underset{\\sim}{b})\\\\&=\\underset{\\sim}{b}\\cdot\\underset{\\sim}{a}+\\underset{\\sim}{b}\\cdot\\underset{\\sim}{b}.\\end{aligned}",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p25-q15-answer-subtraction",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Subtracting, using ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "|\\underset{\\sim}{a}|=|\\underset{\\sim}{b}|,\\quad \\underset{\\sim}{a}\\cdot\\underset{\\sim}{a}=\\underset{\\sim}{b}\\cdot\\underset{\\sim}{b}",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " and commutativity of the dot product,",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "p25-q15-answer-result",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "math",
+                "latex": "|\\underset{\\sim}{u}||\\underset{\\sim}{a}|(\\cos A-\\cos B)=0.",
+                "display": true
+              }
+            ]
+          },
+          {
+            "id": "p25-q15-answer-conclusion",
+            "type": "paragraph",
+            "fontSize": null,
+            "align": "left",
+            "spaceBefore": 0,
+            "spaceAfter": 2,
+            "lineHeight": 1.4,
+            "indent": 0,
+            "inlines": [
+              {
+                "type": "text",
+                "text": "Both magnitudes are nonzero, so ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "\\cos A=\\cos B.",
+                "display": false
+              },
+              {
+                "type": "text",
+                "text": " Hence A = B because cosine is one-to-one on ",
+                "marks": []
+              },
+              {
+                "type": "math",
+                "latex": "[0,\\pi].",
+                "display": false
+              }
+            ]
+          }
+        ]
+      },
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 59
+  },
+  "presentation": {
+    "ownerId": "p25-q15",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:06:51.564Z",
+  "updatedAt": "2026-11-12T08:06:51.564Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-2-further-operations-with-vectors-v1",
+    "blockId": "p25-q15",
+    "sectionRole": "challenge"
+  }
+}

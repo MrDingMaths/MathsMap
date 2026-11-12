@@ -1,0 +1,109 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-89fcb8fa-da3d-46d9-a64e-a010cd91029a",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "projectile-features",
+    "secondarySkillIds": [],
+    "reasoningScore": 45,
+    "difficulty": "Development",
+    "difficultyReason": "Interprets a ditch below the launch origin and solves a quadratic using the specified gravitational acceleration.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-28T03:58:07.019Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "84e5e53eee9ea86061554a25a1c651f0a7b660a61de0dd5159ca70feb34699d0",
+      "evidence": "../../../full-imports/s6ext1-4-projectile-motion-20261027/lean-review/calls/content-1793159868550-0/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "A ball is thrown at $45^\\circ$ at $30\\text{ m s}^{-1}$ and lands in a $10\\text{ m}$ deep ditch. Using $g=9.8\\text{ m s}^{-2}$, find, to 1 d.p.:",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"trajectoryBlue\",\"hex\":\"268CFF\",\"reason\":\"projectile trajectory distinguished from coordinate axes and ditch floor\"}],\"reference\":\"source page 28 p28-q10-diagram\"}\n\\begin{tikzpicture}[x=0.052cm,y=0.052cm,>=stealth]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{trajectoryBlue}{HTML}{268CFF}\n\\draw[->,line width=0.5pt] (-18,0)--(119,0) node[below] {$x$};\n\\draw[->,line width=0.5pt] (0,-58)--(0,52) node[left] {$y$};\n\\draw[line width=0.8pt] (0,-50)--(130,-50);\n\\draw[trajectoryBlue,line width=0.8pt,domain=0:100.94,samples=90] plot (\\x,{5*((\\x)-(9.8/900)*(\\x)*(\\x))});\n\\coordinate (O) at (0,0);\n\\coordinate (X) at (30,0);\n\\coordinate (V) at (24,24);\n\\draw[->,line width=0.5pt] (O)--(V) node[above right] {$30\\text{ m s}^{-1}$};\n\\draw[line width=0.4pt] (12,0) arc[start angle=0,end angle=45,radius=12];\n\\path (O) ++(22.5:23) node {$45^\\circ$};\n\\draw[line width=0.4pt] (-20,0)--(-5,0);\n\\draw[<->,line width=0.4pt] (-10,0)--(-10,-50) node[midway,left] {$10\\text{ m}$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Question 10, lower-left diagram",
+          "description": "Launch-origin axes, rising and falling parabolic trajectory, launch vector and angle, ditch floor below the launch level, and a vertical depth dimension. The vertical coordinate is exaggerated for the schematic view; no numeric axis scale is asserted.",
+          "mathematics": "Physical trajectory y=x-(9.8/900)x^2; launch angle 45 degrees, speed 30 m/s, landing level y=-10. Drawing coordinates use five times the physical vertical displacement.",
+          "answerVisibility": "All labels and geometry are permanent question givens; no calculated flight time or range is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p28-q10-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "how long it takes to land,",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$4.8\\text{ s}$",
+          "worked": "Take the launch point as the origin, with upwards positive. The ditch floor is at $y=-10$.\n$$\\begin{align*}\n\\dot{x}&=30\\cos45^\\circ=15\\sqrt2\\\\\n\\dot{y}&=-9.8t+30\\sin45^\\circ=-9.8t+15\\sqrt2\\\\\ny&=-4.9t^2+15\\sqrt2\\,t\\\\\n-10&=-4.9t^2+15\\sqrt2\\,t\\\\\n4.9t^2-15\\sqrt2\\,t-10&=0\\\\\nt&=\\frac{15\\sqrt2+\\sqrt{450+196}}{9.8}\\\\\nt&\\approx4.8\\text{ s}.\n\\end{align*}$$\nThe negative root is rejected because $t>0$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 33
+      },
+      {
+        "id": "p28-q10-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "how far out it lands.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$100.9\\text{ m}$",
+          "worked": "Using the unrounded flight time,\n$$\\begin{align*}\nx&=15\\sqrt2\\left(\\frac{15\\sqrt2+\\sqrt{646}}{9.8}\\right)\\\\\nx&\\approx100.9\\text{ m}.\n\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p28-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T08:08:15.847Z",
+  "updatedAt": "2026-11-12T08:08:15.847Z",
+  "bankContext": {
+    "origin": "master",
+    "projectId": "s6ext1-4-projectile-motion-v1",
+    "blockId": "p28-q10",
+    "sectionRole": "exercise"
+  }
+}
