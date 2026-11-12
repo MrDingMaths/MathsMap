@@ -1,0 +1,107 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-d19d259f-9e3f-46fd-b00a-60dc147f0dfc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "represent-data-graphs",
+    "secondarySkillIds": [
+      "interpret-tables-graphs",
+      "construct-angles-protractor"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Read column frequencies, find their total, convert each proportion to a sector angle and construct a labelled pie chart using the taught procedure.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:18:17.055Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "6b6413c73eba85da599dc3f41794dccdba42e23383affa748322523bfc5df2de",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch19-20261015/a24c4be16dcfca23037670a2da6305a4a36a2c55db448abfa0bf5a603bbeedbb-1792559871557/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p19-q5-root",
+    "type": "question",
+    "label": "5",
+    "prompt": "Display the data shown in the following column graph using a pie chart.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p19-q5-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 p19-q5-diagram; native unfilled black outlines, all original data and geometry retained\"}\n\\begin{tikzpicture}[x=10mm,y=4mm,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{barBlue}{HTML}{268CFF}\n\\definecolor{barPurple}{HTML}{8B5CC7}\n\\definecolor{barOrange}{HTML}{EF8B2C}\n\\definecolor{barRed}{HTML}{EF6068}\n\\definecolor{barGreen}{HTML}{4F9B63}\n\\definecolor{barLightBlue}{HTML}{D4E8FF}\n\\node[above,align=center] at (3.5,10.6) {Composition of school band};\n\\foreach \\y in {1,3,5,7,9} {\\draw[line width=0.15pt,dotted] (0.5,\\y)--(6.5,\\y);}\n\\foreach \\y in {0,2,4,6,8,10} {\\draw[line width=0.25pt] (0.5,\\y)--(6.5,\\y);\\node[left] at (0.4,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\draw[line width=0.5pt] (0.5,0)--(0.5,10)--(6.5,10)--(6.5,0)--cycle;\n\\foreach \\x/\\h/\\c in {1/8/barBlue,2/5/barPurple,3/1/barOrange,4/3/barRed,5/2/barGreen,6/1/barLightBlue} {\\draw[black,line width=0.8pt] (\\x-0.25,0) rectangle (\\x+0.25,\\h);}\n\\foreach \\x/\\t in {1/Violin,2/Cello,3/Drums,4/Clarinet,5/Saxophone,6/Xylophone} {\\node[rotate=45,anchor=north east] at (\\x,-0.2) {\\t};}\n\\node[rotate=90] at (-0.55,5) {Number of students};\n\\node[below] at (3.5,-3.2) {Instrument};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 100,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 19,
+          "sourceRegion": "Question 5 column graph",
+          "description": "Six categorical columns with slanted category labels, numbered vertical ticks every 2 and gridlines every 1. Source decorative category hues are mapped to the standard palette.",
+          "mathematics": "Violin 8, Cello 5, Drums 1, Clarinet 3, Saxophone 2, Xylophone 1; vertical range 0–10.",
+          "answerVisibility": "All supplied frequencies remain visible; no pie-chart answer is shown."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "Sector angles: Violin $144^\\circ$; Cello $90^\\circ$; Drums $18^\\circ$; Clarinet $54^\\circ$; Saxophone $36^\\circ$; Xylophone $18^\\circ$.\n\nUse each frequency as a fraction of the total of 20 students and multiply by $360^\\circ$.",
+      "worked": "Total number of students:\n$$8+5+1+3+2+1=20.$$\nEach sector angle is its frequency divided by 20, multiplied by $360^\\circ$.\n$$\\begin{align*}\\text{Violin angle}&=\\frac{8}{20}\\times360^\\circ=144^\\circ\\\\\\text{Cello angle}&=\\frac{5}{20}\\times360^\\circ=90^\\circ\\\\\\text{Drums angle}&=\\frac{1}{20}\\times360^\\circ=18^\\circ\\\\\\text{Clarinet angle}&=\\frac{3}{20}\\times360^\\circ=54^\\circ\\\\\\text{Saxophone angle}&=\\frac{2}{20}\\times360^\\circ=36^\\circ\\\\\\text{Xylophone angle}&=\\frac{1}{20}\\times360^\\circ=18^\\circ\\end{align*}$$\nCheck:\n$$144^\\circ+90^\\circ+18^\\circ+54^\\circ+36^\\circ+18^\\circ=360^\\circ.$$\nDraw a circle, use a protractor to construct these sectors, and label each instrument.",
+      "solutionDiagrams": [
+        {
+          "id": "p19-q5-solution-pie",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[],\"reference\":\"source page 19 question 5 solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\node[above] at (0,2.9) {School band};\n\\draw[line width=0.8pt] (0,0) circle (2);\n\\foreach \\a in {144,234,252,306,342,360} {\\draw[line width=0.8pt] (0,0)--(\\a:2);}\n\\node[align=center] at (72:1.2) {Violin\\\\$144^\\circ$};\n\\node[align=center] at (189:1.2) {Cello\\\\$90^\\circ$};\n\\draw[line width=0.4pt] (243:1.8)--(243:2.5);\n\\node[below,align=center] at (243:2.5) {Drums\\\\$18^\\circ$};\n\\draw[line width=0.4pt] (279:1.8)--(279:2.6);\n\\node[below,align=center] at (279:2.6) {Clarinet\\\\$54^\\circ$};\n\\draw[line width=0.4pt] (324:1.8)--(324:2.5);\n\\node[right,align=left] at (324:2.5) {Saxophone\\\\$36^\\circ$};\n\\draw[line width=0.4pt] (351:1.8)--(351:2.5);\n\\node[right,align=left] at (351:2.5) {Xylophone\\\\$18^\\circ$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 95,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 19,
+            "sourceRegion": "Question 5 requested construction; teacher page 60 question 5",
+            "description": "Complete labelled pie chart with six exact sectors. Direct labels make shading unnecessary. Rotation is immaterial.",
+            "mathematics": "Sector angles in source category order are 144, 90, 18, 54, 36 and 18 degrees.",
+            "answerVisibility": "Answer editions only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 115
+  },
+  "presentation": {
+    "ownerId": "p19-q5",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:15:01.788Z",
+  "updatedAt": "2026-11-12T13:15:01.788Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch19-20261015",
+    "blockId": "p19-q5",
+    "sectionRole": "exercise"
+  }
+}

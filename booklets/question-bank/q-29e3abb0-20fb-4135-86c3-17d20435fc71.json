@@ -1,0 +1,228 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-29e3abb0-20fb-4135-86c3-17d20435fc71",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "views-of-prisms",
+    "secondarySkillIds": [
+      "name-prisms-pyramids",
+      "construct-3d-models",
+      "eulers-formula"
+    ],
+    "reasoningScore": 39,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret the hidden edges to identify and name the prism's faces, construct projections from specified directions, and redraw the wedge from another viewpoint. Preserving triangular-end connections and visibility is the hardest demand; Euler verification is direct counting and substitution.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:18:50.976Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "b505bb6152486b087efda57c15e387dd21f4bb5dc1e8b11612420c8232a031f8",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch21-20261015/21aa1fe8f1e095fafc16d21d4dfcdf9860b7667bac2173cb5188ce01de4338a2-1792559905741/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p10-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "A wedge-shaped solid is shown. It is drawn on isometric dot paper.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p10-q1-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q1-diagram\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,14}{\\foreach \\j in {0,...,5}{\\pgfmathsetmacro{\\yy}{0.577350269*\\j+0.288675135*mod(\\i,2)-0.577350269}\\fill[black] ({0.5*\\i-0.5},\\yy) circle (0.65pt);}}\n\\coordinate (A) at (0,0);\\coordinate (B) at (3,1.732050808);\\coordinate (C) at (6,1.732050808);\\coordinate (D) at (6,0.577350269);\\coordinate (E) at (3,0.577350269);\\coordinate (F) at (3,0);\n\\draw[dashed,line width=0.4pt] (A)--(E)--(B) (E)--(D);\n\\draw[line width=0.8pt] (A)--(B)--(C)--(D)--(F)--cycle (F)--(C);\n\\node[left] at (A) {$A$};\\node[above] at (B) {$B$};\\node[right] at (C) {$C$};\\node[right] at (D) {$D$};\\node[above right] at (E) {$E$};\\node[below] at (F) {$F$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 140,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 10,
+          "sourceRegion": "Review exercise Question 1, upper labelled wedge",
+          "description": "Six labelled vertices on staggered isometric dots. AF and BC span three horizontal intervals; BE and CD span two vertical intervals. Ordinary source colours become black; dashes retain hidden-edge meaning.",
+          "mathematics": "Triangular ends AEB and FDC; connecting edges AF, BC and ED. Visible edges AB, BC, CD, DF, FA and FC; hidden edges AE, EB and ED.",
+          "answerVisibility": "All source givens remain visible; no answers supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p10-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "What type of prism is this?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Triangular prism.",
+          "worked": "The two identical, parallel triangular end faces are $AEB$ and $FDC$, so the solid is a triangular prism.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p10-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Name the faces of this prism.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$ABCF$, $CDF$, $BEA$, $AEDF$, $BCDE$.",
+          "worked": "The triangular end faces are $BEA$ and $CDF$. The three remaining faces, named around their boundaries, are $ABCF$, $AEDF$ and $BCDE$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 16
+      },
+      {
+        "id": "p10-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Draw the plan view, back view and side view of this solid. For the back view, look directly towards face $BCDE$; for the side view, look directly towards triangular face $AEB$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Plan: rectangle. Back: rectangle. Side: right-angled triangle.",
+          "worked": "From above, the projected footprint is a rectangle. Looking directly towards $BCDE$ gives a rectangle. Looking towards $AEB$ gives a right-angled triangle, with the vertical edge on the right as shown.",
+          "solutionDiagrams": [
+            {
+              "id": "p10-q1-c-views",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q1-c teacher page 66\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\draw[line width=0.8pt] (0,0) rectangle (3,2.25);\n\\node[above] at (1.5,2.4) {Plan view};\n\\draw[line width=0.8pt] (3.8,0) rectangle (6.8,1.732050808);\n\\node[above] at (5.3,1.882050808) {Back view};\n\\draw[line width=0.8pt] (7.6,0)--(10.6,0)--(10.6,1.732050808)--cycle;\n\\draw[line width=0.4pt] (10.35,0)--(10.35,0.25)--(10.6,0.25);\n\\node[above] at (9.1,1.882050808) {Side view};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 150,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 10,
+                "sourceRegion": "Question 1c; matched answer on teacher PDF page 66",
+                "description": "Three labelled orthographic views in one row, with a common baseline: square plan, rectangular back and triangular side.",
+                "mathematics": "Plan has equal footprint dimensions; back and side share the wedge height. Side has a right angle at its lower-right vertex.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 48
+      },
+      {
+        "id": "p10-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Draw the prism again from a different view on isometric dot paper.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p10-q1-d-dot-paper",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q1-d drawing scaffold\"}\n\\begin{tikzpicture}\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,20}{\\foreach \\j in {0,...,8}{\\pgfmathsetmacro{\\yy}{0.577350269*\\j+0.288675135*mod(\\i,2)}\\fill[black] ({0.5*\\i},\\yy) circle (0.65pt);}}\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 145,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 10,
+              "sourceRegion": "Question 1d response requirement",
+              "description": "Editable isometric dot scaffold for the requested complete alternative drawing; source does not print a separate response scaffold.",
+              "mathematics": "Staggered dots retain the isometric lattice.",
+              "answerVisibility": "Blank response scaffold visible in question editions."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "One possible drawing is shown.",
+          "worked": "Keep the same two triangular ends and their three connecting edges. This view shows triangular face $AEB$ at the right. Dashed lines show the three hidden edges meeting at $D$.",
+          "solutionDiagrams": [
+            {
+              "id": "p10-q1-d-alternative",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 10 p10-q1-d; corrected alternative view\"}\n\\begin{tikzpicture}[line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\foreach \\i in {0,...,14}{\\foreach \\j in {0,...,5}{\\pgfmathsetmacro{\\yy}{0.577350269*\\j+0.288675135*mod(\\i,2)-0.577350269}\\fill[black] ({0.5*\\i-0.5},\\yy) circle (0.65pt);}}\n\\coordinate (F) at (6,0);\\coordinate (C) at (3,1.732050808);\\coordinate (B) at (0,1.732050808);\\coordinate (E) at (0,0.577350269);\\coordinate (D) at (3,0.577350269);\\coordinate (A) at (3,0);\n\\draw[dashed,line width=0.4pt] (F)--(D)--(C) (D)--(E);\n\\draw[line width=0.8pt] (F)--(C)--(B)--(E)--(A)--cycle (A)--(B);\n\\node[below] at (A) {$A$};\\node[left] at (B) {$B$};\\node[above] at (C) {$C$};\\node[above left] at (D) {$D$};\\node[left] at (E) {$E$};\\node[right] at (F) {$F$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 125,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 10,
+                "sourceRegion": "Question 1d; alternative view matched to teacher PDF page 66",
+                "description": "Opposite view with B and E at the left, C and D centrally, A below D and F to the right; all nine edges are visible.",
+                "mathematics": "Triangles BEA and CDF remain congruent and parallel; BC, ED and AF remain equal parallel connecting edges.",
+                "answerVisibility": "Completed example in answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0,
+        "responseSpace": "scaffold"
+      },
+      {
+        "id": "p10-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "Verify that $V-E+F=2$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$V=6$, $E=9$, $F=5$; $6-9+5=2$.",
+          "worked": "There are 6 vertices, 9 edges and 5 faces.\n$$\\begin{align*}V-E+F&=6-9+5\\\\V-E+F&=2\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p10-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:28:21.854Z",
+  "updatedAt": "2026-11-12T11:28:21.855Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch21-20261015",
+    "blockId": "p10-q1",
+    "sectionRole": "exercise"
+  }
+}

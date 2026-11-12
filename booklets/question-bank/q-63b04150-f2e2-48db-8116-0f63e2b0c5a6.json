@@ -1,0 +1,104 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-63b04150-f2e2-48db-8116-0f63e2b0c5a6",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "describe-transformations",
+    "secondarySkillIds": [],
+    "reasoningScore": 17,
+    "difficulty": "Foundation",
+    "difficultyReason": "Translate the specified 60-degree clockwise rotation into two grid divisions, preserve each endpoint's circle, and join the image endpoints.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:17:51.500Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "517e3d6538cbcc21dbfe1c29bd48899550986b4976a89cd2991f8e74d7aeb7ab",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch18-20261015/db90453fcc831a3579af7e26b9243f1d4f972f193d7186b9e18a2c2194fc616d-1792559847602/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p28-q2-root",
+    "type": "question",
+    "label": "2",
+    "prompt": "Rotate the interval $AB$ by $60^{\\circ}$ in a clockwise direction about the point $O$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p28-q2-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"originalBlue\",\"hex\":\"268CFF\",\"reason\":\"original interval\"},{\"name\":\"centreRed\",\"hex\":\"EF6068\",\"reason\":\"specified centre of rotation\"}],\"reference\":\"source page 28 p28-q2-diagram\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{originalBlue}{HTML}{268CFF}\n\\definecolor{centreRed}{HTML}{EF6068}\n\\draw[line width=0.25pt] (-5,-5) rectangle (5,5);\n\\begin{scope}\n\\clip (-5,-5) rectangle (5,5);\n\\foreach \\r in {1,2,3,4,5} {\\draw[line width=0.25pt] (0,0) circle (\\r);}\n\\foreach \\a in {0,30,...,330} {\\draw[line width=0.25pt] (0,0)--(\\a:8);}\n\\end{scope}\n\\coordinate (A) at (240:2);\n\\coordinate (B) at (300:4);\n\\draw[originalBlue,line width=0.8pt] (A)--(B);\n\\fill[centreRed] (0,0) circle (1.7pt);\n\\node[above left] at (0,0) {$O$};\n\\node[left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 28,
+          "sourceRegion": "Review exercise question 2, left column",
+          "description": "Square polar scaffold with five concentric circles and rays every 30 degrees. The labelled interval requires free-form TikZ because a blank-grid template cannot express polar circles, rays and supplied endpoints.",
+          "mathematics": "O is the centre. A is on circle 2 at polar angle 240 degrees; B is on circle 4 at polar angle 300 degrees. Polar angles are measured anticlockwise from the rightward horizontal.",
+          "answerVisibility": "Only the original interval AB and centre O are supplied; no image endpoints are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$A'$ lies on the second circle directly left of $O$; $B'$ lies on the fourth circle, $30^{\\circ}$ left of the downward vertical. Join $A'$ to $B'$.",
+      "worked": "$60^{\\circ}=2\\times30^{\\circ}$. Move each endpoint two radial divisions clockwise, keeping it on its original circle. Thus $A'$ is directly left of $O$ on the second circle, and $B'$ is on the fourth circle, $30^{\\circ}$ left of the downward vertical. Join and label the image interval $A'B'$.",
+      "solutionDiagrams": [
+        {
+          "id": "p28-q2-solution",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"originalBlue\",\"hex\":\"268CFF\",\"reason\":\"original interval\"},{\"name\":\"imageRed\",\"hex\":\"EF6068\",\"reason\":\"rotated image and centre of rotation\"}],\"reference\":\"source page 28 p28-q2-solution\"}\n\\begin{tikzpicture}[x=0.65cm,y=0.65cm,every node/.style={font=\\fontsize{10}{12}\\selectfont},line cap=round,line join=round]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{originalBlue}{HTML}{268CFF}\n\\definecolor{imageRed}{HTML}{EF6068}\n\\draw[line width=0.25pt] (-5,-5) rectangle (5,5);\n\\begin{scope}\n\\clip (-5,-5) rectangle (5,5);\n\\foreach \\r in {1,2,3,4,5} {\\draw[line width=0.25pt] (0,0) circle (\\r);}\n\\foreach \\a in {0,30,...,330} {\\draw[line width=0.25pt] (0,0)--(\\a:8);}\n\\end{scope}\n\\coordinate (A) at (240:2);\n\\coordinate (B) at (300:4);\n\\coordinate (Ap) at (180:2);\n\\coordinate (Bp) at (240:4);\n\\draw[originalBlue,line width=0.8pt] (A)--(B);\n\\draw[imageRed,line width=0.8pt] (Ap)--(Bp);\n\\fill[imageRed] (0,0) circle (1.7pt);\n\\node[above left] at (0,0) {$O$};\n\\node[left] at (A) {$A$};\n\\node[right] at (B) {$B$};\n\\node[left] at (Ap) {$A'$};\n\\node[below left] at (Bp) {$B'$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 70,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 28,
+            "sourceRegion": "Question 2; answer evidence PDF page 57, printed page 604",
+            "description": "Complete polar scaffold showing the original blue interval and its red rotated image.",
+            "mathematics": "Clockwise rotation subtracts 60 degrees: A at radius 2 and angle 240 degrees maps to radius 2 and angle 180 degrees; B at radius 4 and angle 300 degrees maps to radius 4 and angle 240 degrees.",
+            "answerVisibility": "Answer-only complete construction with A', B' and the joined image interval."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 0
+  },
+  "presentation": {
+    "ownerId": "p28-q2",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:45.869Z",
+  "updatedAt": "2026-11-12T13:14:45.869Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch18-20261015",
+    "blockId": "p28-q2",
+    "sectionRole": "exercise"
+  }
+}

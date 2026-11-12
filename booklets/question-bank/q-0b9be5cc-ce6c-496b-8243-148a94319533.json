@@ -1,0 +1,180 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0b9be5cc-ce6c-496b-8243-148a94319533",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "construct-angles-protractor",
+    "secondarySkillIds": [
+      "perpendicular-lines",
+      "angle-pairs-point"
+    ],
+    "reasoningScore": 32,
+    "difficulty": "Development",
+    "difficultyReason": "Organise repeated bisections into halves, quarters and eighths, and construct adjacent angle bisectors to check perpendicularity. The requested outcomes guide both construction sequences.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:16:31.209Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3f829cdca8774bee133803aec157baf0bd6f52f4d13e3ea65a9658d8049d0ef3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch13-20261015/19a9f9db6a2875e659c6cce8bdc8bb1f3e922b5928868191d0931409398e0f32-1792559760319/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q7-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Construct the bisectors of $\\angle AOB$ and $\\angle BOC$. Check that the two bisectors are perpendicular. Do this on your page first with $AB=8\\text{ cm}$ and $DB=10\\text{ cm}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p21-q7-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 p21-q7-a-diagram\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (-1.1,1.7);\\coordinate (C) at (1.05,-1.6227);\\coordinate (D) at (-1.35,-0.15);\\coordinate (B) at (1.65,0.18333);\n\\draw[black,line width=0.8pt] (A)--(C) (D)--(B);\n\\node[above] at (A) {$A$};\\node[below right] at (C) {$C$};\\node[left] at (D) {$D$};\\node[right] at (B) {$B$};\\node[above right] at (O) {$O$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 21,
+              "sourceRegion": "Exercise 13D question 7a, upper-right figure",
+              "description": "Two intersecting intervals with A–O–C and D–O–B collinear. No supplied angles or dimensions are added to the figure.",
+              "mathematics": "Adjacent angles AOB and BOC share OB; OA and OC are opposite rays.",
+              "answerVisibility": "Supplied figure visible in every edition."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "The two constructed bisectors meet at $90^{\\circ}$.",
+          "worked": "Draw $DB=10\\text{ cm}$. Choose $O$ inside $DB$ and a suitable point $A$ above the line with $AB=8\\text{ cm}$; extend $AO$ through $O$ to $C$.\n\nFor each angle, draw an arc centred at $O$ meeting both arms. From these two intersections, draw equal-radius arcs that cross inside the angle. Join $O$ to their intersection to obtain its bisector. Retain the construction arcs and check the angle between the two bisectors.\n\nSince $A$, $O$ and $C$ are collinear,\n$$\\begin{align*}\\angle AOB+\\angle BOC&=180^{\\circ}\\\\\\text{angle between the bisectors}&=\\tfrac12\\angle AOB+\\tfrac12\\angle BOC\\\\\\text{angle between the bisectors}&=90^{\\circ}.\\end{align*}$$\nThe bisectors are perpendicular. The given lengths permit more than one suitable initial figure.",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q7-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 question 7a authored sample solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (D) at (-3,0);\\coordinate (B) at (3,0);\\coordinate (A) at (-0.6,{0.6*sqrt(28)});\\coordinate (C) at (0.36,{-0.36*sqrt(28)});\n\\pgfmathsetmacro{\\t}{atan2(sqrt(28),-1)}\n\\draw[black,line width=0.8pt] (D)--(B) (A)--(C);\n\\draw[black,line width=0.8pt] (O)--({\\t/2}:2.6) (O)--({\\t/2-90}:2.1);\n\\draw[black,line width=0.4pt] ({\\t/2}:0.3)--++({\\t/2-90}:0.3)--++({\\t/2+180}:0.3);\n\\draw[black,dashed,line width=0.4pt] (0:1) arc[start angle=0,end angle=\\t,radius=1];\n\\draw[black,dashed,line width=0.4pt] ({\\t-180}:0.8) arc[start angle={\\t-180},end angle=0,radius=0.8];\n\\node[left] at (D) {$D$};\\node[right] at (B) {$B$};\\node[above] at (A) {$A$};\\node[below] at (C) {$C$};\\node[below left] at (O) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "Exercise 13D question 7a",
+                "description": "One permissible sample, with bisectors of the adjacent supplementary angles and their derived right-angle marker. It is not a uniquely determined reconstruction.",
+                "mathematics": "At 0.6 coordinate units per centimetre, DB is 10 cm and AB is 8 cm. The two bisector directions differ by 90 degrees.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 115
+      },
+      {
+        "id": "p21-q7-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use the angle bisection construction seven times to divide $\\angle AOB$ into eight equal parts. Do this on your page with $OA=10\\text{ cm}$ and $OB=10\\text{ cm}$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p21-q7-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 p21-q7-b-diagram\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (-1,2.25);\\coordinate (B) at (2.45,0.13);\n\\draw[black,line width=0.8pt] (A)--(O)--(B);\n\\node[above] at (A) {$A$};\\node[below left] at (O) {$O$};\\node[right] at (B) {$B$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 48,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 21,
+              "sourceRegion": "Exercise 13D question 7b, right-hand figure",
+              "description": "An obtuse angle with OA rising to the left and OB extending slightly upward to the right. No numerical angle is supplied.",
+              "mathematics": "Two intervals meet at O; the requested student copy has OA and OB both 10 cm.",
+              "answerVisibility": "Supplied figure visible in every edition."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "diagramPlacement": "right-of-prompt",
+        "answer": {
+          "short": "Seven bisectors divide the angle into eight equal angles, each $\\tfrac18\\angle AOB$.",
+          "worked": "Draw the obtuse angle with $OA=OB=10\\text{ cm}$. For each bisection, draw an arc centred at the vertex meeting both arms, then equal-radius crossing arcs from those intersections; join the vertex to their intersection.\n\nBisect the original angle once to make two equal angles. Bisect both of these angles, using two more constructions, to make four equal angles. Bisect all four, using four more constructions, to make eight equal angles. Retain the construction arcs.\n\n$$\\begin{align*}\\text{number of bisections}&=1+2+4\\\\\\text{number of bisections}&=7,\\\\\\text{each final angle}&=\\tfrac18\\angle AOB.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p21-q7-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 21 question 7b authored sample solution\"}\n\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\pgfmathsetmacro{\\lo}{atan2(0.13,2.45)}\\pgfmathsetmacro{\\hi}{atan2(2.25,-1)}\n\\coordinate (A) at (\\hi:3);\\coordinate (B) at (\\lo:3);\n\\draw[black,line width=0.8pt] (A)--(O)--(B);\n\\foreach \\k in {1,...,7}{\\pgfmathsetmacro{\\ang}{\\lo+\\k*(\\hi-\\lo)/8}\\draw[black,line width=0.8pt] (O)--(\\ang:3);}\n\\foreach \\k in {0,...,7}{\\pgfmathsetmacro{\\st}{\\lo+\\k*(\\hi-\\lo)/8}\\pgfmathsetmacro{\\en}{\\lo+(\\k+1)*(\\hi-\\lo)/8}\\draw[black,line width=0.4pt] (\\st:0.8) arc[start angle=\\st,end angle=\\en,radius=0.8];\\pgfmathsetmacro{\\mid}{(\\st+\\en)/2}\\draw[black,line width=0.4pt] (\\mid:0.75)--(\\mid:0.85);}\n\\node[above left] at (A) {$A$};\\node[right] at (B) {$B$};\\node[below left] at (O) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 21,
+                "sourceRegion": "Exercise 13D question 7b",
+                "description": "Completed sample with seven internal rays and eight equally marked angle sectors. Construction procedure is supplied in editable worked text.",
+                "mathematics": "OA and OB have equal lengths. Internal rays occur at successive eighths of the original obtuse angle; no numerical angle is asserted.",
+                "answerVisibility": "Answer editions only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 125
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q7",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:54:12.308Z",
+  "updatedAt": "2026-11-12T13:54:12.309Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch13-20261015",
+    "blockId": "p21-q7",
+    "sectionRole": "exercise"
+  }
+}

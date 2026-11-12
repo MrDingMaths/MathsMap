@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-54ffe2e4-5078-45e4-99ed-7a45185c8cf5",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-properties-triangles-quadrilaterals",
+    "secondarySkillIds": [
+      "angle-sum-triangle"
+    ],
+    "reasoningScore": 58,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine equal base angles in two isosceles triangles with triangle angle sums to prove a right angle.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T01:17:36.606Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "52da6a659c90d6da2f8f1f404a6bea028b37953950f3ae2b94522483fd8602fe",
+      "evidence": ".booklet-work/full-imports/iceem-7-ch13-20261015/semantic-packets/assignments/assignment-0555a5e286693e1f3406/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p29-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "Let $\\angle ACB=x$. In the diagram below show that $\\angle ABC=90^\\circ$.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q10-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29, p29-q10-diagram\"}\n\\begin{tikzpicture}[x=10mm,y=10mm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,3.4);\n\\coordinate (B) at (0,0);\n\\coordinate (C) at (6,0);\n\\coordinate (D) at ($(A)!0.5!(C)$);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[black,line width=0.8pt] (B)--(D);\n\\foreach \\U/\\V in {A/D,D/C,B/D}{\n\\pgfmathanglebetweenpoints{\\pgfpointanchor{\\U}{center}}{\\pgfpointanchor{\\V}{center}}\n\\let\\tickangle\\pgfmathresult\n\\coordinate (Tleft) at ($(\\U)!0.48!(\\V)$);\n\\coordinate (Tright) at ($(\\U)!0.52!(\\V)$);\n\\draw[black,line width=0.4pt] ($(Tleft)+({\\tickangle+90}:0.09)$)--($(Tleft)+({\\tickangle-90}:0.09)$);\n\\draw[black,line width=0.4pt] ($(Tright)+({\\tickangle+90}:0.09)$)--($(Tright)+({\\tickangle-90}:0.09)$);\n}\n\\node[above left] at (A) {$A$};\n\\node[below] at (B) {$B$};\n\\node[below] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 78,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Challenge exercise question 10",
+          "description": "Triangle ABC with an unlabelled point on AC joined to B. Matching double ticks occur on both portions of AC and on the internal segment. Source blue ordinary linework is rendered black under house style.",
+          "mathematics": "The unlabelled point lies on AC; the three double-ticked segments are equal. A is upper left, B lower left and C lower right. Coordinates provide a representative drawing without supplying numerical measurements.",
+          "answerVisibility": "Only A, B, C and the three pairs of equality ticks are shown. No x, internal-point label or right-angle marker is supplied."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\angle ABC=90^\\circ$.\n\nThe equal base angles in the two isosceles triangles give $\\angle ABC=(90^\\circ-x)+x$.",
+      "worked": "Call the unlabelled point on $AC$ $M$. The marks give $AM=BM=CM$.\n\nSince $BM=CM$, triangle $BMC$ is isosceles, so $\\angle MBC=\\angle BCM=x$.\n\nUsing the angle sum of triangle $BMC$,\n$$\\begin{align*}\\angle BMC&=180^\\circ-x-x\\\\\\angle BMC&=180^\\circ-2x.\\end{align*}$$\nSince $A$, $M$ and $C$ are collinear, adjacent angles on a straight line give\n$$\\begin{align*}\\angle AMB&=180^\\circ-(180^\\circ-2x)\\\\\\angle AMB&=2x.\\end{align*}$$\nSince $AM=BM$, triangle $AMB$ is isosceles. Its base angles are equal, so\n$$\\begin{align*}\\angle ABM&=\\frac{180^\\circ-2x}{2}\\\\\\angle ABM&=90^\\circ-x.\\end{align*}$$\nTherefore,\n$$\\begin{align*}\\angle ABC&=\\angle ABM+\\angle MBC\\\\\\angle ABC&=(90^\\circ-x)+x\\\\\\angle ABC&=90^\\circ.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 58
+  },
+  "presentation": {
+    "ownerId": "p29-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:54:18.677Z",
+  "updatedAt": "2026-11-12T13:54:18.677Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch13-20261015",
+    "blockId": "p29-q10",
+    "sectionRole": "exercise"
+  }
+}

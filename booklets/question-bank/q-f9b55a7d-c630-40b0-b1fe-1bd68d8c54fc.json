@@ -1,0 +1,84 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-f9b55a7d-c630-40b0-b1fe-1bd68d8c54fc",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "exterior-angle-triangle",
+    "secondarySkillIds": [
+      "prove-properties-triangles-quadrilaterals"
+    ],
+    "reasoningScore": 68,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine two isosceles-triangle deductions with two applications of the exterior angle theorem to establish an angle identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T01:18:00.803Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1fb53f5329fc6da379597add3d9f47044ede99f871bb370a9871ffa587704245",
+      "evidence": ".booklet-work/full-imports/iceem-7-ch13-20261015/semantic-packets/assignments/assignment-aed46ea45119c4c13cc4/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p29-q11-root",
+    "type": "question",
+    "label": "11",
+    "prompt": "Use the exterior angle theorem to prove that $\\beta=3\\alpha$ in the diagram below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q11-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 29, p29-q11-diagram\"}\n\\begin{tikzpicture}[x=15mm,y=15mm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\usetikzlibrary{calc}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at ({2*sqrt(3)},0);\n\\coordinate (C) at ({2*sqrt(3)},2);\n\\coordinate (D) at ({sqrt(3)},1);\n\\coordinate (E) at (5,0);\n\\draw[black,line width=0.8pt] (A)--(B)--(C)--cycle (D)--(B) (B)--(E);\n\\foreach \\P/\\Q in {A/D,D/B,B/C}{\n\\draw[black,line width=0.4pt] ($ (\\P)!0.47!(\\Q)!1mm!90:(\\Q) $)--($ (\\P)!0.47!(\\Q)!1mm!-90:(\\Q) $);\n\\draw[black,line width=0.4pt] ($ (\\P)!0.53!(\\Q)!1mm!90:(\\Q) $)--($ (\\P)!0.53!(\\Q)!1mm!-90:(\\Q) $);\n}\n\\node[anchor=west] at (0.25,0.14) {$\\alpha$};\n\\node[anchor=south west] at ($(B)+(0.07,0.04)$) {$\\beta$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 90,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Challenge exercise question 11, bottom diagram",
+          "description": "Unlabelled triangle with horizontal base extended rightwards, vertical right side and an internal segment from a point on the sloping side to the lower-right vertex. Three matching double ticks are retained. Ordinary source blue linework becomes house black. Coordinates express the marked equal lengths; no numerical angle or right-angle mark is added.",
+          "mathematics": "The left-to-intermediate segment, intermediate-to-lower-right segment and right side have equal lengths. Alpha is the left interior angle; beta is the exterior angle between the right side and the rightward base extension. The intermediate point lies on the sloping side.",
+          "answerVisibility": "Only the source givens and angle symbols appear; vertex names and proof deductions are absent."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$\\beta=3\\alpha$.\n\nEqual base angles in the two isosceles triangles, followed by the exterior angle theorem, give the result.",
+      "worked": "Call the left vertex $A$, the lower-right vertex $B$, the upper-right vertex $C$ and the intermediate point on $AC$ $D$. The markings give $AD=DB=BC$.\n\nSince $AD=DB$, the base angles of $\\triangle ADB$ are equal, so $\\angle ABD=\\alpha$.\n\nUsing the exterior angle theorem in $\\triangle ADB$,\n$$\\begin{align*}\\angle BDC&=\\angle DAB+\\angle ABD\\\\\\angle BDC&=\\alpha+\\alpha\\\\\\angle BDC&=2\\alpha.\\end{align*}$$\nSince $DB=BC$, the base angles of $\\triangle DBC$ are equal. Thus $\\angle BCD=\\angle BDC=2\\alpha$.\n\nUsing the exterior angle theorem in $\\triangle ABC$,\n$$\\begin{align*}\\beta&=\\angle BAC+\\angle ACB\\\\\\beta&=\\alpha+2\\alpha\\\\\\beta&=3\\alpha.\\end{align*}$$",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 56
+  },
+  "presentation": {
+    "ownerId": "p29-q11",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:54:18.999Z",
+  "updatedAt": "2026-11-12T13:54:18.999Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch13-20261015",
+    "blockId": "p29-q11",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-32aea08b-073a-4f5c-a7a0-fb71078725e9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "inclusion-exclusion-rule",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables"
+    ],
+    "reasoningScore": 44,
+    "difficulty": "Development",
+    "difficultyReason": "Distinguish neither, exactly one and at least one failure using the regions of two overlapping sets.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T03:46:03.448Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "f289a0b323112f6e724633336181d8c68ec83b0934cfb5e2da395fe3dd94d786",
+      "evidence": ".booklet-work/full-imports/iceem-7-ch23-20261015/semantic-packets/assignments/assignment-da12b24a59ea208e96fd/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "Solve the problem by drawing a Venn diagram.\n\nIn a factory, 1000 light bulbs were subjected to two quality control tests $A$ and $B$. Five hundred and sixty passed test $A$ and 410 passed test $B$, while 150 passed both tests. How many light bulbs:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q6-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "failed both tests?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p22-q6-solution-venn",
+        "answer": {
+          "short": "180 light bulbs.",
+          "worked": "Let $A$ and $B$ be the sets of bulbs passing tests $A$ and $B$, respectively. The Venn diagram has 150 in the overlap.\n$$\\begin{align*}\\text{Number passing A only}&=560-150\\\\\\text{Number passing A only}&=410\\\\\\text{Number passing B only}&=410-150\\\\\\text{Number passing B only}&=260\\\\\\text{Number failing both}&=1000-410-150-260\\\\\\text{Number failing both}&=180\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 62
+      },
+      {
+        "id": "p22-q6-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "passed test $A$ but not $B$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p22-q6-solution-venn",
+        "answer": {
+          "short": "410 light bulbs.",
+          "worked": "$$\\begin{align*}\\text{Number passing A only}&=560-150\\\\\\text{Number passing A only}&=410\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p22-q6-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "passed test $B$ but not $A$?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p22-q6-solution-venn",
+        "answer": {
+          "short": "260 light bulbs.",
+          "worked": "$$\\begin{align*}\\text{Number passing B only}&=410-150\\\\\\text{Number passing B only}&=260\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p22-q6-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "passed only one of the tests?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p22-q6-solution-venn",
+        "answer": {
+          "short": "670 light bulbs.",
+          "worked": "Add the two non-overlapping regions inside the circles.\n$$\\begin{align*}\\text{Number passing exactly one}&=410+260\\\\\\text{Number passing exactly one}&=670\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p22-q6-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "failed at least one of the tests?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p22-q6-solution-venn",
+        "answer": {
+          "short": "850 light bulbs.",
+          "worked": "Every bulb except those passing both tests failed at least one test.\n$$\\begin{align*}\\text{Number failing at least one}&=1000-150\\\\\\text{Number failing at least one}&=850\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      },
+      {
+        "id": "p22-q6-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "failed in only one of the tests?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p22-q6-solution-venn",
+        "answer": {
+          "short": "670 light bulbs.",
+          "worked": "Failing exactly one test means passing the other test, so use the two regions outside the overlap but inside the circles.\n$$\\begin{align*}\\text{Number failing exactly one}&=410+260\\\\\\text{Number failing exactly one}&=670\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 20
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p22-q6-solution-venn",
+        "role": "solution",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[line width=0.6pt,every node/.style={font=\\fontsize{10}{12}\\selectfont},draw=black,text=black]\n\\draw (0,0) rectangle (6,3.6);\n\\draw (2.25,1.9) circle (1.25);\n\\draw (3.75,1.9) circle (1.25);\n\\node[anchor=east] at (0,3.5) {$E$};\n\\node at (1.35,3.1) {$A$};\n\\node at (4.65,3.1) {$B$};\n\\node at (1.7,1.9) {$(410)$};\n\\node at (3,1.9) {$(150)$};\n\\node at (4.3,1.9) {$(260)$};\n\\node at (5.2,0.45) {$(180)$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 75,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 22,
+          "sourceRegion": "Exercise 23H question 6",
+          "description": "Authored solution diagram following Example 3: A and B represent bulbs passing the respective tests; bracketed numbers count the four regions.",
+          "mathematics": "A only 410; intersection 150; B only 260; neither 180; universal total 1000.",
+          "answerVisibility": "Solution only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:28:52.304Z",
+  "updatedAt": "2026-11-12T11:28:52.304Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch23-20261015",
+    "blockId": "p22-q6",
+    "sectionRole": "exercise"
+  }
+}

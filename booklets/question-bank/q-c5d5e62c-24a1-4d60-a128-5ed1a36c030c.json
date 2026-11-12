@@ -1,0 +1,175 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c5d5e62c-24a1-4d60-a128-5ed1a36c030c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "describe-transformations",
+    "secondarySkillIds": [],
+    "reasoningScore": 33,
+    "difficulty": "Development",
+    "difficultyReason": "Track vertices through two rotations on the supplied angular grid, then combine their directed angles, distinguishing addition from cancellation when directions differ.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:17:57.814Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c0747188e8a9f0cf4db51e6bfc38c6033614cb804b7bfeb2e1e598b52f2403ef",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch18-20261015/fc4df891916b2fb1e7df642db9cade2082a37cf4a2a2d8f7261d074f2d1f5383-1792559853002/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q12-root",
+    "type": "question",
+    "label": "12",
+    "prompt": "Perform each pair of rotations on the given figure. Then find a single rotation that has the same effect. All rotations are about $O$.",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q12-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Rotation of $30^\\circ$ anticlockwise then $60^\\circ$ anticlockwise.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q12-a-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"originalBlue\",\"hex\":\"268CFF\",\"reason\":\"original figure distinguished from its rotated images\"},{\"name\":\"centreRed\",\"hex\":\"EF6068\",\"reason\":\"marked centre of rotation\"}],\"reference\":\"source page 29 question 12a\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{originalBlue}{HTML}{268CFF}\n\\definecolor{centreRed}{HTML}{EF6068}\n\\draw[line width=0.4pt] (-6,-6) rectangle (6,6);\n\\foreach \\r in {1,...,6}{\\draw[line width=0.4pt] (0,0) circle (\\r);}\n\\begin{scope}\\clip (-6,-6) rectangle (6,6);\\foreach \\a in {0,30,...,330}{\\draw[line width=0.4pt] (0,0)--(\\a:9);}\\end{scope}\n\\coordinate (A) at (90:2);\\coordinate (B) at (120:5);\\coordinate (C) at (90:5);\n\\draw[originalBlue,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\fill[centreRed] (0,0) circle (1.6pt);\n\\node[below,fill=white,inner sep=.6pt] at (0,0) {$O$};\\node[below right,fill=white,inner sep=.6pt] at (A) {$A$};\\node[above left,fill=white,inner sep=.6pt] at (B) {$B$};\\node[above right,fill=white,inner sep=.6pt] at (C) {$C$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Review exercise 12(a)",
+              "description": "Square polar drawing scaffold with six concentric circles and rays at 30-degree intervals. Original triangle is blue and centre O is red.",
+              "mathematics": "Using one circle spacing as a drawing unit, A=(90 degrees,2), B=(120 degrees,5), C=(90 degrees,5) in polar coordinates about O. These coordinates are construction specifications, not printed givens.",
+              "answerVisibility": "Only the original triangle and polar scaffold are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$90^\\circ$ anticlockwise about $O$.",
+          "worked": "Rotate each vertex one $30^\\circ$ division anticlockwise and join the images to form $A'B'C'$. Rotate these vertices two more divisions anticlockwise to form $A''B''C''$. Keep each vertex on its original circle.\n\nThe rotations have the same direction, so their angles add:\n$$30^\\circ+60^\\circ=90^\\circ.$$\nThe equivalent rotation is $90^\\circ$ anticlockwise about $O$.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q12-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"originalBlue\",\"hex\":\"268CFF\",\"reason\":\"original triangle\"},{\"name\":\"imageRed\",\"hex\":\"EF6068\",\"reason\":\"successive rotated images and centre\"}],\"reference\":\"source page 29 question 12a solution\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{originalBlue}{HTML}{268CFF}\\definecolor{imageRed}{HTML}{EF6068}\n\\draw[line width=0.4pt] (-6,-6) rectangle (6,6);\n\\foreach \\r in {1,...,6}{\\draw[line width=0.4pt] (0,0) circle (\\r);}\n\\begin{scope}\\clip (-6,-6) rectangle (6,6);\\foreach \\a in {0,30,...,330}{\\draw[line width=0.4pt] (0,0)--(\\a:9);}\\end{scope}\n\\coordinate (A) at (90:2);\\coordinate (B) at (120:5);\\coordinate (C) at (90:5);\n\\coordinate (Ap) at (120:2);\\coordinate (Bp) at (150:5);\\coordinate (Cp) at (120:5);\n\\coordinate (App) at (180:2);\\coordinate (Bpp) at (210:5);\\coordinate (Cpp) at (180:5);\n\\draw[originalBlue,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[imageRed,dashed,line width=0.8pt] (Ap)--(Bp)--(Cp)--cycle;\n\\draw[imageRed,line width=0.8pt] (App)--(Bpp)--(Cpp)--cycle;\n\\fill[imageRed] (0,0) circle (1.6pt);\\node[below,fill=white,inner sep=.6pt] at (0,0) {$O$};\n\\node[right,fill=white,inner sep=.6pt] at (A) {$A$};\\node[above right,fill=white,inner sep=.6pt] at (B) {$B$};\\node[above right,fill=white,inner sep=.6pt] at (C) {$C$};\n\\node[left,fill=white,inner sep=.6pt] at (Ap) {$A'$};\\node[above left,fill=white,inner sep=.6pt] at (Bp) {$B'$};\\node[above left,fill=white,inner sep=.6pt] at (Cp) {$C'$};\n\\node[below,fill=white,inner sep=.6pt] at (App) {$A''$};\\node[below left,fill=white,inner sep=.6pt] at (Bpp) {$B''$};\\node[above right,fill=white,inner sep=.6pt] at (Cpp) {$C''$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Review exercise 12(a), completed",
+                "description": "Complete polar scaffold showing the original triangle, dashed first image and solid final image.",
+                "mathematics": "First image: A'=(120 degrees,2), B'=(150 degrees,5), C'=(120 degrees,5). Final image: A''=(180 degrees,2), B''=(210 degrees,5), C''=(180 degrees,5).",
+                "answerVisibility": "Both successive images are solution-only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p29-q12-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Rotation of $30^\\circ$ anticlockwise then $60^\\circ$ clockwise.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p29-q12-b-diagram",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"originalBlue\",\"hex\":\"268CFF\",\"reason\":\"original figure distinguished from its rotated images\"},{\"name\":\"centreRed\",\"hex\":\"EF6068\",\"reason\":\"marked centre of rotation\"}],\"reference\":\"source page 29 question 12b\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{originalBlue}{HTML}{268CFF}\\definecolor{centreRed}{HTML}{EF6068}\n\\draw[line width=0.4pt] (-6,-6) rectangle (6,6);\n\\foreach \\r in {1,...,6}{\\draw[line width=0.4pt] (0,0) circle (\\r);}\n\\begin{scope}\\clip (-6,-6) rectangle (6,6);\\foreach \\a in {0,30,...,330}{\\draw[line width=0.4pt] (0,0)--(\\a:9);}\\end{scope}\n\\coordinate (A) at (150:2);\\coordinate (B) at (150:6);\\coordinate (C) at (120:4);\n\\draw[originalBlue,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\fill[centreRed] (0,0) circle (1.6pt);\\node[below,fill=white,inner sep=.6pt] at (0,0) {$O$};\n\\node[below,fill=white,inner sep=.6pt] at (A) {$A$};\\node[above left,fill=white,inner sep=.6pt] at (B) {$B$};\\node[above right,fill=white,inner sep=.6pt] at (C) {$C$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 72,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 29,
+              "sourceRegion": "Review exercise 12(b)",
+              "description": "Square polar drawing scaffold with six concentric circles and rays at 30-degree intervals. Original triangle is blue and centre O is red.",
+              "mathematics": "Using one circle spacing as a drawing unit, A=(150 degrees,2), B=(150 degrees,6), C=(120 degrees,4) in polar coordinates about O. These coordinates are construction specifications, not printed givens.",
+              "answerVisibility": "Only the original triangle and polar scaffold are visible."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$30^\\circ$ clockwise about $O$.",
+          "worked": "Rotate each vertex one $30^\\circ$ division anticlockwise and join the images to form $A'B'C'$. Rotate these vertices two divisions clockwise to form $A''B''C''$. Keep each vertex on its original circle.\n\nThe clockwise rotation exceeds the anticlockwise rotation by\n$$60^\\circ-30^\\circ=30^\\circ.$$\nThe equivalent rotation is $30^\\circ$ clockwise about $O$.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q12-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"originalBlue\",\"hex\":\"268CFF\",\"reason\":\"original triangle\"},{\"name\":\"imageRed\",\"hex\":\"EF6068\",\"reason\":\"successive rotated images and centre\"}],\"reference\":\"source page 29 question 12b solution\"}\n\\begin{tikzpicture}[x=0.5cm,y=0.5cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{originalBlue}{HTML}{268CFF}\\definecolor{imageRed}{HTML}{EF6068}\n\\draw[line width=0.4pt] (-6,-6) rectangle (6,6);\n\\foreach \\r in {1,...,6}{\\draw[line width=0.4pt] (0,0) circle (\\r);}\n\\begin{scope}\\clip (-6,-6) rectangle (6,6);\\foreach \\a in {0,30,...,330}{\\draw[line width=0.4pt] (0,0)--(\\a:9);}\\end{scope}\n\\coordinate (A) at (150:2);\\coordinate (B) at (150:6);\\coordinate (C) at (120:4);\n\\coordinate (Ap) at (180:2);\\coordinate (Bp) at (180:6);\\coordinate (Cp) at (150:4);\n\\coordinate (App) at (120:2);\\coordinate (Bpp) at (120:6);\\coordinate (Cpp) at (90:4);\n\\draw[originalBlue,line width=0.8pt] (A)--(B)--(C)--cycle;\n\\draw[imageRed,dashed,line width=0.8pt] (Ap)--(Bp)--(Cp)--cycle;\n\\draw[imageRed,line width=0.8pt] (App)--(Bpp)--(Cpp)--cycle;\n\\fill[imageRed] (0,0) circle (1.6pt);\\node[below,fill=white,inner sep=.6pt] at (0,0) {$O$};\n\\node[below right,fill=white,inner sep=.6pt] at (A) {$A$};\\node[above left,fill=white,inner sep=.6pt] at (B) {$B$};\\node[above left,fill=white,inner sep=.6pt] at (C) {$C$};\n\\node[below,fill=white,inner sep=.6pt] at (Ap) {$A'$};\\node[below right,fill=white,inner sep=.6pt] at (Bp) {$B'$};\\node[left,fill=white,inner sep=.6pt] at (Cp) {$C'$};\n\\node[right,fill=white,inner sep=.6pt] at (App) {$A''$};\\node[above left,fill=white,inner sep=.6pt] at (Bpp) {$B''$};\\node[above right,fill=white,inner sep=.6pt] at (Cpp) {$C''$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Review exercise 12(b), completed",
+                "description": "Complete polar scaffold showing the original triangle, dashed first image and solid final image.",
+                "mathematics": "First image: A'=(180 degrees,2), B'=(180 degrees,6), C'=(150 degrees,4). Final image: A''=(120 degrees,2), B''=(120 degrees,6), C''=(90 degrees,4).",
+                "answerVisibility": "Both successive images are solution-only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 24
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q12",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:49.345Z",
+  "updatedAt": "2026-11-12T13:14:49.345Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch18-20261015",
+    "blockId": "p29-q12",
+    "sectionRole": "exercise"
+  }
+}

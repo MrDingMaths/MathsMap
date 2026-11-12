@@ -1,0 +1,132 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-1dee1f42-c1a3-4cd0-8893-b80ffbde06f8",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "construct-angles-protractor",
+    "secondarySkillIds": [
+      "classify-triangles",
+      "perpendicular-lines"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Combine three compass angle-bisection constructions and a perpendicular construction to locate and draw a circle touching all three sides. The catalogue has no compass-construction skill.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T01:14:06.031Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "30a6f1c1ec59f670451f1b5e6db482d2a9f0f314c2d843766eb4d52db80e1431",
+      "evidence": ".booklet-work/full-imports/iceem-7-ch13-20261015/semantic-packets/assignments/assignment-bea3c1b75371f80f3540/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p27-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p27-q10a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Draw a large obtuse-angled triangle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p27-q10-completed",
+        "answer": {
+          "short": "Sample triangle: see the shared construction.",
+          "worked": "Draw a large triangle with one interior angle greater than $90^\\circ$. The shared sample has its obtuse angle at $C$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p27-q10b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Use a ruler and compasses to construct the bisector of each vertex angle.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p27-q10-completed",
+        "answer": {
+          "short": "The three constructed angle bisectors meet at one point, $I$.",
+          "worked": "At each vertex, draw an arc cutting both sides. From its two intersection points, draw equal-radius arcs meeting inside the angle. Join the vertex to that intersection. Repeat at the other two vertices, retaining the construction arcs. The three bisectors meet at $I$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p27-q10c",
+        "type": "part",
+        "label": "c",
+        "prompt": "These bisectors should be concurrent. Construct the circle with centre at this point that just touches each of the three sides.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p27-q10-completed",
+        "answer": {
+          "short": "Draw the circle with centre $I$ and radius equal to the perpendicular distance from $I$ to a side.",
+          "worked": "Construct a perpendicular from $I$ to a side, meeting it at $T$, using the taught perpendicular construction. Set the compasses to $IT$ and draw a circle centred at $I$. A point on an angle bisector is equally distant from its two arms: folding along the bisector matches the arms and their perpendicular distances. Therefore $I$ has the same perpendicular distance from all three sides, so the circle touches each side.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 100
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p27-q10-completed",
+        "role": "solution",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 27 Review 10; authored sample solution\"}\n\\usetikzlibrary{calc,angles,quotes}\n\\begin{tikzpicture}[x=1cm,y=1cm,draw=black,text=black,line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (8,0);\n\\coordinate (C) at (2,2);\n\\pgfmathsetmacro{\\aa}{sqrt(40)}\n\\pgfmathsetmacro{\\bb}{sqrt(8)}\n\\pgfmathsetmacro{\\ss}{\\aa+\\bb+8}\n\\pgfmathsetmacro{\\ix}{(8*\\bb+16)/\\ss}\n\\pgfmathsetmacro{\\rr}{16/\\ss}\n\\coordinate (I) at (\\ix,\\rr);\n\\coordinate (T) at (\\ix,0);\n\\coordinate (D) at ({8+(2-8)*8/(8+\\bb)},{2*8/(8+\\bb)});\n\\coordinate (E) at ({2*8/(8+\\aa)},{2*8/(8+\\aa)});\n\\coordinate (F) at ({8*\\bb/(\\aa+\\bb)},0);\n\\draw (A)--(B)--(C)--cycle;\n\\draw[line width=0.4pt,dashed] (A)--(D) (B)--(E) (C)--(F);\n\\draw (I) circle[radius=\\rr];\n\\draw[line width=0.4pt] (I)--(T);\n\\draw[line width=0.4pt] ($(T)+(0,0.18)$)--($(T)+(0.18,0.18)$)--($(T)+(0.18,0)$);\n\\fill (I) circle[radius=1pt];\n\\node[below left] at (A) {$A$};\n\\node[below right] at (B) {$B$};\n\\node[above] at (C) {$C$};\n\\node[right=3pt] at (I) {$I$};\n\\node[below] at (T) {$T$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 110,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Review question 10a–c",
+          "description": "Authored sample final construction, not a source-supplied figure. An obtuse triangle contains its three concurrent internal angle bisectors and its incircle. The perpendicular radius to the horizontal side is shown.",
+          "mathematics": "A=(0,0), B=(8,0), C=(2,2) gives an obtuse angle at C. The incenter is calculated by side-length weights; the radius is twice the triangle area divided by its perimeter. Each bisector endpoint uses the angle-bisector ratio.",
+          "answerVisibility": "Solution only; no sample triangle, centre or circle appears in the student question."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p27-q10",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:54:15.868Z",
+  "updatedAt": "2026-11-12T13:54:15.868Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch13-20261015",
+    "blockId": "p27-q10",
+    "sectionRole": "exercise"
+  }
+}

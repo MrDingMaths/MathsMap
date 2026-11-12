@@ -1,0 +1,159 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b68a31b2-4a21-48aa-8608-06e257bf70fa",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "inclusion-exclusion-rule",
+    "secondarySkillIds": [
+      "venn-diagrams-two-way-tables"
+    ],
+    "reasoningScore": 78,
+    "difficulty": "Mastery",
+    "difficultyReason": "Recover the triple intersection from inclusive pairwise counts and a single-language-only count, then count combinations of three sets.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T03:46:47.456Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7d5842c0b75b7323cca2d7cf794a8b21a203e1bcfcac1b282f030eae3c33b7d8",
+      "evidence": ".booklet-work/full-imports/iceem-7-ch23-20261015/semantic-packets/assignments/assignment-bf2eb91f072994494f40/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p22-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "Solve this problem by drawing a Venn diagram.\n\nIn a certain school, there are 180 pupils in Year 7. One hundred and ten pupils study French, 88 study German and 65 study Indonesian. Forty pupils study both French and German, 38 study German and Indonesian, and 26 study both French and Indonesian, while 19 study German only. Find the number of pupils who study:",
+    "layout": "grid",
+    "columns": 2,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p22-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "all three languages",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "9 pupils.\n\nThe pairwise counts include pupils studying all three languages.",
+          "worked": "Let $F$, $G$ and $I$ represent French, German and Indonesian. Let $x$ be the number studying all three languages. Within $G$, the regions are German only, French and German only, German and Indonesian only, and all three.\n$$\\begin{aligned}88&=19+(40-x)+(38-x)+x\\\\88&=97-x\\\\x&=97-88\\\\x&=9\\end{aligned}$$\nThus 9 pupils study all three. The pair-only regions are $40-9=31$, $38-9=29$ and $26-9=17$. French only is $110-31-17-9=53$; Indonesian only is $65-17-29-9=10$.",
+          "solutionDiagrams": [
+            {
+              "id": "p22-q8-a-solution-venn",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[every node/.style={font=\\fontsize{10}{12}\\selectfont},line width=0.7pt]\n\\draw (-2.6,-2.4) rectangle (2.6,2.1);\n\\draw (-0.8,0.3) circle (1.35);\n\\draw (0.8,0.3) circle (1.35);\n\\draw (0,-0.9) circle (1.35);\n\\node at (-2.4,1.85) {$E$};\n\\node at (-1.65,1.55) {$F$};\n\\node at (1.65,1.55) {$G$};\n\\node at (0,-2.1) {$I$};\n\\node at (-1.25,0.5) {$(53)$};\n\\node at (1.25,0.5) {$(19)$};\n\\node at (0,0.9) {$(31)$};\n\\node at (-0.65,-0.65) {$(17)$};\n\\node at (0.65,-0.65) {$(29)$};\n\\node at (0,-0.05) {$(9)$};\n\\node at (0,-1.55) {$(10)$};\n\\node at (2,-1.8) {$(12)$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 78,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 22,
+                "sourceRegion": "Exercise 23H question 8",
+                "description": "Authored completed three-set Venn diagram; bracketed values count pupils in disjoint regions.",
+                "mathematics": "F only 53; G only 19; I only 10; FG only 31; FI only 17; GI only 29; triple intersection 9; outside 12.",
+                "answerVisibility": "Solution only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 65
+      },
+      {
+        "id": "p22-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Indonesian only",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "10 pupils.",
+          "worked": "The Indonesian pair-only regions contain $26-9=17$ and $38-9=29$ pupils.\n$$\\begin{aligned}\\text{Indonesian only}&=65-17-29-9\\\\\\text{Indonesian only}&=10\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 28
+      },
+      {
+        "id": "p22-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "none of the languages",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "12 pupils.",
+          "worked": "Add the seven disjoint regions inside the circles, counting each pupil once.\n$$\\begin{aligned}\\text{At least one}&=53+19+10+31+17+29+9\\\\\\text{At least one}&=168\\\\\\text{None}&=180-168\\\\\\text{None}&=12\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 38
+      },
+      {
+        "id": "p22-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "at least one language",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "168 pupils.",
+          "worked": "$$\\begin{aligned}\\text{At least one}&=180-12\\\\\\text{At least one}&=168\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 18
+      },
+      {
+        "id": "p22-q8-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "either one or two of the three languages",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "159 pupils.\n\nExclude the pupils studying all three from those studying at least one.",
+          "worked": "The required regions are all regions inside the circles except the triple intersection.\n$$\\begin{aligned}\\text{One or two languages}&=168-9\\\\\\text{One or two languages}&=159\\end{aligned}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 25
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p22-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:28:52.814Z",
+  "updatedAt": "2026-11-12T11:28:52.814Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch23-20261015",
+    "blockId": "p22-q8",
+    "sectionRole": "exercise"
+  }
+}

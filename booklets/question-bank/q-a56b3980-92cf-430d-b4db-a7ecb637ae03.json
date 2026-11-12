@@ -1,0 +1,83 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-a56b3980-92cf-430d-b4db-a7ecb637ae03",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "symmetry-of-graphs",
+    "secondarySkillIds": [],
+    "reasoningScore": 22,
+    "difficulty": "Foundation",
+    "difficultyReason": "Extend the taught regular-polygon rotation pattern to recognise that each vertex gives one matching position, so rotational order equals the number of sides without drawing.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:17:51.500Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1e382d8c936b448b8285ea15c0d5df757f5d2616ccbdcd7644450da551c3619c",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch18-20261015/db90453fcc831a3579af7e26b9243f1d4f972f193d7186b9e18a2c2194fc616d-1792559847602/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p27-q6-root",
+    "type": "question",
+    "label": "6",
+    "prompt": "What are the orders of the rotational symmetry of a regular 36-gon and a regular 37-gon?\n\nDo not attempt to draw them! A regular 36-gon is illustrated to the right, with straight lines between adjacent points.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p27-q6-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"vertexRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the 36 discrete vertices from the connecting polygon edges\"}],\"reference\":\"source page 27 p27-q6-diagram\"}\n\\begin{tikzpicture}[x=0.45cm,y=0.45cm,line cap=round,line join=round,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{vertexRed}{HTML}{EF6068}\n\\draw[black,line width=0.15pt,step=1] (0,0) grid (13,13);\n\\foreach \\x in {1,4,7,10,13} {\\draw[black,line width=0.25pt] (\\x,0)--(\\x,13);}\n\\foreach \\y in {1,4,7,10} {\\draw[black,line width=0.25pt] (0,\\y)--(13,\\y);}\n\\foreach \\k in {0,...,35} {\\coordinate (V\\k) at ({6.5+5.75*cos(5+10*\\k)},{6.75+5.75*sin(5+10*\\k)});}\n\\draw[black,line width=0.8pt] (V0) \\foreach \\k in {1,...,35} {--(V\\k)} --cycle;\n\\foreach \\k in {0,...,35} {\\fill[vertexRed] (V\\k) circle (1.35pt);}\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 70,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Lower-right illustration beside question 6",
+          "description": "An unlabelled regular 36-gon on a 13-by-13 square grid, with heavier grid lines at three-cell intervals and 36 marked vertices. Straight segments join consecutive vertices; there is no circle, axis or numerical scale.",
+          "mathematics": "Thirty-six equally spaced vertices, separated by central angles of 10 degrees, joined consecutively.",
+          "answerVisibility": "Permanent supplied illustration; no symmetry order is printed."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "diagramPlacement": "right-of-prompt",
+    "answer": {
+      "short": "36 and 37, respectively.",
+      "worked": "A regular polygon with $n$ sides fits exactly onto itself after each rotation of $\\frac{360^\\circ}{n}$ about its centre. There are $n$ such positions in a full turn, so its rotational symmetry has order $n$.\n\nThe regular 36-gon has order 36, and the regular 37-gon has order 37.",
+      "solutionDiagrams": []
+    },
+    "answerSpaceMm": 16
+  },
+  "presentation": {
+    "ownerId": "p27-q6",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:45.189Z",
+  "updatedAt": "2026-11-12T13:14:45.189Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch18-20261015",
+    "blockId": "p27-q6",
+    "sectionRole": "exercise"
+  }
+}

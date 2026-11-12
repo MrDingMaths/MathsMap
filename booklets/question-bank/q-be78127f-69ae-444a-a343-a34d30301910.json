@@ -1,0 +1,148 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-be78127f-69ae-444a-a343-a34d30301910",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "transformations-coordinates",
+    "secondarySkillIds": [
+      "plot-points-cartesian"
+    ],
+    "reasoningScore": 21,
+    "difficulty": "Foundation",
+    "difficultyReason": "Apply the taught anticlockwise quarter-turn about the origin, locate images in the appropriate quadrants, and recognise that the centre remains fixed.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:17:47.947Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3509f888537752e1150bbb760c168af5ee5be688d051dfac0708b61ad38323b3",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch18-20261015/8342163974e019935918f43416aac4a67941d976cf4abcb5fdc994bd3e4ed4cc-1792559841474/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p21-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Mark the given points on a number plane and rotate them $90^{\\circ}$ anticlockwise about the origin $O$. Write down the coordinates of each image point.",
+    "layout": "grid",
+    "columns": 4,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p21-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "$A(2,-1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p21-q3-solution-plane",
+        "answer": {
+          "short": "$A'(1,2)$",
+          "worked": "Plot $A$ two units right and one unit down from $O$. Turn $OA$ through $90^{\\circ}$ anticlockwise, keeping its length unchanged. The image is one unit right and two units up: $A'(1,2)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p21-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "$B(2,1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p21-q3-solution-plane",
+        "answer": {
+          "short": "$B'(-1,2)$",
+          "worked": "Plot $B$ two units right and one unit up from $O$. Turn $OB$ through $90^{\\circ}$ anticlockwise, keeping its length unchanged. The image is one unit left and two units up: $B'(-1,2)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p21-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "$C(-3,1)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p21-q3-solution-plane",
+        "answer": {
+          "short": "$C'(-1,-3)$",
+          "worked": "Plot $C$ three units left and one unit up from $O$. Turn $OC$ through $90^{\\circ}$ anticlockwise, keeping its length unchanged. The image is one unit left and three units down: $C'(-1,-3)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p21-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "$D(0,0)$",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "sharedSolutionDiagramId": "p21-q3-solution-plane",
+        "answer": {
+          "short": "$D'(0,0)$",
+          "worked": "$D$ is the centre of rotation, so it remains fixed: $D'(0,0)$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      }
+    ],
+    "sharedSolutionDiagrams": [
+      {
+        "id": "p21-q3-solution-plane",
+        "role": "solution",
+        "format": "tikz",
+        "code": "\\begin{tikzpicture}[x=0.8cm,y=0.8cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\path[use as bounding box] (-4.8,-4.6) rectangle (4.8,3.8);\n\\draw[step=1,draw=black,very thin] (-4,-4) grid (4,3);\n\\draw[->,black] (-4.3,0)--(4.35,0) node[right] {$x$};\n\\draw[->,black] (0,-4.3)--(0,3.35) node[above] {$y$};\n\\foreach \\x in {-4,-3,-2,-1,1,2,3,4} {\\draw[black] (\\x,0.06)--(\\x,-0.06);\\node[below,font=\\fontsize{8.5}{10}\\selectfont] at (\\x,-0.08) {$\\x$};}\n\\foreach \\y in {-4,-3,-2,-1,1,2,3} {\\draw[black] (0.06,\\y)--(-0.06,\\y);\\node[left,font=\\fontsize{8.5}{10}\\selectfont] at (-0.08,\\y) {$\\y$};}\n\\fill[black] (2,-1) circle (1.5pt) node[below right] {$A$};\n\\fill[black] (2,1) circle (1.5pt) node[above right] {$B$};\n\\fill[black] (-3,1) circle (1.5pt) node[above left] {$C$};\n\\fill[black] (1,2) circle (1.5pt) node[above right] {$A'$};\n\\fill[black] (-1,2) circle (1.5pt) node[above left] {$B'$};\n\\fill[black] (-1,-3) circle (1.5pt) node[below left] {$C'$};\n\\fill[black] (0,0) circle (1.5pt) node[above right] {$O=D=D'$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 85,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 21,
+          "sourceRegion": "Question 3, parts a–d",
+          "description": "Complete shared answer graph with labelled original and image points; unit grid spacing is explicit.",
+          "mathematics": "A(2,-1), B(2,1), C(-3,1), D(0,0); images A'(1,2), B'(-1,2), C'(-1,-3), D'(0,0).",
+          "answerVisibility": "Answer editions only."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p21-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:14:42.361Z",
+  "updatedAt": "2026-11-12T13:14:42.361Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch18-20261015",
+    "blockId": "p21-q3",
+    "sectionRole": "exercise"
+  }
+}

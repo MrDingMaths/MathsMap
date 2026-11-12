@@ -1,0 +1,219 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-0fef9d40-7a92-49f3-87af-fba85fae7367",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "average-speed-journey",
+    "secondarySkillIds": [
+      "interpret-distance-time-graphs",
+      "speed-from-distance-time"
+    ],
+    "reasoningScore": 43,
+    "difficulty": "Development",
+    "difficultyReason": "Interpret two journeys from a common distance reference, derive Keith's travelled distances from decreasing readings, convert minutes to hours and exclude his stop when calculating travelling average speed.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:18:17.055Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "3c88f57287500c6f7473c0604e400cc3e11c418bbf50e4c13621911ce6ecec45",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch19-20261015/a24c4be16dcfca23037670a2da6305a4a36a2c55db448abfa0bf5a603bbeedbb-1792559871557/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p27-q3-root",
+    "type": "question",
+    "label": "3",
+    "prompt": "Jonathon lives in Wholetown and Keith lives in Halftown. Wholetown is 100 km from Halftown. Jonathon leaves Wholetown at 1 p.m. and Keith leaves Halftown at the same time. They use the same road. The graphs show the journeys of Jonathon and Keith.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p27-q3-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"keithBlue\",\"hex\":\"268CFF\",\"reason\":\"distinguishes Keith from Jonathon\"}],\"reference\":\"source page 27 p27-q3-graph\"}\n\\begin{tikzpicture}[x=0.075cm,y=0.075cm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{keithBlue}{HTML}{268CFF}\n\\foreach \\v in {10,20,...,100}{\\draw[black,dashed,line width=0.25pt] (\\v,0)--(\\v,100);\\draw[black,dashed,line width=0.25pt] (0,\\v)--(100,\\v);}\n\\foreach \\v in {30,90}{\\draw[black,dashed,line width=0.4pt] (\\v,0)--(\\v,100);}\n\\foreach \\v in {50,100}{\\draw[black,dashed,line width=0.4pt] (0,\\v)--(100,\\v);}\n\\draw[black,line width=0.5pt] (0,100)--(0,0)--(105,0);\n\\foreach \\v in {0,10,...,100}{\\draw[black,line width=0.4pt] (\\v,0)--(\\v,-1.5) node[below,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};\\draw[black,line width=0.4pt] (0,\\v)--(-1.5,\\v) node[left,font=\\fontsize{8.5}{10}\\selectfont]{\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\v\\special{dvisvgm:raw </g>}};}\n\\node[below] at (50,-8) {Time (minutes)};\n\\node[rotate=90] at (-13,50) {Distance from Wholetown (km)};\n\\draw[black,line width=0.8pt] (0,0)--(100,100);\n\\draw[keithBlue,line width=0.8pt] (0,100)--(45,60)--(70,60)--(100,0);\n\\node[keithBlue,fill=white,inner sep=1pt] at (20,75) {Keith};\n\\node[black,fill=white,inner sep=1pt] at (82,73) {Jonathon};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 105,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 27,
+          "sourceRegion": "Question 3 graph below the shared stem",
+          "description": "Common distance–time axes with dashed 10-unit grid; heavier guides at 30 and 90 minutes and 50 and 100 km. Keith is blue and Jonathon black.",
+          "mathematics": "Jonathon joins (0,0) to (100,100). Keith joins (0,100), (45,60), (70,60), (100,0).",
+          "answerVisibility": "All source graph information is permanently visible; no answer annotations."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p28-q3-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "How far is Jonathon from Wholetown at 1:40 p.m.?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "40 km",
+          "worked": "1:40 p.m. is 40 minutes after departure. At 40 minutes, Jonathon’s graph reads 40 km from Wholetown.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p28-q3-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "How far is Keith from Wholetown at 1:40 p.m.?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Approximately 65 km",
+          "worked": "At 40 minutes after departure, read Keith’s graph vertically from the time axis and then across to the distance axis: approximately 65 km.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p28-q3-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "At what time does Jonathon pass Keith?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "2 p.m.",
+          "worked": "The graphs intersect at 60 minutes, when both are 60 km from Wholetown. This is one hour after 1 p.m., so Jonathon passes Keith at 2 p.m.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p28-q3-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "For how long does Keith stop?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "25 minutes",
+          "worked": "Keith’s graph is horizontal from 45 to 70 minutes, so his stop lasts $70-45=25$ minutes.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 12
+      },
+      {
+        "id": "p28-q3-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "What is Jonathon’s average speed for the journey?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "60 km/h",
+          "worked": "$$\\begin{align*}\\text{Time taken}&=\\frac{100}{60}\\text{ h}=\\frac53\\text{ h}\\\\\\text{Average speed}&=\\frac{\\text{distance travelled}}{\\text{time taken}}\\\\\\text{Average speed}&=\\frac{100}{5/3}=60\\text{ km/h}\\end{align*}$$",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 24
+      },
+      {
+        "id": "p28-q3-f",
+        "type": "group",
+        "label": "f",
+        "prompt": "What is Keith’s average speed for:",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p28-q3-f-i",
+            "type": "part",
+            "label": "i",
+            "prompt": "the first 45 minutes?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$53\\frac13$ km/h",
+              "worked": "$$\\begin{align*}\\text{Distance travelled}&=100-60=40\\text{ km}\\\\\\text{Time taken}&=\\frac{45}{60}\\text{ h}=\\frac34\\text{ h}\\\\\\text{Average speed}&=\\frac{40}{3/4}=\\frac{160}{3}=53\\frac13\\text{ km/h}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p28-q3-f-ii",
+            "type": "part",
+            "label": "ii",
+            "prompt": "the last 30 minutes?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "120 km/h",
+              "worked": "$$\\begin{align*}\\text{Distance travelled}&=60-0=60\\text{ km}\\\\\\text{Time taken}&=\\frac{30}{60}\\text{ h}=\\frac12\\text{ h}\\\\\\text{Average speed}&=\\frac{60}{1/2}=120\\text{ km/h}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 24
+          },
+          {
+            "id": "p28-q3-f-iii",
+            "type": "part",
+            "label": "iii",
+            "prompt": "the whole journey (excluding his rest time)?",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "80 km/h\n\nDivide the total distance by the travelling time, excluding the stop.",
+              "worked": "$$\\begin{align*}\\text{Total distance}&=40+60=100\\text{ km}\\\\\\text{Travelling time}&=45+30=75\\text{ min}\\\\\\text{Travelling time}&=\\frac{75}{60}\\text{ h}=\\frac54\\text{ h}\\\\\\text{Average speed}&=\\frac{100}{5/4}=80\\text{ km/h}\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 32
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p27-q3",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:15:04.724Z",
+  "updatedAt": "2026-11-12T13:15:04.725Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch19-20261015",
+    "blockId": "p27-q3",
+    "sectionRole": "exercise"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-6e3bd914-2965-4604-b1f5-4ea93d0198c9",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cyclic-quadrilateral-properties",
+    "secondarySkillIds": [
+      "angle-sum-quadrilateral",
+      "classify-triangles"
+    ],
+    "reasoningScore": 73,
+    "difficulty": "Mastery",
+    "difficultyReason": "Despite the supplied radii strategy, the student must organise equal base angles into a general proof, then reframe the outside-centre case using angle differences and connect both opposite-angle sums to the quadrilateral total.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T05:16:27.535Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1a63e0c81432d92312137e935c59ce1e26654a9c697e47dbcd7dd3f1da858b03",
+      "evidence": ".booklet-work/reasoning-ratings/calls/iceem-7-ch13-20261015/931a632b6d8c374d2fd01da1146ac74610301e5e73c40cd2a65afc9e695e49fa-1792559767013/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p29-q8-root",
+    "type": "question",
+    "label": "8",
+    "prompt": "",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [
+      {
+        "id": "p29-q8-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Construct a large circle with centre $O$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "A circle with its centre labelled $O$.",
+          "worked": "Place the compass point at $O$. Choose a large radius and keep the compass opening fixed while drawing the circle.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q8-a-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\draw[black] (0,0) circle (2);\n\\fill[black] (0,0) circle (0.04);\n\\node[below] at (0,0) {$O$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 8a",
+                "description": "Example of the requested student construction.",
+                "mathematics": "Circle with labelled centre O; radius is arbitrary.",
+                "answerVisibility": "Answer edition only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 75
+      },
+      {
+        "id": "p29-q8-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "Mark any four points $A$, $B$, $C$ and $D$ going clockwise around the circle and join up the quadrilateral $ABCD$. Make sure the centre $O$ is inside $ABCD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "Any quadrilateral with vertices $A$, $B$, $C$, $D$ clockwise on the circle and $O$ inside.",
+          "worked": "Mark four points around the circle so that their joined quadrilateral contains $O$. Label them $A$, $B$, $C$, $D$ clockwise and join $AB$, $BC$, $CD$ and $DA$.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q8-b-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (140:2);\n\\coordinate (B) at (50:2);\n\\coordinate (C) at (-35:2);\n\\coordinate (D) at (-130:2);\n\\draw[black] (O) circle (2);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\fill[black] (O) circle (0.04);\n\\node[below] at (O) {$O$};\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 8b",
+                "description": "One valid clockwise cyclic quadrilateral containing the centre.",
+                "mathematics": "All four vertices lie on one circle, in clockwise order; O is inside ABCD.",
+                "answerVisibility": "Answer edition only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 0
+      },
+      {
+        "id": "p29-q8-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "Prove that these opposite angles are supplementary. Do this by drawing the radii $OA$, $OB$, $OC$ and $OD$, and working with the angles in the four isosceles triangles they form.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle DAB+\\angle BCD=180^\\circ$ and $\\angle ABC+\\angle CDA=180^\\circ$.\n\nEqual base angles in the four radius triangles split each opposite-angle sum into the same four angles.",
+          "worked": "Draw $OA$, $OB$, $OC$ and $OD$. Each triangle has two equal radii, so its base angles are equal. Let the base angles of $\\triangle OAB$, $\\triangle OBC$, $\\triangle OCD$ and $\\triangle ODA$ be $\\alpha$, $\\beta$, $\\gamma$ and $\\theta$, respectively. Then\n$$\\begin{align*}\\angle DAB&=\\theta+\\alpha\\\\\\angle ABC&=\\alpha+\\beta\\\\\\angle BCD&=\\beta+\\gamma\\\\\\angle CDA&=\\gamma+\\theta.\\end{align*}$$\nThe quadrilateral angle sum gives\n$$\\begin{align*}2(\\alpha+\\beta+\\gamma+\\theta)&=360^\\circ\\\\\\alpha+\\beta+\\gamma+\\theta&=180^\\circ.\\end{align*}$$\nHence\n$$\\begin{align*}\\angle DAB+\\angle BCD&=\\alpha+\\beta+\\gamma+\\theta\\\\\\angle DAB+\\angle BCD&=180^\\circ\\\\\\angle ABC+\\angle CDA&=\\alpha+\\beta+\\gamma+\\theta\\\\\\angle ABC+\\angle CDA&=180^\\circ.\\end{align*}$$",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q8-c-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (140:2);\n\\coordinate (B) at (50:2);\n\\coordinate (C) at (-35:2);\n\\coordinate (D) at (-130:2);\n\\draw[black] (O) circle (2);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\draw[black] (A)--(O)--(B) (C)--(O)--(D);\n\\node at (.6,.04) {$O$};\n\\node[above left] at (A) {$A$};\n\\node[above right] at (B) {$B$};\n\\node[below right] at (C) {$C$};\n\\node[below left] at (D) {$D$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 65,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 8c",
+                "description": "The inside-centre construction completed with four radii.",
+                "mathematics": "OAB, OBC, OCD and ODA are isosceles triangles because all radii are equal.",
+                "answerVisibility": "Answer edition only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 80
+      },
+      {
+        "id": "p29-q8-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "Repeat part b but this time choose points $A$, $B$, $C$ and $D$ so that point $O$ is outside the quadrilateral $ABCD$. Now repeat part c. The proof this time will be a little different, because you will need to take differences as well as sums of angles.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$\\angle DAB+\\angle BCD=180^\\circ$ and $\\angle ABC+\\angle CDA=180^\\circ$ still hold.\n\nSubtract the base angle of the triangle spanning the empty arc when forming the quadrilateral angles at its endpoints.",
+          "worked": "Construct a new circle and choose four clockwise points on an arc shorter than a semicircle, as shown. Join the quadrilateral and the four radii. For this labelling, let the base angles of $\\triangle OAB$, $\\triangle OBC$, $\\triangle OCD$ and $\\triangle ODA$ be $\\alpha$, $\\beta$, $\\gamma$ and $\\theta$, respectively. Equal radii give equal base angles. Here $\\triangle ODA$ spans the empty arc, and\n$$\\begin{align*}\\angle DAB&=\\alpha-\\theta\\\\\\angle ABC&=\\alpha+\\beta\\\\\\angle BCD&=\\beta+\\gamma\\\\\\angle CDA&=\\gamma-\\theta.\\end{align*}$$\nUsing the quadrilateral angle sum,\n$$\\begin{align*}2(\\alpha+\\beta+\\gamma-\\theta)&=360^\\circ\\\\\\alpha+\\beta+\\gamma-\\theta&=180^\\circ.\\end{align*}$$\nTherefore,\n$$\\begin{align*}\\angle DAB+\\angle BCD&=\\alpha+\\beta+\\gamma-\\theta\\\\\\angle DAB+\\angle BCD&=180^\\circ\\\\\\angle ABC+\\angle CDA&=\\alpha+\\beta+\\gamma-\\theta\\\\\\angle ABC+\\angle CDA&=180^\\circ.\\end{align*}$$\nThe same subtraction argument applies after cyclically relabelling any outside-centre configuration so that $DA$ spans its empty arc.",
+          "solutionDiagrams": [
+            {
+              "id": "p29-q8-d-solution",
+              "role": "solution",
+              "format": "tikz",
+              "code": "\\begin{tikzpicture}[x=10mm,y=10mm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\coordinate (O) at (0,0);\n\\coordinate (A) at (160:2);\n\\coordinate (B) at (110:2);\n\\coordinate (C) at (65:2);\n\\coordinate (D) at (20:2);\n\\draw[black] (O) circle (2);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\draw[black] (A)--(O)--(B) (C)--(O)--(D);\n\\fill[black] (O) circle (0.04);\n\\node[below] at (O) {$O$};\n\\node[left] at (A) {$A$};\n\\node[above left] at (B) {$B$};\n\\node[above right] at (C) {$C$};\n\\node[right] at (D) {$D$};\n\\end{tikzpicture}",
+              "src": null,
+              "widthMm": 70,
+              "alt": "Mathematical diagram",
+              "overlayOf": null,
+              "transparent": false,
+              "axes": null,
+              "spec": {
+                "sourcePage": 29,
+                "sourceRegion": "Question 8d",
+                "description": "One valid outside-centre construction, completed with radii.",
+                "mathematics": "Vertices A, B, C and D run clockwise along the upper minor arc. O is outside ABCD. Triangle ODA supplies the base angle subtracted at A and D.",
+                "answerVisibility": "Answer edition only."
+              },
+              "derived": false,
+              "reviewStatus": "needs-review"
+            }
+          ]
+        },
+        "answerSpaceMm": 155
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q8",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:54:18.407Z",
+  "updatedAt": "2026-11-12T13:54:18.408Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch13-20261015",
+    "blockId": "p29-q8",
+    "sectionRole": "exercise"
+  }
+}

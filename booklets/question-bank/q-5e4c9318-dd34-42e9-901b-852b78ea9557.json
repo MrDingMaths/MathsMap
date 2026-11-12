@@ -1,0 +1,226 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-5e4c9318-dd34-42e9-901b-852b78ea9557",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "interpret-line-graphs",
+    "secondarySkillIds": [],
+    "reasoningScore": 35,
+    "difficulty": "Development",
+    "difficultyReason": "Read extrema from two graph series and compare their vertical differences across all twelve months.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-18T03:08:08.353Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "c94a7897ad8fc4746a409db56e550b5a994a81155aa5bc56a8634943fd346f88",
+      "evidence": ".booklet-work/full-imports/iceem-7-ch19-20261015/semantic-packets/assignments/assignment-a21969fee23b6a2e3cba/1/generation.json"
+    }
+  },
+  "content": {
+    "id": "p29-q1-root",
+    "type": "question",
+    "label": "1",
+    "prompt": "The line graph below shows the average daily maximum and minimum temperatures for Melbourne.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p29-q1-graph",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"graph\",\"base\":[],\"semantic\":[{\"name\":\"seriesBlue\",\"hex\":\"268CFF\",\"reason\":\"source connecting lines and maximum-series diamond markers\"},{\"name\":\"minimumPurple\",\"hex\":\"8B5CC7\",\"reason\":\"distinguishes minimum-temperature square markers from maximum-temperature diamonds\"}],\"reference\":\"source page 29 p29-q1-graph\"}\n\\begin{tikzpicture}[x=7mm,y=2mm,font=\\fontsize{10}{12}\\selectfont]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{seriesBlue}{HTML}{268CFF}\n\\definecolor{minimumPurple}{HTML}{8B5CC7}\n\\draw[step=1,xstep=1,ystep=5,line width=0.25pt,black!45] (0.5,0) grid (12.5,30);\n\\draw[line width=0.5pt,black] (0.5,0) rectangle (12.5,30);\n\\foreach \\y in {0,5,10,15,20,25,30}{\\node[anchor=east] at (0.32,\\y) {\\special{dvisvgm:raw <g data-graph-text=\"tick\">}\\y\\special{dvisvgm:raw </g>}};}\n\\foreach \\x/\\m in {1/J,2/F,3/M,4/A,5/M,6/J,7/J,8/A,9/S,10/O,11/N,12/D}{\\node[anchor=north] at (\\x,-0.5) {\\m};}\n\\node[anchor=north] at (6.5,-3) {Months};\n\\node[rotate=90] at (-0.85,15) {Temperature ($^\\circ$C)};\n\\node[anchor=south,align=center] at (6.5,31.5) {Average daily maximum and minimum temperatures};\n\\draw[seriesBlue,line width=0.8pt] (1,26)--(2,26)--(3,24)--(4,20)--(5,16.5)--(6,14)--(7,14)--(8,15)--(9,16.5)--(10,20)--(11,23)--(12,25);\n\\draw[seriesBlue,line width=0.8pt] (1,15)--(2,16)--(3,14)--(4,12)--(5,10)--(6,6)--(7,6)--(8,6)--(9,9)--(10,10)--(11,12)--(12,15);\n\\foreach \\x/\\y in {1/26,2/26,3/24,4/20,5/16.5,6/14,7/14,8/15,9/16.5,10/20,11/23,12/25}{\\draw[seriesBlue,fill=seriesBlue,line width=0.4pt] (\\x,\\y) ++(0,0.65)--++(0.19,-0.65)--++(-0.19,-0.65)--++(-0.19,0.65)--cycle;}\n\\foreach \\x/\\y in {1/15,2/16,3/14,4/12,5/10,6/6,7/6,8/6,9/9,10/10,11/12,12/15}{\\draw[seriesBlue,fill=minimumPurple,line width=0.4pt] (\\x-0.14,\\y-0.5) rectangle (\\x+0.14,\\y+0.5);}\n\\draw[seriesBlue,fill=seriesBlue,line width=0.4pt] (13.4,4.45)--(13.59,3.8)--(13.4,3.15)--(13.21,3.8)--cycle;\n\\node[anchor=west] at (13.85,3.8) {Average daily maximum};\n\\draw[seriesBlue,fill=minimumPurple,line width=0.4pt] (13.26,0.5) rectangle (13.54,1.5);\n\\node[anchor=west] at (13.85,1) {Average daily minimum};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 165,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 29,
+          "sourceRegion": "Question 1 temperature graph",
+          "description": "Two connected monthly temperature series above the response parts, with a legend to the right. Maximum temperatures use blue diamonds and minimum temperatures use purple squares; both connecting lines are blue. Source cyan and magenta markers are mapped to standard palette accents.",
+          "mathematics": {
+            "months": [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December"
+            ],
+            "maximumValuesApproximate": [
+              26,
+              26,
+              24,
+              20,
+              16.5,
+              14,
+              14,
+              15,
+              16.5,
+              20,
+              23,
+              25
+            ],
+            "minimumValues": [
+              15,
+              16,
+              14,
+              12,
+              10,
+              6,
+              6,
+              6,
+              9,
+              10,
+              12,
+              15
+            ],
+            "verticalAxis": {
+              "min": 0,
+              "max": 30,
+              "labelledStep": 5
+            },
+            "gridStep": {
+              "x": 1,
+              "y": 5
+            },
+            "precision": "May and September maximum temperatures are graphically estimated, not exact labelled numerical givens."
+          },
+          "answerVisibility": "All source data, markers, grid, labels and legend remain visible in the question edition; no answers are marked."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p29-q1-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "In which month(s) is the average daily maximum temperature the highest?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "January and February.",
+          "worked": "The maximum-temperature series reaches its highest points, about $26^\\circ\\mathrm{C}$, in January and February.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p29-q1-b",
+        "type": "part",
+        "label": "b",
+        "prompt": "In which month(s) is the average daily maximum temperature the lowest?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "June and July.",
+          "worked": "The lowest points on the maximum-temperature series are at $14^\\circ\\mathrm{C}$ in June and July.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p29-q1-c",
+        "type": "part",
+        "label": "c",
+        "prompt": "In which month(s) is the average daily minimum temperature the highest?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "February.",
+          "worked": "The minimum-temperature series reaches its highest point, $16^\\circ\\mathrm{C}$, in February.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p29-q1-d",
+        "type": "part",
+        "label": "d",
+        "prompt": "In which month(s) is the average daily minimum temperature the lowest?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "June, July and August.",
+          "worked": "The lowest points on the minimum-temperature series are at $6^\\circ\\mathrm{C}$ in June, July and August.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 8
+      },
+      {
+        "id": "p29-q1-e",
+        "type": "part",
+        "label": "e",
+        "prompt": "In which month(s) is the difference between average maximum and minimum temperature the greatest?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "January and November.",
+          "worked": "Compare the vertical gaps between the two series. The greatest gaps occur in January and November: $26-15=11^\\circ\\mathrm{C}$ and $23-12=11^\\circ\\mathrm{C}$, respectively. Every other month has a smaller gap.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      },
+      {
+        "id": "p29-q1-f",
+        "type": "part",
+        "label": "f",
+        "prompt": "In which month(s) is the difference between average maximum and minimum temperature the least?",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "May.",
+          "worked": "Compare the vertical gaps between the two series. May has the smallest gap: approximately $16.5-10=6.5^\\circ\\mathrm{C}$. September's gap is approximately $16.5-9=7.5^\\circ\\mathrm{C}$, and all other gaps are larger.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 14
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p29-q1",
+    "layoutOverrides": {
+      "blockLayouts": {},
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T13:15:05.261Z",
+  "updatedAt": "2026-11-12T13:15:05.261Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "iceem-7-ch19-20261015",
+    "blockId": "p29-q1",
+    "sectionRole": "exercise"
+  }
+}
