@@ -1,0 +1,146 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-c062ef80-2fe2-4111-b581-7d6a58991d60",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cyclic-quadrilateral-properties",
+    "secondarySkillIds": [
+      "classify-triangles"
+    ],
+    "reasoningScore": 55,
+    "difficulty": "Mastery",
+    "difficultyReason": "Recognise the point and triangle vertices as a cyclic quadrilateral, choose the appropriate Ptolemy relationship, and use equal triangle sides to reduce it to a distance sum.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:57.476Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "7cd6d6893664b05c45d0f7763bed1795385920fab8b9a97d256679beef2bf2a8",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part17/db92b3be1f7d9328ba9b0500dd858180ae329342f2c7b365b367b365a82249e1-1792558274434/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q9-root",
+    "type": "question",
+    "label": "9",
+    "prompt": "Suppose $\\triangle ABC$ is an equilateral triangle inscribed in a circle and consider the distances $d$, $e$ and $f$ from any fixed point on the circle to the vertices of $\\triangle ABC$. Show that $f=e+d$, where $f$ is the largest of the distances.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q9-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"distanceRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes the three distances from the fixed point from triangle sides\"}],\"reference\":\"source page 20 question 9\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{distanceRed}{HTML}{EF6068}\n\\coordinate (A) at (90:1.7);\\coordinate (B) at (-30:1.7);\\coordinate (C) at (210:1.7);\\coordinate (P) at (25:1.7);\n\\draw (0,0) circle (1.7);\\draw (A)--(B)--(C)--cycle;\n\\draw[distanceRed] (A)--(P);\\draw[distanceRed] (P)--(B);\\draw[distanceRed] (C)--node[midway,above,text=black] {$f$} (P);\n\\draw[dotted,line width=0.4pt] ($(A)!0.5!(P)$)--(1.65,1.6);\\node[right] at (1.65,1.6) {$e$};\\draw[dotted,line width=0.4pt] ($(P)!0.5!(B)$)--(2.1,0);\\node[right] at (2.1,0) {$d$};\n\\foreach \\v in {A,B,C,P}{\\fill (\\v) circle (1pt);}\n\\node[above] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[below left] at (C) {$C$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 47.6,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 9, lower right",
+          "description": "Equilateral triangle ABC with an unlabelled fourth point on arc AB. Its distances to A, B and C are e, d and f respectively.",
+          "mathematics": "A, B, C and the fourth point lie on one circle; AB=BC=CA, and f is the longest distance.",
+          "answerVisibility": "Only supplied labels and givens; the fourth point remains unlabelled."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [],
+    "answer": {
+      "short": "$f=e+d$.\n\nApply Ptolemy’s theorem and divide by the common side length of the equilateral triangle.",
+      "worked": "Let $P$ be the fixed point, so $PA=e$, $PB=d$ and $PC=f$. Relabel the equilateral triangle if necessary so that $P$ lies on arc $AB$, as shown. Let $AB=BC=AC=s$.\n\nPtolemy’s theorem for cyclic quadrilateral $APBC$ gives\n$$\\begin{align*}AB\\times PC&=(PA\\times BC)+(PB\\times AC)\\\\sf&=es+ds\\\\f&=e+d.\\end{align*}$$",
+      "solutionDiagrams": [
+        {
+          "id": "p20-q9-solution-diagram",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"distanceRed\",\"hex\":\"EF6068\",\"reason\":\"distinguishes distances PA, PB and PC from triangle sides\"}],\"reference\":\"teacher page 83 question 9\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{distanceRed}{HTML}{EF6068}\n\\coordinate (A) at (90:1.7);\\coordinate (B) at (-30:1.7);\\coordinate (C) at (210:1.7);\\coordinate (P) at (25:1.7);\n\\draw (0,0) circle (1.7);\\draw (A)--(B)--(C)--cycle;\n\\draw[distanceRed] (A)--(P);\\draw[distanceRed] (P)--(B);\\draw[distanceRed] (C)--node[midway,above,text=black] {$f$} (P);\n\\draw[dotted,line width=0.4pt] ($(A)!0.5!(P)$)--(1.65,1.6);\\node[right] at (1.65,1.6) {$e$};\\draw[dotted,line width=0.4pt] ($(P)!0.5!(B)$)--(2.1,0);\\node[right] at (2.1,0) {$d$};\n\\foreach \\v in {A,B,C,P}{\\fill (\\v) circle (1pt);}\n\\node[above] at (A) {$A$};\\node[below right] at (B) {$B$};\\node[below left] at (C) {$C$};\\node[right] at (P) {$P$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 65,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 83,
+            "sourceRegion": "Section D question 9 solution",
+            "description": "The supplied equilateral-triangle configuration, with the fixed point labelled P.",
+            "mathematics": "PA=e, PB=d, PC=f and AB=BC=AC.",
+            "answerVisibility": "Solution-only point label P."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 52
+  },
+  "presentation": {
+    "ownerId": "p20-q9",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q9": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q9-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q9-root/label",
+                  "type": "item",
+                  "ref": "p20-q9-root/label",
+                  "title": "Label 9"
+                },
+                {
+                  "id": "layout:p20-q9-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q9-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q9-diagram",
+                  "type": "item",
+                  "ref": "p20-q9-diagram",
+                  "title": "Diagram",
+                  "width": 47.6
+                },
+                {
+                  "id": "layout:p20-q9-root/space",
+                  "type": "item",
+                  "ref": "p20-q9-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 9",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:27.773Z",
+  "updatedAt": "2026-11-12T11:14:27.774Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part17",
+    "blockId": "p20-q9",
+    "sectionRole": "exercise"
+  }
+}

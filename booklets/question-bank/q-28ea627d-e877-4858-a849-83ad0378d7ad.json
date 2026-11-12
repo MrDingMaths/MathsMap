@@ -1,0 +1,299 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-28ea627d-e877-4858-a849-83ad0378d7ad",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "prove-similar-triangles",
+    "secondarySkillIds": [
+      "circle-angle-properties"
+    ],
+    "reasoningScore": 67,
+    "difficulty": "Mastery",
+    "difficultyReason": "Despite the supplied construction and similarity targets, establish the second angle correspondence by recombining angles, then choose matching ratios whose products add to the diagonal identity.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:57.476Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "220da4a64320904960df999be10e1e8309093c633029dc845e601f91938c1d84",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part17/db92b3be1f7d9328ba9b0500dd858180ae329342f2c7b365b367b365a82249e1-1792558274434/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q7-root",
+    "type": "question",
+    "label": "7",
+    "prompt": {
+      "format": "maths-editor-document-v1",
+      "version": 1,
+      "blocks": [
+        {
+          "id": "p20-q7-theorem",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "left",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "text",
+              "text": "In this exercise we prove ",
+              "marks": []
+            },
+            {
+              "type": "text",
+              "text": "Ptolemy’s Theorem",
+              "marks": [
+                "bold"
+              ]
+            },
+            {
+              "type": "text",
+              "text": ". This states that in a cyclic quadrilateral, the product of the lengths of the diagonals is equal to the sum of the products of the lengths of pairs of opposite sides.",
+              "marks": []
+            }
+          ]
+        },
+        {
+          "id": "p20-q7-identity",
+          "type": "paragraph",
+          "fontSize": null,
+          "align": "center",
+          "spaceBefore": 0,
+          "spaceAfter": 1,
+          "lineHeight": 1.4,
+          "indent": 0,
+          "inlines": [
+            {
+              "type": "math",
+              "latex": "AC\\times BD=(AB\\times CD)+(BC\\times AD)",
+              "display": true
+            }
+          ]
+        }
+      ]
+    },
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p20-q7-diagram",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[{\"name\":\"diagonalRed\",\"hex\":\"EF6068\",\"reason\":\"highlights the two diagonals in Ptolemy’s identity\"}],\"reference\":\"source page 20, p20-q7-diagram\"}\n\\begin{tikzpicture}[x=1cm,y=1cm,line width=0.8pt,every node/.style={font=\\normalsize,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\definecolor{diagonalRed}{HTML}{EF6068}\n\\coordinate (A) at (200:1.2);\n\\coordinate (B) at (115:1.2);\n\\coordinate (C) at (0:1.2);\n\\coordinate (D) at (250:1.2);\n\\draw[black] (0,0) circle (1.2);\n\\draw[black] (A)--(B)--(C)--(D)--cycle;\n\\draw[diagonalRed] (A)--(C) (B)--(D);\n\\foreach \\p in {A,B,C,D}{\\fill[black] (\\p) circle (0.025);}\n\\node[left] at (A) {$A$};\n\\node[above] at (B) {$B$};\n\\node[right] at (C) {$C$};\n\\node[below] at (D) {$D$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 43.6,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 20,
+          "sourceRegion": "Question 7, right column",
+          "description": "Cyclic quadrilateral ABCD with black perimeter and red diagonals AC and BD. P is specified only in the construction text, as in the source.",
+          "mathematics": "Vertices occur consecutively A, B, C, D around the circle; diagonals intersect inside it.",
+          "answerVisibility": "P and BP are not supplied in the question figure."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p20-q7-construction-group",
+        "type": "group",
+        "label": "",
+        "prompt": "By switching $A$ and $C$ if necessary, we can assume that $\\angle ABD\\leq\\angle CBD$. Let $P$ denote the point on $AC$ such that $\\angle CBP=\\angle ABD$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [
+          {
+            "id": "p20-q7-a",
+            "type": "part",
+            "label": "a",
+            "prompt": "Show that $\\triangle DBA\\sim\\triangle CBP$ and $\\triangle CBD\\sim\\triangle PBA$.",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$\\triangle DBA\\sim\\triangle CBP$ and $\\triangle CBD\\sim\\triangle PBA$ (AA).\n\nUse equal angles on the same arc and the constructed equality $\\angle CBP=\\angle ABD$.",
+              "worked": "Since $P$ lies on $AC$, angles on the same arc give $\\angle BCP=\\angle BCA=\\angle BDA$. Also, $\\angle CBP=\\angle DBA$ by construction. Hence $\\triangle DBA\\sim\\triangle CBP$ (AA).\n\nAngles on the same arc give $\\angle BAP=\\angle BAC=\\angle BDC$. At $B$,\n$$\\begin{align*}\\angle CBD&=\\angle CBP+\\angle PBD\\\\\\angle CBD&=\\angle ABD+\\angle PBD\\\\\\angle CBD&=\\angle PBA.\\end{align*}$$\nHence $\\triangle CBD\\sim\\triangle PBA$ (AA).",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 60
+          },
+          {
+            "id": "p20-q7-b",
+            "type": "part",
+            "label": "b",
+            "prompt": "Conclude that\n$$AC\\times BD=(AD\\times BC)+(AB\\times CD).$$",
+            "layout": "list",
+            "columns": null,
+            "questionDiagrams": [],
+            "children": [],
+            "answer": {
+              "short": "$AC\\times BD=(AD\\times BC)+(AB\\times CD)$.\n\nMultiply the similarity ratios by $BD$ and use $AC=CP+AP$.",
+              "worked": "The similarity relationships give\n$$\\begin{align*}\\frac{PC}{BC}&=\\frac{AD}{BD}\\\\PC\\times BD&=AD\\times BC\\\\\\frac{AP}{AB}&=\\frac{CD}{BD}\\\\AP\\times BD&=AB\\times CD.\\end{align*}$$\nAdding, and using $AC=CP+AP$,\n$$\\begin{align*}(CP+AP)\\times BD&=(AD\\times BC)+(AB\\times CD)\\\\AC\\times BD&=(AD\\times BC)+(AB\\times CD).\\end{align*}$$",
+              "solutionDiagrams": []
+            },
+            "answerSpaceMm": 70
+          }
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p20-q7",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q7": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q7-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q7-root/label",
+                  "type": "item",
+                  "ref": "p20-q7-root/label",
+                  "title": "Label 7"
+                },
+                {
+                  "id": "layout:p20-q7-root/prompt#p20-q7-theorem",
+                  "type": "item",
+                  "ref": "p20-q7-root/prompt#p20-q7-theorem",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q7-root/prompt#p20-q7-identity",
+                  "type": "item",
+                  "ref": "p20-q7-root/prompt#p20-q7-identity",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q7-diagram",
+                  "type": "item",
+                  "ref": "p20-q7-diagram",
+                  "title": "Diagram",
+                  "width": 43.6
+                },
+                {
+                  "id": "p20-q7-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p20-q7-construction-group:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p20-q7-construction-group/prompt",
+                          "type": "item",
+                          "ref": "p20-q7-construction-group/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "p20-q7-construction-group:parts",
+                          "type": "group",
+                          "direction": "stack",
+                          "children": [
+                            {
+                              "id": "p20-q7-a:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p20-q7-a/label",
+                                  "type": "item",
+                                  "ref": "p20-q7-a/label",
+                                  "title": "Label a"
+                                },
+                                {
+                                  "id": "layout:p20-q7-a/prompt",
+                                  "type": "item",
+                                  "ref": "p20-q7-a/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p20-q7-a/space",
+                                  "type": "item",
+                                  "ref": "p20-q7-a/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part a",
+                              "gap": 1
+                            },
+                            {
+                              "id": "p20-q7-b:question",
+                              "type": "group",
+                              "direction": "stack",
+                              "children": [
+                                {
+                                  "id": "layout:p20-q7-b/label",
+                                  "type": "item",
+                                  "ref": "p20-q7-b/label",
+                                  "title": "Label b"
+                                },
+                                {
+                                  "id": "layout:p20-q7-b/prompt",
+                                  "type": "item",
+                                  "ref": "p20-q7-b/prompt",
+                                  "title": "Text"
+                                },
+                                {
+                                  "id": "layout:p20-q7-b/space",
+                                  "type": "item",
+                                  "ref": "p20-q7-b/space",
+                                  "title": "Answer space"
+                                }
+                              ],
+                              "title": "Part b",
+                              "gap": 1
+                            }
+                          ],
+                          "gap": 1
+                        }
+                      ],
+                      "title": "Unlabelled part 1",
+                      "gap": 1
+                    }
+                  ],
+                  "gap": 1
+                }
+              ],
+              "title": "Question 7",
+              "gap": 1,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:27.313Z",
+  "updatedAt": "2026-11-12T11:14:27.313Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part17",
+    "blockId": "p20-q7",
+    "sectionRole": "exercise"
+  }
+}

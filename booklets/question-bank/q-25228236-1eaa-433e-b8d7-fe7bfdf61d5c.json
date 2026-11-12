@@ -1,0 +1,139 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-25228236-1eaa-433e-b8d7-fe7bfdf61d5c",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "cyclic-quadrilateral-properties",
+    "secondarySkillIds": [
+      "circle-angle-properties",
+      "proof-by-contradiction"
+    ],
+    "reasoningScore": 76,
+    "difficulty": "Mastery",
+    "difficultyReason": "The hint supplies the circumcircle, but the student must devise inside and outside contradiction cases and track intercepted arcs to rule out both possible locations of the fourth vertex.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:57.476Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "1ed2eb965edb80a9643f0e1171e2ed902e1dbc69b314fb38757a7d9a79536141",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part17/db92b3be1f7d9328ba9b0500dd858180ae329342f2c7b365b367b365a82249e1-1792558274434/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p20-q10-root",
+    "type": "question",
+    "label": "10",
+    "prompt": "Prove that if the opposite angles in a quadrilateral are supplementary, then the quadrilateral is cyclic. Hint: Draw a circle through three of the points. Prove that the fourth point lies on the same circle.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [],
+    "children": [],
+    "answer": {
+      "short": "Draw the circumcircle of $\\triangle ABC$. If $D$ lies inside it, $\\angle A+\\angle C<180^\\circ$; if outside, $\\angle A+\\angle C>180^\\circ$.\n\nBoth contradict the given supplementary angles, so $D$ lies on the circle and $ABCD$ is cyclic.",
+      "worked": "Let $ABCD$ have $\\angle A+\\angle C=180^\\circ$. Draw the circle through $A$, $B$ and $C$, with centre $O$.\n\nCase 1: $D$ lies inside the circle. Extend $AD$ and $CD$ to meet the circle at $P$ and $Q$ respectively. Let $\\phi$ be the minor central angle $POQ$. The inscribed-angle theorem gives\n$$\\begin{align*}\\angle A+\\angle C&=\\frac12(360^\\circ-\\phi)\\\\\\angle A+\\angle C&=180^\\circ-\\frac12\\phi\\\\\\angle A+\\angle C&<180^\\circ.\\end{align*}$$\nThis contradicts the given angle sum.\n\nCase 2: $D$ lies outside the circle. Let $CD$ meet the circle again at $P$, and $AD$ meet it again at $Q$. Let $\\phi$ be the minor central angle $POQ$. The arcs intercepted by $\\angle A$ and $\\angle C$ together comprise one revolution and the additional minor arc $PQ$. Thus\n$$\\begin{align*}\\angle A+\\angle C&=\\frac12(360^\\circ+\\phi)\\\\\\angle A+\\angle C&=180^\\circ+\\frac12\\phi\\\\\\angle A+\\angle C&>180^\\circ.\\end{align*}$$\nThis also contradicts the given angle sum. Therefore $D$ lies on the circle through $A$, $B$ and $C$, so $ABCD$ is cyclic.",
+      "solutionDiagrams": [
+        {
+          "id": "p20-q10-solution-inside",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"teacher page 83 question 10 case 1\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (270:1.7);\\coordinate (B) at (200:1.7);\\coordinate (C) at (115:1.7);\\coordinate (P) at (10:1.7);\\coordinate (Q) at (-10:1.7);\\coordinate (D) at (intersection cs:first line={(A)--(P)},second line={(C)--(Q)});\n\\draw (O) circle (1.7);\\draw (A)--(B)--(C)--(D)--cycle;\\draw[line width=0.4pt] (D)--(P) (D)--(Q);\n\\foreach \\v in {A,B,C,D,P,Q,O}{\\fill (\\v) circle (1pt);}\n\\node[below] at (A) {$A$};\\node[left] at (B) {$B$};\\node[above] at (C) {$C$};\\node[left] at (D) {$D$};\\node[right] at (P) {$P$};\\node[right] at (Q) {$Q$};\\node[above] at (O) {$O$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 55,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 83,
+            "sourceRegion": "Section D question 10, Case 1",
+            "description": "D inside the circumcircle of ABC; AD and CD extend to P and Q.",
+            "mathematics": "A, D, P are collinear and C, D, Q are collinear; D is the coordinate-derived intersection.",
+            "answerVisibility": "Solution construction only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        },
+        {
+          "id": "p20-q10-solution-outside",
+          "role": "solution",
+          "format": "tikz",
+          "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"teacher page 84 question 10 case 2\"}\n\\begin{tikzpicture}[line width=0.8pt,every node/.style={font=\\fontsize{10}{12}\\selectfont}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (O) at (0,0);\\coordinate (A) at (270:1.7);\\coordinate (B) at (200:1.7);\\coordinate (C) at (115:1.7);\\coordinate (P) at (10:1.7);\\coordinate (Q) at (-10:1.7);\\coordinate (D) at (intersection cs:first line={(A)--(Q)},second line={(C)--(P)});\n\\draw (O) circle (1.7);\\draw (A)--(B)--(C)--(D)--cycle;\n\\foreach \\v in {A,B,C,D,P,Q,O}{\\fill (\\v) circle (1pt);}\n\\node[below] at (A) {$A$};\\node[left] at (B) {$B$};\\node[above] at (C) {$C$};\\node[right] at (D) {$D$};\\node[above right] at (P) {$P$};\\node[below right] at (Q) {$Q$};\\node[above] at (O) {$O$};\n\\end{tikzpicture}",
+          "src": null,
+          "widthMm": 55,
+          "alt": "Mathematical diagram",
+          "overlayOf": null,
+          "transparent": false,
+          "axes": null,
+          "spec": {
+            "sourcePage": 84,
+            "sourceRegion": "Top continuation of Section D question 10",
+            "description": "D outside the circumcircle of ABC; CD crosses P and AD crosses Q.",
+            "mathematics": "C, P, D are collinear and A, Q, D are collinear; D is the coordinate-derived intersection.",
+            "answerVisibility": "Solution construction only."
+          },
+          "derived": false,
+          "reviewStatus": "needs-review"
+        }
+      ]
+    },
+    "answerSpaceMm": 176
+  },
+  "presentation": {
+    "ownerId": "p20-q10",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p20-q10": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p20-q10-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p20-q10-root/label",
+                  "type": "item",
+                  "ref": "p20-q10-root/label",
+                  "title": "Label 10"
+                },
+                {
+                  "id": "layout:p20-q10-root/prompt",
+                  "type": "item",
+                  "ref": "p20-q10-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p20-q10-root/space",
+                  "type": "item",
+                  "ref": "p20-q10-root/space",
+                  "title": "Answer space"
+                }
+              ],
+              "title": "Question 10",
+              "gap": 1
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:28.025Z",
+  "updatedAt": "2026-11-12T11:14:28.025Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part17",
+    "blockId": "p20-q10",
+    "sectionRole": "exercise"
+  }
+}

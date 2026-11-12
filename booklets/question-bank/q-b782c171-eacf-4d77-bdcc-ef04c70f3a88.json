@@ -1,0 +1,310 @@
+{
+  "format": "mathsmap-practice-question-v3",
+  "version": 3,
+  "id": "q-b782c171-eacf-4d77-bdcc-ef04c70f3a88",
+  "status": "approved",
+  "title": "",
+  "classification": {
+    "primarySkillId": "circle-angle-properties",
+    "secondarySkillIds": [
+      "pythagoras-multistep"
+    ],
+    "reasoningScore": 65,
+    "difficulty": "Mastery",
+    "difficultyReason": "Eliminate the two sloping sides using three Pythagorean relationships, then reinterpret the altitude as bounded by the semicircle radius to prove an inequality.",
+    "assessment": {
+      "model": "gpt-6.1-sol",
+      "assessedAt": "2026-10-21T04:51:57.476Z",
+      "rubricVersion": "mathsmap-cognitive-demand-v1",
+      "taskHash": "a60d585ef0dc4433087296a3474ecda29ad6401c474015ac87b924a3ed3e4c25",
+      "evidence": ".booklet-work/reasoning-ratings/calls/enrichment-maths-1-part17/db92b3be1f7d9328ba9b0500dd858180ae329342f2c7b365b367b365a82249e1-1792558274434/last-message.txt"
+    }
+  },
+  "content": {
+    "id": "p14-q13-root",
+    "type": "question",
+    "label": "13",
+    "prompt": "Consider the triangle below.",
+    "layout": "list",
+    "columns": null,
+    "questionDiagrams": [
+      {
+        "id": "p14-q13-diagram1",
+        "role": "question",
+        "format": "tikz",
+        "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14 p14-q13-diagram1\"}\n\\usetikzlibrary{calc,angles}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (4,2);\n\\coordinate (H) at (4,0);\n\\draw[black,line width=0.8pt] (A)--(C)--(B)--cycle (C)--(H);\n\\pic[draw=black,line width=0.4pt,angle radius=3mm] {right angle=A--C--B};\n\\pic[draw=black,line width=0.4pt,angle radius=3mm] {right angle=C--H--A};\n\\path (A)--(H) node[midway,below] {$a$};\n\\path (H)--(B) node[midway,below] {$b$};\n\\path (H)--(C) node[midway,left] {$x$};\n\\end{tikzpicture}",
+        "src": null,
+        "widthMm": 55,
+        "alt": "Mathematical diagram",
+        "overlayOf": null,
+        "transparent": false,
+        "axes": null,
+        "spec": {
+          "sourcePage": 14,
+          "sourceRegion": "Question 13, upper triangle in the right column",
+          "description": "Right triangle with altitude to its horizontal hypotenuse; both right-angle marks and labels retained. Decorative cyan fill omitted.",
+          "mathematics": "The altitude x divides the hypotenuse into positive segments a and b. The upper vertex is a right angle and the altitude is perpendicular to the hypotenuse.",
+          "answerVisibility": "Only source givens are visible."
+        },
+        "derived": false,
+        "reviewStatus": "needs-review"
+      }
+    ],
+    "children": [
+      {
+        "id": "p14-q13-a",
+        "type": "part",
+        "label": "a",
+        "prompt": "Find $x$ in terms of $a$ and $b$.",
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [],
+        "children": [],
+        "answer": {
+          "short": "$x=\\sqrt{ab}$.\n\nApply Pythagoras to the two smaller triangles and the whole triangle.",
+          "worked": "By Pythagoras, the squares of the two shorter sides of the whole triangle are $x^2+a^2$ and $x^2+b^2$. Applying Pythagoras to the whole triangle:\n$$\\begin{align*}(x^2+a^2)+(x^2+b^2)&=(a+b)^2\\\\2x^2+a^2+b^2&=a^2+2ab+b^2\\\\2x^2&=2ab\\\\x^2&=ab\\\\x&=\\sqrt{ab}.\\end{align*}$$\nTake the positive square root because $x$ is a length.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 68
+      },
+      {
+        "id": "p14-q13-b",
+        "type": "part",
+        "label": "b",
+        "prompt": {
+          "format": "maths-editor-document-v1",
+          "version": 1,
+          "blocks": [
+            {
+              "id": "p14-q13-b-introduction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "The triangle above can be inscribed in a semicircle.",
+                  "marks": []
+                }
+              ]
+            },
+            {
+              "id": "p14-q13-b-instruction",
+              "type": "paragraph",
+              "fontSize": null,
+              "align": "left",
+              "spaceBefore": 0,
+              "spaceAfter": 2,
+              "lineHeight": 1.4,
+              "indent": 0,
+              "inlines": [
+                {
+                  "type": "text",
+                  "text": "Use this figure to conclude that ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "\\frac{a+b}{2}\\geq\\sqrt{ab}",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " for all positive values of ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "a",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": " and ",
+                  "marks": []
+                },
+                {
+                  "type": "math",
+                  "latex": "b",
+                  "display": false
+                },
+                {
+                  "type": "text",
+                  "text": ".",
+                  "marks": []
+                }
+              ]
+            }
+          ]
+        },
+        "layout": "list",
+        "columns": null,
+        "questionDiagrams": [
+          {
+            "id": "p14-q13-diagram2",
+            "role": "question",
+            "format": "tikz",
+            "code": "% mathsmap-diagram-colours {\"version\":1,\"kind\":\"geometry\",\"base\":[],\"semantic\":[],\"reference\":\"source page 14 p14-q13-diagram2\"}\n\\usetikzlibrary{calc,angles}\n\\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={font=\\fontsize{10}{12}\\selectfont,text=black}]\n\\special{dvisvgm:raw <metadata data-graph-strokes=\"1\"/>}\n\\coordinate (A) at (0,0);\n\\coordinate (B) at (5,0);\n\\coordinate (C) at (4,2);\n\\coordinate (H) at (4,0);\n\\draw[black,line width=0.8pt] (B) arc[start angle=0,end angle=180,radius=2.5cm];\n\\draw[black,line width=0.8pt] (A)--(C)--(B)--cycle (C)--(H);\n\\pic[draw=black,line width=0.4pt,angle radius=3mm] {right angle=A--C--B};\n\\pic[draw=black,line width=0.4pt,angle radius=3mm] {right angle=C--H--A};\n\\path (A)--(H) node[midway,below] {$a$};\n\\path (H)--(B) node[midway,below] {$b$};\n\\path (H)--(C) node[midway,left] {$x$};\n\\end{tikzpicture}",
+            "src": null,
+            "widthMm": 55,
+            "alt": "Mathematical diagram",
+            "overlayOf": null,
+            "transparent": false,
+            "axes": null,
+            "spec": {
+              "sourcePage": 14,
+              "sourceRegion": "Question 13(b), semicircle in the right column",
+              "description": "The same triangle inscribed in an upper semicircle with the hypotenuse as diameter. Decorative cyan fill omitted.",
+              "mathematics": "Diameter a+b, altitude x, hypotenuse segments a and b, upper vertex on the semicircle, and both right angles retained.",
+              "answerVisibility": "No radius value or inequality proof is supplied in the question figure."
+            },
+            "derived": false,
+            "reviewStatus": "needs-review"
+          }
+        ],
+        "children": [],
+        "answer": {
+          "short": "$\\dfrac{a+b}{2}\\geq\\sqrt{ab}$.\n\nThe altitude $x=\\sqrt{ab}$ cannot exceed the semicircle's radius.",
+          "worked": "The semicircle has diameter $a+b$, so its radius is $\\dfrac{a+b}{2}$. The vertical height of any point on the semicircle above its diameter cannot exceed this radius. Therefore,\n$$x\\leq\\frac{a+b}{2}.$$\nUsing $x=\\sqrt{ab}$ from part (a),\n$$\\frac{a+b}{2}\\geq\\sqrt{ab}$$\nfor all positive $a$ and $b$.",
+          "solutionDiagrams": []
+        },
+        "answerSpaceMm": 64
+      }
+    ]
+  },
+  "presentation": {
+    "ownerId": "p14-q13",
+    "layoutOverrides": {
+      "blockLayouts": {
+        "p14-q13": {
+          "arrangement": {
+            "version": 1,
+            "root": {
+              "id": "p14-q13-root:question",
+              "type": "group",
+              "direction": "stack",
+              "children": [
+                {
+                  "id": "layout:p14-q13-root/label",
+                  "type": "item",
+                  "ref": "p14-q13-root/label",
+                  "title": "Label 13"
+                },
+                {
+                  "id": "layout:p14-q13-root/prompt",
+                  "type": "item",
+                  "ref": "p14-q13-root/prompt",
+                  "title": "Text"
+                },
+                {
+                  "id": "layout:p14-q13-diagram1",
+                  "type": "item",
+                  "ref": "p14-q13-diagram1",
+                  "title": "Diagram"
+                },
+                {
+                  "id": "p14-q13-root:parts",
+                  "type": "group",
+                  "direction": "stack",
+                  "children": [
+                    {
+                      "id": "p14-q13-a:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p14-q13-a/label",
+                          "type": "item",
+                          "ref": "p14-q13-a/label",
+                          "title": "Label a"
+                        },
+                        {
+                          "id": "layout:p14-q13-a/prompt",
+                          "type": "item",
+                          "ref": "p14-q13-a/prompt",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p14-q13-a/space",
+                          "type": "item",
+                          "ref": "p14-q13-a/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part a",
+                      "gap": 2
+                    },
+                    {
+                      "id": "p14-q13-b:question",
+                      "type": "group",
+                      "direction": "stack",
+                      "children": [
+                        {
+                          "id": "layout:p14-q13-b/label",
+                          "type": "item",
+                          "ref": "p14-q13-b/label",
+                          "title": "Label b"
+                        },
+                        {
+                          "id": "layout:p14-q13-b/prompt#p14-q13-b-introduction",
+                          "type": "item",
+                          "ref": "p14-q13-b/prompt#p14-q13-b-introduction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p14-q13-b/prompt#p14-q13-b-instruction",
+                          "type": "item",
+                          "ref": "p14-q13-b/prompt#p14-q13-b-instruction",
+                          "title": "Text"
+                        },
+                        {
+                          "id": "layout:p14-q13-diagram2",
+                          "type": "item",
+                          "ref": "p14-q13-diagram2",
+                          "title": "Diagram"
+                        },
+                        {
+                          "id": "layout:p14-q13-b/space",
+                          "type": "item",
+                          "ref": "p14-q13-b/space",
+                          "title": "Answer space"
+                        }
+                      ],
+                      "title": "Part b",
+                      "gap": 2
+                    }
+                  ],
+                  "gap": 2
+                }
+              ],
+              "title": "Question 13",
+              "gap": 2,
+              "keepTogether": true
+            }
+          }
+        }
+      },
+      "answerSpaces": {},
+      "diagramColourModes": {}
+    }
+  },
+  "review": {
+    "approvedBy": null,
+    "approvedAt": null,
+    "flags": [],
+    "diagramApprovals": {},
+    "history": []
+  },
+  "createdAt": "2026-11-12T11:14:24.131Z",
+  "updatedAt": "2026-11-12T11:14:24.132Z",
+  "bankContext": {
+    "origin": "textbook",
+    "projectId": "enrichment-maths-1-part17",
+    "blockId": "p14-q13",
+    "sectionRole": "exercise"
+  }
+}
